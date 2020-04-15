@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.2% of total for modules and submodules.">152 statements</a>
+    title=" 0.3% of total for modules and submodules.">167 statements</a>
      </li> 
      
      
@@ -179,6 +179,18 @@
 
 
 
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-0">Functions</a></h3></div>
+  <div id="funcs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_io.html#proc-prep_output_unit">prep_output_unit</a>
+      
+    </div>
+  </div>
+</div>
 
 
 
@@ -281,6 +293,18 @@
 
 
 
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-1">Functions</a></h3></div>
+  <div id="funcs-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_io.html#proc-prep_output_unit">prep_output_unit</a>
+      
+    </div>
+  </div>
+</div>
+
+
 
 <div class="panel panel-primary">
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-1">Subroutines</a></h3></div>
@@ -353,6 +377,72 @@
     
     
     
+     
+    <section>
+    <h2>Functions</h2>
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-prep_output_unit"></span><h3>
+public function <a href='../proc/prep_output_unit.html'>prep_output_unit</a>(unit_nr) result(unit_nr_out)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>unit_nr</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    </section>
+    <br>
     
 
     
@@ -362,7 +452,7 @@
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_write_matrix_info"></span><h3>
-public subroutine <a href='../proc/dbcsr_tas_write_matrix_info.html'>dbcsr_tas_write_matrix_info</a>(matrix, output_unit, full_info)
+public subroutine <a href='../proc/dbcsr_tas_write_matrix_info.html'>dbcsr_tas_write_matrix_info</a>(matrix, unit_nr, full_info)
     
     
    
@@ -418,7 +508,7 @@ public subroutine <a href='../proc/dbcsr_tas_write_matrix_info.html'>dbcsr_tas_w
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>output_unit</strong></td><td></td>
+  <td><strong>unit_nr</strong></td><td></td>
   
 </tr>
 
@@ -451,7 +541,7 @@ public subroutine <a href='../proc/dbcsr_tas_write_matrix_info.html'>dbcsr_tas_w
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_write_dist"></span><h3>
-public subroutine <a href='../proc/dbcsr_tas_write_dist.html'>dbcsr_tas_write_dist</a>(matrix, output_unit, full_info)
+public subroutine <a href='../proc/dbcsr_tas_write_dist.html'>dbcsr_tas_write_dist</a>(matrix, unit_nr, full_info)
     
     
    
@@ -507,7 +597,7 @@ public subroutine <a href='../proc/dbcsr_tas_write_dist.html'>dbcsr_tas_write_di
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>output_unit</strong></td><td></td>
+  <td><strong>unit_nr</strong></td><td></td>
   
 </tr>
 
@@ -540,7 +630,7 @@ public subroutine <a href='../proc/dbcsr_tas_write_dist.html'>dbcsr_tas_write_di
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_write_split_info"></span><h3>
-public subroutine <a href='../proc/dbcsr_tas_write_split_info.html'>dbcsr_tas_write_split_info</a>(info, io_unit, name)
+public subroutine <a href='../proc/dbcsr_tas_write_split_info.html'>dbcsr_tas_write_split_info</a>(info, unit_nr, name)
     
     
    
@@ -596,7 +686,7 @@ public subroutine <a href='../proc/dbcsr_tas_write_split_info.html'>dbcsr_tas_wr
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>io_unit</strong></td><td></td>
+  <td><strong>unit_nr</strong></td><td></td>
   
 </tr>
 

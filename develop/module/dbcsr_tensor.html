@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 2.3% of total for modules and submodules.">1401 statements</a>
+    title=" 2.2% of total for modules and submodules.">1374 statements</a>
      </li> 
      
      
@@ -224,8 +224,6 @@
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-invert_transpose_flag~2">invert_transpose_flag</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-index_linked_sort">index_linked_sort</a>
-      
-      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-new_default_dist">new_default_dist</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_remap">dbcsr_t_remap</a>
       
@@ -408,8 +406,6 @@
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-invert_transpose_flag~2">invert_transpose_flag</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-index_linked_sort">index_linked_sort</a>
-      
-      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-new_default_dist">new_default_dist</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_remap">dbcsr_t_remap</a>
       
@@ -1653,7 +1649,9 @@ public subroutine <a href='../proc/dbcsr_t_contract.html'>dbcsr_t_contract</a>(a
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>unit_nr</strong></td><td><p>output unit for logging</p></td>
+  <td><strong>unit_nr</strong></td><td><p>output unit for logging
+ set it to -1 on ranks that should not write (and any valid unit number on ranks that should write output)
+ if 0 on ALL ranks, no output is written</p></td>
   
 </tr>
 
@@ -2897,112 +2895,6 @@ private subroutine <a href='../proc/index_linked_sort.html'>index_linked_sort</a
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>ind_dep</strong></td><td></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-  </div>
-  </div>
-
-    
-    
-  <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-new_default_dist"></span><h3>
-private subroutine <a href='../proc/new_default_dist.html'>new_default_dist</a>(nel, nbin, weights, dist)
-    
-    
-   
-</h3></div>
-  <div class="panel-body">
-       
-    
-
-
-
-
-
-
-
-<p>Default distribution that is more or less cyclic (round robin) and load balanced with different
- weights for each element.
- This is used for creating adhoc distributions whenever tensors are mapped to new grids.</p>
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>nel</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>nbin</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>DIMENSION(nel)</td><td>::</td>
-  <td><strong>weights</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(out),</td>
-  <td></td>
-  
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>dist</strong></td><td></td>
   
 </tr>
 

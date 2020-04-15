@@ -10,7 +10,7 @@
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
-    <title>print_stack &ndash; DBCSR Library</title>
+    <title>dbcsr_tas_default_distvec &ndash; DBCSR Library</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -103,7 +103,7 @@
     
   
   <div class="row">
-    <h1>print_stack
+    <h1>dbcsr_tas_default_distvec
       <small>Subroutine</small>
     
     </h1>
@@ -121,24 +121,24 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">17 statements</a>
+    title=" 0.0% of total for procedures.">7 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_timings.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tas_global.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_timings.f.html'>dbcsr_timings.F</a></li>
+     <li><a href='../sourcefile/dbcsr_tas_global.f.html'>dbcsr_tas_global.F</a></li>
     
-     <li><a href='../module/dbcsr_timings.html'>dbcsr_timings</a></li>
+     <li><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></li>
     
   
-     <li class="active">print_stack</li>
+     <li class="active">dbcsr_tas_default_distvec</li>
   </ol>
 </div>
 </div>
@@ -179,13 +179,7 @@
 
 
 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/print_stack.html#src">print_stack</a>
-  </div>
-</div>
-
+<em>None</em>
 
 
 </div>
@@ -194,7 +188,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-public subroutine print_stack(unit_nr)
+public subroutine dbcsr_tas_default_distvec(nblk, nproc, blk_size, dist)
     
     
    
@@ -204,7 +198,7 @@ public subroutine print_stack(unit_nr)
 
 
     
-    <p>Print current routine stack</p>
+    <p>get a load-balanced and randomized distribution along one tensor dimension</p>
     
 
     <h3>Arguments</h3>
@@ -225,12 +219,57 @@ public subroutine print_stack(unit_nr)
   
 <tr>
   
-  <td><span class="anchor" id="variable-unit_nr~17"></span>integer,</td>
+  <td><span class="anchor" id="variable-nblk"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>unit_nr</strong></td><td></td>
+  <td><strong>nblk</strong></td><td><p>number of blocks (along one tensor dimension)</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nproc~2"></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nproc</strong></td><td><p>number of processes (along one process grid dimension)</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-blk_size~2"></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(nblk)</td><td>::</td>
+  <td><strong>blk_size</strong></td><td><p>block sizes</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dist~24"></span>integer,</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(nblk)</td><td>::</td>
+  <td><strong>dist</strong></td><td><p>distribution</p></td>
   
 </tr>
 
@@ -269,13 +308,7 @@ public subroutine print_stack(unit_nr)
 
 
 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/print_stack.html#src">print_stack</a>
-  </div>
-</div>
-
+<em>None</em>
 
 
     </section>
@@ -298,38 +331,6 @@ public subroutine print_stack(unit_nr)
 
     
     
-    
-    <section>
-    <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">print_stack</span><span class="p">(</span><span class="n">unit_nr</span><span class="p">)</span>
-      <span class="c">!! Print current routine stack</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">unit_nr</span>
-
-      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">i</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">callstack_entry_type</span><span class="p">)</span>                         <span class="kd">::</span> <span class="n">cs_entry</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">routine_stat_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">r_stat</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">timer_env_type</span><span class="p">),</span> <span class="k">POINTER</span>                      <span class="kd">::</span> <span class="n">timer_env</span>
-
-      <span class="c">! catch edge cases where timer_env is not yet/anymore available</span>
-      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">list_isready</span><span class="p">(</span><span class="n">timers_stack</span><span class="p">))</span> <span class="p">&amp;</span>
-         <span class="k">RETURN</span>
-<span class="k">      IF</span> <span class="p">(</span><span class="n">list_size</span><span class="p">(</span><span class="n">timers_stack</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
-         <span class="k">RETURN</span>
-
-<span class="k">      </span><span class="n">timer_env</span> <span class="o">=&gt;</span> <span class="n">list_peek</span><span class="p">(</span><span class="n">timers_stack</span><span class="p">)</span>
-      <span class="k">WRITE</span> <span class="p">(</span><span class="n">unit_nr</span><span class="p">,</span> <span class="s1">&#39;(/,A,/)&#39;</span><span class="p">)</span> <span class="s2">&quot; ===== Routine Calling Stack ===== &quot;</span>
-      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="n">list_size</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">callstack</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span>
-         <span class="n">cs_entry</span> <span class="o">=</span> <span class="n">list_get</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">callstack</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-         <span class="n">r_stat</span> <span class="o">=&gt;</span> <span class="n">list_get</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_stats</span><span class="p">,</span> <span class="n">cs_entry</span><span class="p">%</span><span class="n">routine_id</span><span class="p">)</span>
-         <span class="k">WRITE</span> <span class="p">(</span><span class="n">unit_nr</span><span class="p">,</span> <span class="s1">&#39;(T10,I4,1X,A)&#39;</span><span class="p">)</span> <span class="n">i</span><span class="p">,</span> <span class="nb">TRIM</span><span class="p">(</span><span class="n">r_stat</span><span class="p">%</span><span class="n">routineN</span><span class="p">)</span>
-      <span class="k">END DO</span>
-<span class="k">      CALL </span><span class="n">m_flush</span><span class="p">(</span><span class="n">unit_nr</span><span class="p">)</span>
-
-   <span class="k">END SUBROUTINE </span><span class="n">print_stack</span>
-</pre></div>
-
-    </section>
-    <br>
     
     
     </div>

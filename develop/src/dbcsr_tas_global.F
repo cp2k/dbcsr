@@ -15,7 +15,8 @@ MODULE dbcsr_tas_global
    !! given row or column. Hence global array data such as distribution and block sizes are specified as
    !! function objects, leaving up to the caller how to efficiently store global data.
 
-   USE dbcsr_kinds, ONLY: int_8
+   USE dbcsr_kinds, ONLY: int_8, dp
+   USE dbcsr_toollib, ONLY: sort
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -33,7 +34,7 @@ MODULE dbcsr_tas_global
       dbcsr_tas_dist_repl, &
       dbcsr_tas_distribution, &
       dbcsr_tas_rowcol_data, &
-      cyclic_weighted_dist
+      dbcsr_tas_default_distvec
 
    ! abstract type for distribution vectors along one dimension
    TYPE, ABSTRACT :: dbcsr_tas_distribution
@@ -342,32 +343,76 @@ CONTAINS
          bsize_vec(ind) = block_sizes%data(ind)
       ENDDO
 
-      CALL cyclic_weighted_dist(INT(nmrowcol), nprowcol, bsize_vec, dist_vec)
+      CALL dbcsr_tas_default_distvec(INT(nmrowcol), nprowcol, bsize_vec, dist_vec)
       dbcsr_tas_dist_arb_default = dbcsr_tas_dist_arb(dist_vec, nprowcol, nmrowcol)
 
    END FUNCTION
 
-   SUBROUTINE cyclic_weighted_dist(nel, nbin, weights, dist)
-      INTEGER, INTENT(IN) :: nel
-      INTEGER, INTENT(IN) :: nbin
-      INTEGER, DIMENSION(nel), INTENT(IN)            :: weights
-      INTEGER, DIMENSION(nel), INTENT(OUT)            :: dist
-      INTEGER, DIMENSION(nbin)                        :: occup
-      INTEGER                :: iel, ibin
-      INTEGER                :: niter
+   SUBROUTINE dbcsr_tas_default_distvec(nblk, nproc, blk_size, dist)
+      !! get a load-balanced and randomized distribution along one tensor dimension
+      INTEGER, INTENT(IN)                                :: nblk
+         !! number of blocks (along one tensor dimension)
+      INTEGER, INTENT(IN)                                :: nproc
+         !! number of processes (along one process grid dimension)
+      INTEGER, DIMENSION(nblk), INTENT(IN)                :: blk_size
+         !! block sizes
+      INTEGER, DIMENSION(nblk), INTENT(OUT)               :: dist
+         !! distribution
+
+      CALL distribute_lpt_random(nblk, nproc, blk_size, dist)
+
+   END SUBROUTINE
+
+   SUBROUTINE distribute_lpt_random(nel, nbin, weights, dist)
+      !! distribute `nel` elements with weights `weights` over `nbin` bins.
+      !! load balanced distribution is obtained by using LPT algorithm together with randomization over equivalent bins
+      !! (i.e. randomization over all bins with the smallest accumulated weight)
+      INTEGER, INTENT(IN)                                :: nel, nbin
+      INTEGER, DIMENSION(nel), INTENT(IN)                :: weights
+      INTEGER, DIMENSION(nel), INTENT(OUT)               :: dist
+
+      INTEGER                                            :: i, i_select, ibin, iel, min_occup, &
+                                                            n_avail
+      INTEGER, ALLOCATABLE, DIMENSION(:)                 :: bins_avail
+      INTEGER, DIMENSION(4)                              :: iseed
+      INTEGER, DIMENSION(nel)                            :: sort_index, weights_s
+      INTEGER, DIMENSION(nbin)                           :: occup
+      LOGICAL, DIMENSION(nbin)                           :: bin_mask
+      REAL(dp)                                           :: rand
+      INTEGER, PARAMETER                                 :: n_idle = 1000
+
+      ! initialize seed based on input arguments such that random numbers are deterministic across all processes
+      iseed(1) = nel; iseed(2) = nbin; iseed(3) = MAXVAL(weights); iseed(4) = MINVAL(weights)
+
+      iseed(4) = iseed(4)*2 + 1 ! odd
+
+      iseed(:) = MODULO(iseed(:), 2**12)
+
+      DO i = 1, n_idle
+         CALL dlarnv(1, iseed, 1, rand)
+      ENDDO
 
       occup(:) = 0
-      ibin = 0
-      DO iel = 1, nel
-         niter = 0
-         ibin = MOD(ibin + 1, nbin)
-         DO WHILE (occup(ibin + 1) + weights(iel) .GE. MAXVAL(occup))
-            IF (MINLOC(occup, DIM=1) == ibin + 1) EXIT
-            ibin = MOD(ibin + 1, nbin)
-            niter = niter + 1
-         ENDDO
-         dist(iel) = ibin
-         occup(ibin + 1) = occup(ibin + 1) + weights(iel)
+      weights_s = weights
+      CALL sort(weights_s, nel, sort_index)
+
+      occup(:) = 0
+      DO iel = nel, 1, -1
+         min_occup = MINVAL(occup, 1)
+
+         ! available bins with min. occupancy
+         bin_mask = occup == min_occup
+         n_avail = COUNT(bin_mask)
+         ALLOCATE (bins_avail(n_avail))
+         bins_avail(:) = PACK((/(i, i=1, nbin)/), MASK=bin_mask)
+
+         CALL dlarnv(1, iseed, 1, rand)
+         i_select = FLOOR(rand*n_avail) + 1
+         ibin = bins_avail(i_select)
+         DEALLOCATE (bins_avail)
+
+         dist(sort_index(iel)) = ibin - 1
+         occup(ibin) = occup(ibin) + weights_s(iel)
       ENDDO
 
    END SUBROUTINE

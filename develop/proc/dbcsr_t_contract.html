@@ -555,12 +555,14 @@ public subroutine dbcsr_t_contract(alpha, tensor_1, tensor_2, beta, tensor_3, co
   
 <tr>
   
-  <td><span class="anchor" id="variable-unit_nr~13"></span>integer,</td>
+  <td><span class="anchor" id="variable-unit_nr~20"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>unit_nr</strong></td><td><p>output unit for logging</p></td>
+  <td><strong>unit_nr</strong></td><td><p>output unit for logging
+ set it to -1 on ranks that should not write (and any valid unit number on ranks that should write output)
+ if 0 on ALL ranks, no output is written</p></td>
   
 </tr>
 

@@ -10,7 +10,7 @@
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
-    <title>dbcsr_t_random_dist &ndash; DBCSR Library</title>
+    <title>prep_output_unit &ndash; DBCSR Library</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -103,8 +103,8 @@
     
   
   <div class="row">
-    <h1>dbcsr_t_random_dist
-      <small>Subroutine</small>
+    <h1>prep_output_unit
+      <small>Function</small>
     
     </h1>
     
@@ -126,19 +126,19 @@
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor_test.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tas_io.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_tensor_test.f.html'>dbcsr_tensor_test.F</a></li>
+     <li><a href='../sourcefile/dbcsr_tas_io.f.html'>dbcsr_tas_io.F</a></li>
     
-     <li><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></li>
+     <li><a href='../module/dbcsr_tas_io.html'>dbcsr_tas_io</a></li>
     
   
-     <li class="active">dbcsr_t_random_dist</li>
+     <li class="active">prep_output_unit</li>
   </ol>
 </div>
 </div>
@@ -188,7 +188,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-public subroutine dbcsr_t_random_dist(dist_array, dist_size, nbins)
+public function prep_output_unit(unit_nr) result(unit_nr_out)
     
     
    
@@ -217,48 +217,27 @@ public subroutine dbcsr_t_random_dist(dist_array, dist_size, nbins)
   
 <tr>
   
-  <td><span class="anchor" id="variable-dist_array~3"></span>integer,</td>
-  <td>intent(out),</td>
-  <td></td>
-  
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
-  <td><strong>dist_array</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-dist_size~5"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
+  <td><span class="anchor" id="variable-unit_nr~3"></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>dist_size</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-nbins~12"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>nbins</strong></td><td></td>
+  <td><strong>unit_nr</strong></td><td></td>
   
 </tr>
 
 </tbody>
 </table>
 
+    
+    
+    
+    
+    
+    
+    
+   <h3>Return Value <small><span class="anchor" id="variable-unit_nr_out"></span>integer
+  </small></h3>
     
     
     

@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 1.8% of total for modules and submodules.">1111 statements</a>
+    title=" 1.8% of total for modules and submodules.">1097 statements</a>
      </li> 
      
      
@@ -450,7 +450,7 @@
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dist_compatible"></span><h3>
-private function <a href='../proc/dist_compatible.html'>dist_compatible</a>(mat_a, mat_b, split_rc_a, split_rc_b, io_unit)
+private function <a href='../proc/dist_compatible.html'>dist_compatible</a>(mat_a, mat_b, split_rc_a, split_rc_b, unit_nr)
     
     
    
@@ -551,7 +551,7 @@ private function <a href='../proc/dist_compatible.html'>dist_compatible</a>(mat_
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>io_unit</strong></td><td></td>
+  <td><strong>unit_nr</strong></td><td></td>
   
 </tr>
 
@@ -724,7 +724,7 @@ private function <a href='../proc/split_factor_estimate.html'>split_factor_estim
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_multiply"></span><h3>
-public subroutine <a href='../proc/dbcsr_tas_multiply.html'>dbcsr_tas_multiply</a>(transa, transb, transc, alpha, matrix_a, matrix_b, beta, matrix_c, optimize_dist, split_opt, filter_eps, flop, move_data_a, move_data_b, retain_sparsity, simple_split, result_index, io_unit, log_verbose)
+public subroutine <a href='../proc/dbcsr_tas_multiply.html'>dbcsr_tas_multiply</a>(transa, transb, transc, alpha, matrix_a, matrix_b, beta, matrix_c, optimize_dist, split_opt, filter_eps, flop, move_data_a, move_data_b, retain_sparsity, simple_split, result_index, unit_nr, log_verbose)
     
     
    
@@ -1032,7 +1032,7 @@ public subroutine <a href='../proc/dbcsr_tas_multiply.html'>dbcsr_tas_multiply</
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>io_unit</strong></td><td><p>unit number for logging output</p></td>
+  <td><strong>unit_nr</strong></td><td><p>unit number for logging output</p></td>
   
 </tr>
 
@@ -1951,7 +1951,7 @@ private subroutine <a href='../proc/reshape_mm_template.html'>reshape_mm_templat
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_result_index"></span><h3>
-private subroutine <a href='../proc/dbcsr_tas_result_index.html'>dbcsr_tas_result_index</a>(transa, transb, transc, matrix_a, matrix_b, matrix_c, filter_eps, io_unit, blk_ind, nze, retain_sparsity)
+private subroutine <a href='../proc/dbcsr_tas_result_index.html'>dbcsr_tas_result_index</a>(transa, transb, transc, matrix_a, matrix_b, matrix_c, filter_eps, unit_nr, blk_ind, nze, retain_sparsity)
     
     
    
@@ -2098,7 +2098,7 @@ private subroutine <a href='../proc/dbcsr_tas_result_index.html'>dbcsr_tas_resul
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>io_unit</strong></td><td></td>
+  <td><strong>unit_nr</strong></td><td></td>
   
 </tr>
 

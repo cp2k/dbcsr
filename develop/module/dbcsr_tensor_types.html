@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 2.0% of total for modules and submodules.">1227 statements</a>
+    title=" 2.0% of total for modules and submodules.">1234 statements</a>
      </li> 
      
      
@@ -348,6 +348,8 @@
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_finalize">dbcsr_t_finalize</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_scale">dbcsr_t_scale</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_default_distvec">dbcsr_t_default_distvec</a>
       
     </div>
   </div>
@@ -621,6 +623,8 @@
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_finalize">dbcsr_t_finalize</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_scale">dbcsr_t_scale</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_default_distvec">dbcsr_t_default_distvec</a>
       
     </div>
   </div>
@@ -4612,6 +4616,14 @@ public subroutine <a href='../proc/dbcsr_t_distribution_new.html'>dbcsr_t_distri
   <div class="panel-body">
        
     
+
+
+
+
+
+
+
+<p>Create a tensor distribution.</p>
     
     <h4>Arguments</h4>
     
@@ -4652,7 +4664,7 @@ public subroutine <a href='../proc/dbcsr_t_distribution_new.html'>dbcsr_t_distri
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>pgrid</strong></td><td></td>
+  <td><strong>pgrid</strong></td><td><p>process grid</p></td>
   
 </tr>
 
@@ -4667,7 +4679,7 @@ public subroutine <a href='../proc/dbcsr_t_distribution_new.html'>dbcsr_t_distri
   <td>optional</td>
   
   <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>nd_dist_1</strong></td><td></td>
+  <td><strong>nd_dist_1</strong></td><td><p>distribution vectors for all tensor dimensions</p></td>
   
 </tr>
 
@@ -4682,7 +4694,7 @@ public subroutine <a href='../proc/dbcsr_t_distribution_new.html'>dbcsr_t_distri
   <td>optional</td>
   
   <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>nd_dist_2</strong></td><td></td>
+  <td><strong>nd_dist_2</strong></td><td><p>distribution vectors for all tensor dimensions</p></td>
   
 </tr>
 
@@ -4697,7 +4709,7 @@ public subroutine <a href='../proc/dbcsr_t_distribution_new.html'>dbcsr_t_distri
   <td>optional</td>
   
   <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>nd_dist_3</strong></td><td></td>
+  <td><strong>nd_dist_3</strong></td><td><p>distribution vectors for all tensor dimensions</p></td>
   
 </tr>
 
@@ -4712,7 +4724,7 @@ public subroutine <a href='../proc/dbcsr_t_distribution_new.html'>dbcsr_t_distri
   <td>optional</td>
   
   <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>nd_dist_4</strong></td><td></td>
+  <td><strong>nd_dist_4</strong></td><td><p>distribution vectors for all tensor dimensions</p></td>
   
 </tr>
 
@@ -4831,7 +4843,7 @@ public subroutine <a href='../proc/dbcsr_t_distribution_new_expert.html'>dbcsr_t
   <td>optional</td>
   
   <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>nd_dist_1</strong></td><td><p>distribution vector for first and second dimension</p></td>
+  <td><strong>nd_dist_1</strong></td><td></td>
   
 </tr>
 
@@ -4846,7 +4858,7 @@ public subroutine <a href='../proc/dbcsr_t_distribution_new_expert.html'>dbcsr_t
   <td>optional</td>
   
   <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>nd_dist_2</strong></td><td><p>distribution vector for first and second dimension</p></td>
+  <td><strong>nd_dist_2</strong></td><td></td>
   
 </tr>
 
@@ -4861,7 +4873,7 @@ public subroutine <a href='../proc/dbcsr_t_distribution_new_expert.html'>dbcsr_t
   <td>optional</td>
   
   <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>nd_dist_3</strong></td><td><p>distribution vector for first and second dimension</p></td>
+  <td><strong>nd_dist_3</strong></td><td></td>
   
 </tr>
 
@@ -4876,7 +4888,7 @@ public subroutine <a href='../proc/dbcsr_t_distribution_new_expert.html'>dbcsr_t
   <td>optional</td>
   
   <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>nd_dist_4</strong></td><td><p>distribution vector for first and second dimension</p></td>
+  <td><strong>nd_dist_4</strong></td><td></td>
   
 </tr>
 
@@ -8046,6 +8058,110 @@ public subroutine <a href='../proc/dbcsr_t_scale.html'>dbcsr_t_scale</a>(tensor,
   
   <td></td><td>::</td>
   <td><strong>alpha</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_default_distvec"></span><h3>
+public subroutine <a href='../proc/dbcsr_t_default_distvec.html'>dbcsr_t_default_distvec</a>(nblk, nproc, blk_size, dist)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>get a load-balanced and randomized distribution along one tensor dimension</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nblk</strong></td><td><p>number of blocks (along one tensor dimension)</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nproc</strong></td><td><p>number of processes (along one process grid dimension)</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(nblk)</td><td>::</td>
+  <td><strong>blk_size</strong></td><td><p>block sizes</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(nblk)</td><td>::</td>
+  <td><strong>dist</strong></td><td><p>distribution</p></td>
   
 </tr>
 

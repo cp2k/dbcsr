@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for source files.">67 statements</a>
+    title=" 0.1% of total for source files.">68 statements</a>
      </li> 
      
      
@@ -294,7 +294,7 @@
 <a name="ln-36"></a>      <span class="n">dbcsr_t_mp_dims_create</span><span class="p">,</span> <span class="n">dbcsr_t_pgrid_change_dims</span><span class="p">,</span> <span class="n">dbcsr_t_ndims</span> <span class="o">=&gt;</span> <span class="n">ndims_tensor</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-37"></a>      <span class="n">dbcsr_t_dims</span> <span class="o">=&gt;</span> <span class="n">dims_tensor</span><span class="p">,</span> <span class="n">dbcsr_t_ndims_matrix_row</span> <span class="o">=&gt;</span> <span class="n">ndims_matrix_row</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-38"></a>      <span class="n">dbcsr_t_ndims_matrix_column</span> <span class="o">=&gt;</span> <span class="n">ndims_matrix_column</span><span class="p">,</span> <span class="n">dbcsr_t_blk_size</span><span class="p">,</span> <span class="n">dbcsr_t_nblks_local</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-39"></a>      <span class="n">dbcsr_t_nblks_total</span><span class="p">,</span> <span class="n">dbcsr_t_max_nblks_local</span>
+<a name="ln-39"></a>      <span class="n">dbcsr_t_nblks_total</span><span class="p">,</span> <span class="n">dbcsr_t_max_nblks_local</span><span class="p">,</span> <span class="n">dbcsr_t_default_distvec</span>
 <a name="ln-40"></a>   <span class="k">USE </span><span class="n">dbcsr_tensor_test</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-41"></a>      <span class="n">dbcsr_t_contract_test</span><span class="p">,</span> <span class="n">dbcsr_t_checksum</span>
 <a name="ln-42"></a>   <span class="k">USE </span><span class="n">dbcsr_tensor_split</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
@@ -365,8 +365,9 @@
 <a name="ln-107"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_nblks_total</span>
 <a name="ln-108"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_blk_size</span>
 <a name="ln-109"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_max_nblks_local</span>
-<a name="ln-110"></a>
-<a name="ln-111"></a><span class="k">END MODULE </span><span class="n">dbcsr_tensor_api</span>
+<a name="ln-110"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_default_distvec</span>
+<a name="ln-111"></a>
+<a name="ln-112"></a><span class="k">END MODULE </span><span class="n">dbcsr_tensor_api</span>
 </pre></div>
 
     </section>

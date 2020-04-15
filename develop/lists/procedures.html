@@ -997,8 +997,6 @@ All Procedures &ndash; DBCSR Library
 			 
 			   <tr><td><a href='../proc/cyclic_rowcols.html'>cyclic_rowcols</a></td><td><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></td><td>Function</td><td></td></tr>
 			 
-			   <tr><td><a href='../proc/cyclic_weighted_dist.html'>cyclic_weighted_dist</a></td><td><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></td><td>Subroutine</td><td></td></tr>
-			 
 			   <tr><td><a href='../proc/dbcsr_1d_d_sort.html'>dbcsr_1d_d_sort</a></td><td><a href='../module/dbcsr_array_sort.html'>dbcsr_array_sort</a></td><td>Subroutine</td><td><p>Sorts an array inplace using a combination of merge- and bubble-sort.
  It also returns the indices, which the elements had before the sort.</p></td></tr>
 			 
@@ -2628,6 +2626,8 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/dbcsr_t_crop.html'>dbcsr_t_crop</a></td><td><a href='../module/dbcsr_tensor_split.html'>dbcsr_tensor_split</a></td><td>Subroutine</td><td></td></tr>
 			 
+			   <tr><td><a href='../proc/dbcsr_t_default_distvec.html'>dbcsr_t_default_distvec</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>get a load-balanced and randomized distribution along one tensor dimension</p></td></tr>
+			 
 			   <tr><td><a href='../proc/dbcsr_t_destroy.html'>dbcsr_t_destroy</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>Destroy a tensor</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_t_distribution.html'>dbcsr_t_distribution</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Function</td><td><p>get distribution from tensor
@@ -2638,7 +2638,7 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/dbcsr_t_distribution_hold.html'>dbcsr_t_distribution_hold</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>reference counting for distribution (only needed for communicator handle that must be freed
  when no longer needed)</p></td></tr>
 			 
-			   <tr><td><a href='../proc/dbcsr_t_distribution_new.html'>dbcsr_t_distribution_new</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td></td></tr>
+			   <tr><td><a href='../proc/dbcsr_t_distribution_new.html'>dbcsr_t_distribution_new</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>Create a tensor distribution.</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_t_distribution_new_expert.html'>dbcsr_t_distribution_new_expert</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>Create a tensor distribution.</p></td></tr>
 			 
@@ -2820,8 +2820,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../interface/dbcsr_t_put_block.html'>dbcsr_t_put_block</a></td><td><a href='../module/dbcsr_tensor_block.html'>dbcsr_tensor_block</a></td><td>Interface</td><td></td></tr>
 			 
-			   <tr><td><a href='../proc/dbcsr_t_random_dist.html'>dbcsr_t_random_dist</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td></td></tr>
-			 
 			   <tr><td><a href='../proc/dbcsr_t_remap.html'>dbcsr_t_remap</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>Copy tensor to tensor with modified index mapping</p></td></tr>
 			 
 			   <tr><td><a href='../interface/dbcsr_t_reserve_blocks.html'>dbcsr_t_reserve_blocks</a></td><td><a href='../module/dbcsr_tensor_block.html'>dbcsr_tensor_block</a></td><td>Interface</td><td></td></tr>
@@ -2918,6 +2916,8 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/dbcsr_tas_create_split_rows_or_cols.html'>dbcsr_tas_create_split_rows_or_cols</a></td><td><a href='../module/dbcsr_tas_split.html'>dbcsr_tas_split</a></td><td>Subroutine</td><td><p>split mpi grid by rows or columns</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_tas_create_template.html'>dbcsr_tas_create_template</a></td><td><a href='../module/dbcsr_tas_base.html'>dbcsr_tas_base</a></td><td>Subroutine</td><td><p>Create matrix from template</p></td></tr>
+			 
+			   <tr><td><a href='../proc/dbcsr_tas_default_distvec.html'>dbcsr_tas_default_distvec</a></td><td><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></td><td>Subroutine</td><td><p>get a load-balanced and randomized distribution along one tensor dimension</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_tas_destroy.html'>dbcsr_tas_destroy</a></td><td><a href='../module/dbcsr_tas_base.html'>dbcsr_tas_base</a></td><td>Subroutine</td><td></td></tr>
 			 
@@ -3344,6 +3344,10 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
  testing tensor contraction by matrix multiplication of dense arrays.</p></td></tr>
 			 
 			   <tr><td><a href='../interface/dist_sparse_tensor_to_repl_dense_array.html'>dist_sparse_tensor_to_repl_dense_array</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Interface</td><td></td></tr>
+			 
+			   <tr><td><a href='../proc/distribute_lpt_random.html'>distribute_lpt_random</a></td><td><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></td><td>Subroutine</td><td><p>distribute <code>nel</code> elements with weights <code>weights</code> over <code>nbin</code> bins.
+ load balanced distribution is obtained by using LPT algorithm together with randomization over equivalent bins
+ (i.e. randomization over all bins with the smallest accumulated weight)</p></td></tr>
 			 
 			   <tr><td><a href='../interface/ensure_array_size.html'>ensure_array_size</a></td><td><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></td><td>Interface</td><td></td></tr>
 			 
@@ -5513,10 +5517,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/new_dbcsr_tas_dist_t.html'>new_dbcsr_tas_dist_t</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Function</td><td><p>Create distribution object for one matrix dimension
  \return distribution object</p></td></tr>
 			 
-			   <tr><td><a href='../proc/new_default_dist.html'>new_default_dist</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>Default distribution that is more or less cyclic (round robin) and load balanced with different
- weights for each element.
- This is used for creating adhoc distributions whenever tensors are mapped to new grids.</p></td></tr>
-			 
 			   <tr><td><a href='../proc/next_linebreak.html'>next_linebreak</a></td><td><a href='../module/dbcsr_error_handling.html'>dbcsr_error_handling</a></td><td>Function</td><td><p>Helper routine for print_abort_message()</p></td></tr>
 			 
 			   <tr><td><a href='../proc/nfull_elements.html'>nfull_elements</a></td><td><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></td><td>Function</td><td><p>The sum of a subset of rows/columns
@@ -5575,6 +5575,10 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/pos_relation.html'>pos_relation</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Function</td><td><p>Determines the relation between two matrix positions.</p></td></tr>
 			 
+			   <tr><td><a href='../proc/prep_output_unit.html'>prep_output_unit</a></td><td><a href='../module/dbcsr_tas_io.html'>dbcsr_tas_io</a></td><td>Function</td><td></td></tr>
+			 
+			   <tr><td><a href='../proc/prep_output_unit~2.html'>prep_output_unit</a></td><td><a href='../module/dbcsr_tensor_io.html'>dbcsr_tensor_io</a></td><td>Function</td><td></td></tr>
+			 
 			   <tr><td><a href='../proc/prepare_buffers_c.html'>prepare_buffers_c</a></td><td><a href='../module/dbcsr_mm_cannon.html'>dbcsr_mm_cannon</a></td><td>Subroutine</td><td><p>Prepare buffers for multiplications</p></td></tr>
 			 
 			   <tr><td><a href='../proc/prepare_buffers_d.html'>prepare_buffers_d</a></td><td><a href='../module/dbcsr_mm_cannon.html'>dbcsr_mm_cannon</a></td><td>Subroutine</td><td><p>Prepare buffers for multiplications</p></td></tr>
@@ -5612,8 +5616,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/quick_finalize.html'>quick_finalize</a></td><td><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></td><td>Subroutine</td><td><p>Performs quick finalization of matrix
  The data area from the work matrix is accepted as the new matrix's data
  area and the index is built from the work matrix.</p></td></tr>
-			 
-			   <tr><td><a href='../proc/random_dist.html'>random_dist</a></td><td><a href='../module/dbcsr_tas_test.html'>dbcsr_tas_test</a></td><td>Subroutine</td><td><p>Create random distribution</p></td></tr>
 			 
 			   <tr><td><a href='../interface/reallocate.html'>reallocate</a></td><td><a href='../module/dbcsr_memory_utilities.html'>dbcsr_memory_utilities</a></td><td>Interface</td><td></td></tr>
 			 

@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.5% of total for modules and submodules.">307 statements</a>
+    title=" 0.5% of total for modules and submodules.">332 statements</a>
      </li> 
      
      
@@ -293,7 +293,9 @@
   <div class="list-group">
     <div id="subs-0" class="panel-collapse collapse">
       
-      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-cyclic_weighted_dist">cyclic_weighted_dist</a>
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-dbcsr_tas_default_distvec">dbcsr_tas_default_distvec</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-distribute_lpt_random">distribute_lpt_random</a>
       
     </div>
   </div>
@@ -331,6 +333,8 @@
   <ul class="list-inline">
     
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+    
+    <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
     
     <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
@@ -489,7 +493,9 @@
   <div class="list-group">
     <div id="subs-1" class="panel-collapse collapse">
       
-      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-cyclic_weighted_dist">cyclic_weighted_dist</a>
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-dbcsr_tas_default_distvec">dbcsr_tas_default_distvec</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#proc-distribute_lpt_random">distribute_lpt_random</a>
       
     </div>
   </div>
@@ -3274,8 +3280,8 @@ private function <a href='../proc/cyclic_rowcols.html'>cyclic_rowcols</a>(t, dis
     
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-cyclic_weighted_dist"></span><h3>
-public subroutine <a href='../proc/cyclic_weighted_dist.html'>cyclic_weighted_dist</a>(nel, nbin, weights, dist)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_default_distvec"></span><h3>
+public subroutine <a href='../proc/dbcsr_tas_default_distvec.html'>dbcsr_tas_default_distvec</a>(nblk, nproc, blk_size, dist)
     
     
    
@@ -3283,6 +3289,120 @@ public subroutine <a href='../proc/cyclic_weighted_dist.html'>cyclic_weighted_di
   <div class="panel-body">
        
     
+
+
+
+
+
+
+
+<p>get a load-balanced and randomized distribution along one tensor dimension</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nblk</strong></td><td><p>number of blocks (along one tensor dimension)</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nproc</strong></td><td><p>number of processes (along one process grid dimension)</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(nblk)</td><td>::</td>
+  <td><strong>blk_size</strong></td><td><p>block sizes</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(nblk)</td><td>::</td>
+  <td><strong>dist</strong></td><td><p>distribution</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-distribute_lpt_random"></span><h3>
+private subroutine <a href='../proc/distribute_lpt_random.html'>distribute_lpt_random</a>(nel, nbin, weights, dist)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>distribute <code>nel</code> elements with weights <code>weights</code> over <code>nbin</code> bins.
+ load balanced distribution is obtained by using LPT algorithm together with randomization over equivalent bins
+ (i.e. randomization over all bins with the smallest accumulated weight)</p>
     
     <h4>Arguments</h4>
     

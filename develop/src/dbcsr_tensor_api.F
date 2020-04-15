@@ -36,7 +36,7 @@ MODULE dbcsr_tensor_api
       dbcsr_t_mp_dims_create, dbcsr_t_pgrid_change_dims, dbcsr_t_ndims => ndims_tensor, &
       dbcsr_t_dims => dims_tensor, dbcsr_t_ndims_matrix_row => ndims_matrix_row, &
       dbcsr_t_ndims_matrix_column => ndims_matrix_column, dbcsr_t_blk_size, dbcsr_t_nblks_local, &
-      dbcsr_t_nblks_total, dbcsr_t_max_nblks_local
+      dbcsr_t_nblks_total, dbcsr_t_max_nblks_local, dbcsr_t_default_distvec
    USE dbcsr_tensor_test, ONLY: &
       dbcsr_t_contract_test, dbcsr_t_checksum
    USE dbcsr_tensor_split, ONLY: &
@@ -107,5 +107,6 @@ MODULE dbcsr_tensor_api
    PUBLIC :: dbcsr_t_nblks_total
    PUBLIC :: dbcsr_t_blk_size
    PUBLIC :: dbcsr_t_max_nblks_local
+   PUBLIC :: dbcsr_t_default_distvec
 
 END MODULE dbcsr_tensor_api

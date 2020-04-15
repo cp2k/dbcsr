@@ -10,7 +10,7 @@
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
-    <title>random_dist &ndash; DBCSR Library</title>
+    <title>distribute_lpt_random &ndash; DBCSR Library</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -103,7 +103,7 @@
     
   
   <div class="row">
-    <h1>random_dist
+    <h1>distribute_lpt_random
       <small>Subroutine</small>
     
     </h1>
@@ -121,24 +121,24 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">9 statements</a>
+    title=" 0.1% of total for procedures.">39 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tas_test.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tas_global.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_tas_test.f.html'>dbcsr_tas_test.F</a></li>
+     <li><a href='../sourcefile/dbcsr_tas_global.f.html'>dbcsr_tas_global.F</a></li>
     
-     <li><a href='../module/dbcsr_tas_test.html'>dbcsr_tas_test</a></li>
+     <li><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></li>
     
   
-     <li class="active">random_dist</li>
+     <li class="active">distribute_lpt_random</li>
   </ol>
 </div>
 </div>
@@ -179,13 +179,7 @@
 
 
 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/random_dist.html#src">random_dist</a>
-  </div>
-</div>
-
+<em>None</em>
 
 
 </div>
@@ -194,7 +188,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-private subroutine random_dist(dist_array, dist_size, nbins)
+private subroutine distribute_lpt_random(nel, nbin, weights, dist)
     
     
    
@@ -204,7 +198,9 @@ private subroutine random_dist(dist_array, dist_size, nbins)
 
 
     
-    <p>Create random distribution</p>
+    <p>distribute <code>nel</code> elements with weights <code>weights</code> over <code>nbin</code> bins.
+ load balanced distribution is obtained by using LPT algorithm together with randomization over equivalent bins
+ (i.e. randomization over all bins with the smallest accumulated weight)</p>
     
 
     <h3>Arguments</h3>
@@ -225,42 +221,57 @@ private subroutine random_dist(dist_array, dist_size, nbins)
   
 <tr>
   
-  <td><span class="anchor" id="variable-dist_array"></span>integer,</td>
+  <td><span class="anchor" id="variable-nel"></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nel</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nbin"></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nbin</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-weights"></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(nel)</td><td>::</td>
+  <td><strong>weights</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dist~25"></span>integer,</td>
   <td>intent(out),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>dist_array</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-dist_size~3"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>dist_size</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-nbins"></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>nbins</strong></td><td></td>
+  <td>DIMENSION(nel)</td><td>::</td>
+  <td><strong>dist</strong></td><td></td>
   
 </tr>
 
@@ -299,13 +310,7 @@ private subroutine random_dist(dist_array, dist_size, nbins)
 
 
 
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/random_dist.html#src">random_dist</a>
-  </div>
-</div>
-
+<em>None</em>
 
 
     </section>
@@ -328,26 +333,6 @@ private subroutine random_dist(dist_array, dist_size, nbins)
 
     
     
-    
-    <section>
-    <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">random_dist</span><span class="p">(</span><span class="n">dist_array</span><span class="p">,</span> <span class="n">dist_size</span><span class="p">,</span> <span class="n">nbins</span><span class="p">)</span>
-      <span class="c">!! Create random distribution</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">out</span><span class="p">),</span> <span class="k">POINTER</span>        <span class="kd">::</span> <span class="n">dist_array</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">dist_size</span><span class="p">,</span> <span class="n">nbins</span>
-
-      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">i</span>
-
-      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">dist_array</span><span class="p">(</span><span class="n">dist_size</span><span class="p">))</span>
-      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dist_size</span>
-         <span class="n">dist_array</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="nb">MODULO</span><span class="p">(</span><span class="n">nbins</span> <span class="o">-</span> <span class="n">i</span><span class="p">,</span> <span class="n">nbins</span><span class="p">)</span>
-      <span class="k">END DO</span>
-
-<span class="k">   END SUBROUTINE </span><span class="n">random_dist</span>
-</pre></div>
-
-    </section>
-    <br>
     
     
     </div>
