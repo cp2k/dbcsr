@@ -108,7 +108,7 @@ PROGRAM small_gen
           (isquare == 9 .AND. ((.NOT. do_libxsmm) .OR. transpose_flavor /= 1 .OR. data_type > 2))) THEN
          write (6, '(A,I0,A)') "  kernels(Nk,", isquare, ")%ptr => Null()"
       ELSE
-       write (6, '(A,I0,A,I0,A,I0,A,I0,A,I0)') &
+         write (6, '(A,I0,A,I0,A,I0,A,I0,A,I0)') &
             "  kernels(Nk,", isquare, ")%ptr => smm_"//trstr(transpose_flavor, data_type)//"_", &
             M, "_", N, "_", K, "_", isquare
       ENDIF
