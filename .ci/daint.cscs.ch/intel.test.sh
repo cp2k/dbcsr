@@ -32,4 +32,4 @@ export OMP_PROC_BIND=TRUE # set thread affinity
 # document the current environment
 env |& tee -a "${STAGE_NAME}.out"
 
-env CTEST_OUTPUT_ON_FAILURE=1 make test |& tee -a "${STAGE_NAME}.out"
+env CTEST_OUTPUT_ON_FAILURE=1 make test ARGS="--timeout 900" |& tee -a "${STAGE_NAME}.out"
