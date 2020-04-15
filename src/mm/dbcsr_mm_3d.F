@@ -335,6 +335,10 @@ CONTAINS
       do_crop = .FALSE.
       do_part_crop_row = .FALSE.
       do_part_crop_col = .FALSE.
+      do_part_crop_f_row = .FALSE.
+      do_part_crop_l_row = .FALSE.
+      do_part_crop_f_col = .FALSE.
+      do_part_crop_l_col = .FALSE.
       ! Set no limits
       IF (ANY((/f_row, l_row, f_col, l_col/) .NE. 0)) THEN
          IF (f_row .LT. 0) &
@@ -349,7 +353,6 @@ CONTAINS
          do_crop = .TRUE.
          !
          ! Convert bounds to block addressing
-         do_part_crop_f_row = .FALSE.
          IF (f_row .EQ. 0) THEN
             block_row_bounds(1) = 1
          ELSE
@@ -364,7 +367,6 @@ CONTAINS
             ENDIF
          ENDIF
          !
-         do_part_crop_l_row = .FALSE.
          IF (l_row .EQ. 0) THEN
             block_row_bounds(2) = dbcsr_nblkrows_total(matrix)
          ELSE
@@ -380,7 +382,6 @@ CONTAINS
          ENDIF
          do_part_crop_row = do_part_crop_f_row .OR. do_part_crop_l_row
          !
-         do_part_crop_f_col = .FALSE.
          IF (f_col .EQ. 0) THEN
             block_col_bounds(1) = 1
          ELSE
@@ -395,7 +396,6 @@ CONTAINS
             ENDIF
          ENDIF
          !
-         do_part_crop_l_col = .FALSE.
          IF (l_col .EQ. 0) THEN
             block_col_bounds(2) = dbcsr_nblkcols_total(matrix)
          ELSE
@@ -1600,6 +1600,8 @@ CONTAINS
       first_v_k = .TRUE.
       istep_k_comm_curr = leftovers_first_k
       istep_k_comm => istep_k_comm_curr
+      iright_buffer_calc = 0
+      ileft_buffer_calc = 0
       grouped_steps_index: DO istep_k = leftovers_first_k, last_step_k
          !
          ! Wait data.  Exclude the first iteration.
