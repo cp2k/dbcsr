@@ -1,0 +1,2773 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="">
+    
+    <meta name="author" content="DBCSR Authors" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>dbcsr_transformations &ndash; DBCSR Library</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">DBCSR Library </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Guide</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>dbcsr_transformations 
+    <small>Module</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 2.5% of total for modules and submodules.">1511 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_transformations.F"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/dbcsr_transformations.f.html'>dbcsr_transformations.F</a></li>
+    
+  
+     <li class="active">dbcsr_transformations</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
+  <div id="vars-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#variable-modulen~11">moduleN</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#variable-careful_mod~2">careful_mod</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-0">Subroutines</a></h3></div>
+  <div class="list-group">
+    <div id="subs-0" class="panel-collapse collapse">
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_new_transposed">dbcsr_new_transposed</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_transposed~2">dbcsr_transposed</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_desymmetrize_deep">dbcsr_desymmetrize_deep</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_distribute~2">dbcsr_distribute</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_make_untransposed_blocks">dbcsr_make_untransposed_blocks</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_make_dense">dbcsr_make_dense</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_make_dense_low">dbcsr_make_dense_low</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_make_undense">dbcsr_make_undense</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-make_dense_data">make_dense_data</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-make_undense_data">make_undense_data</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_replicate_all~2">dbcsr_replicate_all</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_replicate">dbcsr_replicate</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_complete_redistribute~2">dbcsr_complete_redistribute</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_redistribute">dbcsr_redistribute</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_datablock_redistribute">dbcsr_datablock_redistribute</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <p>DBCSR transformations</p>
+      <br>
+    
+  
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Uses</h3>
+      </div>
+      <ul class="list-group">
+      
+      <li class="list-group-item">
+  <ul class="list-inline">
+    
+    <li><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
+    
+    <li><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></li>
+    
+    <li><a href='../module/dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
+    
+    <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
+    
+    <li><a href='../module/dbcsr_data_operations.html'>dbcsr_data_operations</a></li>
+    
+    <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
+    
+    <li><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
+    
+    <li><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
+    
+    <li><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></li>
+    
+    <li><a href='../module/dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
+    
+    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+    
+    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
+    
+    <li><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
+    
+    <li><a href='../module/dbcsr_mp_operations.html'>dbcsr_mp_operations</a></li>
+    
+    <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+    
+    <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
+    
+    <li><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
+    
+    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+    
+    <li><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
+    
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    
+  </ul>
+      </li>
+      
+      
+      
+      </ul>
+    </div>
+    
+
+    
+    
+
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
+  <div id="vars-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#variable-modulen~11">moduleN</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#variable-careful_mod~2">careful_mod</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-1">Subroutines</a></h3></div>
+  <div class="list-group">
+    <div id="subs-1" class="panel-collapse collapse">
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_new_transposed">dbcsr_new_transposed</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_transposed~2">dbcsr_transposed</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_desymmetrize_deep">dbcsr_desymmetrize_deep</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_distribute~2">dbcsr_distribute</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_make_untransposed_blocks">dbcsr_make_untransposed_blocks</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_make_dense">dbcsr_make_dense</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_make_dense_low">dbcsr_make_dense_low</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_make_undense">dbcsr_make_undense</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-make_dense_data">make_dense_data</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-make_undense_data">make_undense_data</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_replicate_all~2">dbcsr_replicate_all</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_replicate">dbcsr_replicate</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_complete_redistribute~2">dbcsr_complete_redistribute</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_redistribute">dbcsr_redistribute</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_transformations.html#proc-dbcsr_datablock_redistribute">dbcsr_datablock_redistribute</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    
+
+    
+    <section>
+    <h2>Variables</h2>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-modulen~11"></span>character(len=*),</td>
+  
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>moduleN</strong></td><td> =</td><td>'dbcsr_transformations'</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-careful_mod~2"></span>logical,</td>
+  
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>careful_mod</strong></td><td> =</td><td>.FALSE.</td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+    </section>
+    <br>
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    <section>
+    <h2>Subroutines</h2>
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_new_transposed"></span><h3>
+public subroutine <a href='../proc/dbcsr_new_transposed.html'>dbcsr_new_transposed</a>(transposed, normal, shallow_data_copy, transpose_data, transpose_distribution, transpose_index, use_distribution, redistribute)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Transposes a DBCSR matrix.</p><a href="../proc/dbcsr_new_transposed.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>transposed</strong></td><td><p>transposed DBCSR matrix</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>normal</strong></td><td><p>input DBCSR matrix</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>shallow_data_copy</strong></td><td><p>only shallow data_copy; default is no; if set, the transpose_data option is ignored
+ transpose data blocks, default is True
+ transpose the distribution from the input matrix, default is True
+ transpose the index (default=yes) or turn it into BCSC</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>transpose_data</strong></td><td><p>only shallow data_copy; default is no; if set, the transpose_data option is ignored
+ transpose data blocks, default is True
+ transpose the distribution from the input matrix, default is True
+ transpose the index (default=yes) or turn it into BCSC</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>transpose_distribution</strong></td><td><p>only shallow data_copy; default is no; if set, the transpose_data option is ignored
+ transpose data blocks, default is True
+ transpose the distribution from the input matrix, default is True
+ transpose the index (default=yes) or turn it into BCSC</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>transpose_index</strong></td><td><p>only shallow data_copy; default is no; if set, the transpose_data option is ignored
+ transpose data blocks, default is True
+ transpose the distribution from the input matrix, default is True
+ transpose the index (default=yes) or turn it into BCSC</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>use_distribution</strong></td><td><p>use this distribution</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>redistribute</strong></td><td><p>redistributes the matrix; default is .TRUE. unless shallow or transpose_distribution are set.</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_transposed~2"></span><h3>
+public subroutine <a href='../proc/dbcsr_transposed~2.html'>dbcsr_transposed</a>(transposed, normal, shallow_data_copy, transpose_data, transpose_distribution, use_distribution)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Transposes a DBCSR matrix, keeping the same distribution</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>transposed</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>normal</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>shallow_data_copy</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>transpose_data</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>transpose_distribution</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>use_distribution</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_desymmetrize_deep"></span><h3>
+public subroutine <a href='../proc/dbcsr_desymmetrize_deep.html'>dbcsr_desymmetrize_deep</a>(sm, desm, untransposed_data)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Duplicates data in symmetric matrix to make it normal (w.r.t. data
+ structure. Can handle symmetric/antisymmetric/hermitian/skewhermitian
+ matrices</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>sm</strong></td><td><p>input symmetric matrix</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>desm</strong></td><td><p>desymmetrized matrix</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>untransposed_data</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_distribute~2"></span><h3>
+public subroutine <a href='../proc/dbcsr_distribute~2.html'>dbcsr_distribute</a>(matrix, fast)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Distributes a matrix that is currently replicated.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>matrix</strong></td><td><p>matrix to replicate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>fast</strong></td><td><p>change just the index, don't touch the data</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_make_untransposed_blocks"></span><h3>
+public subroutine <a href='../proc/dbcsr_make_untransposed_blocks.html'>dbcsr_make_untransposed_blocks</a>(matrix)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Detransposes all blocks in a matrix</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>matrix</strong></td><td><p>DBCSR matrix</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_make_dense"></span><h3>
+public subroutine <a href='../proc/dbcsr_make_dense.html'>dbcsr_make_dense</a>(matrix, dense_matrix, dense_dist, dense_row_sizes, dense_col_sizes, row_map, col_map)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Makes a dense matrix, inplace.
+ </p><a href="../proc/dbcsr_make_dense.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>matrix</strong></td><td><p>matrix to make dense</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dense_matrix</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dense_dist</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dense_row_sizes</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dense_col_sizes</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>row_map</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>col_map</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_make_dense_low"></span><h3>
+public subroutine <a href='../proc/dbcsr_make_dense_low.html'>dbcsr_make_dense_low</a>(und_matrix, dense_matrix, und_local_rows, und_local_cols, und_row_blk_offsets, und_col_blk_offsets, dense_local_rows, dense_local_cols, dense_row_blk_offsets, dense_col_blk_offsets, row_map, col_map, join_rows, join_cols)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Copies a matrix and makes its data dense.
+ </p><a href="../proc/dbcsr_make_dense_low.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>und_matrix</strong></td><td><p>Original non-dense matrix</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dense_matrix</strong></td><td><p>Dense copy of und_matrix</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>und_local_rows</strong></td><td><p>The process-grid local rows of the non-dense und_matrix
+ The process-grid local columns of the non-dense und_matrix
+ The block offsets of the rows of the non-dense matrix
+ The block offsets of the columns of the non-dense matrix
+ The process-grid local rows of the dense matrix
+ The process-grid local columns of the dense matrix
+ The block offsets of the rows of the dense matrix
+ The block offsets of the columns of the dense matrix
+ Mapping of non-dense rows to dense rows
+ Mapping of non-dense columns to dense columns</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>und_local_cols</strong></td><td><p>The process-grid local rows of the non-dense und_matrix
+ The process-grid local columns of the non-dense und_matrix
+ The block offsets of the rows of the non-dense matrix
+ The block offsets of the columns of the non-dense matrix
+ The process-grid local rows of the dense matrix
+ The process-grid local columns of the dense matrix
+ The block offsets of the rows of the dense matrix
+ The block offsets of the columns of the dense matrix
+ Mapping of non-dense rows to dense rows
+ Mapping of non-dense columns to dense columns</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>und_row_blk_offsets</strong></td><td><p>The process-grid local rows of the non-dense und_matrix
+ The process-grid local columns of the non-dense und_matrix
+ The block offsets of the rows of the non-dense matrix
+ The block offsets of the columns of the non-dense matrix
+ The process-grid local rows of the dense matrix
+ The process-grid local columns of the dense matrix
+ The block offsets of the rows of the dense matrix
+ The block offsets of the columns of the dense matrix
+ Mapping of non-dense rows to dense rows
+ Mapping of non-dense columns to dense columns</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>und_col_blk_offsets</strong></td><td><p>The process-grid local rows of the non-dense und_matrix
+ The process-grid local columns of the non-dense und_matrix
+ The block offsets of the rows of the non-dense matrix
+ The block offsets of the columns of the non-dense matrix
+ The process-grid local rows of the dense matrix
+ The process-grid local columns of the dense matrix
+ The block offsets of the rows of the dense matrix
+ The block offsets of the columns of the dense matrix
+ Mapping of non-dense rows to dense rows
+ Mapping of non-dense columns to dense columns</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>dense_local_rows</strong></td><td><p>The process-grid local rows of the non-dense und_matrix
+ The process-grid local columns of the non-dense und_matrix
+ The block offsets of the rows of the non-dense matrix
+ The block offsets of the columns of the non-dense matrix
+ The process-grid local rows of the dense matrix
+ The process-grid local columns of the dense matrix
+ The block offsets of the rows of the dense matrix
+ The block offsets of the columns of the dense matrix
+ Mapping of non-dense rows to dense rows
+ Mapping of non-dense columns to dense columns</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>dense_local_cols</strong></td><td><p>The process-grid local rows of the non-dense und_matrix
+ The process-grid local columns of the non-dense und_matrix
+ The block offsets of the rows of the non-dense matrix
+ The block offsets of the columns of the non-dense matrix
+ The process-grid local rows of the dense matrix
+ The process-grid local columns of the dense matrix
+ The block offsets of the rows of the dense matrix
+ The block offsets of the columns of the dense matrix
+ Mapping of non-dense rows to dense rows
+ Mapping of non-dense columns to dense columns</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>dense_row_blk_offsets</strong></td><td><p>The process-grid local rows of the non-dense und_matrix
+ The process-grid local columns of the non-dense und_matrix
+ The block offsets of the rows of the non-dense matrix
+ The block offsets of the columns of the non-dense matrix
+ The process-grid local rows of the dense matrix
+ The process-grid local columns of the dense matrix
+ The block offsets of the rows of the dense matrix
+ The block offsets of the columns of the dense matrix
+ Mapping of non-dense rows to dense rows
+ Mapping of non-dense columns to dense columns</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>dense_col_blk_offsets</strong></td><td><p>The process-grid local rows of the non-dense und_matrix
+ The process-grid local columns of the non-dense und_matrix
+ The block offsets of the rows of the non-dense matrix
+ The block offsets of the columns of the non-dense matrix
+ The process-grid local rows of the dense matrix
+ The process-grid local columns of the dense matrix
+ The block offsets of the rows of the dense matrix
+ The block offsets of the columns of the dense matrix
+ Mapping of non-dense rows to dense rows
+ Mapping of non-dense columns to dense columns</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>row_map</strong></td><td><p>The process-grid local rows of the non-dense und_matrix
+ The process-grid local columns of the non-dense und_matrix
+ The block offsets of the rows of the non-dense matrix
+ The block offsets of the columns of the non-dense matrix
+ The process-grid local rows of the dense matrix
+ The process-grid local columns of the dense matrix
+ The block offsets of the rows of the dense matrix
+ The block offsets of the columns of the dense matrix
+ Mapping of non-dense rows to dense rows
+ Mapping of non-dense columns to dense columns</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>col_map</strong></td><td><p>The process-grid local rows of the non-dense und_matrix
+ The process-grid local columns of the non-dense und_matrix
+ The block offsets of the rows of the non-dense matrix
+ The block offsets of the columns of the non-dense matrix
+ The process-grid local rows of the dense matrix
+ The process-grid local columns of the dense matrix
+ The block offsets of the rows of the dense matrix
+ The block offsets of the columns of the dense matrix
+ Mapping of non-dense rows to dense rows
+ Mapping of non-dense columns to dense columns</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>join_rows</strong></td><td><p>Make rows dense
+ Make columns dense</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>join_cols</strong></td><td><p>Make rows dense
+ Make columns dense</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_make_undense"></span><h3>
+public subroutine <a href='../proc/dbcsr_make_undense.html'>dbcsr_make_undense</a>(matrix, undense_matrix, distribution, row_blk_offsets, col_blk_offsets, row_blk_sizes, col_blk_sizes, row_map, col_map)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Makes a blocked matrix from a dense matrix, inplace
+ </p><a href="../proc/dbcsr_make_undense.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>matrix</strong></td><td><p>dense matrix</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>undense_matrix</strong></td><td><p>matrix to make undense</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>distribution</strong></td><td><p>distribution of non-dense rows and columns</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>row_blk_offsets</strong></td><td><p>non-dense row block offsets
+ non-dense column block offsets
+ non-dense row block sizes
+ non-dense column block sizes
+ mapping from non-dense rows
+ mapping from non-dense columns</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>col_blk_offsets</strong></td><td><p>non-dense row block offsets
+ non-dense column block offsets
+ non-dense row block sizes
+ non-dense column block sizes
+ mapping from non-dense rows
+ mapping from non-dense columns</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>row_blk_sizes</strong></td><td><p>non-dense row block offsets
+ non-dense column block offsets
+ non-dense row block sizes
+ non-dense column block sizes
+ mapping from non-dense rows
+ mapping from non-dense columns</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>col_blk_sizes</strong></td><td><p>non-dense row block offsets
+ non-dense column block offsets
+ non-dense row block sizes
+ non-dense column block sizes
+ mapping from non-dense rows
+ mapping from non-dense columns</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>row_map</strong></td><td><p>non-dense row block offsets
+ non-dense column block offsets
+ non-dense row block sizes
+ non-dense column block sizes
+ mapping from non-dense rows
+ mapping from non-dense columns</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>col_map</strong></td><td><p>non-dense row block offsets
+ non-dense column block offsets
+ non-dense row block sizes
+ non-dense column block sizes
+ mapping from non-dense rows
+ mapping from non-dense columns</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-make_dense_data"></span><h3>
+private subroutine <a href='../proc/make_dense_data.html'>make_dense_data</a>(matrix, dense_data, nfullrows, nfullcols, und_row_blk_offsets, und_col_blk_offsets, dense_row_blk_offsets, dense_col_blk_offsets, row_map, col_map, row_internal_offsets, col_internal_offsets, join_rows, join_cols, make_tr)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Shuffles the data from blocked to standard dense form
+ </p><a href="../proc/make_dense_data.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>matrix</strong></td><td><p>Existing blocked matrix</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dense_data</strong></td><td><p>Dense data</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nfullrows</strong></td><td><p>size of new data
+ size of new data</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nfullcols</strong></td><td><p>size of new data
+ size of new data</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>und_row_blk_offsets</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>und_col_blk_offsets</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>dense_row_blk_offsets</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>dense_col_blk_offsets</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>row_map</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>col_map</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>row_internal_offsets</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>col_internal_offsets</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>join_rows</strong></td><td><p>make rows dense, default is yes
+ make columns dense, default is yes
+ make the dense blocks transposed</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>join_cols</strong></td><td><p>make rows dense, default is yes
+ make columns dense, default is yes
+ make the dense blocks transposed</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>make_tr</strong></td><td><p>make rows dense, default is yes
+ make columns dense, default is yes
+ make the dense blocks transposed</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-make_undense_data"></span><h3>
+private subroutine <a href='../proc/make_undense_data.html'>make_undense_data</a>(matrix, dense_data, nfullrows, nfullcols, dense_row_blk_offsets, dense_col_blk_offsets, row_map, col_map, row_internal_offsets, col_internal_offsets)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Shuffles the data from standard dense to blocked form
+ </p><a href="../proc/make_undense_data.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>matrix</strong></td><td><p>Matrix with data to fill</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dense_data</strong></td><td><p>Dense data</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nfullrows</strong></td><td><p>number of full rows in local submatrix
+ number of full columns in local submatrix</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nfullcols</strong></td><td><p>number of full rows in local submatrix
+ number of full columns in local submatrix</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>dense_row_blk_offsets</strong></td><td><p>row block offsets for dense data
+ column block offsets for dense data
+ mapping from undense to dense rows
+ mapping from undense to dense rows</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>dense_col_blk_offsets</strong></td><td><p>row block offsets for dense data
+ column block offsets for dense data
+ mapping from undense to dense rows
+ mapping from undense to dense rows</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>row_map</strong></td><td><p>row block offsets for dense data
+ column block offsets for dense data
+ mapping from undense to dense rows
+ mapping from undense to dense rows</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>col_map</strong></td><td><p>row block offsets for dense data
+ column block offsets for dense data
+ mapping from undense to dense rows
+ mapping from undense to dense rows</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>row_internal_offsets</strong></td><td><p>row block offsets for dense data
+ column block offsets for dense data
+ mapping from undense to dense rows
+ mapping from undense to dense rows</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>col_internal_offsets</strong></td><td><p>row block offsets for dense data
+ column block offsets for dense data
+ mapping from undense to dense rows
+ mapping from undense to dense rows</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_replicate_all~2"></span><h3>
+public subroutine <a href='../proc/dbcsr_replicate_all~2.html'>dbcsr_replicate_all</a>(matrix)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Replicates a DBCSR on all processors.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>matrix</strong></td><td><p>matrix to replicate</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_replicate"></span><h3>
+private subroutine <a href='../proc/dbcsr_replicate.html'>dbcsr_replicate</a>(matrix, replicate_rows, replicate_columns, restrict_source)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Replicates a DBCSR matrix among process rows and columns</p><a href="../proc/dbcsr_replicate.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>matrix</strong></td><td><p>matrix to replicate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>replicate_rows</strong></td><td><p>Row should be replicated among all processors
+ Column should be replicated among all processors</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>replicate_columns</strong></td><td><p>Row should be replicated among all processors
+ Column should be replicated among all processors</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>restrict_source</strong></td><td><p>Send only from this node (ignores blocks on other nodes)</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_complete_redistribute~2"></span><h3>
+public subroutine <a href='../proc/dbcsr_complete_redistribute~2.html'>dbcsr_complete_redistribute</a>(matrix, redist, keep_sparsity, summation)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Fully redistributes a DBCSR matrix.
+ The new distribution may be arbitrary as long as the total
+ number full rows and columns matches that of the existing
+ matrix.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>matrix</strong></td><td><p>matrix to redistribute</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>redist</strong></td><td><p>redistributed matrix</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>keep_sparsity</strong></td><td><p>retains the sparsity of the redist matrix
+ sum blocks with identical row and col from different processes</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>summation</strong></td><td><p>retains the sparsity of the redist matrix
+ sum blocks with identical row and col from different processes</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_redistribute"></span><h3>
+public subroutine <a href='../proc/dbcsr_redistribute.html'>dbcsr_redistribute</a>(matrix, redist)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Redistributes a DBCSR matrix.
+ The new distribution should have compatible row and column blocks.</p><a href="../proc/dbcsr_redistribute.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>matrix</strong></td><td><p>matrix to redistribute</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>redist</strong></td><td><p>redistributed matrix, which should already be created</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_datablock_redistribute"></span><h3>
+public subroutine <a href='../proc/dbcsr_datablock_redistribute.html'>dbcsr_datablock_redistribute</a>(dblk, row_p, col_i, blk_p, proc_nblks, proc_darea_sizes, new_matrix)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Redistributes data blocks of a DBCSR matrix read from a file.
+ This routine should be used with dbcsr_binary_read in the module
+ dbcsr_io.F</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dblk</strong></td><td><p>data blocks of the DBCSR matrix that the current node possesses after reading the data file</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>row_p</strong></td><td><p>row_p of the DBCSR matrix that the current node possesses after reading the data file
+ col_i of the DBCSR matrix that the current node possesses after reading the data file
+ blk_p of the DBCSR matrix that the current node possesses after reading the data file
+ 1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
+ current node of the present mp environment
+ 1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
+ read by the current node of the present mp environment</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>col_i</strong></td><td><p>row_p of the DBCSR matrix that the current node possesses after reading the data file
+ col_i of the DBCSR matrix that the current node possesses after reading the data file
+ blk_p of the DBCSR matrix that the current node possesses after reading the data file
+ 1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
+ current node of the present mp environment
+ 1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
+ read by the current node of the present mp environment</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>blk_p</strong></td><td><p>row_p of the DBCSR matrix that the current node possesses after reading the data file
+ col_i of the DBCSR matrix that the current node possesses after reading the data file
+ blk_p of the DBCSR matrix that the current node possesses after reading the data file
+ 1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
+ current node of the present mp environment
+ 1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
+ read by the current node of the present mp environment</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>proc_nblks</strong></td><td><p>row_p of the DBCSR matrix that the current node possesses after reading the data file
+ col_i of the DBCSR matrix that the current node possesses after reading the data file
+ blk_p of the DBCSR matrix that the current node possesses after reading the data file
+ 1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
+ current node of the present mp environment
+ 1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
+ read by the current node of the present mp environment</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>proc_darea_sizes</strong></td><td><p>row_p of the DBCSR matrix that the current node possesses after reading the data file
+ col_i of the DBCSR matrix that the current node possesses after reading the data file
+ blk_p of the DBCSR matrix that the current node possesses after reading the data file
+ 1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
+ current node of the present mp environment
+ 1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
+ read by the current node of the present mp environment</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>new_matrix</strong></td><td><p>redistributed matrix</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    </section>    
+    <br>
+    
+    
+    
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
+                                          </p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> DBCSR Library was developed by DBCSR Authors</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    
+  </body>
+</html>
