@@ -10,7 +10,7 @@
 MODULE dbcsr_api_c
 
    USE, INTRINSIC :: ISO_C_BINDING, ONLY: c_loc, c_ptr, c_double, C_NULL_CHAR, &
-      c_f_pointer, c_int, c_char, c_null_ptr, c_bool
+                                                                             c_f_pointer, c_int, c_char, c_null_ptr, c_bool
    USE dbcsr_api
    USE dbcsr_machine, ONLY: default_output_unit
 
@@ -161,7 +161,7 @@ CONTAINS
       CALL dbcsr_print(matrix)
 
       ! Fortran and C may use different buffers for I/O, make sure we flush before returning:
-      flush(default_output_unit)
+      flush (default_output_unit)
    END SUBROUTINE
 
    SUBROUTINE c_dbcsr_get_stored_coordinates(c_matrix, row, col, processor) bind(C, name="c_dbcsr_get_stored_coordinates")
@@ -173,7 +173,7 @@ CONTAINS
 
       CALL c_f_pointer(c_matrix, matrix)
 
-      CALL dbcsr_get_stored_coordinates(matrix, row+1, col+1, processor)
+      CALL dbcsr_get_stored_coordinates(matrix, row + 1, col + 1, processor)
    END SUBROUTINE
 
    SUBROUTINE c_dbcsr_put_block_d(c_matrix, row, col, block, block_length) bind(C, name="c_dbcsr_put_block_d")
@@ -185,7 +185,7 @@ CONTAINS
 
       CALL c_f_pointer(c_matrix, matrix)
 
-      CALL dbcsr_put_block(matrix, row+1, col+1, block)
+      CALL dbcsr_put_block(matrix, row + 1, col + 1, block)
    END SUBROUTINE
 
    SUBROUTINE c_dbcsr_multiply_d(transa, transb, alpha, c_matrix_a, c_matrix_b, beta, c_matrix_c, retain_sparsity) &

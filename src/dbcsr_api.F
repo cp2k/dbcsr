@@ -105,8 +105,8 @@ MODULE dbcsr_api
       dbcsr_trace_prv => dbcsr_trace, &
       dbcsr_dot_prv => dbcsr_dot, &
       dbcsr_triu_prv => dbcsr_triu, &
-      dbcsr_clear_prv => dbcsr_clear,&
-      dbcsr_add_block_node_prv => dbcsr_add_block_node,&
+      dbcsr_clear_prv => dbcsr_clear, &
+      dbcsr_add_block_node_prv => dbcsr_add_block_node, &
       dbcsr_conform_scalar_prv => dbcsr_conform_scalar
    USE dbcsr_test_methods, ONLY: dbcsr_reset_randmat_seed
    USE dbcsr_tests, ONLY: dbcsr_run_tests, &
@@ -660,6 +660,8 @@ CONTAINS
       CHARACTER, INTENT(OUT), OPTIONAL                   :: matrix_type
       INTEGER, INTENT(OUT), OPTIONAL                     :: data_type, group
 
+      TYPE(dbcsr_dist_prv_obj)                           :: dist
+
       CALL dbcsr_get_info_prv(matrix=matrix%prv, &
                               nblkrows_total=nblkrows_total, &
                               nblkcols_total=nblkcols_total, &
@@ -679,11 +681,16 @@ CONTAINS
                               col_blk_size=col_blk_size, &
                               row_blk_offset=row_blk_offset, &
                               col_blk_offset=col_blk_offset, &
-                              distribution=distribution%prv, &
+                              distribution=dist, &
                               name=name, &
                               matrix_type=matrix_type, &
                               data_type=data_type, &
                               group=group)
+
+      IF (PRESENT(distribution)) THEN
+         distribution%prv = dist
+      ENDIF
+
    END SUBROUTINE dbcsr_get_info
 
    SUBROUTINE dbcsr_distribution_get(dist, row_dist, col_dist, &
@@ -700,7 +707,7 @@ CONTAINS
       LOGICAL, INTENT(OUT), OPTIONAL                     :: subgroups_defined
       INTEGER, INTENT(OUT), OPTIONAL                     :: prow_group, pcol_group
 
-      call dbcsr_distribution_get_prv(dist % prv, row_dist, col_dist, &
+      call dbcsr_distribution_get_prv(dist%prv, row_dist, col_dist, &
                                       nrows, ncols, has_threads, &
                                       group, mynode, numnodes, nprows, npcols, myprow, mypcol, pgrid, &
                                       subgroups_defined, prow_group, pcol_group)
@@ -833,8 +840,13 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: row_dist, col_dist
       LOGICAL, INTENT(IN), OPTIONAL                      :: reuse_arrays
 
-      call dbcsr_distribution_new_prv(dist%prv, template%prv, group, pgrid, row_dist, col_dist, &
-                                      reuse_arrays)
+      IF (PRESENT(template)) THEN
+         call dbcsr_distribution_new_prv(dist%prv, template%prv, group, pgrid, row_dist, col_dist, &
+                                         reuse_arrays)
+      ELSE
+         call dbcsr_distribution_new_prv(dist%prv, group=group, pgrid=pgrid, row_dist=row_dist, col_dist=col_dist, &
+                                         reuse_arrays=reuse_arrays)
+      ENDIF
    END SUBROUTINE dbcsr_distribution_new
 
    SUBROUTINE dbcsr_print_statistics(print_timers, callgraph_filename)
@@ -896,11 +908,19 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: reuse_arrays, mutable_work
       CHARACTER, INTENT(IN), OPTIONAL                    :: replication_type
 
-      call dbcsr_create_prv(matrix%prv, template%prv, name, &
-                            dist%prv, matrix_type, &
-                            row_blk_size, col_blk_size, nze, data_type, &
-                            reuse_arrays=reuse_arrays, mutable_work=mutable_work, &
-                            replication_type=replication_type)
+      IF (PRESENT(dist)) THEN
+         CALL dbcsr_create_prv(matrix%prv, template%prv, name, &
+                               dist%prv, matrix_type, &
+                               row_blk_size, col_blk_size, nze, data_type, &
+                               reuse_arrays=reuse_arrays, mutable_work=mutable_work, &
+                               replication_type=replication_type)
+      ELSE
+         CALL dbcsr_create_prv(matrix%prv, template%prv, name, &
+                               matrix_type=matrix_type, &
+                               row_blk_size=row_blk_size, col_blk_size=col_blk_size, nze=nze, data_type=data_type, &
+                               reuse_arrays=reuse_arrays, mutable_work=mutable_work, &
+                               replication_type=replication_type)
+      ENDIF
    END SUBROUTINE dbcsr_create_template
 
    SUBROUTINE dbcsr_filter(matrix, eps, method, use_absolute, filter_diag)
@@ -973,9 +993,14 @@ CONTAINS
       TYPE(dbcsr_distribution_type), INTENT(IN), &
          OPTIONAL                                        :: use_distribution
 
-      CALL dbcsr_transposed_prv(transposed%prv, normal%prv, shallow_data_copy, &
-                                transpose_data, transpose_distribution, &
-                                use_distribution%prv)
+      IF (PRESENT(use_distribution)) THEN
+         CALL dbcsr_transposed_prv(transposed%prv, normal%prv, shallow_data_copy, &
+                                   transpose_data, transpose_distribution, &
+                                   use_distribution%prv)
+      ELSE
+         CALL dbcsr_transposed_prv(transposed%prv, normal%prv, shallow_data_copy, &
+                                   transpose_data, transpose_distribution)
+      ENDIF
    END SUBROUTINE dbcsr_transposed
 
    SUBROUTINE dbcsr_function_of_elements(matrix_a, func, a0, a1, a2)
@@ -1077,7 +1102,7 @@ CONTAINS
       REAL(KIND=dp), DIMENSION(:, :), POINTER            :: block
          !! the block to put
 
-      call dbcsr_add_block_node_prv(matrix%prv,  block_row, block_col, block)
+      call dbcsr_add_block_node_prv(matrix%prv, block_row, block_col, block)
    END SUBROUTINE dbcsr_add_block_node
 
 #:include 'data/dbcsr.fypp'
@@ -1090,7 +1115,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(IN)             :: matrix
       TYPE(dbcsr_scalar_type)                  :: encapsulated
 
-      encapsulated = dbcsr_conform_scalar_prv(scalar, matrix % prv)
+      encapsulated = dbcsr_conform_scalar_prv(scalar, matrix%prv)
    END FUNCTION make_conformant_scalar_${nametype1}$
 
    SUBROUTINE dbcsr_reserve_block2d_${nametype1}$ (matrix, row, col, block, transposed, existed)

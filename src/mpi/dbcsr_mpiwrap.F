@@ -118,11 +118,12 @@ MODULE dbcsr_mpiwrap
 
 #if defined(__parallel)
    ! internal reference counter used to debug communicator leaks
-   INTEGER, PRIVATE, SAVE :: debug_comm_count
+   INTEGER, PRIVATE, SAVE :: debug_comm_count = 0
 #endif
 
    ! init and error
    PUBLIC :: mp_world_init, mp_world_finalize
+   PUBLIC :: mp_get_comm_count
    PUBLIC :: mp_abort
 
    ! performance gathering
@@ -723,6 +724,16 @@ CONTAINS
 #endif
       CALL add_mp_perf_env()
    END SUBROUTINE mp_world_init
+
+   FUNCTION mp_get_comm_count()
+     !! Return the current number of communicators
+      INTEGER :: mp_get_comm_count
+
+      mp_get_comm_count = 0
+#if defined(__parallel)
+      mp_get_comm_count = debug_comm_count
+#endif
+   END FUNCTION mp_get_comm_count
 
    SUBROUTINE mp_reordering(mp_comm, mp_new_comm, ranks_order)
       !! re-create the system default communicator with a different MPI

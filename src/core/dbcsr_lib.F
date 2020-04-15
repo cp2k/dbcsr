@@ -25,12 +25,13 @@ MODULE dbcsr_lib
    USE dbcsr_mpiwrap, ONLY: add_mp_perf_env, &
                             describe_mp_perf_env, &
                             has_mp_perf_env, &
-                            mp_environ, mp_cart_rank,&
-                            rm_mp_perf_env,&
-                            mp_comm_free
+                            mp_environ, mp_cart_rank, &
+                            rm_mp_perf_env, &
+                            mp_comm_free, &
+                            mp_get_comm_count
    USE dbcsr_mm, ONLY: dbcsr_multiply_clear_mempools, &
                        dbcsr_multiply_lib_finalize, &
-                       dbcsr_multiply_lib_init,&
+                       dbcsr_multiply_lib_init, &
                        dbcsr_multiply_print_statistics
    USE dbcsr_timings, ONLY: add_timer_env, &
                             rm_timer_env, &
@@ -44,9 +45,9 @@ MODULE dbcsr_lib
                                  dbcsr_logger_type, &
                                  dbcsr_rm_default_logger
    USE dbcsr_base_hooks, ONLY: timeset_hook, &
-                               timestop_hook,&
-                               dbcsr_abort_hook,&
-                               dbcsr_warn_hook,&
+                               timestop_hook, &
+                               dbcsr_abort_hook, &
+                               dbcsr_warn_hook, &
                                dbcsr_abort_interface, dbcsr_warn_interface, &
                                timeset_interface, timestop_interface
    use dbcsr_types, only: dbcsr_mp_obj
@@ -71,6 +72,7 @@ MODULE dbcsr_lib
    PUBLIC :: dbcsr_print_statistics
 
    LOGICAL, PRIVATE, SAVE :: is_initialized = .FALSE.
+   LOGICAL, PRIVATE, SAVE :: check_comm_count = .FALSE.
 
    TYPE(dbcsr_logger_type), POINTER :: logger => Null()
    TYPE(dbcsr_mp_obj), SAVE         :: mp_env
@@ -134,10 +136,10 @@ CONTAINS
    END SUBROUTINE dbcsr_init_lib_def
 
    SUBROUTINE dbcsr_init_lib_hooks(mp_comm, &
-      !! Initialize the DBCSR library using external loggers and timer callbacks
                                    in_timeset_hook, in_timestop_hook, &
                                    in_abort_hook, in_warn_hook, io_unit, &
                                    accdrv_active_device_id)
+      !! Initialize the DBCSR library using external loggers and timer callbacks
       INTEGER, INTENT(IN)  :: mp_comm
       PROCEDURE(timeset_interface), INTENT(IN), POINTER :: in_timeset_hook
       PROCEDURE(timestop_interface), INTENT(IN), POINTER :: in_timestop_hook
@@ -185,6 +187,12 @@ CONTAINS
       ELSE
          ext_io_unit = 0
          IF (mynode .EQ. 0) ext_io_unit = default_output_unit
+      ENDIF
+
+      ! if MPI was not initialized in DBCSR, then need to check for the number of communicators
+      ! when we finalize DBCSR
+      IF (mp_get_comm_count() .EQ. 0) THEN
+         check_comm_count = .TRUE.
       ENDIF
       CALL dbcsr_mp_make_env(mp_env, default_group, mp_comm)
 
@@ -295,12 +303,12 @@ CONTAINS
          CALL dbcsr_rm_default_logger()
          CALL rm_mp_perf_env()
          CALL rm_timer_env()
-         NULLIFY(logger)
+         NULLIFY (logger)
       ENDIF
-      NULLIFY(timeset_hook)
-      NULLIFY(timestop_hook)
-      NULLIFY(dbcsr_abort_hook)
-      NULLIFY(dbcsr_warn_hook)
+      NULLIFY (timeset_hook)
+      NULLIFY (timestop_hook)
+      NULLIFY (dbcsr_abort_hook)
+      NULLIFY (dbcsr_warn_hook)
       CALL dbcsr_mp_release(mp_env)
       CALL mp_comm_free(default_group)
 #if defined(__LIBXSMM)
@@ -308,6 +316,11 @@ CONTAINS
 #endif
       ! Reset Acc ID
       CALL reset_accdrv_active_device_id()
+
+      ! Check the number of communicators
+      IF (check_comm_count .AND. mp_get_comm_count() .NE. 0) THEN
+         DBCSR_ABORT("Number of DBCSR sub-communicators is not zero!")
+      ENDIF
 
    END SUBROUTINE dbcsr_finalize_lib
 

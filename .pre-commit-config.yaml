@@ -1,19 +1,26 @@
 default_language_version:
     python: python3
 
-exclude: '^tools/(prettify/fprettify|build_utils/fypp)'
+exclude: '^tools/(build_utils/fypp)'
 fail_fast: false
 repos:
 - repo: https://github.com/ambv/black
   rev: stable
   hooks:
   - id: black
+- repo: https://gitlab.com/pycqa/flake8
+  rev: 3.7.9
+  hooks:
+  - id: flake8
 - repo: https://github.com/pre-commit/pre-commit-hooks
   rev: v2.5.0
   hooks:
-  - id: flake8
   - id: check-ast
   - id: check-yaml
+- repo: https://github.com/pseewald/fprettify
+  rev: v0.3.6
+  hooks:
+  - id: fprettify
 - repo: local
   hooks:
   - id: check-header

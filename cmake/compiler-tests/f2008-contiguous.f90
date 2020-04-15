@@ -15,7 +15,7 @@ program main
    integer, contiguous, pointer :: ptr(:)
 
    ! allocated data is always contiguous
-   allocate(targ(10))
+   allocate (targ(10))
    ptr => targ
 
    ! IS_CONTIGUOUS was implemented in gcc-9 and is therefore not tested for yet

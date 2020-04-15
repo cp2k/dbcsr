@@ -23,7 +23,8 @@ MODULE dbcsr_tas_test
    USE dbcsr_tas_types, ONLY: dbcsr_tas_distribution_type, &
                               dbcsr_tas_type
    USE dbcsr_tas_global, ONLY: dbcsr_tas_blk_size_arb, &
-                               dbcsr_tas_dist_cyclic
+                               dbcsr_tas_dist_cyclic, &
+                               dbcsr_tas_default_distvec
    USE dbcsr_tas_mm, ONLY: dbcsr_tas_multiply
    USE dbcsr_tas_split, ONLY: dbcsr_tas_mp_comm, &
                               dbcsr_tas_get_split_info
@@ -191,7 +192,7 @@ CONTAINS
       CALL timeset("benchmark_tas_mm", handle1)
       CALL dbcsr_tas_multiply(transa, transb, transc, dbcsr_scalar(1.0_real_8), matrix_a, matrix_b, &
                               dbcsr_scalar(0.0_real_8), matrix_c, &
-                              filter_eps=filter_eps, io_unit=io_unit)
+                              filter_eps=filter_eps, unit_nr=io_unit)
       CALL timestop(handle1)
       IF (PRESENT(io_unit)) THEN
       IF (io_unit > 0) THEN
@@ -208,12 +209,15 @@ CONTAINS
          npdims(:) = 0
          CALL mp_cart_create(mp_comm, 2, npdims, myploc, comm_dbcsr)
 
-         CALL random_dist(rd_a, dbcsr_nblkrows_total(dbcsr_a), npdims(1))
-         CALL random_dist(cd_a, dbcsr_nblkcols_total(dbcsr_a), npdims(2))
-         CALL random_dist(rd_b, dbcsr_nblkrows_total(dbcsr_b), npdims(1))
-         CALL random_dist(cd_b, dbcsr_nblkcols_total(dbcsr_b), npdims(2))
-         CALL random_dist(rd_c, dbcsr_nblkrows_total(dbcsr_c), npdims(1))
-         CALL random_dist(cd_c, dbcsr_nblkcols_total(dbcsr_c), npdims(2))
+         ALLOCATE (rd_a(dbcsr_nblkrows_total(dbcsr_a))); ALLOCATE (cd_a(dbcsr_nblkcols_total(dbcsr_a)))
+         ALLOCATE (rd_b(dbcsr_nblkrows_total(dbcsr_b))); ALLOCATE (cd_b(dbcsr_nblkcols_total(dbcsr_b)))
+         ALLOCATE (rd_c(dbcsr_nblkrows_total(dbcsr_c))); ALLOCATE (cd_c(dbcsr_nblkcols_total(dbcsr_c)))
+         CALL dbcsr_tas_default_distvec(INT(dbcsr_nblkrows_total(dbcsr_a)), npdims(1), dbcsr_row_block_sizes(dbcsr_a), rd_a)
+         CALL dbcsr_tas_default_distvec(INT(dbcsr_nblkcols_total(dbcsr_a)), npdims(2), dbcsr_col_block_sizes(dbcsr_a), cd_a)
+         CALL dbcsr_tas_default_distvec(INT(dbcsr_nblkrows_total(dbcsr_b)), npdims(1), dbcsr_row_block_sizes(dbcsr_b), rd_b)
+         CALL dbcsr_tas_default_distvec(INT(dbcsr_nblkcols_total(dbcsr_b)), npdims(2), dbcsr_col_block_sizes(dbcsr_b), cd_b)
+         CALL dbcsr_tas_default_distvec(INT(dbcsr_nblkrows_total(dbcsr_c)), npdims(1), dbcsr_row_block_sizes(dbcsr_c), rd_c)
+         CALL dbcsr_tas_default_distvec(INT(dbcsr_nblkcols_total(dbcsr_c)), npdims(2), dbcsr_col_block_sizes(dbcsr_c), cd_c)
 
          mp_environ_tmp = dbcsr_mp_environ(comm_dbcsr)
          CALL dbcsr_distribution_new(dist_a, mp_environ_tmp, rd_a, cd_a, reuse_arrays=.TRUE.)
@@ -291,12 +295,12 @@ CONTAINS
 
       CALL dbcsr_tas_get_split_info(dbcsr_tas_info(matrix_a), mp_comm=mp_comm)
       CALL mp_environ(numnodes, mynode, mp_comm)
-      io_unit = 0
+      io_unit = -1
       IF (mynode .EQ. 0) io_unit = unit_nr
 
       CALL dbcsr_tas_multiply(transa, transb, transc, dbcsr_scalar(1.0_real_8), matrix_a, matrix_b, &
                               dbcsr_scalar(0.0_real_8), matrix_c, &
-                              filter_eps=filter_eps, io_unit=io_unit, log_verbose=log_verbose, optimize_dist=.TRUE.)
+                              filter_eps=filter_eps, unit_nr=io_unit, log_verbose=log_verbose, optimize_dist=.TRUE.)
 
       CALL dbcsr_tas_convert_to_dbcsr(matrix_a, dbcsr_a)
       CALL dbcsr_tas_convert_to_dbcsr(matrix_b, dbcsr_b)
@@ -305,12 +309,15 @@ CONTAINS
       npdims(:) = 0
       CALL mp_cart_create(mp_comm, 2, npdims, myploc, comm_dbcsr)
 
-      CALL random_dist(rd_a, dbcsr_nblkrows_total(dbcsr_a), npdims(1))
-      CALL random_dist(cd_a, dbcsr_nblkcols_total(dbcsr_a), npdims(2))
-      CALL random_dist(rd_b, dbcsr_nblkrows_total(dbcsr_b), npdims(1))
-      CALL random_dist(cd_b, dbcsr_nblkcols_total(dbcsr_b), npdims(2))
-      CALL random_dist(rd_c, dbcsr_nblkrows_total(dbcsr_c), npdims(1))
-      CALL random_dist(cd_c, dbcsr_nblkcols_total(dbcsr_c), npdims(2))
+      ALLOCATE (rd_a(dbcsr_nblkrows_total(dbcsr_a))); ALLOCATE (cd_a(dbcsr_nblkcols_total(dbcsr_a)))
+      ALLOCATE (rd_b(dbcsr_nblkrows_total(dbcsr_b))); ALLOCATE (cd_b(dbcsr_nblkcols_total(dbcsr_b)))
+      ALLOCATE (rd_c(dbcsr_nblkrows_total(dbcsr_c))); ALLOCATE (cd_c(dbcsr_nblkcols_total(dbcsr_c)))
+      CALL dbcsr_tas_default_distvec(INT(dbcsr_nblkrows_total(dbcsr_a)), npdims(1), dbcsr_row_block_sizes(dbcsr_a), rd_a)
+      CALL dbcsr_tas_default_distvec(INT(dbcsr_nblkcols_total(dbcsr_a)), npdims(2), dbcsr_col_block_sizes(dbcsr_a), cd_a)
+      CALL dbcsr_tas_default_distvec(INT(dbcsr_nblkrows_total(dbcsr_b)), npdims(1), dbcsr_row_block_sizes(dbcsr_b), rd_b)
+      CALL dbcsr_tas_default_distvec(INT(dbcsr_nblkcols_total(dbcsr_b)), npdims(2), dbcsr_col_block_sizes(dbcsr_b), cd_b)
+      CALL dbcsr_tas_default_distvec(INT(dbcsr_nblkrows_total(dbcsr_c)), npdims(1), dbcsr_row_block_sizes(dbcsr_c), rd_c)
+      CALL dbcsr_tas_default_distvec(INT(dbcsr_nblkcols_total(dbcsr_c)), npdims(2), dbcsr_col_block_sizes(dbcsr_c), cd_c)
 
       mp_environ_tmp = dbcsr_mp_environ(comm_dbcsr)
       CALL dbcsr_distribution_new(dist_a, mp_environ_tmp, rd_a, cd_a, reuse_arrays=.TRUE.)
@@ -416,19 +423,5 @@ CONTAINS
          block_sizes(d) = sizes(size_i)
       ENDDO
    END SUBROUTINE
-
-   SUBROUTINE random_dist(dist_array, dist_size, nbins)
-      !! Create random distribution
-      INTEGER, DIMENSION(:), INTENT(out), POINTER        :: dist_array
-      INTEGER, INTENT(in)                                :: dist_size, nbins
-
-      INTEGER                                            :: i
-
-      ALLOCATE (dist_array(dist_size))
-      DO i = 1, dist_size
-         dist_array(i) = MODULO(nbins - i, nbins)
-      END DO
-
-   END SUBROUTINE random_dist
 
 END MODULE

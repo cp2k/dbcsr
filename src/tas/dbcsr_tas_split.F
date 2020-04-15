@@ -554,12 +554,12 @@ CONTAINS
 
       SELECT CASE (info%split_rowcol)
       CASE (rowsplit)
-         ASSOCIATE (rows=>dist%local_rowcols)
+         ASSOCIATE (rows => dist%local_rowcols)
             IF (PRESENT(row)) row = rows(row_group)
             IF (PRESENT(column)) column = column_group
          END ASSOCIATE
       CASE (colsplit)
-         ASSOCIATE (cols=>dist%local_rowcols)
+         ASSOCIATE (cols => dist%local_rowcols)
             IF (PRESENT(row)) row = row_group
             IF (PRESENT(column)) column = cols(column_group)
          END ASSOCIATE

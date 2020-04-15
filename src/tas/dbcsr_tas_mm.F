@@ -33,7 +33,7 @@ MODULE dbcsr_tas_mm
       dbcsr_tas_distribution_type, dbcsr_tas_split_info, dbcsr_tas_type, dbcsr_tas_iterator
    USE dbcsr_tas_global, ONLY: &
       dbcsr_tas_dist_cyclic, dbcsr_tas_dist_arb, dbcsr_tas_distribution, dbcsr_tas_dist_arb_default, &
-      dbcsr_tas_rowcol_data, dbcsr_tas_blk_size_one, cyclic_weighted_dist
+      dbcsr_tas_rowcol_data, dbcsr_tas_blk_size_one, dbcsr_tas_default_distvec
    USE dbcsr_tas_reshape_ops, ONLY: &
       dbcsr_tas_merge, dbcsr_tas_replicate, dbcsr_tas_reshape
    USE dbcsr_tas_split, ONLY: &
@@ -51,7 +51,7 @@ MODULE dbcsr_tas_mm
    USE dbcsr_operations, ONLY: &
       dbcsr_scale, dbcsr_get_info, dbcsr_copy, dbcsr_clear, dbcsr_add
    USE dbcsr_tas_io, ONLY: &
-      dbcsr_tas_write_dist, dbcsr_tas_write_matrix_info, dbcsr_tas_write_split_info
+      dbcsr_tas_write_dist, dbcsr_tas_write_matrix_info, dbcsr_tas_write_split_info, prep_output_unit
    USE dbcsr_work_operations, ONLY: dbcsr_create, dbcsr_finalize
    USE dbcsr_transformations, ONLY: dbcsr_redistribute
    USE dbcsr_dist_methods, ONLY: dbcsr_distribution_new
@@ -70,7 +70,7 @@ CONTAINS
 
    RECURSIVE SUBROUTINE dbcsr_tas_multiply(transa, transb, transc, alpha, matrix_a, matrix_b, beta, matrix_c, &
                                            optimize_dist, split_opt, filter_eps, flop, move_data_a, &
-                                           move_data_b, retain_sparsity, simple_split, result_index, io_unit, log_verbose)
+                                           move_data_b, retain_sparsity, simple_split, result_index, unit_nr, log_verbose)
       !! tall-and-skinny matrix-matrix multiplication. Undocumented dummy arguments are identical to
       !! arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).
 
@@ -92,8 +92,8 @@ CONTAINS
          !! memory optimization: move data to matrix_c such that matrix_a is empty on return
          !! memory optimization: move data to matrix_c such that matrix_b is empty on return
          !! for internal use only
-      INTEGER(int_8), DIMENSION(:,:), ALLOCATABLE, INTENT(OUT), OPTIONAL :: result_index
-      INTEGER, OPTIONAL, INTENT(IN)              :: io_unit
+      INTEGER(int_8), DIMENSION(:, :), ALLOCATABLE, INTENT(OUT), OPTIONAL :: result_index
+      INTEGER, OPTIONAL, INTENT(IN)              :: unit_nr
          !! unit number for logging output
       LOGICAL, OPTIONAL, INTENT(IN)              :: log_verbose
          !! only for testing: verbose output
@@ -106,7 +106,7 @@ CONTAINS
       INTEGER, DIMENSION(2)                      :: pdims, pcoord, pcoord_sub, pdims_sub
       INTEGER(KIND=int_8), DIMENSION(3)          :: dims
       INTEGER                                    :: max_mm_dim, data_type, mp_comm, comm_tmp, &
-                                                    handle, handle2, io_unit_prv, nsplit, nsplit_opt, numproc, numproc_sub, iproc, &
+                                                    handle, handle2, unit_nr_prv, nsplit, nsplit_opt, numproc, numproc_sub, iproc, &
                                                     mp_comm_group, mp_comm_mm, split_rc, split_a, split_b, split_c, &
                                                     mp_comm_opt, batched_repl, max_mm_dim_batched, nsplit_batched
       CHARACTER(LEN=1)                           :: tr_case, transa_prv, transb_prv, transc_prv
@@ -124,11 +124,7 @@ CONTAINS
 
       NULLIFY (matrix_b_rs, matrix_a_rs, matrix_c_rs, matrix_a_mm, matrix_b_mm, matrix_c_mm)
 
-      IF (PRESENT(io_unit)) THEN
-         io_unit_prv = io_unit
-      ELSE
-         io_unit_prv = 0
-      ENDIF
+      unit_nr_prv = prep_output_unit(unit_nr)
 
       IF (PRESENT(simple_split)) THEN
          simple_split_prv = simple_split
@@ -140,8 +136,8 @@ CONTAINS
       ENDIF
 
       nodata_3 = .TRUE.
-      IF(PRESENT(retain_sparsity)) THEN
-         IF(retain_sparsity) nodata_3 = .FALSE.
+      IF (PRESENT(retain_sparsity)) THEN
+         IF (retain_sparsity) nodata_3 = .FALSE.
       ENDIF
 
       ! get prestored info for multiplication strategy in case of batched mm
@@ -186,7 +182,7 @@ CONTAINS
          ENDIF
       ENDIF
 
-      IF(batched_repl > 0) THEN
+      IF (batched_repl > 0) THEN
          simple_split_save = simple_split_prv
          simple_split_prv = .TRUE.
       ENDIF
@@ -209,23 +205,20 @@ CONTAINS
       dims_b = [dbcsr_tas_nblkrows_total(matrix_b), dbcsr_tas_nblkcols_total(matrix_b)]
       dims_c = [dbcsr_tas_nblkrows_total(matrix_c), dbcsr_tas_nblkcols_total(matrix_c)]
 
-      IF (PRESENT(io_unit)) THEN
-         IF (io_unit_prv .GT. 0) THEN
-            WRITE (io_unit_prv, '(A)') repeat("-", 80)
-            WRITE (io_unit_prv, '(A,1X,A,1X,A,1X,A,1X,A,1X,A)') "DBCSR TAS MATRIX MULTIPLICATION:", &
-               TRIM(matrix_a%matrix%name), 'x', TRIM(matrix_b%matrix%name), '=', TRIM(matrix_c%matrix%name)
-            WRITE (io_unit_prv, '(A)') repeat("-", 80)
-         ENDIF
-         IF (do_batched) THEN
-            IF (io_unit_prv > 0) THEN
-               WRITE (io_unit_prv, "(T2,A)") &
-                  "BATCHED PROCESSING OF MATMUL"
-               IF (batched_repl > 0) THEN
-                  WRITE (io_unit_prv, "(T4,A,T80,I1)") "reusing replicated matrix:", batched_repl
-               ENDIF
+      IF (unit_nr_prv .GT. 0) THEN
+         WRITE (unit_nr_prv, '(A)') repeat("-", 80)
+         WRITE (unit_nr_prv, '(A,1X,A,1X,A,1X,A,1X,A,1X,A)') "DBCSR TAS MATRIX MULTIPLICATION:", &
+            TRIM(matrix_a%matrix%name), 'x', TRIM(matrix_b%matrix%name), '=', TRIM(matrix_c%matrix%name)
+         WRITE (unit_nr_prv, '(A)') repeat("-", 80)
+      ENDIF
+      IF (do_batched) THEN
+         IF (unit_nr_prv > 0) THEN
+            WRITE (unit_nr_prv, "(T2,A)") &
+               "BATCHED PROCESSING OF MATMUL"
+            IF (batched_repl > 0) THEN
+               WRITE (unit_nr_prv, "(T4,A,T80,I1)") "reusing replicated matrix:", batched_repl
             ENDIF
          ENDIF
-
       ENDIF
 
       IF (transa_prv .EQ. dbcsr_transpose) THEN
@@ -246,8 +239,8 @@ CONTAINS
 
       tr_case = ''
 
-      IF (io_unit_prv > 0) THEN
-         WRITE (io_unit_prv, "(T2,A, 1X, I12, 1X, I12, 1X, I12)") "mm dims:", dims(1), dims(2), dims(3)
+      IF (unit_nr_prv > 0) THEN
+         WRITE (unit_nr_prv, "(T2,A, 1X, I12, 1X, I12, 1X, I12)") "mm dims:", dims(1), dims(2), dims(3)
       ENDIF
 
       CALL dbcsr_tas_get_split_info(dbcsr_tas_info(matrix_a), mp_comm=mp_comm)
@@ -259,7 +252,7 @@ CONTAINS
          nze_b = dbcsr_tas_get_nze_total(matrix_b)
          CALL dbcsr_tas_result_index(transa, transb, transc, matrix_a, matrix_b, matrix_c, filter_eps, &
                                      blk_ind=result_index, nze=nze_c, retain_sparsity=retain_sparsity)
-         IF(PRESENT(result_index)) THEN
+         IF (PRESENT(result_index)) THEN
             CALL timestop(handle)
             RETURN
          ENDIF
@@ -268,24 +261,24 @@ CONTAINS
          nsplit = split_factor_estimate(max_mm_dim, nze_a, nze_b, nze_c, numproc)
          nsplit_opt = nsplit
 
-         IF (io_unit_prv > 0) THEN
-            WRITE (io_unit_prv, "(T2,A)") &
+         IF (unit_nr_prv > 0) THEN
+            WRITE (unit_nr_prv, "(T2,A)") &
                "MM PARAMETERS"
-            WRITE (io_unit_prv, "(T4,A,T68,I13)") "Est. number of matrix elements per CPU of result matrix:", &
+            WRITE (unit_nr_prv, "(T4,A,T68,I13)") "Est. number of matrix elements per CPU of result matrix:", &
                (nze_c + numproc - 1)/numproc
 
-            WRITE (io_unit_prv, "(T4,A,T68,I13)") "Est. optimal split factor:", nsplit
+            WRITE (unit_nr_prv, "(T4,A,T68,I13)") "Est. optimal split factor:", nsplit
          ENDIF
 
-      ELSEIF(batched_repl > 0) THEN
+      ELSEIF (batched_repl > 0) THEN
          nsplit = nsplit_batched
          nsplit_opt = nsplit
          max_mm_dim = max_mm_dim_batched
          simple_split_prv = simple_split_save
-         IF (io_unit_prv > 0) THEN
-            WRITE (io_unit_prv, "(T2,A)") &
+         IF (unit_nr_prv > 0) THEN
+            WRITE (unit_nr_prv, "(T2,A)") &
                "MM PARAMETERS"
-            WRITE (io_unit_prv, "(T4,A,T68,I13)") "Est. optimal split factor:", nsplit
+            WRITE (unit_nr_prv, "(T4,A,T68,I13)") "Est. optimal split factor:", nsplit
          ENDIF
 
       ELSE
@@ -305,7 +298,7 @@ CONTAINS
                                     opt_nsplit=batched_repl == 0, &
                                     split_rc_1=split_a, split_rc_2=split_c, &
                                     nodata2=nodata_3, comm_new=comm_tmp, &
-                                    move_data_1=move_a, unit_nr=io_unit)
+                                    move_data_1=move_a, unit_nr=unit_nr_prv)
 
          info = dbcsr_tas_info(matrix_a_rs)
          CALL dbcsr_tas_get_split_info(info, split_rowcol=split_rc, mp_comm=mp_comm)
@@ -319,11 +312,11 @@ CONTAINS
 
          tr_case = transa_prv
 
-         IF (io_unit_prv > 0) THEN
+         IF (unit_nr_prv > 0) THEN
             IF (tr_case == 'N') THEN
-               WRITE (io_unit_prv, "(T2,A, 1X, A)") "mm case:", "| x + = |"
+               WRITE (unit_nr_prv, "(T2,A, 1X, A)") "mm case:", "| x + = |"
             ELSE
-               WRITE (io_unit_prv, "(T2,A, 1X, A)") "mm case:", "--T x + = --T"
+               WRITE (unit_nr_prv, "(T2,A, 1X, A)") "mm case:", "--T x + = --T"
             ENDIF
          ENDIF
 
@@ -336,7 +329,7 @@ CONTAINS
                                     opt_nsplit=batched_repl == 0, &
                                     split_rc_1=split_a, split_rc_2=split_b, &
                                     comm_new=comm_tmp, &
-                                    move_data_1=move_a, move_data_2=move_b, unit_nr=io_unit)
+                                    move_data_1=move_a, move_data_2=move_b, unit_nr=unit_nr_prv)
 
          info = dbcsr_tas_info(matrix_a_rs)
          CALL dbcsr_tas_get_split_info(info, split_rowcol=split_rc, mp_comm=mp_comm)
@@ -354,11 +347,11 @@ CONTAINS
          new_c = matrix_c%do_batched == 0
          tr_case = transa_prv
 
-         IF (io_unit_prv > 0) THEN
+         IF (unit_nr_prv > 0) THEN
             IF (tr_case == 'N') THEN
-               WRITE (io_unit_prv, "(T2,A, 1X, A)") "mm case:", "-- x --T = +"
+               WRITE (unit_nr_prv, "(T2,A, 1X, A)") "mm case:", "-- x --T = +"
             ELSE
-               WRITE (io_unit_prv, "(T2,A, 1X, A)") "mm case:", "|T x | = +"
+               WRITE (unit_nr_prv, "(T2,A, 1X, A)") "mm case:", "|T x | = +"
             ENDIF
          ENDIF
 
@@ -371,7 +364,7 @@ CONTAINS
                                     opt_nsplit=batched_repl == 0, &
                                     split_rc_1=split_b, split_rc_2=split_c, &
                                     nodata2=nodata_3, comm_new=comm_tmp, &
-                                    move_data_1=move_b, unit_nr=io_unit)
+                                    move_data_1=move_b, unit_nr=unit_nr_prv)
          info = dbcsr_tas_info(matrix_b_rs)
          CALL dbcsr_tas_get_split_info(info, split_rowcol=split_rc, mp_comm=mp_comm)
 
@@ -384,11 +377,11 @@ CONTAINS
 
          tr_case = transb_prv
 
-         IF (io_unit_prv > 0) THEN
+         IF (unit_nr_prv > 0) THEN
             IF (tr_case == 'N') THEN
-               WRITE (io_unit_prv, "(T2,A, 1X, A)") "mm case:", "+ x -- = --"
+               WRITE (unit_nr_prv, "(T2,A, 1X, A)") "mm case:", "+ x -- = --"
             ELSE
-               WRITE (io_unit_prv, "(T2,A, 1X, A)") "mm case:", "+ x |T = |T"
+               WRITE (unit_nr_prv, "(T2,A, 1X, A)") "mm case:", "+ x |T = |T"
             ENDIF
          ENDIF
 
@@ -411,19 +404,19 @@ CONTAINS
          filter_eps_prv = 0.0_real_8
       ENDIF
 
-      IF (PRESENT(io_unit)) THEN
-         IF (io_unit_prv > 0) THEN
-            WRITE (io_unit_prv, "(T2, A)") "SPLIT / PARALLELIZATION INFO"
+      IF (unit_nr_prv /= 0) THEN
+         IF (unit_nr_prv > 0) THEN
+            WRITE (unit_nr_prv, "(T2, A)") "SPLIT / PARALLELIZATION INFO"
          ENDIF
-         CALL dbcsr_tas_write_split_info(info, io_unit_prv)
-         IF(ASSOCIATED(matrix_a_rs)) CALL dbcsr_tas_write_matrix_info(matrix_a_rs, io_unit_prv, full_info=log_verbose)
-         IF(ASSOCIATED(matrix_b_rs)) CALL dbcsr_tas_write_matrix_info(matrix_b_rs, io_unit_prv, full_info=log_verbose)
-         IF(ASSOCIATED(matrix_c_rs)) CALL dbcsr_tas_write_matrix_info(matrix_c_rs, io_unit_prv, full_info=log_verbose)
-         IF (io_unit_prv > 0) THEN
+         CALL dbcsr_tas_write_split_info(info, unit_nr_prv)
+         IF (ASSOCIATED(matrix_a_rs)) CALL dbcsr_tas_write_matrix_info(matrix_a_rs, unit_nr_prv, full_info=log_verbose)
+         IF (ASSOCIATED(matrix_b_rs)) CALL dbcsr_tas_write_matrix_info(matrix_b_rs, unit_nr_prv, full_info=log_verbose)
+         IF (ASSOCIATED(matrix_c_rs)) CALL dbcsr_tas_write_matrix_info(matrix_c_rs, unit_nr_prv, full_info=log_verbose)
+         IF (unit_nr_prv > 0) THEN
             IF (opt_pgrid) THEN
-               WRITE (io_unit_prv, "(T4, A, 1X, A)") "Change process grid:", "Yes"
+               WRITE (unit_nr_prv, "(T4, A, 1X, A)") "Change process grid:", "Yes"
             ELSE
-               WRITE (io_unit_prv, "(T4, A, 1X, A)") "Change process grid:", "No"
+               WRITE (unit_nr_prv, "(T4, A, 1X, A)") "Change process grid:", "No"
             ENDIF
          ENDIF
       ENDIF
@@ -451,9 +444,9 @@ CONTAINS
             CALL dbcsr_tas_destroy(matrix_b_rs)
             DEALLOCATE (matrix_b_rs)
          ENDIF
-         IF (PRESENT(io_unit)) THEN
-            CALL dbcsr_tas_write_dist(matrix_a_rs, io_unit)
-            CALL dbcsr_tas_write_dist(matrix_b_rep, io_unit, full_info=log_verbose)
+         IF (unit_nr_prv /= 0) THEN
+            CALL dbcsr_tas_write_dist(matrix_a_rs, unit_nr_prv)
+            CALL dbcsr_tas_write_dist(matrix_b_rep, unit_nr_prv, full_info=log_verbose)
          ENDIF
 
          CALL convert_to_new_pgrid(mp_comm_mm, matrix_a_rs%matrix, matrix_a_mm, optimize_pgrid=opt_pgrid, move_data=move_a)
@@ -512,8 +505,8 @@ CONTAINS
 
          IF (PRESENT(filter_eps)) CALL dbcsr_tas_filter(matrix_c_rs, filter_eps)
 
-         IF (PRESENT(io_unit)) THEN
-            CALL dbcsr_tas_write_dist(matrix_c_rs, io_unit)
+         IF (unit_nr_prv /= 0) THEN
+            CALL dbcsr_tas_write_dist(matrix_c_rs, unit_nr_prv)
          ENDIF
 
       CASE (2)
@@ -528,9 +521,9 @@ CONTAINS
             matrix_c_rep => matrix_c%mm_storage%store_batched_repl
          ENDIF
 
-         IF (PRESENT(io_unit)) THEN
-            CALL dbcsr_tas_write_dist(matrix_a_rs, io_unit)
-            CALL dbcsr_tas_write_dist(matrix_b_rs, io_unit)
+         IF (unit_nr_prv /= 0) THEN
+            CALL dbcsr_tas_write_dist(matrix_a_rs, unit_nr_prv)
+            CALL dbcsr_tas_write_dist(matrix_b_rs, unit_nr_prv)
          ENDIF
 
          CALL convert_to_new_pgrid(mp_comm_mm, matrix_a_rs%matrix, matrix_a_mm, optimize_pgrid=opt_pgrid, move_data=move_a)
@@ -567,8 +560,8 @@ CONTAINS
             IF (new_b) DEALLOCATE (matrix_b_rs)
          ENDIF
 
-         IF (PRESENT(io_unit)) THEN
-            CALL dbcsr_tas_write_dist(matrix_c_rep, io_unit, full_info=log_verbose)
+         IF (unit_nr_prv /= 0) THEN
+            CALL dbcsr_tas_write_dist(matrix_c_rep, unit_nr_prv, full_info=log_verbose)
          ENDIF
 
          IF (matrix_c%do_batched == 0) THEN
@@ -598,9 +591,9 @@ CONTAINS
             CALL dbcsr_tas_destroy(matrix_a_rs)
             DEALLOCATE (matrix_a_rs)
          ENDIF
-         IF (PRESENT(io_unit)) THEN
-            CALL dbcsr_tas_write_dist(matrix_a_rep, io_unit, full_info=log_verbose)
-            CALL dbcsr_tas_write_dist(matrix_b_rs, io_unit)
+         IF (unit_nr_prv /= 0) THEN
+            CALL dbcsr_tas_write_dist(matrix_a_rep, unit_nr_prv, full_info=log_verbose)
+            CALL dbcsr_tas_write_dist(matrix_b_rs, unit_nr_prv)
          ENDIF
 
          CALL convert_to_new_pgrid(mp_comm_mm, matrix_a_rep%matrix, matrix_a_mm, optimize_pgrid=opt_pgrid, &
@@ -608,7 +601,7 @@ CONTAINS
 
          IF (opt_pgrid .AND. matrix_a%do_batched == 0) THEN
             CALL dbcsr_tas_destroy(matrix_a_rep)
-            DEALLOCATE(matrix_a_rep)
+            DEALLOCATE (matrix_a_rep)
          ENDIF
 
          CALL convert_to_new_pgrid(mp_comm_mm, matrix_b_rs%matrix, matrix_b_mm, optimize_pgrid=opt_pgrid, move_data=move_b)
@@ -658,8 +651,8 @@ CONTAINS
 
          IF (PRESENT(filter_eps)) CALL dbcsr_tas_filter(matrix_c_rs, filter_eps)
 
-         IF (PRESENT(io_unit)) THEN
-            CALL dbcsr_tas_write_dist(matrix_c_rs, io_unit)
+         IF (unit_nr_prv /= 0) THEN
+            CALL dbcsr_tas_write_dist(matrix_c_rs, unit_nr_prv)
          ENDIF
       END SELECT
 
@@ -690,10 +683,10 @@ CONTAINS
       ENDIF
 
       IF (PRESENT(move_data_a)) THEN
-         IF(move_data_a) CALL dbcsr_tas_clear(matrix_a)
+         IF (move_data_a) CALL dbcsr_tas_clear(matrix_a)
       ENDIF
       IF (PRESENT(move_data_b)) THEN
-         IF(move_data_b) CALL dbcsr_tas_clear(matrix_b)
+         IF (move_data_b) CALL dbcsr_tas_clear(matrix_b)
       ENDIF
 
       IF (PRESENT(flop)) THEN
@@ -704,10 +697,10 @@ CONTAINS
       IF (PRESENT(optimize_dist)) THEN
          IF (optimize_dist) CALL mp_comm_free(comm_tmp)
       ENDIF
-      IF (io_unit_prv > 0) THEN
-         WRITE (io_unit_prv, '(A)') repeat("-", 80)
-         WRITE (io_unit_prv, '(A,1X,A,1X,A,1X,A,1X,A,1X,A)') "TAS MATRIX MULTIPLICATION DONE"
-         WRITE (io_unit_prv, '(A)') repeat("-", 80)
+      IF (unit_nr_prv > 0) THEN
+         WRITE (unit_nr_prv, '(A)') repeat("-", 80)
+         WRITE (unit_nr_prv, '(A,1X,A,1X,A,1X,A,1X,A,1X,A)') "TAS MATRIX MULTIPLICATION DONE"
+         WRITE (unit_nr_prv, '(A)') repeat("-", 80)
       ENDIF
 
       CALL timestop(handle)
@@ -834,7 +827,7 @@ CONTAINS
       INTEGER(KIND=int_8)                        :: d1, d2
       CHARACTER(LEN=*), PARAMETER                :: routineN = 'reshape_mm_compatible', &
                                                     routineP = moduleN//':'//routineN
-      INTEGER                                    :: handle, mp_comm, numnodes, io_unit, &
+      INTEGER                                    :: handle, mp_comm, numnodes, unit_nr_prv, &
                                                     nsplit_prv, ref, split_rc_ref
       INTEGER, DIMENSION(2)                      :: pcoord, pdims
       LOGICAL                                    :: optimize_dist_prv, trans1_newdist, trans2_newdist
@@ -859,12 +852,9 @@ CONTAINS
          nodata2_prv = .FALSE.
       ENDIF
 
+      unit_nr_prv = prep_output_unit(unit_nr)
+
       NULLIFY (matrix1_out, matrix2_out)
-      IF (PRESENT(unit_nr)) THEN
-         io_unit = unit_nr
-      ELSE
-         io_unit = 0
-      ENDIF
 
       IF (PRESENT(optimize_dist)) THEN
          optimize_dist_prv = optimize_dist
@@ -906,25 +896,25 @@ CONTAINS
                            move_data=move_data_1, nodata=nodata1, opt_nsplit=opt_nsplit)
          CALL change_split(matrix2_in, matrix2_out, nsplit_prv, split_rc_2, new2, &
                            move_data=move_data_2, nodata=nodata2, opt_nsplit=opt_nsplit)
-         IF (io_unit > 0) THEN
-            WRITE (io_unit, "(T2,A,1X,A,1X,A,1X,A)") "No redistribution of", TRIM(matrix1_in%matrix%name), &
+         IF (unit_nr_prv > 0) THEN
+            WRITE (unit_nr_prv, "(T2,A,1X,A,1X,A,1X,A)") "No redistribution of", TRIM(matrix1_in%matrix%name), &
                "and", TRIM(matrix2_in%matrix%name)
             IF (new1) THEN
-               WRITE (io_unit, "(T2,A,1X,A,1X,A)") "Change split factor of", TRIM(matrix1_in%matrix%name), ": Yes"
+               WRITE (unit_nr_prv, "(T2,A,1X,A,1X,A)") "Change split factor of", TRIM(matrix1_in%matrix%name), ": Yes"
             ELSE
-               WRITE (io_unit, "(T2,A,1X,A,1X,A)") "Change split factor of", TRIM(matrix1_in%matrix%name), ": No"
+               WRITE (unit_nr_prv, "(T2,A,1X,A,1X,A)") "Change split factor of", TRIM(matrix1_in%matrix%name), ": No"
             ENDIF
             IF (new2) THEN
-               WRITE (io_unit, "(T2,A,1X,A,1X,A)") "Change split factor of", TRIM(matrix2_in%matrix%name), ": Yes"
+               WRITE (unit_nr_prv, "(T2,A,1X,A,1X,A)") "Change split factor of", TRIM(matrix2_in%matrix%name), ": Yes"
             ELSE
-               WRITE (io_unit, "(T2,A,1X,A,1X,A)") "Change split factor of", TRIM(matrix2_in%matrix%name), ": No"
+               WRITE (unit_nr_prv, "(T2,A,1X,A,1X,A)") "Change split factor of", TRIM(matrix2_in%matrix%name), ": No"
             ENDIF
          ENDIF
       ELSE
 
          IF (optimize_dist_prv) THEN
-            IF (io_unit > 0) THEN
-               WRITE (io_unit, "(T2,A,1X,A,1X,A,1X,A)") "Optimizing distribution of", TRIM(matrix1_in%matrix%name), &
+            IF (unit_nr_prv > 0) THEN
+               WRITE (unit_nr_prv, "(T2,A,1X,A,1X,A,1X,A)") "Optimizing distribution of", TRIM(matrix1_in%matrix%name), &
                   "and", TRIM(matrix2_in%matrix%name)
             ENDIF
 
@@ -1002,8 +992,8 @@ CONTAINS
          ELSE
             SELECT CASE (ref)
             CASE (1)
-               IF (io_unit > 0) THEN
-                  WRITE (io_unit, "(T2,A,1X,A)") "Redistribution of", TRIM(matrix2_in%matrix%name)
+               IF (unit_nr_prv > 0) THEN
+                  WRITE (unit_nr_prv, "(T2,A,1X,A)") "Redistribution of", TRIM(matrix2_in%matrix%name)
                ENDIF
 
                CALL change_split(matrix1_in, matrix1_out, nsplit_prv, split_rc_1, new1, &
@@ -1014,8 +1004,8 @@ CONTAINS
                                         nodata=nodata2, move_data=move_data_2)
                new2 = .TRUE.
             CASE (2)
-               IF (io_unit > 0) THEN
-                  WRITE (io_unit, "(T2,A,1X,A)") "Redistribution of", TRIM(matrix1_in%matrix%name)
+               IF (unit_nr_prv > 0) THEN
+                  WRITE (unit_nr_prv, "(T2,A,1X,A)") "Redistribution of", TRIM(matrix1_in%matrix%name)
                ENDIF
 
                CALL change_split(matrix2_in, matrix2_out, nsplit_prv, split_rc_2, new2, &
@@ -1127,32 +1117,28 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-   FUNCTION dist_compatible(mat_a, mat_b, split_rc_a, split_rc_b, io_unit)
+   FUNCTION dist_compatible(mat_a, mat_b, split_rc_a, split_rc_b, unit_nr)
       !! Check whether matrices have same distribution and same split.
       TYPE(dbcsr_tas_type), INTENT(IN)           :: mat_a, mat_b
       INTEGER, INTENT(IN)                        :: split_rc_a, split_rc_b
-      INTEGER, INTENT(IN), OPTIONAL              :: io_unit
+      INTEGER, INTENT(IN), OPTIONAL              :: unit_nr
       LOGICAL                                    :: dist_compatible
 
       INTEGER                                    :: res, same_local_rowcols, split_check
       TYPE(dbcsr_tas_split_info)                 :: info_a, info_b
-      INTEGER                                    :: io_unit_prv, numproc
+      INTEGER                                    :: unit_nr_prv, numproc
       INTEGER, DIMENSION(2)                      :: pdims_a, pdims_b, pcoord_a, pcoord_b
 
-      IF (PRESENT(io_unit)) THEN
-         io_unit_prv = io_unit
-      ELSE
-         io_unit_prv = 0
-      ENDIF
+      unit_nr_prv = prep_output_unit(unit_nr)
 
       dist_compatible = .FALSE.
 
       info_a = dbcsr_tas_info(mat_a)
       info_b = dbcsr_tas_info(mat_b)
       CALL dbcsr_tas_get_split_info(info_a, split_rowcol=split_check)
-      IF(split_check /= split_rc_a) RETURN
+      IF (split_check /= split_rc_a) RETURN
       CALL dbcsr_tas_get_split_info(info_b, split_rowcol=split_check)
-      IF(split_check /= split_rc_b) RETURN
+      IF (split_check /= split_rc_b) RETURN
 
       ! check if communicators are equivalent (global process grid and subgrids)
       ! Note: mpi_comm_compare is not sufficient since this does not compare associated Cartesian grids.
@@ -1168,34 +1154,34 @@ CONTAINS
          RETURN
       ENDIF
 
-      IF (io_unit_prv > 0) THEN
-         WRITE (io_unit_prv, *) "mp comm compatible"
+      IF (unit_nr_prv > 0) THEN
+         WRITE (unit_nr_prv, *) "mp comm compatible"
       ENDIF
 
       IF (mat_a%dist%info%split_rowcol == mat_b%dist%info%split_rowcol) THEN
 
-         IF (io_unit_prv > 0) THEN
-            WRITE (io_unit_prv, *) "split compatible"
+         IF (unit_nr_prv > 0) THEN
+            WRITE (unit_nr_prv, *) "split compatible"
          ENDIF
 
          same_local_rowcols = MERGE(1, 0, array_eq(mat_a%dist%local_rowcols, mat_b%dist%local_rowcols))
          CALL mp_sum(same_local_rowcols, info_a%mp_comm)
 
          IF (same_local_rowcols == numproc) THEN
-            IF (io_unit_prv > 0) THEN
-               WRITE (io_unit_prv, *) "local rowcols compatible"
+            IF (unit_nr_prv > 0) THEN
+               WRITE (unit_nr_prv, *) "local rowcols compatible"
             ENDIF
             dist_compatible = .TRUE.
          ELSE
-            IF (io_unit_prv > 0) THEN
-               WRITE (io_unit_prv, *) "local rowcols A", mat_a%dist%local_rowcols
-               WRITE (io_unit_prv, *) "local rowcols B", mat_b%dist%local_rowcols
+            IF (unit_nr_prv > 0) THEN
+               WRITE (unit_nr_prv, *) "local rowcols A", mat_a%dist%local_rowcols
+               WRITE (unit_nr_prv, *) "local rowcols B", mat_b%dist%local_rowcols
             ENDIF
          ENDIF
       ENDIF
 
-      IF (io_unit_prv > 0) THEN
-         WRITE (io_unit_prv, *) "is compatible?", dist_compatible
+      IF (unit_nr_prv > 0) THEN
+         WRITE (unit_nr_prv, *) "is compatible?", dist_compatible
       ENDIF
 
    END FUNCTION
@@ -1281,15 +1267,15 @@ CONTAINS
    END SUBROUTINE
 
    SUBROUTINE dbcsr_tas_result_index(transa, transb, transc, matrix_a, matrix_b, matrix_c, filter_eps, &
-                                     io_unit, blk_ind, nze, retain_sparsity)
+                                     unit_nr, blk_ind, nze, retain_sparsity)
       !! Estimate sparsity pattern of C resulting from A x B = C by multiplying the block norms of A and B
       !! Same dummy arguments as dbcsr_tas_multiply
       CHARACTER(LEN=1), INTENT(IN)               :: transa, transb, transc
       TYPE(dbcsr_tas_type), INTENT(INOUT), TARGET        :: matrix_a, matrix_b, matrix_c
       TYPE(dbcsr_tas_type), POINTER                      :: matrix_a_bnorm, matrix_b_bnorm, matrix_c_bnorm
       REAL(KIND=real_8), INTENT(IN), OPTIONAL    :: filter_eps
-      INTEGER, INTENT(IN), OPTIONAL              :: io_unit
-      INTEGER(int_8), DIMENSION(:,:), ALLOCATABLE, INTENT(OUT), OPTIONAL :: blk_ind
+      INTEGER, INTENT(IN), OPTIONAL              :: unit_nr
+      INTEGER(int_8), DIMENSION(:, :), ALLOCATABLE, INTENT(OUT), OPTIONAL :: blk_ind
       LOGICAL, INTENT(IN), OPTIONAL :: retain_sparsity
       INTEGER(int_8), INTENT(OUT), OPTIONAL :: nze
 
@@ -1302,14 +1288,14 @@ CONTAINS
 
       CALL timeset(routineN, handle)
 
-      IF(PRESENT(retain_sparsity)) THEN
+      IF (PRESENT(retain_sparsity)) THEN
          retain_sparsity_prv = retain_sparsity
       ELSE
          retain_sparsity_prv = .FALSE.
       ENDIF
 
       IF (.NOT. retain_sparsity_prv) THEN
-         ALLOCATE(matrix_a_bnorm, matrix_b_bnorm, matrix_c_bnorm)
+         ALLOCATE (matrix_a_bnorm, matrix_b_bnorm, matrix_c_bnorm)
          CALL create_block_norms_matrix(matrix_a, matrix_a_bnorm)
          CALL create_block_norms_matrix(matrix_b, matrix_b_bnorm)
          CALL create_block_norms_matrix(matrix_c, matrix_c_bnorm, nodata=.TRUE.)
@@ -1317,37 +1303,37 @@ CONTAINS
          CALL dbcsr_tas_multiply(transa, transb, transc, dbcsr_scalar(1.0_real_8), matrix_a_bnorm, &
                                  matrix_b_bnorm, dbcsr_scalar(0.0_real_8), matrix_c_bnorm, &
                                  filter_eps=filter_eps, move_data_a=.TRUE., move_data_b=.TRUE., &
-                                 simple_split=.TRUE., io_unit=io_unit)
+                                 simple_split=.TRUE., unit_nr=unit_nr)
          CALL dbcsr_tas_destroy(matrix_a_bnorm)
          CALL dbcsr_tas_destroy(matrix_b_bnorm)
 
-         DEALLOCATE(matrix_a_bnorm, matrix_b_bnorm)
+         DEALLOCATE (matrix_a_bnorm, matrix_b_bnorm)
       ELSE
          matrix_c_bnorm => matrix_c
       ENDIF
 
       nblk = dbcsr_tas_get_num_blocks(matrix_c_bnorm)
-      IF(PRESENT(blk_ind)) ALLOCATE(blk_ind(nblk, 2))
+      IF (PRESENT(blk_ind)) ALLOCATE (blk_ind(nblk, 2))
 
       CALL dbcsr_tas_iterator_start(iter, matrix_c_bnorm)
-      IF(PRESENT(nze)) nze = 0
-      DO iblk=1,nblk
+      IF (PRESENT(nze)) nze = 0
+      DO iblk = 1, nblk
          CALL dbcsr_tas_iterator_next_block(iter, row, col, bn)
          row_size = matrix_c%row_blk_size%data(row)
          col_size = matrix_c%col_blk_size%data(col)
-         IF(PRESENT(nze)) nze = nze + row_size*col_size
-         IF(PRESENT(blk_ind)) blk_ind(iblk, :) = [row, col]
+         IF (PRESENT(nze)) nze = nze + row_size*col_size
+         IF (PRESENT(blk_ind)) blk_ind(iblk, :) = [row, col]
       ENDDO
       CALL dbcsr_tas_iterator_stop(iter)
 
-      IF(PRESENT(nze)) THEN
+      IF (PRESENT(nze)) THEN
          CALL dbcsr_tas_get_split_info(dbcsr_tas_info(matrix_a), mp_comm=mp_comm)
          CALL mp_sum(nze, mp_comm)
       ENDIF
 
       IF (.NOT. retain_sparsity_prv) THEN
          CALL dbcsr_tas_destroy(matrix_c_bnorm)
-         DEALLOCATE(matrix_c_bnorm)
+         DEALLOCATE (matrix_c_bnorm)
       ENDIF
 
       CALL timestop(handle)
@@ -1371,14 +1357,14 @@ CONTAINS
       INTEGER                                     :: nsplit, nsplit_comm, nsplit_memory
       INTEGER(KIND=int_8)                         :: max_nze, min_nze
 
-      SELECT CASE(max_mm_dim)
-      CASE(1)
+      SELECT CASE (max_mm_dim)
+      CASE (1)
          min_nze = MAX(nze_b, 1_int_8)
          max_nze = MAX(MAXVAL([nze_a, nze_c]), 1_int_8)
-      CASE(2)
+      CASE (2)
          min_nze = MAX(nze_c, 1_int_8)
          max_nze = MAX(MAXVAL([nze_a, nze_b]), 1_int_8)
-      CASE(3)
+      CASE (3)
          min_nze = MAX(nze_a, 1_int_8)
          max_nze = MAX(MAXVAL([nze_b, nze_c]), 1_int_8)
       CASE DEFAULT
@@ -1386,7 +1372,7 @@ CONTAINS
       END SELECT
 
       nsplit_comm = NINT((REAL(nze_a + nze_b, real_8)/(2*min_nze))**(2._real_8/3)*REAL(numnodes, real_8)**(1._real_8/3))
-      IF(nsplit_comm == 0) nsplit_comm = 1
+      IF (nsplit_comm == 0) nsplit_comm = 1
 
       ! nsplit_memory protects against excess memory usage
       ! actual split factor may be up to default_nsplit_accept_ratio_1 times larger, so the largest nsplit
@@ -1507,8 +1493,8 @@ CONTAINS
       CALL mp_environ(nproc, pdims, pcoord, mp_comm_cart)
 
       ALLOCATE (row_dist(nbrows), col_dist(nbcols))
-      CALL cyclic_weighted_dist(nbrows, pdims(1), rbsize, row_dist)
-      CALL cyclic_weighted_dist(nbcols, pdims(2), rcsize, col_dist)
+      CALL dbcsr_tas_default_distvec(nbrows, pdims(1), rbsize, row_dist)
+      CALL dbcsr_tas_default_distvec(nbcols, pdims(2), rcsize, col_dist)
 
       mp_obj = dbcsr_mp_environ(mp_comm_cart)
       CALL dbcsr_distribution_new(dist, mp_obj, row_dist, col_dist, reuse_arrays=.TRUE.)
@@ -1530,7 +1516,7 @@ CONTAINS
    SUBROUTINE dbcsr_tas_batched_mm_init(matrix)
       TYPE(dbcsr_tas_type), INTENT(INOUT) :: matrix
       matrix%do_batched = 1
-      ALLOCATE(matrix%mm_storage)
+      ALLOCATE (matrix%mm_storage)
       matrix%mm_storage%batched_out = .FALSE.
    END SUBROUTINE
 
@@ -1538,7 +1524,7 @@ CONTAINS
       TYPE(dbcsr_tas_type), INTENT(INOUT) :: matrix
 
       IF (matrix%do_batched == 0) RETURN
-      ASSOCIATE (storage=>matrix%mm_storage)
+      ASSOCIATE (storage => matrix%mm_storage)
          IF (storage%batched_out) THEN
             CALL dbcsr_tas_merge(storage%store_batched%matrix, storage%store_batched_repl, move_data=.TRUE.)
             CALL dbcsr_scale(matrix%matrix, storage%batched_beta)
@@ -1556,7 +1542,7 @@ CONTAINS
          storage%batched_out = .FALSE.
       END ASSOCIATE
 
-      DEALLOCATE(matrix%mm_storage)
+      DEALLOCATE (matrix%mm_storage)
       matrix%do_batched = 0
 
    END SUBROUTINE

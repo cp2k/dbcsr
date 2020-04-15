@@ -50,6 +50,7 @@ endif ()
 
 project(dbcsr DESCRIPTION "DBCSR: Distributed Block Compressed Sparse Row matrix library (https://dbcsr.cp2k.org)")
 set(dbcsr_VERSION ${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}${VERSION_GIT})
+set(dbcsr_APIVERSION ${VERSION_MAJOR}.${VERSION_MINOR})
 
 # =================================================================================================
 # OPTIONS
@@ -99,10 +100,14 @@ set(CMAKE_CXX_STANDARD 11)
 # =================================================================================================
 # PACKAGE DISCOVERY (compiler configuration can impact package discovery)
 
-# =================================== BLAS, LAPACK, PkgConfig
-find_package(BLAS REQUIRED)
-find_package(LAPACK REQUIRED)  # needed for some of the integrated test routines
+# =================================== OpenMP and OpenMP/offload backend
+if (USE_OPENMP)
+  find_package(OpenMP REQUIRED)
+endif ()
+
+# =================================== BLAS & LAPACK, PkgConfig
 find_package(PkgConfig)
+find_package(LAPACK REQUIRED)  # needed for some of the integrated test routines, also calls find_package(BLAS)
 
 # =================================== Python
 # this module looks preferably for version 3 of Python. If not found, version 2 is searched
@@ -134,11 +139,6 @@ Intel MPI compiler wrappers. Check the INSTALL.md for more information.")
             "RMA with ${MPI_Fortran_LIBRARY_VERSION_STRING} is not supported due to issues with its implementation."
             " Please use a newer version of OpenMPI or switch to MPICH if you plan on using MPI-RMA.")
   endif ()
-endif ()
-
-# =================================== OpenMP and OpenMP/offload backend
-if (USE_OPENMP)
-  find_package(OpenMP REQUIRED)
 endif ()
 
 # =================================== SMM (Small Matrix-Matrix multiplication)

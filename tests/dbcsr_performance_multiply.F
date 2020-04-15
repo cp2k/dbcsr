@@ -87,7 +87,7 @@ CONTAINS
 !
 ! parsing
 
-      IF (narg .LT. args_shift+31) THEN
+      IF (narg .LT. args_shift + 31) THEN
          WRITE (io_unit, *) "Input file format:"
          WRITE (io_unit, *) "      npcols for MPI grid \\"
          WRITE (io_unit, *) "      use MPI-RMA algorithm \\"
@@ -106,40 +106,40 @@ CONTAINS
          DBCSR_ABORT("narg not correct")
       ENDIF
 
-      matrix_sizes(1) = atoi(args(args_shift+1))
-      matrix_sizes(2) = atoi(args(args_shift+2))
-      matrix_sizes(3) = atoi(args(args_shift+3))
-      sparsities(1) = ator(args(args_shift+4))
-      sparsities(2) = ator(args(args_shift+5))
-      sparsities(3) = ator(args(args_shift+6))
-      trans(1) = args(args_shift+7)
-      trans(2) = args(args_shift+8)
-      symmetries(1) = args(args_shift+9)
-      symmetries(2) = args(args_shift+10)
-      symmetries(3) = args(args_shift+11)
-      TYPE = atoi(args(args_shift+12))
-      alpha(1) = ator(args(args_shift+13))
-      alpha(2) = ator(args(args_shift+14))
-      beta(1) = ator(args(args_shift+15))
-      beta(2) = ator(args(args_shift+16))
-      limits(1) = atoi(args(args_shift+17))
-      limits(2) = atoi(args(args_shift+18))
-      limits(3) = atoi(args(args_shift+19))
-      limits(4) = atoi(args(args_shift+20))
-      limits(5) = atoi(args(args_shift+21))
-      limits(6) = atoi(args(args_shift+22))
-      retain_sparsity = atol(args(args_shift+23))
-      nrep = atoi(args(args_shift+24))
-      mblk_to_read = atoi(args(args_shift+25))
-      nblk_to_read = atoi(args(args_shift+26))
-      kblk_to_read = atoi(args(args_shift+27))
+      matrix_sizes(1) = atoi(args(args_shift + 1))
+      matrix_sizes(2) = atoi(args(args_shift + 2))
+      matrix_sizes(3) = atoi(args(args_shift + 3))
+      sparsities(1) = ator(args(args_shift + 4))
+      sparsities(2) = ator(args(args_shift + 5))
+      sparsities(3) = ator(args(args_shift + 6))
+      trans(1) = args(args_shift + 7)
+      trans(2) = args(args_shift + 8)
+      symmetries(1) = args(args_shift + 9)
+      symmetries(2) = args(args_shift + 10)
+      symmetries(3) = args(args_shift + 11)
+      TYPE = atoi(args(args_shift + 12))
+      alpha(1) = ator(args(args_shift + 13))
+      alpha(2) = ator(args(args_shift + 14))
+      beta(1) = ator(args(args_shift + 15))
+      beta(2) = ator(args(args_shift + 16))
+      limits(1) = atoi(args(args_shift + 17))
+      limits(2) = atoi(args(args_shift + 18))
+      limits(3) = atoi(args(args_shift + 19))
+      limits(4) = atoi(args(args_shift + 20))
+      limits(5) = atoi(args(args_shift + 21))
+      limits(6) = atoi(args(args_shift + 22))
+      retain_sparsity = atol(args(args_shift + 23))
+      nrep = atoi(args(args_shift + 24))
+      mblk_to_read = atoi(args(args_shift + 25))
+      nblk_to_read = atoi(args(args_shift + 26))
+      kblk_to_read = atoi(args(args_shift + 27))
 
       IF (narg < 34 + 2*(mblk_to_read + nblk_to_read + kblk_to_read)) &
          DBCSR_ABORT("narg not correct")
 
       ALLOCATE (bs_m(2*mblk_to_read), bs_n(2*nblk_to_read), bs_k(2*kblk_to_read))
 
-      i = args_shift+27
+      i = args_shift + 27
       DO iblk = 1, mblk_to_read
          i = i + 1
          bs_m(2*(iblk - 1) + 1) = atoi(args(i))

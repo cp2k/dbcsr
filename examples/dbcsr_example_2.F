@@ -12,11 +12,11 @@ PROGRAM dbcsr_example_2
    !! This example shows how to set a dbcsr matrix
 
    USE mpi
-   USE dbcsr_api,                       ONLY: &
-        dbcsr_create, dbcsr_distribution_get, dbcsr_distribution_new, dbcsr_distribution_release, &
-        dbcsr_distribution_type, dbcsr_finalize, dbcsr_finalize_lib, dbcsr_get_stored_coordinates, &
-        dbcsr_init_lib, dbcsr_nblkcols_total, dbcsr_nblkrows_total, dbcsr_print, dbcsr_put_block, &
-        dbcsr_release, dbcsr_type, dbcsr_type_no_symmetry, dbcsr_type_real_8
+   USE dbcsr_api, ONLY: &
+      dbcsr_create, dbcsr_distribution_get, dbcsr_distribution_new, dbcsr_distribution_release, &
+      dbcsr_distribution_type, dbcsr_finalize, dbcsr_finalize_lib, dbcsr_get_stored_coordinates, &
+      dbcsr_init_lib, dbcsr_nblkcols_total, dbcsr_nblkrows_total, dbcsr_print, dbcsr_put_block, &
+      dbcsr_release, dbcsr_type, dbcsr_type_no_symmetry, dbcsr_type_real_8
 
    IMPLICIT NONE
 
@@ -37,7 +37,7 @@ PROGRAM dbcsr_example_2
 
    !
    ! initialize mpi
-!$ IF ( .FALSE. ) THEN
+!$ IF (.FALSE.) THEN
       CALL mpi_init(ierr)
       IF (ierr /= 0) STOP "Error in MPI_Init"
 !$ ELSE
@@ -118,7 +118,7 @@ PROGRAM dbcsr_example_2
    !
    ! loop over the blocks, build a tridiagonal matrix
    DO row = 1, dbcsr_nblkrows_total(matrix_a)
-      DO col = MAX(row-1, 1), MIN(row+1, dbcsr_nblkcols_total(matrix_a))
+      DO col = MAX(row - 1, 1), MIN(row + 1, dbcsr_nblkcols_total(matrix_a))
          !
          ! get the node id that holds this (row, col) block
          row_s = row; col_s = col
@@ -179,7 +179,7 @@ CONTAINS
 
       ALLOCATE (dist_array(dist_size))
       DO i = 1, dist_size
-         dist_array(i) = MODULO(nbins-i, nbins)
+         dist_array(i) = MODULO(nbins - i, nbins)
       END DO
 
    END SUBROUTINE random_dist
