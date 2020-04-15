@@ -169,7 +169,7 @@ void fill_random(void* tensor, std::vector<std::vector<int>> nzblocks,
 			
 	c_dbcsr_t_iterator_stop(&iter);
 	
-	MPI_Barrier(MPI_COMM_WORLD);	
+	c_dbcsr_t_finalize(tensor);
 	
 }	
 
