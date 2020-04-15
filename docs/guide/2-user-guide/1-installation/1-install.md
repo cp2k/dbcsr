@@ -96,6 +96,8 @@ To run the tests, use:
     make test
 ```
 
+Please, note that if you are using OpenMP builds, then you have to set the environment variable `OMP_NESTED=false`.
+
 ### C/C++ Interface
 
 If MPI support is enabled (the default), the C API is automatically built.
