@@ -1,0 +1,19 @@
+---
+name: "Close stale issues with needinfo tag"
+
+on:
+  schedule:
+  - cron: "0 * * * *"
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/stale@master
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        days-before-stale: 30
+        days-before-close: 7
+        stale-issue-message: 'More information was requested, but not provided within 30 days. This issue will be automatically closed within 7 days of no comment.'
+        only-labels: 'needinfo'
+        stale-issue-label: 'stale'
