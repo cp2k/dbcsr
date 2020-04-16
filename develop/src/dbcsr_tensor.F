@@ -31,7 +31,7 @@ MODULE dbcsr_tensor
       dbcsr_type, dbcsr_iterator_type, dbcsr_iterator_blocks_left, &
       dbcsr_iterator_next_block, dbcsr_iterator_start, dbcsr_iterator_stop, &
       dbcsr_transpose, dbcsr_no_transpose, dbcsr_scalar, dbcsr_put_block, &
-      dbcsr_type_complex_8, dbcsr_type_real_4, dbcsr_type_complex_4, dbcsr_type_real_8, dbcsr_clear, &
+      dbcsr_type_complex_8, dbcsr_type_real_4, dbcsr_type_real_8, dbcsr_type_complex_4, dbcsr_clear, &
       dbcsr_release, dbcsr_desymmetrize, dbcsr_has_symmetry
    USE dbcsr_tas_types, ONLY: &
       dbcsr_tas_split_info
