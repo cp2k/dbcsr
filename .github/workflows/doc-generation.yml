@@ -11,7 +11,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     container:
-      image: dbcsr/build-env-ubuntu-19.10:latest
+      image: dbcsr/build-env-ubuntu-20.04:latest
 
     steps:
     - uses: actions/checkout@v2
