@@ -164,9 +164,8 @@ if (APPLE)
   endif ()
 endif()
 
-# set -DNDEBUG for Release or Coverage builds
+# set -DNDEBUG for Release builds
 target_compile_definitions(dbcsr PRIVATE "$<$<CONFIG:Release>:NDEBUG>")
-target_compile_definitions(dbcsr PRIVATE "$<$<CONFIG:Coverage>:NDEBUG>")
 
 target_link_libraries(dbcsr PRIVATE ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
 target_include_directories(dbcsr PRIVATE base) # do not export those includes, but some srcs do an unprefixed include
