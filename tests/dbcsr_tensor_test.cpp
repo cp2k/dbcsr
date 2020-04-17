@@ -406,8 +406,8 @@ int main(int argc, char* argv[])
                                c_proc_dist[0].data(), c_proc_dist[1].data(), c_proc_dist[2].data(), nullptr, 
                                c_blk_size[0].data(), c_blk_size[1].data(), c_blk_size[2].data(), nullptr,
                                c_blk_offset[0].data(), c_blk_offset[1].data(), c_blk_offset[2].data(), nullptr,
-                               nullptr, &name, &data_type);             
-    
+                               nullptr, &name, &data_type);    
+                               
     std::string tname(name);
     
     if (mpi_rank == 0) {
