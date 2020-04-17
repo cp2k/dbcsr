@@ -283,7 +283,7 @@
 <a name="ln-25"></a>      <span class="n">sizes_of_arrays</span><span class="p">,</span> <span class="n">sum_of_arrays</span><span class="p">,</span> <span class="n">array_sublist</span><span class="p">,</span> <span class="n">get_arrays</span><span class="p">,</span> <span class="n">get_ith_array</span><span class="p">,</span> <span class="n">array_eq_i</span>
 <a name="ln-26"></a>   <span class="k">USE </span><span class="n">dbcsr_api</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-27"></a>      <span class="n">dbcsr_distribution_get</span><span class="p">,</span> <span class="n">dbcsr_distribution_type</span><span class="p">,</span> <span class="n">dbcsr_get_info</span><span class="p">,</span> <span class="n">dbcsr_type</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-28"></a>      <span class="n">dbcsr_type_real_8</span><span class="p">,</span> <span class="n">dbcsr_type_real_4</span><span class="p">,</span> <span class="n">dbcsr_type_complex_8</span><span class="p">,</span> <span class="n">dbcsr_type_complex_4</span>
+<a name="ln-28"></a>      <span class="n">dbcsr_type_real_4</span><span class="p">,</span> <span class="n">dbcsr_type_complex_4</span><span class="p">,</span> <span class="n">dbcsr_type_complex_8</span><span class="p">,</span> <span class="n">dbcsr_type_real_8</span>
 <a name="ln-29"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-30"></a>      <span class="n">real_8</span><span class="p">,</span> <span class="n">real_4</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-31"></a>      <span class="n">default_string_length</span>
@@ -877,7 +877,7 @@
 <a name="ln-619"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">lb_ratio</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-620"></a><span class="k">         </span><span class="n">lb_ratio_prv</span> <span class="o">=</span> <span class="n">lb_ratio</span>
 <a name="ln-621"></a>      <span class="k">ELSE</span>
-<a name="ln-622"></a><span class="k">         </span><span class="n">lb_ratio_prv</span> <span class="o">=</span> <span class="mf">0.2_real_8</span>
+<a name="ln-622"></a><span class="k">         </span><span class="n">lb_ratio_prv</span> <span class="o">=</span> <span class="mf">0.1_real_8</span>
 <a name="ln-623"></a>      <span class="n">ENDIF</span>
 <a name="ln-624"></a>
 <a name="ln-625"></a>      <span class="k">CALL </span><span class="n">allocate_any</span><span class="p">(</span><span class="n">dims_store</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">dims</span><span class="p">)</span>
@@ -912,10 +912,10 @@
 <a name="ln-654"></a>            <span class="k">IF</span> <span class="p">(</span><span class="nb">idim</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">tensor_dims_sorted</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-655"></a><span class="k">               </span><span class="n">dims</span><span class="p">(</span><span class="nb">idim</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:)</span> <span class="o">=</span> <span class="mi">0</span>
 <a name="ln-656"></a>               <span class="k">CALL </span><span class="n">mp_dims_create</span><span class="p">(</span><span class="n">pdims_rem</span><span class="p">,</span> <span class="n">dims</span><span class="p">(</span><span class="nb">idim</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:))</span>
-<a name="ln-657"></a>            <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">lb_ratio_prv</span> <span class="o">&lt;</span> <span class="mf">1.0_real_8</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-657"></a>            <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">lb_ratio_prv</span> <span class="o">&lt;</span> <span class="mf">0.5_real_8</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-658"></a>               <span class="c">! resort to a less strict load imbalance factor</span>
 <a name="ln-659"></a>               <span class="n">dims</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">dims_store</span>
-<a name="ln-660"></a>               <span class="k">CALL </span><span class="n">dbcsr_t_mp_dims_create</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">dims</span><span class="p">,</span> <span class="n">tensor_dims</span><span class="p">,</span> <span class="mf">1.1_real_8</span><span class="p">)</span>
+<a name="ln-660"></a>               <span class="k">CALL </span><span class="n">dbcsr_t_mp_dims_create</span><span class="p">(</span><span class="n">nodes</span><span class="p">,</span> <span class="n">dims</span><span class="p">,</span> <span class="n">tensor_dims</span><span class="p">,</span> <span class="mf">0.5_real_8</span><span class="p">)</span>
 <a name="ln-661"></a>               <span class="k">RETURN</span>
 <a name="ln-662"></a><span class="k">            ELSE</span>
 <a name="ln-663"></a>               <span class="c">! resort to default process grid dimensions</span>

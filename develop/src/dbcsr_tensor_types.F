@@ -25,7 +25,7 @@ MODULE dbcsr_tensor_types
       sizes_of_arrays, sum_of_arrays, array_sublist, get_arrays, get_ith_array, array_eq_i
    USE dbcsr_api, ONLY: &
       dbcsr_distribution_get, dbcsr_distribution_type, dbcsr_get_info, dbcsr_type, &
-      dbcsr_type_real_8, dbcsr_type_real_4, dbcsr_type_complex_8, dbcsr_type_complex_4
+      dbcsr_type_real_4, dbcsr_type_complex_4, dbcsr_type_complex_8, dbcsr_type_real_8
    USE dbcsr_kinds, ONLY: &
       real_8, real_4, &
       default_string_length
@@ -619,7 +619,7 @@ CONTAINS
       IF (PRESENT(lb_ratio)) THEN
          lb_ratio_prv = lb_ratio
       ELSE
-         lb_ratio_prv = 0.2_real_8
+         lb_ratio_prv = 0.1_real_8
       ENDIF
 
       CALL allocate_any(dims_store, source=dims)
@@ -654,10 +654,10 @@ CONTAINS
             IF (idim .NE. SIZE(tensor_dims_sorted)) THEN
                dims(idim + 1:) = 0
                CALL mp_dims_create(pdims_rem, dims(idim + 1:))
-            ELSEIF (lb_ratio_prv < 1.0_real_8) THEN
+            ELSEIF (lb_ratio_prv < 0.5_real_8) THEN
                ! resort to a less strict load imbalance factor
                dims(:) = dims_store
-               CALL dbcsr_t_mp_dims_create(nodes, dims, tensor_dims, 1.1_real_8)
+               CALL dbcsr_t_mp_dims_create(nodes, dims, tensor_dims, 0.5_real_8)
                RETURN
             ELSE
                ! resort to default process grid dimensions
