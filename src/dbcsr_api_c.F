@@ -61,9 +61,9 @@ CONTAINS
       TYPE(c_ptr), INTENT(out)                           :: c_dist
       INTEGER(kind=c_int), INTENT(in)                    :: fcomm
       INTEGER(kind=c_int), INTENT(in), value             :: row_dist_size
-      INTEGER(kind=c_int), INTENT(in), TARGET            :: c_row_dist(row_dist_size)
+      INTEGER(kind=c_int), INTENT(in)                    :: c_row_dist(row_dist_size)
       INTEGER(kind=c_int), INTENT(in), value             :: col_dist_size
-      INTEGER(kind=c_int), INTENT(in), TARGET            :: c_col_dist(col_dist_size)
+      INTEGER(kind=c_int), INTENT(in)                    :: c_col_dist(col_dist_size)
 
       TYPE(dbcsr_distribution_type), POINTER             :: dist
 
@@ -95,9 +95,9 @@ CONTAINS
       TYPE(c_ptr), INTENT(in), value                     :: c_name, c_dist
       CHARACTER(kind=c_char), INTENT(in), value          :: c_matrix_type
       INTEGER(kind=c_int), INTENT(in), value             :: c_row_blk_sizes_length
-      INTEGER(kind=c_int), INTENT(in), TARGET :: c_row_blk_sizes(c_row_blk_sizes_length)
+      INTEGER(kind=c_int), INTENT(in)                    :: c_row_blk_sizes(c_row_blk_sizes_length)
       INTEGER(kind=c_int), INTENT(in), value             :: c_col_blk_sizes_length
-      INTEGER(kind=c_int), INTENT(in), TARGET :: c_col_blk_sizes(c_col_blk_sizes_length)
+      INTEGER(kind=c_int), INTENT(in)                    :: c_col_blk_sizes(c_col_blk_sizes_length)
 
       CHARACTER(:, kind=c_char), ALLOCATABLE             :: fname
       TYPE(dbcsr_distribution_type), POINTER             :: dist
