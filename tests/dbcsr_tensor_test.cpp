@@ -103,24 +103,6 @@ void fill_random(void* tensor, std::vector<std::vector<int>> nzblocks,
 		
 	} 
 	
-	/*
-	for (int i = 0; i != mpi_size; ++i) {
-		if (i == myrank) {
-			std::cout << "Blocks stored on processor " << myrank << " :" << std::endl;
-			for (auto idx : mynzblocks) {
-				for (auto ele : idx) {
-					std::cout << ele << " ";
-				}
-				std::cout << std::endl;
-			}
-			std::cout << "Total: " << mynzblocks[0].size() << " " <<  mynzblocks[1].size() << " " <<  mynzblocks[2].size() << std::endl;
-		}
-		
-		MPI_Barrier(MPI_COMM_WORLD);
-		
-	}
-	*/
-	
 	std::vector<int*> dataptr(4, nullptr);
 	
 	for (int i = 0; i != dim; ++i) {
@@ -204,6 +186,7 @@ int main(int argc, char* argv[])
 		std::cout << "pgrid4-dimensions:" << std::endl;
 		printvec(dims4);
 	}
+	
 	
 	// block sizes	
 	std::vector<int> blk1, blk2, blk3, blk4, blk5;
@@ -324,8 +307,6 @@ int main(int argc, char* argv[])
 		
 	c_dbcsr_t_distribution_new(&dist3, pgrid_3d, dist31.data(), dist31.size(), 
 		dist32.data(), dist32.size(), dist33.data(), dist33.size(), nullptr, 0);
-		
-	MPI_Barrier(MPI_COMM_WORLD);
 	
 	// create tensors
 	// (13|2)x(54|21)=(3|45)
@@ -345,8 +326,6 @@ int main(int argc, char* argv[])
 	c_dbcsr_t_create_new(&tensor3, "(3|45)", dist3, map31.data(), map31.size(), map32.data(), map32.size(), nullptr, blk3.data(), 
 		blk3.size(), blk4.data(), blk4.size(), blk5.data(), blk5.size(), nullptr, 0);
 	
-	 MPI_Barrier(MPI_COMM_WORLD);
-	
 	// fill the tensors
 	
 	std::function<double()> drand = get_rand_real<double>;
@@ -362,8 +341,6 @@ int main(int argc, char* argv[])
 	
 	// (13|2)x(54|21)=(3|45)
 	
-	MPI_Barrier(MPI_COMM_WORLD);
-	
 	if (mpi_rank == 0) std::cout << "Contracting..." << std::endl;
 	
 	// cn : indices to be contracted
@@ -376,6 +353,7 @@ int main(int argc, char* argv[])
 	nonc2	= {2,3};
 	map1	= {0};
 	map2	= {1,2};
+	
 	
 	int unit_nr = 0;
 	if (mpi_rank == 0) unit_nr = 6;
@@ -390,9 +368,6 @@ int main(int argc, char* argv[])
 									map2.size(), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr,
 									nullptr, nullptr, nullptr, &unit_nr, &log_verbose);
 	
-	MPI_Barrier(MPI_COMM_WORLD);
-	
-	
 	// ====================================================
 	// ====== TESTING OTHER FUNCTIONS =============
 	// ====================================================
@@ -401,7 +376,6 @@ int main(int argc, char* argv[])
 	
 	std::vector<int> cnblkstot(3), nfulltot(3), cnblksloc(3), nfullloc(3), pdims(3), ploc(3);
 	
-	void* dist = nullptr;
 	char* name = nullptr;
 	int data_type = 0;
 	
@@ -432,7 +406,7 @@ int main(int argc, char* argv[])
                                c_proc_dist[0].data(), c_proc_dist[1].data(), c_proc_dist[2].data(), nullptr, 
                                c_blk_size[0].data(), c_blk_size[1].data(), c_blk_size[2].data(), nullptr,
                                c_blk_offset[0].data(), c_blk_offset[1].data(), c_blk_offset[2].data(), nullptr,
-                               &dist, &name, &data_type);             
+                               nullptr, &name, &data_type);             
     
     std::string tname(name);
     
@@ -574,20 +548,19 @@ int main(int argc, char* argv[])
 		MPI_Barrier(MPI_COMM_WORLD);
 		
 	}
-
+	
     c_dbcsr_t_destroy(&tensor1);
     c_dbcsr_t_destroy(&tensor2);
     c_dbcsr_t_destroy(&tensor3);
-        
-    c_dbcsr_t_pgrid_destroy(&pgrid_3d, nullptr);
-    c_dbcsr_t_pgrid_destroy(&pgrid_4d, nullptr);
-    
+   
     c_dbcsr_t_distribution_destroy(&dist1);
     c_dbcsr_t_distribution_destroy(&dist2);
     c_dbcsr_t_distribution_destroy(&dist3);
-
+   
+    c_dbcsr_t_pgrid_destroy(&pgrid_3d, nullptr);
+    c_dbcsr_t_pgrid_destroy(&pgrid_4d, nullptr);
+	
     c_dbcsr_finalize_lib();
-
 
     MPI_Finalize();
 
