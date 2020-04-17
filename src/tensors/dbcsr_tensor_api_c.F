@@ -1051,7 +1051,7 @@ $:"ENDIF"
 
       TYPE(dbcsr_t_type), POINTER :: tensor
 
-      LOGICAL, POINTER :: col_major
+      LOGICAL, ALLOCATABLE :: col_major
 
       CALL c_f_pointer(c_tensor, tensor)
 
@@ -1078,7 +1078,10 @@ $:"ENDIF"
       IF (PRESENT(c_${var}$)) c_${var}$ = c_${var}$-1
 #:endfor
 
-      IF (PRESENT(c_col_major)) c_col_major = col_major
+      IF (PRESENT(c_col_major)) THEN
+         c_col_major = col_major
+         DEALLOCATE (col_major)
+      ENDIF
 
    END SUBROUTINE
 
