@@ -108,8 +108,6 @@ CONTAINS
 
       TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid
 
-      IF (PRESENT(c_tensor_dims)) PRINT *, "PRESENT"
-
       ALLOCATE (pgrid)
 
       CALL dbcsr_t_pgrid_create(fcomm, c_dims, pgrid, c_tensor_dims)
@@ -133,7 +131,7 @@ CONTAINS
 
       CALL dbcsr_t_pgrid_destroy(pgrid, keep_comm)
 
-      DEALLOCATE (pgrid)
+      IF(ASSOCIATED(pgrid)) DEALLOCATE (pgrid)
 
       c_pgrid = c_null_ptr
 
@@ -168,7 +166,7 @@ CONTAINS
       CALL c_f_pointer(c_dist, dist); 
       CALL dbcsr_t_distribution_destroy(dist)
 
-      DEALLOCATE (dist)
+      IF(ASSOCIATED(dist)) DEALLOCATE (dist)
 
       c_dist = c_null_ptr
 
@@ -306,7 +304,7 @@ CONTAINS
 
       CALL dbcsr_t_destroy(tensor)
 
-      DEALLOCATE (tensor)
+      IF (ASSOCIATED(tensor)) DEALLOCATE (tensor)
 
       c_tensor = c_null_ptr
 
@@ -657,7 +655,7 @@ CONTAINS
 
       CALL dbcsr_t_iterator_stop(iterator)
 
-      DEALLOCATE (iterator)
+      IF(ASSOCIATED(iterator)) DEALLOCATE (iterator)
 
       c_iterator = c_null_ptr
 
