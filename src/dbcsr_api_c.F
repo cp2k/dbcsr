@@ -65,14 +65,11 @@ CONTAINS
       INTEGER(kind=c_int), INTENT(in), value             :: col_dist_size
       INTEGER(kind=c_int), INTENT(in), TARGET            :: c_col_dist(col_dist_size)
 
-      INTEGER, POINTER                                   :: col_dist(:), row_dist(:)
       TYPE(dbcsr_distribution_type), POINTER             :: dist
 
-      row_dist => c_row_dist
-      col_dist => c_col_dist
       ALLOCATE (dist)
-      CALL dbcsr_distribution_new(dist, group=fcomm, row_dist=row_dist, &
-                                  col_dist=col_dist, reuse_arrays=.FALSE.)
+      CALL dbcsr_distribution_new(dist, group=fcomm, row_dist=c_row_dist, &
+                                  col_dist=c_col_dist, reuse_arrays=.FALSE.)
       c_dist = c_loc(dist)
    END SUBROUTINE
 
@@ -103,13 +100,8 @@ CONTAINS
       INTEGER(kind=c_int), INTENT(in), TARGET :: c_col_blk_sizes(c_col_blk_sizes_length)
 
       CHARACTER(:, kind=c_char), ALLOCATABLE             :: fname
-      INTEGER, POINTER                                   :: col_blk_sizes(:), row_blk_sizes(:)
       TYPE(dbcsr_distribution_type), POINTER             :: dist
       TYPE(dbcsr_type), POINTER                          :: matrix
-
-      ! associate pointers
-      row_blk_sizes => c_row_blk_sizes
-      col_blk_sizes => c_col_blk_sizes
 
       ! convert normal distribution pointer to fortran pointer
       CALL c_f_pointer(c_dist, dist)
@@ -121,8 +113,8 @@ CONTAINS
       CALL c_f_string(c_name, fname)
 
       CALL dbcsr_create(matrix=matrix, name=fname, dist=dist, &
-                        matrix_type=c_matrix_type, row_blk_size=row_blk_sizes, &
-                        col_blk_size=col_blk_sizes, data_type=dbcsr_type_real_8)
+                        matrix_type=c_matrix_type, row_blk_size=c_row_blk_sizes, &
+                        col_blk_size=c_col_blk_sizes, data_type=dbcsr_type_real_8)
 
       c_matrix = c_loc(matrix)
    END SUBROUTINE
