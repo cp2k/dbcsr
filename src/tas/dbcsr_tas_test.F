@@ -57,9 +57,11 @@ MODULE dbcsr_tas_test
       dbcsr_tas_checksum, &
       dbcsr_tas_random_bsizes, &
       dbcsr_tas_setup_test_matrix, &
-      dbcsr_tas_test_mm
+      dbcsr_tas_test_mm, &
+      dbcsr_tas_reset_randmat_seed
 
    INTEGER, SAVE :: randmat_counter = 0
+   INTEGER, PARAMETER, PRIVATE :: rand_seed_init = 12341313
 
 CONTAINS
    SUBROUTINE dbcsr_tas_setup_test_matrix(matrix, mp_comm_out, mp_comm, nrows, ncols, rbsizes, cbsizes, &
@@ -422,6 +424,11 @@ CONTAINS
          size_i = MOD((d - 1)/repeat, SIZE(sizes)) + 1
          block_sizes(d) = sizes(size_i)
       ENDDO
+   END SUBROUTINE
+
+   SUBROUTINE dbcsr_tas_reset_randmat_seed()
+      !! Reset the seed used for generating random matrices to default value
+      randmat_counter = rand_seed_init
    END SUBROUTINE
 
 END MODULE
