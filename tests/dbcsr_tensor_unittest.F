@@ -21,7 +21,8 @@ PROGRAM dbcsr_tensor_unittest
                             mp_world_init
    USE dbcsr_tensor_test, ONLY: dbcsr_t_contract_test, &
                                 dbcsr_t_setup_test_tensor, &
-                                dbcsr_t_test_formats
+                                dbcsr_t_test_formats, &
+                                dbcsr_t_reset_randmat_seed
    USE dbcsr_tensor_types, ONLY: &
       dbcsr_t_create, dbcsr_t_destroy, dbcsr_t_distribution_destroy, dbcsr_t_distribution_new, &
       dbcsr_t_distribution_type, dbcsr_t_nd_mp_comm, dbcsr_t_type, dbcsr_t_pgrid_type, &
@@ -66,6 +67,8 @@ PROGRAM dbcsr_tensor_unittest
 
    ! initialize libdbcsr
    CALL dbcsr_init_lib(mp_comm, io_unit)
+
+   CALL dbcsr_t_reset_randmat_seed()
 
    ! Process grid
 

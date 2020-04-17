@@ -55,7 +55,8 @@ MODULE dbcsr_tensor_test
       dbcsr_t_setup_test_tensor, &
       dbcsr_t_contract_test, &
       dbcsr_t_test_formats, &
-      dbcsr_t_checksum
+      dbcsr_t_checksum, &
+      dbcsr_t_reset_randmat_seed
 
    INTERFACE repl_dense_array_to_dist_sparse_tensor
 #:for dparam, dtype, dsuffix in dtype_float_list
@@ -80,6 +81,7 @@ MODULE dbcsr_tensor_test
    END INTERFACE
 
    INTEGER, SAVE :: randmat_counter = 0
+   INTEGER, PARAMETER, PRIVATE :: rand_seed_init = 12341313
 
 CONTAINS
 
@@ -831,5 +833,10 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL     :: local, pos
       dbcsr_t_checksum = dbcsr_tas_checksum(tensor%matrix_rep, local, pos)
    END FUNCTION
+
+   SUBROUTINE dbcsr_t_reset_randmat_seed()
+      !! Reset the seed used for generating random matrices to default value
+      randmat_counter = rand_seed_init
+   END SUBROUTINE
 
 END MODULE
