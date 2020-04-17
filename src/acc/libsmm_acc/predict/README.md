@@ -20,9 +20,8 @@ pip install -r requirements.txt
 
 ### Predictive parameters
 
-The input features for the predictive models can be 'raw' parameters (left-most-column in the figure below), or hand-engineered features 'derived' from the raw features (matrix sizes, launch parameters and resource usage estimations).
+The input features for the predictive models can be 'raw' parameters, or hand-engineered features 'derived' from the raw features (matrix sizes, launch parameters and resource usage estimations).
 
-![libsmm_acc_predictive_modeling_features](../../../../../docs/media/images/libsmm_acc_predictive_modeling_features.png)
 ---
 
 ### Predictive modeling procedure

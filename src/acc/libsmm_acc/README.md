@@ -2,8 +2,6 @@
 
 `libsmm_acc` is a **lib**rary for **s**mall **m**atrix-**m**atrix multiplication on a GPU-**acc**elerator. Stacks of matrix-matrix multiplication indices are passed from DBCSR to `libsmm_acc` which performs the multiplications on the GPU.
 
-![libsmm_acc parameters](../../../docs/media/images/libsmm_acc_parameters_and_memory.png)
-
 For a description of the library (some details are outdated, but this nevertheless provides a very good introduction), see Chapter 8.4 of:
 
 > WALKER, R. C., & GOETZ, A. W. (2016). [Electronic structure calculations on graphics processing units: from quantum chemistry to condensed matter physics](https://onlinelibrary.wiley.com/doi/pdf/10.1002/9781118670712).
