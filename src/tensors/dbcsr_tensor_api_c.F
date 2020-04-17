@@ -131,7 +131,7 @@ CONTAINS
 
       CALL dbcsr_t_pgrid_destroy(pgrid, keep_comm)
 
-      IF(ASSOCIATED(pgrid)) DEALLOCATE (pgrid)
+      IF (ASSOCIATED(pgrid)) DEALLOCATE (pgrid)
 
       c_pgrid = c_null_ptr
 
@@ -166,7 +166,7 @@ CONTAINS
       CALL c_f_pointer(c_dist, dist); 
       CALL dbcsr_t_distribution_destroy(dist)
 
-      IF(ASSOCIATED(dist)) DEALLOCATE (dist)
+      IF (ASSOCIATED(dist)) DEALLOCATE (dist)
 
       c_dist = c_null_ptr
 
@@ -655,7 +655,7 @@ CONTAINS
 
       CALL dbcsr_t_iterator_stop(iterator)
 
-      IF(ASSOCIATED(iterator)) DEALLOCATE (iterator)
+      IF (ASSOCIATED(iterator)) DEALLOCATE (iterator)
 
       c_iterator = c_null_ptr
 
@@ -984,7 +984,7 @@ CONTAINS
 
 #:for i in range(len(optgroups))
       ${print_groupif(optgroups,optvars,i,'ASSOCIATED','')}$
-     
+
       CALL dbcsr_t_get_info(tensor=tensor, nblks_total=c_nblks_total, &
                             nfull_total=c_nfull_total, &
                             nblks_local=c_nblks_local, &
