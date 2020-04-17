@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.5% of total for modules and submodules.">292 statements</a>
+    title=" 0.5% of total for modules and submodules.">296 statements</a>
      </li> 
      
      
@@ -166,6 +166,8 @@
       
       <a class="list-group-item" href="../module/dbcsr_tas_test.html#variable-randmat_counter~3">randmat_counter</a>
       
+      <a class="list-group-item" href="../module/dbcsr_tas_test.html#variable-rand_seed_init~3">rand_seed_init</a>
+      
     </div>
   </div>
 </div>
@@ -206,6 +208,8 @@
       <a class="list-group-item" href="../module/dbcsr_tas_test.html#proc-dbcsr_tas_test_mm">dbcsr_tas_test_mm</a>
       
       <a class="list-group-item" href="../module/dbcsr_tas_test.html#proc-dbcsr_tas_random_bsizes">dbcsr_tas_random_bsizes</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_test.html#proc-dbcsr_tas_reset_randmat_seed">dbcsr_tas_reset_randmat_seed</a>
       
     </div>
   </div>
@@ -306,6 +310,8 @@
       
       <a class="list-group-item" href="../module/dbcsr_tas_test.html#variable-randmat_counter~3">randmat_counter</a>
       
+      <a class="list-group-item" href="../module/dbcsr_tas_test.html#variable-rand_seed_init~3">rand_seed_init</a>
+      
     </div>
   </div>
 </div>
@@ -346,6 +352,8 @@
       <a class="list-group-item" href="../module/dbcsr_tas_test.html#proc-dbcsr_tas_test_mm">dbcsr_tas_test_mm</a>
       
       <a class="list-group-item" href="../module/dbcsr_tas_test.html#proc-dbcsr_tas_random_bsizes">dbcsr_tas_random_bsizes</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_test.html#proc-dbcsr_tas_reset_randmat_seed">dbcsr_tas_reset_randmat_seed</a>
       
     </div>
   </div>
@@ -389,6 +397,20 @@
   <td>private,</td>
   <td>SAVE</td><td>::</td>
   <td><strong>randmat_counter</strong></td><td> =</td><td>0</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-rand_seed_init~3"></span>integer,</td>
+  
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>rand_seed_init</strong></td><td> =</td><td>12341313</td><td></td>
   
 </tr>
 
@@ -1167,6 +1189,36 @@ public subroutine <a href='../proc/dbcsr_tas_random_bsizes.html'>dbcsr_tas_rando
 </table>
 
       
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_reset_randmat_seed"></span><h3>
+public subroutine <a href='../proc/dbcsr_tas_reset_randmat_seed.html'>dbcsr_tas_reset_randmat_seed</a>()
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Reset the seed used for generating random matrices to default value</p>
+    
+    <h4>Arguments</h4>
+    
+      <em>None</em>
     
     
 

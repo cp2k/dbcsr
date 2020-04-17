@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 2.4% of total for modules and submodules.">1456 statements</a>
+    title=" 2.4% of total for modules and submodules.">1460 statements</a>
      </li> 
      
      
@@ -167,6 +167,8 @@
       <a class="list-group-item" href="../module/dbcsr_tensor_test.html#variable-modulen~43">moduleN</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor_test.html#variable-randmat_counter~2">randmat_counter</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_test.html#variable-rand_seed_init~2">rand_seed_init</a>
       
     </div>
   </div>
@@ -289,6 +291,8 @@
       
       <a class="list-group-item" href="../module/dbcsr_tensor_test.html#proc-write_4d_array">write_4d_array</a>
       
+      <a class="list-group-item" href="../module/dbcsr_tensor_test.html#proc-dbcsr_t_reset_randmat_seed">dbcsr_t_reset_randmat_seed</a>
+      
     </div>
   </div>
 </div>
@@ -377,6 +381,8 @@
       <a class="list-group-item" href="../module/dbcsr_tensor_test.html#variable-modulen~43">moduleN</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor_test.html#variable-randmat_counter~2">randmat_counter</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_test.html#variable-rand_seed_init~2">rand_seed_init</a>
       
     </div>
   </div>
@@ -499,6 +505,8 @@
       
       <a class="list-group-item" href="../module/dbcsr_tensor_test.html#proc-write_4d_array">write_4d_array</a>
       
+      <a class="list-group-item" href="../module/dbcsr_tensor_test.html#proc-dbcsr_t_reset_randmat_seed">dbcsr_t_reset_randmat_seed</a>
+      
     </div>
   </div>
 </div>
@@ -555,6 +563,20 @@
   <td>private,</td>
   <td>SAVE</td><td>::</td>
   <td><strong>randmat_counter</strong></td><td> =</td><td>0</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-rand_seed_init~2"></span>integer,</td>
+  
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>rand_seed_init</strong></td><td> =</td><td>12341313</td><td></td>
   
 </tr>
 
@@ -5786,6 +5808,36 @@ private subroutine <a href='../proc/write_4d_array.html'>write_4d_array</a>(arra
 </table>
 
       
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_reset_randmat_seed"></span><h3>
+public subroutine <a href='../proc/dbcsr_t_reset_randmat_seed.html'>dbcsr_t_reset_randmat_seed</a>()
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Reset the seed used for generating random matrices to default value</p>
+    
+    <h4>Arguments</h4>
+    
+      <em>None</em>
     
     
 
