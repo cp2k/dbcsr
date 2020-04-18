@@ -230,15 +230,15 @@ CONTAINS
                                                             map2_2d => NULL()
 
       CALL c_f_pointer(c_tensor_in, tensor_in)
-      
+
       IF (c_associated(c_name)) CALL c_f_string(c_name, fname)
-     
+
       ALLOCATE (tensor)
 
       IF (C_ASSOCIATED(c_dist)) CALL c_f_pointer(c_dist, dist)
       IF (PRESENT(c_map1_2d) .AND. PRESENT(c_map2_2d)) THEN
-         ALLOCATE(map1_2d(SIZE(c_map1_2d)))
-         ALLOCATE(map2_2d(SIZE(c_map2_2d)))
+         ALLOCATE (map1_2d(SIZE(c_map1_2d)))
+         ALLOCATE (map2_2d(SIZE(c_map2_2d)))
          map1_2d = c_map1_2d+1
          map2_2d = c_map2_2d+1
       ENDIF
@@ -247,9 +247,9 @@ CONTAINS
                           map1_2d, map2_2d, data_type)
 
       c_tensor = c_loc(tensor)
-      
-      IF (ASSOCIATED(map1_2d)) DEALLOCATE(map1_2d)
-      IF (ASSOCIATED(map2_2d)) DEALLOCATE(map2_2d)
+
+      IF (ASSOCIATED(map1_2d)) DEALLOCATE (map1_2d)
+      IF (ASSOCIATED(map2_2d)) DEALLOCATE (map2_2d)
 
    END SUBROUTINE
 
@@ -348,8 +348,8 @@ CONTAINS
       TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid_opt_1 => null(), &
                                                             pgrid_opt_2 => null(), pgrid_opt_3 => null()
 
-      INTEGER, DIMENSION(:,:), POINTER                  :: bounds_1 => NULL(), & 
-                                                         bounds_2 => NULL(), bounds_3 => NULL()
+      INTEGER, DIMENSION(:, :), POINTER                  :: bounds_1 => NULL(), &
+                                                            bounds_2 => NULL(), bounds_3 => NULL()
 
       LOGICAL, POINTER                                   :: move_data
       LOGICAL, POINTER                                   :: retain_sparsity
@@ -361,7 +361,7 @@ CONTAINS
 
 #:for dim in range(1,4)
       IF (PRESENT(c_bounds_${dim}$)) THEN
-         ALLOCATE(bounds_${dim}$(2,SIZE(c_bounds_${dim}$,2)))
+         ALLOCATE (bounds_${dim}$ (2, SIZE(c_bounds_${dim}$, 2)))
          bounds_${dim}$ = c_bounds_${dim}$+1
       ENDIF
 #:endfor
@@ -369,8 +369,8 @@ CONTAINS
 #:set list = ['optimize_dist', 'move_data', 'retain_sparsity', 'log_verbose']
 #:for var in list
       IF (PRESENT(c_${var}$)) THEN
-          ALLOCATE(${var}$)
-          ${var}$ = c_${var}$
+         ALLOCATE (${var}$)
+         ${var}$ = c_${var}$
       ENDIF
 #:endfor
 
@@ -402,11 +402,11 @@ CONTAINS
 
 #:set list = ['optimize_dist', 'move_data', 'retain_sparsity', 'log_verbose']
 #:for var in list
-      IF (ASSOCIATED(${var}$)) DEALLOCATE(${var}$)
+      IF (ASSOCIATED(${var}$)) DEALLOCATE (${var}$)
 #:endfor
 
 #:for dim in range(1,4)
-      IF (ASSOCIATED(bounds_${dim}$)) DEALLOCATE(bounds_${dim}$)
+      IF (ASSOCIATED(bounds_${dim}$)) DEALLOCATE (bounds_${dim}$)
 #:endfor
 
    END SUBROUTINE
@@ -452,7 +452,7 @@ CONTAINS
 
       TYPE(dbcsr_t_type), POINTER                        :: tensor_1, tensor_2
       TYPE(dbcsr_t_type), POINTER                        :: tensor_3
-      INTEGER, DIMENSION(:,:), POINTER                   :: bounds_1, bounds_2, bounds_3
+      INTEGER, DIMENSION(:, :), POINTER                   :: bounds_1, bounds_2, bounds_3
       INTEGER, DIMENSION(result_index_size, tensor3_dim) :: result_index
 
       CALL c_f_pointer(c_tensor_1, tensor_1)
@@ -461,7 +461,7 @@ CONTAINS
 
 #:for dim in range(1,4)
       IF (PRESENT(c_bounds_${dim}$)) THEN
-         ALLOCATE(bounds_${dim}$(2,SIZE(c_bounds_${dim}$,2)))
+         ALLOCATE (bounds_${dim}$ (2, SIZE(c_bounds_${dim}$, 2)))
          bounds_${dim}$ = c_bounds_${dim}$+1
       ENDIF
 #:endfor
@@ -473,11 +473,11 @@ CONTAINS
                                   c_map_1 + 1, c_map_2 + 1, &
                                   bounds_1, bounds_2, bounds_3, &
                                   c_filter_eps, c_nblks_local, result_index)
-                                  
+
       c_result_index = result_index - 1
-      
+
 #:for dim in range(1,4)
-      IF (ASSOCIATED(bounds_${dim}$)) DEALLOCATE(bounds_${dim}$)
+      IF (ASSOCIATED(bounds_${dim}$)) DEALLOCATE (bounds_${dim}$)
 #:endfor
 
    END SUBROUTINE
@@ -537,7 +537,7 @@ CONTAINS
       LOGICAL, POINTER                                   :: summation
 
       IF (PRESENT(c_summation)) THEN
-         ALLOCATE(summation)
+         ALLOCATE (summation)
          summation = c_summation
       ENDIF
 
@@ -545,8 +545,8 @@ CONTAINS
 
       CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
                              c_block, summation, c_scale)
-                             
-      IF (ASSOCIATED(summation)) DEALLOCATE(summation)
+
+      IF (ASSOCIATED(summation)) DEALLOCATE (summation)
 
    END SUBROUTINE
 #:endfor
@@ -576,12 +576,12 @@ CONTAINS
       INTEGER(kind=c_int), INTENT(in), value             :: nblocks
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL          :: ${varlist("c_blk_ind", suffix ="(nblocks)")}$
       INTEGER, DIMENSION(:), POINTER                     :: ${varlist("blk_ind")}$
-      
+
       TYPE(dbcsr_t_type), POINTER                        :: tensor
 
 #:for ddim in ddims
       IF (PRESENT(c_blk_ind_${ddim}$)) THEN
-         ALLOCATE(blk_ind_${ddim}$(nblocks))
+         ALLOCATE (blk_ind_${ddim}$ (nblocks))
          blk_ind_${ddim}$ = c_blk_ind_${ddim}$+1
       ENDIF
 #:endfor
@@ -589,9 +589,9 @@ CONTAINS
       CALL c_f_pointer(c_tensor, tensor)
 
       CALL dbcsr_t_reserve_blocks(tensor, ${varlist("blk_ind")}$)
-      
+
 #:for ddim in ddims
-      IF (ASSOCIATED(blk_ind_${ddim}$)) DEALLOCATE(blk_ind_${ddim}$)
+      IF (ASSOCIATED(blk_ind_${ddim}$)) DEALLOCATE (blk_ind_${ddim}$)
 #:endfor
 
    END SUBROUTINE
@@ -679,9 +679,9 @@ CONTAINS
       CALL dbcsr_t_iterator_next_block(iterator, ind_nd, c_blk, c_blk_p, c_blk_size, blk_offset)
 
       c_ind_nd = ind_nd - 1
-      IF (PRESENT(c_blk_offset)) THEN 
+      IF (PRESENT(c_blk_offset)) THEN
          c_blk_offset = blk_offset - 1
-         DEALLOCATE(blk_offset)
+         DEALLOCATE (blk_offset)
       ENDIF
 
    END SUBROUTINE
@@ -714,17 +714,17 @@ CONTAINS
 
       CALL c_f_pointer(c_tensor_in, tensor_in)
       ALLOCATE (tensor_out)
-      
+
       IF (PRESENT(c_nodata)) THEN
-        ALLOCATE(nodata)
-        nodata = c_nodata
+         ALLOCATE (nodata)
+         nodata = c_nodata
       ENDIF
 
       CALL dbcsr_t_split_blocks(tensor_in, tensor_out, c_block_sizes, nodata)
 
       c_tensor_out = c_loc(tensor_out)
-      
-      IF (ASSOCIATED(nodata)) DEALLOCATE(nodata)
+
+      IF (ASSOCIATED(nodata)) DEALLOCATE (nodata)
 
    END SUBROUTINE
 
@@ -743,13 +743,13 @@ CONTAINS
 
       CALL c_f_pointer(c_tensor, tensor)
       IF (PRESENT(c_use_absolute)) THEN
-         ALLOCATE(use_absolute)
+         ALLOCATE (use_absolute)
          use_absolute = c_use_absolute
       ENDIF
 
       CALL dbcsr_t_filter(tensor, c_eps, c_method, use_absolute)
-      
-      IF (ASSOCIATED(use_absolute)) DEALLOCATE(use_absolute)
+
+      IF (ASSOCIATED(use_absolute)) DEALLOCATE (use_absolute)
 
    END SUBROUTINE
 #:endfor
@@ -786,13 +786,13 @@ CONTAINS
       CALL c_f_pointer(c_tensor_out, tensor_out)
 
       IF (PRESENT(c_summation)) THEN
-         ALLOCATE(summation)
+         ALLOCATE (summation)
          summation = c_summation
       ENDIF
 
       CALL dbcsr_t_copy_matrix_to_tensor(matrix_in, tensor_out, summation)
-      
-      IF(ASSOCIATED(summation)) DEALLOCATE(summation)
+
+      IF (ASSOCIATED(summation)) DEALLOCATE (summation)
 
    END SUBROUTINE
 
@@ -811,13 +811,13 @@ CONTAINS
       CALL c_f_pointer(c_matrix_out, matrix_out)
 
       IF (PRESENT(c_summation)) THEN
-         ALLOCATE(summation)
+         ALLOCATE (summation)
          summation = c_summation
       ENDIF
 
       CALL dbcsr_t_copy_tensor_to_matrix(tensor_in, matrix_out, summation)
-      
-      IF (ASSOCIATED(summation)) DEALLOCATE(summation)
+
+      IF (ASSOCIATED(summation)) DEALLOCATE (summation)
 
    END SUBROUTINE
 
@@ -853,38 +853,38 @@ CONTAINS
 
       TYPE(dbcsr_t_type), POINTER                        :: tensor_in, tensor_out
       INTEGER, DIMENSION(:), POINTER                     :: order => NULL()
-      INTEGER, DIMENSION(:,:), POINTER                   :: bounds => NULL()
-      LOGICAL, POINTER                                   :: summation => NULL(),& 
+      INTEGER, DIMENSION(:, :), POINTER                   :: bounds => NULL()
+      LOGICAL, POINTER                                   :: summation => NULL(), &
                                                             move_data => NULL()
 
       CALL c_f_pointer(c_tensor_in, tensor_in)
       CALL c_f_pointer(c_tensor_out, tensor_out)
-          
+
       IF (PRESENT(c_order)) THEN
-         ALLOCATE(order(tensor_dim))
+         ALLOCATE (order(tensor_dim))
          order = c_order + 1
       ENDIF
 
       IF (PRESENT(c_bounds)) THEN
-        ALLOCATE(bounds(2,tensor_dim))
-        bounds = c_bounds + 1
+         ALLOCATE (bounds(2, tensor_dim))
+         bounds = c_bounds + 1
       ENDIF
 
       IF (PRESENT(c_summation)) THEN
-        ALLOCATE(summation)
-        summation = c_summation
+         ALLOCATE (summation)
+         summation = c_summation
       ENDIF
 
       IF (PRESENT(c_move_data)) THEN
-        ALLOCATE(move_data)
-        move_data = c_move_data
+         ALLOCATE (move_data)
+         move_data = c_move_data
       ENDIF
 
       CALL dbcsr_t_copy(tensor_in, tensor_out, order, summation, bounds, move_data, c_unit_nr)
-      
+
 #:set list = ['order', 'bounds', 'summation', 'move_data']
 #:for var in list
-      IF (ASSOCIATED(${var}$)) DEALLOCATE(${var}$)
+      IF (ASSOCIATED(${var}$)) DEALLOCATE (${var}$)
 #:endfor
 
    END SUBROUTINE
@@ -976,7 +976,7 @@ CONTAINS
 
       IF (PRESENT(c_distribution)) ALLOCATE (distribution)
       IF (PRESENT(c_name)) ALLOCATE (CHARACTER(len=default_string_length) :: name)
-      
+
       CALL dbcsr_t_get_info(tensor, c_nblks_total, c_nfull_total, c_nblks_local, &
                             c_nfull_local, c_pdims, c_my_ploc, &
                             ${varlist("c_blks_local")}$, &
@@ -1040,12 +1040,12 @@ CONTAINS
       CALL c_f_pointer(c_tensor, tensor)
 
       IF (PRESENT(c_col_major)) ALLOCATE (col_major)
-      
+
       CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, ndim_nd, ndim1_2d, &
-                                       ndim2_2d, c_dims_2d_i8, c_dims_2d, c_dims_nd, &
-                                       c_dims1_2d, c_dims2_2d, &
-                                       c_map1_2d, c_map2_2d, c_map_nd, &
-                                       base, col_major)
+                                    ndim2_2d, c_dims_2d_i8, c_dims_2d, c_dims_nd, &
+                                    c_dims1_2d, c_dims2_2d, &
+                                    c_map1_2d, c_map2_2d, c_map_nd, &
+                                    base, col_major)
 
 #:set list = ['dims_nd', 'dims1_2d', 'dims2_2d', 'map1_2d', 'map2_2d', 'map_nd']
 #:for var in list
