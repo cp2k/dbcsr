@@ -18,7 +18,7 @@ MODULE dbcsr_tensor
 # 1 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp" 1
 # 9 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp"
 
-# 71 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp"
+# 241 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp"
 # 18 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F" 2
 # 19 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
 # 20 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
@@ -55,7 +55,7 @@ MODULE dbcsr_tensor
       dbcsr_t_get_num_blocks_total, dbcsr_t_get_info, ndims_matrix_row, ndims_matrix_column, &
       dbcsr_t_max_nblks_local, dbcsr_t_default_distvec
    USE dbcsr_kinds, ONLY: &
-      real_4, real_8, default_string_length, int_8, dp
+      real_8, real_4, default_string_length, int_8, dp
    USE dbcsr_mpiwrap, ONLY: &
       mp_environ, mp_max, mp_sum
    USE dbcsr_toollib, ONLY: &

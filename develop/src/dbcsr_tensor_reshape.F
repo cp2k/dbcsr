@@ -14,7 +14,7 @@ MODULE dbcsr_tensor_reshape
 # 1 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp" 1
 # 9 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp"
 
-# 71 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp"
+# 241 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp"
 # 14 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F" 2
 # 15 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
 # 16 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
@@ -34,7 +34,7 @@ MODULE dbcsr_tensor_reshape
                                  dbcsr_t_clear
    USE dbcsr_kinds, ONLY: default_string_length
    USE dbcsr_kinds, ONLY: real_4, real_8
-   USE dbcsr_api, ONLY: dbcsr_type_complex_4, dbcsr_type_complex_8, dbcsr_type_real_8, dbcsr_type_real_4
+   USE dbcsr_api, ONLY: dbcsr_type_real_4, dbcsr_type_real_8, dbcsr_type_complex_4, dbcsr_type_complex_8
    USE dbcsr_mpiwrap, ONLY: mp_alltoall, &
                             mp_environ, &
                             mp_irecv, &

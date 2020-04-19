@@ -17,11 +17,11 @@ MODULE dbcsr_allocate_wrap
 # 1 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp" 1
 # 9 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp"
 
-# 71 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp"
+# 241 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.fypp"
 # 17 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F" 2
 # 18 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_allocate_wrap.F"
 
-   USE dbcsr_kinds, ONLY: real_8, real_4
+   USE dbcsr_kinds, ONLY: real_4, real_8
 
 #include "base/dbcsr_base_uses.f90"
    IMPLICIT NONE
