@@ -879,7 +879,7 @@ CONTAINS
       CHARACTER(len=*), INTENT(IN)                       :: name
       TYPE(dbcsr_distribution_type), INTENT(IN)          :: dist
       CHARACTER, INTENT(IN)                              :: matrix_type
-      INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: row_blk_size, col_blk_size
+      INTEGER, DIMENSION(:), INTENT(INOUT), POINTER      :: row_blk_size, col_blk_size
       INTEGER, INTENT(IN), OPTIONAL                      :: nze, data_type
       LOGICAL, INTENT(IN), OPTIONAL                      :: reuse, reuse_arrays, mutable_work
       CHARACTER, INTENT(IN), OPTIONAL                    :: replication_type
@@ -902,7 +902,7 @@ CONTAINS
       TYPE(dbcsr_distribution_type), INTENT(IN), &
          OPTIONAL                                        :: dist
       CHARACTER, INTENT(IN), OPTIONAL                    :: matrix_type
-      INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL, &
+      INTEGER, DIMENSION(:), INTENT(INOUT), OPTIONAL, &
          POINTER                                         :: row_blk_size, col_blk_size
       INTEGER, INTENT(IN), OPTIONAL                      :: nze, data_type
       LOGICAL, INTENT(IN), OPTIONAL                      :: reuse_arrays, mutable_work
