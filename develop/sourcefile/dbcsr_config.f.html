@@ -356,7 +356,7 @@
 <a name="ln-98"></a>      <span class="kt">INTEGER</span>  <span class="kd">::</span> <span class="n">num_layers_3D</span> <span class="o">=</span> <span class="mi">1</span>
 <a name="ln-99"></a>      <span class="kt">LOGICAL</span>  <span class="kd">::</span> <span class="n">use_comm_thread</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
 <a name="ln-100"></a>      <span class="kt">INTEGER</span>  <span class="kd">::</span> <span class="n">comm_thread_load</span> <span class="o">=</span> <span class="mi">100</span>
-<a name="ln-101"></a><span class="cp">#if !defined (__DBCSR_ACC) || (__DBCSR_ACC == 2) || (__DBCSR_ACC == 3)</span>
+<a name="ln-101"></a><span class="cp">#if !defined (__DBCSR_ACC)</span>
 <a name="ln-102"></a>      <span class="kt">LOGICAL</span>  <span class="kd">::</span> <span class="n">mm_densification</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
 <a name="ln-103"></a><span class="cp">#else</span>
 <a name="ln-104"></a>      <span class="kt">LOGICAL</span>  <span class="kd">::</span> <span class="n">mm_densification</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>

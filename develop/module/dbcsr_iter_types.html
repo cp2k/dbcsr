@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.2% of total for modules and submodules.">112 statements</a>
+    title=" 0.1% of total for modules and submodules.">84 statements</a>
      </li> 
      
      
@@ -164,7 +164,7 @@
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_iter_types.html#variable-modulen~23">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_iter_types.html#variable-modulen~22">moduleN</a>
       
       <a class="list-group-item" href="../module/dbcsr_iter_types.html#variable-debug_this_module~2">debug_this_module</a>
       
@@ -208,8 +208,6 @@
       <a class="list-group-item" href="../module/dbcsr_iter_types.html#proc-dbcsr_iteration_info_retain">dbcsr_iteration_info_retain</a>
       
       <a class="list-group-item" href="../module/dbcsr_iter_types.html#proc-dbcsr_iteration_info_release">dbcsr_iteration_info_release</a>
-      
-      <a class="list-group-item" href="../module/dbcsr_iter_types.html#proc-dbcsr_iteration_info_copy_iter">dbcsr_iteration_info_copy_iter</a>
       
     </div>
   </div>
@@ -272,7 +270,7 @@
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_iter_types.html#variable-modulen~23">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_iter_types.html#variable-modulen~22">moduleN</a>
       
       <a class="list-group-item" href="../module/dbcsr_iter_types.html#variable-debug_this_module~2">debug_this_module</a>
       
@@ -317,8 +315,6 @@
       
       <a class="list-group-item" href="../module/dbcsr_iter_types.html#proc-dbcsr_iteration_info_release">dbcsr_iteration_info_release</a>
       
-      <a class="list-group-item" href="../module/dbcsr_iter_types.html#proc-dbcsr_iteration_info_copy_iter">dbcsr_iteration_info_copy_iter</a>
-      
     </div>
   </div>
 </div>
@@ -356,7 +352,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-modulen~23"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-modulen~22"></span>character(len=*),</td>
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
@@ -743,82 +739,6 @@ public subroutine <a href='../proc/dbcsr_iteration_info_release.html'>dbcsr_iter
   
   <td>POINTER</td><td>::</td>
   <td><strong>iteration_info</strong></td><td><p>the iteration_info to release</p></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-  </div>
-  </div>
-
-    
-    
-  <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_iteration_info_copy_iter"></span><h3>
-public subroutine <a href='../proc/dbcsr_iteration_info_copy_iter.html'>dbcsr_iteration_info_copy_iter</a>(iteration_info_in, iteration_info_out)
-    
-    
-   
-</h3></div>
-  <div class="panel-body">
-       
-    
-
-
-
-
-
-
-
-<p>Copies iterations info of an iteration info into another iteration info</p>
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_iteration_info_type.html'>dbcsr_iteration_info_type</a>),</td>
-  <td></td>
-  <td></td>
-  
-  <td>POINTER</td><td>::</td>
-  <td><strong>iteration_info_in</strong></td><td><p>the iteration_info to be copied
- the iteration_info results of the copy</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_iteration_info_type.html'>dbcsr_iteration_info_type</a>),</td>
-  <td></td>
-  <td></td>
-  
-  <td>POINTER</td><td>::</td>
-  <td><strong>iteration_info_out</strong></td><td><p>the iteration_info to be copied
- the iteration_info results of the copy</p></td>
   
 </tr>
 

@@ -179,9 +179,7 @@ The 4 variants can be combined with the accelerator support.</p>
 <span class="err">    -DUSE_OPENMP=&lt;ON|OFF&gt;</span>
 <span class="err">    -DUSE_SMM=&lt;blas|libxsmm&gt;</span>
 <span class="err">    -DUSE_CUDA=&lt;OFF|ON&gt;</span>
-<span class="err">    -DUSE_CUBLAS=&lt;OFF|ON&gt;</span>
 <span class="err">    -DUSE_HIP=&lt;OFF|ON&gt;</span>
-<span class="err">    -DUSE_HIPBLAS=&lt;OFF|ON&gt;</span>
 <span class="err">    -DWITH_C_API=&lt;ON|OFF&gt;</span>
 <span class="err">    -DWITH_EXAMPLES=&lt;ON|OFF&gt;</span>
 <span class="err">    -DWITH_GPU=&lt;P100|K20X|K40|K80|V100|Mi50&gt;</span>
@@ -212,6 +210,7 @@ to running <code>cmake</code>. An example if <code>libxsmm</code> was checked ou
 </code></pre></div>
 
 
+<p>Please, note that if you are using OpenMP builds, then you have to set the environment variable <code>OMP_NESTED=false</code>.</p>
 <h3>C/C++ Interface</h3>
 <p>If MPI support is enabled (the default), the C API is automatically built.</p>
 <h3>Workaround issue in HIP</h3>

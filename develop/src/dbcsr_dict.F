@@ -20,7 +20,7 @@ MODULE dbcsr_dict
    !! size will be allocated and the items are then copied over.
    !! This ensures that the dictionary will perform operations in O(1).
 
-   USE dbcsr_kinds, ONLY: int_4, int_8, default_string_length
+   USE dbcsr_kinds, ONLY: int_8, int_4, default_string_length
    USE dbcsr_timings_base_type, ONLY: call_stat_type
 #include "base/dbcsr_base_uses.f90"
    IMPLICIT NONE
@@ -397,6 +397,10 @@ END FUNCTION hash_i4tuple
       TYPE(private_item_type_str_i4), POINTER                      :: item
       INTEGER(KIND=int_8)                                   :: hash, idx
 
+# 291 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+      value = 0
+# 295 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+
       IF (.not. ASSOCIATED(dict%buckets)) &
          DBCSR_ABORT("dict_str_i4_get: dictionary is not initialized.")
 
@@ -713,6 +717,10 @@ END FUNCTION hash_i4tuple
       TYPE(private_item_type_i4tuple_callstat), POINTER                      :: item
       INTEGER(KIND=int_8)                                   :: hash, idx
 
+# 293 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+      NULLIFY (value)
+# 295 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+
       IF (.not. ASSOCIATED(dict%buckets)) &
          DBCSR_ABORT("dict_i4tuple_callstat_get: dictionary is not initialized.")
 
@@ -871,6 +879,6 @@ END FUNCTION hash_i4tuple
       deallocate (from_items)
    END SUBROUTINE dict_i4tuple_callstat_update
 
-# 449 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 455 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
 
 END MODULE dbcsr_dict

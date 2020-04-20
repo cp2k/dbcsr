@@ -25,7 +25,7 @@ MODULE dbcsr_hipblas
    PUBLIC :: hipblas_handle_destroy
    PUBLIC :: hipblas_handle_type
 
-#if (__DBCSR_ACC == 3)
+#if (__HIP)
    PUBLIC :: hipblas_dgemm_hip
 #endif
 
@@ -33,7 +33,7 @@ MODULE dbcsr_hipblas
       TYPE(C_PTR) :: handle_ptr = c_null_ptr
    END TYPE hipblas_handle_type
 
-#if (__DBCSR_ACC == 3)
+#if (__HIP)
    INTERFACE
       FUNCTION hipblas_create_hip(handle) &
          RESULT(istat) &
@@ -77,7 +77,7 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'hipblas_handle_init', &
                                      routineP = moduleN//':'//routineN
 
-#if (__DBCSR_ACC == 3)
+#if (__HIP)
       INTEGER(KIND=C_INT)      :: err
       INTEGER                  :: handle
 
@@ -97,7 +97,7 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'hipblas_handle_destroy', &
                                      routineP = moduleN//':'//routineN
 
-#if (__DBCSR_ACC == 3)
+#if (__HIP)
       INTEGER(KIND=C_INT)      :: err
       INTEGER                  :: handle
 

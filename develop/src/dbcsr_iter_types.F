@@ -21,8 +21,7 @@ MODULE dbcsr_iter_types
    PUBLIC :: dbcsr_iteration_info_type, &
              dbcsr_iteration_info_create, &
              dbcsr_iteration_info_retain, &
-             dbcsr_iteration_info_release, &
-             dbcsr_iteration_info_copy_iter
+             dbcsr_iteration_info_release
 
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_iter_types'
    LOGICAL, PRIVATE, PARAMETER          :: debug_this_module = .FALSE.
@@ -133,50 +132,5 @@ CONTAINS
          END IF
       END IF
    END SUBROUTINE dbcsr_iteration_info_release
-
-   SUBROUTINE dbcsr_iteration_info_copy_iter(iteration_info_in, iteration_info_out)
-      !! Copies iterations info of an iteration info into another iteration info
-
-      TYPE(dbcsr_iteration_info_type), POINTER           :: iteration_info_in, iteration_info_out
-         !! the iteration_info to be copied
-         !! the iteration_info results of the copy
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_iteration_info_copy_iter', &
-                                     routineP = moduleN//':'//routineN
-
-      INTEGER                                            :: i, stat
-
-      IF (ASSOCIATED(iteration_info_in)) THEN
-         IF (iteration_info_in%ref_count <= 0) THEN
-            DBCSR_ABORT(routineP//" iteration_info_in%ref_counf<=0")
-         END IF
-
-         iteration_info_out%n_rlevel = iteration_info_in%n_rlevel
-
-         DEALLOCATE (iteration_info_out%iteration)
-         i = SIZE(iteration_info_in%iteration)
-         ALLOCATE (iteration_info_out%iteration(i), stat=stat)
-         IF (stat /= 0) &
-            DBCSR_ABORT(routineP//" could not allocate iteration_info%iteration")
-         iteration_info_out%iteration = iteration_info_in%iteration
-
-         DEALLOCATE (iteration_info_out%last_iter)
-         i = SIZE(iteration_info_in%last_iter)
-         ALLOCATE (iteration_info_out%last_iter(i), stat=stat)
-         IF (stat /= 0) &
-            DBCSR_ABORT(routineP//" could not allocate iteration_info%last_iter")
-         iteration_info_out%last_iter = iteration_info_in%last_iter
-
-         DEALLOCATE (iteration_info_out%level_name)
-         i = SIZE(iteration_info_in%level_name)
-         ALLOCATE (iteration_info_out%level_name(i), stat=stat)
-         IF (stat /= 0) &
-            DBCSR_ABORT(routineP//" could not allocate iteration_info%level_name")
-         iteration_info_out%level_name = iteration_info_in%level_name
-
-      ELSE
-         DBCSR_ABORT(routineP//" iteration_info_in not associated!")
-      END IF
-   END SUBROUTINE dbcsr_iteration_info_copy_iter
 
 END MODULE dbcsr_iter_types

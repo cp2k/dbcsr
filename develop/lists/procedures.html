@@ -1974,8 +1974,6 @@ All Procedures &ndash; DBCSR Library
 			 
 			   <tr><td><a href='../proc/dbcsr_isendrecv_any.html'>dbcsr_isendrecv_any</a></td><td><a href='../module/dbcsr_mp_operations.html'>dbcsr_mp_operations</a></td><td>Subroutine</td><td><p>Send/Recv function of encapsulated data.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/dbcsr_iteration_info_copy_iter.html'>dbcsr_iteration_info_copy_iter</a></td><td><a href='../module/dbcsr_iter_types.html'>dbcsr_iter_types</a></td><td>Subroutine</td><td><p>Copies iterations info of an iteration info into another iteration info</p></td></tr>
-			 
 			   <tr><td><a href='../proc/dbcsr_iteration_info_create.html'>dbcsr_iteration_info_create</a></td><td><a href='../module/dbcsr_iter_types.html'>dbcsr_iter_types</a></td><td>Subroutine</td><td><p>creates an output info object</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_iteration_info_release.html'>dbcsr_iteration_info_release</a></td><td><a href='../module/dbcsr_iter_types.html'>dbcsr_iter_types</a></td><td>Subroutine</td><td><p>releases the iteration_info (see doc/ReferenceCounting.html)</p></td></tr>
@@ -5784,49 +5782,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/quick_finalize.html'>quick_finalize</a></td><td><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></td><td>Subroutine</td><td><p>Performs quick finalization of matrix
  The data area from the work matrix is accepted as the new matrix's data
  area and the index is built from the work matrix.</p></td></tr>
-			 
-			   <tr><td><a href='../interface/reallocate.html'>reallocate</a></td><td><a href='../module/dbcsr_memory_utilities.html'>dbcsr_memory_utilities</a></td><td>Interface</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/reallocate_8i1.html'>reallocate_8i1</a></td><td><a href='../module/dbcsr_memory_utilities.html'>dbcsr_memory_utilities</a></td><td>Subroutine</td><td><p>(Re)Allocate an integer (int_8) vector with a new dimension.</p></td></tr>
-			 
-			   <tr><td><a href='../proc/reallocate_8i2.html'>reallocate_8i2</a></td><td><a href='../module/dbcsr_memory_utilities.html'>dbcsr_memory_utilities</a></td><td>Subroutine</td><td><p>(Re)Allocate an integer (int_8) array with a new dimension.</p></td></tr>
-			 
-			   <tr><td><a href='../proc/reallocate_c1.html'>reallocate_c1</a></td><td><a href='../module/dbcsr_memory_utilities.html'>dbcsr_memory_utilities</a></td><td>Subroutine</td><td><p>(Re)Allocate a complex vector with a new dimension</p></td></tr>
-			 
-			   <tr><td><a href='../proc/reallocate_c2.html'>reallocate_c2</a></td><td><a href='../module/dbcsr_memory_utilities.html'>dbcsr_memory_utilities</a></td><td>Subroutine</td><td><p>(Re)Allocate a complex array 2D with a new dimension</p></td></tr>
-			 
-			   <tr><td><a href='../proc/reallocate_c3.html'>reallocate_c3</a></td><td><a href='../module/dbcsr_memory_utilities.html'>dbcsr_memory_utilities</a></td><td>Subroutine</td><td><p>(Re)Allocate a complex array 3D with a new dimension</p></td></tr>
-			 
-			   <tr><td><a href='../proc/reallocate_c4.html'>reallocate_c4</a></td><td><a href='../module/dbcsr_memory_utilities.html'>dbcsr_memory_utilities</a></td><td>Subroutine</td><td><p>(Re)Allocate a complex array 4D with a new dimension</p></td></tr>
-			 
-			   <tr><td><a href='../proc/reallocate_i1.html'>reallocate_i1</a></td><td><a href='../module/dbcsr_memory_utilities.html'>dbcsr_memory_utilities</a></td><td>Subroutine</td><td><p>(Re)Allocate an integer vector with a new dimension.</p></td></tr>
-			 
-			   <tr><td><a href='../proc/reallocate_i2.html'>reallocate_i2</a></td><td><a href='../module/dbcsr_memory_utilities.html'>dbcsr_memory_utilities</a></td><td>Subroutine</td><td><p>(Re)Allocate an integer array with a new dimension.</p></td></tr>
-			 
-			   <tr><td><a href='../proc/reallocate_i3.html'>reallocate_i3</a></td><td><a href='../module/dbcsr_memory_utilities.html'>dbcsr_memory_utilities</a></td><td>Subroutine</td><td><p>(Re)Allocate an integer array 3D with a new dimension.</p></td></tr>
-			 
-			   <tr><td><a href='../proc/reallocate_i4.html'>reallocate_i4</a></td><td><a href='../module/dbcsr_memory_utilities.html'>dbcsr_memory_utilities</a></td><td>Subroutine</td><td><p>(Re)Allocate an integer array 3D with a new dimension.</p></td></tr>
-			 
-			   <tr><td><a href='../proc/reallocate_l1.html'>reallocate_l1</a></td><td><a href='../module/dbcsr_memory_utilities.html'>dbcsr_memory_utilities</a></td><td>Subroutine</td><td><p>(Re)Allocate a logical vector with a new dimension.</p></td></tr>
-			 
-			   <tr><td><a href='../proc/reallocate_ls1.html'>reallocate_ls1</a></td><td><a href='../module/dbcsr_memory_utilities.html'>dbcsr_memory_utilities</a></td><td>Subroutine</td><td><p>(Re)Allocate a vector of string variables of default path length.
- </p><a href="../proc/reallocate_ls1.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			 
-			   <tr><td><a href='../proc/reallocate_r1.html'>reallocate_r1</a></td><td><a href='../module/dbcsr_memory_utilities.html'>dbcsr_memory_utilities</a></td><td>Subroutine</td><td><p>(Re)Allocate an real vector with a new dimension.</p></td></tr>
-			 
-			   <tr><td><a href='../proc/reallocate_r2.html'>reallocate_r2</a></td><td><a href='../module/dbcsr_memory_utilities.html'>dbcsr_memory_utilities</a></td><td>Subroutine</td><td><p>(Re)Allocate an real array with new dimensions.</p></td></tr>
-			 
-			   <tr><td><a href='../proc/reallocate_r3.html'>reallocate_r3</a></td><td><a href='../module/dbcsr_memory_utilities.html'>dbcsr_memory_utilities</a></td><td>Subroutine</td><td><p>(Re)Allocate an real array 3D with new dimensions.</p></td></tr>
-			 
-			   <tr><td><a href='../proc/reallocate_r4.html'>reallocate_r4</a></td><td><a href='../module/dbcsr_memory_utilities.html'>dbcsr_memory_utilities</a></td><td>Subroutine</td><td><p>(Re)Allocate an real array 4D with new dimensions.</p></td></tr>
-			 
-			   <tr><td><a href='../proc/reallocate_r5.html'>reallocate_r5</a></td><td><a href='../module/dbcsr_memory_utilities.html'>dbcsr_memory_utilities</a></td><td>Subroutine</td><td><p>(Re)Allocate an real array 5D with new dimensions.</p></td></tr>
-			 
-			   <tr><td><a href='../proc/reallocate_s1.html'>reallocate_s1</a></td><td><a href='../module/dbcsr_memory_utilities.html'>dbcsr_memory_utilities</a></td><td>Subroutine</td><td><p>(Re)Allocate a vector of string variables
- </p><a href="../proc/reallocate_s1.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			 
-			   <tr><td><a href='../proc/reallocate_ss1.html'>reallocate_ss1</a></td><td><a href='../module/dbcsr_memory_utilities.html'>dbcsr_memory_utilities</a></td><td>Subroutine</td><td><p>(Re)Allocate a vector of string variables of default string length.
- </p><a href="../proc/reallocate_ss1.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			 
 			   <tr><td><a href='../proc/rebin_distribution.html'>rebin_distribution</a></td><td><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></td><td>Subroutine</td><td><p>Makes new distribution with decimation and multiplicity</p><a href="../proc/rebin_distribution.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			 

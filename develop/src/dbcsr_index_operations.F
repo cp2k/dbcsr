@@ -981,6 +981,7 @@ CONTAINS
 
 !   ---------------------------------------------------------------------------
 
+      bp = 0
       multidata = PRESENT(old_blk_d) .AND. PRESENT(new_blk_d)
       IF (old_size + add_size .NE. new_size) &
          DBCSR_WARN("Mismatch of new and old size")
@@ -1209,7 +1210,6 @@ CONTAINS
       matrix%list_indexing = .TRUE.
       !
       IF (matrix%local_indexing) THEN
-         global_cols => array_data(matrix%global_cols)
          nrows = matrix%nblkrows_local
       ELSE
          nrows = matrix%nblkrows_total
@@ -1219,6 +1219,7 @@ CONTAINS
       ALLOCATE (blki(3, nblks))
       CALL dbcsr_expand_row_index_2d(matrix%row_p, blki, nrows, 1)
       IF (matrix%local_indexing) THEN
+         global_cols => array_data(matrix%global_cols)
          ! If local indexing is enabled, then the rows but not the
          ! columns are already localized
          IF (dbg) THEN

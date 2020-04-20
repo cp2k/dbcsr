@@ -98,7 +98,7 @@ MODULE dbcsr_config
       INTEGER  :: num_layers_3D = 1
       LOGICAL  :: use_comm_thread = .TRUE.
       INTEGER  :: comm_thread_load = 100
-#if !defined (__DBCSR_ACC) || (__DBCSR_ACC == 2) || (__DBCSR_ACC == 3)
+#if !defined (__DBCSR_ACC)
       LOGICAL  :: mm_densification = .TRUE.
 #else
       LOGICAL  :: mm_densification = .FALSE.

@@ -359,8 +359,7 @@ public subroutine dbcsr_make_index_list(matrix, thread_redist)
       <span class="n">matrix</span><span class="p">%</span><span class="n">list_indexing</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
       <span class="c">!</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">local_indexing</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">         </span><span class="n">global_cols</span> <span class="o">=&gt;</span> <span class="n">array_data</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">global_cols</span><span class="p">)</span>
-         <span class="n">nrows</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">nblkrows_local</span>
+<span class="k">         </span><span class="n">nrows</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">nblkrows_local</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">nrows</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">nblkrows_total</span>
       <span class="n">ENDIF</span>
@@ -369,6 +368,7 @@ public subroutine dbcsr_make_index_list(matrix, thread_redist)
       <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">blki</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">nblks</span><span class="p">))</span>
       <span class="k">CALL </span><span class="n">dbcsr_expand_row_index_2d</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">row_p</span><span class="p">,</span> <span class="n">blki</span><span class="p">,</span> <span class="n">nrows</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">local_indexing</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">global_cols</span> <span class="o">=&gt;</span> <span class="n">array_data</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">global_cols</span><span class="p">)</span>
          <span class="c">! If local indexing is enabled, then the rows but not the</span>
          <span class="c">! columns are already localized</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">THEN</span>

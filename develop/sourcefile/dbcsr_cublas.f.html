@@ -283,7 +283,7 @@
 <a name="ln-25"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">cublas_handle_destroy</span>
 <a name="ln-26"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">cublas_handle_type</span>
 <a name="ln-27"></a>
-<a name="ln-28"></a><span class="cp">#if (__DBCSR_ACC == 2)</span>
+<a name="ln-28"></a><span class="cp">#if (__CUDA)</span>
 <a name="ln-29"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">cublas_dgemm_cu</span>
 <a name="ln-30"></a><span class="cp">#endif</span>
 <a name="ln-31"></a>
@@ -291,7 +291,7 @@
 <a name="ln-33"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="kt">C_PTR</span><span class="p">)</span> <span class="kd">::</span> <span class="n">handle_ptr</span> <span class="o">=</span> <span class="nb">c_null_ptr</span>
 <a name="ln-34"></a><span class="nb">   </span><span class="k">END TYPE </span><span class="n">cublas_handle_type</span>
 <a name="ln-35"></a>
-<a name="ln-36"></a><span class="cp">#if (__DBCSR_ACC == 2)</span>
+<a name="ln-36"></a><span class="cp">#if (__CUDA)</span>
 <a name="ln-37"></a>   <span class="k">INTERFACE</span>
 <a name="ln-38"></a><span class="k">      FUNCTION </span><span class="n">cublas_create_cu</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-39"></a>         <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="p">&amp;</span>
@@ -335,7 +335,7 @@
 <a name="ln-77"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;cublas_handle_init&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-78"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 <a name="ln-79"></a>
-<a name="ln-80"></a><span class="cp">#if (__DBCSR_ACC == 2)</span>
+<a name="ln-80"></a><span class="cp">#if (__CUDA)</span>
 <a name="ln-81"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span>      <span class="kd">::</span> <span class="n">err</span>
 <a name="ln-82"></a>      <span class="kt">INTEGER</span>                  <span class="kd">::</span> <span class="n">handle</span>
 <a name="ln-83"></a>
@@ -355,7 +355,7 @@
 <a name="ln-97"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;cublas_handle_destroy&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-98"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 <a name="ln-99"></a>
-<a name="ln-100"></a><span class="cp">#if (__DBCSR_ACC == 2)</span>
+<a name="ln-100"></a><span class="cp">#if (__CUDA)</span>
 <a name="ln-101"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span>      <span class="kd">::</span> <span class="n">err</span>
 <a name="ln-102"></a>      <span class="kt">INTEGER</span>                  <span class="kd">::</span> <span class="n">handle</span>
 <a name="ln-103"></a>

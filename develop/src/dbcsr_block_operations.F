@@ -667,6 +667,9 @@ CONTAINS
 
       INTEGER                                            :: lb2_s, lb_s, ub, ub2, ub2_s, ub_s
 !     ---------------------------------------------------------------------------
+
+      lb2_s = 0
+      ub2_s = 0
       IF (debug_mod) THEN
          IF (.NOT. ASSOCIATED(dst%d) .OR. .NOT. ASSOCIATED(src%d)) &
             DBCSR_ABORT("Data areas must be setup.")
@@ -1046,6 +1049,8 @@ CONTAINS
             DBCSR_ABORT("Incompatible data types")
       ENDIF
 
+      l = 0
+      u = 0
       SELECT CASE (area%d%data_type)
       CASE (dbcsr_type_real_4)
          l = LBOUND(area%d%r_sp, 1)
@@ -3787,6 +3792,6 @@ CONTAINS
      block_a(1:len) = block_a(1:len) + block_b(1:len)
   END SUBROUTINE block_add_c
 # 587 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.f90"
-# 1472 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F" 2
+# 1477 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F" 2
 
 END MODULE dbcsr_block_operations

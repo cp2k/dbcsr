@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.2% of total for procedures.">130 statements</a>
+    title=" 0.2% of total for procedures.">132 statements</a>
      </li> 
      
      
@@ -456,6 +456,9 @@ private subroutine dbcsr_data_copy_aa(dst, lb, data_size, src, source_lb, scale,
 
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">lb2_s</span><span class="p">,</span> <span class="n">lb_s</span><span class="p">,</span> <span class="n">ub</span><span class="p">,</span> <span class="n">ub2</span><span class="p">,</span> <span class="n">ub2_s</span><span class="p">,</span> <span class="n">ub_s</span>
 <span class="c">!     ---------------------------------------------------------------------------</span>
+
+      <span class="n">lb2_s</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="n">ub2_s</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">)</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">))</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Data areas must be setup.&quot;</span><span class="p">)</span>

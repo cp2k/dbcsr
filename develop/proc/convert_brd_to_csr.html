@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.2% of total for procedures.">92 statements</a>
+    title=" 0.2% of total for procedures.">95 statements</a>
      </li> 
      
      
@@ -340,6 +340,9 @@ private subroutine convert_brd_to_csr(brd_mat, csr_mat)
 <span class="k">      TYPE</span><span class="p">(</span><span class="n">dbcsr_iterator</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">iter</span>
 
       <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
+      <span class="n">local_row_ind</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="n">dbcsr_ind</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="n">node_row_offset</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">rowptr</span><span class="p">,</span> <span class="n">colind</span><span class="p">,</span> <span class="n">dbcsr_index</span><span class="p">,</span> <span class="n">csr_index</span><span class="p">)</span>
 
       <span class="n">dbcsr_index</span> <span class="o">=&gt;</span> <span class="n">csr_mat</span><span class="p">%</span><span class="n">dbcsr_mapping</span><span class="p">%</span><span class="n">csr_to_brd_ind</span>

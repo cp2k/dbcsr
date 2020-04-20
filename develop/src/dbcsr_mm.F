@@ -501,6 +501,7 @@ CONTAINS
       ENDIF
 
       ! transpose/conjg left and/or right matrices if needed
+      transpose_left = .FALSE.
       SELECT CASE (transa_l)
       CASE (dbcsr_no_transpose)
          matrix_left = matrix_a
@@ -531,6 +532,7 @@ CONTAINS
          DBCSR_ABORT("wrong transa_l = "//transa_l)
       END SELECT
 
+      transpose_right = .FALSE.
       SELECT CASE (transb_l)
       CASE (dbcsr_no_transpose)
          matrix_right = matrix_b

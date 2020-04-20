@@ -734,7 +734,7 @@
 <a name="ln-476"></a><span class="c">!   ---------------------------------------------------------------------------</span>
 <a name="ln-477"></a>
 <a name="ln-478"></a>      <span class="n">nthreads</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-479"></a><span class="c">!$    nthreads = OMP_GET_NUM_THREADS(); </span>
+<a name="ln-479"></a><span class="c">!$    nthreads = OMP_GET_NUM_THREADS()</span>
 <a name="ln-480"></a><span class="c">!$    IF (dist%d%num_threads /= nthreads) &amp;</span>
 <a name="ln-481"></a><span class="c">!$       DBCSR_ABORT(&quot;Thread number has changed&quot;)</span>
 <a name="ln-482"></a>      <span class="n">nrows</span> <span class="o">=</span> <span class="n">dbcsr_distribution_nrows</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>

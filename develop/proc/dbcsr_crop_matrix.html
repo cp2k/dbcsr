@@ -392,6 +392,10 @@ public subroutine dbcsr_crop_matrix(matrix_b, matrix_a, full_row_bounds, full_co
 <span class="c">!   ---------------------------------------------------------------------------</span>
 
       <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
+      <span class="n">part_l_col</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+      <span class="n">part_f_col</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+      <span class="n">part_l_row</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+      <span class="n">part_f_row</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">shallow_data</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">shallow</span> <span class="o">=</span> <span class="n">shallow_data</span>
       <span class="k">ELSE</span>
@@ -411,7 +415,6 @@ public subroutine dbcsr_crop_matrix(matrix_b, matrix_a, full_row_bounds, full_co
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid first row bound.&quot;</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">full_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">dbcsr_nfullrows_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">))</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid last row bound.&quot;</span><span class="p">)</span>
-         <span class="n">part_f_row</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">full_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
          <span class="k">ELSE</span>
@@ -428,7 +431,6 @@ public subroutine dbcsr_crop_matrix(matrix_b, matrix_a, full_row_bounds, full_co
             <span class="n">f_row_f</span> <span class="o">=</span> <span class="n">full_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="p">&amp;</span>
                       <span class="n">array_get</span><span class="p">(</span><span class="n">dbcsr_row_block_offsets</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
          <span class="n">ENDIF</span>
-         <span class="n">part_l_row</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">full_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">dbcsr_nblkrows_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span>
          <span class="k">ELSE</span>
@@ -457,7 +459,6 @@ public subroutine dbcsr_crop_matrix(matrix_b, matrix_a, full_row_bounds, full_co
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid first column bound.&quot;</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">full_column_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">))</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid last column bound.&quot;</span><span class="p">)</span>
-         <span class="n">part_f_col</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">full_column_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">block_col_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
          <span class="k">ELSE</span>
@@ -474,7 +475,6 @@ public subroutine dbcsr_crop_matrix(matrix_b, matrix_a, full_row_bounds, full_co
             <span class="n">f_col_f</span> <span class="o">=</span> <span class="n">full_column_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="p">&amp;</span>
                       <span class="n">array_get</span><span class="p">(</span><span class="n">dbcsr_col_block_offsets</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="n">block_col_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
          <span class="n">ENDIF</span>
-         <span class="n">part_l_col</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">full_column_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">block_col_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">dbcsr_nblkcols_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span>
          <span class="k">ELSE</span>

@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.6% of total for procedures.">349 statements</a>
+    title=" 0.6% of total for procedures.">351 statements</a>
      </li> 
      
      
@@ -765,6 +765,7 @@ public subroutine dbcsr_multiply_generic(transa, transb, alpha, matrix_a, matrix
       <span class="n">ENDIF</span>
 
       <span class="c">! transpose/conjg left and/or right matrices if needed</span>
+      <span class="n">transpose_left</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
       <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">transa_l</span><span class="p">)</span>
       <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_no_transpose</span><span class="p">)</span>
          <span class="n">matrix_left</span> <span class="o">=</span> <span class="n">matrix_a</span>
@@ -795,7 +796,8 @@ public subroutine dbcsr_multiply_generic(transa, transb, alpha, matrix_a, matrix
          <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;wrong transa_l = &quot;</span><span class="o">//</span><span class="n">transa_l</span><span class="p">)</span>
       <span class="k">END SELECT</span>
 
-<span class="k">      SELECT CASE</span> <span class="p">(</span><span class="n">transb_l</span><span class="p">)</span>
+<span class="k">      </span><span class="n">transpose_right</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+      <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">transb_l</span><span class="p">)</span>
       <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_no_transpose</span><span class="p">)</span>
          <span class="n">matrix_right</span> <span class="o">=</span> <span class="n">matrix_b</span>
          <span class="n">transpose_right</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>

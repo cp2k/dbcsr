@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">26 statements</a>
+    title=" 0.0% of total for procedures.">27 statements</a>
      </li> 
      
      
@@ -352,6 +352,10 @@ private function dict_i4tuple_callstat_get(dict, key, default_value) result(valu
       <span class="k">TYPE</span><span class="p">(</span><span class="n">call_stat_type</span><span class="p">),</span> <span class="k">POINTER</span>                                      <span class="kd">::</span> <span class="k">value</span>
 <span class="k">      TYPE</span><span class="p">(</span><span class="n">private_item_type_i4tuple_callstat</span><span class="p">),</span> <span class="k">POINTER</span>                      <span class="kd">::</span> <span class="n">item</span>
       <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span>                                   <span class="kd">::</span> <span class="n">hash</span><span class="p">,</span> <span class="n">idx</span>
+
+<span class="cp"># 293 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F&quot;</span>
+      <span class="k">NULLIFY</span> <span class="p">(</span><span class="k">value</span><span class="p">)</span>
+<span class="cp"># 295 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F&quot;</span>
 
       <span class="k">IF</span> <span class="p">(.</span><span class="nb">not</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">dict</span><span class="p">%</span><span class="n">buckets</span><span class="p">))</span> <span class="p">&amp;</span>
          <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;dict_i4tuple_callstat_get: dictionary is not initialized.&quot;</span><span class="p">)</span>

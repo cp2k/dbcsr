@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for source files.">94 statements</a>
+    title=" 0.2% of total for source files.">95 statements</a>
      </li> 
      
      
@@ -404,25 +404,26 @@
 <a name="ln-146"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_datatype_sizeof&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-147"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 <a name="ln-148"></a>
-<a name="ln-149"></a>      <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">datatype</span><span class="p">)</span>
-<a name="ln-150"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_int_4</span><span class="p">)</span>
-<a name="ln-151"></a>         <span class="n">size</span> <span class="o">=</span> <span class="n">int_4_size</span>
-<a name="ln-152"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_int_8</span><span class="p">)</span>
-<a name="ln-153"></a>         <span class="n">size</span> <span class="o">=</span> <span class="n">int_8_size</span>
-<a name="ln-154"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
-<a name="ln-155"></a>         <span class="n">size</span> <span class="o">=</span> <span class="n">real_4_size</span>
-<a name="ln-156"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
-<a name="ln-157"></a>         <span class="n">size</span> <span class="o">=</span> <span class="n">real_8_size</span>
-<a name="ln-158"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
-<a name="ln-159"></a>         <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">real_4_size</span><span class="p">)</span>
-<a name="ln-160"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
-<a name="ln-161"></a>         <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">real_8_size</span><span class="p">)</span>
-<a name="ln-162"></a>      <span class="k">CASE </span><span class="n">default</span>
-<a name="ln-163"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type&quot;</span><span class="p">)</span>
-<a name="ln-164"></a>      <span class="k">END SELECT</span>
-<a name="ln-165"></a><span class="k">   END FUNCTION </span><span class="n">dbcsr_datatype_sizeof</span>
-<a name="ln-166"></a>
-<a name="ln-167"></a><span class="k">END MODULE </span><span class="n">dbcsr_data_types</span>
+<a name="ln-149"></a>      <span class="n">size</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-150"></a>      <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">datatype</span><span class="p">)</span>
+<a name="ln-151"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_int_4</span><span class="p">)</span>
+<a name="ln-152"></a>         <span class="n">size</span> <span class="o">=</span> <span class="n">int_4_size</span>
+<a name="ln-153"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_int_8</span><span class="p">)</span>
+<a name="ln-154"></a>         <span class="n">size</span> <span class="o">=</span> <span class="n">int_8_size</span>
+<a name="ln-155"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
+<a name="ln-156"></a>         <span class="n">size</span> <span class="o">=</span> <span class="n">real_4_size</span>
+<a name="ln-157"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
+<a name="ln-158"></a>         <span class="n">size</span> <span class="o">=</span> <span class="n">real_8_size</span>
+<a name="ln-159"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
+<a name="ln-160"></a>         <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">real_4_size</span><span class="p">)</span>
+<a name="ln-161"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
+<a name="ln-162"></a>         <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">real_8_size</span><span class="p">)</span>
+<a name="ln-163"></a>      <span class="k">CASE </span><span class="n">default</span>
+<a name="ln-164"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type&quot;</span><span class="p">)</span>
+<a name="ln-165"></a>      <span class="k">END SELECT</span>
+<a name="ln-166"></a><span class="k">   END FUNCTION </span><span class="n">dbcsr_datatype_sizeof</span>
+<a name="ln-167"></a>
+<a name="ln-168"></a><span class="k">END MODULE </span><span class="n">dbcsr_data_types</span>
 </pre></div>
 
     </section>

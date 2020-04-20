@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 4.7% of total for source files.">2996 statements</a>
+    title=" 4.8% of total for source files.">2996 statements</a>
      </li> 
      
      
@@ -2035,89 +2035,89 @@
 <a name="ln-1777"></a><span class="c">!   ---------------------------------------------------------------------------</span>
 <a name="ln-1778"></a>
 <a name="ln-1779"></a>      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
-<a name="ln-1780"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">shallow_data</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-1781"></a><span class="k">         </span><span class="n">shallow</span> <span class="o">=</span> <span class="n">shallow_data</span>
-<a name="ln-1782"></a>      <span class="k">ELSE</span>
-<a name="ln-1783"></a><span class="k">         </span><span class="n">shallow</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a name="ln-1784"></a>      <span class="n">ENDIF</span>
-<a name="ln-1785"></a>      <span class="n">block_row_bounds</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-1786"></a>      <span class="n">block_col_bounds</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-1787"></a>      <span class="n">part_col</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a name="ln-1788"></a>      <span class="n">part_row</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a name="ln-1789"></a>      <span class="c">!</span>
-<a name="ln-1790"></a>      <span class="c">! If row bounds are present, they must be converted to block</span>
-<a name="ln-1791"></a>      <span class="c">! addressing.</span>
-<a name="ln-1792"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">full_row_bounds</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-1793"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">full_row_bounds</span><span class="p">)</span> <span class="o">/=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-1794"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Size of bounds specifier must be 2&quot;</span><span class="p">)</span>
-<a name="ln-1795"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">full_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-1796"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid first row bound.&quot;</span><span class="p">)</span>
-<a name="ln-1797"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">full_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">dbcsr_nfullrows_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-1798"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid last row bound.&quot;</span><span class="p">)</span>
-<a name="ln-1799"></a>         <span class="n">part_f_row</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a name="ln-1800"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">full_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-1801"></a><span class="k">            </span><span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-1802"></a>         <span class="k">ELSE</span>
-<a name="ln-1803"></a><span class="k">            CALL </span><span class="n">find_block_of_element</span><span class="p">(</span><span class="n">full_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="p">&amp;</span>
-<a name="ln-1804"></a>                                       <span class="n">dbcsr_nblkrows_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="p">&amp;</span>
-<a name="ln-1805"></a>                                       <span class="n">dbcsr_row_block_offsets</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="p">&amp;</span>
-<a name="ln-1806"></a>                                       <span class="n">hint</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<a name="ln-1807"></a>            <span class="n">part_f_row</span> <span class="o">=</span> <span class="n">array_get</span><span class="p">(</span><span class="n">dbcsr_row_block_offsets</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-1808"></a>                         <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">full_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<a name="ln-1809"></a>         <span class="n">ENDIF</span>
-<a name="ln-1810"></a>         <span class="n">f_row_f</span> <span class="o">=</span> <span class="o">-</span><span class="mi">7</span>
-<a name="ln-1811"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">part_f_row</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-1812"></a>            <span class="c">! Block offset of last cleared row</span>
-<a name="ln-1813"></a>            <span class="n">f_row_f</span> <span class="o">=</span> <span class="n">full_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="p">&amp;</span>
-<a name="ln-1814"></a>                      <span class="n">array_get</span><span class="p">(</span><span class="n">dbcsr_row_block_offsets</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-<a name="ln-1815"></a>         <span class="n">ENDIF</span>
-<a name="ln-1816"></a>         <span class="n">part_l_row</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a name="ln-1817"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">full_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-1818"></a><span class="k">            </span><span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">dbcsr_nblkrows_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span>
-<a name="ln-1819"></a>         <span class="k">ELSE</span>
-<a name="ln-1820"></a><span class="k">            CALL </span><span class="n">find_block_of_element</span><span class="p">(</span><span class="n">full_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="p">&amp;</span>
-<a name="ln-1821"></a>                                       <span class="n">dbcsr_nblkrows_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="p">&amp;</span>
-<a name="ln-1822"></a>                                       <span class="n">dbcsr_row_block_offsets</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="p">&amp;</span>
-<a name="ln-1823"></a>                                       <span class="n">hint</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<a name="ln-1824"></a>            <span class="n">part_l_row</span> <span class="o">=</span> <span class="n">array_get</span><span class="p">(</span><span class="n">dbcsr_row_block_offsets</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">&amp;</span>
-<a name="ln-1825"></a>                         <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">full_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<a name="ln-1826"></a>         <span class="n">ENDIF</span>
-<a name="ln-1827"></a>         <span class="c">! Block offset of first cleared row</span>
-<a name="ln-1828"></a>         <span class="n">l_row_l</span> <span class="o">=</span> <span class="o">-</span><span class="mi">7</span>
-<a name="ln-1829"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">part_l_row</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-1830"></a><span class="k">            </span><span class="n">l_row_l</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">full_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="p">&amp;</span>
-<a name="ln-1831"></a>                      <span class="n">array_get</span><span class="p">(</span><span class="n">dbcsr_row_block_offsets</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
-<a name="ln-1832"></a>         <span class="n">ENDIF</span>
-<a name="ln-1833"></a>         <span class="n">part_row</span> <span class="o">=</span> <span class="n">part_f_row</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">part_l_row</span>
-<a name="ln-1834"></a>      <span class="n">ENDIF</span>
-<a name="ln-1835"></a>      <span class="c">!</span>
-<a name="ln-1836"></a>      <span class="c">! If column bounds are present, they must be converted to block</span>
-<a name="ln-1837"></a>      <span class="c">! addressing.</span>
-<a name="ln-1838"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">full_column_bounds</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-1839"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">full_column_bounds</span><span class="p">)</span> <span class="o">/=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-1840"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Size of bounds specifier must be 2&quot;</span><span class="p">)</span>
-<a name="ln-1841"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">full_column_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-1842"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid first column bound.&quot;</span><span class="p">)</span>
-<a name="ln-1843"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">full_column_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-1844"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid last column bound.&quot;</span><span class="p">)</span>
-<a name="ln-1845"></a>         <span class="n">part_f_col</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a name="ln-1846"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">full_column_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-1847"></a><span class="k">            </span><span class="n">block_col_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-1848"></a>         <span class="k">ELSE</span>
-<a name="ln-1849"></a><span class="k">            CALL </span><span class="n">find_block_of_element</span><span class="p">(</span><span class="n">full_column_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">block_col_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="p">&amp;</span>
-<a name="ln-1850"></a>                                       <span class="n">dbcsr_nblkcols_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="p">&amp;</span>
-<a name="ln-1851"></a>                                       <span class="n">dbcsr_col_block_offsets</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="p">&amp;</span>
-<a name="ln-1852"></a>                                       <span class="n">hint</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<a name="ln-1853"></a>            <span class="n">part_f_col</span> <span class="o">=</span> <span class="n">array_get</span><span class="p">(</span><span class="n">dbcsr_col_block_offsets</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="n">block_col_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-1854"></a>                         <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">full_column_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<a name="ln-1855"></a>         <span class="n">ENDIF</span>
-<a name="ln-1856"></a>         <span class="n">f_col_f</span> <span class="o">=</span> <span class="o">-</span><span class="mi">7</span>
-<a name="ln-1857"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">part_f_col</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-1858"></a>            <span class="c">! Block offset of last cleared column</span>
-<a name="ln-1859"></a>            <span class="n">f_col_f</span> <span class="o">=</span> <span class="n">full_column_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="p">&amp;</span>
-<a name="ln-1860"></a>                      <span class="n">array_get</span><span class="p">(</span><span class="n">dbcsr_col_block_offsets</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="n">block_col_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-<a name="ln-1861"></a>         <span class="n">ENDIF</span>
-<a name="ln-1862"></a>         <span class="n">part_l_col</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-1780"></a>      <span class="n">part_l_col</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-1781"></a>      <span class="n">part_f_col</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-1782"></a>      <span class="n">part_l_row</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-1783"></a>      <span class="n">part_f_row</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-1784"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">shallow_data</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-1785"></a><span class="k">         </span><span class="n">shallow</span> <span class="o">=</span> <span class="n">shallow_data</span>
+<a name="ln-1786"></a>      <span class="k">ELSE</span>
+<a name="ln-1787"></a><span class="k">         </span><span class="n">shallow</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-1788"></a>      <span class="n">ENDIF</span>
+<a name="ln-1789"></a>      <span class="n">block_row_bounds</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-1790"></a>      <span class="n">block_col_bounds</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-1791"></a>      <span class="n">part_col</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-1792"></a>      <span class="n">part_row</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-1793"></a>      <span class="c">!</span>
+<a name="ln-1794"></a>      <span class="c">! If row bounds are present, they must be converted to block</span>
+<a name="ln-1795"></a>      <span class="c">! addressing.</span>
+<a name="ln-1796"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">full_row_bounds</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-1797"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">full_row_bounds</span><span class="p">)</span> <span class="o">/=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-1798"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Size of bounds specifier must be 2&quot;</span><span class="p">)</span>
+<a name="ln-1799"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">full_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-1800"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid first row bound.&quot;</span><span class="p">)</span>
+<a name="ln-1801"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">full_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">dbcsr_nfullrows_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-1802"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid last row bound.&quot;</span><span class="p">)</span>
+<a name="ln-1803"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">full_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-1804"></a><span class="k">            </span><span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
+<a name="ln-1805"></a>         <span class="k">ELSE</span>
+<a name="ln-1806"></a><span class="k">            CALL </span><span class="n">find_block_of_element</span><span class="p">(</span><span class="n">full_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-1807"></a>                                       <span class="n">dbcsr_nblkrows_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-1808"></a>                                       <span class="n">dbcsr_row_block_offsets</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-1809"></a>                                       <span class="n">hint</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<a name="ln-1810"></a>            <span class="n">part_f_row</span> <span class="o">=</span> <span class="n">array_get</span><span class="p">(</span><span class="n">dbcsr_row_block_offsets</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-1811"></a>                         <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">full_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-1812"></a>         <span class="n">ENDIF</span>
+<a name="ln-1813"></a>         <span class="n">f_row_f</span> <span class="o">=</span> <span class="o">-</span><span class="mi">7</span>
+<a name="ln-1814"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">part_f_row</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-1815"></a>            <span class="c">! Block offset of last cleared row</span>
+<a name="ln-1816"></a>            <span class="n">f_row_f</span> <span class="o">=</span> <span class="n">full_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="p">&amp;</span>
+<a name="ln-1817"></a>                      <span class="n">array_get</span><span class="p">(</span><span class="n">dbcsr_row_block_offsets</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<a name="ln-1818"></a>         <span class="n">ENDIF</span>
+<a name="ln-1819"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">full_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-1820"></a><span class="k">            </span><span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">dbcsr_nblkrows_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span>
+<a name="ln-1821"></a>         <span class="k">ELSE</span>
+<a name="ln-1822"></a><span class="k">            CALL </span><span class="n">find_block_of_element</span><span class="p">(</span><span class="n">full_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-1823"></a>                                       <span class="n">dbcsr_nblkrows_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-1824"></a>                                       <span class="n">dbcsr_row_block_offsets</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-1825"></a>                                       <span class="n">hint</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<a name="ln-1826"></a>            <span class="n">part_l_row</span> <span class="o">=</span> <span class="n">array_get</span><span class="p">(</span><span class="n">dbcsr_row_block_offsets</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">&amp;</span>
+<a name="ln-1827"></a>                         <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">full_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<a name="ln-1828"></a>         <span class="n">ENDIF</span>
+<a name="ln-1829"></a>         <span class="c">! Block offset of first cleared row</span>
+<a name="ln-1830"></a>         <span class="n">l_row_l</span> <span class="o">=</span> <span class="o">-</span><span class="mi">7</span>
+<a name="ln-1831"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">part_l_row</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-1832"></a><span class="k">            </span><span class="n">l_row_l</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">full_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="p">&amp;</span>
+<a name="ln-1833"></a>                      <span class="n">array_get</span><span class="p">(</span><span class="n">dbcsr_row_block_offsets</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<a name="ln-1834"></a>         <span class="n">ENDIF</span>
+<a name="ln-1835"></a>         <span class="n">part_row</span> <span class="o">=</span> <span class="n">part_f_row</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">part_l_row</span>
+<a name="ln-1836"></a>      <span class="n">ENDIF</span>
+<a name="ln-1837"></a>      <span class="c">!</span>
+<a name="ln-1838"></a>      <span class="c">! If column bounds are present, they must be converted to block</span>
+<a name="ln-1839"></a>      <span class="c">! addressing.</span>
+<a name="ln-1840"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">full_column_bounds</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-1841"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">full_column_bounds</span><span class="p">)</span> <span class="o">/=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-1842"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Size of bounds specifier must be 2&quot;</span><span class="p">)</span>
+<a name="ln-1843"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">full_column_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-1844"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid first column bound.&quot;</span><span class="p">)</span>
+<a name="ln-1845"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">full_column_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-1846"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid last column bound.&quot;</span><span class="p">)</span>
+<a name="ln-1847"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">full_column_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-1848"></a><span class="k">            </span><span class="n">block_col_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
+<a name="ln-1849"></a>         <span class="k">ELSE</span>
+<a name="ln-1850"></a><span class="k">            CALL </span><span class="n">find_block_of_element</span><span class="p">(</span><span class="n">full_column_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">block_col_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-1851"></a>                                       <span class="n">dbcsr_nblkcols_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-1852"></a>                                       <span class="n">dbcsr_col_block_offsets</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-1853"></a>                                       <span class="n">hint</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<a name="ln-1854"></a>            <span class="n">part_f_col</span> <span class="o">=</span> <span class="n">array_get</span><span class="p">(</span><span class="n">dbcsr_col_block_offsets</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="n">block_col_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-1855"></a>                         <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">full_column_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-1856"></a>         <span class="n">ENDIF</span>
+<a name="ln-1857"></a>         <span class="n">f_col_f</span> <span class="o">=</span> <span class="o">-</span><span class="mi">7</span>
+<a name="ln-1858"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">part_f_col</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-1859"></a>            <span class="c">! Block offset of last cleared column</span>
+<a name="ln-1860"></a>            <span class="n">f_col_f</span> <span class="o">=</span> <span class="n">full_column_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="p">&amp;</span>
+<a name="ln-1861"></a>                      <span class="n">array_get</span><span class="p">(</span><span class="n">dbcsr_col_block_offsets</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="n">block_col_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<a name="ln-1862"></a>         <span class="n">ENDIF</span>
 <a name="ln-1863"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">full_column_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-1864"></a><span class="k">            </span><span class="n">block_col_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">dbcsr_nblkcols_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span>
 <a name="ln-1865"></a>         <span class="k">ELSE</span>

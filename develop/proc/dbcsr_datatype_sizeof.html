@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">21 statements</a>
+    title=" 0.0% of total for procedures.">22 statements</a>
      </li> 
      
      
@@ -318,6 +318,7 @@ public function dbcsr_datatype_sizeof(datatype) result(size)
       <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_datatype_sizeof&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
                                      <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 
+      <span class="n">size</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">datatype</span><span class="p">)</span>
       <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_int_4</span><span class="p">)</span>
          <span class="n">size</span> <span class="o">=</span> <span class="n">int_4_size</span>

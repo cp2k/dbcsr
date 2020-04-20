@@ -349,7 +349,7 @@ private subroutine make_threads(dist, row_sizes)
 <span class="c">!   ---------------------------------------------------------------------------</span>
 
       <span class="n">nthreads</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="c">!$    nthreads = OMP_GET_NUM_THREADS(); </span>
+<span class="c">!$    nthreads = OMP_GET_NUM_THREADS()</span>
 <span class="c">!$    IF (dist%d%num_threads /= nthreads) &amp;</span>
 <span class="c">!$       DBCSR_ABORT(&quot;Thread number has changed&quot;)</span>
       <span class="n">nrows</span> <span class="o">=</span> <span class="n">dbcsr_distribution_nrows</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
