@@ -387,7 +387,7 @@ CONTAINS
 #:endfor
 
 #:for i in range(len(optgroups))
-      ${print_groupif(optgroups,optvars,i,'ASSOCIATED')}$
+      ${print_groupif(optgroups,optvars,i,'PRESENT','c_')}$
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
                             tensor_2=tensor_2, beta=dbcsr_scalar(c_beta), &
