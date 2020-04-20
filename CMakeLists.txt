@@ -68,14 +68,11 @@ set(USE_SMM "blas" CACHE STRING "Small Matrix Multiplication implementation to u
 set_property(CACHE USE_SMM PROPERTY STRINGS blas libxsmm)
 
 option(USE_CUDA "Build with CUDA support" OFF)
-cmake_dependent_option(USE_CUBLAS "Build with CUBLAS support" OFF "USE_CUDA" OFF)
 set(SUPPORTED_CUDA_ARCHITECTURES
     K20X K40 K80 P100 V100)
 set(WITH_GPU "P100" CACHE STRING "Set the CUDA GPU architecture if CUDA is enabled (default: P100)")
 set_property(CACHE WITH_GPU PROPERTY STRINGS ${SUPPORTED_CUDA_ARCHITECTURES})
 
-option(USE_HIP "Build with HIP support" OFF)
-cmake_dependent_option(USE_HIPBLAS "Build with HIPBLAS support" OFF "USE_HIP" OFF)
 set(SUPPORTED_HIP_ARCHITECTURES
     ${SUPPORTED_CUDA_ARCHITECTURES} Mi50)
 set(WITH_GPU "P100" CACHE STRING "Set the CUDA GPU architecture if HIP is enabled (default: P100)")
@@ -186,6 +183,14 @@ if (USE_CUDA)
   message(STATUS "GPU target architecture: " ${WITH_GPU})
   message(STATUS "GPU architecture number: " ${ACC_ARCH_NUMBER})
 
+  # =================================== BLAS on GPU backend
+  find_library(CUBLAS cublas HINT ${CMAKE_CUDA_IMPLICIT_LINK_DIRECTORIES})
+  if (NOT CUBLAS)
+    message(FATAL_ERROR "cuBLAS library not found but support requested")
+  else ()
+    message(STATUS "Found cuBLAS: ${CUBLAS}")
+  endif ()
+
 endif ()
 
 # inspired from https://github.com/ROCm-Developer-Tools/HIP/tree/master/samples/2_Cookbook/12_cmake_hip_add_executable
@@ -239,25 +244,15 @@ if (USE_HIP)
   message(STATUS "GPU target architecture: " ${WITH_GPU})
   message(STATUS "GPU architecture number: " ${ACC_ARCH_NUMBER})
   message(STATUS "HIPCC flags: " ${HIP_HIPCC_FLAGS})
-endif()
 
-# =================================== BLAS on GPU backend
-if (USE_CUBLAS)
-  # the rest of CUDA is detected by enabling the language
-  find_library(CUBLAS cublas HINT ${CMAKE_CUDA_IMPLICIT_LINK_DIRECTORIES})
-  if (NOT CUBLAS)
-    message(FATAL_ERROR "cuBLAS library not found but support requested")
-  else ()
-    message(STATUS "Found cuBLAS: ${CUBLAS}")
-  endif ()
-endif ()
-
-if (USE_HIPBLAS)
+  # =================================== BLAS on GPU backend
   find_library(HIPBLAS hipblas HINTS ${HIP_PATH}/../lib)  # /opt/rocm/lib
   if (NOT HIPBLAS)
     message(FATAL_ERROR "hipBLAS library not found but support requested")
+  else ()
+    message(STATUS "Found hipBLAS: ${HIPBLAS}")
   endif ()
-endif ()
+endif()
 
 # =================================================================================================
 # OPTION HANDLING
