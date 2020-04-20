@@ -58,9 +58,11 @@ set(DBCSR_TESTS
   dbcsr_test_csr_conversions
   )
 
-set(DBCSR_TESTS_CPP
-  dbcsr_tensor_test_cpp
- )
+if (NOT CMAKE_Fortran_COMPILER_ID STREQUAL "Cray"))
+  set(DBCSR_TESTS_CPP
+     dbcsr_tensor_test_cpp
+     )
+endif ()
 
 # Common object files linked to all tests
 set(dbcsr_unittest_common_SRCS
@@ -137,7 +139,7 @@ if (WITH_C_API)
    endif ()
  endforeach ()
 endif ()
-  
+
 # =================================== GPU BACKEND TESTS (CUDA / HIP)
 if (USE_CUDA OR USE_HIP)
 
