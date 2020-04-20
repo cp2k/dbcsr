@@ -26,7 +26,7 @@ MODULE dbcsr_tensor_api_c
    USE dbcsr_allocate_wrap, ONLY: allocate_any
    USE dbcsr_tensor_api
    USE dbcsr_kinds, ONLY: &
-      real_4, real_8, default_string_length, int_8
+      real_8, real_4, default_string_length, int_8
    USE dbcsr_data_types, ONLY: dbcsr_scalar_type
    USE dbcsr_data_methods, ONLY: dbcsr_scalar
    USE dbcsr_machine, ONLY: default_output_unit
@@ -436,7 +436,7 @@ CONTAINS
 # 388 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
 # 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF(ASSOCIATED(pgrid_opt_1) .AND. ASSOCIATED(pgrid_opt_2) .AND. ASSOCIATED(pgrid_opt_3)) THEN 
+      IF(PRESENT(c_pgrid_opt_1) .AND. PRESENT(c_pgrid_opt_2) .AND. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
                             tensor_2=tensor_2, beta=dbcsr_scalar(c_beta), &
@@ -451,7 +451,7 @@ CONTAINS
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
 # 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      ELSE IF(ASSOCIATED(pgrid_opt_2) .AND. ASSOCIATED(pgrid_opt_3) .AND. .NOT. ASSOCIATED(pgrid_opt_1)) THEN 
+      ELSE IF(PRESENT(c_pgrid_opt_2) .AND. PRESENT(c_pgrid_opt_3) .AND. .NOT. PRESENT(c_pgrid_opt_1)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
                             tensor_2=tensor_2, beta=dbcsr_scalar(c_beta), &
@@ -466,7 +466,7 @@ CONTAINS
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
 # 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      ELSE IF(ASSOCIATED(pgrid_opt_1) .AND. ASSOCIATED(pgrid_opt_3) .AND. .NOT. ASSOCIATED(pgrid_opt_2)) THEN 
+      ELSE IF(PRESENT(c_pgrid_opt_1) .AND. PRESENT(c_pgrid_opt_3) .AND. .NOT. PRESENT(c_pgrid_opt_2)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
                             tensor_2=tensor_2, beta=dbcsr_scalar(c_beta), &
@@ -481,7 +481,7 @@ CONTAINS
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
 # 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      ELSE IF(ASSOCIATED(pgrid_opt_3) .AND. .NOT. ASSOCIATED(pgrid_opt_1) .AND. .NOT. ASSOCIATED(pgrid_opt_2)) THEN 
+      ELSE IF(PRESENT(c_pgrid_opt_3) .AND. .NOT. PRESENT(c_pgrid_opt_1) .AND. .NOT. PRESENT(c_pgrid_opt_2)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
                             tensor_2=tensor_2, beta=dbcsr_scalar(c_beta), &
@@ -496,7 +496,7 @@ CONTAINS
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
 # 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      ELSE IF(ASSOCIATED(pgrid_opt_1) .AND. ASSOCIATED(pgrid_opt_2) .AND. .NOT. ASSOCIATED(pgrid_opt_3)) THEN 
+      ELSE IF(PRESENT(c_pgrid_opt_1) .AND. PRESENT(c_pgrid_opt_2) .AND. .NOT. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
                             tensor_2=tensor_2, beta=dbcsr_scalar(c_beta), &
@@ -511,7 +511,7 @@ CONTAINS
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
 # 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      ELSE IF(ASSOCIATED(pgrid_opt_2) .AND. .NOT. ASSOCIATED(pgrid_opt_1) .AND. .NOT. ASSOCIATED(pgrid_opt_3)) THEN 
+      ELSE IF(PRESENT(c_pgrid_opt_2) .AND. .NOT. PRESENT(c_pgrid_opt_1) .AND. .NOT. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
                             tensor_2=tensor_2, beta=dbcsr_scalar(c_beta), &
@@ -526,7 +526,7 @@ CONTAINS
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
 # 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      ELSE IF(ASSOCIATED(pgrid_opt_1) .AND. .NOT. ASSOCIATED(pgrid_opt_2) .AND. .NOT. ASSOCIATED(pgrid_opt_3)) THEN 
+      ELSE IF(PRESENT(c_pgrid_opt_1) .AND. .NOT. PRESENT(c_pgrid_opt_2) .AND. .NOT. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
                             tensor_2=tensor_2, beta=dbcsr_scalar(c_beta), &
@@ -796,7 +796,7 @@ ENDIF
 # 388 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
 # 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF(ASSOCIATED(pgrid_opt_1) .AND. ASSOCIATED(pgrid_opt_2) .AND. ASSOCIATED(pgrid_opt_3)) THEN 
+      IF(PRESENT(c_pgrid_opt_1) .AND. PRESENT(c_pgrid_opt_2) .AND. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
                             tensor_2=tensor_2, beta=dbcsr_scalar(c_beta), &
@@ -811,7 +811,7 @@ ENDIF
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
 # 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      ELSE IF(ASSOCIATED(pgrid_opt_2) .AND. ASSOCIATED(pgrid_opt_3) .AND. .NOT. ASSOCIATED(pgrid_opt_1)) THEN 
+      ELSE IF(PRESENT(c_pgrid_opt_2) .AND. PRESENT(c_pgrid_opt_3) .AND. .NOT. PRESENT(c_pgrid_opt_1)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
                             tensor_2=tensor_2, beta=dbcsr_scalar(c_beta), &
@@ -826,7 +826,7 @@ ENDIF
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
 # 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      ELSE IF(ASSOCIATED(pgrid_opt_1) .AND. ASSOCIATED(pgrid_opt_3) .AND. .NOT. ASSOCIATED(pgrid_opt_2)) THEN 
+      ELSE IF(PRESENT(c_pgrid_opt_1) .AND. PRESENT(c_pgrid_opt_3) .AND. .NOT. PRESENT(c_pgrid_opt_2)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
                             tensor_2=tensor_2, beta=dbcsr_scalar(c_beta), &
@@ -841,7 +841,7 @@ ENDIF
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
 # 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      ELSE IF(ASSOCIATED(pgrid_opt_3) .AND. .NOT. ASSOCIATED(pgrid_opt_1) .AND. .NOT. ASSOCIATED(pgrid_opt_2)) THEN 
+      ELSE IF(PRESENT(c_pgrid_opt_3) .AND. .NOT. PRESENT(c_pgrid_opt_1) .AND. .NOT. PRESENT(c_pgrid_opt_2)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
                             tensor_2=tensor_2, beta=dbcsr_scalar(c_beta), &
@@ -856,7 +856,7 @@ ENDIF
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
 # 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      ELSE IF(ASSOCIATED(pgrid_opt_1) .AND. ASSOCIATED(pgrid_opt_2) .AND. .NOT. ASSOCIATED(pgrid_opt_3)) THEN 
+      ELSE IF(PRESENT(c_pgrid_opt_1) .AND. PRESENT(c_pgrid_opt_2) .AND. .NOT. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
                             tensor_2=tensor_2, beta=dbcsr_scalar(c_beta), &
@@ -871,7 +871,7 @@ ENDIF
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
 # 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      ELSE IF(ASSOCIATED(pgrid_opt_2) .AND. .NOT. ASSOCIATED(pgrid_opt_1) .AND. .NOT. ASSOCIATED(pgrid_opt_3)) THEN 
+      ELSE IF(PRESENT(c_pgrid_opt_2) .AND. .NOT. PRESENT(c_pgrid_opt_1) .AND. .NOT. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
                             tensor_2=tensor_2, beta=dbcsr_scalar(c_beta), &
@@ -886,7 +886,7 @@ ENDIF
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
 # 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      ELSE IF(ASSOCIATED(pgrid_opt_1) .AND. .NOT. ASSOCIATED(pgrid_opt_2) .AND. .NOT. ASSOCIATED(pgrid_opt_3)) THEN 
+      ELSE IF(PRESENT(c_pgrid_opt_1) .AND. .NOT. PRESENT(c_pgrid_opt_2) .AND. .NOT. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
                             tensor_2=tensor_2, beta=dbcsr_scalar(c_beta), &
@@ -1156,7 +1156,7 @@ ENDIF
 # 388 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
 # 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF(ASSOCIATED(pgrid_opt_1) .AND. ASSOCIATED(pgrid_opt_2) .AND. ASSOCIATED(pgrid_opt_3)) THEN 
+      IF(PRESENT(c_pgrid_opt_1) .AND. PRESENT(c_pgrid_opt_2) .AND. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
                             tensor_2=tensor_2, beta=dbcsr_scalar(c_beta), &
@@ -1171,7 +1171,7 @@ ENDIF
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
 # 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      ELSE IF(ASSOCIATED(pgrid_opt_2) .AND. ASSOCIATED(pgrid_opt_3) .AND. .NOT. ASSOCIATED(pgrid_opt_1)) THEN 
+      ELSE IF(PRESENT(c_pgrid_opt_2) .AND. PRESENT(c_pgrid_opt_3) .AND. .NOT. PRESENT(c_pgrid_opt_1)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
                             tensor_2=tensor_2, beta=dbcsr_scalar(c_beta), &
@@ -1186,7 +1186,7 @@ ENDIF
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
 # 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      ELSE IF(ASSOCIATED(pgrid_opt_1) .AND. ASSOCIATED(pgrid_opt_3) .AND. .NOT. ASSOCIATED(pgrid_opt_2)) THEN 
+      ELSE IF(PRESENT(c_pgrid_opt_1) .AND. PRESENT(c_pgrid_opt_3) .AND. .NOT. PRESENT(c_pgrid_opt_2)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
                             tensor_2=tensor_2, beta=dbcsr_scalar(c_beta), &
@@ -1201,7 +1201,7 @@ ENDIF
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
 # 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      ELSE IF(ASSOCIATED(pgrid_opt_3) .AND. .NOT. ASSOCIATED(pgrid_opt_1) .AND. .NOT. ASSOCIATED(pgrid_opt_2)) THEN 
+      ELSE IF(PRESENT(c_pgrid_opt_3) .AND. .NOT. PRESENT(c_pgrid_opt_1) .AND. .NOT. PRESENT(c_pgrid_opt_2)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
                             tensor_2=tensor_2, beta=dbcsr_scalar(c_beta), &
@@ -1216,7 +1216,7 @@ ENDIF
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
 # 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      ELSE IF(ASSOCIATED(pgrid_opt_1) .AND. ASSOCIATED(pgrid_opt_2) .AND. .NOT. ASSOCIATED(pgrid_opt_3)) THEN 
+      ELSE IF(PRESENT(c_pgrid_opt_1) .AND. PRESENT(c_pgrid_opt_2) .AND. .NOT. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
                             tensor_2=tensor_2, beta=dbcsr_scalar(c_beta), &
@@ -1231,7 +1231,7 @@ ENDIF
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
 # 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      ELSE IF(ASSOCIATED(pgrid_opt_2) .AND. .NOT. ASSOCIATED(pgrid_opt_1) .AND. .NOT. ASSOCIATED(pgrid_opt_3)) THEN 
+      ELSE IF(PRESENT(c_pgrid_opt_2) .AND. .NOT. PRESENT(c_pgrid_opt_1) .AND. .NOT. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
                             tensor_2=tensor_2, beta=dbcsr_scalar(c_beta), &
@@ -1246,7 +1246,7 @@ ENDIF
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
 # 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      ELSE IF(ASSOCIATED(pgrid_opt_1) .AND. .NOT. ASSOCIATED(pgrid_opt_2) .AND. .NOT. ASSOCIATED(pgrid_opt_3)) THEN 
+      ELSE IF(PRESENT(c_pgrid_opt_1) .AND. .NOT. PRESENT(c_pgrid_opt_2) .AND. .NOT. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
                             tensor_2=tensor_2, beta=dbcsr_scalar(c_beta), &
@@ -1516,7 +1516,7 @@ ENDIF
 # 388 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
 # 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF(ASSOCIATED(pgrid_opt_1) .AND. ASSOCIATED(pgrid_opt_2) .AND. ASSOCIATED(pgrid_opt_3)) THEN 
+      IF(PRESENT(c_pgrid_opt_1) .AND. PRESENT(c_pgrid_opt_2) .AND. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
                             tensor_2=tensor_2, beta=dbcsr_scalar(c_beta), &
@@ -1531,7 +1531,7 @@ ENDIF
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
 # 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      ELSE IF(ASSOCIATED(pgrid_opt_2) .AND. ASSOCIATED(pgrid_opt_3) .AND. .NOT. ASSOCIATED(pgrid_opt_1)) THEN 
+      ELSE IF(PRESENT(c_pgrid_opt_2) .AND. PRESENT(c_pgrid_opt_3) .AND. .NOT. PRESENT(c_pgrid_opt_1)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
                             tensor_2=tensor_2, beta=dbcsr_scalar(c_beta), &
@@ -1546,7 +1546,7 @@ ENDIF
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
 # 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      ELSE IF(ASSOCIATED(pgrid_opt_1) .AND. ASSOCIATED(pgrid_opt_3) .AND. .NOT. ASSOCIATED(pgrid_opt_2)) THEN 
+      ELSE IF(PRESENT(c_pgrid_opt_1) .AND. PRESENT(c_pgrid_opt_3) .AND. .NOT. PRESENT(c_pgrid_opt_2)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
                             tensor_2=tensor_2, beta=dbcsr_scalar(c_beta), &
@@ -1561,7 +1561,7 @@ ENDIF
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
 # 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      ELSE IF(ASSOCIATED(pgrid_opt_3) .AND. .NOT. ASSOCIATED(pgrid_opt_1) .AND. .NOT. ASSOCIATED(pgrid_opt_2)) THEN 
+      ELSE IF(PRESENT(c_pgrid_opt_3) .AND. .NOT. PRESENT(c_pgrid_opt_1) .AND. .NOT. PRESENT(c_pgrid_opt_2)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
                             tensor_2=tensor_2, beta=dbcsr_scalar(c_beta), &
@@ -1576,7 +1576,7 @@ ENDIF
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
 # 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      ELSE IF(ASSOCIATED(pgrid_opt_1) .AND. ASSOCIATED(pgrid_opt_2) .AND. .NOT. ASSOCIATED(pgrid_opt_3)) THEN 
+      ELSE IF(PRESENT(c_pgrid_opt_1) .AND. PRESENT(c_pgrid_opt_2) .AND. .NOT. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
                             tensor_2=tensor_2, beta=dbcsr_scalar(c_beta), &
@@ -1591,7 +1591,7 @@ ENDIF
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
 # 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      ELSE IF(ASSOCIATED(pgrid_opt_2) .AND. .NOT. ASSOCIATED(pgrid_opt_1) .AND. .NOT. ASSOCIATED(pgrid_opt_3)) THEN 
+      ELSE IF(PRESENT(c_pgrid_opt_2) .AND. .NOT. PRESENT(c_pgrid_opt_1) .AND. .NOT. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
                             tensor_2=tensor_2, beta=dbcsr_scalar(c_beta), &
@@ -1606,7 +1606,7 @@ ENDIF
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
 # 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      ELSE IF(ASSOCIATED(pgrid_opt_1) .AND. .NOT. ASSOCIATED(pgrid_opt_2) .AND. .NOT. ASSOCIATED(pgrid_opt_3)) THEN 
+      ELSE IF(PRESENT(c_pgrid_opt_1) .AND. .NOT. PRESENT(c_pgrid_opt_2) .AND. .NOT. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
                             tensor_2=tensor_2, beta=dbcsr_scalar(c_beta), &
