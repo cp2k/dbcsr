@@ -568,24 +568,14 @@ CONTAINS
       END DO
    END SUBROUTINE local_filter
 
-# 1 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.f90" 1
-!--------------------------------------------------------------------------------------------------!
-! Copyright (C) by the DBCSR developers group - All rights reserved                                !
-! This file is part of the DBCSR library.                                                          !
-!                                                                                                  !
-! For information on the license, see the LICENSE file.                                            !
-! For further information please visit https://dbcsr.cp2k.org                                      !
-! SPDX-License-Identifier: GPL-2.0+                                                                !
-!--------------------------------------------------------------------------------------------------!
-
 # 1 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp" 1
 # 9 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
 
 # 11 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
 
 # 45 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
-# 11 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.f90" 2
-# 12 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.f90"
+# 571 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F" 2
+# 572 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
   SUBROUTINE calc_norms_d (norms, nblks, &
                                        blki, rbs, cbs, DATA)
      !! Calculates norms of the entire matrix with minimal overhead.
@@ -614,9 +604,9 @@ CONTAINS
               row = blki(1, blk + i)
               col = blki(2, blk + i)
               bpe = bp + rbs(row)*cbs(col) - 1
-# 41 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.f90"
+# 601 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
               vals(blk) = REAL(SUM(DATA(bp:bpe)**2), KIND=sp)
-# 45 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.f90"
+# 605 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
            ELSE
               vals(blk) = 0.0_sp
            ENDIF
@@ -637,7 +627,7 @@ CONTAINS
 !$OMP     end do
 !$OMP     end parallel
   END SUBROUTINE calc_norms_d
-# 12 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.f90"
+# 572 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
   SUBROUTINE calc_norms_s (norms, nblks, &
                                        blki, rbs, cbs, DATA)
      !! Calculates norms of the entire matrix with minimal overhead.
@@ -666,9 +656,9 @@ CONTAINS
               row = blki(1, blk + i)
               col = blki(2, blk + i)
               bpe = bp + rbs(row)*cbs(col) - 1
-# 41 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.f90"
+# 601 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
               vals(blk) = REAL(SUM(DATA(bp:bpe)**2), KIND=sp)
-# 45 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.f90"
+# 605 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
            ELSE
               vals(blk) = 0.0_sp
            ENDIF
@@ -689,7 +679,7 @@ CONTAINS
 !$OMP     end do
 !$OMP     end parallel
   END SUBROUTINE calc_norms_s
-# 12 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.f90"
+# 572 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
   SUBROUTINE calc_norms_z (norms, nblks, &
                                        blki, rbs, cbs, DATA)
      !! Calculates norms of the entire matrix with minimal overhead.
@@ -718,9 +708,9 @@ CONTAINS
               row = blki(1, blk + i)
               col = blki(2, blk + i)
               bpe = bp + rbs(row)*cbs(col) - 1
-# 43 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.f90"
+# 603 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
               vals(blk) = REAL(SUM(ABS(DATA(bp:bpe))**2), KIND=sp)
-# 45 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.f90"
+# 605 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
            ELSE
               vals(blk) = 0.0_sp
            ENDIF
@@ -741,7 +731,7 @@ CONTAINS
 !$OMP     end do
 !$OMP     end parallel
   END SUBROUTINE calc_norms_z
-# 12 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.f90"
+# 572 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
   SUBROUTINE calc_norms_c (norms, nblks, &
                                        blki, rbs, cbs, DATA)
      !! Calculates norms of the entire matrix with minimal overhead.
@@ -770,9 +760,9 @@ CONTAINS
               row = blki(1, blk + i)
               col = blki(2, blk + i)
               bpe = bp + rbs(row)*cbs(col) - 1
-# 43 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.f90"
+# 603 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
               vals(blk) = REAL(SUM(ABS(DATA(bp:bpe))**2), KIND=sp)
-# 45 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.f90"
+# 605 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
            ELSE
               vals(blk) = 0.0_sp
            ENDIF
@@ -793,7 +783,6 @@ CONTAINS
 !$OMP     end do
 !$OMP     end parallel
   END SUBROUTINE calc_norms_c
-# 66 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.f90"
-# 571 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F" 2
+# 626 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
 
 END MODULE dbcsr_mm_common

@@ -1474,24 +1474,14 @@ CONTAINS
       END SELECT
    END SUBROUTINE block_add_anytype_bounds
 
-# 1 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.f90" 1
-!--------------------------------------------------------------------------------------------------!
-! Copyright (C) by the DBCSR developers group - All rights reserved                                !
-! This file is part of the DBCSR library.                                                          !
-!                                                                                                  !
-! For information on the license, see the LICENSE file.                                            !
-! For further information please visit https://dbcsr.cp2k.org                                      !
-! SPDX-License-Identifier: GPL-2.0+                                                                !
-!--------------------------------------------------------------------------------------------------!
-
 # 1 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp" 1
 # 9 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp"
 
 # 11 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp"
 
 # 45 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp"
-# 11 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.f90" 2
-# 12 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.f90"
+# 1477 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F" 2
+# 1478 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
   PURE_BLOCKOPS SUBROUTINE block_partial_copy_d (dst, dst_rs, dst_cs, dst_tr, &
                                                              src, src_rs, src_cs, src_tr, &
                                                              dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
@@ -2066,7 +2056,7 @@ CONTAINS
      REAL(kind=real_8), DIMENSION(len), INTENT(IN)    :: block_b
      block_a(1:len) = block_a(1:len) + block_b(1:len)
   END SUBROUTINE block_add_d
-# 12 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.f90"
+# 1478 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
   PURE_BLOCKOPS SUBROUTINE block_partial_copy_s (dst, dst_rs, dst_cs, dst_tr, &
                                                              src, src_rs, src_cs, src_tr, &
                                                              dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
@@ -2641,7 +2631,7 @@ CONTAINS
      REAL(kind=real_4), DIMENSION(len), INTENT(IN)    :: block_b
      block_a(1:len) = block_a(1:len) + block_b(1:len)
   END SUBROUTINE block_add_s
-# 12 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.f90"
+# 1478 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
   PURE_BLOCKOPS SUBROUTINE block_partial_copy_z (dst, dst_rs, dst_cs, dst_tr, &
                                                              src, src_rs, src_cs, src_tr, &
                                                              dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
@@ -3216,7 +3206,7 @@ CONTAINS
      COMPLEX(kind=real_8), DIMENSION(len), INTENT(IN)    :: block_b
      block_a(1:len) = block_a(1:len) + block_b(1:len)
   END SUBROUTINE block_add_z
-# 12 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.f90"
+# 1478 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
   PURE_BLOCKOPS SUBROUTINE block_partial_copy_c (dst, dst_rs, dst_cs, dst_tr, &
                                                              src, src_rs, src_cs, src_tr, &
                                                              dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
@@ -3791,7 +3781,6 @@ CONTAINS
      COMPLEX(kind=real_4), DIMENSION(len), INTENT(IN)    :: block_b
      block_a(1:len) = block_a(1:len) + block_b(1:len)
   END SUBROUTINE block_add_c
-# 587 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.f90"
-# 1477 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F" 2
+# 2053 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
 END MODULE dbcsr_block_operations

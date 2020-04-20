@@ -1920,24 +1920,14 @@ CONTAINS
       area2p => tmp_p
    END SUBROUTINE dbcsr_switch_d_ptrs
 
-# 1 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.f90" 1
-!--------------------------------------------------------------------------------------------------!
-! Copyright (C) by the DBCSR developers group - All rights reserved                                !
-! This file is part of the DBCSR library.                                                          !
-!                                                                                                  !
-! For information on the license, see the LICENSE file.                                            !
-! For further information please visit https://dbcsr.cp2k.org                                      !
-! SPDX-License-Identifier: GPL-2.0+                                                                !
-!--------------------------------------------------------------------------------------------------!
-
 # 1 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp" 1
 # 9 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
 
 # 11 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
 
 # 45 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
-# 11 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.f90" 2
-# 12 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.f90"
+# 1923 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F" 2
+# 1924 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 
 ! **************************************************************************************************
   SUBROUTINE prepare_buffers_d (negate_real, negate_imaginary, &
@@ -2016,12 +2006,12 @@ CONTAINS
                  send_data_area%d%r_dp (sd_pos:myt_sdp(dst_p) - 1) = &
                     send_data_area%d%r_dp (sd_pos:myt_sdp(dst_p) - 1)*scale_neg_one%r_dp
               ELSEIF (negate_real) THEN
-# 91 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.f90"
+# 2003 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                  send_data_area%d%r_dp (sd_pos:myt_sdp(dst_p) - 1) = &
                     -send_data_area%d%r_dp (sd_pos:myt_sdp(dst_p) - 1)
-# 100 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.f90"
+# 2012 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
               ELSEIF (negate_imaginary) THEN
-# 105 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.f90"
+# 2017 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
               ENDIF
            ELSE
               ! Copy the block
@@ -2041,7 +2031,7 @@ CONTAINS
         ENDDO
      ENDDO
   END SUBROUTINE prepare_buffers_d
-# 12 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.f90"
+# 1924 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 
 ! **************************************************************************************************
   SUBROUTINE prepare_buffers_s (negate_real, negate_imaginary, &
@@ -2120,12 +2110,12 @@ CONTAINS
                  send_data_area%d%r_sp (sd_pos:myt_sdp(dst_p) - 1) = &
                     send_data_area%d%r_sp (sd_pos:myt_sdp(dst_p) - 1)*scale_neg_one%r_sp
               ELSEIF (negate_real) THEN
-# 91 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.f90"
+# 2003 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                  send_data_area%d%r_sp (sd_pos:myt_sdp(dst_p) - 1) = &
                     -send_data_area%d%r_sp (sd_pos:myt_sdp(dst_p) - 1)
-# 100 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.f90"
+# 2012 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
               ELSEIF (negate_imaginary) THEN
-# 105 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.f90"
+# 2017 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
               ENDIF
            ELSE
               ! Copy the block
@@ -2145,7 +2135,7 @@ CONTAINS
         ENDDO
      ENDDO
   END SUBROUTINE prepare_buffers_s
-# 12 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.f90"
+# 1924 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 
 ! **************************************************************************************************
   SUBROUTINE prepare_buffers_z (negate_real, negate_imaginary, &
@@ -2224,18 +2214,18 @@ CONTAINS
                  send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1) = &
                     send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1)*scale_neg_one%c_dp
               ELSEIF (negate_real) THEN
-# 94 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.f90"
+# 2006 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                  send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1) = &
                     CMPLX( &
                     -REAL(send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1), KIND=real_8), &
                     AIMAG(send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1)), &
                     KIND=real_8)
-# 100 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.f90"
+# 2012 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
               ELSEIF (negate_imaginary) THEN
-# 102 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.f90"
+# 2014 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                  send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1) = &
                     CONJG(send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1))
-# 105 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.f90"
+# 2017 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
               ENDIF
            ELSE
               ! Copy the block
@@ -2255,7 +2245,7 @@ CONTAINS
         ENDDO
      ENDDO
   END SUBROUTINE prepare_buffers_z
-# 12 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.f90"
+# 1924 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 
 ! **************************************************************************************************
   SUBROUTINE prepare_buffers_c (negate_real, negate_imaginary, &
@@ -2334,18 +2324,18 @@ CONTAINS
                  send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1) = &
                     send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1)*scale_neg_one%c_sp
               ELSEIF (negate_real) THEN
-# 94 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.f90"
+# 2006 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                  send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1) = &
                     CMPLX( &
                     -REAL(send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1), KIND=real_4), &
                     AIMAG(send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1)), &
                     KIND=real_4)
-# 100 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.f90"
+# 2012 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
               ELSEIF (negate_imaginary) THEN
-# 102 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.f90"
+# 2014 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                  send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1) = &
                     CONJG(send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1))
-# 105 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.f90"
+# 2017 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
               ENDIF
            ELSE
               ! Copy the block
@@ -2365,7 +2355,6 @@ CONTAINS
         ENDDO
      ENDDO
   END SUBROUTINE prepare_buffers_c
-# 125 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.f90"
-# 1923 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F" 2
+# 2037 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 
 END MODULE dbcsr_mm_cannon

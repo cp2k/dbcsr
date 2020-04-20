@@ -142,24 +142,14 @@ CONTAINS
       narea2 = new_area
    END FUNCTION pointer_view_a
 
-# 1 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.f90" 1
-!--------------------------------------------------------------------------------------------------!
-! Copyright (C) by the DBCSR developers group - All rights reserved                                !
-! This file is part of the DBCSR library.                                                          !
-!                                                                                                  !
-! For information on the license, see the LICENSE file.                                            !
-! For further information please visit https://dbcsr.cp2k.org                                      !
-! SPDX-License-Identifier: GPL-2.0+                                                                !
-!--------------------------------------------------------------------------------------------------!
-
 # 1 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp" 1
 # 9 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
 
 # 11 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
 
 # 45 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
-# 11 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.f90" 2
-# 12 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.f90"
+# 145 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F" 2
+# 146 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
   FUNCTION pointer_view_d (original, lb, ub) RESULT(view)
      !! Returns a pointer with different bounds.
 
@@ -466,7 +456,7 @@ CONTAINS
 
      r2p(1:d1, 1:d2) => r1p(1:d1*d2)
   END SUBROUTINE pointer_d_rank_remap2
-# 12 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.f90"
+# 146 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
   FUNCTION pointer_view_s (original, lb, ub) RESULT(view)
      !! Returns a pointer with different bounds.
 
@@ -773,7 +763,7 @@ CONTAINS
 
      r2p(1:d1, 1:d2) => r1p(1:d1*d2)
   END SUBROUTINE pointer_s_rank_remap2
-# 12 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.f90"
+# 146 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
   FUNCTION pointer_view_z (original, lb, ub) RESULT(view)
      !! Returns a pointer with different bounds.
 
@@ -1080,7 +1070,7 @@ CONTAINS
 
      r2p(1:d1, 1:d2) => r1p(1:d1*d2)
   END SUBROUTINE pointer_z_rank_remap2
-# 12 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.f90"
+# 146 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
   FUNCTION pointer_view_c (original, lb, ub) RESULT(view)
      !! Returns a pointer with different bounds.
 
@@ -1387,7 +1377,7 @@ CONTAINS
 
      r2p(1:d1, 1:d2) => r1p(1:d1*d2)
   END SUBROUTINE pointer_c_rank_remap2
-# 12 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.f90"
+# 146 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
   FUNCTION pointer_view_i (original, lb, ub) RESULT(view)
      !! Returns a pointer with different bounds.
 
@@ -1694,7 +1684,7 @@ CONTAINS
 
      r2p(1:d1, 1:d2) => r1p(1:d1*d2)
   END SUBROUTINE pointer_i_rank_remap2
-# 12 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.f90"
+# 146 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
   FUNCTION pointer_view_l (original, lb, ub) RESULT(view)
      !! Returns a pointer with different bounds.
 
@@ -2001,7 +1991,6 @@ CONTAINS
 
      r2p(1:d1, 1:d2) => r1p(1:d1*d2)
   END SUBROUTINE pointer_l_rank_remap2
-# 319 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.f90"
-# 145 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F" 2
+# 453 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
 
 END MODULE dbcsr_ptr_util

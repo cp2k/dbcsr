@@ -732,24 +732,14 @@ CONTAINS
       blocks_left = iterator%pos .NE. 0
    END FUNCTION dbcsr_iterator_blocks_left
 
-# 1 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.f90" 1
-!--------------------------------------------------------------------------------------------------!
-! Copyright (C) by the DBCSR developers group - All rights reserved                                !
-! This file is part of the DBCSR library.                                                          !
-!                                                                                                  !
-! For information on the license, see the LICENSE file.                                            !
-! For further information please visit https://dbcsr.cp2k.org                                      !
-! SPDX-License-Identifier: GPL-2.0+                                                                !
-!--------------------------------------------------------------------------------------------------!
-
 # 1 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp" 1
 # 9 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp"
 
 # 11 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp"
 
 # 45 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp"
-# 11 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.f90" 2
-# 12 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.f90"
+# 735 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F" 2
+# 736 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
   SUBROUTINE iterator_next_1d_block_d (iterator, row, column, block, &
                                                    transposed, block_number, row_size, col_size, row_offset, col_offset)
      !! Gets the next data block, single/double precision real/complex
@@ -873,7 +863,7 @@ CONTAINS
      ENDIF
      IF (careful_mod) CALL timestop(error_handle)
   END SUBROUTINE iterator_next_2d_block_d
-# 12 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.f90"
+# 736 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
   SUBROUTINE iterator_next_1d_block_s (iterator, row, column, block, &
                                                    transposed, block_number, row_size, col_size, row_offset, col_offset)
      !! Gets the next data block, single/double precision real/complex
@@ -997,7 +987,7 @@ CONTAINS
      ENDIF
      IF (careful_mod) CALL timestop(error_handle)
   END SUBROUTINE iterator_next_2d_block_s
-# 12 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.f90"
+# 736 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
   SUBROUTINE iterator_next_1d_block_z (iterator, row, column, block, &
                                                    transposed, block_number, row_size, col_size, row_offset, col_offset)
      !! Gets the next data block, single/double precision real/complex
@@ -1121,7 +1111,7 @@ CONTAINS
      ENDIF
      IF (careful_mod) CALL timestop(error_handle)
   END SUBROUTINE iterator_next_2d_block_z
-# 12 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.f90"
+# 736 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
   SUBROUTINE iterator_next_1d_block_c (iterator, row, column, block, &
                                                    transposed, block_number, row_size, col_size, row_offset, col_offset)
      !! Gets the next data block, single/double precision real/complex
@@ -1245,7 +1235,6 @@ CONTAINS
      ENDIF
      IF (careful_mod) CALL timestop(error_handle)
   END SUBROUTINE iterator_next_2d_block_c
-# 136 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.f90"
-# 735 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F" 2
+# 860 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
 
 END MODULE dbcsr_iterator_operations

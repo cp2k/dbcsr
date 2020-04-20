@@ -263,24 +263,14 @@ CONTAINS
       ENDDO
    END SUBROUTINE print_gemm_parameters
 
-# 1 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.f90" 1
-!--------------------------------------------------------------------------------------------------!
-! Copyright (C) by the DBCSR developers group - All rights reserved                                !
-! This file is part of the DBCSR library.                                                          !
-!                                                                                                  !
-! For information on the license, see the LICENSE file.                                            !
-! For further information please visit https://dbcsr.cp2k.org                                      !
-! SPDX-License-Identifier: GPL-2.0+                                                                !
-!--------------------------------------------------------------------------------------------------!
-
 # 1 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp" 1
 # 9 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
 
 # 11 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
 
 # 45 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
-# 11 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.f90" 2
-# 12 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.f90"
+# 266 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F" 2
+# 267 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
   SUBROUTINE blas_process_mm_stack_d (params, &
                                                   stack_size, &
                                                   a_data, b_data, c_data)
@@ -625,7 +615,7 @@ CONTAINS
      REAL(kind=real_8), INTENT(IN)                      :: A(M, K)
      C(:, :) = C(:, :) + MATMUL(A, B)
   END SUBROUTINE internal_mm_d_nn
-# 12 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.f90"
+# 267 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
   SUBROUTINE blas_process_mm_stack_s (params, &
                                                   stack_size, &
                                                   a_data, b_data, c_data)
@@ -970,7 +960,7 @@ CONTAINS
      REAL(kind=real_4), INTENT(IN)                      :: A(M, K)
      C(:, :) = C(:, :) + MATMUL(A, B)
   END SUBROUTINE internal_mm_s_nn
-# 12 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.f90"
+# 267 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
   SUBROUTINE blas_process_mm_stack_z (params, &
                                                   stack_size, &
                                                   a_data, b_data, c_data)
@@ -1315,7 +1305,7 @@ CONTAINS
      COMPLEX(kind=real_8), INTENT(IN)                      :: A(M, K)
      C(:, :) = C(:, :) + MATMUL(A, B)
   END SUBROUTINE internal_mm_z_nn
-# 12 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.f90"
+# 267 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
   SUBROUTINE blas_process_mm_stack_c (params, &
                                                   stack_size, &
                                                   a_data, b_data, c_data)
@@ -1660,7 +1650,6 @@ CONTAINS
      COMPLEX(kind=real_4), INTENT(IN)                      :: A(M, K)
      C(:, :) = C(:, :) + MATMUL(A, B)
   END SUBROUTINE internal_mm_c_nn
-# 357 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.f90"
-# 266 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F" 2
+# 612 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 
 END MODULE dbcsr_mm_hostdrv

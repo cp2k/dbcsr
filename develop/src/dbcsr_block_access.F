@@ -666,25 +666,15 @@ CONTAINS
       ENDIF
    END SUBROUTINE dbcsr_set_block_pointer_any
 
-# 1 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.f90" 1
-!--------------------------------------------------------------------------------------------------!
-! Copyright (C) by the DBCSR developers group - All rights reserved                                !
-! This file is part of the DBCSR library.                                                          !
-!                                                                                                  !
-! For information on the license, see the LICENSE file.                                            !
-! For further information please visit https://dbcsr.cp2k.org                                      !
-! SPDX-License-Identifier: GPL-2.0+                                                                !
-!--------------------------------------------------------------------------------------------------!
-
 # 1 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp" 1
 # 9 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp"
 
 # 11 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp"
 
 # 45 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp"
-# 11 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.f90" 2
+# 669 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F" 2
 
-# 13 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.f90"
+# 671 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
   SUBROUTINE dbcsr_get_2d_block_p_d (matrix, row, col, block, tr, found, &
                                                  row_size, col_size)
      !! Gets a 2-d block from a dbcsr matrix
@@ -1147,7 +1137,7 @@ CONTAINS
                               lin_blk_p)
      IF (careful_mod) CALL timestop(error_handler)
   END SUBROUTINE dbcsr_set_block_pointer_2d_d
-# 13 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.f90"
+# 671 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
   SUBROUTINE dbcsr_get_2d_block_p_s (matrix, row, col, block, tr, found, &
                                                  row_size, col_size)
      !! Gets a 2-d block from a dbcsr matrix
@@ -1610,7 +1600,7 @@ CONTAINS
                               lin_blk_p)
      IF (careful_mod) CALL timestop(error_handler)
   END SUBROUTINE dbcsr_set_block_pointer_2d_s
-# 13 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.f90"
+# 671 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
   SUBROUTINE dbcsr_get_2d_block_p_z (matrix, row, col, block, tr, found, &
                                                  row_size, col_size)
      !! Gets a 2-d block from a dbcsr matrix
@@ -2073,7 +2063,7 @@ CONTAINS
                               lin_blk_p)
      IF (careful_mod) CALL timestop(error_handler)
   END SUBROUTINE dbcsr_set_block_pointer_2d_z
-# 13 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.f90"
+# 671 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
   SUBROUTINE dbcsr_get_2d_block_p_c (matrix, row, col, block, tr, found, &
                                                  row_size, col_size)
      !! Gets a 2-d block from a dbcsr matrix
@@ -2536,7 +2526,6 @@ CONTAINS
                               lin_blk_p)
      IF (careful_mod) CALL timestop(error_handler)
   END SUBROUTINE dbcsr_set_block_pointer_2d_c
-# 476 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.f90"
-# 669 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F" 2
+# 1134 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
 END MODULE dbcsr_block_access

@@ -698,24 +698,14 @@ CONTAINS
       END DO
    END SUBROUTINE local_filter_sp
 
-# 1 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.f90" 1
-!--------------------------------------------------------------------------------------------------!
-! Copyright (C) by the DBCSR developers group - All rights reserved                                !
-! This file is part of the DBCSR library.                                                          !
-!                                                                                                  !
-! For information on the license, see the LICENSE file.                                            !
-! For further information please visit https://dbcsr.cp2k.org                                      !
-! SPDX-License-Identifier: GPL-2.0+                                                                !
-!--------------------------------------------------------------------------------------------------!
-
 # 1 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp" 1
 # 9 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
 
 # 11 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
 
 # 45 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
-# 11 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.f90" 2
-# 12 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.f90"
+# 701 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F" 2
+# 702 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
   SUBROUTINE multrec_filtering_d (filter_eps, nblks, rowi, coli, blkp, &
                                               rbs, cbs, nze, DATA)
@@ -763,7 +753,7 @@ CONTAINS
      nblks = lastblk
 
   END SUBROUTINE multrec_filtering_d
-# 12 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.f90"
+# 702 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
   SUBROUTINE multrec_filtering_s (filter_eps, nblks, rowi, coli, blkp, &
                                               rbs, cbs, nze, DATA)
@@ -811,7 +801,7 @@ CONTAINS
      nblks = lastblk
 
   END SUBROUTINE multrec_filtering_s
-# 12 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.f90"
+# 702 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
   SUBROUTINE multrec_filtering_z (filter_eps, nblks, rowi, coli, blkp, &
                                               rbs, cbs, nze, DATA)
@@ -859,7 +849,7 @@ CONTAINS
      nblks = lastblk
 
   END SUBROUTINE multrec_filtering_z
-# 12 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.f90"
+# 702 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
   SUBROUTINE multrec_filtering_c (filter_eps, nblks, rowi, coli, blkp, &
                                               rbs, cbs, nze, DATA)
@@ -907,7 +897,6 @@ CONTAINS
      nblks = lastblk
 
   END SUBROUTINE multrec_filtering_c
-# 60 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.f90"
-# 701 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F" 2
+# 750 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
 END MODULE dbcsr_mm_multrec

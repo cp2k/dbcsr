@@ -1820,24 +1820,14 @@ CONTAINS
       CALL timestop(error_handle)
    END SUBROUTINE merge_index
 
-# 1 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.f90" 1
-!--------------------------------------------------------------------------------------------------!
-! Copyright (C) by the DBCSR developers group - All rights reserved                                !
-! This file is part of the DBCSR library.                                                          !
-!                                                                                                  !
-! For information on the license, see the LICENSE file.                                            !
-! For further information please visit https://dbcsr.cp2k.org                                      !
-! SPDX-License-Identifier: GPL-2.0+                                                                !
-!--------------------------------------------------------------------------------------------------!
-
 # 1 "/__w/dbcsr/dbcsr/src/work/../data/dbcsr.fypp" 1
 # 9 "/__w/dbcsr/dbcsr/src/work/../data/dbcsr.fypp"
 
 # 11 "/__w/dbcsr/dbcsr/src/work/../data/dbcsr.fypp"
 
 # 45 "/__w/dbcsr/dbcsr/src/work/../data/dbcsr.fypp"
-# 11 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.f90" 2
-# 12 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.f90"
+# 1823 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F" 2
+# 1824 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
   SUBROUTINE tree_to_linear_d (wm)
      !! Converts mutable data to linear (array) type.
 
@@ -1904,7 +1894,7 @@ CONTAINS
      CALL timestop(error_handler)
   END SUBROUTINE tree_to_linear_d
 
-# 12 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.f90"
+# 1824 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
   SUBROUTINE tree_to_linear_s (wm)
      !! Converts mutable data to linear (array) type.
 
@@ -1971,7 +1961,7 @@ CONTAINS
      CALL timestop(error_handler)
   END SUBROUTINE tree_to_linear_s
 
-# 12 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.f90"
+# 1824 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
   SUBROUTINE tree_to_linear_z (wm)
      !! Converts mutable data to linear (array) type.
 
@@ -2038,7 +2028,7 @@ CONTAINS
      CALL timestop(error_handler)
   END SUBROUTINE tree_to_linear_z
 
-# 12 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.f90"
+# 1824 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
   SUBROUTINE tree_to_linear_c (wm)
      !! Converts mutable data to linear (array) type.
 
@@ -2105,7 +2095,6 @@ CONTAINS
      CALL timestop(error_handler)
   END SUBROUTINE tree_to_linear_c
 
-# 79 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.f90"
-# 1823 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F" 2
+# 1891 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
 
 END MODULE dbcsr_work_operations

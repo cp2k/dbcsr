@@ -1115,24 +1115,14 @@ CONTAINS
 
 ! **************************************************************************************************
 
-# 1 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.f90" 1
-!--------------------------------------------------------------------------------------------------!
-! Copyright (C) by the DBCSR developers group - All rights reserved                                !
-! This file is part of the DBCSR library.                                                          !
-!                                                                                                  !
-! For information on the license, see the LICENSE file.                                            !
-! For further information please visit https://dbcsr.cp2k.org                                      !
-! SPDX-License-Identifier: GPL-2.0+                                                                !
-!--------------------------------------------------------------------------------------------------!
-
 # 1 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp" 1
 # 9 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
 
 # 11 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
 
 # 45 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
-# 11 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.f90" 2
-# 12 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.f90"
+# 1118 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F" 2
+# 1119 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
   SUBROUTINE set_data_p_d (area, p)
      !! Sets a data pointer.
      !!
@@ -1439,7 +1429,7 @@ CONTAINS
 
      value = encapsulated_scalar%r_dp
   END SUBROUTINE dbcsr_scalar_get_value_d
-# 12 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.f90"
+# 1119 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
   SUBROUTINE set_data_p_s (area, p)
      !! Sets a data pointer.
      !!
@@ -1746,7 +1736,7 @@ CONTAINS
 
      value = encapsulated_scalar%r_sp
   END SUBROUTINE dbcsr_scalar_get_value_s
-# 12 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.f90"
+# 1119 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
   SUBROUTINE set_data_p_z (area, p)
      !! Sets a data pointer.
      !!
@@ -2053,7 +2043,7 @@ CONTAINS
 
      value = encapsulated_scalar%c_dp
   END SUBROUTINE dbcsr_scalar_get_value_z
-# 12 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.f90"
+# 1119 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
   SUBROUTINE set_data_p_c (area, p)
      !! Sets a data pointer.
      !!
@@ -2360,7 +2350,6 @@ CONTAINS
 
      value = encapsulated_scalar%c_sp
   END SUBROUTINE dbcsr_scalar_get_value_c
-# 319 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.f90"
-# 1118 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F" 2
+# 1426 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
 
 END MODULE dbcsr_data_methods_low
