@@ -26,7 +26,7 @@ MODULE dbcsr_tensor_api_c
    USE dbcsr_allocate_wrap, ONLY: allocate_any
    USE dbcsr_tensor_api
    USE dbcsr_kinds, ONLY: &
-      real_8, real_4, default_string_length, int_8
+      real_4, real_8, default_string_length, int_8
    USE dbcsr_data_types, ONLY: dbcsr_scalar_type
    USE dbcsr_data_methods, ONLY: dbcsr_scalar
    USE dbcsr_machine, ONLY: default_output_unit
@@ -116,7 +116,11 @@ CONTAINS
 
       ALLOCATE (pgrid)
 
-      CALL dbcsr_t_pgrid_create(fcomm, c_dims, pgrid, c_tensor_dims)
+      IF (PRESENT(c_tensor_dims)) THEN
+         CALL dbcsr_t_pgrid_create(fcomm, c_dims, pgrid, c_tensor_dims)
+      ELSE
+         CALL dbcsr_t_pgrid_create(fcomm, c_dims, pgrid)
+      ENDIF
 
       c_pgrid = c_loc(pgrid)
 
@@ -145,7 +149,7 @@ CONTAINS
    END SUBROUTINE
 
    SUBROUTINE c_dbcsr_t_distribution_new(c_dist, c_pgrid, c_nd_dist_1, c_nd_dist_1_size, c_nd_dist_2, c_nd_dist_2_size,&
-# 142 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 146 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
        & c_nd_dist_3, c_nd_dist_3_size, c_nd_dist_4, c_nd_dist_4_size) &
       bind(C, name="c_dbcsr_t_distribution_new")
 
@@ -153,18 +157,42 @@ CONTAINS
       TYPE(c_ptr), INTENT(IN), value                     :: c_pgrid
 
       INTEGER(kind=c_int), INTENT(in), value :: c_nd_dist_1_size, c_nd_dist_2_size, c_nd_dist_3_size, c_nd_dist_4_size
-      INTEGER(kind=c_int), INTENT(IN), OPTIONAL  :: c_nd_dist_1(c_nd_dist_1_size), c_nd_dist_2(c_nd_dist_2_size),&
-# 149 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      INTEGER(kind=c_int), INTENT(IN), TARGET, OPTIONAL :: c_nd_dist_1(c_nd_dist_1_size), c_nd_dist_2(c_nd_dist_2_size),&
+# 153 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
           & c_nd_dist_3(c_nd_dist_3_size), c_nd_dist_4(c_nd_dist_4_size)
 
       TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid
       TYPE(dbcsr_t_distribution_type), POINTER           :: dist
 
+      INTEGER, DIMENSION(:), POINTER                     ::  nd_dist_1, nd_dist_2, nd_dist_3, nd_dist_4
+
       ALLOCATE (dist)
 
       CALL c_f_pointer(c_pgrid, pgrid)
 
-      CALL dbcsr_t_distribution_new(dist, pgrid, c_nd_dist_1, c_nd_dist_2, c_nd_dist_3, c_nd_dist_4)
+# 165 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (nd_dist_1)
+      IF (PRESENT(c_nd_dist_1)) THEN
+         nd_dist_1 => c_nd_dist_1
+      ENDIF
+# 165 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (nd_dist_2)
+      IF (PRESENT(c_nd_dist_2)) THEN
+         nd_dist_2 => c_nd_dist_2
+      ENDIF
+# 165 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (nd_dist_3)
+      IF (PRESENT(c_nd_dist_3)) THEN
+         nd_dist_3 => c_nd_dist_3
+      ENDIF
+# 165 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (nd_dist_4)
+      IF (PRESENT(c_nd_dist_4)) THEN
+         nd_dist_4 => c_nd_dist_4
+      ENDIF
+# 170 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+
+      CALL dbcsr_t_distribution_new(dist, pgrid, nd_dist_1, nd_dist_2, nd_dist_3, nd_dist_4)
 
       c_dist = c_loc(dist)
 
@@ -179,14 +207,13 @@ CONTAINS
       CALL dbcsr_t_distribution_destroy(dist)
 
       IF (ASSOCIATED(dist)) DEALLOCATE (dist)
-
       c_dist = c_null_ptr
 
    END SUBROUTINE
 
    SUBROUTINE c_dbcsr_t_create_new(c_tensor, c_name, c_dist, c_map1_2d, map1_2d_size, &
                                    c_map2_2d, map2_2d_size, c_data_type, c_blk_size_1, c_blk_size_1_size, c_blk_size_2,&
-# 179 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 191 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
                                        & c_blk_size_2_size, c_blk_size_3, c_blk_size_3_size, c_blk_size_4, c_blk_size_4_size) &
       bind(C, name="c_dbcsr_t_create_new")
 
@@ -201,10 +228,10 @@ CONTAINS
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL          :: c_data_type
 
       INTEGER(kind=c_int), INTENT(in), value             :: c_blk_size_1_size, c_blk_size_2_size, c_blk_size_3_size,&
-# 192 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 204 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
           & c_blk_size_4_size
       INTEGER(kind=c_int), INTENT(IN), TARGET, OPTIONAL  :: c_blk_size_1(c_blk_size_1_size), c_blk_size_2(c_blk_size_2_size),&
-# 193 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 205 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
           & c_blk_size_3(c_blk_size_3_size), c_blk_size_4(c_blk_size_4_size)
 
       CHARACTER(:, kind=c_char), ALLOCATABLE             :: fname
@@ -212,13 +239,37 @@ CONTAINS
       TYPE(dbcsr_t_type), POINTER                        :: tensor
       TYPE(dbcsr_t_distribution_type), POINTER           :: dist
 
+      INTEGER, DIMENSION(:), POINTER                     :: blk_size_1, blk_size_2, blk_size_3, blk_size_4
+
       ALLOCATE (tensor)
 
       CALL c_f_pointer(c_dist, dist)
       CALL c_f_string(c_name, fname)
 
+# 220 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (blk_size_1)
+      IF (PRESENT(c_blk_size_1)) THEN
+         blk_size_1 => c_blk_size_1
+      ENDIF
+# 220 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (blk_size_2)
+      IF (PRESENT(c_blk_size_2)) THEN
+         blk_size_2 => c_blk_size_2
+      ENDIF
+# 220 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (blk_size_3)
+      IF (PRESENT(c_blk_size_3)) THEN
+         blk_size_3 => c_blk_size_3
+      ENDIF
+# 220 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (blk_size_4)
+      IF (PRESENT(c_blk_size_4)) THEN
+         blk_size_4 => c_blk_size_4
+      ENDIF
+# 225 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+
       CALL dbcsr_t_create(tensor, fname, dist, c_map1_2d+1, c_map2_2d+1, c_data_type, &
-                          c_blk_size_1, c_blk_size_2, c_blk_size_3, c_blk_size_4)
+                          blk_size_1, blk_size_2, blk_size_3, blk_size_4)
 
       c_tensor = c_loc(tensor)
 
@@ -316,7 +367,7 @@ CONTAINS
 
    END SUBROUTINE
 
-# 305 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 326 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_contract_r_dp (c_alpha, c_tensor_1, c_tensor_2, c_beta, c_tensor_3, &
                                               c_contract_1, contract_1_size, &
@@ -376,66 +427,66 @@ CONTAINS
       CALL c_f_pointer(c_tensor_2, tensor_2)
       CALL c_f_pointer(c_tensor_3, tensor_3)
 
-# 365 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (bounds_1)
       IF (PRESENT(c_bounds_1)) THEN
          ALLOCATE (bounds_1 (2, SIZE(c_bounds_1, 2)))
          bounds_1 = c_bounds_1+1
       ENDIF
-# 365 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (bounds_2)
       IF (PRESENT(c_bounds_2)) THEN
          ALLOCATE (bounds_2 (2, SIZE(c_bounds_2, 2)))
          bounds_2 = c_bounds_2+1
       ENDIF
-# 365 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (bounds_3)
       IF (PRESENT(c_bounds_3)) THEN
          ALLOCATE (bounds_3 (2, SIZE(c_bounds_3, 2)))
          bounds_3 = c_bounds_3+1
       ENDIF
-# 371 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 392 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 373 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 374 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 394 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 395 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (optimize_dist)
       IF (PRESENT(c_optimize_dist)) THEN
          ALLOCATE (optimize_dist)
          optimize_dist = c_optimize_dist
       ENDIF
-# 374 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 395 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (move_data)
       IF (PRESENT(c_move_data)) THEN
          ALLOCATE (move_data)
          move_data = c_move_data
       ENDIF
-# 374 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 395 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (retain_sparsity)
       IF (PRESENT(c_retain_sparsity)) THEN
          ALLOCATE (retain_sparsity)
          retain_sparsity = c_retain_sparsity
       ENDIF
-# 374 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 395 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (log_verbose)
       IF (PRESENT(c_log_verbose)) THEN
          ALLOCATE (log_verbose)
          log_verbose = c_log_verbose
       ENDIF
-# 380 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 401 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 382 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 403 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 404 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       
 
-# 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 407 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (pgrid_opt_1)
-# 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 407 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (pgrid_opt_2)
-# 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 407 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (pgrid_opt_3)
-# 388 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 409 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF(PRESENT(c_pgrid_opt_1) .AND. PRESENT(c_pgrid_opt_2) .AND. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -450,7 +501,7 @@ CONTAINS
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(PRESENT(c_pgrid_opt_2) .AND. PRESENT(c_pgrid_opt_3) .AND. .NOT. PRESENT(c_pgrid_opt_1)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -465,7 +516,7 @@ CONTAINS
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(PRESENT(c_pgrid_opt_1) .AND. PRESENT(c_pgrid_opt_3) .AND. .NOT. PRESENT(c_pgrid_opt_2)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -480,7 +531,7 @@ CONTAINS
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(PRESENT(c_pgrid_opt_3) .AND. .NOT. PRESENT(c_pgrid_opt_1) .AND. .NOT. PRESENT(c_pgrid_opt_2)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -495,7 +546,7 @@ CONTAINS
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(PRESENT(c_pgrid_opt_1) .AND. PRESENT(c_pgrid_opt_2) .AND. .NOT. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -510,7 +561,7 @@ CONTAINS
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(PRESENT(c_pgrid_opt_2) .AND. .NOT. PRESENT(c_pgrid_opt_1) .AND. .NOT. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -525,7 +576,7 @@ CONTAINS
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(PRESENT(c_pgrid_opt_1) .AND. .NOT. PRESENT(c_pgrid_opt_2) .AND. .NOT. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -540,7 +591,7 @@ CONTAINS
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -555,35 +606,35 @@ CONTAINS
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 405 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 426 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 ENDIF
 
-# 408 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 429 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_pgrid_opt_1)) c_pgrid_opt_1 = c_loc(pgrid_opt_1)
-# 408 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 429 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_pgrid_opt_2)) c_pgrid_opt_2 = c_loc(pgrid_opt_2)
-# 408 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 429 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_pgrid_opt_3)) c_pgrid_opt_3 = c_loc(pgrid_opt_3)
-# 410 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 431 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 412 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 413 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 433 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 434 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(optimize_dist)) DEALLOCATE (optimize_dist)
-# 413 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 434 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(move_data)) DEALLOCATE (move_data)
-# 413 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 434 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(retain_sparsity)) DEALLOCATE (retain_sparsity)
-# 413 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 434 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(log_verbose)) DEALLOCATE (log_verbose)
-# 415 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 436 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 417 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 438 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_1)) DEALLOCATE (bounds_1)
-# 417 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 438 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_2)) DEALLOCATE (bounds_2)
-# 417 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 438 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_3)) DEALLOCATE (bounds_3)
-# 419 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 440 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    END SUBROUTINE
 
@@ -636,25 +687,25 @@ ENDIF
       CALL c_f_pointer(c_tensor_2, tensor_2)
       CALL c_f_pointer(c_tensor_3, tensor_3)
 
-# 472 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 493 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (bounds_1)
       IF (PRESENT(c_bounds_1)) THEN
          ALLOCATE (bounds_1 (2, SIZE(c_bounds_1, 2)))
          bounds_1 = c_bounds_1+1
       ENDIF
-# 472 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 493 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (bounds_2)
       IF (PRESENT(c_bounds_2)) THEN
          ALLOCATE (bounds_2 (2, SIZE(c_bounds_2, 2)))
          bounds_2 = c_bounds_2+1
       ENDIF
-# 472 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 493 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (bounds_3)
       IF (PRESENT(c_bounds_3)) THEN
          ALLOCATE (bounds_3 (2, SIZE(c_bounds_3, 2)))
          bounds_3 = c_bounds_3+1
       ENDIF
-# 478 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 499 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
       CALL dbcsr_t_contract_index(dbcsr_scalar(c_alpha), tensor_1, &
                                   tensor_2, dbcsr_scalar(c_beta), tensor_3, &
@@ -666,17 +717,17 @@ ENDIF
 
       c_result_index = result_index - 1
 
-# 490 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 511 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_1)) DEALLOCATE (bounds_1)
-# 490 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 511 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_2)) DEALLOCATE (bounds_2)
-# 490 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 511 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_3)) DEALLOCATE (bounds_3)
-# 492 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 513 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    END SUBROUTINE
 
-# 305 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 326 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_contract_r_sp (c_alpha, c_tensor_1, c_tensor_2, c_beta, c_tensor_3, &
                                               c_contract_1, contract_1_size, &
@@ -736,66 +787,66 @@ ENDIF
       CALL c_f_pointer(c_tensor_2, tensor_2)
       CALL c_f_pointer(c_tensor_3, tensor_3)
 
-# 365 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (bounds_1)
       IF (PRESENT(c_bounds_1)) THEN
          ALLOCATE (bounds_1 (2, SIZE(c_bounds_1, 2)))
          bounds_1 = c_bounds_1+1
       ENDIF
-# 365 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (bounds_2)
       IF (PRESENT(c_bounds_2)) THEN
          ALLOCATE (bounds_2 (2, SIZE(c_bounds_2, 2)))
          bounds_2 = c_bounds_2+1
       ENDIF
-# 365 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (bounds_3)
       IF (PRESENT(c_bounds_3)) THEN
          ALLOCATE (bounds_3 (2, SIZE(c_bounds_3, 2)))
          bounds_3 = c_bounds_3+1
       ENDIF
-# 371 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 392 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 373 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 374 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 394 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 395 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (optimize_dist)
       IF (PRESENT(c_optimize_dist)) THEN
          ALLOCATE (optimize_dist)
          optimize_dist = c_optimize_dist
       ENDIF
-# 374 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 395 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (move_data)
       IF (PRESENT(c_move_data)) THEN
          ALLOCATE (move_data)
          move_data = c_move_data
       ENDIF
-# 374 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 395 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (retain_sparsity)
       IF (PRESENT(c_retain_sparsity)) THEN
          ALLOCATE (retain_sparsity)
          retain_sparsity = c_retain_sparsity
       ENDIF
-# 374 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 395 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (log_verbose)
       IF (PRESENT(c_log_verbose)) THEN
          ALLOCATE (log_verbose)
          log_verbose = c_log_verbose
       ENDIF
-# 380 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 401 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 382 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 403 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 404 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       
 
-# 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 407 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (pgrid_opt_1)
-# 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 407 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (pgrid_opt_2)
-# 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 407 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (pgrid_opt_3)
-# 388 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 409 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF(PRESENT(c_pgrid_opt_1) .AND. PRESENT(c_pgrid_opt_2) .AND. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -810,7 +861,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(PRESENT(c_pgrid_opt_2) .AND. PRESENT(c_pgrid_opt_3) .AND. .NOT. PRESENT(c_pgrid_opt_1)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -825,7 +876,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(PRESENT(c_pgrid_opt_1) .AND. PRESENT(c_pgrid_opt_3) .AND. .NOT. PRESENT(c_pgrid_opt_2)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -840,7 +891,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(PRESENT(c_pgrid_opt_3) .AND. .NOT. PRESENT(c_pgrid_opt_1) .AND. .NOT. PRESENT(c_pgrid_opt_2)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -855,7 +906,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(PRESENT(c_pgrid_opt_1) .AND. PRESENT(c_pgrid_opt_2) .AND. .NOT. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -870,7 +921,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(PRESENT(c_pgrid_opt_2) .AND. .NOT. PRESENT(c_pgrid_opt_1) .AND. .NOT. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -885,7 +936,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(PRESENT(c_pgrid_opt_1) .AND. .NOT. PRESENT(c_pgrid_opt_2) .AND. .NOT. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -900,7 +951,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -915,35 +966,35 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 405 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 426 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 ENDIF
 
-# 408 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 429 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_pgrid_opt_1)) c_pgrid_opt_1 = c_loc(pgrid_opt_1)
-# 408 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 429 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_pgrid_opt_2)) c_pgrid_opt_2 = c_loc(pgrid_opt_2)
-# 408 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 429 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_pgrid_opt_3)) c_pgrid_opt_3 = c_loc(pgrid_opt_3)
-# 410 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 431 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 412 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 413 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 433 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 434 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(optimize_dist)) DEALLOCATE (optimize_dist)
-# 413 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 434 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(move_data)) DEALLOCATE (move_data)
-# 413 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 434 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(retain_sparsity)) DEALLOCATE (retain_sparsity)
-# 413 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 434 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(log_verbose)) DEALLOCATE (log_verbose)
-# 415 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 436 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 417 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 438 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_1)) DEALLOCATE (bounds_1)
-# 417 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 438 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_2)) DEALLOCATE (bounds_2)
-# 417 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 438 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_3)) DEALLOCATE (bounds_3)
-# 419 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 440 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    END SUBROUTINE
 
@@ -996,25 +1047,25 @@ ENDIF
       CALL c_f_pointer(c_tensor_2, tensor_2)
       CALL c_f_pointer(c_tensor_3, tensor_3)
 
-# 472 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 493 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (bounds_1)
       IF (PRESENT(c_bounds_1)) THEN
          ALLOCATE (bounds_1 (2, SIZE(c_bounds_1, 2)))
          bounds_1 = c_bounds_1+1
       ENDIF
-# 472 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 493 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (bounds_2)
       IF (PRESENT(c_bounds_2)) THEN
          ALLOCATE (bounds_2 (2, SIZE(c_bounds_2, 2)))
          bounds_2 = c_bounds_2+1
       ENDIF
-# 472 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 493 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (bounds_3)
       IF (PRESENT(c_bounds_3)) THEN
          ALLOCATE (bounds_3 (2, SIZE(c_bounds_3, 2)))
          bounds_3 = c_bounds_3+1
       ENDIF
-# 478 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 499 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
       CALL dbcsr_t_contract_index(dbcsr_scalar(c_alpha), tensor_1, &
                                   tensor_2, dbcsr_scalar(c_beta), tensor_3, &
@@ -1026,17 +1077,17 @@ ENDIF
 
       c_result_index = result_index - 1
 
-# 490 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 511 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_1)) DEALLOCATE (bounds_1)
-# 490 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 511 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_2)) DEALLOCATE (bounds_2)
-# 490 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 511 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_3)) DEALLOCATE (bounds_3)
-# 492 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 513 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    END SUBROUTINE
 
-# 305 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 326 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_contract_c_dp (c_alpha, c_tensor_1, c_tensor_2, c_beta, c_tensor_3, &
                                               c_contract_1, contract_1_size, &
@@ -1096,66 +1147,66 @@ ENDIF
       CALL c_f_pointer(c_tensor_2, tensor_2)
       CALL c_f_pointer(c_tensor_3, tensor_3)
 
-# 365 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (bounds_1)
       IF (PRESENT(c_bounds_1)) THEN
          ALLOCATE (bounds_1 (2, SIZE(c_bounds_1, 2)))
          bounds_1 = c_bounds_1+1
       ENDIF
-# 365 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (bounds_2)
       IF (PRESENT(c_bounds_2)) THEN
          ALLOCATE (bounds_2 (2, SIZE(c_bounds_2, 2)))
          bounds_2 = c_bounds_2+1
       ENDIF
-# 365 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (bounds_3)
       IF (PRESENT(c_bounds_3)) THEN
          ALLOCATE (bounds_3 (2, SIZE(c_bounds_3, 2)))
          bounds_3 = c_bounds_3+1
       ENDIF
-# 371 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 392 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 373 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 374 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 394 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 395 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (optimize_dist)
       IF (PRESENT(c_optimize_dist)) THEN
          ALLOCATE (optimize_dist)
          optimize_dist = c_optimize_dist
       ENDIF
-# 374 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 395 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (move_data)
       IF (PRESENT(c_move_data)) THEN
          ALLOCATE (move_data)
          move_data = c_move_data
       ENDIF
-# 374 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 395 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (retain_sparsity)
       IF (PRESENT(c_retain_sparsity)) THEN
          ALLOCATE (retain_sparsity)
          retain_sparsity = c_retain_sparsity
       ENDIF
-# 374 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 395 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (log_verbose)
       IF (PRESENT(c_log_verbose)) THEN
          ALLOCATE (log_verbose)
          log_verbose = c_log_verbose
       ENDIF
-# 380 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 401 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 382 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 403 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 404 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       
 
-# 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 407 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (pgrid_opt_1)
-# 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 407 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (pgrid_opt_2)
-# 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 407 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (pgrid_opt_3)
-# 388 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 409 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF(PRESENT(c_pgrid_opt_1) .AND. PRESENT(c_pgrid_opt_2) .AND. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1170,7 +1221,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(PRESENT(c_pgrid_opt_2) .AND. PRESENT(c_pgrid_opt_3) .AND. .NOT. PRESENT(c_pgrid_opt_1)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1185,7 +1236,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(PRESENT(c_pgrid_opt_1) .AND. PRESENT(c_pgrid_opt_3) .AND. .NOT. PRESENT(c_pgrid_opt_2)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1200,7 +1251,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(PRESENT(c_pgrid_opt_3) .AND. .NOT. PRESENT(c_pgrid_opt_1) .AND. .NOT. PRESENT(c_pgrid_opt_2)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1215,7 +1266,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(PRESENT(c_pgrid_opt_1) .AND. PRESENT(c_pgrid_opt_2) .AND. .NOT. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1230,7 +1281,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(PRESENT(c_pgrid_opt_2) .AND. .NOT. PRESENT(c_pgrid_opt_1) .AND. .NOT. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1245,7 +1296,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(PRESENT(c_pgrid_opt_1) .AND. .NOT. PRESENT(c_pgrid_opt_2) .AND. .NOT. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1260,7 +1311,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1275,35 +1326,35 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 405 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 426 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 ENDIF
 
-# 408 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 429 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_pgrid_opt_1)) c_pgrid_opt_1 = c_loc(pgrid_opt_1)
-# 408 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 429 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_pgrid_opt_2)) c_pgrid_opt_2 = c_loc(pgrid_opt_2)
-# 408 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 429 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_pgrid_opt_3)) c_pgrid_opt_3 = c_loc(pgrid_opt_3)
-# 410 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 431 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 412 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 413 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 433 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 434 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(optimize_dist)) DEALLOCATE (optimize_dist)
-# 413 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 434 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(move_data)) DEALLOCATE (move_data)
-# 413 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 434 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(retain_sparsity)) DEALLOCATE (retain_sparsity)
-# 413 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 434 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(log_verbose)) DEALLOCATE (log_verbose)
-# 415 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 436 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 417 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 438 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_1)) DEALLOCATE (bounds_1)
-# 417 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 438 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_2)) DEALLOCATE (bounds_2)
-# 417 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 438 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_3)) DEALLOCATE (bounds_3)
-# 419 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 440 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    END SUBROUTINE
 
@@ -1356,25 +1407,25 @@ ENDIF
       CALL c_f_pointer(c_tensor_2, tensor_2)
       CALL c_f_pointer(c_tensor_3, tensor_3)
 
-# 472 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 493 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (bounds_1)
       IF (PRESENT(c_bounds_1)) THEN
          ALLOCATE (bounds_1 (2, SIZE(c_bounds_1, 2)))
          bounds_1 = c_bounds_1+1
       ENDIF
-# 472 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 493 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (bounds_2)
       IF (PRESENT(c_bounds_2)) THEN
          ALLOCATE (bounds_2 (2, SIZE(c_bounds_2, 2)))
          bounds_2 = c_bounds_2+1
       ENDIF
-# 472 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 493 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (bounds_3)
       IF (PRESENT(c_bounds_3)) THEN
          ALLOCATE (bounds_3 (2, SIZE(c_bounds_3, 2)))
          bounds_3 = c_bounds_3+1
       ENDIF
-# 478 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 499 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
       CALL dbcsr_t_contract_index(dbcsr_scalar(c_alpha), tensor_1, &
                                   tensor_2, dbcsr_scalar(c_beta), tensor_3, &
@@ -1386,17 +1437,17 @@ ENDIF
 
       c_result_index = result_index - 1
 
-# 490 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 511 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_1)) DEALLOCATE (bounds_1)
-# 490 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 511 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_2)) DEALLOCATE (bounds_2)
-# 490 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 511 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_3)) DEALLOCATE (bounds_3)
-# 492 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 513 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    END SUBROUTINE
 
-# 305 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 326 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_contract_c_sp (c_alpha, c_tensor_1, c_tensor_2, c_beta, c_tensor_3, &
                                               c_contract_1, contract_1_size, &
@@ -1456,66 +1507,66 @@ ENDIF
       CALL c_f_pointer(c_tensor_2, tensor_2)
       CALL c_f_pointer(c_tensor_3, tensor_3)
 
-# 365 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (bounds_1)
       IF (PRESENT(c_bounds_1)) THEN
          ALLOCATE (bounds_1 (2, SIZE(c_bounds_1, 2)))
          bounds_1 = c_bounds_1+1
       ENDIF
-# 365 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (bounds_2)
       IF (PRESENT(c_bounds_2)) THEN
          ALLOCATE (bounds_2 (2, SIZE(c_bounds_2, 2)))
          bounds_2 = c_bounds_2+1
       ENDIF
-# 365 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (bounds_3)
       IF (PRESENT(c_bounds_3)) THEN
          ALLOCATE (bounds_3 (2, SIZE(c_bounds_3, 2)))
          bounds_3 = c_bounds_3+1
       ENDIF
-# 371 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 392 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 373 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 374 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 394 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 395 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (optimize_dist)
       IF (PRESENT(c_optimize_dist)) THEN
          ALLOCATE (optimize_dist)
          optimize_dist = c_optimize_dist
       ENDIF
-# 374 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 395 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (move_data)
       IF (PRESENT(c_move_data)) THEN
          ALLOCATE (move_data)
          move_data = c_move_data
       ENDIF
-# 374 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 395 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (retain_sparsity)
       IF (PRESENT(c_retain_sparsity)) THEN
          ALLOCATE (retain_sparsity)
          retain_sparsity = c_retain_sparsity
       ENDIF
-# 374 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 395 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (log_verbose)
       IF (PRESENT(c_log_verbose)) THEN
          ALLOCATE (log_verbose)
          log_verbose = c_log_verbose
       ENDIF
-# 380 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 401 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 382 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 403 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 404 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       
 
-# 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 407 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (pgrid_opt_1)
-# 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 407 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (pgrid_opt_2)
-# 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 407 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (pgrid_opt_3)
-# 388 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 409 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF(PRESENT(c_pgrid_opt_1) .AND. PRESENT(c_pgrid_opt_2) .AND. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1530,7 +1581,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(PRESENT(c_pgrid_opt_2) .AND. PRESENT(c_pgrid_opt_3) .AND. .NOT. PRESENT(c_pgrid_opt_1)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1545,7 +1596,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(PRESENT(c_pgrid_opt_1) .AND. PRESENT(c_pgrid_opt_3) .AND. .NOT. PRESENT(c_pgrid_opt_2)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1560,7 +1611,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(PRESENT(c_pgrid_opt_3) .AND. .NOT. PRESENT(c_pgrid_opt_1) .AND. .NOT. PRESENT(c_pgrid_opt_2)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1575,7 +1626,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(PRESENT(c_pgrid_opt_1) .AND. PRESENT(c_pgrid_opt_2) .AND. .NOT. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1590,7 +1641,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(PRESENT(c_pgrid_opt_2) .AND. .NOT. PRESENT(c_pgrid_opt_1) .AND. .NOT. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1605,7 +1656,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(PRESENT(c_pgrid_opt_1) .AND. .NOT. PRESENT(c_pgrid_opt_2) .AND. .NOT. PRESENT(c_pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1620,7 +1671,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1635,35 +1686,35 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 405 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 426 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 ENDIF
 
-# 408 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 429 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_pgrid_opt_1)) c_pgrid_opt_1 = c_loc(pgrid_opt_1)
-# 408 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 429 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_pgrid_opt_2)) c_pgrid_opt_2 = c_loc(pgrid_opt_2)
-# 408 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 429 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_pgrid_opt_3)) c_pgrid_opt_3 = c_loc(pgrid_opt_3)
-# 410 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 431 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 412 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 413 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 433 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 434 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(optimize_dist)) DEALLOCATE (optimize_dist)
-# 413 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 434 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(move_data)) DEALLOCATE (move_data)
-# 413 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 434 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(retain_sparsity)) DEALLOCATE (retain_sparsity)
-# 413 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 434 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(log_verbose)) DEALLOCATE (log_verbose)
-# 415 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 436 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 417 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 438 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_1)) DEALLOCATE (bounds_1)
-# 417 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 438 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_2)) DEALLOCATE (bounds_2)
-# 417 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 438 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_3)) DEALLOCATE (bounds_3)
-# 419 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 440 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    END SUBROUTINE
 
@@ -1716,25 +1767,25 @@ ENDIF
       CALL c_f_pointer(c_tensor_2, tensor_2)
       CALL c_f_pointer(c_tensor_3, tensor_3)
 
-# 472 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 493 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (bounds_1)
       IF (PRESENT(c_bounds_1)) THEN
          ALLOCATE (bounds_1 (2, SIZE(c_bounds_1, 2)))
          bounds_1 = c_bounds_1+1
       ENDIF
-# 472 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 493 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (bounds_2)
       IF (PRESENT(c_bounds_2)) THEN
          ALLOCATE (bounds_2 (2, SIZE(c_bounds_2, 2)))
          bounds_2 = c_bounds_2+1
       ENDIF
-# 472 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 493 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (bounds_3)
       IF (PRESENT(c_bounds_3)) THEN
          ALLOCATE (bounds_3 (2, SIZE(c_bounds_3, 2)))
          bounds_3 = c_bounds_3+1
       ENDIF
-# 478 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 499 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
       CALL dbcsr_t_contract_index(dbcsr_scalar(c_alpha), tensor_1, &
                                   tensor_2, dbcsr_scalar(c_beta), tensor_3, &
@@ -1746,20 +1797,20 @@ ENDIF
 
       c_result_index = result_index - 1
 
-# 490 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 511 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_1)) DEALLOCATE (bounds_1)
-# 490 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 511 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_2)) DEALLOCATE (bounds_2)
-# 490 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 511 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_3)) DEALLOCATE (bounds_3)
-# 492 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 513 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    END SUBROUTINE
 
-# 496 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 517 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 498 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 499 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 519 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 520 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_get_2d_block_r_dp (c_tensor, tensor_dim, c_ind, c_sizes, c_block, c_found) &
       BIND(C, name="c_dbcsr_t_get_2d_block_r_dp")
@@ -1784,7 +1835,7 @@ ENDIF
       c_found = found
 
    END SUBROUTINE
-# 499 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 520 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_get_3d_block_r_dp (c_tensor, tensor_dim, c_ind, c_sizes, c_block, c_found) &
       BIND(C, name="c_dbcsr_t_get_3d_block_r_dp")
@@ -1809,7 +1860,7 @@ ENDIF
       c_found = found
 
    END SUBROUTINE
-# 499 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 520 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_get_4d_block_r_dp (c_tensor, tensor_dim, c_ind, c_sizes, c_block, c_found) &
       BIND(C, name="c_dbcsr_t_get_4d_block_r_dp")
@@ -1834,9 +1885,9 @@ ENDIF
       c_found = found
 
    END SUBROUTINE
-# 524 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 498 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 499 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 545 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 519 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 520 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_get_2d_block_r_sp (c_tensor, tensor_dim, c_ind, c_sizes, c_block, c_found) &
       BIND(C, name="c_dbcsr_t_get_2d_block_r_sp")
@@ -1861,7 +1912,7 @@ ENDIF
       c_found = found
 
    END SUBROUTINE
-# 499 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 520 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_get_3d_block_r_sp (c_tensor, tensor_dim, c_ind, c_sizes, c_block, c_found) &
       BIND(C, name="c_dbcsr_t_get_3d_block_r_sp")
@@ -1886,7 +1937,7 @@ ENDIF
       c_found = found
 
    END SUBROUTINE
-# 499 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 520 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_get_4d_block_r_sp (c_tensor, tensor_dim, c_ind, c_sizes, c_block, c_found) &
       BIND(C, name="c_dbcsr_t_get_4d_block_r_sp")
@@ -1911,9 +1962,9 @@ ENDIF
       c_found = found
 
    END SUBROUTINE
-# 524 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 498 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 499 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 545 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 519 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 520 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_get_2d_block_c_dp (c_tensor, tensor_dim, c_ind, c_sizes, c_block, c_found) &
       BIND(C, name="c_dbcsr_t_get_2d_block_c_dp")
@@ -1938,7 +1989,7 @@ ENDIF
       c_found = found
 
    END SUBROUTINE
-# 499 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 520 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_get_3d_block_c_dp (c_tensor, tensor_dim, c_ind, c_sizes, c_block, c_found) &
       BIND(C, name="c_dbcsr_t_get_3d_block_c_dp")
@@ -1963,7 +2014,7 @@ ENDIF
       c_found = found
 
    END SUBROUTINE
-# 499 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 520 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_get_4d_block_c_dp (c_tensor, tensor_dim, c_ind, c_sizes, c_block, c_found) &
       BIND(C, name="c_dbcsr_t_get_4d_block_c_dp")
@@ -1988,9 +2039,9 @@ ENDIF
       c_found = found
 
    END SUBROUTINE
-# 524 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 498 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 499 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 545 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 519 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 520 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_get_2d_block_c_sp (c_tensor, tensor_dim, c_ind, c_sizes, c_block, c_found) &
       BIND(C, name="c_dbcsr_t_get_2d_block_c_sp")
@@ -2015,7 +2066,7 @@ ENDIF
       c_found = found
 
    END SUBROUTINE
-# 499 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 520 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_get_3d_block_c_sp (c_tensor, tensor_dim, c_ind, c_sizes, c_block, c_found) &
       BIND(C, name="c_dbcsr_t_get_3d_block_c_sp")
@@ -2040,7 +2091,7 @@ ENDIF
       c_found = found
 
    END SUBROUTINE
-# 499 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 520 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_get_4d_block_c_sp (c_tensor, tensor_dim, c_ind, c_sizes, c_block, c_found) &
       BIND(C, name="c_dbcsr_t_get_4d_block_c_sp")
@@ -2065,11 +2116,11 @@ ENDIF
       c_found = found
 
    END SUBROUTINE
-# 524 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 525 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 545 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 546 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 527 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 528 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 548 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 549 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_put_2d_block_r_dp (c_tensor, tensor_dim, c_ind, c_sizes, &
                                                          c_block, c_summation, c_scale) &
@@ -2102,7 +2153,7 @@ ENDIF
       ENDIF
 
    END SUBROUTINE
-# 528 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 549 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_put_3d_block_r_dp (c_tensor, tensor_dim, c_ind, c_sizes, &
                                                          c_block, c_summation, c_scale) &
@@ -2135,7 +2186,7 @@ ENDIF
       ENDIF
 
    END SUBROUTINE
-# 528 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 549 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_put_4d_block_r_dp (c_tensor, tensor_dim, c_ind, c_sizes, &
                                                          c_block, c_summation, c_scale) &
@@ -2168,9 +2219,9 @@ ENDIF
       ENDIF
 
    END SUBROUTINE
-# 561 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 527 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 528 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 582 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 548 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 549 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_put_2d_block_r_sp (c_tensor, tensor_dim, c_ind, c_sizes, &
                                                          c_block, c_summation, c_scale) &
@@ -2203,7 +2254,7 @@ ENDIF
       ENDIF
 
    END SUBROUTINE
-# 528 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 549 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_put_3d_block_r_sp (c_tensor, tensor_dim, c_ind, c_sizes, &
                                                          c_block, c_summation, c_scale) &
@@ -2236,7 +2287,7 @@ ENDIF
       ENDIF
 
    END SUBROUTINE
-# 528 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 549 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_put_4d_block_r_sp (c_tensor, tensor_dim, c_ind, c_sizes, &
                                                          c_block, c_summation, c_scale) &
@@ -2269,9 +2320,9 @@ ENDIF
       ENDIF
 
    END SUBROUTINE
-# 561 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 527 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 528 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 582 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 548 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 549 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_put_2d_block_c_dp (c_tensor, tensor_dim, c_ind, c_sizes, &
                                                          c_block, c_summation, c_scale) &
@@ -2304,7 +2355,7 @@ ENDIF
       ENDIF
 
    END SUBROUTINE
-# 528 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 549 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_put_3d_block_c_dp (c_tensor, tensor_dim, c_ind, c_sizes, &
                                                          c_block, c_summation, c_scale) &
@@ -2337,7 +2388,7 @@ ENDIF
       ENDIF
 
    END SUBROUTINE
-# 528 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 549 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_put_4d_block_c_dp (c_tensor, tensor_dim, c_ind, c_sizes, &
                                                          c_block, c_summation, c_scale) &
@@ -2370,9 +2421,9 @@ ENDIF
       ENDIF
 
    END SUBROUTINE
-# 561 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 527 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 528 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 582 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 548 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 549 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_put_2d_block_c_sp (c_tensor, tensor_dim, c_ind, c_sizes, &
                                                          c_block, c_summation, c_scale) &
@@ -2405,7 +2456,7 @@ ENDIF
       ENDIF
 
    END SUBROUTINE
-# 528 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 549 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_put_3d_block_c_sp (c_tensor, tensor_dim, c_ind, c_sizes, &
                                                          c_block, c_summation, c_scale) &
@@ -2438,7 +2489,7 @@ ENDIF
       ENDIF
 
    END SUBROUTINE
-# 528 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 549 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_put_4d_block_c_sp (c_tensor, tensor_dim, c_ind, c_sizes, &
                                                          c_block, c_summation, c_scale) &
@@ -2471,8 +2522,8 @@ ENDIF
       ENDIF
 
    END SUBROUTINE
-# 561 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 562 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 582 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 583 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_get_stored_coordinates(c_tensor, tensor_dim, c_ind_nd, c_processor) &
       BIND(C, name="c_dbcsr_t_get_stored_coordinates")
@@ -2497,51 +2548,51 @@ ENDIF
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_tensor
       INTEGER(kind=c_int), INTENT(in), value             :: nblocks
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL          :: c_blk_ind_1(nblocks), c_blk_ind_2(nblocks), c_blk_ind_3(nblocks),&
-# 585 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 606 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
           & c_blk_ind_4(nblocks)
       INTEGER, DIMENSION(:), POINTER                     :: blk_ind_1, blk_ind_2, blk_ind_3, blk_ind_4
 
       TYPE(dbcsr_t_type), POINTER                        :: tensor
 
-# 591 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 612 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (blk_ind_1)
       IF (PRESENT(c_blk_ind_1)) THEN
          ALLOCATE (blk_ind_1 (nblocks))
          blk_ind_1 = c_blk_ind_1+1
       ENDIF
-# 591 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 612 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (blk_ind_2)
       IF (PRESENT(c_blk_ind_2)) THEN
          ALLOCATE (blk_ind_2 (nblocks))
          blk_ind_2 = c_blk_ind_2+1
       ENDIF
-# 591 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 612 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (blk_ind_3)
       IF (PRESENT(c_blk_ind_3)) THEN
          ALLOCATE (blk_ind_3 (nblocks))
          blk_ind_3 = c_blk_ind_3+1
       ENDIF
-# 591 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 612 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       NULLIFY (blk_ind_4)
       IF (PRESENT(c_blk_ind_4)) THEN
          ALLOCATE (blk_ind_4 (nblocks))
          blk_ind_4 = c_blk_ind_4+1
       ENDIF
-# 597 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 618 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
       CALL c_f_pointer(c_tensor, tensor)
 
       CALL dbcsr_t_reserve_blocks(tensor, blk_ind_1, blk_ind_2, blk_ind_3, blk_ind_4)
 
-# 603 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 624 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(blk_ind_1)) DEALLOCATE (blk_ind_1)
-# 603 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 624 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(blk_ind_2)) DEALLOCATE (blk_ind_2)
-# 603 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 624 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(blk_ind_3)) DEALLOCATE (blk_ind_3)
-# 603 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 624 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(blk_ind_4)) DEALLOCATE (blk_ind_4)
-# 605 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 626 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    END SUBROUTINE
 
@@ -2600,7 +2651,6 @@ ENDIF
       CALL dbcsr_t_iterator_stop(iterator)
 
       IF (ASSOCIATED(iterator)) DEALLOCATE (iterator)
-
       c_iterator = c_null_ptr
 
    END SUBROUTINE
@@ -2676,7 +2726,7 @@ ENDIF
 
    END SUBROUTINE
 
-# 740 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 760 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_filter_r_dp (c_tensor, c_eps, c_method, c_use_absolute) &
       BIND(C, name="c_dbcsr_t_filter_r_dp")
@@ -2699,7 +2749,7 @@ ENDIF
       ENDIF
 
    END SUBROUTINE
-# 740 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 760 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_filter_r_sp (c_tensor, c_eps, c_method, c_use_absolute) &
       BIND(C, name="c_dbcsr_t_filter_r_sp")
@@ -2722,7 +2772,7 @@ ENDIF
       ENDIF
 
    END SUBROUTINE
-# 740 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 760 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_filter_c_dp (c_tensor, c_eps, c_method, c_use_absolute) &
       BIND(C, name="c_dbcsr_t_filter_c_dp")
@@ -2745,7 +2795,7 @@ ENDIF
       ENDIF
 
    END SUBROUTINE
-# 740 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 760 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_filter_c_sp (c_tensor, c_eps, c_method, c_use_absolute) &
       BIND(C, name="c_dbcsr_t_filter_c_sp")
@@ -2768,9 +2818,9 @@ ENDIF
       ENDIF
 
    END SUBROUTINE
-# 763 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 783 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 765 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 785 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_set_r_dp (c_tensor, c_alpha) &
       BIND(C, name="c_dbcsr_t_set_r_dp")
@@ -2785,7 +2835,7 @@ ENDIF
       CALL dbcsr_t_set(tensor, c_alpha)
 
    END SUBROUTINE
-# 765 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 785 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_set_r_sp (c_tensor, c_alpha) &
       BIND(C, name="c_dbcsr_t_set_r_sp")
@@ -2800,7 +2850,7 @@ ENDIF
       CALL dbcsr_t_set(tensor, c_alpha)
 
    END SUBROUTINE
-# 765 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 785 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_set_c_dp (c_tensor, c_alpha) &
       BIND(C, name="c_dbcsr_t_set_c_dp")
@@ -2815,7 +2865,7 @@ ENDIF
       CALL dbcsr_t_set(tensor, c_alpha)
 
    END SUBROUTINE
-# 765 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 785 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_set_c_sp (c_tensor, c_alpha) &
       BIND(C, name="c_dbcsr_t_set_c_sp")
@@ -2830,7 +2880,7 @@ ENDIF
       CALL dbcsr_t_set(tensor, c_alpha)
 
    END SUBROUTINE
-# 780 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 800 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_copy_matrix_to_tensor(c_matrix_in, c_tensor_out, c_summation) &
       BIND(C, name="c_dbcsr_t_copy_matrix_to_tensor")
@@ -2942,20 +2992,20 @@ ENDIF
 
       CALL dbcsr_t_copy(tensor_in, tensor_out, order, summation, bounds, move_data, c_unit_nr)
 
-# 892 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 893 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 912 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 913 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(order)) DEALLOCATE (order)
-# 893 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 913 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds)) DEALLOCATE (bounds)
-# 893 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 913 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(summation)) DEALLOCATE (summation)
-# 893 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 913 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(move_data)) DEALLOCATE (move_data)
-# 895 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 915 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    END SUBROUTINE
 
-# 899 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 919 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_scale_r_dp (c_tensor, c_alpha) &
       BIND(C, name="c_dbcsr_t_scale_r_dp")
@@ -2971,7 +3021,7 @@ ENDIF
 
    END SUBROUTINE
 
-# 899 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 919 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_scale_r_sp (c_tensor, c_alpha) &
       BIND(C, name="c_dbcsr_t_scale_r_sp")
@@ -2987,7 +3037,7 @@ ENDIF
 
    END SUBROUTINE
 
-# 899 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 919 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_scale_c_dp (c_tensor, c_alpha) &
       BIND(C, name="c_dbcsr_t_scale_c_dp")
@@ -3003,7 +3053,7 @@ ENDIF
 
    END SUBROUTINE
 
-# 899 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 919 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_scale_c_sp (c_tensor, c_alpha) &
       BIND(C, name="c_dbcsr_t_scale_c_sp")
@@ -3019,7 +3069,7 @@ ENDIF
 
    END SUBROUTINE
 
-# 915 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 935 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_clear(c_tensor) BIND(C, name="c_dbcsr_t_clear")
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_tensor
@@ -3064,7 +3114,7 @@ ENDIF
       INTEGER(kind=c_int), DIMENSION(tensor_dim), INTENT(OUT), &
          OPTIONAL :: c_pdims
 
-# 960 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 980 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       INTEGER(kind=c_int), INTENT(IN), VALUE :: nblks_local_1
       INTEGER(kind=c_int), INTENT(IN), VALUE :: nblks_total_1
       INTEGER(kind=c_int), INTENT(OUT), OPTIONAL, &
@@ -3075,7 +3125,7 @@ ENDIF
          DIMENSION(nblks_total_1) :: c_blk_size_1
       INTEGER(kind=c_int), INTENT(OUT), OPTIONAL, &
          DIMENSION(nblks_total_1) :: c_blk_offset_1
-# 960 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 980 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       INTEGER(kind=c_int), INTENT(IN), VALUE :: nblks_local_2
       INTEGER(kind=c_int), INTENT(IN), VALUE :: nblks_total_2
       INTEGER(kind=c_int), INTENT(OUT), OPTIONAL, &
@@ -3086,7 +3136,7 @@ ENDIF
          DIMENSION(nblks_total_2) :: c_blk_size_2
       INTEGER(kind=c_int), INTENT(OUT), OPTIONAL, &
          DIMENSION(nblks_total_2) :: c_blk_offset_2
-# 960 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 980 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       INTEGER(kind=c_int), INTENT(IN), VALUE :: nblks_local_3
       INTEGER(kind=c_int), INTENT(IN), VALUE :: nblks_total_3
       INTEGER(kind=c_int), INTENT(OUT), OPTIONAL, &
@@ -3097,7 +3147,7 @@ ENDIF
          DIMENSION(nblks_total_3) :: c_blk_size_3
       INTEGER(kind=c_int), INTENT(OUT), OPTIONAL, &
          DIMENSION(nblks_total_3) :: c_blk_offset_3
-# 960 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 980 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       INTEGER(kind=c_int), INTENT(IN), VALUE :: nblks_local_4
       INTEGER(kind=c_int), INTENT(IN), VALUE :: nblks_total_4
       INTEGER(kind=c_int), INTENT(OUT), OPTIONAL, &
@@ -3108,7 +3158,7 @@ ENDIF
          DIMENSION(nblks_total_4) :: c_blk_size_4
       INTEGER(kind=c_int), INTENT(OUT), OPTIONAL, &
          DIMENSION(nblks_total_4) :: c_blk_offset_4
-# 971 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 991 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
       TYPE(c_ptr), INTENT(OUT), OPTIONAL :: c_distribution
       TYPE(c_ptr), INTENT(OUT), OPTIONAL :: c_name
@@ -3135,32 +3185,32 @@ ENDIF
                             distribution, name, &
                             c_data_type)
 
-# 998 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 999 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 1000 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 1018 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 1019 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 1020 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_blks_local_1)) c_blks_local_1 = c_blks_local_1-1
-# 1000 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 1020 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_blk_offset_1)) c_blk_offset_1 = c_blk_offset_1-1
-# 1002 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 999 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 1000 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 1022 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 1019 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 1020 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_blks_local_2)) c_blks_local_2 = c_blks_local_2-1
-# 1000 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 1020 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_blk_offset_2)) c_blk_offset_2 = c_blk_offset_2-1
-# 1002 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 999 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 1000 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 1022 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 1019 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 1020 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_blks_local_3)) c_blks_local_3 = c_blks_local_3-1
-# 1000 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 1020 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_blk_offset_3)) c_blk_offset_3 = c_blk_offset_3-1
-# 1002 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 999 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 1000 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 1022 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 1019 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 1020 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_blks_local_4)) c_blks_local_4 = c_blks_local_4-1
-# 1000 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 1020 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_blk_offset_4)) c_blk_offset_4 = c_blk_offset_4-1
-# 1002 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 1003 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 1022 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 1023 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
       IF (PRESENT(c_name)) THEN
          name = TRIM(name)//char(0)
@@ -3223,20 +3273,20 @@ ENDIF
                                        base)
       ENDIF
 
-# 1066 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 1067 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 1086 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 1087 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_dims_nd)) c_dims_nd = c_dims_nd-1
-# 1067 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 1087 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_dims1_2d)) c_dims1_2d = c_dims1_2d-1
-# 1067 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 1087 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_dims2_2d)) c_dims2_2d = c_dims2_2d-1
-# 1067 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 1087 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_map1_2d)) c_map1_2d = c_map1_2d-1
-# 1067 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 1087 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_map2_2d)) c_map2_2d = c_map2_2d-1
-# 1067 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 1087 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_map_nd)) c_map_nd = c_map_nd-1
-# 1069 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 1089 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    END SUBROUTINE
 
