@@ -61,6 +61,7 @@ CONTAINS
 
    SUBROUTINE c_dbcsr_t_finalize(c_tensor) BIND(C, name="c_dbcsr_t_finalize")
       TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
+
       TYPE(dbcsr_t_type), POINTER :: tensor
 
       CALL c_f_pointer(c_tensor, tensor)
@@ -162,6 +163,7 @@ CONTAINS
 
    SUBROUTINE c_dbcsr_t_distribution_destroy(c_dist) BIND(C, name="c_dbcsr_t_distribution_destroy")
       TYPE(c_ptr), INTENT(INOUT)                         :: c_dist
+
       TYPE(dbcsr_t_distribution_type), POINTER           :: dist
 
       CALL c_f_pointer(c_dist, dist)
@@ -295,7 +297,6 @@ CONTAINS
       CALL dbcsr_t_destroy(tensor)
 
       IF (ASSOCIATED(tensor)) DEALLOCATE (tensor)
-
       c_tensor = c_null_ptr
 
    END SUBROUTINE
@@ -381,6 +382,10 @@ CONTAINS
 #:set optgroups = []
       ${gen_vargroups(optvars,optgroups)}$
 
+#:for var in optvars
+      NULLIFY (${var[0]}$)
+#:endfor
+
 #:for i in range(len(optgroups))
       ${print_groupif(optgroups,optvars,i,'ASSOCIATED')}$
 
@@ -400,7 +405,6 @@ CONTAINS
       $:"ENDIF"
 
 #:for dim in range(1,4)
-      NULLIFY (pgrid_opt_${dim}$)
       IF (PRESENT(c_pgrid_opt_${dim}$)) c_pgrid_opt_${dim}$ = c_loc(pgrid_opt_${dim}$)
 #:endfor
 
@@ -647,8 +651,8 @@ CONTAINS
    END SUBROUTINE
 
    SUBROUTINE c_dbcsr_t_iterator_stop(c_iterator) BIND(C, name="c_dbcsr_t_iterator_stop")
-
       TYPE(c_ptr), INTENT(INOUT)                         :: c_iterator
+
       TYPE(dbcsr_t_iterator_type), POINTER               :: iterator
 
       CALL c_f_pointer(c_iterator, iterator)
@@ -910,8 +914,8 @@ CONTAINS
 #:endfor
 
    SUBROUTINE c_dbcsr_t_clear(c_tensor) BIND(C, name="c_dbcsr_t_clear")
-
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_tensor
+
       TYPE(dbcsr_t_type), POINTER                        :: tensor
 
       CALL c_f_pointer(c_tensor, tensor)
@@ -1069,6 +1073,7 @@ CONTAINS
       BIND(C, name="c_dbcsr_t_get_num_blocks")
 
       TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
+
       TYPE(dbcsr_t_type), POINTER :: tensor
       INTEGER(kind=c_int) :: c_num_blocks
 
@@ -1081,6 +1086,7 @@ CONTAINS
       BIND(C, name="c_dbcsr_t_get_num_blocks_total")
 
       TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
+
       TYPE(dbcsr_t_type), POINTER :: tensor
       INTEGER(kind=c_long_long) :: c_num_blocks_total
 
