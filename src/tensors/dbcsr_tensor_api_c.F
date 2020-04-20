@@ -111,7 +111,11 @@ CONTAINS
 
       ALLOCATE (pgrid)
 
-      CALL dbcsr_t_pgrid_create(fcomm, c_dims, pgrid, c_tensor_dims)
+      IF (PRESENT(c_tensor_dims)) THEN
+         CALL dbcsr_t_pgrid_create(fcomm, c_dims, pgrid, c_tensor_dims)
+      ELSE
+         CALL dbcsr_t_pgrid_create(fcomm, c_dims, pgrid)
+      ENDIF
 
       c_pgrid = c_loc(pgrid)
 
@@ -146,16 +150,25 @@ CONTAINS
       TYPE(c_ptr), INTENT(IN), value                     :: c_pgrid
 
       INTEGER(kind=c_int), INTENT(in), value :: ${varlist("c_nd_dist", suffix="_size")}$
-      INTEGER(kind=c_int), INTENT(IN), OPTIONAL  :: ${c_arrlist_and_size("c_nd_dist")}$
+      INTEGER(kind=c_int), INTENT(IN), TARGET, OPTIONAL :: ${c_arrlist_and_size("c_nd_dist")}$
 
       TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid
       TYPE(dbcsr_t_distribution_type), POINTER           :: dist
+
+      INTEGER, DIMENSION(:), POINTER                     ::  ${varlist("nd_dist")}$
 
       ALLOCATE (dist)
 
       CALL c_f_pointer(c_pgrid, pgrid)
 
-      CALL dbcsr_t_distribution_new(dist, pgrid, ${varlist("c_nd_dist")}$)
+#:for i in range(1, maxrank+1)
+      NULLIFY (nd_dist_${i}$)
+      IF (PRESENT(c_nd_dist_${i}$)) THEN
+         nd_dist_${i}$ => c_nd_dist_${i}$
+      ENDIF
+#:endfor
+
+      CALL dbcsr_t_distribution_new(dist, pgrid, ${varlist("nd_dist")}$)
 
       c_dist = c_loc(dist)
 
@@ -170,7 +183,6 @@ CONTAINS
       CALL dbcsr_t_distribution_destroy(dist)
 
       IF (ASSOCIATED(dist)) DEALLOCATE (dist)
-
       c_dist = c_null_ptr
 
    END SUBROUTINE
@@ -197,13 +209,22 @@ CONTAINS
       TYPE(dbcsr_t_type), POINTER                        :: tensor
       TYPE(dbcsr_t_distribution_type), POINTER           :: dist
 
+      INTEGER, DIMENSION(:), POINTER                     :: ${varlist("blk_size")}$
+
       ALLOCATE (tensor)
 
       CALL c_f_pointer(c_dist, dist)
       CALL c_f_string(c_name, fname)
 
+#:for i in range(1, maxrank+1)
+      NULLIFY (blk_size_${i}$)
+      IF (PRESENT(c_blk_size_${i}$)) THEN
+         blk_size_${i}$ => c_blk_size_${i}$
+      ENDIF
+#:endfor
+
       CALL dbcsr_t_create(tensor, fname, dist, c_map1_2d+1, c_map2_2d+1, c_data_type, &
-                          ${varlist("c_blk_size")}$)
+                          ${varlist("blk_size")}$)
 
       c_tensor = c_loc(tensor)
 
@@ -660,7 +681,6 @@ CONTAINS
       CALL dbcsr_t_iterator_stop(iterator)
 
       IF (ASSOCIATED(iterator)) DEALLOCATE (iterator)
-
       c_iterator = c_null_ptr
 
    END SUBROUTINE
