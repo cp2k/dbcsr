@@ -26,7 +26,7 @@ MODULE dbcsr_tensor_api_c
    USE dbcsr_allocate_wrap, ONLY: allocate_any
    USE dbcsr_tensor_api
    USE dbcsr_kinds, ONLY: &
-      real_4, real_8, default_string_length, int_8
+      real_8, real_4, default_string_length, int_8
    USE dbcsr_data_types, ONLY: dbcsr_scalar_type
    USE dbcsr_data_methods, ONLY: dbcsr_scalar
    USE dbcsr_machine, ONLY: default_output_unit
@@ -91,7 +91,7 @@ CONTAINS
       INTEGER(kind=c_int), INTENT(in)                    :: c_map2_2d(map2_2d_size)
       INTEGER(kind=c_int), INTENT(in), OPTIONAL          :: nsplit, dimsplit
 
-      TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid => NULL()
+      TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid
 
       ALLOCATE (pgrid)
 
@@ -126,24 +126,25 @@ CONTAINS
 
       TYPE(c_ptr), INTENT(INOUT)                         :: c_pgrid
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         :: c_keep_comm
-      TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid => NULL()
+      TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid
       LOGICAL                                            :: keep_comm
 
       CALL c_f_pointer(c_pgrid, pgrid)
 
-      keep_comm = .FALSE.
-      IF (PRESENT(c_keep_comm)) keep_comm = c_keep_comm
-
-      CALL dbcsr_t_pgrid_destroy(pgrid, keep_comm)
+      IF (PRESENT(c_keep_comm)) THEN
+         keep_comm = c_keep_comm
+         CALL dbcsr_t_pgrid_destroy(pgrid, keep_comm)
+      ELSE
+         CALL dbcsr_t_pgrid_destroy(pgrid)
+      ENDIF
 
       IF (ASSOCIATED(pgrid)) DEALLOCATE (pgrid)
-
       c_pgrid = c_null_ptr
 
    END SUBROUTINE
 
    SUBROUTINE c_dbcsr_t_distribution_new(c_dist, c_pgrid, c_nd_dist_1, c_nd_dist_1_size, c_nd_dist_2, c_nd_dist_2_size,&
-# 140 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 141 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
        & c_nd_dist_3, c_nd_dist_3_size, c_nd_dist_4, c_nd_dist_4_size) &
       bind(C, name="c_dbcsr_t_distribution_new")
 
@@ -152,11 +153,11 @@ CONTAINS
 
       INTEGER(kind=c_int), INTENT(in), value :: c_nd_dist_1_size, c_nd_dist_2_size, c_nd_dist_3_size, c_nd_dist_4_size
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL  :: c_nd_dist_1(c_nd_dist_1_size), c_nd_dist_2(c_nd_dist_2_size),&
-# 147 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 148 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
           & c_nd_dist_3(c_nd_dist_3_size), c_nd_dist_4(c_nd_dist_4_size)
 
-      TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid => NULL()
-      TYPE(dbcsr_t_distribution_type), POINTER           :: dist => NULL()
+      TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid
+      TYPE(dbcsr_t_distribution_type), POINTER           :: dist
 
       ALLOCATE (dist)
 
@@ -170,9 +171,9 @@ CONTAINS
 
    SUBROUTINE c_dbcsr_t_distribution_destroy(c_dist) BIND(C, name="c_dbcsr_t_distribution_destroy")
       TYPE(c_ptr), INTENT(INOUT)                         :: c_dist
-      TYPE(dbcsr_t_distribution_type), POINTER           :: dist => NULL()
+      TYPE(dbcsr_t_distribution_type), POINTER           :: dist
 
-      CALL c_f_pointer(c_dist, dist); 
+      CALL c_f_pointer(c_dist, dist)
       CALL dbcsr_t_distribution_destroy(dist)
 
       IF (ASSOCIATED(dist)) DEALLOCATE (dist)
@@ -183,7 +184,7 @@ CONTAINS
 
    SUBROUTINE c_dbcsr_t_create_new(c_tensor, c_name, c_dist, c_map1_2d, map1_2d_size, &
                                    c_map2_2d, map2_2d_size, c_data_type, c_blk_size_1, c_blk_size_1_size, c_blk_size_2,&
-# 176 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 177 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
                                        & c_blk_size_2_size, c_blk_size_3, c_blk_size_3_size, c_blk_size_4, c_blk_size_4_size) &
       bind(C, name="c_dbcsr_t_create_new")
 
@@ -198,16 +199,16 @@ CONTAINS
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL          :: c_data_type
 
       INTEGER(kind=c_int), INTENT(in), value             :: c_blk_size_1_size, c_blk_size_2_size, c_blk_size_3_size,&
-# 189 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 190 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
           & c_blk_size_4_size
       INTEGER(kind=c_int), INTENT(IN), TARGET, OPTIONAL  :: c_blk_size_1(c_blk_size_1_size), c_blk_size_2(c_blk_size_2_size),&
-# 190 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 191 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
           & c_blk_size_3(c_blk_size_3_size), c_blk_size_4(c_blk_size_4_size)
 
       CHARACTER(:, kind=c_char), ALLOCATABLE             :: fname
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
-      TYPE(dbcsr_t_distribution_type), POINTER           :: dist => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
+      TYPE(dbcsr_t_distribution_type), POINTER           :: dist
 
       ALLOCATE (tensor)
 
@@ -237,12 +238,11 @@ CONTAINS
 
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL          :: data_type
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_in => NULL()
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_in
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
       CHARACTER(:, kind=c_char), ALLOCATABLE             :: fname
-      TYPE(dbcsr_t_distribution_type), POINTER           :: dist => NULL()
-      INTEGER, DIMENSION(:), POINTER                     :: map1_2d => NULL(), &
-                                                            map2_2d => NULL()
+      TYPE(dbcsr_t_distribution_type), POINTER           :: dist
+      INTEGER, DIMENSION(:), POINTER                     :: map1_2d, map2_2d
 
       CALL c_f_pointer(c_tensor_in, tensor_in)
 
@@ -250,7 +250,9 @@ CONTAINS
 
       ALLOCATE (tensor)
 
+      NULLIFY (dist)
       IF (C_ASSOCIATED(c_dist)) CALL c_f_pointer(c_dist, dist)
+      NULLIFY (map1_2d, map2_2d)
       IF (PRESENT(c_map1_2d) .AND. PRESENT(c_map2_2d)) THEN
          ALLOCATE (map1_2d(SIZE(c_map1_2d)))
          ALLOCATE (map2_2d(SIZE(c_map2_2d)))
@@ -277,8 +279,8 @@ CONTAINS
          OPTIONAL                                         :: c_order
       TYPE(c_ptr), INTENT(IN), OPTIONAL                  :: c_name
 
-      TYPE(dbcsr_type), POINTER                :: matrix_in => NULL()
-      TYPE(dbcsr_t_type), POINTER            :: tensor => NULL()
+      TYPE(dbcsr_type), POINTER                :: matrix_in
+      TYPE(dbcsr_t_type), POINTER              :: tensor
       INTEGER, DIMENSION(2) :: order
       CHARACTER(:, kind=c_char), ALLOCATABLE   :: fname
 
@@ -301,7 +303,7 @@ CONTAINS
 
    SUBROUTINE c_dbcsr_t_destroy(c_tensor) BIND(C, name="c_dbcsr_t_destroy")
       TYPE(c_ptr), INTENT(INOUT)                         :: c_tensor
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
 
       CALL c_f_pointer(c_tensor, tensor)
 
@@ -313,7 +315,7 @@ CONTAINS
 
    END SUBROUTINE
 
-# 302 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 304 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_contract_r_dp (c_alpha, c_tensor_1, c_tensor_2, c_beta, c_tensor_3, &
                                               c_contract_1, contract_1_size, &
@@ -357,69 +359,74 @@ CONTAINS
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL          :: c_unit_nr
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         :: c_log_verbose
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_1 => NULL()
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_2 => NULL()
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_3 => NULL()
-      LOGICAL, POINTER                                   :: optimize_dist => NULL()
-      TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid_opt_1 => null(), &
-                                                            pgrid_opt_2 => null(), pgrid_opt_3 => null()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_1
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_2
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_3
+      LOGICAL, POINTER                                   :: optimize_dist
+      TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid_opt_1, pgrid_opt_2, pgrid_opt_3
 
-      INTEGER, DIMENSION(:, :), POINTER                  :: bounds_1 => NULL(), &
-                                                            bounds_2 => NULL(), bounds_3 => NULL()
+      INTEGER, DIMENSION(:, :), POINTER                  :: bounds_1, bounds_2, bounds_3
 
-      LOGICAL, POINTER                                   :: move_data => NULL()
-      LOGICAL, POINTER                                   :: retain_sparsity => NULL()
-      LOGICAL, POINTER                                   :: log_verbose => NULL()
+      LOGICAL, POINTER                                   :: move_data
+      LOGICAL, POINTER                                   :: retain_sparsity
+      LOGICAL, POINTER                                   :: log_verbose
 
       CALL c_f_pointer(c_tensor_1, tensor_1)
       CALL c_f_pointer(c_tensor_2, tensor_2)
       CALL c_f_pointer(c_tensor_3, tensor_3)
 
 # 364 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (bounds_1)
       IF (PRESENT(c_bounds_1)) THEN
          ALLOCATE (bounds_1 (2, SIZE(c_bounds_1, 2)))
          bounds_1 = c_bounds_1+1
       ENDIF
 # 364 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (bounds_2)
       IF (PRESENT(c_bounds_2)) THEN
          ALLOCATE (bounds_2 (2, SIZE(c_bounds_2, 2)))
          bounds_2 = c_bounds_2+1
       ENDIF
 # 364 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (bounds_3)
       IF (PRESENT(c_bounds_3)) THEN
          ALLOCATE (bounds_3 (2, SIZE(c_bounds_3, 2)))
          bounds_3 = c_bounds_3+1
       ENDIF
-# 369 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 370 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 371 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 # 372 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 373 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (optimize_dist)
       IF (PRESENT(c_optimize_dist)) THEN
          ALLOCATE (optimize_dist)
          optimize_dist = c_optimize_dist
       ENDIF
-# 372 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 373 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (move_data)
       IF (PRESENT(c_move_data)) THEN
          ALLOCATE (move_data)
          move_data = c_move_data
       ENDIF
-# 372 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 373 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (retain_sparsity)
       IF (PRESENT(c_retain_sparsity)) THEN
          ALLOCATE (retain_sparsity)
          retain_sparsity = c_retain_sparsity
       ENDIF
-# 372 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 373 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (log_verbose)
       IF (PRESENT(c_log_verbose)) THEN
          ALLOCATE (log_verbose)
          log_verbose = c_log_verbose
       ENDIF
-# 377 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-
 # 379 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 380 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+
+# 381 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 382 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       
 
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF(ASSOCIATED(pgrid_opt_1) .AND. ASSOCIATED(pgrid_opt_2) .AND. ASSOCIATED(pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -434,7 +441,7 @@ CONTAINS
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(ASSOCIATED(pgrid_opt_2) .AND. ASSOCIATED(pgrid_opt_3) .AND. .NOT. ASSOCIATED(pgrid_opt_1)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -449,7 +456,7 @@ CONTAINS
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(ASSOCIATED(pgrid_opt_1) .AND. ASSOCIATED(pgrid_opt_3) .AND. .NOT. ASSOCIATED(pgrid_opt_2)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -464,7 +471,7 @@ CONTAINS
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(ASSOCIATED(pgrid_opt_3) .AND. .NOT. ASSOCIATED(pgrid_opt_1) .AND. .NOT. ASSOCIATED(pgrid_opt_2)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -479,7 +486,7 @@ CONTAINS
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(ASSOCIATED(pgrid_opt_1) .AND. ASSOCIATED(pgrid_opt_2) .AND. .NOT. ASSOCIATED(pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -494,7 +501,7 @@ CONTAINS
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(ASSOCIATED(pgrid_opt_2) .AND. .NOT. ASSOCIATED(pgrid_opt_1) .AND. .NOT. ASSOCIATED(pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -509,7 +516,7 @@ CONTAINS
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(ASSOCIATED(pgrid_opt_1) .AND. .NOT. ASSOCIATED(pgrid_opt_2) .AND. .NOT. ASSOCIATED(pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -524,7 +531,7 @@ CONTAINS
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -539,35 +546,38 @@ CONTAINS
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 398 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 400 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 ENDIF
 
-# 401 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (PRESENT(c_pgrid_opt_1)) c_pgrid_opt_1 = c_loc(pgrid_opt_1)
-# 401 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (PRESENT(c_pgrid_opt_2)) c_pgrid_opt_2 = c_loc(pgrid_opt_2)
-# 401 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (PRESENT(c_pgrid_opt_3)) c_pgrid_opt_3 = c_loc(pgrid_opt_3)
 # 403 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (pgrid_opt_1)
+      IF (PRESENT(c_pgrid_opt_1)) c_pgrid_opt_1 = c_loc(pgrid_opt_1)
+# 403 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (pgrid_opt_2)
+      IF (PRESENT(c_pgrid_opt_2)) c_pgrid_opt_2 = c_loc(pgrid_opt_2)
+# 403 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (pgrid_opt_3)
+      IF (PRESENT(c_pgrid_opt_3)) c_pgrid_opt_3 = c_loc(pgrid_opt_3)
+# 406 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 405 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 406 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (ASSOCIATED(optimize_dist)) DEALLOCATE (optimize_dist)
-# 406 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (ASSOCIATED(move_data)) DEALLOCATE (move_data)
-# 406 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (ASSOCIATED(retain_sparsity)) DEALLOCATE (retain_sparsity)
-# 406 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (ASSOCIATED(log_verbose)) DEALLOCATE (log_verbose)
 # 408 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 409 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      IF (ASSOCIATED(optimize_dist)) DEALLOCATE (optimize_dist)
+# 409 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      IF (ASSOCIATED(move_data)) DEALLOCATE (move_data)
+# 409 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      IF (ASSOCIATED(retain_sparsity)) DEALLOCATE (retain_sparsity)
+# 409 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      IF (ASSOCIATED(log_verbose)) DEALLOCATE (log_verbose)
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 410 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 413 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_1)) DEALLOCATE (bounds_1)
-# 410 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 413 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_2)) DEALLOCATE (bounds_2)
-# 410 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 413 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_3)) DEALLOCATE (bounds_3)
-# 412 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 415 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    END SUBROUTINE
 
@@ -610,33 +620,35 @@ ENDIF
       INTEGER(kind=c_int), DIMENSION(result_index_size, tensor3_dim), &
          INTENT(OUT)                            :: c_result_index
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_1 => NULL()
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_2 => NULL()
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_3 => NULL()
-      INTEGER, DIMENSION(:, :), POINTER                   :: bounds_1 => NULL(), &
-                                                             bounds_2 => NULL(), bounds_3 => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_1
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_2
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_3
+      INTEGER, DIMENSION(:, :), POINTER                  :: bounds_1, bounds_2, bounds_3
       INTEGER, DIMENSION(result_index_size, tensor3_dim) :: result_index
 
       CALL c_f_pointer(c_tensor_1, tensor_1)
       CALL c_f_pointer(c_tensor_2, tensor_2)
       CALL c_f_pointer(c_tensor_3, tensor_3)
 
-# 466 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 468 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (bounds_1)
       IF (PRESENT(c_bounds_1)) THEN
          ALLOCATE (bounds_1 (2, SIZE(c_bounds_1, 2)))
          bounds_1 = c_bounds_1+1
       ENDIF
-# 466 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 468 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (bounds_2)
       IF (PRESENT(c_bounds_2)) THEN
          ALLOCATE (bounds_2 (2, SIZE(c_bounds_2, 2)))
          bounds_2 = c_bounds_2+1
       ENDIF
-# 466 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 468 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (bounds_3)
       IF (PRESENT(c_bounds_3)) THEN
          ALLOCATE (bounds_3 (2, SIZE(c_bounds_3, 2)))
          bounds_3 = c_bounds_3+1
       ENDIF
-# 471 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 474 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
       CALL dbcsr_t_contract_index(dbcsr_scalar(c_alpha), tensor_1, &
                                   tensor_2, dbcsr_scalar(c_beta), tensor_3, &
@@ -648,17 +660,17 @@ ENDIF
 
       c_result_index = result_index - 1
 
-# 483 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 486 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_1)) DEALLOCATE (bounds_1)
-# 483 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 486 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_2)) DEALLOCATE (bounds_2)
-# 483 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 486 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_3)) DEALLOCATE (bounds_3)
-# 485 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 488 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    END SUBROUTINE
 
-# 302 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 304 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_contract_r_sp (c_alpha, c_tensor_1, c_tensor_2, c_beta, c_tensor_3, &
                                               c_contract_1, contract_1_size, &
@@ -702,69 +714,74 @@ ENDIF
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL          :: c_unit_nr
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         :: c_log_verbose
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_1 => NULL()
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_2 => NULL()
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_3 => NULL()
-      LOGICAL, POINTER                                   :: optimize_dist => NULL()
-      TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid_opt_1 => null(), &
-                                                            pgrid_opt_2 => null(), pgrid_opt_3 => null()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_1
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_2
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_3
+      LOGICAL, POINTER                                   :: optimize_dist
+      TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid_opt_1, pgrid_opt_2, pgrid_opt_3
 
-      INTEGER, DIMENSION(:, :), POINTER                  :: bounds_1 => NULL(), &
-                                                            bounds_2 => NULL(), bounds_3 => NULL()
+      INTEGER, DIMENSION(:, :), POINTER                  :: bounds_1, bounds_2, bounds_3
 
-      LOGICAL, POINTER                                   :: move_data => NULL()
-      LOGICAL, POINTER                                   :: retain_sparsity => NULL()
-      LOGICAL, POINTER                                   :: log_verbose => NULL()
+      LOGICAL, POINTER                                   :: move_data
+      LOGICAL, POINTER                                   :: retain_sparsity
+      LOGICAL, POINTER                                   :: log_verbose
 
       CALL c_f_pointer(c_tensor_1, tensor_1)
       CALL c_f_pointer(c_tensor_2, tensor_2)
       CALL c_f_pointer(c_tensor_3, tensor_3)
 
 # 364 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (bounds_1)
       IF (PRESENT(c_bounds_1)) THEN
          ALLOCATE (bounds_1 (2, SIZE(c_bounds_1, 2)))
          bounds_1 = c_bounds_1+1
       ENDIF
 # 364 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (bounds_2)
       IF (PRESENT(c_bounds_2)) THEN
          ALLOCATE (bounds_2 (2, SIZE(c_bounds_2, 2)))
          bounds_2 = c_bounds_2+1
       ENDIF
 # 364 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (bounds_3)
       IF (PRESENT(c_bounds_3)) THEN
          ALLOCATE (bounds_3 (2, SIZE(c_bounds_3, 2)))
          bounds_3 = c_bounds_3+1
       ENDIF
-# 369 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 370 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 371 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 # 372 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 373 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (optimize_dist)
       IF (PRESENT(c_optimize_dist)) THEN
          ALLOCATE (optimize_dist)
          optimize_dist = c_optimize_dist
       ENDIF
-# 372 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 373 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (move_data)
       IF (PRESENT(c_move_data)) THEN
          ALLOCATE (move_data)
          move_data = c_move_data
       ENDIF
-# 372 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 373 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (retain_sparsity)
       IF (PRESENT(c_retain_sparsity)) THEN
          ALLOCATE (retain_sparsity)
          retain_sparsity = c_retain_sparsity
       ENDIF
-# 372 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 373 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (log_verbose)
       IF (PRESENT(c_log_verbose)) THEN
          ALLOCATE (log_verbose)
          log_verbose = c_log_verbose
       ENDIF
-# 377 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-
 # 379 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 380 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+
+# 381 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 382 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       
 
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF(ASSOCIATED(pgrid_opt_1) .AND. ASSOCIATED(pgrid_opt_2) .AND. ASSOCIATED(pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -779,7 +796,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(ASSOCIATED(pgrid_opt_2) .AND. ASSOCIATED(pgrid_opt_3) .AND. .NOT. ASSOCIATED(pgrid_opt_1)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -794,7 +811,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(ASSOCIATED(pgrid_opt_1) .AND. ASSOCIATED(pgrid_opt_3) .AND. .NOT. ASSOCIATED(pgrid_opt_2)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -809,7 +826,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(ASSOCIATED(pgrid_opt_3) .AND. .NOT. ASSOCIATED(pgrid_opt_1) .AND. .NOT. ASSOCIATED(pgrid_opt_2)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -824,7 +841,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(ASSOCIATED(pgrid_opt_1) .AND. ASSOCIATED(pgrid_opt_2) .AND. .NOT. ASSOCIATED(pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -839,7 +856,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(ASSOCIATED(pgrid_opt_2) .AND. .NOT. ASSOCIATED(pgrid_opt_1) .AND. .NOT. ASSOCIATED(pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -854,7 +871,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(ASSOCIATED(pgrid_opt_1) .AND. .NOT. ASSOCIATED(pgrid_opt_2) .AND. .NOT. ASSOCIATED(pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -869,7 +886,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -884,35 +901,38 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 398 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 400 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 ENDIF
 
-# 401 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (PRESENT(c_pgrid_opt_1)) c_pgrid_opt_1 = c_loc(pgrid_opt_1)
-# 401 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (PRESENT(c_pgrid_opt_2)) c_pgrid_opt_2 = c_loc(pgrid_opt_2)
-# 401 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (PRESENT(c_pgrid_opt_3)) c_pgrid_opt_3 = c_loc(pgrid_opt_3)
 # 403 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (pgrid_opt_1)
+      IF (PRESENT(c_pgrid_opt_1)) c_pgrid_opt_1 = c_loc(pgrid_opt_1)
+# 403 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (pgrid_opt_2)
+      IF (PRESENT(c_pgrid_opt_2)) c_pgrid_opt_2 = c_loc(pgrid_opt_2)
+# 403 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (pgrid_opt_3)
+      IF (PRESENT(c_pgrid_opt_3)) c_pgrid_opt_3 = c_loc(pgrid_opt_3)
+# 406 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 405 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 406 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (ASSOCIATED(optimize_dist)) DEALLOCATE (optimize_dist)
-# 406 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (ASSOCIATED(move_data)) DEALLOCATE (move_data)
-# 406 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (ASSOCIATED(retain_sparsity)) DEALLOCATE (retain_sparsity)
-# 406 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (ASSOCIATED(log_verbose)) DEALLOCATE (log_verbose)
 # 408 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 409 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      IF (ASSOCIATED(optimize_dist)) DEALLOCATE (optimize_dist)
+# 409 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      IF (ASSOCIATED(move_data)) DEALLOCATE (move_data)
+# 409 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      IF (ASSOCIATED(retain_sparsity)) DEALLOCATE (retain_sparsity)
+# 409 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      IF (ASSOCIATED(log_verbose)) DEALLOCATE (log_verbose)
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 410 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 413 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_1)) DEALLOCATE (bounds_1)
-# 410 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 413 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_2)) DEALLOCATE (bounds_2)
-# 410 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 413 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_3)) DEALLOCATE (bounds_3)
-# 412 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 415 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    END SUBROUTINE
 
@@ -955,33 +975,35 @@ ENDIF
       INTEGER(kind=c_int), DIMENSION(result_index_size, tensor3_dim), &
          INTENT(OUT)                            :: c_result_index
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_1 => NULL()
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_2 => NULL()
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_3 => NULL()
-      INTEGER, DIMENSION(:, :), POINTER                   :: bounds_1 => NULL(), &
-                                                             bounds_2 => NULL(), bounds_3 => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_1
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_2
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_3
+      INTEGER, DIMENSION(:, :), POINTER                  :: bounds_1, bounds_2, bounds_3
       INTEGER, DIMENSION(result_index_size, tensor3_dim) :: result_index
 
       CALL c_f_pointer(c_tensor_1, tensor_1)
       CALL c_f_pointer(c_tensor_2, tensor_2)
       CALL c_f_pointer(c_tensor_3, tensor_3)
 
-# 466 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 468 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (bounds_1)
       IF (PRESENT(c_bounds_1)) THEN
          ALLOCATE (bounds_1 (2, SIZE(c_bounds_1, 2)))
          bounds_1 = c_bounds_1+1
       ENDIF
-# 466 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 468 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (bounds_2)
       IF (PRESENT(c_bounds_2)) THEN
          ALLOCATE (bounds_2 (2, SIZE(c_bounds_2, 2)))
          bounds_2 = c_bounds_2+1
       ENDIF
-# 466 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 468 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (bounds_3)
       IF (PRESENT(c_bounds_3)) THEN
          ALLOCATE (bounds_3 (2, SIZE(c_bounds_3, 2)))
          bounds_3 = c_bounds_3+1
       ENDIF
-# 471 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 474 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
       CALL dbcsr_t_contract_index(dbcsr_scalar(c_alpha), tensor_1, &
                                   tensor_2, dbcsr_scalar(c_beta), tensor_3, &
@@ -993,17 +1015,17 @@ ENDIF
 
       c_result_index = result_index - 1
 
-# 483 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 486 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_1)) DEALLOCATE (bounds_1)
-# 483 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 486 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_2)) DEALLOCATE (bounds_2)
-# 483 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 486 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_3)) DEALLOCATE (bounds_3)
-# 485 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 488 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    END SUBROUTINE
 
-# 302 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 304 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_contract_c_dp (c_alpha, c_tensor_1, c_tensor_2, c_beta, c_tensor_3, &
                                               c_contract_1, contract_1_size, &
@@ -1047,69 +1069,74 @@ ENDIF
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL          :: c_unit_nr
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         :: c_log_verbose
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_1 => NULL()
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_2 => NULL()
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_3 => NULL()
-      LOGICAL, POINTER                                   :: optimize_dist => NULL()
-      TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid_opt_1 => null(), &
-                                                            pgrid_opt_2 => null(), pgrid_opt_3 => null()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_1
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_2
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_3
+      LOGICAL, POINTER                                   :: optimize_dist
+      TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid_opt_1, pgrid_opt_2, pgrid_opt_3
 
-      INTEGER, DIMENSION(:, :), POINTER                  :: bounds_1 => NULL(), &
-                                                            bounds_2 => NULL(), bounds_3 => NULL()
+      INTEGER, DIMENSION(:, :), POINTER                  :: bounds_1, bounds_2, bounds_3
 
-      LOGICAL, POINTER                                   :: move_data => NULL()
-      LOGICAL, POINTER                                   :: retain_sparsity => NULL()
-      LOGICAL, POINTER                                   :: log_verbose => NULL()
+      LOGICAL, POINTER                                   :: move_data
+      LOGICAL, POINTER                                   :: retain_sparsity
+      LOGICAL, POINTER                                   :: log_verbose
 
       CALL c_f_pointer(c_tensor_1, tensor_1)
       CALL c_f_pointer(c_tensor_2, tensor_2)
       CALL c_f_pointer(c_tensor_3, tensor_3)
 
 # 364 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (bounds_1)
       IF (PRESENT(c_bounds_1)) THEN
          ALLOCATE (bounds_1 (2, SIZE(c_bounds_1, 2)))
          bounds_1 = c_bounds_1+1
       ENDIF
 # 364 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (bounds_2)
       IF (PRESENT(c_bounds_2)) THEN
          ALLOCATE (bounds_2 (2, SIZE(c_bounds_2, 2)))
          bounds_2 = c_bounds_2+1
       ENDIF
 # 364 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (bounds_3)
       IF (PRESENT(c_bounds_3)) THEN
          ALLOCATE (bounds_3 (2, SIZE(c_bounds_3, 2)))
          bounds_3 = c_bounds_3+1
       ENDIF
-# 369 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 370 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 371 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 # 372 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 373 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (optimize_dist)
       IF (PRESENT(c_optimize_dist)) THEN
          ALLOCATE (optimize_dist)
          optimize_dist = c_optimize_dist
       ENDIF
-# 372 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 373 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (move_data)
       IF (PRESENT(c_move_data)) THEN
          ALLOCATE (move_data)
          move_data = c_move_data
       ENDIF
-# 372 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 373 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (retain_sparsity)
       IF (PRESENT(c_retain_sparsity)) THEN
          ALLOCATE (retain_sparsity)
          retain_sparsity = c_retain_sparsity
       ENDIF
-# 372 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 373 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (log_verbose)
       IF (PRESENT(c_log_verbose)) THEN
          ALLOCATE (log_verbose)
          log_verbose = c_log_verbose
       ENDIF
-# 377 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-
 # 379 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 380 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+
+# 381 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 382 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       
 
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF(ASSOCIATED(pgrid_opt_1) .AND. ASSOCIATED(pgrid_opt_2) .AND. ASSOCIATED(pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1124,7 +1151,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(ASSOCIATED(pgrid_opt_2) .AND. ASSOCIATED(pgrid_opt_3) .AND. .NOT. ASSOCIATED(pgrid_opt_1)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1139,7 +1166,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(ASSOCIATED(pgrid_opt_1) .AND. ASSOCIATED(pgrid_opt_3) .AND. .NOT. ASSOCIATED(pgrid_opt_2)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1154,7 +1181,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(ASSOCIATED(pgrid_opt_3) .AND. .NOT. ASSOCIATED(pgrid_opt_1) .AND. .NOT. ASSOCIATED(pgrid_opt_2)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1169,7 +1196,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(ASSOCIATED(pgrid_opt_1) .AND. ASSOCIATED(pgrid_opt_2) .AND. .NOT. ASSOCIATED(pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1184,7 +1211,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(ASSOCIATED(pgrid_opt_2) .AND. .NOT. ASSOCIATED(pgrid_opt_1) .AND. .NOT. ASSOCIATED(pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1199,7 +1226,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(ASSOCIATED(pgrid_opt_1) .AND. .NOT. ASSOCIATED(pgrid_opt_2) .AND. .NOT. ASSOCIATED(pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1214,7 +1241,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1229,35 +1256,38 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 398 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 400 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 ENDIF
 
-# 401 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (PRESENT(c_pgrid_opt_1)) c_pgrid_opt_1 = c_loc(pgrid_opt_1)
-# 401 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (PRESENT(c_pgrid_opt_2)) c_pgrid_opt_2 = c_loc(pgrid_opt_2)
-# 401 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (PRESENT(c_pgrid_opt_3)) c_pgrid_opt_3 = c_loc(pgrid_opt_3)
 # 403 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (pgrid_opt_1)
+      IF (PRESENT(c_pgrid_opt_1)) c_pgrid_opt_1 = c_loc(pgrid_opt_1)
+# 403 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (pgrid_opt_2)
+      IF (PRESENT(c_pgrid_opt_2)) c_pgrid_opt_2 = c_loc(pgrid_opt_2)
+# 403 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (pgrid_opt_3)
+      IF (PRESENT(c_pgrid_opt_3)) c_pgrid_opt_3 = c_loc(pgrid_opt_3)
+# 406 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 405 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 406 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (ASSOCIATED(optimize_dist)) DEALLOCATE (optimize_dist)
-# 406 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (ASSOCIATED(move_data)) DEALLOCATE (move_data)
-# 406 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (ASSOCIATED(retain_sparsity)) DEALLOCATE (retain_sparsity)
-# 406 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (ASSOCIATED(log_verbose)) DEALLOCATE (log_verbose)
 # 408 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 409 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      IF (ASSOCIATED(optimize_dist)) DEALLOCATE (optimize_dist)
+# 409 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      IF (ASSOCIATED(move_data)) DEALLOCATE (move_data)
+# 409 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      IF (ASSOCIATED(retain_sparsity)) DEALLOCATE (retain_sparsity)
+# 409 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      IF (ASSOCIATED(log_verbose)) DEALLOCATE (log_verbose)
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 410 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 413 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_1)) DEALLOCATE (bounds_1)
-# 410 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 413 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_2)) DEALLOCATE (bounds_2)
-# 410 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 413 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_3)) DEALLOCATE (bounds_3)
-# 412 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 415 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    END SUBROUTINE
 
@@ -1300,33 +1330,35 @@ ENDIF
       INTEGER(kind=c_int), DIMENSION(result_index_size, tensor3_dim), &
          INTENT(OUT)                            :: c_result_index
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_1 => NULL()
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_2 => NULL()
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_3 => NULL()
-      INTEGER, DIMENSION(:, :), POINTER                   :: bounds_1 => NULL(), &
-                                                             bounds_2 => NULL(), bounds_3 => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_1
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_2
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_3
+      INTEGER, DIMENSION(:, :), POINTER                  :: bounds_1, bounds_2, bounds_3
       INTEGER, DIMENSION(result_index_size, tensor3_dim) :: result_index
 
       CALL c_f_pointer(c_tensor_1, tensor_1)
       CALL c_f_pointer(c_tensor_2, tensor_2)
       CALL c_f_pointer(c_tensor_3, tensor_3)
 
-# 466 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 468 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (bounds_1)
       IF (PRESENT(c_bounds_1)) THEN
          ALLOCATE (bounds_1 (2, SIZE(c_bounds_1, 2)))
          bounds_1 = c_bounds_1+1
       ENDIF
-# 466 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 468 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (bounds_2)
       IF (PRESENT(c_bounds_2)) THEN
          ALLOCATE (bounds_2 (2, SIZE(c_bounds_2, 2)))
          bounds_2 = c_bounds_2+1
       ENDIF
-# 466 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 468 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (bounds_3)
       IF (PRESENT(c_bounds_3)) THEN
          ALLOCATE (bounds_3 (2, SIZE(c_bounds_3, 2)))
          bounds_3 = c_bounds_3+1
       ENDIF
-# 471 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 474 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
       CALL dbcsr_t_contract_index(dbcsr_scalar(c_alpha), tensor_1, &
                                   tensor_2, dbcsr_scalar(c_beta), tensor_3, &
@@ -1338,17 +1370,17 @@ ENDIF
 
       c_result_index = result_index - 1
 
-# 483 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 486 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_1)) DEALLOCATE (bounds_1)
-# 483 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 486 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_2)) DEALLOCATE (bounds_2)
-# 483 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 486 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_3)) DEALLOCATE (bounds_3)
-# 485 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 488 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    END SUBROUTINE
 
-# 302 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 304 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_contract_c_sp (c_alpha, c_tensor_1, c_tensor_2, c_beta, c_tensor_3, &
                                               c_contract_1, contract_1_size, &
@@ -1392,69 +1424,74 @@ ENDIF
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL          :: c_unit_nr
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         :: c_log_verbose
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_1 => NULL()
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_2 => NULL()
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_3 => NULL()
-      LOGICAL, POINTER                                   :: optimize_dist => NULL()
-      TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid_opt_1 => null(), &
-                                                            pgrid_opt_2 => null(), pgrid_opt_3 => null()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_1
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_2
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_3
+      LOGICAL, POINTER                                   :: optimize_dist
+      TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid_opt_1, pgrid_opt_2, pgrid_opt_3
 
-      INTEGER, DIMENSION(:, :), POINTER                  :: bounds_1 => NULL(), &
-                                                            bounds_2 => NULL(), bounds_3 => NULL()
+      INTEGER, DIMENSION(:, :), POINTER                  :: bounds_1, bounds_2, bounds_3
 
-      LOGICAL, POINTER                                   :: move_data => NULL()
-      LOGICAL, POINTER                                   :: retain_sparsity => NULL()
-      LOGICAL, POINTER                                   :: log_verbose => NULL()
+      LOGICAL, POINTER                                   :: move_data
+      LOGICAL, POINTER                                   :: retain_sparsity
+      LOGICAL, POINTER                                   :: log_verbose
 
       CALL c_f_pointer(c_tensor_1, tensor_1)
       CALL c_f_pointer(c_tensor_2, tensor_2)
       CALL c_f_pointer(c_tensor_3, tensor_3)
 
 # 364 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (bounds_1)
       IF (PRESENT(c_bounds_1)) THEN
          ALLOCATE (bounds_1 (2, SIZE(c_bounds_1, 2)))
          bounds_1 = c_bounds_1+1
       ENDIF
 # 364 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (bounds_2)
       IF (PRESENT(c_bounds_2)) THEN
          ALLOCATE (bounds_2 (2, SIZE(c_bounds_2, 2)))
          bounds_2 = c_bounds_2+1
       ENDIF
 # 364 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (bounds_3)
       IF (PRESENT(c_bounds_3)) THEN
          ALLOCATE (bounds_3 (2, SIZE(c_bounds_3, 2)))
          bounds_3 = c_bounds_3+1
       ENDIF
-# 369 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 370 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 371 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 # 372 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 373 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (optimize_dist)
       IF (PRESENT(c_optimize_dist)) THEN
          ALLOCATE (optimize_dist)
          optimize_dist = c_optimize_dist
       ENDIF
-# 372 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 373 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (move_data)
       IF (PRESENT(c_move_data)) THEN
          ALLOCATE (move_data)
          move_data = c_move_data
       ENDIF
-# 372 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 373 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (retain_sparsity)
       IF (PRESENT(c_retain_sparsity)) THEN
          ALLOCATE (retain_sparsity)
          retain_sparsity = c_retain_sparsity
       ENDIF
-# 372 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 373 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (log_verbose)
       IF (PRESENT(c_log_verbose)) THEN
          ALLOCATE (log_verbose)
          log_verbose = c_log_verbose
       ENDIF
-# 377 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-
 # 379 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 380 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+
+# 381 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 382 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       
 
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF(ASSOCIATED(pgrid_opt_1) .AND. ASSOCIATED(pgrid_opt_2) .AND. ASSOCIATED(pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1469,7 +1506,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(ASSOCIATED(pgrid_opt_2) .AND. ASSOCIATED(pgrid_opt_3) .AND. .NOT. ASSOCIATED(pgrid_opt_1)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1484,7 +1521,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(ASSOCIATED(pgrid_opt_1) .AND. ASSOCIATED(pgrid_opt_3) .AND. .NOT. ASSOCIATED(pgrid_opt_2)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1499,7 +1536,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(ASSOCIATED(pgrid_opt_3) .AND. .NOT. ASSOCIATED(pgrid_opt_1) .AND. .NOT. ASSOCIATED(pgrid_opt_2)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1514,7 +1551,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(ASSOCIATED(pgrid_opt_1) .AND. ASSOCIATED(pgrid_opt_2) .AND. .NOT. ASSOCIATED(pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1529,7 +1566,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(ASSOCIATED(pgrid_opt_2) .AND. .NOT. ASSOCIATED(pgrid_opt_1) .AND. .NOT. ASSOCIATED(pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1544,7 +1581,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE IF(ASSOCIATED(pgrid_opt_1) .AND. .NOT. ASSOCIATED(pgrid_opt_2) .AND. .NOT. ASSOCIATED(pgrid_opt_3)) THEN 
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1559,7 +1596,7 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 383 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 385 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       ELSE
 
       CALL dbcsr_t_contract(alpha=dbcsr_scalar(c_alpha), tensor_1=tensor_1, &
@@ -1574,35 +1611,38 @@ ENDIF
                             filter_eps=c_filter_eps, flop=c_flop, move_data=move_data, &
                             retain_sparsity=retain_sparsity, unit_nr=c_unit_nr, &
                             log_verbose=log_verbose)
-# 398 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 400 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 ENDIF
 
-# 401 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (PRESENT(c_pgrid_opt_1)) c_pgrid_opt_1 = c_loc(pgrid_opt_1)
-# 401 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (PRESENT(c_pgrid_opt_2)) c_pgrid_opt_2 = c_loc(pgrid_opt_2)
-# 401 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (PRESENT(c_pgrid_opt_3)) c_pgrid_opt_3 = c_loc(pgrid_opt_3)
 # 403 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (pgrid_opt_1)
+      IF (PRESENT(c_pgrid_opt_1)) c_pgrid_opt_1 = c_loc(pgrid_opt_1)
+# 403 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (pgrid_opt_2)
+      IF (PRESENT(c_pgrid_opt_2)) c_pgrid_opt_2 = c_loc(pgrid_opt_2)
+# 403 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (pgrid_opt_3)
+      IF (PRESENT(c_pgrid_opt_3)) c_pgrid_opt_3 = c_loc(pgrid_opt_3)
+# 406 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 405 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 406 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (ASSOCIATED(optimize_dist)) DEALLOCATE (optimize_dist)
-# 406 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (ASSOCIATED(move_data)) DEALLOCATE (move_data)
-# 406 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (ASSOCIATED(retain_sparsity)) DEALLOCATE (retain_sparsity)
-# 406 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (ASSOCIATED(log_verbose)) DEALLOCATE (log_verbose)
 # 408 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 409 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      IF (ASSOCIATED(optimize_dist)) DEALLOCATE (optimize_dist)
+# 409 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      IF (ASSOCIATED(move_data)) DEALLOCATE (move_data)
+# 409 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      IF (ASSOCIATED(retain_sparsity)) DEALLOCATE (retain_sparsity)
+# 409 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      IF (ASSOCIATED(log_verbose)) DEALLOCATE (log_verbose)
+# 411 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
-# 410 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 413 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_1)) DEALLOCATE (bounds_1)
-# 410 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 413 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_2)) DEALLOCATE (bounds_2)
-# 410 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 413 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_3)) DEALLOCATE (bounds_3)
-# 412 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 415 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    END SUBROUTINE
 
@@ -1645,33 +1685,35 @@ ENDIF
       INTEGER(kind=c_int), DIMENSION(result_index_size, tensor3_dim), &
          INTENT(OUT)                            :: c_result_index
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_1 => NULL()
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_2 => NULL()
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_3 => NULL()
-      INTEGER, DIMENSION(:, :), POINTER                   :: bounds_1 => NULL(), &
-                                                             bounds_2 => NULL(), bounds_3 => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_1
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_2
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_3
+      INTEGER, DIMENSION(:, :), POINTER                  :: bounds_1, bounds_2, bounds_3
       INTEGER, DIMENSION(result_index_size, tensor3_dim) :: result_index
 
       CALL c_f_pointer(c_tensor_1, tensor_1)
       CALL c_f_pointer(c_tensor_2, tensor_2)
       CALL c_f_pointer(c_tensor_3, tensor_3)
 
-# 466 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 468 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (bounds_1)
       IF (PRESENT(c_bounds_1)) THEN
          ALLOCATE (bounds_1 (2, SIZE(c_bounds_1, 2)))
          bounds_1 = c_bounds_1+1
       ENDIF
-# 466 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 468 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (bounds_2)
       IF (PRESENT(c_bounds_2)) THEN
          ALLOCATE (bounds_2 (2, SIZE(c_bounds_2, 2)))
          bounds_2 = c_bounds_2+1
       ENDIF
-# 466 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 468 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (bounds_3)
       IF (PRESENT(c_bounds_3)) THEN
          ALLOCATE (bounds_3 (2, SIZE(c_bounds_3, 2)))
          bounds_3 = c_bounds_3+1
       ENDIF
-# 471 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 474 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
       CALL dbcsr_t_contract_index(dbcsr_scalar(c_alpha), tensor_1, &
                                   tensor_2, dbcsr_scalar(c_beta), tensor_3, &
@@ -1683,20 +1725,20 @@ ENDIF
 
       c_result_index = result_index - 1
 
-# 483 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 486 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_1)) DEALLOCATE (bounds_1)
-# 483 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 486 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_2)) DEALLOCATE (bounds_2)
-# 483 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 486 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds_3)) DEALLOCATE (bounds_3)
-# 485 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 488 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    END SUBROUTINE
 
-# 489 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-
-# 491 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 # 492 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+
+# 494 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 495 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_get_2d_block_r_dp (c_tensor, tensor_dim, c_ind, c_sizes, c_block, c_found) &
       BIND(C, name="c_dbcsr_t_get_2d_block_r_dp")
@@ -1712,17 +1754,16 @@ ENDIF
          INTENT(OUT)                             :: c_block
       LOGICAL(kind=c_bool), INTENT(OUT)                  :: c_found
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
       LOGICAL                                            :: found
 
       CALL c_f_pointer(c_tensor, tensor)
 
       CALL dbcsr_t_get_block(tensor, c_ind + 1, c_sizes, c_block, found)
-
       c_found = found
 
    END SUBROUTINE
-# 492 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 495 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_get_3d_block_r_dp (c_tensor, tensor_dim, c_ind, c_sizes, c_block, c_found) &
       BIND(C, name="c_dbcsr_t_get_3d_block_r_dp")
@@ -1738,17 +1779,16 @@ ENDIF
          INTENT(OUT)                             :: c_block
       LOGICAL(kind=c_bool), INTENT(OUT)                  :: c_found
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
       LOGICAL                                            :: found
 
       CALL c_f_pointer(c_tensor, tensor)
 
       CALL dbcsr_t_get_block(tensor, c_ind + 1, c_sizes, c_block, found)
-
       c_found = found
 
    END SUBROUTINE
-# 492 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 495 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_get_4d_block_r_dp (c_tensor, tensor_dim, c_ind, c_sizes, c_block, c_found) &
       BIND(C, name="c_dbcsr_t_get_4d_block_r_dp")
@@ -1764,19 +1804,18 @@ ENDIF
          INTENT(OUT)                             :: c_block
       LOGICAL(kind=c_bool), INTENT(OUT)                  :: c_found
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
       LOGICAL                                            :: found
 
       CALL c_f_pointer(c_tensor, tensor)
 
       CALL dbcsr_t_get_block(tensor, c_ind + 1, c_sizes, c_block, found)
-
       c_found = found
 
    END SUBROUTINE
-# 518 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 491 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 492 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 520 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 494 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 495 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_get_2d_block_r_sp (c_tensor, tensor_dim, c_ind, c_sizes, c_block, c_found) &
       BIND(C, name="c_dbcsr_t_get_2d_block_r_sp")
@@ -1792,17 +1831,16 @@ ENDIF
          INTENT(OUT)                             :: c_block
       LOGICAL(kind=c_bool), INTENT(OUT)                  :: c_found
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
       LOGICAL                                            :: found
 
       CALL c_f_pointer(c_tensor, tensor)
 
       CALL dbcsr_t_get_block(tensor, c_ind + 1, c_sizes, c_block, found)
-
       c_found = found
 
    END SUBROUTINE
-# 492 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 495 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_get_3d_block_r_sp (c_tensor, tensor_dim, c_ind, c_sizes, c_block, c_found) &
       BIND(C, name="c_dbcsr_t_get_3d_block_r_sp")
@@ -1818,17 +1856,16 @@ ENDIF
          INTENT(OUT)                             :: c_block
       LOGICAL(kind=c_bool), INTENT(OUT)                  :: c_found
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
       LOGICAL                                            :: found
 
       CALL c_f_pointer(c_tensor, tensor)
 
       CALL dbcsr_t_get_block(tensor, c_ind + 1, c_sizes, c_block, found)
-
       c_found = found
 
    END SUBROUTINE
-# 492 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 495 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_get_4d_block_r_sp (c_tensor, tensor_dim, c_ind, c_sizes, c_block, c_found) &
       BIND(C, name="c_dbcsr_t_get_4d_block_r_sp")
@@ -1844,19 +1881,18 @@ ENDIF
          INTENT(OUT)                             :: c_block
       LOGICAL(kind=c_bool), INTENT(OUT)                  :: c_found
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
       LOGICAL                                            :: found
 
       CALL c_f_pointer(c_tensor, tensor)
 
       CALL dbcsr_t_get_block(tensor, c_ind + 1, c_sizes, c_block, found)
-
       c_found = found
 
    END SUBROUTINE
-# 518 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 491 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 492 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 520 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 494 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 495 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_get_2d_block_c_dp (c_tensor, tensor_dim, c_ind, c_sizes, c_block, c_found) &
       BIND(C, name="c_dbcsr_t_get_2d_block_c_dp")
@@ -1872,17 +1908,16 @@ ENDIF
          INTENT(OUT)                             :: c_block
       LOGICAL(kind=c_bool), INTENT(OUT)                  :: c_found
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
       LOGICAL                                            :: found
 
       CALL c_f_pointer(c_tensor, tensor)
 
       CALL dbcsr_t_get_block(tensor, c_ind + 1, c_sizes, c_block, found)
-
       c_found = found
 
    END SUBROUTINE
-# 492 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 495 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_get_3d_block_c_dp (c_tensor, tensor_dim, c_ind, c_sizes, c_block, c_found) &
       BIND(C, name="c_dbcsr_t_get_3d_block_c_dp")
@@ -1898,17 +1933,16 @@ ENDIF
          INTENT(OUT)                             :: c_block
       LOGICAL(kind=c_bool), INTENT(OUT)                  :: c_found
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
       LOGICAL                                            :: found
 
       CALL c_f_pointer(c_tensor, tensor)
 
       CALL dbcsr_t_get_block(tensor, c_ind + 1, c_sizes, c_block, found)
-
       c_found = found
 
    END SUBROUTINE
-# 492 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 495 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_get_4d_block_c_dp (c_tensor, tensor_dim, c_ind, c_sizes, c_block, c_found) &
       BIND(C, name="c_dbcsr_t_get_4d_block_c_dp")
@@ -1924,19 +1958,18 @@ ENDIF
          INTENT(OUT)                             :: c_block
       LOGICAL(kind=c_bool), INTENT(OUT)                  :: c_found
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
       LOGICAL                                            :: found
 
       CALL c_f_pointer(c_tensor, tensor)
 
       CALL dbcsr_t_get_block(tensor, c_ind + 1, c_sizes, c_block, found)
-
       c_found = found
 
    END SUBROUTINE
-# 518 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 491 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 492 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 520 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 494 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 495 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_get_2d_block_c_sp (c_tensor, tensor_dim, c_ind, c_sizes, c_block, c_found) &
       BIND(C, name="c_dbcsr_t_get_2d_block_c_sp")
@@ -1952,17 +1985,16 @@ ENDIF
          INTENT(OUT)                             :: c_block
       LOGICAL(kind=c_bool), INTENT(OUT)                  :: c_found
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
       LOGICAL                                            :: found
 
       CALL c_f_pointer(c_tensor, tensor)
 
       CALL dbcsr_t_get_block(tensor, c_ind + 1, c_sizes, c_block, found)
-
       c_found = found
 
    END SUBROUTINE
-# 492 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 495 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_get_3d_block_c_sp (c_tensor, tensor_dim, c_ind, c_sizes, c_block, c_found) &
       BIND(C, name="c_dbcsr_t_get_3d_block_c_sp")
@@ -1978,17 +2010,16 @@ ENDIF
          INTENT(OUT)                             :: c_block
       LOGICAL(kind=c_bool), INTENT(OUT)                  :: c_found
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
       LOGICAL                                            :: found
 
       CALL c_f_pointer(c_tensor, tensor)
 
       CALL dbcsr_t_get_block(tensor, c_ind + 1, c_sizes, c_block, found)
-
       c_found = found
 
    END SUBROUTINE
-# 492 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 495 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_get_4d_block_c_sp (c_tensor, tensor_dim, c_ind, c_sizes, c_block, c_found) &
       BIND(C, name="c_dbcsr_t_get_4d_block_c_sp")
@@ -2004,21 +2035,20 @@ ENDIF
          INTENT(OUT)                             :: c_block
       LOGICAL(kind=c_bool), INTENT(OUT)                  :: c_found
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
       LOGICAL                                            :: found
 
       CALL c_f_pointer(c_tensor, tensor)
 
       CALL dbcsr_t_get_block(tensor, c_ind + 1, c_sizes, c_block, found)
-
       c_found = found
 
    END SUBROUTINE
-# 518 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 519 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-
+# 520 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 # 521 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 522 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+
+# 523 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 524 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_put_2d_block_r_dp (c_tensor, tensor_dim, c_ind, c_sizes, &
                                                          c_block, c_summation, c_scale) &
@@ -2036,23 +2066,22 @@ ENDIF
       REAL (kind=c_double), INTENT(IN), &
          OPTIONAL                                          :: c_scale
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
-      LOGICAL, POINTER                                   :: summation => NULL()
-
-      IF (PRESENT(c_summation)) THEN
-         ALLOCATE (summation)
-         summation = c_summation
-      ENDIF
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
+      LOGICAL                                            :: summation
 
       CALL c_f_pointer(c_tensor, tensor)
 
-      CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
-                             c_block, summation, c_scale)
-
-      IF (ASSOCIATED(summation)) DEALLOCATE (summation)
+      IF (PRESENT(c_summation)) THEN
+         summation = c_summation
+         CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
+                                c_block, summation, c_scale)
+      ELSE
+         CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
+                                c_block, scale=c_scale)
+      ENDIF
 
    END SUBROUTINE
-# 522 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 524 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_put_3d_block_r_dp (c_tensor, tensor_dim, c_ind, c_sizes, &
                                                          c_block, c_summation, c_scale) &
@@ -2070,23 +2099,22 @@ ENDIF
       REAL (kind=c_double), INTENT(IN), &
          OPTIONAL                                          :: c_scale
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
-      LOGICAL, POINTER                                   :: summation => NULL()
-
-      IF (PRESENT(c_summation)) THEN
-         ALLOCATE (summation)
-         summation = c_summation
-      ENDIF
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
+      LOGICAL                                            :: summation
 
       CALL c_f_pointer(c_tensor, tensor)
 
-      CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
-                             c_block, summation, c_scale)
-
-      IF (ASSOCIATED(summation)) DEALLOCATE (summation)
+      IF (PRESENT(c_summation)) THEN
+         summation = c_summation
+         CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
+                                c_block, summation, c_scale)
+      ELSE
+         CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
+                                c_block, scale=c_scale)
+      ENDIF
 
    END SUBROUTINE
-# 522 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 524 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_put_4d_block_r_dp (c_tensor, tensor_dim, c_ind, c_sizes, &
                                                          c_block, c_summation, c_scale) &
@@ -2104,25 +2132,24 @@ ENDIF
       REAL (kind=c_double), INTENT(IN), &
          OPTIONAL                                          :: c_scale
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
-      LOGICAL, POINTER                                   :: summation => NULL()
-
-      IF (PRESENT(c_summation)) THEN
-         ALLOCATE (summation)
-         summation = c_summation
-      ENDIF
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
+      LOGICAL                                            :: summation
 
       CALL c_f_pointer(c_tensor, tensor)
 
-      CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
-                             c_block, summation, c_scale)
-
-      IF (ASSOCIATED(summation)) DEALLOCATE (summation)
+      IF (PRESENT(c_summation)) THEN
+         summation = c_summation
+         CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
+                                c_block, summation, c_scale)
+      ELSE
+         CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
+                                c_block, scale=c_scale)
+      ENDIF
 
    END SUBROUTINE
-# 556 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 521 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 522 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 557 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 523 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 524 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_put_2d_block_r_sp (c_tensor, tensor_dim, c_ind, c_sizes, &
                                                          c_block, c_summation, c_scale) &
@@ -2140,23 +2167,22 @@ ENDIF
       REAL (kind=c_float), INTENT(IN), &
          OPTIONAL                                          :: c_scale
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
-      LOGICAL, POINTER                                   :: summation => NULL()
-
-      IF (PRESENT(c_summation)) THEN
-         ALLOCATE (summation)
-         summation = c_summation
-      ENDIF
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
+      LOGICAL                                            :: summation
 
       CALL c_f_pointer(c_tensor, tensor)
 
-      CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
-                             c_block, summation, c_scale)
-
-      IF (ASSOCIATED(summation)) DEALLOCATE (summation)
+      IF (PRESENT(c_summation)) THEN
+         summation = c_summation
+         CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
+                                c_block, summation, c_scale)
+      ELSE
+         CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
+                                c_block, scale=c_scale)
+      ENDIF
 
    END SUBROUTINE
-# 522 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 524 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_put_3d_block_r_sp (c_tensor, tensor_dim, c_ind, c_sizes, &
                                                          c_block, c_summation, c_scale) &
@@ -2174,23 +2200,22 @@ ENDIF
       REAL (kind=c_float), INTENT(IN), &
          OPTIONAL                                          :: c_scale
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
-      LOGICAL, POINTER                                   :: summation => NULL()
-
-      IF (PRESENT(c_summation)) THEN
-         ALLOCATE (summation)
-         summation = c_summation
-      ENDIF
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
+      LOGICAL                                            :: summation
 
       CALL c_f_pointer(c_tensor, tensor)
 
-      CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
-                             c_block, summation, c_scale)
-
-      IF (ASSOCIATED(summation)) DEALLOCATE (summation)
+      IF (PRESENT(c_summation)) THEN
+         summation = c_summation
+         CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
+                                c_block, summation, c_scale)
+      ELSE
+         CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
+                                c_block, scale=c_scale)
+      ENDIF
 
    END SUBROUTINE
-# 522 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 524 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_put_4d_block_r_sp (c_tensor, tensor_dim, c_ind, c_sizes, &
                                                          c_block, c_summation, c_scale) &
@@ -2208,25 +2233,24 @@ ENDIF
       REAL (kind=c_float), INTENT(IN), &
          OPTIONAL                                          :: c_scale
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
-      LOGICAL, POINTER                                   :: summation => NULL()
-
-      IF (PRESENT(c_summation)) THEN
-         ALLOCATE (summation)
-         summation = c_summation
-      ENDIF
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
+      LOGICAL                                            :: summation
 
       CALL c_f_pointer(c_tensor, tensor)
 
-      CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
-                             c_block, summation, c_scale)
-
-      IF (ASSOCIATED(summation)) DEALLOCATE (summation)
+      IF (PRESENT(c_summation)) THEN
+         summation = c_summation
+         CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
+                                c_block, summation, c_scale)
+      ELSE
+         CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
+                                c_block, scale=c_scale)
+      ENDIF
 
    END SUBROUTINE
-# 556 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 521 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 522 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 557 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 523 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 524 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_put_2d_block_c_dp (c_tensor, tensor_dim, c_ind, c_sizes, &
                                                          c_block, c_summation, c_scale) &
@@ -2244,23 +2268,22 @@ ENDIF
       COMPLEX (kind=c_double_complex), INTENT(IN), &
          OPTIONAL                                          :: c_scale
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
-      LOGICAL, POINTER                                   :: summation => NULL()
-
-      IF (PRESENT(c_summation)) THEN
-         ALLOCATE (summation)
-         summation = c_summation
-      ENDIF
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
+      LOGICAL                                            :: summation
 
       CALL c_f_pointer(c_tensor, tensor)
 
-      CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
-                             c_block, summation, c_scale)
-
-      IF (ASSOCIATED(summation)) DEALLOCATE (summation)
+      IF (PRESENT(c_summation)) THEN
+         summation = c_summation
+         CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
+                                c_block, summation, c_scale)
+      ELSE
+         CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
+                                c_block, scale=c_scale)
+      ENDIF
 
    END SUBROUTINE
-# 522 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 524 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_put_3d_block_c_dp (c_tensor, tensor_dim, c_ind, c_sizes, &
                                                          c_block, c_summation, c_scale) &
@@ -2278,23 +2301,22 @@ ENDIF
       COMPLEX (kind=c_double_complex), INTENT(IN), &
          OPTIONAL                                          :: c_scale
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
-      LOGICAL, POINTER                                   :: summation => NULL()
-
-      IF (PRESENT(c_summation)) THEN
-         ALLOCATE (summation)
-         summation = c_summation
-      ENDIF
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
+      LOGICAL                                            :: summation
 
       CALL c_f_pointer(c_tensor, tensor)
 
-      CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
-                             c_block, summation, c_scale)
-
-      IF (ASSOCIATED(summation)) DEALLOCATE (summation)
+      IF (PRESENT(c_summation)) THEN
+         summation = c_summation
+         CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
+                                c_block, summation, c_scale)
+      ELSE
+         CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
+                                c_block, scale=c_scale)
+      ENDIF
 
    END SUBROUTINE
-# 522 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 524 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_put_4d_block_c_dp (c_tensor, tensor_dim, c_ind, c_sizes, &
                                                          c_block, c_summation, c_scale) &
@@ -2312,25 +2334,24 @@ ENDIF
       COMPLEX (kind=c_double_complex), INTENT(IN), &
          OPTIONAL                                          :: c_scale
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
-      LOGICAL, POINTER                                   :: summation => NULL()
-
-      IF (PRESENT(c_summation)) THEN
-         ALLOCATE (summation)
-         summation = c_summation
-      ENDIF
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
+      LOGICAL                                            :: summation
 
       CALL c_f_pointer(c_tensor, tensor)
 
-      CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
-                             c_block, summation, c_scale)
-
-      IF (ASSOCIATED(summation)) DEALLOCATE (summation)
+      IF (PRESENT(c_summation)) THEN
+         summation = c_summation
+         CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
+                                c_block, summation, c_scale)
+      ELSE
+         CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
+                                c_block, scale=c_scale)
+      ENDIF
 
    END SUBROUTINE
-# 556 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 521 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 522 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 557 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 523 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 524 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_put_2d_block_c_sp (c_tensor, tensor_dim, c_ind, c_sizes, &
                                                          c_block, c_summation, c_scale) &
@@ -2348,23 +2369,22 @@ ENDIF
       COMPLEX (kind=c_float_complex), INTENT(IN), &
          OPTIONAL                                          :: c_scale
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
-      LOGICAL, POINTER                                   :: summation => NULL()
-
-      IF (PRESENT(c_summation)) THEN
-         ALLOCATE (summation)
-         summation = c_summation
-      ENDIF
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
+      LOGICAL                                            :: summation
 
       CALL c_f_pointer(c_tensor, tensor)
 
-      CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
-                             c_block, summation, c_scale)
-
-      IF (ASSOCIATED(summation)) DEALLOCATE (summation)
+      IF (PRESENT(c_summation)) THEN
+         summation = c_summation
+         CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
+                                c_block, summation, c_scale)
+      ELSE
+         CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
+                                c_block, scale=c_scale)
+      ENDIF
 
    END SUBROUTINE
-# 522 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 524 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_put_3d_block_c_sp (c_tensor, tensor_dim, c_ind, c_sizes, &
                                                          c_block, c_summation, c_scale) &
@@ -2382,23 +2402,22 @@ ENDIF
       COMPLEX (kind=c_float_complex), INTENT(IN), &
          OPTIONAL                                          :: c_scale
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
-      LOGICAL, POINTER                                   :: summation => NULL()
-
-      IF (PRESENT(c_summation)) THEN
-         ALLOCATE (summation)
-         summation = c_summation
-      ENDIF
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
+      LOGICAL                                            :: summation
 
       CALL c_f_pointer(c_tensor, tensor)
 
-      CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
-                             c_block, summation, c_scale)
-
-      IF (ASSOCIATED(summation)) DEALLOCATE (summation)
+      IF (PRESENT(c_summation)) THEN
+         summation = c_summation
+         CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
+                                c_block, summation, c_scale)
+      ELSE
+         CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
+                                c_block, scale=c_scale)
+      ENDIF
 
    END SUBROUTINE
-# 522 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 524 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_put_4d_block_c_sp (c_tensor, tensor_dim, c_ind, c_sizes, &
                                                          c_block, c_summation, c_scale) &
@@ -2416,24 +2435,23 @@ ENDIF
       COMPLEX (kind=c_float_complex), INTENT(IN), &
          OPTIONAL                                          :: c_scale
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
-      LOGICAL, POINTER                                   :: summation => NULL()
-
-      IF (PRESENT(c_summation)) THEN
-         ALLOCATE (summation)
-         summation = c_summation
-      ENDIF
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
+      LOGICAL                                            :: summation
 
       CALL c_f_pointer(c_tensor, tensor)
 
-      CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
-                             c_block, summation, c_scale)
-
-      IF (ASSOCIATED(summation)) DEALLOCATE (summation)
+      IF (PRESENT(c_summation)) THEN
+         summation = c_summation
+         CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
+                                c_block, summation, c_scale)
+      ELSE
+         CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
+                                c_block, scale=c_scale)
+      ENDIF
 
    END SUBROUTINE
-# 556 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 # 557 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 558 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_get_stored_coordinates(c_tensor, tensor_dim, c_ind_nd, c_processor) &
       BIND(C, name="c_dbcsr_t_get_stored_coordinates")
@@ -2444,7 +2462,7 @@ ENDIF
          INTENT(IN)                                :: c_ind_nd
       INTEGER(kind=c_int), INTENT(OUT)                   :: c_processor
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
 
       CALL c_f_pointer(c_tensor, tensor)
 
@@ -2458,49 +2476,51 @@ ENDIF
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_tensor
       INTEGER(kind=c_int), INTENT(in), value             :: nblocks
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL          :: c_blk_ind_1(nblocks), c_blk_ind_2(nblocks), c_blk_ind_3(nblocks),&
-# 580 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-          & c_blk_ind_4(nblocks)
-      INTEGER, DIMENSION(:), POINTER                     :: blk_ind_1=> NULL(), blk_ind_2=> NULL(), blk_ind_3=> NULL(),&
 # 581 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-          & blk_ind_4=> NULL()
+          & c_blk_ind_4(nblocks)
+      INTEGER, DIMENSION(:), POINTER                     :: blk_ind_1, blk_ind_2, blk_ind_3, blk_ind_4
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
 
-# 586 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 587 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (blk_ind_1)
       IF (PRESENT(c_blk_ind_1)) THEN
          ALLOCATE (blk_ind_1 (nblocks))
          blk_ind_1 = c_blk_ind_1+1
       ENDIF
-# 586 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 587 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (blk_ind_2)
       IF (PRESENT(c_blk_ind_2)) THEN
          ALLOCATE (blk_ind_2 (nblocks))
          blk_ind_2 = c_blk_ind_2+1
       ENDIF
-# 586 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 587 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (blk_ind_3)
       IF (PRESENT(c_blk_ind_3)) THEN
          ALLOCATE (blk_ind_3 (nblocks))
          blk_ind_3 = c_blk_ind_3+1
       ENDIF
-# 586 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 587 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      NULLIFY (blk_ind_4)
       IF (PRESENT(c_blk_ind_4)) THEN
          ALLOCATE (blk_ind_4 (nblocks))
          blk_ind_4 = c_blk_ind_4+1
       ENDIF
-# 591 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 593 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
       CALL c_f_pointer(c_tensor, tensor)
 
       CALL dbcsr_t_reserve_blocks(tensor, blk_ind_1, blk_ind_2, blk_ind_3, blk_ind_4)
 
-# 597 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (ASSOCIATED(blk_ind_1)) DEALLOCATE (blk_ind_1)
-# 597 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (ASSOCIATED(blk_ind_2)) DEALLOCATE (blk_ind_2)
-# 597 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (ASSOCIATED(blk_ind_3)) DEALLOCATE (blk_ind_3)
-# 597 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (ASSOCIATED(blk_ind_4)) DEALLOCATE (blk_ind_4)
 # 599 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      IF (ASSOCIATED(blk_ind_1)) DEALLOCATE (blk_ind_1)
+# 599 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      IF (ASSOCIATED(blk_ind_2)) DEALLOCATE (blk_ind_2)
+# 599 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      IF (ASSOCIATED(blk_ind_3)) DEALLOCATE (blk_ind_3)
+# 599 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      IF (ASSOCIATED(blk_ind_4)) DEALLOCATE (blk_ind_4)
+# 601 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    END SUBROUTINE
 
@@ -2510,8 +2530,8 @@ ENDIF
       TYPE(c_ptr), INTENT(IN), VALUE              :: c_tensor_in
       TYPE(c_ptr), INTENT(IN), VALUE              :: c_tensor_out
 
-      TYPE(dbcsr_t_type), POINTER :: tensor_in => NULL()
-      TYPE(dbcsr_t_type), POINTER :: tensor_out => NULL()
+      TYPE(dbcsr_t_type), POINTER :: tensor_in
+      TYPE(dbcsr_t_type), POINTER :: tensor_out
 
       CALL c_f_pointer(c_tensor_in, tensor_in)
       CALL c_f_pointer(c_tensor_out, tensor_out)
@@ -2523,7 +2543,7 @@ ENDIF
    FUNCTION c_ndims_iterator(c_iterator) BIND(C, name="c_ndims_iterator")
 
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_iterator
-      TYPE(dbcsr_t_iterator_type), POINTER               :: iterator => NULL()
+      TYPE(dbcsr_t_iterator_type), POINTER               :: iterator
       INTEGER(kind=c_int)                                :: c_ndims_iterator
 
       CALL c_f_pointer(c_iterator, iterator)
@@ -2537,8 +2557,8 @@ ENDIF
       TYPE(c_ptr), INTENT(OUT)                           :: c_iterator
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_tensor
 
-      TYPE(dbcsr_t_iterator_type), POINTER               :: iterator => NULL()
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_iterator_type), POINTER               :: iterator
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
 
       ALLOCATE (iterator)
       CALL c_f_pointer(c_tensor, tensor)
@@ -2552,7 +2572,7 @@ ENDIF
    SUBROUTINE c_dbcsr_t_iterator_stop(c_iterator) BIND(C, name="c_dbcsr_t_iterator_stop")
 
       TYPE(c_ptr), INTENT(INOUT)                         :: c_iterator
-      TYPE(dbcsr_t_iterator_type), POINTER               :: iterator => NULL()
+      TYPE(dbcsr_t_iterator_type), POINTER               :: iterator
 
       CALL c_f_pointer(c_iterator, iterator)
 
@@ -2576,12 +2596,13 @@ ENDIF
       INTEGER(kind=c_int), DIMENSION(iterator_size), INTENT(OUT), &
          OPTIONAL                                        :: c_blk_size, c_blk_offset
 
-      TYPE(dbcsr_t_iterator_type), POINTER               :: iterator => NULL()
+      TYPE(dbcsr_t_iterator_type), POINTER               :: iterator
       INTEGER, DIMENSION(iterator_size)                  :: ind_nd
-      INTEGER, DIMENSION(:), POINTER                     :: blk_offset => NULL()
+      INTEGER, DIMENSION(:), POINTER                     :: blk_offset
 
       CALL c_f_pointer(c_iterator, iterator)
 
+      NULLIFY (blk_offset)
       IF (PRESENT(c_blk_offset)) ALLOCATE (blk_offset(iterator_size))
 
       CALL dbcsr_t_iterator_next_block(iterator, ind_nd, c_blk, c_blk_p, c_blk_size, blk_offset)
@@ -2598,10 +2619,10 @@ ENDIF
       BIND(C, name="c_dbcsr_t_iterator_blocks_left")
 
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_iterator
-      TYPE(dbcsr_t_iterator_type), POINTER               :: iterator => NULL()
+      TYPE(dbcsr_t_iterator_type), POINTER               :: iterator
       LOGICAL(kind=c_bool)                               :: c_dbcsr_t_iterator_blocks_left
 
-      CALL c_f_pointer(c_iterator, iterator); 
+      CALL c_f_pointer(c_iterator, iterator)
       c_dbcsr_t_iterator_blocks_left = dbcsr_t_iterator_blocks_left(iterator)
 
    END FUNCTION
@@ -2616,27 +2637,25 @@ ENDIF
          :: c_block_sizes
       LOGICAL(kind=c_bool), OPTIONAL                     :: c_nodata
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_in => NULL()
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_out => NULL()
-      LOGICAL, POINTER                                   :: nodata => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_in
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_out
+      LOGICAL                                            :: nodata
 
       CALL c_f_pointer(c_tensor_in, tensor_in)
       ALLOCATE (tensor_out)
 
       IF (PRESENT(c_nodata)) THEN
-         ALLOCATE (nodata)
          nodata = c_nodata
+         CALL dbcsr_t_split_blocks(tensor_in, tensor_out, c_block_sizes, nodata)
+      ELSE
+         CALL dbcsr_t_split_blocks(tensor_in, tensor_out, c_block_sizes)
       ENDIF
-
-      CALL dbcsr_t_split_blocks(tensor_in, tensor_out, c_block_sizes, nodata)
 
       c_tensor_out = c_loc(tensor_out)
 
-      IF (ASSOCIATED(nodata)) DEALLOCATE (nodata)
-
    END SUBROUTINE
 
-# 735 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 736 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_filter_r_dp (c_tensor, c_eps, c_method, c_use_absolute) &
       BIND(C, name="c_dbcsr_t_filter_r_dp")
@@ -2646,21 +2665,20 @@ ENDIF
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL          :: c_method
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         :: c_use_absolute
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
-      LOGICAL, POINTER                                   :: use_absolute => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
+      LOGICAL                                            :: use_absolute
 
       CALL c_f_pointer(c_tensor, tensor)
+
       IF (PRESENT(c_use_absolute)) THEN
-         ALLOCATE (use_absolute)
          use_absolute = c_use_absolute
+         CALL dbcsr_t_filter(tensor, c_eps, c_method, use_absolute)
+      ELSE
+         CALL dbcsr_t_filter(tensor, c_eps, c_method, use_absolute)
       ENDIF
 
-      CALL dbcsr_t_filter(tensor, c_eps, c_method, use_absolute)
-
-      IF (ASSOCIATED(use_absolute)) DEALLOCATE (use_absolute)
-
    END SUBROUTINE
-# 735 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 736 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_filter_r_sp (c_tensor, c_eps, c_method, c_use_absolute) &
       BIND(C, name="c_dbcsr_t_filter_r_sp")
@@ -2670,21 +2688,20 @@ ENDIF
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL          :: c_method
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         :: c_use_absolute
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
-      LOGICAL, POINTER                                   :: use_absolute => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
+      LOGICAL                                            :: use_absolute
 
       CALL c_f_pointer(c_tensor, tensor)
+
       IF (PRESENT(c_use_absolute)) THEN
-         ALLOCATE (use_absolute)
          use_absolute = c_use_absolute
+         CALL dbcsr_t_filter(tensor, c_eps, c_method, use_absolute)
+      ELSE
+         CALL dbcsr_t_filter(tensor, c_eps, c_method, use_absolute)
       ENDIF
 
-      CALL dbcsr_t_filter(tensor, c_eps, c_method, use_absolute)
-
-      IF (ASSOCIATED(use_absolute)) DEALLOCATE (use_absolute)
-
    END SUBROUTINE
-# 735 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 736 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_filter_c_dp (c_tensor, c_eps, c_method, c_use_absolute) &
       BIND(C, name="c_dbcsr_t_filter_c_dp")
@@ -2694,21 +2711,20 @@ ENDIF
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL          :: c_method
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         :: c_use_absolute
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
-      LOGICAL, POINTER                                   :: use_absolute => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
+      LOGICAL                                            :: use_absolute
 
       CALL c_f_pointer(c_tensor, tensor)
+
       IF (PRESENT(c_use_absolute)) THEN
-         ALLOCATE (use_absolute)
          use_absolute = c_use_absolute
+         CALL dbcsr_t_filter(tensor, c_eps, c_method, use_absolute)
+      ELSE
+         CALL dbcsr_t_filter(tensor, c_eps, c_method, use_absolute)
       ENDIF
 
-      CALL dbcsr_t_filter(tensor, c_eps, c_method, use_absolute)
-
-      IF (ASSOCIATED(use_absolute)) DEALLOCATE (use_absolute)
-
    END SUBROUTINE
-# 735 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 736 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_filter_c_sp (c_tensor, c_eps, c_method, c_use_absolute) &
       BIND(C, name="c_dbcsr_t_filter_c_sp")
@@ -2718,18 +2734,17 @@ ENDIF
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL          :: c_method
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         :: c_use_absolute
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
-      LOGICAL, POINTER                                   :: use_absolute => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
+      LOGICAL                                            :: use_absolute
 
       CALL c_f_pointer(c_tensor, tensor)
+
       IF (PRESENT(c_use_absolute)) THEN
-         ALLOCATE (use_absolute)
          use_absolute = c_use_absolute
+         CALL dbcsr_t_filter(tensor, c_eps, c_method, use_absolute)
+      ELSE
+         CALL dbcsr_t_filter(tensor, c_eps, c_method, use_absolute)
       ENDIF
-
-      CALL dbcsr_t_filter(tensor, c_eps, c_method, use_absolute)
-
-      IF (ASSOCIATED(use_absolute)) DEALLOCATE (use_absolute)
 
    END SUBROUTINE
 # 759 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
@@ -2742,7 +2757,7 @@ ENDIF
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_tensor
       REAL (kind=c_double), INTENT(IN), VALUE     :: c_alpha
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
 
       CALL c_f_pointer(c_tensor, tensor)
 
@@ -2757,7 +2772,7 @@ ENDIF
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_tensor
       REAL (kind=c_float), INTENT(IN), VALUE     :: c_alpha
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
 
       CALL c_f_pointer(c_tensor, tensor)
 
@@ -2772,7 +2787,7 @@ ENDIF
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_tensor
       COMPLEX (kind=c_double_complex), INTENT(IN), VALUE     :: c_alpha
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
 
       CALL c_f_pointer(c_tensor, tensor)
 
@@ -2787,7 +2802,7 @@ ENDIF
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_tensor
       COMPLEX (kind=c_float_complex), INTENT(IN), VALUE     :: c_alpha
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
 
       CALL c_f_pointer(c_tensor, tensor)
 
@@ -2803,21 +2818,19 @@ ENDIF
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_tensor_out
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         :: c_summation
 
-      TYPE(dbcsr_type), POINTER                          :: matrix_in => NULL()
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_out => NULL()
-      LOGICAL, POINTER                                   :: summation => NULL()
+      TYPE(dbcsr_type), POINTER                          :: matrix_in
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_out
+      LOGICAL                                            :: summation
 
       CALL c_f_pointer(c_matrix_in, matrix_in)
       CALL c_f_pointer(c_tensor_out, tensor_out)
 
       IF (PRESENT(c_summation)) THEN
-         ALLOCATE (summation)
          summation = c_summation
+         CALL dbcsr_t_copy_matrix_to_tensor(matrix_in, tensor_out, summation)
+      ELSE
+         CALL dbcsr_t_copy_matrix_to_tensor(matrix_in, tensor_out)
       ENDIF
-
-      CALL dbcsr_t_copy_matrix_to_tensor(matrix_in, tensor_out, summation)
-
-      IF (ASSOCIATED(summation)) DEALLOCATE (summation)
 
    END SUBROUTINE
 
@@ -2828,21 +2841,19 @@ ENDIF
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_matrix_out
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         :: c_summation
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_in => NULL()
-      TYPE(dbcsr_type), POINTER                          :: matrix_out => NULL()
-      LOGICAL, POINTER                                   :: summation => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_in
+      TYPE(dbcsr_type), POINTER                          :: matrix_out
+      LOGICAL                                            :: summation
 
       CALL c_f_pointer(c_tensor_in, tensor_in)
       CALL c_f_pointer(c_matrix_out, matrix_out)
 
       IF (PRESENT(c_summation)) THEN
-         ALLOCATE (summation)
          summation = c_summation
+         CALL dbcsr_t_copy_tensor_to_matrix(tensor_in, matrix_out, summation)
+      ELSE
+         CALL dbcsr_t_copy_tensor_to_matrix(tensor_in, matrix_out)
       ENDIF
-
-      CALL dbcsr_t_copy_tensor_to_matrix(tensor_in, matrix_out, summation)
-
-      IF (ASSOCIATED(summation)) DEALLOCATE (summation)
 
    END SUBROUTINE
 
@@ -2854,7 +2865,7 @@ ENDIF
       INTEGER(kind=c_int), DIMENSION(tensor_dim), INTENT(IN) :: c_ind
       INTEGER(kind=c_int), DIMENSION(tensor_dim), INTENT(OUT) :: c_blk_size
 
-      TYPE(dbcsr_t_type), POINTER :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER :: tensor
 
       CALL c_f_pointer(c_tensor, tensor)
 
@@ -2876,31 +2887,33 @@ ENDIF
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         ::c_move_data
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL          :: c_unit_nr
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_in => NULL(), &
-                                                            tensor_out => NULL()
-      INTEGER, DIMENSION(:), POINTER                     :: order => NULL()
-      INTEGER, DIMENSION(:, :), POINTER                   :: bounds => NULL()
-      LOGICAL, POINTER                                   :: summation => NULL(), &
-                                                            move_data => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_in, tensor_out
+      INTEGER, DIMENSION(:), POINTER                     :: order
+      INTEGER, DIMENSION(:, :), POINTER                  :: bounds
+      LOGICAL, POINTER                                   :: summation, move_data
 
       CALL c_f_pointer(c_tensor_in, tensor_in)
       CALL c_f_pointer(c_tensor_out, tensor_out)
 
+      NULLIFY (order)
       IF (PRESENT(c_order)) THEN
          ALLOCATE (order(tensor_dim))
          order = c_order + 1
       ENDIF
 
+      NULLIFY (bounds)
       IF (PRESENT(c_bounds)) THEN
          ALLOCATE (bounds(2, tensor_dim))
          bounds = c_bounds + 1
       ENDIF
 
+      NULLIFY (summation)
       IF (PRESENT(c_summation)) THEN
          ALLOCATE (summation)
          summation = c_summation
       ENDIF
 
+      NULLIFY (move_data)
       IF (PRESENT(c_move_data)) THEN
          ALLOCATE (move_data)
          move_data = c_move_data
@@ -2908,20 +2921,20 @@ ENDIF
 
       CALL dbcsr_t_copy(tensor_in, tensor_out, order, summation, bounds, move_data, c_unit_nr)
 
-# 890 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 891 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 888 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 889 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(order)) DEALLOCATE (order)
-# 891 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 889 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(bounds)) DEALLOCATE (bounds)
-# 891 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 889 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(summation)) DEALLOCATE (summation)
-# 891 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 889 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (ASSOCIATED(move_data)) DEALLOCATE (move_data)
-# 893 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 891 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    END SUBROUTINE
 
-# 897 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 895 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_scale_r_dp (c_tensor, c_alpha) &
       BIND(C, name="c_dbcsr_t_scale_r_dp")
@@ -2929,7 +2942,7 @@ ENDIF
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_tensor
       REAL (kind=c_double), INTENT(IN), VALUE     :: c_alpha
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
 
       CALL c_f_pointer(c_tensor, tensor)
 
@@ -2937,7 +2950,7 @@ ENDIF
 
    END SUBROUTINE
 
-# 897 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 895 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_scale_r_sp (c_tensor, c_alpha) &
       BIND(C, name="c_dbcsr_t_scale_r_sp")
@@ -2945,7 +2958,7 @@ ENDIF
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_tensor
       REAL (kind=c_float), INTENT(IN), VALUE     :: c_alpha
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
 
       CALL c_f_pointer(c_tensor, tensor)
 
@@ -2953,7 +2966,7 @@ ENDIF
 
    END SUBROUTINE
 
-# 897 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 895 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_scale_c_dp (c_tensor, c_alpha) &
       BIND(C, name="c_dbcsr_t_scale_c_dp")
@@ -2961,7 +2974,7 @@ ENDIF
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_tensor
       COMPLEX (kind=c_double_complex), INTENT(IN), VALUE     :: c_alpha
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
 
       CALL c_f_pointer(c_tensor, tensor)
 
@@ -2969,7 +2982,7 @@ ENDIF
 
    END SUBROUTINE
 
-# 897 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 895 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_scale_c_sp (c_tensor, c_alpha) &
       BIND(C, name="c_dbcsr_t_scale_c_sp")
@@ -2977,7 +2990,7 @@ ENDIF
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_tensor
       COMPLEX (kind=c_float_complex), INTENT(IN), VALUE     :: c_alpha
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
 
       CALL c_f_pointer(c_tensor, tensor)
 
@@ -2985,12 +2998,12 @@ ENDIF
 
    END SUBROUTINE
 
-# 913 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 911 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    SUBROUTINE c_dbcsr_t_clear(c_tensor) BIND(C, name="c_dbcsr_t_clear")
 
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_tensor
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
 
       CALL c_f_pointer(c_tensor, tensor)
 
@@ -3030,7 +3043,7 @@ ENDIF
       INTEGER(kind=c_int), DIMENSION(tensor_dim), INTENT(OUT), &
          OPTIONAL :: c_pdims
 
-# 958 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 956 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       INTEGER(kind=c_int), INTENT(IN), VALUE :: nblks_local_1
       INTEGER(kind=c_int), INTENT(IN), VALUE :: nblks_total_1
       INTEGER(kind=c_int), INTENT(OUT), OPTIONAL, &
@@ -3041,7 +3054,7 @@ ENDIF
          DIMENSION(nblks_total_1) :: c_blk_size_1
       INTEGER(kind=c_int), INTENT(OUT), OPTIONAL, &
          DIMENSION(nblks_total_1) :: c_blk_offset_1
-# 958 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 956 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       INTEGER(kind=c_int), INTENT(IN), VALUE :: nblks_local_2
       INTEGER(kind=c_int), INTENT(IN), VALUE :: nblks_total_2
       INTEGER(kind=c_int), INTENT(OUT), OPTIONAL, &
@@ -3052,7 +3065,7 @@ ENDIF
          DIMENSION(nblks_total_2) :: c_blk_size_2
       INTEGER(kind=c_int), INTENT(OUT), OPTIONAL, &
          DIMENSION(nblks_total_2) :: c_blk_offset_2
-# 958 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 956 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       INTEGER(kind=c_int), INTENT(IN), VALUE :: nblks_local_3
       INTEGER(kind=c_int), INTENT(IN), VALUE :: nblks_total_3
       INTEGER(kind=c_int), INTENT(OUT), OPTIONAL, &
@@ -3063,7 +3076,7 @@ ENDIF
          DIMENSION(nblks_total_3) :: c_blk_size_3
       INTEGER(kind=c_int), INTENT(OUT), OPTIONAL, &
          DIMENSION(nblks_total_3) :: c_blk_offset_3
-# 958 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 956 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       INTEGER(kind=c_int), INTENT(IN), VALUE :: nblks_local_4
       INTEGER(kind=c_int), INTENT(IN), VALUE :: nblks_total_4
       INTEGER(kind=c_int), INTENT(OUT), OPTIONAL, &
@@ -3074,20 +3087,22 @@ ENDIF
          DIMENSION(nblks_total_4) :: c_blk_size_4
       INTEGER(kind=c_int), INTENT(OUT), OPTIONAL, &
          DIMENSION(nblks_total_4) :: c_blk_offset_4
-# 969 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 967 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
       TYPE(c_ptr), INTENT(OUT), OPTIONAL :: c_distribution
       TYPE(c_ptr), INTENT(OUT), OPTIONAL :: c_name
       INTEGER(kind=c_int), INTENT(OUT), OPTIONAL :: c_data_type
 
-      TYPE(dbcsr_t_type), POINTER :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER :: tensor
 
-      TYPE(dbcsr_t_distribution_type), POINTER :: distribution => NULL()
-      CHARACTER(kind=c_char, len=:), POINTER :: name => NULL()
+      TYPE(dbcsr_t_distribution_type), POINTER :: distribution
+      CHARACTER(kind=c_char, len=:), POINTER :: name
 
       CALL c_f_pointer(c_tensor, tensor)
 
+      NULLIFY (distribution)
       IF (PRESENT(c_distribution)) ALLOCATE (distribution)
+      NULLIFY (name)
       IF (PRESENT(c_name)) ALLOCATE (CHARACTER(len=default_string_length) :: name)
 
       CALL dbcsr_t_get_info(tensor, c_nblks_total, c_nfull_total, c_nblks_local, &
@@ -3166,39 +3181,41 @@ ENDIF
       INTEGER(kind=c_int), INTENT(OUT), OPTIONAL :: base
       LOGICAL(kind=c_bool), INTENT(OUT), OPTIONAL :: c_col_major
 
-      TYPE(dbcsr_t_type), POINTER :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER :: tensor
 
-      LOGICAL, POINTER :: col_major => NULL()
+      LOGICAL                     :: col_major
 
       CALL c_f_pointer(c_tensor, tensor)
 
-      IF (PRESENT(c_col_major)) ALLOCATE (col_major)
-
-      CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, ndim_nd, ndim1_2d, &
-                                    ndim2_2d, c_dims_2d_i8, c_dims_2d, c_dims_nd, &
-                                    c_dims1_2d, c_dims2_2d, &
-                                    c_map1_2d, c_map2_2d, c_map_nd, &
-                                    base, col_major)
-
-# 1055 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-# 1056 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (PRESENT(c_dims_nd)) c_dims_nd = c_dims_nd-1
-# 1056 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (PRESENT(c_dims1_2d)) c_dims1_2d = c_dims1_2d-1
-# 1056 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (PRESENT(c_dims2_2d)) c_dims2_2d = c_dims2_2d-1
-# 1056 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (PRESENT(c_map1_2d)) c_map1_2d = c_map1_2d-1
-# 1056 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (PRESENT(c_map2_2d)) c_map2_2d = c_map2_2d-1
-# 1056 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-      IF (PRESENT(c_map_nd)) c_map_nd = c_map_nd-1
-# 1058 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
-
       IF (PRESENT(c_col_major)) THEN
+         CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, ndim_nd, ndim1_2d, &
+                                       ndim2_2d, c_dims_2d_i8, c_dims_2d, c_dims_nd, &
+                                       c_dims1_2d, c_dims2_2d, &
+                                       c_map1_2d, c_map2_2d, c_map_nd, &
+                                       base, col_major)
          c_col_major = col_major
-         DEALLOCATE (col_major)
+      ELSE
+         CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, ndim_nd, ndim1_2d, &
+                                       ndim2_2d, c_dims_2d_i8, c_dims_2d, c_dims_nd, &
+                                       c_dims1_2d, c_dims2_2d, &
+                                       c_map1_2d, c_map2_2d, c_map_nd, &
+                                       base)
       ENDIF
+
+# 1062 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+# 1063 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      IF (PRESENT(c_dims_nd)) c_dims_nd = c_dims_nd-1
+# 1063 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      IF (PRESENT(c_dims1_2d)) c_dims1_2d = c_dims1_2d-1
+# 1063 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      IF (PRESENT(c_dims2_2d)) c_dims2_2d = c_dims2_2d-1
+# 1063 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      IF (PRESENT(c_map1_2d)) c_map1_2d = c_map1_2d-1
+# 1063 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      IF (PRESENT(c_map2_2d)) c_map2_2d = c_map2_2d-1
+# 1063 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
+      IF (PRESENT(c_map_nd)) c_map_nd = c_map_nd-1
+# 1065 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
    END SUBROUTINE
 
@@ -3218,7 +3235,7 @@ ENDIF
       BIND(C, name="c_dbcsr_t_get_num_blocks_total")
 
       TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
-      TYPE(dbcsr_t_type), POINTER :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER :: tensor
       INTEGER(kind=c_long_long) :: c_num_blocks_total
 
       CALL c_f_pointer(c_tensor, tensor)
@@ -3233,7 +3250,7 @@ ENDIF
       INTEGER(kind=c_int), INTENT(IN), VALUE :: idim
       INTEGER(kind=c_int) :: c_dbcsr_t_nblks_local
 
-      TYPE(dbcsr_t_type), POINTER :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER :: tensor
       CALL c_f_pointer(c_tensor, tensor)
 
       c_dbcsr_t_nblks_local = dbcsr_t_nblks_local(tensor, idim + 1)
@@ -3247,7 +3264,7 @@ ENDIF
       INTEGER(kind=c_int), INTENT(IN), VALUE :: idim
       INTEGER(kind=c_int) :: c_dbcsr_t_nblks_total
 
-      TYPE(dbcsr_t_type), POINTER :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER :: tensor
       CALL c_f_pointer(c_tensor, tensor)
 
       c_dbcsr_t_nblks_total = dbcsr_t_nblks_total(tensor, idim + 1)
@@ -3262,7 +3279,7 @@ ENDIF
       INTEGER(kind=c_int), DIMENSION(tensor_dim), &
          INTENT(OUT) :: c_dims
 
-      TYPE(dbcsr_t_type), POINTER :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER :: tensor
 
       CALL c_f_pointer(c_tensor, tensor)
 
@@ -3272,7 +3289,7 @@ ENDIF
 
    FUNCTION c_dbcsr_t_ndims(c_tensor) BIND(C, name="c_dbcsr_t_ndims")
       TYPE(c_ptr), INTENT(IN), VALUE                  :: c_tensor
-      TYPE(dbcsr_t_type), POINTER                     :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                     :: tensor
       INTEGER(kind=c_int)                             :: c_dbcsr_t_ndims
 
       CALL c_f_pointer(c_tensor, tensor)
@@ -3284,7 +3301,7 @@ ENDIF
       BIND(C, name="c_dbcsr_t_ndims_matrix_row")
 
       TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
-      TYPE(dbcsr_t_type), POINTER :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER :: tensor
       INTEGER(kind=c_long_long) :: c_dbcsr_t_ndims_matrix_row
 
       CALL c_f_pointer(c_tensor, tensor)
@@ -3298,7 +3315,7 @@ ENDIF
       BIND(C, name="c_dbcsr_t_ndims_matrix_column")
 
       TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
-      TYPE(dbcsr_t_type), POINTER :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER :: tensor
       INTEGER(kind=c_long_long) :: c_dbcsr_t_ndims_matrix_column
 
       CALL c_f_pointer(c_tensor, tensor)
@@ -3312,7 +3329,7 @@ ENDIF
       BIND(C, name="c_dbcsr_t_get_nze")
 
       TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
-      TYPE(dbcsr_t_type), POINTER :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER :: tensor
       INTEGER(kind=c_int) :: c_dbcsr_t_get_nze
 
       CALL c_f_pointer(c_tensor, tensor)
@@ -3323,7 +3340,7 @@ ENDIF
       BIND(C, name="c_dbcsr_t_get_nze_total")
 
       TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
-      TYPE(dbcsr_t_type), POINTER :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER :: tensor
       INTEGER(kind=c_long_long) :: c_dbcsr_t_get_nze_total
 
       CALL c_f_pointer(c_tensor, tensor)
@@ -3335,11 +3352,11 @@ ENDIF
 
       TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
       INTEGER(kind=c_long_long) :: max_blks
-      TYPE(dbcsr_t_type), POINTER :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER :: tensor
 
       CALL c_f_pointer(c_tensor, tensor)
 
-      max_blks = dbcsr_t_max_nblks_local(tensor); 
+      max_blks = dbcsr_t_max_nblks_local(tensor)
    END FUNCTION
 
 END MODULE
