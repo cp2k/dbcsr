@@ -475,7 +475,7 @@ CONTAINS
 !   ---------------------------------------------------------------------------
 
       nthreads = 1
-!$    nthreads = OMP_GET_NUM_THREADS(); 
+!$    nthreads = OMP_GET_NUM_THREADS()
 !$    IF (dist%d%num_threads /= nthreads) &
 !$       DBCSR_ABORT("Thread number has changed")
       nrows = dbcsr_distribution_nrows(dist)

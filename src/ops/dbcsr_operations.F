@@ -1695,6 +1695,10 @@ CONTAINS
 !   ---------------------------------------------------------------------------
 
       CALL timeset(routineN, handle)
+      part_l_col = .FALSE.
+      part_f_col = .FALSE.
+      part_l_row = .FALSE.
+      part_f_row = .FALSE.
       IF (PRESENT(shallow_data)) THEN
          shallow = shallow_data
       ELSE
@@ -1714,7 +1718,6 @@ CONTAINS
             DBCSR_ABORT("Invalid first row bound.")
          IF (full_row_bounds(2) > dbcsr_nfullrows_total(matrix_a)) &
             DBCSR_ABORT("Invalid last row bound.")
-         part_f_row = .FALSE.
          IF (full_row_bounds(1) .EQ. 0) THEN
             block_row_bounds(1) = 1
          ELSE
@@ -1731,7 +1734,6 @@ CONTAINS
             f_row_f = full_row_bounds(1) - &
                       array_get(dbcsr_row_block_offsets(matrix_a), block_row_bounds(1))
          ENDIF
-         part_l_row = .FALSE.
          IF (full_row_bounds(2) .EQ. 0) THEN
             block_row_bounds(2) = dbcsr_nblkrows_total(matrix_a)
          ELSE
@@ -1760,7 +1762,6 @@ CONTAINS
             DBCSR_ABORT("Invalid first column bound.")
          IF (full_column_bounds(2) > dbcsr_nfullcols_total(matrix_a)) &
             DBCSR_ABORT("Invalid last column bound.")
-         part_f_col = .FALSE.
          IF (full_column_bounds(1) .EQ. 0) THEN
             block_col_bounds(1) = 1
          ELSE
@@ -1777,7 +1778,6 @@ CONTAINS
             f_col_f = full_column_bounds(1) - &
                       array_get(dbcsr_col_block_offsets(matrix_a), block_col_bounds(1))
          ENDIF
-         part_l_col = .FALSE.
          IF (full_column_bounds(2) .EQ. 0) THEN
             block_col_bounds(2) = dbcsr_nblkcols_total(matrix_a)
          ELSE
