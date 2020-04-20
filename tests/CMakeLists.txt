@@ -58,7 +58,7 @@ set(DBCSR_TESTS
   dbcsr_test_csr_conversions
   )
 
-if (NOT CMAKE_Fortran_COMPILER_ID STREQUAL "Cray"))
+if (NOT (CMAKE_Fortran_COMPILER_ID STREQUAL "Cray"))
   set(DBCSR_TESTS_CPP
      dbcsr_tensor_test_cpp
      )

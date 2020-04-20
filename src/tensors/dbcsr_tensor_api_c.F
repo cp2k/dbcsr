@@ -86,7 +86,7 @@ CONTAINS
       INTEGER(kind=c_int), INTENT(in)                    :: c_map2_2d(map2_2d_size)
       INTEGER(kind=c_int), INTENT(in), OPTIONAL          :: nsplit, dimsplit
 
-      TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid => NULL()
+      TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid
 
       ALLOCATE (pgrid)
 
@@ -121,7 +121,7 @@ CONTAINS
 
       TYPE(c_ptr), INTENT(INOUT)                         :: c_pgrid
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         :: c_keep_comm
-      TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid => NULL()
+      TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid
       LOGICAL                                            :: keep_comm
 
       CALL c_f_pointer(c_pgrid, pgrid)
@@ -147,8 +147,8 @@ CONTAINS
       INTEGER(kind=c_int), INTENT(in), value :: ${varlist("c_nd_dist", suffix="_size")}$
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL  :: ${c_arrlist_and_size("c_nd_dist")}$
 
-      TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid => NULL()
-      TYPE(dbcsr_t_distribution_type), POINTER           :: dist => NULL()
+      TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid
+      TYPE(dbcsr_t_distribution_type), POINTER           :: dist
 
       ALLOCATE (dist)
 
@@ -162,9 +162,9 @@ CONTAINS
 
    SUBROUTINE c_dbcsr_t_distribution_destroy(c_dist) BIND(C, name="c_dbcsr_t_distribution_destroy")
       TYPE(c_ptr), INTENT(INOUT)                         :: c_dist
-      TYPE(dbcsr_t_distribution_type), POINTER           :: dist => NULL()
+      TYPE(dbcsr_t_distribution_type), POINTER           :: dist
 
-      CALL c_f_pointer(c_dist, dist);
+      CALL c_f_pointer(c_dist, dist)
       CALL dbcsr_t_distribution_destroy(dist)
 
       IF (ASSOCIATED(dist)) DEALLOCATE (dist)
@@ -192,8 +192,8 @@ CONTAINS
 
       CHARACTER(:, kind=c_char), ALLOCATABLE             :: fname
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
-      TYPE(dbcsr_t_distribution_type), POINTER           :: dist => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
+      TYPE(dbcsr_t_distribution_type), POINTER           :: dist
 
       ALLOCATE (tensor)
 
@@ -223,12 +223,11 @@ CONTAINS
 
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL          :: data_type
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_in => NULL()
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_in
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
       CHARACTER(:, kind=c_char), ALLOCATABLE             :: fname
-      TYPE(dbcsr_t_distribution_type), POINTER           :: dist => NULL()
-      INTEGER, DIMENSION(:), POINTER                     :: map1_2d => NULL(), &
-                                                            map2_2d => NULL()
+      TYPE(dbcsr_t_distribution_type), POINTER           :: dist
+      INTEGER, DIMENSION(:), POINTER                     :: map1_2d, map2_2d
 
       CALL c_f_pointer(c_tensor_in, tensor_in)
 
@@ -236,7 +235,9 @@ CONTAINS
 
       ALLOCATE (tensor)
 
+      NULLIFY (dist)
       IF (C_ASSOCIATED(c_dist)) CALL c_f_pointer(c_dist, dist)
+      NULLIFY (map1_2d, map2_2d)
       IF (PRESENT(c_map1_2d) .AND. PRESENT(c_map2_2d)) THEN
          ALLOCATE (map1_2d(SIZE(c_map1_2d)))
          ALLOCATE (map2_2d(SIZE(c_map2_2d)))
@@ -263,8 +264,8 @@ CONTAINS
          OPTIONAL                                         :: c_order
       TYPE(c_ptr), INTENT(IN), OPTIONAL                  :: c_name
 
-      TYPE(dbcsr_type), POINTER                :: matrix_in => NULL()
-      TYPE(dbcsr_t_type), POINTER              :: tensor => NULL()
+      TYPE(dbcsr_type), POINTER                :: matrix_in
+      TYPE(dbcsr_t_type), POINTER              :: tensor
       INTEGER, DIMENSION(2) :: order
       CHARACTER(:, kind=c_char), ALLOCATABLE   :: fname
 
@@ -287,7 +288,7 @@ CONTAINS
 
    SUBROUTINE c_dbcsr_t_destroy(c_tensor) BIND(C, name="c_dbcsr_t_destroy")
       TYPE(c_ptr), INTENT(INOUT)                         :: c_tensor
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
 
       CALL c_f_pointer(c_tensor, tensor)
 
@@ -343,25 +344,24 @@ CONTAINS
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL          :: c_unit_nr
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         :: c_log_verbose
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_1 => NULL()
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_2 => NULL()
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_3 => NULL()
-      LOGICAL, POINTER                                   :: optimize_dist => NULL()
-      TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid_opt_1 => null(), &
-                                                            pgrid_opt_2 => null(), pgrid_opt_3 => null()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_1
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_2
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_3
+      LOGICAL, POINTER                                   :: optimize_dist
+      TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid_opt_1, pgrid_opt_2, pgrid_opt_3
 
-      INTEGER, DIMENSION(:, :), POINTER                  :: bounds_1 => NULL(), &
-                                                            bounds_2 => NULL(), bounds_3 => NULL()
+      INTEGER, DIMENSION(:, :), POINTER                  :: bounds_1, bounds_2, bounds_3
 
-      LOGICAL, POINTER                                   :: move_data => NULL()
-      LOGICAL, POINTER                                   :: retain_sparsity => NULL()
-      LOGICAL, POINTER                                   :: log_verbose => NULL()
+      LOGICAL, POINTER                                   :: move_data
+      LOGICAL, POINTER                                   :: retain_sparsity
+      LOGICAL, POINTER                                   :: log_verbose
 
       CALL c_f_pointer(c_tensor_1, tensor_1)
       CALL c_f_pointer(c_tensor_2, tensor_2)
       CALL c_f_pointer(c_tensor_3, tensor_3)
 
 #:for dim in range(1,4)
+      NULLIFY (bounds_${dim}$)
       IF (PRESENT(c_bounds_${dim}$)) THEN
          ALLOCATE (bounds_${dim}$ (2, SIZE(c_bounds_${dim}$, 2)))
          bounds_${dim}$ = c_bounds_${dim}$+1
@@ -370,6 +370,7 @@ CONTAINS
 
 #:set list = ['optimize_dist', 'move_data', 'retain_sparsity', 'log_verbose']
 #:for var in list
+      NULLIFY (${var}$)
       IF (PRESENT(c_${var}$)) THEN
          ALLOCATE (${var}$)
          ${var}$ = c_${var}$
@@ -399,6 +400,7 @@ CONTAINS
       $:"ENDIF"
 
 #:for dim in range(1,4)
+      NULLIFY (pgrid_opt_${dim}$)
       IF (PRESENT(c_pgrid_opt_${dim}$)) c_pgrid_opt_${dim}$ = c_loc(pgrid_opt_${dim}$)
 #:endfor
 
@@ -452,11 +454,10 @@ CONTAINS
       INTEGER(kind=c_int), DIMENSION(result_index_size, tensor3_dim), &
          INTENT(OUT)                            :: c_result_index
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_1 => NULL()
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_2 => NULL()
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_3 => NULL()
-      INTEGER, DIMENSION(:, :), POINTER                   :: bounds_1 => NULL(), &
-                                                             bounds_2 => NULL(), bounds_3 => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_1
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_2
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_3
+      INTEGER, DIMENSION(:, :), POINTER                  :: bounds_1, bounds_2, bounds_3
       INTEGER, DIMENSION(result_index_size, tensor3_dim) :: result_index
 
       CALL c_f_pointer(c_tensor_1, tensor_1)
@@ -464,6 +465,7 @@ CONTAINS
       CALL c_f_pointer(c_tensor_3, tensor_3)
 
 #:for dim in range(1,4)
+      NULLIFY (bounds_${dim}$)
       IF (PRESENT(c_bounds_${dim}$)) THEN
          ALLOCATE (bounds_${dim}$ (2, SIZE(c_bounds_${dim}$, 2)))
          bounds_${dim}$ = c_bounds_${dim}$+1
@@ -505,7 +507,7 @@ CONTAINS
          INTENT(OUT)                             :: c_block
       LOGICAL(kind=c_bool), INTENT(OUT)                  :: c_found
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
       LOGICAL                                            :: found
 
       CALL c_f_pointer(c_tensor, tensor)
@@ -536,7 +538,7 @@ CONTAINS
       ${basetype}$ (kind=${cftype}$), INTENT(IN), &
          OPTIONAL                                          :: c_scale
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
       LOGICAL                                            :: summation
 
       CALL c_f_pointer(c_tensor, tensor)
@@ -563,7 +565,7 @@ CONTAINS
          INTENT(IN)                                :: c_ind_nd
       INTEGER(kind=c_int), INTENT(OUT)                   :: c_processor
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
 
       CALL c_f_pointer(c_tensor, tensor)
 
@@ -577,11 +579,12 @@ CONTAINS
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_tensor
       INTEGER(kind=c_int), INTENT(in), value             :: nblocks
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL          :: ${varlist("c_blk_ind", suffix ="(nblocks)")}$
-      INTEGER, DIMENSION(:), POINTER                     :: ${varlist("blk_ind", suffix = "=> NULL()")}$
+      INTEGER, DIMENSION(:), POINTER                     :: ${varlist("blk_ind")}$
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
 
 #:for ddim in ddims
+      NULLIFY (blk_ind_${ddim}$)
       IF (PRESENT(c_blk_ind_${ddim}$)) THEN
          ALLOCATE (blk_ind_${ddim}$ (nblocks))
          blk_ind_${ddim}$ = c_blk_ind_${ddim}$+1
@@ -604,8 +607,8 @@ CONTAINS
       TYPE(c_ptr), INTENT(IN), VALUE              :: c_tensor_in
       TYPE(c_ptr), INTENT(IN), VALUE              :: c_tensor_out
 
-      TYPE(dbcsr_t_type), POINTER :: tensor_in => NULL()
-      TYPE(dbcsr_t_type), POINTER :: tensor_out => NULL()
+      TYPE(dbcsr_t_type), POINTER :: tensor_in
+      TYPE(dbcsr_t_type), POINTER :: tensor_out
 
       CALL c_f_pointer(c_tensor_in, tensor_in)
       CALL c_f_pointer(c_tensor_out, tensor_out)
@@ -617,7 +620,7 @@ CONTAINS
    FUNCTION c_ndims_iterator(c_iterator) BIND(C, name="c_ndims_iterator")
 
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_iterator
-      TYPE(dbcsr_t_iterator_type), POINTER               :: iterator => NULL()
+      TYPE(dbcsr_t_iterator_type), POINTER               :: iterator
       INTEGER(kind=c_int)                                :: c_ndims_iterator
 
       CALL c_f_pointer(c_iterator, iterator)
@@ -631,8 +634,8 @@ CONTAINS
       TYPE(c_ptr), INTENT(OUT)                           :: c_iterator
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_tensor
 
-      TYPE(dbcsr_t_iterator_type), POINTER               :: iterator => NULL()
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_iterator_type), POINTER               :: iterator
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
 
       ALLOCATE (iterator)
       CALL c_f_pointer(c_tensor, tensor)
@@ -646,7 +649,7 @@ CONTAINS
    SUBROUTINE c_dbcsr_t_iterator_stop(c_iterator) BIND(C, name="c_dbcsr_t_iterator_stop")
 
       TYPE(c_ptr), INTENT(INOUT)                         :: c_iterator
-      TYPE(dbcsr_t_iterator_type), POINTER               :: iterator => NULL()
+      TYPE(dbcsr_t_iterator_type), POINTER               :: iterator
 
       CALL c_f_pointer(c_iterator, iterator)
 
@@ -670,12 +673,13 @@ CONTAINS
       INTEGER(kind=c_int), DIMENSION(iterator_size), INTENT(OUT), &
          OPTIONAL                                        :: c_blk_size, c_blk_offset
 
-      TYPE(dbcsr_t_iterator_type), POINTER               :: iterator => NULL()
+      TYPE(dbcsr_t_iterator_type), POINTER               :: iterator
       INTEGER, DIMENSION(iterator_size)                  :: ind_nd
-      INTEGER, DIMENSION(:), POINTER                     :: blk_offset => NULL()
+      INTEGER, DIMENSION(:), POINTER                     :: blk_offset
 
       CALL c_f_pointer(c_iterator, iterator)
 
+      NULLIFY (blk_offset)
       IF (PRESENT(c_blk_offset)) ALLOCATE (blk_offset(iterator_size))
 
       CALL dbcsr_t_iterator_next_block(iterator, ind_nd, c_blk, c_blk_p, c_blk_size, blk_offset)
@@ -692,10 +696,10 @@ CONTAINS
       BIND(C, name="c_dbcsr_t_iterator_blocks_left")
 
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_iterator
-      TYPE(dbcsr_t_iterator_type), POINTER               :: iterator => NULL()
+      TYPE(dbcsr_t_iterator_type), POINTER               :: iterator
       LOGICAL(kind=c_bool)                               :: c_dbcsr_t_iterator_blocks_left
 
-      CALL c_f_pointer(c_iterator, iterator);
+      CALL c_f_pointer(c_iterator, iterator)
       c_dbcsr_t_iterator_blocks_left = dbcsr_t_iterator_blocks_left(iterator)
 
    END FUNCTION
@@ -710,8 +714,8 @@ CONTAINS
          :: c_block_sizes
       LOGICAL(kind=c_bool), OPTIONAL                     :: c_nodata
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_in => NULL()
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_out => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_in
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_out
       LOGICAL                                            :: nodata
 
       CALL c_f_pointer(c_tensor_in, tensor_in)
@@ -738,7 +742,7 @@ CONTAINS
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL          :: c_method
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         :: c_use_absolute
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
       LOGICAL                                            :: use_absolute
 
       CALL c_f_pointer(c_tensor, tensor)
@@ -761,7 +765,7 @@ CONTAINS
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_tensor
       ${dbase}$ (kind=${dctype}$), INTENT(IN), VALUE     :: c_alpha
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
 
       CALL c_f_pointer(c_tensor, tensor)
 
@@ -777,8 +781,8 @@ CONTAINS
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_tensor_out
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         :: c_summation
 
-      TYPE(dbcsr_type), POINTER                          :: matrix_in => NULL()
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_out => NULL()
+      TYPE(dbcsr_type), POINTER                          :: matrix_in
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_out
       LOGICAL                                            :: summation
 
       CALL c_f_pointer(c_matrix_in, matrix_in)
@@ -800,8 +804,8 @@ CONTAINS
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_matrix_out
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         :: c_summation
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_in => NULL()
-      TYPE(dbcsr_type), POINTER                          :: matrix_out => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_in
+      TYPE(dbcsr_type), POINTER                          :: matrix_out
       LOGICAL                                            :: summation
 
       CALL c_f_pointer(c_tensor_in, tensor_in)
@@ -824,7 +828,7 @@ CONTAINS
       INTEGER(kind=c_int), DIMENSION(tensor_dim), INTENT(IN) :: c_ind
       INTEGER(kind=c_int), DIMENSION(tensor_dim), INTENT(OUT) :: c_blk_size
 
-      TYPE(dbcsr_t_type), POINTER :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER :: tensor
 
       CALL c_f_pointer(c_tensor, tensor)
 
@@ -846,31 +850,33 @@ CONTAINS
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL         ::c_move_data
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL          :: c_unit_nr
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor_in => NULL(), &
-                                                            tensor_out => NULL()
-      INTEGER, DIMENSION(:), POINTER                     :: order => NULL()
-      INTEGER, DIMENSION(:, :), POINTER                   :: bounds => NULL()
-      LOGICAL, POINTER                                   :: summation => NULL(), &
-                                                            move_data => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor_in, tensor_out
+      INTEGER, DIMENSION(:), POINTER                     :: order
+      INTEGER, DIMENSION(:, :), POINTER                  :: bounds
+      LOGICAL, POINTER                                   :: summation, move_data
 
       CALL c_f_pointer(c_tensor_in, tensor_in)
       CALL c_f_pointer(c_tensor_out, tensor_out)
 
+      NULLIFY (order)
       IF (PRESENT(c_order)) THEN
          ALLOCATE (order(tensor_dim))
          order = c_order + 1
       ENDIF
 
+      NULLIFY (bounds)
       IF (PRESENT(c_bounds)) THEN
          ALLOCATE (bounds(2, tensor_dim))
          bounds = c_bounds + 1
       ENDIF
 
+      NULLIFY (summation)
       IF (PRESENT(c_summation)) THEN
          ALLOCATE (summation)
          summation = c_summation
       ENDIF
 
+      NULLIFY (move_data)
       IF (PRESENT(c_move_data)) THEN
          ALLOCATE (move_data)
          move_data = c_move_data
@@ -893,7 +899,7 @@ CONTAINS
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_tensor
       ${dbase}$ (kind=${dctype}$), INTENT(IN), VALUE     :: c_alpha
 
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
 
       CALL c_f_pointer(c_tensor, tensor)
 
@@ -906,7 +912,7 @@ CONTAINS
    SUBROUTINE c_dbcsr_t_clear(c_tensor) BIND(C, name="c_dbcsr_t_clear")
 
       TYPE(c_ptr), INTENT(IN), VALUE                     :: c_tensor
-      TYPE(dbcsr_t_type), POINTER                        :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                        :: tensor
 
       CALL c_f_pointer(c_tensor, tensor)
 
@@ -963,14 +969,16 @@ CONTAINS
       TYPE(c_ptr), INTENT(OUT), OPTIONAL :: c_name
       INTEGER(kind=c_int), INTENT(OUT), OPTIONAL :: c_data_type
 
-      TYPE(dbcsr_t_type), POINTER :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER :: tensor
 
-      TYPE(dbcsr_t_distribution_type), POINTER :: distribution => NULL()
-      CHARACTER(kind=c_char, len=:), POINTER :: name => NULL()
+      TYPE(dbcsr_t_distribution_type), POINTER :: distribution
+      CHARACTER(kind=c_char, len=:), POINTER :: name
 
       CALL c_f_pointer(c_tensor, tensor)
 
+      NULLIFY (distribution)
       IF (PRESENT(c_distribution)) ALLOCATE (distribution)
+      NULLIFY (name)
       IF (PRESENT(c_name)) ALLOCATE (CHARACTER(len=default_string_length) :: name)
 
       CALL dbcsr_t_get_info(tensor, c_nblks_total, c_nfull_total, c_nblks_local, &
@@ -1029,7 +1037,7 @@ CONTAINS
       INTEGER(kind=c_int), INTENT(OUT), OPTIONAL :: base
       LOGICAL(kind=c_bool), INTENT(OUT), OPTIONAL :: c_col_major
 
-      TYPE(dbcsr_t_type), POINTER :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER :: tensor
 
       LOGICAL                     :: col_major
 
@@ -1073,7 +1081,7 @@ CONTAINS
       BIND(C, name="c_dbcsr_t_get_num_blocks_total")
 
       TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
-      TYPE(dbcsr_t_type), POINTER :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER :: tensor
       INTEGER(kind=c_long_long) :: c_num_blocks_total
 
       CALL c_f_pointer(c_tensor, tensor)
@@ -1088,7 +1096,7 @@ CONTAINS
       INTEGER(kind=c_int), INTENT(IN), VALUE :: idim
       INTEGER(kind=c_int) :: c_dbcsr_t_nblks_local
 
-      TYPE(dbcsr_t_type), POINTER :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER :: tensor
       CALL c_f_pointer(c_tensor, tensor)
 
       c_dbcsr_t_nblks_local = dbcsr_t_nblks_local(tensor, idim + 1)
@@ -1102,7 +1110,7 @@ CONTAINS
       INTEGER(kind=c_int), INTENT(IN), VALUE :: idim
       INTEGER(kind=c_int) :: c_dbcsr_t_nblks_total
 
-      TYPE(dbcsr_t_type), POINTER :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER :: tensor
       CALL c_f_pointer(c_tensor, tensor)
 
       c_dbcsr_t_nblks_total = dbcsr_t_nblks_total(tensor, idim + 1)
@@ -1117,7 +1125,7 @@ CONTAINS
       INTEGER(kind=c_int), DIMENSION(tensor_dim), &
          INTENT(OUT) :: c_dims
 
-      TYPE(dbcsr_t_type), POINTER :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER :: tensor
 
       CALL c_f_pointer(c_tensor, tensor)
 
@@ -1127,7 +1135,7 @@ CONTAINS
 
    FUNCTION c_dbcsr_t_ndims(c_tensor) BIND(C, name="c_dbcsr_t_ndims")
       TYPE(c_ptr), INTENT(IN), VALUE                  :: c_tensor
-      TYPE(dbcsr_t_type), POINTER                     :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER                     :: tensor
       INTEGER(kind=c_int)                             :: c_dbcsr_t_ndims
 
       CALL c_f_pointer(c_tensor, tensor)
@@ -1139,7 +1147,7 @@ CONTAINS
       BIND(C, name="c_dbcsr_t_ndims_matrix_row")
 
       TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
-      TYPE(dbcsr_t_type), POINTER :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER :: tensor
       INTEGER(kind=c_long_long) :: c_dbcsr_t_ndims_matrix_row
 
       CALL c_f_pointer(c_tensor, tensor)
@@ -1153,7 +1161,7 @@ CONTAINS
       BIND(C, name="c_dbcsr_t_ndims_matrix_column")
 
       TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
-      TYPE(dbcsr_t_type), POINTER :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER :: tensor
       INTEGER(kind=c_long_long) :: c_dbcsr_t_ndims_matrix_column
 
       CALL c_f_pointer(c_tensor, tensor)
@@ -1167,7 +1175,7 @@ CONTAINS
       BIND(C, name="c_dbcsr_t_get_nze")
 
       TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
-      TYPE(dbcsr_t_type), POINTER :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER :: tensor
       INTEGER(kind=c_int) :: c_dbcsr_t_get_nze
 
       CALL c_f_pointer(c_tensor, tensor)
@@ -1178,7 +1186,7 @@ CONTAINS
       BIND(C, name="c_dbcsr_t_get_nze_total")
 
       TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
-      TYPE(dbcsr_t_type), POINTER :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER :: tensor
       INTEGER(kind=c_long_long) :: c_dbcsr_t_get_nze_total
 
       CALL c_f_pointer(c_tensor, tensor)
@@ -1190,11 +1198,11 @@ CONTAINS
 
       TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
       INTEGER(kind=c_long_long) :: max_blks
-      TYPE(dbcsr_t_type), POINTER :: tensor => NULL()
+      TYPE(dbcsr_t_type), POINTER :: tensor
 
       CALL c_f_pointer(c_tensor, tensor)
 
-      max_blks = dbcsr_t_max_nblks_local(tensor);
+      max_blks = dbcsr_t_max_nblks_local(tensor)
    END FUNCTION
 
 END MODULE
