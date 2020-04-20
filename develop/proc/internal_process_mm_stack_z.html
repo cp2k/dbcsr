@@ -363,39 +363,39 @@ private subroutine internal_process_mm_stack_z(params, stack_size, a_data, b_dat
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>  <span class="k">SUBROUTINE </span><span class="n">internal_process_mm_stack_z</span> <span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">stack_size</span><span class="p">,</span> <span class="p">&amp;</span>
-                                                      <span class="n">a_data</span><span class="p">,</span> <span class="n">b_data</span><span class="p">,</span> <span class="n">c_data</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">internal_process_mm_stack_z</span> <span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">stack_size</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                       <span class="n">a_data</span><span class="p">,</span> <span class="n">b_data</span><span class="p">,</span> <span class="n">c_data</span><span class="p">)</span>
      <span class="c">!! Processes MM stack and issues internal MM calls.</span>
 
-     <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">stack_size</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">stack_size</span>
         <span class="c">!! Number of parameters</span>
-     <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="n">dbcsr_ps_width</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="n">stack_size</span><span class="p">),</span> <span class="p">&amp;</span>
-        <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                              <span class="kd">::</span> <span class="n">params</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="n">dbcsr_ps_width</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="n">stack_size</span><span class="p">),</span> <span class="p">&amp;</span>
+         <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                              <span class="kd">::</span> <span class="n">params</span>
         <span class="c">!! Stack of MM parameters</span>
-     <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="o">*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>         <span class="kd">::</span> <span class="n">a_data</span><span class="p">,</span> <span class="p">&amp;</span>
-        <span class="n">b_data</span>
+      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="o">*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>         <span class="kd">::</span> <span class="n">a_data</span><span class="p">,</span> <span class="p">&amp;</span>
+         <span class="n">b_data</span>
         <span class="c">!! Left-matrix data</span>
         <span class="c">!! Right-matrix data</span>
-     <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="o">*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>      <span class="kd">::</span> <span class="n">c_data</span>
+      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="o">*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>      <span class="kd">::</span> <span class="n">c_data</span>
         <span class="c">!! Product data</span>
 
-     <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;internal_process_mm_stack_z&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                    <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;internal_process_mm_stack_z&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 
-     <span class="kt">INTEGER</span>                                   <span class="kd">::</span> <span class="n">sp</span>
+      <span class="kt">INTEGER</span>                                   <span class="kd">::</span> <span class="n">sp</span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>
 
-     <span class="k">DO </span><span class="n">sp</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">stack_size</span>
-        <span class="k">CALL </span><span class="n">internal_mm_z_nn</span><span class="p">(</span> <span class="p">&amp;</span>
-           <span class="n">params</span><span class="p">(</span><span class="n">p_m</span><span class="p">,</span> <span class="n">sp</span><span class="p">),</span> <span class="p">&amp;</span>
-           <span class="n">params</span><span class="p">(</span><span class="n">p_n</span><span class="p">,</span> <span class="n">sp</span><span class="p">),</span> <span class="p">&amp;</span>
-           <span class="n">params</span><span class="p">(</span><span class="n">p_k</span><span class="p">,</span> <span class="n">sp</span><span class="p">),</span> <span class="p">&amp;</span>
-           <span class="n">a_data</span><span class="p">(</span><span class="n">params</span><span class="p">(</span><span class="n">p_a_first</span><span class="p">,</span> <span class="n">sp</span><span class="p">)),</span> <span class="p">&amp;</span>
-           <span class="n">b_data</span><span class="p">(</span><span class="n">params</span><span class="p">(</span><span class="n">p_b_first</span><span class="p">,</span> <span class="n">sp</span><span class="p">)),</span> <span class="p">&amp;</span>
-           <span class="n">c_data</span><span class="p">(</span><span class="n">params</span><span class="p">(</span><span class="n">p_c_first</span><span class="p">,</span> <span class="n">sp</span><span class="p">)))</span>
-     <span class="n">ENDDO</span>
-  <span class="k">END SUBROUTINE </span><span class="n">internal_process_mm_stack_z</span>
+      <span class="k">DO </span><span class="n">sp</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">stack_size</span>
+         <span class="k">CALL </span><span class="n">internal_mm_z_nn</span><span class="p">(</span> <span class="p">&amp;</span>
+            <span class="n">params</span><span class="p">(</span><span class="n">p_m</span><span class="p">,</span> <span class="n">sp</span><span class="p">),</span> <span class="p">&amp;</span>
+            <span class="n">params</span><span class="p">(</span><span class="n">p_n</span><span class="p">,</span> <span class="n">sp</span><span class="p">),</span> <span class="p">&amp;</span>
+            <span class="n">params</span><span class="p">(</span><span class="n">p_k</span><span class="p">,</span> <span class="n">sp</span><span class="p">),</span> <span class="p">&amp;</span>
+            <span class="n">a_data</span><span class="p">(</span><span class="n">params</span><span class="p">(</span><span class="n">p_a_first</span><span class="p">,</span> <span class="n">sp</span><span class="p">)),</span> <span class="p">&amp;</span>
+            <span class="n">b_data</span><span class="p">(</span><span class="n">params</span><span class="p">(</span><span class="n">p_b_first</span><span class="p">,</span> <span class="n">sp</span><span class="p">)),</span> <span class="p">&amp;</span>
+            <span class="n">c_data</span><span class="p">(</span><span class="n">params</span><span class="p">(</span><span class="n">p_c_first</span><span class="p">,</span> <span class="n">sp</span><span class="p">)))</span>
+      <span class="n">ENDDO</span>
+   <span class="k">END SUBROUTINE </span><span class="n">internal_process_mm_stack_z</span>
 </pre></div>
 
     </section>

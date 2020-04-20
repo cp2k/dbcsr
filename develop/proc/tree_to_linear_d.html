@@ -320,71 +320,71 @@ private subroutine tree_to_linear_d(wm)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>  <span class="k">SUBROUTINE </span><span class="n">tree_to_linear_d</span> <span class="p">(</span><span class="n">wm</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">tree_to_linear_d</span> <span class="p">(</span><span class="n">wm</span><span class="p">)</span>
      <span class="c">!! Converts mutable data to linear (array) type.</span>
 
-     <span class="k">USE </span><span class="n">dbcsr_btree</span><span class="p">,</span> <span class="p">&amp;</span>
-        <span class="n">ONLY</span><span class="p">:</span> <span class="n">btree_2d_data_d</span> <span class="o">=&gt;</span> <span class="n">btree_data_dp2d</span><span class="p">,</span> <span class="p">&amp;</span>
-              <span class="n">btree_destroy_d</span> <span class="o">=&gt;</span> <span class="n">btree_delete</span><span class="p">,</span> <span class="p">&amp;</span>
-              <span class="n">btree_size_d</span> <span class="o">=&gt;</span> <span class="n">btree_get_entries</span>
-     <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_work_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>     <span class="kd">::</span> <span class="n">wm</span>
+      <span class="k">USE </span><span class="n">dbcsr_btree</span><span class="p">,</span> <span class="p">&amp;</span>
+         <span class="n">ONLY</span><span class="p">:</span> <span class="n">btree_2d_data_d</span> <span class="o">=&gt;</span> <span class="n">btree_data_dp2d</span><span class="p">,</span> <span class="p">&amp;</span>
+               <span class="n">btree_destroy_d</span> <span class="o">=&gt;</span> <span class="n">btree_delete</span><span class="p">,</span> <span class="p">&amp;</span>
+               <span class="n">btree_size_d</span> <span class="o">=&gt;</span> <span class="n">btree_get_entries</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_work_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>     <span class="kd">::</span> <span class="n">wm</span>
         <span class="c">!! work matrix to convert</span>
 
-     <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;tree_to_linear_d&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                    <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;tree_to_linear_d&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 
-     <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">blk</span><span class="p">,</span> <span class="n">blk_p</span><span class="p">,</span> <span class="n">treesize</span><span class="p">,</span> <span class="p">&amp;</span>
-                                                 <span class="n">error_handler</span><span class="p">,</span> <span class="n">needed_size</span>
-     <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="p">&amp;</span>
-        <span class="k">DIMENSION</span><span class="p">(:)</span>                           <span class="kd">::</span> <span class="n">keys</span>
-     <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>           <span class="kd">::</span> <span class="n">target_data</span>
-     <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">POINTER</span>        <span class="kd">::</span> <span class="n">block_2d</span>
-     <span class="k">TYPE</span><span class="p">(</span><span class="n">btree_2d_data_d</span><span class="p">),</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="p">&amp;</span>
-        <span class="k">DIMENSION</span><span class="p">(:)</span>                           <span class="kd">::</span> <span class="n">values</span>
+      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">blk</span><span class="p">,</span> <span class="n">blk_p</span><span class="p">,</span> <span class="n">treesize</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                  <span class="n">error_handler</span><span class="p">,</span> <span class="n">needed_size</span>
+      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="p">&amp;</span>
+         <span class="k">DIMENSION</span><span class="p">(:)</span>                           <span class="kd">::</span> <span class="n">keys</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>           <span class="kd">::</span> <span class="n">target_data</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">POINTER</span>        <span class="kd">::</span> <span class="n">block_2d</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">btree_2d_data_d</span><span class="p">),</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="p">&amp;</span>
+         <span class="k">DIMENSION</span><span class="p">(:)</span>                           <span class="kd">::</span> <span class="n">values</span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>
 
-     <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">error_handler</span><span class="p">)</span>
-     <span class="c">! srt = .TRUE. ! Not needed because of the copy</span>
-     <span class="n">treesize</span> <span class="o">=</span> <span class="n">btree_size_d</span> <span class="p">(</span><span class="n">wm</span><span class="p">%</span><span class="n">mutable</span><span class="p">%</span><span class="n">m</span><span class="p">%</span><span class="n">btree_d</span><span class="p">)</span>
-     <span class="k">IF</span> <span class="p">(</span><span class="n">wm</span><span class="p">%</span><span class="n">lastblk</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">treesize</span><span class="p">)</span> <span class="p">&amp;</span>
-        <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Mismatch in number of blocks&quot;</span><span class="p">)</span>
-     <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">keys</span><span class="p">(</span><span class="n">treesize</span><span class="p">),</span> <span class="n">values</span><span class="p">(</span><span class="n">treesize</span><span class="p">))</span>
-     <span class="k">CALL </span><span class="n">btree_destroy_d</span> <span class="p">(</span><span class="n">wm</span><span class="p">%</span><span class="n">mutable</span><span class="p">%</span><span class="n">m</span><span class="p">%</span><span class="n">btree_d</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
-     <span class="k">CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">wm</span><span class="p">%</span><span class="n">row_i</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="n">treesize</span><span class="p">)</span>
-     <span class="k">CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">wm</span><span class="p">%</span><span class="n">col_i</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="n">treesize</span><span class="p">)</span>
-     <span class="k">CALL </span><span class="n">dbcsr_unpack_i8_2i4</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">wm</span><span class="p">%</span><span class="n">row_i</span><span class="p">,</span> <span class="p">&amp;</span>
-                              <span class="n">wm</span><span class="p">%</span><span class="n">col_i</span><span class="p">)</span>
-     <span class="c">! For now we also fill the data, sloooowly, but this should</span>
-     <span class="c">! be avoided and the data should be copied directly from the</span>
-     <span class="c">! source in the subroutine&#39;s main loop.</span>
-     <span class="k">CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">wm</span><span class="p">%</span><span class="n">blk_p</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="n">treesize</span><span class="p">)</span>
-     <span class="n">needed_size</span> <span class="o">=</span> <span class="mi">0</span>
-     <span class="k">DO </span><span class="n">blk</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">treesize</span>
-        <span class="n">block_2d</span> <span class="o">=&gt;</span> <span class="n">values</span><span class="p">(</span><span class="n">blk</span><span class="p">)%</span><span class="n">p</span>
-        <span class="n">needed_size</span> <span class="o">=</span> <span class="n">needed_size</span> <span class="o">+</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">block_2d</span><span class="p">)</span>
-     <span class="n">ENDDO</span>
-     <span class="n">wm</span><span class="p">%</span><span class="n">datasize</span> <span class="o">=</span> <span class="n">needed_size</span>
-     <span class="k">CALL </span><span class="n">dbcsr_data_ensure_size</span><span class="p">(</span><span class="n">wm</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span> <span class="p">&amp;</span>
-                                 <span class="n">wm</span><span class="p">%</span><span class="n">datasize</span><span class="p">)</span>
-     <span class="n">target_data</span> <span class="o">=&gt;</span> <span class="n">dbcsr_get_data_p_d</span> <span class="p">(</span><span class="n">wm</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span>
-     <span class="n">blk_p</span> <span class="o">=</span> <span class="mi">1</span>
-     <span class="k">DO </span><span class="n">blk</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">treesize</span>
-        <span class="n">block_2d</span> <span class="o">=&gt;</span> <span class="n">values</span><span class="p">(</span><span class="n">blk</span><span class="p">)%</span><span class="n">p</span>
-        <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">values</span><span class="p">(</span><span class="n">blk</span><span class="p">)%</span><span class="n">tr</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">           </span><span class="n">wm</span><span class="p">%</span><span class="n">blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="o">=</span> <span class="n">blk_p</span>
-        <span class="k">ELSE</span>
-<span class="k">           </span><span class="n">wm</span><span class="p">%</span><span class="n">blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">blk_p</span>
-        <span class="n">ENDIF</span>
-        <span class="k">CALL </span><span class="n">block_copy_d</span> <span class="p">(</span><span class="n">target_data</span><span class="p">,</span> <span class="n">block_2d</span><span class="p">,</span> <span class="p">&amp;</span>
-                                       <span class="n">SIZE</span><span class="p">(</span><span class="n">block_2d</span><span class="p">),</span> <span class="n">blk_p</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="n">blk_p</span> <span class="o">=</span> <span class="n">blk_p</span> <span class="o">+</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">block_2d</span><span class="p">)</span>
-        <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">block_2d</span><span class="p">)</span>
-     <span class="n">ENDDO</span>
-     <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
-     <span class="k">CALL </span><span class="n">dbcsr_mutable_release</span><span class="p">(</span><span class="n">wm</span><span class="p">%</span><span class="n">mutable</span><span class="p">)</span>
-     <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handler</span><span class="p">)</span>
-  <span class="k">END SUBROUTINE </span><span class="n">tree_to_linear_d</span>
+      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">error_handler</span><span class="p">)</span>
+      <span class="c">! srt = .TRUE. ! Not needed because of the copy</span>
+      <span class="n">treesize</span> <span class="o">=</span> <span class="n">btree_size_d</span> <span class="p">(</span><span class="n">wm</span><span class="p">%</span><span class="n">mutable</span><span class="p">%</span><span class="n">m</span><span class="p">%</span><span class="n">btree_d</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">wm</span><span class="p">%</span><span class="n">lastblk</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">treesize</span><span class="p">)</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Mismatch in number of blocks&quot;</span><span class="p">)</span>
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">keys</span><span class="p">(</span><span class="n">treesize</span><span class="p">),</span> <span class="n">values</span><span class="p">(</span><span class="n">treesize</span><span class="p">))</span>
+      <span class="k">CALL </span><span class="n">btree_destroy_d</span> <span class="p">(</span><span class="n">wm</span><span class="p">%</span><span class="n">mutable</span><span class="p">%</span><span class="n">m</span><span class="p">%</span><span class="n">btree_d</span><span class="p">,</span> <span class="n">keys</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">wm</span><span class="p">%</span><span class="n">row_i</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="n">treesize</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">wm</span><span class="p">%</span><span class="n">col_i</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="n">treesize</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_unpack_i8_2i4</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">wm</span><span class="p">%</span><span class="n">row_i</span><span class="p">,</span> <span class="p">&amp;</span>
+                               <span class="n">wm</span><span class="p">%</span><span class="n">col_i</span><span class="p">)</span>
+      <span class="c">! For now we also fill the data, sloooowly, but this should</span>
+      <span class="c">! be avoided and the data should be copied directly from the</span>
+      <span class="c">! source in the subroutine&#39;s main loop.</span>
+      <span class="k">CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">wm</span><span class="p">%</span><span class="n">blk_p</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="n">treesize</span><span class="p">)</span>
+      <span class="n">needed_size</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="k">DO </span><span class="n">blk</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">treesize</span>
+         <span class="n">block_2d</span> <span class="o">=&gt;</span> <span class="n">values</span><span class="p">(</span><span class="n">blk</span><span class="p">)%</span><span class="n">p</span>
+         <span class="n">needed_size</span> <span class="o">=</span> <span class="n">needed_size</span> <span class="o">+</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">block_2d</span><span class="p">)</span>
+      <span class="n">ENDDO</span>
+      <span class="n">wm</span><span class="p">%</span><span class="n">datasize</span> <span class="o">=</span> <span class="n">needed_size</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_ensure_size</span><span class="p">(</span><span class="n">wm</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span> <span class="p">&amp;</span>
+                                  <span class="n">wm</span><span class="p">%</span><span class="n">datasize</span><span class="p">)</span>
+      <span class="n">target_data</span> <span class="o">=&gt;</span> <span class="n">dbcsr_get_data_p_d</span> <span class="p">(</span><span class="n">wm</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span>
+      <span class="n">blk_p</span> <span class="o">=</span> <span class="mi">1</span>
+      <span class="k">DO </span><span class="n">blk</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">treesize</span>
+         <span class="n">block_2d</span> <span class="o">=&gt;</span> <span class="n">values</span><span class="p">(</span><span class="n">blk</span><span class="p">)%</span><span class="n">p</span>
+         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">values</span><span class="p">(</span><span class="n">blk</span><span class="p">)%</span><span class="n">tr</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            </span><span class="n">wm</span><span class="p">%</span><span class="n">blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="o">=</span> <span class="n">blk_p</span>
+         <span class="k">ELSE</span>
+<span class="k">            </span><span class="n">wm</span><span class="p">%</span><span class="n">blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">blk_p</span>
+         <span class="n">ENDIF</span>
+         <span class="k">CALL </span><span class="n">block_copy_d</span> <span class="p">(</span><span class="n">target_data</span><span class="p">,</span> <span class="n">block_2d</span><span class="p">,</span> <span class="p">&amp;</span>
+                                        <span class="n">SIZE</span><span class="p">(</span><span class="n">block_2d</span><span class="p">),</span> <span class="n">blk_p</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+         <span class="n">blk_p</span> <span class="o">=</span> <span class="n">blk_p</span> <span class="o">+</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">block_2d</span><span class="p">)</span>
+         <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">block_2d</span><span class="p">)</span>
+      <span class="n">ENDDO</span>
+      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_mutable_release</span><span class="p">(</span><span class="n">wm</span><span class="p">%</span><span class="n">mutable</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handler</span><span class="p">)</span>
+   <span class="k">END SUBROUTINE </span><span class="n">tree_to_linear_d</span>
 </pre></div>
 
     </section>

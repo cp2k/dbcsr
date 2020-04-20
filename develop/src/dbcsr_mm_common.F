@@ -576,19 +576,19 @@ CONTAINS
 # 45 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
 # 571 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F" 2
 # 572 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
-  SUBROUTINE calc_norms_d (norms, nblks, &
-                                       blki, rbs, cbs, DATA)
+   SUBROUTINE calc_norms_d (norms, nblks, &
+                                        blki, rbs, cbs, DATA)
      !! Calculates norms of the entire matrix with minimal overhead.
-     REAL(kind=sp), DIMENSION(:), INTENT(OUT) :: norms
-     INTEGER, INTENT(IN)                      :: nblks
-     INTEGER, DIMENSION(3, nblks), INTENT(IN) :: blki
-     INTEGER, DIMENSION(:), INTENT(IN)        :: rbs, cbs
-     REAL(kind=real_8), DIMENSION(:), &
-        INTENT(IN)                            :: DATA
+      REAL(kind=sp), DIMENSION(:), INTENT(OUT) :: norms
+      INTEGER, INTENT(IN)                      :: nblks
+      INTEGER, DIMENSION(3, nblks), INTENT(IN) :: blki
+      INTEGER, DIMENSION(:), INTENT(IN)        :: rbs, cbs
+      REAL(kind=real_8), DIMENSION(:), &
+         INTENT(IN)                            :: DATA
 
-     INTEGER, PARAMETER                       :: nsimd = (4*64)/dbcsr_type_real_8
-     INTEGER                                  :: i, n, blk, bp, bpe, row, col
-     REAL(kind=sp)                            :: vals(nsimd)
+      INTEGER, PARAMETER                       :: nsimd = (4*64)/dbcsr_type_real_8
+      INTEGER                                  :: i, n, blk, bp, bpe, row, col
+      REAL(kind=sp)                            :: vals(nsimd)
 
 !   ---------------------------------------------------------------------------
 
@@ -596,51 +596,51 @@ CONTAINS
 !$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &
 !$OMP              private(vals, i, n, row, col, blk, bp, bpe)
 !$OMP     do schedule(dynamic)
-     DO i = 0, nblks - 1, nsimd
-        n = MIN(nsimd, nblks - i)
-        DO blk = 1, n
-           bp = blki(3, blk + i)
-           IF (bp .NE. 0) THEN
-              row = blki(1, blk + i)
-              col = blki(2, blk + i)
-              bpe = bp + rbs(row)*cbs(col) - 1
+      DO i = 0, nblks - 1, nsimd
+         n = MIN(nsimd, nblks - i)
+         DO blk = 1, n
+            bp = blki(3, blk + i)
+            IF (bp .NE. 0) THEN
+               row = blki(1, blk + i)
+               col = blki(2, blk + i)
+               bpe = bp + rbs(row)*cbs(col) - 1
 # 601 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
-              vals(blk) = REAL(SUM(DATA(bp:bpe)**2), KIND=sp)
+               vals(blk) = REAL(SUM(DATA(bp:bpe)**2), KIND=sp)
 # 605 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
-           ELSE
-              vals(blk) = 0.0_sp
-           ENDIF
-        ENDDO
-        ! SIMD: SQRT is intentionally not in above IF-condition
-        IF (n .EQ. nsimd) THEN
+            ELSE
+               vals(blk) = 0.0_sp
+            ENDIF
+         ENDDO
+         ! SIMD: SQRT is intentionally not in above IF-condition
+         IF (n .EQ. nsimd) THEN
 !$OMP     simd
-           DO blk = 1, nsimd
-              norms(blk + i) = SQRT(vals(blk))
-           ENDDO
+            DO blk = 1, nsimd
+               norms(blk + i) = SQRT(vals(blk))
+            ENDDO
 !$OMP     end simd
-        ELSE ! remainder
-           DO blk = 1, n
-              norms(blk + i) = SQRT(vals(blk))
-           ENDDO
-        ENDIF
-     ENDDO
+         ELSE ! remainder
+            DO blk = 1, n
+               norms(blk + i) = SQRT(vals(blk))
+            ENDDO
+         ENDIF
+      ENDDO
 !$OMP     end do
 !$OMP     end parallel
-  END SUBROUTINE calc_norms_d
+   END SUBROUTINE calc_norms_d
 # 572 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
-  SUBROUTINE calc_norms_s (norms, nblks, &
-                                       blki, rbs, cbs, DATA)
+   SUBROUTINE calc_norms_s (norms, nblks, &
+                                        blki, rbs, cbs, DATA)
      !! Calculates norms of the entire matrix with minimal overhead.
-     REAL(kind=sp), DIMENSION(:), INTENT(OUT) :: norms
-     INTEGER, INTENT(IN)                      :: nblks
-     INTEGER, DIMENSION(3, nblks), INTENT(IN) :: blki
-     INTEGER, DIMENSION(:), INTENT(IN)        :: rbs, cbs
-     REAL(kind=real_4), DIMENSION(:), &
-        INTENT(IN)                            :: DATA
+      REAL(kind=sp), DIMENSION(:), INTENT(OUT) :: norms
+      INTEGER, INTENT(IN)                      :: nblks
+      INTEGER, DIMENSION(3, nblks), INTENT(IN) :: blki
+      INTEGER, DIMENSION(:), INTENT(IN)        :: rbs, cbs
+      REAL(kind=real_4), DIMENSION(:), &
+         INTENT(IN)                            :: DATA
 
-     INTEGER, PARAMETER                       :: nsimd = (4*64)/dbcsr_type_real_4
-     INTEGER                                  :: i, n, blk, bp, bpe, row, col
-     REAL(kind=sp)                            :: vals(nsimd)
+      INTEGER, PARAMETER                       :: nsimd = (4*64)/dbcsr_type_real_4
+      INTEGER                                  :: i, n, blk, bp, bpe, row, col
+      REAL(kind=sp)                            :: vals(nsimd)
 
 !   ---------------------------------------------------------------------------
 
@@ -648,51 +648,51 @@ CONTAINS
 !$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &
 !$OMP              private(vals, i, n, row, col, blk, bp, bpe)
 !$OMP     do schedule(dynamic)
-     DO i = 0, nblks - 1, nsimd
-        n = MIN(nsimd, nblks - i)
-        DO blk = 1, n
-           bp = blki(3, blk + i)
-           IF (bp .NE. 0) THEN
-              row = blki(1, blk + i)
-              col = blki(2, blk + i)
-              bpe = bp + rbs(row)*cbs(col) - 1
+      DO i = 0, nblks - 1, nsimd
+         n = MIN(nsimd, nblks - i)
+         DO blk = 1, n
+            bp = blki(3, blk + i)
+            IF (bp .NE. 0) THEN
+               row = blki(1, blk + i)
+               col = blki(2, blk + i)
+               bpe = bp + rbs(row)*cbs(col) - 1
 # 601 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
-              vals(blk) = REAL(SUM(DATA(bp:bpe)**2), KIND=sp)
+               vals(blk) = REAL(SUM(DATA(bp:bpe)**2), KIND=sp)
 # 605 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
-           ELSE
-              vals(blk) = 0.0_sp
-           ENDIF
-        ENDDO
-        ! SIMD: SQRT is intentionally not in above IF-condition
-        IF (n .EQ. nsimd) THEN
+            ELSE
+               vals(blk) = 0.0_sp
+            ENDIF
+         ENDDO
+         ! SIMD: SQRT is intentionally not in above IF-condition
+         IF (n .EQ. nsimd) THEN
 !$OMP     simd
-           DO blk = 1, nsimd
-              norms(blk + i) = SQRT(vals(blk))
-           ENDDO
+            DO blk = 1, nsimd
+               norms(blk + i) = SQRT(vals(blk))
+            ENDDO
 !$OMP     end simd
-        ELSE ! remainder
-           DO blk = 1, n
-              norms(blk + i) = SQRT(vals(blk))
-           ENDDO
-        ENDIF
-     ENDDO
+         ELSE ! remainder
+            DO blk = 1, n
+               norms(blk + i) = SQRT(vals(blk))
+            ENDDO
+         ENDIF
+      ENDDO
 !$OMP     end do
 !$OMP     end parallel
-  END SUBROUTINE calc_norms_s
+   END SUBROUTINE calc_norms_s
 # 572 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
-  SUBROUTINE calc_norms_z (norms, nblks, &
-                                       blki, rbs, cbs, DATA)
+   SUBROUTINE calc_norms_z (norms, nblks, &
+                                        blki, rbs, cbs, DATA)
      !! Calculates norms of the entire matrix with minimal overhead.
-     REAL(kind=sp), DIMENSION(:), INTENT(OUT) :: norms
-     INTEGER, INTENT(IN)                      :: nblks
-     INTEGER, DIMENSION(3, nblks), INTENT(IN) :: blki
-     INTEGER, DIMENSION(:), INTENT(IN)        :: rbs, cbs
-     COMPLEX(kind=real_8), DIMENSION(:), &
-        INTENT(IN)                            :: DATA
+      REAL(kind=sp), DIMENSION(:), INTENT(OUT) :: norms
+      INTEGER, INTENT(IN)                      :: nblks
+      INTEGER, DIMENSION(3, nblks), INTENT(IN) :: blki
+      INTEGER, DIMENSION(:), INTENT(IN)        :: rbs, cbs
+      COMPLEX(kind=real_8), DIMENSION(:), &
+         INTENT(IN)                            :: DATA
 
-     INTEGER, PARAMETER                       :: nsimd = (4*64)/dbcsr_type_complex_8
-     INTEGER                                  :: i, n, blk, bp, bpe, row, col
-     REAL(kind=sp)                            :: vals(nsimd)
+      INTEGER, PARAMETER                       :: nsimd = (4*64)/dbcsr_type_complex_8
+      INTEGER                                  :: i, n, blk, bp, bpe, row, col
+      REAL(kind=sp)                            :: vals(nsimd)
 
 !   ---------------------------------------------------------------------------
 
@@ -700,51 +700,51 @@ CONTAINS
 !$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &
 !$OMP              private(vals, i, n, row, col, blk, bp, bpe)
 !$OMP     do schedule(dynamic)
-     DO i = 0, nblks - 1, nsimd
-        n = MIN(nsimd, nblks - i)
-        DO blk = 1, n
-           bp = blki(3, blk + i)
-           IF (bp .NE. 0) THEN
-              row = blki(1, blk + i)
-              col = blki(2, blk + i)
-              bpe = bp + rbs(row)*cbs(col) - 1
+      DO i = 0, nblks - 1, nsimd
+         n = MIN(nsimd, nblks - i)
+         DO blk = 1, n
+            bp = blki(3, blk + i)
+            IF (bp .NE. 0) THEN
+               row = blki(1, blk + i)
+               col = blki(2, blk + i)
+               bpe = bp + rbs(row)*cbs(col) - 1
 # 603 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
-              vals(blk) = REAL(SUM(ABS(DATA(bp:bpe))**2), KIND=sp)
+               vals(blk) = REAL(SUM(ABS(DATA(bp:bpe))**2), KIND=sp)
 # 605 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
-           ELSE
-              vals(blk) = 0.0_sp
-           ENDIF
-        ENDDO
-        ! SIMD: SQRT is intentionally not in above IF-condition
-        IF (n .EQ. nsimd) THEN
+            ELSE
+               vals(blk) = 0.0_sp
+            ENDIF
+         ENDDO
+         ! SIMD: SQRT is intentionally not in above IF-condition
+         IF (n .EQ. nsimd) THEN
 !$OMP     simd
-           DO blk = 1, nsimd
-              norms(blk + i) = SQRT(vals(blk))
-           ENDDO
+            DO blk = 1, nsimd
+               norms(blk + i) = SQRT(vals(blk))
+            ENDDO
 !$OMP     end simd
-        ELSE ! remainder
-           DO blk = 1, n
-              norms(blk + i) = SQRT(vals(blk))
-           ENDDO
-        ENDIF
-     ENDDO
+         ELSE ! remainder
+            DO blk = 1, n
+               norms(blk + i) = SQRT(vals(blk))
+            ENDDO
+         ENDIF
+      ENDDO
 !$OMP     end do
 !$OMP     end parallel
-  END SUBROUTINE calc_norms_z
+   END SUBROUTINE calc_norms_z
 # 572 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
-  SUBROUTINE calc_norms_c (norms, nblks, &
-                                       blki, rbs, cbs, DATA)
+   SUBROUTINE calc_norms_c (norms, nblks, &
+                                        blki, rbs, cbs, DATA)
      !! Calculates norms of the entire matrix with minimal overhead.
-     REAL(kind=sp), DIMENSION(:), INTENT(OUT) :: norms
-     INTEGER, INTENT(IN)                      :: nblks
-     INTEGER, DIMENSION(3, nblks), INTENT(IN) :: blki
-     INTEGER, DIMENSION(:), INTENT(IN)        :: rbs, cbs
-     COMPLEX(kind=real_4), DIMENSION(:), &
-        INTENT(IN)                            :: DATA
+      REAL(kind=sp), DIMENSION(:), INTENT(OUT) :: norms
+      INTEGER, INTENT(IN)                      :: nblks
+      INTEGER, DIMENSION(3, nblks), INTENT(IN) :: blki
+      INTEGER, DIMENSION(:), INTENT(IN)        :: rbs, cbs
+      COMPLEX(kind=real_4), DIMENSION(:), &
+         INTENT(IN)                            :: DATA
 
-     INTEGER, PARAMETER                       :: nsimd = (4*64)/dbcsr_type_complex_4
-     INTEGER                                  :: i, n, blk, bp, bpe, row, col
-     REAL(kind=sp)                            :: vals(nsimd)
+      INTEGER, PARAMETER                       :: nsimd = (4*64)/dbcsr_type_complex_4
+      INTEGER                                  :: i, n, blk, bp, bpe, row, col
+      REAL(kind=sp)                            :: vals(nsimd)
 
 !   ---------------------------------------------------------------------------
 
@@ -752,37 +752,37 @@ CONTAINS
 !$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &
 !$OMP              private(vals, i, n, row, col, blk, bp, bpe)
 !$OMP     do schedule(dynamic)
-     DO i = 0, nblks - 1, nsimd
-        n = MIN(nsimd, nblks - i)
-        DO blk = 1, n
-           bp = blki(3, blk + i)
-           IF (bp .NE. 0) THEN
-              row = blki(1, blk + i)
-              col = blki(2, blk + i)
-              bpe = bp + rbs(row)*cbs(col) - 1
+      DO i = 0, nblks - 1, nsimd
+         n = MIN(nsimd, nblks - i)
+         DO blk = 1, n
+            bp = blki(3, blk + i)
+            IF (bp .NE. 0) THEN
+               row = blki(1, blk + i)
+               col = blki(2, blk + i)
+               bpe = bp + rbs(row)*cbs(col) - 1
 # 603 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
-              vals(blk) = REAL(SUM(ABS(DATA(bp:bpe))**2), KIND=sp)
+               vals(blk) = REAL(SUM(ABS(DATA(bp:bpe))**2), KIND=sp)
 # 605 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
-           ELSE
-              vals(blk) = 0.0_sp
-           ENDIF
-        ENDDO
-        ! SIMD: SQRT is intentionally not in above IF-condition
-        IF (n .EQ. nsimd) THEN
+            ELSE
+               vals(blk) = 0.0_sp
+            ENDIF
+         ENDDO
+         ! SIMD: SQRT is intentionally not in above IF-condition
+         IF (n .EQ. nsimd) THEN
 !$OMP     simd
-           DO blk = 1, nsimd
-              norms(blk + i) = SQRT(vals(blk))
-           ENDDO
+            DO blk = 1, nsimd
+               norms(blk + i) = SQRT(vals(blk))
+            ENDDO
 !$OMP     end simd
-        ELSE ! remainder
-           DO blk = 1, n
-              norms(blk + i) = SQRT(vals(blk))
-           ENDDO
-        ENDIF
-     ENDDO
+         ELSE ! remainder
+            DO blk = 1, n
+               norms(blk + i) = SQRT(vals(blk))
+            ENDDO
+         ENDIF
+      ENDDO
 !$OMP     end do
 !$OMP     end parallel
-  END SUBROUTINE calc_norms_c
+   END SUBROUTINE calc_norms_c
 # 626 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
 
 END MODULE dbcsr_mm_common

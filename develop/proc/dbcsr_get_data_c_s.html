@@ -361,7 +361,7 @@ private function dbcsr_get_data_c_s(area, select_data_type, lb, ub) result(DATA)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>  <span class="k">FUNCTION </span><span class="n">dbcsr_get_data_c_s</span> <span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="n">select_data_type</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span>   <span class="k">FUNCTION </span><span class="n">dbcsr_get_data_c_s</span> <span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="n">select_data_type</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
      <span class="c">!! Returns the single/double precision real/complex data</span>
      <span class="c">!!</span>
      <span class="c">!! Calling</span>
@@ -369,50 +369,50 @@ private function dbcsr_get_data_c_s(area, select_data_type, lb, ub) result(DATA)
      <span class="c">!! need for the select_data_type argument.</span>
      <span class="c">!! see dbcsr_get_data_p_s</span>
 
-     <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>         <span class="kd">::</span> <span class="n">area</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>         <span class="kd">::</span> <span class="n">area</span>
         <span class="c">!! data area</span>
-     <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>            <span class="kd">::</span> <span class="n">select_data_type</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>            <span class="kd">::</span> <span class="n">select_data_type</span>
         <span class="c">!! force datatype</span>
-     <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>  <span class="kd">::</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>  <span class="kd">::</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span>
         <span class="c">!! lower bound for pointer</span>
         <span class="c">!! upper bound for pointer</span>
-     <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="k">DATA</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="k">DATA</span>
         <span class="c">!! pointer to data</span>
 
-     <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_get_data_c_s&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                    <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_get_data_c_s&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 
-     <span class="kt">INTEGER</span>                        <span class="kd">::</span> <span class="n">l</span><span class="p">,</span> <span class="n">u</span>
+      <span class="kt">INTEGER</span>                        <span class="kd">::</span> <span class="n">l</span><span class="p">,</span> <span class="n">u</span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>
 
-     <span class="c">! The select_data_type argument is needed to make this function unique</span>
-     <span class="c">! enough to use in the interface.</span>
-     <span class="k">IF</span> <span class="p">(</span><span class="nb">KIND</span><span class="p">(</span><span class="n">select_data_type</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="nb">KIND</span><span class="p">(</span><span class="k">DATA</span><span class="p">))</span> <span class="p">&amp;</span>
-        <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;compiler borken&quot;</span><span class="p">)</span>
+      <span class="c">! The select_data_type argument is needed to make this function unique</span>
+      <span class="c">! enough to use in the interface.</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">KIND</span><span class="p">(</span><span class="n">select_data_type</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="nb">KIND</span><span class="p">(</span><span class="k">DATA</span><span class="p">))</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;compiler borken&quot;</span><span class="p">)</span>
 
-     <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">))</span> <span class="k">THEN</span>
-<span class="k">        IF</span> <span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span> <span class="o">/=</span> <span class="n">dbcsr_type_real_4</span><span class="p">)</span> <span class="p">&amp;</span>
-           <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;dbcsr_get_data_c_s: data-area has wrong type&quot;</span><span class="p">)</span>
-        <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub</span><span class="p">))</span> <span class="k">THEN</span>
-<span class="k">           </span><span class="n">l</span> <span class="o">=</span> <span class="nb">LBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-           <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">lb</span><span class="p">))</span> <span class="n">l</span> <span class="o">=</span> <span class="n">lb</span>
-           <span class="n">u</span> <span class="o">=</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-           <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub</span><span class="p">))</span> <span class="n">u</span> <span class="o">=</span> <span class="n">ub</span>
-           <span class="k">IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">              IF</span> <span class="p">(</span><span class="n">l</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="nb">LBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="p">&amp;</span>
-                 <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
-              <span class="k">IF</span> <span class="p">(</span><span class="n">u</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="p">&amp;</span>
-                 <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
-           <span class="n">ENDIF</span>
-           <span class="k">DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span> <span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span>
-        <span class="k">ELSE</span>
-<span class="k">           DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span>
-        <span class="n">ENDIF</span>
-     <span class="k">ELSE</span>
-<span class="k">        NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
-     <span class="n">ENDIF</span>
-  <span class="k">END FUNCTION </span><span class="n">dbcsr_get_data_c_s</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span> <span class="o">/=</span> <span class="n">dbcsr_type_real_4</span><span class="p">)</span> <span class="p">&amp;</span>
+            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;dbcsr_get_data_c_s: data-area has wrong type&quot;</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">lb</span><span class="p">)</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">            </span><span class="n">l</span> <span class="o">=</span> <span class="nb">LBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">lb</span><span class="p">))</span> <span class="n">l</span> <span class="o">=</span> <span class="n">lb</span>
+            <span class="n">u</span> <span class="o">=</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub</span><span class="p">))</span> <span class="n">u</span> <span class="o">=</span> <span class="n">ub</span>
+            <span class="k">IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">               IF</span> <span class="p">(</span><span class="n">l</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="nb">LBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="p">&amp;</span>
+                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
+               <span class="k">IF</span> <span class="p">(</span><span class="n">u</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="p">&amp;</span>
+                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
+            <span class="n">ENDIF</span>
+            <span class="k">DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span> <span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span>
+         <span class="k">ELSE</span>
+<span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span>
+         <span class="n">ENDIF</span>
+      <span class="k">ELSE</span>
+<span class="k">         NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
+      <span class="n">ENDIF</span>
+   <span class="k">END FUNCTION </span><span class="n">dbcsr_get_data_c_s</span>
 </pre></div>
 
     </section>

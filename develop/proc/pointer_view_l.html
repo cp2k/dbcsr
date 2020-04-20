@@ -344,17 +344,17 @@ private function pointer_view_l(original, lb, ub) result(view)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>  <span class="k">FUNCTION </span><span class="n">pointer_view_l</span> <span class="p">(</span><span class="n">original</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">view</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span>   <span class="k">FUNCTION </span><span class="n">pointer_view_l</span> <span class="p">(</span><span class="n">original</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">view</span><span class="p">)</span>
      <span class="c">!! Returns a pointer with different bounds.</span>
 
-     <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">original</span><span class="p">,</span> <span class="n">view</span>
+      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">original</span><span class="p">,</span> <span class="n">view</span>
         <span class="c">!! original data pointer</span>
         <span class="c">!! new pointer</span>
-     <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span>
         <span class="c">!! lower and upper bound for the new pointer view</span>
         <span class="c">!! lower and upper bound for the new pointer view</span>
-     <span class="n">view</span> <span class="o">=&gt;</span> <span class="n">original</span><span class="p">(</span><span class="n">lb</span><span class="p">:</span><span class="n">ub</span><span class="p">)</span>
-  <span class="k">END FUNCTION </span><span class="n">pointer_view_l</span>
+      <span class="n">view</span> <span class="o">=&gt;</span> <span class="n">original</span><span class="p">(</span><span class="n">lb</span><span class="p">:</span><span class="n">ub</span><span class="p">)</span>
+   <span class="k">END FUNCTION </span><span class="n">pointer_view_l</span>
 </pre></div>
 
     </section>

@@ -316,21 +316,21 @@ private subroutine dbcsr_scalar_get_value_s(encapsulated_scalar, value)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>  <span class="k">ELEMENTAL SUBROUTINE </span><span class="n">dbcsr_scalar_get_value_s</span> <span class="p">(</span><span class="n">encapsulated_scalar</span><span class="p">,</span> <span class="k">value</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span>   <span class="k">ELEMENTAL SUBROUTINE </span><span class="n">dbcsr_scalar_get_value_s</span> <span class="p">(</span><span class="n">encapsulated_scalar</span><span class="p">,</span> <span class="k">value</span><span class="p">)</span>
      <span class="c">!! Sets a scalar in an encapsulated data structure</span>
 
-     <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">encapsulated_scalar</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">encapsulated_scalar</span>
         <span class="c">!! encapsulated scalar</span>
-     <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                <span class="kd">::</span> <span class="k">value</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                <span class="kd">::</span> <span class="k">value</span>
         <span class="c">!! value of the scalar</span>
 
-     <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_scalar_get_value_s&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                    <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_scalar_get_value_s&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>
 
-     <span class="k">value</span> <span class="o">=</span> <span class="n">encapsulated_scalar</span><span class="p">%</span><span class="n">r_sp</span>
-  <span class="k">END SUBROUTINE </span><span class="n">dbcsr_scalar_get_value_s</span>
+      <span class="k">value</span> <span class="o">=</span> <span class="n">encapsulated_scalar</span><span class="p">%</span><span class="n">r_sp</span>
+   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_scalar_get_value_s</span>
 </pre></div>
 
     </section>

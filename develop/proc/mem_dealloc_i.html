@@ -316,32 +316,32 @@ private subroutine mem_dealloc_i(mem, mem_type)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>  <span class="k">SUBROUTINE </span><span class="n">mem_dealloc_i</span> <span class="p">(</span><span class="n">mem</span><span class="p">,</span> <span class="n">mem_type</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">mem_dealloc_i</span> <span class="p">(</span><span class="n">mem</span><span class="p">,</span> <span class="n">mem_type</span><span class="p">)</span>
      <span class="c">!! Deallocates memory</span>
 
-     <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>        <span class="kd">::</span> <span class="n">mem</span>
+      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>        <span class="kd">::</span> <span class="n">mem</span>
         <span class="c">!! memory to allocate</span>
-     <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">mem_type</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">mem_type</span>
         <span class="c">!! memory type</span>
-     <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;mem_dealloc_i&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                    <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
-     <span class="kt">INTEGER</span>                               <span class="kd">::</span> <span class="n">error_handle</span>
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;mem_dealloc_i&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+      <span class="kt">INTEGER</span>                               <span class="kd">::</span> <span class="n">error_handle</span>
 <span class="c">!   ---------------------------------------------------------------------------</span>
 
-     <span class="k">IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="p">&amp;</span>
-        <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="p">&amp;</span>
+         <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">)</span>
 
-     <span class="k">IF</span> <span class="p">(</span><span class="n">mem_type</span><span class="p">%</span><span class="n">acc_hostalloc</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">mem</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">        CALL </span><span class="n">acc_hostmem_deallocate</span><span class="p">(</span><span class="n">mem</span><span class="p">,</span> <span class="n">mem_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">)</span>
-     <span class="k">ELSE IF</span> <span class="p">(</span><span class="n">mem_type</span><span class="p">%</span><span class="n">mpi</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">dbcsr_data_allocation</span><span class="p">%</span><span class="n">use_mpi_allocator</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">        CALL </span><span class="n">mp_deallocate</span><span class="p">(</span><span class="n">mem</span><span class="p">)</span>
-     <span class="k">ELSE</span>
-<span class="k">        DEALLOCATE</span> <span class="p">(</span><span class="n">mem</span><span class="p">)</span>
-     <span class="n">ENDIF</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">mem_type</span><span class="p">%</span><span class="n">acc_hostalloc</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">mem</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">acc_hostmem_deallocate</span><span class="p">(</span><span class="n">mem</span><span class="p">,</span> <span class="n">mem_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">)</span>
+      <span class="k">ELSE IF</span> <span class="p">(</span><span class="n">mem_type</span><span class="p">%</span><span class="n">mpi</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">dbcsr_data_allocation</span><span class="p">%</span><span class="n">use_mpi_allocator</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">mp_deallocate</span><span class="p">(</span><span class="n">mem</span><span class="p">)</span>
+      <span class="k">ELSE</span>
+<span class="k">         DEALLOCATE</span> <span class="p">(</span><span class="n">mem</span><span class="p">)</span>
+      <span class="n">ENDIF</span>
 
-     <span class="k">IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="p">&amp;</span>
-        <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
-  <span class="k">END SUBROUTINE </span><span class="n">mem_dealloc_i</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="p">&amp;</span>
+         <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
+   <span class="k">END SUBROUTINE </span><span class="n">mem_dealloc_i</span>
 </pre></div>
 
     </section>

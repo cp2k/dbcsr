@@ -376,19 +376,19 @@ private subroutine calc_norms_z(norms, nblks, blki, rbs, cbs, DATA)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>  <span class="k">SUBROUTINE </span><span class="n">calc_norms_z</span> <span class="p">(</span><span class="n">norms</span><span class="p">,</span> <span class="n">nblks</span><span class="p">,</span> <span class="p">&amp;</span>
-                                       <span class="n">blki</span><span class="p">,</span> <span class="n">rbs</span><span class="p">,</span> <span class="n">cbs</span><span class="p">,</span> <span class="k">DATA</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">calc_norms_z</span> <span class="p">(</span><span class="n">norms</span><span class="p">,</span> <span class="n">nblks</span><span class="p">,</span> <span class="p">&amp;</span>
+                                        <span class="n">blki</span><span class="p">,</span> <span class="n">rbs</span><span class="p">,</span> <span class="n">cbs</span><span class="p">,</span> <span class="k">DATA</span><span class="p">)</span>
      <span class="c">!! Calculates norms of the entire matrix with minimal overhead.</span>
-     <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">norms</span>
-     <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">nblks</span>
-     <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">nblks</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">blki</span>
-     <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">rbs</span><span class="p">,</span> <span class="n">cbs</span>
-     <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="p">&amp;</span>
-        <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                            <span class="kd">::</span> <span class="k">DATA</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">norms</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">nblks</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">nblks</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">blki</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">rbs</span><span class="p">,</span> <span class="n">cbs</span>
+      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="p">&amp;</span>
+         <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                            <span class="kd">::</span> <span class="k">DATA</span>
 
-<span class="k">     </span><span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span>                       <span class="kd">::</span> <span class="n">nsimd</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="mi">64</span><span class="p">)</span><span class="o">/</span><span class="n">dbcsr_type_complex_8</span>
-     <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">blk</span><span class="p">,</span> <span class="n">bp</span><span class="p">,</span> <span class="n">bpe</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span>
-     <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">)</span>                            <span class="kd">::</span> <span class="n">vals</span><span class="p">(</span><span class="n">nsimd</span><span class="p">)</span>
+<span class="k">      </span><span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span>                       <span class="kd">::</span> <span class="n">nsimd</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="o">*</span><span class="mi">64</span><span class="p">)</span><span class="o">/</span><span class="n">dbcsr_type_complex_8</span>
+      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">blk</span><span class="p">,</span> <span class="n">bp</span><span class="p">,</span> <span class="n">bpe</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">)</span>                            <span class="kd">::</span> <span class="n">vals</span><span class="p">(</span><span class="n">nsimd</span><span class="p">)</span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>
 
@@ -396,37 +396,37 @@ private subroutine calc_norms_z(norms, nblks, blki, rbs, cbs, DATA)
 <span class="c">!$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &amp;</span>
 <span class="c">!$OMP              private(vals, i, n, row, col, blk, bp, bpe)</span>
 <span class="c">!$OMP     do schedule(dynamic)</span>
-     <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nblks</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nsimd</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="nb">MIN</span><span class="p">(</span><span class="n">nsimd</span><span class="p">,</span> <span class="n">nblks</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span>
-        <span class="k">DO </span><span class="n">blk</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
-           <span class="n">bp</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">blk</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
-           <span class="k">IF</span> <span class="p">(</span><span class="n">bp</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">              </span><span class="n">row</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">blk</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
-              <span class="n">col</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">blk</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
-              <span class="n">bpe</span> <span class="o">=</span> <span class="n">bp</span> <span class="o">+</span> <span class="n">rbs</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">*</span><span class="n">cbs</span><span class="p">(</span><span class="n">col</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nblks</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nsimd</span>
+         <span class="n">n</span> <span class="o">=</span> <span class="nb">MIN</span><span class="p">(</span><span class="n">nsimd</span><span class="p">,</span> <span class="n">nblks</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span>
+         <span class="k">DO </span><span class="n">blk</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+            <span class="n">bp</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">blk</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
+            <span class="k">IF</span> <span class="p">(</span><span class="n">bp</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">               </span><span class="n">row</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">blk</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
+               <span class="n">col</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">blk</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
+               <span class="n">bpe</span> <span class="o">=</span> <span class="n">bp</span> <span class="o">+</span> <span class="n">rbs</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">*</span><span class="n">cbs</span><span class="p">(</span><span class="n">col</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
 <span class="cp"># 603 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F&quot;</span>
-              <span class="n">vals</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">(</span><span class="nb">SUM</span><span class="p">(</span><span class="nb">ABS</span><span class="p">(</span><span class="k">DATA</span><span class="p">(</span><span class="n">bp</span><span class="p">:</span><span class="n">bpe</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">sp</span><span class="p">)</span>
+               <span class="n">vals</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">(</span><span class="nb">SUM</span><span class="p">(</span><span class="nb">ABS</span><span class="p">(</span><span class="k">DATA</span><span class="p">(</span><span class="n">bp</span><span class="p">:</span><span class="n">bpe</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">sp</span><span class="p">)</span>
 <span class="cp"># 605 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F&quot;</span>
-           <span class="k">ELSE</span>
-<span class="k">              </span><span class="n">vals</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="o">=</span> <span class="mf">0.0_sp</span>
-           <span class="n">ENDIF</span>
-        <span class="n">ENDDO</span>
-        <span class="c">! SIMD: SQRT is intentionally not in above IF-condition</span>
-        <span class="k">IF</span> <span class="p">(</span><span class="n">n</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">nsimd</span><span class="p">)</span> <span class="k">THEN</span>
+            <span class="k">ELSE</span>
+<span class="k">               </span><span class="n">vals</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="o">=</span> <span class="mf">0.0_sp</span>
+            <span class="n">ENDIF</span>
+         <span class="n">ENDDO</span>
+         <span class="c">! SIMD: SQRT is intentionally not in above IF-condition</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">n</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">nsimd</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="c">!$OMP     simd</span>
-           <span class="k">DO </span><span class="n">blk</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nsimd</span>
-              <span class="n">norms</span><span class="p">(</span><span class="n">blk</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="nb">SQRT</span><span class="p">(</span><span class="n">vals</span><span class="p">(</span><span class="n">blk</span><span class="p">))</span>
-           <span class="n">ENDDO</span>
+            <span class="k">DO </span><span class="n">blk</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nsimd</span>
+               <span class="n">norms</span><span class="p">(</span><span class="n">blk</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="nb">SQRT</span><span class="p">(</span><span class="n">vals</span><span class="p">(</span><span class="n">blk</span><span class="p">))</span>
+            <span class="n">ENDDO</span>
 <span class="c">!$OMP     end simd</span>
-        <span class="k">ELSE</span> <span class="c">! remainder</span>
-           <span class="k">DO </span><span class="n">blk</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
-              <span class="n">norms</span><span class="p">(</span><span class="n">blk</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="nb">SQRT</span><span class="p">(</span><span class="n">vals</span><span class="p">(</span><span class="n">blk</span><span class="p">))</span>
-           <span class="n">ENDDO</span>
-        <span class="n">ENDIF</span>
-     <span class="n">ENDDO</span>
+         <span class="k">ELSE</span> <span class="c">! remainder</span>
+            <span class="k">DO </span><span class="n">blk</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
+               <span class="n">norms</span><span class="p">(</span><span class="n">blk</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="nb">SQRT</span><span class="p">(</span><span class="n">vals</span><span class="p">(</span><span class="n">blk</span><span class="p">))</span>
+            <span class="n">ENDDO</span>
+         <span class="n">ENDIF</span>
+      <span class="n">ENDDO</span>
 <span class="c">!$OMP     end do</span>
 <span class="c">!$OMP     end parallel</span>
-  <span class="k">END SUBROUTINE </span><span class="n">calc_norms_z</span>
+   <span class="k">END SUBROUTINE </span><span class="n">calc_norms_z</span>
 </pre></div>
 
     </section>

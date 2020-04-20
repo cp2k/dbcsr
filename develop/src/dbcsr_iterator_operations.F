@@ -740,501 +740,501 @@ CONTAINS
 # 45 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp"
 # 735 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F" 2
 # 736 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
-  SUBROUTINE iterator_next_1d_block_d (iterator, row, column, block, &
-                                                   transposed, block_number, row_size, col_size, row_offset, col_offset)
+   SUBROUTINE iterator_next_1d_block_d (iterator, row, column, block, &
+                                                    transposed, block_number, row_size, col_size, row_offset, col_offset)
      !! Gets the next data block, single/double precision real/complex
 
-     TYPE(dbcsr_iterator), INTENT(INOUT)      :: iterator
+      TYPE(dbcsr_iterator), INTENT(INOUT)      :: iterator
         !! the iterator
-     INTEGER, INTENT(OUT)                     :: row, column
+      INTEGER, INTENT(OUT)                     :: row, column
         !! row of the data block
         !! column of the data block
-     REAL(kind=real_8), DIMENSION(:), POINTER :: block
+      REAL(kind=real_8), DIMENSION(:), POINTER :: block
         !! pointer to the data block
-     LOGICAL, INTENT(OUT)                     :: transposed
+      LOGICAL, INTENT(OUT)                     :: transposed
         !! whether the block data is transposed
-     INTEGER, INTENT(OUT), OPTIONAL           :: block_number
+      INTEGER, INTENT(OUT), OPTIONAL           :: block_number
         !! block number
-     INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size, &
-                                                 row_offset, col_offset
+      INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size, &
+                                                  row_offset, col_offset
         !! logical row size of block
         !! logical column size of block
 
-     CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_1d_block_d', &
-                                    routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_1d_block_d', &
+                                     routineP = moduleN//':'//routineN
 
-     INTEGER                                  :: blk_p, bp, csize, nze, rsize
+      INTEGER                                  :: blk_p, bp, csize, nze, rsize
 
 !   ---------------------------------------------------------------------------
 ! If we're pointing to a valid block, return that block.
 
-     IF (iterator%pos .LE. iterator%nblks &
-         .AND. iterator%pos .NE. 0) THEN
-        row = iterator%row
-        column = iterator%col_i(iterator%pos)
-        IF (iterator%transpose) CALL swap(row, column)
-        blk_p = iterator%blk_p(iterator%pos)
-        transposed = blk_p .LT. 0
-        bp = ABS(blk_p)
-        rsize = iterator%row_size
-        csize = iterator%cbs(column)
-        nze = rsize*csize
-        IF (PRESENT(row_size)) row_size = rsize
-        IF (PRESENT(col_size)) col_size = csize
-        IF (PRESENT(row_offset)) row_offset = iterator%row_offset
-        IF (PRESENT(col_offset)) col_offset = iterator%coff(column)
-        CALL dbcsr_get_data(iterator%data_area, block, &
-                            lb=bp, ub=bp + nze - 1)
-        IF (PRESENT(block_number)) block_number = iterator%pos
-        ! Move to the next non-deleted position.
-        CALL iterator_advance(iterator)
-        CALL update_row_info(iterator)
-     ELSE
-        row = 0
-        column = 0
-        NULLIFY (block)
-        IF (PRESENT(block_number)) block_number = 0
-     ENDIF
-  END SUBROUTINE iterator_next_1d_block_d
+      IF (iterator%pos .LE. iterator%nblks &
+          .AND. iterator%pos .NE. 0) THEN
+         row = iterator%row
+         column = iterator%col_i(iterator%pos)
+         IF (iterator%transpose) CALL swap(row, column)
+         blk_p = iterator%blk_p(iterator%pos)
+         transposed = blk_p .LT. 0
+         bp = ABS(blk_p)
+         rsize = iterator%row_size
+         csize = iterator%cbs(column)
+         nze = rsize*csize
+         IF (PRESENT(row_size)) row_size = rsize
+         IF (PRESENT(col_size)) col_size = csize
+         IF (PRESENT(row_offset)) row_offset = iterator%row_offset
+         IF (PRESENT(col_offset)) col_offset = iterator%coff(column)
+         CALL dbcsr_get_data(iterator%data_area, block, &
+                             lb=bp, ub=bp + nze - 1)
+         IF (PRESENT(block_number)) block_number = iterator%pos
+         ! Move to the next non-deleted position.
+         CALL iterator_advance(iterator)
+         CALL update_row_info(iterator)
+      ELSE
+         row = 0
+         column = 0
+         NULLIFY (block)
+         IF (PRESENT(block_number)) block_number = 0
+      ENDIF
+   END SUBROUTINE iterator_next_1d_block_d
 
-  SUBROUTINE iterator_next_2d_block_d (iterator, row, column, &
-                                                   block, transposed, &
-                                                   block_number, row_size, col_size, row_offset, col_offset)
+   SUBROUTINE iterator_next_2d_block_d (iterator, row, column, &
+                                                    block, transposed, &
+                                                    block_number, row_size, col_size, row_offset, col_offset)
      !! Gets the next data block, single/double precision real/complex
 
-     TYPE(dbcsr_iterator), INTENT(INOUT)      :: iterator
+      TYPE(dbcsr_iterator), INTENT(INOUT)      :: iterator
         !! the iterator
-     INTEGER, INTENT(OUT)                     :: row, column
+      INTEGER, INTENT(OUT)                     :: row, column
         !! row of the data block
         !! column of the data block
-     REAL(kind=real_8), DIMENSION(:, :), &
-        POINTER                                :: block
+      REAL(kind=real_8), DIMENSION(:, :), &
+         POINTER                                :: block
         !! pointer to the data block
-     LOGICAL, INTENT(OUT)                     :: transposed
+      LOGICAL, INTENT(OUT)                     :: transposed
         !! whether the block data is transposed
-     INTEGER, INTENT(OUT), OPTIONAL           :: block_number
+      INTEGER, INTENT(OUT), OPTIONAL           :: block_number
         !! block number
-     INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size, row_offset, col_offset
+      INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size, row_offset, col_offset
         !! logical row size of block
         !! logical column size of block
 
-     CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_2d_block_d', &
-                                    routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_2d_block_d', &
+                                     routineP = moduleN//':'//routineN
 
-     INTEGER                                  :: blk_p, bp, csize, nze, rsize, &
-                                                 block_row_size, block_col_size
-     REAL(kind=real_8), DIMENSION(:), POINTER           :: lin_blk_p
-     INTEGER                                  :: error_handle
+      INTEGER                                  :: blk_p, bp, csize, nze, rsize, &
+                                                  block_row_size, block_col_size
+      REAL(kind=real_8), DIMENSION(:), POINTER           :: lin_blk_p
+      INTEGER                                  :: error_handle
 
 !   ---------------------------------------------------------------------------
 ! If we're pointing to a valid block, return that block.
 
-     IF (careful_mod) CALL timeset(routineN, error_handle)
-     IF (iterator%pos .LE. iterator%nblks &
-         .AND. iterator%pos .NE. 0) THEN
-        row = iterator%row
-        column = iterator%col_i(iterator%pos)
-        IF (iterator%transpose) CALL swap(row, column)
-        blk_p = iterator%blk_p(iterator%pos)
-        transposed = blk_p .LT. 0
-        bp = ABS(blk_p)
-        rsize = iterator%row_size
-        csize = iterator%cbs(column)
-        block_row_size = rsize
-        block_col_size = csize
-        IF (PRESENT(row_size)) row_size = rsize
-        IF (PRESENT(col_size)) col_size = csize
-        IF (PRESENT(row_offset)) row_offset = iterator%row_offset
-        IF (PRESENT(col_offset)) col_offset = iterator%coff(column)
-        nze = rsize*csize
-        IF (transposed) CALL swap(rsize, csize)
-        CALL dbcsr_get_data(iterator%data_area, lin_blk_p, &
-                            lb=bp, ub=bp + nze - 1)
-        CALL pointer_rank_remap2(block, rsize, csize, lin_blk_p)
-        IF (PRESENT(block_number)) block_number = iterator%pos
-        ! Move to the next non-deleted position.
-        CALL iterator_advance(iterator)
-        CALL update_row_info(iterator)
-     ELSE
-        row = 0
-        column = 0
-        NULLIFY (block)
-        IF (PRESENT(block_number)) block_number = 0
-     ENDIF
-     IF (careful_mod) CALL timestop(error_handle)
-  END SUBROUTINE iterator_next_2d_block_d
+      IF (careful_mod) CALL timeset(routineN, error_handle)
+      IF (iterator%pos .LE. iterator%nblks &
+          .AND. iterator%pos .NE. 0) THEN
+         row = iterator%row
+         column = iterator%col_i(iterator%pos)
+         IF (iterator%transpose) CALL swap(row, column)
+         blk_p = iterator%blk_p(iterator%pos)
+         transposed = blk_p .LT. 0
+         bp = ABS(blk_p)
+         rsize = iterator%row_size
+         csize = iterator%cbs(column)
+         block_row_size = rsize
+         block_col_size = csize
+         IF (PRESENT(row_size)) row_size = rsize
+         IF (PRESENT(col_size)) col_size = csize
+         IF (PRESENT(row_offset)) row_offset = iterator%row_offset
+         IF (PRESENT(col_offset)) col_offset = iterator%coff(column)
+         nze = rsize*csize
+         IF (transposed) CALL swap(rsize, csize)
+         CALL dbcsr_get_data(iterator%data_area, lin_blk_p, &
+                             lb=bp, ub=bp + nze - 1)
+         CALL pointer_rank_remap2(block, rsize, csize, lin_blk_p)
+         IF (PRESENT(block_number)) block_number = iterator%pos
+         ! Move to the next non-deleted position.
+         CALL iterator_advance(iterator)
+         CALL update_row_info(iterator)
+      ELSE
+         row = 0
+         column = 0
+         NULLIFY (block)
+         IF (PRESENT(block_number)) block_number = 0
+      ENDIF
+      IF (careful_mod) CALL timestop(error_handle)
+   END SUBROUTINE iterator_next_2d_block_d
 # 736 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
-  SUBROUTINE iterator_next_1d_block_s (iterator, row, column, block, &
-                                                   transposed, block_number, row_size, col_size, row_offset, col_offset)
+   SUBROUTINE iterator_next_1d_block_s (iterator, row, column, block, &
+                                                    transposed, block_number, row_size, col_size, row_offset, col_offset)
      !! Gets the next data block, single/double precision real/complex
 
-     TYPE(dbcsr_iterator), INTENT(INOUT)      :: iterator
+      TYPE(dbcsr_iterator), INTENT(INOUT)      :: iterator
         !! the iterator
-     INTEGER, INTENT(OUT)                     :: row, column
+      INTEGER, INTENT(OUT)                     :: row, column
         !! row of the data block
         !! column of the data block
-     REAL(kind=real_4), DIMENSION(:), POINTER :: block
+      REAL(kind=real_4), DIMENSION(:), POINTER :: block
         !! pointer to the data block
-     LOGICAL, INTENT(OUT)                     :: transposed
+      LOGICAL, INTENT(OUT)                     :: transposed
         !! whether the block data is transposed
-     INTEGER, INTENT(OUT), OPTIONAL           :: block_number
+      INTEGER, INTENT(OUT), OPTIONAL           :: block_number
         !! block number
-     INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size, &
-                                                 row_offset, col_offset
+      INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size, &
+                                                  row_offset, col_offset
         !! logical row size of block
         !! logical column size of block
 
-     CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_1d_block_s', &
-                                    routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_1d_block_s', &
+                                     routineP = moduleN//':'//routineN
 
-     INTEGER                                  :: blk_p, bp, csize, nze, rsize
+      INTEGER                                  :: blk_p, bp, csize, nze, rsize
 
 !   ---------------------------------------------------------------------------
 ! If we're pointing to a valid block, return that block.
 
-     IF (iterator%pos .LE. iterator%nblks &
-         .AND. iterator%pos .NE. 0) THEN
-        row = iterator%row
-        column = iterator%col_i(iterator%pos)
-        IF (iterator%transpose) CALL swap(row, column)
-        blk_p = iterator%blk_p(iterator%pos)
-        transposed = blk_p .LT. 0
-        bp = ABS(blk_p)
-        rsize = iterator%row_size
-        csize = iterator%cbs(column)
-        nze = rsize*csize
-        IF (PRESENT(row_size)) row_size = rsize
-        IF (PRESENT(col_size)) col_size = csize
-        IF (PRESENT(row_offset)) row_offset = iterator%row_offset
-        IF (PRESENT(col_offset)) col_offset = iterator%coff(column)
-        CALL dbcsr_get_data(iterator%data_area, block, &
-                            lb=bp, ub=bp + nze - 1)
-        IF (PRESENT(block_number)) block_number = iterator%pos
-        ! Move to the next non-deleted position.
-        CALL iterator_advance(iterator)
-        CALL update_row_info(iterator)
-     ELSE
-        row = 0
-        column = 0
-        NULLIFY (block)
-        IF (PRESENT(block_number)) block_number = 0
-     ENDIF
-  END SUBROUTINE iterator_next_1d_block_s
+      IF (iterator%pos .LE. iterator%nblks &
+          .AND. iterator%pos .NE. 0) THEN
+         row = iterator%row
+         column = iterator%col_i(iterator%pos)
+         IF (iterator%transpose) CALL swap(row, column)
+         blk_p = iterator%blk_p(iterator%pos)
+         transposed = blk_p .LT. 0
+         bp = ABS(blk_p)
+         rsize = iterator%row_size
+         csize = iterator%cbs(column)
+         nze = rsize*csize
+         IF (PRESENT(row_size)) row_size = rsize
+         IF (PRESENT(col_size)) col_size = csize
+         IF (PRESENT(row_offset)) row_offset = iterator%row_offset
+         IF (PRESENT(col_offset)) col_offset = iterator%coff(column)
+         CALL dbcsr_get_data(iterator%data_area, block, &
+                             lb=bp, ub=bp + nze - 1)
+         IF (PRESENT(block_number)) block_number = iterator%pos
+         ! Move to the next non-deleted position.
+         CALL iterator_advance(iterator)
+         CALL update_row_info(iterator)
+      ELSE
+         row = 0
+         column = 0
+         NULLIFY (block)
+         IF (PRESENT(block_number)) block_number = 0
+      ENDIF
+   END SUBROUTINE iterator_next_1d_block_s
 
-  SUBROUTINE iterator_next_2d_block_s (iterator, row, column, &
-                                                   block, transposed, &
-                                                   block_number, row_size, col_size, row_offset, col_offset)
+   SUBROUTINE iterator_next_2d_block_s (iterator, row, column, &
+                                                    block, transposed, &
+                                                    block_number, row_size, col_size, row_offset, col_offset)
      !! Gets the next data block, single/double precision real/complex
 
-     TYPE(dbcsr_iterator), INTENT(INOUT)      :: iterator
+      TYPE(dbcsr_iterator), INTENT(INOUT)      :: iterator
         !! the iterator
-     INTEGER, INTENT(OUT)                     :: row, column
+      INTEGER, INTENT(OUT)                     :: row, column
         !! row of the data block
         !! column of the data block
-     REAL(kind=real_4), DIMENSION(:, :), &
-        POINTER                                :: block
+      REAL(kind=real_4), DIMENSION(:, :), &
+         POINTER                                :: block
         !! pointer to the data block
-     LOGICAL, INTENT(OUT)                     :: transposed
+      LOGICAL, INTENT(OUT)                     :: transposed
         !! whether the block data is transposed
-     INTEGER, INTENT(OUT), OPTIONAL           :: block_number
+      INTEGER, INTENT(OUT), OPTIONAL           :: block_number
         !! block number
-     INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size, row_offset, col_offset
+      INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size, row_offset, col_offset
         !! logical row size of block
         !! logical column size of block
 
-     CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_2d_block_s', &
-                                    routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_2d_block_s', &
+                                     routineP = moduleN//':'//routineN
 
-     INTEGER                                  :: blk_p, bp, csize, nze, rsize, &
-                                                 block_row_size, block_col_size
-     REAL(kind=real_4), DIMENSION(:), POINTER           :: lin_blk_p
-     INTEGER                                  :: error_handle
+      INTEGER                                  :: blk_p, bp, csize, nze, rsize, &
+                                                  block_row_size, block_col_size
+      REAL(kind=real_4), DIMENSION(:), POINTER           :: lin_blk_p
+      INTEGER                                  :: error_handle
 
 !   ---------------------------------------------------------------------------
 ! If we're pointing to a valid block, return that block.
 
-     IF (careful_mod) CALL timeset(routineN, error_handle)
-     IF (iterator%pos .LE. iterator%nblks &
-         .AND. iterator%pos .NE. 0) THEN
-        row = iterator%row
-        column = iterator%col_i(iterator%pos)
-        IF (iterator%transpose) CALL swap(row, column)
-        blk_p = iterator%blk_p(iterator%pos)
-        transposed = blk_p .LT. 0
-        bp = ABS(blk_p)
-        rsize = iterator%row_size
-        csize = iterator%cbs(column)
-        block_row_size = rsize
-        block_col_size = csize
-        IF (PRESENT(row_size)) row_size = rsize
-        IF (PRESENT(col_size)) col_size = csize
-        IF (PRESENT(row_offset)) row_offset = iterator%row_offset
-        IF (PRESENT(col_offset)) col_offset = iterator%coff(column)
-        nze = rsize*csize
-        IF (transposed) CALL swap(rsize, csize)
-        CALL dbcsr_get_data(iterator%data_area, lin_blk_p, &
-                            lb=bp, ub=bp + nze - 1)
-        CALL pointer_rank_remap2(block, rsize, csize, lin_blk_p)
-        IF (PRESENT(block_number)) block_number = iterator%pos
-        ! Move to the next non-deleted position.
-        CALL iterator_advance(iterator)
-        CALL update_row_info(iterator)
-     ELSE
-        row = 0
-        column = 0
-        NULLIFY (block)
-        IF (PRESENT(block_number)) block_number = 0
-     ENDIF
-     IF (careful_mod) CALL timestop(error_handle)
-  END SUBROUTINE iterator_next_2d_block_s
+      IF (careful_mod) CALL timeset(routineN, error_handle)
+      IF (iterator%pos .LE. iterator%nblks &
+          .AND. iterator%pos .NE. 0) THEN
+         row = iterator%row
+         column = iterator%col_i(iterator%pos)
+         IF (iterator%transpose) CALL swap(row, column)
+         blk_p = iterator%blk_p(iterator%pos)
+         transposed = blk_p .LT. 0
+         bp = ABS(blk_p)
+         rsize = iterator%row_size
+         csize = iterator%cbs(column)
+         block_row_size = rsize
+         block_col_size = csize
+         IF (PRESENT(row_size)) row_size = rsize
+         IF (PRESENT(col_size)) col_size = csize
+         IF (PRESENT(row_offset)) row_offset = iterator%row_offset
+         IF (PRESENT(col_offset)) col_offset = iterator%coff(column)
+         nze = rsize*csize
+         IF (transposed) CALL swap(rsize, csize)
+         CALL dbcsr_get_data(iterator%data_area, lin_blk_p, &
+                             lb=bp, ub=bp + nze - 1)
+         CALL pointer_rank_remap2(block, rsize, csize, lin_blk_p)
+         IF (PRESENT(block_number)) block_number = iterator%pos
+         ! Move to the next non-deleted position.
+         CALL iterator_advance(iterator)
+         CALL update_row_info(iterator)
+      ELSE
+         row = 0
+         column = 0
+         NULLIFY (block)
+         IF (PRESENT(block_number)) block_number = 0
+      ENDIF
+      IF (careful_mod) CALL timestop(error_handle)
+   END SUBROUTINE iterator_next_2d_block_s
 # 736 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
-  SUBROUTINE iterator_next_1d_block_z (iterator, row, column, block, &
-                                                   transposed, block_number, row_size, col_size, row_offset, col_offset)
+   SUBROUTINE iterator_next_1d_block_z (iterator, row, column, block, &
+                                                    transposed, block_number, row_size, col_size, row_offset, col_offset)
      !! Gets the next data block, single/double precision real/complex
 
-     TYPE(dbcsr_iterator), INTENT(INOUT)      :: iterator
+      TYPE(dbcsr_iterator), INTENT(INOUT)      :: iterator
         !! the iterator
-     INTEGER, INTENT(OUT)                     :: row, column
+      INTEGER, INTENT(OUT)                     :: row, column
         !! row of the data block
         !! column of the data block
-     COMPLEX(kind=real_8), DIMENSION(:), POINTER :: block
+      COMPLEX(kind=real_8), DIMENSION(:), POINTER :: block
         !! pointer to the data block
-     LOGICAL, INTENT(OUT)                     :: transposed
+      LOGICAL, INTENT(OUT)                     :: transposed
         !! whether the block data is transposed
-     INTEGER, INTENT(OUT), OPTIONAL           :: block_number
+      INTEGER, INTENT(OUT), OPTIONAL           :: block_number
         !! block number
-     INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size, &
-                                                 row_offset, col_offset
+      INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size, &
+                                                  row_offset, col_offset
         !! logical row size of block
         !! logical column size of block
 
-     CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_1d_block_z', &
-                                    routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_1d_block_z', &
+                                     routineP = moduleN//':'//routineN
 
-     INTEGER                                  :: blk_p, bp, csize, nze, rsize
+      INTEGER                                  :: blk_p, bp, csize, nze, rsize
 
 !   ---------------------------------------------------------------------------
 ! If we're pointing to a valid block, return that block.
 
-     IF (iterator%pos .LE. iterator%nblks &
-         .AND. iterator%pos .NE. 0) THEN
-        row = iterator%row
-        column = iterator%col_i(iterator%pos)
-        IF (iterator%transpose) CALL swap(row, column)
-        blk_p = iterator%blk_p(iterator%pos)
-        transposed = blk_p .LT. 0
-        bp = ABS(blk_p)
-        rsize = iterator%row_size
-        csize = iterator%cbs(column)
-        nze = rsize*csize
-        IF (PRESENT(row_size)) row_size = rsize
-        IF (PRESENT(col_size)) col_size = csize
-        IF (PRESENT(row_offset)) row_offset = iterator%row_offset
-        IF (PRESENT(col_offset)) col_offset = iterator%coff(column)
-        CALL dbcsr_get_data(iterator%data_area, block, &
-                            lb=bp, ub=bp + nze - 1)
-        IF (PRESENT(block_number)) block_number = iterator%pos
-        ! Move to the next non-deleted position.
-        CALL iterator_advance(iterator)
-        CALL update_row_info(iterator)
-     ELSE
-        row = 0
-        column = 0
-        NULLIFY (block)
-        IF (PRESENT(block_number)) block_number = 0
-     ENDIF
-  END SUBROUTINE iterator_next_1d_block_z
+      IF (iterator%pos .LE. iterator%nblks &
+          .AND. iterator%pos .NE. 0) THEN
+         row = iterator%row
+         column = iterator%col_i(iterator%pos)
+         IF (iterator%transpose) CALL swap(row, column)
+         blk_p = iterator%blk_p(iterator%pos)
+         transposed = blk_p .LT. 0
+         bp = ABS(blk_p)
+         rsize = iterator%row_size
+         csize = iterator%cbs(column)
+         nze = rsize*csize
+         IF (PRESENT(row_size)) row_size = rsize
+         IF (PRESENT(col_size)) col_size = csize
+         IF (PRESENT(row_offset)) row_offset = iterator%row_offset
+         IF (PRESENT(col_offset)) col_offset = iterator%coff(column)
+         CALL dbcsr_get_data(iterator%data_area, block, &
+                             lb=bp, ub=bp + nze - 1)
+         IF (PRESENT(block_number)) block_number = iterator%pos
+         ! Move to the next non-deleted position.
+         CALL iterator_advance(iterator)
+         CALL update_row_info(iterator)
+      ELSE
+         row = 0
+         column = 0
+         NULLIFY (block)
+         IF (PRESENT(block_number)) block_number = 0
+      ENDIF
+   END SUBROUTINE iterator_next_1d_block_z
 
-  SUBROUTINE iterator_next_2d_block_z (iterator, row, column, &
-                                                   block, transposed, &
-                                                   block_number, row_size, col_size, row_offset, col_offset)
+   SUBROUTINE iterator_next_2d_block_z (iterator, row, column, &
+                                                    block, transposed, &
+                                                    block_number, row_size, col_size, row_offset, col_offset)
      !! Gets the next data block, single/double precision real/complex
 
-     TYPE(dbcsr_iterator), INTENT(INOUT)      :: iterator
+      TYPE(dbcsr_iterator), INTENT(INOUT)      :: iterator
         !! the iterator
-     INTEGER, INTENT(OUT)                     :: row, column
+      INTEGER, INTENT(OUT)                     :: row, column
         !! row of the data block
         !! column of the data block
-     COMPLEX(kind=real_8), DIMENSION(:, :), &
-        POINTER                                :: block
+      COMPLEX(kind=real_8), DIMENSION(:, :), &
+         POINTER                                :: block
         !! pointer to the data block
-     LOGICAL, INTENT(OUT)                     :: transposed
+      LOGICAL, INTENT(OUT)                     :: transposed
         !! whether the block data is transposed
-     INTEGER, INTENT(OUT), OPTIONAL           :: block_number
+      INTEGER, INTENT(OUT), OPTIONAL           :: block_number
         !! block number
-     INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size, row_offset, col_offset
+      INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size, row_offset, col_offset
         !! logical row size of block
         !! logical column size of block
 
-     CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_2d_block_z', &
-                                    routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_2d_block_z', &
+                                     routineP = moduleN//':'//routineN
 
-     INTEGER                                  :: blk_p, bp, csize, nze, rsize, &
-                                                 block_row_size, block_col_size
-     COMPLEX(kind=real_8), DIMENSION(:), POINTER           :: lin_blk_p
-     INTEGER                                  :: error_handle
+      INTEGER                                  :: blk_p, bp, csize, nze, rsize, &
+                                                  block_row_size, block_col_size
+      COMPLEX(kind=real_8), DIMENSION(:), POINTER           :: lin_blk_p
+      INTEGER                                  :: error_handle
 
 !   ---------------------------------------------------------------------------
 ! If we're pointing to a valid block, return that block.
 
-     IF (careful_mod) CALL timeset(routineN, error_handle)
-     IF (iterator%pos .LE. iterator%nblks &
-         .AND. iterator%pos .NE. 0) THEN
-        row = iterator%row
-        column = iterator%col_i(iterator%pos)
-        IF (iterator%transpose) CALL swap(row, column)
-        blk_p = iterator%blk_p(iterator%pos)
-        transposed = blk_p .LT. 0
-        bp = ABS(blk_p)
-        rsize = iterator%row_size
-        csize = iterator%cbs(column)
-        block_row_size = rsize
-        block_col_size = csize
-        IF (PRESENT(row_size)) row_size = rsize
-        IF (PRESENT(col_size)) col_size = csize
-        IF (PRESENT(row_offset)) row_offset = iterator%row_offset
-        IF (PRESENT(col_offset)) col_offset = iterator%coff(column)
-        nze = rsize*csize
-        IF (transposed) CALL swap(rsize, csize)
-        CALL dbcsr_get_data(iterator%data_area, lin_blk_p, &
-                            lb=bp, ub=bp + nze - 1)
-        CALL pointer_rank_remap2(block, rsize, csize, lin_blk_p)
-        IF (PRESENT(block_number)) block_number = iterator%pos
-        ! Move to the next non-deleted position.
-        CALL iterator_advance(iterator)
-        CALL update_row_info(iterator)
-     ELSE
-        row = 0
-        column = 0
-        NULLIFY (block)
-        IF (PRESENT(block_number)) block_number = 0
-     ENDIF
-     IF (careful_mod) CALL timestop(error_handle)
-  END SUBROUTINE iterator_next_2d_block_z
+      IF (careful_mod) CALL timeset(routineN, error_handle)
+      IF (iterator%pos .LE. iterator%nblks &
+          .AND. iterator%pos .NE. 0) THEN
+         row = iterator%row
+         column = iterator%col_i(iterator%pos)
+         IF (iterator%transpose) CALL swap(row, column)
+         blk_p = iterator%blk_p(iterator%pos)
+         transposed = blk_p .LT. 0
+         bp = ABS(blk_p)
+         rsize = iterator%row_size
+         csize = iterator%cbs(column)
+         block_row_size = rsize
+         block_col_size = csize
+         IF (PRESENT(row_size)) row_size = rsize
+         IF (PRESENT(col_size)) col_size = csize
+         IF (PRESENT(row_offset)) row_offset = iterator%row_offset
+         IF (PRESENT(col_offset)) col_offset = iterator%coff(column)
+         nze = rsize*csize
+         IF (transposed) CALL swap(rsize, csize)
+         CALL dbcsr_get_data(iterator%data_area, lin_blk_p, &
+                             lb=bp, ub=bp + nze - 1)
+         CALL pointer_rank_remap2(block, rsize, csize, lin_blk_p)
+         IF (PRESENT(block_number)) block_number = iterator%pos
+         ! Move to the next non-deleted position.
+         CALL iterator_advance(iterator)
+         CALL update_row_info(iterator)
+      ELSE
+         row = 0
+         column = 0
+         NULLIFY (block)
+         IF (PRESENT(block_number)) block_number = 0
+      ENDIF
+      IF (careful_mod) CALL timestop(error_handle)
+   END SUBROUTINE iterator_next_2d_block_z
 # 736 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
-  SUBROUTINE iterator_next_1d_block_c (iterator, row, column, block, &
-                                                   transposed, block_number, row_size, col_size, row_offset, col_offset)
+   SUBROUTINE iterator_next_1d_block_c (iterator, row, column, block, &
+                                                    transposed, block_number, row_size, col_size, row_offset, col_offset)
      !! Gets the next data block, single/double precision real/complex
 
-     TYPE(dbcsr_iterator), INTENT(INOUT)      :: iterator
+      TYPE(dbcsr_iterator), INTENT(INOUT)      :: iterator
         !! the iterator
-     INTEGER, INTENT(OUT)                     :: row, column
+      INTEGER, INTENT(OUT)                     :: row, column
         !! row of the data block
         !! column of the data block
-     COMPLEX(kind=real_4), DIMENSION(:), POINTER :: block
+      COMPLEX(kind=real_4), DIMENSION(:), POINTER :: block
         !! pointer to the data block
-     LOGICAL, INTENT(OUT)                     :: transposed
+      LOGICAL, INTENT(OUT)                     :: transposed
         !! whether the block data is transposed
-     INTEGER, INTENT(OUT), OPTIONAL           :: block_number
+      INTEGER, INTENT(OUT), OPTIONAL           :: block_number
         !! block number
-     INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size, &
-                                                 row_offset, col_offset
+      INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size, &
+                                                  row_offset, col_offset
         !! logical row size of block
         !! logical column size of block
 
-     CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_1d_block_c', &
-                                    routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_1d_block_c', &
+                                     routineP = moduleN//':'//routineN
 
-     INTEGER                                  :: blk_p, bp, csize, nze, rsize
+      INTEGER                                  :: blk_p, bp, csize, nze, rsize
 
 !   ---------------------------------------------------------------------------
 ! If we're pointing to a valid block, return that block.
 
-     IF (iterator%pos .LE. iterator%nblks &
-         .AND. iterator%pos .NE. 0) THEN
-        row = iterator%row
-        column = iterator%col_i(iterator%pos)
-        IF (iterator%transpose) CALL swap(row, column)
-        blk_p = iterator%blk_p(iterator%pos)
-        transposed = blk_p .LT. 0
-        bp = ABS(blk_p)
-        rsize = iterator%row_size
-        csize = iterator%cbs(column)
-        nze = rsize*csize
-        IF (PRESENT(row_size)) row_size = rsize
-        IF (PRESENT(col_size)) col_size = csize
-        IF (PRESENT(row_offset)) row_offset = iterator%row_offset
-        IF (PRESENT(col_offset)) col_offset = iterator%coff(column)
-        CALL dbcsr_get_data(iterator%data_area, block, &
-                            lb=bp, ub=bp + nze - 1)
-        IF (PRESENT(block_number)) block_number = iterator%pos
-        ! Move to the next non-deleted position.
-        CALL iterator_advance(iterator)
-        CALL update_row_info(iterator)
-     ELSE
-        row = 0
-        column = 0
-        NULLIFY (block)
-        IF (PRESENT(block_number)) block_number = 0
-     ENDIF
-  END SUBROUTINE iterator_next_1d_block_c
+      IF (iterator%pos .LE. iterator%nblks &
+          .AND. iterator%pos .NE. 0) THEN
+         row = iterator%row
+         column = iterator%col_i(iterator%pos)
+         IF (iterator%transpose) CALL swap(row, column)
+         blk_p = iterator%blk_p(iterator%pos)
+         transposed = blk_p .LT. 0
+         bp = ABS(blk_p)
+         rsize = iterator%row_size
+         csize = iterator%cbs(column)
+         nze = rsize*csize
+         IF (PRESENT(row_size)) row_size = rsize
+         IF (PRESENT(col_size)) col_size = csize
+         IF (PRESENT(row_offset)) row_offset = iterator%row_offset
+         IF (PRESENT(col_offset)) col_offset = iterator%coff(column)
+         CALL dbcsr_get_data(iterator%data_area, block, &
+                             lb=bp, ub=bp + nze - 1)
+         IF (PRESENT(block_number)) block_number = iterator%pos
+         ! Move to the next non-deleted position.
+         CALL iterator_advance(iterator)
+         CALL update_row_info(iterator)
+      ELSE
+         row = 0
+         column = 0
+         NULLIFY (block)
+         IF (PRESENT(block_number)) block_number = 0
+      ENDIF
+   END SUBROUTINE iterator_next_1d_block_c
 
-  SUBROUTINE iterator_next_2d_block_c (iterator, row, column, &
-                                                   block, transposed, &
-                                                   block_number, row_size, col_size, row_offset, col_offset)
+   SUBROUTINE iterator_next_2d_block_c (iterator, row, column, &
+                                                    block, transposed, &
+                                                    block_number, row_size, col_size, row_offset, col_offset)
      !! Gets the next data block, single/double precision real/complex
 
-     TYPE(dbcsr_iterator), INTENT(INOUT)      :: iterator
+      TYPE(dbcsr_iterator), INTENT(INOUT)      :: iterator
         !! the iterator
-     INTEGER, INTENT(OUT)                     :: row, column
+      INTEGER, INTENT(OUT)                     :: row, column
         !! row of the data block
         !! column of the data block
-     COMPLEX(kind=real_4), DIMENSION(:, :), &
-        POINTER                                :: block
+      COMPLEX(kind=real_4), DIMENSION(:, :), &
+         POINTER                                :: block
         !! pointer to the data block
-     LOGICAL, INTENT(OUT)                     :: transposed
+      LOGICAL, INTENT(OUT)                     :: transposed
         !! whether the block data is transposed
-     INTEGER, INTENT(OUT), OPTIONAL           :: block_number
+      INTEGER, INTENT(OUT), OPTIONAL           :: block_number
         !! block number
-     INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size, row_offset, col_offset
+      INTEGER, INTENT(OUT), OPTIONAL           :: row_size, col_size, row_offset, col_offset
         !! logical row size of block
         !! logical column size of block
 
-     CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_2d_block_c', &
-                                    routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_2d_block_c', &
+                                     routineP = moduleN//':'//routineN
 
-     INTEGER                                  :: blk_p, bp, csize, nze, rsize, &
-                                                 block_row_size, block_col_size
-     COMPLEX(kind=real_4), DIMENSION(:), POINTER           :: lin_blk_p
-     INTEGER                                  :: error_handle
+      INTEGER                                  :: blk_p, bp, csize, nze, rsize, &
+                                                  block_row_size, block_col_size
+      COMPLEX(kind=real_4), DIMENSION(:), POINTER           :: lin_blk_p
+      INTEGER                                  :: error_handle
 
 !   ---------------------------------------------------------------------------
 ! If we're pointing to a valid block, return that block.
 
-     IF (careful_mod) CALL timeset(routineN, error_handle)
-     IF (iterator%pos .LE. iterator%nblks &
-         .AND. iterator%pos .NE. 0) THEN
-        row = iterator%row
-        column = iterator%col_i(iterator%pos)
-        IF (iterator%transpose) CALL swap(row, column)
-        blk_p = iterator%blk_p(iterator%pos)
-        transposed = blk_p .LT. 0
-        bp = ABS(blk_p)
-        rsize = iterator%row_size
-        csize = iterator%cbs(column)
-        block_row_size = rsize
-        block_col_size = csize
-        IF (PRESENT(row_size)) row_size = rsize
-        IF (PRESENT(col_size)) col_size = csize
-        IF (PRESENT(row_offset)) row_offset = iterator%row_offset
-        IF (PRESENT(col_offset)) col_offset = iterator%coff(column)
-        nze = rsize*csize
-        IF (transposed) CALL swap(rsize, csize)
-        CALL dbcsr_get_data(iterator%data_area, lin_blk_p, &
-                            lb=bp, ub=bp + nze - 1)
-        CALL pointer_rank_remap2(block, rsize, csize, lin_blk_p)
-        IF (PRESENT(block_number)) block_number = iterator%pos
-        ! Move to the next non-deleted position.
-        CALL iterator_advance(iterator)
-        CALL update_row_info(iterator)
-     ELSE
-        row = 0
-        column = 0
-        NULLIFY (block)
-        IF (PRESENT(block_number)) block_number = 0
-     ENDIF
-     IF (careful_mod) CALL timestop(error_handle)
-  END SUBROUTINE iterator_next_2d_block_c
+      IF (careful_mod) CALL timeset(routineN, error_handle)
+      IF (iterator%pos .LE. iterator%nblks &
+          .AND. iterator%pos .NE. 0) THEN
+         row = iterator%row
+         column = iterator%col_i(iterator%pos)
+         IF (iterator%transpose) CALL swap(row, column)
+         blk_p = iterator%blk_p(iterator%pos)
+         transposed = blk_p .LT. 0
+         bp = ABS(blk_p)
+         rsize = iterator%row_size
+         csize = iterator%cbs(column)
+         block_row_size = rsize
+         block_col_size = csize
+         IF (PRESENT(row_size)) row_size = rsize
+         IF (PRESENT(col_size)) col_size = csize
+         IF (PRESENT(row_offset)) row_offset = iterator%row_offset
+         IF (PRESENT(col_offset)) col_offset = iterator%coff(column)
+         nze = rsize*csize
+         IF (transposed) CALL swap(rsize, csize)
+         CALL dbcsr_get_data(iterator%data_area, lin_blk_p, &
+                             lb=bp, ub=bp + nze - 1)
+         CALL pointer_rank_remap2(block, rsize, csize, lin_blk_p)
+         IF (PRESENT(block_number)) block_number = iterator%pos
+         ! Move to the next non-deleted position.
+         CALL iterator_advance(iterator)
+         CALL update_row_info(iterator)
+      ELSE
+         row = 0
+         column = 0
+         NULLIFY (block)
+         IF (PRESENT(block_number)) block_number = 0
+      ENDIF
+      IF (careful_mod) CALL timestop(error_handle)
+   END SUBROUTINE iterator_next_2d_block_c
 # 860 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
 
 END MODULE dbcsr_iterator_operations

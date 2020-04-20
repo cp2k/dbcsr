@@ -316,17 +316,17 @@ private subroutine mem_zero_c(dst, n)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>  <span class="k">SUBROUTINE </span><span class="n">mem_zero_c</span> <span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">mem_zero_c</span> <span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
      <span class="c">!! Zeros memory area</span>
 
-     <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">n</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">n</span>
         <span class="c">!! length of elements to zero</span>
-     <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">dst</span>
+      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">dst</span>
         <span class="c">!! destination memory</span>
 <span class="c">!$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst)</span>
-     <span class="n">dst</span><span class="p">(:)</span> <span class="o">=</span> <span class="nb">CMPLX</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">real_4</span><span class="p">)</span>
+      <span class="n">dst</span><span class="p">(:)</span> <span class="o">=</span> <span class="nb">CMPLX</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">real_4</span><span class="p">)</span>
 <span class="c">!$OMP     END PARALLEL WORKSHARE</span>
-  <span class="k">END SUBROUTINE </span><span class="n">mem_zero_c</span>
+   <span class="k">END SUBROUTINE </span><span class="n">mem_zero_c</span>
 </pre></div>
 
     </section>
