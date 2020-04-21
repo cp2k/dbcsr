@@ -372,7 +372,7 @@ CONTAINS
       LOGICAL, POINTER                                   :: optimize_dist
       TYPE(dbcsr_t_pgrid_type), POINTER                  :: pgrid_opt_1, pgrid_opt_2, pgrid_opt_3
 
-      INTEGER, DIMENSION(:, :), POINTER                  :: bounds_1, bounds_2, bounds_3
+      INTEGER, DIMENSION(:, :), ALLOCATABLE              :: bounds_1, bounds_2, bounds_3
 
       LOGICAL, POINTER                                   :: move_data
       LOGICAL, POINTER                                   :: retain_sparsity
@@ -383,7 +383,6 @@ CONTAINS
       CALL c_f_pointer(c_tensor_3, tensor_3)
 
 #:for dim in range(1,4)
-      NULLIFY (bounds_${dim}$)
       IF (PRESENT(c_bounds_${dim}$)) THEN
          ALLOCATE (bounds_${dim}$ (2, SIZE(c_bounds_${dim}$, 2)))
          bounds_${dim}$ = c_bounds_${dim}$+1
@@ -435,7 +434,7 @@ CONTAINS
 #:endfor
 
 #:for dim in range(1,4)
-      IF (ASSOCIATED(bounds_${dim}$)) DEALLOCATE (bounds_${dim}$)
+      IF (ALLOCATED(bounds_${dim}$)) DEALLOCATE (bounds_${dim}$)
 #:endfor
 
    END SUBROUTINE
