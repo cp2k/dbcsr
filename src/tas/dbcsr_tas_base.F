@@ -165,7 +165,7 @@ CONTAINS
 
       TYPE(dbcsr_tas_split_info)                     :: info
 
-      INTEGER, DIMENSION(:), POINTER                 :: row_blk_size_vec => NULL(), col_blk_size_vec => NULL()
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS     :: row_blk_size_vec => NULL(), col_blk_size_vec => NULL()
       INTEGER                                        :: nrows, ncols, irow, col, icol, row
       CHARACTER(LEN=*), PARAMETER                    :: routineN = 'dbcsr_tas_create_new', &
                                                         routineP = moduleN//':'//routineN
@@ -529,7 +529,7 @@ CONTAINS
 
       INTEGER                                            :: handle
       INTEGER(KIND=int_8)                                :: col, row
-      INTEGER, DIMENSION(:), POINTER                     :: col_dist_vec => NULL(), col_size_vec => NULL(), &
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: col_dist_vec => NULL(), col_size_vec => NULL(), &
                                                             row_dist_vec => NULL(), row_size_vec => NULL()
       LOGICAL                                            :: tr
       TYPE(dbcsr_data_obj)                               :: block

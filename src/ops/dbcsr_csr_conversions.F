@@ -1409,7 +1409,7 @@ CONTAINS
                  split_row, start_ind
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: rdist_tmp, row_blk_size_new_tmp
       INTEGER, ALLOCATABLE, DIMENSION(:, :)              :: pgrid
-      INTEGER, DIMENSION(:), POINTER                     :: cdist, col_blk_size, rdist, &
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: cdist, col_blk_size, rdist, &
                                                             row_blk_size, row_blk_size_new
       REAL(KIND=real_8)                                  :: chunk_size
       TYPE(dbcsr_distribution_obj)                       :: dist_current, dist_new

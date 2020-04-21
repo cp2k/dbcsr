@@ -81,7 +81,7 @@ CONTAINS
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: ncols, npcols, nprows, nrows
-      INTEGER, DIMENSION(:), POINTER                     :: col_dist_data, col_img_data, col_vdist, &
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: col_dist_data, col_img_data, col_vdist, &
                                                             row_dist_data, row_img_data, row_vdist
       LOGICAL                                            :: new_col_dist, new_row_dist
       TYPE(dbcsr_distribution_obj)                       :: new_dist
@@ -656,7 +656,7 @@ CONTAINS
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: el, nel_old
-      INTEGER, DIMENSION(:), POINTER                     :: map, new_s, old_s
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: map, new_s, old_s
 
 !   ---------------------------------------------------------------------------
 
@@ -690,7 +690,7 @@ CONTAINS
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: b, i, n_new_bins
-      INTEGER, DIMENSION(:), POINTER                     :: dense, map, old_d
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: dense, map, old_d
 
 !   ---------------------------------------------------------------------------
 
@@ -738,7 +738,7 @@ CONTAINS
       TYPE(array_i1d_obj), INTENT(out)                   :: pdist, idist
 
       INTEGER                                            :: nel
-      INTEGER, DIMENSION(:), POINTER                     :: id, pd, vd
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: id, pd, vd
 
       nel = array_size(vdist)
       vd => array_data(vdist)
@@ -760,7 +760,7 @@ CONTAINS
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: error_handle, nprows
-      INTEGER, DIMENSION(:), POINTER                     :: rmap, row_dist
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: rmap, row_dist
 
       CALL timeset(routineN, error_handle)
       ! If the current local row mappings do not exist, create them.
@@ -791,7 +791,7 @@ CONTAINS
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: error_handle, npcols
-      INTEGER, DIMENSION(:), POINTER                     :: cmap, col_dist
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: cmap, col_dist
 
       CALL timeset(routineN, error_handle)
       ! If the current local col mappings do not exist, create them.
@@ -822,7 +822,7 @@ CONTAINS
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: error_handle, nvprows
-      INTEGER, DIMENSION(:), POINTER                     :: rmap, vrow_dist
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: rmap, vrow_dist
 
       IF (careful_mod) CALL timeset(routineN, error_handle)
       ! If the current local row mappings do not exist, create them.
@@ -854,7 +854,7 @@ CONTAINS
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: error_handle, nvpcols
-      INTEGER, DIMENSION(:), POINTER                     :: rmap, vcol_dist
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: rmap, vcol_dist
 
       IF (careful_mod) CALL timeset(routineN, error_handle)
       ! If the current local col mappings do not exist, create them.

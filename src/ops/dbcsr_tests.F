@@ -111,7 +111,7 @@ CONTAINS
                                                             mynode, numnodes
       INTEGER, ALLOCATABLE, DIMENSION(:, :)              :: group_sizes
       INTEGER, DIMENSION(2)                              :: npdims
-      INTEGER, DIMENSION(:), POINTER                     :: col_dist_a, col_dist_b, col_dist_c, &
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: col_dist_a, col_dist_b, col_dist_c, &
                                                             row_dist_a, row_dist_b, row_dist_c, &
                                                             sizes_k, sizes_m, sizes_n
       LOGICAL                                            :: pgiven

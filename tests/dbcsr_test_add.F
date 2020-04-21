@@ -94,7 +94,7 @@ CONTAINS
       INTEGER                                            :: a_c, a_r, b_c, b_r, handle, isymm, &
                                                             itype, mynode, numnodes, numthreads, &
                                                             TYPE
-      INTEGER, DIMENSION(:), POINTER                     :: my_sizes_m, my_sizes_n, sizes_m, sizes_n
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: my_sizes_m, my_sizes_n, sizes_m, sizes_n
       LOGICAL                                            :: do_complex
       TYPE(dbcsr_data_obj)                               :: data_a, data_a_dbcsr, data_b
       TYPE(dbcsr_scalar_type)                            :: alpha_obj, beta_obj

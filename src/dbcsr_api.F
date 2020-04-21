@@ -884,9 +884,14 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: reuse, reuse_arrays, mutable_work
       CHARACTER, INTENT(IN), OPTIONAL                    :: replication_type
 
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: cont_row_blk_size, cont_col_blk_size
+
+      ! Avoid to change API
+      cont_row_blk_size => row_blk_size
+      cont_col_blk_size => col_blk_size
       CALL dbcsr_create_prv(matrix%prv, name, dist%prv, &
                             matrix_type, &
-                            row_blk_size, col_blk_size, nze=nze, &
+                            cont_row_blk_size, cont_col_blk_size, nze=nze, &
                             data_type=data_type, reuse=reuse, &
                             reuse_arrays=reuse_arrays, &
                             mutable_work=mutable_work, replication_type=replication_type)

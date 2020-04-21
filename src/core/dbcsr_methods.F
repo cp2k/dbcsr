@@ -375,28 +375,28 @@ CONTAINS
 
    FUNCTION dbcsr_row_block_sizes(matrix) RESULT(row_blk_sizes)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
-      INTEGER, DIMENSION(:), POINTER                     :: row_blk_sizes
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: row_blk_sizes
 
       row_blk_sizes => array_data(matrix%row_blk_size)
    END FUNCTION dbcsr_row_block_sizes
 
    FUNCTION dbcsr_col_block_sizes(matrix) RESULT(col_blk_sizes)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
-      INTEGER, DIMENSION(:), POINTER                     :: col_blk_sizes
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: col_blk_sizes
 
       col_blk_sizes => array_data(matrix%col_blk_size)
    END FUNCTION dbcsr_col_block_sizes
 
    FUNCTION dbcsr_col_block_offsets(matrix) RESULT(col_blk_offsets)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
-      INTEGER, DIMENSION(:), POINTER                     :: col_blk_offsets
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: col_blk_offsets
 
       col_blk_offsets => array_data(matrix%col_blk_offset)
    END FUNCTION dbcsr_col_block_offsets
 
    FUNCTION dbcsr_row_block_offsets(matrix) RESULT(row_blk_offsets)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
-      INTEGER, DIMENSION(:), POINTER                     :: row_blk_offsets
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: row_blk_offsets
 
       row_blk_offsets => array_data(matrix%row_blk_offset)
    END FUNCTION dbcsr_row_block_offsets
