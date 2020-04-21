@@ -318,7 +318,7 @@ CONTAINS
                                                             loop_iter, mynode, numnodes, test
       INTEGER(kind=int_8)                                :: flop, flop_sum
       INTEGER, DIMENSION(2)                              :: npdims
-      INTEGER, DIMENSION(:), POINTER                     :: col_dist_a, col_dist_b, col_dist_c, &
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: col_dist_a, col_dist_b, col_dist_c, &
                                                             row_dist_a, row_dist_b, row_dist_c
       LOGICAL                                            :: i_am_alive
       REAL(kind=real_8)                                  :: cs, cs_pos, flops_all, t1, t2

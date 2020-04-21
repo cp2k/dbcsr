@@ -183,7 +183,7 @@ CONTAINS
       TYPE(dbcsr_memtype_type)                 :: mem_type
       LOGICAL                                  :: dbg, docopy, &
                                                   pad
-      ${type1}$, DIMENSION(:), POINTER           :: newarray
+      ${type1}$, DIMENSION(:), POINTER, CONTIGUOUS    :: newarray
 
 !   ---------------------------------------------------------------------------
       !CALL timeset(routineN, error_handler)

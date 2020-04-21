@@ -366,8 +366,8 @@ CONTAINS
 
       TYPE(dbcsr_tas_split_info)                       :: split_info_prv
 
-      INTEGER, DIMENSION(:), POINTER                   :: row_dist_vec => NULL()
-      INTEGER, DIMENSION(:), POINTER                   :: col_dist_vec => NULL()
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS       :: row_dist_vec => NULL()
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS       :: col_dist_vec => NULL()
       TYPE(dbcsr_mp_obj)                               :: mp_environ_tmp
       INTEGER                                          :: nrows, ncols, irow, col, icol, row, &
                                                           split_rowcol, nsplit, handle
@@ -621,7 +621,7 @@ CONTAINS
       INTEGER                                            :: col, data_type, handle, numnodes, row
       INTEGER(KIND=int_8)                                :: nbcols, nbrows
       INTEGER, DIMENSION(2)                              :: pcoord, pdims
-      INTEGER, DIMENSION(:), POINTER                     :: col_blk_size => NULL(), row_blk_size => NULL()
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: col_blk_size => NULL(), row_blk_size => NULL()
       LOGICAL                                            :: tr
       TYPE(dbcsr_data_obj)                               :: block
       TYPE(dbcsr_distribution_obj)                       :: dbcsr_dist

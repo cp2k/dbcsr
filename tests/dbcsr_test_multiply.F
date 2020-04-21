@@ -373,7 +373,7 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'test_multiply', routineP = moduleN//':'//routineN
 
       INTEGER                                            :: c_a, c_b, c_c, handle, r_a, r_b, r_c
-      INTEGER, DIMENSION(:), POINTER                     :: blk_offsets, col_dist_a, col_dist_b, &
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: blk_offsets, col_dist_a, col_dist_b, &
                                                             col_dist_c, row_dist_a, row_dist_b, &
                                                             row_dist_c
       LOGICAL                                            :: success

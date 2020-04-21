@@ -289,7 +289,7 @@ CONTAINS
 
       INTEGER                                            :: ncols_tr, npcols_tr, nprows_tr, &
                                                             nrows_tr, vgcd, vlcm
-      INTEGER, DIMENSION(:), POINTER                     :: col_dist_data_tr, col_img_data_tr, &
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: col_dist_data_tr, col_img_data_tr, &
                                                             row_dist_data_tr, row_img_data_tr
       TYPE(dbcsr_mp_obj)                                 :: mp_env
 

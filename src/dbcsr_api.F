@@ -840,11 +840,17 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: row_dist, col_dist
       LOGICAL, INTENT(IN), OPTIONAL                      :: reuse_arrays
 
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: cont_row_dist, cont_col_dist
+
+      ! Avoid to change API
+      cont_row_dist => row_dist
+      cont_col_dist => col_dist
+
       IF (PRESENT(template)) THEN
-         call dbcsr_distribution_new_prv(dist%prv, template%prv, group, pgrid, row_dist, col_dist, &
+         call dbcsr_distribution_new_prv(dist%prv, template%prv, group, pgrid, cont_row_dist, cont_col_dist, &
                                          reuse_arrays)
       ELSE
-         call dbcsr_distribution_new_prv(dist%prv, group=group, pgrid=pgrid, row_dist=row_dist, col_dist=col_dist, &
+         call dbcsr_distribution_new_prv(dist%prv, group=group, pgrid=pgrid, row_dist=cont_row_dist, col_dist=cont_col_dist, &
                                          reuse_arrays=reuse_arrays)
       ENDIF
    END SUBROUTINE dbcsr_distribution_new
