@@ -430,17 +430,17 @@ CONTAINS
 # 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_bounds_1)) THEN
          ALLOCATE (bounds_1 (2, SIZE(c_bounds_1, 2)))
-         bounds_1 = c_bounds_1+1
+         bounds_1(:, :) = c_bounds_1(:, :) + 1
       ENDIF
 # 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_bounds_2)) THEN
          ALLOCATE (bounds_2 (2, SIZE(c_bounds_2, 2)))
-         bounds_2 = c_bounds_2+1
+         bounds_2(:, :) = c_bounds_2(:, :) + 1
       ENDIF
 # 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_bounds_3)) THEN
          ALLOCATE (bounds_3 (2, SIZE(c_bounds_3, 2)))
-         bounds_3 = c_bounds_3+1
+         bounds_3(:, :) = c_bounds_3(:, :) + 1
       ENDIF
 # 391 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
@@ -787,17 +787,17 @@ ENDIF
 # 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_bounds_1)) THEN
          ALLOCATE (bounds_1 (2, SIZE(c_bounds_1, 2)))
-         bounds_1 = c_bounds_1+1
+         bounds_1(:, :) = c_bounds_1(:, :) + 1
       ENDIF
 # 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_bounds_2)) THEN
          ALLOCATE (bounds_2 (2, SIZE(c_bounds_2, 2)))
-         bounds_2 = c_bounds_2+1
+         bounds_2(:, :) = c_bounds_2(:, :) + 1
       ENDIF
 # 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_bounds_3)) THEN
          ALLOCATE (bounds_3 (2, SIZE(c_bounds_3, 2)))
-         bounds_3 = c_bounds_3+1
+         bounds_3(:, :) = c_bounds_3(:, :) + 1
       ENDIF
 # 391 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
@@ -1144,17 +1144,17 @@ ENDIF
 # 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_bounds_1)) THEN
          ALLOCATE (bounds_1 (2, SIZE(c_bounds_1, 2)))
-         bounds_1 = c_bounds_1+1
+         bounds_1(:, :) = c_bounds_1(:, :) + 1
       ENDIF
 # 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_bounds_2)) THEN
          ALLOCATE (bounds_2 (2, SIZE(c_bounds_2, 2)))
-         bounds_2 = c_bounds_2+1
+         bounds_2(:, :) = c_bounds_2(:, :) + 1
       ENDIF
 # 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_bounds_3)) THEN
          ALLOCATE (bounds_3 (2, SIZE(c_bounds_3, 2)))
-         bounds_3 = c_bounds_3+1
+         bounds_3(:, :) = c_bounds_3(:, :) + 1
       ENDIF
 # 391 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
@@ -1501,17 +1501,17 @@ ENDIF
 # 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_bounds_1)) THEN
          ALLOCATE (bounds_1 (2, SIZE(c_bounds_1, 2)))
-         bounds_1 = c_bounds_1+1
+         bounds_1(:, :) = c_bounds_1(:, :) + 1
       ENDIF
 # 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_bounds_2)) THEN
          ALLOCATE (bounds_2 (2, SIZE(c_bounds_2, 2)))
-         bounds_2 = c_bounds_2+1
+         bounds_2(:, :) = c_bounds_2(:, :) + 1
       ENDIF
 # 386 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
       IF (PRESENT(c_bounds_3)) THEN
          ALLOCATE (bounds_3 (2, SIZE(c_bounds_3, 2)))
-         bounds_3 = c_bounds_3+1
+         bounds_3(:, :) = c_bounds_3(:, :) + 1
       ENDIF
 # 391 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
 
