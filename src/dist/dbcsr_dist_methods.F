@@ -76,7 +76,7 @@ CONTAINS
          OPTIONAL                                        :: template
       INTEGER, INTENT(IN), OPTIONAL                      :: group
       INTEGER, DIMENSION(:, :), OPTIONAL, POINTER        :: pgrid
-      INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: row_dist, col_dist
+      INTEGER, DIMENSION(:), INTENT(IN), POINTER, CONTIGUOUS :: row_dist, col_dist
       LOGICAL, INTENT(IN), OPTIONAL                      :: reuse_arrays
 
       TYPE(dbcsr_mp_obj)                                 :: mp_env
@@ -115,7 +115,7 @@ CONTAINS
          !! distribution
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
          !! multiprocessing environment
-      INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: row_dist_block, col_dist_block
+      INTEGER, DIMENSION(:), INTENT(IN), POINTER, CONTIGUOUS :: row_dist_block, col_dist_block
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL, &
          POINTER, CONTIGUOUS                             :: local_rows, local_cols
       LOGICAL, OPTIONAL                                  :: reuse_arrays
@@ -269,7 +269,7 @@ CONTAINS
    END FUNCTION dbcsr_distribution_ncols
    FUNCTION dbcsr_distribution_row_dist(dist) RESULT(row_dist)
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
-      INTEGER, DIMENSION(:), POINTER                     :: row_dist
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: row_dist
 
 !   ---------------------------------------------------------------------------
 
@@ -278,7 +278,7 @@ CONTAINS
 
    FUNCTION dbcsr_distribution_col_dist(dist) RESULT(col_dist)
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
-      INTEGER, DIMENSION(:), POINTER                     :: col_dist
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: col_dist
 
 !   ---------------------------------------------------------------------------
 

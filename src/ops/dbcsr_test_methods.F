@@ -546,7 +546,7 @@ CONTAINS
       INTEGER, INTENT(in)                                :: nblkrows, nblkcols
       INTEGER, INTENT(in), OPTIONAL                      :: group
 
-      INTEGER, DIMENSION(:), POINTER                     :: col_dist, row_dist
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: col_dist, row_dist
       TYPE(dbcsr_mp_obj)                                 :: mp_env
 
       CALL dbcsr_make_null_mp(mp_env, group=group)

@@ -232,7 +232,7 @@ CONTAINS
       CHARACTER                                          :: a_symm, b_symm, c_symm, transa, transb
       INTEGER                                            :: handle, mynode, numnodes, numthreads
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS :: col_dist_a, col_dist_b, col_dist_c, my_sizes_k, &
-           my_sizes_m, my_sizes_n, row_dist_a, row_dist_b, row_dist_c, sizes_k, sizes_m, sizes_n
+                                               my_sizes_m, my_sizes_n, row_dist_a, row_dist_b, row_dist_c, sizes_k, sizes_m, sizes_n
       LOGICAL                                            :: do_complex
       LOGICAL, DIMENSION(2)                              :: trs
       TYPE(dbcsr_distribution_obj)                       :: dist_a, dist_b, dist_c
@@ -485,7 +485,7 @@ CONTAINS
       INTEGER(int_8)                                     :: flop
       INTEGER(int_8), ALLOCATABLE, DIMENSION(:)          :: flop_sum
       INTEGER(int_8), ALLOCATABLE, DIMENSION(:, :)       :: flops
-      INTEGER, DIMENSION(:), POINTER                     :: blk_offsets, col_dist_a, col_dist_b, &
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: blk_offsets, col_dist_a, col_dist_b, &
                                                             col_dist_c, row_dist_a, row_dist_b, &
                                                             row_dist_c
       LOGICAL                                            :: chksum_err

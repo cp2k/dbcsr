@@ -182,7 +182,7 @@ CONTAINS
       INTEGER                                            :: mp_comm, comm_dbcsr
       TYPE(dbcsr_distribution_obj)                       :: dist_a, dist_b, dist_c
       INTEGER, DIMENSION(2)                              :: npdims, myploc
-      INTEGER, DIMENSION(:), POINTER                     :: cd_a => NULL(), cd_b => NULL(), cd_c => NULL(), &
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: cd_a => NULL(), cd_b => NULL(), cd_c => NULL(), &
                                                             rd_a => NULL(), rd_b => NULL(), rd_c => NULL()
       TYPE(dbcsr_mp_obj)                                 :: mp_environ_tmp
 
@@ -285,7 +285,7 @@ CONTAINS
       INTEGER                                            :: comm_dbcsr, io_unit, mp_comm, mynode, &
                                                             numnodes
       INTEGER, DIMENSION(2)                              :: myploc, npdims
-      INTEGER, DIMENSION(:), POINTER                     :: cd_a => NULL(), cd_b => NULL(), cd_c => NULL(), &
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: cd_a => NULL(), cd_b => NULL(), cd_c => NULL(), &
                                                             rd_a => NULL(), rd_b => NULL(), rd_c => NULL()
       REAL(KIND=real_8)                                  :: norm, rc_cs, sq_cs
       TYPE(dbcsr_distribution_obj)                       :: dist_a, dist_b, dist_c

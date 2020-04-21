@@ -251,7 +251,7 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'test_add', routineP = moduleN//':'//routineN
 
       INTEGER                                            :: c, handle, r
-      INTEGER, DIMENSION(:), POINTER                     :: col_dist_a, col_dist_b, row_dist_a, &
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: col_dist_a, col_dist_b, row_dist_a, &
                                                             row_dist_b
       LOGICAL                                            :: success
       REAL(real_8)                                       :: occ_a_in, occ_a_out, occ_b
