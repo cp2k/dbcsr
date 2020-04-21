@@ -381,6 +381,8 @@ CONTAINS
       TYPE(dbcsr_distribution_obj)                       :: dist_a, dist_b, dist_c
       TYPE(dbcsr_type)                                   :: m_a, m_b, m_c
 
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: row_blk_size, col_blk_size
+
 !   ---------------------------------------------------------------------------
 
       CALL timeset(routineN, handle)
@@ -411,26 +413,32 @@ CONTAINS
       CALL dbcsr_distribution_new(dist_c, mp_env, row_dist_c, col_dist_c, reuse_arrays=.TRUE.)
       ! Redistribute the matrices
       ! A
+      row_blk_size => dbcsr_row_block_sizes(matrix_a)
+      col_blk_size => dbcsr_col_block_sizes(matrix_a)
       CALL dbcsr_create(m_a, "Test for "//TRIM(dbcsr_name(matrix_a)), &
                         dist_a, dbcsr_get_matrix_type(matrix_a), &
-                        dbcsr_row_block_sizes(matrix_a), &
-                        dbcsr_col_block_sizes(matrix_a), &
+                        row_blk_size, &
+                        col_blk_size, &
                         data_type=dbcsr_get_data_type(matrix_a))
       CALL dbcsr_distribution_release(dist_a)
       CALL dbcsr_redistribute(matrix_a, m_a)
       ! B
+      row_blk_size => dbcsr_row_block_sizes(matrix_b)
+      col_blk_size => dbcsr_col_block_sizes(matrix_b)
       CALL dbcsr_create(m_b, "Test for "//TRIM(dbcsr_name(matrix_b)), &
                         dist_b, dbcsr_get_matrix_type(matrix_b), &
-                        dbcsr_row_block_sizes(matrix_b), &
-                        dbcsr_col_block_sizes(matrix_b), &
+                        row_blk_size, &
+                        col_blk_size, &
                         data_type=dbcsr_get_data_type(matrix_b))
       CALL dbcsr_distribution_release(dist_b)
       CALL dbcsr_redistribute(matrix_b, m_b)
       ! C
+      row_blk_size => dbcsr_row_block_sizes(matrix_c)
+      col_blk_size => dbcsr_col_block_sizes(matrix_c)
       CALL dbcsr_create(m_c, "Test for "//TRIM(dbcsr_name(matrix_c)), &
                         dist_c, dbcsr_get_matrix_type(matrix_c), &
-                        dbcsr_row_block_sizes(matrix_c), &
-                        dbcsr_col_block_sizes(matrix_c), &
+                        row_blk_size, &
+                        col_blk_size, &
                         data_type=dbcsr_get_data_type(matrix_c))
       CALL dbcsr_distribution_release(dist_c)
       CALL dbcsr_redistribute(matrix_c, m_c)

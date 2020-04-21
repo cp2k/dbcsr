@@ -215,7 +215,7 @@ CONTAINS
          dense_template = dbcsr_type()
          CALL dbcsr_create(dense_template, template=matrix, &
                            dist=dense_rdist%i%main, &
-                           row_blk_size=array_data(row_blk_size), col_blk_size=array_data(col_blk_size))
+                           row_blk_size_obj=row_blk_size, col_blk_size_obj=col_blk_size)
          CALL dbcsr_make_images_dense(m2s, dense_rdist, &
                                       row_map=row_map, col_map=col_map, &
                                       join_cols=use_dense_mult, join_rows=ab_dense, &
@@ -427,8 +427,8 @@ CONTAINS
             ums%mats(row_img, col_img) = dbcsr_type()
             CALL dbcsr_create(ums%mats(row_img, col_img), "imaged "//sm%name, &
                               target_dist, &
-                              dbcsr_type_no_symmetry, array_data(sm%row_blk_size), array_data(sm%col_blk_size), &
-                              sm%row_blk_size, sm%col_blk_size, &
+                              dbcsr_type_no_symmetry, &
+                              row_blk_size_obj=sm%row_blk_size, col_blk_size_obj=sm%col_blk_size, &
                               nze=0, data_type=data_type, &
                               max_rbs=sm%max_rbs, max_cbs=sm%max_cbs, &
                               row_blk_offset=sm%row_blk_offset, col_blk_offset=sm%col_blk_offset, &

@@ -892,7 +892,7 @@ CONTAINS
 
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: cont_row_blk_size, cont_col_blk_size
 
-      ! Avoid to change API
+      ! Avoid to change API, take the risk if they are not contiguous
       cont_row_blk_size => row_blk_size
       cont_col_blk_size => col_blk_size
       CALL dbcsr_create_prv(matrix%prv, name, dist%prv, &
@@ -919,18 +919,45 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: reuse_arrays, mutable_work
       CHARACTER, INTENT(IN), OPTIONAL                    :: replication_type
 
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: cont_row_blk_size, cont_col_blk_size
+
+
       IF (PRESENT(dist)) THEN
-         CALL dbcsr_create_prv(matrix%prv, template%prv, name, &
-                               dist%prv, matrix_type, &
-                               row_blk_size, col_blk_size, nze, data_type, &
-                               reuse_arrays=reuse_arrays, mutable_work=mutable_work, &
-                               replication_type=replication_type)
+         IF (PRESENT(row_blk_size) .AND. PRESENT(col_blk_size)) THEN
+            ! Avoid to change API, take the risk if they are not contiguous
+            cont_row_blk_size => row_blk_size
+            cont_col_blk_size => col_blk_size
+            CALL dbcsr_create_prv(matrix%prv, template%prv, name, &
+                                  dist%prv, matrix_type, &
+                                  row_blk_size=cont_row_blk_size, col_blk_size=cont_col_blk_size, &
+                                  nze=nze, data_type=data_type, &
+                                  reuse_arrays=reuse_arrays, mutable_work=mutable_work, &
+                                  replication_type=replication_type)
+         ELSE
+            CALL dbcsr_create_prv(matrix%prv, template%prv, name, &
+                                  dist%prv, matrix_type, &
+                                  nze=nze, data_type=data_type, &
+                                  reuse_arrays=reuse_arrays, mutable_work=mutable_work, &
+                                  replication_type=replication_type)
+         ENDIF
       ELSE
-         CALL dbcsr_create_prv(matrix%prv, template%prv, name, &
-                               matrix_type=matrix_type, &
-                               row_blk_size=row_blk_size, col_blk_size=col_blk_size, nze=nze, data_type=data_type, &
-                               reuse_arrays=reuse_arrays, mutable_work=mutable_work, &
-                               replication_type=replication_type)
+         IF (PRESENT(row_blk_size) .AND. PRESENT(col_blk_size)) THEN
+            ! Avoid to change API, take the risk if they are not contiguous
+            cont_row_blk_size => row_blk_size
+            cont_col_blk_size => col_blk_size
+            CALL dbcsr_create_prv(matrix%prv, template%prv, name, &
+                                  matrix_type=matrix_type, &
+                                  row_blk_size=cont_row_blk_size, col_blk_size=cont_col_blk_size, &
+                                  nze=nze, data_type=data_type, &
+                                  reuse_arrays=reuse_arrays, mutable_work=mutable_work, &
+                                  replication_type=replication_type)
+         ELSE
+            CALL dbcsr_create_prv(matrix%prv, template%prv, name, &
+                                  matrix_type=matrix_type, &
+                                  nze=nze, data_type=data_type, &
+                                  reuse_arrays=reuse_arrays, mutable_work=mutable_work, &
+                                  replication_type=replication_type)
+         ENDIF
       ENDIF
    END SUBROUTINE dbcsr_create_template
 

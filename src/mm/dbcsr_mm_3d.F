@@ -2371,8 +2371,8 @@ CONTAINS
                         "Buffer image of "//template_matrix%name, &
                         imgdist%i%main, &
                         dbcsr_type_no_symmetry, &
-                        array_data(template_matrix%row_blk_size), array_data(template_matrix%col_blk_size), &
-                        template_matrix%row_blk_size, template_matrix%col_blk_size, &
+                        row_blk_size_obj=template_matrix%row_blk_size, &
+                        col_blk_size_obj=template_matrix%col_blk_size, &
                         data_type=dbcsr_data_get_type(data_buffer), &
                         data_buffer=data_buffer, &
                         max_rbs=template_matrix%max_rbs, max_cbs=template_matrix%max_cbs, &

@@ -2925,7 +2925,7 @@ CONTAINS
       IF (dbcsr_nfullrows_total(matrix) /= SIZE(diag)) &
          DBCSR_ABORT("Diagonal has wrong size")
 
-      IF (.NOT. array_equality(dbcsr_row_block_offsets(matrix), dbcsr_row_block_offsets(matrix))) &
+      IF (.NOT. array_equality(matrix%row_blk_offset, matrix%col_blk_offset)) &
          DBCSR_ABORT("matrix not quadratic")
 
       CALL dbcsr_iterator_start(iter, matrix)
@@ -2964,7 +2964,7 @@ CONTAINS
       IF (dbcsr_nfullrows_total(matrix) /= SIZE(diag)) &
          DBCSR_ABORT("Diagonal has wrong size")
 
-      IF (.NOT. array_equality(dbcsr_row_block_offsets(matrix), dbcsr_row_block_offsets(matrix))) &
+      IF (.NOT. array_equality(matrix%row_blk_offset, matrix%col_blk_offset)) &
          DBCSR_ABORT("matrix not quadratic")
 
       diag(:) = ${zero1[n]}$
@@ -3005,7 +3005,7 @@ CONTAINS
       IF (dbcsr_get_data_type(matrix) /= ${dkind1}$) &
          DBCSR_ABORT("Incompatible data types")
 
-      IF (.NOT. array_equality(dbcsr_row_block_offsets(matrix), dbcsr_row_block_offsets(matrix))) &
+      IF (.NOT. array_equality(matrix%row_blk_offset, matrix%col_blk_offset)) &
          DBCSR_ABORT("matrix not quadratic")
 
       mynode = dbcsr_mp_mynode(dbcsr_distribution_mp(dbcsr_distribution(matrix)))
