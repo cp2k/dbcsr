@@ -1125,7 +1125,7 @@ CONTAINS
 
       TYPE(dbcsr_data_obj), INTENT(INOUT)      :: area
         !! target data area
-      ${type1}$, DIMENSION(:), POINTER :: p
+      ${type1}$, DIMENSION(:), POINTER, CONTIGUOUS :: p
         !! source data pointer
 
       CHARACTER(len=*), PARAMETER :: routineN = 'set_data_p_${nametype1}$', &
@@ -1223,7 +1223,7 @@ CONTAINS
 
       TYPE(dbcsr_data_obj), INTENT(IN)         :: area
         !! data area
-      ${type1}$, DIMENSION(:), POINTER :: DATA
+      ${type1}$, DIMENSION(:), POINTER, CONTIGUOUS :: DATA
         !! pointer to data
       INTEGER, INTENT(IN), OPTIONAL  :: lb, ub
         !! lower bound for pointer
