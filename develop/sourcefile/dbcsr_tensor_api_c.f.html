@@ -284,7 +284,7 @@
 <a name="ln-26"></a>   <span class="k">USE </span><span class="n">dbcsr_allocate_wrap</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">allocate_any</span>
 <a name="ln-27"></a>   <span class="k">USE </span><span class="n">dbcsr_tensor_api</span>
 <a name="ln-28"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
-<a name="ln-29"></a>      <span class="n">real_8</span><span class="p">,</span> <span class="n">real_4</span><span class="p">,</span> <span class="n">default_string_length</span><span class="p">,</span> <span class="n">int_8</span>
+<a name="ln-29"></a>      <span class="n">real_4</span><span class="p">,</span> <span class="n">real_8</span><span class="p">,</span> <span class="n">default_string_length</span><span class="p">,</span> <span class="n">int_8</span>
 <a name="ln-30"></a>   <span class="k">USE </span><span class="n">dbcsr_data_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_scalar_type</span>
 <a name="ln-31"></a>   <span class="k">USE </span><span class="n">dbcsr_data_methods</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_scalar</span>
 <a name="ln-32"></a>   <span class="k">USE </span><span class="n">dbcsr_machine</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">default_output_unit</span>
@@ -688,17 +688,17 @@
 <a name="ln-430"></a><span class="cp"># 386 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F&quot;</span>
 <a name="ln-431"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">c_bounds_1</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-432"></a><span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">bounds_1</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">c_bounds_1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
-<a name="ln-433"></a>         <span class="n">bounds_1</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">c_bounds_1</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-433"></a>         <span class="n">bounds_1</span> <span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">c_bounds_1</span> <span class="p">(:,</span> <span class="p">:)</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-434"></a>      <span class="n">ENDIF</span>
 <a name="ln-435"></a><span class="cp"># 386 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F&quot;</span>
 <a name="ln-436"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">c_bounds_2</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-437"></a><span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">bounds_2</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">c_bounds_2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
-<a name="ln-438"></a>         <span class="n">bounds_2</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">c_bounds_2</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-438"></a>         <span class="n">bounds_2</span> <span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">c_bounds_2</span> <span class="p">(:,</span> <span class="p">:)</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-439"></a>      <span class="n">ENDIF</span>
 <a name="ln-440"></a><span class="cp"># 386 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F&quot;</span>
 <a name="ln-441"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">c_bounds_3</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-442"></a><span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">bounds_3</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">c_bounds_3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
-<a name="ln-443"></a>         <span class="n">bounds_3</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">c_bounds_3</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-443"></a>         <span class="n">bounds_3</span> <span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">c_bounds_3</span> <span class="p">(:,</span> <span class="p">:)</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-444"></a>      <span class="n">ENDIF</span>
 <a name="ln-445"></a><span class="cp"># 391 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F&quot;</span>
 <a name="ln-446"></a>
@@ -1045,17 +1045,17 @@
 <a name="ln-787"></a><span class="cp"># 386 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F&quot;</span>
 <a name="ln-788"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">c_bounds_1</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-789"></a><span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">bounds_1</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">c_bounds_1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
-<a name="ln-790"></a>         <span class="n">bounds_1</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">c_bounds_1</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-790"></a>         <span class="n">bounds_1</span> <span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">c_bounds_1</span> <span class="p">(:,</span> <span class="p">:)</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-791"></a>      <span class="n">ENDIF</span>
 <a name="ln-792"></a><span class="cp"># 386 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F&quot;</span>
 <a name="ln-793"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">c_bounds_2</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-794"></a><span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">bounds_2</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">c_bounds_2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
-<a name="ln-795"></a>         <span class="n">bounds_2</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">c_bounds_2</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-795"></a>         <span class="n">bounds_2</span> <span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">c_bounds_2</span> <span class="p">(:,</span> <span class="p">:)</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-796"></a>      <span class="n">ENDIF</span>
 <a name="ln-797"></a><span class="cp"># 386 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F&quot;</span>
 <a name="ln-798"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">c_bounds_3</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-799"></a><span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">bounds_3</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">c_bounds_3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
-<a name="ln-800"></a>         <span class="n">bounds_3</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">c_bounds_3</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-800"></a>         <span class="n">bounds_3</span> <span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">c_bounds_3</span> <span class="p">(:,</span> <span class="p">:)</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-801"></a>      <span class="n">ENDIF</span>
 <a name="ln-802"></a><span class="cp"># 391 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F&quot;</span>
 <a name="ln-803"></a>
@@ -1402,17 +1402,17 @@
 <a name="ln-1144"></a><span class="cp"># 386 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F&quot;</span>
 <a name="ln-1145"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">c_bounds_1</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-1146"></a><span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">bounds_1</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">c_bounds_1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
-<a name="ln-1147"></a>         <span class="n">bounds_1</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">c_bounds_1</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-1147"></a>         <span class="n">bounds_1</span> <span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">c_bounds_1</span> <span class="p">(:,</span> <span class="p">:)</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-1148"></a>      <span class="n">ENDIF</span>
 <a name="ln-1149"></a><span class="cp"># 386 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F&quot;</span>
 <a name="ln-1150"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">c_bounds_2</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-1151"></a><span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">bounds_2</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">c_bounds_2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
-<a name="ln-1152"></a>         <span class="n">bounds_2</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">c_bounds_2</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-1152"></a>         <span class="n">bounds_2</span> <span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">c_bounds_2</span> <span class="p">(:,</span> <span class="p">:)</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-1153"></a>      <span class="n">ENDIF</span>
 <a name="ln-1154"></a><span class="cp"># 386 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F&quot;</span>
 <a name="ln-1155"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">c_bounds_3</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-1156"></a><span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">bounds_3</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">c_bounds_3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
-<a name="ln-1157"></a>         <span class="n">bounds_3</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">c_bounds_3</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-1157"></a>         <span class="n">bounds_3</span> <span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">c_bounds_3</span> <span class="p">(:,</span> <span class="p">:)</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-1158"></a>      <span class="n">ENDIF</span>
 <a name="ln-1159"></a><span class="cp"># 391 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F&quot;</span>
 <a name="ln-1160"></a>
@@ -1759,17 +1759,17 @@
 <a name="ln-1501"></a><span class="cp"># 386 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F&quot;</span>
 <a name="ln-1502"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">c_bounds_1</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-1503"></a><span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">bounds_1</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">c_bounds_1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
-<a name="ln-1504"></a>         <span class="n">bounds_1</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">c_bounds_1</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-1504"></a>         <span class="n">bounds_1</span> <span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">c_bounds_1</span> <span class="p">(:,</span> <span class="p">:)</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-1505"></a>      <span class="n">ENDIF</span>
 <a name="ln-1506"></a><span class="cp"># 386 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F&quot;</span>
 <a name="ln-1507"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">c_bounds_2</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-1508"></a><span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">bounds_2</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">c_bounds_2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
-<a name="ln-1509"></a>         <span class="n">bounds_2</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">c_bounds_2</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-1509"></a>         <span class="n">bounds_2</span> <span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">c_bounds_2</span> <span class="p">(:,</span> <span class="p">:)</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-1510"></a>      <span class="n">ENDIF</span>
 <a name="ln-1511"></a><span class="cp"># 386 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F&quot;</span>
 <a name="ln-1512"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">c_bounds_3</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-1513"></a><span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">bounds_3</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">c_bounds_3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)))</span>
-<a name="ln-1514"></a>         <span class="n">bounds_3</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">c_bounds_3</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-1514"></a>         <span class="n">bounds_3</span> <span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">c_bounds_3</span> <span class="p">(:,</span> <span class="p">:)</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-1515"></a>      <span class="n">ENDIF</span>
 <a name="ln-1516"></a><span class="cp"># 391 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F&quot;</span>
 <a name="ln-1517"></a>
