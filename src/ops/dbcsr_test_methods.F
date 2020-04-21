@@ -323,7 +323,7 @@ CONTAINS
                                        name, sparsity, mp_group, data_type, symmetry, dist)
       !! Creates a random matrix.
       TYPE(dbcsr_type), INTENT(out)                      :: matrix
-      INTEGER, DIMENSION(:), INTENT(in), POINTER         :: row_blk_sizes, col_blk_sizes
+      INTEGER, DIMENSION(:), INTENT(in), POINTER, CONTIGUOUS :: row_blk_sizes, col_blk_sizes
       CHARACTER(len=*), INTENT(in)                       :: name
       REAL(kind=real_8), INTENT(in)                      :: sparsity
       INTEGER, INTENT(in)                                :: mp_group

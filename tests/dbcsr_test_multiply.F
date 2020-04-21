@@ -119,7 +119,7 @@ CONTAINS
       INTEGER                                            :: a_c, a_r, a_tr, b_c, b_r, b_tr, c_c, &
                                                             c_r, handle, isymm, itype, mynode, &
                                                             numnodes, numthreads, TYPE
-      INTEGER, DIMENSION(:), POINTER                     :: my_sizes_k, my_sizes_m, my_sizes_n, &
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: my_sizes_k, my_sizes_m, my_sizes_n, &
                                                             sizes_k, sizes_m, sizes_n
       LOGICAL                                            :: do_complex
       TYPE(dbcsr_data_obj)                               :: data_a, data_b, data_c, data_c_dbcsr

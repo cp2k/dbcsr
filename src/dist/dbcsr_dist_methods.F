@@ -117,7 +117,7 @@ CONTAINS
          !! multiprocessing environment
       INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: row_dist_block, col_dist_block
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL, &
-         POINTER                                         :: local_rows, local_cols
+         POINTER, CONTIGUOUS                             :: local_rows, local_cols
       LOGICAL, OPTIONAL                                  :: reuse_arrays
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_distribution_new', &
@@ -125,7 +125,7 @@ CONTAINS
 
       INTEGER                                            :: handle, i, lcmv, mypcoor, npcols, &
                                                             nprows, seq
-      INTEGER, DIMENSION(:), POINTER                     :: col_dist_tmp, row_dist_tmp
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: col_dist_tmp, row_dist_tmp
 
 !   ---------------------------------------------------------------------------
 
@@ -317,7 +317,7 @@ CONTAINS
    END FUNCTION dbcsr_distribution_nlocal_cols
    FUNCTION dbcsr_distribution_local_rows(dist) RESULT(local_rows)
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
-      INTEGER, DIMENSION(:), POINTER                     :: local_rows
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: local_rows
 
       local_rows => array_data(dist%d%local_rows)
    END FUNCTION dbcsr_distribution_local_rows
@@ -329,7 +329,7 @@ CONTAINS
    END FUNCTION dbcsr_distribution_local_rows_obj
    FUNCTION dbcsr_distribution_local_cols(dist) RESULT(local_cols)
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
-      INTEGER, DIMENSION(:), POINTER                     :: local_cols
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: local_cols
 
       local_cols => array_data(dist%d%local_cols)
    END FUNCTION dbcsr_distribution_local_cols
@@ -467,7 +467,7 @@ CONTAINS
                                                             group_size, i, last_row, nlrows, &
                                                             nrows, nthreads, row, t, t_cnt
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: reorder, sorted_row_sizes
-      INTEGER, DIMENSION(:), POINTER                     :: lrows, td
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: lrows, td
       LOGICAL                                            :: assigned, found
       REAL(kind=sp)                                      :: load_fraction, rn, soft_thr
       TYPE(dbcsr_heap_type)                              :: t_heap

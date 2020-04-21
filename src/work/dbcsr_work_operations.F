@@ -135,7 +135,7 @@ CONTAINS
          !! distribution_2d distribution
       CHARACTER, INTENT(IN)                              :: matrix_type
          !! 'N' for normal, 'T' for transposed, 'S' for symmetric, and 'A' for antisymmetric
-      INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: row_blk_size, col_blk_size
+      INTEGER, DIMENSION(:), INTENT(IN), POINTER, CONTIGUOUS :: row_blk_size, col_blk_size
       TYPE(array_i1d_obj), INTENT(IN), OPTIONAL          :: row_blk_size_obj, col_blk_size_obj
       INTEGER, INTENT(IN), OPTIONAL                      :: nze, data_type
          !! number of elements
@@ -159,7 +159,7 @@ CONTAINS
 
       CHARACTER                                          :: matrix_type_l
       INTEGER                                            :: handle, my_nze
-      INTEGER, DIMENSION(:), POINTER                     :: vec_col_blk_offset, vec_row_blk_offset
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: vec_col_blk_offset, vec_row_blk_offset
       INTEGER, DIMENSION(dbcsr_meta_size)                :: new_meta
       LOGICAL                                            :: hijack, my_make_index
 
@@ -458,7 +458,7 @@ CONTAINS
       CHARACTER                                          :: new_matrix_type, new_replication_type
       CHARACTER(len=default_string_length)               :: new_name
       INTEGER                                            :: new_data_type, new_max_cbs, new_max_rbs
-      INTEGER, DIMENSION(:), POINTER                     :: new_col_blk_size, new_row_blk_size, &
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: new_col_blk_size, new_row_blk_size, &
                                                             vec_col_blk_offset, vec_row_blk_offset
       LOGICAL                                            :: my_make_index, new_mutable_work
       TYPE(array_i1d_obj)                                :: new_col_blk_offset, new_row_blk_offset
