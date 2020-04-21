@@ -560,7 +560,7 @@ int main(int argc, char* argv[])
     c_dbcsr_t_pgrid_destroy(&pgrid_3d, nullptr);
     c_dbcsr_t_pgrid_destroy(&pgrid_4d, nullptr);
 
-    free(name);
+    c_free_string(&name);
 
     c_dbcsr_finalize_lib();
 

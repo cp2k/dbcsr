@@ -53,6 +53,9 @@ extern "C" {
 
     void c_dbcsr_multiply_d(char transa, char transb, double alpha, void** c_matrix_a, void** c_matrix_b,
                             double beta, void** c_matrix_c, bool* retain_sparsity);
+
+  void c_free_string(char** c_string);
+
 #ifdef __cplusplus
 }
 #endif
