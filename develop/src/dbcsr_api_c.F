@@ -213,13 +213,13 @@ CONTAINS
    END SUBROUTINE
 
    SUBROUTINE c_free_string(c_string) BIND(C, name="c_free_string")
-     TYPE(c_ptr), INTENT(INOUT)             :: c_string
+      TYPE(c_ptr), INTENT(INOUT)             :: c_string
 
-     CHARACTER(:, kind=c_char), ALLOCATABLE :: string
+      CHARACTER(:, kind=c_char), POINTER :: string
 
-     CALL c_f_string(c_string, string)
-     DEALLOCATE (string)
-     c_string = c_null_ptr
+      CALL c_f_pointer(c_string, string)
+      DEALLOCATE (string)
+      c_string = c_null_ptr
 
    END SUBROUTINE c_free_string
 

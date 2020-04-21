@@ -300,13 +300,13 @@ private subroutine c_free_string(c_string) bind(C, name="0")
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">c_free_string</span><span class="p">(</span><span class="n">c_string</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;c_free_string&quot;</span><span class="p">)</span>
-     <span class="k">TYPE</span><span class="p">(</span><span class="kt">c_ptr</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>             <span class="kd">::</span> <span class="n">c_string</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="kt">c_ptr</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>             <span class="kd">::</span> <span class="n">c_string</span>
 
-     <span class="kt">CHARACTER</span><span class="p">(:,</span> <span class="nb">kind</span><span class="o">=</span><span class="kt">c_char</span><span class="p">),</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">string</span>
+      <span class="kt">CHARACTER</span><span class="p">(:,</span> <span class="nb">kind</span><span class="o">=</span><span class="kt">c_char</span><span class="p">),</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">string</span>
 
-     <span class="k">CALL </span><span class="n">c_f_string</span><span class="p">(</span><span class="n">c_string</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
-     <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">string</span><span class="p">)</span>
-     <span class="n">c_string</span> <span class="o">=</span> <span class="nb">c_null_ptr</span>
+      <span class="k">CALL </span><span class="nb">c_f_pointer</span><span class="p">(</span><span class="n">c_string</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">string</span><span class="p">)</span>
+      <span class="n">c_string</span> <span class="o">=</span> <span class="nb">c_null_ptr</span>
 
 <span class="nb">   </span><span class="k">END SUBROUTINE </span><span class="n">c_free_string</span>
 </pre></div>
