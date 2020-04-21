@@ -385,7 +385,7 @@ CONTAINS
 #:for dim in range(1,4)
       IF (PRESENT(c_bounds_${dim}$)) THEN
          ALLOCATE (bounds_${dim}$ (2, SIZE(c_bounds_${dim}$, 2)))
-         bounds_${dim}$(:, :) = c_bounds_${dim}$(:, :) + 1
+         bounds_${dim}$ (:, :) = c_bounds_${dim}$ (:, :) + 1
       ENDIF
 #:endfor
 
