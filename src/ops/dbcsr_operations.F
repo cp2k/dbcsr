@@ -2071,7 +2071,7 @@ CONTAINS
       REAL(KIND=real_8), DIMENSION(:), INTENT(OUT), &
          TARGET                                          :: norm_vector
 
-      REAL(KIND=real_8), DIMENSION(:), POINTER           :: v_p
+      REAL(KIND=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: v_p
       TYPE(dbcsr_data_obj)                               :: norm_vector_a
 
       CALL dbcsr_data_init(norm_vector_a)
@@ -2852,7 +2852,7 @@ CONTAINS
       CHARACTER(LEN=*), INTENT(IN)              :: side
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_scale_by_vector_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
-      ${type1}$, DIMENSION(:), POINTER            :: tmp_p
+      ${type1}$, DIMENSION(:), POINTER, CONTIGUOUS :: tmp_p
       TYPE(dbcsr_data_obj)                      :: enc_alpha_vec
 
       CALL dbcsr_data_init(enc_alpha_vec)

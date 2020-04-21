@@ -267,15 +267,22 @@ CONTAINS
 
       TYPE(dbcsr_mp_obj)                                 :: mp_env_tr
 
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: col_dist, &
+                                                            row_dist, &
+                                                            local_cols, &
+                                                            local_rows
+
 !   ---------------------------------------------------------------------------
 
       CALL dbcsr_mp_new_transposed(mp_env_tr, dbcsr_distribution_mp( &
                                    dist_normal))
+      col_dist => dbcsr_distribution_col_dist(dist_normal)
+      row_dist => dbcsr_distribution_row_dist(dist_normal)
+      local_cols => dbcsr_distribution_local_cols(dist_normal)
+      local_rows => dbcsr_distribution_local_rows(dist_normal)
+
       CALL dbcsr_distribution_new(dist_tr, mp_env_tr, &
-                                  dbcsr_distribution_col_dist(dist_normal), &
-                                  dbcsr_distribution_row_dist(dist_normal), &
-                                  dbcsr_distribution_local_cols(dist_normal), &
-                                  dbcsr_distribution_local_rows(dist_normal))
+                                  col_dist, row_dist, local_cols, local_rows)
       CALL dbcsr_mp_release(mp_env_tr)
    END SUBROUTINE dbcsr_transpose_distribution
 
