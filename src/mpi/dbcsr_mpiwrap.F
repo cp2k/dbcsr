@@ -744,7 +744,7 @@ CONTAINS
       INTEGER, INTENT(IN)                      :: mp_comm
          !! [output] : handle of the default communicator
       INTEGER, INTENT(out)                     :: mp_new_comm
-      INTEGER, DIMENSION(:)                    :: ranks_order
+      INTEGER, DIMENSION(:), CONTIGUOUS                    :: ranks_order
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_reordering', &
                                      routineP = moduleN//':'//routineN
@@ -758,7 +758,7 @@ CONTAINS
       ierr = 0
 #if defined(__parallel)
 
-      CALL mpi_comm_group(mp_comm, oldgroup, ierr); 
+      CALL mpi_comm_group(mp_comm, oldgroup, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_group @ mp_reordering")
       CALL mpi_group_incl(oldgroup, SIZE(ranks_order), ranks_order, newgroup, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_group_incl @ mp_reordering")
@@ -1173,8 +1173,9 @@ CONTAINS
    SUBROUTINE mp_cart_create(comm_old, ndims, dims, pos, comm_cart)
 
       INTEGER, INTENT(IN)                      :: comm_old, ndims
-      INTEGER, INTENT(INOUT)                   :: dims(:)
-      INTEGER, INTENT(OUT)                     :: pos(:), comm_cart
+      INTEGER, INTENT(INOUT), CONTIGUOUS       :: dims(:)
+      INTEGER, INTENT(OUT), CONTIGUOUS         :: pos(:)
+      INTEGER, INTENT(OUT)                     :: comm_cart
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_cart_create', &
                                      routineP = moduleN//':'//routineN
@@ -1226,7 +1227,7 @@ CONTAINS
    SUBROUTINE mp_cart_coords(comm, rank, coords)
 
       INTEGER, INTENT(IN)                                :: comm, rank
-      INTEGER, DIMENSION(:), INTENT(OUT)                 :: coords
+      INTEGER, DIMENSION(:), INTENT(OUT), CONTIGUOUS     :: coords
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_cart_coords', routineP = moduleN//':'//routineN
 
@@ -1289,7 +1290,7 @@ CONTAINS
    SUBROUTINE mp_cart_sub(comm, rdim, sub_comm)
 
       INTEGER, INTENT(IN)                                :: comm
-      LOGICAL, DIMENSION(:), INTENT(IN)                  :: rdim
+      LOGICAL, DIMENSION(:), INTENT(IN), CONTIGUOUS      :: rdim
       INTEGER, INTENT(OUT)                               :: sub_comm
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_cart_sub', routineP = moduleN//':'//routineN
@@ -1362,8 +1363,8 @@ CONTAINS
 !..mp_rank_compare
    SUBROUTINE mp_rank_compare(comm1, comm2, rank)
 
-      INTEGER, INTENT(IN)                      :: comm1, comm2
-      INTEGER, DIMENSION(:), INTENT(OUT)       :: rank
+      INTEGER, INTENT(IN)                            :: comm1, comm2
+      INTEGER, DIMENSION(:), INTENT(OUT), CONTIGUOUS :: rank
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_rank_compare', &
                                      routineP = moduleN//':'//routineN
@@ -1416,7 +1417,7 @@ CONTAINS
    SUBROUTINE mp_dims_create(nodes, dims)
 
       INTEGER, INTENT(IN)                                :: nodes
-      INTEGER, DIMENSION(:), INTENT(INOUT)               :: dims
+      INTEGER, DIMENSION(:), INTENT(INOUT), CONTIGUOUS   :: dims
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_dims_create', routineP = moduleN//':'//routineN
 
@@ -1440,7 +1441,7 @@ CONTAINS
 !..mp_cart_rank
    SUBROUTINE mp_cart_rank(group, pos, rank)
       INTEGER, INTENT(IN)                                :: group
-      INTEGER, DIMENSION(:), INTENT(IN)                  :: pos
+      INTEGER, DIMENSION(:), INTENT(IN), CONTIGUOUS      :: pos
       INTEGER, INTENT(OUT)                               :: rank
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_cart_rank', routineP = moduleN//':'//routineN
@@ -1488,7 +1489,7 @@ CONTAINS
       !! @note
       !! see isendrecv
 
-      INTEGER, DIMENSION(:), INTENT(inout)     :: requests
+      INTEGER, DIMENSION(:), INTENT(inout), CONTIGUOUS :: requests
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_waitall_1', &
                                      routineP = moduleN//':'//routineN
@@ -1516,7 +1517,7 @@ CONTAINS
 
    SUBROUTINE mp_waitall_2(requests)
       !! waits for completion of the given requests
-      INTEGER, DIMENSION(:, :), INTENT(inout)  :: requests
+      INTEGER, DIMENSION(:, :), INTENT(inout), CONTIGUOUS :: requests
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_waitall_2', &
                                      routineP = moduleN//':'//routineN

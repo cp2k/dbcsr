@@ -159,7 +159,7 @@ CONTAINS
                                                nocopy, memory_type, zero_pad)
      !! Ensures that an array is appropriately large.
 
-      ${type1}$, DIMENSION(:), POINTER                 :: array
+      ${type1}$, DIMENSION(:), POINTER, CONTIGUOUS     :: array
         !! array to verify and possibly resize
       ${type1}$, DIMENSION(:), POINTER, OPTIONAL       :: array_resize
       INTEGER, INTENT(IN), OPTIONAL                  :: lb

@@ -480,7 +480,7 @@ CONTAINS
       INTEGER                                            :: block_size, current_sum, nblocks, &
                                                             nsize_mix, selector
       INTEGER, ALLOCATABLE, DIMENSION(:, :)              :: mixer
-      INTEGER, DIMENSION(:), POINTER                     :: sizes
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: sizes
 
 !
 

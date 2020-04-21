@@ -867,9 +867,10 @@ CONTAINS
       INTEGER, ALLOCATABLE, DIMENSION(:, :, :)           :: left_sizes, my_sizes, right_sizes
       INTEGER, ALLOCATABLE, DIMENSION(:, :, :, :)        :: all_sizes
       INTEGER, DIMENSION(:), POINTER :: col_blk_sizes2enum, enum2col_blk_sizes, &
-                                        enum2row_blk_sizes, k_sizes, left_data_rr, left_data_sr, left_index_rp, left_index_rr, &
+                                        enum2row_blk_sizes, left_data_rr, left_data_sr, left_index_rp, left_index_rr, &
                                         left_index_sp, left_index_sr, local_rows, m_sizes, n_sizes, right_data_rr, right_data_sr, &
                                         right_index_rp, right_index_rr, right_index_sp, right_index_sr, row_blk_sizes2enum
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: k_sizes
       INTEGER, DIMENSION(:, :), POINTER                  :: left_pgrid, product_pgrid, right_pgrid
       INTEGER, SAVE                                      :: mult_id = 0
       LOGICAL                                            :: keep_sparsity, list_indexing, &
@@ -1949,7 +1950,7 @@ CONTAINS
       TYPE(dbcsr_imagedistribution_obj), INTENT(IN)           :: target_imgdist
       INTEGER, DIMENSION(:, :), INTENT(IN), POINTER           :: blacs2mpi
       CHARACTER, INTENT(IN)                                   :: predist_type_fwd
-      ${type1}$, DIMENSION(:), INTENT(IN)                     :: data_area
+      ${type1}$, DIMENSION(:), INTENT(IN), CONTIGUOUS         :: data_area
       TYPE(dbcsr_data_obj), INTENT(INOUT)                     :: send_data_area
       TYPE(dbcsr_scalar_type), INTENT(IN)                     :: scale_neg_one
       TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL           :: scale_value
