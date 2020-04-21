@@ -212,4 +212,15 @@ CONTAINS
       ENDIF
    END SUBROUTINE
 
+   SUBROUTINE c_free_string(c_string) BIND(C, name="c_free_string")
+     TYPE(c_ptr), INTENT(INOUT)             :: c_string
+
+     CHARACTER(:, kind=c_char), ALLOCATABLE :: string
+
+     CALL c_f_string(c_string, string)
+     DEALLOCATE (string)
+     c_string = c_null_ptr
+
+   END SUBROUTINE c_free_string
+
 END MODULE

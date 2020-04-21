@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.2% of total for source files.">136 statements</a>
+    title=" 0.2% of total for source files.">143 statements</a>
      </li> 
      
      
@@ -470,7 +470,18 @@
 <a name="ln-212"></a>      <span class="n">ENDIF</span>
 <a name="ln-213"></a>   <span class="k">END SUBROUTINE</span>
 <a name="ln-214"></a>
-<a name="ln-215"></a><span class="k">END MODULE</span>
+<a name="ln-215"></a><span class="k">   SUBROUTINE </span><span class="n">c_free_string</span><span class="p">(</span><span class="n">c_string</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;c_free_string&quot;</span><span class="p">)</span>
+<a name="ln-216"></a>     <span class="k">TYPE</span><span class="p">(</span><span class="kt">c_ptr</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>             <span class="kd">::</span> <span class="n">c_string</span>
+<a name="ln-217"></a>
+<a name="ln-218"></a>     <span class="kt">CHARACTER</span><span class="p">(:,</span> <span class="nb">kind</span><span class="o">=</span><span class="kt">c_char</span><span class="p">),</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">string</span>
+<a name="ln-219"></a>
+<a name="ln-220"></a>     <span class="k">CALL </span><span class="n">c_f_string</span><span class="p">(</span><span class="n">c_string</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+<a name="ln-221"></a>     <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">string</span><span class="p">)</span>
+<a name="ln-222"></a>     <span class="n">c_string</span> <span class="o">=</span> <span class="nb">c_null_ptr</span>
+<a name="ln-223"></a>
+<a name="ln-224"></a><span class="nb">   </span><span class="k">END SUBROUTINE </span><span class="n">c_free_string</span>
+<a name="ln-225"></a>
+<a name="ln-226"></a><span class="k">END MODULE</span>
 </pre></div>
 
     </section>
