@@ -304,7 +304,7 @@ CONTAINS
                                      nthreads, tdist)
          CALL dbcsr_make_1dist_dense(n_nbins, old_n_dist, new_n_dist, n_map, 0)
          CALL dbcsr_distribution_new(dense_product_dist, product_dist%d%mp_env, &
-                                     array_data(new_m_dist), array_data(new_n_dist))
+                                     new_m_dist, new_n_dist)
          CALL make_sizes_dense(old_m_sizes, m_map, array_size(new_m_dist), new_m_sizes)
          CALL dbcsr_distribution_make_threads(dense_product_dist, &
                                               array_data(new_m_sizes))
@@ -321,7 +321,7 @@ CONTAINS
                            left_rdist%i%col_decimation, new_k_pdist, new_k_idist)
       ! Left
       CALL dbcsr_distribution_new(dense_left_dist, left_rdist%i%main%d%mp_env, &
-                                  array_data(new_m_dist), array_data(new_k_pdist))
+                                  new_m_dist, new_k_pdist)
       CALL dbcsr_distribution_no_threads(dense_left_dist)
       dense_left_dist%d%thread_dist = dbcsr_distribution_thread_dist(dense_product_dist)
       CALL array_hold(dense_left_dist%d%thread_dist)
@@ -343,7 +343,7 @@ CONTAINS
       CALL v_to_p_i_dist_o(new_k_vdist, &
                            right_rdist%i%row_decimation, new_k_pdist, new_k_idist)
       CALL dbcsr_distribution_new(dense_right_dist, right_rdist%i%main%d%mp_env, &
-                                  array_data(new_k_pdist), array_data(new_n_dist))
+                                  new_k_pdist, new_n_dist)
       CALL dbcsr_new_image_dist(dense_right_rdist, dense_right_dist, right_rdist)
       CALL dbcsr_distribution_release(dense_right_dist)
       CALL array_new(dense_right_rdist%i%col_image, &

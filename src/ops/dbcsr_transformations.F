@@ -180,9 +180,9 @@ CONTAINS
       CALL dbcsr_create(transposed, name="transposed "//TRIM(normal%name), &
                         template=normal, &
                         dist=new_dist, &
+                        row_blk_size_obj=normal%col_blk_size, &
+                        col_blk_size_obj=normal%row_blk_size, &
                         matrix_type=dbcsr_get_matrix_type(normal), &
-                        row_blk_size=array_data(normal%col_blk_size), &
-                        col_blk_size=array_data(normal%row_blk_size), &
                         max_rbs=normal%max_cbs, &
                         max_cbs=normal%max_rbs, &
                         row_blk_offset=normal%col_blk_offset, &
@@ -749,12 +749,16 @@ CONTAINS
       TYPE(array_i1d_obj)                                :: dense_local_cols, dense_local_rows
       TYPE(dbcsr_distribution_obj)                       :: old_distribution
 
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: row_sizes, col_sizes
+
 !   ---------------------------------------------------------------------------
 
       CALL timeset(routineN, handle)
+      row_sizes => array_data(dense_row_sizes)
+      col_sizes => array_data(dense_col_sizes)
       CALL dbcsr_create(dense_matrix, template=matrix, &
                         dist=dense_dist, &
-                        row_blk_size=array_data(dense_row_sizes), col_blk_size=array_data(dense_col_sizes))
+                        row_blk_size=row_sizes, col_blk_size=col_sizes)
       !
       IF (dbg) THEN
          cs = dbcsr_checksum(matrix)
@@ -970,10 +974,12 @@ CONTAINS
       INTEGER, ALLOCATABLE, DIMENSION(:) :: col_internal_offsets, dense_local_col_blk_offsets, &
                                             dense_local_row_blk_offsets, local_col_blk_offsets, local_row_blk_offsets, &
                                             row_internal_offsets
-      INTEGER, DIMENSION(:), POINTER                     :: local_cols, local_rows, meta
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: local_cols, local_rows, meta
       REAL(kind=dp)                                      :: cs
       TYPE(dbcsr_data_obj)                               :: blocked_data, dense_data
       TYPE(dbcsr_distribution_obj)                       :: dense_distribution
+
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: row_sizes, col_sizes
 
 !   ---------------------------------------------------------------------------
 
@@ -991,10 +997,12 @@ CONTAINS
       nblkcols_total = dbcsr_distribution_ncols(distribution)
       local_rows => dbcsr_distribution_local_rows(distribution)
       local_cols => dbcsr_distribution_local_cols(distribution)
+      row_sizes => array_data(row_blk_sizes)
+      col_sizes => array_data(col_blk_sizes)
       CALL dbcsr_create(undense_matrix, template=matrix, &
                         dist=distribution, &
-                        row_blk_size=array_data(row_blk_sizes), &
-                        col_blk_size=array_data(col_blk_sizes))
+                        row_blk_size=row_sizes, &
+                        col_blk_size=col_sizes)
       ! Restore previous offsets, just to try to keep the same memory.
       CALL array_release(undense_matrix%row_blk_offset)
       CALL array_release(undense_matrix%col_blk_offset)

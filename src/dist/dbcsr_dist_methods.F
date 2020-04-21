@@ -61,6 +61,7 @@ MODULE dbcsr_dist_methods
 
    INTERFACE dbcsr_distribution_new
       MODULE PROCEDURE dbcsr_distribution_new_template
+      MODULE PROCEDURE dbcsr_distribution_new_obj
       MODULE PROCEDURE dbcsr_distribution_new_low
    END INTERFACE dbcsr_distribution_new
 
@@ -105,6 +106,24 @@ CONTAINS
          CALL dbcsr_mp_release(mp_env)
 
    END SUBROUTINE dbcsr_distribution_new_template
+
+   SUBROUTINE dbcsr_distribution_new_obj(dist, mp_env, row_dist_block, col_dist_block)
+      !! Creates new distribution
+
+      TYPE(dbcsr_distribution_obj), INTENT(OUT)          :: dist
+         !! distribution
+      TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
+         !! multiprocessing environment
+      TYPE(array_i1d_obj), INTENT(IN)                    :: row_dist_block, col_dist_block
+
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: cont_row_dist, cont_col_dist
+
+      cont_row_dist => array_data(row_dist_block)
+      cont_col_dist => array_data(col_dist_block)
+
+      CALL dbcsr_distribution_new(dist, mp_env, cont_row_dist, cont_col_dist)
+
+   END SUBROUTINE dbcsr_distribution_new_obj
 
    SUBROUTINE dbcsr_distribution_new_low(dist, mp_env, row_dist_block, col_dist_block, &
                                          local_rows, local_cols, &
