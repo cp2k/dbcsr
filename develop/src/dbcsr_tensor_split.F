@@ -47,8 +47,8 @@ MODULE dbcsr_tensor_split
                                  dbcsr_t_blk_sizes, &
                                  ndims_matrix_row, &
                                  ndims_matrix_column
-   USE dbcsr_api, ONLY: dbcsr_type_complex_8, dbcsr_type_real_4, dbcsr_type_real_8, dbcsr_type_complex_4
-   USE dbcsr_kinds, ONLY: real_8, real_4
+   USE dbcsr_api, ONLY: dbcsr_type_complex_4, dbcsr_type_real_8, dbcsr_type_complex_8, dbcsr_type_real_4
+   USE dbcsr_kinds, ONLY: real_4, real_8
 
 #include "base/dbcsr_base_uses.f90"
    IMPLICIT NONE
