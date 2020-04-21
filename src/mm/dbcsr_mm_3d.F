@@ -125,7 +125,7 @@ MODULE dbcsr_mm_3d
       INTEGER                                     :: grp = mp_comm_null, & ! Global communicator
                                                      subgrp = mp_comm_null ! Communicator for A and B
       INTEGER                                     :: data_win, meta_win
-      INTEGER, DIMENSION(:), POINTER              :: meta => Null(), &
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS  :: meta => Null(), &
                                                      meta_before_resize => Null(), &
                                                      meta_red3D => Null()
       INTEGER, DIMENSION(2)                       :: get_requests
@@ -189,8 +189,8 @@ MODULE dbcsr_mm_3d
 
    ! Buffers used in make_buffers
    TYPE(dbcsr_data_obj), TARGET, SAVE :: make_buffers_data_recv, make_buffers_data_send
-   INTEGER, DIMENSION(:), POINTER     :: make_buffers_meta_recv => Null(), &
-                                         make_buffers_meta_send => Null()
+   INTEGER, DIMENSION(:), POINTER, CONTIGUOUS :: make_buffers_meta_recv => Null(), &
+                                                 make_buffers_meta_send => Null()
 
    PUBLIC :: multiply_3D
    PUBLIC :: release_layers_3d_C_reduction, buffers_release
@@ -1173,8 +1173,9 @@ CONTAINS
                                                             product_matrix_meta_size
       INTEGER, DIMENSION(2)                              :: requests_reduction_size
       INTEGER, DIMENSION(:), POINTER :: col_blk_sizes2enum, enum2col_blk_sizes, &
-                                        enum2row_blk_sizes, k_sizes, product_matrix_meta_recv, product_matrix_meta_send, &
+                                        enum2row_blk_sizes, product_matrix_meta_recv, product_matrix_meta_send, &
                                         row_blk_sizes2enum
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: k_sizes
       INTEGER, DIMENSION(:, :, :), POINTER               :: left_displ_layers3D, &
                                                             left_images_size_layers3D, &
                                                             right_displ_layers3D, &

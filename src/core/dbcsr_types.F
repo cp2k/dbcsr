@@ -342,11 +342,11 @@ MODULE dbcsr_types
 
       TYPE(dbcsr_data_obj)                    :: data_area
          !! holds actual values.
-      INTEGER, DIMENSION(:), POINTER          :: row_i => Null()
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS :: row_i => Null()
          !! the row index of all of the blocks.
-      INTEGER, DIMENSION(:), POINTER          :: col_i => Null()
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS :: col_i => Null()
          !! the column index of all of the blocks.
-      INTEGER, DIMENSION(:), POINTER          :: blk_p => Null()
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS :: blk_p => Null()
          !! the pointer into the data array of this block.
       INTEGER                                 :: lastblk = -1
          !! index of the last block entered into the row_i, col_i, and blk_p data structures
@@ -373,7 +373,7 @@ MODULE dbcsr_types
       CHARACTER(LEN=default_string_length)         :: name = ""
          !! name of the matrix
       TYPE(dbcsr_data_obj)                         :: data_area = dbcsr_data_obj()
-      INTEGER, DIMENSION(:), POINTER               :: index => Null()
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS   :: index => Null()
          !! agglomeration of the indices and offsets of pointers into this array.
       INTEGER, DIMENSION(:), POINTER               :: row_p => Null()
          !! points into the col_i and blk_p arrays, each element (1:nblkrows_total+1) points to the previous row's last element. So
