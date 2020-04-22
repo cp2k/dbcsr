@@ -561,14 +561,14 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_distribute', &
                                      routineP = moduleN//':'//routineN
 
-      COMPLEX(KIND=dp), DIMENSION(:), POINTER            :: c_dp
-      COMPLEX(KIND=sp), DIMENSION(:), POINTER            :: c_sp
+      COMPLEX(KIND=dp), DIMENSION(:), POINTER, CONTIGUOUS :: c_dp
+      COMPLEX(KIND=sp), DIMENSION(:), POINTER, CONTIGUOUS :: c_sp
       INTEGER                                            :: blk, col, handle, mynode, nblks, nze, p, &
                                                             row
-      INTEGER, DIMENSION(:), POINTER                     :: col_blk_size, row_blk_size, tmp_index
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: col_blk_size, row_blk_size, tmp_index
       LOGICAL                                            :: mini, tr
-      REAL(KIND=dp), DIMENSION(:), POINTER               :: r_dp
-      REAL(KIND=sp), DIMENSION(:), POINTER               :: r_sp
+      REAL(KIND=dp), DIMENSION(:), POINTER, CONTIGUOUS   :: r_dp
+      REAL(KIND=sp), DIMENSION(:), POINTER, CONTIGUOUS   :: r_sp
       TYPE(dbcsr_data_obj)                               :: tmp_data
       TYPE(dbcsr_distribution_obj)                       :: dist
       TYPE(dbcsr_iterator)                               :: iter
@@ -1327,7 +1327,7 @@ CONTAINS
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: rd_disp, recv_meta, rm_disp, send_meta
       INTEGER, ALLOCATABLE, DIMENSION(:, :)              :: recv_count
       INTEGER, DIMENSION(2)                              :: send_count
-      INTEGER, DIMENSION(:), POINTER                     :: col_blk_size, col_dist, row_blk_size, &
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: col_blk_size, col_dist, row_blk_size, &
                                                             row_dist, tmp_index
       INTEGER, DIMENSION(:, :), POINTER                  :: blacs2mpi
       LOGICAL                                            :: had_subcomms, i_am_restricted, rest_src, &
@@ -2222,8 +2222,8 @@ CONTAINS
                                      routineP = moduleN//':'//routineN
       INTEGER, PARAMETER                       :: metalen = 2
 
-      COMPLEX(kind=dp), DIMENSION(:), POINTER  :: c_dp
-      COMPLEX(kind=sp), DIMENSION(:), POINTER  :: c_sp
+      COMPLEX(kind=dp), DIMENSION(:), POINTER, CONTIGUOUS :: c_dp
+      COMPLEX(kind=sp), DIMENSION(:), POINTER, CONTIGUOUS :: c_sp
       INTEGER :: bcol, blk, blk_ps, blk_size, blks, brow, col_size, data_type, &
                  dst_p, handle, i, ind, job_count, meta_l, mp_group, &
                  nblkrows_total, numnodes, row_size, src_p, stored_col_new, &
@@ -2240,8 +2240,8 @@ CONTAINS
                                                   total_send_count
       INTEGER, DIMENSION(:), POINTER           :: col_blk_size, row_blk_size
       LOGICAL                                  :: sym_tr, tr
-      REAL(kind=dp), DIMENSION(:), POINTER     :: r_dp
-      REAL(kind=sp), DIMENSION(:), POINTER     :: r_sp
+      REAL(kind=dp), DIMENSION(:), POINTER, CONTIGUOUS :: r_dp
+      REAL(kind=sp), DIMENSION(:), POINTER, CONTIGUOUS :: r_sp
       TYPE(dbcsr_data_obj)                     :: data_block, recv_data, &
                                                   send_data
       TYPE(dbcsr_distribution_obj)             :: dist
