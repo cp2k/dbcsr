@@ -465,7 +465,6 @@ CONTAINS
       CHARACTER                                          :: new_matrix_type, new_replication_type
       CHARACTER(len=default_string_length)               :: new_name
       INTEGER                                            :: new_data_type, new_max_cbs, new_max_rbs
-      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: vec_col_blk_offset, vec_row_blk_offset
       LOGICAL                                            :: my_make_index, new_mutable_work
       TYPE(array_i1d_obj)                                :: new_col_blk_offset, new_row_blk_offset
       TYPE(dbcsr_distribution_obj)                       :: new_dist
@@ -503,11 +502,6 @@ CONTAINS
       IF (ASSOCIATED(blk_size)) THEN
          IF (.NOT. PRESENT(max_rbs)) &
             new_max_rbs = MAXVAL(blk_size)
-         IF (.NOT. PRESENT(row_blk_offset)) THEN
-            ALLOCATE (vec_row_blk_offset(SIZE(blk_size) + 1))
-            CALL convert_sizes_to_offsets(blk_size, vec_row_blk_offset)
-            CALL array_new(new_row_blk_offset, vec_row_blk_offset, gift=.TRUE.)
-         ENDIF
       ELSE
          IF (.NOT. PRESENT(max_rbs)) &
             new_max_rbs = dbcsr_max_row_size(template)
@@ -526,11 +520,6 @@ CONTAINS
       IF (ASSOCIATED(blk_size)) THEN
          IF (.NOT. PRESENT(max_cbs)) &
             new_max_cbs = MAXVAL(blk_size)
-         IF (.NOT. PRESENT(col_blk_offset)) THEN
-            ALLOCATE (vec_col_blk_offset(SIZE(blk_size) + 1))
-            CALL convert_sizes_to_offsets(blk_size, vec_col_blk_offset)
-            CALL array_new(new_col_blk_offset, vec_col_blk_offset, gift=.TRUE.)
-         ENDIF
       ELSE
          IF (.NOT. PRESENT(max_cbs)) &
             new_max_cbs = dbcsr_max_col_size(template)
@@ -573,7 +562,7 @@ CONTAINS
                            data_memory_type=new_data_memory_type, &
                            index_memory_type=new_index_memory_type, &
                            max_rbs=new_max_rbs, max_cbs=new_max_cbs, &
-                           row_blk_offset=new_row_blk_offset, col_blk_offset=new_col_blk_offset, &
+                           row_blk_offset=row_blk_offset, col_blk_offset=col_blk_offset, &
                            reuse_arrays=reuse_arrays, &
                            mutable_work=new_mutable_work, &
                            make_index=make_index, &
@@ -589,7 +578,7 @@ CONTAINS
                            data_memory_type=new_data_memory_type, &
                            index_memory_type=new_index_memory_type, &
                            max_rbs=new_max_rbs, max_cbs=new_max_cbs, &
-                           row_blk_offset=new_row_blk_offset, col_blk_offset=new_col_blk_offset, &
+                           row_blk_offset=row_blk_offset, col_blk_offset=col_blk_offset, &
                            reuse_arrays=reuse_arrays, &
                            mutable_work=new_mutable_work, &
                            make_index=make_index, &

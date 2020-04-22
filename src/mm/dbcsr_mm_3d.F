@@ -2307,7 +2307,7 @@ CONTAINS
       TYPE(dbcsr_imagedistribution_obj), INTENT(INOUT)   :: imgdist
 
       INTEGER                                            :: ibuffer, jbuffer
-      INTEGER, DIMENSION(:), POINTER                     :: meta_p
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: meta_p
       LOGICAL                                            :: has_trs_stackbuf
       TYPE(dbcsr_buffer), POINTER                        :: buffer_p
 
@@ -2364,7 +2364,7 @@ CONTAINS
       TYPE(dbcsr_imagedistribution_obj), INTENT(INOUT)   :: imgdist
       TYPE(dbcsr_type), INTENT(IN)                       :: template_matrix
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: data_buffer
-      INTEGER, DIMENSION(:), INTENT(IN), TARGET          :: meta_buffer
+      INTEGER, DIMENSION(:), INTENT(IN), TARGET, CONTIGUOUS :: meta_buffer
 
       matrix = dbcsr_type()
       CALL dbcsr_create(matrix, &
