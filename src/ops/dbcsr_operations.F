@@ -2069,7 +2069,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
       INTEGER, INTENT(IN)                                :: which_norm
       REAL(KIND=real_8), DIMENSION(:), INTENT(OUT), &
-         TARGET                                          :: norm_vector
+         TARGET, CONTIGUOUS                              :: norm_vector
 
       REAL(KIND=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: v_p
       TYPE(dbcsr_data_obj)                               :: norm_vector_a
@@ -2848,7 +2848,7 @@ CONTAINS
    SUBROUTINE dbcsr_scale_by_vector_${nametype1}$ (matrix_a, alpha, side)
       !! Interface for matrix scaling by a vector
       TYPE(dbcsr_type), INTENT(INOUT)            :: matrix_a
-      ${type1}$, DIMENSION(:), INTENT(IN), TARGET :: alpha
+      ${type1}$, DIMENSION(:), INTENT(IN), TARGET, CONTIGUOUS :: alpha
       CHARACTER(LEN=*), INTENT(IN)              :: side
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_scale_by_vector_${nametype1}$', &
                                      routineP = moduleN//':'//routineN

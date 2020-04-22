@@ -921,7 +921,6 @@ CONTAINS
 
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: cont_row_blk_size, cont_col_blk_size
 
-
       IF (PRESENT(dist)) THEN
          IF (PRESENT(row_blk_size) .AND. PRESENT(col_blk_size)) THEN
             ! Avoid to change API, take the risk if they are not contiguous
