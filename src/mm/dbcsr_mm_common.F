@@ -280,9 +280,9 @@ CONTAINS
 
    SUBROUTINE enumerate_blk_sizes(blk_sizes, max_size, enum, rev_enum)
       !! Enumerate all occurring blocksizes
-      INTEGER, DIMENSION(:), POINTER                     :: blk_sizes
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: blk_sizes
       INTEGER, INTENT(IN)                                :: max_size
-      INTEGER, DIMENSION(:), POINTER                     :: enum, rev_enum
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: enum, rev_enum
 
       CHARACTER(len=*), PARAMETER :: routineN = 'enumerate_blk_sizes', &
                                      routineP = moduleN//':'//routineN
@@ -322,8 +322,9 @@ CONTAINS
                                    noresize)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: trs_stackbuf
-      INTEGER, DIMENSION(:), INTENT(IN), POINTER :: row_blk_sizes, col_blk_sizes, &
-                                                    row_blk_sizes2enum, enum2row_blk_sizes, col_blk_sizes2enum, enum2col_blk_sizes
+      INTEGER, DIMENSION(:), INTENT(IN), POINTER, CONTIGUOUS :: row_blk_sizes, col_blk_sizes, &
+                                                                row_blk_sizes2enum, enum2row_blk_sizes, &
+                                                                col_blk_sizes2enum, enum2col_blk_sizes
       LOGICAL, INTENT(IN), OPTIONAL                      :: noresize
 
       CHARACTER(len=*), PARAMETER :: routineN = 'acc_transpose_blocks', &
@@ -333,7 +334,7 @@ CONTAINS
                                                             mi_max, n, nblks, ni, ni_max, offset, x, &
                                                             row, col
       INTEGER, ALLOCATABLE, DIMENSION(:, :)              :: counters, filled, offsets, tmp_stack
-      INTEGER, DIMENSION(:), POINTER                     :: blk_index, trs_stack
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: blk_index, trs_stack
       LOGICAL                                            :: my_noresize
 
       CALL timeset(routineN, handle)
@@ -509,7 +510,7 @@ CONTAINS
          !! DBCSR matrix for which to calculate norms
       REAL(kind=sp), DIMENSION(:), INTENT(OUT)           :: norms
          !! Block norms
-      INTEGER, DIMENSION(:), POINTER, INTENT(IN)         :: row_blk_sizes, col_blk_sizes
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS, INTENT(IN) :: row_blk_sizes, col_blk_sizes
 
       CHARACTER(len=*), PARAMETER :: routineN = 'calculate_norms', &
                                      routineP = moduleN//':'//routineN
@@ -551,7 +552,7 @@ CONTAINS
    PURE SUBROUTINE local_filter(full_data, nle, local_elements, local_data)
       !! Gathers the local elements from all data (full_data)
 
-      INTEGER, DIMENSION(:), INTENT(IN)                  :: full_data
+      INTEGER, DIMENSION(:), INTENT(IN), CONTIGUOUS      :: full_data
          !! All elements
       INTEGER, INTENT(IN)                                :: nle
          !! Number of local elements

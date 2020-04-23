@@ -147,7 +147,7 @@ CONTAINS
 
       TYPE(dbcsr_data_area_type), INTENT(INOUT)          :: area
          !! internal structure holding array pointers
-      INTEGER, DIMENSION(:), INTENT(IN)                  :: sizes
+      INTEGER, DIMENSION(:), INTENT(IN), CONTIGUOUS      :: sizes
          !! sizes to allocate to
 
       CHARACTER(len=*), PARAMETER :: routineN = 'internal_data_allocate', &
@@ -651,6 +651,11 @@ CONTAINS
 
       INTEGER                                            :: error_handle
 
+      REAL(KIND=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: r_sp
+      REAL(KIND=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: r_dp
+      COMPLEX(KIND=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: c_sp
+      COMPLEX(KIND=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: c_dp
+
 !   ---------------------------------------------------------------------------
 
       IF (careful_mod) THEN
@@ -659,13 +664,17 @@ CONTAINS
 
       SELECT CASE (area%d%data_type)
       CASE (dbcsr_type_real_4)
-         CALL memory_zero(area%d%r_sp(lb(1):), ub(1))
+         r_sp => area%d%r_sp(lb(1):ub(1))
+         CALL memory_zero(r_sp, SIZE(r_sp))
       CASE (dbcsr_type_real_8)
-         CALL memory_zero(area%d%r_dp(lb(1):), ub(1))
+         r_dp => area%d%r_dp(lb(1):ub(1))
+         CALL memory_zero(r_dp, SIZE(r_dp))
       CASE (dbcsr_type_complex_4)
-         CALL memory_zero(area%d%c_sp(lb(1):), ub(1))
+         c_sp => area%d%c_sp(lb(1):ub(1))
+         CALL memory_zero(c_sp, SIZE(c_sp))
       CASE (dbcsr_type_complex_8)
-         CALL memory_zero(area%d%c_dp(lb(1):), ub(1))
+         c_dp => area%d%c_dp(lb(1):ub(1))
+         CALL memory_zero(c_dp, SIZE(c_dp))
       CASE (dbcsr_type_real_4_2d)
          area%d%r2_sp(lb(1):ub(1), lb(2):ub(2)) = 0.0_real_4
       CASE (dbcsr_type_real_8_2d)

@@ -143,7 +143,7 @@ MODULE dbcsr_mm_3d
    END TYPE dbcsr_buffers
 
    TYPE mn_local_sizes
-      INTEGER, DIMENSION(:), POINTER  :: sizes => Null()
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS :: sizes => Null()
    END TYPE mn_local_sizes
 
    TYPE dbcsr_layers_3D_C_reduction
@@ -176,8 +176,8 @@ MODULE dbcsr_mm_3d
 
    INTEGER, ALLOCATABLE, DIMENSION(:, :), TARGET, PRIVATE  :: left_local_images_size, &
                                                               right_local_images_size
-   INTEGER, DIMENSION(:, :, :, :), POINTER, PRIVATE        :: left_images_size => Null(), &
-                                                              right_images_size => Null()
+   INTEGER, DIMENSION(:, :, :, :), POINTER, CONTIGUOUS, PRIVATE :: left_images_size => Null(), &
+                                                                   right_images_size => Null()
 
    INTEGER, ALLOCATABLE, DIMENSION(:), TARGET, PRIVATE :: g2l_map_cols, g2l_map_rows
 
@@ -257,15 +257,16 @@ CONTAINS
       INTEGER, ALLOCATABLE, DIMENSION(:, :, :, :)        :: recv_displs, recv_sizes, send_displs, &
                                                             send_sizes
       INTEGER, DIMENSION(2)                              :: block_col_bounds, block_row_bounds
-      INTEGER, DIMENSION(:), POINTER :: col_dist, col_img_dist, local_cols, local_g2l_map_cols, &
-                                        local_g2l_map_rows, local_rows, meta_buffer_p, row_dist, row_img_dist, threads_dist
-      INTEGER, DIMENSION(:, :), POINTER                  :: blacs2mpi, local_images_size
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS  :: col_dist, col_img_dist, local_cols, local_g2l_map_cols, &
+                                                     local_g2l_map_rows, local_rows, meta_buffer_p, &
+                                                     row_dist, row_img_dist, threads_dist
+      INTEGER, DIMENSION(:, :), POINTER, CONTIGUOUS      :: blacs2mpi, local_images_size
       INTEGER, DIMENSION(idata:imeta)                    :: my_size_recv, my_size_send
       INTEGER, POINTER                                   :: coli, rowi
       INTEGER, TARGET                                    :: mi, ui
       LOGICAL :: do_crop, do_part_crop_col, do_part_crop_f_col, do_part_crop_f_row, &
                  do_part_crop_l_col, do_part_crop_l_row, do_part_crop_row, do_symmetry, tr
-      LOGICAL, DIMENSION(:), POINTER                     :: do_win_create
+      LOGICAL, DIMENSION(:), POINTER, CONTIGUOUS         :: do_win_create
       TYPE(dbcsr_buffer), POINTER                        :: buffer
       TYPE(dbcsr_data_obj)                               :: data_block
       TYPE(dbcsr_data_obj), POINTER                      :: data_buffer_p
@@ -1172,11 +1173,11 @@ CONTAINS
       INTEGER, ALLOCATABLE, DIMENSION(:, :)              :: product_matrix_meta_displ, &
                                                             product_matrix_meta_size
       INTEGER, DIMENSION(2)                              :: requests_reduction_size
-      INTEGER, DIMENSION(:), POINTER :: col_blk_sizes2enum, enum2col_blk_sizes, &
-                                        enum2row_blk_sizes, product_matrix_meta_recv, product_matrix_meta_send, &
-                                        row_blk_sizes2enum
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS :: col_blk_sizes2enum, enum2col_blk_sizes, &
+                                                    enum2row_blk_sizes, product_matrix_meta_recv, product_matrix_meta_send, &
+                                                    row_blk_sizes2enum
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: k_sizes
-      INTEGER, DIMENSION(:, :, :), POINTER               :: left_displ_layers3D, &
+      INTEGER, DIMENSION(:, :, :), POINTER, CONTIGUOUS   :: left_displ_layers3D, &
                                                             left_images_size_layers3D, &
                                                             right_displ_layers3D, &
                                                             right_images_size_layers3D
@@ -1191,7 +1192,7 @@ CONTAINS
       REAL(kind=sp)                                      :: filter_eps_sp
       REAL(kind=sp), ALLOCATABLE, DIMENSION(:), TARGET   :: row_max_epss
       REAL(kind=sp), ALLOCATABLE, DIMENSION(:, :)        :: left_norms, right_norms
-      REAL(kind=sp), DIMENSION(:), POINTER               :: product_matrix_epss
+      REAL(kind=sp), DIMENSION(:), POINTER, CONTIGUOUS   :: product_matrix_epss
       TYPE(dbcsr_2d_array_obj)                           :: product_matrix3D
       TYPE(dbcsr_buffer), ALLOCATABLE, DIMENSION(:), &
          TARGET                                          :: left_buffers, right_buffers
@@ -2413,7 +2414,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: layer3D, nlayers3D
 
       INTEGER                                            :: recv_proc
-      INTEGER, DIMENSION(:), POINTER                     :: meta_get
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: meta_get
 
       buffer%is_comm = .TRUE.
       buffer%get_requests(:) = mp_request_null
@@ -2707,8 +2708,9 @@ CONTAINS
       !! Remap the 4-rank array in a 3-rank array by introducing the virtual coordinate
                              data_size, meta_size)
       INTEGER, DIMENSION(:, :, :, :), INTENT(IN), &
-         POINTER                                         :: refs_size
-      INTEGER, DIMENSION(:, :, :), INTENT(OUT), POINTER  :: refs_size_layers3D, refs_displ_layers3D
+         CONTIGUOUS, POINTER                             :: refs_size
+      INTEGER, DIMENSION(:, :, :), INTENT(OUT), &
+         CONTIGUOUS, POINTER                             :: refs_size_layers3D, refs_displ_layers3D
       INTEGER, INTENT(OUT)                               :: data_size, meta_size
 
       INTEGER                                            :: ilayer, image, iproc, nimages, &

@@ -44,8 +44,8 @@ CONTAINS
          !! returns elements-indices before the sort
 
       integer :: i
-      ${type1}$, pointer                   :: tmp_arr(:)
-      integer, pointer                   :: tmp_idx(:)
+      ${type1}$, pointer, CONTIGUOUS     :: tmp_arr(:)
+      integer, pointer, CONTIGUOUS       :: tmp_idx(:)
 
       if (n == 0) return ! for some reason this is a frequent case in cp2k
 

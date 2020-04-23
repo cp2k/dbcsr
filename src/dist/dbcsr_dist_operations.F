@@ -367,7 +367,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(OUT)                 :: new_bins, images
          !! new real distribution
          !! new image distribution
-      INTEGER, DIMENSION(:), INTENT(IN)                  :: source_bins
+      INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: source_bins
          !! Basis for the new distribution and images
       INTEGER, INTENT(IN)                                :: nbins, multiplicity, nimages
          !! number of bins in the new real distribution
