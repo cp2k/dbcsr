@@ -108,7 +108,7 @@ MODULE dbcsr_work_operations
    END INTERFACE
 
    TYPE i_array_p
-      INTEGER, DIMENSION(:), POINTER :: p
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS :: p
    END TYPE i_array_p
 
 CONTAINS
@@ -764,7 +764,7 @@ CONTAINS
 
       INTEGER                                            :: handle, i, nblks, nwms, start_offset
       INTEGER, ALLOCATABLE, DIMENSION(:), SAVE, TARGET   :: empty_row_p
-      INTEGER, DIMENSION(:), POINTER, SAVE               :: old_blk_p, old_col_i, old_row_p
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS, SAVE   :: old_blk_p, old_col_i, old_row_p
       LOGICAL                                            :: can_quick, fake_row_p, sort_data, spawn
 
 !   ---------------------------------------------------------------------------
@@ -1416,8 +1416,8 @@ CONTAINS
                                                             new_blk_p_sorted, new_blk_sizes, &
                                                             new_row_p
       INTEGER, ALLOCATABLE, DIMENSION(:), SAVE, TARGET   :: blk_d, new_blk_p, new_col_i
-      INTEGER, DIMENSION(:), POINTER                     :: my_row_p
-      INTEGER, DIMENSION(:), POINTER, SAVE               :: cbs, rbs
+      INTEGER, DIMENSION(:), CONTIGUOUS, POINTER         :: my_row_p
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS, SAVE   :: cbs, rbs
       INTEGER, SAVE                                      :: max_row_count, new_nblks = 0, new_nze = 0
       TYPE(dbcsr_data_obj), ALLOCATABLE, DIMENSION(:), &
          SAVE                                            :: all_data_areas
@@ -1689,7 +1689,7 @@ CONTAINS
       INTEGER, ALLOCATABLE, DIMENSION(:), SAVE           :: new_blk_p_sorted, new_blk_sizes, &
                                                             new_row_p
       INTEGER, ALLOCATABLE, DIMENSION(:), SAVE, TARGET   :: blk_d
-      INTEGER, DIMENSION(:), POINTER, SAVE               :: cbs, rbs
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS, SAVE   :: cbs, rbs
       TYPE(dbcsr_work_type), POINTER                     :: wm
 
 !   ---------------------------------------------------------------------------
@@ -1783,7 +1783,7 @@ CONTAINS
                                                             last_row_blk, row, src_blk_1, &
                                                             src_blk_2, t
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: blk_p_buff, tmp_arr
-      INTEGER, DIMENSION(:), POINTER                     :: blk_span, col_span, d_span
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: blk_span, col_span, d_span
 
 !   ---------------------------------------------------------------------------
 
@@ -1858,7 +1858,7 @@ CONTAINS
                                                   error_handler, needed_size
       INTEGER(KIND=int_8), ALLOCATABLE, &
          DIMENSION(:)                           :: keys
-      ${type1}$, DIMENSION(:), POINTER           :: target_data
+      ${type1}$, DIMENSION(:), POINTER, CONTIGUOUS :: target_data
       ${type1}$, DIMENSION(:, :), POINTER        :: block_2d
       TYPE(btree_2d_data_${nametype1}$), ALLOCATABLE, &
          DIMENSION(:)                           :: values

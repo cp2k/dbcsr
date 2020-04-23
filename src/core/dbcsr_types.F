@@ -307,10 +307,10 @@ MODULE dbcsr_types
       INTEGER, DIMENSION(:), POINTER                 :: row_p => Null()
       INTEGER, DIMENSION(:), POINTER                 :: col_i => Null()
       INTEGER, DIMENSION(:), POINTER                 :: blk_p => Null()
-      INTEGER, DIMENSION(:), POINTER                 :: tdist => Null()
-      INTEGER, DIMENSION(:), POINTER                 :: local_rows => Null()
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS     :: tdist => Null()
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS     :: local_rows => Null()
          !! Mapping of local rows to global rows (if local indexing is enabled)
-      INTEGER, DIMENSION(:), POINTER                 :: global_rows => Null()
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS     :: global_rows => Null()
          !! Mapping of global rows to local rows (if local indexing is enabled)
       TYPE(dbcsr_data_obj)                           :: data_area
    END TYPE dbcsr_iterator

@@ -458,7 +458,7 @@ CONTAINS
       TYPE(dbcsr_distribution_obj), INTENT(INOUT), &
          TARGET                                          :: dist
          !! Add thread distribution to this distribution
-      INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: row_sizes
+      INTEGER, DIMENSION(:), INTENT(IN), CONTIGUOUS, OPTIONAL :: row_sizes
          !! row block sizes
 
       TYPE(dbcsr_distribution_obj), POINTER              :: dist_p

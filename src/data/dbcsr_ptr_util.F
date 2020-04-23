@@ -324,7 +324,7 @@ CONTAINS
    SUBROUTINE mem_alloc_${nametype1}$ (mem, n, mem_type)
      !! Allocates memory
 
-      ${type1}$, DIMENSION(:), POINTER        :: mem
+      ${type1}$, DIMENSION(:), POINTER, CONTIGUOUS :: mem
         !! memory to allocate
       INTEGER, INTENT(IN)                   :: n
         !! length of elements to allocate
@@ -384,7 +384,7 @@ CONTAINS
    SUBROUTINE mem_dealloc_${nametype1}$ (mem, mem_type)
      !! Deallocates memory
 
-      ${type1}$, DIMENSION(:), POINTER        :: mem
+      ${type1}$, DIMENSION(:), POINTER, CONTIGUOUS :: mem
         !! memory to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
