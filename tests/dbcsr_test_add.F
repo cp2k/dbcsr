@@ -258,8 +258,6 @@ CONTAINS
       TYPE(dbcsr_distribution_obj)                       :: dist_a, dist_b
       TYPE(dbcsr_type)                                   :: m_a, m_b
 
-      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: row_blk_size, col_blk_size
-
 !   ---------------------------------------------------------------------------
 
       CALL timeset(routineN, handle)
@@ -275,22 +273,18 @@ CONTAINS
 
       ! Redistribute the matrices
       ! A
-      row_blk_size => dbcsr_row_block_sizes(matrix_a)
-      col_blk_size => dbcsr_col_block_sizes(matrix_a)
       CALL dbcsr_create(m_a, "Test for "//TRIM(dbcsr_name(matrix_a)), &
                         dist_a, dbcsr_get_matrix_type(matrix_a), &
-                        row_blk_size, &
-                        col_blk_size, &
+                        row_blk_size_obj=matrix_a%row_blk_size, &
+                        col_blk_size_obj=matrix_a%col_blk_size, &
                         data_type=dbcsr_get_data_type(matrix_a))
       CALL dbcsr_distribution_release(dist_a)
       CALL dbcsr_redistribute(matrix_a, m_a)
       ! B
-      row_blk_size => dbcsr_row_block_sizes(matrix_b)
-      col_blk_size => dbcsr_col_block_sizes(matrix_b)
       CALL dbcsr_create(m_b, "Test for "//TRIM(dbcsr_name(matrix_b)), &
                         dist_b, dbcsr_get_matrix_type(matrix_b), &
-                        row_blk_size, &
-                        col_blk_size, &
+                        row_blk_size_obj=matrix_b%row_blk_size, &
+                        col_blk_size_obj=matrix_b%col_blk_size, &
                         data_type=dbcsr_get_data_type(matrix_b))
       CALL dbcsr_distribution_release(dist_b)
       CALL dbcsr_redistribute(matrix_b, m_b)

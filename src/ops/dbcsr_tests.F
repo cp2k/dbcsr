@@ -326,8 +326,6 @@ CONTAINS
       TYPE(dbcsr_mp_obj)                                 :: mp_env
       TYPE(dbcsr_type)                                   :: m_a, m_b, m_c, m_c_reserve
 
-      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: row_blk_size, col_blk_size
-
 !   ---------------------------------------------------------------------------
 
       CALL timeset(routineN, error_handle)
@@ -380,32 +378,26 @@ CONTAINS
                                         mp_env, row_dist_c, col_dist_c, reuse_arrays=.TRUE.)
             ! Redistribute the matrices
             ! A
-            row_blk_size => dbcsr_row_block_sizes(matrix_a)
-            col_blk_size => dbcsr_col_block_sizes(matrix_a)
             CALL dbcsr_create(m_a, "Test for "//TRIM(dbcsr_name(matrix_a)), &
                               dist_a, dbcsr_type_no_symmetry, &
-                              row_blk_size, &
-                              col_blk_size, &
+                              row_blk_size_obj=matrix_a%row_blk_size, &
+                              col_blk_size_obj=matrix_a%col_blk_size, &
                               data_type=dbcsr_get_data_type(matrix_a))
             CALL dbcsr_distribution_release(dist_a)
             CALL dbcsr_redistribute(matrix_a, m_a)
             ! B
-            row_blk_size => dbcsr_row_block_sizes(matrix_b)
-            col_blk_size => dbcsr_col_block_sizes(matrix_b)
             CALL dbcsr_create(m_b, "Test for "//TRIM(dbcsr_name(matrix_b)), &
                               dist_b, dbcsr_type_no_symmetry, &
-                              row_blk_size, &
-                              col_blk_size, &
+                              row_blk_size_obj=matrix_b%row_blk_size, &
+                              col_blk_size_obj=matrix_b%col_blk_size, &
                               data_type=dbcsr_get_data_type(matrix_b))
             CALL dbcsr_distribution_release(dist_b)
             CALL dbcsr_redistribute(matrix_b, m_b)
             ! C
-            row_blk_size => dbcsr_row_block_sizes(matrix_c)
-            col_blk_size => dbcsr_col_block_sizes(matrix_c)
             CALL dbcsr_create(m_c, "Test for "//TRIM(dbcsr_name(matrix_c)), &
                               dist_c, dbcsr_type_no_symmetry, &
-                              row_blk_size, &
-                              col_blk_size, &
+                              row_blk_size_obj=matrix_c%row_blk_size, &
+                              col_blk_size_obj=matrix_c%col_blk_size, &
                               data_type=dbcsr_get_data_type(matrix_c))
             CALL dbcsr_distribution_release(dist_c)
             CALL dbcsr_redistribute(matrix_c, m_c)
