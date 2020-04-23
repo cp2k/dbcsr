@@ -1432,10 +1432,10 @@ CONTAINS
                                            capacity=2)
       IF (has_acc) THEN
          ! enumerate the blocksizes to keep the following 2D-arrays small.
-         CALL enumerate_blk_sizes(dbcsr_row_block_sizes(matrix_right), &
+         CALL enumerate_blk_sizes(matrix_right%row_blk_size%low%data, &
                                   dbcsr_max_row_size(matrix_right), &
                                   row_blk_sizes2enum, enum2row_blk_sizes)
-         CALL enumerate_blk_sizes(dbcsr_col_block_sizes(matrix_right), &
+         CALL enumerate_blk_sizes(matrix_right%col_blk_size%low%data, &
                                   dbcsr_max_col_size(matrix_right), &
                                   col_blk_sizes2enum, enum2col_blk_sizes)
       ENDIF
