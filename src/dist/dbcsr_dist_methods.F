@@ -107,21 +107,32 @@ CONTAINS
 
    END SUBROUTINE dbcsr_distribution_new_template
 
-   SUBROUTINE dbcsr_distribution_new_obj(dist, mp_env, row_dist_block, col_dist_block)
+   SUBROUTINE dbcsr_distribution_new_obj(dist, mp_env, row_dist_block, col_dist_block, &
+                                         local_rows, local_cols)
       !! Creates new distribution
+      !! Workaround for CCE compilation
 
       TYPE(dbcsr_distribution_obj), INTENT(OUT)          :: dist
          !! distribution
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
          !! multiprocessing environment
       TYPE(array_i1d_obj), INTENT(IN)                    :: row_dist_block, col_dist_block
+      TYPE(array_i1d_obj), INTENT(IN), OPTIONAL          :: local_rows, local_cols
 
-      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: cont_row_dist, cont_col_dist
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: cont_row_dist, cont_col_dist, &
+                                                            cont_local_rows, cont_local_cols
 
       cont_row_dist => array_data(row_dist_block)
       cont_col_dist => array_data(col_dist_block)
 
-      CALL dbcsr_distribution_new(dist, mp_env, cont_row_dist, cont_col_dist)
+      IF (PRESENT(local_rows) .AND. PRESENT(local_cols)) THEN
+         cont_local_rows => array_data(local_rows)
+         cont_local_cols => array_data(local_cols)
+         CALL dbcsr_distribution_new(dist, mp_env, cont_row_dist, cont_col_dist, &
+                                     cont_local_rows, cont_local_cols)
+      ELSE
+         CALL dbcsr_distribution_new(dist, mp_env, cont_row_dist, cont_col_dist)
+      ENDIF
 
    END SUBROUTINE dbcsr_distribution_new_obj
 

@@ -27,6 +27,7 @@ PROGRAM dbcsr_test_csr_conversions
                             mp_environ, &
                             mp_world_finalize, &
                             mp_world_init
+#include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
 
@@ -121,6 +122,7 @@ PROGRAM dbcsr_test_csr_conversions
 
       IF ((norm > EPSILON(norm)) .OR. (norm_eps > eps)) THEN
          IF (io_unit > 0) WRITE (io_unit, *) "Conversion error > 0 for matrix no.", k_str
+         DBCSR_ABORT("Error in csr conversion")
       ELSE
          IF (io_unit > 0) WRITE (io_unit, *) "Conversion OK!"
       ENDIF

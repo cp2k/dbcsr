@@ -303,8 +303,6 @@ CONTAINS
                                                             dbcsr_c_mm_check
       REAL(KIND=real_8), PARAMETER :: test_tol = 1.0E-10_real_8
 
-      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: row_blk_size, col_blk_size
-
       CALL dbcsr_tas_get_split_info(dbcsr_tas_info(matrix_a), mp_comm=mp_comm)
       CALL mp_environ(numnodes, mynode, mp_comm)
       io_unit = -1
@@ -337,26 +335,20 @@ CONTAINS
       CALL dbcsr_distribution_new(dist_c, mp_environ_tmp, rd_c, cd_c, reuse_arrays=.TRUE.)
       CALL dbcsr_mp_release(mp_environ_tmp)
 
-      row_blk_size => dbcsr_row_block_sizes(dbcsr_a)
-      col_blk_size => dbcsr_col_block_sizes(dbcsr_a)
       CALL dbcsr_create(matrix=dbcsr_a_mm, name="matrix a", dist=dist_a, matrix_type=dbcsr_type_no_symmetry, &
-                        row_blk_size=row_blk_size, col_blk_size=col_blk_size, &
+                        row_blk_size_obj=dbcsr_a%row_blk_size, col_blk_size_obj=dbcsr_a%col_blk_size, &
                         data_type=dbcsr_type_real_8)
 
-      row_blk_size => dbcsr_row_block_sizes(dbcsr_b)
-      col_blk_size => dbcsr_col_block_sizes(dbcsr_b)
       CALL dbcsr_create(matrix=dbcsr_b_mm, name="matrix b", dist=dist_b, matrix_type=dbcsr_type_no_symmetry, &
-                        row_blk_size=row_blk_size, col_blk_size=col_blk_size, &
+                        row_blk_size_obj=dbcsr_b%row_blk_size, col_blk_size_obj=dbcsr_b%col_blk_size, &
                         data_type=dbcsr_type_real_8)
 
-      row_blk_size => dbcsr_row_block_sizes(dbcsr_c)
-      col_blk_size => dbcsr_col_block_sizes(dbcsr_c)
       CALL dbcsr_create(matrix=dbcsr_c_mm, name="matrix c", dist=dist_c, matrix_type=dbcsr_type_no_symmetry, &
-                        row_blk_size=row_blk_size, col_blk_size=col_blk_size, &
+                        row_blk_size_obj=dbcsr_c%row_blk_size, col_blk_size_obj=dbcsr_c%col_blk_size, &
                         data_type=dbcsr_type_real_8)
 
       CALL dbcsr_create(matrix=dbcsr_c_mm_check, name="matrix c check", dist=dist_c, matrix_type=dbcsr_type_no_symmetry, &
-                        row_blk_size=row_blk_size, col_blk_size=col_blk_size, &
+                        row_blk_size_obj=dbcsr_c%row_blk_size, col_blk_size_obj=dbcsr_c%col_blk_size, &
                         data_type=dbcsr_type_real_8)
 
       CALL dbcsr_finalize(dbcsr_a_mm)

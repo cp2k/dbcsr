@@ -843,7 +843,7 @@ CONTAINS
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: cont_row_dist, cont_col_dist
 
       ! Make the arrays contiguous, avoid change in the API
-      ALLOCATE(cont_row_dist(SIZE(row_dist)), cont_col_dist(SIZE(col_dist)))
+      ALLOCATE (cont_row_dist(SIZE(row_dist)), cont_col_dist(SIZE(col_dist)))
       cont_row_dist(:) = row_dist(:)
       cont_col_dist(:) = col_dist(:)
 
@@ -901,7 +901,7 @@ CONTAINS
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: cont_row_blk_size, cont_col_blk_size
 
       ! Make the array contiguous, avoid to change API
-      ALLOCATE(cont_row_blk_size(SIZE(row_blk_size)), cont_col_blk_size(SIZE(col_blk_size)))
+      ALLOCATE (cont_row_blk_size(SIZE(row_blk_size)), cont_col_blk_size(SIZE(col_blk_size)))
       cont_row_blk_size(:) = row_blk_size(:)
       cont_col_blk_size(:) = col_blk_size(:)
       IF (PRESENT(reuse_arrays)) THEN
@@ -939,7 +939,7 @@ CONTAINS
       ! Make the array contiguous, avoid to change API
       IF (PRESENT(row_blk_size) .AND. PRESENT(col_blk_size)) THEN
          ! Avoid to change API
-         ALLOCATE(cont_row_blk_size(SIZE(row_blk_size)), cont_col_blk_size(SIZE(col_blk_size)))
+         ALLOCATE (cont_row_blk_size(SIZE(row_blk_size)), cont_col_blk_size(SIZE(col_blk_size)))
          cont_row_blk_size(:) = row_blk_size(:)
          cont_col_blk_size(:) = col_blk_size(:)
          IF (PRESENT(reuse_arrays)) THEN
