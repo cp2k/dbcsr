@@ -119,7 +119,7 @@ MODULE dbcsr_types
          !! my process grid column
       INTEGER                            :: mp_group = -1
          !! message-passing group ID
-      INTEGER, DIMENSION(:, :), POINTER  :: pgrid => Null()
+      INTEGER, DIMENSION(:, :), POINTER, CONTIGUOUS :: pgrid => Null()
          !! processor grid
       INTEGER                            :: refcount = 0
          !! reference counter

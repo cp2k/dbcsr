@@ -282,7 +282,7 @@ CONTAINS
 
    FUNCTION dbcsr_mp_pgrid(mp_env) RESULT(pgrid)
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
-      INTEGER, DIMENSION(:, :), POINTER                  :: pgrid
+      INTEGER, DIMENSION(:, :), POINTER, CONTIGUOUS      :: pgrid
 
       pgrid => mp_env%mp%pgrid
    END FUNCTION dbcsr_mp_pgrid
