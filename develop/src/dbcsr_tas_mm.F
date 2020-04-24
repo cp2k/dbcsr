@@ -68,7 +68,11 @@ MODULE dbcsr_tas_mm
 
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_tas_mm'
 
-   PUBLIC :: dbcsr_tas_multiply, dbcsr_tas_batched_mm_init, dbcsr_tas_batched_mm_finalize
+   PUBLIC :: &
+      dbcsr_tas_multiply, &
+      dbcsr_tas_batched_mm_init, &
+      dbcsr_tas_batched_mm_finalize, &
+      dbcsr_tas_result_index
 
 CONTAINS
 
@@ -1398,19 +1402,19 @@ CONTAINS
       CHARACTER(len=default_string_length)       :: name
       INTEGER                                    :: data_type
 
-# 1398 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1402 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
       REAL(kind=real_8), DIMENSION(:, :), POINTER        :: block_get_r_dp
       REAL(kind=real_8), DIMENSION(:, :), POINTER        :: block_put_r_dp
-# 1398 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1402 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
       REAL(kind=real_4), DIMENSION(:, :), POINTER        :: block_get_r_sp
       REAL(kind=real_4), DIMENSION(:, :), POINTER        :: block_put_r_sp
-# 1398 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1402 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
       COMPLEX(kind=real_8), DIMENSION(:, :), POINTER        :: block_get_c_dp
       COMPLEX(kind=real_8), DIMENSION(:, :), POINTER        :: block_put_c_dp
-# 1398 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1402 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
       COMPLEX(kind=real_4), DIMENSION(:, :), POINTER        :: block_get_c_sp
       COMPLEX(kind=real_4), DIMENSION(:, :), POINTER        :: block_put_c_sp
-# 1401 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1405 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
       LOGICAL                                    :: tr, nodata_prv, found
 
       DBCSR_ASSERT(matrix_in%valid)
@@ -1439,35 +1443,35 @@ CONTAINS
 
          DO WHILE (dbcsr_tas_iterator_blocks_left(iter))
 
-# 1430 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1434 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
             IF (data_type == dbcsr_type_real_8) THEN
                CALL dbcsr_tas_iterator_next_block(iter, row, column, block_get_r_dp, tr)
                CALL dbcsr_tas_get_block_p(matrix_out, row, column, block_put_r_dp, tr, found)
                DBCSR_ASSERT(found)
                block_put_r_dp (1, 1) = SQRT(SUM(block_get_r_dp**2)) ! norm2 works only for real
             ENDIF
-# 1430 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1434 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
             IF (data_type == dbcsr_type_real_4) THEN
                CALL dbcsr_tas_iterator_next_block(iter, row, column, block_get_r_sp, tr)
                CALL dbcsr_tas_get_block_p(matrix_out, row, column, block_put_r_sp, tr, found)
                DBCSR_ASSERT(found)
                block_put_r_sp (1, 1) = SQRT(SUM(block_get_r_sp**2)) ! norm2 works only for real
             ENDIF
-# 1430 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1434 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
             IF (data_type == dbcsr_type_complex_8) THEN
                CALL dbcsr_tas_iterator_next_block(iter, row, column, block_get_c_dp, tr)
                CALL dbcsr_tas_get_block_p(matrix_out, row, column, block_put_c_dp, tr, found)
                DBCSR_ASSERT(found)
                block_put_c_dp (1, 1) = SQRT(SUM(block_get_c_dp**2)) ! norm2 works only for real
             ENDIF
-# 1430 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1434 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
             IF (data_type == dbcsr_type_complex_4) THEN
                CALL dbcsr_tas_iterator_next_block(iter, row, column, block_get_c_sp, tr)
                CALL dbcsr_tas_get_block_p(matrix_out, row, column, block_put_c_sp, tr, found)
                DBCSR_ASSERT(found)
                block_put_c_sp (1, 1) = SQRT(SUM(block_get_c_sp**2)) ! norm2 works only for real
             ENDIF
-# 1437 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1441 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
          ENDDO
          CALL dbcsr_tas_iterator_stop(iter)
       ENDIF
