@@ -16,6 +16,7 @@ add_fypp_sources(DBCSR_SRCS
   acc/dbcsr_acc_hostmem.F
   acc/dbcsr_acc_init.F
   acc/dbcsr_acc_stream.F
+  acc/dbcsr_acc_timings.F
   acc/hipblaswrap/dbcsr_hipblas.F
   base/dbcsr_base_hooks.F
   base/dbcsr_kinds.F
@@ -109,9 +110,9 @@ set(DBCSR_ACC_SRCS
   acc/acc_dev.cpp
   acc/acc_error.cpp
   acc/acc_event.cpp
+  acc/acc_init.cpp
   acc/acc_mem.cpp
   acc/acc_stream.cpp
-  acc/acc_init.cpp
   )
 
 set(DBCSR_CUDA_SRCS

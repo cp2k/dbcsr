@@ -276,7 +276,8 @@ CONTAINS
 
       IF (handle /= cs_entry%routine_id) THEN
          PRINT *, "list_size(timer_env%callstack) ", list_size(timer_env%callstack), &
-            " handle ", handle, " list_size(timers_stack) ", list_size(timers_stack)
+            " list_size(timers_stack) ", list_size(timers_stack), &
+            " got handle ", handle, " expected routineid ", cs_entry%routine_id
          DBCSR_ABORT('mismatched timestop '//TRIM(r_stat%routineN)//' in routine timestop')
       END IF
 
