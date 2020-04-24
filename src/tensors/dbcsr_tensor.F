@@ -33,7 +33,7 @@ MODULE dbcsr_tensor
    USE dbcsr_tas_base, ONLY: &
       dbcsr_tas_copy, dbcsr_tas_finalize, dbcsr_tas_get_data_type, dbcsr_tas_get_info, dbcsr_tas_info
    USE dbcsr_tas_mm, ONLY: &
-      dbcsr_tas_multiply, dbcsr_tas_batched_mm_init, dbcsr_tas_batched_mm_finalize
+      dbcsr_tas_multiply, dbcsr_tas_batched_mm_init, dbcsr_tas_batched_mm_finalize, dbcsr_tas_result_index
    USE dbcsr_tensor_block, ONLY: &
       dbcsr_t_iterator_type, dbcsr_t_get_block, dbcsr_t_put_block, dbcsr_t_iterator_start, &
       dbcsr_t_iterator_blocks_left, dbcsr_t_iterator_stop, dbcsr_t_iterator_next_block, &
@@ -594,6 +594,9 @@ CONTAINS
 
       unit_nr_prv = prep_output_unit(unit_nr)
 
+      IF (PRESENT(flop)) flop = 0
+      IF (PRESENT(result_index)) result_index = 0
+
       IF (PRESENT(move_data)) THEN
          move_data_1 = move_data
          move_data_2 = move_data
@@ -816,11 +819,8 @@ CONTAINS
                                  split_opt=split_opt, &
                                  move_data_a=move_data_1, move_data_b=move_data_2, retain_sparsity=retain_sparsity)
       ELSE
-         CALL dbcsr_tas_multiply(trans_1, trans_2, trans_3, alpha, &
-                                 tensor_contr_1%matrix_rep, tensor_contr_2%matrix_rep, &
-                                 beta, &
-                                 tensor_contr_3%matrix_rep, filter_eps=filter_eps, &
-                                 result_index=result_index_2d)
+         CALL dbcsr_tas_result_index(trans_1, trans_2, trans_3, tensor_contr_1%matrix_rep, tensor_contr_2%matrix_rep, &
+                                     tensor_contr_3%matrix_rep, filter_eps=filter_eps, blk_ind=result_index_2d)
 
          nblk = SIZE(result_index_2d, 1)
          IF (PRESENT(nblks_local)) nblks_local = nblk
@@ -828,8 +828,6 @@ CONTAINS
             CALL dbcsr_abort(__LOCATION__, &
         "allocated size of `result_index` is too small. This error occurs due to a high load imbalance of distributed tensor data.")
          ENDIF
-
-         result_index = 0
 
          DO iblk = 1, nblk
             result_index(iblk, :) = get_nd_indices_tensor(tensor_contr_3%nd_index_blk, result_index_2d(iblk, :))
