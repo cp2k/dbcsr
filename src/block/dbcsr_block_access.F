@@ -690,7 +690,7 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_2d_block_p_${nametype1}$', &
                                      routineP = moduleN//':'//routineN
 
-      ${type1}$, DIMENSION(:), POINTER, CONTIGUOUS :: block_1d
+      ${type1}$, DIMENSION(:), POINTER         :: block_1d
       INTEGER                                  :: rsize, csize, &
                                                   blk, nze, offset, &
                                                   stored_row, &
@@ -963,7 +963,7 @@ CONTAINS
                                                   stored_row, stored_col, &
                                                   iw, nwms
       LOGICAL                                  :: found, tr, do_sum, tr_diff
-      ${type1}$, DIMENSION(:), POINTER, CONTIGUOUS :: block_1d
+      ${type1}$, DIMENSION(:), POINTER         :: block_1d
       INTEGER(KIND=int_8)                      :: my_flop
 
 !   ---------------------------------------------------------------------------

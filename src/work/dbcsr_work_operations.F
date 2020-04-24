@@ -763,13 +763,15 @@ CONTAINS
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
       INTEGER                                            :: handle, i, nblks, nwms, start_offset
-      INTEGER, ALLOCATABLE, DIMENSION(:), SAVE, TARGET   :: empty_row_p
-      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS, SAVE   :: old_blk_p, old_col_i, old_row_p
+      INTEGER, ALLOCATABLE, DIMENSION(:)                 :: empty_row_p
+      INTEGER, DIMENSION(:), POINTER, SAVE               :: old_blk_p, old_col_i, old_row_p
       LOGICAL                                            :: can_quick, fake_row_p, sort_data, spawn
 
 !   ---------------------------------------------------------------------------
 
       CALL timeset(routineN, handle)
+
+      NULLIFY (old_blk_p, old_col_i, old_row_p)
 
 !$OMP     BARRIER
       ! If the matrix is not marked as dirty then skip the work.
