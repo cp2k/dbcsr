@@ -64,7 +64,11 @@ MODULE dbcsr_tas_mm
 
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_tas_mm'
 
-   PUBLIC :: dbcsr_tas_multiply, dbcsr_tas_batched_mm_init, dbcsr_tas_batched_mm_finalize
+   PUBLIC :: &
+      dbcsr_tas_multiply, &
+      dbcsr_tas_batched_mm_init, &
+      dbcsr_tas_batched_mm_finalize, &
+      dbcsr_tas_result_index
 
 CONTAINS
 
