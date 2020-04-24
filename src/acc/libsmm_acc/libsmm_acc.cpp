@@ -47,6 +47,17 @@
 
 
 //===========================================================================
+void timeset(std::string routine_name, int& handle){
+    const char* routine_name_ = routine_name.c_str();
+    int routine_name_length  = routine_name.length();
+    dbcsr_timeset(&routine_name_, &routine_name_length, &handle);
+}
+
+void timestop(int handle){
+    dbcsr_timestop(&handle);
+}
+
+//===========================================================================
 inline int launch_kernel_from_handle(ACC_DRV(function) const& kern_func, int nblks, int threads, ACC_DRV(stream) stream, void** args){
 
     ACC_DRV_CALL(
@@ -97,6 +108,9 @@ inline void validate_kernel(ACC_DRV(function)& kern_func, ACC_DRV(stream) stream
 
 //===========================================================================
 inline void jit_kernel(ACC_DRV(function)& kern_func, libsmm_acc_algo algo, int tile_m, int tile_n, int w, int v, int threads, int grouping, int minblocks, int m, int n, int k){
+    std::string routineN = "jit_kernel_multiply";
+    int handle;
+    timeset(routineN, handle);
 
     // Get the code and the lowered name corresponding the kernel to launch
     std::string kernel_code = smm_acc_common; // prepend include file content to code
@@ -183,6 +197,8 @@ inline void jit_kernel(ACC_DRV(function)& kern_func, libsmm_acc_algo algo, int t
 
     // Destroy program
     ACC_RTC_CALL(DestroyProgram, (&kernel_program));
+
+    timestop(handle);
 }
 
 
@@ -278,6 +294,10 @@ extern "C" int libsmm_acc_process (const libsmm_acc_stack_descriptor_type *param
 //===========================================================================
 void jit_transpose_handle(ACC_DRV(function)& kern_func, int m, int n){
 
+    std::string routineN = "jit_kernel_transpose";
+    int handle;
+    timeset(routineN, handle);
+
     // Create nvrtcProgram
     ACC_RTC(Program) kernel_program;
     std::string transpose_code = smm_acc_common + smm_acc_transpose;
@@ -320,6 +340,8 @@ void jit_transpose_handle(ACC_DRV(function)& kern_func, int m, int n){
 
     // Destroy program
     ACC_RTC_CALL(DestroyProgram, (&kernel_program));
+
+    timestop(handle);
 }
 
 
