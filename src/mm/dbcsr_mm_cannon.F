@@ -1203,10 +1203,10 @@ CONTAINS
                                            capacity=left_row_mult*left_col_nimages + right_row_nimages*right_col_mult + 1)
       IF (has_acc) THEN
          ! enumerate the blocksizes to keep the following 2D-arrays small.
-         CALL enumerate_blk_sizes(array_data(right_set%mats(1, 1)%row_blk_size), &
+         CALL enumerate_blk_sizes(right_set%mats(1, 1)%row_blk_size%low%data, &
                                   dbcsr_max_row_size(right_set%mats(1, 1)), &
                                   row_blk_sizes2enum, enum2row_blk_sizes)
-         CALL enumerate_blk_sizes(array_data(right_set%mats(1, 1)%col_blk_size), &
+         CALL enumerate_blk_sizes(right_set%mats(1, 1)%col_blk_size%low%data, &
                                   dbcsr_max_col_size(right_set%mats(1, 1)), &
                                   col_blk_sizes2enum, enum2col_blk_sizes)
       ENDIF
