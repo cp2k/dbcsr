@@ -334,7 +334,8 @@ CONTAINS
                                                             mi_max, n, nblks, ni, ni_max, offset, x, &
                                                             row, col
       INTEGER, ALLOCATABLE, DIMENSION(:, :)              :: counters, filled, offsets, tmp_stack
-      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: blk_index, trs_stack
+      INTEGER, DIMENSION(:), POINTER                     :: blk_index
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: trs_stack
       LOGICAL                                            :: my_noresize
 
       CALL timeset(routineN, handle)
