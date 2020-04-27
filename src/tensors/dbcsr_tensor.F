@@ -535,7 +535,7 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                  :: log_verbose
 
       TYPE(dbcsr_t_type), POINTER                    :: tensor_contr_1, tensor_contr_2, tensor_contr_3
-      TYPE(dbcsr_t_type)                             :: tensor_algn_1, tensor_algn_2, tensor_algn_3
+      TYPE(dbcsr_t_type), TARGET                     :: tensor_algn_1, tensor_algn_2, tensor_algn_3
       TYPE(dbcsr_t_type), POINTER                    :: tensor_crop_1, tensor_crop_2
 
       INTEGER(int_8), DIMENSION(:, :), ALLOCATABLE  :: result_index_2d
