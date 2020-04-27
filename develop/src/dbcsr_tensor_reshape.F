@@ -34,7 +34,7 @@ MODULE dbcsr_tensor_reshape
                                  dbcsr_t_clear
    USE dbcsr_kinds, ONLY: default_string_length
    USE dbcsr_kinds, ONLY: real_4, real_8
-   USE dbcsr_api, ONLY: dbcsr_type_real_4, dbcsr_type_real_8, dbcsr_type_complex_8, dbcsr_type_complex_4
+   USE dbcsr_api, ONLY: dbcsr_type_complex_4, dbcsr_type_complex_8, dbcsr_type_real_4, dbcsr_type_real_8
    USE dbcsr_mpiwrap, ONLY: mp_alltoall, &
                             mp_environ, &
                             mp_irecv, &
