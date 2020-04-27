@@ -244,7 +244,7 @@ public subroutine dbcsr_make_random_matrix(matrix, row_blk_sizes, col_blk_sizes,
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>row_blk_sizes</strong></td><td></td>
   
 </tr>
@@ -259,7 +259,7 @@ public subroutine dbcsr_make_random_matrix(matrix, row_blk_sizes, col_blk_sizes,
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>col_blk_sizes</strong></td><td></td>
   
 </tr>
@@ -345,7 +345,7 @@ public subroutine dbcsr_make_random_matrix(matrix, row_blk_sizes, col_blk_sizes,
   
 <tr>
   
-  <td><span class="anchor" id="variable-dist~49"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
+  <td><span class="anchor" id="variable-dist~50"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -425,7 +425,7 @@ public subroutine dbcsr_make_random_matrix(matrix, row_blk_sizes, col_blk_sizes,
                                        <span class="n">name</span><span class="p">,</span> <span class="n">sparsity</span><span class="p">,</span> <span class="n">mp_group</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">symmetry</span><span class="p">,</span> <span class="n">dist</span><span class="p">)</span>
       <span class="c">!! Creates a random matrix.</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">matrix</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">POINTER</span>         <span class="kd">::</span> <span class="n">row_blk_sizes</span><span class="p">,</span> <span class="n">col_blk_sizes</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span> <span class="kd">::</span> <span class="n">row_blk_sizes</span><span class="p">,</span> <span class="n">col_blk_sizes</span>
       <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">name</span>
       <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">sparsity</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">mp_group</span>

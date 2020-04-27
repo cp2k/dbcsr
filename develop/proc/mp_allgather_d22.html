@@ -228,10 +228,10 @@ private subroutine mp_allgather_d22(msgout, msgin, gid)
 <tr>
   
   <td><span class="anchor" id="variable-msgout~51"></span>real(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -243,10 +243,10 @@ private subroutine mp_allgather_d22(msgout, msgin, gid)
 <tr>
   
   <td><span class="anchor" id="variable-msgin~51"></span>real(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:)</td><td></td>
   
 </tr>
@@ -338,9 +338,9 @@ private subroutine mp_allgather_d22(msgout, msgin, gid)
       <span class="c">!! same data</span>
       <span class="c">!! @note see mp_allgather_d12</span>
 
-      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">msgout</span><span class="p">(:,</span> <span class="p">:)</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">msgout</span><span class="p">(:,</span> <span class="p">:)</span>
          <span class="c">!! Rank-2 data to send</span>
-      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">msgin</span><span class="p">(:,</span> <span class="p">:)</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>       <span class="kd">::</span> <span class="n">msgin</span><span class="p">(:,</span> <span class="p">:)</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">gid</span>
 
       <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;mp_allgather_d22&#39;</span><span class="p">,</span> <span class="p">&amp;</span>

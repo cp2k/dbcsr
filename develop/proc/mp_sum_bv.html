@@ -231,7 +231,7 @@ private subroutine mp_sum_bv(msg, gid)
   <td>intent(inout),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong></td><td><p>Datum to perform inclusive disjunction (input) and resultant inclusive disjunction (output)</p></td>
   
 </tr>
@@ -324,7 +324,7 @@ private subroutine mp_sum_bv(msg, gid)
       <span class="c">!! MPI mapping</span>
       <span class="c">!! mpi_allreduce</span>
 
-      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>               <span class="kd">::</span> <span class="n">msg</span>
+      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>   <span class="kd">::</span> <span class="n">msg</span>
          <span class="c">!! Datum to perform inclusive disjunction (input) and resultant inclusive disjunction (output)</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">gid</span>
          <span class="c">!! Message passing environment identifier</span>

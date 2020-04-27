@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 0.0% of total for procedures.</p>Including implementation: 987 statements,  1.7% of total for procedures.">3 statements</a>
+    title="<p> 0.0% of total for procedures.</p>Including implementation: 999 statements,  1.7% of total for procedures.">3 statements</a>
      </li> 
      
      
@@ -495,10 +495,10 @@ private subroutine <a href='../proc/mp_iallgather_i.html'>mp_iallgather_i</a>(ms
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -600,10 +600,10 @@ private subroutine <a href='../proc/mp_iallgather_l.html'>mp_iallgather_l</a>(ms
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -705,10 +705,10 @@ private subroutine <a href='../proc/mp_iallgather_r.html'>mp_iallgather_r</a>(ms
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -810,10 +810,10 @@ private subroutine <a href='../proc/mp_iallgather_d.html'>mp_iallgather_d</a>(ms
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -915,10 +915,10 @@ private subroutine <a href='../proc/mp_iallgather_c.html'>mp_iallgather_c</a>(ms
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -1020,10 +1020,10 @@ private subroutine <a href='../proc/mp_iallgather_z.html'>mp_iallgather_z</a>(ms
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -1111,10 +1111,10 @@ private subroutine <a href='../proc/mp_iallgather_i11.html'>mp_iallgather_i11</a
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -1126,10 +1126,10 @@ private subroutine <a href='../proc/mp_iallgather_i11.html'>mp_iallgather_i11</a
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td></td>
   
 </tr>
@@ -1217,10 +1217,10 @@ private subroutine <a href='../proc/mp_iallgather_l11.html'>mp_iallgather_l11</a
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -1232,10 +1232,10 @@ private subroutine <a href='../proc/mp_iallgather_l11.html'>mp_iallgather_l11</a
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td></td>
   
 </tr>
@@ -1323,10 +1323,10 @@ private subroutine <a href='../proc/mp_iallgather_r11.html'>mp_iallgather_r11</a
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -1338,10 +1338,10 @@ private subroutine <a href='../proc/mp_iallgather_r11.html'>mp_iallgather_r11</a
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td></td>
   
 </tr>
@@ -1429,10 +1429,10 @@ private subroutine <a href='../proc/mp_iallgather_d11.html'>mp_iallgather_d11</a
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -1444,10 +1444,10 @@ private subroutine <a href='../proc/mp_iallgather_d11.html'>mp_iallgather_d11</a
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td></td>
   
 </tr>
@@ -1535,10 +1535,10 @@ private subroutine <a href='../proc/mp_iallgather_c11.html'>mp_iallgather_c11</a
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -1550,10 +1550,10 @@ private subroutine <a href='../proc/mp_iallgather_c11.html'>mp_iallgather_c11</a
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td></td>
   
 </tr>
@@ -1641,10 +1641,10 @@ private subroutine <a href='../proc/mp_iallgather_z11.html'>mp_iallgather_z11</a
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -1656,10 +1656,10 @@ private subroutine <a href='../proc/mp_iallgather_z11.html'>mp_iallgather_z11</a
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td></td>
   
 </tr>
@@ -1747,10 +1747,10 @@ private subroutine <a href='../proc/mp_iallgather_i13.html'>mp_iallgather_i13</a
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -1762,10 +1762,10 @@ private subroutine <a href='../proc/mp_iallgather_i13.html'>mp_iallgather_i13</a
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:)</td><td></td>
   
 </tr>
@@ -1853,10 +1853,10 @@ private subroutine <a href='../proc/mp_iallgather_l13.html'>mp_iallgather_l13</a
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -1868,10 +1868,10 @@ private subroutine <a href='../proc/mp_iallgather_l13.html'>mp_iallgather_l13</a
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:)</td><td></td>
   
 </tr>
@@ -1959,10 +1959,10 @@ private subroutine <a href='../proc/mp_iallgather_r13.html'>mp_iallgather_r13</a
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -1974,10 +1974,10 @@ private subroutine <a href='../proc/mp_iallgather_r13.html'>mp_iallgather_r13</a
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:)</td><td></td>
   
 </tr>
@@ -2065,10 +2065,10 @@ private subroutine <a href='../proc/mp_iallgather_d13.html'>mp_iallgather_d13</a
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -2080,10 +2080,10 @@ private subroutine <a href='../proc/mp_iallgather_d13.html'>mp_iallgather_d13</a
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:)</td><td></td>
   
 </tr>
@@ -2171,10 +2171,10 @@ private subroutine <a href='../proc/mp_iallgather_c13.html'>mp_iallgather_c13</a
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -2186,10 +2186,10 @@ private subroutine <a href='../proc/mp_iallgather_c13.html'>mp_iallgather_c13</a
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:)</td><td></td>
   
 </tr>
@@ -2277,10 +2277,10 @@ private subroutine <a href='../proc/mp_iallgather_z13.html'>mp_iallgather_z13</a
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -2292,10 +2292,10 @@ private subroutine <a href='../proc/mp_iallgather_z13.html'>mp_iallgather_z13</a
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:)</td><td></td>
   
 </tr>
@@ -2383,10 +2383,10 @@ private subroutine <a href='../proc/mp_iallgather_i22.html'>mp_iallgather_i22</a
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -2398,10 +2398,10 @@ private subroutine <a href='../proc/mp_iallgather_i22.html'>mp_iallgather_i22</a
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:)</td><td></td>
   
 </tr>
@@ -2489,10 +2489,10 @@ private subroutine <a href='../proc/mp_iallgather_l22.html'>mp_iallgather_l22</a
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -2504,10 +2504,10 @@ private subroutine <a href='../proc/mp_iallgather_l22.html'>mp_iallgather_l22</a
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:)</td><td></td>
   
 </tr>
@@ -2595,10 +2595,10 @@ private subroutine <a href='../proc/mp_iallgather_r22.html'>mp_iallgather_r22</a
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -2610,10 +2610,10 @@ private subroutine <a href='../proc/mp_iallgather_r22.html'>mp_iallgather_r22</a
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:)</td><td></td>
   
 </tr>
@@ -2701,10 +2701,10 @@ private subroutine <a href='../proc/mp_iallgather_d22.html'>mp_iallgather_d22</a
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -2716,10 +2716,10 @@ private subroutine <a href='../proc/mp_iallgather_d22.html'>mp_iallgather_d22</a
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:)</td><td></td>
   
 </tr>
@@ -2807,10 +2807,10 @@ private subroutine <a href='../proc/mp_iallgather_c22.html'>mp_iallgather_c22</a
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -2822,10 +2822,10 @@ private subroutine <a href='../proc/mp_iallgather_c22.html'>mp_iallgather_c22</a
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:)</td><td></td>
   
 </tr>
@@ -2913,10 +2913,10 @@ private subroutine <a href='../proc/mp_iallgather_z22.html'>mp_iallgather_z22</a
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -2928,10 +2928,10 @@ private subroutine <a href='../proc/mp_iallgather_z22.html'>mp_iallgather_z22</a
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:)</td><td></td>
   
 </tr>
@@ -3019,10 +3019,10 @@ private subroutine <a href='../proc/mp_iallgather_i24.html'>mp_iallgather_i24</a
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -3034,10 +3034,10 @@ private subroutine <a href='../proc/mp_iallgather_i24.html'>mp_iallgather_i24</a
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:,:)</td><td></td>
   
 </tr>
@@ -3125,10 +3125,10 @@ private subroutine <a href='../proc/mp_iallgather_l24.html'>mp_iallgather_l24</a
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -3140,10 +3140,10 @@ private subroutine <a href='../proc/mp_iallgather_l24.html'>mp_iallgather_l24</a
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:,:)</td><td></td>
   
 </tr>
@@ -3231,10 +3231,10 @@ private subroutine <a href='../proc/mp_iallgather_r24.html'>mp_iallgather_r24</a
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -3246,10 +3246,10 @@ private subroutine <a href='../proc/mp_iallgather_r24.html'>mp_iallgather_r24</a
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:,:)</td><td></td>
   
 </tr>
@@ -3337,10 +3337,10 @@ private subroutine <a href='../proc/mp_iallgather_d24.html'>mp_iallgather_d24</a
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -3352,10 +3352,10 @@ private subroutine <a href='../proc/mp_iallgather_d24.html'>mp_iallgather_d24</a
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:,:)</td><td></td>
   
 </tr>
@@ -3443,10 +3443,10 @@ private subroutine <a href='../proc/mp_iallgather_c24.html'>mp_iallgather_c24</a
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -3458,10 +3458,10 @@ private subroutine <a href='../proc/mp_iallgather_c24.html'>mp_iallgather_c24</a
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:,:)</td><td></td>
   
 </tr>
@@ -3549,10 +3549,10 @@ private subroutine <a href='../proc/mp_iallgather_z24.html'>mp_iallgather_z24</a
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -3564,10 +3564,10 @@ private subroutine <a href='../proc/mp_iallgather_z24.html'>mp_iallgather_z24</a
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:,:)</td><td></td>
   
 </tr>
@@ -3655,10 +3655,10 @@ private subroutine <a href='../proc/mp_iallgather_i33.html'>mp_iallgather_i33</a
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:,:)</td><td><p>Rank-3 data to send</p></td>
   
 </tr>
@@ -3670,10 +3670,10 @@ private subroutine <a href='../proc/mp_iallgather_i33.html'>mp_iallgather_i33</a
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:)</td><td></td>
   
 </tr>
@@ -3761,10 +3761,10 @@ private subroutine <a href='../proc/mp_iallgather_l33.html'>mp_iallgather_l33</a
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:,:)</td><td><p>Rank-3 data to send</p></td>
   
 </tr>
@@ -3776,10 +3776,10 @@ private subroutine <a href='../proc/mp_iallgather_l33.html'>mp_iallgather_l33</a
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:)</td><td></td>
   
 </tr>
@@ -3867,10 +3867,10 @@ private subroutine <a href='../proc/mp_iallgather_r33.html'>mp_iallgather_r33</a
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:,:)</td><td><p>Rank-3 data to send</p></td>
   
 </tr>
@@ -3882,10 +3882,10 @@ private subroutine <a href='../proc/mp_iallgather_r33.html'>mp_iallgather_r33</a
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:)</td><td></td>
   
 </tr>
@@ -3973,10 +3973,10 @@ private subroutine <a href='../proc/mp_iallgather_d33.html'>mp_iallgather_d33</a
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:,:)</td><td><p>Rank-3 data to send</p></td>
   
 </tr>
@@ -3988,10 +3988,10 @@ private subroutine <a href='../proc/mp_iallgather_d33.html'>mp_iallgather_d33</a
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:)</td><td></td>
   
 </tr>
@@ -4079,10 +4079,10 @@ private subroutine <a href='../proc/mp_iallgather_c33.html'>mp_iallgather_c33</a
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:,:)</td><td><p>Rank-3 data to send</p></td>
   
 </tr>
@@ -4094,10 +4094,10 @@ private subroutine <a href='../proc/mp_iallgather_c33.html'>mp_iallgather_c33</a
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:)</td><td></td>
   
 </tr>
@@ -4185,10 +4185,10 @@ private subroutine <a href='../proc/mp_iallgather_z33.html'>mp_iallgather_z33</a
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:,:)</td><td><p>Rank-3 data to send</p></td>
   
 </tr>
@@ -4200,10 +4200,10 @@ private subroutine <a href='../proc/mp_iallgather_z33.html'>mp_iallgather_z33</a
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:)</td><td></td>
   
 </tr>
@@ -4290,10 +4290,10 @@ private subroutine <a href='../proc/mp_iallgatherv_iv.html'>mp_iallgatherv_iv</a
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -4305,10 +4305,10 @@ private subroutine <a href='../proc/mp_iallgatherv_iv.html'>mp_iallgatherv_iv</a
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -4320,13 +4320,11 @@ private subroutine <a href='../proc/mp_iallgatherv_iv.html'>mp_iallgatherv_iv</a
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rcount</strong>(:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rcount</strong>(:)</td><td></td>
   
 </tr>
 
@@ -4337,13 +4335,11 @@ private subroutine <a href='../proc/mp_iallgatherv_iv.html'>mp_iallgatherv_iv</a
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rdispl</strong>(:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rdispl</strong>(:)</td><td></td>
   
 </tr>
 
@@ -4431,10 +4427,10 @@ private subroutine <a href='../proc/mp_iallgatherv_iv2.html'>mp_iallgatherv_iv2<
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -4446,10 +4442,10 @@ private subroutine <a href='../proc/mp_iallgatherv_iv2.html'>mp_iallgatherv_iv2<
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -4461,13 +4457,11 @@ private subroutine <a href='../proc/mp_iallgatherv_iv2.html'>mp_iallgatherv_iv2<
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rcount</strong>(:,:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rcount</strong>(:,:)</td><td></td>
   
 </tr>
 
@@ -4478,13 +4472,11 @@ private subroutine <a href='../proc/mp_iallgatherv_iv2.html'>mp_iallgatherv_iv2<
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rdispl</strong>(:,:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rdispl</strong>(:,:)</td><td></td>
   
 </tr>
 
@@ -4572,10 +4564,10 @@ private subroutine <a href='../proc/mp_iallgatherv_lv.html'>mp_iallgatherv_lv</a
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -4587,10 +4579,10 @@ private subroutine <a href='../proc/mp_iallgatherv_lv.html'>mp_iallgatherv_lv</a
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -4602,13 +4594,11 @@ private subroutine <a href='../proc/mp_iallgatherv_lv.html'>mp_iallgatherv_lv</a
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rcount</strong>(:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rcount</strong>(:)</td><td></td>
   
 </tr>
 
@@ -4619,13 +4609,11 @@ private subroutine <a href='../proc/mp_iallgatherv_lv.html'>mp_iallgatherv_lv</a
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rdispl</strong>(:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rdispl</strong>(:)</td><td></td>
   
 </tr>
 
@@ -4713,10 +4701,10 @@ private subroutine <a href='../proc/mp_iallgatherv_lv2.html'>mp_iallgatherv_lv2<
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -4728,10 +4716,10 @@ private subroutine <a href='../proc/mp_iallgatherv_lv2.html'>mp_iallgatherv_lv2<
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -4743,13 +4731,11 @@ private subroutine <a href='../proc/mp_iallgatherv_lv2.html'>mp_iallgatherv_lv2<
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rcount</strong>(:,:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rcount</strong>(:,:)</td><td></td>
   
 </tr>
 
@@ -4760,13 +4746,11 @@ private subroutine <a href='../proc/mp_iallgatherv_lv2.html'>mp_iallgatherv_lv2<
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rdispl</strong>(:,:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rdispl</strong>(:,:)</td><td></td>
   
 </tr>
 
@@ -4854,10 +4838,10 @@ private subroutine <a href='../proc/mp_iallgatherv_rv.html'>mp_iallgatherv_rv</a
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -4869,10 +4853,10 @@ private subroutine <a href='../proc/mp_iallgatherv_rv.html'>mp_iallgatherv_rv</a
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -4884,13 +4868,11 @@ private subroutine <a href='../proc/mp_iallgatherv_rv.html'>mp_iallgatherv_rv</a
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rcount</strong>(:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rcount</strong>(:)</td><td></td>
   
 </tr>
 
@@ -4901,13 +4883,11 @@ private subroutine <a href='../proc/mp_iallgatherv_rv.html'>mp_iallgatherv_rv</a
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rdispl</strong>(:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rdispl</strong>(:)</td><td></td>
   
 </tr>
 
@@ -4995,10 +4975,10 @@ private subroutine <a href='../proc/mp_iallgatherv_rv2.html'>mp_iallgatherv_rv2<
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -5010,10 +4990,10 @@ private subroutine <a href='../proc/mp_iallgatherv_rv2.html'>mp_iallgatherv_rv2<
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -5025,13 +5005,11 @@ private subroutine <a href='../proc/mp_iallgatherv_rv2.html'>mp_iallgatherv_rv2<
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rcount</strong>(:,:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rcount</strong>(:,:)</td><td></td>
   
 </tr>
 
@@ -5042,13 +5020,11 @@ private subroutine <a href='../proc/mp_iallgatherv_rv2.html'>mp_iallgatherv_rv2<
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rdispl</strong>(:,:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rdispl</strong>(:,:)</td><td></td>
   
 </tr>
 
@@ -5136,10 +5112,10 @@ private subroutine <a href='../proc/mp_iallgatherv_dv.html'>mp_iallgatherv_dv</a
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -5151,10 +5127,10 @@ private subroutine <a href='../proc/mp_iallgatherv_dv.html'>mp_iallgatherv_dv</a
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -5166,13 +5142,11 @@ private subroutine <a href='../proc/mp_iallgatherv_dv.html'>mp_iallgatherv_dv</a
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rcount</strong>(:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rcount</strong>(:)</td><td></td>
   
 </tr>
 
@@ -5183,13 +5157,11 @@ private subroutine <a href='../proc/mp_iallgatherv_dv.html'>mp_iallgatherv_dv</a
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rdispl</strong>(:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rdispl</strong>(:)</td><td></td>
   
 </tr>
 
@@ -5277,10 +5249,10 @@ private subroutine <a href='../proc/mp_iallgatherv_dv2.html'>mp_iallgatherv_dv2<
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -5292,10 +5264,10 @@ private subroutine <a href='../proc/mp_iallgatherv_dv2.html'>mp_iallgatherv_dv2<
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -5307,13 +5279,11 @@ private subroutine <a href='../proc/mp_iallgatherv_dv2.html'>mp_iallgatherv_dv2<
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rcount</strong>(:,:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rcount</strong>(:,:)</td><td></td>
   
 </tr>
 
@@ -5324,13 +5294,11 @@ private subroutine <a href='../proc/mp_iallgatherv_dv2.html'>mp_iallgatherv_dv2<
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rdispl</strong>(:,:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rdispl</strong>(:,:)</td><td></td>
   
 </tr>
 
@@ -5418,10 +5386,10 @@ private subroutine <a href='../proc/mp_iallgatherv_cv.html'>mp_iallgatherv_cv</a
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -5433,10 +5401,10 @@ private subroutine <a href='../proc/mp_iallgatherv_cv.html'>mp_iallgatherv_cv</a
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -5448,13 +5416,11 @@ private subroutine <a href='../proc/mp_iallgatherv_cv.html'>mp_iallgatherv_cv</a
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rcount</strong>(:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rcount</strong>(:)</td><td></td>
   
 </tr>
 
@@ -5465,13 +5431,11 @@ private subroutine <a href='../proc/mp_iallgatherv_cv.html'>mp_iallgatherv_cv</a
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rdispl</strong>(:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rdispl</strong>(:)</td><td></td>
   
 </tr>
 
@@ -5559,10 +5523,10 @@ private subroutine <a href='../proc/mp_iallgatherv_cv2.html'>mp_iallgatherv_cv2<
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -5574,10 +5538,10 @@ private subroutine <a href='../proc/mp_iallgatherv_cv2.html'>mp_iallgatherv_cv2<
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -5589,13 +5553,11 @@ private subroutine <a href='../proc/mp_iallgatherv_cv2.html'>mp_iallgatherv_cv2<
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rcount</strong>(:,:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rcount</strong>(:,:)</td><td></td>
   
 </tr>
 
@@ -5606,13 +5568,11 @@ private subroutine <a href='../proc/mp_iallgatherv_cv2.html'>mp_iallgatherv_cv2<
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rdispl</strong>(:,:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rdispl</strong>(:,:)</td><td></td>
   
 </tr>
 
@@ -5700,10 +5660,10 @@ private subroutine <a href='../proc/mp_iallgatherv_zv.html'>mp_iallgatherv_zv</a
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -5715,10 +5675,10 @@ private subroutine <a href='../proc/mp_iallgatherv_zv.html'>mp_iallgatherv_zv</a
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -5730,13 +5690,11 @@ private subroutine <a href='../proc/mp_iallgatherv_zv.html'>mp_iallgatherv_zv</a
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rcount</strong>(:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rcount</strong>(:)</td><td></td>
   
 </tr>
 
@@ -5747,13 +5705,11 @@ private subroutine <a href='../proc/mp_iallgatherv_zv.html'>mp_iallgatherv_zv</a
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rdispl</strong>(:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rdispl</strong>(:)</td><td></td>
   
 </tr>
 
@@ -5841,10 +5797,10 @@ private subroutine <a href='../proc/mp_iallgatherv_zv2.html'>mp_iallgatherv_zv2<
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -5856,10 +5812,10 @@ private subroutine <a href='../proc/mp_iallgatherv_zv2.html'>mp_iallgatherv_zv2<
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -5871,13 +5827,11 @@ private subroutine <a href='../proc/mp_iallgatherv_zv2.html'>mp_iallgatherv_zv2<
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rcount</strong>(:,:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rcount</strong>(:,:)</td><td></td>
   
 </tr>
 
@@ -5888,13 +5842,11 @@ private subroutine <a href='../proc/mp_iallgatherv_zv2.html'>mp_iallgatherv_zv2<
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rdispl</strong>(:,:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rdispl</strong>(:,:)</td><td></td>
   
 </tr>
 

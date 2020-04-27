@@ -244,7 +244,7 @@ public subroutine dbcsr_iscatterv_any(base, counts, displs, msg, recvcount, root
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>counts</strong></td><td></td>
   
 </tr>
@@ -259,7 +259,7 @@ public subroutine dbcsr_iscatterv_any(base, counts, displs, msg, recvcount, root
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>displs</strong></td><td></td>
   
 </tr>
@@ -409,7 +409,7 @@ public subroutine dbcsr_iscatterv_any(base, counts, displs, msg, recvcount, root
     <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_iscatterv_any</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">counts</span><span class="p">,</span> <span class="n">displs</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">recvcount</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">request</span><span class="p">)</span>
       <span class="c">!! Scatter function of encapsulated data.</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">base</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">counts</span><span class="p">,</span> <span class="n">displs</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">CONTIGUOUS</span>      <span class="kd">::</span> <span class="n">counts</span><span class="p">,</span> <span class="n">displs</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                <span class="kd">::</span> <span class="n">msg</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">recvcount</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">grp</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                             <span class="kd">::</span> <span class="n">request</span>

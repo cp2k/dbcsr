@@ -232,7 +232,7 @@ private subroutine mp_isend_iv(msgin, dest, comm, request, tag)
   <td></td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>CONTIGUOUS, DIMENSION(:)</td><td>::</td>
   <td><strong>msgin</strong></td><td></td>
   
 </tr>
@@ -371,7 +371,7 @@ private subroutine mp_isend_iv(msgin, dest, comm, request, tag)
       <span class="c">!! @note</span>
       <span class="c">!! arrays can be pointers or assumed shape, but they must be contiguous!</span>
 
-      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:)</span>                  <span class="kd">::</span> <span class="n">msgin</span>
+      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:)</span>      <span class="kd">::</span> <span class="n">msgin</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">dest</span><span class="p">,</span> <span class="n">comm</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>                     <span class="kd">::</span> <span class="n">request</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>            <span class="kd">::</span> <span class="n">tag</span>

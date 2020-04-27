@@ -109,7 +109,7 @@ MODULE dbcsr_work_operations
    END INTERFACE
 
    TYPE i_array_p
-      INTEGER, DIMENSION(:), POINTER :: p
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS :: p
    END TYPE i_array_p
 
 CONTAINS
@@ -136,7 +136,8 @@ CONTAINS
          !! distribution_2d distribution
       CHARACTER, INTENT(IN)                              :: matrix_type
          !! 'N' for normal, 'T' for transposed, 'S' for symmetric, and 'A' for antisymmetric
-      INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: row_blk_size, col_blk_size
+      INTEGER, DIMENSION(:), INTENT(IN), POINTER, &
+         CONTIGUOUS, OPTIONAL                            :: row_blk_size, col_blk_size
       TYPE(array_i1d_obj), INTENT(IN), OPTIONAL          :: row_blk_size_obj, col_blk_size_obj
       INTEGER, INTENT(IN), OPTIONAL                      :: nze, data_type
          !! number of elements
@@ -160,7 +161,7 @@ CONTAINS
 
       CHARACTER                                          :: matrix_type_l
       INTEGER                                            :: handle, my_nze
-      INTEGER, DIMENSION(:), POINTER                     :: vec_col_blk_offset, vec_row_blk_offset
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: vec_col_blk_offset, vec_row_blk_offset
       INTEGER, DIMENSION(dbcsr_meta_size)                :: new_meta
       LOGICAL                                            :: hijack, my_make_index
 
@@ -270,8 +271,10 @@ CONTAINS
       IF (PRESENT(row_blk_size_obj)) THEN
          matrix%row_blk_size = row_blk_size_obj
          CALL array_hold(matrix%row_blk_size)
-      ELSE
+      ELSEIF (PRESENT(row_blk_size)) THEN
          CALL array_new(matrix%row_blk_size, row_blk_size, gift=reuse_arrays)
+      ELSE
+         DBCSR_ABORT("Missing row_blk_size")
       ENDIF
       IF (PRESENT(max_rbs)) THEN
          matrix%max_rbs = max_rbs
@@ -283,8 +286,10 @@ CONTAINS
       IF (PRESENT(col_blk_size_obj)) THEN
          matrix%col_blk_size = col_blk_size_obj
          CALL array_hold(matrix%col_blk_size)
-      ELSE
+      ELSEIF (PRESENT(col_blk_size)) THEN
          CALL array_new(matrix%col_blk_size, col_blk_size, gift=reuse_arrays)
+      ELSE
+         DBCSR_ABORT("Missing row_blk_size")
       ENDIF
 
       IF (PRESENT(max_cbs)) THEN
@@ -433,7 +438,8 @@ CONTAINS
    END SUBROUTINE dbcsr_create_new
 
    SUBROUTINE dbcsr_create_template(matrix, template, name, dist, matrix_type, &
-                                    row_blk_size, col_blk_size, nze, data_type, &
+                                    row_blk_size, col_blk_size, row_blk_size_obj, col_blk_size_obj, &
+                                    nze, data_type, &
                                     data_buffer, data_memory_type, index_memory_type, &
                                     max_rbs, max_cbs, &
                                     row_blk_offset, col_blk_offset, &
@@ -444,7 +450,8 @@ CONTAINS
       TYPE(dbcsr_distribution_obj), INTENT(IN), OPTIONAL :: dist
       CHARACTER, INTENT(IN), OPTIONAL                    :: matrix_type
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL, &
-         POINTER                                         :: row_blk_size, col_blk_size
+         POINTER, CONTIGUOUS                             :: row_blk_size, col_blk_size
+      TYPE(array_i1d_obj), INTENT(IN), OPTIONAL          :: row_blk_size_obj, col_blk_size_obj
       INTEGER, INTENT(IN), OPTIONAL                      :: nze, data_type
       TYPE(dbcsr_data_obj), INTENT(IN), OPTIONAL         :: data_buffer
       TYPE(dbcsr_memtype_type), INTENT(IN), OPTIONAL     :: data_memory_type, index_memory_type
@@ -459,13 +466,13 @@ CONTAINS
       CHARACTER                                          :: new_matrix_type, new_replication_type
       CHARACTER(len=default_string_length)               :: new_name
       INTEGER                                            :: new_data_type, new_max_cbs, new_max_rbs
-      INTEGER, DIMENSION(:), POINTER                     :: new_col_blk_size, new_row_blk_size, &
-                                                            vec_col_blk_offset, vec_row_blk_offset
       LOGICAL                                            :: my_make_index, new_mutable_work
       TYPE(array_i1d_obj)                                :: new_col_blk_offset, new_row_blk_offset
       TYPE(dbcsr_distribution_obj)                       :: new_dist
       TYPE(dbcsr_memtype_type)                           :: new_data_memory_type, &
                                                             new_index_memory_type
+
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: blk_size
 
 !   ---------------------------------------------------------------------------
 
@@ -486,36 +493,35 @@ CONTAINS
       ENDIF
       IF (PRESENT(max_rbs)) new_max_rbs = max_rbs
       IF (PRESENT(row_blk_offset)) new_row_blk_offset = row_blk_offset
-
+      NULLIFY (blk_size)
       IF (PRESENT(row_blk_size)) THEN
-         new_row_blk_size => row_blk_size
+         blk_size => row_blk_size
+      ELSEIF (PRESENT(row_blk_size_obj)) THEN
+         blk_size => array_data(row_blk_size_obj)
+      ENDIF
+
+      IF (ASSOCIATED(blk_size)) THEN
          IF (.NOT. PRESENT(max_rbs)) &
-            new_max_rbs = MAXVAL(new_row_blk_size)
-         IF (.NOT. PRESENT(row_blk_offset)) THEN
-            ALLOCATE (vec_row_blk_offset(SIZE(new_row_blk_size) + 1))
-            CALL convert_sizes_to_offsets(new_row_blk_size, vec_row_blk_offset)
-            CALL array_new(new_row_blk_offset, vec_row_blk_offset, gift=.TRUE.)
-         ENDIF
+            new_max_rbs = MAXVAL(blk_size)
       ELSE
-         new_row_blk_size => dbcsr_row_block_sizes(template)
          IF (.NOT. PRESENT(max_rbs)) &
             new_max_rbs = dbcsr_max_row_size(template)
          IF (.NOT. PRESENT(row_blk_offset)) &
             new_row_blk_offset = template%row_blk_offset
       ENDIF
+      !
       IF (PRESENT(max_cbs)) new_max_cbs = max_cbs
       IF (PRESENT(col_blk_offset)) new_col_blk_offset = col_blk_offset
+      NULLIFY (blk_size)
       IF (PRESENT(col_blk_size)) THEN
-         new_col_blk_size => col_blk_size
+         blk_size => col_blk_size
+      ELSEIF (PRESENT(col_blk_size_obj)) THEN
+         blk_size => array_data(col_blk_size_obj)
+      ENDIF
+      IF (ASSOCIATED(blk_size)) THEN
          IF (.NOT. PRESENT(max_cbs)) &
-            new_max_cbs = MAXVAL(new_col_blk_size)
-         IF (.NOT. PRESENT(col_blk_offset)) THEN
-            ALLOCATE (vec_col_blk_offset(SIZE(new_col_blk_size) + 1))
-            CALL convert_sizes_to_offsets(new_col_blk_size, vec_col_blk_offset)
-            CALL array_new(new_col_blk_offset, vec_col_blk_offset, gift=.TRUE.)
-         ENDIF
+            new_max_cbs = MAXVAL(blk_size)
       ELSE
-         new_col_blk_size => dbcsr_col_block_sizes(template)
          IF (.NOT. PRESENT(max_cbs)) &
             new_max_cbs = dbcsr_max_col_size(template)
          IF (.NOT. PRESENT(col_blk_offset)) &
@@ -546,18 +552,34 @@ CONTAINS
       ELSE
          new_mutable_work = dbcsr_use_mutable(template)
       ENDIF
-      IF (PRESENT(row_blk_size)) THEN
+      IF (PRESENT(row_blk_size) .AND. PRESENT(col_blk_size)) THEN
          CALL dbcsr_create(matrix, name=new_name, dist=new_dist, &
                            matrix_type=new_matrix_type, &
-                           row_blk_size=new_row_blk_size, &
-                           col_blk_size=new_col_blk_size, &
+                           row_blk_size=row_blk_size, &
+                           col_blk_size=col_blk_size, &
                            nze=nze, &
                            data_type=new_data_type, &
                            data_buffer=data_buffer, &
                            data_memory_type=new_data_memory_type, &
                            index_memory_type=new_index_memory_type, &
                            max_rbs=new_max_rbs, max_cbs=new_max_cbs, &
-                           row_blk_offset=new_row_blk_offset, col_blk_offset=new_col_blk_offset, &
+                           row_blk_offset=row_blk_offset, col_blk_offset=col_blk_offset, &
+                           reuse_arrays=reuse_arrays, &
+                           mutable_work=new_mutable_work, &
+                           make_index=make_index, &
+                           replication_type=new_replication_type)
+      ELSEIF (PRESENT(row_blk_size_obj) .AND. PRESENT(col_blk_size_obj)) THEN
+         CALL dbcsr_create(matrix, name=new_name, dist=new_dist, &
+                           matrix_type=new_matrix_type, &
+                           row_blk_size_obj=row_blk_size_obj, &
+                           col_blk_size_obj=col_blk_size_obj, &
+                           nze=nze, &
+                           data_type=new_data_type, &
+                           data_buffer=data_buffer, &
+                           data_memory_type=new_data_memory_type, &
+                           index_memory_type=new_index_memory_type, &
+                           max_rbs=new_max_rbs, max_cbs=new_max_cbs, &
+                           row_blk_offset=row_blk_offset, col_blk_offset=col_blk_offset, &
                            reuse_arrays=reuse_arrays, &
                            mutable_work=new_mutable_work, &
                            make_index=make_index, &
@@ -565,8 +587,6 @@ CONTAINS
       ELSE
          CALL dbcsr_create(matrix, name=new_name, dist=new_dist, &
                            matrix_type=new_matrix_type, &
-                           row_blk_size=new_row_blk_size, &
-                           col_blk_size=new_col_blk_size, &
                            row_blk_size_obj=template%row_blk_size, &
                            col_blk_size_obj=template%col_blk_size, &
                            nze=nze, &
@@ -744,13 +764,15 @@ CONTAINS
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
       INTEGER                                            :: handle, i, nblks, nwms, start_offset
-      INTEGER, ALLOCATABLE, DIMENSION(:), SAVE, TARGET   :: empty_row_p
+      INTEGER, ALLOCATABLE, DIMENSION(:)                 :: empty_row_p
       INTEGER, DIMENSION(:), POINTER, SAVE               :: old_blk_p, old_col_i, old_row_p
       LOGICAL                                            :: can_quick, fake_row_p, sort_data, spawn
 
 !   ---------------------------------------------------------------------------
 
       CALL timeset(routineN, handle)
+
+      NULLIFY (old_blk_p, old_col_i, old_row_p)
 
 !$OMP     BARRIER
       ! If the matrix is not marked as dirty then skip the work.
@@ -1397,8 +1419,8 @@ CONTAINS
                                                             new_blk_p_sorted, new_blk_sizes, &
                                                             new_row_p
       INTEGER, ALLOCATABLE, DIMENSION(:), SAVE, TARGET   :: blk_d, new_blk_p, new_col_i
-      INTEGER, DIMENSION(:), POINTER                     :: my_row_p
-      INTEGER, DIMENSION(:), POINTER, SAVE               :: cbs, rbs
+      INTEGER, DIMENSION(:), CONTIGUOUS, POINTER         :: my_row_p
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS, SAVE   :: cbs, rbs
       INTEGER, SAVE                                      :: max_row_count, new_nblks = 0, new_nze = 0
       TYPE(dbcsr_data_obj), ALLOCATABLE, DIMENSION(:), &
          SAVE                                            :: all_data_areas
@@ -1670,7 +1692,7 @@ CONTAINS
       INTEGER, ALLOCATABLE, DIMENSION(:), SAVE           :: new_blk_p_sorted, new_blk_sizes, &
                                                             new_row_p
       INTEGER, ALLOCATABLE, DIMENSION(:), SAVE, TARGET   :: blk_d
-      INTEGER, DIMENSION(:), POINTER, SAVE               :: cbs, rbs
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS, SAVE   :: cbs, rbs
       TYPE(dbcsr_work_type), POINTER                     :: wm
 
 !   ---------------------------------------------------------------------------
@@ -1764,7 +1786,7 @@ CONTAINS
                                                             last_row_blk, row, src_blk_1, &
                                                             src_blk_2, t
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: blk_p_buff, tmp_arr
-      INTEGER, DIMENSION(:), POINTER                     :: blk_span, col_span, d_span
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: blk_span, col_span, d_span
 
 !   ---------------------------------------------------------------------------
 
@@ -1826,8 +1848,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/work/../data/dbcsr.fypp"
 
 # 45 "/__w/dbcsr/dbcsr/src/work/../data/dbcsr.fypp"
-# 1823 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F" 2
-# 1824 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
+# 1845 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F" 2
+# 1846 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
    SUBROUTINE tree_to_linear_d (wm)
      !! Converts mutable data to linear (array) type.
 
@@ -1845,7 +1867,7 @@ CONTAINS
                                                   error_handler, needed_size
       INTEGER(KIND=int_8), ALLOCATABLE, &
          DIMENSION(:)                           :: keys
-      REAL(kind=real_8), DIMENSION(:), POINTER           :: target_data
+      REAL(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: target_data
       REAL(kind=real_8), DIMENSION(:, :), POINTER        :: block_2d
       TYPE(btree_2d_data_d), ALLOCATABLE, &
          DIMENSION(:)                           :: values
@@ -1894,7 +1916,7 @@ CONTAINS
       CALL timestop(error_handler)
    END SUBROUTINE tree_to_linear_d
 
-# 1824 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
+# 1846 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
    SUBROUTINE tree_to_linear_s (wm)
      !! Converts mutable data to linear (array) type.
 
@@ -1912,7 +1934,7 @@ CONTAINS
                                                   error_handler, needed_size
       INTEGER(KIND=int_8), ALLOCATABLE, &
          DIMENSION(:)                           :: keys
-      REAL(kind=real_4), DIMENSION(:), POINTER           :: target_data
+      REAL(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: target_data
       REAL(kind=real_4), DIMENSION(:, :), POINTER        :: block_2d
       TYPE(btree_2d_data_s), ALLOCATABLE, &
          DIMENSION(:)                           :: values
@@ -1961,7 +1983,7 @@ CONTAINS
       CALL timestop(error_handler)
    END SUBROUTINE tree_to_linear_s
 
-# 1824 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
+# 1846 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
    SUBROUTINE tree_to_linear_z (wm)
      !! Converts mutable data to linear (array) type.
 
@@ -1979,7 +2001,7 @@ CONTAINS
                                                   error_handler, needed_size
       INTEGER(KIND=int_8), ALLOCATABLE, &
          DIMENSION(:)                           :: keys
-      COMPLEX(kind=real_8), DIMENSION(:), POINTER           :: target_data
+      COMPLEX(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: target_data
       COMPLEX(kind=real_8), DIMENSION(:, :), POINTER        :: block_2d
       TYPE(btree_2d_data_z), ALLOCATABLE, &
          DIMENSION(:)                           :: values
@@ -2028,7 +2050,7 @@ CONTAINS
       CALL timestop(error_handler)
    END SUBROUTINE tree_to_linear_z
 
-# 1824 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
+# 1846 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
    SUBROUTINE tree_to_linear_c (wm)
      !! Converts mutable data to linear (array) type.
 
@@ -2046,7 +2068,7 @@ CONTAINS
                                                   error_handler, needed_size
       INTEGER(KIND=int_8), ALLOCATABLE, &
          DIMENSION(:)                           :: keys
-      COMPLEX(kind=real_4), DIMENSION(:), POINTER           :: target_data
+      COMPLEX(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: target_data
       COMPLEX(kind=real_4), DIMENSION(:, :), POINTER        :: block_2d
       TYPE(btree_2d_data_c), ALLOCATABLE, &
          DIMENSION(:)                           :: values
@@ -2095,6 +2117,6 @@ CONTAINS
       CALL timestop(error_handler)
    END SUBROUTINE tree_to_linear_c
 
-# 1891 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
+# 1913 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
 
 END MODULE dbcsr_work_operations

@@ -1494,7 +1494,7 @@ CONTAINS
       INTEGER                                    :: &
          nbrows, nbcols, data_type, nproc, handle
       INTEGER, DIMENSION(2)                      :: pdims, pcoord
-      INTEGER, DIMENSION(:), POINTER             :: row_dist, col_dist, rbsize, rcsize
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS :: row_dist, col_dist, rbsize, rcsize
       TYPE(dbcsr_distribution_obj)               :: dist, dist_old
       TYPE(dbcsr_mp_obj)                         :: mp_obj
       CHARACTER(len=default_string_length)       :: name

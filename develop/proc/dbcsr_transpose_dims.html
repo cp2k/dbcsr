@@ -326,7 +326,7 @@ public subroutine dbcsr_transpose_dims(dist_tr, dist_normal)
 
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">ncols_tr</span><span class="p">,</span> <span class="n">npcols_tr</span><span class="p">,</span> <span class="n">nprows_tr</span><span class="p">,</span> <span class="p">&amp;</span>
                                                             <span class="n">nrows_tr</span><span class="p">,</span> <span class="n">vgcd</span><span class="p">,</span> <span class="n">vlcm</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="n">col_dist_data_tr</span><span class="p">,</span> <span class="n">col_img_data_tr</span><span class="p">,</span> <span class="p">&amp;</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>         <span class="kd">::</span> <span class="n">col_dist_data_tr</span><span class="p">,</span> <span class="n">col_img_data_tr</span><span class="p">,</span> <span class="p">&amp;</span>
                                                             <span class="n">row_dist_data_tr</span><span class="p">,</span> <span class="n">row_img_data_tr</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">)</span>                                 <span class="kd">::</span> <span class="n">mp_env</span>
 

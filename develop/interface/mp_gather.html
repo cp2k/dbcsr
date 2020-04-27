@@ -374,10 +374,10 @@ private subroutine <a href='../proc/mp_gather_i.html'>mp_gather_i</a>(msg, msg_g
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg_gather</strong>(:)</td><td><p>Received data (on root)</p></td>
   
 </tr>
@@ -465,10 +465,10 @@ private subroutine <a href='../proc/mp_gather_iv.html'>mp_gather_iv</a>(msg, msg
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:)</td><td><p>Datum to send to root</p></td>
   
 </tr>
@@ -480,10 +480,10 @@ private subroutine <a href='../proc/mp_gather_iv.html'>mp_gather_iv</a>(msg, msg
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg_gather</strong>(:)</td><td></td>
   
 </tr>
@@ -569,10 +569,10 @@ private subroutine <a href='../proc/mp_gather_im.html'>mp_gather_im</a>(msg, msg
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:,:)</td><td><p>Datum to send to root</p></td>
   
 </tr>
@@ -584,10 +584,10 @@ private subroutine <a href='../proc/mp_gather_im.html'>mp_gather_im</a>(msg, msg
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg_gather</strong>(:,:)</td><td></td>
   
 </tr>
@@ -688,10 +688,10 @@ private subroutine <a href='../proc/mp_gather_l.html'>mp_gather_l</a>(msg, msg_g
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg_gather</strong>(:)</td><td><p>Received data (on root)</p></td>
   
 </tr>
@@ -779,10 +779,10 @@ private subroutine <a href='../proc/mp_gather_lv.html'>mp_gather_lv</a>(msg, msg
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:)</td><td><p>Datum to send to root</p></td>
   
 </tr>
@@ -794,10 +794,10 @@ private subroutine <a href='../proc/mp_gather_lv.html'>mp_gather_lv</a>(msg, msg
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg_gather</strong>(:)</td><td></td>
   
 </tr>
@@ -883,10 +883,10 @@ private subroutine <a href='../proc/mp_gather_lm.html'>mp_gather_lm</a>(msg, msg
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:,:)</td><td><p>Datum to send to root</p></td>
   
 </tr>
@@ -898,10 +898,10 @@ private subroutine <a href='../proc/mp_gather_lm.html'>mp_gather_lm</a>(msg, msg
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg_gather</strong>(:,:)</td><td></td>
   
 </tr>
@@ -1002,10 +1002,10 @@ private subroutine <a href='../proc/mp_gather_r.html'>mp_gather_r</a>(msg, msg_g
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg_gather</strong>(:)</td><td><p>Received data (on root)</p></td>
   
 </tr>
@@ -1093,10 +1093,10 @@ private subroutine <a href='../proc/mp_gather_rv.html'>mp_gather_rv</a>(msg, msg
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:)</td><td><p>Datum to send to root</p></td>
   
 </tr>
@@ -1108,10 +1108,10 @@ private subroutine <a href='../proc/mp_gather_rv.html'>mp_gather_rv</a>(msg, msg
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg_gather</strong>(:)</td><td></td>
   
 </tr>
@@ -1197,10 +1197,10 @@ private subroutine <a href='../proc/mp_gather_rm.html'>mp_gather_rm</a>(msg, msg
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:,:)</td><td><p>Datum to send to root</p></td>
   
 </tr>
@@ -1212,10 +1212,10 @@ private subroutine <a href='../proc/mp_gather_rm.html'>mp_gather_rm</a>(msg, msg
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg_gather</strong>(:,:)</td><td></td>
   
 </tr>
@@ -1316,10 +1316,10 @@ private subroutine <a href='../proc/mp_gather_d.html'>mp_gather_d</a>(msg, msg_g
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg_gather</strong>(:)</td><td><p>Received data (on root)</p></td>
   
 </tr>
@@ -1407,10 +1407,10 @@ private subroutine <a href='../proc/mp_gather_dv.html'>mp_gather_dv</a>(msg, msg
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:)</td><td><p>Datum to send to root</p></td>
   
 </tr>
@@ -1422,10 +1422,10 @@ private subroutine <a href='../proc/mp_gather_dv.html'>mp_gather_dv</a>(msg, msg
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg_gather</strong>(:)</td><td></td>
   
 </tr>
@@ -1511,10 +1511,10 @@ private subroutine <a href='../proc/mp_gather_dm.html'>mp_gather_dm</a>(msg, msg
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:,:)</td><td><p>Datum to send to root</p></td>
   
 </tr>
@@ -1526,10 +1526,10 @@ private subroutine <a href='../proc/mp_gather_dm.html'>mp_gather_dm</a>(msg, msg
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg_gather</strong>(:,:)</td><td></td>
   
 </tr>
@@ -1630,10 +1630,10 @@ private subroutine <a href='../proc/mp_gather_c.html'>mp_gather_c</a>(msg, msg_g
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg_gather</strong>(:)</td><td><p>Received data (on root)</p></td>
   
 </tr>
@@ -1721,10 +1721,10 @@ private subroutine <a href='../proc/mp_gather_cv.html'>mp_gather_cv</a>(msg, msg
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:)</td><td><p>Datum to send to root</p></td>
   
 </tr>
@@ -1736,10 +1736,10 @@ private subroutine <a href='../proc/mp_gather_cv.html'>mp_gather_cv</a>(msg, msg
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg_gather</strong>(:)</td><td></td>
   
 </tr>
@@ -1825,10 +1825,10 @@ private subroutine <a href='../proc/mp_gather_cm.html'>mp_gather_cm</a>(msg, msg
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:,:)</td><td><p>Datum to send to root</p></td>
   
 </tr>
@@ -1840,10 +1840,10 @@ private subroutine <a href='../proc/mp_gather_cm.html'>mp_gather_cm</a>(msg, msg
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg_gather</strong>(:,:)</td><td></td>
   
 </tr>
@@ -1944,10 +1944,10 @@ private subroutine <a href='../proc/mp_gather_z.html'>mp_gather_z</a>(msg, msg_g
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg_gather</strong>(:)</td><td><p>Received data (on root)</p></td>
   
 </tr>
@@ -2035,10 +2035,10 @@ private subroutine <a href='../proc/mp_gather_zv.html'>mp_gather_zv</a>(msg, msg
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:)</td><td><p>Datum to send to root</p></td>
   
 </tr>
@@ -2050,10 +2050,10 @@ private subroutine <a href='../proc/mp_gather_zv.html'>mp_gather_zv</a>(msg, msg
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg_gather</strong>(:)</td><td></td>
   
 </tr>
@@ -2139,10 +2139,10 @@ private subroutine <a href='../proc/mp_gather_zm.html'>mp_gather_zm</a>(msg, msg
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:,:)</td><td><p>Datum to send to root</p></td>
   
 </tr>
@@ -2154,10 +2154,10 @@ private subroutine <a href='../proc/mp_gather_zm.html'>mp_gather_zm</a>(msg, msg
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg_gather</strong>(:,:)</td><td></td>
   
 </tr>

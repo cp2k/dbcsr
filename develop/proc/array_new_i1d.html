@@ -242,7 +242,7 @@ private subroutine array_new_i1d(array, DATA, gift)
   <td></td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>DATA</strong></td><td></td>
   
 </tr>
@@ -331,7 +331,7 @@ private subroutine array_new_i1d(array, DATA, gift)
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">array_new_i1d</span><span class="p">(</span><span class="k">array</span><span class="p">,</span> <span class="k">DATA</span><span class="p">,</span> <span class="n">gift</span><span class="p">)</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                   <span class="kd">::</span> <span class="k">array</span>
-<span class="k">      </span><span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="k">DATA</span>
+<span class="k">      </span><span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>         <span class="kd">::</span> <span class="k">DATA</span>
 <span class="k">      </span><span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">gift</span>
 
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span>

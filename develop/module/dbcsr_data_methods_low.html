@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 2.2% of total for modules and submodules.">1365 statements</a>
+    title=" 2.2% of total for modules and submodules.">1373 statements</a>
      </li> 
      
      
@@ -1364,7 +1364,7 @@ private subroutine <a href='../proc/set_data_p_s.html'>set_data_p_s</a>(area, p)
   <td></td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>p</strong></td><td><p>source data pointer</p></td>
   
 </tr>
@@ -1435,7 +1435,7 @@ private subroutine <a href='../proc/set_data_p_d.html'>set_data_p_d</a>(area, p)
   <td></td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>p</strong></td><td><p>source data pointer</p></td>
   
 </tr>
@@ -1506,7 +1506,7 @@ private subroutine <a href='../proc/set_data_p_c.html'>set_data_p_c</a>(area, p)
   <td></td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>p</strong></td><td><p>source data pointer</p></td>
   
 </tr>
@@ -1577,7 +1577,7 @@ private subroutine <a href='../proc/set_data_p_z.html'>set_data_p_z</a>(area, p)
   <td></td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>p</strong></td><td><p>source data pointer</p></td>
   
 </tr>
@@ -5533,7 +5533,7 @@ public function <a href='../proc/dbcsr_get_data_p_d.html'>dbcsr_get_data_p_d</a>
   
   
      <h4>Return Value <small>real(kind=real_8),
-  DIMENSION(:), POINTER</small></h4>
+  DIMENSION(:), POINTER, CONTIGUOUS</small></h4>
   <p>pointer to data</p>
     
 
@@ -5918,7 +5918,7 @@ public function <a href='../proc/dbcsr_get_data_p_s.html'>dbcsr_get_data_p_s</a>
   
   
      <h4>Return Value <small>real(kind=real_4),
-  DIMENSION(:), POINTER</small></h4>
+  DIMENSION(:), POINTER, CONTIGUOUS</small></h4>
   <p>pointer to data</p>
     
 
@@ -6303,7 +6303,7 @@ public function <a href='../proc/dbcsr_get_data_p_z.html'>dbcsr_get_data_p_z</a>
   
   
      <h4>Return Value <small>complex(kind=real_8),
-  DIMENSION(:), POINTER</small></h4>
+  DIMENSION(:), POINTER, CONTIGUOUS</small></h4>
   <p>pointer to data</p>
     
 
@@ -6688,7 +6688,7 @@ public function <a href='../proc/dbcsr_get_data_p_c.html'>dbcsr_get_data_p_c</a>
   
   
      <h4>Return Value <small>complex(kind=real_4),
-  DIMENSION(:), POINTER</small></h4>
+  DIMENSION(:), POINTER, CONTIGUOUS</small></h4>
   <p>pointer to data</p>
     
 
@@ -6990,7 +6990,7 @@ public subroutine <a href='../proc/internal_data_allocate.html'>internal_data_al
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>sizes</strong></td><td><p>sizes to allocate to</p></td>
   
 </tr>
@@ -8036,7 +8036,7 @@ private subroutine <a href='../proc/set_data_p_d.html'>set_data_p_d</a>(area, p)
   <td></td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>p</strong></td><td><p>source data pointer</p></td>
   
 </tr>
@@ -8470,7 +8470,7 @@ private subroutine <a href='../proc/set_data_p_s.html'>set_data_p_s</a>(area, p)
   <td></td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>p</strong></td><td><p>source data pointer</p></td>
   
 </tr>
@@ -8904,7 +8904,7 @@ private subroutine <a href='../proc/set_data_p_z.html'>set_data_p_z</a>(area, p)
   <td></td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>p</strong></td><td><p>source data pointer</p></td>
   
 </tr>
@@ -9338,7 +9338,7 @@ private subroutine <a href='../proc/set_data_p_c.html'>set_data_p_c</a>(area, p)
   <td></td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>p</strong></td><td><p>source data pointer</p></td>
   
 </tr>

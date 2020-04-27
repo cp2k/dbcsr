@@ -229,7 +229,7 @@ private subroutine mp_allocate_z(DATA, len, stat)
   <td></td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>DATA</strong></td><td><p>pointer to integer array to allocate</p></td>
   
 </tr>
@@ -334,7 +334,7 @@ private subroutine mp_allocate_z(DATA, len, stat)
     <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">mp_allocate_z</span> <span class="p">(</span><span class="k">DATA</span><span class="p">,</span> <span class="nb">len</span><span class="p">,</span> <span class="nb">stat</span><span class="p">)</span>
       <span class="c">!! Allocates special parallel memory</span>
 
-      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>    <span class="kd">::</span> <span class="k">DATA</span>
+      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span> <span class="kd">::</span> <span class="k">DATA</span>
          <span class="c">!! pointer to integer array to allocate</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                 <span class="kd">::</span> <span class="nb">len</span>
          <span class="c">!! number of integers to allocate</span>

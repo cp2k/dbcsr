@@ -151,12 +151,12 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_convert', &
                                      routineP = moduleN//':'//routineN
 
-      COMPLEX(KIND=real_4), DIMENSION(:), POINTER        :: s_data_c, t_data_c
-      COMPLEX(KIND=real_8), DIMENSION(:), POINTER        :: s_data_z, t_data_z
+      COMPLEX(KIND=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: s_data_c, t_data_c
+      COMPLEX(KIND=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: s_data_z, t_data_z
       INTEGER                                            :: n, ns, nt
       LOGICAL                                            :: keep_real, noimult
-      REAL(KIND=real_4), DIMENSION(:), POINTER           :: s_data_r, t_data_r
-      REAL(KIND=real_8), DIMENSION(:), POINTER           :: s_data_d, t_data_d
+      REAL(KIND=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: s_data_r, t_data_r
+      REAL(KIND=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: s_data_d, t_data_d
 
 !   ---------------------------------------------------------------------------
 

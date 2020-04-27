@@ -226,11 +226,11 @@ private subroutine mp_send_rv(msg, dest, tag, gid)
   
 <tr>
   
-  <td><span class="anchor" id="variable-msg~132"></span>real(kind=real_4)</td>
+  <td><span class="anchor" id="variable-msg~132"></span>real(kind=real_4),</td>
   <td></td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -351,7 +351,7 @@ private subroutine mp_send_rv(msg, dest, tag, gid)
       <span class="c">!! Send rank-1 data to another process</span>
       <span class="c">!! @note see mp_send_r</span>
 
-      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">msg</span><span class="p">(:)</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">CONTIGUOUS</span>                    <span class="kd">::</span> <span class="n">msg</span><span class="p">(:)</span>
          <span class="c">!! Rank-1 data to send</span>
       <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">dest</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">gid</span>
 

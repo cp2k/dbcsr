@@ -243,7 +243,7 @@ private function array_data_i1d(array) result(DATA)
     
     
    <h3>Return Value <small><span class="anchor" id="variable-data~16"></span>integer,
-  DIMENSION(:),POINTER</small></h3>
+  DIMENSION(:),POINTER,CONTIGUOUS</small></h3>
     
     
     
@@ -310,7 +310,7 @@ private function array_data_i1d(array) result(DATA)
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span>   <span class="k">FUNCTION </span><span class="n">array_data_i1d</span><span class="p">(</span><span class="k">array</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                    <span class="kd">::</span> <span class="k">array</span>
-<span class="k">      </span><span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="k">DATA</span>
+<span class="k">      </span><span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>         <span class="kd">::</span> <span class="k">DATA</span>
 
 <span class="k">      IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="k">array</span><span class="p">%</span><span class="n">low</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         DATA</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">%</span><span class="n">low</span><span class="p">%</span><span class="k">data</span>

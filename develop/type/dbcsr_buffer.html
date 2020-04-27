@@ -485,7 +485,7 @@
   <td><span class="anchor" id="variable-meta"></span>integer,</td>
   
   <td>public,</td>
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>meta</strong></td><td>=> </td><td>Null()</td><td></td>
   
 </tr>
@@ -499,7 +499,7 @@
   <td><span class="anchor" id="variable-meta_before_resize"></span>integer,</td>
   
   <td>public,</td>
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>meta_before_resize</strong></td><td>=> </td><td>Null()</td><td></td>
   
 </tr>
@@ -513,7 +513,7 @@
   <td><span class="anchor" id="variable-meta_red3d"></span>integer,</td>
   
   <td>public,</td>
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>meta_red3D</strong></td><td>=> </td><td>Null()</td><td></td>
   
 </tr>
@@ -654,7 +654,7 @@
       <span class="kt">INTEGER</span>                                     <span class="kd">::</span> <span class="n">grp</span> <span class="o">=</span> <span class="n">mp_comm_null</span><span class="p">,</span> <span class="p">&amp;</span> <span class="c">! Global communicator</span>
                                                      <span class="n">subgrp</span> <span class="o">=</span> <span class="n">mp_comm_null</span> <span class="c">! Communicator for A and B</span>
       <span class="kt">INTEGER</span>                                     <span class="kd">::</span> <span class="n">data_win</span><span class="p">,</span> <span class="n">meta_win</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>              <span class="kd">::</span> <span class="n">meta</span> <span class="o">=&gt;</span> <span class="nb">Null</span><span class="p">(),</span> <span class="p">&amp;</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>  <span class="kd">::</span> <span class="n">meta</span> <span class="o">=&gt;</span> <span class="nb">Null</span><span class="p">(),</span> <span class="p">&amp;</span>
                                                      <span class="n">meta_before_resize</span> <span class="o">=&gt;</span> <span class="nb">Null</span><span class="p">(),</span> <span class="p">&amp;</span>
                                                      <span class="n">meta_red3D</span> <span class="o">=&gt;</span> <span class="nb">Null</span><span class="p">()</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">get_requests</span>

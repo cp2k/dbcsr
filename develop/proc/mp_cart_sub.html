@@ -242,7 +242,7 @@ public subroutine mp_cart_sub(comm, rdim, sub_comm)
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>rdim</strong></td><td></td>
   
 </tr>
@@ -332,7 +332,7 @@ public subroutine mp_cart_sub(comm, rdim, sub_comm)
     <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">mp_cart_sub</span><span class="p">(</span><span class="n">comm</span><span class="p">,</span> <span class="n">rdim</span><span class="p">,</span> <span class="n">sub_comm</span><span class="p">)</span>
 
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">comm</span>
-      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">rdim</span>
+      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>      <span class="kd">::</span> <span class="n">rdim</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">sub_comm</span>
 
       <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;mp_cart_sub&#39;</span><span class="p">,</span> <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>

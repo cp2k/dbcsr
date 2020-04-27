@@ -289,7 +289,7 @@ private subroutine dbcsr_distribution_new_template(dist, template, group, pgrid,
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>row_dist</strong></td><td></td>
   
 </tr>
@@ -304,7 +304,7 @@ private subroutine dbcsr_distribution_new_template(dist, template, group, pgrid,
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>col_dist</strong></td><td></td>
   
 </tr>
@@ -401,7 +401,7 @@ private subroutine dbcsr_distribution_new_template(dist, template, group, pgrid,
          <span class="k">OPTIONAL</span>                                        <span class="kd">::</span> <span class="n">template</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">group</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">OPTIONAL</span><span class="p">,</span> <span class="k">POINTER</span>        <span class="kd">::</span> <span class="n">pgrid</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">POINTER</span>         <span class="kd">::</span> <span class="n">row_dist</span><span class="p">,</span> <span class="n">col_dist</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span> <span class="kd">::</span> <span class="n">row_dist</span><span class="p">,</span> <span class="n">col_dist</span>
       <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">reuse_arrays</span>
 
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">)</span>                                 <span class="kd">::</span> <span class="n">mp_env</span>

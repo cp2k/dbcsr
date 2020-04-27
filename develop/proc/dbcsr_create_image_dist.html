@@ -240,7 +240,7 @@ public subroutine dbcsr_create_image_dist(imgdist, dist, match_row_pdist, match_
   
 <tr>
   
-  <td><span class="anchor" id="variable-dist~68"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
+  <td><span class="anchor" id="variable-dist~69"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -466,7 +466,7 @@ public subroutine dbcsr_create_image_dist(imgdist, dist, match_row_pdist, match_
                                      <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">ncols</span><span class="p">,</span> <span class="n">npcols</span><span class="p">,</span> <span class="n">nprows</span><span class="p">,</span> <span class="n">nrows</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="n">col_dist_data</span><span class="p">,</span> <span class="n">col_img_data</span><span class="p">,</span> <span class="n">col_vdist</span><span class="p">,</span> <span class="p">&amp;</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>         <span class="kd">::</span> <span class="n">col_dist_data</span><span class="p">,</span> <span class="n">col_img_data</span><span class="p">,</span> <span class="n">col_vdist</span><span class="p">,</span> <span class="p">&amp;</span>
                                                             <span class="n">row_dist_data</span><span class="p">,</span> <span class="n">row_img_data</span><span class="p">,</span> <span class="n">row_vdist</span>
       <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">new_col_dist</span><span class="p">,</span> <span class="n">new_row_dist</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">new_dist</span>

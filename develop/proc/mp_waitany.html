@@ -229,7 +229,7 @@ public subroutine mp_waitany(requests, completed)
   <td>intent(inout),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>requests</strong></td><td></td>
   
 </tr>
@@ -318,7 +318,7 @@ public subroutine mp_waitany(requests, completed)
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">mp_waitany</span><span class="p">(</span><span class="n">requests</span><span class="p">,</span> <span class="n">completed</span><span class="p">)</span>
       <span class="c">!! waits for completion of any of the given requests</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>     <span class="kd">::</span> <span class="n">requests</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">requests</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>                     <span class="kd">::</span> <span class="n">completed</span>
 
       <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;mp_waitany&#39;</span><span class="p">,</span> <span class="p">&amp;</span>

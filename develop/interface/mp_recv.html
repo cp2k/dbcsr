@@ -442,10 +442,10 @@ private subroutine <a href='../proc/mp_recv_iv.html'>mp_recv_iv</a>(msg, source,
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(inout)</td>
+  <td>intent(inout),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:)</td><td><p>Place received data into this rank-1 array</p></td>
   
 </tr>
@@ -653,10 +653,10 @@ private subroutine <a href='../proc/mp_recv_lv.html'>mp_recv_lv</a>(msg, source,
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(inout)</td>
+  <td>intent(inout),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:)</td><td><p>Place received data into this rank-1 array</p></td>
   
 </tr>
@@ -864,10 +864,10 @@ private subroutine <a href='../proc/mp_recv_rv.html'>mp_recv_rv</a>(msg, source,
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(inout)</td>
+  <td>intent(inout),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:)</td><td><p>Place received data into this rank-1 array</p></td>
   
 </tr>
@@ -1075,10 +1075,10 @@ private subroutine <a href='../proc/mp_recv_dv.html'>mp_recv_dv</a>(msg, source,
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(inout)</td>
+  <td>intent(inout),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:)</td><td><p>Place received data into this rank-1 array</p></td>
   
 </tr>
@@ -1286,10 +1286,10 @@ private subroutine <a href='../proc/mp_recv_cv.html'>mp_recv_cv</a>(msg, source,
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(inout)</td>
+  <td>intent(inout),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:)</td><td><p>Place received data into this rank-1 array</p></td>
   
 </tr>
@@ -1497,10 +1497,10 @@ private subroutine <a href='../proc/mp_recv_zv.html'>mp_recv_zv</a>(msg, source,
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(inout)</td>
+  <td>intent(inout),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:)</td><td><p>Place received data into this rank-1 array</p></td>
   
 </tr>

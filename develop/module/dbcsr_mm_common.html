@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.8% of total for modules and submodules.">501 statements</a>
+    title=" 0.8% of total for modules and submodules.">502 statements</a>
      </li> 
      
      
@@ -1549,7 +1549,7 @@ public subroutine <a href='../proc/enumerate_blk_sizes.html'>enumerate_blk_sizes
   <td></td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>blk_sizes</strong></td><td></td>
   
 </tr>
@@ -1579,7 +1579,7 @@ public subroutine <a href='../proc/enumerate_blk_sizes.html'>enumerate_blk_sizes
   <td></td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>enum</strong></td><td></td>
   
 </tr>
@@ -1594,7 +1594,7 @@ public subroutine <a href='../proc/enumerate_blk_sizes.html'>enumerate_blk_sizes
   <td></td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>rev_enum</strong></td><td></td>
   
 </tr>
@@ -1683,7 +1683,7 @@ public subroutine <a href='../proc/acc_transpose_blocks.html'>acc_transpose_bloc
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>row_blk_sizes</strong></td><td></td>
   
 </tr>
@@ -1698,7 +1698,7 @@ public subroutine <a href='../proc/acc_transpose_blocks.html'>acc_transpose_bloc
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>col_blk_sizes</strong></td><td></td>
   
 </tr>
@@ -1713,7 +1713,7 @@ public subroutine <a href='../proc/acc_transpose_blocks.html'>acc_transpose_bloc
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>row_blk_sizes2enum</strong></td><td></td>
   
 </tr>
@@ -1728,7 +1728,7 @@ public subroutine <a href='../proc/acc_transpose_blocks.html'>acc_transpose_bloc
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>enum2row_blk_sizes</strong></td><td></td>
   
 </tr>
@@ -1743,7 +1743,7 @@ public subroutine <a href='../proc/acc_transpose_blocks.html'>acc_transpose_bloc
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>col_blk_sizes2enum</strong></td><td></td>
   
 </tr>
@@ -1758,7 +1758,7 @@ public subroutine <a href='../proc/acc_transpose_blocks.html'>acc_transpose_bloc
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>enum2col_blk_sizes</strong></td><td></td>
   
 </tr>
@@ -1863,7 +1863,7 @@ public subroutine <a href='../proc/calculate_norms.html'>calculate_norms</a>(mat
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>row_blk_sizes</strong></td><td></td>
   
 </tr>
@@ -1878,7 +1878,7 @@ public subroutine <a href='../proc/calculate_norms.html'>calculate_norms</a>(mat
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>col_blk_sizes</strong></td><td></td>
   
 </tr>
@@ -1937,7 +1937,7 @@ public subroutine <a href='../proc/local_filter.html'>local_filter</a>(full_data
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>full_data</strong></td><td><p>All elements</p></td>
   
 </tr>

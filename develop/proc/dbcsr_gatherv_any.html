@@ -274,7 +274,7 @@ public subroutine dbcsr_gatherv_any(base, ub_base, msg, counts, displs, root, gr
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>counts</strong></td><td></td>
   
 </tr>
@@ -289,7 +289,7 @@ public subroutine dbcsr_gatherv_any(base, ub_base, msg, counts, displs, root, gr
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>displs</strong></td><td></td>
   
 </tr>
@@ -396,7 +396,7 @@ public subroutine dbcsr_gatherv_any(base, ub_base, msg, counts, displs, root, gr
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">base</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">ub_base</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                <span class="kd">::</span> <span class="n">msg</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">counts</span><span class="p">,</span> <span class="n">displs</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>      <span class="kd">::</span> <span class="n">counts</span><span class="p">,</span> <span class="n">displs</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">root</span><span class="p">,</span> <span class="n">grp</span>
 
       <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_gatherv_any&#39;</span><span class="p">,</span> <span class="p">&amp;</span>

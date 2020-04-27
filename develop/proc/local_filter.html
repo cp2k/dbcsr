@@ -229,7 +229,7 @@ public subroutine local_filter(full_data, nle, local_elements, local_data)
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>full_data</strong></td><td><p>All elements</p></td>
   
 </tr>
@@ -349,7 +349,7 @@ public subroutine local_filter(full_data, nle, local_elements, local_data)
     <div class="highlight"><pre><span></span>   <span class="k">PURE SUBROUTINE </span><span class="n">local_filter</span><span class="p">(</span><span class="n">full_data</span><span class="p">,</span> <span class="n">nle</span><span class="p">,</span> <span class="n">local_elements</span><span class="p">,</span> <span class="n">local_data</span><span class="p">)</span>
       <span class="c">!! Gathers the local elements from all data (full_data)</span>
 
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">full_data</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">CONTIGUOUS</span>      <span class="kd">::</span> <span class="n">full_data</span>
          <span class="c">!! All elements</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">nle</span>
          <span class="c">!! Number of local elements</span>

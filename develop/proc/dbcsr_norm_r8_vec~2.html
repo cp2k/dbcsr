@@ -257,7 +257,7 @@ public subroutine dbcsr_norm_r8_vec(matrix, which_norm, norm_vector)
   <td>intent(out),</td>
   <td></td>
   
-  <td>DIMENSION(:), TARGET</td><td>::</td>
+  <td>DIMENSION(:), TARGET, CONTIGUOUS</td><td>::</td>
   <td><strong>norm_vector</strong></td><td></td>
   
 </tr>
@@ -333,9 +333,9 @@ public subroutine dbcsr_norm_r8_vec(matrix, which_norm, norm_vector)
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">matrix</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">which_norm</span>
       <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="p">&amp;</span>
-         <span class="k">TARGET</span>                                          <span class="kd">::</span> <span class="n">norm_vector</span>
+         <span class="k">TARGET</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>                              <span class="kd">::</span> <span class="n">norm_vector</span>
 
-      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>           <span class="kd">::</span> <span class="n">v_p</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span> <span class="kd">::</span> <span class="n">v_p</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">norm_vector_a</span>
 
       <span class="k">CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">norm_vector_a</span><span class="p">)</span>

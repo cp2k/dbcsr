@@ -229,7 +229,7 @@ private subroutine mp_testany_1(requests, completed, flag)
   <td>intent(inout),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>requests</strong></td><td></td>
   
 </tr>
@@ -333,7 +333,7 @@ private subroutine mp_testany_1(requests, completed, flag)
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">mp_testany_1</span><span class="p">(</span><span class="n">requests</span><span class="p">,</span> <span class="n">completed</span><span class="p">,</span> <span class="n">flag</span><span class="p">)</span>
       <span class="c">!! tests for completion of the given requests</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">requests</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span> <span class="kd">::</span> <span class="n">requests</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">out</span><span class="p">),</span> <span class="k">OPTIONAL</span>           <span class="kd">::</span> <span class="n">completed</span>
       <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">out</span><span class="p">),</span> <span class="k">OPTIONAL</span>           <span class="kd">::</span> <span class="n">flag</span>
 

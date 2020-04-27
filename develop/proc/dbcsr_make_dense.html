@@ -418,7 +418,8 @@ public subroutine dbcsr_make_dense(matrix, dense_matrix, dense_dist, dense_row_s
       <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_create</span><span class="p">(</span><span class="n">dense_matrix</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="n">matrix</span><span class="p">,</span> <span class="p">&amp;</span>
                         <span class="n">dist</span><span class="o">=</span><span class="n">dense_dist</span><span class="p">,</span> <span class="p">&amp;</span>
-                        <span class="n">row_blk_size</span><span class="o">=</span><span class="n">array_data</span><span class="p">(</span><span class="n">dense_row_sizes</span><span class="p">),</span> <span class="n">col_blk_size</span><span class="o">=</span><span class="n">array_data</span><span class="p">(</span><span class="n">dense_col_sizes</span><span class="p">))</span>
+                        <span class="n">row_blk_size_obj</span><span class="o">=</span><span class="n">dense_row_sizes</span><span class="p">,</span> <span class="p">&amp;</span>
+                        <span class="n">col_blk_size_obj</span><span class="o">=</span><span class="n">dense_col_sizes</span><span class="p">)</span>
       <span class="c">!</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">cs</span> <span class="o">=</span> <span class="n">dbcsr_checksum</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>

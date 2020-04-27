@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.9% of total for source files.">532 statements</a>
+    title=" 0.8% of total for source files.">532 statements</a>
      </li> 
      
      
@@ -822,11 +822,11 @@
 <a name="ln-564"></a>      <span class="k">END SELECT</span>
 <a name="ln-565"></a>      <span class="c">!</span>
 <a name="ln-566"></a>      <span class="c">! Ensure matrix compatibility.</span>
-<a name="ln-567"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">array_equality</span><span class="p">(</span><span class="n">dbcsr_row_block_offsets</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">),</span> <span class="n">dbcsr_row_block_offsets</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">)))</span> <span class="p">&amp;</span>
+<a name="ln-567"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">array_equality</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">%</span><span class="n">row_blk_offset</span><span class="p">,</span> <span class="n">matrix_left</span><span class="p">%</span><span class="n">row_blk_offset</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-568"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;C/A rows not equal&quot;</span><span class="p">)</span>
-<a name="ln-569"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">array_equality</span><span class="p">(</span><span class="n">dbcsr_col_block_offsets</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">),</span> <span class="n">dbcsr_col_block_offsets</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">)))</span> <span class="p">&amp;</span>
+<a name="ln-569"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">array_equality</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">%</span><span class="n">col_blk_offset</span><span class="p">,</span> <span class="n">matrix_right</span><span class="p">%</span><span class="n">col_blk_offset</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-570"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;C/B columns not equal&quot;</span><span class="p">)</span>
-<a name="ln-571"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">array_equality</span><span class="p">(</span><span class="n">dbcsr_col_block_offsets</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">),</span> <span class="n">dbcsr_row_block_offsets</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">)))</span> <span class="p">&amp;</span>
+<a name="ln-571"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">array_equality</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">%</span><span class="n">col_blk_offset</span><span class="p">,</span> <span class="n">matrix_right</span><span class="p">%</span><span class="n">row_blk_offset</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-572"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;A cols/B rows not equal&quot;</span><span class="p">)</span>
 <a name="ln-573"></a>      <span class="c">!</span>
 <a name="ln-574"></a>      <span class="c">! No dense multiplication when filtering is used.</span>
@@ -921,8 +921,8 @@
 <a name="ln-663"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">f_k</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="n">f_k</span> <span class="o">=</span> <span class="mi">0</span>
 <a name="ln-664"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">l_k</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">))</span> <span class="n">l_k</span> <span class="o">=</span> <span class="mi">0</span>
 <a name="ln-665"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">last_column</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
-<a name="ln-666"></a>          <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">array_equality</span><span class="p">(</span><span class="n">dbcsr_col_block_sizes</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">),</span> <span class="p">&amp;</span>
-<a name="ln-667"></a>                               <span class="n">dbcsr_col_block_sizes</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">)))</span> <span class="k">THEN</span>
+<a name="ln-666"></a>          <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">array_equality</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">%</span><span class="n">col_blk_size</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-667"></a>                               <span class="n">matrix_c</span><span class="p">%</span><span class="n">col_blk_size</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-668"></a><span class="k">         </span><span class="n">l_col</span> <span class="o">=</span> <span class="nb">MIN</span><span class="p">(</span><span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">),</span> <span class="p">&amp;</span>
 <a name="ln-669"></a>                     <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">))</span>
 <a name="ln-670"></a>      <span class="n">ENDIF</span>

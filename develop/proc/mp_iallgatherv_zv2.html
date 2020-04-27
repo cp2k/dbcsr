@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">28 statements</a>
+    title=" 0.0% of total for procedures.">29 statements</a>
      </li> 
      
      
@@ -235,10 +235,10 @@ private subroutine mp_iallgatherv_zv2(msgout, msgin, rcount, rdispl, gid, reques
 <tr>
   
   <td><span class="anchor" id="variable-msgout~101"></span>complex(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -250,10 +250,10 @@ private subroutine mp_iallgatherv_zv2(msgout, msgin, rcount, rdispl, gid, reques
 <tr>
   
   <td><span class="anchor" id="variable-msgin~101"></span>complex(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -265,13 +265,11 @@ private subroutine mp_iallgatherv_zv2(msgout, msgin, rcount, rdispl, gid, reques
 <tr>
   
   <td><span class="anchor" id="variable-rcount~24"></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rcount</strong>(:,:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rcount</strong>(:,:)</td><td></td>
   
 </tr>
 
@@ -282,13 +280,11 @@ private subroutine mp_iallgatherv_zv2(msgout, msgin, rcount, rdispl, gid, reques
 <tr>
   
   <td><span class="anchor" id="variable-rdispl~20"></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rdispl</strong>(:,:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rdispl</strong>(:,:)</td><td></td>
   
 </tr>
 
@@ -407,11 +403,12 @@ private subroutine mp_iallgatherv_zv2(msgout, msgin, rcount, rdispl, gid, reques
       <span class="c">!! MPI mapping</span>
       <span class="c">!! mpi_allgather</span>
 
-      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">msgout</span><span class="p">(:)</span>
+      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>         <span class="kd">::</span> <span class="n">msgout</span><span class="p">(:)</span>
          <span class="c">!! Rank-1 data to send</span>
-      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">msgin</span><span class="p">(:)</span>
+      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>       <span class="kd">::</span> <span class="n">msgin</span><span class="p">(:)</span>
          <span class="c">!! Received data</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">rcount</span><span class="p">(:,</span> <span class="p">:),</span> <span class="n">rdispl</span><span class="p">(:,</span> <span class="p">:),</span> <span class="n">gid</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>          <span class="kd">::</span> <span class="n">rcount</span><span class="p">(:,</span> <span class="p">:),</span> <span class="n">rdispl</span><span class="p">(:,</span> <span class="p">:)</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">gid</span>
          <span class="c">!! Size of sent data for every process</span>
          <span class="c">!! Offset of sent data for every process</span>
          <span class="c">!! Message passing environment identifier</span>

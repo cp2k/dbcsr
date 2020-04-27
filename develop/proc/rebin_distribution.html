@@ -285,7 +285,7 @@ public subroutine rebin_distribution(new_bins, images, source_bins, nbins, multi
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>source_bins</strong></td><td><p>Basis for the new distribution and images</p></td>
   
 </tr>
@@ -441,7 +441,7 @@ public subroutine rebin_distribution(new_bins, images, source_bins, nbins, multi
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">new_bins</span><span class="p">,</span> <span class="k">images</span>
          <span class="c">!! new real distribution</span>
          <span class="c">!! new image distribution</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">source_bins</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>      <span class="kd">::</span> <span class="n">source_bins</span>
          <span class="c">!! Basis for the new distribution and images</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">multiplicity</span><span class="p">,</span> <span class="n">nimages</span>
          <span class="c">!! number of bins in the new real distribution</span>

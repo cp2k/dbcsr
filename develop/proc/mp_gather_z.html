@@ -243,10 +243,10 @@ private subroutine mp_gather_z(msg, msg_gather, root, gid)
 <tr>
   
   <td><span class="anchor" id="variable-msg_gather~13"></span>complex(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg_gather</strong>(:)</td><td><p>Received data (on root)</p></td>
   
 </tr>
@@ -358,7 +358,7 @@ private subroutine mp_gather_z(msg, msg_gather, root, gid)
 
       <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">msg</span>
          <span class="c">!! Datum to send to root</span>
-      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">msg_gather</span><span class="p">(:)</span>
+      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>       <span class="kd">::</span> <span class="n">msg_gather</span><span class="p">(:)</span>
          <span class="c">!! Received data (on root)</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">root</span><span class="p">,</span> <span class="n">gid</span>
          <span class="c">!! Process which gathers the data</span>

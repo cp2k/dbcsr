@@ -359,7 +359,7 @@ public subroutine make_sizes_dense(old_sizes, mapping, nel_new, new_sizes)
                                      <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">el</span><span class="p">,</span> <span class="n">nel_old</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="n">map</span><span class="p">,</span> <span class="n">new_s</span><span class="p">,</span> <span class="n">old_s</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>         <span class="kd">::</span> <span class="n">map</span><span class="p">,</span> <span class="n">new_s</span><span class="p">,</span> <span class="n">old_s</span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>
 

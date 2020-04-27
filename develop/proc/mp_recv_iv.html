@@ -227,10 +227,10 @@ private subroutine mp_recv_iv(msg, source, tag, gid)
 <tr>
   
   <td><span class="anchor" id="variable-msg~17"></span>integer(kind=int_4),</td>
-  <td>intent(inout)</td>
+  <td>intent(inout),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:)</td><td><p>Place received data into this rank-1 array</p></td>
   
 </tr>
@@ -351,7 +351,7 @@ private subroutine mp_recv_iv(msg, source, tag, gid)
       <span class="c">!! Receive rank-1 data from another process</span>
       <span class="c">!! @note see mp_recv_i</span>
 
-      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">msg</span><span class="p">(:)</span>
+      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>     <span class="kd">::</span> <span class="n">msg</span><span class="p">(:)</span>
          <span class="c">!! Place received data into this rank-1 array</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">source</span><span class="p">,</span> <span class="n">tag</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">gid</span>

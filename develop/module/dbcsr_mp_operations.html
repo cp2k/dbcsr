@@ -509,7 +509,7 @@ public subroutine <a href='../proc/hybrid_alltoall_s1.html'>hybrid_alltoall_s1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), TARGET</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, TARGET</td><td>::</td>
   <td><strong>sb</strong></td><td></td>
   
 </tr>
@@ -524,7 +524,7 @@ public subroutine <a href='../proc/hybrid_alltoall_s1.html'>hybrid_alltoall_s1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>scount</strong></td><td></td>
   
 </tr>
@@ -539,7 +539,7 @@ public subroutine <a href='../proc/hybrid_alltoall_s1.html'>hybrid_alltoall_s1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>sdispl</strong></td><td></td>
   
 </tr>
@@ -554,7 +554,7 @@ public subroutine <a href='../proc/hybrid_alltoall_s1.html'>hybrid_alltoall_s1</
   <td>intent(inout),</td>
   <td></td>
   
-  <td>DIMENSION(:), TARGET</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, TARGET</td><td>::</td>
   <td><strong>rb</strong></td><td></td>
   
 </tr>
@@ -569,7 +569,7 @@ public subroutine <a href='../proc/hybrid_alltoall_s1.html'>hybrid_alltoall_s1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>rcount</strong></td><td></td>
   
 </tr>
@@ -584,7 +584,7 @@ public subroutine <a href='../proc/hybrid_alltoall_s1.html'>hybrid_alltoall_s1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>rdispl</strong></td><td></td>
   
 </tr>
@@ -706,7 +706,7 @@ public subroutine <a href='../proc/hybrid_alltoall_d1.html'>hybrid_alltoall_d1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), TARGET</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, TARGET</td><td>::</td>
   <td><strong>sb</strong></td><td></td>
   
 </tr>
@@ -721,7 +721,7 @@ public subroutine <a href='../proc/hybrid_alltoall_d1.html'>hybrid_alltoall_d1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>scount</strong></td><td></td>
   
 </tr>
@@ -736,7 +736,7 @@ public subroutine <a href='../proc/hybrid_alltoall_d1.html'>hybrid_alltoall_d1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>sdispl</strong></td><td></td>
   
 </tr>
@@ -751,7 +751,7 @@ public subroutine <a href='../proc/hybrid_alltoall_d1.html'>hybrid_alltoall_d1</
   <td>intent(inout),</td>
   <td></td>
   
-  <td>DIMENSION(:), TARGET</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, TARGET</td><td>::</td>
   <td><strong>rb</strong></td><td></td>
   
 </tr>
@@ -766,7 +766,7 @@ public subroutine <a href='../proc/hybrid_alltoall_d1.html'>hybrid_alltoall_d1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>rcount</strong></td><td></td>
   
 </tr>
@@ -781,7 +781,7 @@ public subroutine <a href='../proc/hybrid_alltoall_d1.html'>hybrid_alltoall_d1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>rdispl</strong></td><td></td>
   
 </tr>
@@ -903,7 +903,7 @@ public subroutine <a href='../proc/hybrid_alltoall_c1.html'>hybrid_alltoall_c1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), TARGET</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, TARGET</td><td>::</td>
   <td><strong>sb</strong></td><td></td>
   
 </tr>
@@ -918,7 +918,7 @@ public subroutine <a href='../proc/hybrid_alltoall_c1.html'>hybrid_alltoall_c1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>scount</strong></td><td></td>
   
 </tr>
@@ -933,7 +933,7 @@ public subroutine <a href='../proc/hybrid_alltoall_c1.html'>hybrid_alltoall_c1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>sdispl</strong></td><td></td>
   
 </tr>
@@ -948,7 +948,7 @@ public subroutine <a href='../proc/hybrid_alltoall_c1.html'>hybrid_alltoall_c1</
   <td>intent(inout),</td>
   <td></td>
   
-  <td>DIMENSION(:), TARGET</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, TARGET</td><td>::</td>
   <td><strong>rb</strong></td><td></td>
   
 </tr>
@@ -963,7 +963,7 @@ public subroutine <a href='../proc/hybrid_alltoall_c1.html'>hybrid_alltoall_c1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>rcount</strong></td><td></td>
   
 </tr>
@@ -978,7 +978,7 @@ public subroutine <a href='../proc/hybrid_alltoall_c1.html'>hybrid_alltoall_c1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>rdispl</strong></td><td></td>
   
 </tr>
@@ -1100,7 +1100,7 @@ public subroutine <a href='../proc/hybrid_alltoall_z1.html'>hybrid_alltoall_z1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), TARGET</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, TARGET</td><td>::</td>
   <td><strong>sb</strong></td><td></td>
   
 </tr>
@@ -1115,7 +1115,7 @@ public subroutine <a href='../proc/hybrid_alltoall_z1.html'>hybrid_alltoall_z1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>scount</strong></td><td></td>
   
 </tr>
@@ -1130,7 +1130,7 @@ public subroutine <a href='../proc/hybrid_alltoall_z1.html'>hybrid_alltoall_z1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>sdispl</strong></td><td></td>
   
 </tr>
@@ -1145,7 +1145,7 @@ public subroutine <a href='../proc/hybrid_alltoall_z1.html'>hybrid_alltoall_z1</
   <td>intent(inout),</td>
   <td></td>
   
-  <td>DIMENSION(:), TARGET</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, TARGET</td><td>::</td>
   <td><strong>rb</strong></td><td></td>
   
 </tr>
@@ -1160,7 +1160,7 @@ public subroutine <a href='../proc/hybrid_alltoall_z1.html'>hybrid_alltoall_z1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>rcount</strong></td><td></td>
   
 </tr>
@@ -1175,7 +1175,7 @@ public subroutine <a href='../proc/hybrid_alltoall_z1.html'>hybrid_alltoall_z1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>rdispl</strong></td><td></td>
   
 </tr>
@@ -1297,7 +1297,7 @@ public subroutine <a href='../proc/hybrid_alltoall_i1.html'>hybrid_alltoall_i1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), TARGET</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, TARGET</td><td>::</td>
   <td><strong>sb</strong></td><td></td>
   
 </tr>
@@ -1312,7 +1312,7 @@ public subroutine <a href='../proc/hybrid_alltoall_i1.html'>hybrid_alltoall_i1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>scount</strong></td><td></td>
   
 </tr>
@@ -1327,7 +1327,7 @@ public subroutine <a href='../proc/hybrid_alltoall_i1.html'>hybrid_alltoall_i1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>sdispl</strong></td><td></td>
   
 </tr>
@@ -1342,7 +1342,7 @@ public subroutine <a href='../proc/hybrid_alltoall_i1.html'>hybrid_alltoall_i1</
   <td>intent(inout),</td>
   <td></td>
   
-  <td>DIMENSION(:), TARGET</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, TARGET</td><td>::</td>
   <td><strong>rb</strong></td><td></td>
   
 </tr>
@@ -1357,7 +1357,7 @@ public subroutine <a href='../proc/hybrid_alltoall_i1.html'>hybrid_alltoall_i1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>rcount</strong></td><td></td>
   
 </tr>
@@ -1372,7 +1372,7 @@ public subroutine <a href='../proc/hybrid_alltoall_i1.html'>hybrid_alltoall_i1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>rdispl</strong></td><td></td>
   
 </tr>
@@ -1501,7 +1501,7 @@ public subroutine <a href='../proc/hybrid_alltoall_any.html'>hybrid_alltoall_any
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>scount</strong></td><td></td>
   
 </tr>
@@ -1516,7 +1516,7 @@ public subroutine <a href='../proc/hybrid_alltoall_any.html'>hybrid_alltoall_any
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>sdispl</strong></td><td></td>
   
 </tr>
@@ -1546,7 +1546,7 @@ public subroutine <a href='../proc/hybrid_alltoall_any.html'>hybrid_alltoall_any
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>rcount</strong></td><td></td>
   
 </tr>
@@ -1561,7 +1561,7 @@ public subroutine <a href='../proc/hybrid_alltoall_any.html'>hybrid_alltoall_any
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>rdispl</strong></td><td></td>
   
 </tr>
@@ -1883,7 +1883,7 @@ public subroutine <a href='../proc/hybrid_alltoall_any.html'>hybrid_alltoall_any
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>scount</strong></td><td></td>
   
 </tr>
@@ -1898,7 +1898,7 @@ public subroutine <a href='../proc/hybrid_alltoall_any.html'>hybrid_alltoall_any
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>sdispl</strong></td><td></td>
   
 </tr>
@@ -1928,7 +1928,7 @@ public subroutine <a href='../proc/hybrid_alltoall_any.html'>hybrid_alltoall_any
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>rcount</strong></td><td></td>
   
 </tr>
@@ -1943,7 +1943,7 @@ public subroutine <a href='../proc/hybrid_alltoall_any.html'>hybrid_alltoall_any
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>rdispl</strong></td><td></td>
   
 </tr>
@@ -2062,7 +2062,7 @@ public subroutine <a href='../proc/hybrid_alltoall_i1.html'>hybrid_alltoall_i1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), TARGET</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, TARGET</td><td>::</td>
   <td><strong>sb</strong></td><td></td>
   
 </tr>
@@ -2077,7 +2077,7 @@ public subroutine <a href='../proc/hybrid_alltoall_i1.html'>hybrid_alltoall_i1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>scount</strong></td><td></td>
   
 </tr>
@@ -2092,7 +2092,7 @@ public subroutine <a href='../proc/hybrid_alltoall_i1.html'>hybrid_alltoall_i1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>sdispl</strong></td><td></td>
   
 </tr>
@@ -2107,7 +2107,7 @@ public subroutine <a href='../proc/hybrid_alltoall_i1.html'>hybrid_alltoall_i1</
   <td>intent(inout),</td>
   <td></td>
   
-  <td>DIMENSION(:), TARGET</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, TARGET</td><td>::</td>
   <td><strong>rb</strong></td><td></td>
   
 </tr>
@@ -2122,7 +2122,7 @@ public subroutine <a href='../proc/hybrid_alltoall_i1.html'>hybrid_alltoall_i1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>rcount</strong></td><td></td>
   
 </tr>
@@ -2137,7 +2137,7 @@ public subroutine <a href='../proc/hybrid_alltoall_i1.html'>hybrid_alltoall_i1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>rdispl</strong></td><td></td>
   
 </tr>
@@ -3009,7 +3009,7 @@ public subroutine <a href='../proc/dbcsr_iscatterv_any.html'>dbcsr_iscatterv_any
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>counts</strong></td><td></td>
   
 </tr>
@@ -3024,7 +3024,7 @@ public subroutine <a href='../proc/dbcsr_iscatterv_any.html'>dbcsr_iscatterv_any
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>displs</strong></td><td></td>
   
 </tr>
@@ -3203,7 +3203,7 @@ public subroutine <a href='../proc/dbcsr_gatherv_any.html'>dbcsr_gatherv_any</a>
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>counts</strong></td><td></td>
   
 </tr>
@@ -3218,7 +3218,7 @@ public subroutine <a href='../proc/dbcsr_gatherv_any.html'>dbcsr_gatherv_any</a>
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>displs</strong></td><td></td>
   
 </tr>
@@ -3502,7 +3502,7 @@ public subroutine <a href='../proc/dbcsr_allgatherv.html'>dbcsr_allgatherv</a>(s
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>recv_count</strong></td><td></td>
   
 </tr>
@@ -3517,7 +3517,7 @@ public subroutine <a href='../proc/dbcsr_allgatherv.html'>dbcsr_allgatherv</a>(s
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>recv_displ</strong></td><td></td>
   
 </tr>
@@ -3591,7 +3591,7 @@ public subroutine <a href='../proc/hybrid_alltoall_d1.html'>hybrid_alltoall_d1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), TARGET</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, TARGET</td><td>::</td>
   <td><strong>sb</strong></td><td></td>
   
 </tr>
@@ -3606,7 +3606,7 @@ public subroutine <a href='../proc/hybrid_alltoall_d1.html'>hybrid_alltoall_d1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>scount</strong></td><td></td>
   
 </tr>
@@ -3621,7 +3621,7 @@ public subroutine <a href='../proc/hybrid_alltoall_d1.html'>hybrid_alltoall_d1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>sdispl</strong></td><td></td>
   
 </tr>
@@ -3636,7 +3636,7 @@ public subroutine <a href='../proc/hybrid_alltoall_d1.html'>hybrid_alltoall_d1</
   <td>intent(inout),</td>
   <td></td>
   
-  <td>DIMENSION(:), TARGET</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, TARGET</td><td>::</td>
   <td><strong>rb</strong></td><td></td>
   
 </tr>
@@ -3651,7 +3651,7 @@ public subroutine <a href='../proc/hybrid_alltoall_d1.html'>hybrid_alltoall_d1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>rcount</strong></td><td></td>
   
 </tr>
@@ -3666,7 +3666,7 @@ public subroutine <a href='../proc/hybrid_alltoall_d1.html'>hybrid_alltoall_d1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>rdispl</strong></td><td></td>
   
 </tr>
@@ -3791,7 +3791,7 @@ public subroutine <a href='../proc/hybrid_alltoall_s1.html'>hybrid_alltoall_s1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), TARGET</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, TARGET</td><td>::</td>
   <td><strong>sb</strong></td><td></td>
   
 </tr>
@@ -3806,7 +3806,7 @@ public subroutine <a href='../proc/hybrid_alltoall_s1.html'>hybrid_alltoall_s1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>scount</strong></td><td></td>
   
 </tr>
@@ -3821,7 +3821,7 @@ public subroutine <a href='../proc/hybrid_alltoall_s1.html'>hybrid_alltoall_s1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>sdispl</strong></td><td></td>
   
 </tr>
@@ -3836,7 +3836,7 @@ public subroutine <a href='../proc/hybrid_alltoall_s1.html'>hybrid_alltoall_s1</
   <td>intent(inout),</td>
   <td></td>
   
-  <td>DIMENSION(:), TARGET</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, TARGET</td><td>::</td>
   <td><strong>rb</strong></td><td></td>
   
 </tr>
@@ -3851,7 +3851,7 @@ public subroutine <a href='../proc/hybrid_alltoall_s1.html'>hybrid_alltoall_s1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>rcount</strong></td><td></td>
   
 </tr>
@@ -3866,7 +3866,7 @@ public subroutine <a href='../proc/hybrid_alltoall_s1.html'>hybrid_alltoall_s1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>rdispl</strong></td><td></td>
   
 </tr>
@@ -3991,7 +3991,7 @@ public subroutine <a href='../proc/hybrid_alltoall_z1.html'>hybrid_alltoall_z1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), TARGET</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, TARGET</td><td>::</td>
   <td><strong>sb</strong></td><td></td>
   
 </tr>
@@ -4006,7 +4006,7 @@ public subroutine <a href='../proc/hybrid_alltoall_z1.html'>hybrid_alltoall_z1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>scount</strong></td><td></td>
   
 </tr>
@@ -4021,7 +4021,7 @@ public subroutine <a href='../proc/hybrid_alltoall_z1.html'>hybrid_alltoall_z1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>sdispl</strong></td><td></td>
   
 </tr>
@@ -4036,7 +4036,7 @@ public subroutine <a href='../proc/hybrid_alltoall_z1.html'>hybrid_alltoall_z1</
   <td>intent(inout),</td>
   <td></td>
   
-  <td>DIMENSION(:), TARGET</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, TARGET</td><td>::</td>
   <td><strong>rb</strong></td><td></td>
   
 </tr>
@@ -4051,7 +4051,7 @@ public subroutine <a href='../proc/hybrid_alltoall_z1.html'>hybrid_alltoall_z1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>rcount</strong></td><td></td>
   
 </tr>
@@ -4066,7 +4066,7 @@ public subroutine <a href='../proc/hybrid_alltoall_z1.html'>hybrid_alltoall_z1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>rdispl</strong></td><td></td>
   
 </tr>
@@ -4191,7 +4191,7 @@ public subroutine <a href='../proc/hybrid_alltoall_c1.html'>hybrid_alltoall_c1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), TARGET</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, TARGET</td><td>::</td>
   <td><strong>sb</strong></td><td></td>
   
 </tr>
@@ -4206,7 +4206,7 @@ public subroutine <a href='../proc/hybrid_alltoall_c1.html'>hybrid_alltoall_c1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>scount</strong></td><td></td>
   
 </tr>
@@ -4221,7 +4221,7 @@ public subroutine <a href='../proc/hybrid_alltoall_c1.html'>hybrid_alltoall_c1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>sdispl</strong></td><td></td>
   
 </tr>
@@ -4236,7 +4236,7 @@ public subroutine <a href='../proc/hybrid_alltoall_c1.html'>hybrid_alltoall_c1</
   <td>intent(inout),</td>
   <td></td>
   
-  <td>DIMENSION(:), TARGET</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, TARGET</td><td>::</td>
   <td><strong>rb</strong></td><td></td>
   
 </tr>
@@ -4251,7 +4251,7 @@ public subroutine <a href='../proc/hybrid_alltoall_c1.html'>hybrid_alltoall_c1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>rcount</strong></td><td></td>
   
 </tr>
@@ -4266,7 +4266,7 @@ public subroutine <a href='../proc/hybrid_alltoall_c1.html'>hybrid_alltoall_c1</
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>rdispl</strong></td><td></td>
   
 </tr>

@@ -316,10 +316,10 @@ private subroutine <a href='../proc/mp_isum_iv.html'>mp_isum_iv</a>(msg, gid, re
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(inout)</td>
+  <td>intent(inout),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:)</td><td><p>Vector to sum and result</p></td>
   
 </tr>
@@ -406,10 +406,10 @@ private subroutine <a href='../proc/mp_isum_lv.html'>mp_isum_lv</a>(msg, gid, re
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(inout)</td>
+  <td>intent(inout),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:)</td><td><p>Vector to sum and result</p></td>
   
 </tr>
@@ -496,10 +496,10 @@ private subroutine <a href='../proc/mp_isum_rv.html'>mp_isum_rv</a>(msg, gid, re
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(inout)</td>
+  <td>intent(inout),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:)</td><td><p>Vector to sum and result</p></td>
   
 </tr>
@@ -586,10 +586,10 @@ private subroutine <a href='../proc/mp_isum_dv.html'>mp_isum_dv</a>(msg, gid, re
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(inout)</td>
+  <td>intent(inout),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:)</td><td><p>Vector to sum and result</p></td>
   
 </tr>
@@ -676,10 +676,10 @@ private subroutine <a href='../proc/mp_isum_cv.html'>mp_isum_cv</a>(msg, gid, re
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(inout)</td>
+  <td>intent(inout),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:)</td><td><p>Vector to sum and result</p></td>
   
 </tr>
@@ -766,10 +766,10 @@ private subroutine <a href='../proc/mp_isum_zv.html'>mp_isum_zv</a>(msg, gid, re
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(inout)</td>
+  <td>intent(inout),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:)</td><td><p>Vector to sum and result</p></td>
   
 </tr>
@@ -858,7 +858,7 @@ private subroutine <a href='../proc/mp_isum_bv.html'>mp_isum_bv</a>(msg, gid, re
   <td>intent(inout),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong></td><td><p>Datum to perform inclusive disjunction (input) and resultant inclusive disjunction (output)</p></td>
   
 </tr>

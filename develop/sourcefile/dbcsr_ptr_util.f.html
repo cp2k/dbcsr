@@ -424,7 +424,7 @@
 <a name="ln-166"></a>                                               <span class="n">nocopy</span><span class="p">,</span> <span class="n">memory_type</span><span class="p">,</span> <span class="n">zero_pad</span><span class="p">)</span>
 <a name="ln-167"></a>     <span class="c">!! Ensures that an array is appropriately large.</span>
 <a name="ln-168"></a>
-<a name="ln-169"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                 <span class="kd">::</span> <span class="k">array</span>
+<a name="ln-169"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>     <span class="kd">::</span> <span class="k">array</span>
 <a name="ln-170"></a>        <span class="c">!! array to verify and possibly resize</span>
 <a name="ln-171"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">OPTIONAL</span>       <span class="kd">::</span> <span class="n">array_resize</span>
 <a name="ln-172"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                  <span class="kd">::</span> <span class="n">lb</span>
@@ -448,7 +448,7 @@
 <a name="ln-190"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">mem_type</span>
 <a name="ln-191"></a>      <span class="kt">LOGICAL</span>                                  <span class="kd">::</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">docopy</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-192"></a>                                                  <span class="n">pad</span>
-<a name="ln-193"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>           <span class="kd">::</span> <span class="n">newarray</span>
+<a name="ln-193"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>    <span class="kd">::</span> <span class="n">newarray</span>
 <a name="ln-194"></a>
 <a name="ln-195"></a><span class="c">!   ---------------------------------------------------------------------------</span>
 <a name="ln-196"></a>      <span class="c">!CALL timeset(routineN, error_handler)</span>
@@ -589,7 +589,7 @@
 <a name="ln-331"></a>   <span class="k">SUBROUTINE </span><span class="n">mem_alloc_d</span> <span class="p">(</span><span class="n">mem</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">mem_type</span><span class="p">)</span>
 <a name="ln-332"></a>     <span class="c">!! Allocates memory</span>
 <a name="ln-333"></a>
-<a name="ln-334"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>        <span class="kd">::</span> <span class="n">mem</span>
+<a name="ln-334"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span> <span class="kd">::</span> <span class="n">mem</span>
 <a name="ln-335"></a>        <span class="c">!! memory to allocate</span>
 <a name="ln-336"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">n</span>
 <a name="ln-337"></a>        <span class="c">!! length of elements to allocate</span>
@@ -649,7 +649,7 @@
 <a name="ln-391"></a>   <span class="k">SUBROUTINE </span><span class="n">mem_dealloc_d</span> <span class="p">(</span><span class="n">mem</span><span class="p">,</span> <span class="n">mem_type</span><span class="p">)</span>
 <a name="ln-392"></a>     <span class="c">!! Deallocates memory</span>
 <a name="ln-393"></a>
-<a name="ln-394"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>        <span class="kd">::</span> <span class="n">mem</span>
+<a name="ln-394"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span> <span class="kd">::</span> <span class="n">mem</span>
 <a name="ln-395"></a>        <span class="c">!! memory to allocate</span>
 <a name="ln-396"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">mem_type</span>
 <a name="ln-397"></a>        <span class="c">!! memory type</span>
@@ -731,7 +731,7 @@
 <a name="ln-473"></a>                                               <span class="n">nocopy</span><span class="p">,</span> <span class="n">memory_type</span><span class="p">,</span> <span class="n">zero_pad</span><span class="p">)</span>
 <a name="ln-474"></a>     <span class="c">!! Ensures that an array is appropriately large.</span>
 <a name="ln-475"></a>
-<a name="ln-476"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                 <span class="kd">::</span> <span class="k">array</span>
+<a name="ln-476"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>     <span class="kd">::</span> <span class="k">array</span>
 <a name="ln-477"></a>        <span class="c">!! array to verify and possibly resize</span>
 <a name="ln-478"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">OPTIONAL</span>       <span class="kd">::</span> <span class="n">array_resize</span>
 <a name="ln-479"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                  <span class="kd">::</span> <span class="n">lb</span>
@@ -755,7 +755,7 @@
 <a name="ln-497"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">mem_type</span>
 <a name="ln-498"></a>      <span class="kt">LOGICAL</span>                                  <span class="kd">::</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">docopy</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-499"></a>                                                  <span class="n">pad</span>
-<a name="ln-500"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>           <span class="kd">::</span> <span class="n">newarray</span>
+<a name="ln-500"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>    <span class="kd">::</span> <span class="n">newarray</span>
 <a name="ln-501"></a>
 <a name="ln-502"></a><span class="c">!   ---------------------------------------------------------------------------</span>
 <a name="ln-503"></a>      <span class="c">!CALL timeset(routineN, error_handler)</span>
@@ -896,7 +896,7 @@
 <a name="ln-638"></a>   <span class="k">SUBROUTINE </span><span class="n">mem_alloc_s</span> <span class="p">(</span><span class="n">mem</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">mem_type</span><span class="p">)</span>
 <a name="ln-639"></a>     <span class="c">!! Allocates memory</span>
 <a name="ln-640"></a>
-<a name="ln-641"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>        <span class="kd">::</span> <span class="n">mem</span>
+<a name="ln-641"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span> <span class="kd">::</span> <span class="n">mem</span>
 <a name="ln-642"></a>        <span class="c">!! memory to allocate</span>
 <a name="ln-643"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">n</span>
 <a name="ln-644"></a>        <span class="c">!! length of elements to allocate</span>
@@ -956,7 +956,7 @@
 <a name="ln-698"></a>   <span class="k">SUBROUTINE </span><span class="n">mem_dealloc_s</span> <span class="p">(</span><span class="n">mem</span><span class="p">,</span> <span class="n">mem_type</span><span class="p">)</span>
 <a name="ln-699"></a>     <span class="c">!! Deallocates memory</span>
 <a name="ln-700"></a>
-<a name="ln-701"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>        <span class="kd">::</span> <span class="n">mem</span>
+<a name="ln-701"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span> <span class="kd">::</span> <span class="n">mem</span>
 <a name="ln-702"></a>        <span class="c">!! memory to allocate</span>
 <a name="ln-703"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">mem_type</span>
 <a name="ln-704"></a>        <span class="c">!! memory type</span>
@@ -1038,7 +1038,7 @@
 <a name="ln-780"></a>                                               <span class="n">nocopy</span><span class="p">,</span> <span class="n">memory_type</span><span class="p">,</span> <span class="n">zero_pad</span><span class="p">)</span>
 <a name="ln-781"></a>     <span class="c">!! Ensures that an array is appropriately large.</span>
 <a name="ln-782"></a>
-<a name="ln-783"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                 <span class="kd">::</span> <span class="k">array</span>
+<a name="ln-783"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>     <span class="kd">::</span> <span class="k">array</span>
 <a name="ln-784"></a>        <span class="c">!! array to verify and possibly resize</span>
 <a name="ln-785"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">OPTIONAL</span>       <span class="kd">::</span> <span class="n">array_resize</span>
 <a name="ln-786"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                  <span class="kd">::</span> <span class="n">lb</span>
@@ -1062,7 +1062,7 @@
 <a name="ln-804"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">mem_type</span>
 <a name="ln-805"></a>      <span class="kt">LOGICAL</span>                                  <span class="kd">::</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">docopy</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-806"></a>                                                  <span class="n">pad</span>
-<a name="ln-807"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>           <span class="kd">::</span> <span class="n">newarray</span>
+<a name="ln-807"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>    <span class="kd">::</span> <span class="n">newarray</span>
 <a name="ln-808"></a>
 <a name="ln-809"></a><span class="c">!   ---------------------------------------------------------------------------</span>
 <a name="ln-810"></a>      <span class="c">!CALL timeset(routineN, error_handler)</span>
@@ -1203,7 +1203,7 @@
 <a name="ln-945"></a>   <span class="k">SUBROUTINE </span><span class="n">mem_alloc_z</span> <span class="p">(</span><span class="n">mem</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">mem_type</span><span class="p">)</span>
 <a name="ln-946"></a>     <span class="c">!! Allocates memory</span>
 <a name="ln-947"></a>
-<a name="ln-948"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>        <span class="kd">::</span> <span class="n">mem</span>
+<a name="ln-948"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span> <span class="kd">::</span> <span class="n">mem</span>
 <a name="ln-949"></a>        <span class="c">!! memory to allocate</span>
 <a name="ln-950"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">n</span>
 <a name="ln-951"></a>        <span class="c">!! length of elements to allocate</span>
@@ -1263,7 +1263,7 @@
 <a name="ln-1005"></a>   <span class="k">SUBROUTINE </span><span class="n">mem_dealloc_z</span> <span class="p">(</span><span class="n">mem</span><span class="p">,</span> <span class="n">mem_type</span><span class="p">)</span>
 <a name="ln-1006"></a>     <span class="c">!! Deallocates memory</span>
 <a name="ln-1007"></a>
-<a name="ln-1008"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>        <span class="kd">::</span> <span class="n">mem</span>
+<a name="ln-1008"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span> <span class="kd">::</span> <span class="n">mem</span>
 <a name="ln-1009"></a>        <span class="c">!! memory to allocate</span>
 <a name="ln-1010"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">mem_type</span>
 <a name="ln-1011"></a>        <span class="c">!! memory type</span>
@@ -1345,7 +1345,7 @@
 <a name="ln-1087"></a>                                               <span class="n">nocopy</span><span class="p">,</span> <span class="n">memory_type</span><span class="p">,</span> <span class="n">zero_pad</span><span class="p">)</span>
 <a name="ln-1088"></a>     <span class="c">!! Ensures that an array is appropriately large.</span>
 <a name="ln-1089"></a>
-<a name="ln-1090"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                 <span class="kd">::</span> <span class="k">array</span>
+<a name="ln-1090"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>     <span class="kd">::</span> <span class="k">array</span>
 <a name="ln-1091"></a>        <span class="c">!! array to verify and possibly resize</span>
 <a name="ln-1092"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">OPTIONAL</span>       <span class="kd">::</span> <span class="n">array_resize</span>
 <a name="ln-1093"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                  <span class="kd">::</span> <span class="n">lb</span>
@@ -1369,7 +1369,7 @@
 <a name="ln-1111"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">mem_type</span>
 <a name="ln-1112"></a>      <span class="kt">LOGICAL</span>                                  <span class="kd">::</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">docopy</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-1113"></a>                                                  <span class="n">pad</span>
-<a name="ln-1114"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>           <span class="kd">::</span> <span class="n">newarray</span>
+<a name="ln-1114"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>    <span class="kd">::</span> <span class="n">newarray</span>
 <a name="ln-1115"></a>
 <a name="ln-1116"></a><span class="c">!   ---------------------------------------------------------------------------</span>
 <a name="ln-1117"></a>      <span class="c">!CALL timeset(routineN, error_handler)</span>
@@ -1510,7 +1510,7 @@
 <a name="ln-1252"></a>   <span class="k">SUBROUTINE </span><span class="n">mem_alloc_c</span> <span class="p">(</span><span class="n">mem</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">mem_type</span><span class="p">)</span>
 <a name="ln-1253"></a>     <span class="c">!! Allocates memory</span>
 <a name="ln-1254"></a>
-<a name="ln-1255"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>        <span class="kd">::</span> <span class="n">mem</span>
+<a name="ln-1255"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span> <span class="kd">::</span> <span class="n">mem</span>
 <a name="ln-1256"></a>        <span class="c">!! memory to allocate</span>
 <a name="ln-1257"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">n</span>
 <a name="ln-1258"></a>        <span class="c">!! length of elements to allocate</span>
@@ -1570,7 +1570,7 @@
 <a name="ln-1312"></a>   <span class="k">SUBROUTINE </span><span class="n">mem_dealloc_c</span> <span class="p">(</span><span class="n">mem</span><span class="p">,</span> <span class="n">mem_type</span><span class="p">)</span>
 <a name="ln-1313"></a>     <span class="c">!! Deallocates memory</span>
 <a name="ln-1314"></a>
-<a name="ln-1315"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>        <span class="kd">::</span> <span class="n">mem</span>
+<a name="ln-1315"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span> <span class="kd">::</span> <span class="n">mem</span>
 <a name="ln-1316"></a>        <span class="c">!! memory to allocate</span>
 <a name="ln-1317"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">mem_type</span>
 <a name="ln-1318"></a>        <span class="c">!! memory type</span>
@@ -1652,7 +1652,7 @@
 <a name="ln-1394"></a>                                               <span class="n">nocopy</span><span class="p">,</span> <span class="n">memory_type</span><span class="p">,</span> <span class="n">zero_pad</span><span class="p">)</span>
 <a name="ln-1395"></a>     <span class="c">!! Ensures that an array is appropriately large.</span>
 <a name="ln-1396"></a>
-<a name="ln-1397"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                 <span class="kd">::</span> <span class="k">array</span>
+<a name="ln-1397"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>     <span class="kd">::</span> <span class="k">array</span>
 <a name="ln-1398"></a>        <span class="c">!! array to verify and possibly resize</span>
 <a name="ln-1399"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">OPTIONAL</span>       <span class="kd">::</span> <span class="n">array_resize</span>
 <a name="ln-1400"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                  <span class="kd">::</span> <span class="n">lb</span>
@@ -1676,7 +1676,7 @@
 <a name="ln-1418"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">mem_type</span>
 <a name="ln-1419"></a>      <span class="kt">LOGICAL</span>                                  <span class="kd">::</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">docopy</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-1420"></a>                                                  <span class="n">pad</span>
-<a name="ln-1421"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>           <span class="kd">::</span> <span class="n">newarray</span>
+<a name="ln-1421"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>    <span class="kd">::</span> <span class="n">newarray</span>
 <a name="ln-1422"></a>
 <a name="ln-1423"></a><span class="c">!   ---------------------------------------------------------------------------</span>
 <a name="ln-1424"></a>      <span class="c">!CALL timeset(routineN, error_handler)</span>
@@ -1817,7 +1817,7 @@
 <a name="ln-1559"></a>   <span class="k">SUBROUTINE </span><span class="n">mem_alloc_i</span> <span class="p">(</span><span class="n">mem</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">mem_type</span><span class="p">)</span>
 <a name="ln-1560"></a>     <span class="c">!! Allocates memory</span>
 <a name="ln-1561"></a>
-<a name="ln-1562"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>        <span class="kd">::</span> <span class="n">mem</span>
+<a name="ln-1562"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span> <span class="kd">::</span> <span class="n">mem</span>
 <a name="ln-1563"></a>        <span class="c">!! memory to allocate</span>
 <a name="ln-1564"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">n</span>
 <a name="ln-1565"></a>        <span class="c">!! length of elements to allocate</span>
@@ -1877,7 +1877,7 @@
 <a name="ln-1619"></a>   <span class="k">SUBROUTINE </span><span class="n">mem_dealloc_i</span> <span class="p">(</span><span class="n">mem</span><span class="p">,</span> <span class="n">mem_type</span><span class="p">)</span>
 <a name="ln-1620"></a>     <span class="c">!! Deallocates memory</span>
 <a name="ln-1621"></a>
-<a name="ln-1622"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>        <span class="kd">::</span> <span class="n">mem</span>
+<a name="ln-1622"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span> <span class="kd">::</span> <span class="n">mem</span>
 <a name="ln-1623"></a>        <span class="c">!! memory to allocate</span>
 <a name="ln-1624"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">mem_type</span>
 <a name="ln-1625"></a>        <span class="c">!! memory type</span>
@@ -1959,7 +1959,7 @@
 <a name="ln-1701"></a>                                               <span class="n">nocopy</span><span class="p">,</span> <span class="n">memory_type</span><span class="p">,</span> <span class="n">zero_pad</span><span class="p">)</span>
 <a name="ln-1702"></a>     <span class="c">!! Ensures that an array is appropriately large.</span>
 <a name="ln-1703"></a>
-<a name="ln-1704"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                 <span class="kd">::</span> <span class="k">array</span>
+<a name="ln-1704"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>     <span class="kd">::</span> <span class="k">array</span>
 <a name="ln-1705"></a>        <span class="c">!! array to verify and possibly resize</span>
 <a name="ln-1706"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">OPTIONAL</span>       <span class="kd">::</span> <span class="n">array_resize</span>
 <a name="ln-1707"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                  <span class="kd">::</span> <span class="n">lb</span>
@@ -1983,7 +1983,7 @@
 <a name="ln-1725"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">mem_type</span>
 <a name="ln-1726"></a>      <span class="kt">LOGICAL</span>                                  <span class="kd">::</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">docopy</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-1727"></a>                                                  <span class="n">pad</span>
-<a name="ln-1728"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>           <span class="kd">::</span> <span class="n">newarray</span>
+<a name="ln-1728"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>    <span class="kd">::</span> <span class="n">newarray</span>
 <a name="ln-1729"></a>
 <a name="ln-1730"></a><span class="c">!   ---------------------------------------------------------------------------</span>
 <a name="ln-1731"></a>      <span class="c">!CALL timeset(routineN, error_handler)</span>
@@ -2124,7 +2124,7 @@
 <a name="ln-1866"></a>   <span class="k">SUBROUTINE </span><span class="n">mem_alloc_l</span> <span class="p">(</span><span class="n">mem</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">mem_type</span><span class="p">)</span>
 <a name="ln-1867"></a>     <span class="c">!! Allocates memory</span>
 <a name="ln-1868"></a>
-<a name="ln-1869"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>        <span class="kd">::</span> <span class="n">mem</span>
+<a name="ln-1869"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span> <span class="kd">::</span> <span class="n">mem</span>
 <a name="ln-1870"></a>        <span class="c">!! memory to allocate</span>
 <a name="ln-1871"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">n</span>
 <a name="ln-1872"></a>        <span class="c">!! length of elements to allocate</span>
@@ -2184,7 +2184,7 @@
 <a name="ln-1926"></a>   <span class="k">SUBROUTINE </span><span class="n">mem_dealloc_l</span> <span class="p">(</span><span class="n">mem</span><span class="p">,</span> <span class="n">mem_type</span><span class="p">)</span>
 <a name="ln-1927"></a>     <span class="c">!! Deallocates memory</span>
 <a name="ln-1928"></a>
-<a name="ln-1929"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>        <span class="kd">::</span> <span class="n">mem</span>
+<a name="ln-1929"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span> <span class="kd">::</span> <span class="n">mem</span>
 <a name="ln-1930"></a>        <span class="c">!! memory to allocate</span>
 <a name="ln-1931"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">mem_type</span>
 <a name="ln-1932"></a>        <span class="c">!! memory type</span>

@@ -311,10 +311,10 @@ private subroutine <a href='../proc/mp_sendrecv_iv.html'>mp_sendrecv_iv</a>(msgi
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Data to send</p></td>
   
 </tr>
@@ -341,10 +341,10 @@ private subroutine <a href='../proc/mp_sendrecv_iv.html'>mp_sendrecv_iv</a>(msgi
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -432,10 +432,10 @@ private subroutine <a href='../proc/mp_sendrecv_lv.html'>mp_sendrecv_lv</a>(msgi
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Data to send</p></td>
   
 </tr>
@@ -462,10 +462,10 @@ private subroutine <a href='../proc/mp_sendrecv_lv.html'>mp_sendrecv_lv</a>(msgi
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -553,10 +553,10 @@ private subroutine <a href='../proc/mp_sendrecv_rv.html'>mp_sendrecv_rv</a>(msgi
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Data to send</p></td>
   
 </tr>
@@ -583,10 +583,10 @@ private subroutine <a href='../proc/mp_sendrecv_rv.html'>mp_sendrecv_rv</a>(msgi
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -674,10 +674,10 @@ private subroutine <a href='../proc/mp_sendrecv_dv.html'>mp_sendrecv_dv</a>(msgi
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Data to send</p></td>
   
 </tr>
@@ -704,10 +704,10 @@ private subroutine <a href='../proc/mp_sendrecv_dv.html'>mp_sendrecv_dv</a>(msgi
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -795,10 +795,10 @@ private subroutine <a href='../proc/mp_sendrecv_cv.html'>mp_sendrecv_cv</a>(msgi
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Data to send</p></td>
   
 </tr>
@@ -825,10 +825,10 @@ private subroutine <a href='../proc/mp_sendrecv_cv.html'>mp_sendrecv_cv</a>(msgi
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -916,10 +916,10 @@ private subroutine <a href='../proc/mp_sendrecv_zv.html'>mp_sendrecv_zv</a>(msgi
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Data to send</p></td>
   
 </tr>
@@ -946,10 +946,10 @@ private subroutine <a href='../proc/mp_sendrecv_zv.html'>mp_sendrecv_zv</a>(msgi
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>

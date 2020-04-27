@@ -350,7 +350,7 @@ private subroutine v_to_p_i_dist_o(vdist, nim, pdist, idist)
       <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">pdist</span><span class="p">,</span> <span class="n">idist</span>
 
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">nel</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="n">id</span><span class="p">,</span> <span class="n">pd</span><span class="p">,</span> <span class="n">vd</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>         <span class="kd">::</span> <span class="n">id</span><span class="p">,</span> <span class="n">pd</span><span class="p">,</span> <span class="n">vd</span>
 
       <span class="n">nel</span> <span class="o">=</span> <span class="n">array_size</span><span class="p">(</span><span class="n">vdist</span><span class="p">)</span>
       <span class="n">vd</span> <span class="o">=&gt;</span> <span class="n">array_data</span><span class="p">(</span><span class="n">vdist</span><span class="p">)</span>

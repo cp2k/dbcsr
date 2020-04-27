@@ -229,7 +229,7 @@ private subroutine ensure_array_size_i(array, array_resize, lb, ub, factor, noco
   <td></td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>array</strong></td><td><p>array to verify and possibly resize</p></td>
   
 </tr>
@@ -412,7 +412,7 @@ private subroutine ensure_array_size_i(array, array_resize, lb, ub, factor, noco
                                                <span class="n">nocopy</span><span class="p">,</span> <span class="n">memory_type</span><span class="p">,</span> <span class="n">zero_pad</span><span class="p">)</span>
      <span class="c">!! Ensures that an array is appropriately large.</span>
 
-      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                 <span class="kd">::</span> <span class="k">array</span>
+      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>     <span class="kd">::</span> <span class="k">array</span>
         <span class="c">!! array to verify and possibly resize</span>
       <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">OPTIONAL</span>       <span class="kd">::</span> <span class="n">array_resize</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                  <span class="kd">::</span> <span class="n">lb</span>
@@ -436,7 +436,7 @@ private subroutine ensure_array_size_i(array, array_resize, lb, ub, factor, noco
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">mem_type</span>
       <span class="kt">LOGICAL</span>                                  <span class="kd">::</span> <span class="n">dbg</span><span class="p">,</span> <span class="n">docopy</span><span class="p">,</span> <span class="p">&amp;</span>
                                                   <span class="n">pad</span>
-      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>           <span class="kd">::</span> <span class="n">newarray</span>
+      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>    <span class="kd">::</span> <span class="n">newarray</span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>
       <span class="c">!CALL timeset(routineN, error_handler)</span>

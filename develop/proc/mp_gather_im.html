@@ -231,10 +231,10 @@ private subroutine mp_gather_im(msg, msg_gather, root, gid)
 <tr>
   
   <td><span class="anchor" id="variable-msg~44"></span>integer(kind=int_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:,:)</td><td><p>Datum to send to root</p></td>
   
 </tr>
@@ -246,10 +246,10 @@ private subroutine mp_gather_im(msg, msg_gather, root, gid)
 <tr>
   
   <td><span class="anchor" id="variable-msg_gather~3"></span>integer(kind=int_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg_gather</strong>(:,:)</td><td></td>
   
 </tr>
@@ -361,9 +361,9 @@ private subroutine mp_gather_im(msg, msg_gather, root, gid)
       <span class="c">!! mpi_gather</span>
       <span class="c">!! @note see mp_gather_i</span>
 
-      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">msg</span><span class="p">(:,</span> <span class="p">:)</span>
+      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">msg</span><span class="p">(:,</span> <span class="p">:)</span>
          <span class="c">!! Datum to send to root</span>
-      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">msg_gather</span><span class="p">(:,</span> <span class="p">:)</span>
+      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>       <span class="kd">::</span> <span class="n">msg_gather</span><span class="p">(:,</span> <span class="p">:)</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">root</span><span class="p">,</span> <span class="n">gid</span>
 
       <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;mp_gather_im&#39;</span><span class="p">,</span> <span class="p">&amp;</span>

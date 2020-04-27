@@ -10,7 +10,7 @@
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
-    <title>dbcsr_mp_active &ndash; DBCSR Library</title>
+    <title>dbcsr_distribution_new_obj &ndash; DBCSR Library</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -103,8 +103,8 @@
     
   
   <div class="row">
-    <h1>dbcsr_mp_active
-      <small>Function</small>
+    <h1>dbcsr_distribution_new_obj
+      <small>Subroutine</small>
     
     </h1>
     
@@ -121,24 +121,24 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">5 statements</a>
+    title=" 0.0% of total for procedures.">16 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_mp_methods.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_dist_methods.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_mp_methods.f.html'>dbcsr_mp_methods.F</a></li>
+     <li><a href='../sourcefile/dbcsr_dist_methods.f.html'>dbcsr_dist_methods.F</a></li>
     
-     <li><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
+     <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
     
   
-     <li class="active">dbcsr_mp_active</li>
+     <li class="active">dbcsr_distribution_new_obj</li>
   </ol>
 </div>
 </div>
@@ -182,7 +182,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
   <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_mp_active.html#src">dbcsr_mp_active</a>
+    <a class="list-group-item" href="../proc/dbcsr_distribution_new_obj.html#src">dbcsr_distribution_new_obj</a>
   </div>
 </div>
 
@@ -194,7 +194,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-public function dbcsr_mp_active(mp_env) result(active)
+private subroutine dbcsr_distribution_new_obj(dist, mp_env, row_dist_block, col_dist_block, local_rows, local_cols)
     
     
    
@@ -204,7 +204,8 @@ public function dbcsr_mp_active(mp_env) result(active)
 
 
     
-    <p>Checks whether this process is part of the message passing environment</p>
+    <p>Creates new distribution
+ Workaround for CCE compilation</p>
     
 
     <h3>Arguments</h3>
@@ -225,27 +226,93 @@ public function dbcsr_mp_active(mp_env) result(active)
   
 <tr>
   
-  <td><span class="anchor" id="variable-mp_env~13"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
+  <td><span class="anchor" id="variable-dist~36"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dist</strong></td><td><p>distribution</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-mp_env~4"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>mp_env</strong></td><td></td>
+  <td><strong>mp_env</strong></td><td><p>multiprocessing environment</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-row_dist_block~2"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>row_dist_block</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-col_dist_block~2"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>col_dist_block</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-local_rows~7"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>local_rows</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-local_cols~6"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>local_cols</strong></td><td></td>
   
 </tr>
 
 </tbody>
 </table>
 
-    
-    
-    
-    
-    
-    
-    
-   <h3>Return Value <small><span class="anchor" id="variable-active"></span>logical
-  </small></h3>
     
     
     
@@ -281,7 +348,7 @@ public function dbcsr_mp_active(mp_env) result(active)
 <div class="panel panel-primary">
   <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
   <div class="list-group">
-    <a class="list-group-item" href="../proc/dbcsr_mp_active.html#src">dbcsr_mp_active</a>
+    <a class="list-group-item" href="../proc/dbcsr_distribution_new_obj.html#src">dbcsr_distribution_new_obj</a>
   </div>
 </div>
 
@@ -310,13 +377,34 @@ public function dbcsr_mp_active(mp_env) result(active)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">FUNCTION </span><span class="n">dbcsr_mp_active</span><span class="p">(</span><span class="n">mp_env</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">active</span><span class="p">)</span>
-      <span class="c">!! Checks whether this process is part of the message passing environment</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                     <span class="kd">::</span> <span class="n">mp_env</span>
-      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">active</span>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_distribution_new_obj</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">mp_env</span><span class="p">,</span> <span class="n">row_dist_block</span><span class="p">,</span> <span class="n">col_dist_block</span><span class="p">,</span> <span class="p">&amp;</span>
+                                         <span class="n">local_rows</span><span class="p">,</span> <span class="n">local_cols</span><span class="p">)</span>
+      <span class="c">!! Creates new distribution</span>
+      <span class="c">!! Workaround for CCE compilation</span>
 
-      <span class="n">active</span> <span class="o">=</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">)</span>
-   <span class="k">END FUNCTION </span><span class="n">dbcsr_mp_active</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>          <span class="kd">::</span> <span class="n">dist</span>
+         <span class="c">!! distribution</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                     <span class="kd">::</span> <span class="n">mp_env</span>
+         <span class="c">!! multiprocessing environment</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">row_dist_block</span><span class="p">,</span> <span class="n">col_dist_block</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>          <span class="kd">::</span> <span class="n">local_rows</span><span class="p">,</span> <span class="n">local_cols</span>
+
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>         <span class="kd">::</span> <span class="n">cont_row_dist</span><span class="p">,</span> <span class="n">cont_col_dist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                            <span class="n">cont_local_rows</span><span class="p">,</span> <span class="n">cont_local_cols</span>
+
+      <span class="n">cont_row_dist</span> <span class="o">=&gt;</span> <span class="n">array_data</span><span class="p">(</span><span class="n">row_dist_block</span><span class="p">)</span>
+      <span class="n">cont_col_dist</span> <span class="o">=&gt;</span> <span class="n">array_data</span><span class="p">(</span><span class="n">col_dist_block</span><span class="p">)</span>
+
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">local_rows</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">local_cols</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">cont_local_rows</span> <span class="o">=&gt;</span> <span class="n">array_data</span><span class="p">(</span><span class="n">local_rows</span><span class="p">)</span>
+         <span class="n">cont_local_cols</span> <span class="o">=&gt;</span> <span class="n">array_data</span><span class="p">(</span><span class="n">local_cols</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_distribution_new</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">mp_env</span><span class="p">,</span> <span class="n">cont_row_dist</span><span class="p">,</span> <span class="n">cont_col_dist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">cont_local_rows</span><span class="p">,</span> <span class="n">cont_local_cols</span><span class="p">)</span>
+      <span class="k">ELSE</span>
+<span class="k">         CALL </span><span class="n">dbcsr_distribution_new</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">mp_env</span><span class="p">,</span> <span class="n">cont_row_dist</span><span class="p">,</span> <span class="n">cont_col_dist</span><span class="p">)</span>
+      <span class="n">ENDIF</span>
+
+   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_distribution_new_obj</span>
 </pre></div>
 
     </section>

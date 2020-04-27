@@ -87,15 +87,15 @@ MODULE dbcsr_data_types
    TYPE dbcsr_data_area_type
       !! Stores actual data
 
-      INTEGER(KIND=int_4), DIMENSION(:), POINTER    :: i4 => Null()
-      INTEGER(KIND=int_8), DIMENSION(:), POINTER    :: i8 => Null()
-      REAL(KIND=real_4), DIMENSION(:), POINTER      :: r_sp => Null()
+      INTEGER(KIND=int_4), DIMENSION(:), POINTER, CONTIGUOUS :: i4 => Null()
+      INTEGER(KIND=int_8), DIMENSION(:), POINTER, CONTIGUOUS :: i8 => Null()
+      REAL(KIND=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: r_sp => Null()
          !! stores real values in single precision
-      REAL(KIND=real_8), DIMENSION(:), POINTER      :: r_dp => Null()
+      REAL(KIND=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: r_dp => Null()
          !! stores real values in double precision
-      COMPLEX(KIND=real_4), DIMENSION(:), POINTER   :: c_sp => Null()
+      COMPLEX(KIND=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: c_sp => Null()
          !! stores complex values in single precision
-      COMPLEX(KIND=real_8), DIMENSION(:), POINTER   :: c_dp => Null()
+      COMPLEX(KIND=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: c_dp => Null()
          !! stores complex values in double precision
       REAL(KIND=real_4), DIMENSION(:, :), POINTER    :: r2_sp => Null()
       REAL(KIND=real_8), DIMENSION(:, :), POINTER    :: r2_dp => Null()

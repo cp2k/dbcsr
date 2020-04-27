@@ -227,10 +227,10 @@ private subroutine mp_isum_dv(msg, gid, request)
 <tr>
   
   <td><span class="anchor" id="variable-msg~104"></span>real(kind=real_8),</td>
-  <td>intent(inout)</td>
+  <td>intent(inout),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:)</td><td><p>Vector to sum and result</p></td>
   
 </tr>
@@ -336,7 +336,7 @@ private subroutine mp_isum_dv(msg, gid, request)
       <span class="c">!! Element-wise sum of a rank-1 array on all processes.</span>
       <span class="c">!! @note see mp_sum_d</span>
 
-      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">msg</span><span class="p">(:)</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>     <span class="kd">::</span> <span class="n">msg</span><span class="p">(:)</span>
          <span class="c">!! Vector to sum and result</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">gid</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">request</span>

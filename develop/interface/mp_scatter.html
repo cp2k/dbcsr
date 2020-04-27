@@ -311,10 +311,10 @@ private subroutine <a href='../proc/mp_scatter_iv.html'>mp_scatter_iv</a>(msg_sc
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg_scatter</strong>(:)</td><td><p>Data to scatter (for root process)</p></td>
   
 </tr>
@@ -326,10 +326,10 @@ private subroutine <a href='../proc/mp_scatter_iv.html'>mp_scatter_iv</a>(msg_sc
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -417,10 +417,10 @@ private subroutine <a href='../proc/mp_scatter_lv.html'>mp_scatter_lv</a>(msg_sc
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg_scatter</strong>(:)</td><td><p>Data to scatter (for root process)</p></td>
   
 </tr>
@@ -432,10 +432,10 @@ private subroutine <a href='../proc/mp_scatter_lv.html'>mp_scatter_lv</a>(msg_sc
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -523,10 +523,10 @@ private subroutine <a href='../proc/mp_scatter_rv.html'>mp_scatter_rv</a>(msg_sc
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg_scatter</strong>(:)</td><td><p>Data to scatter (for root process)</p></td>
   
 </tr>
@@ -538,10 +538,10 @@ private subroutine <a href='../proc/mp_scatter_rv.html'>mp_scatter_rv</a>(msg_sc
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -629,10 +629,10 @@ private subroutine <a href='../proc/mp_scatter_dv.html'>mp_scatter_dv</a>(msg_sc
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg_scatter</strong>(:)</td><td><p>Data to scatter (for root process)</p></td>
   
 </tr>
@@ -644,10 +644,10 @@ private subroutine <a href='../proc/mp_scatter_dv.html'>mp_scatter_dv</a>(msg_sc
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -735,10 +735,10 @@ private subroutine <a href='../proc/mp_scatter_cv.html'>mp_scatter_cv</a>(msg_sc
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg_scatter</strong>(:)</td><td><p>Data to scatter (for root process)</p></td>
   
 </tr>
@@ -750,10 +750,10 @@ private subroutine <a href='../proc/mp_scatter_cv.html'>mp_scatter_cv</a>(msg_sc
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -841,10 +841,10 @@ private subroutine <a href='../proc/mp_scatter_zv.html'>mp_scatter_zv</a>(msg_sc
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg_scatter</strong>(:)</td><td><p>Data to scatter (for root process)</p></td>
   
 </tr>
@@ -856,10 +856,10 @@ private subroutine <a href='../proc/mp_scatter_zv.html'>mp_scatter_zv</a>(msg_sc
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>

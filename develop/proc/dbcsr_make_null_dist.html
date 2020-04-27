@@ -349,7 +349,7 @@ private subroutine dbcsr_make_null_dist(distribution, nblkrows, nblkcols, group)
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">nblkrows</span><span class="p">,</span> <span class="n">nblkcols</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">group</span>
 
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="n">col_dist</span><span class="p">,</span> <span class="n">row_dist</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>         <span class="kd">::</span> <span class="n">col_dist</span><span class="p">,</span> <span class="n">row_dist</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">)</span>                                 <span class="kd">::</span> <span class="n">mp_env</span>
 
       <span class="k">CALL </span><span class="n">dbcsr_make_null_mp</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="n">group</span><span class="p">)</span>

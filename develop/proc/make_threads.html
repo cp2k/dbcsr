@@ -230,7 +230,7 @@ private subroutine make_threads(dist, row_sizes)
   
 <tr>
   
-  <td><span class="anchor" id="variable-dist~40"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
+  <td><span class="anchor" id="variable-dist~41"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
   <td></td>
   <td></td>
   
@@ -341,7 +341,7 @@ private subroutine make_threads(dist, row_sizes)
                                                             <span class="n">group_size</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">last_row</span><span class="p">,</span> <span class="n">nlrows</span><span class="p">,</span> <span class="p">&amp;</span>
                                                             <span class="n">nrows</span><span class="p">,</span> <span class="n">nthreads</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">t_cnt</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:)</span>                 <span class="kd">::</span> <span class="n">reorder</span><span class="p">,</span> <span class="n">sorted_row_sizes</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="n">lrows</span><span class="p">,</span> <span class="n">td</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>         <span class="kd">::</span> <span class="n">lrows</span><span class="p">,</span> <span class="n">td</span>
       <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">assigned</span><span class="p">,</span> <span class="n">found</span>
       <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">)</span>                                      <span class="kd">::</span> <span class="n">load_fraction</span><span class="p">,</span> <span class="n">rn</span><span class="p">,</span> <span class="n">soft_thr</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_heap_type</span><span class="p">)</span>                              <span class="kd">::</span> <span class="n">t_heap</span>

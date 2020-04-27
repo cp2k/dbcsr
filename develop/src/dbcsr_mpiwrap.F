@@ -745,7 +745,7 @@ CONTAINS
       INTEGER, INTENT(IN)                      :: mp_comm
          !! [output] : handle of the default communicator
       INTEGER, INTENT(out)                     :: mp_new_comm
-      INTEGER, DIMENSION(:)                    :: ranks_order
+      INTEGER, DIMENSION(:), CONTIGUOUS        :: ranks_order
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_reordering', &
                                      routineP = moduleN//':'//routineN
@@ -759,7 +759,7 @@ CONTAINS
       ierr = 0
 #if defined(__parallel)
 
-      CALL mpi_comm_group(mp_comm, oldgroup, ierr); 
+      CALL mpi_comm_group(mp_comm, oldgroup, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_group @ mp_reordering")
       CALL mpi_group_incl(oldgroup, SIZE(ranks_order), ranks_order, newgroup, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_group_incl @ mp_reordering")
@@ -1174,8 +1174,9 @@ CONTAINS
    SUBROUTINE mp_cart_create(comm_old, ndims, dims, pos, comm_cart)
 
       INTEGER, INTENT(IN)                      :: comm_old, ndims
-      INTEGER, INTENT(INOUT)                   :: dims(:)
-      INTEGER, INTENT(OUT)                     :: pos(:), comm_cart
+      INTEGER, CONTIGUOUS, INTENT(INOUT)       :: dims(:)
+      INTEGER, CONTIGUOUS, INTENT(OUT)         :: pos(:)
+      INTEGER, INTENT(OUT)                     :: comm_cart
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_cart_create', &
                                      routineP = moduleN//':'//routineN
@@ -1227,7 +1228,7 @@ CONTAINS
    SUBROUTINE mp_cart_coords(comm, rank, coords)
 
       INTEGER, INTENT(IN)                                :: comm, rank
-      INTEGER, DIMENSION(:), INTENT(OUT)                 :: coords
+      INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(OUT)     :: coords
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_cart_coords', routineP = moduleN//':'//routineN
 
@@ -1290,7 +1291,7 @@ CONTAINS
    SUBROUTINE mp_cart_sub(comm, rdim, sub_comm)
 
       INTEGER, INTENT(IN)                                :: comm
-      LOGICAL, DIMENSION(:), INTENT(IN)                  :: rdim
+      LOGICAL, DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: rdim
       INTEGER, INTENT(OUT)                               :: sub_comm
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_cart_sub', routineP = moduleN//':'//routineN
@@ -1364,7 +1365,7 @@ CONTAINS
    SUBROUTINE mp_rank_compare(comm1, comm2, rank)
 
       INTEGER, INTENT(IN)                      :: comm1, comm2
-      INTEGER, DIMENSION(:), INTENT(OUT)       :: rank
+      INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(OUT) :: rank
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_rank_compare', &
                                      routineP = moduleN//':'//routineN
@@ -1417,7 +1418,7 @@ CONTAINS
    SUBROUTINE mp_dims_create(nodes, dims)
 
       INTEGER, INTENT(IN)                                :: nodes
-      INTEGER, DIMENSION(:), INTENT(INOUT)               :: dims
+      INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(INOUT)   :: dims
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_dims_create', routineP = moduleN//':'//routineN
 
@@ -1441,7 +1442,7 @@ CONTAINS
 !..mp_cart_rank
    SUBROUTINE mp_cart_rank(group, pos, rank)
       INTEGER, INTENT(IN)                                :: group
-      INTEGER, DIMENSION(:), INTENT(IN)                  :: pos
+      INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: pos
       INTEGER, INTENT(OUT)                               :: rank
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_cart_rank', routineP = moduleN//':'//routineN
@@ -1489,7 +1490,7 @@ CONTAINS
       !! @note
       !! see isendrecv
 
-      INTEGER, DIMENSION(:), INTENT(inout)     :: requests
+      INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(inout) :: requests
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_waitall_1', &
                                      routineP = moduleN//':'//routineN
@@ -1517,7 +1518,7 @@ CONTAINS
 
    SUBROUTINE mp_waitall_2(requests)
       !! waits for completion of the given requests
-      INTEGER, DIMENSION(:, :), INTENT(inout)  :: requests
+      INTEGER, DIMENSION(:, :), CONTIGUOUS, INTENT(inout)  :: requests
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_waitall_2', &
                                      routineP = moduleN//':'//routineN
@@ -1562,7 +1563,7 @@ CONTAINS
 
    SUBROUTINE mp_waitany(requests, completed)
       !! waits for completion of any of the given requests
-      INTEGER, DIMENSION(:), INTENT(inout)     :: requests
+      INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(inout) :: requests
       INTEGER, INTENT(out)                     :: completed
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_waitany', &
@@ -1590,7 +1591,7 @@ CONTAINS
 
    FUNCTION mp_testall_tv(requests) RESULT(flag)
       !! Tests for completion of the given requests.
-      !! \brief We use mpi_test so that we can use a single status.
+      !! We use mpi_test so that we can use a single status.
 
       INTEGER, DIMENSION(:)                 :: requests
          !! the list of requests to test
@@ -1643,7 +1644,7 @@ CONTAINS
 
    SUBROUTINE mp_testany_1(requests, completed, flag)
       !! tests for completion of the given requests
-      INTEGER, DIMENSION(:), INTENT(inout)  :: requests
+      INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(inout) :: requests
       INTEGER, INTENT(out), OPTIONAL           :: completed
       LOGICAL, INTENT(out), OPTIONAL           :: flag
 
@@ -1675,7 +1676,7 @@ CONTAINS
 
    SUBROUTINE mp_testany_2(requests, completed, flag)
       !! tests for completion of the given requests
-      INTEGER, DIMENSION(:, :), INTENT(inout)   :: requests
+      INTEGER, DIMENSION(:, :), CONTIGUOUS, INTENT(inout)   :: requests
       INTEGER, INTENT(out), OPTIONAL           :: completed
       LOGICAL, INTENT(out), OPTIONAL           :: flag
 
@@ -1954,7 +1955,7 @@ CONTAINS
    END SUBROUTINE mp_bcast_b
 
    SUBROUTINE mp_bcast_bv(msg, source, gid)
-      LOGICAL                                            :: msg(:)
+      LOGICAL, CONTIGUOUS                                :: msg(:)
       INTEGER                                            :: source, gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_bcast_bv', routineP = moduleN//':'//routineN
@@ -1983,7 +1984,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      LOGICAL, DIMENSION(:)                    :: msgin
+      LOGICAL, DIMENSION(:), CONTIGUOUS        :: msgin
          !! the input message
       INTEGER, INTENT(IN)                      :: dest, comm
          !! the destination processor
@@ -2039,7 +2040,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      LOGICAL, DIMENSION(:)                    :: msgout
+      LOGICAL, DIMENSION(:), CONTIGUOUS        :: msgout
          !! the received message
       INTEGER, INTENT(IN)                      :: source, comm
          !! the source processor
@@ -2205,7 +2206,7 @@ CONTAINS
       !! Invalid data types
       !! This routine is invalid for (int_8) data!
 
-      REAL(kind=real_8), INTENT(INOUT)         :: msg(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(INOUT)         :: msg(:)
          !! Find location of maximum element among these data (input).
       INTEGER, INTENT(IN)                      :: gid
          !! Message passing environment identifier
@@ -2251,7 +2252,7 @@ CONTAINS
       !! Invalid data types
       !! This routine is invalid for (int_8) data!
 
-      REAL(kind=real_8), INTENT(INOUT)         :: msg(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(INOUT)         :: msg(:)
          !! Find location of maximum element among these data (input).
       INTEGER, INTENT(IN)                      :: gid
          !! Message passing environment identifier
@@ -2320,7 +2321,7 @@ CONTAINS
       !! MPI mapping
       !! mpi_allreduce
 
-      LOGICAL, DIMENSION(:), INTENT(INOUT)               :: msg
+      LOGICAL, DIMENSION(:), CONTIGUOUS, INTENT(INOUT)   :: msg
          !! Datum to perform inclusive disjunction (input) and resultant inclusive disjunction (output)
       INTEGER, INTENT(IN)                                :: gid
          !! Message passing environment identifier
@@ -2350,7 +2351,7 @@ CONTAINS
       !! MPI mapping
       !! mpi_allreduce
 
-      LOGICAL, DIMENSION(:), INTENT(INOUT)               :: msg
+      LOGICAL, DIMENSION(:), CONTIGUOUS, INTENT(INOUT)   :: msg
          !! Datum to perform inclusive disjunction (input) and resultant inclusive disjunction (output)
       INTEGER, INTENT(IN)                                :: gid
          !! Message passing environment identifier
@@ -2981,8 +2982,8 @@ CONTAINS
 # 9 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.fypp"
 
 # 24 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.fypp"
-# 2980 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F" 2
-# 2981 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 2981 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F" 2
+# 2982 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    SUBROUTINE mp_alltoall_i11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -3131,9 +3132,9 @@ CONTAINS
       !! All-to-all data exchange, rank 4 data, equal sizes
       !! @note see mp_alltoall_i
 
-      INTEGER(KIND=int_4), DIMENSION(:, :, :, :), &
+      INTEGER(KIND=int_4), DIMENSION(:, :, :, :), CONTIGUOUS, &
          INTENT(IN)                            :: sb
-      INTEGER(KIND=int_4), DIMENSION(:, :, :, :), &
+      INTEGER(KIND=int_4), DIMENSION(:, :, :, :), CONTIGUOUS, &
          INTENT(OUT)                           :: rb
       INTEGER, INTENT(IN)                      :: count, group
 
@@ -3206,7 +3207,7 @@ CONTAINS
       !! Send rank-1 data to another process
       !! @note see mp_send_i
 
-      INTEGER(KIND=int_4)                                :: msg(:)
+      INTEGER(KIND=int_4), CONTIGUOUS                    :: msg(:)
          !! Rank-1 data to send
       INTEGER                                  :: dest, tag, gid
 
@@ -3283,7 +3284,7 @@ CONTAINS
       !! Receive rank-1 data from another process
       !! @note see mp_recv_i
 
-      INTEGER(KIND=int_4), INTENT(INOUT)                 :: msg(:)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
          !! Place received data into this rank-1 array
       INTEGER, INTENT(INOUT)                   :: source, tag
       INTEGER, INTENT(IN)                      :: gid
@@ -3399,7 +3400,7 @@ CONTAINS
       !! Broadcasts rank-1 data to all processes
       !! @note see mp_bcast_i1
 
-      INTEGER(KIND=int_4)                                :: msg(:)
+      INTEGER(KIND=int_4), CONTIGUOUS                    :: msg(:)
          !! Data to broadcast
       INTEGER                                  :: source, gid
 
@@ -3427,7 +3428,7 @@ CONTAINS
       !! Broadcasts rank-1 data to all processes
       !! @note see mp_bcast_i1
 
-      INTEGER(KIND=int_4)                                :: msg(:)
+      INTEGER(KIND=int_4), CONTIGUOUS                    :: msg(:)
          !! Data to broadcast
       INTEGER                                  :: source, gid
       INTEGER, INTENT(INOUT)                   :: request
@@ -3464,7 +3465,7 @@ CONTAINS
       !! Broadcasts rank-2 data to all processes
       !! @note see mp_bcast_i1
 
-      INTEGER(KIND=int_4)                                :: msg(:, :)
+      INTEGER(KIND=int_4), CONTIGUOUS                    :: msg(:, :)
          !! Data to broadcast
       INTEGER                                  :: source, gid
 
@@ -3492,7 +3493,7 @@ CONTAINS
       !! Broadcasts rank-3 data to all processes
       !! @note see mp_bcast_i1
 
-      INTEGER(KIND=int_4)                                  :: msg(:, :, :)
+      INTEGER(KIND=int_4), CONTIGUOUS                    :: msg(:, :, :)
          !! Data to broadcast
       INTEGER                                  :: source, gid
 
@@ -3584,7 +3585,7 @@ CONTAINS
       !! Element-wise sum of a rank-1 array on all processes.
       !! @note see mp_sum_i
 
-      INTEGER(KIND=int_4), INTENT(INOUT)                 :: msg(:)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
          !! Vector to sum and result
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(INOUT)                   :: request
@@ -3889,7 +3890,7 @@ CONTAINS
       !! all processes.
       !! @note see mp_max_i
 
-      INTEGER(KIND=int_4), INTENT(INOUT)                 :: msg(:)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
          !! Find maximum among these data (input) and maximum (output)
       INTEGER, INTENT(IN)                      :: gid
 
@@ -4012,9 +4013,9 @@ CONTAINS
       !! MPI mapping
       !! mpi_scatter
 
-      INTEGER(KIND=int_4), INTENT(IN)                    :: msg_scatter(:)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
          !! Data to scatter (for root process)
-      INTEGER(KIND=int_4), INTENT(OUT)                   :: msg(:)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msg(:)
          !! Received data
       INTEGER, INTENT(IN)                      :: root, gid
          !! Process which scatters data
@@ -4048,7 +4049,7 @@ CONTAINS
       !! MPI mapping
       !! mpi_scatter
 
-      INTEGER(KIND=int_4), INTENT(IN)                    :: msg_scatter(:)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
          !! Data to scatter (for root process)
       INTEGER(KIND=int_4), INTENT(INOUT)                 :: msg
       INTEGER, INTENT(IN)                      :: root, gid
@@ -4094,10 +4095,10 @@ CONTAINS
       !! MPI mapping
       !! mpi_scatter
 
-      INTEGER(KIND=int_4), INTENT(IN)                    :: msg_scatter(:, :)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:, :)
          !! Data to scatter (for root process)
-      INTEGER(KIND=int_4), INTENT(INOUT)                 :: msg(:)
-      INTEGER, INTENT(IN)                      :: root, gid
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+      INTEGER, INTENT(IN)          :: root, gid
          !! Process which scatters data
          !! Message passing environment identifier
       INTEGER, INTENT(INOUT)                   :: request
@@ -4140,10 +4141,10 @@ CONTAINS
       !! MPI mapping
       !! mpi_scatter
 
-      INTEGER(KIND=int_4), INTENT(IN)                    :: msg_scatter(:)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
          !! Data to scatter (for root process)
-      INTEGER, INTENT(IN)                      :: sendcounts(:), displs(:)
-      INTEGER(KIND=int_4), INTENT(INOUT)                 :: msg(:)
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: sendcounts(:), displs(:)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
       INTEGER, INTENT(IN)                      :: recvcount, root, gid
          !! Process which scatters data
          !! Message passing environment identifier
@@ -4194,7 +4195,7 @@ CONTAINS
 
       INTEGER(KIND=int_4), INTENT(IN)                    :: msg
          !! Datum to send to root
-      INTEGER(KIND=int_4), INTENT(OUT)                   :: msg_gather(:)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:)
          !! Received data (on root)
       INTEGER, INTENT(IN)                      :: root, gid
          !! Process which gathers the data
@@ -4232,9 +4233,9 @@ CONTAINS
       !! mpi_gather
       !! @note see mp_gather_i
 
-      INTEGER(KIND=int_4), INTENT(IN)                    :: msg(:)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msg(:)
          !! Datum to send to root
-      INTEGER(KIND=int_4), INTENT(OUT)                   :: msg_gather(:)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:)
       INTEGER, INTENT(IN)                      :: root, gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_iv', &
@@ -4269,9 +4270,9 @@ CONTAINS
       !! mpi_gather
       !! @note see mp_gather_i
 
-      INTEGER(KIND=int_4), INTENT(IN)                    :: msg(:, :)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msg(:, :)
          !! Datum to send to root
-      INTEGER(KIND=int_4), INTENT(OUT)                   :: msg_gather(:, :)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:, :)
       INTEGER, INTENT(IN)                      :: root, gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_im', &
@@ -4308,11 +4309,11 @@ CONTAINS
       !! MPI mapping
       !! mpi_gather
 
-      INTEGER(KIND=int_4), DIMENSION(:), INTENT(IN)      :: sendbuf
+      INTEGER(KIND=int_4), DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: sendbuf
          !! Data to send to root
-      INTEGER(KIND=int_4), DIMENSION(:), INTENT(OUT)     :: recvbuf
+      INTEGER(KIND=int_4), DIMENSION(:), CONTIGUOUS, INTENT(OUT)     :: recvbuf
          !! Received data (on root)
-      INTEGER, DIMENSION(:), INTENT(IN)        :: recvcounts, displs
+      INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN)        :: recvcounts, displs
          !! Sizes of data received from processes
          !! Offsets of data received from processes
       INTEGER, INTENT(IN)                      :: root, comm
@@ -4359,11 +4360,11 @@ CONTAINS
       !! MPI mapping
       !! mpi_gather
 
-      INTEGER(KIND=int_4), DIMENSION(:), INTENT(IN)      :: sendbuf
+      INTEGER(KIND=int_4), DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: sendbuf
          !! Data to send to root
-      INTEGER(KIND=int_4), DIMENSION(:), INTENT(OUT)     :: recvbuf
+      INTEGER(KIND=int_4), DIMENSION(:), CONTIGUOUS, INTENT(OUT)     :: recvbuf
          !! Received data (on root)
-      INTEGER, DIMENSION(:), INTENT(IN)        :: recvcounts, displs
+      INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN)        :: recvcounts, displs
          !! Sizes of data received from processes
          !! Offsets of data received from processes
       INTEGER, INTENT(IN)                      :: sendcount, root, comm
@@ -4421,7 +4422,7 @@ CONTAINS
 
       INTEGER(KIND=int_4), INTENT(IN)                    :: msgout
          !! Datum to send
-      INTEGER(KIND=int_4), INTENT(OUT)                   :: msgin(:)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
       INTEGER, INTENT(IN)                      :: gid
          !! Message passing environment identifier
@@ -4463,7 +4464,7 @@ CONTAINS
 
       INTEGER(KIND=int_4), INTENT(IN)                    :: msgout
          !! Datum to send
-      INTEGER(KIND=int_4), INTENT(OUT)                   :: msgin(:, :)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
          !! Received data
       INTEGER, INTENT(IN)                      :: gid
          !! Message passing environment identifier
@@ -4505,7 +4506,7 @@ CONTAINS
 
       INTEGER(KIND=int_4), INTENT(IN)                    :: msgout
          !! Datum to send
-      INTEGER(KIND=int_4), INTENT(OUT)                   :: msgin(:)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
       INTEGER, INTENT(IN)                      :: gid
          !! Message passing environment identifier
@@ -4558,9 +4559,9 @@ CONTAINS
       !! MPI mapping
       !! mpi_allgather
 
-      INTEGER(KIND=int_4), INTENT(IN)                    :: msgout(:)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-1 data to send
-      INTEGER(KIND=int_4), INTENT(OUT)                   :: msgin(:, :)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
          !! Received data
       INTEGER, INTENT(IN)                      :: gid
          !! Message passing environment identifier
@@ -4595,9 +4596,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_i12
 
-      INTEGER(KIND=int_4), INTENT(IN)                    :: msgout(:, :)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
          !! Rank-2 data to send
-      INTEGER(KIND=int_4), INTENT(OUT)                   :: msgin(:, :, :)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
       INTEGER, INTENT(IN)                      :: gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_i23', &
@@ -4630,9 +4631,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_i12
 
-      INTEGER(KIND=int_4), INTENT(IN)                    :: msgout(:, :, :)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :, :)
          !! Rank-3 data to send
-      INTEGER(KIND=int_4), INTENT(OUT)                   :: msgin(:, :, :, :)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :, :)
       INTEGER, INTENT(IN)                      :: gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_i34', &
@@ -4665,9 +4666,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_i12
 
-      INTEGER(KIND=int_4), INTENT(IN)                    :: msgout(:, :)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
          !! Rank-2 data to send
-      INTEGER(KIND=int_4), INTENT(OUT)                   :: msgin(:, :)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
       INTEGER, INTENT(IN)                      :: gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_i22', &
@@ -4700,9 +4701,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_i11
 
-      INTEGER(KIND=int_4), INTENT(IN)                    :: msgout(:)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-1 data to send
-      INTEGER(KIND=int_4), INTENT(OUT)                   :: msgin(:)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -4747,9 +4748,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_i12
 
-      INTEGER(KIND=int_4), INTENT(IN)                    :: msgout(:)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-2 data to send
-      INTEGER(KIND=int_4), INTENT(OUT)                   :: msgin(:, :, :)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -4794,9 +4795,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_i12
 
-      INTEGER(KIND=int_4), INTENT(IN)                    :: msgout(:, :)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
          !! Rank-2 data to send
-      INTEGER(KIND=int_4), INTENT(OUT)                   :: msgin(:, :)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -4841,9 +4842,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_i12
 
-      INTEGER(KIND=int_4), INTENT(IN)                    :: msgout(:, :)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
          !! Rank-2 data to send
-      INTEGER(KIND=int_4), INTENT(OUT)                   :: msgin(:, :, :, :)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -4888,9 +4889,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_i12
 
-      INTEGER(KIND=int_4), INTENT(IN)                    :: msgout(:, :, :)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :, :)
          !! Rank-3 data to send
-      INTEGER(KIND=int_4), INTENT(OUT)                   :: msgin(:, :, :)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -4946,11 +4947,12 @@ CONTAINS
       !! MPI mapping
       !! mpi_allgather
 
-      INTEGER(KIND=int_4), INTENT(IN)                    :: msgout(:)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-1 data to send
-      INTEGER(KIND=int_4), INTENT(OUT)                   :: msgin(:)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
-      INTEGER, INTENT(IN)                      :: rcount(:), rdispl(:), gid
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
+      INTEGER, INTENT(IN)                      :: gid
          !! Size of sent data for every process
          !! Offset of sent data for every process
          !! Message passing environment identifier
@@ -4996,11 +4998,12 @@ CONTAINS
       !! MPI mapping
       !! mpi_allgather
 
-      INTEGER(KIND=int_4), INTENT(IN)                    :: msgout(:)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-1 data to send
-      INTEGER(KIND=int_4), INTENT(OUT)                   :: msgin(:)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
-      INTEGER, INTENT(IN)                      :: rcount(:), rdispl(:), gid
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
+      INTEGER, INTENT(IN)                      :: gid
          !! Size of sent data for every process
          !! Offset of sent data for every process
          !! Message passing environment identifier
@@ -5058,11 +5061,12 @@ CONTAINS
       !! MPI mapping
       !! mpi_allgather
 
-      INTEGER(KIND=int_4), INTENT(IN)                    :: msgout(:)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)         :: msgout(:)
          !! Rank-1 data to send
-      INTEGER(KIND=int_4), INTENT(OUT)                   :: msgin(:)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
-      INTEGER, INTENT(IN)                      :: rcount(:, :), rdispl(:, :), gid
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:, :), rdispl(:, :)
+      INTEGER, INTENT(IN)                      :: gid
          !! Size of sent data for every process
          !! Offset of sent data for every process
          !! Message passing environment identifier
@@ -5109,8 +5113,8 @@ CONTAINS
       !! wrapper needed to deal with interfaces as present in openmpi 1.8.1
       !! the issue is with the rank of rcount and rdispl
 
-      INTEGER(KIND=int_4), INTENT(IN)                      :: msgout(:)
-      INTEGER(KIND=int_4), INTENT(OUT)                     :: msgin(:)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)                      :: msgout(:)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)                     :: msgin(:)
       INTEGER, INTENT(IN)                      :: rsize
       INTEGER, INTENT(IN)                      :: rcount(rsize), rdispl(rsize), gid, scount
       INTEGER, INTENT(INOUT)                   :: request, ierr
@@ -5124,11 +5128,12 @@ CONTAINS
    SUBROUTINE mp_sum_scatter_iv(msgout, msgin, rcount, gid)
       !! Sums a vector and partitions the result among processes
 
-      INTEGER(KIND=int_4), INTENT(IN)                    :: msgout(:)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Data to sum
-      INTEGER(KIND=int_4), INTENT(OUT)                   :: msgin(:)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received portion of summed data
-      INTEGER, INTENT(IN)                      :: rcount(:), gid
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:)
+      INTEGER, INTENT(IN)                      :: gid
          !! Partition sizes of the summed data for every process
          !! Message passing environment identifier
 
@@ -5158,11 +5163,11 @@ CONTAINS
    SUBROUTINE mp_sendrecv_iv(msgin, dest, msgout, source, comm)
       !! Sends and receives vector data
 
-      INTEGER(KIND=int_4), INTENT(IN)                    :: msgin(:)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(IN)        :: msgin(:)
          !! Data to send
       INTEGER, INTENT(IN)                      :: dest
          !! Process to send data to
-      INTEGER(KIND=int_4), INTENT(OUT)                   :: msgout(:)
+      INTEGER(KIND=int_4), CONTIGUOUS, INTENT(OUT)       :: msgout(:)
          !! Received data
       INTEGER, INTENT(IN)                      :: source, comm
          !! Process from which to receive
@@ -5266,11 +5271,11 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      INTEGER(KIND=int_4), DIMENSION(:)                  :: msgin
+      INTEGER(KIND=int_4), CONTIGUOUS, DIMENSION(:)      :: msgin
          !! Vector data to send
       INTEGER, INTENT(IN)                      :: dest
          !! Which process to send to
-      INTEGER(KIND=int_4), DIMENSION(:)                  :: msgout
+      INTEGER(KIND=int_4), CONTIGUOUS, DIMENSION(:)      :: msgout
          !! Receive data into this pointer
       INTEGER, INTENT(IN)                      :: source, comm
          !! Process to receive from
@@ -5338,7 +5343,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      INTEGER(KIND=int_4), DIMENSION(:)                  :: msgin
+      INTEGER(KIND=int_4), CONTIGUOUS, DIMENSION(:)      :: msgin
       INTEGER, INTENT(IN)                      :: dest, comm
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
@@ -5392,7 +5397,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      INTEGER(KIND=int_4), DIMENSION(:, :)               :: msgin
+      INTEGER(KIND=int_4), DIMENSION(:, :), CONTIGUOUS   :: msgin
       INTEGER, INTENT(IN)                      :: dest, comm
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
@@ -5444,7 +5449,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      INTEGER(KIND=int_4), DIMENSION(:)                  :: msgout
+      INTEGER(KIND=int_4), CONTIGUOUS, DIMENSION(:)      :: msgout
       INTEGER, INTENT(IN)                      :: source, comm
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
@@ -5497,7 +5502,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      INTEGER(KIND=int_4), DIMENSION(:, :)               :: msgout
+      INTEGER(KIND=int_4), DIMENSION(:, :), CONTIGUOUS   :: msgout
       INTEGER, INTENT(IN)                      :: source, comm
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
@@ -5546,7 +5551,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      INTEGER(KIND=int_4), DIMENSION(:)        :: base
+      INTEGER(KIND=int_4), CONTIGUOUS, DIMENSION(:) :: base
       INTEGER, INTENT(IN)            :: comm
       INTEGER, INTENT(INOUT)         :: win
 
@@ -5585,9 +5590,9 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      INTEGER(KIND=int_4), DIMENSION(:)                             :: base
+      INTEGER(KIND=int_4), CONTIGUOUS, DIMENSION(:)                 :: base
       INTEGER, INTENT(IN)                                 :: source, win
-      INTEGER(KIND=int_4), DIMENSION(:)                             :: win_data
+      INTEGER(KIND=int_4), CONTIGUOUS, DIMENSION(:)                 :: win_data
       INTEGER, INTENT(IN), OPTIONAL                       :: myproc, disp
       INTEGER, INTENT(OUT)                                :: request
       TYPE(mp_type_descriptor_type), INTENT(IN), OPTIONAL :: origin_datatype, target_datatype
@@ -5721,7 +5726,7 @@ CONTAINS
    SUBROUTINE mp_allocate_i (DATA, len, stat)
       !! Allocates special parallel memory
 
-      INTEGER(KIND=int_4), DIMENSION(:), POINTER    :: DATA
+      INTEGER(KIND=int_4), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
          !! pointer to integer array to allocate
       INTEGER, INTENT(IN)                 :: len
          !! number of integers to allocate
@@ -5753,7 +5758,7 @@ CONTAINS
    SUBROUTINE mp_deallocate_i (DATA, stat)
       !! Deallocates special parallel memory
 
-      INTEGER(KIND=int_4), DIMENSION(:), POINTER    :: DATA
+      INTEGER(KIND=int_4), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
          !! pointer to special memory to deallocate
       INTEGER, INTENT(OUT), OPTIONAL      :: stat
 
@@ -6036,7 +6041,7 @@ CONTAINS
       !! Allocates an array, using MPI_ALLOC_MEM ... this is hackish
       !! as the Fortran version returns an integer, which we take to be a C_PTR
 
-      INTEGER(KIND=int_4), DIMENSION(:), POINTER         :: DATA
+      INTEGER(KIND=int_4), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
          !! data array to allocate
       INTEGER, INTENT(IN)                      :: len
          !! length (in data elements) of data array allocation
@@ -6076,7 +6081,7 @@ CONTAINS
       !! as the Fortran version takes an integer, which we hope to get by reference
 
       INTEGER(KIND=int_4), DIMENSION(:), &
-         POINTER                               :: DATA
+         POINTER, CONTIGUOUS                   :: DATA
          !! data array to allocate
       INTEGER, INTENT(OUT), OPTIONAL           :: stat
          !! allocation status result
@@ -6090,7 +6095,7 @@ CONTAINS
       IF (PRESENT(stat)) stat = 0
 #endif
    END SUBROUTINE mp_free_mem_i
-# 2981 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 2982 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    SUBROUTINE mp_alltoall_l11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -6239,9 +6244,9 @@ CONTAINS
       !! All-to-all data exchange, rank 4 data, equal sizes
       !! @note see mp_alltoall_l
 
-      INTEGER(KIND=int_8), DIMENSION(:, :, :, :), &
+      INTEGER(KIND=int_8), DIMENSION(:, :, :, :), CONTIGUOUS, &
          INTENT(IN)                            :: sb
-      INTEGER(KIND=int_8), DIMENSION(:, :, :, :), &
+      INTEGER(KIND=int_8), DIMENSION(:, :, :, :), CONTIGUOUS, &
          INTENT(OUT)                           :: rb
       INTEGER, INTENT(IN)                      :: count, group
 
@@ -6314,7 +6319,7 @@ CONTAINS
       !! Send rank-1 data to another process
       !! @note see mp_send_l
 
-      INTEGER(KIND=int_8)                                :: msg(:)
+      INTEGER(KIND=int_8), CONTIGUOUS                    :: msg(:)
          !! Rank-1 data to send
       INTEGER                                  :: dest, tag, gid
 
@@ -6391,7 +6396,7 @@ CONTAINS
       !! Receive rank-1 data from another process
       !! @note see mp_recv_l
 
-      INTEGER(KIND=int_8), INTENT(INOUT)                 :: msg(:)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
          !! Place received data into this rank-1 array
       INTEGER, INTENT(INOUT)                   :: source, tag
       INTEGER, INTENT(IN)                      :: gid
@@ -6507,7 +6512,7 @@ CONTAINS
       !! Broadcasts rank-1 data to all processes
       !! @note see mp_bcast_l1
 
-      INTEGER(KIND=int_8)                                :: msg(:)
+      INTEGER(KIND=int_8), CONTIGUOUS                    :: msg(:)
          !! Data to broadcast
       INTEGER                                  :: source, gid
 
@@ -6535,7 +6540,7 @@ CONTAINS
       !! Broadcasts rank-1 data to all processes
       !! @note see mp_bcast_l1
 
-      INTEGER(KIND=int_8)                                :: msg(:)
+      INTEGER(KIND=int_8), CONTIGUOUS                    :: msg(:)
          !! Data to broadcast
       INTEGER                                  :: source, gid
       INTEGER, INTENT(INOUT)                   :: request
@@ -6572,7 +6577,7 @@ CONTAINS
       !! Broadcasts rank-2 data to all processes
       !! @note see mp_bcast_l1
 
-      INTEGER(KIND=int_8)                                :: msg(:, :)
+      INTEGER(KIND=int_8), CONTIGUOUS                    :: msg(:, :)
          !! Data to broadcast
       INTEGER                                  :: source, gid
 
@@ -6600,7 +6605,7 @@ CONTAINS
       !! Broadcasts rank-3 data to all processes
       !! @note see mp_bcast_l1
 
-      INTEGER(KIND=int_8)                                  :: msg(:, :, :)
+      INTEGER(KIND=int_8), CONTIGUOUS                    :: msg(:, :, :)
          !! Data to broadcast
       INTEGER                                  :: source, gid
 
@@ -6692,7 +6697,7 @@ CONTAINS
       !! Element-wise sum of a rank-1 array on all processes.
       !! @note see mp_sum_l
 
-      INTEGER(KIND=int_8), INTENT(INOUT)                 :: msg(:)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
          !! Vector to sum and result
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(INOUT)                   :: request
@@ -6997,7 +7002,7 @@ CONTAINS
       !! all processes.
       !! @note see mp_max_l
 
-      INTEGER(KIND=int_8), INTENT(INOUT)                 :: msg(:)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
          !! Find maximum among these data (input) and maximum (output)
       INTEGER, INTENT(IN)                      :: gid
 
@@ -7120,9 +7125,9 @@ CONTAINS
       !! MPI mapping
       !! mpi_scatter
 
-      INTEGER(KIND=int_8), INTENT(IN)                    :: msg_scatter(:)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
          !! Data to scatter (for root process)
-      INTEGER(KIND=int_8), INTENT(OUT)                   :: msg(:)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msg(:)
          !! Received data
       INTEGER, INTENT(IN)                      :: root, gid
          !! Process which scatters data
@@ -7156,7 +7161,7 @@ CONTAINS
       !! MPI mapping
       !! mpi_scatter
 
-      INTEGER(KIND=int_8), INTENT(IN)                    :: msg_scatter(:)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
          !! Data to scatter (for root process)
       INTEGER(KIND=int_8), INTENT(INOUT)                 :: msg
       INTEGER, INTENT(IN)                      :: root, gid
@@ -7202,10 +7207,10 @@ CONTAINS
       !! MPI mapping
       !! mpi_scatter
 
-      INTEGER(KIND=int_8), INTENT(IN)                    :: msg_scatter(:, :)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:, :)
          !! Data to scatter (for root process)
-      INTEGER(KIND=int_8), INTENT(INOUT)                 :: msg(:)
-      INTEGER, INTENT(IN)                      :: root, gid
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+      INTEGER, INTENT(IN)          :: root, gid
          !! Process which scatters data
          !! Message passing environment identifier
       INTEGER, INTENT(INOUT)                   :: request
@@ -7248,10 +7253,10 @@ CONTAINS
       !! MPI mapping
       !! mpi_scatter
 
-      INTEGER(KIND=int_8), INTENT(IN)                    :: msg_scatter(:)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
          !! Data to scatter (for root process)
-      INTEGER, INTENT(IN)                      :: sendcounts(:), displs(:)
-      INTEGER(KIND=int_8), INTENT(INOUT)                 :: msg(:)
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: sendcounts(:), displs(:)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
       INTEGER, INTENT(IN)                      :: recvcount, root, gid
          !! Process which scatters data
          !! Message passing environment identifier
@@ -7302,7 +7307,7 @@ CONTAINS
 
       INTEGER(KIND=int_8), INTENT(IN)                    :: msg
          !! Datum to send to root
-      INTEGER(KIND=int_8), INTENT(OUT)                   :: msg_gather(:)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:)
          !! Received data (on root)
       INTEGER, INTENT(IN)                      :: root, gid
          !! Process which gathers the data
@@ -7340,9 +7345,9 @@ CONTAINS
       !! mpi_gather
       !! @note see mp_gather_l
 
-      INTEGER(KIND=int_8), INTENT(IN)                    :: msg(:)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msg(:)
          !! Datum to send to root
-      INTEGER(KIND=int_8), INTENT(OUT)                   :: msg_gather(:)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:)
       INTEGER, INTENT(IN)                      :: root, gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_lv', &
@@ -7377,9 +7382,9 @@ CONTAINS
       !! mpi_gather
       !! @note see mp_gather_l
 
-      INTEGER(KIND=int_8), INTENT(IN)                    :: msg(:, :)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msg(:, :)
          !! Datum to send to root
-      INTEGER(KIND=int_8), INTENT(OUT)                   :: msg_gather(:, :)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:, :)
       INTEGER, INTENT(IN)                      :: root, gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_lm', &
@@ -7416,11 +7421,11 @@ CONTAINS
       !! MPI mapping
       !! mpi_gather
 
-      INTEGER(KIND=int_8), DIMENSION(:), INTENT(IN)      :: sendbuf
+      INTEGER(KIND=int_8), DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: sendbuf
          !! Data to send to root
-      INTEGER(KIND=int_8), DIMENSION(:), INTENT(OUT)     :: recvbuf
+      INTEGER(KIND=int_8), DIMENSION(:), CONTIGUOUS, INTENT(OUT)     :: recvbuf
          !! Received data (on root)
-      INTEGER, DIMENSION(:), INTENT(IN)        :: recvcounts, displs
+      INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN)        :: recvcounts, displs
          !! Sizes of data received from processes
          !! Offsets of data received from processes
       INTEGER, INTENT(IN)                      :: root, comm
@@ -7467,11 +7472,11 @@ CONTAINS
       !! MPI mapping
       !! mpi_gather
 
-      INTEGER(KIND=int_8), DIMENSION(:), INTENT(IN)      :: sendbuf
+      INTEGER(KIND=int_8), DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: sendbuf
          !! Data to send to root
-      INTEGER(KIND=int_8), DIMENSION(:), INTENT(OUT)     :: recvbuf
+      INTEGER(KIND=int_8), DIMENSION(:), CONTIGUOUS, INTENT(OUT)     :: recvbuf
          !! Received data (on root)
-      INTEGER, DIMENSION(:), INTENT(IN)        :: recvcounts, displs
+      INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN)        :: recvcounts, displs
          !! Sizes of data received from processes
          !! Offsets of data received from processes
       INTEGER, INTENT(IN)                      :: sendcount, root, comm
@@ -7529,7 +7534,7 @@ CONTAINS
 
       INTEGER(KIND=int_8), INTENT(IN)                    :: msgout
          !! Datum to send
-      INTEGER(KIND=int_8), INTENT(OUT)                   :: msgin(:)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
       INTEGER, INTENT(IN)                      :: gid
          !! Message passing environment identifier
@@ -7571,7 +7576,7 @@ CONTAINS
 
       INTEGER(KIND=int_8), INTENT(IN)                    :: msgout
          !! Datum to send
-      INTEGER(KIND=int_8), INTENT(OUT)                   :: msgin(:, :)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
          !! Received data
       INTEGER, INTENT(IN)                      :: gid
          !! Message passing environment identifier
@@ -7613,7 +7618,7 @@ CONTAINS
 
       INTEGER(KIND=int_8), INTENT(IN)                    :: msgout
          !! Datum to send
-      INTEGER(KIND=int_8), INTENT(OUT)                   :: msgin(:)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
       INTEGER, INTENT(IN)                      :: gid
          !! Message passing environment identifier
@@ -7666,9 +7671,9 @@ CONTAINS
       !! MPI mapping
       !! mpi_allgather
 
-      INTEGER(KIND=int_8), INTENT(IN)                    :: msgout(:)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-1 data to send
-      INTEGER(KIND=int_8), INTENT(OUT)                   :: msgin(:, :)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
          !! Received data
       INTEGER, INTENT(IN)                      :: gid
          !! Message passing environment identifier
@@ -7703,9 +7708,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_l12
 
-      INTEGER(KIND=int_8), INTENT(IN)                    :: msgout(:, :)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
          !! Rank-2 data to send
-      INTEGER(KIND=int_8), INTENT(OUT)                   :: msgin(:, :, :)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
       INTEGER, INTENT(IN)                      :: gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_l23', &
@@ -7738,9 +7743,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_l12
 
-      INTEGER(KIND=int_8), INTENT(IN)                    :: msgout(:, :, :)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :, :)
          !! Rank-3 data to send
-      INTEGER(KIND=int_8), INTENT(OUT)                   :: msgin(:, :, :, :)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :, :)
       INTEGER, INTENT(IN)                      :: gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_l34', &
@@ -7773,9 +7778,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_l12
 
-      INTEGER(KIND=int_8), INTENT(IN)                    :: msgout(:, :)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
          !! Rank-2 data to send
-      INTEGER(KIND=int_8), INTENT(OUT)                   :: msgin(:, :)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
       INTEGER, INTENT(IN)                      :: gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_l22', &
@@ -7808,9 +7813,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_l11
 
-      INTEGER(KIND=int_8), INTENT(IN)                    :: msgout(:)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-1 data to send
-      INTEGER(KIND=int_8), INTENT(OUT)                   :: msgin(:)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -7855,9 +7860,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_l12
 
-      INTEGER(KIND=int_8), INTENT(IN)                    :: msgout(:)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-2 data to send
-      INTEGER(KIND=int_8), INTENT(OUT)                   :: msgin(:, :, :)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -7902,9 +7907,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_l12
 
-      INTEGER(KIND=int_8), INTENT(IN)                    :: msgout(:, :)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
          !! Rank-2 data to send
-      INTEGER(KIND=int_8), INTENT(OUT)                   :: msgin(:, :)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -7949,9 +7954,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_l12
 
-      INTEGER(KIND=int_8), INTENT(IN)                    :: msgout(:, :)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
          !! Rank-2 data to send
-      INTEGER(KIND=int_8), INTENT(OUT)                   :: msgin(:, :, :, :)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -7996,9 +8001,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_l12
 
-      INTEGER(KIND=int_8), INTENT(IN)                    :: msgout(:, :, :)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :, :)
          !! Rank-3 data to send
-      INTEGER(KIND=int_8), INTENT(OUT)                   :: msgin(:, :, :)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -8054,11 +8059,12 @@ CONTAINS
       !! MPI mapping
       !! mpi_allgather
 
-      INTEGER(KIND=int_8), INTENT(IN)                    :: msgout(:)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-1 data to send
-      INTEGER(KIND=int_8), INTENT(OUT)                   :: msgin(:)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
-      INTEGER, INTENT(IN)                      :: rcount(:), rdispl(:), gid
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
+      INTEGER, INTENT(IN)                      :: gid
          !! Size of sent data for every process
          !! Offset of sent data for every process
          !! Message passing environment identifier
@@ -8104,11 +8110,12 @@ CONTAINS
       !! MPI mapping
       !! mpi_allgather
 
-      INTEGER(KIND=int_8), INTENT(IN)                    :: msgout(:)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-1 data to send
-      INTEGER(KIND=int_8), INTENT(OUT)                   :: msgin(:)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
-      INTEGER, INTENT(IN)                      :: rcount(:), rdispl(:), gid
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
+      INTEGER, INTENT(IN)                      :: gid
          !! Size of sent data for every process
          !! Offset of sent data for every process
          !! Message passing environment identifier
@@ -8166,11 +8173,12 @@ CONTAINS
       !! MPI mapping
       !! mpi_allgather
 
-      INTEGER(KIND=int_8), INTENT(IN)                    :: msgout(:)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)         :: msgout(:)
          !! Rank-1 data to send
-      INTEGER(KIND=int_8), INTENT(OUT)                   :: msgin(:)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
-      INTEGER, INTENT(IN)                      :: rcount(:, :), rdispl(:, :), gid
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:, :), rdispl(:, :)
+      INTEGER, INTENT(IN)                      :: gid
          !! Size of sent data for every process
          !! Offset of sent data for every process
          !! Message passing environment identifier
@@ -8217,8 +8225,8 @@ CONTAINS
       !! wrapper needed to deal with interfaces as present in openmpi 1.8.1
       !! the issue is with the rank of rcount and rdispl
 
-      INTEGER(KIND=int_8), INTENT(IN)                      :: msgout(:)
-      INTEGER(KIND=int_8), INTENT(OUT)                     :: msgin(:)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)                      :: msgout(:)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)                     :: msgin(:)
       INTEGER, INTENT(IN)                      :: rsize
       INTEGER, INTENT(IN)                      :: rcount(rsize), rdispl(rsize), gid, scount
       INTEGER, INTENT(INOUT)                   :: request, ierr
@@ -8232,11 +8240,12 @@ CONTAINS
    SUBROUTINE mp_sum_scatter_lv(msgout, msgin, rcount, gid)
       !! Sums a vector and partitions the result among processes
 
-      INTEGER(KIND=int_8), INTENT(IN)                    :: msgout(:)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Data to sum
-      INTEGER(KIND=int_8), INTENT(OUT)                   :: msgin(:)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received portion of summed data
-      INTEGER, INTENT(IN)                      :: rcount(:), gid
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:)
+      INTEGER, INTENT(IN)                      :: gid
          !! Partition sizes of the summed data for every process
          !! Message passing environment identifier
 
@@ -8266,11 +8275,11 @@ CONTAINS
    SUBROUTINE mp_sendrecv_lv(msgin, dest, msgout, source, comm)
       !! Sends and receives vector data
 
-      INTEGER(KIND=int_8), INTENT(IN)                    :: msgin(:)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(IN)        :: msgin(:)
          !! Data to send
       INTEGER, INTENT(IN)                      :: dest
          !! Process to send data to
-      INTEGER(KIND=int_8), INTENT(OUT)                   :: msgout(:)
+      INTEGER(KIND=int_8), CONTIGUOUS, INTENT(OUT)       :: msgout(:)
          !! Received data
       INTEGER, INTENT(IN)                      :: source, comm
          !! Process from which to receive
@@ -8374,11 +8383,11 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      INTEGER(KIND=int_8), DIMENSION(:)                  :: msgin
+      INTEGER(KIND=int_8), CONTIGUOUS, DIMENSION(:)      :: msgin
          !! Vector data to send
       INTEGER, INTENT(IN)                      :: dest
          !! Which process to send to
-      INTEGER(KIND=int_8), DIMENSION(:)                  :: msgout
+      INTEGER(KIND=int_8), CONTIGUOUS, DIMENSION(:)      :: msgout
          !! Receive data into this pointer
       INTEGER, INTENT(IN)                      :: source, comm
          !! Process to receive from
@@ -8446,7 +8455,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      INTEGER(KIND=int_8), DIMENSION(:)                  :: msgin
+      INTEGER(KIND=int_8), CONTIGUOUS, DIMENSION(:)      :: msgin
       INTEGER, INTENT(IN)                      :: dest, comm
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
@@ -8500,7 +8509,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      INTEGER(KIND=int_8), DIMENSION(:, :)               :: msgin
+      INTEGER(KIND=int_8), DIMENSION(:, :), CONTIGUOUS   :: msgin
       INTEGER, INTENT(IN)                      :: dest, comm
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
@@ -8552,7 +8561,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      INTEGER(KIND=int_8), DIMENSION(:)                  :: msgout
+      INTEGER(KIND=int_8), CONTIGUOUS, DIMENSION(:)      :: msgout
       INTEGER, INTENT(IN)                      :: source, comm
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
@@ -8605,7 +8614,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      INTEGER(KIND=int_8), DIMENSION(:, :)               :: msgout
+      INTEGER(KIND=int_8), DIMENSION(:, :), CONTIGUOUS   :: msgout
       INTEGER, INTENT(IN)                      :: source, comm
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
@@ -8654,7 +8663,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      INTEGER(KIND=int_8), DIMENSION(:)        :: base
+      INTEGER(KIND=int_8), CONTIGUOUS, DIMENSION(:) :: base
       INTEGER, INTENT(IN)            :: comm
       INTEGER, INTENT(INOUT)         :: win
 
@@ -8693,9 +8702,9 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      INTEGER(KIND=int_8), DIMENSION(:)                             :: base
+      INTEGER(KIND=int_8), CONTIGUOUS, DIMENSION(:)                 :: base
       INTEGER, INTENT(IN)                                 :: source, win
-      INTEGER(KIND=int_8), DIMENSION(:)                             :: win_data
+      INTEGER(KIND=int_8), CONTIGUOUS, DIMENSION(:)                 :: win_data
       INTEGER, INTENT(IN), OPTIONAL                       :: myproc, disp
       INTEGER, INTENT(OUT)                                :: request
       TYPE(mp_type_descriptor_type), INTENT(IN), OPTIONAL :: origin_datatype, target_datatype
@@ -8829,7 +8838,7 @@ CONTAINS
    SUBROUTINE mp_allocate_l (DATA, len, stat)
       !! Allocates special parallel memory
 
-      INTEGER(KIND=int_8), DIMENSION(:), POINTER    :: DATA
+      INTEGER(KIND=int_8), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
          !! pointer to integer array to allocate
       INTEGER, INTENT(IN)                 :: len
          !! number of integers to allocate
@@ -8861,7 +8870,7 @@ CONTAINS
    SUBROUTINE mp_deallocate_l (DATA, stat)
       !! Deallocates special parallel memory
 
-      INTEGER(KIND=int_8), DIMENSION(:), POINTER    :: DATA
+      INTEGER(KIND=int_8), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
          !! pointer to special memory to deallocate
       INTEGER, INTENT(OUT), OPTIONAL      :: stat
 
@@ -9144,7 +9153,7 @@ CONTAINS
       !! Allocates an array, using MPI_ALLOC_MEM ... this is hackish
       !! as the Fortran version returns an integer, which we take to be a C_PTR
 
-      INTEGER(KIND=int_8), DIMENSION(:), POINTER         :: DATA
+      INTEGER(KIND=int_8), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
          !! data array to allocate
       INTEGER, INTENT(IN)                      :: len
          !! length (in data elements) of data array allocation
@@ -9184,7 +9193,7 @@ CONTAINS
       !! as the Fortran version takes an integer, which we hope to get by reference
 
       INTEGER(KIND=int_8), DIMENSION(:), &
-         POINTER                               :: DATA
+         POINTER, CONTIGUOUS                   :: DATA
          !! data array to allocate
       INTEGER, INTENT(OUT), OPTIONAL           :: stat
          !! allocation status result
@@ -9198,7 +9207,7 @@ CONTAINS
       IF (PRESENT(stat)) stat = 0
 #endif
    END SUBROUTINE mp_free_mem_l
-# 2981 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 2982 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    SUBROUTINE mp_alltoall_d11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -9347,9 +9356,9 @@ CONTAINS
       !! All-to-all data exchange, rank 4 data, equal sizes
       !! @note see mp_alltoall_d
 
-      REAL(kind=real_8), DIMENSION(:, :, :, :), &
+      REAL(kind=real_8), DIMENSION(:, :, :, :), CONTIGUOUS, &
          INTENT(IN)                            :: sb
-      REAL(kind=real_8), DIMENSION(:, :, :, :), &
+      REAL(kind=real_8), DIMENSION(:, :, :, :), CONTIGUOUS, &
          INTENT(OUT)                           :: rb
       INTEGER, INTENT(IN)                      :: count, group
 
@@ -9422,7 +9431,7 @@ CONTAINS
       !! Send rank-1 data to another process
       !! @note see mp_send_d
 
-      REAL(kind=real_8)                                :: msg(:)
+      REAL(kind=real_8), CONTIGUOUS                    :: msg(:)
          !! Rank-1 data to send
       INTEGER                                  :: dest, tag, gid
 
@@ -9499,7 +9508,7 @@ CONTAINS
       !! Receive rank-1 data from another process
       !! @note see mp_recv_d
 
-      REAL(kind=real_8), INTENT(INOUT)                 :: msg(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
          !! Place received data into this rank-1 array
       INTEGER, INTENT(INOUT)                   :: source, tag
       INTEGER, INTENT(IN)                      :: gid
@@ -9615,7 +9624,7 @@ CONTAINS
       !! Broadcasts rank-1 data to all processes
       !! @note see mp_bcast_d1
 
-      REAL(kind=real_8)                                :: msg(:)
+      REAL(kind=real_8), CONTIGUOUS                    :: msg(:)
          !! Data to broadcast
       INTEGER                                  :: source, gid
 
@@ -9643,7 +9652,7 @@ CONTAINS
       !! Broadcasts rank-1 data to all processes
       !! @note see mp_bcast_d1
 
-      REAL(kind=real_8)                                :: msg(:)
+      REAL(kind=real_8), CONTIGUOUS                    :: msg(:)
          !! Data to broadcast
       INTEGER                                  :: source, gid
       INTEGER, INTENT(INOUT)                   :: request
@@ -9680,7 +9689,7 @@ CONTAINS
       !! Broadcasts rank-2 data to all processes
       !! @note see mp_bcast_d1
 
-      REAL(kind=real_8)                                :: msg(:, :)
+      REAL(kind=real_8), CONTIGUOUS                    :: msg(:, :)
          !! Data to broadcast
       INTEGER                                  :: source, gid
 
@@ -9708,7 +9717,7 @@ CONTAINS
       !! Broadcasts rank-3 data to all processes
       !! @note see mp_bcast_d1
 
-      REAL(kind=real_8)                                  :: msg(:, :, :)
+      REAL(kind=real_8), CONTIGUOUS                    :: msg(:, :, :)
          !! Data to broadcast
       INTEGER                                  :: source, gid
 
@@ -9800,7 +9809,7 @@ CONTAINS
       !! Element-wise sum of a rank-1 array on all processes.
       !! @note see mp_sum_d
 
-      REAL(kind=real_8), INTENT(INOUT)                 :: msg(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
          !! Vector to sum and result
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(INOUT)                   :: request
@@ -10105,7 +10114,7 @@ CONTAINS
       !! all processes.
       !! @note see mp_max_d
 
-      REAL(kind=real_8), INTENT(INOUT)                 :: msg(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
          !! Find maximum among these data (input) and maximum (output)
       INTEGER, INTENT(IN)                      :: gid
 
@@ -10228,9 +10237,9 @@ CONTAINS
       !! MPI mapping
       !! mpi_scatter
 
-      REAL(kind=real_8), INTENT(IN)                    :: msg_scatter(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
          !! Data to scatter (for root process)
-      REAL(kind=real_8), INTENT(OUT)                   :: msg(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msg(:)
          !! Received data
       INTEGER, INTENT(IN)                      :: root, gid
          !! Process which scatters data
@@ -10264,7 +10273,7 @@ CONTAINS
       !! MPI mapping
       !! mpi_scatter
 
-      REAL(kind=real_8), INTENT(IN)                    :: msg_scatter(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
          !! Data to scatter (for root process)
       REAL(kind=real_8), INTENT(INOUT)                 :: msg
       INTEGER, INTENT(IN)                      :: root, gid
@@ -10310,10 +10319,10 @@ CONTAINS
       !! MPI mapping
       !! mpi_scatter
 
-      REAL(kind=real_8), INTENT(IN)                    :: msg_scatter(:, :)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:, :)
          !! Data to scatter (for root process)
-      REAL(kind=real_8), INTENT(INOUT)                 :: msg(:)
-      INTEGER, INTENT(IN)                      :: root, gid
+      REAL(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+      INTEGER, INTENT(IN)          :: root, gid
          !! Process which scatters data
          !! Message passing environment identifier
       INTEGER, INTENT(INOUT)                   :: request
@@ -10356,10 +10365,10 @@ CONTAINS
       !! MPI mapping
       !! mpi_scatter
 
-      REAL(kind=real_8), INTENT(IN)                    :: msg_scatter(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
          !! Data to scatter (for root process)
-      INTEGER, INTENT(IN)                      :: sendcounts(:), displs(:)
-      REAL(kind=real_8), INTENT(INOUT)                 :: msg(:)
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: sendcounts(:), displs(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
       INTEGER, INTENT(IN)                      :: recvcount, root, gid
          !! Process which scatters data
          !! Message passing environment identifier
@@ -10410,7 +10419,7 @@ CONTAINS
 
       REAL(kind=real_8), INTENT(IN)                    :: msg
          !! Datum to send to root
-      REAL(kind=real_8), INTENT(OUT)                   :: msg_gather(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:)
          !! Received data (on root)
       INTEGER, INTENT(IN)                      :: root, gid
          !! Process which gathers the data
@@ -10448,9 +10457,9 @@ CONTAINS
       !! mpi_gather
       !! @note see mp_gather_d
 
-      REAL(kind=real_8), INTENT(IN)                    :: msg(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msg(:)
          !! Datum to send to root
-      REAL(kind=real_8), INTENT(OUT)                   :: msg_gather(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:)
       INTEGER, INTENT(IN)                      :: root, gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_dv', &
@@ -10485,9 +10494,9 @@ CONTAINS
       !! mpi_gather
       !! @note see mp_gather_d
 
-      REAL(kind=real_8), INTENT(IN)                    :: msg(:, :)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msg(:, :)
          !! Datum to send to root
-      REAL(kind=real_8), INTENT(OUT)                   :: msg_gather(:, :)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:, :)
       INTEGER, INTENT(IN)                      :: root, gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_dm', &
@@ -10524,11 +10533,11 @@ CONTAINS
       !! MPI mapping
       !! mpi_gather
 
-      REAL(kind=real_8), DIMENSION(:), INTENT(IN)      :: sendbuf
+      REAL(kind=real_8), DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: sendbuf
          !! Data to send to root
-      REAL(kind=real_8), DIMENSION(:), INTENT(OUT)     :: recvbuf
+      REAL(kind=real_8), DIMENSION(:), CONTIGUOUS, INTENT(OUT)     :: recvbuf
          !! Received data (on root)
-      INTEGER, DIMENSION(:), INTENT(IN)        :: recvcounts, displs
+      INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN)        :: recvcounts, displs
          !! Sizes of data received from processes
          !! Offsets of data received from processes
       INTEGER, INTENT(IN)                      :: root, comm
@@ -10575,11 +10584,11 @@ CONTAINS
       !! MPI mapping
       !! mpi_gather
 
-      REAL(kind=real_8), DIMENSION(:), INTENT(IN)      :: sendbuf
+      REAL(kind=real_8), DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: sendbuf
          !! Data to send to root
-      REAL(kind=real_8), DIMENSION(:), INTENT(OUT)     :: recvbuf
+      REAL(kind=real_8), DIMENSION(:), CONTIGUOUS, INTENT(OUT)     :: recvbuf
          !! Received data (on root)
-      INTEGER, DIMENSION(:), INTENT(IN)        :: recvcounts, displs
+      INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN)        :: recvcounts, displs
          !! Sizes of data received from processes
          !! Offsets of data received from processes
       INTEGER, INTENT(IN)                      :: sendcount, root, comm
@@ -10637,7 +10646,7 @@ CONTAINS
 
       REAL(kind=real_8), INTENT(IN)                    :: msgout
          !! Datum to send
-      REAL(kind=real_8), INTENT(OUT)                   :: msgin(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
       INTEGER, INTENT(IN)                      :: gid
          !! Message passing environment identifier
@@ -10679,7 +10688,7 @@ CONTAINS
 
       REAL(kind=real_8), INTENT(IN)                    :: msgout
          !! Datum to send
-      REAL(kind=real_8), INTENT(OUT)                   :: msgin(:, :)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
          !! Received data
       INTEGER, INTENT(IN)                      :: gid
          !! Message passing environment identifier
@@ -10721,7 +10730,7 @@ CONTAINS
 
       REAL(kind=real_8), INTENT(IN)                    :: msgout
          !! Datum to send
-      REAL(kind=real_8), INTENT(OUT)                   :: msgin(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
       INTEGER, INTENT(IN)                      :: gid
          !! Message passing environment identifier
@@ -10774,9 +10783,9 @@ CONTAINS
       !! MPI mapping
       !! mpi_allgather
 
-      REAL(kind=real_8), INTENT(IN)                    :: msgout(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-1 data to send
-      REAL(kind=real_8), INTENT(OUT)                   :: msgin(:, :)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
          !! Received data
       INTEGER, INTENT(IN)                      :: gid
          !! Message passing environment identifier
@@ -10811,9 +10820,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_d12
 
-      REAL(kind=real_8), INTENT(IN)                    :: msgout(:, :)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
          !! Rank-2 data to send
-      REAL(kind=real_8), INTENT(OUT)                   :: msgin(:, :, :)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
       INTEGER, INTENT(IN)                      :: gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_d23', &
@@ -10846,9 +10855,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_d12
 
-      REAL(kind=real_8), INTENT(IN)                    :: msgout(:, :, :)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :, :)
          !! Rank-3 data to send
-      REAL(kind=real_8), INTENT(OUT)                   :: msgin(:, :, :, :)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :, :)
       INTEGER, INTENT(IN)                      :: gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_d34', &
@@ -10881,9 +10890,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_d12
 
-      REAL(kind=real_8), INTENT(IN)                    :: msgout(:, :)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
          !! Rank-2 data to send
-      REAL(kind=real_8), INTENT(OUT)                   :: msgin(:, :)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
       INTEGER, INTENT(IN)                      :: gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_d22', &
@@ -10916,9 +10925,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_d11
 
-      REAL(kind=real_8), INTENT(IN)                    :: msgout(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-1 data to send
-      REAL(kind=real_8), INTENT(OUT)                   :: msgin(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -10963,9 +10972,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_d12
 
-      REAL(kind=real_8), INTENT(IN)                    :: msgout(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-2 data to send
-      REAL(kind=real_8), INTENT(OUT)                   :: msgin(:, :, :)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -11010,9 +11019,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_d12
 
-      REAL(kind=real_8), INTENT(IN)                    :: msgout(:, :)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
          !! Rank-2 data to send
-      REAL(kind=real_8), INTENT(OUT)                   :: msgin(:, :)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -11057,9 +11066,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_d12
 
-      REAL(kind=real_8), INTENT(IN)                    :: msgout(:, :)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
          !! Rank-2 data to send
-      REAL(kind=real_8), INTENT(OUT)                   :: msgin(:, :, :, :)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -11104,9 +11113,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_d12
 
-      REAL(kind=real_8), INTENT(IN)                    :: msgout(:, :, :)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :, :)
          !! Rank-3 data to send
-      REAL(kind=real_8), INTENT(OUT)                   :: msgin(:, :, :)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -11162,11 +11171,12 @@ CONTAINS
       !! MPI mapping
       !! mpi_allgather
 
-      REAL(kind=real_8), INTENT(IN)                    :: msgout(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-1 data to send
-      REAL(kind=real_8), INTENT(OUT)                   :: msgin(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
-      INTEGER, INTENT(IN)                      :: rcount(:), rdispl(:), gid
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
+      INTEGER, INTENT(IN)                      :: gid
          !! Size of sent data for every process
          !! Offset of sent data for every process
          !! Message passing environment identifier
@@ -11212,11 +11222,12 @@ CONTAINS
       !! MPI mapping
       !! mpi_allgather
 
-      REAL(kind=real_8), INTENT(IN)                    :: msgout(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-1 data to send
-      REAL(kind=real_8), INTENT(OUT)                   :: msgin(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
-      INTEGER, INTENT(IN)                      :: rcount(:), rdispl(:), gid
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
+      INTEGER, INTENT(IN)                      :: gid
          !! Size of sent data for every process
          !! Offset of sent data for every process
          !! Message passing environment identifier
@@ -11274,11 +11285,12 @@ CONTAINS
       !! MPI mapping
       !! mpi_allgather
 
-      REAL(kind=real_8), INTENT(IN)                    :: msgout(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(IN)         :: msgout(:)
          !! Rank-1 data to send
-      REAL(kind=real_8), INTENT(OUT)                   :: msgin(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
-      INTEGER, INTENT(IN)                      :: rcount(:, :), rdispl(:, :), gid
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:, :), rdispl(:, :)
+      INTEGER, INTENT(IN)                      :: gid
          !! Size of sent data for every process
          !! Offset of sent data for every process
          !! Message passing environment identifier
@@ -11325,8 +11337,8 @@ CONTAINS
       !! wrapper needed to deal with interfaces as present in openmpi 1.8.1
       !! the issue is with the rank of rcount and rdispl
 
-      REAL(kind=real_8), INTENT(IN)                      :: msgout(:)
-      REAL(kind=real_8), INTENT(OUT)                     :: msgin(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(IN)                      :: msgout(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)                     :: msgin(:)
       INTEGER, INTENT(IN)                      :: rsize
       INTEGER, INTENT(IN)                      :: rcount(rsize), rdispl(rsize), gid, scount
       INTEGER, INTENT(INOUT)                   :: request, ierr
@@ -11340,11 +11352,12 @@ CONTAINS
    SUBROUTINE mp_sum_scatter_dv(msgout, msgin, rcount, gid)
       !! Sums a vector and partitions the result among processes
 
-      REAL(kind=real_8), INTENT(IN)                    :: msgout(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Data to sum
-      REAL(kind=real_8), INTENT(OUT)                   :: msgin(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received portion of summed data
-      INTEGER, INTENT(IN)                      :: rcount(:), gid
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:)
+      INTEGER, INTENT(IN)                      :: gid
          !! Partition sizes of the summed data for every process
          !! Message passing environment identifier
 
@@ -11374,11 +11387,11 @@ CONTAINS
    SUBROUTINE mp_sendrecv_dv(msgin, dest, msgout, source, comm)
       !! Sends and receives vector data
 
-      REAL(kind=real_8), INTENT(IN)                    :: msgin(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgin(:)
          !! Data to send
       INTEGER, INTENT(IN)                      :: dest
          !! Process to send data to
-      REAL(kind=real_8), INTENT(OUT)                   :: msgout(:)
+      REAL(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgout(:)
          !! Received data
       INTEGER, INTENT(IN)                      :: source, comm
          !! Process from which to receive
@@ -11482,11 +11495,11 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      REAL(kind=real_8), DIMENSION(:)                  :: msgin
+      REAL(kind=real_8), CONTIGUOUS, DIMENSION(:)      :: msgin
          !! Vector data to send
       INTEGER, INTENT(IN)                      :: dest
          !! Which process to send to
-      REAL(kind=real_8), DIMENSION(:)                  :: msgout
+      REAL(kind=real_8), CONTIGUOUS, DIMENSION(:)      :: msgout
          !! Receive data into this pointer
       INTEGER, INTENT(IN)                      :: source, comm
          !! Process to receive from
@@ -11554,7 +11567,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      REAL(kind=real_8), DIMENSION(:)                  :: msgin
+      REAL(kind=real_8), CONTIGUOUS, DIMENSION(:)      :: msgin
       INTEGER, INTENT(IN)                      :: dest, comm
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
@@ -11608,7 +11621,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      REAL(kind=real_8), DIMENSION(:, :)               :: msgin
+      REAL(kind=real_8), DIMENSION(:, :), CONTIGUOUS   :: msgin
       INTEGER, INTENT(IN)                      :: dest, comm
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
@@ -11660,7 +11673,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      REAL(kind=real_8), DIMENSION(:)                  :: msgout
+      REAL(kind=real_8), CONTIGUOUS, DIMENSION(:)      :: msgout
       INTEGER, INTENT(IN)                      :: source, comm
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
@@ -11713,7 +11726,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      REAL(kind=real_8), DIMENSION(:, :)               :: msgout
+      REAL(kind=real_8), DIMENSION(:, :), CONTIGUOUS   :: msgout
       INTEGER, INTENT(IN)                      :: source, comm
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
@@ -11762,7 +11775,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      REAL(kind=real_8), DIMENSION(:)        :: base
+      REAL(kind=real_8), CONTIGUOUS, DIMENSION(:) :: base
       INTEGER, INTENT(IN)            :: comm
       INTEGER, INTENT(INOUT)         :: win
 
@@ -11801,9 +11814,9 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      REAL(kind=real_8), DIMENSION(:)                             :: base
+      REAL(kind=real_8), CONTIGUOUS, DIMENSION(:)                 :: base
       INTEGER, INTENT(IN)                                 :: source, win
-      REAL(kind=real_8), DIMENSION(:)                             :: win_data
+      REAL(kind=real_8), CONTIGUOUS, DIMENSION(:)                 :: win_data
       INTEGER, INTENT(IN), OPTIONAL                       :: myproc, disp
       INTEGER, INTENT(OUT)                                :: request
       TYPE(mp_type_descriptor_type), INTENT(IN), OPTIONAL :: origin_datatype, target_datatype
@@ -11937,7 +11950,7 @@ CONTAINS
    SUBROUTINE mp_allocate_d (DATA, len, stat)
       !! Allocates special parallel memory
 
-      REAL(kind=real_8), DIMENSION(:), POINTER    :: DATA
+      REAL(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
          !! pointer to integer array to allocate
       INTEGER, INTENT(IN)                 :: len
          !! number of integers to allocate
@@ -11969,7 +11982,7 @@ CONTAINS
    SUBROUTINE mp_deallocate_d (DATA, stat)
       !! Deallocates special parallel memory
 
-      REAL(kind=real_8), DIMENSION(:), POINTER    :: DATA
+      REAL(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
          !! pointer to special memory to deallocate
       INTEGER, INTENT(OUT), OPTIONAL      :: stat
 
@@ -12252,7 +12265,7 @@ CONTAINS
       !! Allocates an array, using MPI_ALLOC_MEM ... this is hackish
       !! as the Fortran version returns an integer, which we take to be a C_PTR
 
-      REAL(kind=real_8), DIMENSION(:), POINTER         :: DATA
+      REAL(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
          !! data array to allocate
       INTEGER, INTENT(IN)                      :: len
          !! length (in data elements) of data array allocation
@@ -12292,7 +12305,7 @@ CONTAINS
       !! as the Fortran version takes an integer, which we hope to get by reference
 
       REAL(kind=real_8), DIMENSION(:), &
-         POINTER                               :: DATA
+         POINTER, CONTIGUOUS                   :: DATA
          !! data array to allocate
       INTEGER, INTENT(OUT), OPTIONAL           :: stat
          !! allocation status result
@@ -12306,7 +12319,7 @@ CONTAINS
       IF (PRESENT(stat)) stat = 0
 #endif
    END SUBROUTINE mp_free_mem_d
-# 2981 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 2982 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    SUBROUTINE mp_alltoall_r11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -12455,9 +12468,9 @@ CONTAINS
       !! All-to-all data exchange, rank 4 data, equal sizes
       !! @note see mp_alltoall_r
 
-      REAL(kind=real_4), DIMENSION(:, :, :, :), &
+      REAL(kind=real_4), DIMENSION(:, :, :, :), CONTIGUOUS, &
          INTENT(IN)                            :: sb
-      REAL(kind=real_4), DIMENSION(:, :, :, :), &
+      REAL(kind=real_4), DIMENSION(:, :, :, :), CONTIGUOUS, &
          INTENT(OUT)                           :: rb
       INTEGER, INTENT(IN)                      :: count, group
 
@@ -12530,7 +12543,7 @@ CONTAINS
       !! Send rank-1 data to another process
       !! @note see mp_send_r
 
-      REAL(kind=real_4)                                :: msg(:)
+      REAL(kind=real_4), CONTIGUOUS                    :: msg(:)
          !! Rank-1 data to send
       INTEGER                                  :: dest, tag, gid
 
@@ -12607,7 +12620,7 @@ CONTAINS
       !! Receive rank-1 data from another process
       !! @note see mp_recv_r
 
-      REAL(kind=real_4), INTENT(INOUT)                 :: msg(:)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
          !! Place received data into this rank-1 array
       INTEGER, INTENT(INOUT)                   :: source, tag
       INTEGER, INTENT(IN)                      :: gid
@@ -12723,7 +12736,7 @@ CONTAINS
       !! Broadcasts rank-1 data to all processes
       !! @note see mp_bcast_r1
 
-      REAL(kind=real_4)                                :: msg(:)
+      REAL(kind=real_4), CONTIGUOUS                    :: msg(:)
          !! Data to broadcast
       INTEGER                                  :: source, gid
 
@@ -12751,7 +12764,7 @@ CONTAINS
       !! Broadcasts rank-1 data to all processes
       !! @note see mp_bcast_r1
 
-      REAL(kind=real_4)                                :: msg(:)
+      REAL(kind=real_4), CONTIGUOUS                    :: msg(:)
          !! Data to broadcast
       INTEGER                                  :: source, gid
       INTEGER, INTENT(INOUT)                   :: request
@@ -12788,7 +12801,7 @@ CONTAINS
       !! Broadcasts rank-2 data to all processes
       !! @note see mp_bcast_r1
 
-      REAL(kind=real_4)                                :: msg(:, :)
+      REAL(kind=real_4), CONTIGUOUS                    :: msg(:, :)
          !! Data to broadcast
       INTEGER                                  :: source, gid
 
@@ -12816,7 +12829,7 @@ CONTAINS
       !! Broadcasts rank-3 data to all processes
       !! @note see mp_bcast_r1
 
-      REAL(kind=real_4)                                  :: msg(:, :, :)
+      REAL(kind=real_4), CONTIGUOUS                    :: msg(:, :, :)
          !! Data to broadcast
       INTEGER                                  :: source, gid
 
@@ -12908,7 +12921,7 @@ CONTAINS
       !! Element-wise sum of a rank-1 array on all processes.
       !! @note see mp_sum_r
 
-      REAL(kind=real_4), INTENT(INOUT)                 :: msg(:)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
          !! Vector to sum and result
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(INOUT)                   :: request
@@ -13213,7 +13226,7 @@ CONTAINS
       !! all processes.
       !! @note see mp_max_r
 
-      REAL(kind=real_4), INTENT(INOUT)                 :: msg(:)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
          !! Find maximum among these data (input) and maximum (output)
       INTEGER, INTENT(IN)                      :: gid
 
@@ -13336,9 +13349,9 @@ CONTAINS
       !! MPI mapping
       !! mpi_scatter
 
-      REAL(kind=real_4), INTENT(IN)                    :: msg_scatter(:)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
          !! Data to scatter (for root process)
-      REAL(kind=real_4), INTENT(OUT)                   :: msg(:)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msg(:)
          !! Received data
       INTEGER, INTENT(IN)                      :: root, gid
          !! Process which scatters data
@@ -13372,7 +13385,7 @@ CONTAINS
       !! MPI mapping
       !! mpi_scatter
 
-      REAL(kind=real_4), INTENT(IN)                    :: msg_scatter(:)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
          !! Data to scatter (for root process)
       REAL(kind=real_4), INTENT(INOUT)                 :: msg
       INTEGER, INTENT(IN)                      :: root, gid
@@ -13418,10 +13431,10 @@ CONTAINS
       !! MPI mapping
       !! mpi_scatter
 
-      REAL(kind=real_4), INTENT(IN)                    :: msg_scatter(:, :)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:, :)
          !! Data to scatter (for root process)
-      REAL(kind=real_4), INTENT(INOUT)                 :: msg(:)
-      INTEGER, INTENT(IN)                      :: root, gid
+      REAL(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+      INTEGER, INTENT(IN)          :: root, gid
          !! Process which scatters data
          !! Message passing environment identifier
       INTEGER, INTENT(INOUT)                   :: request
@@ -13464,10 +13477,10 @@ CONTAINS
       !! MPI mapping
       !! mpi_scatter
 
-      REAL(kind=real_4), INTENT(IN)                    :: msg_scatter(:)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
          !! Data to scatter (for root process)
-      INTEGER, INTENT(IN)                      :: sendcounts(:), displs(:)
-      REAL(kind=real_4), INTENT(INOUT)                 :: msg(:)
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: sendcounts(:), displs(:)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
       INTEGER, INTENT(IN)                      :: recvcount, root, gid
          !! Process which scatters data
          !! Message passing environment identifier
@@ -13518,7 +13531,7 @@ CONTAINS
 
       REAL(kind=real_4), INTENT(IN)                    :: msg
          !! Datum to send to root
-      REAL(kind=real_4), INTENT(OUT)                   :: msg_gather(:)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:)
          !! Received data (on root)
       INTEGER, INTENT(IN)                      :: root, gid
          !! Process which gathers the data
@@ -13556,9 +13569,9 @@ CONTAINS
       !! mpi_gather
       !! @note see mp_gather_r
 
-      REAL(kind=real_4), INTENT(IN)                    :: msg(:)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msg(:)
          !! Datum to send to root
-      REAL(kind=real_4), INTENT(OUT)                   :: msg_gather(:)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:)
       INTEGER, INTENT(IN)                      :: root, gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_rv', &
@@ -13593,9 +13606,9 @@ CONTAINS
       !! mpi_gather
       !! @note see mp_gather_r
 
-      REAL(kind=real_4), INTENT(IN)                    :: msg(:, :)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msg(:, :)
          !! Datum to send to root
-      REAL(kind=real_4), INTENT(OUT)                   :: msg_gather(:, :)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:, :)
       INTEGER, INTENT(IN)                      :: root, gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_rm', &
@@ -13632,11 +13645,11 @@ CONTAINS
       !! MPI mapping
       !! mpi_gather
 
-      REAL(kind=real_4), DIMENSION(:), INTENT(IN)      :: sendbuf
+      REAL(kind=real_4), DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: sendbuf
          !! Data to send to root
-      REAL(kind=real_4), DIMENSION(:), INTENT(OUT)     :: recvbuf
+      REAL(kind=real_4), DIMENSION(:), CONTIGUOUS, INTENT(OUT)     :: recvbuf
          !! Received data (on root)
-      INTEGER, DIMENSION(:), INTENT(IN)        :: recvcounts, displs
+      INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN)        :: recvcounts, displs
          !! Sizes of data received from processes
          !! Offsets of data received from processes
       INTEGER, INTENT(IN)                      :: root, comm
@@ -13683,11 +13696,11 @@ CONTAINS
       !! MPI mapping
       !! mpi_gather
 
-      REAL(kind=real_4), DIMENSION(:), INTENT(IN)      :: sendbuf
+      REAL(kind=real_4), DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: sendbuf
          !! Data to send to root
-      REAL(kind=real_4), DIMENSION(:), INTENT(OUT)     :: recvbuf
+      REAL(kind=real_4), DIMENSION(:), CONTIGUOUS, INTENT(OUT)     :: recvbuf
          !! Received data (on root)
-      INTEGER, DIMENSION(:), INTENT(IN)        :: recvcounts, displs
+      INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN)        :: recvcounts, displs
          !! Sizes of data received from processes
          !! Offsets of data received from processes
       INTEGER, INTENT(IN)                      :: sendcount, root, comm
@@ -13745,7 +13758,7 @@ CONTAINS
 
       REAL(kind=real_4), INTENT(IN)                    :: msgout
          !! Datum to send
-      REAL(kind=real_4), INTENT(OUT)                   :: msgin(:)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
       INTEGER, INTENT(IN)                      :: gid
          !! Message passing environment identifier
@@ -13787,7 +13800,7 @@ CONTAINS
 
       REAL(kind=real_4), INTENT(IN)                    :: msgout
          !! Datum to send
-      REAL(kind=real_4), INTENT(OUT)                   :: msgin(:, :)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
          !! Received data
       INTEGER, INTENT(IN)                      :: gid
          !! Message passing environment identifier
@@ -13829,7 +13842,7 @@ CONTAINS
 
       REAL(kind=real_4), INTENT(IN)                    :: msgout
          !! Datum to send
-      REAL(kind=real_4), INTENT(OUT)                   :: msgin(:)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
       INTEGER, INTENT(IN)                      :: gid
          !! Message passing environment identifier
@@ -13882,9 +13895,9 @@ CONTAINS
       !! MPI mapping
       !! mpi_allgather
 
-      REAL(kind=real_4), INTENT(IN)                    :: msgout(:)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-1 data to send
-      REAL(kind=real_4), INTENT(OUT)                   :: msgin(:, :)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
          !! Received data
       INTEGER, INTENT(IN)                      :: gid
          !! Message passing environment identifier
@@ -13919,9 +13932,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_r12
 
-      REAL(kind=real_4), INTENT(IN)                    :: msgout(:, :)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
          !! Rank-2 data to send
-      REAL(kind=real_4), INTENT(OUT)                   :: msgin(:, :, :)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
       INTEGER, INTENT(IN)                      :: gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_r23', &
@@ -13954,9 +13967,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_r12
 
-      REAL(kind=real_4), INTENT(IN)                    :: msgout(:, :, :)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :, :)
          !! Rank-3 data to send
-      REAL(kind=real_4), INTENT(OUT)                   :: msgin(:, :, :, :)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :, :)
       INTEGER, INTENT(IN)                      :: gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_r34', &
@@ -13989,9 +14002,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_r12
 
-      REAL(kind=real_4), INTENT(IN)                    :: msgout(:, :)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
          !! Rank-2 data to send
-      REAL(kind=real_4), INTENT(OUT)                   :: msgin(:, :)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
       INTEGER, INTENT(IN)                      :: gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_r22', &
@@ -14024,9 +14037,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_r11
 
-      REAL(kind=real_4), INTENT(IN)                    :: msgout(:)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-1 data to send
-      REAL(kind=real_4), INTENT(OUT)                   :: msgin(:)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -14071,9 +14084,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_r12
 
-      REAL(kind=real_4), INTENT(IN)                    :: msgout(:)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-2 data to send
-      REAL(kind=real_4), INTENT(OUT)                   :: msgin(:, :, :)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -14118,9 +14131,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_r12
 
-      REAL(kind=real_4), INTENT(IN)                    :: msgout(:, :)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
          !! Rank-2 data to send
-      REAL(kind=real_4), INTENT(OUT)                   :: msgin(:, :)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -14165,9 +14178,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_r12
 
-      REAL(kind=real_4), INTENT(IN)                    :: msgout(:, :)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
          !! Rank-2 data to send
-      REAL(kind=real_4), INTENT(OUT)                   :: msgin(:, :, :, :)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -14212,9 +14225,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_r12
 
-      REAL(kind=real_4), INTENT(IN)                    :: msgout(:, :, :)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :, :)
          !! Rank-3 data to send
-      REAL(kind=real_4), INTENT(OUT)                   :: msgin(:, :, :)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -14270,11 +14283,12 @@ CONTAINS
       !! MPI mapping
       !! mpi_allgather
 
-      REAL(kind=real_4), INTENT(IN)                    :: msgout(:)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-1 data to send
-      REAL(kind=real_4), INTENT(OUT)                   :: msgin(:)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
-      INTEGER, INTENT(IN)                      :: rcount(:), rdispl(:), gid
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
+      INTEGER, INTENT(IN)                      :: gid
          !! Size of sent data for every process
          !! Offset of sent data for every process
          !! Message passing environment identifier
@@ -14320,11 +14334,12 @@ CONTAINS
       !! MPI mapping
       !! mpi_allgather
 
-      REAL(kind=real_4), INTENT(IN)                    :: msgout(:)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-1 data to send
-      REAL(kind=real_4), INTENT(OUT)                   :: msgin(:)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
-      INTEGER, INTENT(IN)                      :: rcount(:), rdispl(:), gid
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
+      INTEGER, INTENT(IN)                      :: gid
          !! Size of sent data for every process
          !! Offset of sent data for every process
          !! Message passing environment identifier
@@ -14382,11 +14397,12 @@ CONTAINS
       !! MPI mapping
       !! mpi_allgather
 
-      REAL(kind=real_4), INTENT(IN)                    :: msgout(:)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(IN)         :: msgout(:)
          !! Rank-1 data to send
-      REAL(kind=real_4), INTENT(OUT)                   :: msgin(:)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
-      INTEGER, INTENT(IN)                      :: rcount(:, :), rdispl(:, :), gid
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:, :), rdispl(:, :)
+      INTEGER, INTENT(IN)                      :: gid
          !! Size of sent data for every process
          !! Offset of sent data for every process
          !! Message passing environment identifier
@@ -14433,8 +14449,8 @@ CONTAINS
       !! wrapper needed to deal with interfaces as present in openmpi 1.8.1
       !! the issue is with the rank of rcount and rdispl
 
-      REAL(kind=real_4), INTENT(IN)                      :: msgout(:)
-      REAL(kind=real_4), INTENT(OUT)                     :: msgin(:)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(IN)                      :: msgout(:)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)                     :: msgin(:)
       INTEGER, INTENT(IN)                      :: rsize
       INTEGER, INTENT(IN)                      :: rcount(rsize), rdispl(rsize), gid, scount
       INTEGER, INTENT(INOUT)                   :: request, ierr
@@ -14448,11 +14464,12 @@ CONTAINS
    SUBROUTINE mp_sum_scatter_rv(msgout, msgin, rcount, gid)
       !! Sums a vector and partitions the result among processes
 
-      REAL(kind=real_4), INTENT(IN)                    :: msgout(:)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Data to sum
-      REAL(kind=real_4), INTENT(OUT)                   :: msgin(:)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received portion of summed data
-      INTEGER, INTENT(IN)                      :: rcount(:), gid
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:)
+      INTEGER, INTENT(IN)                      :: gid
          !! Partition sizes of the summed data for every process
          !! Message passing environment identifier
 
@@ -14482,11 +14499,11 @@ CONTAINS
    SUBROUTINE mp_sendrecv_rv(msgin, dest, msgout, source, comm)
       !! Sends and receives vector data
 
-      REAL(kind=real_4), INTENT(IN)                    :: msgin(:)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgin(:)
          !! Data to send
       INTEGER, INTENT(IN)                      :: dest
          !! Process to send data to
-      REAL(kind=real_4), INTENT(OUT)                   :: msgout(:)
+      REAL(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgout(:)
          !! Received data
       INTEGER, INTENT(IN)                      :: source, comm
          !! Process from which to receive
@@ -14590,11 +14607,11 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      REAL(kind=real_4), DIMENSION(:)                  :: msgin
+      REAL(kind=real_4), CONTIGUOUS, DIMENSION(:)      :: msgin
          !! Vector data to send
       INTEGER, INTENT(IN)                      :: dest
          !! Which process to send to
-      REAL(kind=real_4), DIMENSION(:)                  :: msgout
+      REAL(kind=real_4), CONTIGUOUS, DIMENSION(:)      :: msgout
          !! Receive data into this pointer
       INTEGER, INTENT(IN)                      :: source, comm
          !! Process to receive from
@@ -14662,7 +14679,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      REAL(kind=real_4), DIMENSION(:)                  :: msgin
+      REAL(kind=real_4), CONTIGUOUS, DIMENSION(:)      :: msgin
       INTEGER, INTENT(IN)                      :: dest, comm
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
@@ -14716,7 +14733,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      REAL(kind=real_4), DIMENSION(:, :)               :: msgin
+      REAL(kind=real_4), DIMENSION(:, :), CONTIGUOUS   :: msgin
       INTEGER, INTENT(IN)                      :: dest, comm
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
@@ -14768,7 +14785,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      REAL(kind=real_4), DIMENSION(:)                  :: msgout
+      REAL(kind=real_4), CONTIGUOUS, DIMENSION(:)      :: msgout
       INTEGER, INTENT(IN)                      :: source, comm
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
@@ -14821,7 +14838,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      REAL(kind=real_4), DIMENSION(:, :)               :: msgout
+      REAL(kind=real_4), DIMENSION(:, :), CONTIGUOUS   :: msgout
       INTEGER, INTENT(IN)                      :: source, comm
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
@@ -14870,7 +14887,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      REAL(kind=real_4), DIMENSION(:)        :: base
+      REAL(kind=real_4), CONTIGUOUS, DIMENSION(:) :: base
       INTEGER, INTENT(IN)            :: comm
       INTEGER, INTENT(INOUT)         :: win
 
@@ -14909,9 +14926,9 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      REAL(kind=real_4), DIMENSION(:)                             :: base
+      REAL(kind=real_4), CONTIGUOUS, DIMENSION(:)                 :: base
       INTEGER, INTENT(IN)                                 :: source, win
-      REAL(kind=real_4), DIMENSION(:)                             :: win_data
+      REAL(kind=real_4), CONTIGUOUS, DIMENSION(:)                 :: win_data
       INTEGER, INTENT(IN), OPTIONAL                       :: myproc, disp
       INTEGER, INTENT(OUT)                                :: request
       TYPE(mp_type_descriptor_type), INTENT(IN), OPTIONAL :: origin_datatype, target_datatype
@@ -15045,7 +15062,7 @@ CONTAINS
    SUBROUTINE mp_allocate_r (DATA, len, stat)
       !! Allocates special parallel memory
 
-      REAL(kind=real_4), DIMENSION(:), POINTER    :: DATA
+      REAL(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
          !! pointer to integer array to allocate
       INTEGER, INTENT(IN)                 :: len
          !! number of integers to allocate
@@ -15077,7 +15094,7 @@ CONTAINS
    SUBROUTINE mp_deallocate_r (DATA, stat)
       !! Deallocates special parallel memory
 
-      REAL(kind=real_4), DIMENSION(:), POINTER    :: DATA
+      REAL(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
          !! pointer to special memory to deallocate
       INTEGER, INTENT(OUT), OPTIONAL      :: stat
 
@@ -15360,7 +15377,7 @@ CONTAINS
       !! Allocates an array, using MPI_ALLOC_MEM ... this is hackish
       !! as the Fortran version returns an integer, which we take to be a C_PTR
 
-      REAL(kind=real_4), DIMENSION(:), POINTER         :: DATA
+      REAL(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
          !! data array to allocate
       INTEGER, INTENT(IN)                      :: len
          !! length (in data elements) of data array allocation
@@ -15400,7 +15417,7 @@ CONTAINS
       !! as the Fortran version takes an integer, which we hope to get by reference
 
       REAL(kind=real_4), DIMENSION(:), &
-         POINTER                               :: DATA
+         POINTER, CONTIGUOUS                   :: DATA
          !! data array to allocate
       INTEGER, INTENT(OUT), OPTIONAL           :: stat
          !! allocation status result
@@ -15414,7 +15431,7 @@ CONTAINS
       IF (PRESENT(stat)) stat = 0
 #endif
    END SUBROUTINE mp_free_mem_r
-# 2981 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 2982 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    SUBROUTINE mp_alltoall_z11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -15563,9 +15580,9 @@ CONTAINS
       !! All-to-all data exchange, rank 4 data, equal sizes
       !! @note see mp_alltoall_z
 
-      COMPLEX(kind=real_8), DIMENSION(:, :, :, :), &
+      COMPLEX(kind=real_8), DIMENSION(:, :, :, :), CONTIGUOUS, &
          INTENT(IN)                            :: sb
-      COMPLEX(kind=real_8), DIMENSION(:, :, :, :), &
+      COMPLEX(kind=real_8), DIMENSION(:, :, :, :), CONTIGUOUS, &
          INTENT(OUT)                           :: rb
       INTEGER, INTENT(IN)                      :: count, group
 
@@ -15638,7 +15655,7 @@ CONTAINS
       !! Send rank-1 data to another process
       !! @note see mp_send_z
 
-      COMPLEX(kind=real_8)                                :: msg(:)
+      COMPLEX(kind=real_8), CONTIGUOUS                    :: msg(:)
          !! Rank-1 data to send
       INTEGER                                  :: dest, tag, gid
 
@@ -15715,7 +15732,7 @@ CONTAINS
       !! Receive rank-1 data from another process
       !! @note see mp_recv_z
 
-      COMPLEX(kind=real_8), INTENT(INOUT)                 :: msg(:)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
          !! Place received data into this rank-1 array
       INTEGER, INTENT(INOUT)                   :: source, tag
       INTEGER, INTENT(IN)                      :: gid
@@ -15831,7 +15848,7 @@ CONTAINS
       !! Broadcasts rank-1 data to all processes
       !! @note see mp_bcast_z1
 
-      COMPLEX(kind=real_8)                                :: msg(:)
+      COMPLEX(kind=real_8), CONTIGUOUS                    :: msg(:)
          !! Data to broadcast
       INTEGER                                  :: source, gid
 
@@ -15859,7 +15876,7 @@ CONTAINS
       !! Broadcasts rank-1 data to all processes
       !! @note see mp_bcast_z1
 
-      COMPLEX(kind=real_8)                                :: msg(:)
+      COMPLEX(kind=real_8), CONTIGUOUS                    :: msg(:)
          !! Data to broadcast
       INTEGER                                  :: source, gid
       INTEGER, INTENT(INOUT)                   :: request
@@ -15896,7 +15913,7 @@ CONTAINS
       !! Broadcasts rank-2 data to all processes
       !! @note see mp_bcast_z1
 
-      COMPLEX(kind=real_8)                                :: msg(:, :)
+      COMPLEX(kind=real_8), CONTIGUOUS                    :: msg(:, :)
          !! Data to broadcast
       INTEGER                                  :: source, gid
 
@@ -15924,7 +15941,7 @@ CONTAINS
       !! Broadcasts rank-3 data to all processes
       !! @note see mp_bcast_z1
 
-      COMPLEX(kind=real_8)                                  :: msg(:, :, :)
+      COMPLEX(kind=real_8), CONTIGUOUS                    :: msg(:, :, :)
          !! Data to broadcast
       INTEGER                                  :: source, gid
 
@@ -16016,7 +16033,7 @@ CONTAINS
       !! Element-wise sum of a rank-1 array on all processes.
       !! @note see mp_sum_z
 
-      COMPLEX(kind=real_8), INTENT(INOUT)                 :: msg(:)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
          !! Vector to sum and result
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(INOUT)                   :: request
@@ -16321,7 +16338,7 @@ CONTAINS
       !! all processes.
       !! @note see mp_max_z
 
-      COMPLEX(kind=real_8), INTENT(INOUT)                 :: msg(:)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
          !! Find maximum among these data (input) and maximum (output)
       INTEGER, INTENT(IN)                      :: gid
 
@@ -16444,9 +16461,9 @@ CONTAINS
       !! MPI mapping
       !! mpi_scatter
 
-      COMPLEX(kind=real_8), INTENT(IN)                    :: msg_scatter(:)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
          !! Data to scatter (for root process)
-      COMPLEX(kind=real_8), INTENT(OUT)                   :: msg(:)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msg(:)
          !! Received data
       INTEGER, INTENT(IN)                      :: root, gid
          !! Process which scatters data
@@ -16480,7 +16497,7 @@ CONTAINS
       !! MPI mapping
       !! mpi_scatter
 
-      COMPLEX(kind=real_8), INTENT(IN)                    :: msg_scatter(:)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
          !! Data to scatter (for root process)
       COMPLEX(kind=real_8), INTENT(INOUT)                 :: msg
       INTEGER, INTENT(IN)                      :: root, gid
@@ -16526,10 +16543,10 @@ CONTAINS
       !! MPI mapping
       !! mpi_scatter
 
-      COMPLEX(kind=real_8), INTENT(IN)                    :: msg_scatter(:, :)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:, :)
          !! Data to scatter (for root process)
-      COMPLEX(kind=real_8), INTENT(INOUT)                 :: msg(:)
-      INTEGER, INTENT(IN)                      :: root, gid
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+      INTEGER, INTENT(IN)          :: root, gid
          !! Process which scatters data
          !! Message passing environment identifier
       INTEGER, INTENT(INOUT)                   :: request
@@ -16572,10 +16589,10 @@ CONTAINS
       !! MPI mapping
       !! mpi_scatter
 
-      COMPLEX(kind=real_8), INTENT(IN)                    :: msg_scatter(:)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
          !! Data to scatter (for root process)
-      INTEGER, INTENT(IN)                      :: sendcounts(:), displs(:)
-      COMPLEX(kind=real_8), INTENT(INOUT)                 :: msg(:)
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: sendcounts(:), displs(:)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
       INTEGER, INTENT(IN)                      :: recvcount, root, gid
          !! Process which scatters data
          !! Message passing environment identifier
@@ -16626,7 +16643,7 @@ CONTAINS
 
       COMPLEX(kind=real_8), INTENT(IN)                    :: msg
          !! Datum to send to root
-      COMPLEX(kind=real_8), INTENT(OUT)                   :: msg_gather(:)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:)
          !! Received data (on root)
       INTEGER, INTENT(IN)                      :: root, gid
          !! Process which gathers the data
@@ -16664,9 +16681,9 @@ CONTAINS
       !! mpi_gather
       !! @note see mp_gather_z
 
-      COMPLEX(kind=real_8), INTENT(IN)                    :: msg(:)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msg(:)
          !! Datum to send to root
-      COMPLEX(kind=real_8), INTENT(OUT)                   :: msg_gather(:)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:)
       INTEGER, INTENT(IN)                      :: root, gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_zv', &
@@ -16701,9 +16718,9 @@ CONTAINS
       !! mpi_gather
       !! @note see mp_gather_z
 
-      COMPLEX(kind=real_8), INTENT(IN)                    :: msg(:, :)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msg(:, :)
          !! Datum to send to root
-      COMPLEX(kind=real_8), INTENT(OUT)                   :: msg_gather(:, :)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:, :)
       INTEGER, INTENT(IN)                      :: root, gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_zm', &
@@ -16740,11 +16757,11 @@ CONTAINS
       !! MPI mapping
       !! mpi_gather
 
-      COMPLEX(kind=real_8), DIMENSION(:), INTENT(IN)      :: sendbuf
+      COMPLEX(kind=real_8), DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: sendbuf
          !! Data to send to root
-      COMPLEX(kind=real_8), DIMENSION(:), INTENT(OUT)     :: recvbuf
+      COMPLEX(kind=real_8), DIMENSION(:), CONTIGUOUS, INTENT(OUT)     :: recvbuf
          !! Received data (on root)
-      INTEGER, DIMENSION(:), INTENT(IN)        :: recvcounts, displs
+      INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN)        :: recvcounts, displs
          !! Sizes of data received from processes
          !! Offsets of data received from processes
       INTEGER, INTENT(IN)                      :: root, comm
@@ -16791,11 +16808,11 @@ CONTAINS
       !! MPI mapping
       !! mpi_gather
 
-      COMPLEX(kind=real_8), DIMENSION(:), INTENT(IN)      :: sendbuf
+      COMPLEX(kind=real_8), DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: sendbuf
          !! Data to send to root
-      COMPLEX(kind=real_8), DIMENSION(:), INTENT(OUT)     :: recvbuf
+      COMPLEX(kind=real_8), DIMENSION(:), CONTIGUOUS, INTENT(OUT)     :: recvbuf
          !! Received data (on root)
-      INTEGER, DIMENSION(:), INTENT(IN)        :: recvcounts, displs
+      INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN)        :: recvcounts, displs
          !! Sizes of data received from processes
          !! Offsets of data received from processes
       INTEGER, INTENT(IN)                      :: sendcount, root, comm
@@ -16853,7 +16870,7 @@ CONTAINS
 
       COMPLEX(kind=real_8), INTENT(IN)                    :: msgout
          !! Datum to send
-      COMPLEX(kind=real_8), INTENT(OUT)                   :: msgin(:)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
       INTEGER, INTENT(IN)                      :: gid
          !! Message passing environment identifier
@@ -16895,7 +16912,7 @@ CONTAINS
 
       COMPLEX(kind=real_8), INTENT(IN)                    :: msgout
          !! Datum to send
-      COMPLEX(kind=real_8), INTENT(OUT)                   :: msgin(:, :)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
          !! Received data
       INTEGER, INTENT(IN)                      :: gid
          !! Message passing environment identifier
@@ -16937,7 +16954,7 @@ CONTAINS
 
       COMPLEX(kind=real_8), INTENT(IN)                    :: msgout
          !! Datum to send
-      COMPLEX(kind=real_8), INTENT(OUT)                   :: msgin(:)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
       INTEGER, INTENT(IN)                      :: gid
          !! Message passing environment identifier
@@ -16990,9 +17007,9 @@ CONTAINS
       !! MPI mapping
       !! mpi_allgather
 
-      COMPLEX(kind=real_8), INTENT(IN)                    :: msgout(:)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-1 data to send
-      COMPLEX(kind=real_8), INTENT(OUT)                   :: msgin(:, :)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
          !! Received data
       INTEGER, INTENT(IN)                      :: gid
          !! Message passing environment identifier
@@ -17027,9 +17044,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_z12
 
-      COMPLEX(kind=real_8), INTENT(IN)                    :: msgout(:, :)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
          !! Rank-2 data to send
-      COMPLEX(kind=real_8), INTENT(OUT)                   :: msgin(:, :, :)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
       INTEGER, INTENT(IN)                      :: gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_z23', &
@@ -17062,9 +17079,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_z12
 
-      COMPLEX(kind=real_8), INTENT(IN)                    :: msgout(:, :, :)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :, :)
          !! Rank-3 data to send
-      COMPLEX(kind=real_8), INTENT(OUT)                   :: msgin(:, :, :, :)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :, :)
       INTEGER, INTENT(IN)                      :: gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_z34', &
@@ -17097,9 +17114,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_z12
 
-      COMPLEX(kind=real_8), INTENT(IN)                    :: msgout(:, :)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
          !! Rank-2 data to send
-      COMPLEX(kind=real_8), INTENT(OUT)                   :: msgin(:, :)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
       INTEGER, INTENT(IN)                      :: gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_z22', &
@@ -17132,9 +17149,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_z11
 
-      COMPLEX(kind=real_8), INTENT(IN)                    :: msgout(:)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-1 data to send
-      COMPLEX(kind=real_8), INTENT(OUT)                   :: msgin(:)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -17179,9 +17196,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_z12
 
-      COMPLEX(kind=real_8), INTENT(IN)                    :: msgout(:)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-2 data to send
-      COMPLEX(kind=real_8), INTENT(OUT)                   :: msgin(:, :, :)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -17226,9 +17243,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_z12
 
-      COMPLEX(kind=real_8), INTENT(IN)                    :: msgout(:, :)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
          !! Rank-2 data to send
-      COMPLEX(kind=real_8), INTENT(OUT)                   :: msgin(:, :)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -17273,9 +17290,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_z12
 
-      COMPLEX(kind=real_8), INTENT(IN)                    :: msgout(:, :)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
          !! Rank-2 data to send
-      COMPLEX(kind=real_8), INTENT(OUT)                   :: msgin(:, :, :, :)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -17320,9 +17337,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_z12
 
-      COMPLEX(kind=real_8), INTENT(IN)                    :: msgout(:, :, :)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:, :, :)
          !! Rank-3 data to send
-      COMPLEX(kind=real_8), INTENT(OUT)                   :: msgin(:, :, :)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -17378,11 +17395,12 @@ CONTAINS
       !! MPI mapping
       !! mpi_allgather
 
-      COMPLEX(kind=real_8), INTENT(IN)                    :: msgout(:)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-1 data to send
-      COMPLEX(kind=real_8), INTENT(OUT)                   :: msgin(:)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
-      INTEGER, INTENT(IN)                      :: rcount(:), rdispl(:), gid
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
+      INTEGER, INTENT(IN)                      :: gid
          !! Size of sent data for every process
          !! Offset of sent data for every process
          !! Message passing environment identifier
@@ -17428,11 +17446,12 @@ CONTAINS
       !! MPI mapping
       !! mpi_allgather
 
-      COMPLEX(kind=real_8), INTENT(IN)                    :: msgout(:)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-1 data to send
-      COMPLEX(kind=real_8), INTENT(OUT)                   :: msgin(:)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
-      INTEGER, INTENT(IN)                      :: rcount(:), rdispl(:), gid
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
+      INTEGER, INTENT(IN)                      :: gid
          !! Size of sent data for every process
          !! Offset of sent data for every process
          !! Message passing environment identifier
@@ -17490,11 +17509,12 @@ CONTAINS
       !! MPI mapping
       !! mpi_allgather
 
-      COMPLEX(kind=real_8), INTENT(IN)                    :: msgout(:)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)         :: msgout(:)
          !! Rank-1 data to send
-      COMPLEX(kind=real_8), INTENT(OUT)                   :: msgin(:)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
-      INTEGER, INTENT(IN)                      :: rcount(:, :), rdispl(:, :), gid
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:, :), rdispl(:, :)
+      INTEGER, INTENT(IN)                      :: gid
          !! Size of sent data for every process
          !! Offset of sent data for every process
          !! Message passing environment identifier
@@ -17541,8 +17561,8 @@ CONTAINS
       !! wrapper needed to deal with interfaces as present in openmpi 1.8.1
       !! the issue is with the rank of rcount and rdispl
 
-      COMPLEX(kind=real_8), INTENT(IN)                      :: msgout(:)
-      COMPLEX(kind=real_8), INTENT(OUT)                     :: msgin(:)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)                      :: msgout(:)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)                     :: msgin(:)
       INTEGER, INTENT(IN)                      :: rsize
       INTEGER, INTENT(IN)                      :: rcount(rsize), rdispl(rsize), gid, scount
       INTEGER, INTENT(INOUT)                   :: request, ierr
@@ -17556,11 +17576,12 @@ CONTAINS
    SUBROUTINE mp_sum_scatter_zv(msgout, msgin, rcount, gid)
       !! Sums a vector and partitions the result among processes
 
-      COMPLEX(kind=real_8), INTENT(IN)                    :: msgout(:)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Data to sum
-      COMPLEX(kind=real_8), INTENT(OUT)                   :: msgin(:)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received portion of summed data
-      INTEGER, INTENT(IN)                      :: rcount(:), gid
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:)
+      INTEGER, INTENT(IN)                      :: gid
          !! Partition sizes of the summed data for every process
          !! Message passing environment identifier
 
@@ -17590,11 +17611,11 @@ CONTAINS
    SUBROUTINE mp_sendrecv_zv(msgin, dest, msgout, source, comm)
       !! Sends and receives vector data
 
-      COMPLEX(kind=real_8), INTENT(IN)                    :: msgin(:)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(IN)        :: msgin(:)
          !! Data to send
       INTEGER, INTENT(IN)                      :: dest
          !! Process to send data to
-      COMPLEX(kind=real_8), INTENT(OUT)                   :: msgout(:)
+      COMPLEX(kind=real_8), CONTIGUOUS, INTENT(OUT)       :: msgout(:)
          !! Received data
       INTEGER, INTENT(IN)                      :: source, comm
          !! Process from which to receive
@@ -17698,11 +17719,11 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      COMPLEX(kind=real_8), DIMENSION(:)                  :: msgin
+      COMPLEX(kind=real_8), CONTIGUOUS, DIMENSION(:)      :: msgin
          !! Vector data to send
       INTEGER, INTENT(IN)                      :: dest
          !! Which process to send to
-      COMPLEX(kind=real_8), DIMENSION(:)                  :: msgout
+      COMPLEX(kind=real_8), CONTIGUOUS, DIMENSION(:)      :: msgout
          !! Receive data into this pointer
       INTEGER, INTENT(IN)                      :: source, comm
          !! Process to receive from
@@ -17770,7 +17791,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      COMPLEX(kind=real_8), DIMENSION(:)                  :: msgin
+      COMPLEX(kind=real_8), CONTIGUOUS, DIMENSION(:)      :: msgin
       INTEGER, INTENT(IN)                      :: dest, comm
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
@@ -17824,7 +17845,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      COMPLEX(kind=real_8), DIMENSION(:, :)               :: msgin
+      COMPLEX(kind=real_8), DIMENSION(:, :), CONTIGUOUS   :: msgin
       INTEGER, INTENT(IN)                      :: dest, comm
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
@@ -17876,7 +17897,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      COMPLEX(kind=real_8), DIMENSION(:)                  :: msgout
+      COMPLEX(kind=real_8), CONTIGUOUS, DIMENSION(:)      :: msgout
       INTEGER, INTENT(IN)                      :: source, comm
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
@@ -17929,7 +17950,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      COMPLEX(kind=real_8), DIMENSION(:, :)               :: msgout
+      COMPLEX(kind=real_8), DIMENSION(:, :), CONTIGUOUS   :: msgout
       INTEGER, INTENT(IN)                      :: source, comm
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
@@ -17978,7 +17999,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      COMPLEX(kind=real_8), DIMENSION(:)        :: base
+      COMPLEX(kind=real_8), CONTIGUOUS, DIMENSION(:) :: base
       INTEGER, INTENT(IN)            :: comm
       INTEGER, INTENT(INOUT)         :: win
 
@@ -18017,9 +18038,9 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      COMPLEX(kind=real_8), DIMENSION(:)                             :: base
+      COMPLEX(kind=real_8), CONTIGUOUS, DIMENSION(:)                 :: base
       INTEGER, INTENT(IN)                                 :: source, win
-      COMPLEX(kind=real_8), DIMENSION(:)                             :: win_data
+      COMPLEX(kind=real_8), CONTIGUOUS, DIMENSION(:)                 :: win_data
       INTEGER, INTENT(IN), OPTIONAL                       :: myproc, disp
       INTEGER, INTENT(OUT)                                :: request
       TYPE(mp_type_descriptor_type), INTENT(IN), OPTIONAL :: origin_datatype, target_datatype
@@ -18153,7 +18174,7 @@ CONTAINS
    SUBROUTINE mp_allocate_z (DATA, len, stat)
       !! Allocates special parallel memory
 
-      COMPLEX(kind=real_8), DIMENSION(:), POINTER    :: DATA
+      COMPLEX(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
          !! pointer to integer array to allocate
       INTEGER, INTENT(IN)                 :: len
          !! number of integers to allocate
@@ -18185,7 +18206,7 @@ CONTAINS
    SUBROUTINE mp_deallocate_z (DATA, stat)
       !! Deallocates special parallel memory
 
-      COMPLEX(kind=real_8), DIMENSION(:), POINTER    :: DATA
+      COMPLEX(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
          !! pointer to special memory to deallocate
       INTEGER, INTENT(OUT), OPTIONAL      :: stat
 
@@ -18468,7 +18489,7 @@ CONTAINS
       !! Allocates an array, using MPI_ALLOC_MEM ... this is hackish
       !! as the Fortran version returns an integer, which we take to be a C_PTR
 
-      COMPLEX(kind=real_8), DIMENSION(:), POINTER         :: DATA
+      COMPLEX(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
          !! data array to allocate
       INTEGER, INTENT(IN)                      :: len
          !! length (in data elements) of data array allocation
@@ -18508,7 +18529,7 @@ CONTAINS
       !! as the Fortran version takes an integer, which we hope to get by reference
 
       COMPLEX(kind=real_8), DIMENSION(:), &
-         POINTER                               :: DATA
+         POINTER, CONTIGUOUS                   :: DATA
          !! data array to allocate
       INTEGER, INTENT(OUT), OPTIONAL           :: stat
          !! allocation status result
@@ -18522,7 +18543,7 @@ CONTAINS
       IF (PRESENT(stat)) stat = 0
 #endif
    END SUBROUTINE mp_free_mem_z
-# 2981 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 2982 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    SUBROUTINE mp_alltoall_c11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -18671,9 +18692,9 @@ CONTAINS
       !! All-to-all data exchange, rank 4 data, equal sizes
       !! @note see mp_alltoall_c
 
-      COMPLEX(kind=real_4), DIMENSION(:, :, :, :), &
+      COMPLEX(kind=real_4), DIMENSION(:, :, :, :), CONTIGUOUS, &
          INTENT(IN)                            :: sb
-      COMPLEX(kind=real_4), DIMENSION(:, :, :, :), &
+      COMPLEX(kind=real_4), DIMENSION(:, :, :, :), CONTIGUOUS, &
          INTENT(OUT)                           :: rb
       INTEGER, INTENT(IN)                      :: count, group
 
@@ -18746,7 +18767,7 @@ CONTAINS
       !! Send rank-1 data to another process
       !! @note see mp_send_c
 
-      COMPLEX(kind=real_4)                                :: msg(:)
+      COMPLEX(kind=real_4), CONTIGUOUS                    :: msg(:)
          !! Rank-1 data to send
       INTEGER                                  :: dest, tag, gid
 
@@ -18823,7 +18844,7 @@ CONTAINS
       !! Receive rank-1 data from another process
       !! @note see mp_recv_c
 
-      COMPLEX(kind=real_4), INTENT(INOUT)                 :: msg(:)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
          !! Place received data into this rank-1 array
       INTEGER, INTENT(INOUT)                   :: source, tag
       INTEGER, INTENT(IN)                      :: gid
@@ -18939,7 +18960,7 @@ CONTAINS
       !! Broadcasts rank-1 data to all processes
       !! @note see mp_bcast_c1
 
-      COMPLEX(kind=real_4)                                :: msg(:)
+      COMPLEX(kind=real_4), CONTIGUOUS                    :: msg(:)
          !! Data to broadcast
       INTEGER                                  :: source, gid
 
@@ -18967,7 +18988,7 @@ CONTAINS
       !! Broadcasts rank-1 data to all processes
       !! @note see mp_bcast_c1
 
-      COMPLEX(kind=real_4)                                :: msg(:)
+      COMPLEX(kind=real_4), CONTIGUOUS                    :: msg(:)
          !! Data to broadcast
       INTEGER                                  :: source, gid
       INTEGER, INTENT(INOUT)                   :: request
@@ -19004,7 +19025,7 @@ CONTAINS
       !! Broadcasts rank-2 data to all processes
       !! @note see mp_bcast_c1
 
-      COMPLEX(kind=real_4)                                :: msg(:, :)
+      COMPLEX(kind=real_4), CONTIGUOUS                    :: msg(:, :)
          !! Data to broadcast
       INTEGER                                  :: source, gid
 
@@ -19032,7 +19053,7 @@ CONTAINS
       !! Broadcasts rank-3 data to all processes
       !! @note see mp_bcast_c1
 
-      COMPLEX(kind=real_4)                                  :: msg(:, :, :)
+      COMPLEX(kind=real_4), CONTIGUOUS                    :: msg(:, :, :)
          !! Data to broadcast
       INTEGER                                  :: source, gid
 
@@ -19124,7 +19145,7 @@ CONTAINS
       !! Element-wise sum of a rank-1 array on all processes.
       !! @note see mp_sum_c
 
-      COMPLEX(kind=real_4), INTENT(INOUT)                 :: msg(:)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
          !! Vector to sum and result
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(INOUT)                   :: request
@@ -19429,7 +19450,7 @@ CONTAINS
       !! all processes.
       !! @note see mp_max_c
 
-      COMPLEX(kind=real_4), INTENT(INOUT)                 :: msg(:)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
          !! Find maximum among these data (input) and maximum (output)
       INTEGER, INTENT(IN)                      :: gid
 
@@ -19552,9 +19573,9 @@ CONTAINS
       !! MPI mapping
       !! mpi_scatter
 
-      COMPLEX(kind=real_4), INTENT(IN)                    :: msg_scatter(:)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
          !! Data to scatter (for root process)
-      COMPLEX(kind=real_4), INTENT(OUT)                   :: msg(:)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msg(:)
          !! Received data
       INTEGER, INTENT(IN)                      :: root, gid
          !! Process which scatters data
@@ -19588,7 +19609,7 @@ CONTAINS
       !! MPI mapping
       !! mpi_scatter
 
-      COMPLEX(kind=real_4), INTENT(IN)                    :: msg_scatter(:)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
          !! Data to scatter (for root process)
       COMPLEX(kind=real_4), INTENT(INOUT)                 :: msg
       INTEGER, INTENT(IN)                      :: root, gid
@@ -19634,10 +19655,10 @@ CONTAINS
       !! MPI mapping
       !! mpi_scatter
 
-      COMPLEX(kind=real_4), INTENT(IN)                    :: msg_scatter(:, :)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:, :)
          !! Data to scatter (for root process)
-      COMPLEX(kind=real_4), INTENT(INOUT)                 :: msg(:)
-      INTEGER, INTENT(IN)                      :: root, gid
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
+      INTEGER, INTENT(IN)          :: root, gid
          !! Process which scatters data
          !! Message passing environment identifier
       INTEGER, INTENT(INOUT)                   :: request
@@ -19680,10 +19701,10 @@ CONTAINS
       !! MPI mapping
       !! mpi_scatter
 
-      COMPLEX(kind=real_4), INTENT(IN)                    :: msg_scatter(:)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
          !! Data to scatter (for root process)
-      INTEGER, INTENT(IN)                      :: sendcounts(:), displs(:)
-      COMPLEX(kind=real_4), INTENT(INOUT)                 :: msg(:)
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: sendcounts(:), displs(:)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(INOUT)     :: msg(:)
       INTEGER, INTENT(IN)                      :: recvcount, root, gid
          !! Process which scatters data
          !! Message passing environment identifier
@@ -19734,7 +19755,7 @@ CONTAINS
 
       COMPLEX(kind=real_4), INTENT(IN)                    :: msg
          !! Datum to send to root
-      COMPLEX(kind=real_4), INTENT(OUT)                   :: msg_gather(:)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:)
          !! Received data (on root)
       INTEGER, INTENT(IN)                      :: root, gid
          !! Process which gathers the data
@@ -19772,9 +19793,9 @@ CONTAINS
       !! mpi_gather
       !! @note see mp_gather_c
 
-      COMPLEX(kind=real_4), INTENT(IN)                    :: msg(:)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msg(:)
          !! Datum to send to root
-      COMPLEX(kind=real_4), INTENT(OUT)                   :: msg_gather(:)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:)
       INTEGER, INTENT(IN)                      :: root, gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_cv', &
@@ -19809,9 +19830,9 @@ CONTAINS
       !! mpi_gather
       !! @note see mp_gather_c
 
-      COMPLEX(kind=real_4), INTENT(IN)                    :: msg(:, :)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msg(:, :)
          !! Datum to send to root
-      COMPLEX(kind=real_4), INTENT(OUT)                   :: msg_gather(:, :)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msg_gather(:, :)
       INTEGER, INTENT(IN)                      :: root, gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_gather_cm', &
@@ -19848,11 +19869,11 @@ CONTAINS
       !! MPI mapping
       !! mpi_gather
 
-      COMPLEX(kind=real_4), DIMENSION(:), INTENT(IN)      :: sendbuf
+      COMPLEX(kind=real_4), DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: sendbuf
          !! Data to send to root
-      COMPLEX(kind=real_4), DIMENSION(:), INTENT(OUT)     :: recvbuf
+      COMPLEX(kind=real_4), DIMENSION(:), CONTIGUOUS, INTENT(OUT)     :: recvbuf
          !! Received data (on root)
-      INTEGER, DIMENSION(:), INTENT(IN)        :: recvcounts, displs
+      INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN)        :: recvcounts, displs
          !! Sizes of data received from processes
          !! Offsets of data received from processes
       INTEGER, INTENT(IN)                      :: root, comm
@@ -19899,11 +19920,11 @@ CONTAINS
       !! MPI mapping
       !! mpi_gather
 
-      COMPLEX(kind=real_4), DIMENSION(:), INTENT(IN)      :: sendbuf
+      COMPLEX(kind=real_4), DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: sendbuf
          !! Data to send to root
-      COMPLEX(kind=real_4), DIMENSION(:), INTENT(OUT)     :: recvbuf
+      COMPLEX(kind=real_4), DIMENSION(:), CONTIGUOUS, INTENT(OUT)     :: recvbuf
          !! Received data (on root)
-      INTEGER, DIMENSION(:), INTENT(IN)        :: recvcounts, displs
+      INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN)        :: recvcounts, displs
          !! Sizes of data received from processes
          !! Offsets of data received from processes
       INTEGER, INTENT(IN)                      :: sendcount, root, comm
@@ -19961,7 +19982,7 @@ CONTAINS
 
       COMPLEX(kind=real_4), INTENT(IN)                    :: msgout
          !! Datum to send
-      COMPLEX(kind=real_4), INTENT(OUT)                   :: msgin(:)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
       INTEGER, INTENT(IN)                      :: gid
          !! Message passing environment identifier
@@ -20003,7 +20024,7 @@ CONTAINS
 
       COMPLEX(kind=real_4), INTENT(IN)                    :: msgout
          !! Datum to send
-      COMPLEX(kind=real_4), INTENT(OUT)                   :: msgin(:, :)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
          !! Received data
       INTEGER, INTENT(IN)                      :: gid
          !! Message passing environment identifier
@@ -20045,7 +20066,7 @@ CONTAINS
 
       COMPLEX(kind=real_4), INTENT(IN)                    :: msgout
          !! Datum to send
-      COMPLEX(kind=real_4), INTENT(OUT)                   :: msgin(:)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
       INTEGER, INTENT(IN)                      :: gid
          !! Message passing environment identifier
@@ -20098,9 +20119,9 @@ CONTAINS
       !! MPI mapping
       !! mpi_allgather
 
-      COMPLEX(kind=real_4), INTENT(IN)                    :: msgout(:)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-1 data to send
-      COMPLEX(kind=real_4), INTENT(OUT)                   :: msgin(:, :)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
          !! Received data
       INTEGER, INTENT(IN)                      :: gid
          !! Message passing environment identifier
@@ -20135,9 +20156,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_c12
 
-      COMPLEX(kind=real_4), INTENT(IN)                    :: msgout(:, :)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
          !! Rank-2 data to send
-      COMPLEX(kind=real_4), INTENT(OUT)                   :: msgin(:, :, :)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
       INTEGER, INTENT(IN)                      :: gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_c23', &
@@ -20170,9 +20191,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_c12
 
-      COMPLEX(kind=real_4), INTENT(IN)                    :: msgout(:, :, :)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :, :)
          !! Rank-3 data to send
-      COMPLEX(kind=real_4), INTENT(OUT)                   :: msgin(:, :, :, :)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :, :)
       INTEGER, INTENT(IN)                      :: gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_c34', &
@@ -20205,9 +20226,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_c12
 
-      COMPLEX(kind=real_4), INTENT(IN)                    :: msgout(:, :)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
          !! Rank-2 data to send
-      COMPLEX(kind=real_4), INTENT(OUT)                   :: msgin(:, :)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
       INTEGER, INTENT(IN)                      :: gid
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_allgather_c22', &
@@ -20240,9 +20261,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_c11
 
-      COMPLEX(kind=real_4), INTENT(IN)                    :: msgout(:)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-1 data to send
-      COMPLEX(kind=real_4), INTENT(OUT)                   :: msgin(:)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -20287,9 +20308,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_c12
 
-      COMPLEX(kind=real_4), INTENT(IN)                    :: msgout(:)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-2 data to send
-      COMPLEX(kind=real_4), INTENT(OUT)                   :: msgin(:, :, :)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -20334,9 +20355,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_c12
 
-      COMPLEX(kind=real_4), INTENT(IN)                    :: msgout(:, :)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
          !! Rank-2 data to send
-      COMPLEX(kind=real_4), INTENT(OUT)                   :: msgin(:, :)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -20381,9 +20402,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_c12
 
-      COMPLEX(kind=real_4), INTENT(IN)                    :: msgout(:, :)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :)
          !! Rank-2 data to send
-      COMPLEX(kind=real_4), INTENT(OUT)                   :: msgin(:, :, :, :)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -20428,9 +20449,9 @@ CONTAINS
       !! same data
       !! @note see mp_allgather_c12
 
-      COMPLEX(kind=real_4), INTENT(IN)                    :: msgout(:, :, :)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:, :, :)
          !! Rank-3 data to send
-      COMPLEX(kind=real_4), INTENT(OUT)                   :: msgin(:, :, :)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:, :, :)
       INTEGER, INTENT(IN)                      :: gid
       INTEGER, INTENT(OUT)                     :: request
 
@@ -20486,11 +20507,12 @@ CONTAINS
       !! MPI mapping
       !! mpi_allgather
 
-      COMPLEX(kind=real_4), INTENT(IN)                    :: msgout(:)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-1 data to send
-      COMPLEX(kind=real_4), INTENT(OUT)                   :: msgin(:)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
-      INTEGER, INTENT(IN)                      :: rcount(:), rdispl(:), gid
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
+      INTEGER, INTENT(IN)                      :: gid
          !! Size of sent data for every process
          !! Offset of sent data for every process
          !! Message passing environment identifier
@@ -20536,11 +20558,12 @@ CONTAINS
       !! MPI mapping
       !! mpi_allgather
 
-      COMPLEX(kind=real_4), INTENT(IN)                    :: msgout(:)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Rank-1 data to send
-      COMPLEX(kind=real_4), INTENT(OUT)                   :: msgin(:)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
-      INTEGER, INTENT(IN)                      :: rcount(:), rdispl(:), gid
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:), rdispl(:)
+      INTEGER, INTENT(IN)                      :: gid
          !! Size of sent data for every process
          !! Offset of sent data for every process
          !! Message passing environment identifier
@@ -20598,11 +20621,12 @@ CONTAINS
       !! MPI mapping
       !! mpi_allgather
 
-      COMPLEX(kind=real_4), INTENT(IN)                    :: msgout(:)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)         :: msgout(:)
          !! Rank-1 data to send
-      COMPLEX(kind=real_4), INTENT(OUT)                   :: msgin(:)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received data
-      INTEGER, INTENT(IN)                      :: rcount(:, :), rdispl(:, :), gid
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:, :), rdispl(:, :)
+      INTEGER, INTENT(IN)                      :: gid
          !! Size of sent data for every process
          !! Offset of sent data for every process
          !! Message passing environment identifier
@@ -20649,8 +20673,8 @@ CONTAINS
       !! wrapper needed to deal with interfaces as present in openmpi 1.8.1
       !! the issue is with the rank of rcount and rdispl
 
-      COMPLEX(kind=real_4), INTENT(IN)                      :: msgout(:)
-      COMPLEX(kind=real_4), INTENT(OUT)                     :: msgin(:)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)                      :: msgout(:)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)                     :: msgin(:)
       INTEGER, INTENT(IN)                      :: rsize
       INTEGER, INTENT(IN)                      :: rcount(rsize), rdispl(rsize), gid, scount
       INTEGER, INTENT(INOUT)                   :: request, ierr
@@ -20664,11 +20688,12 @@ CONTAINS
    SUBROUTINE mp_sum_scatter_cv(msgout, msgin, rcount, gid)
       !! Sums a vector and partitions the result among processes
 
-      COMPLEX(kind=real_4), INTENT(IN)                    :: msgout(:)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgout(:)
          !! Data to sum
-      COMPLEX(kind=real_4), INTENT(OUT)                   :: msgin(:)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgin(:)
          !! Received portion of summed data
-      INTEGER, INTENT(IN)                      :: rcount(:), gid
+      INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:)
+      INTEGER, INTENT(IN)                      :: gid
          !! Partition sizes of the summed data for every process
          !! Message passing environment identifier
 
@@ -20698,11 +20723,11 @@ CONTAINS
    SUBROUTINE mp_sendrecv_cv(msgin, dest, msgout, source, comm)
       !! Sends and receives vector data
 
-      COMPLEX(kind=real_4), INTENT(IN)                    :: msgin(:)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(IN)        :: msgin(:)
          !! Data to send
       INTEGER, INTENT(IN)                      :: dest
          !! Process to send data to
-      COMPLEX(kind=real_4), INTENT(OUT)                   :: msgout(:)
+      COMPLEX(kind=real_4), CONTIGUOUS, INTENT(OUT)       :: msgout(:)
          !! Received data
       INTEGER, INTENT(IN)                      :: source, comm
          !! Process from which to receive
@@ -20806,11 +20831,11 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      COMPLEX(kind=real_4), DIMENSION(:)                  :: msgin
+      COMPLEX(kind=real_4), CONTIGUOUS, DIMENSION(:)      :: msgin
          !! Vector data to send
       INTEGER, INTENT(IN)                      :: dest
          !! Which process to send to
-      COMPLEX(kind=real_4), DIMENSION(:)                  :: msgout
+      COMPLEX(kind=real_4), CONTIGUOUS, DIMENSION(:)      :: msgout
          !! Receive data into this pointer
       INTEGER, INTENT(IN)                      :: source, comm
          !! Process to receive from
@@ -20878,7 +20903,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      COMPLEX(kind=real_4), DIMENSION(:)                  :: msgin
+      COMPLEX(kind=real_4), CONTIGUOUS, DIMENSION(:)      :: msgin
       INTEGER, INTENT(IN)                      :: dest, comm
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
@@ -20932,7 +20957,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      COMPLEX(kind=real_4), DIMENSION(:, :)               :: msgin
+      COMPLEX(kind=real_4), DIMENSION(:, :), CONTIGUOUS   :: msgin
       INTEGER, INTENT(IN)                      :: dest, comm
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
@@ -20984,7 +21009,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      COMPLEX(kind=real_4), DIMENSION(:)                  :: msgout
+      COMPLEX(kind=real_4), CONTIGUOUS, DIMENSION(:)      :: msgout
       INTEGER, INTENT(IN)                      :: source, comm
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
@@ -21037,7 +21062,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      COMPLEX(kind=real_4), DIMENSION(:, :)               :: msgout
+      COMPLEX(kind=real_4), DIMENSION(:, :), CONTIGUOUS   :: msgout
       INTEGER, INTENT(IN)                      :: source, comm
       INTEGER, INTENT(out)                     :: request
       INTEGER, INTENT(in), OPTIONAL            :: tag
@@ -21086,7 +21111,7 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      COMPLEX(kind=real_4), DIMENSION(:)        :: base
+      COMPLEX(kind=real_4), CONTIGUOUS, DIMENSION(:) :: base
       INTEGER, INTENT(IN)            :: comm
       INTEGER, INTENT(INOUT)         :: win
 
@@ -21125,9 +21150,9 @@ CONTAINS
       !! @note
       !! arrays can be pointers or assumed shape, but they must be contiguous!
 
-      COMPLEX(kind=real_4), DIMENSION(:)                             :: base
+      COMPLEX(kind=real_4), CONTIGUOUS, DIMENSION(:)                 :: base
       INTEGER, INTENT(IN)                                 :: source, win
-      COMPLEX(kind=real_4), DIMENSION(:)                             :: win_data
+      COMPLEX(kind=real_4), CONTIGUOUS, DIMENSION(:)                 :: win_data
       INTEGER, INTENT(IN), OPTIONAL                       :: myproc, disp
       INTEGER, INTENT(OUT)                                :: request
       TYPE(mp_type_descriptor_type), INTENT(IN), OPTIONAL :: origin_datatype, target_datatype
@@ -21261,7 +21286,7 @@ CONTAINS
    SUBROUTINE mp_allocate_c (DATA, len, stat)
       !! Allocates special parallel memory
 
-      COMPLEX(kind=real_4), DIMENSION(:), POINTER    :: DATA
+      COMPLEX(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
          !! pointer to integer array to allocate
       INTEGER, INTENT(IN)                 :: len
          !! number of integers to allocate
@@ -21293,7 +21318,7 @@ CONTAINS
    SUBROUTINE mp_deallocate_c (DATA, stat)
       !! Deallocates special parallel memory
 
-      COMPLEX(kind=real_4), DIMENSION(:), POINTER    :: DATA
+      COMPLEX(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
          !! pointer to special memory to deallocate
       INTEGER, INTENT(OUT), OPTIONAL      :: stat
 
@@ -21576,7 +21601,7 @@ CONTAINS
       !! Allocates an array, using MPI_ALLOC_MEM ... this is hackish
       !! as the Fortran version returns an integer, which we take to be a C_PTR
 
-      COMPLEX(kind=real_4), DIMENSION(:), POINTER         :: DATA
+      COMPLEX(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
          !! data array to allocate
       INTEGER, INTENT(IN)                      :: len
          !! length (in data elements) of data array allocation
@@ -21616,7 +21641,7 @@ CONTAINS
       !! as the Fortran version takes an integer, which we hope to get by reference
 
       COMPLEX(kind=real_4), DIMENSION(:), &
-         POINTER                               :: DATA
+         POINTER, CONTIGUOUS                   :: DATA
          !! data array to allocate
       INTEGER, INTENT(OUT), OPTIONAL           :: stat
          !! allocation status result
@@ -21630,6 +21655,6 @@ CONTAINS
       IF (PRESENT(stat)) stat = 0
 #endif
    END SUBROUTINE mp_free_mem_c
-# 6089 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 6094 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 END MODULE dbcsr_mpiwrap

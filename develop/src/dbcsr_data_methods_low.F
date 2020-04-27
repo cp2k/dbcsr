@@ -148,7 +148,7 @@ CONTAINS
 
       TYPE(dbcsr_data_area_type), INTENT(INOUT)          :: area
          !! internal structure holding array pointers
-      INTEGER, DIMENSION(:), INTENT(IN)                  :: sizes
+      INTEGER, DIMENSION(:), INTENT(IN), CONTIGUOUS      :: sizes
          !! sizes to allocate to
 
       CHARACTER(len=*), PARAMETER :: routineN = 'internal_data_allocate', &
@@ -652,6 +652,11 @@ CONTAINS
 
       INTEGER                                            :: error_handle
 
+      REAL(KIND=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: r_sp
+      REAL(KIND=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: r_dp
+      COMPLEX(KIND=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: c_sp
+      COMPLEX(KIND=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: c_dp
+
 !   ---------------------------------------------------------------------------
 
       IF (careful_mod) THEN
@@ -660,13 +665,17 @@ CONTAINS
 
       SELECT CASE (area%d%data_type)
       CASE (dbcsr_type_real_4)
-         CALL memory_zero(area%d%r_sp(lb(1):), ub(1))
+         r_sp => area%d%r_sp(lb(1):ub(1))
+         CALL memory_zero(r_sp, SIZE(r_sp))
       CASE (dbcsr_type_real_8)
-         CALL memory_zero(area%d%r_dp(lb(1):), ub(1))
+         r_dp => area%d%r_dp(lb(1):ub(1))
+         CALL memory_zero(r_dp, SIZE(r_dp))
       CASE (dbcsr_type_complex_4)
-         CALL memory_zero(area%d%c_sp(lb(1):), ub(1))
+         c_sp => area%d%c_sp(lb(1):ub(1))
+         CALL memory_zero(c_sp, SIZE(c_sp))
       CASE (dbcsr_type_complex_8)
-         CALL memory_zero(area%d%c_dp(lb(1):), ub(1))
+         c_dp => area%d%c_dp(lb(1):ub(1))
+         CALL memory_zero(c_dp, SIZE(c_dp))
       CASE (dbcsr_type_real_4_2d)
          area%d%r2_sp(lb(1):ub(1), lb(2):ub(2)) = 0.0_real_4
       CASE (dbcsr_type_real_8_2d)
@@ -1121,8 +1130,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
 
 # 45 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
-# 1118 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F" 2
-# 1119 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
+# 1127 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F" 2
+# 1128 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
    SUBROUTINE set_data_p_d (area, p)
      !! Sets a data pointer.
      !!
@@ -1132,7 +1141,7 @@ CONTAINS
 
       TYPE(dbcsr_data_obj), INTENT(INOUT)      :: area
         !! target data area
-      REAL(kind=real_8), DIMENSION(:), POINTER :: p
+      REAL(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: p
         !! source data pointer
 
       CHARACTER(len=*), PARAMETER :: routineN = 'set_data_p_d', &
@@ -1230,7 +1239,7 @@ CONTAINS
 
       TYPE(dbcsr_data_obj), INTENT(IN)         :: area
         !! data area
-      REAL(kind=real_8), DIMENSION(:), POINTER :: DATA
+      REAL(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
         !! pointer to data
       INTEGER, INTENT(IN), OPTIONAL  :: lb, ub
         !! lower bound for pointer
@@ -1429,7 +1438,7 @@ CONTAINS
 
       value = encapsulated_scalar%r_dp
    END SUBROUTINE dbcsr_scalar_get_value_d
-# 1119 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
+# 1128 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
    SUBROUTINE set_data_p_s (area, p)
      !! Sets a data pointer.
      !!
@@ -1439,7 +1448,7 @@ CONTAINS
 
       TYPE(dbcsr_data_obj), INTENT(INOUT)      :: area
         !! target data area
-      REAL(kind=real_4), DIMENSION(:), POINTER :: p
+      REAL(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: p
         !! source data pointer
 
       CHARACTER(len=*), PARAMETER :: routineN = 'set_data_p_s', &
@@ -1537,7 +1546,7 @@ CONTAINS
 
       TYPE(dbcsr_data_obj), INTENT(IN)         :: area
         !! data area
-      REAL(kind=real_4), DIMENSION(:), POINTER :: DATA
+      REAL(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
         !! pointer to data
       INTEGER, INTENT(IN), OPTIONAL  :: lb, ub
         !! lower bound for pointer
@@ -1736,7 +1745,7 @@ CONTAINS
 
       value = encapsulated_scalar%r_sp
    END SUBROUTINE dbcsr_scalar_get_value_s
-# 1119 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
+# 1128 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
    SUBROUTINE set_data_p_z (area, p)
      !! Sets a data pointer.
      !!
@@ -1746,7 +1755,7 @@ CONTAINS
 
       TYPE(dbcsr_data_obj), INTENT(INOUT)      :: area
         !! target data area
-      COMPLEX(kind=real_8), DIMENSION(:), POINTER :: p
+      COMPLEX(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: p
         !! source data pointer
 
       CHARACTER(len=*), PARAMETER :: routineN = 'set_data_p_z', &
@@ -1844,7 +1853,7 @@ CONTAINS
 
       TYPE(dbcsr_data_obj), INTENT(IN)         :: area
         !! data area
-      COMPLEX(kind=real_8), DIMENSION(:), POINTER :: DATA
+      COMPLEX(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
         !! pointer to data
       INTEGER, INTENT(IN), OPTIONAL  :: lb, ub
         !! lower bound for pointer
@@ -2043,7 +2052,7 @@ CONTAINS
 
       value = encapsulated_scalar%c_dp
    END SUBROUTINE dbcsr_scalar_get_value_z
-# 1119 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
+# 1128 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
    SUBROUTINE set_data_p_c (area, p)
      !! Sets a data pointer.
      !!
@@ -2053,7 +2062,7 @@ CONTAINS
 
       TYPE(dbcsr_data_obj), INTENT(INOUT)      :: area
         !! target data area
-      COMPLEX(kind=real_4), DIMENSION(:), POINTER :: p
+      COMPLEX(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: p
         !! source data pointer
 
       CHARACTER(len=*), PARAMETER :: routineN = 'set_data_p_c', &
@@ -2151,7 +2160,7 @@ CONTAINS
 
       TYPE(dbcsr_data_obj), INTENT(IN)         :: area
         !! data area
-      COMPLEX(kind=real_4), DIMENSION(:), POINTER :: DATA
+      COMPLEX(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: DATA
         !! pointer to data
       INTEGER, INTENT(IN), OPTIONAL  :: lb, ub
         !! lower bound for pointer
@@ -2350,6 +2359,6 @@ CONTAINS
 
       value = encapsulated_scalar%c_sp
    END SUBROUTINE dbcsr_scalar_get_value_c
-# 1426 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
+# 1435 "/__w/dbcsr/dbcsr/src/data/dbcsr_data_methods_low.F"
 
 END MODULE dbcsr_data_methods_low

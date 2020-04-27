@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 1.9% of total for modules and submodules.">1211 statements</a>
+    title=" 1.9% of total for modules and submodules.">1217 statements</a>
      </li> 
      
      
@@ -641,9 +641,9 @@ private subroutine <a href='../proc/dbcsr_create_new.html'>dbcsr_create_new</a>(
   
   <td><span class="anchor" ></span>integer,</td>
   <td>intent(in),</td>
-  <td></td>
+  <td>optional</td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>row_blk_size</strong></td><td></td>
   
 </tr>
@@ -656,9 +656,9 @@ private subroutine <a href='../proc/dbcsr_create_new.html'>dbcsr_create_new</a>(
   
   <td><span class="anchor" ></span>integer,</td>
   <td>intent(in),</td>
-  <td></td>
+  <td>optional</td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>col_blk_size</strong></td><td></td>
   
 </tr>
@@ -939,7 +939,7 @@ private subroutine <a href='../proc/dbcsr_create_new.html'>dbcsr_create_new</a>(
     
     
     <h3>
-private subroutine <a href='../proc/dbcsr_create_template~2.html'>dbcsr_create_template</a>(matrix, template, name, dist, matrix_type, row_blk_size, col_blk_size, nze, data_type, data_buffer, data_memory_type, index_memory_type, max_rbs, max_cbs, row_blk_offset, col_blk_offset, reuse_arrays, mutable_work, make_index, replication_type)
+private subroutine <a href='../proc/dbcsr_create_template~2.html'>dbcsr_create_template</a>(matrix, template, name, dist, matrix_type, row_blk_size, col_blk_size, row_blk_size_obj, col_blk_size_obj, nze, data_type, data_buffer, data_memory_type, index_memory_type, max_rbs, max_cbs, row_blk_offset, col_blk_offset, reuse_arrays, mutable_work, make_index, replication_type)
     
     
    
@@ -1044,7 +1044,7 @@ private subroutine <a href='../proc/dbcsr_create_template~2.html'>dbcsr_create_t
   <td>intent(in),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>row_blk_size</strong></td><td></td>
   
 </tr>
@@ -1059,8 +1059,38 @@ private subroutine <a href='../proc/dbcsr_create_template~2.html'>dbcsr_create_t
   <td>intent(in),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>col_blk_size</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>row_blk_size_obj</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>col_blk_size_obj</strong></td><td></td>
   
 </tr>
 
@@ -1311,7 +1341,7 @@ private subroutine <a href='../proc/dbcsr_create_template~2.html'>dbcsr_create_t
   <td><span class="anchor" id="variable-p"></span>integer,</td>
   
   <td>public,</td>
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>p</strong></td><td></td><td></td><td></td>
   
 </tr>
@@ -1613,9 +1643,9 @@ private subroutine <a href='../proc/dbcsr_create_new.html'>dbcsr_create_new</a>(
   
   <td><span class="anchor" ></span>integer,</td>
   <td>intent(in),</td>
-  <td></td>
+  <td>optional</td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>row_blk_size</strong></td><td></td>
   
 </tr>
@@ -1628,9 +1658,9 @@ private subroutine <a href='../proc/dbcsr_create_new.html'>dbcsr_create_new</a>(
   
   <td><span class="anchor" ></span>integer,</td>
   <td>intent(in),</td>
-  <td></td>
+  <td>optional</td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>col_blk_size</strong></td><td></td>
   
 </tr>
@@ -1912,7 +1942,7 @@ private subroutine <a href='../proc/dbcsr_create_new.html'>dbcsr_create_new</a>(
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_create_template~2"></span><h3>
-private subroutine <a href='../proc/dbcsr_create_template~2.html'>dbcsr_create_template</a>(matrix, template, name, dist, matrix_type, row_blk_size, col_blk_size, nze, data_type, data_buffer, data_memory_type, index_memory_type, max_rbs, max_cbs, row_blk_offset, col_blk_offset, reuse_arrays, mutable_work, make_index, replication_type)
+private subroutine <a href='../proc/dbcsr_create_template~2.html'>dbcsr_create_template</a>(matrix, template, name, dist, matrix_type, row_blk_size, col_blk_size, row_blk_size_obj, col_blk_size_obj, nze, data_type, data_buffer, data_memory_type, index_memory_type, max_rbs, max_cbs, row_blk_offset, col_blk_offset, reuse_arrays, mutable_work, make_index, replication_type)
     
     
    
@@ -2019,7 +2049,7 @@ private subroutine <a href='../proc/dbcsr_create_template~2.html'>dbcsr_create_t
   <td>intent(in),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>row_blk_size</strong></td><td></td>
   
 </tr>
@@ -2034,8 +2064,38 @@ private subroutine <a href='../proc/dbcsr_create_template~2.html'>dbcsr_create_t
   <td>intent(in),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>col_blk_size</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>row_blk_size_obj</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>col_blk_size_obj</strong></td><td></td>
   
 </tr>
 

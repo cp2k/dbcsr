@@ -22,7 +22,7 @@ MODULE dbcsr_array_sort
    !! DBCSR:
    !! Please use the interface defined in dbcsr_toollib.F for calling sort().
 
-   USE dbcsr_kinds, ONLY: int_4, real_4, real_8, int_8
+   USE dbcsr_kinds, ONLY: int_8, real_4, real_8, int_4
 
    IMPLICIT NONE
    PRIVATE
@@ -55,8 +55,8 @@ CONTAINS
          !! returns elements-indices before the sort
 
       integer :: i
-      REAL(kind=real_8), pointer                   :: tmp_arr(:)
-      integer, pointer                   :: tmp_idx(:)
+      REAL(kind=real_8), pointer, CONTIGUOUS     :: tmp_arr(:)
+      integer, pointer, CONTIGUOUS       :: tmp_idx(:)
 
       if (n == 0) return ! for some reason this is a frequent case in cp2k
 
@@ -168,8 +168,8 @@ CONTAINS
          !! returns elements-indices before the sort
 
       integer :: i
-      REAL(kind=real_4), pointer                   :: tmp_arr(:)
-      integer, pointer                   :: tmp_idx(:)
+      REAL(kind=real_4), pointer, CONTIGUOUS     :: tmp_arr(:)
+      integer, pointer, CONTIGUOUS       :: tmp_idx(:)
 
       if (n == 0) return ! for some reason this is a frequent case in cp2k
 
@@ -281,8 +281,8 @@ CONTAINS
          !! returns elements-indices before the sort
 
       integer :: i
-      INTEGER(kind=int_4), pointer                   :: tmp_arr(:)
-      integer, pointer                   :: tmp_idx(:)
+      INTEGER(kind=int_4), pointer, CONTIGUOUS     :: tmp_arr(:)
+      integer, pointer, CONTIGUOUS       :: tmp_idx(:)
 
       if (n == 0) return ! for some reason this is a frequent case in cp2k
 
@@ -394,8 +394,8 @@ CONTAINS
          !! returns elements-indices before the sort
 
       integer :: i
-      INTEGER(kind=int_8), pointer                   :: tmp_arr(:)
-      integer, pointer                   :: tmp_idx(:)
+      INTEGER(kind=int_8), pointer, CONTIGUOUS     :: tmp_arr(:)
+      integer, pointer, CONTIGUOUS       :: tmp_idx(:)
 
       if (n == 0) return ! for some reason this is a frequent case in cp2k
 

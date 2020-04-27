@@ -314,7 +314,7 @@ private subroutine <a href='../proc/mp_igatherv_iv.html'>mp_igatherv_iv</a>(send
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>sendbuf</strong></td><td><p>Data to send to root</p></td>
   
 </tr>
@@ -345,7 +345,7 @@ private subroutine <a href='../proc/mp_igatherv_iv.html'>mp_igatherv_iv</a>(send
   <td>intent(out),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>recvbuf</strong></td><td><p>Received data (on root)</p></td>
   
 </tr>
@@ -360,7 +360,7 @@ private subroutine <a href='../proc/mp_igatherv_iv.html'>mp_igatherv_iv</a>(send
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>recvcounts</strong></td><td><p>Sizes of data received from processes
  Offsets of data received from processes</p></td>
   
@@ -376,7 +376,7 @@ private subroutine <a href='../proc/mp_igatherv_iv.html'>mp_igatherv_iv</a>(send
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>displs</strong></td><td><p>Sizes of data received from processes
  Offsets of data received from processes</p></td>
   
@@ -483,7 +483,7 @@ private subroutine <a href='../proc/mp_igatherv_lv.html'>mp_igatherv_lv</a>(send
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>sendbuf</strong></td><td><p>Data to send to root</p></td>
   
 </tr>
@@ -514,7 +514,7 @@ private subroutine <a href='../proc/mp_igatherv_lv.html'>mp_igatherv_lv</a>(send
   <td>intent(out),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>recvbuf</strong></td><td><p>Received data (on root)</p></td>
   
 </tr>
@@ -529,7 +529,7 @@ private subroutine <a href='../proc/mp_igatherv_lv.html'>mp_igatherv_lv</a>(send
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>recvcounts</strong></td><td><p>Sizes of data received from processes
  Offsets of data received from processes</p></td>
   
@@ -545,7 +545,7 @@ private subroutine <a href='../proc/mp_igatherv_lv.html'>mp_igatherv_lv</a>(send
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>displs</strong></td><td><p>Sizes of data received from processes
  Offsets of data received from processes</p></td>
   
@@ -652,7 +652,7 @@ private subroutine <a href='../proc/mp_igatherv_rv.html'>mp_igatherv_rv</a>(send
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>sendbuf</strong></td><td><p>Data to send to root</p></td>
   
 </tr>
@@ -683,7 +683,7 @@ private subroutine <a href='../proc/mp_igatherv_rv.html'>mp_igatherv_rv</a>(send
   <td>intent(out),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>recvbuf</strong></td><td><p>Received data (on root)</p></td>
   
 </tr>
@@ -698,7 +698,7 @@ private subroutine <a href='../proc/mp_igatherv_rv.html'>mp_igatherv_rv</a>(send
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>recvcounts</strong></td><td><p>Sizes of data received from processes
  Offsets of data received from processes</p></td>
   
@@ -714,7 +714,7 @@ private subroutine <a href='../proc/mp_igatherv_rv.html'>mp_igatherv_rv</a>(send
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>displs</strong></td><td><p>Sizes of data received from processes
  Offsets of data received from processes</p></td>
   
@@ -821,7 +821,7 @@ private subroutine <a href='../proc/mp_igatherv_dv.html'>mp_igatherv_dv</a>(send
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>sendbuf</strong></td><td><p>Data to send to root</p></td>
   
 </tr>
@@ -852,7 +852,7 @@ private subroutine <a href='../proc/mp_igatherv_dv.html'>mp_igatherv_dv</a>(send
   <td>intent(out),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>recvbuf</strong></td><td><p>Received data (on root)</p></td>
   
 </tr>
@@ -867,7 +867,7 @@ private subroutine <a href='../proc/mp_igatherv_dv.html'>mp_igatherv_dv</a>(send
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>recvcounts</strong></td><td><p>Sizes of data received from processes
  Offsets of data received from processes</p></td>
   
@@ -883,7 +883,7 @@ private subroutine <a href='../proc/mp_igatherv_dv.html'>mp_igatherv_dv</a>(send
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>displs</strong></td><td><p>Sizes of data received from processes
  Offsets of data received from processes</p></td>
   
@@ -990,7 +990,7 @@ private subroutine <a href='../proc/mp_igatherv_cv.html'>mp_igatherv_cv</a>(send
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>sendbuf</strong></td><td><p>Data to send to root</p></td>
   
 </tr>
@@ -1021,7 +1021,7 @@ private subroutine <a href='../proc/mp_igatherv_cv.html'>mp_igatherv_cv</a>(send
   <td>intent(out),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>recvbuf</strong></td><td><p>Received data (on root)</p></td>
   
 </tr>
@@ -1036,7 +1036,7 @@ private subroutine <a href='../proc/mp_igatherv_cv.html'>mp_igatherv_cv</a>(send
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>recvcounts</strong></td><td><p>Sizes of data received from processes
  Offsets of data received from processes</p></td>
   
@@ -1052,7 +1052,7 @@ private subroutine <a href='../proc/mp_igatherv_cv.html'>mp_igatherv_cv</a>(send
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>displs</strong></td><td><p>Sizes of data received from processes
  Offsets of data received from processes</p></td>
   
@@ -1159,7 +1159,7 @@ private subroutine <a href='../proc/mp_igatherv_zv.html'>mp_igatherv_zv</a>(send
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>sendbuf</strong></td><td><p>Data to send to root</p></td>
   
 </tr>
@@ -1190,7 +1190,7 @@ private subroutine <a href='../proc/mp_igatherv_zv.html'>mp_igatherv_zv</a>(send
   <td>intent(out),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>recvbuf</strong></td><td><p>Received data (on root)</p></td>
   
 </tr>
@@ -1205,7 +1205,7 @@ private subroutine <a href='../proc/mp_igatherv_zv.html'>mp_igatherv_zv</a>(send
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>recvcounts</strong></td><td><p>Sizes of data received from processes
  Offsets of data received from processes</p></td>
   
@@ -1221,7 +1221,7 @@ private subroutine <a href='../proc/mp_igatherv_zv.html'>mp_igatherv_zv</a>(send
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>displs</strong></td><td><p>Sizes of data received from processes
  Offsets of data received from processes</p></td>
   

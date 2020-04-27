@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 2.1% of total for modules and submodules.">1300 statements</a>
+    title=" 2.1% of total for modules and submodules.">1301 statements</a>
      </li> 
      
      
@@ -2505,7 +2505,7 @@ private subroutine <a href='../proc/prepare_buffers_d.html'>prepare_buffers_d</a
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, POINTER</td><td>::</td>
   <td><strong>row_img_dist</strong></td><td></td>
   
 </tr>
@@ -2520,7 +2520,7 @@ private subroutine <a href='../proc/prepare_buffers_d.html'>prepare_buffers_d</a
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, POINTER</td><td>::</td>
   <td><strong>col_img_dist</strong></td><td></td>
   
 </tr>
@@ -2550,7 +2550,7 @@ private subroutine <a href='../proc/prepare_buffers_d.html'>prepare_buffers_d</a
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td>DIMENSION(:, :), CONTIGUOUS, POINTER</td><td>::</td>
   <td><strong>blacs2mpi</strong></td><td></td>
   
 </tr>
@@ -2640,7 +2640,7 @@ private subroutine <a href='../proc/prepare_buffers_d.html'>prepare_buffers_d</a
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, POINTER</td><td>::</td>
   <td><strong>row_dist</strong></td><td></td>
   
 </tr>
@@ -2655,7 +2655,7 @@ private subroutine <a href='../proc/prepare_buffers_d.html'>prepare_buffers_d</a
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, POINTER</td><td>::</td>
   <td><strong>col_dist</strong></td><td></td>
   
 </tr>
@@ -2790,7 +2790,7 @@ private subroutine <a href='../proc/prepare_buffers_d.html'>prepare_buffers_d</a
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>data_area</strong></td><td></td>
   
 </tr>
@@ -3224,7 +3224,7 @@ private subroutine <a href='../proc/prepare_buffers_s.html'>prepare_buffers_s</a
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, POINTER</td><td>::</td>
   <td><strong>row_img_dist</strong></td><td></td>
   
 </tr>
@@ -3239,7 +3239,7 @@ private subroutine <a href='../proc/prepare_buffers_s.html'>prepare_buffers_s</a
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, POINTER</td><td>::</td>
   <td><strong>col_img_dist</strong></td><td></td>
   
 </tr>
@@ -3269,7 +3269,7 @@ private subroutine <a href='../proc/prepare_buffers_s.html'>prepare_buffers_s</a
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td>DIMENSION(:, :), CONTIGUOUS, POINTER</td><td>::</td>
   <td><strong>blacs2mpi</strong></td><td></td>
   
 </tr>
@@ -3359,7 +3359,7 @@ private subroutine <a href='../proc/prepare_buffers_s.html'>prepare_buffers_s</a
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, POINTER</td><td>::</td>
   <td><strong>row_dist</strong></td><td></td>
   
 </tr>
@@ -3374,7 +3374,7 @@ private subroutine <a href='../proc/prepare_buffers_s.html'>prepare_buffers_s</a
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, POINTER</td><td>::</td>
   <td><strong>col_dist</strong></td><td></td>
   
 </tr>
@@ -3509,7 +3509,7 @@ private subroutine <a href='../proc/prepare_buffers_s.html'>prepare_buffers_s</a
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>data_area</strong></td><td></td>
   
 </tr>
@@ -3943,7 +3943,7 @@ private subroutine <a href='../proc/prepare_buffers_z.html'>prepare_buffers_z</a
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, POINTER</td><td>::</td>
   <td><strong>row_img_dist</strong></td><td></td>
   
 </tr>
@@ -3958,7 +3958,7 @@ private subroutine <a href='../proc/prepare_buffers_z.html'>prepare_buffers_z</a
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, POINTER</td><td>::</td>
   <td><strong>col_img_dist</strong></td><td></td>
   
 </tr>
@@ -3988,7 +3988,7 @@ private subroutine <a href='../proc/prepare_buffers_z.html'>prepare_buffers_z</a
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td>DIMENSION(:, :), CONTIGUOUS, POINTER</td><td>::</td>
   <td><strong>blacs2mpi</strong></td><td></td>
   
 </tr>
@@ -4078,7 +4078,7 @@ private subroutine <a href='../proc/prepare_buffers_z.html'>prepare_buffers_z</a
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, POINTER</td><td>::</td>
   <td><strong>row_dist</strong></td><td></td>
   
 </tr>
@@ -4093,7 +4093,7 @@ private subroutine <a href='../proc/prepare_buffers_z.html'>prepare_buffers_z</a
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, POINTER</td><td>::</td>
   <td><strong>col_dist</strong></td><td></td>
   
 </tr>
@@ -4228,7 +4228,7 @@ private subroutine <a href='../proc/prepare_buffers_z.html'>prepare_buffers_z</a
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>data_area</strong></td><td></td>
   
 </tr>
@@ -4662,7 +4662,7 @@ private subroutine <a href='../proc/prepare_buffers_c.html'>prepare_buffers_c</a
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, POINTER</td><td>::</td>
   <td><strong>row_img_dist</strong></td><td></td>
   
 </tr>
@@ -4677,7 +4677,7 @@ private subroutine <a href='../proc/prepare_buffers_c.html'>prepare_buffers_c</a
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, POINTER</td><td>::</td>
   <td><strong>col_img_dist</strong></td><td></td>
   
 </tr>
@@ -4707,7 +4707,7 @@ private subroutine <a href='../proc/prepare_buffers_c.html'>prepare_buffers_c</a
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td>DIMENSION(:, :), CONTIGUOUS, POINTER</td><td>::</td>
   <td><strong>blacs2mpi</strong></td><td></td>
   
 </tr>
@@ -4797,7 +4797,7 @@ private subroutine <a href='../proc/prepare_buffers_c.html'>prepare_buffers_c</a
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, POINTER</td><td>::</td>
   <td><strong>row_dist</strong></td><td></td>
   
 </tr>
@@ -4812,7 +4812,7 @@ private subroutine <a href='../proc/prepare_buffers_c.html'>prepare_buffers_c</a
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, POINTER</td><td>::</td>
   <td><strong>col_dist</strong></td><td></td>
   
 </tr>
@@ -4947,7 +4947,7 @@ private subroutine <a href='../proc/prepare_buffers_c.html'>prepare_buffers_c</a
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>data_area</strong></td><td></td>
   
 </tr>

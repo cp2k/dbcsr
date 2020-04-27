@@ -230,7 +230,7 @@ private subroutine mp_free_mem_i(DATA, stat)
   <td></td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>DATA</strong></td><td><p>data array to allocate</p></td>
   
 </tr>
@@ -322,7 +322,7 @@ private subroutine mp_free_mem_i(DATA, stat)
       <span class="c">!! as the Fortran version takes an integer, which we hope to get by reference</span>
 
       <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="p">&amp;</span>
-         <span class="k">POINTER</span>                               <span class="kd">::</span> <span class="k">DATA</span>
+         <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>                   <span class="kd">::</span> <span class="k">DATA</span>
          <span class="c">!! data array to allocate</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>           <span class="kd">::</span> <span class="nb">stat</span>
          <span class="c">!! allocation status result</span>

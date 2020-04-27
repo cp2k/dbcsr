@@ -273,10 +273,10 @@ CONTAINS
       CALL dbcsr_mp_new_transposed(mp_env_tr, dbcsr_distribution_mp( &
                                    dist_normal))
       CALL dbcsr_distribution_new(dist_tr, mp_env_tr, &
-                                  dbcsr_distribution_col_dist(dist_normal), &
-                                  dbcsr_distribution_row_dist(dist_normal), &
-                                  dbcsr_distribution_local_cols(dist_normal), &
-                                  dbcsr_distribution_local_rows(dist_normal))
+                                  dist_normal%d%col_dist_block, &
+                                  dist_normal%d%row_dist_block, &
+                                  dist_normal%d%local_cols, &
+                                  dist_normal%d%local_rows)
       CALL dbcsr_mp_release(mp_env_tr)
    END SUBROUTINE dbcsr_transpose_distribution
 
@@ -290,7 +290,7 @@ CONTAINS
 
       INTEGER                                            :: ncols_tr, npcols_tr, nprows_tr, &
                                                             nrows_tr, vgcd, vlcm
-      INTEGER, DIMENSION(:), POINTER                     :: col_dist_data_tr, col_img_data_tr, &
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: col_dist_data_tr, col_img_data_tr, &
                                                             row_dist_data_tr, row_img_data_tr
       TYPE(dbcsr_mp_obj)                                 :: mp_env
 
@@ -368,7 +368,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(OUT)                 :: new_bins, images
          !! new real distribution
          !! new image distribution
-      INTEGER, DIMENSION(:), INTENT(IN)                  :: source_bins
+      INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: source_bins
          !! Basis for the new distribution and images
       INTEGER, INTENT(IN)                                :: nbins, multiplicity, nimages
          !! number of bins in the new real distribution

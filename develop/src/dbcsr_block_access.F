@@ -697,7 +697,7 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_2d_block_p_d', &
                                      routineP = moduleN//':'//routineN
 
-      REAL(kind=real_8), DIMENSION(:), POINTER           :: block_1d
+      REAL(kind=real_8), DIMENSION(:), POINTER         :: block_1d
       INTEGER                                  :: rsize, csize, &
                                                   blk, nze, offset, &
                                                   stored_row, &
@@ -950,7 +950,7 @@ CONTAINS
       INTEGER, INTENT(IN)                      :: row, col
         !! the logical row
         !! the logical column
-      REAL(kind=real_8), DIMENSION(:), INTENT(IN)        :: block
+      REAL(kind=real_8), DIMENSION(:), CONTIGUOUS, INTENT(IN) :: block
         !! the block to put
       INTEGER, DIMENSION(2), OPTIONAL, INTENT(INOUT) :: lb_row_col
       LOGICAL, INTENT(IN), OPTIONAL            :: transposed, summation
@@ -970,7 +970,7 @@ CONTAINS
                                                   stored_row, stored_col, &
                                                   iw, nwms
       LOGICAL                                  :: found, tr, do_sum, tr_diff
-      REAL(kind=real_8), DIMENSION(:), POINTER           :: block_1d
+      REAL(kind=real_8), DIMENSION(:), POINTER         :: block_1d
       INTEGER(KIND=int_8)                      :: my_flop
 
 !   ---------------------------------------------------------------------------
@@ -1160,7 +1160,7 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_2d_block_p_s', &
                                      routineP = moduleN//':'//routineN
 
-      REAL(kind=real_4), DIMENSION(:), POINTER           :: block_1d
+      REAL(kind=real_4), DIMENSION(:), POINTER         :: block_1d
       INTEGER                                  :: rsize, csize, &
                                                   blk, nze, offset, &
                                                   stored_row, &
@@ -1413,7 +1413,7 @@ CONTAINS
       INTEGER, INTENT(IN)                      :: row, col
         !! the logical row
         !! the logical column
-      REAL(kind=real_4), DIMENSION(:), INTENT(IN)        :: block
+      REAL(kind=real_4), DIMENSION(:), CONTIGUOUS, INTENT(IN) :: block
         !! the block to put
       INTEGER, DIMENSION(2), OPTIONAL, INTENT(INOUT) :: lb_row_col
       LOGICAL, INTENT(IN), OPTIONAL            :: transposed, summation
@@ -1433,7 +1433,7 @@ CONTAINS
                                                   stored_row, stored_col, &
                                                   iw, nwms
       LOGICAL                                  :: found, tr, do_sum, tr_diff
-      REAL(kind=real_4), DIMENSION(:), POINTER           :: block_1d
+      REAL(kind=real_4), DIMENSION(:), POINTER         :: block_1d
       INTEGER(KIND=int_8)                      :: my_flop
 
 !   ---------------------------------------------------------------------------
@@ -1623,7 +1623,7 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_2d_block_p_z', &
                                      routineP = moduleN//':'//routineN
 
-      COMPLEX(kind=real_8), DIMENSION(:), POINTER           :: block_1d
+      COMPLEX(kind=real_8), DIMENSION(:), POINTER         :: block_1d
       INTEGER                                  :: rsize, csize, &
                                                   blk, nze, offset, &
                                                   stored_row, &
@@ -1876,7 +1876,7 @@ CONTAINS
       INTEGER, INTENT(IN)                      :: row, col
         !! the logical row
         !! the logical column
-      COMPLEX(kind=real_8), DIMENSION(:), INTENT(IN)        :: block
+      COMPLEX(kind=real_8), DIMENSION(:), CONTIGUOUS, INTENT(IN) :: block
         !! the block to put
       INTEGER, DIMENSION(2), OPTIONAL, INTENT(INOUT) :: lb_row_col
       LOGICAL, INTENT(IN), OPTIONAL            :: transposed, summation
@@ -1896,7 +1896,7 @@ CONTAINS
                                                   stored_row, stored_col, &
                                                   iw, nwms
       LOGICAL                                  :: found, tr, do_sum, tr_diff
-      COMPLEX(kind=real_8), DIMENSION(:), POINTER           :: block_1d
+      COMPLEX(kind=real_8), DIMENSION(:), POINTER         :: block_1d
       INTEGER(KIND=int_8)                      :: my_flop
 
 !   ---------------------------------------------------------------------------
@@ -2086,7 +2086,7 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_2d_block_p_c', &
                                      routineP = moduleN//':'//routineN
 
-      COMPLEX(kind=real_4), DIMENSION(:), POINTER           :: block_1d
+      COMPLEX(kind=real_4), DIMENSION(:), POINTER         :: block_1d
       INTEGER                                  :: rsize, csize, &
                                                   blk, nze, offset, &
                                                   stored_row, &
@@ -2339,7 +2339,7 @@ CONTAINS
       INTEGER, INTENT(IN)                      :: row, col
         !! the logical row
         !! the logical column
-      COMPLEX(kind=real_4), DIMENSION(:), INTENT(IN)        :: block
+      COMPLEX(kind=real_4), DIMENSION(:), CONTIGUOUS, INTENT(IN) :: block
         !! the block to put
       INTEGER, DIMENSION(2), OPTIONAL, INTENT(INOUT) :: lb_row_col
       LOGICAL, INTENT(IN), OPTIONAL            :: transposed, summation
@@ -2359,7 +2359,7 @@ CONTAINS
                                                   stored_row, stored_col, &
                                                   iw, nwms
       LOGICAL                                  :: found, tr, do_sum, tr_diff
-      COMPLEX(kind=real_4), DIMENSION(:), POINTER           :: block_1d
+      COMPLEX(kind=real_4), DIMENSION(:), POINTER         :: block_1d
       INTEGER(KIND=int_8)                      :: my_flop
 
 !   ---------------------------------------------------------------------------

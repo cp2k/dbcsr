@@ -324,7 +324,7 @@ CONTAINS
                                        name, sparsity, mp_group, data_type, symmetry, dist)
       !! Creates a random matrix.
       TYPE(dbcsr_type), INTENT(out)                      :: matrix
-      INTEGER, DIMENSION(:), INTENT(in), POINTER         :: row_blk_sizes, col_blk_sizes
+      INTEGER, DIMENSION(:), INTENT(in), POINTER, CONTIGUOUS :: row_blk_sizes, col_blk_sizes
       CHARACTER(len=*), INTENT(in)                       :: name
       REAL(kind=real_8), INTENT(in)                      :: sparsity
       INTEGER, INTENT(in)                                :: mp_group
@@ -481,7 +481,7 @@ CONTAINS
       INTEGER                                            :: block_size, current_sum, nblocks, &
                                                             nsize_mix, selector
       INTEGER, ALLOCATABLE, DIMENSION(:, :)              :: mixer
-      INTEGER, DIMENSION(:), POINTER                     :: sizes
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: sizes
 
 !
 
@@ -547,7 +547,7 @@ CONTAINS
       INTEGER, INTENT(in)                                :: nblkrows, nblkcols
       INTEGER, INTENT(in), OPTIONAL                      :: group
 
-      INTEGER, DIMENSION(:), POINTER                     :: col_dist, row_dist
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: col_dist, row_dist
       TYPE(dbcsr_mp_obj)                                 :: mp_env
 
       CALL dbcsr_make_null_mp(mp_env, group=group)

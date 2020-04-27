@@ -235,7 +235,7 @@ public subroutine hybrid_alltoall_c1(sb, scount, sdispl, rb, rcount, rdispl, mp_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), TARGET</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, TARGET</td><td>::</td>
   <td><strong>sb</strong></td><td></td>
   
 </tr>
@@ -250,7 +250,7 @@ public subroutine hybrid_alltoall_c1(sb, scount, sdispl, rb, rcount, rdispl, mp_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>scount</strong></td><td></td>
   
 </tr>
@@ -265,7 +265,7 @@ public subroutine hybrid_alltoall_c1(sb, scount, sdispl, rb, rcount, rdispl, mp_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>sdispl</strong></td><td></td>
   
 </tr>
@@ -280,7 +280,7 @@ public subroutine hybrid_alltoall_c1(sb, scount, sdispl, rb, rcount, rdispl, mp_
   <td>intent(inout),</td>
   <td></td>
   
-  <td>DIMENSION(:), TARGET</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, TARGET</td><td>::</td>
   <td><strong>rb</strong></td><td></td>
   
 </tr>
@@ -295,7 +295,7 @@ public subroutine hybrid_alltoall_c1(sb, scount, sdispl, rb, rcount, rdispl, mp_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>rcount</strong></td><td></td>
   
 </tr>
@@ -310,7 +310,7 @@ public subroutine hybrid_alltoall_c1(sb, scount, sdispl, rb, rcount, rdispl, mp_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>rdispl</strong></td><td></td>
   
 </tr>
@@ -321,7 +321,7 @@ public subroutine hybrid_alltoall_c1(sb, scount, sdispl, rb, rcount, rdispl, mp_
   
 <tr>
   
-  <td><span class="anchor" id="variable-mp_env~36"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
+  <td><span class="anchor" id="variable-mp_env~37"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -460,11 +460,11 @@ public subroutine hybrid_alltoall_c1(sb, scount, sdispl, rb, rcount, rdispl, mp_
       <span class="c">!! see mp_alltoall</span>
 
       <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="p">&amp;</span>
-         <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">TARGET</span>                     <span class="kd">::</span> <span class="n">sb</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">scount</span><span class="p">,</span> <span class="n">sdispl</span>
+         <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">TARGET</span>        <span class="kd">::</span> <span class="n">sb</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">scount</span><span class="p">,</span> <span class="n">sdispl</span>
       <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="p">&amp;</span>
-         <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">),</span> <span class="k">TARGET</span>                  <span class="kd">::</span> <span class="n">rb</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">rcount</span><span class="p">,</span> <span class="n">rdispl</span>
+         <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">),</span> <span class="k">TARGET</span>     <span class="kd">::</span> <span class="n">rb</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">rcount</span><span class="p">,</span> <span class="n">rdispl</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>           <span class="kd">::</span> <span class="n">mp_env</span>
          <span class="c">!! MP Environment</span>
       <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>            <span class="kd">::</span> <span class="n">most_ptp</span><span class="p">,</span> <span class="n">remainder_ptp</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -481,10 +481,10 @@ public subroutine hybrid_alltoall_c1(sb, scount, sdispl, rb, rcount, rdispl, mp_
                  <span class="n">prow</span><span class="p">,</span> <span class="n">pcol</span><span class="p">,</span> <span class="n">send_cnt</span><span class="p">,</span> <span class="n">recv_cnt</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">i</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:)</span> <span class="kd">::</span> <span class="n">all_rr</span><span class="p">,</span> <span class="n">all_sr</span><span class="p">,</span> <span class="n">col_rr</span><span class="p">,</span> <span class="n">col_sr</span><span class="p">,</span> <span class="p">&amp;</span>
                                             <span class="n">new_rcount</span><span class="p">,</span> <span class="n">new_rdispl</span><span class="p">,</span> <span class="n">new_scount</span><span class="p">,</span> <span class="n">new_sdispl</span><span class="p">,</span> <span class="n">row_rr</span><span class="p">,</span> <span class="n">row_sr</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">POINTER</span>        <span class="kd">::</span> <span class="n">pgrid</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">pgrid</span>
       <span class="kt">LOGICAL</span>                                  <span class="kd">::</span> <span class="n">most_collective</span><span class="p">,</span> <span class="p">&amp;</span>
                                                   <span class="n">remainder_collective</span><span class="p">,</span> <span class="n">no_h</span>
-      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>           <span class="kd">::</span> <span class="n">send_data_p</span><span class="p">,</span> <span class="n">recv_data_p</span>
+      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">send_data_p</span><span class="p">,</span> <span class="n">recv_data_p</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">mpe</span>
 
       <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_mp_has_subgroups</span><span class="p">(</span><span class="n">mp_env</span><span class="p">))</span> <span class="k">THEN</span>

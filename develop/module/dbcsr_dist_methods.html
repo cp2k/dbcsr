@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.5% of total for modules and submodules.">344 statements</a>
+    title=" 0.6% of total for modules and submodules.">361 statements</a>
      </li> 
      
      
@@ -246,6 +246,8 @@
     <div id="subs-0" class="panel-collapse collapse">
       
       <a class="list-group-item" href="../module/dbcsr_dist_methods.html#proc-dbcsr_distribution_new_template">dbcsr_distribution_new_template</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_dist_methods.html#proc-dbcsr_distribution_new_obj">dbcsr_distribution_new_obj</a>
       
       <a class="list-group-item" href="../module/dbcsr_dist_methods.html#proc-dbcsr_distribution_new_low">dbcsr_distribution_new_low</a>
       
@@ -416,6 +418,8 @@
     <div id="subs-1" class="panel-collapse collapse">
       
       <a class="list-group-item" href="../module/dbcsr_dist_methods.html#proc-dbcsr_distribution_new_template">dbcsr_distribution_new_template</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_dist_methods.html#proc-dbcsr_distribution_new_obj">dbcsr_distribution_new_obj</a>
       
       <a class="list-group-item" href="../module/dbcsr_dist_methods.html#proc-dbcsr_distribution_new_low">dbcsr_distribution_new_low</a>
       
@@ -599,7 +603,7 @@ private subroutine <a href='../proc/dbcsr_distribution_new_template.html'>dbcsr_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>row_dist</strong></td><td></td>
   
 </tr>
@@ -614,7 +618,7 @@ private subroutine <a href='../proc/dbcsr_distribution_new_template.html'>dbcsr_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>col_dist</strong></td><td></td>
   
 </tr>
@@ -631,6 +635,138 @@ private subroutine <a href='../proc/dbcsr_distribution_new_template.html'>dbcsr_
   
   <td></td><td>::</td>
   <td><strong>reuse_arrays</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/dbcsr_distribution_new_obj.html'>dbcsr_distribution_new_obj</a>(dist, mp_env, row_dist_block, col_dist_block, local_rows, local_cols)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Creates new distribution
+ Workaround for CCE compilation</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dist</strong></td><td><p>distribution</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mp_env</strong></td><td><p>multiprocessing environment</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>row_dist_block</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>col_dist_block</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>local_rows</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>local_cols</strong></td><td></td>
   
 </tr>
 
@@ -715,7 +851,7 @@ private subroutine <a href='../proc/dbcsr_distribution_new_low.html'>dbcsr_distr
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>row_dist_block</strong></td><td></td>
   
 </tr>
@@ -730,7 +866,7 @@ private subroutine <a href='../proc/dbcsr_distribution_new_low.html'>dbcsr_distr
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>col_dist_block</strong></td><td></td>
   
 </tr>
@@ -745,7 +881,7 @@ private subroutine <a href='../proc/dbcsr_distribution_new_low.html'>dbcsr_distr
   <td>intent(in),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>local_rows</strong></td><td></td>
   
 </tr>
@@ -760,7 +896,7 @@ private subroutine <a href='../proc/dbcsr_distribution_new_low.html'>dbcsr_distr
   <td>intent(in),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>local_cols</strong></td><td></td>
   
 </tr>
@@ -1038,7 +1174,7 @@ public function <a href='../proc/dbcsr_distribution_row_dist.html'>dbcsr_distrib
   
   
      <h4>Return Value <small>integer,
-  DIMENSION(:), POINTER</small></h4>
+  DIMENSION(:), POINTER, CONTIGUOUS</small></h4>
   
     
 
@@ -1098,7 +1234,7 @@ public function <a href='../proc/dbcsr_distribution_col_dist.html'>dbcsr_distrib
   
   
      <h4>Return Value <small>integer,
-  DIMENSION(:), POINTER</small></h4>
+  DIMENSION(:), POINTER, CONTIGUOUS</small></h4>
   
     
 
@@ -1398,7 +1534,7 @@ public function <a href='../proc/dbcsr_distribution_local_rows.html'>dbcsr_distr
   
   
      <h4>Return Value <small>integer,
-  DIMENSION(:), POINTER</small></h4>
+  DIMENSION(:), POINTER, CONTIGUOUS</small></h4>
   
     
 
@@ -1518,7 +1654,7 @@ public function <a href='../proc/dbcsr_distribution_local_cols.html'>dbcsr_distr
   
   
      <h4>Return Value <small>integer,
-  DIMENSION(:), POINTER</small></h4>
+  DIMENSION(:), POINTER, CONTIGUOUS</small></h4>
   
     
 
@@ -2088,7 +2224,7 @@ private subroutine <a href='../proc/dbcsr_distribution_new_template.html'>dbcsr_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>row_dist</strong></td><td></td>
   
 </tr>
@@ -2103,7 +2239,7 @@ private subroutine <a href='../proc/dbcsr_distribution_new_template.html'>dbcsr_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>col_dist</strong></td><td></td>
   
 </tr>
@@ -2120,6 +2256,141 @@ private subroutine <a href='../proc/dbcsr_distribution_new_template.html'>dbcsr_
   
   <td></td><td>::</td>
   <td><strong>reuse_arrays</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_distribution_new_obj"></span><h3>
+private subroutine <a href='../proc/dbcsr_distribution_new_obj.html'>dbcsr_distribution_new_obj</a>(dist, mp_env, row_dist_block, col_dist_block, local_rows, local_cols)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Creates new distribution
+ Workaround for CCE compilation</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dist</strong></td><td><p>distribution</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mp_env</strong></td><td><p>multiprocessing environment</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>row_dist_block</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>col_dist_block</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>local_rows</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>local_cols</strong></td><td></td>
   
 </tr>
 
@@ -2207,7 +2478,7 @@ private subroutine <a href='../proc/dbcsr_distribution_new_low.html'>dbcsr_distr
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>row_dist_block</strong></td><td></td>
   
 </tr>
@@ -2222,7 +2493,7 @@ private subroutine <a href='../proc/dbcsr_distribution_new_low.html'>dbcsr_distr
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>col_dist_block</strong></td><td></td>
   
 </tr>
@@ -2237,7 +2508,7 @@ private subroutine <a href='../proc/dbcsr_distribution_new_low.html'>dbcsr_distr
   <td>intent(in),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>local_rows</strong></td><td></td>
   
 </tr>
@@ -2252,7 +2523,7 @@ private subroutine <a href='../proc/dbcsr_distribution_new_low.html'>dbcsr_distr
   <td>intent(in),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>local_cols</strong></td><td></td>
   
 </tr>
@@ -2699,7 +2970,7 @@ public subroutine <a href='../proc/dbcsr_distribution_make_threads.html'>dbcsr_d
   <td>intent(in),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>row_sizes</strong></td><td><p>row block sizes</p></td>
   
 </tr>

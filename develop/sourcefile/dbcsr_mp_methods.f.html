@@ -541,7 +541,7 @@
 <a name="ln-283"></a>
 <a name="ln-284"></a>   <span class="k">FUNCTION </span><span class="n">dbcsr_mp_pgrid</span><span class="p">(</span><span class="n">mp_env</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">pgrid</span><span class="p">)</span>
 <a name="ln-285"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                     <span class="kd">::</span> <span class="n">mp_env</span>
-<a name="ln-286"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">POINTER</span>                  <span class="kd">::</span> <span class="n">pgrid</span>
+<a name="ln-286"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>      <span class="kd">::</span> <span class="n">pgrid</span>
 <a name="ln-287"></a>
 <a name="ln-288"></a>      <span class="n">pgrid</span> <span class="o">=&gt;</span> <span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">pgrid</span>
 <a name="ln-289"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_mp_pgrid</span>

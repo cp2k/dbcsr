@@ -559,7 +559,7 @@ private subroutine prepare_buffers_z(negate_real, negate_imaginary, iter, row, c
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, POINTER</td><td>::</td>
   <td><strong>row_img_dist</strong></td><td></td>
   
 </tr>
@@ -574,7 +574,7 @@ private subroutine prepare_buffers_z(negate_real, negate_imaginary, iter, row, c
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, POINTER</td><td>::</td>
   <td><strong>col_img_dist</strong></td><td></td>
   
 </tr>
@@ -604,7 +604,7 @@ private subroutine prepare_buffers_z(negate_real, negate_imaginary, iter, row, c
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td>DIMENSION(:, :), CONTIGUOUS, POINTER</td><td>::</td>
   <td><strong>blacs2mpi</strong></td><td></td>
   
 </tr>
@@ -694,7 +694,7 @@ private subroutine prepare_buffers_z(negate_real, negate_imaginary, iter, row, c
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, POINTER</td><td>::</td>
   <td><strong>row_dist</strong></td><td></td>
   
 </tr>
@@ -709,7 +709,7 @@ private subroutine prepare_buffers_z(negate_real, negate_imaginary, iter, row, c
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS, POINTER</td><td>::</td>
   <td><strong>col_dist</strong></td><td></td>
   
 </tr>
@@ -844,7 +844,7 @@ private subroutine prepare_buffers_z(negate_real, negate_imaginary, iter, row, c
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>data_area</strong></td><td></td>
   
 </tr>
@@ -981,13 +981,13 @@ private subroutine prepare_buffers_z(negate_real, negate_imaginary, iter, row, c
                                                                  <span class="n">dst_p</span><span class="p">,</span> <span class="n">sm_pos</span><span class="p">,</span> <span class="n">sd_pos</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                     <span class="kd">::</span> <span class="n">nsymmetries</span><span class="p">,</span> <span class="n">nrow_images</span><span class="p">,</span> <span class="n">ncol_images</span><span class="p">,</span> <span class="n">metalen</span>
       <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                                  <span class="kd">::</span> <span class="n">tr</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">POINTER</span>              <span class="kd">::</span> <span class="n">row_img_dist</span><span class="p">,</span> <span class="n">col_img_dist</span><span class="p">,</span> <span class="n">row_dist</span><span class="p">,</span> <span class="n">col_dist</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">POINTER</span>  <span class="kd">::</span> <span class="n">row_img_dist</span><span class="p">,</span> <span class="n">col_img_dist</span><span class="p">,</span> <span class="n">row_dist</span><span class="p">,</span> <span class="n">col_dist</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>          <span class="kd">::</span> <span class="n">sd_disp</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>       <span class="kd">::</span> <span class="n">myt_smp</span><span class="p">,</span> <span class="n">myt_sdp</span><span class="p">,</span> <span class="n">send_meta</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_imagedistribution_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>           <span class="kd">::</span> <span class="n">target_imgdist</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">POINTER</span>           <span class="kd">::</span> <span class="n">blacs2mpi</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">blacs2mpi</span>
       <span class="kt">CHARACTER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                   <span class="kd">::</span> <span class="n">predist_type_fwd</span>
-      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                     <span class="kd">::</span> <span class="n">data_area</span>
+      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">CONTIGUOUS</span>         <span class="kd">::</span> <span class="n">data_area</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                     <span class="kd">::</span> <span class="n">send_data_area</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                     <span class="kd">::</span> <span class="n">scale_neg_one</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>           <span class="kd">::</span> <span class="n">scale_value</span>
@@ -1037,18 +1037,18 @@ private subroutine prepare_buffers_z(negate_real, negate_imaginary, iter, row, c
 <span class="k">                  </span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span> <span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
                      <span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span> <span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">scale_neg_one</span><span class="p">%</span><span class="n">c_dp</span>
                <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">negate_real</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="cp"># 2006 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F&quot;</span>
+<span class="cp"># 2007 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F&quot;</span>
                   <span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span> <span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
                      <span class="nb">CMPLX</span><span class="p">(</span> <span class="p">&amp;</span>
                      <span class="o">-</span><span class="kt">REAL</span><span class="p">(</span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span> <span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="p">&amp;</span>
                      <span class="nb">AIMAG</span><span class="p">(</span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span> <span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)),</span> <span class="p">&amp;</span>
                      <span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>
-<span class="cp"># 2012 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F&quot;</span>
+<span class="cp"># 2013 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F&quot;</span>
                <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">negate_imaginary</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="cp"># 2014 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F&quot;</span>
+<span class="cp"># 2015 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F&quot;</span>
                   <span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span> <span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
                      <span class="nb">CONJG</span><span class="p">(</span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span> <span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
-<span class="cp"># 2017 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F&quot;</span>
+<span class="cp"># 2018 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F&quot;</span>
                <span class="n">ENDIF</span>
             <span class="k">ELSE</span>
                <span class="c">! Copy the block</span>

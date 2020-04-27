@@ -531,7 +531,7 @@ private subroutine merge_index(new_row_p, new_col_i, new_blk_p, blk_d, old_row_p
                                                             <span class="n">last_row_blk</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">src_blk_1</span><span class="p">,</span> <span class="p">&amp;</span>
                                                             <span class="n">src_blk_2</span><span class="p">,</span> <span class="n">t</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:)</span>                 <span class="kd">::</span> <span class="n">blk_p_buff</span><span class="p">,</span> <span class="n">tmp_arr</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="n">blk_span</span><span class="p">,</span> <span class="n">col_span</span><span class="p">,</span> <span class="n">d_span</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>         <span class="kd">::</span> <span class="n">blk_span</span><span class="p">,</span> <span class="n">col_span</span><span class="p">,</span> <span class="n">d_span</span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>
 

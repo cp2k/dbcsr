@@ -230,7 +230,7 @@ private subroutine mp_alltoall_i44(sb, rb, count, group)
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:, :, :, :)</td><td>::</td>
+  <td>DIMENSION(:, :, :, :), CONTIGUOUS</td><td>::</td>
   <td><strong>sb</strong></td><td></td>
   
 </tr>
@@ -245,7 +245,7 @@ private subroutine mp_alltoall_i44(sb, rb, count, group)
   <td>intent(out),</td>
   <td></td>
   
-  <td>DIMENSION(:, :, :, :)</td><td>::</td>
+  <td>DIMENSION(:, :, :, :), CONTIGUOUS</td><td>::</td>
   <td><strong>rb</strong></td><td></td>
   
 </tr>
@@ -351,9 +351,9 @@ private subroutine mp_alltoall_i44(sb, rb, count, group)
       <span class="c">!! All-to-all data exchange, rank 4 data, equal sizes</span>
       <span class="c">!! @note see mp_alltoall_i</span>
 
-      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:),</span> <span class="p">&amp;</span>
+      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="p">&amp;</span>
          <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                            <span class="kd">::</span> <span class="n">sb</span>
-      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:),</span> <span class="p">&amp;</span>
+      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="p">&amp;</span>
          <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                           <span class="kd">::</span> <span class="n">rb</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="nb">count</span><span class="p">,</span> <span class="n">group</span>
 

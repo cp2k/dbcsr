@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 0.0% of total for procedures.</p>Including implementation: 735 statements,  1.2% of total for procedures.">3 statements</a>
+    title="<p> 0.0% of total for procedures.</p>Including implementation: 741 statements,  1.2% of total for procedures.">3 statements</a>
      </li> 
      
      
@@ -471,10 +471,10 @@ private subroutine <a href='../proc/mp_allgather_i.html'>mp_allgather_i</a>(msgo
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -561,10 +561,10 @@ private subroutine <a href='../proc/mp_allgather_i2.html'>mp_allgather_i2</a>(ms
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -636,10 +636,10 @@ private subroutine <a href='../proc/mp_allgather_i12.html'>mp_allgather_i12</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -651,10 +651,10 @@ private subroutine <a href='../proc/mp_allgather_i12.html'>mp_allgather_i12</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -727,10 +727,10 @@ private subroutine <a href='../proc/mp_allgather_i23.html'>mp_allgather_i23</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -742,10 +742,10 @@ private subroutine <a href='../proc/mp_allgather_i23.html'>mp_allgather_i23</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:)</td><td></td>
   
 </tr>
@@ -818,10 +818,10 @@ private subroutine <a href='../proc/mp_allgather_i34.html'>mp_allgather_i34</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:,:)</td><td><p>Rank-3 data to send</p></td>
   
 </tr>
@@ -833,10 +833,10 @@ private subroutine <a href='../proc/mp_allgather_i34.html'>mp_allgather_i34</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:,:)</td><td></td>
   
 </tr>
@@ -909,10 +909,10 @@ private subroutine <a href='../proc/mp_allgather_i22.html'>mp_allgather_i22</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -924,10 +924,10 @@ private subroutine <a href='../proc/mp_allgather_i22.html'>mp_allgather_i22</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:)</td><td></td>
   
 </tr>
@@ -1014,10 +1014,10 @@ private subroutine <a href='../proc/mp_allgather_l.html'>mp_allgather_l</a>(msgo
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -1104,10 +1104,10 @@ private subroutine <a href='../proc/mp_allgather_l2.html'>mp_allgather_l2</a>(ms
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -1179,10 +1179,10 @@ private subroutine <a href='../proc/mp_allgather_l12.html'>mp_allgather_l12</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -1194,10 +1194,10 @@ private subroutine <a href='../proc/mp_allgather_l12.html'>mp_allgather_l12</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -1270,10 +1270,10 @@ private subroutine <a href='../proc/mp_allgather_l23.html'>mp_allgather_l23</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -1285,10 +1285,10 @@ private subroutine <a href='../proc/mp_allgather_l23.html'>mp_allgather_l23</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:)</td><td></td>
   
 </tr>
@@ -1361,10 +1361,10 @@ private subroutine <a href='../proc/mp_allgather_l34.html'>mp_allgather_l34</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:,:)</td><td><p>Rank-3 data to send</p></td>
   
 </tr>
@@ -1376,10 +1376,10 @@ private subroutine <a href='../proc/mp_allgather_l34.html'>mp_allgather_l34</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:,:)</td><td></td>
   
 </tr>
@@ -1452,10 +1452,10 @@ private subroutine <a href='../proc/mp_allgather_l22.html'>mp_allgather_l22</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -1467,10 +1467,10 @@ private subroutine <a href='../proc/mp_allgather_l22.html'>mp_allgather_l22</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:)</td><td></td>
   
 </tr>
@@ -1557,10 +1557,10 @@ private subroutine <a href='../proc/mp_allgather_r.html'>mp_allgather_r</a>(msgo
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -1647,10 +1647,10 @@ private subroutine <a href='../proc/mp_allgather_r2.html'>mp_allgather_r2</a>(ms
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -1722,10 +1722,10 @@ private subroutine <a href='../proc/mp_allgather_r12.html'>mp_allgather_r12</a>(
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -1737,10 +1737,10 @@ private subroutine <a href='../proc/mp_allgather_r12.html'>mp_allgather_r12</a>(
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -1813,10 +1813,10 @@ private subroutine <a href='../proc/mp_allgather_r23.html'>mp_allgather_r23</a>(
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -1828,10 +1828,10 @@ private subroutine <a href='../proc/mp_allgather_r23.html'>mp_allgather_r23</a>(
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:)</td><td></td>
   
 </tr>
@@ -1904,10 +1904,10 @@ private subroutine <a href='../proc/mp_allgather_r34.html'>mp_allgather_r34</a>(
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:,:)</td><td><p>Rank-3 data to send</p></td>
   
 </tr>
@@ -1919,10 +1919,10 @@ private subroutine <a href='../proc/mp_allgather_r34.html'>mp_allgather_r34</a>(
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:,:)</td><td></td>
   
 </tr>
@@ -1995,10 +1995,10 @@ private subroutine <a href='../proc/mp_allgather_r22.html'>mp_allgather_r22</a>(
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -2010,10 +2010,10 @@ private subroutine <a href='../proc/mp_allgather_r22.html'>mp_allgather_r22</a>(
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:)</td><td></td>
   
 </tr>
@@ -2100,10 +2100,10 @@ private subroutine <a href='../proc/mp_allgather_d.html'>mp_allgather_d</a>(msgo
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -2190,10 +2190,10 @@ private subroutine <a href='../proc/mp_allgather_d2.html'>mp_allgather_d2</a>(ms
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -2265,10 +2265,10 @@ private subroutine <a href='../proc/mp_allgather_d12.html'>mp_allgather_d12</a>(
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -2280,10 +2280,10 @@ private subroutine <a href='../proc/mp_allgather_d12.html'>mp_allgather_d12</a>(
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -2356,10 +2356,10 @@ private subroutine <a href='../proc/mp_allgather_d23.html'>mp_allgather_d23</a>(
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -2371,10 +2371,10 @@ private subroutine <a href='../proc/mp_allgather_d23.html'>mp_allgather_d23</a>(
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:)</td><td></td>
   
 </tr>
@@ -2447,10 +2447,10 @@ private subroutine <a href='../proc/mp_allgather_d34.html'>mp_allgather_d34</a>(
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:,:)</td><td><p>Rank-3 data to send</p></td>
   
 </tr>
@@ -2462,10 +2462,10 @@ private subroutine <a href='../proc/mp_allgather_d34.html'>mp_allgather_d34</a>(
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:,:)</td><td></td>
   
 </tr>
@@ -2538,10 +2538,10 @@ private subroutine <a href='../proc/mp_allgather_d22.html'>mp_allgather_d22</a>(
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -2553,10 +2553,10 @@ private subroutine <a href='../proc/mp_allgather_d22.html'>mp_allgather_d22</a>(
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:)</td><td></td>
   
 </tr>
@@ -2643,10 +2643,10 @@ private subroutine <a href='../proc/mp_allgather_c.html'>mp_allgather_c</a>(msgo
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -2733,10 +2733,10 @@ private subroutine <a href='../proc/mp_allgather_c2.html'>mp_allgather_c2</a>(ms
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -2808,10 +2808,10 @@ private subroutine <a href='../proc/mp_allgather_c12.html'>mp_allgather_c12</a>(
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -2823,10 +2823,10 @@ private subroutine <a href='../proc/mp_allgather_c12.html'>mp_allgather_c12</a>(
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -2899,10 +2899,10 @@ private subroutine <a href='../proc/mp_allgather_c23.html'>mp_allgather_c23</a>(
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -2914,10 +2914,10 @@ private subroutine <a href='../proc/mp_allgather_c23.html'>mp_allgather_c23</a>(
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:)</td><td></td>
   
 </tr>
@@ -2990,10 +2990,10 @@ private subroutine <a href='../proc/mp_allgather_c34.html'>mp_allgather_c34</a>(
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:,:)</td><td><p>Rank-3 data to send</p></td>
   
 </tr>
@@ -3005,10 +3005,10 @@ private subroutine <a href='../proc/mp_allgather_c34.html'>mp_allgather_c34</a>(
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:,:)</td><td></td>
   
 </tr>
@@ -3081,10 +3081,10 @@ private subroutine <a href='../proc/mp_allgather_c22.html'>mp_allgather_c22</a>(
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -3096,10 +3096,10 @@ private subroutine <a href='../proc/mp_allgather_c22.html'>mp_allgather_c22</a>(
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:)</td><td></td>
   
 </tr>
@@ -3186,10 +3186,10 @@ private subroutine <a href='../proc/mp_allgather_z.html'>mp_allgather_z</a>(msgo
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -3276,10 +3276,10 @@ private subroutine <a href='../proc/mp_allgather_z2.html'>mp_allgather_z2</a>(ms
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -3351,10 +3351,10 @@ private subroutine <a href='../proc/mp_allgather_z12.html'>mp_allgather_z12</a>(
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -3366,10 +3366,10 @@ private subroutine <a href='../proc/mp_allgather_z12.html'>mp_allgather_z12</a>(
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -3442,10 +3442,10 @@ private subroutine <a href='../proc/mp_allgather_z23.html'>mp_allgather_z23</a>(
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -3457,10 +3457,10 @@ private subroutine <a href='../proc/mp_allgather_z23.html'>mp_allgather_z23</a>(
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:)</td><td></td>
   
 </tr>
@@ -3533,10 +3533,10 @@ private subroutine <a href='../proc/mp_allgather_z34.html'>mp_allgather_z34</a>(
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:,:)</td><td><p>Rank-3 data to send</p></td>
   
 </tr>
@@ -3548,10 +3548,10 @@ private subroutine <a href='../proc/mp_allgather_z34.html'>mp_allgather_z34</a>(
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:,:)</td><td></td>
   
 </tr>
@@ -3624,10 +3624,10 @@ private subroutine <a href='../proc/mp_allgather_z22.html'>mp_allgather_z22</a>(
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:,:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -3639,10 +3639,10 @@ private subroutine <a href='../proc/mp_allgather_z22.html'>mp_allgather_z22</a>(
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:)</td><td></td>
   
 </tr>
@@ -3714,10 +3714,10 @@ private subroutine <a href='../proc/mp_allgatherv_iv.html'>mp_allgatherv_iv</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -3729,10 +3729,10 @@ private subroutine <a href='../proc/mp_allgatherv_iv.html'>mp_allgatherv_iv</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -3744,13 +3744,11 @@ private subroutine <a href='../proc/mp_allgatherv_iv.html'>mp_allgatherv_iv</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rcount</strong>(:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rcount</strong>(:)</td><td></td>
   
 </tr>
 
@@ -3761,13 +3759,11 @@ private subroutine <a href='../proc/mp_allgatherv_iv.html'>mp_allgatherv_iv</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rdispl</strong>(:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rdispl</strong>(:)</td><td></td>
   
 </tr>
 
@@ -3840,10 +3836,10 @@ private subroutine <a href='../proc/mp_allgatherv_lv.html'>mp_allgatherv_lv</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -3855,10 +3851,10 @@ private subroutine <a href='../proc/mp_allgatherv_lv.html'>mp_allgatherv_lv</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer(kind=int_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -3870,13 +3866,11 @@ private subroutine <a href='../proc/mp_allgatherv_lv.html'>mp_allgatherv_lv</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rcount</strong>(:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rcount</strong>(:)</td><td></td>
   
 </tr>
 
@@ -3887,13 +3881,11 @@ private subroutine <a href='../proc/mp_allgatherv_lv.html'>mp_allgatherv_lv</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rdispl</strong>(:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rdispl</strong>(:)</td><td></td>
   
 </tr>
 
@@ -3966,10 +3958,10 @@ private subroutine <a href='../proc/mp_allgatherv_rv.html'>mp_allgatherv_rv</a>(
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -3981,10 +3973,10 @@ private subroutine <a href='../proc/mp_allgatherv_rv.html'>mp_allgatherv_rv</a>(
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -3996,13 +3988,11 @@ private subroutine <a href='../proc/mp_allgatherv_rv.html'>mp_allgatherv_rv</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rcount</strong>(:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rcount</strong>(:)</td><td></td>
   
 </tr>
 
@@ -4013,13 +4003,11 @@ private subroutine <a href='../proc/mp_allgatherv_rv.html'>mp_allgatherv_rv</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rdispl</strong>(:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rdispl</strong>(:)</td><td></td>
   
 </tr>
 
@@ -4092,10 +4080,10 @@ private subroutine <a href='../proc/mp_allgatherv_dv.html'>mp_allgatherv_dv</a>(
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -4107,10 +4095,10 @@ private subroutine <a href='../proc/mp_allgatherv_dv.html'>mp_allgatherv_dv</a>(
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -4122,13 +4110,11 @@ private subroutine <a href='../proc/mp_allgatherv_dv.html'>mp_allgatherv_dv</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rcount</strong>(:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rcount</strong>(:)</td><td></td>
   
 </tr>
 
@@ -4139,13 +4125,11 @@ private subroutine <a href='../proc/mp_allgatherv_dv.html'>mp_allgatherv_dv</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rdispl</strong>(:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rdispl</strong>(:)</td><td></td>
   
 </tr>
 
@@ -4218,10 +4202,10 @@ private subroutine <a href='../proc/mp_allgatherv_cv.html'>mp_allgatherv_cv</a>(
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -4233,10 +4217,10 @@ private subroutine <a href='../proc/mp_allgatherv_cv.html'>mp_allgatherv_cv</a>(
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_4),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -4248,13 +4232,11 @@ private subroutine <a href='../proc/mp_allgatherv_cv.html'>mp_allgatherv_cv</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rcount</strong>(:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rcount</strong>(:)</td><td></td>
   
 </tr>
 
@@ -4265,13 +4247,11 @@ private subroutine <a href='../proc/mp_allgatherv_cv.html'>mp_allgatherv_cv</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rdispl</strong>(:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rdispl</strong>(:)</td><td></td>
   
 </tr>
 
@@ -4344,10 +4324,10 @@ private subroutine <a href='../proc/mp_allgatherv_zv.html'>mp_allgatherv_zv</a>(
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-1 data to send</p></td>
   
 </tr>
@@ -4359,10 +4339,10 @@ private subroutine <a href='../proc/mp_allgatherv_zv.html'>mp_allgatherv_zv</a>(
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:)</td><td><p>Received data</p></td>
   
 </tr>
@@ -4374,13 +4354,11 @@ private subroutine <a href='../proc/mp_allgatherv_zv.html'>mp_allgatherv_zv</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rcount</strong>(:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rcount</strong>(:)</td><td></td>
   
 </tr>
 
@@ -4391,13 +4369,11 @@ private subroutine <a href='../proc/mp_allgatherv_zv.html'>mp_allgatherv_zv</a>(
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>rdispl</strong>(:)</td><td><p>Size of sent data for every process
- Offset of sent data for every process
- Message passing environment identifier</p></td>
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>rdispl</strong>(:)</td><td></td>
   
 </tr>
 

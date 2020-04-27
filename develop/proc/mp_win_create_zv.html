@@ -230,7 +230,7 @@ private subroutine mp_win_create_zv(base, comm, win)
   <td></td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>CONTIGUOUS, DIMENSION(:)</td><td>::</td>
   <td><strong>base</strong></td><td></td>
   
 </tr>
@@ -337,7 +337,7 @@ private subroutine mp_win_create_zv(base, comm, win)
       <span class="c">!! @note</span>
       <span class="c">!! arrays can be pointers or assumed shape, but they must be contiguous!</span>
 
-      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:)</span>        <span class="kd">::</span> <span class="n">base</span>
+      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:)</span> <span class="kd">::</span> <span class="n">base</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>            <span class="kd">::</span> <span class="n">comm</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>         <span class="kd">::</span> <span class="n">win</span>
 

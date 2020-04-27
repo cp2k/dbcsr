@@ -2151,9 +2151,9 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
       INTEGER, INTENT(IN)                                :: which_norm
       REAL(KIND=real_8), DIMENSION(:), INTENT(OUT), &
-         TARGET                                          :: norm_vector
+         TARGET, CONTIGUOUS                              :: norm_vector
 
-      REAL(KIND=real_8), DIMENSION(:), POINTER           :: v_p
+      REAL(KIND=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: v_p
       TYPE(dbcsr_data_obj)                               :: norm_vector_a
 
       CALL dbcsr_data_init(norm_vector_a)
@@ -2936,11 +2936,11 @@ CONTAINS
    SUBROUTINE dbcsr_scale_by_vector_d (matrix_a, alpha, side)
       !! Interface for matrix scaling by a vector
       TYPE(dbcsr_type), INTENT(INOUT)            :: matrix_a
-      REAL(kind=real_8), DIMENSION(:), INTENT(IN), TARGET :: alpha
+      REAL(kind=real_8), DIMENSION(:), INTENT(IN), TARGET, CONTIGUOUS :: alpha
       CHARACTER(LEN=*), INTENT(IN)              :: side
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_scale_by_vector_d', &
                                      routineP = moduleN//':'//routineN
-      REAL(kind=real_8), DIMENSION(:), POINTER            :: tmp_p
+      REAL(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: tmp_p
       TYPE(dbcsr_data_obj)                      :: enc_alpha_vec
 
       CALL dbcsr_data_init(enc_alpha_vec)
@@ -3013,7 +3013,7 @@ CONTAINS
       IF (dbcsr_nfullrows_total(matrix) /= SIZE(diag)) &
          DBCSR_ABORT("Diagonal has wrong size")
 
-      IF (.NOT. array_equality(dbcsr_row_block_offsets(matrix), dbcsr_row_block_offsets(matrix))) &
+      IF (.NOT. array_equality(matrix%row_blk_offset, matrix%col_blk_offset)) &
          DBCSR_ABORT("matrix not quadratic")
 
       CALL dbcsr_iterator_start(iter, matrix)
@@ -3052,7 +3052,7 @@ CONTAINS
       IF (dbcsr_nfullrows_total(matrix) /= SIZE(diag)) &
          DBCSR_ABORT("Diagonal has wrong size")
 
-      IF (.NOT. array_equality(dbcsr_row_block_offsets(matrix), dbcsr_row_block_offsets(matrix))) &
+      IF (.NOT. array_equality(matrix%row_blk_offset, matrix%col_blk_offset)) &
          DBCSR_ABORT("matrix not quadratic")
 
       diag(:) = 0.0_real_8
@@ -3093,7 +3093,7 @@ CONTAINS
       IF (dbcsr_get_data_type(matrix) /= dbcsr_type_real_8) &
          DBCSR_ABORT("Incompatible data types")
 
-      IF (.NOT. array_equality(dbcsr_row_block_offsets(matrix), dbcsr_row_block_offsets(matrix))) &
+      IF (.NOT. array_equality(matrix%row_blk_offset, matrix%col_blk_offset)) &
          DBCSR_ABORT("matrix not quadratic")
 
       mynode = dbcsr_mp_mynode(dbcsr_distribution_mp(dbcsr_distribution(matrix)))
@@ -3444,11 +3444,11 @@ CONTAINS
    SUBROUTINE dbcsr_scale_by_vector_s (matrix_a, alpha, side)
       !! Interface for matrix scaling by a vector
       TYPE(dbcsr_type), INTENT(INOUT)            :: matrix_a
-      REAL(kind=real_4), DIMENSION(:), INTENT(IN), TARGET :: alpha
+      REAL(kind=real_4), DIMENSION(:), INTENT(IN), TARGET, CONTIGUOUS :: alpha
       CHARACTER(LEN=*), INTENT(IN)              :: side
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_scale_by_vector_s', &
                                      routineP = moduleN//':'//routineN
-      REAL(kind=real_4), DIMENSION(:), POINTER            :: tmp_p
+      REAL(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: tmp_p
       TYPE(dbcsr_data_obj)                      :: enc_alpha_vec
 
       CALL dbcsr_data_init(enc_alpha_vec)
@@ -3521,7 +3521,7 @@ CONTAINS
       IF (dbcsr_nfullrows_total(matrix) /= SIZE(diag)) &
          DBCSR_ABORT("Diagonal has wrong size")
 
-      IF (.NOT. array_equality(dbcsr_row_block_offsets(matrix), dbcsr_row_block_offsets(matrix))) &
+      IF (.NOT. array_equality(matrix%row_blk_offset, matrix%col_blk_offset)) &
          DBCSR_ABORT("matrix not quadratic")
 
       CALL dbcsr_iterator_start(iter, matrix)
@@ -3560,7 +3560,7 @@ CONTAINS
       IF (dbcsr_nfullrows_total(matrix) /= SIZE(diag)) &
          DBCSR_ABORT("Diagonal has wrong size")
 
-      IF (.NOT. array_equality(dbcsr_row_block_offsets(matrix), dbcsr_row_block_offsets(matrix))) &
+      IF (.NOT. array_equality(matrix%row_blk_offset, matrix%col_blk_offset)) &
          DBCSR_ABORT("matrix not quadratic")
 
       diag(:) = 0.0_real_4
@@ -3601,7 +3601,7 @@ CONTAINS
       IF (dbcsr_get_data_type(matrix) /= dbcsr_type_real_4) &
          DBCSR_ABORT("Incompatible data types")
 
-      IF (.NOT. array_equality(dbcsr_row_block_offsets(matrix), dbcsr_row_block_offsets(matrix))) &
+      IF (.NOT. array_equality(matrix%row_blk_offset, matrix%col_blk_offset)) &
          DBCSR_ABORT("matrix not quadratic")
 
       mynode = dbcsr_mp_mynode(dbcsr_distribution_mp(dbcsr_distribution(matrix)))
@@ -3952,11 +3952,11 @@ CONTAINS
    SUBROUTINE dbcsr_scale_by_vector_z (matrix_a, alpha, side)
       !! Interface for matrix scaling by a vector
       TYPE(dbcsr_type), INTENT(INOUT)            :: matrix_a
-      COMPLEX(kind=real_8), DIMENSION(:), INTENT(IN), TARGET :: alpha
+      COMPLEX(kind=real_8), DIMENSION(:), INTENT(IN), TARGET, CONTIGUOUS :: alpha
       CHARACTER(LEN=*), INTENT(IN)              :: side
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_scale_by_vector_z', &
                                      routineP = moduleN//':'//routineN
-      COMPLEX(kind=real_8), DIMENSION(:), POINTER            :: tmp_p
+      COMPLEX(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: tmp_p
       TYPE(dbcsr_data_obj)                      :: enc_alpha_vec
 
       CALL dbcsr_data_init(enc_alpha_vec)
@@ -4029,7 +4029,7 @@ CONTAINS
       IF (dbcsr_nfullrows_total(matrix) /= SIZE(diag)) &
          DBCSR_ABORT("Diagonal has wrong size")
 
-      IF (.NOT. array_equality(dbcsr_row_block_offsets(matrix), dbcsr_row_block_offsets(matrix))) &
+      IF (.NOT. array_equality(matrix%row_blk_offset, matrix%col_blk_offset)) &
          DBCSR_ABORT("matrix not quadratic")
 
       CALL dbcsr_iterator_start(iter, matrix)
@@ -4068,7 +4068,7 @@ CONTAINS
       IF (dbcsr_nfullrows_total(matrix) /= SIZE(diag)) &
          DBCSR_ABORT("Diagonal has wrong size")
 
-      IF (.NOT. array_equality(dbcsr_row_block_offsets(matrix), dbcsr_row_block_offsets(matrix))) &
+      IF (.NOT. array_equality(matrix%row_blk_offset, matrix%col_blk_offset)) &
          DBCSR_ABORT("matrix not quadratic")
 
       diag(:) = CMPLX(0.0, 0.0, real_8)
@@ -4109,7 +4109,7 @@ CONTAINS
       IF (dbcsr_get_data_type(matrix) /= dbcsr_type_complex_8) &
          DBCSR_ABORT("Incompatible data types")
 
-      IF (.NOT. array_equality(dbcsr_row_block_offsets(matrix), dbcsr_row_block_offsets(matrix))) &
+      IF (.NOT. array_equality(matrix%row_blk_offset, matrix%col_blk_offset)) &
          DBCSR_ABORT("matrix not quadratic")
 
       mynode = dbcsr_mp_mynode(dbcsr_distribution_mp(dbcsr_distribution(matrix)))
@@ -4460,11 +4460,11 @@ CONTAINS
    SUBROUTINE dbcsr_scale_by_vector_c (matrix_a, alpha, side)
       !! Interface for matrix scaling by a vector
       TYPE(dbcsr_type), INTENT(INOUT)            :: matrix_a
-      COMPLEX(kind=real_4), DIMENSION(:), INTENT(IN), TARGET :: alpha
+      COMPLEX(kind=real_4), DIMENSION(:), INTENT(IN), TARGET, CONTIGUOUS :: alpha
       CHARACTER(LEN=*), INTENT(IN)              :: side
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_scale_by_vector_c', &
                                      routineP = moduleN//':'//routineN
-      COMPLEX(kind=real_4), DIMENSION(:), POINTER            :: tmp_p
+      COMPLEX(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: tmp_p
       TYPE(dbcsr_data_obj)                      :: enc_alpha_vec
 
       CALL dbcsr_data_init(enc_alpha_vec)
@@ -4537,7 +4537,7 @@ CONTAINS
       IF (dbcsr_nfullrows_total(matrix) /= SIZE(diag)) &
          DBCSR_ABORT("Diagonal has wrong size")
 
-      IF (.NOT. array_equality(dbcsr_row_block_offsets(matrix), dbcsr_row_block_offsets(matrix))) &
+      IF (.NOT. array_equality(matrix%row_blk_offset, matrix%col_blk_offset)) &
          DBCSR_ABORT("matrix not quadratic")
 
       CALL dbcsr_iterator_start(iter, matrix)
@@ -4576,7 +4576,7 @@ CONTAINS
       IF (dbcsr_nfullrows_total(matrix) /= SIZE(diag)) &
          DBCSR_ABORT("Diagonal has wrong size")
 
-      IF (.NOT. array_equality(dbcsr_row_block_offsets(matrix), dbcsr_row_block_offsets(matrix))) &
+      IF (.NOT. array_equality(matrix%row_blk_offset, matrix%col_blk_offset)) &
          DBCSR_ABORT("matrix not quadratic")
 
       diag(:) = CMPLX(0.0, 0.0, real_4)
@@ -4617,7 +4617,7 @@ CONTAINS
       IF (dbcsr_get_data_type(matrix) /= dbcsr_type_complex_4) &
          DBCSR_ABORT("Incompatible data types")
 
-      IF (.NOT. array_equality(dbcsr_row_block_offsets(matrix), dbcsr_row_block_offsets(matrix))) &
+      IF (.NOT. array_equality(matrix%row_blk_offset, matrix%col_blk_offset)) &
          DBCSR_ABORT("matrix not quadratic")
 
       mynode = dbcsr_mp_mynode(dbcsr_distribution_mp(dbcsr_distribution(matrix)))

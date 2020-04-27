@@ -244,7 +244,7 @@ public subroutine internal_data_allocate(area, sizes)
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>sizes</strong></td><td><p>sizes to allocate to</p></td>
   
 </tr>
@@ -321,7 +321,7 @@ public subroutine internal_data_allocate(area, sizes)
 
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_area_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>          <span class="kd">::</span> <span class="n">area</span>
          <span class="c">!! internal structure holding array pointers</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">sizes</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">CONTIGUOUS</span>      <span class="kd">::</span> <span class="n">sizes</span>
          <span class="c">!! sizes to allocate to</span>
 
       <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;internal_data_allocate&#39;</span><span class="p">,</span> <span class="p">&amp;</span>

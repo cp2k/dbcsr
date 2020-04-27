@@ -235,7 +235,7 @@ private subroutine mp_igatherv_zv(sendbuf, sendcount, recvbuf, recvcounts, displ
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>sendbuf</strong></td><td><p>Data to send to root</p></td>
   
 </tr>
@@ -266,7 +266,7 @@ private subroutine mp_igatherv_zv(sendbuf, sendcount, recvbuf, recvcounts, displ
   <td>intent(out),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>recvbuf</strong></td><td><p>Received data (on root)</p></td>
   
 </tr>
@@ -281,7 +281,7 @@ private subroutine mp_igatherv_zv(sendbuf, sendcount, recvbuf, recvcounts, displ
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>recvcounts</strong></td><td><p>Sizes of data received from processes
  Offsets of data received from processes</p></td>
   
@@ -297,7 +297,7 @@ private subroutine mp_igatherv_zv(sendbuf, sendcount, recvbuf, recvcounts, displ
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>displs</strong></td><td><p>Sizes of data received from processes
  Offsets of data received from processes</p></td>
   
@@ -429,11 +429,11 @@ private subroutine mp_igatherv_zv(sendbuf, sendcount, recvbuf, recvcounts, displ
       <span class="c">!! MPI mapping</span>
       <span class="c">!! mpi_gather</span>
 
-      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>      <span class="kd">::</span> <span class="n">sendbuf</span>
+      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>      <span class="kd">::</span> <span class="n">sendbuf</span>
          <span class="c">!! Data to send to root</span>
-      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>     <span class="kd">::</span> <span class="n">recvbuf</span>
+      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>     <span class="kd">::</span> <span class="n">recvbuf</span>
          <span class="c">!! Received data (on root)</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">recvcounts</span><span class="p">,</span> <span class="n">displs</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">recvcounts</span><span class="p">,</span> <span class="n">displs</span>
          <span class="c">!! Sizes of data received from processes</span>
          <span class="c">!! Offsets of data received from processes</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">sendcount</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">comm</span>

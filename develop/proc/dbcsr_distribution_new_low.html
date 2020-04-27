@@ -225,7 +225,7 @@ private subroutine dbcsr_distribution_new_low(dist, mp_env, row_dist_block, col_
   
 <tr>
   
-  <td><span class="anchor" id="variable-dist~36"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
+  <td><span class="anchor" id="variable-dist~37"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -240,7 +240,7 @@ private subroutine dbcsr_distribution_new_low(dist, mp_env, row_dist_block, col_
   
 <tr>
   
-  <td><span class="anchor" id="variable-mp_env~4"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
+  <td><span class="anchor" id="variable-mp_env~5"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -255,11 +255,11 @@ private subroutine dbcsr_distribution_new_low(dist, mp_env, row_dist_block, col_
   
 <tr>
   
-  <td><span class="anchor" id="variable-row_dist_block~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_dist_block~3"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>row_dist_block</strong></td><td></td>
   
 </tr>
@@ -270,11 +270,11 @@ private subroutine dbcsr_distribution_new_low(dist, mp_env, row_dist_block, col_
   
 <tr>
   
-  <td><span class="anchor" id="variable-col_dist_block~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_dist_block~3"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>col_dist_block</strong></td><td></td>
   
 </tr>
@@ -285,11 +285,11 @@ private subroutine dbcsr_distribution_new_low(dist, mp_env, row_dist_block, col_
   
 <tr>
   
-  <td><span class="anchor" id="variable-local_rows~7"></span>integer,</td>
+  <td><span class="anchor" id="variable-local_rows~8"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>local_rows</strong></td><td></td>
   
 </tr>
@@ -300,11 +300,11 @@ private subroutine dbcsr_distribution_new_low(dist, mp_env, row_dist_block, col_
   
 <tr>
   
-  <td><span class="anchor" id="variable-local_cols~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-local_cols~7"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>local_cols</strong></td><td></td>
   
 </tr>
@@ -400,9 +400,9 @@ private subroutine dbcsr_distribution_new_low(dist, mp_env, row_dist_block, col_
          <span class="c">!! distribution</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                     <span class="kd">::</span> <span class="n">mp_env</span>
          <span class="c">!! multiprocessing environment</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">POINTER</span>         <span class="kd">::</span> <span class="n">row_dist_block</span><span class="p">,</span> <span class="n">col_dist_block</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span> <span class="kd">::</span> <span class="n">row_dist_block</span><span class="p">,</span> <span class="n">col_dist_block</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span><span class="p">,</span> <span class="p">&amp;</span>
-         <span class="k">POINTER</span>                                         <span class="kd">::</span> <span class="n">local_rows</span><span class="p">,</span> <span class="n">local_cols</span>
+         <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>                             <span class="kd">::</span> <span class="n">local_rows</span><span class="p">,</span> <span class="n">local_cols</span>
       <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">OPTIONAL</span>                                  <span class="kd">::</span> <span class="n">reuse_arrays</span>
 
       <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_distribution_new&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -410,7 +410,7 @@ private subroutine dbcsr_distribution_new_low(dist, mp_env, row_dist_block, col_
 
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">handle</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">lcmv</span><span class="p">,</span> <span class="n">mypcoor</span><span class="p">,</span> <span class="n">npcols</span><span class="p">,</span> <span class="p">&amp;</span>
                                                             <span class="n">nprows</span><span class="p">,</span> <span class="n">seq</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="n">col_dist_tmp</span><span class="p">,</span> <span class="n">row_dist_tmp</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>         <span class="kd">::</span> <span class="n">col_dist_tmp</span><span class="p">,</span> <span class="n">row_dist_tmp</span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>
 

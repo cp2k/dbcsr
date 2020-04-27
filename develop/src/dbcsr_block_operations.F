@@ -2023,13 +2023,16 @@ CONTAINS
       INTEGER, INTENT(IN)                      :: lb, data_size
         !! lower bound for destination (and source if not given explicitly)
         !! number of elements to copy
-      REAL(kind=real_8), DIMENSION(:), INTENT(IN)      :: src
+      REAL(kind=real_8), DIMENSION(:), INTENT(IN), CONTIGUOUS :: src
         !! source data array
       INTEGER, INTENT(IN), OPTIONAL            :: source_lb
         !! lower bound of source
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_set_ad', &
                                      routineP = moduleN//':'//routineN
       INTEGER                                  :: lb_s, ub, ub_s
+
+      REAL(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: cont_data
+
 !    ---------------------------------------------------------------------------
       IF (debug_mod) THEN
          IF (.NOT. ASSOCIATED(dst%d)) &
@@ -2047,7 +2050,8 @@ CONTAINS
          lb_s = lb
          ub_s = ub
       ENDIF
-      CALL memory_copy(dst%d%r_dp (lb:ub), src(lb_s:ub_s), data_size)
+      cont_data => dst%d%r_dp (lb:ub)
+      CALL memory_copy(cont_data, src(lb_s:ub_s), data_size)
    END SUBROUTINE dbcsr_data_set_ad
 
    PURE SUBROUTINE block_add_d (block_a, block_b, len)
@@ -2598,13 +2602,16 @@ CONTAINS
       INTEGER, INTENT(IN)                      :: lb, data_size
         !! lower bound for destination (and source if not given explicitly)
         !! number of elements to copy
-      REAL(kind=real_4), DIMENSION(:), INTENT(IN)      :: src
+      REAL(kind=real_4), DIMENSION(:), INTENT(IN), CONTIGUOUS :: src
         !! source data array
       INTEGER, INTENT(IN), OPTIONAL            :: source_lb
         !! lower bound of source
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_set_as', &
                                      routineP = moduleN//':'//routineN
       INTEGER                                  :: lb_s, ub, ub_s
+
+      REAL(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: cont_data
+
 !    ---------------------------------------------------------------------------
       IF (debug_mod) THEN
          IF (.NOT. ASSOCIATED(dst%d)) &
@@ -2622,7 +2629,8 @@ CONTAINS
          lb_s = lb
          ub_s = ub
       ENDIF
-      CALL memory_copy(dst%d%r_sp (lb:ub), src(lb_s:ub_s), data_size)
+      cont_data => dst%d%r_sp (lb:ub)
+      CALL memory_copy(cont_data, src(lb_s:ub_s), data_size)
    END SUBROUTINE dbcsr_data_set_as
 
    PURE SUBROUTINE block_add_s (block_a, block_b, len)
@@ -3173,13 +3181,16 @@ CONTAINS
       INTEGER, INTENT(IN)                      :: lb, data_size
         !! lower bound for destination (and source if not given explicitly)
         !! number of elements to copy
-      COMPLEX(kind=real_8), DIMENSION(:), INTENT(IN)      :: src
+      COMPLEX(kind=real_8), DIMENSION(:), INTENT(IN), CONTIGUOUS :: src
         !! source data array
       INTEGER, INTENT(IN), OPTIONAL            :: source_lb
         !! lower bound of source
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_set_az', &
                                      routineP = moduleN//':'//routineN
       INTEGER                                  :: lb_s, ub, ub_s
+
+      COMPLEX(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: cont_data
+
 !    ---------------------------------------------------------------------------
       IF (debug_mod) THEN
          IF (.NOT. ASSOCIATED(dst%d)) &
@@ -3197,7 +3208,8 @@ CONTAINS
          lb_s = lb
          ub_s = ub
       ENDIF
-      CALL memory_copy(dst%d%c_dp (lb:ub), src(lb_s:ub_s), data_size)
+      cont_data => dst%d%c_dp (lb:ub)
+      CALL memory_copy(cont_data, src(lb_s:ub_s), data_size)
    END SUBROUTINE dbcsr_data_set_az
 
    PURE SUBROUTINE block_add_z (block_a, block_b, len)
@@ -3748,13 +3760,16 @@ CONTAINS
       INTEGER, INTENT(IN)                      :: lb, data_size
         !! lower bound for destination (and source if not given explicitly)
         !! number of elements to copy
-      COMPLEX(kind=real_4), DIMENSION(:), INTENT(IN)      :: src
+      COMPLEX(kind=real_4), DIMENSION(:), INTENT(IN), CONTIGUOUS :: src
         !! source data array
       INTEGER, INTENT(IN), OPTIONAL            :: source_lb
         !! lower bound of source
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_set_ac', &
                                      routineP = moduleN//':'//routineN
       INTEGER                                  :: lb_s, ub, ub_s
+
+      COMPLEX(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: cont_data
+
 !    ---------------------------------------------------------------------------
       IF (debug_mod) THEN
          IF (.NOT. ASSOCIATED(dst%d)) &
@@ -3772,7 +3787,8 @@ CONTAINS
          lb_s = lb
          ub_s = ub
       ENDIF
-      CALL memory_copy(dst%d%c_sp (lb:ub), src(lb_s:ub_s), data_size)
+      cont_data => dst%d%c_sp (lb:ub)
+      CALL memory_copy(cont_data, src(lb_s:ub_s), data_size)
    END SUBROUTINE dbcsr_data_set_ac
 
    PURE SUBROUTINE block_add_c (block_a, block_b, len)
@@ -3781,6 +3797,6 @@ CONTAINS
       COMPLEX(kind=real_4), DIMENSION(len), INTENT(IN)    :: block_b
       block_a(1:len) = block_a(1:len) + block_b(1:len)
    END SUBROUTINE block_add_c
-# 2053 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
+# 2057 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
 END MODULE dbcsr_block_operations

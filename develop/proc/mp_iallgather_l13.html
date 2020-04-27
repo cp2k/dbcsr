@@ -228,10 +228,10 @@ private subroutine mp_iallgather_l13(msgout, msgin, gid, request)
 <tr>
   
   <td><span class="anchor" id="variable-msgout~32"></span>integer(kind=int_8),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgout</strong>(:)</td><td><p>Rank-2 data to send</p></td>
   
 </tr>
@@ -243,10 +243,10 @@ private subroutine mp_iallgather_l13(msgout, msgin, gid, request)
 <tr>
   
   <td><span class="anchor" id="variable-msgin~32"></span>integer(kind=int_8),</td>
-  <td>intent(out)</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msgin</strong>(:,:,:)</td><td></td>
   
 </tr>
@@ -353,9 +353,9 @@ private subroutine mp_iallgather_l13(msgout, msgin, gid, request)
       <span class="c">!! same data</span>
       <span class="c">!! @note see mp_allgather_l12</span>
 
-      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">msgout</span><span class="p">(:)</span>
+      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">msgout</span><span class="p">(:)</span>
          <span class="c">!! Rank-2 data to send</span>
-      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">msgin</span><span class="p">(:,</span> <span class="p">:,</span> <span class="p">:)</span>
+      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>       <span class="kd">::</span> <span class="n">msgin</span><span class="p">(:,</span> <span class="p">:,</span> <span class="p">:)</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">gid</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                     <span class="kd">::</span> <span class="n">request</span>
 

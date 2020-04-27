@@ -166,7 +166,7 @@ CONTAINS
                                                nocopy, memory_type, zero_pad)
      !! Ensures that an array is appropriately large.
 
-      REAL(kind=real_8), DIMENSION(:), POINTER                 :: array
+      REAL(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS     :: array
         !! array to verify and possibly resize
       REAL(kind=real_8), DIMENSION(:), POINTER, OPTIONAL       :: array_resize
       INTEGER, INTENT(IN), OPTIONAL                  :: lb
@@ -190,7 +190,7 @@ CONTAINS
       TYPE(dbcsr_memtype_type)                 :: mem_type
       LOGICAL                                  :: dbg, docopy, &
                                                   pad
-      REAL(kind=real_8), DIMENSION(:), POINTER           :: newarray
+      REAL(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS    :: newarray
 
 !   ---------------------------------------------------------------------------
       !CALL timeset(routineN, error_handler)
@@ -331,7 +331,7 @@ CONTAINS
    SUBROUTINE mem_alloc_d (mem, n, mem_type)
      !! Allocates memory
 
-      REAL(kind=real_8), DIMENSION(:), POINTER        :: mem
+      REAL(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: mem
         !! memory to allocate
       INTEGER, INTENT(IN)                   :: n
         !! length of elements to allocate
@@ -391,7 +391,7 @@ CONTAINS
    SUBROUTINE mem_dealloc_d (mem, mem_type)
      !! Deallocates memory
 
-      REAL(kind=real_8), DIMENSION(:), POINTER        :: mem
+      REAL(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: mem
         !! memory to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
@@ -473,7 +473,7 @@ CONTAINS
                                                nocopy, memory_type, zero_pad)
      !! Ensures that an array is appropriately large.
 
-      REAL(kind=real_4), DIMENSION(:), POINTER                 :: array
+      REAL(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS     :: array
         !! array to verify and possibly resize
       REAL(kind=real_4), DIMENSION(:), POINTER, OPTIONAL       :: array_resize
       INTEGER, INTENT(IN), OPTIONAL                  :: lb
@@ -497,7 +497,7 @@ CONTAINS
       TYPE(dbcsr_memtype_type)                 :: mem_type
       LOGICAL                                  :: dbg, docopy, &
                                                   pad
-      REAL(kind=real_4), DIMENSION(:), POINTER           :: newarray
+      REAL(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS    :: newarray
 
 !   ---------------------------------------------------------------------------
       !CALL timeset(routineN, error_handler)
@@ -638,7 +638,7 @@ CONTAINS
    SUBROUTINE mem_alloc_s (mem, n, mem_type)
      !! Allocates memory
 
-      REAL(kind=real_4), DIMENSION(:), POINTER        :: mem
+      REAL(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: mem
         !! memory to allocate
       INTEGER, INTENT(IN)                   :: n
         !! length of elements to allocate
@@ -698,7 +698,7 @@ CONTAINS
    SUBROUTINE mem_dealloc_s (mem, mem_type)
      !! Deallocates memory
 
-      REAL(kind=real_4), DIMENSION(:), POINTER        :: mem
+      REAL(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: mem
         !! memory to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
@@ -780,7 +780,7 @@ CONTAINS
                                                nocopy, memory_type, zero_pad)
      !! Ensures that an array is appropriately large.
 
-      COMPLEX(kind=real_8), DIMENSION(:), POINTER                 :: array
+      COMPLEX(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS     :: array
         !! array to verify and possibly resize
       COMPLEX(kind=real_8), DIMENSION(:), POINTER, OPTIONAL       :: array_resize
       INTEGER, INTENT(IN), OPTIONAL                  :: lb
@@ -804,7 +804,7 @@ CONTAINS
       TYPE(dbcsr_memtype_type)                 :: mem_type
       LOGICAL                                  :: dbg, docopy, &
                                                   pad
-      COMPLEX(kind=real_8), DIMENSION(:), POINTER           :: newarray
+      COMPLEX(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS    :: newarray
 
 !   ---------------------------------------------------------------------------
       !CALL timeset(routineN, error_handler)
@@ -945,7 +945,7 @@ CONTAINS
    SUBROUTINE mem_alloc_z (mem, n, mem_type)
      !! Allocates memory
 
-      COMPLEX(kind=real_8), DIMENSION(:), POINTER        :: mem
+      COMPLEX(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: mem
         !! memory to allocate
       INTEGER, INTENT(IN)                   :: n
         !! length of elements to allocate
@@ -1005,7 +1005,7 @@ CONTAINS
    SUBROUTINE mem_dealloc_z (mem, mem_type)
      !! Deallocates memory
 
-      COMPLEX(kind=real_8), DIMENSION(:), POINTER        :: mem
+      COMPLEX(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: mem
         !! memory to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
@@ -1087,7 +1087,7 @@ CONTAINS
                                                nocopy, memory_type, zero_pad)
      !! Ensures that an array is appropriately large.
 
-      COMPLEX(kind=real_4), DIMENSION(:), POINTER                 :: array
+      COMPLEX(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS     :: array
         !! array to verify and possibly resize
       COMPLEX(kind=real_4), DIMENSION(:), POINTER, OPTIONAL       :: array_resize
       INTEGER, INTENT(IN), OPTIONAL                  :: lb
@@ -1111,7 +1111,7 @@ CONTAINS
       TYPE(dbcsr_memtype_type)                 :: mem_type
       LOGICAL                                  :: dbg, docopy, &
                                                   pad
-      COMPLEX(kind=real_4), DIMENSION(:), POINTER           :: newarray
+      COMPLEX(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS    :: newarray
 
 !   ---------------------------------------------------------------------------
       !CALL timeset(routineN, error_handler)
@@ -1252,7 +1252,7 @@ CONTAINS
    SUBROUTINE mem_alloc_c (mem, n, mem_type)
      !! Allocates memory
 
-      COMPLEX(kind=real_4), DIMENSION(:), POINTER        :: mem
+      COMPLEX(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: mem
         !! memory to allocate
       INTEGER, INTENT(IN)                   :: n
         !! length of elements to allocate
@@ -1312,7 +1312,7 @@ CONTAINS
    SUBROUTINE mem_dealloc_c (mem, mem_type)
      !! Deallocates memory
 
-      COMPLEX(kind=real_4), DIMENSION(:), POINTER        :: mem
+      COMPLEX(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: mem
         !! memory to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
@@ -1394,7 +1394,7 @@ CONTAINS
                                                nocopy, memory_type, zero_pad)
      !! Ensures that an array is appropriately large.
 
-      INTEGER(kind=int_4), DIMENSION(:), POINTER                 :: array
+      INTEGER(kind=int_4), DIMENSION(:), POINTER, CONTIGUOUS     :: array
         !! array to verify and possibly resize
       INTEGER(kind=int_4), DIMENSION(:), POINTER, OPTIONAL       :: array_resize
       INTEGER, INTENT(IN), OPTIONAL                  :: lb
@@ -1418,7 +1418,7 @@ CONTAINS
       TYPE(dbcsr_memtype_type)                 :: mem_type
       LOGICAL                                  :: dbg, docopy, &
                                                   pad
-      INTEGER(kind=int_4), DIMENSION(:), POINTER           :: newarray
+      INTEGER(kind=int_4), DIMENSION(:), POINTER, CONTIGUOUS    :: newarray
 
 !   ---------------------------------------------------------------------------
       !CALL timeset(routineN, error_handler)
@@ -1559,7 +1559,7 @@ CONTAINS
    SUBROUTINE mem_alloc_i (mem, n, mem_type)
      !! Allocates memory
 
-      INTEGER(kind=int_4), DIMENSION(:), POINTER        :: mem
+      INTEGER(kind=int_4), DIMENSION(:), POINTER, CONTIGUOUS :: mem
         !! memory to allocate
       INTEGER, INTENT(IN)                   :: n
         !! length of elements to allocate
@@ -1619,7 +1619,7 @@ CONTAINS
    SUBROUTINE mem_dealloc_i (mem, mem_type)
      !! Deallocates memory
 
-      INTEGER(kind=int_4), DIMENSION(:), POINTER        :: mem
+      INTEGER(kind=int_4), DIMENSION(:), POINTER, CONTIGUOUS :: mem
         !! memory to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
@@ -1701,7 +1701,7 @@ CONTAINS
                                                nocopy, memory_type, zero_pad)
      !! Ensures that an array is appropriately large.
 
-      INTEGER(kind=int_8), DIMENSION(:), POINTER                 :: array
+      INTEGER(kind=int_8), DIMENSION(:), POINTER, CONTIGUOUS     :: array
         !! array to verify and possibly resize
       INTEGER(kind=int_8), DIMENSION(:), POINTER, OPTIONAL       :: array_resize
       INTEGER, INTENT(IN), OPTIONAL                  :: lb
@@ -1725,7 +1725,7 @@ CONTAINS
       TYPE(dbcsr_memtype_type)                 :: mem_type
       LOGICAL                                  :: dbg, docopy, &
                                                   pad
-      INTEGER(kind=int_8), DIMENSION(:), POINTER           :: newarray
+      INTEGER(kind=int_8), DIMENSION(:), POINTER, CONTIGUOUS    :: newarray
 
 !   ---------------------------------------------------------------------------
       !CALL timeset(routineN, error_handler)
@@ -1866,7 +1866,7 @@ CONTAINS
    SUBROUTINE mem_alloc_l (mem, n, mem_type)
      !! Allocates memory
 
-      INTEGER(kind=int_8), DIMENSION(:), POINTER        :: mem
+      INTEGER(kind=int_8), DIMENSION(:), POINTER, CONTIGUOUS :: mem
         !! memory to allocate
       INTEGER, INTENT(IN)                   :: n
         !! length of elements to allocate
@@ -1926,7 +1926,7 @@ CONTAINS
    SUBROUTINE mem_dealloc_l (mem, mem_type)
      !! Deallocates memory
 
-      INTEGER(kind=int_8), DIMENSION(:), POINTER        :: mem
+      INTEGER(kind=int_8), DIMENSION(:), POINTER, CONTIGUOUS :: mem
         !! memory to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type

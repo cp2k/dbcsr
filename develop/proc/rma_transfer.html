@@ -480,7 +480,7 @@ private subroutine rma_transfer(recv_vproc, nimages, size_layers3D, displ_layers
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">layer3D</span><span class="p">,</span> <span class="n">nlayers3D</span>
 
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">recv_proc</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="n">meta_get</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>         <span class="kd">::</span> <span class="n">meta_get</span>
 
       <span class="n">buffer</span><span class="p">%</span><span class="n">is_comm</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
       <span class="n">buffer</span><span class="p">%</span><span class="n">get_requests</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">mp_request_null</span>

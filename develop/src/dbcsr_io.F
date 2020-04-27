@@ -795,7 +795,7 @@ CONTAINS
       INTEGER, ALLOCATABLE, DIMENSION(:), TARGET     :: ginfo_vec, linfo_vec, &
                                                         rowp, coli, blkp
       INTEGER, ALLOCATABLE, DIMENSION(:, :), TARGET   :: val_data
-      INTEGER, DIMENSION(:), POINTER                 :: row_blk_size, col_blk_size
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS     :: row_blk_size, col_blk_size
       TYPE(dbcsr_mp_obj)                             :: mp_env
       TYPE(dbcsr_data_obj)                           :: dblk
       REAL(sp)                                       :: rsp_dummy(1)

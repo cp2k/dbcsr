@@ -314,7 +314,7 @@ private subroutine <a href='../proc/mp_gatherv_iv.html'>mp_gatherv_iv</a>(sendbu
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>sendbuf</strong></td><td><p>Data to send to root</p></td>
   
 </tr>
@@ -329,7 +329,7 @@ private subroutine <a href='../proc/mp_gatherv_iv.html'>mp_gatherv_iv</a>(sendbu
   <td>intent(out),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>recvbuf</strong></td><td><p>Received data (on root)</p></td>
   
 </tr>
@@ -344,7 +344,7 @@ private subroutine <a href='../proc/mp_gatherv_iv.html'>mp_gatherv_iv</a>(sendbu
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>recvcounts</strong></td><td><p>Sizes of data received from processes
  Offsets of data received from processes</p></td>
   
@@ -360,7 +360,7 @@ private subroutine <a href='../proc/mp_gatherv_iv.html'>mp_gatherv_iv</a>(sendbu
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>displs</strong></td><td><p>Sizes of data received from processes
  Offsets of data received from processes</p></td>
   
@@ -452,7 +452,7 @@ private subroutine <a href='../proc/mp_gatherv_lv.html'>mp_gatherv_lv</a>(sendbu
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>sendbuf</strong></td><td><p>Data to send to root</p></td>
   
 </tr>
@@ -467,7 +467,7 @@ private subroutine <a href='../proc/mp_gatherv_lv.html'>mp_gatherv_lv</a>(sendbu
   <td>intent(out),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>recvbuf</strong></td><td><p>Received data (on root)</p></td>
   
 </tr>
@@ -482,7 +482,7 @@ private subroutine <a href='../proc/mp_gatherv_lv.html'>mp_gatherv_lv</a>(sendbu
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>recvcounts</strong></td><td><p>Sizes of data received from processes
  Offsets of data received from processes</p></td>
   
@@ -498,7 +498,7 @@ private subroutine <a href='../proc/mp_gatherv_lv.html'>mp_gatherv_lv</a>(sendbu
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>displs</strong></td><td><p>Sizes of data received from processes
  Offsets of data received from processes</p></td>
   
@@ -590,7 +590,7 @@ private subroutine <a href='../proc/mp_gatherv_rv.html'>mp_gatherv_rv</a>(sendbu
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>sendbuf</strong></td><td><p>Data to send to root</p></td>
   
 </tr>
@@ -605,7 +605,7 @@ private subroutine <a href='../proc/mp_gatherv_rv.html'>mp_gatherv_rv</a>(sendbu
   <td>intent(out),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>recvbuf</strong></td><td><p>Received data (on root)</p></td>
   
 </tr>
@@ -620,7 +620,7 @@ private subroutine <a href='../proc/mp_gatherv_rv.html'>mp_gatherv_rv</a>(sendbu
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>recvcounts</strong></td><td><p>Sizes of data received from processes
  Offsets of data received from processes</p></td>
   
@@ -636,7 +636,7 @@ private subroutine <a href='../proc/mp_gatherv_rv.html'>mp_gatherv_rv</a>(sendbu
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>displs</strong></td><td><p>Sizes of data received from processes
  Offsets of data received from processes</p></td>
   
@@ -728,7 +728,7 @@ private subroutine <a href='../proc/mp_gatherv_dv.html'>mp_gatherv_dv</a>(sendbu
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>sendbuf</strong></td><td><p>Data to send to root</p></td>
   
 </tr>
@@ -743,7 +743,7 @@ private subroutine <a href='../proc/mp_gatherv_dv.html'>mp_gatherv_dv</a>(sendbu
   <td>intent(out),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>recvbuf</strong></td><td><p>Received data (on root)</p></td>
   
 </tr>
@@ -758,7 +758,7 @@ private subroutine <a href='../proc/mp_gatherv_dv.html'>mp_gatherv_dv</a>(sendbu
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>recvcounts</strong></td><td><p>Sizes of data received from processes
  Offsets of data received from processes</p></td>
   
@@ -774,7 +774,7 @@ private subroutine <a href='../proc/mp_gatherv_dv.html'>mp_gatherv_dv</a>(sendbu
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>displs</strong></td><td><p>Sizes of data received from processes
  Offsets of data received from processes</p></td>
   
@@ -866,7 +866,7 @@ private subroutine <a href='../proc/mp_gatherv_cv.html'>mp_gatherv_cv</a>(sendbu
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>sendbuf</strong></td><td><p>Data to send to root</p></td>
   
 </tr>
@@ -881,7 +881,7 @@ private subroutine <a href='../proc/mp_gatherv_cv.html'>mp_gatherv_cv</a>(sendbu
   <td>intent(out),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>recvbuf</strong></td><td><p>Received data (on root)</p></td>
   
 </tr>
@@ -896,7 +896,7 @@ private subroutine <a href='../proc/mp_gatherv_cv.html'>mp_gatherv_cv</a>(sendbu
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>recvcounts</strong></td><td><p>Sizes of data received from processes
  Offsets of data received from processes</p></td>
   
@@ -912,7 +912,7 @@ private subroutine <a href='../proc/mp_gatherv_cv.html'>mp_gatherv_cv</a>(sendbu
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>displs</strong></td><td><p>Sizes of data received from processes
  Offsets of data received from processes</p></td>
   
@@ -1004,7 +1004,7 @@ private subroutine <a href='../proc/mp_gatherv_zv.html'>mp_gatherv_zv</a>(sendbu
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>sendbuf</strong></td><td><p>Data to send to root</p></td>
   
 </tr>
@@ -1019,7 +1019,7 @@ private subroutine <a href='../proc/mp_gatherv_zv.html'>mp_gatherv_zv</a>(sendbu
   <td>intent(out),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>recvbuf</strong></td><td><p>Received data (on root)</p></td>
   
 </tr>
@@ -1034,7 +1034,7 @@ private subroutine <a href='../proc/mp_gatherv_zv.html'>mp_gatherv_zv</a>(sendbu
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>recvcounts</strong></td><td><p>Sizes of data received from processes
  Offsets of data received from processes</p></td>
   
@@ -1050,7 +1050,7 @@ private subroutine <a href='../proc/mp_gatherv_zv.html'>mp_gatherv_zv</a>(sendbu
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>displs</strong></td><td><p>Sizes of data received from processes
  Offsets of data received from processes</p></td>
   

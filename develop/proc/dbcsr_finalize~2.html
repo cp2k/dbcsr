@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.2% of total for procedures.">101 statements</a>
+    title=" 0.2% of total for procedures.">102 statements</a>
      </li> 
      
      
@@ -334,13 +334,15 @@ public subroutine dbcsr_finalize(matrix, reshuffle)
       <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">PARAMETER</span>                                 <span class="kd">::</span> <span class="n">dbg</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">handle</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">nblks</span><span class="p">,</span> <span class="n">nwms</span><span class="p">,</span> <span class="n">start_offset</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">SAVE</span><span class="p">,</span> <span class="k">TARGET</span>   <span class="kd">::</span> <span class="n">empty_row_p</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:)</span>                 <span class="kd">::</span> <span class="n">empty_row_p</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">SAVE</span>               <span class="kd">::</span> <span class="n">old_blk_p</span><span class="p">,</span> <span class="n">old_col_i</span><span class="p">,</span> <span class="n">old_row_p</span>
       <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">can_quick</span><span class="p">,</span> <span class="n">fake_row_p</span><span class="p">,</span> <span class="n">sort_data</span><span class="p">,</span> <span class="n">spawn</span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>
 
       <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
+
+      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">old_blk_p</span><span class="p">,</span> <span class="n">old_col_i</span><span class="p">,</span> <span class="n">old_row_p</span><span class="p">)</span>
 
 <span class="c">!$OMP     BARRIER</span>
       <span class="c">! If the matrix is not marked as dirty then skip the work.</span>

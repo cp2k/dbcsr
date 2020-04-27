@@ -280,7 +280,7 @@
 <a name="ln-22"></a>   <span class="c">!! DBCSR:</span>
 <a name="ln-23"></a>   <span class="c">!! Please use the interface defined in dbcsr_toollib.F for calling sort().</span>
 <a name="ln-24"></a>
-<a name="ln-25"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">int_4</span><span class="p">,</span> <span class="n">real_4</span><span class="p">,</span> <span class="n">real_8</span><span class="p">,</span> <span class="n">int_8</span>
+<a name="ln-25"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">int_8</span><span class="p">,</span> <span class="n">real_4</span><span class="p">,</span> <span class="n">real_8</span><span class="p">,</span> <span class="n">int_4</span>
 <a name="ln-26"></a>
 <a name="ln-27"></a>   <span class="k">IMPLICIT NONE</span>
 <a name="ln-28"></a><span class="k">   PRIVATE</span>
@@ -313,8 +313,8 @@
 <a name="ln-55"></a>         <span class="c">!! returns elements-indices before the sort</span>
 <a name="ln-56"></a>
 <a name="ln-57"></a>      <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span>
-<a name="ln-58"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">pointer</span>                   <span class="kd">::</span> <span class="n">tmp_arr</span><span class="p">(:)</span>
-<a name="ln-59"></a>      <span class="kt">integer</span><span class="p">,</span> <span class="k">pointer</span>                   <span class="kd">::</span> <span class="n">tmp_idx</span><span class="p">(:)</span>
+<a name="ln-58"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">pointer</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>     <span class="kd">::</span> <span class="n">tmp_arr</span><span class="p">(:)</span>
+<a name="ln-59"></a>      <span class="kt">integer</span><span class="p">,</span> <span class="k">pointer</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>       <span class="kd">::</span> <span class="n">tmp_idx</span><span class="p">(:)</span>
 <a name="ln-60"></a>
 <a name="ln-61"></a>      <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="c">! for some reason this is a frequent case in cp2k</span>
 <a name="ln-62"></a>
@@ -426,8 +426,8 @@
 <a name="ln-168"></a>         <span class="c">!! returns elements-indices before the sort</span>
 <a name="ln-169"></a>
 <a name="ln-170"></a>      <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span>
-<a name="ln-171"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">pointer</span>                   <span class="kd">::</span> <span class="n">tmp_arr</span><span class="p">(:)</span>
-<a name="ln-172"></a>      <span class="kt">integer</span><span class="p">,</span> <span class="k">pointer</span>                   <span class="kd">::</span> <span class="n">tmp_idx</span><span class="p">(:)</span>
+<a name="ln-171"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">pointer</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>     <span class="kd">::</span> <span class="n">tmp_arr</span><span class="p">(:)</span>
+<a name="ln-172"></a>      <span class="kt">integer</span><span class="p">,</span> <span class="k">pointer</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>       <span class="kd">::</span> <span class="n">tmp_idx</span><span class="p">(:)</span>
 <a name="ln-173"></a>
 <a name="ln-174"></a>      <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="c">! for some reason this is a frequent case in cp2k</span>
 <a name="ln-175"></a>
@@ -539,8 +539,8 @@
 <a name="ln-281"></a>         <span class="c">!! returns elements-indices before the sort</span>
 <a name="ln-282"></a>
 <a name="ln-283"></a>      <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span>
-<a name="ln-284"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">pointer</span>                   <span class="kd">::</span> <span class="n">tmp_arr</span><span class="p">(:)</span>
-<a name="ln-285"></a>      <span class="kt">integer</span><span class="p">,</span> <span class="k">pointer</span>                   <span class="kd">::</span> <span class="n">tmp_idx</span><span class="p">(:)</span>
+<a name="ln-284"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">pointer</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>     <span class="kd">::</span> <span class="n">tmp_arr</span><span class="p">(:)</span>
+<a name="ln-285"></a>      <span class="kt">integer</span><span class="p">,</span> <span class="k">pointer</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>       <span class="kd">::</span> <span class="n">tmp_idx</span><span class="p">(:)</span>
 <a name="ln-286"></a>
 <a name="ln-287"></a>      <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="c">! for some reason this is a frequent case in cp2k</span>
 <a name="ln-288"></a>
@@ -652,8 +652,8 @@
 <a name="ln-394"></a>         <span class="c">!! returns elements-indices before the sort</span>
 <a name="ln-395"></a>
 <a name="ln-396"></a>      <span class="kt">integer</span> <span class="kd">::</span> <span class="n">i</span>
-<a name="ln-397"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">pointer</span>                   <span class="kd">::</span> <span class="n">tmp_arr</span><span class="p">(:)</span>
-<a name="ln-398"></a>      <span class="kt">integer</span><span class="p">,</span> <span class="k">pointer</span>                   <span class="kd">::</span> <span class="n">tmp_idx</span><span class="p">(:)</span>
+<a name="ln-397"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">pointer</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>     <span class="kd">::</span> <span class="n">tmp_arr</span><span class="p">(:)</span>
+<a name="ln-398"></a>      <span class="kt">integer</span><span class="p">,</span> <span class="k">pointer</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>       <span class="kd">::</span> <span class="n">tmp_idx</span><span class="p">(:)</span>
 <a name="ln-399"></a>
 <a name="ln-400"></a>      <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="c">! for some reason this is a frequent case in cp2k</span>
 <a name="ln-401"></a>

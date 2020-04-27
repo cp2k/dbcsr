@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.2% of total for procedures.">106 statements</a>
+    title=" 0.2% of total for procedures.">107 statements</a>
      </li> 
      
      
@@ -259,7 +259,7 @@ public subroutine acc_transpose_blocks(matrix, trs_stackbuf, row_blk_sizes, col_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>row_blk_sizes</strong></td><td></td>
   
 </tr>
@@ -274,7 +274,7 @@ public subroutine acc_transpose_blocks(matrix, trs_stackbuf, row_blk_sizes, col_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>col_blk_sizes</strong></td><td></td>
   
 </tr>
@@ -289,7 +289,7 @@ public subroutine acc_transpose_blocks(matrix, trs_stackbuf, row_blk_sizes, col_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>row_blk_sizes2enum</strong></td><td></td>
   
 </tr>
@@ -304,7 +304,7 @@ public subroutine acc_transpose_blocks(matrix, trs_stackbuf, row_blk_sizes, col_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>enum2row_blk_sizes</strong></td><td></td>
   
 </tr>
@@ -319,7 +319,7 @@ public subroutine acc_transpose_blocks(matrix, trs_stackbuf, row_blk_sizes, col_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>col_blk_sizes2enum</strong></td><td></td>
   
 </tr>
@@ -334,7 +334,7 @@ public subroutine acc_transpose_blocks(matrix, trs_stackbuf, row_blk_sizes, col_
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>enum2col_blk_sizes</strong></td><td></td>
   
 </tr>
@@ -429,8 +429,9 @@ public subroutine acc_transpose_blocks(matrix, trs_stackbuf, row_blk_sizes, col_
                                    <span class="n">noresize</span><span class="p">)</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">matrix</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                <span class="kd">::</span> <span class="n">trs_stackbuf</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">row_blk_sizes</span><span class="p">,</span> <span class="n">col_blk_sizes</span><span class="p">,</span> <span class="p">&amp;</span>
-                                                    <span class="n">row_blk_sizes2enum</span><span class="p">,</span> <span class="n">enum2row_blk_sizes</span><span class="p">,</span> <span class="n">col_blk_sizes2enum</span><span class="p">,</span> <span class="n">enum2col_blk_sizes</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span> <span class="kd">::</span> <span class="n">row_blk_sizes</span><span class="p">,</span> <span class="n">col_blk_sizes</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                                <span class="n">row_blk_sizes2enum</span><span class="p">,</span> <span class="n">enum2row_blk_sizes</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                                <span class="n">col_blk_sizes2enum</span><span class="p">,</span> <span class="n">enum2col_blk_sizes</span>
       <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">noresize</span>
 
       <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;acc_transpose_blocks&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -440,7 +441,8 @@ public subroutine acc_transpose_blocks(matrix, trs_stackbuf, row_blk_sizes, col_
                                                             <span class="n">mi_max</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">nblks</span><span class="p">,</span> <span class="n">ni</span><span class="p">,</span> <span class="n">ni_max</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="p">&amp;</span>
                                                             <span class="n">row</span><span class="p">,</span> <span class="n">col</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:)</span>              <span class="kd">::</span> <span class="n">counters</span><span class="p">,</span> <span class="n">filled</span><span class="p">,</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">tmp_stack</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="n">blk_index</span><span class="p">,</span> <span class="n">trs_stack</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="n">blk_index</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>         <span class="kd">::</span> <span class="n">trs_stack</span>
       <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">my_noresize</span>
 
       <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>

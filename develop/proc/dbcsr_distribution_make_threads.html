@@ -225,7 +225,7 @@ public subroutine dbcsr_distribution_make_threads(dist, row_sizes)
   
 <tr>
   
-  <td><span class="anchor" id="variable-dist~39"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
+  <td><span class="anchor" id="variable-dist~40"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
   <td>intent(inout),</td>
   <td></td>
   
@@ -244,7 +244,7 @@ public subroutine dbcsr_distribution_make_threads(dist, row_sizes)
   <td>intent(in),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>row_sizes</strong></td><td><p>row block sizes</p></td>
   
 </tr>
@@ -322,7 +322,7 @@ public subroutine dbcsr_distribution_make_threads(dist, row_sizes)
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">),</span> <span class="p">&amp;</span>
          <span class="k">TARGET</span>                                          <span class="kd">::</span> <span class="n">dist</span>
          <span class="c">!! Add thread distribution to this distribution</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>        <span class="kd">::</span> <span class="n">row_sizes</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">OPTIONAL</span> <span class="kd">::</span> <span class="n">row_sizes</span>
          <span class="c">!! row block sizes</span>
 
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span> <span class="k">POINTER</span>              <span class="kd">::</span> <span class="n">dist_p</span>

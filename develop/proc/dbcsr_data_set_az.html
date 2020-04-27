@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">22 statements</a>
+    title=" 0.0% of total for procedures.">24 statements</a>
      </li> 
      
      
@@ -277,7 +277,7 @@ private subroutine dbcsr_data_set_az(dst, lb, data_size, src, source_lb)
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>src</strong></td><td><p>source data array</p></td>
   
 </tr>
@@ -373,13 +373,16 @@ private subroutine dbcsr_data_set_az(dst, lb, data_size, src, source_lb)
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">lb</span><span class="p">,</span> <span class="n">data_size</span>
         <span class="c">!! lower bound for destination (and source if not given explicitly)</span>
         <span class="c">!! number of elements to copy</span>
-      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>      <span class="kd">::</span> <span class="n">src</span>
+      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">CONTIGUOUS</span> <span class="kd">::</span> <span class="n">src</span>
         <span class="c">!! source data array</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>            <span class="kd">::</span> <span class="n">source_lb</span>
         <span class="c">!! lower bound of source</span>
       <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_data_set_az&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
                                      <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
       <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">lb_s</span><span class="p">,</span> <span class="n">ub</span><span class="p">,</span> <span class="n">ub_s</span>
+
+      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span> <span class="kd">::</span> <span class="n">cont_data</span>
+
 <span class="c">!    ---------------------------------------------------------------------------</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">))</span> <span class="p">&amp;</span>
@@ -397,7 +400,8 @@ private subroutine dbcsr_data_set_az(dst, lb, data_size, src, source_lb)
 <span class="k">         </span><span class="n">lb_s</span> <span class="o">=</span> <span class="n">lb</span>
          <span class="n">ub_s</span> <span class="o">=</span> <span class="n">ub</span>
       <span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">memory_copy</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span> <span class="p">(</span><span class="n">lb</span><span class="p">:</span><span class="n">ub</span><span class="p">),</span> <span class="n">src</span><span class="p">(</span><span class="n">lb_s</span><span class="p">:</span><span class="n">ub_s</span><span class="p">),</span> <span class="n">data_size</span><span class="p">)</span>
+      <span class="n">cont_data</span> <span class="o">=&gt;</span> <span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span> <span class="p">(</span><span class="n">lb</span><span class="p">:</span><span class="n">ub</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">memory_copy</span><span class="p">(</span><span class="n">cont_data</span><span class="p">,</span> <span class="n">src</span><span class="p">(</span><span class="n">lb_s</span><span class="p">:</span><span class="n">ub_s</span><span class="p">),</span> <span class="n">data_size</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_data_set_az</span>
 </pre></div>
 

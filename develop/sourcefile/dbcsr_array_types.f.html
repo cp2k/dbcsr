@@ -322,8 +322,8 @@
 <a name="ln-64"></a>   <span class="k">END INTERFACE</span>
 <a name="ln-65"></a>
 <a name="ln-66"></a><span class="k">   TYPE </span><span class="n">array_i1d_type</span>
-<a name="ln-67"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>     <span class="kd">::</span> <span class="k">DATA</span> <span class="o">=&gt;</span> <span class="nb">Null</span><span class="p">()</span>
-<a name="ln-68"></a>      <span class="kt">INTEGER</span>                            <span class="kd">::</span> <span class="n">refcount</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-67"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span> <span class="kd">::</span> <span class="k">DATA</span> <span class="o">=&gt;</span> <span class="nb">Null</span><span class="p">()</span>
+<a name="ln-68"></a>      <span class="kt">INTEGER</span>                                    <span class="kd">::</span> <span class="n">refcount</span> <span class="o">=</span> <span class="mi">0</span>
 <a name="ln-69"></a>   <span class="k">END TYPE </span><span class="n">array_i1d_type</span>
 <a name="ln-70"></a>
 <a name="ln-71"></a>   <span class="k">TYPE </span><span class="n">array_i1d_obj</span>
@@ -334,7 +334,7 @@
 <a name="ln-76"></a>
 <a name="ln-77"></a><span class="k">   SUBROUTINE </span><span class="n">array_new_i1d</span><span class="p">(</span><span class="k">array</span><span class="p">,</span> <span class="k">DATA</span><span class="p">,</span> <span class="n">gift</span><span class="p">)</span>
 <a name="ln-78"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                   <span class="kd">::</span> <span class="k">array</span>
-<a name="ln-79"></a><span class="k">      </span><span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="k">DATA</span>
+<a name="ln-79"></a><span class="k">      </span><span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>         <span class="kd">::</span> <span class="k">DATA</span>
 <a name="ln-80"></a><span class="k">      </span><span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">gift</span>
 <a name="ln-81"></a>
 <a name="ln-82"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span>
@@ -403,7 +403,7 @@
 <a name="ln-145"></a>
 <a name="ln-146"></a>   <span class="k">FUNCTION </span><span class="n">array_data_i1d</span><span class="p">(</span><span class="k">array</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
 <a name="ln-147"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                    <span class="kd">::</span> <span class="k">array</span>
-<a name="ln-148"></a><span class="k">      </span><span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="k">DATA</span>
+<a name="ln-148"></a><span class="k">      </span><span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>         <span class="kd">::</span> <span class="k">DATA</span>
 <a name="ln-149"></a>
 <a name="ln-150"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="k">array</span><span class="p">%</span><span class="n">low</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-151"></a><span class="k">         DATA</span> <span class="o">=&gt;</span> <span class="k">array</span><span class="p">%</span><span class="n">low</span><span class="p">%</span><span class="k">data</span>
@@ -424,7 +424,7 @@
 <a name="ln-166"></a>   <span class="k">END FUNCTION </span><span class="n">array_size_i1d</span>
 <a name="ln-167"></a>
 <a name="ln-168"></a>   <span class="n">PURE_ARRAY_EQUALITY</span> <span class="k">FUNCTION </span><span class="n">array_equality_i1</span><span class="p">(</span><span class="n">array1</span><span class="p">,</span> <span class="n">array2</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">are_equal</span><span class="p">)</span>
-<a name="ln-169"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="n">array1</span><span class="p">,</span> <span class="n">array2</span>
+<a name="ln-169"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>         <span class="kd">::</span> <span class="n">array1</span><span class="p">,</span> <span class="n">array2</span>
 <a name="ln-170"></a>      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">are_equal</span>
 <a name="ln-171"></a>
 <a name="ln-172"></a>      <span class="n">are_equal</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>

@@ -278,7 +278,7 @@ private subroutine dbcsr_put_block_s(matrix, row, col, block, lb_row_col, transp
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>block</strong></td><td><p>the block to put</p></td>
   
 </tr>
@@ -437,7 +437,7 @@ private subroutine dbcsr_put_block_s(matrix, row, col, block, lb_row_col, transp
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span>
         <span class="c">!! the logical row</span>
         <span class="c">!! the logical column</span>
-      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="k">block</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="k">block</span>
         <span class="c">!! the block to put</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="k">OPTIONAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">lb_row_col</span>
       <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>            <span class="kd">::</span> <span class="n">transposed</span><span class="p">,</span> <span class="n">summation</span>
@@ -457,7 +457,7 @@ private subroutine dbcsr_put_block_s(matrix, row, col, block, lb_row_col, transp
                                                   <span class="n">stored_row</span><span class="p">,</span> <span class="n">stored_col</span><span class="p">,</span> <span class="p">&amp;</span>
                                                   <span class="n">iw</span><span class="p">,</span> <span class="n">nwms</span>
       <span class="kt">LOGICAL</span>                                  <span class="kd">::</span> <span class="n">found</span><span class="p">,</span> <span class="n">tr</span><span class="p">,</span> <span class="n">do_sum</span><span class="p">,</span> <span class="n">tr_diff</span>
-      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>           <span class="kd">::</span> <span class="n">block_1d</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>         <span class="kd">::</span> <span class="n">block_1d</span>
       <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">my_flop</span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>

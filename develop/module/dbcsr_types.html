@@ -1562,7 +1562,7 @@
   <td><span class="anchor" id="variable-pgrid"></span>integer,</td>
   
   <td>public,</td>
-  <td>DIMENSION(:, :), POINTER</td><td>::</td>
+  <td>DIMENSION(:, :), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>pgrid</strong></td><td>=> </td><td>Null()</td><td><p>processor grid</p></td>
   
 </tr>
@@ -2950,7 +2950,7 @@
   <td><span class="anchor" id="variable-tdist"></span>integer,</td>
   
   <td>public,</td>
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>tdist</strong></td><td>=> </td><td>Null()</td><td></td>
   
 </tr>
@@ -2964,7 +2964,7 @@
   <td><span class="anchor" id="variable-local_rows~2"></span>integer,</td>
   
   <td>public,</td>
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>local_rows</strong></td><td>=> </td><td>Null()</td><td><p>Mapping of local rows to global rows (if local indexing is enabled)</p></td>
   
 </tr>
@@ -2978,7 +2978,7 @@
   <td><span class="anchor" id="variable-global_rows"></span>integer,</td>
   
   <td>public,</td>
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>global_rows</strong></td><td>=> </td><td>Null()</td><td><p>Mapping of global rows to local rows (if local indexing is enabled)</p></td>
   
 </tr>
@@ -3217,7 +3217,7 @@
   <td><span class="anchor" id="variable-row_i"></span>integer,</td>
   
   <td>public,</td>
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>row_i</strong></td><td>=> </td><td>Null()</td><td><p>the row index of all of the blocks.</p></td>
   
 </tr>
@@ -3231,7 +3231,7 @@
   <td><span class="anchor" id="variable-col_i~2"></span>integer,</td>
   
   <td>public,</td>
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>col_i</strong></td><td>=> </td><td>Null()</td><td><p>the column index of all of the blocks.</p></td>
   
 </tr>
@@ -3245,7 +3245,7 @@
   <td><span class="anchor" id="variable-blk_p~2"></span>integer,</td>
   
   <td>public,</td>
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>blk_p</strong></td><td>=> </td><td>Null()</td><td><p>the pointer into the data array of this block.</p></td>
   
 </tr>
@@ -3404,7 +3404,7 @@
   <td><span class="anchor" id="variable-index"></span>integer,</td>
   
   <td>public,</td>
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>index</strong></td><td>=> </td><td>Null()</td><td><p>agglomeration of the indices and offsets of pointers into this array.</p></td>
   
 </tr>

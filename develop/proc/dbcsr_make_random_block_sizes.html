@@ -340,7 +340,7 @@ public subroutine dbcsr_make_random_block_sizes(block_sizes, size_sum, size_mix)
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">block_size</span><span class="p">,</span> <span class="n">current_sum</span><span class="p">,</span> <span class="n">nblocks</span><span class="p">,</span> <span class="p">&amp;</span>
                                                             <span class="n">nsize_mix</span><span class="p">,</span> <span class="n">selector</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:)</span>              <span class="kd">::</span> <span class="n">mixer</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="n">sizes</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>         <span class="kd">::</span> <span class="n">sizes</span>
 
 <span class="c">!</span>
 

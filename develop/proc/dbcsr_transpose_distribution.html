@@ -331,10 +331,10 @@ public subroutine dbcsr_transpose_distribution(dist_tr, dist_normal)
       <span class="k">CALL </span><span class="n">dbcsr_mp_new_transposed</span><span class="p">(</span><span class="n">mp_env_tr</span><span class="p">,</span> <span class="n">dbcsr_distribution_mp</span><span class="p">(</span> <span class="p">&amp;</span>
                                    <span class="n">dist_normal</span><span class="p">))</span>
       <span class="k">CALL </span><span class="n">dbcsr_distribution_new</span><span class="p">(</span><span class="n">dist_tr</span><span class="p">,</span> <span class="n">mp_env_tr</span><span class="p">,</span> <span class="p">&amp;</span>
-                                  <span class="n">dbcsr_distribution_col_dist</span><span class="p">(</span><span class="n">dist_normal</span><span class="p">),</span> <span class="p">&amp;</span>
-                                  <span class="n">dbcsr_distribution_row_dist</span><span class="p">(</span><span class="n">dist_normal</span><span class="p">),</span> <span class="p">&amp;</span>
-                                  <span class="n">dbcsr_distribution_local_cols</span><span class="p">(</span><span class="n">dist_normal</span><span class="p">),</span> <span class="p">&amp;</span>
-                                  <span class="n">dbcsr_distribution_local_rows</span><span class="p">(</span><span class="n">dist_normal</span><span class="p">))</span>
+                                  <span class="n">dist_normal</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">col_dist_block</span><span class="p">,</span> <span class="p">&amp;</span>
+                                  <span class="n">dist_normal</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">row_dist_block</span><span class="p">,</span> <span class="p">&amp;</span>
+                                  <span class="n">dist_normal</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">local_cols</span><span class="p">,</span> <span class="p">&amp;</span>
+                                  <span class="n">dist_normal</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">local_rows</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_mp_release</span><span class="p">(</span><span class="n">mp_env_tr</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_transpose_distribution</span>
 </pre></div>

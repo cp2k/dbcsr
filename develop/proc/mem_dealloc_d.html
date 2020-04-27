@@ -229,7 +229,7 @@ private subroutine mem_dealloc_d(mem, mem_type)
   <td></td>
   <td></td>
   
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>mem</strong></td><td><p>memory to allocate</p></td>
   
 </tr>
@@ -319,7 +319,7 @@ private subroutine mem_dealloc_d(mem, mem_type)
     <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">mem_dealloc_d</span> <span class="p">(</span><span class="n">mem</span><span class="p">,</span> <span class="n">mem_type</span><span class="p">)</span>
      <span class="c">!! Deallocates memory</span>
 
-      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>        <span class="kd">::</span> <span class="n">mem</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span> <span class="kd">::</span> <span class="n">mem</span>
         <span class="c">!! memory to allocate</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">mem_type</span>
         <span class="c">!! memory type</span>

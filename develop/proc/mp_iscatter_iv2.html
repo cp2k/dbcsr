@@ -228,10 +228,10 @@ private subroutine mp_iscatter_iv2(msg_scatter, msg, root, gid, request)
 <tr>
   
   <td><span class="anchor" id="variable-msg_scatter~3"></span>integer(kind=int_4),</td>
-  <td>intent(in)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg_scatter</strong>(:,:)</td><td><p>Data to scatter (for root process)</p></td>
   
 </tr>
@@ -243,10 +243,10 @@ private subroutine mp_iscatter_iv2(msg_scatter, msg, root, gid, request)
 <tr>
   
   <td><span class="anchor" id="variable-msg~40"></span>integer(kind=int_4),</td>
-  <td>intent(inout)</td>
+  <td>intent(inout),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>CONTIGUOUS</td><td>::</td>
   <td><strong>msg</strong>(:)</td><td></td>
   
 </tr>
@@ -371,10 +371,10 @@ private subroutine mp_iscatter_iv2(msg_scatter, msg, root, gid, request)
       <span class="c">!! MPI mapping</span>
       <span class="c">!! mpi_scatter</span>
 
-      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">msg_scatter</span><span class="p">(:,</span> <span class="p">:)</span>
+      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">msg_scatter</span><span class="p">(:,</span> <span class="p">:)</span>
          <span class="c">!! Data to scatter (for root process)</span>
-      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">msg</span><span class="p">(:)</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">root</span><span class="p">,</span> <span class="n">gid</span>
+      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_4</span><span class="p">),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>     <span class="kd">::</span> <span class="n">msg</span><span class="p">(:)</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>          <span class="kd">::</span> <span class="n">root</span><span class="p">,</span> <span class="n">gid</span>
          <span class="c">!! Process which scatters data</span>
          <span class="c">!! Message passing environment identifier</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">request</span>

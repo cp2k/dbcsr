@@ -531,10 +531,10 @@
 <a name="ln-273"></a>      <span class="k">CALL </span><span class="n">dbcsr_mp_new_transposed</span><span class="p">(</span><span class="n">mp_env_tr</span><span class="p">,</span> <span class="n">dbcsr_distribution_mp</span><span class="p">(</span> <span class="p">&amp;</span>
 <a name="ln-274"></a>                                   <span class="n">dist_normal</span><span class="p">))</span>
 <a name="ln-275"></a>      <span class="k">CALL </span><span class="n">dbcsr_distribution_new</span><span class="p">(</span><span class="n">dist_tr</span><span class="p">,</span> <span class="n">mp_env_tr</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-276"></a>                                  <span class="n">dbcsr_distribution_col_dist</span><span class="p">(</span><span class="n">dist_normal</span><span class="p">),</span> <span class="p">&amp;</span>
-<a name="ln-277"></a>                                  <span class="n">dbcsr_distribution_row_dist</span><span class="p">(</span><span class="n">dist_normal</span><span class="p">),</span> <span class="p">&amp;</span>
-<a name="ln-278"></a>                                  <span class="n">dbcsr_distribution_local_cols</span><span class="p">(</span><span class="n">dist_normal</span><span class="p">),</span> <span class="p">&amp;</span>
-<a name="ln-279"></a>                                  <span class="n">dbcsr_distribution_local_rows</span><span class="p">(</span><span class="n">dist_normal</span><span class="p">))</span>
+<a name="ln-276"></a>                                  <span class="n">dist_normal</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">col_dist_block</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-277"></a>                                  <span class="n">dist_normal</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">row_dist_block</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-278"></a>                                  <span class="n">dist_normal</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">local_cols</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-279"></a>                                  <span class="n">dist_normal</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">local_rows</span><span class="p">)</span>
 <a name="ln-280"></a>      <span class="k">CALL </span><span class="n">dbcsr_mp_release</span><span class="p">(</span><span class="n">mp_env_tr</span><span class="p">)</span>
 <a name="ln-281"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_transpose_distribution</span>
 <a name="ln-282"></a>
@@ -548,7 +548,7 @@
 <a name="ln-290"></a>
 <a name="ln-291"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">ncols_tr</span><span class="p">,</span> <span class="n">npcols_tr</span><span class="p">,</span> <span class="n">nprows_tr</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-292"></a>                                                            <span class="n">nrows_tr</span><span class="p">,</span> <span class="n">vgcd</span><span class="p">,</span> <span class="n">vlcm</span>
-<a name="ln-293"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="n">col_dist_data_tr</span><span class="p">,</span> <span class="n">col_img_data_tr</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-293"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>         <span class="kd">::</span> <span class="n">col_dist_data_tr</span><span class="p">,</span> <span class="n">col_img_data_tr</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-294"></a>                                                            <span class="n">row_dist_data_tr</span><span class="p">,</span> <span class="n">row_img_data_tr</span>
 <a name="ln-295"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">)</span>                                 <span class="kd">::</span> <span class="n">mp_env</span>
 <a name="ln-296"></a>
@@ -626,7 +626,7 @@
 <a name="ln-368"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">new_bins</span><span class="p">,</span> <span class="k">images</span>
 <a name="ln-369"></a>         <span class="c">!! new real distribution</span>
 <a name="ln-370"></a>         <span class="c">!! new image distribution</span>
-<a name="ln-371"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">source_bins</span>
+<a name="ln-371"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>      <span class="kd">::</span> <span class="n">source_bins</span>
 <a name="ln-372"></a>         <span class="c">!! Basis for the new distribution and images</span>
 <a name="ln-373"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">multiplicity</span><span class="p">,</span> <span class="n">nimages</span>
 <a name="ln-374"></a>         <span class="c">!! number of bins in the new real distribution</span>

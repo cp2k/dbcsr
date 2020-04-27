@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 2.6% of total for modules and submodules.">1631 statements</a>
+    title=" 2.6% of total for modules and submodules.">1632 statements</a>
      </li> 
      
      
@@ -808,7 +808,7 @@
   <td><span class="anchor" id="variable-left_images_size"></span>integer,</td>
   
   <td>private,</td>
-  <td>DIMENSION(:, :, :, :), POINTER</td><td>::</td>
+  <td>DIMENSION(:, :, :, :), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>left_images_size</strong></td><td>=> </td><td>Null()</td><td></td>
   
 </tr>
@@ -822,7 +822,7 @@
   <td><span class="anchor" id="variable-right_images_size"></span>integer,</td>
   
   <td>private,</td>
-  <td>DIMENSION(:, :, :, :), POINTER</td><td>::</td>
+  <td>DIMENSION(:, :, :, :), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>right_images_size</strong></td><td>=> </td><td>Null()</td><td></td>
   
 </tr>
@@ -948,7 +948,7 @@
   <td><span class="anchor" id="variable-make_buffers_meta_recv"></span>integer,</td>
   
   <td>private,</td>
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>make_buffers_meta_recv</strong></td><td>=> </td><td>Null()</td><td></td>
   
 </tr>
@@ -962,7 +962,7 @@
   <td><span class="anchor" id="variable-make_buffers_meta_send"></span>integer,</td>
   
   <td>private,</td>
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>make_buffers_meta_send</strong></td><td>=> </td><td>Null()</td><td></td>
   
 </tr>
@@ -1138,7 +1138,7 @@
   <td><span class="anchor" id="variable-meta"></span>integer,</td>
   
   <td>public,</td>
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>meta</strong></td><td>=> </td><td>Null()</td><td></td>
   
 </tr>
@@ -1152,7 +1152,7 @@
   <td><span class="anchor" id="variable-meta_before_resize"></span>integer,</td>
   
   <td>public,</td>
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>meta_before_resize</strong></td><td>=> </td><td>Null()</td><td></td>
   
 </tr>
@@ -1166,7 +1166,7 @@
   <td><span class="anchor" id="variable-meta_red3d"></span>integer,</td>
   
   <td>public,</td>
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>meta_red3D</strong></td><td>=> </td><td>Null()</td><td></td>
   
 </tr>
@@ -1380,7 +1380,7 @@
   <td><span class="anchor" id="variable-sizes~5"></span>integer,</td>
   
   <td>public,</td>
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>sizes</strong></td><td>=> </td><td>Null()</td><td></td>
   
 </tr>
@@ -2941,7 +2941,7 @@ private subroutine <a href='../proc/setup_buffer_matrix_image.html'>setup_buffer
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:), TARGET</td><td>::</td>
+  <td>DIMENSION(:), TARGET, CONTIGUOUS</td><td>::</td>
   <td><strong>meta_buffer</strong></td><td></td>
   
 </tr>
@@ -3825,7 +3825,7 @@ private subroutine <a href='../proc/remap_layers3d.html'>remap_layers3D</a>(refs
   <td>intent(in),</td>
   <td></td>
   
-  <td>DIMENSION(:, :, :, :), POINTER</td><td>::</td>
+  <td>DIMENSION(:, :, :, :), CONTIGUOUS, POINTER</td><td>::</td>
   <td><strong>refs_size</strong></td><td></td>
   
 </tr>
@@ -3840,7 +3840,7 @@ private subroutine <a href='../proc/remap_layers3d.html'>remap_layers3D</a>(refs
   <td>intent(out),</td>
   <td></td>
   
-  <td>DIMENSION(:, :, :), POINTER</td><td>::</td>
+  <td>DIMENSION(:, :, :), CONTIGUOUS, POINTER</td><td>::</td>
   <td><strong>refs_size_layers3D</strong></td><td></td>
   
 </tr>
@@ -3855,7 +3855,7 @@ private subroutine <a href='../proc/remap_layers3d.html'>remap_layers3D</a>(refs
   <td>intent(out),</td>
   <td></td>
   
-  <td>DIMENSION(:, :, :), POINTER</td><td>::</td>
+  <td>DIMENSION(:, :, :), CONTIGUOUS, POINTER</td><td>::</td>
   <td><strong>refs_displ_layers3D</strong></td><td></td>
   
 </tr>

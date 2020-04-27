@@ -299,7 +299,7 @@ private subroutine <a href='../proc/mp_waitall_1.html'>mp_waitall_1</a>(requests
   <td>intent(inout),</td>
   <td></td>
   
-  <td>DIMENSION(:)</td><td>::</td>
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
   <td><strong>requests</strong></td><td></td>
   
 </tr>
@@ -358,7 +358,7 @@ private subroutine <a href='../proc/mp_waitall_2.html'>mp_waitall_2</a>(requests
   <td>intent(inout),</td>
   <td></td>
   
-  <td>DIMENSION(:, :)</td><td>::</td>
+  <td>DIMENSION(:, :), CONTIGUOUS</td><td>::</td>
   <td><strong>requests</strong></td><td></td>
   
 </tr>

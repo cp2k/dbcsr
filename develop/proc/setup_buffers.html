@@ -413,7 +413,7 @@ private subroutine setup_buffers(buffer_1, buffer_2, buffers, nbuffers, data_siz
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_imagedistribution_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>   <span class="kd">::</span> <span class="n">imgdist</span>
 
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">ibuffer</span><span class="p">,</span> <span class="n">jbuffer</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="n">meta_p</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>         <span class="kd">::</span> <span class="n">meta_p</span>
       <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">has_trs_stackbuf</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_buffer</span><span class="p">),</span> <span class="k">POINTER</span>                        <span class="kd">::</span> <span class="n">buffer_p</span>
 

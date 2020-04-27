@@ -283,7 +283,7 @@
   <td><span class="anchor" id="variable-p"></span>integer,</td>
   
   <td>public,</td>
-  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>p</strong></td><td></td><td></td><td></td>
   
 </tr>
@@ -305,7 +305,7 @@
     <section>
     <h3><span class="anchor" id="src"></span>Source Code</h3>
     <div class="highlight"><pre><span></span>   <span class="k">TYPE </span><span class="n">i_array_p</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">p</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span> <span class="kd">::</span> <span class="n">p</span>
    <span class="k">END TYPE </span><span class="n">i_array_p</span>
 </pre></div>
 
