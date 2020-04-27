@@ -158,7 +158,7 @@ CONTAINS
       TYPE(dbcsr_tas_type), INTENT(OUT)              :: matrix
       CHARACTER(len=*), INTENT(IN)                   :: name
       TYPE(dbcsr_tas_distribution_type), INTENT(INOUT) :: dist
-      INTEGER, INTENT(IN)                            :: data_type
+      INTEGER, INTENT(IN), OPTIONAL                  :: data_type
       CLASS(dbcsr_tas_rowcol_data), INTENT(IN)       :: row_blk_size, col_blk_size
       LOGICAL, INTENT(IN), OPTIONAL                  :: own_dist
          !! whether matrix should own distribution
