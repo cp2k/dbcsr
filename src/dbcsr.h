@@ -18,7 +18,7 @@ extern "C" {
 #endif
     void c_dbcsr_init_lib_internal(MPI_Fint* fcomm, int* io_unit);
 
-    static void c_dbcsr_init_lib(MPI_Comm comm, int* io_unit)
+    inline void c_dbcsr_init_lib(MPI_Comm comm, int* io_unit)
     {
         MPI_Fint fcomm = MPI_Comm_c2f(comm);
         c_dbcsr_init_lib_internal(&fcomm, io_unit);
@@ -29,7 +29,7 @@ extern "C" {
     void c_dbcsr_distribution_new_aux(void** dist, MPI_Fint* fcomm, int* row_dist, int row_dist_size,
                                       int* col_dist, int col_dist_size);
 
-    static void c_dbcsr_distribution_new(void** dist, MPI_Comm comm, int* row_dist, int row_dist_size,
+    inline void c_dbcsr_distribution_new(void** dist, MPI_Comm comm, int* row_dist, int row_dist_size,
                                          int* col_dist, int col_dist_size)
     {
         MPI_Fint fcomm = MPI_Comm_c2f(comm);
@@ -53,6 +53,9 @@ extern "C" {
 
     void c_dbcsr_multiply_d(char transa, char transb, double alpha, void** c_matrix_a, void** c_matrix_b,
                             double beta, void** c_matrix_c, bool* retain_sparsity);
+
+  void c_free_string(char** c_string);
+
 #ifdef __cplusplus
 }
 #endif

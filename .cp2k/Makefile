@@ -132,6 +132,7 @@ endif
 # If compiling with nvcc
 ifneq (,$(findstring nvcc,$(ACC)))
 override ACCFLAGS += -D__CUDA
+FCFLAGS += -D__CUDA
 CXXFLAGS += -D__CUDA
 #if "-arch" has not yet been set in ACCFLAGS
 ifeq (,$(findstring -arch,$(ACCFLAGS)))
@@ -143,6 +144,7 @@ endif
 # If compiling with hipcc
 else ifneq (,$(findstring hipcc,$(ACC)))
 override ACCFLAGS += -D__HIP
+FCFLAGS += -D__HIP
 CXXFLAGS += -D__HIP
 #if "--amdgpu-target" has not yet been set in ACCFLAGS
 ifeq (,$(findstring --amdgpu-target,$(ACCFLAGS)))
@@ -162,17 +164,15 @@ endif
 # Declare PHONY targets =====================================================
 .PHONY : dirs makedep \
          default_target $(LIBRARY) \
-         clean realclean \
-         version
+         clean version
 
 # Discover files and directories ============================================
 ALL_SRC_DIRS := $(shell find $(SRCDIR) -type d | awk '{printf("%s:",$$1)}')
-ALL_SRC_DIRS += $(TESTSDIR)
 LIBSMM_ACC_DIR     := $(shell cd $(SRCDIR) ; find . -type d -name "libsmm_acc")
 LIBSMM_ACC_ABS_DIR := $(shell find $(SRCDIR) -type d -name "libsmm_acc")
 
 ALL_PKG_FILES := $(shell find $(SRCDIR) -name "PACKAGE")
-OBJ_SRC_FILES  = $(shell cd $(SRCDIR); find . ! -name "dbcsr_api_c.F" -name "*.F")
+OBJ_SRC_FILES  = $(shell cd $(SRCDIR); find . ! -name "dbcsr_api_c.F" ! -name "dbcsr_tensor_api_c.F" -name "*.F")
 OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.c")
 
 # if compiling with GPU acceleration
@@ -190,13 +190,9 @@ ifneq ($(ACC),)
   endif
 endif
 
-# Included files used by Fypp preprocessor and standard includes
-INCLUDED_SRC_FILES := $(filter-out base_uses.f90, $(notdir $(shell find $(SRCDIR) -name "*.f90")))
-INCLUDED_SRC_FILES += $(notdir $(shell find $(TESTSDIR) -name "*.f90"))
-
 # Include also source files which won't compile into an object file
 ALL_SRC_FILES  = $(strip $(subst $(NULL) .,$(NULL) $(SRCDIR),$(NULL) $(OBJ_SRC_FILES)))
-ALL_SRC_FILES += $(filter-out base_uses.f90, $(shell find $(SRCDIR) -name "*.f90"))
+ALL_SRC_FILES += $(shell find $(SRCDIR) -name "*.f90")
 ALL_SRC_FILES += $(shell find $(SRCDIR) -name "*.h")
 ALL_SRC_FILES += $(shell find $(SRCDIR) -name "*.hpp")
 
@@ -228,15 +224,6 @@ clean:
 	rm -f $(TESTSDIR)/libsmm_acc_timer_multiply.cpp
 	rm -rf $(OBJDIR)
 	rm -f $(LIBSMM_ACC_ABS_DIR)/parameters.h $(LIBSMM_ACC_ABS_DIR)/smm_acc_kernels.h $(LIBSMM_ACC_ABS_DIR)/*.so
-
-#
-# delete the intermediate files, the programs and libraries and anything that might be in the objdir or libdir directory
-# Use this if you want to fully rebuild an executable (for a given compiler)
-#
-realclean: clean
-	rm -rf $(LIBDIR) $(PREFIX)
-	rm -rf `find $(DBCSRHOME) -name "*.pyc"`
-	rm -rf `find $(DBCSRHOME) -name "*.callgraph"`
 
 # Libsmm_acc stuff ==========================================================
 $(LIBSMM_ACC_ABS_DIR)/parameters.h: $(LIBSMM_ACC_ABS_DIR)/generate_parameters.py $(wildcard $(LIBSMM_ACC_ABS_DIR)/parameters_*.txt)

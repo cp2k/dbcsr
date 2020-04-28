@@ -143,13 +143,6 @@ CONTAINS
          IF (matrix%list_indexing) THEN
             IF (SIZE(matrix%coo_l) .NE. 3*matrix%nblks) &
                DBCSR_ABORT("Wrong list")
-            IF (matrix%local_indexing) THEN
-               local_rows => array_data(matrix%local_rows)
-               local_cols => array_data(matrix%local_cols)
-            ELSE
-               NULLIFY (local_rows)
-               NULLIFY (local_cols)
-            ENDIF
             ebr = 1
             sblk = 3
          ELSE
@@ -171,6 +164,8 @@ CONTAINS
                   br = matrix%coo_l(blk)
                   bc = matrix%coo_l(blk + 1)
                   IF (matrix%local_indexing) THEN
+                     local_rows => array_data(matrix%local_rows)
+                     local_cols => array_data(matrix%local_cols)
                      br = local_rows(br)
                      bc = local_cols(bc)
                   ENDIF
@@ -799,7 +794,7 @@ CONTAINS
       INTEGER, ALLOCATABLE, DIMENSION(:), TARGET     :: ginfo_vec, linfo_vec, &
                                                         rowp, coli, blkp
       INTEGER, ALLOCATABLE, DIMENSION(:, :), TARGET   :: val_data
-      INTEGER, DIMENSION(:), POINTER                 :: row_blk_size, col_blk_size
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS     :: row_blk_size, col_blk_size
       TYPE(dbcsr_mp_obj)                             :: mp_env
       TYPE(dbcsr_data_obj)                           :: dblk
       REAL(sp)                                       :: rsp_dummy(1)

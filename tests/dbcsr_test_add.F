@@ -94,7 +94,7 @@ CONTAINS
       INTEGER                                            :: a_c, a_r, b_c, b_r, handle, isymm, &
                                                             itype, mynode, numnodes, numthreads, &
                                                             TYPE
-      INTEGER, DIMENSION(:), POINTER                     :: my_sizes_m, my_sizes_n, sizes_m, sizes_n
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: my_sizes_m, my_sizes_n, sizes_m, sizes_n
       LOGICAL                                            :: do_complex
       TYPE(dbcsr_data_obj)                               :: data_a, data_a_dbcsr, data_b
       TYPE(dbcsr_scalar_type)                            :: alpha_obj, beta_obj
@@ -251,7 +251,7 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'test_add', routineP = moduleN//':'//routineN
 
       INTEGER                                            :: c, handle, r
-      INTEGER, DIMENSION(:), POINTER                     :: col_dist_a, col_dist_b, row_dist_a, &
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: col_dist_a, col_dist_b, row_dist_a, &
                                                             row_dist_b
       LOGICAL                                            :: success
       REAL(real_8)                                       :: occ_a_in, occ_a_out, occ_b
@@ -275,16 +275,16 @@ CONTAINS
       ! A
       CALL dbcsr_create(m_a, "Test for "//TRIM(dbcsr_name(matrix_a)), &
                         dist_a, dbcsr_get_matrix_type(matrix_a), &
-                        dbcsr_row_block_sizes(matrix_a), &
-                        dbcsr_col_block_sizes(matrix_a), &
+                        row_blk_size_obj=matrix_a%row_blk_size, &
+                        col_blk_size_obj=matrix_a%col_blk_size, &
                         data_type=dbcsr_get_data_type(matrix_a))
       CALL dbcsr_distribution_release(dist_a)
       CALL dbcsr_redistribute(matrix_a, m_a)
       ! B
       CALL dbcsr_create(m_b, "Test for "//TRIM(dbcsr_name(matrix_b)), &
                         dist_b, dbcsr_get_matrix_type(matrix_b), &
-                        dbcsr_row_block_sizes(matrix_b), &
-                        dbcsr_col_block_sizes(matrix_b), &
+                        row_blk_size_obj=matrix_b%row_blk_size, &
+                        col_blk_size_obj=matrix_b%col_blk_size, &
                         data_type=dbcsr_get_data_type(matrix_b))
       CALL dbcsr_distribution_release(dist_b)
       CALL dbcsr_redistribute(matrix_b, m_b)

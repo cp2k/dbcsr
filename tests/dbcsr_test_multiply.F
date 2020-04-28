@@ -119,7 +119,7 @@ CONTAINS
       INTEGER                                            :: a_c, a_r, a_tr, b_c, b_r, b_tr, c_c, &
                                                             c_r, handle, isymm, itype, mynode, &
                                                             numnodes, numthreads, TYPE
-      INTEGER, DIMENSION(:), POINTER                     :: my_sizes_k, my_sizes_m, my_sizes_n, &
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: my_sizes_k, my_sizes_m, my_sizes_n, &
                                                             sizes_k, sizes_m, sizes_n
       LOGICAL                                            :: do_complex
       TYPE(dbcsr_data_obj)                               :: data_a, data_b, data_c, data_c_dbcsr
@@ -373,7 +373,7 @@ CONTAINS
       CHARACTER(len=*), PARAMETER :: routineN = 'test_multiply', routineP = moduleN//':'//routineN
 
       INTEGER                                            :: c_a, c_b, c_c, handle, r_a, r_b, r_c
-      INTEGER, DIMENSION(:), POINTER                     :: blk_offsets, col_dist_a, col_dist_b, &
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: blk_offsets, col_dist_a, col_dist_b, &
                                                             col_dist_c, row_dist_a, row_dist_b, &
                                                             row_dist_c
       LOGICAL                                            :: success
@@ -413,24 +413,24 @@ CONTAINS
       ! A
       CALL dbcsr_create(m_a, "Test for "//TRIM(dbcsr_name(matrix_a)), &
                         dist_a, dbcsr_get_matrix_type(matrix_a), &
-                        dbcsr_row_block_sizes(matrix_a), &
-                        dbcsr_col_block_sizes(matrix_a), &
+                        row_blk_size_obj=matrix_a%row_blk_size, &
+                        col_blk_size_obj=matrix_a%col_blk_size, &
                         data_type=dbcsr_get_data_type(matrix_a))
       CALL dbcsr_distribution_release(dist_a)
       CALL dbcsr_redistribute(matrix_a, m_a)
       ! B
       CALL dbcsr_create(m_b, "Test for "//TRIM(dbcsr_name(matrix_b)), &
                         dist_b, dbcsr_get_matrix_type(matrix_b), &
-                        dbcsr_row_block_sizes(matrix_b), &
-                        dbcsr_col_block_sizes(matrix_b), &
+                        row_blk_size_obj=matrix_b%row_blk_size, &
+                        col_blk_size_obj=matrix_b%col_blk_size, &
                         data_type=dbcsr_get_data_type(matrix_b))
       CALL dbcsr_distribution_release(dist_b)
       CALL dbcsr_redistribute(matrix_b, m_b)
       ! C
       CALL dbcsr_create(m_c, "Test for "//TRIM(dbcsr_name(matrix_c)), &
                         dist_c, dbcsr_get_matrix_type(matrix_c), &
-                        dbcsr_row_block_sizes(matrix_c), &
-                        dbcsr_col_block_sizes(matrix_c), &
+                        row_blk_size_obj=matrix_c%row_blk_size, &
+                        col_blk_size_obj=matrix_c%col_blk_size, &
                         data_type=dbcsr_get_data_type(matrix_c))
       CALL dbcsr_distribution_release(dist_c)
       CALL dbcsr_redistribute(matrix_c, m_c)

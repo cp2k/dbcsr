@@ -516,6 +516,9 @@ CONTAINS
 
       CALL timeset(routineN, handle)
 
+      m = 0
+      dbcsr_ind = 0
+      fullcol_sum_blkrow = 0
       NULLIFY (dbcsr_index, csr_index)
 
       CALL dbcsr_get_info(brd_mat, nblkrows_total=nblkrows_total)
@@ -690,6 +693,9 @@ CONTAINS
       TYPE(dbcsr_iterator)                               :: iter
 
       CALL timeset(routineN, handle)
+      local_row_ind = 0
+      dbcsr_ind = 0
+      node_row_offset = 0
       NULLIFY (rowptr, colind, dbcsr_index, csr_index)
 
       dbcsr_index => csr_mat%dbcsr_mapping%csr_to_brd_ind
@@ -1403,7 +1409,7 @@ CONTAINS
                  split_row, start_ind
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: rdist_tmp, row_blk_size_new_tmp
       INTEGER, ALLOCATABLE, DIMENSION(:, :)              :: pgrid
-      INTEGER, DIMENSION(:), POINTER                     :: cdist, col_blk_size, rdist, &
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: cdist, col_blk_size, rdist, &
                                                             row_blk_size, row_blk_size_new
       REAL(KIND=real_8)                                  :: chunk_size
       TYPE(dbcsr_distribution_obj)                       :: dist_current, dist_new

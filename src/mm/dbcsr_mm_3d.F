@@ -125,7 +125,7 @@ MODULE dbcsr_mm_3d
       INTEGER                                     :: grp = mp_comm_null, & ! Global communicator
                                                      subgrp = mp_comm_null ! Communicator for A and B
       INTEGER                                     :: data_win, meta_win
-      INTEGER, DIMENSION(:), POINTER              :: meta => Null(), &
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS  :: meta => Null(), &
                                                      meta_before_resize => Null(), &
                                                      meta_red3D => Null()
       INTEGER, DIMENSION(2)                       :: get_requests
@@ -143,7 +143,7 @@ MODULE dbcsr_mm_3d
    END TYPE dbcsr_buffers
 
    TYPE mn_local_sizes
-      INTEGER, DIMENSION(:), POINTER  :: sizes => Null()
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS :: sizes => Null()
    END TYPE mn_local_sizes
 
    TYPE dbcsr_layers_3D_C_reduction
@@ -176,8 +176,8 @@ MODULE dbcsr_mm_3d
 
    INTEGER, ALLOCATABLE, DIMENSION(:, :), TARGET, PRIVATE  :: left_local_images_size, &
                                                               right_local_images_size
-   INTEGER, DIMENSION(:, :, :, :), POINTER, PRIVATE        :: left_images_size => Null(), &
-                                                              right_images_size => Null()
+   INTEGER, DIMENSION(:, :, :, :), POINTER, CONTIGUOUS, PRIVATE :: left_images_size => Null(), &
+                                                                   right_images_size => Null()
 
    INTEGER, ALLOCATABLE, DIMENSION(:), TARGET, PRIVATE :: g2l_map_cols, g2l_map_rows
 
@@ -189,8 +189,8 @@ MODULE dbcsr_mm_3d
 
    ! Buffers used in make_buffers
    TYPE(dbcsr_data_obj), TARGET, SAVE :: make_buffers_data_recv, make_buffers_data_send
-   INTEGER, DIMENSION(:), POINTER     :: make_buffers_meta_recv => Null(), &
-                                         make_buffers_meta_send => Null()
+   INTEGER, DIMENSION(:), POINTER, CONTIGUOUS :: make_buffers_meta_recv => Null(), &
+                                                 make_buffers_meta_send => Null()
 
    PUBLIC :: multiply_3D
    PUBLIC :: release_layers_3d_C_reduction, buffers_release
@@ -257,15 +257,16 @@ CONTAINS
       INTEGER, ALLOCATABLE, DIMENSION(:, :, :, :)        :: recv_displs, recv_sizes, send_displs, &
                                                             send_sizes
       INTEGER, DIMENSION(2)                              :: block_col_bounds, block_row_bounds
-      INTEGER, DIMENSION(:), POINTER :: col_dist, col_img_dist, local_cols, local_g2l_map_cols, &
-                                        local_g2l_map_rows, local_rows, meta_buffer_p, row_dist, row_img_dist, threads_dist
-      INTEGER, DIMENSION(:, :), POINTER                  :: blacs2mpi, local_images_size
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS  :: col_dist, col_img_dist, local_cols, local_g2l_map_cols, &
+                                                     local_g2l_map_rows, local_rows, meta_buffer_p, &
+                                                     row_dist, row_img_dist, threads_dist
+      INTEGER, DIMENSION(:, :), POINTER, CONTIGUOUS      :: blacs2mpi, local_images_size
       INTEGER, DIMENSION(idata:imeta)                    :: my_size_recv, my_size_send
       INTEGER, POINTER                                   :: coli, rowi
       INTEGER, TARGET                                    :: mi, ui
       LOGICAL :: do_crop, do_part_crop_col, do_part_crop_f_col, do_part_crop_f_row, &
                  do_part_crop_l_col, do_part_crop_l_row, do_part_crop_row, do_symmetry, tr
-      LOGICAL, DIMENSION(:), POINTER                     :: do_win_create
+      LOGICAL, DIMENSION(:), POINTER, CONTIGUOUS         :: do_win_create
       TYPE(dbcsr_buffer), POINTER                        :: buffer
       TYPE(dbcsr_data_obj)                               :: data_block
       TYPE(dbcsr_data_obj), POINTER                      :: data_buffer_p
@@ -335,6 +336,10 @@ CONTAINS
       do_crop = .FALSE.
       do_part_crop_row = .FALSE.
       do_part_crop_col = .FALSE.
+      do_part_crop_f_row = .FALSE.
+      do_part_crop_l_row = .FALSE.
+      do_part_crop_f_col = .FALSE.
+      do_part_crop_l_col = .FALSE.
       ! Set no limits
       IF (ANY((/f_row, l_row, f_col, l_col/) .NE. 0)) THEN
          IF (f_row .LT. 0) &
@@ -349,7 +354,6 @@ CONTAINS
          do_crop = .TRUE.
          !
          ! Convert bounds to block addressing
-         do_part_crop_f_row = .FALSE.
          IF (f_row .EQ. 0) THEN
             block_row_bounds(1) = 1
          ELSE
@@ -364,7 +368,6 @@ CONTAINS
             ENDIF
          ENDIF
          !
-         do_part_crop_l_row = .FALSE.
          IF (l_row .EQ. 0) THEN
             block_row_bounds(2) = dbcsr_nblkrows_total(matrix)
          ELSE
@@ -380,7 +383,6 @@ CONTAINS
          ENDIF
          do_part_crop_row = do_part_crop_f_row .OR. do_part_crop_l_row
          !
-         do_part_crop_f_col = .FALSE.
          IF (f_col .EQ. 0) THEN
             block_col_bounds(1) = 1
          ELSE
@@ -395,7 +397,6 @@ CONTAINS
             ENDIF
          ENDIF
          !
-         do_part_crop_l_col = .FALSE.
          IF (l_col .EQ. 0) THEN
             block_col_bounds(2) = dbcsr_nblkcols_total(matrix)
          ELSE
@@ -1172,10 +1173,11 @@ CONTAINS
       INTEGER, ALLOCATABLE, DIMENSION(:, :)              :: product_matrix_meta_displ, &
                                                             product_matrix_meta_size
       INTEGER, DIMENSION(2)                              :: requests_reduction_size
-      INTEGER, DIMENSION(:), POINTER :: col_blk_sizes2enum, enum2col_blk_sizes, &
-                                        enum2row_blk_sizes, k_sizes, product_matrix_meta_recv, product_matrix_meta_send, &
-                                        row_blk_sizes2enum
-      INTEGER, DIMENSION(:, :, :), POINTER               :: left_displ_layers3D, &
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS :: col_blk_sizes2enum, enum2col_blk_sizes, &
+                                                    enum2row_blk_sizes, product_matrix_meta_recv, product_matrix_meta_send, &
+                                                    row_blk_sizes2enum
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: k_sizes
+      INTEGER, DIMENSION(:, :, :), POINTER, CONTIGUOUS   :: left_displ_layers3D, &
                                                             left_images_size_layers3D, &
                                                             right_displ_layers3D, &
                                                             right_images_size_layers3D
@@ -1190,7 +1192,7 @@ CONTAINS
       REAL(kind=sp)                                      :: filter_eps_sp
       REAL(kind=sp), ALLOCATABLE, DIMENSION(:), TARGET   :: row_max_epss
       REAL(kind=sp), ALLOCATABLE, DIMENSION(:, :)        :: left_norms, right_norms
-      REAL(kind=sp), DIMENSION(:), POINTER               :: product_matrix_epss
+      REAL(kind=sp), DIMENSION(:), POINTER, CONTIGUOUS   :: product_matrix_epss
       TYPE(dbcsr_2d_array_obj)                           :: product_matrix3D
       TYPE(dbcsr_buffer), ALLOCATABLE, DIMENSION(:), &
          TARGET                                          :: left_buffers, right_buffers
@@ -1430,10 +1432,10 @@ CONTAINS
                                            capacity=2)
       IF (has_acc) THEN
          ! enumerate the blocksizes to keep the following 2D-arrays small.
-         CALL enumerate_blk_sizes(dbcsr_row_block_sizes(matrix_right), &
+         CALL enumerate_blk_sizes(matrix_right%row_blk_size%low%data, &
                                   dbcsr_max_row_size(matrix_right), &
                                   row_blk_sizes2enum, enum2row_blk_sizes)
-         CALL enumerate_blk_sizes(dbcsr_col_block_sizes(matrix_right), &
+         CALL enumerate_blk_sizes(matrix_right%col_blk_size%low%data, &
                                   dbcsr_max_col_size(matrix_right), &
                                   col_blk_sizes2enum, enum2col_blk_sizes)
       ENDIF
@@ -2306,7 +2308,7 @@ CONTAINS
       TYPE(dbcsr_imagedistribution_obj), INTENT(INOUT)   :: imgdist
 
       INTEGER                                            :: ibuffer, jbuffer
-      INTEGER, DIMENSION(:), POINTER                     :: meta_p
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: meta_p
       LOGICAL                                            :: has_trs_stackbuf
       TYPE(dbcsr_buffer), POINTER                        :: buffer_p
 
@@ -2363,15 +2365,15 @@ CONTAINS
       TYPE(dbcsr_imagedistribution_obj), INTENT(INOUT)   :: imgdist
       TYPE(dbcsr_type), INTENT(IN)                       :: template_matrix
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: data_buffer
-      INTEGER, DIMENSION(:), INTENT(IN), TARGET          :: meta_buffer
+      INTEGER, DIMENSION(:), INTENT(IN), TARGET, CONTIGUOUS :: meta_buffer
 
       matrix = dbcsr_type()
       CALL dbcsr_create(matrix, &
                         "Buffer image of "//template_matrix%name, &
                         imgdist%i%main, &
                         dbcsr_type_no_symmetry, &
-                        array_data(template_matrix%row_blk_size), array_data(template_matrix%col_blk_size), &
-                        template_matrix%row_blk_size, template_matrix%col_blk_size, &
+                        row_blk_size_obj=template_matrix%row_blk_size, &
+                        col_blk_size_obj=template_matrix%col_blk_size, &
                         data_type=dbcsr_data_get_type(data_buffer), &
                         data_buffer=data_buffer, &
                         max_rbs=template_matrix%max_rbs, max_cbs=template_matrix%max_cbs, &
@@ -2412,7 +2414,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: layer3D, nlayers3D
 
       INTEGER                                            :: recv_proc
-      INTEGER, DIMENSION(:), POINTER                     :: meta_get
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: meta_get
 
       buffer%is_comm = .TRUE.
       buffer%get_requests(:) = mp_request_null
@@ -2706,8 +2708,9 @@ CONTAINS
       !! Remap the 4-rank array in a 3-rank array by introducing the virtual coordinate
                              data_size, meta_size)
       INTEGER, DIMENSION(:, :, :, :), INTENT(IN), &
-         POINTER                                         :: refs_size
-      INTEGER, DIMENSION(:, :, :), INTENT(OUT), POINTER  :: refs_size_layers3D, refs_displ_layers3D
+         CONTIGUOUS, POINTER                             :: refs_size
+      INTEGER, DIMENSION(:, :, :), INTENT(OUT), &
+         CONTIGUOUS, POINTER                             :: refs_size_layers3D, refs_displ_layers3D
       INTEGER, INTENT(OUT)                               :: data_size, meta_size
 
       INTEGER                                            :: ilayer, image, iproc, nimages, &

@@ -287,6 +287,12 @@ $:fct
       TYPE(private_item_type_${keytype}$_${valuetype}$), POINTER                      :: item
       INTEGER(KIND=int_8)                                   :: hash, idx
 
+#:if valuetype_fort == 'INTEGER(kind=int_4)'
+      value = 0
+#:elif valuetype_fort == 'TYPE(call_stat_type), POINTER'
+      NULLIFY (value)
+#:endif
+
       IF (.not. ASSOCIATED(dict%buckets)) &
          DBCSR_ABORT("dict_${keytype}$_${valuetype}$_get: dictionary is not initialized.")
 

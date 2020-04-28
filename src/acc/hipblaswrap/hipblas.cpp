@@ -7,8 +7,6 @@
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
 
-#if (__DBCSR_ACC == 3)
-
 #include <stdio.h>
 #include "hipblas_v2.h"
 #include <hip/hip_runtime.h>
@@ -68,5 +66,3 @@ extern "C" int hipblas_dgemm(hipblasHandle_t *handle, char transa, char transb,
   if (acc_error_check(hipGetLastError())) return(-1);
   return(0);
 }
-
-#endif

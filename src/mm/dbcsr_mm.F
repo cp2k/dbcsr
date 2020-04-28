@@ -500,6 +500,7 @@ CONTAINS
       ENDIF
 
       ! transpose/conjg left and/or right matrices if needed
+      transpose_left = .FALSE.
       SELECT CASE (transa_l)
       CASE (dbcsr_no_transpose)
          matrix_left = matrix_a
@@ -530,6 +531,7 @@ CONTAINS
          DBCSR_ABORT("wrong transa_l = "//transa_l)
       END SELECT
 
+      transpose_right = .FALSE.
       SELECT CASE (transb_l)
       CASE (dbcsr_no_transpose)
          matrix_right = matrix_b
@@ -561,11 +563,11 @@ CONTAINS
       END SELECT
       !
       ! Ensure matrix compatibility.
-      IF (.NOT. array_equality(dbcsr_row_block_offsets(matrix_c), dbcsr_row_block_offsets(matrix_left))) &
+      IF (.NOT. array_equality(matrix_c%row_blk_offset, matrix_left%row_blk_offset)) &
          DBCSR_ABORT("C/A rows not equal")
-      IF (.NOT. array_equality(dbcsr_col_block_offsets(matrix_c), dbcsr_col_block_offsets(matrix_right))) &
+      IF (.NOT. array_equality(matrix_c%col_blk_offset, matrix_right%col_blk_offset)) &
          DBCSR_ABORT("C/B columns not equal")
-      IF (.NOT. array_equality(dbcsr_col_block_offsets(matrix_left), dbcsr_row_block_offsets(matrix_right))) &
+      IF (.NOT. array_equality(matrix_left%col_blk_offset, matrix_right%row_blk_offset)) &
          DBCSR_ABORT("A cols/B rows not equal")
       !
       ! No dense multiplication when filtering is used.
@@ -660,8 +662,8 @@ CONTAINS
       IF (f_k .EQ. 1) f_k = 0
       IF (l_k .EQ. dbcsr_nfullcols_total(matrix_left)) l_k = 0
       IF (.NOT. PRESENT(last_column) .AND. &
-          .NOT. array_equality(dbcsr_col_block_sizes(matrix_right), &
-                               dbcsr_col_block_sizes(matrix_c))) THEN
+          .NOT. array_equality(matrix_right%col_blk_size, &
+                               matrix_c%col_blk_size)) THEN
          l_col = MIN(dbcsr_nfullcols_total(matrix_right), &
                      dbcsr_nfullcols_total(matrix_c))
       ENDIF

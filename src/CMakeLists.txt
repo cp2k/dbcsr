@@ -39,7 +39,6 @@ add_fypp_sources(DBCSR_SRCS
   core/dbcsr_list_routinestat.F
   core/dbcsr_list_timerenv.F
   core/dbcsr_log_handling.F
-  core/dbcsr_memory_utilities.F
   core/dbcsr_print_messages.F
   core/dbcsr_timings_base_type.F
   core/dbcsr_timings.F
@@ -164,9 +163,8 @@ if (APPLE)
   endif ()
 endif()
 
-# set -DNDEBUG for Release or Coverage builds
+# set -DNDEBUG for Release builds
 target_compile_definitions(dbcsr PRIVATE "$<$<CONFIG:Release>:NDEBUG>")
-target_compile_definitions(dbcsr PRIVATE "$<$<CONFIG:Coverage>:NDEBUG>")
 
 target_link_libraries(dbcsr PRIVATE ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
 target_include_directories(dbcsr PRIVATE base) # do not export those includes, but some srcs do an unprefixed include
@@ -251,15 +249,8 @@ if (USE_CUDA)
   target_compile_definitions(acc PRIVATE __CUDA)
   target_include_directories(acc PRIVATE ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
   target_sources(dbcsr PRIVATE $<TARGET_OBJECTS:acc>)
-  if (USE_CUBLAS)
-    target_compile_definitions(acc PRIVATE __DBCSR_ACC=2)
-    # with CMake 3.12+ the following can be replaced by:
-    #   target_link_libraries(acc PRIVATE ${CUBLAS})
-    set_target_properties(acc PROPERTIES INTERFACE_LINK_LIBRARIES ${CUBLAS})
-  else ()
-    target_compile_definitions(acc PRIVATE __DBCSR_ACC)
-  endif ()
-
+  target_compile_definitions(acc PRIVATE __DBCSR_ACC)
+  target_link_libraries(acc PRIVATE ${CUBLAS})
 
   # tests need some of the libsmm_acc headers and for CMake <3.12
   # compatibility, we can't set it on the the object library itself
@@ -267,12 +258,9 @@ if (USE_CUDA)
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/acc/libsmm_acc>
     )
 
-  if (USE_CUBLAS)
-    target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC=2)
-    target_link_libraries(dbcsr PRIVATE ${CUBLAS})
-  else ()
-    target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC)
-  endif ()
+  target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC)
+  target_link_libraries(dbcsr PRIVATE ${CUBLAS})
+  target_compile_definitions(dbcsr PRIVATE __CUDA)
 
   if (APPLE)
     # Help the static cuda runtime find the driver (libcuda.dyllib) at runtime.
@@ -318,12 +306,9 @@ if (USE_HIP)
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/acc/libsmm_acc>
     )
 
-  if (USE_HIPBLAS)
-    target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC=3)
-    target_link_libraries(dbcsr PRIVATE ${HIPBLAS})
-  else ()
-    target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC)
-  endif ()
+  target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC)
+  target_link_libraries(dbcsr PRIVATE ${HIPBLAS})
+  target_compile_definitions(dbcsr PRIVATE __HIP)
 
 endif ()
 
@@ -331,7 +316,10 @@ endif ()
 # DBCSR's C API
 if (WITH_C_API)
   # Build the C API as a separate library
-  add_fypp_sources(DBCSR_C_SRCS dbcsr_api_c.F)
+  add_fypp_sources(DBCSR_C_SRCS
+	  dbcsr_api_c.F
+	  tensors/dbcsr_tensor_api_c.F
+	  tensors/dbcsr_tensor.h)
 
   add_library(dbcsr_c ${DBCSR_C_SRCS})
   set_target_properties(dbcsr_c PROPERTIES
@@ -345,8 +333,8 @@ if (WITH_C_API)
   target_link_libraries(dbcsr_c PRIVATE dbcsr)
   target_link_libraries(dbcsr_c PUBLIC MPI::MPI_C)  # the C API always needs MPI
   target_include_directories(dbcsr_c PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}> #change order so compiler first checks binary directory
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
     )
 endif ()
@@ -373,6 +361,7 @@ if (WITH_C_API)
     ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
     )
   install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/dbcsr.h"
+	  "${CMAKE_CURRENT_BINARY_DIR}/tensors/dbcsr_tensor.h"
     COMPONENT C
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
     )

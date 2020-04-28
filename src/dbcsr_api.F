@@ -837,15 +837,29 @@ CONTAINS
          OPTIONAL                                        :: template
       INTEGER, INTENT(IN), OPTIONAL                      :: group
       INTEGER, DIMENSION(:, :), OPTIONAL, POINTER        :: pgrid
-      INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: row_dist, col_dist
+      INTEGER, DIMENSION(:), INTENT(INOUT), POINTER      :: row_dist, col_dist
       LOGICAL, INTENT(IN), OPTIONAL                      :: reuse_arrays
 
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: cont_row_dist, cont_col_dist
+
+      ! Make the arrays contiguous, avoid change in the API
+      ALLOCATE (cont_row_dist(SIZE(row_dist)), cont_col_dist(SIZE(col_dist)))
+      cont_row_dist(:) = row_dist(:)
+      cont_col_dist(:) = col_dist(:)
+
+      IF (PRESENT(reuse_arrays)) THEN
+         IF (reuse_arrays) THEN
+            DEALLOCATE (row_dist, col_dist)
+            NULLIFY (row_dist, col_dist)
+         ENDIF
+      ENDIF
+
       IF (PRESENT(template)) THEN
-         call dbcsr_distribution_new_prv(dist%prv, template%prv, group, pgrid, row_dist, col_dist, &
-                                         reuse_arrays)
+         call dbcsr_distribution_new_prv(dist%prv, template%prv, group, pgrid, cont_row_dist, cont_col_dist, &
+                                         reuse_arrays=.TRUE.)
       ELSE
-         call dbcsr_distribution_new_prv(dist%prv, group=group, pgrid=pgrid, row_dist=row_dist, col_dist=col_dist, &
-                                         reuse_arrays=reuse_arrays)
+         call dbcsr_distribution_new_prv(dist%prv, group=group, pgrid=pgrid, row_dist=cont_row_dist, col_dist=cont_col_dist, &
+                                         reuse_arrays=.TRUE.)
       ENDIF
    END SUBROUTINE dbcsr_distribution_new
 
@@ -879,16 +893,28 @@ CONTAINS
       CHARACTER(len=*), INTENT(IN)                       :: name
       TYPE(dbcsr_distribution_type), INTENT(IN)          :: dist
       CHARACTER, INTENT(IN)                              :: matrix_type
-      INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: row_blk_size, col_blk_size
+      INTEGER, DIMENSION(:), INTENT(INOUT), POINTER      :: row_blk_size, col_blk_size
       INTEGER, INTENT(IN), OPTIONAL                      :: nze, data_type
       LOGICAL, INTENT(IN), OPTIONAL                      :: reuse, reuse_arrays, mutable_work
       CHARACTER, INTENT(IN), OPTIONAL                    :: replication_type
 
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: cont_row_blk_size, cont_col_blk_size
+
+      ! Make the array contiguous, avoid to change API
+      ALLOCATE (cont_row_blk_size(SIZE(row_blk_size)), cont_col_blk_size(SIZE(col_blk_size)))
+      cont_row_blk_size(:) = row_blk_size(:)
+      cont_col_blk_size(:) = col_blk_size(:)
+      IF (PRESENT(reuse_arrays)) THEN
+         IF (reuse_arrays) THEN
+            DEALLOCATE (row_blk_size, col_blk_size)
+            NULLIFY (row_blk_size, col_blk_size)
+         ENDIF
+      ENDIF
       CALL dbcsr_create_prv(matrix%prv, name, dist%prv, &
                             matrix_type, &
-                            row_blk_size, col_blk_size, nze=nze, &
+                            cont_row_blk_size, cont_col_blk_size, nze=nze, &
                             data_type=data_type, reuse=reuse, &
-                            reuse_arrays=reuse_arrays, &
+                            reuse_arrays=.TRUE., &
                             mutable_work=mutable_work, replication_type=replication_type)
    END SUBROUTINE dbcsr_create_new
 
@@ -902,24 +928,58 @@ CONTAINS
       TYPE(dbcsr_distribution_type), INTENT(IN), &
          OPTIONAL                                        :: dist
       CHARACTER, INTENT(IN), OPTIONAL                    :: matrix_type
-      INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL, &
+      INTEGER, DIMENSION(:), INTENT(INOUT), OPTIONAL, &
          POINTER                                         :: row_blk_size, col_blk_size
       INTEGER, INTENT(IN), OPTIONAL                      :: nze, data_type
       LOGICAL, INTENT(IN), OPTIONAL                      :: reuse_arrays, mutable_work
       CHARACTER, INTENT(IN), OPTIONAL                    :: replication_type
 
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: cont_row_blk_size, cont_col_blk_size
+
+      ! Make the array contiguous, avoid to change API
+      IF (PRESENT(row_blk_size) .AND. PRESENT(col_blk_size)) THEN
+         ! Avoid to change API
+         ALLOCATE (cont_row_blk_size(SIZE(row_blk_size)), cont_col_blk_size(SIZE(col_blk_size)))
+         cont_row_blk_size(:) = row_blk_size(:)
+         cont_col_blk_size(:) = col_blk_size(:)
+         IF (PRESENT(reuse_arrays)) THEN
+            IF (reuse_arrays) THEN
+               DEALLOCATE (row_blk_size, col_blk_size)
+               NULLIFY (row_blk_size, col_blk_size)
+            ENDIF
+         ENDIF
+      ENDIF
+
       IF (PRESENT(dist)) THEN
-         CALL dbcsr_create_prv(matrix%prv, template%prv, name, &
-                               dist%prv, matrix_type, &
-                               row_blk_size, col_blk_size, nze, data_type, &
-                               reuse_arrays=reuse_arrays, mutable_work=mutable_work, &
-                               replication_type=replication_type)
+         IF (PRESENT(row_blk_size) .AND. PRESENT(col_blk_size)) THEN
+            CALL dbcsr_create_prv(matrix%prv, template%prv, name, &
+                                  dist%prv, matrix_type, &
+                                  row_blk_size=cont_row_blk_size, col_blk_size=cont_col_blk_size, &
+                                  nze=nze, data_type=data_type, &
+                                  reuse_arrays=.TRUE., mutable_work=mutable_work, &
+                                  replication_type=replication_type)
+         ELSE
+            CALL dbcsr_create_prv(matrix%prv, template%prv, name, &
+                                  dist%prv, matrix_type, &
+                                  nze=nze, data_type=data_type, &
+                                  reuse_arrays=reuse_arrays, mutable_work=mutable_work, &
+                                  replication_type=replication_type)
+         ENDIF
       ELSE
-         CALL dbcsr_create_prv(matrix%prv, template%prv, name, &
-                               matrix_type=matrix_type, &
-                               row_blk_size=row_blk_size, col_blk_size=col_blk_size, nze=nze, data_type=data_type, &
-                               reuse_arrays=reuse_arrays, mutable_work=mutable_work, &
-                               replication_type=replication_type)
+         IF (PRESENT(row_blk_size) .AND. PRESENT(col_blk_size)) THEN
+            CALL dbcsr_create_prv(matrix%prv, template%prv, name, &
+                                  matrix_type=matrix_type, &
+                                  row_blk_size=cont_row_blk_size, col_blk_size=cont_col_blk_size, &
+                                  nze=nze, data_type=data_type, &
+                                  reuse_arrays=.TRUE., mutable_work=mutable_work, &
+                                  replication_type=replication_type)
+         ELSE
+            CALL dbcsr_create_prv(matrix%prv, template%prv, name, &
+                                  matrix_type=matrix_type, &
+                                  nze=nze, data_type=data_type, &
+                                  reuse_arrays=reuse_arrays, mutable_work=mutable_work, &
+                                  replication_type=replication_type)
+         ENDIF
       ENDIF
    END SUBROUTINE dbcsr_create_template
 

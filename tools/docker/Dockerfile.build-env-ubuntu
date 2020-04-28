@@ -28,6 +28,7 @@ RUN apt-get update \
         unzip \
         curl \
         rsync \
+	valgrind \
     && rm -rf /var/lib/apt/lists/* \
     && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 
@@ -52,6 +53,10 @@ RUN set -ex && \
 RUN set -ex && \
     curl -LsS https://github.com/hfp/libxsmm/archive/${libxsmm_version}.tar.gz | tar -xz -C /opt \
     && ln -s libxsmm-${libxsmm_version} /opt/libxsmm \
-    && make -j -C /opt/libxsmm
+    && make -j -C /opt/libxsmm MALLOC=0
 
 ENV PKG_CONFIG_PATH="/opt/libxsmm/lib:${PKG_CONFIG_PATH}"
+
+# Leak suppression
+COPY lsan.supp /opt
+ENV LSAN_OPTIONS=suppressions=/opt/lsan.supp

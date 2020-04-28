@@ -41,9 +41,10 @@ MODULE dbcsr_tensor_split
                                  dbcsr_t_blk_offsets, &
                                  dbcsr_t_blk_sizes, &
                                  ndims_matrix_row, &
-                                 ndims_matrix_column
+                                 ndims_matrix_column, &
+                                 dbcsr_t_filter
    USE dbcsr_api, ONLY: ${uselist(dtype_float_param)}$
-   USE dbcsr_kinds, ONLY: ${uselist(dtype_float_prec)}$
+   USE dbcsr_kinds, ONLY: ${uselist(dtype_float_prec)}$, dp
 
 #include "base/dbcsr_base_uses.f90"
    IMPLICIT NONE
@@ -270,6 +271,9 @@ CONTAINS
       CALL dbcsr_t_iterator_stop(iter)
 
       CALL dbcsr_t_finalize(tensor_out)
+
+      ! remove blocks that are exactly 0, these can occur if a cropping operation was performed before splitting
+      CALL dbcsr_t_filter(tensor_out, TINY(0.0_dp))
 
       CALL timestop(handle)
 

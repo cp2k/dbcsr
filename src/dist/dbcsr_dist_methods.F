@@ -61,6 +61,7 @@ MODULE dbcsr_dist_methods
 
    INTERFACE dbcsr_distribution_new
       MODULE PROCEDURE dbcsr_distribution_new_template
+      MODULE PROCEDURE dbcsr_distribution_new_obj
       MODULE PROCEDURE dbcsr_distribution_new_low
    END INTERFACE dbcsr_distribution_new
 
@@ -76,7 +77,7 @@ CONTAINS
          OPTIONAL                                        :: template
       INTEGER, INTENT(IN), OPTIONAL                      :: group
       INTEGER, DIMENSION(:, :), OPTIONAL, POINTER        :: pgrid
-      INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: row_dist, col_dist
+      INTEGER, DIMENSION(:), INTENT(IN), POINTER, CONTIGUOUS :: row_dist, col_dist
       LOGICAL, INTENT(IN), OPTIONAL                      :: reuse_arrays
 
       TYPE(dbcsr_mp_obj)                                 :: mp_env
@@ -106,6 +107,35 @@ CONTAINS
 
    END SUBROUTINE dbcsr_distribution_new_template
 
+   SUBROUTINE dbcsr_distribution_new_obj(dist, mp_env, row_dist_block, col_dist_block, &
+                                         local_rows, local_cols)
+      !! Creates new distribution
+      !! Workaround for CCE compilation
+
+      TYPE(dbcsr_distribution_obj), INTENT(OUT)          :: dist
+         !! distribution
+      TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
+         !! multiprocessing environment
+      TYPE(array_i1d_obj), INTENT(IN)                    :: row_dist_block, col_dist_block
+      TYPE(array_i1d_obj), INTENT(IN), OPTIONAL          :: local_rows, local_cols
+
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: cont_row_dist, cont_col_dist, &
+                                                            cont_local_rows, cont_local_cols
+
+      cont_row_dist => array_data(row_dist_block)
+      cont_col_dist => array_data(col_dist_block)
+
+      IF (PRESENT(local_rows) .AND. PRESENT(local_cols)) THEN
+         cont_local_rows => array_data(local_rows)
+         cont_local_cols => array_data(local_cols)
+         CALL dbcsr_distribution_new(dist, mp_env, cont_row_dist, cont_col_dist, &
+                                     cont_local_rows, cont_local_cols)
+      ELSE
+         CALL dbcsr_distribution_new(dist, mp_env, cont_row_dist, cont_col_dist)
+      ENDIF
+
+   END SUBROUTINE dbcsr_distribution_new_obj
+
    SUBROUTINE dbcsr_distribution_new_low(dist, mp_env, row_dist_block, col_dist_block, &
                                          local_rows, local_cols, &
                                          reuse_arrays)
@@ -115,9 +145,9 @@ CONTAINS
          !! distribution
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
          !! multiprocessing environment
-      INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: row_dist_block, col_dist_block
+      INTEGER, DIMENSION(:), INTENT(IN), POINTER, CONTIGUOUS :: row_dist_block, col_dist_block
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL, &
-         POINTER                                         :: local_rows, local_cols
+         POINTER, CONTIGUOUS                             :: local_rows, local_cols
       LOGICAL, OPTIONAL                                  :: reuse_arrays
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_distribution_new', &
@@ -125,7 +155,7 @@ CONTAINS
 
       INTEGER                                            :: handle, i, lcmv, mypcoor, npcols, &
                                                             nprows, seq
-      INTEGER, DIMENSION(:), POINTER                     :: col_dist_tmp, row_dist_tmp
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: col_dist_tmp, row_dist_tmp
 
 !   ---------------------------------------------------------------------------
 
@@ -269,7 +299,7 @@ CONTAINS
    END FUNCTION dbcsr_distribution_ncols
    FUNCTION dbcsr_distribution_row_dist(dist) RESULT(row_dist)
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
-      INTEGER, DIMENSION(:), POINTER                     :: row_dist
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: row_dist
 
 !   ---------------------------------------------------------------------------
 
@@ -278,7 +308,7 @@ CONTAINS
 
    FUNCTION dbcsr_distribution_col_dist(dist) RESULT(col_dist)
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
-      INTEGER, DIMENSION(:), POINTER                     :: col_dist
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: col_dist
 
 !   ---------------------------------------------------------------------------
 
@@ -317,7 +347,7 @@ CONTAINS
    END FUNCTION dbcsr_distribution_nlocal_cols
    FUNCTION dbcsr_distribution_local_rows(dist) RESULT(local_rows)
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
-      INTEGER, DIMENSION(:), POINTER                     :: local_rows
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: local_rows
 
       local_rows => array_data(dist%d%local_rows)
    END FUNCTION dbcsr_distribution_local_rows
@@ -329,7 +359,7 @@ CONTAINS
    END FUNCTION dbcsr_distribution_local_rows_obj
    FUNCTION dbcsr_distribution_local_cols(dist) RESULT(local_cols)
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
-      INTEGER, DIMENSION(:), POINTER                     :: local_cols
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: local_cols
 
       local_cols => array_data(dist%d%local_cols)
    END FUNCTION dbcsr_distribution_local_cols
@@ -428,7 +458,7 @@ CONTAINS
       TYPE(dbcsr_distribution_obj), INTENT(INOUT), &
          TARGET                                          :: dist
          !! Add thread distribution to this distribution
-      INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: row_sizes
+      INTEGER, DIMENSION(:), INTENT(IN), CONTIGUOUS, OPTIONAL :: row_sizes
          !! row block sizes
 
       TYPE(dbcsr_distribution_obj), POINTER              :: dist_p
@@ -467,7 +497,7 @@ CONTAINS
                                                             group_size, i, last_row, nlrows, &
                                                             nrows, nthreads, row, t, t_cnt
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: reorder, sorted_row_sizes
-      INTEGER, DIMENSION(:), POINTER                     :: lrows, td
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: lrows, td
       LOGICAL                                            :: assigned, found
       REAL(kind=sp)                                      :: load_fraction, rn, soft_thr
       TYPE(dbcsr_heap_type)                              :: t_heap
@@ -475,7 +505,7 @@ CONTAINS
 !   ---------------------------------------------------------------------------
 
       nthreads = 1
-!$    nthreads = OMP_GET_NUM_THREADS(); 
+!$    nthreads = OMP_GET_NUM_THREADS()
 !$    IF (dist%d%num_threads /= nthreads) &
 !$       DBCSR_ABORT("Thread number has changed")
       nrows = dbcsr_distribution_nrows(dist)

@@ -57,9 +57,11 @@ MODULE dbcsr_tas_test
       dbcsr_tas_checksum, &
       dbcsr_tas_random_bsizes, &
       dbcsr_tas_setup_test_matrix, &
-      dbcsr_tas_test_mm
+      dbcsr_tas_test_mm, &
+      dbcsr_tas_reset_randmat_seed
 
    INTEGER, SAVE :: randmat_counter = 0
+   INTEGER, PARAMETER, PRIVATE :: rand_seed_init = 12341313
 
 CONTAINS
    SUBROUTINE dbcsr_tas_setup_test_matrix(matrix, mp_comm_out, mp_comm, nrows, ncols, rbsizes, cbsizes, &
@@ -180,9 +182,11 @@ CONTAINS
       INTEGER                                            :: mp_comm, comm_dbcsr
       TYPE(dbcsr_distribution_obj)                       :: dist_a, dist_b, dist_c
       INTEGER, DIMENSION(2)                              :: npdims, myploc
-      INTEGER, DIMENSION(:), POINTER                     :: cd_a => NULL(), cd_b => NULL(), cd_c => NULL(), &
-                                                            rd_a => NULL(), rd_b => NULL(), rd_c => NULL()
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: cd_a, cd_b, cd_c, &
+                                                            rd_a, rd_b, rd_c
       TYPE(dbcsr_mp_obj)                                 :: mp_environ_tmp
+
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: row_blk_size, col_blk_size
 
       IF (PRESENT(io_unit)) THEN
       IF (io_unit > 0) THEN
@@ -225,14 +229,20 @@ CONTAINS
          CALL dbcsr_distribution_new(dist_c, mp_environ_tmp, rd_c, cd_c, reuse_arrays=.TRUE.)
          CALL dbcsr_mp_release(mp_environ_tmp)
 
+         row_blk_size => dbcsr_row_block_sizes(dbcsr_a)
+         col_blk_size => dbcsr_col_block_sizes(dbcsr_a)
          CALL dbcsr_create(matrix=dbcsr_a_mm, name=dbcsr_a%name, dist=dist_a, matrix_type=dbcsr_type_no_symmetry, &
-                           row_blk_size=dbcsr_row_block_sizes(dbcsr_a), col_blk_size=dbcsr_col_block_sizes(dbcsr_a), &
+                           row_blk_size=row_blk_size, col_blk_size=col_blk_size, &
                            data_type=dbcsr_type_real_8)
+         row_blk_size => dbcsr_row_block_sizes(dbcsr_b)
+         col_blk_size => dbcsr_col_block_sizes(dbcsr_b)
          CALL dbcsr_create(matrix=dbcsr_b_mm, name=dbcsr_b%name, dist=dist_b, matrix_type=dbcsr_type_no_symmetry, &
-                           row_blk_size=dbcsr_row_block_sizes(dbcsr_b), col_blk_size=dbcsr_col_block_sizes(dbcsr_b), &
+                           row_blk_size=row_blk_size, col_blk_size=col_blk_size, &
                            data_type=dbcsr_type_real_8)
+         row_blk_size => dbcsr_row_block_sizes(dbcsr_c)
+         col_blk_size => dbcsr_col_block_sizes(dbcsr_c)
          CALL dbcsr_create(matrix=dbcsr_c_mm, name=dbcsr_c%name, dist=dist_c, matrix_type=dbcsr_type_no_symmetry, &
-                           row_blk_size=dbcsr_row_block_sizes(dbcsr_c), col_blk_size=dbcsr_col_block_sizes(dbcsr_c), &
+                           row_blk_size=row_blk_size, col_blk_size=col_blk_size, &
                            data_type=dbcsr_type_real_8)
 
          CALL dbcsr_finalize(dbcsr_a_mm)
@@ -283,8 +293,8 @@ CONTAINS
       INTEGER                                            :: comm_dbcsr, io_unit, mp_comm, mynode, &
                                                             numnodes
       INTEGER, DIMENSION(2)                              :: myploc, npdims
-      INTEGER, DIMENSION(:), POINTER                     :: cd_a => NULL(), cd_b => NULL(), cd_c => NULL(), &
-                                                            rd_a => NULL(), rd_b => NULL(), rd_c => NULL()
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: cd_a, cd_b, cd_c, &
+                                                            rd_a, rd_b, rd_c
       REAL(KIND=real_8)                                  :: norm, rc_cs, sq_cs
       TYPE(dbcsr_distribution_obj)                       :: dist_a, dist_b, dist_c
       TYPE(dbcsr_mp_obj)                                 :: mp_environ_tmp
@@ -326,19 +336,19 @@ CONTAINS
       CALL dbcsr_mp_release(mp_environ_tmp)
 
       CALL dbcsr_create(matrix=dbcsr_a_mm, name="matrix a", dist=dist_a, matrix_type=dbcsr_type_no_symmetry, &
-                        row_blk_size=dbcsr_row_block_sizes(dbcsr_a), col_blk_size=dbcsr_col_block_sizes(dbcsr_a), &
+                        row_blk_size_obj=dbcsr_a%row_blk_size, col_blk_size_obj=dbcsr_a%col_blk_size, &
                         data_type=dbcsr_type_real_8)
 
       CALL dbcsr_create(matrix=dbcsr_b_mm, name="matrix b", dist=dist_b, matrix_type=dbcsr_type_no_symmetry, &
-                        row_blk_size=dbcsr_row_block_sizes(dbcsr_b), col_blk_size=dbcsr_col_block_sizes(dbcsr_b), &
+                        row_blk_size_obj=dbcsr_b%row_blk_size, col_blk_size_obj=dbcsr_b%col_blk_size, &
                         data_type=dbcsr_type_real_8)
 
       CALL dbcsr_create(matrix=dbcsr_c_mm, name="matrix c", dist=dist_c, matrix_type=dbcsr_type_no_symmetry, &
-                        row_blk_size=dbcsr_row_block_sizes(dbcsr_c), col_blk_size=dbcsr_col_block_sizes(dbcsr_c), &
+                        row_blk_size_obj=dbcsr_c%row_blk_size, col_blk_size_obj=dbcsr_c%col_blk_size, &
                         data_type=dbcsr_type_real_8)
 
       CALL dbcsr_create(matrix=dbcsr_c_mm_check, name="matrix c check", dist=dist_c, matrix_type=dbcsr_type_no_symmetry, &
-                        row_blk_size=dbcsr_row_block_sizes(dbcsr_c), col_blk_size=dbcsr_col_block_sizes(dbcsr_c), &
+                        row_blk_size_obj=dbcsr_c%row_blk_size, col_blk_size_obj=dbcsr_c%col_blk_size, &
                         data_type=dbcsr_type_real_8)
 
       CALL dbcsr_finalize(dbcsr_a_mm)
@@ -422,6 +432,11 @@ CONTAINS
          size_i = MOD((d - 1)/repeat, SIZE(sizes)) + 1
          block_sizes(d) = sizes(size_i)
       ENDDO
+   END SUBROUTINE
+
+   SUBROUTINE dbcsr_tas_reset_randmat_seed()
+      !! Reset the seed used for generating random matrices to default value
+      randmat_counter = rand_seed_init
    END SUBROUTINE
 
 END MODULE

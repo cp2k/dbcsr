@@ -111,7 +111,7 @@ CONTAINS
                                                             mynode, numnodes
       INTEGER, ALLOCATABLE, DIMENSION(:, :)              :: group_sizes
       INTEGER, DIMENSION(2)                              :: npdims
-      INTEGER, DIMENSION(:), POINTER                     :: col_dist_a, col_dist_b, col_dist_c, &
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: col_dist_a, col_dist_b, col_dist_c, &
                                                             row_dist_a, row_dist_b, row_dist_c, &
                                                             sizes_k, sizes_m, sizes_n
       LOGICAL                                            :: pgiven
@@ -318,7 +318,7 @@ CONTAINS
                                                             loop_iter, mynode, numnodes, test
       INTEGER(kind=int_8)                                :: flop, flop_sum
       INTEGER, DIMENSION(2)                              :: npdims
-      INTEGER, DIMENSION(:), POINTER                     :: col_dist_a, col_dist_b, col_dist_c, &
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: col_dist_a, col_dist_b, col_dist_c, &
                                                             row_dist_a, row_dist_b, row_dist_c
       LOGICAL                                            :: i_am_alive
       REAL(kind=real_8)                                  :: cs, cs_pos, flops_all, t1, t2
@@ -380,24 +380,24 @@ CONTAINS
             ! A
             CALL dbcsr_create(m_a, "Test for "//TRIM(dbcsr_name(matrix_a)), &
                               dist_a, dbcsr_type_no_symmetry, &
-                              dbcsr_row_block_sizes(matrix_a), &
-                              dbcsr_col_block_sizes(matrix_a), &
+                              row_blk_size_obj=matrix_a%row_blk_size, &
+                              col_blk_size_obj=matrix_a%col_blk_size, &
                               data_type=dbcsr_get_data_type(matrix_a))
             CALL dbcsr_distribution_release(dist_a)
             CALL dbcsr_redistribute(matrix_a, m_a)
             ! B
             CALL dbcsr_create(m_b, "Test for "//TRIM(dbcsr_name(matrix_b)), &
                               dist_b, dbcsr_type_no_symmetry, &
-                              dbcsr_row_block_sizes(matrix_b), &
-                              dbcsr_col_block_sizes(matrix_b), &
+                              row_blk_size_obj=matrix_b%row_blk_size, &
+                              col_blk_size_obj=matrix_b%col_blk_size, &
                               data_type=dbcsr_get_data_type(matrix_b))
             CALL dbcsr_distribution_release(dist_b)
             CALL dbcsr_redistribute(matrix_b, m_b)
             ! C
             CALL dbcsr_create(m_c, "Test for "//TRIM(dbcsr_name(matrix_c)), &
                               dist_c, dbcsr_type_no_symmetry, &
-                              dbcsr_row_block_sizes(matrix_c), &
-                              dbcsr_col_block_sizes(matrix_c), &
+                              row_blk_size_obj=matrix_c%row_blk_size, &
+                              col_blk_size_obj=matrix_c%col_blk_size, &
                               data_type=dbcsr_get_data_type(matrix_c))
             CALL dbcsr_distribution_release(dist_c)
             CALL dbcsr_redistribute(matrix_c, m_c)

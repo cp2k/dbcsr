@@ -64,7 +64,11 @@ MODULE dbcsr_tas_mm
 
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_tas_mm'
 
-   PUBLIC :: dbcsr_tas_multiply, dbcsr_tas_batched_mm_init, dbcsr_tas_batched_mm_finalize
+   PUBLIC :: &
+      dbcsr_tas_multiply, &
+      dbcsr_tas_batched_mm_init, &
+      dbcsr_tas_batched_mm_finalize, &
+      dbcsr_tas_result_index
 
 CONTAINS
 
@@ -1456,7 +1460,7 @@ CONTAINS
       INTEGER                                    :: &
          nbrows, nbcols, data_type, nproc, handle
       INTEGER, DIMENSION(2)                      :: pdims, pcoord
-      INTEGER, DIMENSION(:), POINTER             :: row_dist, col_dist, rbsize, rcsize
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS :: row_dist, col_dist, rbsize, rcsize
       TYPE(dbcsr_distribution_obj)               :: dist, dist_old
       TYPE(dbcsr_mp_obj)                         :: mp_obj
       CHARACTER(len=default_string_length)       :: name

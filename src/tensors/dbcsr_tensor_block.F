@@ -590,7 +590,6 @@ CONTAINS
       LOGICAL, PARAMETER :: debug = .FALSE.
       INTEGER :: i
 
-      NULLIFY (block_2d)
       new_block = .FALSE.
 
       IF (debug) THEN
@@ -668,14 +667,14 @@ CONTAINS
          !! whether block was found
 
       INTEGER(KIND=int_8), DIMENSION(2)                     :: ind_2d
-      ${dtype}$, DIMENSION(:, :), POINTER, CONTIGUOUS       :: block_2d_ptr => NULL()
+      ${dtype}$, DIMENSION(:, :), POINTER, CONTIGUOUS       :: block_2d_ptr
       LOGICAL                                               :: tr
       INTEGER                                               :: i
       ${dtype}$, DIMENSION(${shape_colon(ndim)}$), POINTER  :: block_ptr
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_get_${ndim}$d_block_${dsuffix}$', &
                                      routineP = moduleN//':'//routineN
 
-      NULLIFY (block_2d_ptr, block_ptr)
+      NULLIFY (block_2d_ptr)
 
       ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
 

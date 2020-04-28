@@ -9,12 +9,19 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
+import sys
 import os
 import re
 import glob
 import argparse
 import pandas as pd
-from kernels.cusmm_predict import to_string, kernel_algorithm, parameter_types
+
+sys.path.append("../")
+from kernels.cusmm_predict import (
+    to_string,
+    kernel_algorithm,
+    parameter_types,
+)  # noqa: E402
 
 
 # ===============================================================================

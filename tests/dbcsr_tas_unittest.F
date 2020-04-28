@@ -21,7 +21,8 @@ PROGRAM dbcsr_tas_unittest
    USE dbcsr_tas_types, ONLY: dbcsr_tas_type
    USE dbcsr_tas_test, ONLY: dbcsr_tas_random_bsizes, &
                              dbcsr_tas_setup_test_matrix, &
-                             dbcsr_tas_test_mm
+                             dbcsr_tas_test_mm, &
+                             dbcsr_tas_reset_randmat_seed
    USE dbcsr_kinds, ONLY: int_8, &
                           real_8
    USE dbcsr_machine, ONLY: default_output_unit
@@ -52,6 +53,8 @@ PROGRAM dbcsr_tas_unittest
    IF (mynode .EQ. 0) io_unit = default_output_unit
 
    CALL dbcsr_init_lib(mp_comm, io_unit)
+
+   CALL dbcsr_tas_reset_randmat_seed()
 
    CALL dbcsr_tas_random_bsizes([13, 8, 5, 25, 12], 2, bsize_m)
    CALL dbcsr_tas_random_bsizes([3, 78, 33, 12, 3, 15], 1, bsize_n)

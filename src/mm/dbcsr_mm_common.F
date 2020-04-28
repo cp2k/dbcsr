@@ -280,9 +280,9 @@ CONTAINS
 
    SUBROUTINE enumerate_blk_sizes(blk_sizes, max_size, enum, rev_enum)
       !! Enumerate all occurring blocksizes
-      INTEGER, DIMENSION(:), POINTER                     :: blk_sizes
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: blk_sizes
       INTEGER, INTENT(IN)                                :: max_size
-      INTEGER, DIMENSION(:), POINTER                     :: enum, rev_enum
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: enum, rev_enum
 
       CHARACTER(len=*), PARAMETER :: routineN = 'enumerate_blk_sizes', &
                                      routineP = moduleN//':'//routineN
@@ -322,8 +322,9 @@ CONTAINS
                                    noresize)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: trs_stackbuf
-      INTEGER, DIMENSION(:), INTENT(IN), POINTER :: row_blk_sizes, col_blk_sizes, &
-                                                    row_blk_sizes2enum, enum2row_blk_sizes, col_blk_sizes2enum, enum2col_blk_sizes
+      INTEGER, DIMENSION(:), INTENT(IN), POINTER, CONTIGUOUS :: row_blk_sizes, col_blk_sizes, &
+                                                                row_blk_sizes2enum, enum2row_blk_sizes, &
+                                                                col_blk_sizes2enum, enum2col_blk_sizes
       LOGICAL, INTENT(IN), OPTIONAL                      :: noresize
 
       CHARACTER(len=*), PARAMETER :: routineN = 'acc_transpose_blocks', &
@@ -333,7 +334,8 @@ CONTAINS
                                                             mi_max, n, nblks, ni, ni_max, offset, x, &
                                                             row, col
       INTEGER, ALLOCATABLE, DIMENSION(:, :)              :: counters, filled, offsets, tmp_stack
-      INTEGER, DIMENSION(:), POINTER                     :: blk_index, trs_stack
+      INTEGER, DIMENSION(:), POINTER                     :: blk_index
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: trs_stack
       LOGICAL                                            :: my_noresize
 
       CALL timeset(routineN, handle)
@@ -509,7 +511,7 @@ CONTAINS
          !! DBCSR matrix for which to calculate norms
       REAL(kind=sp), DIMENSION(:), INTENT(OUT)           :: norms
          !! Block norms
-      INTEGER, DIMENSION(:), POINTER, INTENT(IN)         :: row_blk_sizes, col_blk_sizes
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS, INTENT(IN) :: row_blk_sizes, col_blk_sizes
 
       CHARACTER(len=*), PARAMETER :: routineN = 'calculate_norms', &
                                      routineP = moduleN//':'//routineN
@@ -551,7 +553,7 @@ CONTAINS
    PURE SUBROUTINE local_filter(full_data, nle, local_elements, local_data)
       !! Gathers the local elements from all data (full_data)
 
-      INTEGER, DIMENSION(:), INTENT(IN)                  :: full_data
+      INTEGER, DIMENSION(:), INTENT(IN), CONTIGUOUS      :: full_data
          !! All elements
       INTEGER, INTENT(IN)                                :: nle
          !! Number of local elements
@@ -567,6 +569,61 @@ CONTAINS
       END DO
    END SUBROUTINE local_filter
 
-#:include "dbcsr_mm_common.f90"
+#:include '../data/dbcsr.fypp'
+#:for n, nametype1, base1, prec1, kind1, type1, typesize1, dkind1 in inst_params_float
+   SUBROUTINE calc_norms_${nametype1}$ (norms, nblks, &
+                                        blki, rbs, cbs, DATA)
+     !! Calculates norms of the entire matrix with minimal overhead.
+      REAL(kind=sp), DIMENSION(:), INTENT(OUT) :: norms
+      INTEGER, INTENT(IN)                      :: nblks
+      INTEGER, DIMENSION(3, nblks), INTENT(IN) :: blki
+      INTEGER, DIMENSION(:), INTENT(IN)        :: rbs, cbs
+      ${type1}$, DIMENSION(:), &
+         INTENT(IN)                            :: DATA
+
+      INTEGER, PARAMETER                       :: nsimd = (4*64)/${typesize1}$
+      INTEGER                                  :: i, n, blk, bp, bpe, row, col
+      REAL(kind=sp)                            :: vals(nsimd)
+
+!   ---------------------------------------------------------------------------
+
+!$OMP     parallel default(none) &
+!$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &
+!$OMP              private(vals, i, n, row, col, blk, bp, bpe)
+!$OMP     do schedule(dynamic)
+      DO i = 0, nblks - 1, nsimd
+         n = MIN(nsimd, nblks - i)
+         DO blk = 1, n
+            bp = blki(3, blk + i)
+            IF (bp .NE. 0) THEN
+               row = blki(1, blk + i)
+               col = blki(2, blk + i)
+               bpe = bp + rbs(row)*cbs(col) - 1
+#:if nametype1 in ['d', 's']
+               vals(blk) = REAL(SUM(DATA(bp:bpe)**2), KIND=sp)
+#:else
+               vals(blk) = REAL(SUM(ABS(DATA(bp:bpe))**2), KIND=sp)
+#:endif
+            ELSE
+               vals(blk) = 0.0_sp
+            ENDIF
+         ENDDO
+         ! SIMD: SQRT is intentionally not in above IF-condition
+         IF (n .EQ. nsimd) THEN
+!$OMP     simd
+            DO blk = 1, nsimd
+               norms(blk + i) = SQRT(vals(blk))
+            ENDDO
+!$OMP     end simd
+         ELSE ! remainder
+            DO blk = 1, n
+               norms(blk + i) = SQRT(vals(blk))
+            ENDDO
+         ENDIF
+      ENDDO
+!$OMP     end do
+!$OMP     end parallel
+   END SUBROUTINE calc_norms_${nametype1}$
+#:endfor
 
 END MODULE dbcsr_mm_common

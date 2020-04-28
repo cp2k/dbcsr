@@ -9,9 +9,12 @@
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
 
+import sys
 import json
 import argparse
-from kernels.smm_acc_predict import params_dict_to_kernel
+
+sys.path.append("../")
+from kernels.smm_acc_predict import params_dict_to_kernel  # noqa: E402
 
 
 def main(param_fn):

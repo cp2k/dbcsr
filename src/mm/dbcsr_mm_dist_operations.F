@@ -81,7 +81,7 @@ CONTAINS
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: ncols, npcols, nprows, nrows
-      INTEGER, DIMENSION(:), POINTER                     :: col_dist_data, col_img_data, col_vdist, &
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: col_dist_data, col_img_data, col_vdist, &
                                                             row_dist_data, row_img_data, row_vdist
       LOGICAL                                            :: new_col_dist, new_row_dist
       TYPE(dbcsr_distribution_obj)                       :: new_dist
@@ -304,7 +304,7 @@ CONTAINS
                                      nthreads, tdist)
          CALL dbcsr_make_1dist_dense(n_nbins, old_n_dist, new_n_dist, n_map, 0)
          CALL dbcsr_distribution_new(dense_product_dist, product_dist%d%mp_env, &
-                                     array_data(new_m_dist), array_data(new_n_dist))
+                                     new_m_dist, new_n_dist)
          CALL make_sizes_dense(old_m_sizes, m_map, array_size(new_m_dist), new_m_sizes)
          CALL dbcsr_distribution_make_threads(dense_product_dist, &
                                               array_data(new_m_sizes))
@@ -321,7 +321,7 @@ CONTAINS
                            left_rdist%i%col_decimation, new_k_pdist, new_k_idist)
       ! Left
       CALL dbcsr_distribution_new(dense_left_dist, left_rdist%i%main%d%mp_env, &
-                                  array_data(new_m_dist), array_data(new_k_pdist))
+                                  new_m_dist, new_k_pdist)
       CALL dbcsr_distribution_no_threads(dense_left_dist)
       dense_left_dist%d%thread_dist = dbcsr_distribution_thread_dist(dense_product_dist)
       CALL array_hold(dense_left_dist%d%thread_dist)
@@ -343,7 +343,7 @@ CONTAINS
       CALL v_to_p_i_dist_o(new_k_vdist, &
                            right_rdist%i%row_decimation, new_k_pdist, new_k_idist)
       CALL dbcsr_distribution_new(dense_right_dist, right_rdist%i%main%d%mp_env, &
-                                  array_data(new_k_pdist), array_data(new_n_dist))
+                                  new_k_pdist, new_n_dist)
       CALL dbcsr_new_image_dist(dense_right_rdist, dense_right_dist, right_rdist)
       CALL dbcsr_distribution_release(dense_right_dist)
       CALL array_new(dense_right_rdist%i%col_image, &
@@ -656,7 +656,7 @@ CONTAINS
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: el, nel_old
-      INTEGER, DIMENSION(:), POINTER                     :: map, new_s, old_s
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: map, new_s, old_s
 
 !   ---------------------------------------------------------------------------
 
@@ -690,7 +690,7 @@ CONTAINS
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: b, i, n_new_bins
-      INTEGER, DIMENSION(:), POINTER                     :: dense, map, old_d
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: dense, map, old_d
 
 !   ---------------------------------------------------------------------------
 
@@ -738,7 +738,7 @@ CONTAINS
       TYPE(array_i1d_obj), INTENT(out)                   :: pdist, idist
 
       INTEGER                                            :: nel
-      INTEGER, DIMENSION(:), POINTER                     :: id, pd, vd
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: id, pd, vd
 
       nel = array_size(vdist)
       vd => array_data(vdist)
@@ -760,7 +760,7 @@ CONTAINS
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: error_handle, nprows
-      INTEGER, DIMENSION(:), POINTER                     :: rmap, row_dist
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: rmap, row_dist
 
       CALL timeset(routineN, error_handle)
       ! If the current local row mappings do not exist, create them.
@@ -791,7 +791,7 @@ CONTAINS
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: error_handle, npcols
-      INTEGER, DIMENSION(:), POINTER                     :: cmap, col_dist
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: cmap, col_dist
 
       CALL timeset(routineN, error_handle)
       ! If the current local col mappings do not exist, create them.
@@ -822,7 +822,7 @@ CONTAINS
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: error_handle, nvprows
-      INTEGER, DIMENSION(:), POINTER                     :: rmap, vrow_dist
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: rmap, vrow_dist
 
       IF (careful_mod) CALL timeset(routineN, error_handle)
       ! If the current local row mappings do not exist, create them.
@@ -854,7 +854,7 @@ CONTAINS
                                      routineP = moduleN//':'//routineN
 
       INTEGER                                            :: error_handle, nvpcols
-      INTEGER, DIMENSION(:), POINTER                     :: rmap, vcol_dist
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: rmap, vcol_dist
 
       IF (careful_mod) CALL timeset(routineN, error_handle)
       ! If the current local col mappings do not exist, create them.

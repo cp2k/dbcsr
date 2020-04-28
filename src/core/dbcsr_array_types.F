@@ -63,8 +63,8 @@ MODULE dbcsr_array_types
    END INTERFACE
 
    TYPE array_i1d_type
-      INTEGER, DIMENSION(:), POINTER     :: DATA => Null()
-      INTEGER                            :: refcount = 0
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS :: DATA => Null()
+      INTEGER                                    :: refcount = 0
    END TYPE array_i1d_type
 
    TYPE array_i1d_obj
@@ -75,7 +75,7 @@ CONTAINS
 
    SUBROUTINE array_new_i1d(array, DATA, gift)
       TYPE(array_i1d_obj), INTENT(OUT)                   :: array
-      INTEGER, DIMENSION(:), POINTER                     :: DATA
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: DATA
       LOGICAL, INTENT(IN), OPTIONAL                      :: gift
 
       INTEGER                                            :: lb, ub
@@ -144,7 +144,7 @@ CONTAINS
 
    FUNCTION array_data_i1d(array) RESULT(DATA)
       TYPE(array_i1d_obj), INTENT(IN)                    :: array
-      INTEGER, DIMENSION(:), POINTER                     :: DATA
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: DATA
 
       IF (ASSOCIATED(array%low)) THEN
          DATA => array%low%data
@@ -165,7 +165,7 @@ CONTAINS
    END FUNCTION array_size_i1d
 
    PURE_ARRAY_EQUALITY FUNCTION array_equality_i1(array1, array2) RESULT(are_equal)
-      INTEGER, DIMENSION(:), POINTER                     :: array1, array2
+      INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: array1, array2
       LOGICAL                                            :: are_equal
 
       are_equal = .FALSE.

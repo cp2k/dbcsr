@@ -40,9 +40,10 @@ class Kernel_dnt_small(Kernel):
         self.perf = perf
         self.source = source
 
+    @property
     def func_signature(self):
         return "smm_acc_dnt_tiny< {m}, {n}, {k}, {threads}, {grouping}, {minblocks} >;\n".format(
-            self.__dict__
+            **self.__dict__
         )
 
     @property

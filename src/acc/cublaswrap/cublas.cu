@@ -7,8 +7,6 @@
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
 
-#if (__DBCSR_ACC == 2)
-
 #include <stdio.h>
 #include "cublas_v2.h"
 #include "../acc_error.h"
@@ -66,5 +64,3 @@ extern "C" int cublas_dgemm(cublasHandle_t *handle, char transa, char transb,
   if (acc_error_check(cudaGetLastError())) return(-1);
   return(0);
 }
-
-#endif
