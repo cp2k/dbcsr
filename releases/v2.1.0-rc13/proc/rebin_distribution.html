@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="">
+    
+    <meta name="author" content="DBCSR Authors" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>rebin_distribution &ndash; DBCSR Library</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">DBCSR Library </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Guide</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>rebin_distribution
+      <small>Subroutine</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.0% of total for procedures.">26 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_dist_operations.F"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/dbcsr_dist_operations.f.html'>dbcsr_dist_operations.F</a></li>
+    
+     <li><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
+    
+  
+     <li class="active">rebin_distribution</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/rebin_distribution.html#src">rebin_distribution</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>
+public subroutine rebin_distribution(new_bins, images, source_bins, nbins, multiplicity, nimages)
+    
+    
+   
+</h2>
+    
+  
+
+
+    
+    <p>Makes new distribution with decimation and multiplicity</p>
+<p>Definition of multiplicity and nimages
+ Multiplicity and decimation (number of images) are used to
+ match process grid coordinates on non-square process
+ grids. Given source_nbins and target_nbins, their relation is
+ source_nbins * target_multiplicity
+ = target_nbins * target_nimages.
+ It is best when both multiplicity and nimages are small. To
+ get these two factors, then, one can use the following formulas:
+ nimages      = lcm(source_nbins, target_nbins) / target_nbins
+ multiplicity = target_nbins / gcd(source_nbins, target_nbins)
+ from the target's point of view (nimages = target_nimages).</p>
+<p>Mapping
+ The new distribution comprises of real bins and images within
+ bins. These can be view as target_nbins<em>nimages virtual
+ columns. These same virtual columns are also
+ source_nbins</em>multiplicity in number. Therefore these virtual
+ columns are mapped from source_nbins<em>multiplicity onto
+ target_bins</em>nimages (each target bin has nimages images):
+ Source 4: |1 2 3|4 5 6|7 8 9|A B C| (4<em>3)
+ Target 6: |1 2|3 4|5 6|7 8|9 A|B C| (6</em>2)
+ multiplicity=3, nimages=2, 12 virtual columns (1-C).
+ Source bin elements are evenly mapped into one of multiplicity
+ virtual columns. Other (non-even, block-size aware) mappings
+ could be better.</p>
+    
+
+    <h3>Arguments</h3>
+    
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-new_bins"></span>integer,</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>new_bins</strong></td><td><p>new real distribution
+ new image distribution</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-images"></span>integer,</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>images</strong></td><td><p>new real distribution
+ new image distribution</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-source_bins"></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
+  <td><strong>source_bins</strong></td><td><p>Basis for the new distribution and images</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nbins"></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nbins</strong></td><td><p>number of bins in the new real distribution
+ multiplicity
+ number of images in the new distribution</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-multiplicity"></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>multiplicity</strong></td><td><p>number of bins in the new real distribution
+ multiplicity
+ number of images in the new distribution</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nimages~2"></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nimages</strong></td><td><p>number of bins in the new real distribution
+ multiplicity
+ number of images in the new distribution</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+    
+    
+    
+    
+     
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/rebin_distribution.html#src">rebin_distribution</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">rebin_distribution</span><span class="p">(</span><span class="n">new_bins</span><span class="p">,</span> <span class="k">images</span><span class="p">,</span> <span class="n">source_bins</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">nbins</span><span class="p">,</span> <span class="n">multiplicity</span><span class="p">,</span> <span class="n">nimages</span><span class="p">)</span>
+      <span class="c">!! Makes new distribution with decimation and multiplicity</span>
+      <span class="c">!!</span>
+      <span class="c">!! Definition of multiplicity and nimages</span>
+      <span class="c">!! Multiplicity and decimation (number of images) are used to</span>
+      <span class="c">!! match process grid coordinates on non-square process</span>
+      <span class="c">!! grids. Given source_nbins and target_nbins, their relation is</span>
+      <span class="c">!! source_nbins * target_multiplicity</span>
+      <span class="c">!! = target_nbins * target_nimages.</span>
+      <span class="c">!! It is best when both multiplicity and nimages are small. To</span>
+      <span class="c">!! get these two factors, then, one can use the following formulas:</span>
+      <span class="c">!! nimages      = lcm(source_nbins, target_nbins) / target_nbins</span>
+      <span class="c">!! multiplicity = target_nbins / gcd(source_nbins, target_nbins)</span>
+      <span class="c">!! from the target&#39;s point of view (nimages = target_nimages).</span>
+      <span class="c">!!</span>
+      <span class="c">!! Mapping</span>
+      <span class="c">!! The new distribution comprises of real bins and images within</span>
+      <span class="c">!! bins. These can be view as target_nbins*nimages virtual</span>
+      <span class="c">!! columns. These same virtual columns are also</span>
+      <span class="c">!! source_nbins*multiplicity in number. Therefore these virtual</span>
+      <span class="c">!! columns are mapped from source_nbins*multiplicity onto</span>
+      <span class="c">!! target_bins*nimages (each target bin has nimages images):</span>
+      <span class="c">!! Source 4: |1 2 3|4 5 6|7 8 9|A B C| (4*3)</span>
+      <span class="c">!! Target 6: |1 2|3 4|5 6|7 8|9 A|B C| (6*2)</span>
+      <span class="c">!! multiplicity=3, nimages=2, 12 virtual columns (1-C).</span>
+      <span class="c">!! Source bin elements are evenly mapped into one of multiplicity</span>
+      <span class="c">!! virtual columns. Other (non-even, block-size aware) mappings</span>
+      <span class="c">!! could be better.</span>
+
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">new_bins</span><span class="p">,</span> <span class="k">images</span>
+         <span class="c">!! new real distribution</span>
+         <span class="c">!! new image distribution</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>      <span class="kd">::</span> <span class="n">source_bins</span>
+         <span class="c">!! Basis for the new distribution and images</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">multiplicity</span><span class="p">,</span> <span class="n">nimages</span>
+         <span class="c">!! number of bins in the new real distribution</span>
+         <span class="c">!! multiplicity</span>
+         <span class="c">!! number of images in the new distribution</span>
+
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;rebin_distribution&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+
+      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">bin</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">old_nbins</span><span class="p">,</span> <span class="n">virtual_bin</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:)</span>                 <span class="kd">::</span> <span class="n">bin_multiplier</span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">MOD</span><span class="p">(</span><span class="n">nbins</span><span class="o">*</span><span class="n">nimages</span><span class="p">,</span> <span class="n">multiplicity</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">&quot;mulitplicity is not divisor of new process grid coordinate&quot;</span><span class="p">)</span>
+      <span class="n">old_nbins</span> <span class="o">=</span> <span class="p">(</span><span class="n">nbins</span><span class="o">*</span><span class="n">nimages</span><span class="p">)</span><span class="o">/</span><span class="n">multiplicity</span>
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">bin_multiplier</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">old_nbins</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+      <span class="n">bin_multiplier</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">new_bins</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">i</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">source_bins</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">            </span><span class="n">bin</span> <span class="o">=</span> <span class="n">source_bins</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+         <span class="k">ELSE</span>
+            <span class="c">! Fill remainder with a cyclic distribution</span>
+            <span class="n">bin</span> <span class="o">=</span> <span class="nb">MOD</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">old_nbins</span><span class="p">)</span>
+         <span class="n">ENDIF</span>
+         <span class="n">virtual_bin</span> <span class="o">=</span> <span class="n">bin</span><span class="o">*</span><span class="n">multiplicity</span> <span class="o">+</span> <span class="n">bin_multiplier</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span>
+         <span class="n">new_bins</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">virtual_bin</span><span class="o">/</span><span class="n">nimages</span>
+         <span class="k">images</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="nb">MOD</span><span class="p">(</span><span class="n">virtual_bin</span><span class="p">,</span> <span class="n">nimages</span><span class="p">)</span>
+         <span class="n">bin_multiplier</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span> <span class="o">=</span> <span class="n">bin_multiplier</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">bin_multiplier</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span> <span class="p">.</span><span class="n">GE</span><span class="p">.</span> <span class="n">multiplicity</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            </span><span class="n">bin_multiplier</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>
+         <span class="n">ENDIF</span>
+      <span class="n">ENDDO</span>
+   <span class="k">END SUBROUTINE </span><span class="n">rebin_distribution</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    
+    </div>
+  </div>
+
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
+                                          </p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> DBCSR Library was developed by DBCSR Authors</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    
+  </body>
+</html>
