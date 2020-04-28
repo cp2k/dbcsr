@@ -122,8 +122,8 @@ CONTAINS
          !! crop tensor data: start and end index for each tensor dimension
       INTEGER, INTENT(IN), OPTIONAL                  :: unit_nr
 
-      TYPE(dbcsr_t_type), POINTER                    :: in_tmp_1 => NULL(), in_tmp_2 => NULL(), &
-                                                        in_tmp_3 => NULL(), out_tmp_1 => NULL()
+      TYPE(dbcsr_t_type), POINTER                    :: in_tmp_1, in_tmp_2, &
+                                                        in_tmp_3, out_tmp_1
       INTEGER                                        :: handle, unit_nr_prv
       INTEGER, DIMENSION(:), ALLOCATABLE             :: map1_in_1, map1_in_2, map2_in_1, map2_in_2
 
@@ -301,7 +301,7 @@ CONTAINS
 
       INTEGER, DIMENSION(2)                              :: ind_2d
       REAL(KIND=real_8), ALLOCATABLE, DIMENSION(:, :)    :: block_arr
-      REAL(KIND=real_8), DIMENSION(:, :), POINTER        :: block => NULL()
+      REAL(KIND=real_8), DIMENSION(:, :), POINTER        :: block
       TYPE(dbcsr_iterator_type)                          :: iter
       LOGICAL                                            :: tr
 
@@ -311,6 +311,8 @@ CONTAINS
 
       CALL timeset(routineN, handle)
       DBCSR_ASSERT(tensor_out%valid)
+
+      NULLIFY (block)
 
       IF (dbcsr_has_symmetry(matrix_in)) THEN
          ALLOCATE (matrix_in_desym)

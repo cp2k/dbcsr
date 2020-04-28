@@ -705,7 +705,7 @@ CONTAINS
       !! when no longer needed)
 
       TYPE(dbcsr_t_distribution_type), INTENT(IN) :: dist
-      INTEGER, POINTER                            :: ref => NULL()
+      INTEGER, POINTER                            :: ref
 
       IF (dist%refcount < 1) THEN
          DBCSR_ABORT("can not hold non-existing tensor distribution")
@@ -846,7 +846,7 @@ CONTAINS
       !! when no longer needed)
 
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor
-      INTEGER, POINTER :: ref => NULL()
+      INTEGER, POINTER :: ref
 
       IF (tensor%refcount < 1) THEN
          DBCSR_ABORT("can not hold non-existing tensor")
@@ -958,8 +958,8 @@ CONTAINS
       INTEGER                                     :: comm_2d, data_type
       TYPE(dbcsr_distribution_type)                :: matrix_dist
       TYPE(dbcsr_t_distribution_type)             :: dist
-      INTEGER, DIMENSION(:), POINTER              :: row_blk_size => NULL(), col_blk_size => NULL()
-      INTEGER, DIMENSION(:), POINTER              :: col_dist => NULL(), row_dist => NULL()
+      INTEGER, DIMENSION(:), POINTER              :: row_blk_size, col_blk_size
+      INTEGER, DIMENSION(:), POINTER              :: col_dist, row_dist
       INTEGER                                   :: handle
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_create_matrix', &
                                      routineP = moduleN//':'//routineN
@@ -967,6 +967,8 @@ CONTAINS
       INTEGER, DIMENSION(2)                     :: pdims_2d
 
       CALL timeset(routineN, handle)
+
+      NULLIFY (row_blk_size, col_blk_size, col_dist, row_dist)
       IF (PRESENT(name)) THEN
          name_in = name
       ELSE
