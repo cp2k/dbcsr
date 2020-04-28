@@ -278,8 +278,8 @@ CONTAINS
 
       INTEGER                                            :: data_type, nblkcols, nblkrows
       INTEGER, DIMENSION(2)                              :: pcoord, pdims
-      INTEGER, DIMENSION(:), POINTER                     :: col_blk_size => NULL(), col_dist => NULL(), &
-                                                            row_blk_size => NULL(), row_dist => NULL()
+      INTEGER, DIMENSION(:), POINTER                     :: col_blk_size, col_dist, &
+                                                            row_blk_size, row_dist
       TYPE(dbcsr_distribution_obj)                       :: dbcsr_dist
       TYPE(dbcsr_tas_dist_arb), TARGET                     :: dir_dist
       TYPE(dbcsr_tas_dist_repl), TARGET                    :: repl_dist
@@ -311,6 +311,8 @@ CONTAINS
                                      routineP = moduleN//':'//routineN
 
       INTEGER :: handle, handle2
+
+      NULLIFY (col_blk_size, row_blk_size)
 
       CALL timeset(routineN, handle)
 
@@ -691,7 +693,7 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL :: transposed
 
 #:for dparam, dtype, dsuffix in dtype_float_list
-      ${dtype}$, DIMENSION(:, :), POINTER :: block_${dsuffix}$ => NULL()
+      ${dtype}$, DIMENSION(:, :), POINTER :: block_${dsuffix}$
 #:endfor
 
       SELECT CASE (buffer%data_type)
@@ -713,7 +715,7 @@ CONTAINS
       LOGICAL :: valid
       INTEGER, DIMENSION(2) :: sizes
 #:for dparam, dtype, dsuffix in dtype_float_list
-      ${dtype}$, DIMENSION(:, :), POINTER :: data_${dsuffix}$ => NULL()
+      ${dtype}$, DIMENSION(:, :), POINTER :: data_${dsuffix}$
 #:endfor
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'block_buffer_get_next_area_block', &
