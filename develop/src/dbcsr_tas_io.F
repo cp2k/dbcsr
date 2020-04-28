@@ -118,7 +118,7 @@ CONTAINS
       INTEGER(KIND=int_8)              :: nblock_tot, nblock_p_sum, nelement_p_sum, nelement_s_max, &
                                           nblock_s, nelement_s, nblock_s_max
       REAL(KIND=real_8)                :: occupation
-      INTEGER, DIMENSION(:), POINTER   :: rowdist => NULL(), coldist => NULL()
+      INTEGER, DIMENSION(:), POINTER   :: rowdist, coldist
       INTEGER                          :: split_rowcol, icol, irow, unit_nr_prv
 
       unit_nr_prv = prep_output_unit(unit_nr)

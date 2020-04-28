@@ -457,7 +457,7 @@ CONTAINS
    SUBROUTINE dbcsr_tas_info_hold(split_info)
       TYPE(dbcsr_tas_split_info), INTENT(IN)             :: split_info
 
-      INTEGER, POINTER                                   :: ref => NULL()
+      INTEGER, POINTER                                   :: ref
 
       IF (split_info%refcount < 1) THEN
          DBCSR_ABORT("can not hold non-existing split_info")
