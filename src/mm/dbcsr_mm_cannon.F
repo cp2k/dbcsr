@@ -881,6 +881,7 @@ CONTAINS
 
       REAL(kind=sp), ALLOCATABLE, DIMENSION(:) :: left_norms, right_norms, &
                                                   row_max_epss
+      REAL(kind=sp)                            :: filter_eps_sp
       TYPE(dbcsr_2d_array_type), POINTER :: left_buffer_2, left_buffer_calc, &
                                             left_buffer_comm, right_buffer_2, right_buffer_calc, right_buffer_comm
       TYPE(dbcsr_data_obj)                     :: left_data_rp, left_data_sp, &
