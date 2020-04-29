@@ -586,7 +586,8 @@ CONTAINS
 
 !   ---------------------------------------------------------------------------
 
-      ii = 0
+      MARK_USED(ii)
+      MARK_USED(val)
 !$OMP     parallel default(none) &
 !$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &
 !$OMP              private(ii, row, col, blk, bp, bpe, val)
