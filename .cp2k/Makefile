@@ -178,7 +178,7 @@ OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.c")
 # if compiling with GPU acceleration
 ifneq ($(ACC),)
   # All *.cpp files belong to the accelerator backend
-  OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . ! -name "acc_cuda.cpp" ! -name "acc_hip.cpp" -name "*.cpp")
+  OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . ! -name "acc_cuda.cpp" ! -name "acc_hip.cpp" ! -name "hipblas.cpp" -name "*.cpp")
   # if compiling with nvcc
   ifneq (,$(findstring nvcc,$(ACC)))
     OBJ_SRC_FILES += $(LIBSMM_ACC_DIR)/../cuda/acc_cuda.cpp
@@ -187,6 +187,7 @@ ifneq ($(ACC),)
   # if compiling with hipcc
   else ifneq (,$(findstring hipcc,$(ACC)))
     OBJ_SRC_FILES += $(LIBSMM_ACC_DIR)/../hip/acc_hip.cpp
+    OBJ_SRC_FILES += $(LIBSMM_ACC_DIR)/../hipblaswrap/hipblas.cpp
   endif
 endif
 
