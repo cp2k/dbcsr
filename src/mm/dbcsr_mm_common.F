@@ -586,6 +586,7 @@ CONTAINS
 
 !   ---------------------------------------------------------------------------
 
+      ii = 0
 !$OMP     parallel default(none) &
 !$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &
 !$OMP              private(ii, row, col, blk, bp, bpe, val)
