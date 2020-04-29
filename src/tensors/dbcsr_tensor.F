@@ -93,7 +93,6 @@ MODULE dbcsr_tensor
       dbcsr_t_reserve_blocks, &
       dbcsr_t_copy_matrix_to_tensor, &
       dbcsr_t_copy_tensor_to_matrix, &
-      dbcsr_t_need_contract, &
       dbcsr_t_contract_index, &
       dbcsr_t_batched_contract_init, &
       dbcsr_t_batched_contract_finalize
@@ -1626,61 +1625,6 @@ CONTAINS
                                    nblks_local=nblks_local, &
                                    result_index=result_index)
    END SUBROUTINE
-
-   FUNCTION dbcsr_t_need_contract(tensor_1, tensor_2, contract_1, notcontract_1, &
-                                  contract_2, notcontract_2, &
-                                  bounds_1, bounds_2, bounds_3)
-      !! check whether we need to contract two tensors (whether the contraction indices of both tensors
-      !! have common occupied blocks). See documentation of dbcsr_t_contract.
-
-      TYPE(dbcsr_t_type), INTENT(INOUT)  :: tensor_1, tensor_2
-      INTEGER, DIMENSION(:), INTENT(IN)  :: contract_1, contract_2, &
-                                            notcontract_1, notcontract_2
-      INTEGER, DIMENSION(2, SIZE(contract_1)), &
-         OPTIONAL                                    :: bounds_1
-      INTEGER, DIMENSION(2, SIZE(notcontract_1)), &
-         OPTIONAL                                    :: bounds_2
-      INTEGER, DIMENSION(2, SIZE(notcontract_2)), &
-         OPTIONAL                                    :: bounds_3
-      INTEGER :: i
-      LOGICAL, DIMENSION(:), ALLOCATABLE :: ind1, ind2
-      INTEGER, DIMENSION(2, ndims_tensor(tensor_1)) :: bounds_t1
-      INTEGER, DIMENSION(2, ndims_tensor(tensor_2)) :: bounds_t2
-      LOGICAL :: dbcsr_t_need_contract
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_need_contract', &
-                                     routineP = moduleN//':'//routineN
-      INTEGER :: handle, mp_comm
-
-      CALL timeset(routineN, handle)
-
-      mp_comm = tensor_1%pgrid%mp_comm_2d
-
-      CALL dbcsr_t_map_bounds_to_tensors(tensor_1, tensor_2, &
-                                         contract_1, notcontract_1, &
-                                         contract_2, notcontract_2, &
-                                         bounds_t1, bounds_t2, &
-                                         bounds_1=bounds_1, bounds_2=bounds_2, bounds_3=bounds_3)
-
-      dbcsr_t_need_contract = .TRUE.
-
-      DO i = 1, SIZE(contract_1)
-         CALL dbcsr_t_get_nonzero_index(tensor_1, contract_1(i), bounds_t1, ind1)
-         CALL dbcsr_t_get_nonzero_index(tensor_2, contract_2(i), bounds_t2, ind2)
-
-         CALL mp_sum(ind1, mp_comm)
-         CALL mp_sum(ind2, mp_comm)
-
-         IF (.NOT. ANY(ind1 .AND. ind2)) THEN
-            dbcsr_t_need_contract = .FALSE.
-            CALL timestop(handle)
-            RETURN
-         ENDIF
-
-         DEALLOCATE (ind1, ind2)
-      ENDDO
-
-      CALL timestop(handle)
-   END FUNCTION
 
    SUBROUTINE dbcsr_t_map_bounds_to_tensors(tensor_1, tensor_2, &
                                             contract_1, notcontract_1, &

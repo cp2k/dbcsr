@@ -18,7 +18,7 @@ MODULE dbcsr_tensor_api
    USE dbcsr_tensor, ONLY: &
       dbcsr_t_contract, dbcsr_t_get_block, dbcsr_t_get_stored_coordinates, dbcsr_t_put_block, &
       dbcsr_t_reserve_blocks, dbcsr_t_copy_matrix_to_tensor, dbcsr_t_copy, &
-      dbcsr_t_copy_tensor_to_matrix, dbcsr_t_need_contract, dbcsr_t_batched_contract_init, &
+      dbcsr_t_copy_tensor_to_matrix, dbcsr_t_batched_contract_init, &
       dbcsr_t_batched_contract_finalize, &
       dbcsr_t_contract_index
    USE dbcsr_tensor_block, ONLY: &
@@ -84,7 +84,6 @@ MODULE dbcsr_tensor_api
    PUBLIC :: dbcsr_t_get_info
    PUBLIC :: dbcsr_t_checksum
    PUBLIC :: dbcsr_t_finalize
-   PUBLIC :: dbcsr_t_need_contract
    PUBLIC :: dbcsr_t_scale
    PUBLIC :: dbcsr_t_get_num_blocks, dbcsr_t_get_num_blocks_total
    PUBLIC :: dbcsr_t_get_nze, dbcsr_t_get_nze_total
