@@ -1037,12 +1037,12 @@ private subroutine prepare_buffers_s(negate_real, negate_imaginary, iter, row, c
 <span class="k">                  </span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span> <span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
                      <span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span> <span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">scale_neg_one</span><span class="p">%</span><span class="n">r_sp</span>
                <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">negate_real</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="cp"># 2000 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F&quot;</span>
+<span class="cp"># 2001 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F&quot;</span>
                   <span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span> <span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
                      <span class="o">-</span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span> <span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-<span class="cp"># 2009 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F&quot;</span>
+<span class="cp"># 2010 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F&quot;</span>
                <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">negate_imaginary</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="cp"># 2014 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F&quot;</span>
+<span class="cp"># 2015 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F&quot;</span>
                <span class="n">ENDIF</span>
             <span class="k">ELSE</span>
                <span class="c">! Copy the block</span>

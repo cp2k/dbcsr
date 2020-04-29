@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.8% of total for procedures.">469 statements</a>
+    title=" 0.8% of total for procedures.">470 statements</a>
      </li> 
      
      
@@ -438,6 +438,7 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
 
       <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">),</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:)</span> <span class="kd">::</span> <span class="n">left_norms</span><span class="p">,</span> <span class="n">right_norms</span><span class="p">,</span> <span class="p">&amp;</span>
                                                   <span class="n">row_max_epss</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">)</span>                            <span class="kd">::</span> <span class="n">filter_eps_sp</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_2d_array_type</span><span class="p">),</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">left_buffer_2</span><span class="p">,</span> <span class="n">left_buffer_calc</span><span class="p">,</span> <span class="p">&amp;</span>
                                             <span class="n">left_buffer_comm</span><span class="p">,</span> <span class="n">right_buffer_2</span><span class="p">,</span> <span class="n">right_buffer_calc</span><span class="p">,</span> <span class="n">right_buffer_comm</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">)</span>                     <span class="kd">::</span> <span class="n">left_data_rp</span><span class="p">,</span> <span class="n">left_data_sp</span><span class="p">,</span> <span class="p">&amp;</span>
