@@ -288,9 +288,8 @@ CONTAINS
       ELSEIF (PRESENT(col_blk_size)) THEN
          CALL array_new(matrix%col_blk_size, col_blk_size, gift=reuse_arrays)
       ELSE
-         DBCSR_ABORT("Missing row_blk_size")
+         DBCSR_ABORT("Missing col_blk_size")
       ENDIF
-
       IF (PRESENT(max_cbs)) THEN
          matrix%max_cbs = max_cbs
       ELSE IF (array_size(matrix%col_blk_size) .GT. 0) THEN
@@ -490,15 +489,20 @@ CONTAINS
       ELSE
          new_matrix_type = dbcsr_get_matrix_type(template)
       ENDIF
+      !
+      IF ((PRESENT(row_blk_size) .NEQV. PRESENT(col_blk_size)) .OR. &
+          (PRESENT(row_blk_size_obj) .NEQV. PRESENT(col_blk_size_obj))) THEN
+         DBCSR_ABORT("Both row_blk_size and col_blk_size must be provided")
+      ENDIF
+      !
       IF (PRESENT(max_rbs)) new_max_rbs = max_rbs
       IF (PRESENT(row_blk_offset)) new_row_blk_offset = row_blk_offset
       NULLIFY (blk_size)
-      IF (PRESENT(row_blk_size)) THEN
-         blk_size => row_blk_size
-      ELSEIF (PRESENT(row_blk_size_obj)) THEN
+      IF (PRESENT(row_blk_size_obj)) THEN
          blk_size => array_data(row_blk_size_obj)
+      ELSEIF (PRESENT(row_blk_size)) THEN
+         blk_size => row_blk_size
       ENDIF
-
       IF (ASSOCIATED(blk_size)) THEN
          IF (.NOT. PRESENT(max_rbs)) &
             new_max_rbs = MAXVAL(blk_size)
@@ -512,10 +516,10 @@ CONTAINS
       IF (PRESENT(max_cbs)) new_max_cbs = max_cbs
       IF (PRESENT(col_blk_offset)) new_col_blk_offset = col_blk_offset
       NULLIFY (blk_size)
-      IF (PRESENT(col_blk_size)) THEN
-         blk_size => col_blk_size
-      ELSEIF (PRESENT(col_blk_size_obj)) THEN
+      IF (PRESENT(col_blk_size_obj)) THEN
          blk_size => array_data(col_blk_size_obj)
+      ELSEIF (PRESENT(col_blk_size)) THEN
+         blk_size => col_blk_size
       ENDIF
       IF (ASSOCIATED(blk_size)) THEN
          IF (.NOT. PRESENT(max_cbs)) &
@@ -551,11 +555,11 @@ CONTAINS
       ELSE
          new_mutable_work = dbcsr_use_mutable(template)
       ENDIF
-      IF (PRESENT(row_blk_size) .AND. PRESENT(col_blk_size)) THEN
+      IF (PRESENT(row_blk_size_obj)) THEN
          CALL dbcsr_create(matrix, name=new_name, dist=new_dist, &
                            matrix_type=new_matrix_type, &
-                           row_blk_size=row_blk_size, &
-                           col_blk_size=col_blk_size, &
+                           row_blk_size_obj=row_blk_size_obj, &
+                           col_blk_size_obj=col_blk_size_obj, &
                            nze=nze, &
                            data_type=new_data_type, &
                            data_buffer=data_buffer, &
@@ -567,11 +571,11 @@ CONTAINS
                            mutable_work=new_mutable_work, &
                            make_index=make_index, &
                            replication_type=new_replication_type)
-      ELSEIF (PRESENT(row_blk_size_obj) .AND. PRESENT(col_blk_size_obj)) THEN
+      ELSEIF (PRESENT(row_blk_size)) THEN
          CALL dbcsr_create(matrix, name=new_name, dist=new_dist, &
                            matrix_type=new_matrix_type, &
-                           row_blk_size_obj=row_blk_size_obj, &
-                           col_blk_size_obj=col_blk_size_obj, &
+                           row_blk_size=row_blk_size, &
+                           col_blk_size=col_blk_size, &
                            nze=nze, &
                            data_type=new_data_type, &
                            data_buffer=data_buffer, &

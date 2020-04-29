@@ -31,7 +31,7 @@ const uint32_t colormap[] = { 0xFFFFFF00,  // Yellow
 //==============================================================================
 extern "C" int cuda_nvtx_range_push_cu(const char* message) {
 
-    //assembling event attribute
+    // assembling event attribute
     nvtxEventAttributes_t eventAttrib = {0};
     eventAttrib.version = NVTX_VERSION;
     eventAttrib.size = NVTX_EVENT_ATTRIB_STRUCT_SIZE;
@@ -45,7 +45,7 @@ extern "C" int cuda_nvtx_range_push_cu(const char* message) {
     eventAttrib.colorType = NVTX_COLOR_ARGB;
     eventAttrib.color = colormap[hash%14];
 
-    //these field could be fild with useful stuff
+    // these field could be filled with useful stuff
     eventAttrib.payloadType = NVTX_PAYLOAD_TYPE_INT64;
     eventAttrib.payload.llValue = 123;
     eventAttrib.category = 42;

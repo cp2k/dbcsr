@@ -54,7 +54,7 @@ extern "C" int acc_stream_create(void** stream_p, const char* name, int priority
   if (acc_error_check(ACC(GetLastError)())) return -1;
 
 #ifdef __CUDA_PROFILING
-  nvtxNameCudaStreamA(*custream, name);
+  nvtxNameCudaStreamA(*acc_stream, name);
 #endif
 
     return 0;
