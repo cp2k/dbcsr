@@ -581,45 +581,31 @@ CONTAINS
       ${type1}$, DIMENSION(:), &
          INTENT(IN)                            :: DATA
 
-      INTEGER, PARAMETER                       :: nsimd = (4*64)/${typesize1}$
-      INTEGER                                  :: i, n, blk, bp, bpe, row, col
-      REAL(kind=sp)                            :: vals(nsimd)
+      INTEGER                                  :: ii, blk, bp, bpe, row, col
+      ${type1}$                                :: val
 
 !   ---------------------------------------------------------------------------
 
 !$OMP     parallel default(none) &
 !$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &
-!$OMP              private(vals, i, n, row, col, blk, bp, bpe)
-!$OMP     do schedule(dynamic)
-      DO i = 0, nblks - 1, nsimd
-         n = MIN(nsimd, nblks - i)
-         DO blk = 1, n
-            bp = blki(3, blk + i)
-            IF (bp .NE. 0) THEN
-               row = blki(1, blk + i)
-               col = blki(2, blk + i)
-               bpe = bp + rbs(row)*cbs(col) - 1
+!$OMP              private(ii, row, col, blk, bp, bpe, val)
+!$OMP     do schedule(static)
+      DO blk = 1, nblks
+         bp = blki(3, blk)
+         row = blki(1, blk)
+         col = blki(2, blk)
+         bpe = bp + rbs(row)*cbs(col) - 1
 #:if nametype1 in ['d', 's']
-               vals(blk) = REAL(SUM(DATA(bp:bpe)**2), KIND=sp)
-#:else
-               vals(blk) = REAL(SUM(ABS(DATA(bp:bpe))**2), KIND=sp)
-#:endif
-            ELSE
-               vals(blk) = 0.0_sp
-            ENDIF
+         val = 0.0_${kind1}$
+!$OMP     simd reduction(+: val)
+         DO ii = bp, bpe
+            val = val + DATA(ii)**2
          ENDDO
-         ! SIMD: SQRT is intentionally not in above IF-condition
-         IF (n .EQ. nsimd) THEN
-!$OMP     simd
-            DO blk = 1, nsimd
-               norms(blk + i) = SQRT(vals(blk))
-            ENDDO
 !$OMP     end simd
-         ELSE ! remainder
-            DO blk = 1, n
-               norms(blk + i) = SQRT(vals(blk))
-            ENDDO
-         ENDIF
+         norms(blk) = REAL(val, KIND=sp)
+#:else
+         norms(blk) = REAL(SUM(ABS(DATA(bp:bpe))**2), KIND=sp)
+#:endif
       ENDDO
 !$OMP     end do
 !$OMP     end parallel

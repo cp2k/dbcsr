@@ -1088,9 +1088,9 @@ CONTAINS
          ! and used to determine the maximum per-block epsilon.
          DO row = 1, nblkrows_total
             row_max_epss(row) &
-               = REAL(filter_eps &
+               = (REAL(filter_eps &
                       /REAL(MAX(1, total_row_counts(row)), KIND=KIND(row_max_epss)), &
-                      KIND=KIND(row_max_epss))
+                      KIND=KIND(row_max_epss)))**2
          END DO
          !
          DEALLOCATE (row_counts)
