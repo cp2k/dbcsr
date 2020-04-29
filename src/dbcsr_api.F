@@ -936,8 +936,12 @@ CONTAINS
 
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: cont_row_blk_size, cont_col_blk_size
 
+      IF (PRESENT(row_blk_size) .NEQV. PRESENT(col_blk_size)) THEN
+         DBCSR_ABORT("Both row_blk_size and col_blk_size must be provided!")
+      ENDIF
+
       ! Make the array contiguous, avoid to change API
-      IF (PRESENT(row_blk_size) .AND. PRESENT(col_blk_size)) THEN
+      IF (PRESENT(row_blk_size)) THEN
          ! Avoid to change API
          ALLOCATE (cont_row_blk_size(SIZE(row_blk_size)), cont_col_blk_size(SIZE(col_blk_size)))
          cont_row_blk_size(:) = row_blk_size(:)
@@ -951,7 +955,7 @@ CONTAINS
       ENDIF
 
       IF (PRESENT(dist)) THEN
-         IF (PRESENT(row_blk_size) .AND. PRESENT(col_blk_size)) THEN
+         IF (PRESENT(row_blk_size)) THEN
             CALL dbcsr_create_prv(matrix%prv, template%prv, name, &
                                   dist%prv, matrix_type, &
                                   row_blk_size=cont_row_blk_size, col_blk_size=cont_col_blk_size, &
@@ -966,7 +970,7 @@ CONTAINS
                                   replication_type=replication_type)
          ENDIF
       ELSE
-         IF (PRESENT(row_blk_size) .AND. PRESENT(col_blk_size)) THEN
+         IF (PRESENT(row_blk_size)) THEN
             CALL dbcsr_create_prv(matrix%prv, template%prv, name, &
                                   matrix_type=matrix_type, &
                                   row_blk_size=cont_row_blk_size, col_blk_size=cont_col_blk_size, &
