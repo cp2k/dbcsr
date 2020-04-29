@@ -852,7 +852,7 @@ CONTAINS
                  left_send_icol, left_send_irow, left_send_p, left_send_pcol, left_send_prow
       INTEGER :: left_send_vcol, left_send_vrow, left_src_icol, left_src_irow, left_src_p, &
                  left_src_pcol, left_src_prow, left_src_vcol, left_src_vrow, metronome, min_nimages, &
-                 mp_group, mynode, nblkrows_total, nblkrows_used, nsteps_k, nthreads, numnodes, nvirt_k, &
+                 mp_group, mynode, nblkrows_used, nsteps_k, nthreads, numnodes, nvirt_k, &
                  output_unit, right_col_image, right_col_mult, right_col_nimages, right_dst_icol, &
                  right_dst_irow, right_dst_p, right_dst_pcol, right_dst_prow, right_dst_vcol, &
                  right_dst_vrow, right_max_nblks, right_max_nze, right_myfirstvcol, right_myfirstvrow, &
@@ -868,9 +868,12 @@ CONTAINS
       INTEGER, ALLOCATABLE, DIMENSION(:, :, :)           :: left_sizes, my_sizes, right_sizes
       INTEGER, ALLOCATABLE, DIMENSION(:, :, :, :)        :: all_sizes
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS :: col_blk_sizes2enum, enum2col_blk_sizes, &
-                                                    enum2row_blk_sizes, left_data_rr, left_data_sr, left_index_rp, left_index_rr, &
-                                         left_index_sp, left_index_sr, local_rows, m_sizes, n_sizes, right_data_rr, right_data_sr, &
-                                                  right_index_rp, right_index_rr, right_index_sp, right_index_sr, row_blk_sizes2enum
+                                                    enum2row_blk_sizes, left_data_rr, left_data_sr, &
+                                                    left_index_rp, left_index_rr, &
+                                                    left_index_sp, left_index_sr, m_sizes, n_sizes, &
+                                                    right_data_rr, right_data_sr, &
+                                                    right_index_rp, right_index_rr, right_index_sp, &
+                                                    right_index_sr, row_blk_sizes2enum
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: k_sizes
       INTEGER, DIMENSION(:, :), POINTER, CONTIGUOUS      :: left_pgrid, product_pgrid, right_pgrid
       INTEGER, SAVE                                      :: mult_id = 0
@@ -1033,8 +1036,7 @@ CONTAINS
          ELSE
             nblkrows_used = dbcsr_nblkrows_total(left_set%mats(1, 1))
          ENDIF
-         nblkrows_total = dbcsr_nblkrows_total(left_set%mats(1, 1))
-         ALLOCATE (row_max_epss(nblkrows_total), stat=stat)
+         ALLOCATE (row_max_epss(nblkrows_used), stat=stat)
          IF (stat .NE. 0) &
             DBCSR_ABORT("Could not allocate memory for left epsilons")
          ALLOCATE (row_counts(nblkrows_used), stat=stat)
@@ -1042,7 +1044,7 @@ CONTAINS
             DBCSR_ABORT("Could not allocate memory for left row counts")
          ! The summation could be done prow-locally but it would
          ! complicate the pre-row eps calculation.
-         ALLOCATE (total_row_counts(nblkrows_total), stat=stat)
+         ALLOCATE (total_row_counts(nblkrows_used), stat=stat)
          IF (stat .NE. 0) &
             DBCSR_ABORT("Could not allocate memory for left row counts")
          ! Each prow member matrix (npcols * row_images) counts the
@@ -1072,27 +1074,23 @@ CONTAINS
                      left_set%mats(left_row_image, left_col_image)%row_p, &
                      row_counts, nblkrows_used)
                ENDIF
-               IF (dbcsr_has_local_row_index(left_set%mats(left_row_image, left_col_image))) THEN
-                  local_rows => array_data(left_set%mats(left_row_image, left_col_image)%local_rows)
-                  IF (SIZE(local_rows) .NE. SIZE(row_counts)) &
-                     DBCSR_ABORT("Mismatch in number of local rows.")
-                  total_row_counts(local_rows) = total_row_counts(local_rows) &
-                                                 + row_counts(1:nblkrows_used)
-               ELSE
-                  total_row_counts(:) = total_row_counts(:) &
-                                        + row_counts(:)
-               ENDIF
+               total_row_counts(:) = total_row_counts(:) &
+                                     + row_counts(:)
             ENDDO
          ENDDO
          ! The counted blocks are then summed up
          CALL mp_sum(total_row_counts, mp_group)
          ! and used to determine the maximum per-block epsilon.
-         DO row = 1, nblkrows_total
+         filter_eps_sp = REAL(filter_eps, KIND=KIND(row_max_epss))
+!$OMP PARALLEL DO DEFAULT (NONE) &
+!$OMP SHARED(nblkrows_used,row_max_epss,filter_eps_sp,&
+!$OMP        total_row_counts)
+         DO row = 1, nblkrows_used
             row_max_epss(row) &
-               = (REAL(filter_eps &
-                      /REAL(MAX(1, total_row_counts(row)), KIND=KIND(row_max_epss)), &
-                      KIND=KIND(row_max_epss)))**2
+               = (filter_eps &
+                  /REAL(MAX(1, total_row_counts(row)), KIND=KIND(row_max_epss)))**2
          END DO
+!$OMP END PARALLEL DO
          !
          DEALLOCATE (row_counts)
          DEALLOCATE (total_row_counts)
@@ -1280,9 +1278,7 @@ CONTAINS
 !$    ithread = OMP_GET_THREAD_NUM()
       ALLOCATE (multrec(ithread)%p)
       CALL dbcsr_mm_multrec_init(multrec(ithread)%p, &
-                                 left_buffer_comm%mats(1, 1), &
-                                 right_buffer_comm%mats(1, 1), &
-                                 product_matrix, &
+                                 product=product_matrix, &
                                  keep_sparsity=keep_sparsity, &
                                  eps=filter_eps, &
                                  row_max_epss=row_max_epss, &
@@ -1927,8 +1923,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
 
 # 45 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
-# 1924 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F" 2
-# 1925 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 1920 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F" 2
+# 1921 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 
 ! **************************************************************************************************
    SUBROUTINE prepare_buffers_d (negate_real, negate_imaginary, &
@@ -2007,12 +2003,12 @@ CONTAINS
                   send_data_area%d%r_dp (sd_pos:myt_sdp(dst_p) - 1) = &
                      send_data_area%d%r_dp (sd_pos:myt_sdp(dst_p) - 1)*scale_neg_one%r_dp
                ELSEIF (negate_real) THEN
-# 2004 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 2000 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   send_data_area%d%r_dp (sd_pos:myt_sdp(dst_p) - 1) = &
                      -send_data_area%d%r_dp (sd_pos:myt_sdp(dst_p) - 1)
-# 2013 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 2009 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                ELSEIF (negate_imaginary) THEN
-# 2018 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 2014 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                ENDIF
             ELSE
                ! Copy the block
@@ -2032,7 +2028,7 @@ CONTAINS
          ENDDO
       ENDDO
    END SUBROUTINE prepare_buffers_d
-# 1925 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 1921 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 
 ! **************************************************************************************************
    SUBROUTINE prepare_buffers_s (negate_real, negate_imaginary, &
@@ -2111,12 +2107,12 @@ CONTAINS
                   send_data_area%d%r_sp (sd_pos:myt_sdp(dst_p) - 1) = &
                      send_data_area%d%r_sp (sd_pos:myt_sdp(dst_p) - 1)*scale_neg_one%r_sp
                ELSEIF (negate_real) THEN
-# 2004 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 2000 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   send_data_area%d%r_sp (sd_pos:myt_sdp(dst_p) - 1) = &
                      -send_data_area%d%r_sp (sd_pos:myt_sdp(dst_p) - 1)
-# 2013 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 2009 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                ELSEIF (negate_imaginary) THEN
-# 2018 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 2014 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                ENDIF
             ELSE
                ! Copy the block
@@ -2136,7 +2132,7 @@ CONTAINS
          ENDDO
       ENDDO
    END SUBROUTINE prepare_buffers_s
-# 1925 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 1921 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 
 ! **************************************************************************************************
    SUBROUTINE prepare_buffers_z (negate_real, negate_imaginary, &
@@ -2215,18 +2211,18 @@ CONTAINS
                   send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1) = &
                      send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1)*scale_neg_one%c_dp
                ELSEIF (negate_real) THEN
-# 2007 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 2003 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1) = &
                      CMPLX( &
                      -REAL(send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1), KIND=real_8), &
                      AIMAG(send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1)), &
                      KIND=real_8)
-# 2013 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 2009 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                ELSEIF (negate_imaginary) THEN
-# 2015 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 2011 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1) = &
                      CONJG(send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1))
-# 2018 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 2014 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                ENDIF
             ELSE
                ! Copy the block
@@ -2246,7 +2242,7 @@ CONTAINS
          ENDDO
       ENDDO
    END SUBROUTINE prepare_buffers_z
-# 1925 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 1921 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 
 ! **************************************************************************************************
    SUBROUTINE prepare_buffers_c (negate_real, negate_imaginary, &
@@ -2325,18 +2321,18 @@ CONTAINS
                   send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1) = &
                      send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1)*scale_neg_one%c_sp
                ELSEIF (negate_real) THEN
-# 2007 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 2003 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1) = &
                      CMPLX( &
                      -REAL(send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1), KIND=real_4), &
                      AIMAG(send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1)), &
                      KIND=real_4)
-# 2013 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 2009 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                ELSEIF (negate_imaginary) THEN
-# 2015 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 2011 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1) = &
                      CONJG(send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1))
-# 2018 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 2014 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                ENDIF
             ELSE
                ! Copy the block
@@ -2356,6 +2352,6 @@ CONTAINS
          ENDDO
       ENDDO
    END SUBROUTINE prepare_buffers_c
-# 2038 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 2034 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 
 END MODULE dbcsr_mm_cannon
