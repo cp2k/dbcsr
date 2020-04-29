@@ -1345,7 +1345,7 @@ CONTAINS
          ! Determine the maximum per-block epsilon
          DO row = 1, nblkrows_local
             row_max_epss(row) = &
-               filter_eps_sp/REAL(MAX(1, left_total_row_counts(row)), KIND=KIND(row_max_epss))
+               (filter_eps_sp/REAL(MAX(1, left_total_row_counts(row)), KIND=KIND(row_max_epss)))**2
          ENDDO
 !$OMP END PARALLEL DO
          DEALLOCATE (left_total_row_counts)
