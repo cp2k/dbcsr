@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for source files.">68 statements</a>
+    title=" 0.1% of total for source files.">67 statements</a>
      </li> 
      
      
@@ -277,7 +277,7 @@
 <a name="ln-19"></a>   <span class="k">USE </span><span class="n">dbcsr_tensor</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-20"></a>      <span class="n">dbcsr_t_contract</span><span class="p">,</span> <span class="n">dbcsr_t_get_block</span><span class="p">,</span> <span class="n">dbcsr_t_get_stored_coordinates</span><span class="p">,</span> <span class="n">dbcsr_t_put_block</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-21"></a>      <span class="n">dbcsr_t_reserve_blocks</span><span class="p">,</span> <span class="n">dbcsr_t_copy_matrix_to_tensor</span><span class="p">,</span> <span class="n">dbcsr_t_copy</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-22"></a>      <span class="n">dbcsr_t_copy_tensor_to_matrix</span><span class="p">,</span> <span class="n">dbcsr_t_need_contract</span><span class="p">,</span> <span class="n">dbcsr_t_batched_contract_init</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-22"></a>      <span class="n">dbcsr_t_copy_tensor_to_matrix</span><span class="p">,</span> <span class="n">dbcsr_t_batched_contract_init</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-23"></a>      <span class="n">dbcsr_t_batched_contract_finalize</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-24"></a>      <span class="n">dbcsr_t_contract_index</span>
 <a name="ln-25"></a>   <span class="k">USE </span><span class="n">dbcsr_tensor_block</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
@@ -343,31 +343,30 @@
 <a name="ln-85"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_get_info</span>
 <a name="ln-86"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_checksum</span>
 <a name="ln-87"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_finalize</span>
-<a name="ln-88"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_need_contract</span>
-<a name="ln-89"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_scale</span>
-<a name="ln-90"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_get_num_blocks</span><span class="p">,</span> <span class="n">dbcsr_t_get_num_blocks_total</span>
-<a name="ln-91"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_get_nze</span><span class="p">,</span> <span class="n">dbcsr_t_get_nze_total</span>
-<a name="ln-92"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_clear</span>
-<a name="ln-93"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_get_mapping_info</span>
-<a name="ln-94"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_write_split_info</span>
-<a name="ln-95"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_write_blocks</span>
-<a name="ln-96"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_mp_dims_create</span>
-<a name="ln-97"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_batched_contract_init</span>
-<a name="ln-98"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_batched_contract_finalize</span>
-<a name="ln-99"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_ndims</span>
-<a name="ln-100"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_dims</span>
-<a name="ln-101"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_pgrid_change_dims</span>
-<a name="ln-102"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_reserved_block_indices</span>
-<a name="ln-103"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_contract_index</span>
-<a name="ln-104"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_ndims_matrix_row</span>
-<a name="ln-105"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_ndims_matrix_column</span>
-<a name="ln-106"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_nblks_local</span>
-<a name="ln-107"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_nblks_total</span>
-<a name="ln-108"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_blk_size</span>
-<a name="ln-109"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_max_nblks_local</span>
-<a name="ln-110"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_default_distvec</span>
-<a name="ln-111"></a>
-<a name="ln-112"></a><span class="k">END MODULE </span><span class="n">dbcsr_tensor_api</span>
+<a name="ln-88"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_scale</span>
+<a name="ln-89"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_get_num_blocks</span><span class="p">,</span> <span class="n">dbcsr_t_get_num_blocks_total</span>
+<a name="ln-90"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_get_nze</span><span class="p">,</span> <span class="n">dbcsr_t_get_nze_total</span>
+<a name="ln-91"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_clear</span>
+<a name="ln-92"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_get_mapping_info</span>
+<a name="ln-93"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_write_split_info</span>
+<a name="ln-94"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_write_blocks</span>
+<a name="ln-95"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_mp_dims_create</span>
+<a name="ln-96"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_batched_contract_init</span>
+<a name="ln-97"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_batched_contract_finalize</span>
+<a name="ln-98"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_ndims</span>
+<a name="ln-99"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_dims</span>
+<a name="ln-100"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_pgrid_change_dims</span>
+<a name="ln-101"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_reserved_block_indices</span>
+<a name="ln-102"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_contract_index</span>
+<a name="ln-103"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_ndims_matrix_row</span>
+<a name="ln-104"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_ndims_matrix_column</span>
+<a name="ln-105"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_nblks_local</span>
+<a name="ln-106"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_nblks_total</span>
+<a name="ln-107"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_blk_size</span>
+<a name="ln-108"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_max_nblks_local</span>
+<a name="ln-109"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_t_default_distvec</span>
+<a name="ln-110"></a>
+<a name="ln-111"></a><span class="k">END MODULE </span><span class="n">dbcsr_tensor_api</span>
 </pre></div>
 
     </section>
