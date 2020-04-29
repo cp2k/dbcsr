@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.7% of total for source files.">446 statements</a>
+    title=" 0.8% of total for source files.">482 statements</a>
      </li> 
      
      
@@ -851,137 +851,141 @@
 <a name="ln-593"></a>
 <a name="ln-594"></a><span class="c">!   ---------------------------------------------------------------------------</span>
 <a name="ln-595"></a>
-<a name="ln-596"></a>      <span class="n">ii</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-597"></a><span class="c">!$OMP     parallel default(none) &amp;</span>
-<a name="ln-598"></a><span class="c">!$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &amp;</span>
-<a name="ln-599"></a><span class="c">!$OMP              private(ii, row, col, blk, bp, bpe, val)</span>
-<a name="ln-600"></a><span class="c">!$OMP     do schedule(static)</span>
-<a name="ln-601"></a>      <span class="k">DO </span><span class="n">blk</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nblks</span>
-<a name="ln-602"></a>         <span class="n">bp</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span>
-<a name="ln-603"></a>         <span class="n">row</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span>
-<a name="ln-604"></a>         <span class="n">col</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span>
-<a name="ln-605"></a>         <span class="n">bpe</span> <span class="o">=</span> <span class="n">bp</span> <span class="o">+</span> <span class="n">rbs</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">*</span><span class="n">cbs</span><span class="p">(</span><span class="n">col</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-<a name="ln-606"></a><span class="cp"># 600 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F&quot;</span>
-<a name="ln-607"></a>         <span class="n">val</span> <span class="o">=</span> <span class="mf">0.0_real_8</span>
-<a name="ln-608"></a><span class="c">!$OMP     simd reduction(+: val)</span>
-<a name="ln-609"></a>         <span class="k">DO </span><span class="n">ii</span> <span class="o">=</span> <span class="n">bp</span><span class="p">,</span> <span class="n">bpe</span>
-<a name="ln-610"></a>            <span class="n">val</span> <span class="o">=</span> <span class="n">val</span> <span class="o">+</span> <span class="k">DATA</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
-<a name="ln-611"></a>         <span class="n">ENDDO</span>
-<a name="ln-612"></a><span class="c">!$OMP     end simd</span>
-<a name="ln-613"></a>         <span class="n">norms</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">sp</span><span class="p">)</span>
-<a name="ln-614"></a><span class="cp"># 610 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F&quot;</span>
-<a name="ln-615"></a>      <span class="n">ENDDO</span>
-<a name="ln-616"></a><span class="c">!$OMP     end do</span>
-<a name="ln-617"></a><span class="c">!$OMP     end parallel</span>
-<a name="ln-618"></a>   <span class="k">END SUBROUTINE </span><span class="n">calc_norms_d</span>
-<a name="ln-619"></a><span class="cp"># 574 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F&quot;</span>
-<a name="ln-620"></a>   <span class="k">SUBROUTINE </span><span class="n">calc_norms_s</span> <span class="p">(</span><span class="n">norms</span><span class="p">,</span> <span class="n">nblks</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-621"></a>                                        <span class="n">blki</span><span class="p">,</span> <span class="n">rbs</span><span class="p">,</span> <span class="n">cbs</span><span class="p">,</span> <span class="k">DATA</span><span class="p">)</span>
-<a name="ln-622"></a>     <span class="c">!! Calculates norms of the entire matrix with minimal overhead.</span>
-<a name="ln-623"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">norms</span>
-<a name="ln-624"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">nblks</span>
-<a name="ln-625"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">nblks</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">blki</span>
-<a name="ln-626"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">rbs</span><span class="p">,</span> <span class="n">cbs</span>
-<a name="ln-627"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="p">&amp;</span>
-<a name="ln-628"></a>         <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                            <span class="kd">::</span> <span class="k">DATA</span>
-<a name="ln-629"></a>
-<a name="ln-630"></a><span class="k">      </span><span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">ii</span><span class="p">,</span> <span class="n">blk</span><span class="p">,</span> <span class="n">bp</span><span class="p">,</span> <span class="n">bpe</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span>
-<a name="ln-631"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">val</span>
-<a name="ln-632"></a>
-<a name="ln-633"></a><span class="c">!   ---------------------------------------------------------------------------</span>
-<a name="ln-634"></a>
-<a name="ln-635"></a>      <span class="n">ii</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-636"></a><span class="c">!$OMP     parallel default(none) &amp;</span>
-<a name="ln-637"></a><span class="c">!$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &amp;</span>
-<a name="ln-638"></a><span class="c">!$OMP              private(ii, row, col, blk, bp, bpe, val)</span>
-<a name="ln-639"></a><span class="c">!$OMP     do schedule(static)</span>
-<a name="ln-640"></a>      <span class="k">DO </span><span class="n">blk</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nblks</span>
-<a name="ln-641"></a>         <span class="n">bp</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span>
-<a name="ln-642"></a>         <span class="n">row</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span>
-<a name="ln-643"></a>         <span class="n">col</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span>
-<a name="ln-644"></a>         <span class="n">bpe</span> <span class="o">=</span> <span class="n">bp</span> <span class="o">+</span> <span class="n">rbs</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">*</span><span class="n">cbs</span><span class="p">(</span><span class="n">col</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-<a name="ln-645"></a><span class="cp"># 600 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F&quot;</span>
-<a name="ln-646"></a>         <span class="n">val</span> <span class="o">=</span> <span class="mf">0.0_real_4</span>
-<a name="ln-647"></a><span class="c">!$OMP     simd reduction(+: val)</span>
-<a name="ln-648"></a>         <span class="k">DO </span><span class="n">ii</span> <span class="o">=</span> <span class="n">bp</span><span class="p">,</span> <span class="n">bpe</span>
-<a name="ln-649"></a>            <span class="n">val</span> <span class="o">=</span> <span class="n">val</span> <span class="o">+</span> <span class="k">DATA</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
-<a name="ln-650"></a>         <span class="n">ENDDO</span>
-<a name="ln-651"></a><span class="c">!$OMP     end simd</span>
-<a name="ln-652"></a>         <span class="n">norms</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">sp</span><span class="p">)</span>
-<a name="ln-653"></a><span class="cp"># 610 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F&quot;</span>
-<a name="ln-654"></a>      <span class="n">ENDDO</span>
-<a name="ln-655"></a><span class="c">!$OMP     end do</span>
-<a name="ln-656"></a><span class="c">!$OMP     end parallel</span>
-<a name="ln-657"></a>   <span class="k">END SUBROUTINE </span><span class="n">calc_norms_s</span>
-<a name="ln-658"></a><span class="cp"># 574 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F&quot;</span>
-<a name="ln-659"></a>   <span class="k">SUBROUTINE </span><span class="n">calc_norms_z</span> <span class="p">(</span><span class="n">norms</span><span class="p">,</span> <span class="n">nblks</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-660"></a>                                        <span class="n">blki</span><span class="p">,</span> <span class="n">rbs</span><span class="p">,</span> <span class="n">cbs</span><span class="p">,</span> <span class="k">DATA</span><span class="p">)</span>
-<a name="ln-661"></a>     <span class="c">!! Calculates norms of the entire matrix with minimal overhead.</span>
-<a name="ln-662"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">norms</span>
-<a name="ln-663"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">nblks</span>
-<a name="ln-664"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">nblks</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">blki</span>
-<a name="ln-665"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">rbs</span><span class="p">,</span> <span class="n">cbs</span>
-<a name="ln-666"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="p">&amp;</span>
-<a name="ln-667"></a>         <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                            <span class="kd">::</span> <span class="k">DATA</span>
-<a name="ln-668"></a>
-<a name="ln-669"></a><span class="k">      </span><span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">ii</span><span class="p">,</span> <span class="n">blk</span><span class="p">,</span> <span class="n">bp</span><span class="p">,</span> <span class="n">bpe</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span>
-<a name="ln-670"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">val</span>
-<a name="ln-671"></a>
-<a name="ln-672"></a><span class="c">!   ---------------------------------------------------------------------------</span>
+<a name="ln-596"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span>
+<a name="ln-597"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+<a name="ln-598"></a><span class="c">!$OMP     parallel default(none) &amp;</span>
+<a name="ln-599"></a><span class="c">!$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &amp;</span>
+<a name="ln-600"></a><span class="c">!$OMP              private(ii, row, col, blk, bp, bpe, val)</span>
+<a name="ln-601"></a><span class="c">!$OMP     do schedule(static)</span>
+<a name="ln-602"></a>      <span class="k">DO </span><span class="n">blk</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nblks</span>
+<a name="ln-603"></a>         <span class="n">bp</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span>
+<a name="ln-604"></a>         <span class="n">row</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span>
+<a name="ln-605"></a>         <span class="n">col</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span>
+<a name="ln-606"></a>         <span class="n">bpe</span> <span class="o">=</span> <span class="n">bp</span> <span class="o">+</span> <span class="n">rbs</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">*</span><span class="n">cbs</span><span class="p">(</span><span class="n">col</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+<a name="ln-607"></a><span class="cp"># 601 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F&quot;</span>
+<a name="ln-608"></a>         <span class="n">val</span> <span class="o">=</span> <span class="mf">0.0_real_8</span>
+<a name="ln-609"></a><span class="c">!$OMP     simd reduction(+: val)</span>
+<a name="ln-610"></a>         <span class="k">DO </span><span class="n">ii</span> <span class="o">=</span> <span class="n">bp</span><span class="p">,</span> <span class="n">bpe</span>
+<a name="ln-611"></a>            <span class="n">val</span> <span class="o">=</span> <span class="n">val</span> <span class="o">+</span> <span class="k">DATA</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+<a name="ln-612"></a>         <span class="n">ENDDO</span>
+<a name="ln-613"></a><span class="c">!$OMP     end simd</span>
+<a name="ln-614"></a>         <span class="n">norms</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">sp</span><span class="p">)</span>
+<a name="ln-615"></a><span class="cp"># 611 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F&quot;</span>
+<a name="ln-616"></a>      <span class="n">ENDDO</span>
+<a name="ln-617"></a><span class="c">!$OMP     end do</span>
+<a name="ln-618"></a><span class="c">!$OMP     end parallel</span>
+<a name="ln-619"></a>   <span class="k">END SUBROUTINE </span><span class="n">calc_norms_d</span>
+<a name="ln-620"></a><span class="cp"># 574 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F&quot;</span>
+<a name="ln-621"></a>   <span class="k">SUBROUTINE </span><span class="n">calc_norms_s</span> <span class="p">(</span><span class="n">norms</span><span class="p">,</span> <span class="n">nblks</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-622"></a>                                        <span class="n">blki</span><span class="p">,</span> <span class="n">rbs</span><span class="p">,</span> <span class="n">cbs</span><span class="p">,</span> <span class="k">DATA</span><span class="p">)</span>
+<a name="ln-623"></a>     <span class="c">!! Calculates norms of the entire matrix with minimal overhead.</span>
+<a name="ln-624"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">norms</span>
+<a name="ln-625"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">nblks</span>
+<a name="ln-626"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">nblks</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">blki</span>
+<a name="ln-627"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">rbs</span><span class="p">,</span> <span class="n">cbs</span>
+<a name="ln-628"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="p">&amp;</span>
+<a name="ln-629"></a>         <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                            <span class="kd">::</span> <span class="k">DATA</span>
+<a name="ln-630"></a>
+<a name="ln-631"></a><span class="k">      </span><span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">ii</span><span class="p">,</span> <span class="n">blk</span><span class="p">,</span> <span class="n">bp</span><span class="p">,</span> <span class="n">bpe</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span>
+<a name="ln-632"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">val</span>
+<a name="ln-633"></a>
+<a name="ln-634"></a><span class="c">!   ---------------------------------------------------------------------------</span>
+<a name="ln-635"></a>
+<a name="ln-636"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span>
+<a name="ln-637"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+<a name="ln-638"></a><span class="c">!$OMP     parallel default(none) &amp;</span>
+<a name="ln-639"></a><span class="c">!$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &amp;</span>
+<a name="ln-640"></a><span class="c">!$OMP              private(ii, row, col, blk, bp, bpe, val)</span>
+<a name="ln-641"></a><span class="c">!$OMP     do schedule(static)</span>
+<a name="ln-642"></a>      <span class="k">DO </span><span class="n">blk</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nblks</span>
+<a name="ln-643"></a>         <span class="n">bp</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span>
+<a name="ln-644"></a>         <span class="n">row</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span>
+<a name="ln-645"></a>         <span class="n">col</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span>
+<a name="ln-646"></a>         <span class="n">bpe</span> <span class="o">=</span> <span class="n">bp</span> <span class="o">+</span> <span class="n">rbs</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">*</span><span class="n">cbs</span><span class="p">(</span><span class="n">col</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+<a name="ln-647"></a><span class="cp"># 601 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F&quot;</span>
+<a name="ln-648"></a>         <span class="n">val</span> <span class="o">=</span> <span class="mf">0.0_real_4</span>
+<a name="ln-649"></a><span class="c">!$OMP     simd reduction(+: val)</span>
+<a name="ln-650"></a>         <span class="k">DO </span><span class="n">ii</span> <span class="o">=</span> <span class="n">bp</span><span class="p">,</span> <span class="n">bpe</span>
+<a name="ln-651"></a>            <span class="n">val</span> <span class="o">=</span> <span class="n">val</span> <span class="o">+</span> <span class="k">DATA</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
+<a name="ln-652"></a>         <span class="n">ENDDO</span>
+<a name="ln-653"></a><span class="c">!$OMP     end simd</span>
+<a name="ln-654"></a>         <span class="n">norms</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">sp</span><span class="p">)</span>
+<a name="ln-655"></a><span class="cp"># 611 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F&quot;</span>
+<a name="ln-656"></a>      <span class="n">ENDDO</span>
+<a name="ln-657"></a><span class="c">!$OMP     end do</span>
+<a name="ln-658"></a><span class="c">!$OMP     end parallel</span>
+<a name="ln-659"></a>   <span class="k">END SUBROUTINE </span><span class="n">calc_norms_s</span>
+<a name="ln-660"></a><span class="cp"># 574 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F&quot;</span>
+<a name="ln-661"></a>   <span class="k">SUBROUTINE </span><span class="n">calc_norms_z</span> <span class="p">(</span><span class="n">norms</span><span class="p">,</span> <span class="n">nblks</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-662"></a>                                        <span class="n">blki</span><span class="p">,</span> <span class="n">rbs</span><span class="p">,</span> <span class="n">cbs</span><span class="p">,</span> <span class="k">DATA</span><span class="p">)</span>
+<a name="ln-663"></a>     <span class="c">!! Calculates norms of the entire matrix with minimal overhead.</span>
+<a name="ln-664"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">norms</span>
+<a name="ln-665"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">nblks</span>
+<a name="ln-666"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">nblks</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">blki</span>
+<a name="ln-667"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">rbs</span><span class="p">,</span> <span class="n">cbs</span>
+<a name="ln-668"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="p">&amp;</span>
+<a name="ln-669"></a>         <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                            <span class="kd">::</span> <span class="k">DATA</span>
+<a name="ln-670"></a>
+<a name="ln-671"></a><span class="k">      </span><span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">ii</span><span class="p">,</span> <span class="n">blk</span><span class="p">,</span> <span class="n">bp</span><span class="p">,</span> <span class="n">bpe</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span>
+<a name="ln-672"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">val</span>
 <a name="ln-673"></a>
-<a name="ln-674"></a>      <span class="n">ii</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-675"></a><span class="c">!$OMP     parallel default(none) &amp;</span>
-<a name="ln-676"></a><span class="c">!$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &amp;</span>
-<a name="ln-677"></a><span class="c">!$OMP              private(ii, row, col, blk, bp, bpe, val)</span>
-<a name="ln-678"></a><span class="c">!$OMP     do schedule(static)</span>
-<a name="ln-679"></a>      <span class="k">DO </span><span class="n">blk</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nblks</span>
-<a name="ln-680"></a>         <span class="n">bp</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span>
-<a name="ln-681"></a>         <span class="n">row</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span>
-<a name="ln-682"></a>         <span class="n">col</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span>
-<a name="ln-683"></a>         <span class="n">bpe</span> <span class="o">=</span> <span class="n">bp</span> <span class="o">+</span> <span class="n">rbs</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">*</span><span class="n">cbs</span><span class="p">(</span><span class="n">col</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-<a name="ln-684"></a><span class="cp"># 608 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F&quot;</span>
-<a name="ln-685"></a>         <span class="n">norms</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">(</span><span class="nb">SUM</span><span class="p">(</span><span class="nb">ABS</span><span class="p">(</span><span class="k">DATA</span><span class="p">(</span><span class="n">bp</span><span class="p">:</span><span class="n">bpe</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">sp</span><span class="p">)</span>
-<a name="ln-686"></a><span class="cp"># 610 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F&quot;</span>
-<a name="ln-687"></a>      <span class="n">ENDDO</span>
-<a name="ln-688"></a><span class="c">!$OMP     end do</span>
-<a name="ln-689"></a><span class="c">!$OMP     end parallel</span>
-<a name="ln-690"></a>   <span class="k">END SUBROUTINE </span><span class="n">calc_norms_z</span>
-<a name="ln-691"></a><span class="cp"># 574 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F&quot;</span>
-<a name="ln-692"></a>   <span class="k">SUBROUTINE </span><span class="n">calc_norms_c</span> <span class="p">(</span><span class="n">norms</span><span class="p">,</span> <span class="n">nblks</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-693"></a>                                        <span class="n">blki</span><span class="p">,</span> <span class="n">rbs</span><span class="p">,</span> <span class="n">cbs</span><span class="p">,</span> <span class="k">DATA</span><span class="p">)</span>
-<a name="ln-694"></a>     <span class="c">!! Calculates norms of the entire matrix with minimal overhead.</span>
-<a name="ln-695"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">norms</span>
-<a name="ln-696"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">nblks</span>
-<a name="ln-697"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">nblks</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">blki</span>
-<a name="ln-698"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">rbs</span><span class="p">,</span> <span class="n">cbs</span>
-<a name="ln-699"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="p">&amp;</span>
-<a name="ln-700"></a>         <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                            <span class="kd">::</span> <span class="k">DATA</span>
-<a name="ln-701"></a>
-<a name="ln-702"></a><span class="k">      </span><span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">ii</span><span class="p">,</span> <span class="n">blk</span><span class="p">,</span> <span class="n">bp</span><span class="p">,</span> <span class="n">bpe</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span>
-<a name="ln-703"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">val</span>
+<a name="ln-674"></a><span class="c">!   ---------------------------------------------------------------------------</span>
+<a name="ln-675"></a>
+<a name="ln-676"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span>
+<a name="ln-677"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+<a name="ln-678"></a><span class="c">!$OMP     parallel default(none) &amp;</span>
+<a name="ln-679"></a><span class="c">!$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &amp;</span>
+<a name="ln-680"></a><span class="c">!$OMP              private(ii, row, col, blk, bp, bpe, val)</span>
+<a name="ln-681"></a><span class="c">!$OMP     do schedule(static)</span>
+<a name="ln-682"></a>      <span class="k">DO </span><span class="n">blk</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nblks</span>
+<a name="ln-683"></a>         <span class="n">bp</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span>
+<a name="ln-684"></a>         <span class="n">row</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span>
+<a name="ln-685"></a>         <span class="n">col</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span>
+<a name="ln-686"></a>         <span class="n">bpe</span> <span class="o">=</span> <span class="n">bp</span> <span class="o">+</span> <span class="n">rbs</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">*</span><span class="n">cbs</span><span class="p">(</span><span class="n">col</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+<a name="ln-687"></a><span class="cp"># 609 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F&quot;</span>
+<a name="ln-688"></a>         <span class="n">norms</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">(</span><span class="nb">SUM</span><span class="p">(</span><span class="nb">ABS</span><span class="p">(</span><span class="k">DATA</span><span class="p">(</span><span class="n">bp</span><span class="p">:</span><span class="n">bpe</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">sp</span><span class="p">)</span>
+<a name="ln-689"></a><span class="cp"># 611 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F&quot;</span>
+<a name="ln-690"></a>      <span class="n">ENDDO</span>
+<a name="ln-691"></a><span class="c">!$OMP     end do</span>
+<a name="ln-692"></a><span class="c">!$OMP     end parallel</span>
+<a name="ln-693"></a>   <span class="k">END SUBROUTINE </span><span class="n">calc_norms_z</span>
+<a name="ln-694"></a><span class="cp"># 574 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F&quot;</span>
+<a name="ln-695"></a>   <span class="k">SUBROUTINE </span><span class="n">calc_norms_c</span> <span class="p">(</span><span class="n">norms</span><span class="p">,</span> <span class="n">nblks</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-696"></a>                                        <span class="n">blki</span><span class="p">,</span> <span class="n">rbs</span><span class="p">,</span> <span class="n">cbs</span><span class="p">,</span> <span class="k">DATA</span><span class="p">)</span>
+<a name="ln-697"></a>     <span class="c">!! Calculates norms of the entire matrix with minimal overhead.</span>
+<a name="ln-698"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">norms</span>
+<a name="ln-699"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">nblks</span>
+<a name="ln-700"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">nblks</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">blki</span>
+<a name="ln-701"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">rbs</span><span class="p">,</span> <span class="n">cbs</span>
+<a name="ln-702"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="p">&amp;</span>
+<a name="ln-703"></a>         <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                            <span class="kd">::</span> <span class="k">DATA</span>
 <a name="ln-704"></a>
-<a name="ln-705"></a><span class="c">!   ---------------------------------------------------------------------------</span>
-<a name="ln-706"></a>
-<a name="ln-707"></a>      <span class="n">ii</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-708"></a><span class="c">!$OMP     parallel default(none) &amp;</span>
-<a name="ln-709"></a><span class="c">!$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &amp;</span>
-<a name="ln-710"></a><span class="c">!$OMP              private(ii, row, col, blk, bp, bpe, val)</span>
-<a name="ln-711"></a><span class="c">!$OMP     do schedule(static)</span>
-<a name="ln-712"></a>      <span class="k">DO </span><span class="n">blk</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nblks</span>
-<a name="ln-713"></a>         <span class="n">bp</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span>
-<a name="ln-714"></a>         <span class="n">row</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span>
-<a name="ln-715"></a>         <span class="n">col</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span>
-<a name="ln-716"></a>         <span class="n">bpe</span> <span class="o">=</span> <span class="n">bp</span> <span class="o">+</span> <span class="n">rbs</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">*</span><span class="n">cbs</span><span class="p">(</span><span class="n">col</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-<a name="ln-717"></a><span class="cp"># 608 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F&quot;</span>
-<a name="ln-718"></a>         <span class="n">norms</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">(</span><span class="nb">SUM</span><span class="p">(</span><span class="nb">ABS</span><span class="p">(</span><span class="k">DATA</span><span class="p">(</span><span class="n">bp</span><span class="p">:</span><span class="n">bpe</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">sp</span><span class="p">)</span>
-<a name="ln-719"></a><span class="cp"># 610 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F&quot;</span>
-<a name="ln-720"></a>      <span class="n">ENDDO</span>
-<a name="ln-721"></a><span class="c">!$OMP     end do</span>
-<a name="ln-722"></a><span class="c">!$OMP     end parallel</span>
-<a name="ln-723"></a>   <span class="k">END SUBROUTINE </span><span class="n">calc_norms_c</span>
-<a name="ln-724"></a><span class="cp"># 615 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F&quot;</span>
-<a name="ln-725"></a>
-<a name="ln-726"></a><span class="k">END MODULE </span><span class="n">dbcsr_mm_common</span>
+<a name="ln-705"></a><span class="k">      </span><span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">ii</span><span class="p">,</span> <span class="n">blk</span><span class="p">,</span> <span class="n">bp</span><span class="p">,</span> <span class="n">bpe</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span>
+<a name="ln-706"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">val</span>
+<a name="ln-707"></a>
+<a name="ln-708"></a><span class="c">!   ---------------------------------------------------------------------------</span>
+<a name="ln-709"></a>
+<a name="ln-710"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">ii</span><span class="p">)</span>
+<a name="ln-711"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+<a name="ln-712"></a><span class="c">!$OMP     parallel default(none) &amp;</span>
+<a name="ln-713"></a><span class="c">!$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &amp;</span>
+<a name="ln-714"></a><span class="c">!$OMP              private(ii, row, col, blk, bp, bpe, val)</span>
+<a name="ln-715"></a><span class="c">!$OMP     do schedule(static)</span>
+<a name="ln-716"></a>      <span class="k">DO </span><span class="n">blk</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nblks</span>
+<a name="ln-717"></a>         <span class="n">bp</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span>
+<a name="ln-718"></a>         <span class="n">row</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span>
+<a name="ln-719"></a>         <span class="n">col</span> <span class="o">=</span> <span class="n">blki</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span>
+<a name="ln-720"></a>         <span class="n">bpe</span> <span class="o">=</span> <span class="n">bp</span> <span class="o">+</span> <span class="n">rbs</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">*</span><span class="n">cbs</span><span class="p">(</span><span class="n">col</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+<a name="ln-721"></a><span class="cp"># 609 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F&quot;</span>
+<a name="ln-722"></a>         <span class="n">norms</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">(</span><span class="nb">SUM</span><span class="p">(</span><span class="nb">ABS</span><span class="p">(</span><span class="k">DATA</span><span class="p">(</span><span class="n">bp</span><span class="p">:</span><span class="n">bpe</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">sp</span><span class="p">)</span>
+<a name="ln-723"></a><span class="cp"># 611 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F&quot;</span>
+<a name="ln-724"></a>      <span class="n">ENDDO</span>
+<a name="ln-725"></a><span class="c">!$OMP     end do</span>
+<a name="ln-726"></a><span class="c">!$OMP     end parallel</span>
+<a name="ln-727"></a>   <span class="k">END SUBROUTINE </span><span class="n">calc_norms_c</span>
+<a name="ln-728"></a><span class="cp"># 616 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F&quot;</span>
+<a name="ln-729"></a>
+<a name="ln-730"></a><span class="k">END MODULE </span><span class="n">dbcsr_mm_common</span>
 </pre></div>
 
     </section>

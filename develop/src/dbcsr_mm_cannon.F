@@ -1080,7 +1080,7 @@ CONTAINS
             ENDDO
          ENDDO
          ! The counted blocks are then summed up
-         CALL mp_sum(total_row_counts, mp_group)
+         CALL mp_sum(total_row_counts, dbcsr_mp_my_row_group(product_mp_obj))
          ! and used to determine the maximum per-block epsilon.
          filter_eps_sp = REAL(filter_eps, KIND=KIND(row_max_epss))
 !$OMP PARALLEL DO DEFAULT (NONE) &

@@ -636,7 +636,7 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
             <span class="n">ENDDO</span>
          <span class="n">ENDDO</span>
          <span class="c">! The counted blocks are then summed up</span>
-         <span class="k">CALL </span><span class="n">mp_sum</span><span class="p">(</span><span class="n">total_row_counts</span><span class="p">,</span> <span class="n">mp_group</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">mp_sum</span><span class="p">(</span><span class="n">total_row_counts</span><span class="p">,</span> <span class="n">dbcsr_mp_my_row_group</span><span class="p">(</span><span class="n">product_mp_obj</span><span class="p">))</span>
          <span class="c">! and used to determine the maximum per-block epsilon.</span>
          <span class="n">filter_eps_sp</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">(</span><span class="n">filter_eps</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="nb">KIND</span><span class="p">(</span><span class="n">row_max_epss</span><span class="p">))</span>
 <span class="c">!$OMP PARALLEL DO DEFAULT (NONE) &amp;</span>

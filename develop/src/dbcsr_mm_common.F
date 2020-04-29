@@ -593,7 +593,8 @@ CONTAINS
 
 !   ---------------------------------------------------------------------------
 
-      ii = 0
+      MARK_USED(ii)
+      MARK_USED(val)
 !$OMP     parallel default(none) &
 !$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &
 !$OMP              private(ii, row, col, blk, bp, bpe, val)
@@ -603,7 +604,7 @@ CONTAINS
          row = blki(1, blk)
          col = blki(2, blk)
          bpe = bp + rbs(row)*cbs(col) - 1
-# 600 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 601 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
          val = 0.0_real_8
 !$OMP     simd reduction(+: val)
          DO ii = bp, bpe
@@ -611,7 +612,7 @@ CONTAINS
          ENDDO
 !$OMP     end simd
          norms(blk) = REAL(val, KIND=sp)
-# 610 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 611 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
       ENDDO
 !$OMP     end do
 !$OMP     end parallel
@@ -632,7 +633,8 @@ CONTAINS
 
 !   ---------------------------------------------------------------------------
 
-      ii = 0
+      MARK_USED(ii)
+      MARK_USED(val)
 !$OMP     parallel default(none) &
 !$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &
 !$OMP              private(ii, row, col, blk, bp, bpe, val)
@@ -642,7 +644,7 @@ CONTAINS
          row = blki(1, blk)
          col = blki(2, blk)
          bpe = bp + rbs(row)*cbs(col) - 1
-# 600 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 601 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
          val = 0.0_real_4
 !$OMP     simd reduction(+: val)
          DO ii = bp, bpe
@@ -650,7 +652,7 @@ CONTAINS
          ENDDO
 !$OMP     end simd
          norms(blk) = REAL(val, KIND=sp)
-# 610 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 611 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
       ENDDO
 !$OMP     end do
 !$OMP     end parallel
@@ -671,7 +673,8 @@ CONTAINS
 
 !   ---------------------------------------------------------------------------
 
-      ii = 0
+      MARK_USED(ii)
+      MARK_USED(val)
 !$OMP     parallel default(none) &
 !$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &
 !$OMP              private(ii, row, col, blk, bp, bpe, val)
@@ -681,9 +684,9 @@ CONTAINS
          row = blki(1, blk)
          col = blki(2, blk)
          bpe = bp + rbs(row)*cbs(col) - 1
-# 608 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 609 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
          norms(blk) = REAL(SUM(ABS(DATA(bp:bpe))**2), KIND=sp)
-# 610 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 611 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
       ENDDO
 !$OMP     end do
 !$OMP     end parallel
@@ -704,7 +707,8 @@ CONTAINS
 
 !   ---------------------------------------------------------------------------
 
-      ii = 0
+      MARK_USED(ii)
+      MARK_USED(val)
 !$OMP     parallel default(none) &
 !$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &
 !$OMP              private(ii, row, col, blk, bp, bpe, val)
@@ -714,13 +718,13 @@ CONTAINS
          row = blki(1, blk)
          col = blki(2, blk)
          bpe = bp + rbs(row)*cbs(col) - 1
-# 608 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 609 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
          norms(blk) = REAL(SUM(ABS(DATA(bp:bpe))**2), KIND=sp)
-# 610 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 611 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
       ENDDO
 !$OMP     end do
 !$OMP     end parallel
    END SUBROUTINE calc_norms_c
-# 615 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 616 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
 
 END MODULE dbcsr_mm_common
