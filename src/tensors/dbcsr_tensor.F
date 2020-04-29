@@ -598,6 +598,7 @@ CONTAINS
 
       IF (PRESENT(flop)) flop = 0
       IF (PRESENT(result_index)) result_index = 0
+      IF (PRESENT(nblks_local)) nblks_local = 0
 
       IF (PRESENT(move_data)) THEN
          move_data_1 = move_data
