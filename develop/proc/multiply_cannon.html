@@ -644,7 +644,7 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
 <span class="c">!$OMP        total_row_counts)</span>
          <span class="k">DO </span><span class="n">row</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nblkrows_used</span>
             <span class="n">row_max_epss</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="p">&amp;</span>
-               <span class="o">=</span> <span class="p">(</span><span class="n">filter_eps</span> <span class="p">&amp;</span>
+               <span class="o">=</span> <span class="p">(</span><span class="n">filter_eps_sp</span> <span class="p">&amp;</span>
                   <span class="o">/</span><span class="kt">REAL</span><span class="p">(</span><span class="nb">MAX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">total_row_counts</span><span class="p">(</span><span class="n">row</span><span class="p">)),</span> <span class="nb">KIND</span><span class="o">=</span><span class="nb">KIND</span><span class="p">(</span><span class="n">row_max_epss</span><span class="p">)))</span><span class="o">**</span><span class="mi">2</span>
          <span class="k">END DO</span>
 <span class="c">!$OMP END PARALLEL DO</span>
