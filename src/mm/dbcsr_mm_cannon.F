@@ -1087,7 +1087,7 @@ CONTAINS
          DO row = 1, nblkrows_used
             row_max_epss(row) &
                = (filter_eps &
-                 /REAL(MAX(1, total_row_counts(row)), KIND=KIND(row_max_epss)))**2
+                  /REAL(MAX(1, total_row_counts(row)), KIND=KIND(row_max_epss)))**2
          END DO
 !$OMP END PARALLEL DO
          !
