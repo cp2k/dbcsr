@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.2% of total for procedures.">116 statements</a>
+    title=" 0.2% of total for procedures.">119 statements</a>
      </li> 
      
      
@@ -668,15 +668,20 @@ private subroutine dbcsr_create_template(matrix, template, name, dist, matrix_ty
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">new_matrix_type</span> <span class="o">=</span> <span class="n">dbcsr_get_matrix_type</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
       <span class="n">ENDIF</span>
+      <span class="c">!</span>
+      <span class="k">IF</span> <span class="p">((</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">row_blk_size</span><span class="p">)</span> <span class="p">.</span><span class="n">NEQV</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">col_blk_size</span><span class="p">))</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="p">&amp;</span>
+          <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">row_blk_size_obj</span><span class="p">)</span> <span class="p">.</span><span class="n">NEQV</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">col_blk_size_obj</span><span class="p">)))</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Both row_blk_size and col_blk_size must be provided&quot;</span><span class="p">)</span>
+      <span class="n">ENDIF</span>
+      <span class="c">!</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">max_rbs</span><span class="p">))</span> <span class="n">new_max_rbs</span> <span class="o">=</span> <span class="n">max_rbs</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">row_blk_offset</span><span class="p">))</span> <span class="n">new_row_blk_offset</span> <span class="o">=</span> <span class="n">row_blk_offset</span>
       <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">blk_size</span><span class="p">)</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">row_blk_size</span><span class="p">))</span> <span class="k">THEN</span>
-<span class="k">         </span><span class="n">blk_size</span> <span class="o">=&gt;</span> <span class="n">row_blk_size</span>
-      <span class="n">ELSEIF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">row_blk_size_obj</span><span class="p">))</span> <span class="k">THEN</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">row_blk_size_obj</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">blk_size</span> <span class="o">=&gt;</span> <span class="n">array_data</span><span class="p">(</span><span class="n">row_blk_size_obj</span><span class="p">)</span>
+      <span class="n">ELSEIF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">row_blk_size</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">blk_size</span> <span class="o">=&gt;</span> <span class="n">row_blk_size</span>
       <span class="n">ENDIF</span>
-
       <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">blk_size</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">max_rbs</span><span class="p">))</span> <span class="p">&amp;</span>
             <span class="n">new_max_rbs</span> <span class="o">=</span> <span class="nb">MAXVAL</span><span class="p">(</span><span class="n">blk_size</span><span class="p">)</span>
@@ -690,10 +695,10 @@ private subroutine dbcsr_create_template(matrix, template, name, dist, matrix_ty
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">max_cbs</span><span class="p">))</span> <span class="n">new_max_cbs</span> <span class="o">=</span> <span class="n">max_cbs</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">col_blk_offset</span><span class="p">))</span> <span class="n">new_col_blk_offset</span> <span class="o">=</span> <span class="n">col_blk_offset</span>
       <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">blk_size</span><span class="p">)</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">col_blk_size</span><span class="p">))</span> <span class="k">THEN</span>
-<span class="k">         </span><span class="n">blk_size</span> <span class="o">=&gt;</span> <span class="n">col_blk_size</span>
-      <span class="n">ELSEIF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">col_blk_size_obj</span><span class="p">))</span> <span class="k">THEN</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">col_blk_size_obj</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">blk_size</span> <span class="o">=&gt;</span> <span class="n">array_data</span><span class="p">(</span><span class="n">col_blk_size_obj</span><span class="p">)</span>
+      <span class="n">ELSEIF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">col_blk_size</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">blk_size</span> <span class="o">=&gt;</span> <span class="n">col_blk_size</span>
       <span class="n">ENDIF</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">blk_size</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">max_cbs</span><span class="p">))</span> <span class="p">&amp;</span>
@@ -729,11 +734,11 @@ private subroutine dbcsr_create_template(matrix, template, name, dist, matrix_ty
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">new_mutable_work</span> <span class="o">=</span> <span class="n">dbcsr_use_mutable</span><span class="p">(</span><span class="n">template</span><span class="p">)</span>
       <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">row_blk_size</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">col_blk_size</span><span class="p">))</span> <span class="k">THEN</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">row_blk_size_obj</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">dbcsr_create</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">new_name</span><span class="p">,</span> <span class="n">dist</span><span class="o">=</span><span class="n">new_dist</span><span class="p">,</span> <span class="p">&amp;</span>
                            <span class="n">matrix_type</span><span class="o">=</span><span class="n">new_matrix_type</span><span class="p">,</span> <span class="p">&amp;</span>
-                           <span class="n">row_blk_size</span><span class="o">=</span><span class="n">row_blk_size</span><span class="p">,</span> <span class="p">&amp;</span>
-                           <span class="n">col_blk_size</span><span class="o">=</span><span class="n">col_blk_size</span><span class="p">,</span> <span class="p">&amp;</span>
+                           <span class="n">row_blk_size_obj</span><span class="o">=</span><span class="n">row_blk_size_obj</span><span class="p">,</span> <span class="p">&amp;</span>
+                           <span class="n">col_blk_size_obj</span><span class="o">=</span><span class="n">col_blk_size_obj</span><span class="p">,</span> <span class="p">&amp;</span>
                            <span class="n">nze</span><span class="o">=</span><span class="n">nze</span><span class="p">,</span> <span class="p">&amp;</span>
                            <span class="n">data_type</span><span class="o">=</span><span class="n">new_data_type</span><span class="p">,</span> <span class="p">&amp;</span>
                            <span class="n">data_buffer</span><span class="o">=</span><span class="n">data_buffer</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -745,11 +750,11 @@ private subroutine dbcsr_create_template(matrix, template, name, dist, matrix_ty
                            <span class="n">mutable_work</span><span class="o">=</span><span class="n">new_mutable_work</span><span class="p">,</span> <span class="p">&amp;</span>
                            <span class="n">make_index</span><span class="o">=</span><span class="n">make_index</span><span class="p">,</span> <span class="p">&amp;</span>
                            <span class="n">replication_type</span><span class="o">=</span><span class="n">new_replication_type</span><span class="p">)</span>
-      <span class="n">ELSEIF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">row_blk_size_obj</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">col_blk_size_obj</span><span class="p">))</span> <span class="k">THEN</span>
+      <span class="n">ELSEIF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">row_blk_size</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">dbcsr_create</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">new_name</span><span class="p">,</span> <span class="n">dist</span><span class="o">=</span><span class="n">new_dist</span><span class="p">,</span> <span class="p">&amp;</span>
                            <span class="n">matrix_type</span><span class="o">=</span><span class="n">new_matrix_type</span><span class="p">,</span> <span class="p">&amp;</span>
-                           <span class="n">row_blk_size_obj</span><span class="o">=</span><span class="n">row_blk_size_obj</span><span class="p">,</span> <span class="p">&amp;</span>
-                           <span class="n">col_blk_size_obj</span><span class="o">=</span><span class="n">col_blk_size_obj</span><span class="p">,</span> <span class="p">&amp;</span>
+                           <span class="n">row_blk_size</span><span class="o">=</span><span class="n">row_blk_size</span><span class="p">,</span> <span class="p">&amp;</span>
+                           <span class="n">col_blk_size</span><span class="o">=</span><span class="n">col_blk_size</span><span class="p">,</span> <span class="p">&amp;</span>
                            <span class="n">nze</span><span class="o">=</span><span class="n">nze</span><span class="p">,</span> <span class="p">&amp;</span>
                            <span class="n">data_type</span><span class="o">=</span><span class="n">new_data_type</span><span class="p">,</span> <span class="p">&amp;</span>
                            <span class="n">data_buffer</span><span class="o">=</span><span class="n">data_buffer</span><span class="p">,</span> <span class="p">&amp;</span>

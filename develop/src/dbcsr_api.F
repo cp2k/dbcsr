@@ -937,8 +937,12 @@ CONTAINS
 
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: cont_row_blk_size, cont_col_blk_size
 
+      IF (PRESENT(row_blk_size) .NEQV. PRESENT(col_blk_size)) THEN
+         DBCSR_ABORT("Both row_blk_size and col_blk_size must be provided!")
+      ENDIF
+
       ! Make the array contiguous, avoid to change API
-      IF (PRESENT(row_blk_size) .AND. PRESENT(col_blk_size)) THEN
+      IF (PRESENT(row_blk_size)) THEN
          ! Avoid to change API
          ALLOCATE (cont_row_blk_size(SIZE(row_blk_size)), cont_col_blk_size(SIZE(col_blk_size)))
          cont_row_blk_size(:) = row_blk_size(:)
@@ -952,7 +956,7 @@ CONTAINS
       ENDIF
 
       IF (PRESENT(dist)) THEN
-         IF (PRESENT(row_blk_size) .AND. PRESENT(col_blk_size)) THEN
+         IF (PRESENT(row_blk_size)) THEN
             CALL dbcsr_create_prv(matrix%prv, template%prv, name, &
                                   dist%prv, matrix_type, &
                                   row_blk_size=cont_row_blk_size, col_blk_size=cont_col_blk_size, &
@@ -967,7 +971,7 @@ CONTAINS
                                   replication_type=replication_type)
          ENDIF
       ELSE
-         IF (PRESENT(row_blk_size) .AND. PRESENT(col_blk_size)) THEN
+         IF (PRESENT(row_blk_size)) THEN
             CALL dbcsr_create_prv(matrix%prv, template%prv, name, &
                                   matrix_type=matrix_type, &
                                   row_blk_size=cont_row_blk_size, col_blk_size=cont_col_blk_size, &
@@ -1172,8 +1176,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
 
 # 45 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
-# 1169 "/__w/dbcsr/dbcsr/src/dbcsr_api.F" 2
-# 1170 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
+# 1173 "/__w/dbcsr/dbcsr/src/dbcsr_api.F" 2
+# 1174 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
    FUNCTION make_conformant_scalar_d (scalar, matrix) RESULT(encapsulated)
       !! Encapsulates a given scalar value and makes it conform with the
       !! type of the matrix.
@@ -1442,7 +1446,7 @@ CONTAINS
 
       DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
    END FUNCTION dbcsr_get_data_d
-# 1170 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
+# 1174 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
    FUNCTION make_conformant_scalar_s (scalar, matrix) RESULT(encapsulated)
       !! Encapsulates a given scalar value and makes it conform with the
       !! type of the matrix.
@@ -1711,7 +1715,7 @@ CONTAINS
 
       DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
    END FUNCTION dbcsr_get_data_s
-# 1170 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
+# 1174 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
    FUNCTION make_conformant_scalar_z (scalar, matrix) RESULT(encapsulated)
       !! Encapsulates a given scalar value and makes it conform with the
       !! type of the matrix.
@@ -1980,7 +1984,7 @@ CONTAINS
 
       DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
    END FUNCTION dbcsr_get_data_z
-# 1170 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
+# 1174 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
    FUNCTION make_conformant_scalar_c (scalar, matrix) RESULT(encapsulated)
       !! Encapsulates a given scalar value and makes it conform with the
       !! type of the matrix.
@@ -2249,6 +2253,6 @@ CONTAINS
 
       DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
    END FUNCTION dbcsr_get_data_c
-# 1439 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
+# 1443 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
 END MODULE dbcsr_api

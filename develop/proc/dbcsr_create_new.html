@@ -818,9 +818,8 @@ private subroutine dbcsr_create_new(matrix, name, dist, matrix_type, row_blk_siz
       <span class="n">ELSEIF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">col_blk_size</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">array_new</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">col_blk_size</span><span class="p">,</span> <span class="n">col_blk_size</span><span class="p">,</span> <span class="n">gift</span><span class="o">=</span><span class="n">reuse_arrays</span><span class="p">)</span>
       <span class="k">ELSE</span>
-<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Missing row_blk_size&quot;</span><span class="p">)</span>
+<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Missing col_blk_size&quot;</span><span class="p">)</span>
       <span class="n">ENDIF</span>
-
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">max_cbs</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">matrix</span><span class="p">%</span><span class="n">max_cbs</span> <span class="o">=</span> <span class="n">max_cbs</span>
       <span class="k">ELSE IF</span> <span class="p">(</span><span class="n">array_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">col_blk_size</span><span class="p">)</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
