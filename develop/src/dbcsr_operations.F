@@ -2824,14 +2824,6 @@ CONTAINS
                                                   b_col_blk_size, b_row_blk_size
       REAL(kind=real_8)                                  :: sym_fac, fac
       LOGICAL                                  :: found, matrix_a_symm, matrix_b_symm
-#if defined (__ACCELERATE)
-      REAL(real_8), EXTERNAL                   :: SDOT
-#else
-      REAL(real_4), EXTERNAL                   :: SDOT
-#endif
-      REAL(real_8), EXTERNAL                   :: DDOT
-      COMPLEX(real_4), EXTERNAL                :: CDOTU
-      COMPLEX(real_8), EXTERNAL                :: ZDOTU
       REAL(kind=real_8), DIMENSION(:), POINTER           :: a_data, b_data
 
 !   ---------------------------------------------------------------------------
@@ -3332,14 +3324,6 @@ CONTAINS
                                                   b_col_blk_size, b_row_blk_size
       REAL(kind=real_4)                                  :: sym_fac, fac
       LOGICAL                                  :: found, matrix_a_symm, matrix_b_symm
-#if defined (__ACCELERATE)
-      REAL(real_8), EXTERNAL                   :: SDOT
-#else
-      REAL(real_4), EXTERNAL                   :: SDOT
-#endif
-      REAL(real_8), EXTERNAL                   :: DDOT
-      COMPLEX(real_4), EXTERNAL                :: CDOTU
-      COMPLEX(real_8), EXTERNAL                :: ZDOTU
       REAL(kind=real_4), DIMENSION(:), POINTER           :: a_data, b_data
 
 !   ---------------------------------------------------------------------------
@@ -3840,14 +3824,6 @@ CONTAINS
                                                   b_col_blk_size, b_row_blk_size
       COMPLEX(kind=real_8)                                  :: sym_fac, fac
       LOGICAL                                  :: found, matrix_a_symm, matrix_b_symm
-#if defined (__ACCELERATE)
-      REAL(real_8), EXTERNAL                   :: SDOT
-#else
-      REAL(real_4), EXTERNAL                   :: SDOT
-#endif
-      REAL(real_8), EXTERNAL                   :: DDOT
-      COMPLEX(real_4), EXTERNAL                :: CDOTU
-      COMPLEX(real_8), EXTERNAL                :: ZDOTU
       COMPLEX(kind=real_8), DIMENSION(:), POINTER           :: a_data, b_data
 
 !   ---------------------------------------------------------------------------
@@ -4348,14 +4324,6 @@ CONTAINS
                                                   b_col_blk_size, b_row_blk_size
       COMPLEX(kind=real_4)                                  :: sym_fac, fac
       LOGICAL                                  :: found, matrix_a_symm, matrix_b_symm
-#if defined (__ACCELERATE)
-      REAL(real_8), EXTERNAL                   :: SDOT
-#else
-      REAL(real_4), EXTERNAL                   :: SDOT
-#endif
-      REAL(real_8), EXTERNAL                   :: DDOT
-      COMPLEX(real_4), EXTERNAL                :: CDOTU
-      COMPLEX(real_8), EXTERNAL                :: ZDOTU
       COMPLEX(kind=real_4), DIMENSION(:), POINTER           :: a_data, b_data
 
 !   ---------------------------------------------------------------------------
@@ -4767,6 +4735,6 @@ CONTAINS
       ENDIF
 
    END SUBROUTINE dbcsr_add_anytype_c
-# 3159 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 3151 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
 END MODULE dbcsr_operations
