@@ -570,7 +570,7 @@ CONTAINS
    END SUBROUTINE local_filter
 
 #:include '../data/dbcsr.fypp'
-#:for n, nametype1, base1, prec1, kind1, type1, typesize1, dkind1 in inst_params_float
+#:for n, nametype1, base1, prec1, kind1, type1, dkind1, normname1 in inst_params_float
    SUBROUTINE calc_norms_${nametype1}$ (norms, nblks, &
                                         blki, rbs, cbs, DATA)
      !! Calculates norms of the entire matrix with minimal overhead.
@@ -581,31 +581,30 @@ CONTAINS
       ${type1}$, DIMENSION(:), &
          INTENT(IN)                            :: DATA
 
-      INTEGER                                  :: ii, blk, bp, bpe, row, col
-      ${type1}$                                :: val
+      INTEGER                                  :: blk, bp, bpe, row, col
+
+      REAL(KIND=real_8), EXTERNAL              :: DDOT
+#if defined (__ACCELERATE)
+      REAL(KIND=real_8), EXTERNAL              :: SDOT
+#else
+      REAL(KIND=real_4), EXTERNAL              :: SDOT
+#endif
 
 !   ---------------------------------------------------------------------------
 
-      MARK_USED(ii)
-      MARK_USED(val)
 !$OMP     parallel default(none) &
 !$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &
-!$OMP              private(ii, row, col, blk, bp, bpe, val)
+!$OMP              private(row, col, blk, bp, bpe)
 !$OMP     do schedule(static)
       DO blk = 1, nblks
          bp = blki(3, blk)
          row = blki(1, blk)
          col = blki(2, blk)
-         bpe = bp + rbs(row)*cbs(col) - 1
 #:if nametype1 in ['d', 's']
-         val = 0.0_${kind1}$
-!$OMP     simd reduction(+: val)
-         DO ii = bp, bpe
-            val = val + DATA(ii)**2
-         ENDDO
-!$OMP     end simd
-         norms(blk) = REAL(val, KIND=sp)
+         bpe = rbs(row)*cbs(col)
+         norms(blk) = REAL(${normname1}$ (bpe, data(bp), 1, data(bp), 1)), KIND=sp)
 #:else
+         bpe = bp + rbs(row)*cbs(col) - 1
          norms(blk) = REAL(SUM(ABS(DATA(bp:bpe))**2), KIND=sp)
 #:endif
       ENDDO

@@ -22,7 +22,7 @@
 #:set dkind1 = ['dbcsr_type_real_8', 'dbcsr_type_real_4', 'dbcsr_type_complex_8', 'dbcsr_type_complex_4']
 
 #:set gemmname1 = ['DGEMM', 'SGEMM', 'ZGEMM', 'CGEMM']
-#:set normname1 = ['SQRT(DDOT', 'SQRT(SDOT', '(DZNRM2', '(SCNRM2']
+#:set normname1 = ['(DDOT', '(SDOT', '(DZNRM2', '(SCNRM2']
 
 #:set one1 = ['1.0_real_8', '1.0_real_4', 'CMPLX(1.0, 0.0, real_8)', 'CMPLX(1.0, 0.0, real_4)']
 #:set zero1 = ['0.0_real_8', '0.0_real_4', 'CMPLX(0.0, 0.0, real_8)', 'CMPLX(0.0, 0.0, real_4)']

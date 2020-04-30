@@ -715,12 +715,23 @@ CONTAINS
       INTEGER                                    :: blk, lastblk, blk_nze, blk_p
       REAL(kind=real_8)                          :: nrm
 
-      REAL(KIND=real_8), EXTERNAL                :: DZNRM2
+      REAL(KIND=real_8), EXTERNAL                :: DZNRM2, DDOT
 #if defined (__ACCELERATE)
-      REAL(KIND=real_8), EXTERNAL                :: SCNRM2
+      REAL(KIND=real_8), EXTERNAL                :: SCNRM2, SDOT
 #else
-      REAL(KIND=real_4), EXTERNAL                :: SCNRM2
+      REAL(KIND=real_4), EXTERNAL                :: SCNRM2, SDOT
 #endif
+
+
+      REAL(kind=real_8)                          :: filter_eps_opt
+
+#:if nametype1 in ['d', 's']
+      ! Avoid square root
+      filter_eps_opt = filter_eps**2
+#:else
+      filter_eps_opt = filter_eps
+#:endif
+
 
       lastblk = 0
       nze = 0
@@ -730,12 +741,8 @@ CONTAINS
          IF (blk_p .EQ. 0) CYCLE
          blk_nze = rbs(rowi(blk))*cbs(coli(blk))
          IF (blk_nze .EQ. 0) CYCLE ! Skip empty blocks
-#:if nametype1 in ['d', 's']
-         nrm = REAL(norm2(data(blk_p:blk_p + blk_nze - 1)), KIND=real_8)
-#:else
          nrm = REAL(${normname1}$ (blk_nze, data(blk_p), 1, data(blk_p), 1)), KIND = real_8)
-#:endif
-         IF (nrm .GE. filter_eps) THEN
+         IF (nrm .GE. filter_eps_opt) THEN
             ! Keep block
             lastblk = lastblk + 1
             IF (lastblk .LT. blk) THEN
