@@ -609,7 +609,7 @@ CONTAINS
          col = blki(2, blk)
 # 604 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
          bpe = rbs(row)*cbs(col)
-         norms(blk) = REAL((DDOT (bpe, data(bp), 1, data(bp), 1)), KIND=sp)
+         norms(blk) = REAL((DDOT (bpe, data(bp), 1, data(bp), 1)), KIND = sp)
 # 610 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
       ENDDO
 !$OMP     end do
@@ -647,7 +647,7 @@ CONTAINS
          col = blki(2, blk)
 # 604 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
          bpe = rbs(row)*cbs(col)
-         norms(blk) = REAL((SDOT (bpe, data(bp), 1, data(bp), 1)), KIND=sp)
+         norms(blk) = REAL((SDOT (bpe, data(bp), 1, data(bp), 1)), KIND = sp)
 # 610 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
       ENDDO
 !$OMP     end do

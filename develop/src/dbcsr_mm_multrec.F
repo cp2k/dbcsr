@@ -729,14 +729,12 @@ CONTAINS
       REAL(KIND=real_4), EXTERNAL                :: SCNRM2, SDOT
 #endif
 
-
       REAL(kind=real_8)                          :: filter_eps_opt
 
-# 729 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 728 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
       ! Avoid square root
       filter_eps_opt = filter_eps**2
-# 734 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
-
+# 733 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
       lastblk = 0
       nze = 0
@@ -786,14 +784,12 @@ CONTAINS
       REAL(KIND=real_4), EXTERNAL                :: SCNRM2, SDOT
 #endif
 
-
       REAL(kind=real_8)                          :: filter_eps_opt
 
-# 729 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 728 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
       ! Avoid square root
       filter_eps_opt = filter_eps**2
-# 734 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
-
+# 733 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
       lastblk = 0
       nze = 0
@@ -843,13 +839,11 @@ CONTAINS
       REAL(KIND=real_4), EXTERNAL                :: SCNRM2, SDOT
 #endif
 
-
       REAL(kind=real_8)                          :: filter_eps_opt
 
-# 732 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 731 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
       filter_eps_opt = filter_eps
-# 734 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
-
+# 733 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
       lastblk = 0
       nze = 0
@@ -899,13 +893,11 @@ CONTAINS
       REAL(KIND=real_4), EXTERNAL                :: SCNRM2, SDOT
 #endif
 
-
       REAL(kind=real_8)                          :: filter_eps_opt
 
-# 732 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 731 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
       filter_eps_opt = filter_eps
-# 734 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
-
+# 733 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
       lastblk = 0
       nze = 0
@@ -931,6 +923,6 @@ CONTAINS
       nblks = lastblk
 
    END SUBROUTINE multrec_filtering_c
-# 761 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 759 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
 END MODULE dbcsr_mm_multrec
