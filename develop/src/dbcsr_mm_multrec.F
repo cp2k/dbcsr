@@ -722,11 +722,11 @@ CONTAINS
       INTEGER                                    :: blk, lastblk, blk_nze, blk_p
       REAL(kind=real_8)                          :: nrm
 
-      REAL(KIND=real_8), EXTERNAL                :: DZNRM2, DDOT
+      REAL(KIND=real_8), EXTERNAL                :: DZNRM2
 #if defined (__ACCELERATE)
-      REAL(KIND=real_8), EXTERNAL                :: SCNRM2, SDOT
+      REAL(KIND=real_8), EXTERNAL                :: SCNRM2
 #else
-      REAL(KIND=real_4), EXTERNAL                :: SCNRM2, SDOT
+      REAL(KIND=real_4), EXTERNAL                :: SCNRM2
 #endif
 
       lastblk = 0
@@ -737,7 +737,9 @@ CONTAINS
          IF (blk_p .EQ. 0) CYCLE
          blk_nze = rbs(rowi(blk))*cbs(coli(blk))
          IF (blk_nze .EQ. 0) CYCLE ! Skip empty blocks
-         nrm = REAL(SQRT(DDOT (blk_nze, data(blk_p), 1, data(blk_p), 1)), KIND = real_8)
+# 734 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+         nrm = REAL(norm2(data(blk_p:blk_p + blk_nze - 1)), KIND=real_8)
+# 738 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
          IF (nrm .GE. filter_eps) THEN
             ! Keep block
             lastblk = lastblk + 1
@@ -770,11 +772,11 @@ CONTAINS
       INTEGER                                    :: blk, lastblk, blk_nze, blk_p
       REAL(kind=real_8)                          :: nrm
 
-      REAL(KIND=real_8), EXTERNAL                :: DZNRM2, DDOT
+      REAL(KIND=real_8), EXTERNAL                :: DZNRM2
 #if defined (__ACCELERATE)
-      REAL(KIND=real_8), EXTERNAL                :: SCNRM2, SDOT
+      REAL(KIND=real_8), EXTERNAL                :: SCNRM2
 #else
-      REAL(KIND=real_4), EXTERNAL                :: SCNRM2, SDOT
+      REAL(KIND=real_4), EXTERNAL                :: SCNRM2
 #endif
 
       lastblk = 0
@@ -785,7 +787,9 @@ CONTAINS
          IF (blk_p .EQ. 0) CYCLE
          blk_nze = rbs(rowi(blk))*cbs(coli(blk))
          IF (blk_nze .EQ. 0) CYCLE ! Skip empty blocks
-         nrm = REAL(SQRT(SDOT (blk_nze, data(blk_p), 1, data(blk_p), 1)), KIND = real_8)
+# 734 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+         nrm = REAL(norm2(data(blk_p:blk_p + blk_nze - 1)), KIND=real_8)
+# 738 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
          IF (nrm .GE. filter_eps) THEN
             ! Keep block
             lastblk = lastblk + 1
@@ -818,11 +822,11 @@ CONTAINS
       INTEGER                                    :: blk, lastblk, blk_nze, blk_p
       REAL(kind=real_8)                          :: nrm
 
-      REAL(KIND=real_8), EXTERNAL                :: DZNRM2, DDOT
+      REAL(KIND=real_8), EXTERNAL                :: DZNRM2
 #if defined (__ACCELERATE)
-      REAL(KIND=real_8), EXTERNAL                :: SCNRM2, SDOT
+      REAL(KIND=real_8), EXTERNAL                :: SCNRM2
 #else
-      REAL(KIND=real_4), EXTERNAL                :: SCNRM2, SDOT
+      REAL(KIND=real_4), EXTERNAL                :: SCNRM2
 #endif
 
       lastblk = 0
@@ -833,7 +837,9 @@ CONTAINS
          IF (blk_p .EQ. 0) CYCLE
          blk_nze = rbs(rowi(blk))*cbs(coli(blk))
          IF (blk_nze .EQ. 0) CYCLE ! Skip empty blocks
+# 736 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
          nrm = REAL((DZNRM2 (blk_nze, data(blk_p), 1, data(blk_p), 1)), KIND = real_8)
+# 738 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
          IF (nrm .GE. filter_eps) THEN
             ! Keep block
             lastblk = lastblk + 1
@@ -866,11 +872,11 @@ CONTAINS
       INTEGER                                    :: blk, lastblk, blk_nze, blk_p
       REAL(kind=real_8)                          :: nrm
 
-      REAL(KIND=real_8), EXTERNAL                :: DZNRM2, DDOT
+      REAL(KIND=real_8), EXTERNAL                :: DZNRM2
 #if defined (__ACCELERATE)
-      REAL(KIND=real_8), EXTERNAL                :: SCNRM2, SDOT
+      REAL(KIND=real_8), EXTERNAL                :: SCNRM2
 #else
-      REAL(KIND=real_4), EXTERNAL                :: SCNRM2, SDOT
+      REAL(KIND=real_4), EXTERNAL                :: SCNRM2
 #endif
 
       lastblk = 0
@@ -881,7 +887,9 @@ CONTAINS
          IF (blk_p .EQ. 0) CYCLE
          blk_nze = rbs(rowi(blk))*cbs(coli(blk))
          IF (blk_nze .EQ. 0) CYCLE ! Skip empty blocks
+# 736 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
          nrm = REAL((SCNRM2 (blk_nze, data(blk_p), 1, data(blk_p), 1)), KIND = real_8)
+# 738 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
          IF (nrm .GE. filter_eps) THEN
             ! Keep block
             lastblk = lastblk + 1
@@ -897,6 +905,6 @@ CONTAINS
       nblks = lastblk
 
    END SUBROUTINE multrec_filtering_c
-# 750 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 754 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
 END MODULE dbcsr_mm_multrec
