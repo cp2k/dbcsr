@@ -588,31 +588,29 @@ CONTAINS
       REAL(kind=real_8), DIMENSION(:), &
          INTENT(IN)                            :: DATA
 
-      INTEGER                                  :: ii, blk, bp, bpe, row, col
-      REAL(kind=real_8)                                :: val
+      INTEGER                                  :: blk, bp, bpe, row, col
+
+      REAL(KIND=real_8), EXTERNAL              :: DDOT
+#if defined (__ACCELERATE)
+      REAL(KIND=real_8), EXTERNAL              :: SDOT
+#else
+      REAL(KIND=real_4), EXTERNAL              :: SDOT
+#endif
 
 !   ---------------------------------------------------------------------------
 
-      MARK_USED(ii)
-      MARK_USED(val)
 !$OMP     parallel default(none) &
 !$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &
-!$OMP              private(ii, row, col, blk, bp, bpe, val)
+!$OMP              private(row, col, blk, bp, bpe)
 !$OMP     do schedule(static)
       DO blk = 1, nblks
          bp = blki(3, blk)
          row = blki(1, blk)
          col = blki(2, blk)
-         bpe = bp + rbs(row)*cbs(col) - 1
-# 601 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
-         val = 0.0_real_8
-!$OMP     simd reduction(+: val)
-         DO ii = bp, bpe
-            val = val + DATA(ii)**2
-         ENDDO
-!$OMP     end simd
-         norms(blk) = REAL(val, KIND=sp)
-# 611 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 604 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+         bpe = rbs(row)*cbs(col)
+         norms(blk) = REAL((DDOT (bpe, data(bp), 1, data(bp), 1)), KIND=sp)
+# 610 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
       ENDDO
 !$OMP     end do
 !$OMP     end parallel
@@ -628,31 +626,29 @@ CONTAINS
       REAL(kind=real_4), DIMENSION(:), &
          INTENT(IN)                            :: DATA
 
-      INTEGER                                  :: ii, blk, bp, bpe, row, col
-      REAL(kind=real_4)                                :: val
+      INTEGER                                  :: blk, bp, bpe, row, col
+
+      REAL(KIND=real_8), EXTERNAL              :: DDOT
+#if defined (__ACCELERATE)
+      REAL(KIND=real_8), EXTERNAL              :: SDOT
+#else
+      REAL(KIND=real_4), EXTERNAL              :: SDOT
+#endif
 
 !   ---------------------------------------------------------------------------
 
-      MARK_USED(ii)
-      MARK_USED(val)
 !$OMP     parallel default(none) &
 !$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &
-!$OMP              private(ii, row, col, blk, bp, bpe, val)
+!$OMP              private(row, col, blk, bp, bpe)
 !$OMP     do schedule(static)
       DO blk = 1, nblks
          bp = blki(3, blk)
          row = blki(1, blk)
          col = blki(2, blk)
-         bpe = bp + rbs(row)*cbs(col) - 1
-# 601 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
-         val = 0.0_real_4
-!$OMP     simd reduction(+: val)
-         DO ii = bp, bpe
-            val = val + DATA(ii)**2
-         ENDDO
-!$OMP     end simd
-         norms(blk) = REAL(val, KIND=sp)
-# 611 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 604 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+         bpe = rbs(row)*cbs(col)
+         norms(blk) = REAL((SDOT (bpe, data(bp), 1, data(bp), 1)), KIND=sp)
+# 610 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
       ENDDO
 !$OMP     end do
 !$OMP     end parallel
@@ -668,25 +664,29 @@ CONTAINS
       COMPLEX(kind=real_8), DIMENSION(:), &
          INTENT(IN)                            :: DATA
 
-      INTEGER                                  :: ii, blk, bp, bpe, row, col
-      COMPLEX(kind=real_8)                                :: val
+      INTEGER                                  :: blk, bp, bpe, row, col
+
+      REAL(KIND=real_8), EXTERNAL              :: DDOT
+#if defined (__ACCELERATE)
+      REAL(KIND=real_8), EXTERNAL              :: SDOT
+#else
+      REAL(KIND=real_4), EXTERNAL              :: SDOT
+#endif
 
 !   ---------------------------------------------------------------------------
 
-      MARK_USED(ii)
-      MARK_USED(val)
 !$OMP     parallel default(none) &
 !$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &
-!$OMP              private(ii, row, col, blk, bp, bpe, val)
+!$OMP              private(row, col, blk, bp, bpe)
 !$OMP     do schedule(static)
       DO blk = 1, nblks
          bp = blki(3, blk)
          row = blki(1, blk)
          col = blki(2, blk)
+# 607 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
          bpe = bp + rbs(row)*cbs(col) - 1
-# 609 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
          norms(blk) = REAL(SUM(ABS(DATA(bp:bpe))**2), KIND=sp)
-# 611 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 610 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
       ENDDO
 !$OMP     end do
 !$OMP     end parallel
@@ -702,29 +702,33 @@ CONTAINS
       COMPLEX(kind=real_4), DIMENSION(:), &
          INTENT(IN)                            :: DATA
 
-      INTEGER                                  :: ii, blk, bp, bpe, row, col
-      COMPLEX(kind=real_4)                                :: val
+      INTEGER                                  :: blk, bp, bpe, row, col
+
+      REAL(KIND=real_8), EXTERNAL              :: DDOT
+#if defined (__ACCELERATE)
+      REAL(KIND=real_8), EXTERNAL              :: SDOT
+#else
+      REAL(KIND=real_4), EXTERNAL              :: SDOT
+#endif
 
 !   ---------------------------------------------------------------------------
 
-      MARK_USED(ii)
-      MARK_USED(val)
 !$OMP     parallel default(none) &
 !$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &
-!$OMP              private(ii, row, col, blk, bp, bpe, val)
+!$OMP              private(row, col, blk, bp, bpe)
 !$OMP     do schedule(static)
       DO blk = 1, nblks
          bp = blki(3, blk)
          row = blki(1, blk)
          col = blki(2, blk)
+# 607 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
          bpe = bp + rbs(row)*cbs(col) - 1
-# 609 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
          norms(blk) = REAL(SUM(ABS(DATA(bp:bpe))**2), KIND=sp)
-# 611 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 610 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
       ENDDO
 !$OMP     end do
 !$OMP     end parallel
    END SUBROUTINE calc_norms_c
-# 616 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 615 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
 
 END MODULE dbcsr_mm_common
