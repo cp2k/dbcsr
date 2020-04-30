@@ -9,10 +9,17 @@
 
 MODULE dbcsr_api_c
 
-   USE, INTRINSIC :: ISO_C_BINDING, ONLY: c_loc, c_ptr, c_double, C_NULL_CHAR, &
-                                                                             c_f_pointer, c_int, c_char, c_null_ptr, c_bool
+   USE, INTRINSIC :: ISO_C_BINDING, ONLY: c_loc, c_ptr, c_double, c_sizeof, C_NULL_CHAR, &
+                                          c_float, c_f_pointer, c_int, c_long_long, &
+                                          c_char, c_null_ptr, c_bool, c_associated, &
+                                          c_float_complex, c_double_complex
    USE dbcsr_api
    USE dbcsr_machine, ONLY: default_output_unit
+   USE dbcsr_kinds, ONLY: default_string_length, &
+                          dp, &
+                          int_8, &
+                          real_4, &
+                          real_8
 
    IMPLICIT NONE
    PRIVATE
@@ -45,106 +52,14 @@ CONTAINS
          str(i:i) = arr(i)
       ENDDO
    END SUBROUTINE c_f_string
-
-   ! getters / setters
-   PUBLIC :: dbcsr_get_info
-   PUBLIC :: dbcsr_distribution_get
-   PUBLIC :: dbcsr_setname
-   PUBLIC :: dbcsr_get_matrix_type
-   PUBLIC :: dbcsr_get_occupation
-   PUBLIC :: dbcsr_nblkrows_total
-   PUBLIC :: dbcsr_nblkcols_total
-   PUBLIC :: dbcsr_get_num_blocks
-   PUBLIC :: dbcsr_get_data_size
-   PUBLIC :: dbcsr_has_symmetry
-   PUBLIC :: dbcsr_nfullrows_total
-   PUBLIC :: dbcsr_nfullcols_total
-   PUBLIC :: dbcsr_get_stored_coordinates
-   PUBLIC :: dbcsr_valid_index
-   PUBLIC :: dbcsr_get_data_type
-
-   ! work operations
-   PUBLIC :: dbcsr_add_block_node
-   PUBLIC :: dbcsr_put_block
-   PUBLIC :: dbcsr_work_create
-   PUBLIC :: dbcsr_verify_matrix
-   PUBLIC :: dbcsr_add_work_coordinate
-   PUBLIC :: dbcsr_get_wms_data_p
-   PUBLIC :: dbcsr_get_data_p
-   PUBLIC :: dbcsr_set_work_size
-   !PUBLIC :: dbcsr_finalize
-
-   ! replication
-   PUBLIC :: dbcsr_replicate_all
-   PUBLIC :: dbcsr_sum_replicated
-   PUBLIC :: dbcsr_distribute
-
-   ! misc
-   PUBLIC :: dbcsr_distribution_get_num_images
-   PUBLIC :: dbcsr_convert_offsets_to_sizes
-   PUBLIC :: dbcsr_convert_sizes_to_offsets
-   PUBLIC :: dbcsr_run_tests
-   PUBLIC :: dbcsr_test_mm
-   PUBLIC :: dbcsr_scalar
-
-   ! high level matrix functions
-   PUBLIC :: dbcsr_norm_frobenius
-   PUBLIC :: dbcsr_norm_maxabsnorm
-   PUBLIC :: dbcsr_norm_column
-   PUBLIC :: dbcsr_hadamard_product
-   PUBLIC :: dbcsr_func_artanh
-   PUBLIC :: dbcsr_func_dtanh
-   PUBLIC :: dbcsr_func_inverse
-   PUBLIC :: dbcsr_func_tanh
-   !PUBLIC :: dbcsr_print
-   PUBLIC :: dbcsr_print_block_sum
-   PUBLIC :: dbcsr_checksum
-   PUBLIC :: dbcsr_maxabs
-   PUBLIC :: dbcsr_norm
-   PUBLIC :: dbcsr_gershgorin_norm
-   PUBLIC :: dbcsr_frobenius_norm
-   PUBLIC :: dbcsr_init_random
-   PUBLIC :: dbcsr_function_of_elements
-   PUBLIC :: dbcsr_triu
-
-   ! csr conversion
-   PUBLIC :: dbcsr_csr_type
-   PUBLIC :: dbcsr_csr_p_type
-   PUBLIC :: dbcsr_convert_csr_to_dbcsr
-   PUBLIC :: dbcsr_convert_dbcsr_to_csr
-   PUBLIC :: dbcsr_csr_create_from_dbcsr
-   PUBLIC :: dbcsr_csr_destroy
-   PUBLIC :: dbcsr_csr_create
-   PUBLIC :: dbcsr_csr_eqrow_floor_dist
-   PUBLIC :: dbcsr_csr_eqrow_ceil_dist
-   PUBLIC :: dbcsr_csr_dbcsr_blkrow_dist
-   PUBLIC :: dbcsr_csr_print_sparsity
-   PUBLIC :: dbcsr_to_csr_filter
-   PUBLIC :: dbcsr_csr_write
-
-   ! binary io
-   PUBLIC :: dbcsr_binary_write
-   PUBLIC :: dbcsr_binary_read
-   PUBLIC :: dbcsr_test_binary_io
    
-   ! lib init/finalize
-   !PUBLIC :: dbcsr_clear_mempools
-   !PUBLIC :: dbcsr_init_lib
-   !PUBLIC :: dbcsr_finalize_lib
-   !SKIP PUBLIC :: dbcsr_set_config
-   !SKIP PUBLIC :: dbcsr_get_default_config
-   !SKIP PUBLIC :: dbcsr_print_config
-   !SKIP PUBLIC :: dbcsr_reset_randmat_seed
-   !PUBLIC :: dbcsr_mp_grid_setup
-   !PUBLIC :: dbcsr_print_statistics
-   
-   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-   !!!!! lib init/finalize !!!!!
-   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   !----------------------------------------------------!
+   !                    lib init/finalize               !
+   !----------------------------------------------------!
    
    SUBROUTINE c_dbcsr_clear_mempools() BIND(C, name="c_dbcsr_clear_mempools")
       CALL dbcsr_clear_mempools()
-   END SUBROUTINE dbcsr_clear_mempools
+   END SUBROUTINE 
    
    SUBROUTINE c_dbcsr_init_lib(fcomm, io_unit) bind(C, name="c_dbcsr_init_lib_internal")
       INTEGER(kind=c_int), INTENT(in)                    :: fcomm
@@ -164,28 +79,28 @@ CONTAINS
       CALL c_f_pointer(c_dist,dist)
 
       CALL dbcsr_mp_grid_setup(dist)
-   END SUBROUTINE dbcsr_mp_grid_setup
+   END SUBROUTINE 
    
    SUBROUTINE c_dbcsr_print_statistics(c_print_timers, c_callgraph_filename) &
       BIND(C,name="c_dbcsr_print_statistics")
       
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL :: c_print_timers
-      CHARACTER(len=*), INTENT(IN), OPTIONAL :: c_callgraph_filename
+      TYPE(c_ptr), INTENT(IN) :: c_callgraph_filename
 
       LOGICAL :: print_timers
       CHARACTER(:, kind=c_char), ALLOCATABLE :: callgraph_filename
       
-      IF (PRESENT(c_callgraph_filename)) CALL c_f_string(c_callgraph_filename,callgraph_filename)
+      IF (C_ASSOCIATED(c_callgraph_filename)) CALL c_f_string(c_callgraph_filename,callgraph_filename)
 
       IF (PRESENT(c_print_timers)) THEN 
          print_timers = c_print_timers
-         CALL dbcsr_print_statistics_prv(print_timers=print_timers, &
+         CALL dbcsr_print_statistics(print_timers=print_timers, &
                                          callgraph_filename=callgraph_filename)
       ELSE 
-         CALL dbcsr_print_statistics_prv(callgraph_filename=callgraph_filename)
+         CALL dbcsr_print_statistics(callgraph_filename=callgraph_filename)
       ENDIF
       
-   END SUBROUTINE dbcsr_print_statistics
+   END SUBROUTINE 
    
    ! create / release
    !PUBLIC :: dbcsr_distribution_hold
@@ -197,9 +112,9 @@ CONTAINS
    ! SKIP PUBLIC :: dbcsr_release_p
    ! SKIP PUBLIC :: dbcsr_deallocate_matrix
    
-   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-   !!!!!!! create/release !!!!!!!!!
-   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   !-------------------------------------------------------!
+   !                    create/release                     !
+   !-------------------------------------------------------!
    
    SUBROUTINE c_dbcsr_distribution_hold(c_dist) &
       BIND(C,name="c_dbcsr_distribution_hold") 
@@ -210,7 +125,7 @@ CONTAINS
       CALL c_f_pointer(c_dist,dist)
 
       CALL dbcsr_distribution_hold(dist)
-   END SUBROUTINE dbcsr_distribution_hold
+   END SUBROUTINE 
 
    SUBROUTINE c_dbcsr_distribution_new(c_dist, fcomm, c_row_dist, row_dist_size, &
                                        c_col_dist, col_dist_size) &
@@ -272,10 +187,10 @@ CONTAINS
       TYPE(c_ptr), INTENT(IN), VALUE :: c_name
       TYPE(c_ptr), INTENT(IN), VALUE :: c_dist
       CHARACTER(kind=c_char), INTENT(IN), VALUE :: c_matrix_type
-      INTEGER(kind=c_int), INTENT(IN), VALUE :: c_row_blk_size_size, &
-                                                c_col_blk_size_size
-      INTEGER(kind=c_int), INTENT(IN) :: c_row_blk_size(c_row_size), &
-                                         C_col_blk_size(c_col_size)
+      INTEGER(kind=c_int), INTENT(IN), VALUE :: c_row_size, &
+                                                c_col_size
+      INTEGER(kind=c_int), INTENT(IN), TARGET :: c_row_blk_size(c_row_size), &
+                                         c_col_blk_size(c_col_size)
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL :: c_nze, c_data_type
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL :: c_reuse, c_reuse_arrays, &
                                                     c_mutable_work
@@ -285,25 +200,31 @@ CONTAINS
       TYPE(dbcsr_type), POINTER :: matrix
       CHARACTER(:, kind=c_char), ALLOCATABLE  :: name
       TYPE(dbcsr_distribution_type), POINTER :: dist
+      INTEGER, DIMENSION(:), POINTER :: row_blk_size, col_blk_size
       LOGICAL, POINTER :: reuse, reuse_arrays, mutable_work
       
       ALLOCATE(matrix)
       CALL c_f_pointer(c_dist,dist)
       CALL c_f_string(c_name,name)
       
+      row_blk_size => c_row_blk_size
+      col_blk_size => c_col_blk_size
+      
 #:set list = ['reuse', 'reuse_arrays', 'mutable_work']
 #:for var in list
       NULLIFY(${var}$)
-      IF PRESENT(c_${var}$) THEN
+      IF (PRESENT(c_${var}$)) THEN
+         PRINT*, "${var}$"
          ALLOCATE(${var}$)
          ${var}$ = c_${var}$
       ENDIF
 #:endfor
 
-      CALL dbcsr_create_new(matrix, name, dist, c_matrix_type, &
-                               c_row_blk_size, c_col_blk_size, &
-                               c_nze, c_data_type, reuse, &
-                               reuse_arrays, mutable_work, replication_type)
+      CALL dbcsr_create (matrix, name, dist, c_matrix_type, &
+                                   row_blk_size, col_blk_size, &
+                                   c_nze, c_data_type, reuse, &
+                                   reuse_arrays, mutable_work, c_replication_type)
+          
 #:for var in list
       IF (ASSOCIATED(${var}$)) DEALLOCATE (${var}$)
 #:endfor
@@ -317,7 +238,7 @@ CONTAINS
                                     c_row_blk_size, c_row_size, &
                                     c_col_blk_size, c_col_size, &
                                     c_nze, c_data_type, &
-                                    c_reuse_arrays, c_mutable_work, c_replication_type)
+                                    c_reuse_arrays, c_mutable_work, c_replication_type) &
                                     BIND(C,name="c_dbcsr_create_template")
                                     
       TYPE(c_ptr), INTENT(INOUT) :: c_matrix                         
@@ -325,37 +246,45 @@ CONTAINS
       TYPE(c_ptr), INTENT(IN), VALUE :: c_template
       TYPE(c_ptr), INTENT(IN), VALUE :: c_dist
       CHARACTER(kind=c_char), INTENT(IN), VALUE :: c_matrix_type
-      INTEGER(kind=c_int), INTENT(IN), VALUE :: c_row_blk_size_size, &
-                                                c_col_blk_size_size
-      INTEGER(kind=c_int), INTENT(IN) :: c_row_blk_size(c_row_size), &
+      INTEGER(kind=c_int), INTENT(IN), VALUE :: c_row_size, &
+                                                c_col_size
+      INTEGER(kind=c_int), INTENT(IN), TARGET :: c_row_blk_size(c_row_size), &
                                          C_col_blk_size(c_col_size)
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL :: c_nze, c_data_type
-      LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL :: c_reuse, c_reuse_arrays, &
+      LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL :: c_reuse_arrays, &
                                                     c_mutable_work
       CHARACTER(kind=c_char), INTENT(IN), OPTIONAL :: c_replication_type
                                     
       TYPE(dbcsr_type), POINTER :: matrix, template
       CHARACTER(:, kind=c_char), ALLOCATABLE  :: name
+      INTEGER, DIMENSION(:), POINTER :: row_blk_size, col_blk_size
       TYPE(dbcsr_distribution_type), POINTER :: dist
-      LOGICAL, POINTER :: reuse, reuse_arrays, mutable_work
+      LOGICAL, POINTER :: reuse_arrays, mutable_work
       
       ALLOCATE(matrix)
       CALL c_f_pointer(c_template,template)
       CALL c_f_string(c_name,name)
       
-#:set list = ['reuse', 'reuse_arrays', 'mutable_work']
+      row_blk_size => c_row_blk_size
+      col_blk_size => c_col_blk_size
+      
+      NULLIFY(dist)
+      IF (C_ASSOCIATED(c_dist)) CALL c_f_pointer(c_dist,dist)
+      
+#:set list = ['reuse_arrays', 'mutable_work']
 #:for var in list
       NULLIFY(${var}$)
-      IF PRESENT(c_${var}$) THEN
+      IF (PRESENT(c_${var}$)) THEN
          ALLOCATE(${var}$)
          ${var}$ = c_${var}$
       ENDIF
 #:endfor
-
-      CALL dbcsr_create_template(matrix, name, template, dist, c_matrix_type, &
-                               c_row_blk_size, c_col_blk_size, &
-                               c_nze, c_data_type, reuse, &
-                               reuse_arrays, mutable_work, replication_type)
+      
+     
+      CALL dbcsr_create (matrix, name, template, dist, c_matrix_type, &
+                                   row_blk_size, col_blk_size, &
+                                   c_nze, c_data_type, &
+                                   reuse_arrays, mutable_work, c_replication_type)
 #:for var in list
       IF (ASSOCIATED(${var}$)) DEALLOCATE (${var}$)
 #:endfor
@@ -395,9 +324,9 @@ CONTAINS
    !PUBLIC :: dbcsr_get_block_p
    !PUBLIC :: dbcsr_clear
 
-   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-   !!!!!! primitive matrix operations !!!!!!!
-   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   !----------------------------------------------------------!
+   !              primitive matrix operations                 !
+   !----------------------------------------------------------!
 
 #:for n, nametype, base, prec, kind, type, dkind, normname, ctype in c_inst_params_float   
    
@@ -410,7 +339,7 @@ CONTAINS
       
       CALL c_f_pointer(c_matrix,matrix)
      
-      CALL dbcsr_set_${nametype}$(matrix, c_alpha)
+      CALL dbcsr_set (matrix, c_alpha)
       
    END SUBROUTINE 
    
@@ -423,11 +352,11 @@ CONTAINS
      
       CALL c_f_pointer(c_matrix_a,matrix_a)
       CALL c_f_pointer(c_matrix_b,matrix_b)
-      CALL dbcsr_add_${nametype}$ (matrix_a, matrix_b, c_alpha_scalar, c_beta_scalar)
+      CALL dbcsr_add (matrix_a, matrix_b, c_alpha_scalar, c_beta_scalar)
       
    END SUBROUTINE 
 
-   SUBROUTINE c_dbcsr_scale_${nametype}$ (c_matrix_a, c_alpha_scalar, c_last_column)
+   SUBROUTINE c_dbcsr_scale_${nametype}$ (c_matrix_a, c_alpha_scalar, c_last_column) &
       BIND(C,name="c_dbcsr_scale_${nametype}$")
    
       TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix_a
@@ -436,31 +365,31 @@ CONTAINS
       TYPE(dbcsr_type), POINTER :: matrix_a
       
       CALL c_f_pointer(c_matrix_a,matrix_a)
-      CALL dbcsr_scale_${nametype1}$ (matrix_a, alpha_scalar, last_column)
+      CALL dbcsr_scale (matrix_a, c_alpha_scalar, c_last_column)
       
    END SUBROUTINE 
    
-   SUBROUTINE c_dbcsr_scale_by_vector_${nametype}$ (c_matrix_a, c_alpha, c_side)
+   SUBROUTINE c_dbcsr_scale_by_vector_${nametype}$ (c_matrix_a, c_alpha, c_alpha_size, c_side) &
       BIND(C,name="c_dbcsr_scale_by_vector_${nametype}$")
       
       TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix_a
       INTEGER(kind=c_int), INTENT(IN), VALUE :: c_alpha_size
       ${ctype}$, INTENT(IN) :: c_alpha(c_alpha_size)
       TYPE(c_ptr), INTENT(IN), VALUE :: c_side
-      TYPE(dbcsr_type), INTENT(INOUT) :: matrix_a
+      TYPE(dbcsr_type), POINTER :: matrix_a
       CHARACTER(:, kind=c_char), ALLOCATABLE  :: side
       
       CALL c_f_pointer(c_matrix_a,matrix_a)
       CALL c_f_string(c_side,side)
  
-      CALL dbcsr_scale_by_vector_${nametype}$ (matrix_a, c_alpha, side)
+      CALL dbcsr_scale_by_vector (matrix_a, c_alpha, side)
    END SUBROUTINE 
    
    SUBROUTINE c_dbcsr_multiply_${nametype}$ (c_transa, c_transb, &
                                            c_alpha, c_matrix_a, c_matrix_b, c_beta, c_matrix_c, &
                                            c_first_row, c_last_row, c_first_column, c_last_column, &
                                            c_first_k, c_last_k, &
-                                           c_retain_sparsity, c_filter_eps, c_flop)
+                                           c_retain_sparsity, c_filter_eps, c_flop) &
       BIND(C,name="c_dbcsr_multiply_${nametype}$")
                                             
       CHARACTER(kind=c_char), INTENT(in), value :: c_transa, c_transb
@@ -471,7 +400,7 @@ CONTAINS
                                                    c_first_k, c_last_k
       LOGICAL(c_bool), INTENT(in), OPTIONAL :: c_retain_sparsity
       REAL(kind=c_double), OPTIONAL :: c_filter_eps
-      REAL(kind=c_long_long), OPTIONAL :: c_flop
+      INTEGER(kind=c_long_long), OPTIONAL :: c_flop
 
       LOGICAL                                            :: ret_sp
       TYPE(dbcsr_type), POINTER                          :: matrix_a, matrix_b, matrix_c
@@ -480,15 +409,15 @@ CONTAINS
       CALL c_f_pointer(c_matrix_b, matrix_b)
       CALL c_f_pointer(c_matrix_c, matrix_c)
 
-      IF (PRESENT(c_retain_sparsity) THEN 
+      IF (PRESENT(c_retain_sparsity)) THEN 
            ret_sp = c_retain_sparsity
-           CALL dbcsr_multiply_${nametype}$ (c_transa, c_transb, &
+           CALL dbcsr_multiply (c_transa, c_transb, &
                                             c_alpha, matrix_a, matrix_b, c_beta, matrix_c, &
                                             c_first_row, c_last_row, c_first_column, c_last_column, &
                                             c_first_k, c_last_k, &
-                                            retain_sparsity, c_filter_eps, c_flop)
+                                            ret_sp, c_filter_eps, c_flop)
      ELSE 
-          CALL dbcsr_multiply_${nametype}$ (c_transa, c_transb, &
+          CALL dbcsr_multiply (c_transa, c_transb, &
                                             c_alpha, matrix_a, matrix_b, c_beta, matrix_c, &
                                             c_first_row, c_last_row, c_first_column, c_last_column, &
                                             c_first_k, c_last_k, &
@@ -500,12 +429,12 @@ CONTAINS
    SUBROUTINE c_dbcsr_add_on_diag_${nametype}$ (c_matrix, c_alpha_scalar) &
       BIND(C,name="c_dbcsr_add_on_diag_${nametype}$")
       
-      TYPE(c_ptr), INTENT(IN), VALUE :: matrix
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
       ${ctype}$, INTENT(IN) :: c_alpha_scalar
       TYPE(dbcsr_type), POINTER :: matrix
       
       CALL c_f_pointer(c_matrix,matrix)
-      CALL dbcsr_add_on_diag_${nametype}$ (matrix, c_alpha_scalar)
+      CALL dbcsr_add_on_diag (matrix, c_alpha_scalar)
    END SUBROUTINE 
    
    SUBROUTINE c_dbcsr_set_diag_${nametype}$ (c_matrix, c_diag, c_diag_size) &
@@ -517,7 +446,7 @@ CONTAINS
       TYPE(dbcsr_type), POINTER :: matrix
      
       CALL c_f_pointer(c_matrix,matrix)
-      CALL dbcsr_set_diag_${nametype}$ (matrix, c_diag)
+      CALL dbcsr_set_diag (matrix, c_diag)
    END SUBROUTINE 
    
    SUBROUTINE c_dbcsr_get_diag_${nametype}$ (c_matrix, c_diag, c_diag_size) &
@@ -529,7 +458,7 @@ CONTAINS
       TYPE(dbcsr_type), POINTER :: matrix
      
       CALL c_f_pointer(c_matrix,matrix)
-      CALL dbcsr_get_diag_${nametype}$ (matrix, c_diag)
+      CALL dbcsr_get_diag (matrix, c_diag)
    END SUBROUTINE 
    
    SUBROUTINE c_dbcsr_trace_${nametype}$ (c_matrix_a, c_trace) &
@@ -540,7 +469,7 @@ CONTAINS
       TYPE(dbcsr_type), POINTER :: matrix_a
 
       CALL c_f_pointer(c_matrix_a,matrix_a)
-      CALL dbcsr_trace_${nametype}$(matrix_a, c_trace)
+      CALL dbcsr_trace (matrix_a, c_trace)
    END SUBROUTINE 
    
    SUBROUTINE c_dbcsr_dot_${nametype}$ (c_matrix_a, c_matrix_b, c_result) &
@@ -552,7 +481,7 @@ CONTAINS
       
       CALL c_f_pointer(c_matrix_a,matrix_a)
       CALL c_f_pointer(c_matrix_b,matrix_b)
-      CALL dbcsr_dot_${nametype}$ (matrix_a, matrix_b, c_result)
+      CALL dbcsr_dot (matrix_a, matrix_b, c_result)
    END SUBROUTINE
    
    SUBROUTINE c_dbcsr_get_block_${nametype}$ (c_matrix, c_row, c_col, c_block, &
@@ -571,7 +500,7 @@ CONTAINS
       
       CALL c_f_pointer(c_matrix,matrix)
 
-      CALL dbcsr_get_block_p_${nametype}$ (matrix, c_row, c_col, block, tr, &
+      CALL dbcsr_get_block_p (matrix, c_row + 1, c_col + 1, block, tr, &
            found, c_row_size, c_col_size)
       
       c_tr = tr
@@ -584,6 +513,7 @@ CONTAINS
               c_block, c_found, c_row_size, c_col_size) &
       BIND(C,name="c_dbcsr_get_block_notrans_p_${nametype}$")
       
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
       INTEGER(kind=c_int), INTENT(IN), VALUE :: c_row, c_col
       TYPE(c_ptr), INTENT(INOUT) :: c_block
       LOGICAL(kind=c_bool), INTENT(OUT) :: c_found
@@ -595,7 +525,8 @@ CONTAINS
       
       CALL c_f_pointer(c_matrix,matrix)
 
-      CALL dbcsr_get_block_notrans_p_${nametype}$(matrix, row, col, block, found, row_size, col_size)
+      CALL dbcsr_get_block_p (matrix, c_row + 1, c_col + 1, block, found, &
+       c_row_size, c_col_size)
       
       c_block = c_loc(block)
       c_found = found
@@ -630,7 +561,7 @@ CONTAINS
 
       CALL dbcsr_complete_redistribute(matrix, redist, keep_sparsity, summation)
       IF (C_ASSOCIATED(c_redist)) c_redist = c_loc(redist)
-   END SUBROUTINE dbcsr_complete_redistribute
+   END SUBROUTINE 
 
    SUBROUTINE c_dbcsr_filter(c_matrix, c_eps, c_method, c_use_absolute, c_filter_diag) &
       BIND(C,name="c_dbcsr_filter")
@@ -641,7 +572,8 @@ CONTAINS
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL :: c_use_absolute, c_filter_diag
       TYPE(dbcsr_type), POINTER :: matrix
       LOGICAL, POINTER :: use_absolute, filter_diag
-
+      
+      CALL c_f_pointer(c_matrix, matrix)
 #:set vars = ['use_absolute', 'filter_diag']
 #:for var in vars
       NULLIFY(${var}$)
@@ -650,11 +582,11 @@ CONTAINS
          ${var}$ = c_${var}$
       ENDIF
 #:endfor
-      CALL dbcsr_filter(matrix, eps, method, use_absolute, filter_diag)
+      CALL dbcsr_filter(matrix, c_eps, c_method, use_absolute, filter_diag)
 #:for var in vars
       IF (ASSOCIATED(${var}$)) DEALLOCATE(${var}$)
-
-   END SUBROUTINE dbcsr_filter
+#:endfor
+   END SUBROUTINE 
 
    SUBROUTINE c_dbcsr_get_block_diag(c_matrix, c_diag) &
       BIND(C,name="c_dbcsr_get_block_diag")
@@ -663,6 +595,7 @@ CONTAINS
       TYPE(c_ptr), INTENT(INOUT) :: c_diag
       TYPE(dbcsr_type), POINTER :: matrix, diag
       
+      CALL c_f_pointer(c_matrix,matrix)
       IF (C_ASSOCIATED(c_diag)) THEN
          CALL c_f_pointer(c_diag,diag)
       ELSE 
@@ -671,7 +604,7 @@ CONTAINS
 
       CALL dbcsr_get_block_diag(matrix, diag)
       IF (.NOT. C_ASSOCIATED(c_diag)) c_diag = c_loc(diag)
-   END SUBROUTINE dbcsr_get_block_diag
+   END SUBROUTINE 
 
    SUBROUTINE c_dbcsr_transposed(c_transposed, c_normal, c_shallow_data_copy, &
                                c_transpose_data, c_transpose_distribution, c_use_distribution) &
@@ -695,7 +628,7 @@ CONTAINS
 #:set vars = ['shallow_data_copy', 'transpose_data', 'transpose_distribution']
 #:for var in vars
       NULLIFY(${var}$)
-      IF (PRESENT(c_${var}$) THEN
+      IF (PRESENT(c_${var}$)) THEN
          ALLOCATE(${var}$)
          ${var}$ = c_${var}$
       ENDIF
@@ -744,13 +677,13 @@ CONTAINS
         ALLOCATE(${var}$)
         ${var}$ = c_${var}$
      ENDIF
-#:endif
+#:endfor
 
      CALL dbcsr_copy(matrix_b, matrix_a, name, keep_sparsity, &
                          shallow_data, keep_imaginary, c_matrix_type)
                          
 #:for var in vars
-     IF (ASSOCIATED(${var}$) DEALLOCATE(${var}$)
+     IF (ASSOCIATED(${var}$)) DEALLOCATE(${var}$)
 #:endfor
      IF (.NOT. C_ASSOCIATED(c_matrix_b)) c_matrix_b = c_loc(matrix_b)
                          
@@ -800,9 +733,9 @@ CONTAINS
    ! MODIFIED !!! PUBLIC :: dbcsr_reserve_blocks
    !PUBLIC :: dbcsr_reserve_all_blocks
 
-   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-   !!!!!!!! block_reservations !!!!!!!!!!!!!!!!
-   !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   !-----------------------------------------------------------------!
+   !                   block_reservations                            !
+   !-----------------------------------------------------------------!
   
    SUBROUTINE c_dbcsr_reserve_diag_blocks(c_matrix) &
       BIND(C,name="c_dbcsr_reserve_diag_blocks")
@@ -811,7 +744,7 @@ CONTAINS
       TYPE(dbcsr_type), POINTER :: matrix
       CALL c_f_pointer(c_matrix,matrix)
       CALL dbcsr_reserve_diag_blocks(matrix)
-   END SUBROUTINE dbcsr_reserve_diag_blocks
+   END SUBROUTINE 
    
    SUBROUTINE c_dbcsr_reserve_blocks(c_matrix, c_rows, c_cols, c_size) &
       BIND(C,name="c_dbcsr_reserve_blocks")
@@ -832,7 +765,7 @@ CONTAINS
    SUBROUTINE c_dbcsr_reserve_all_blocks(c_matrix) &
       BIND(C,name="c_dbcsr_reserve_all_blocks")
       
-      TYPE(c_ptr), INTENT(IN); VALUE :: c_matrix
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
       TYPE(dbcsr_type), POINTER :: matrix
 
       CALL c_f_pointer(c_matrix,matrix)
@@ -841,7 +774,7 @@ CONTAINS
    
 #:for n, nametype, base, prec, kind, type, dkind, normname, ctype in c_inst_params_float
    
-   SUBROUTINE c_dbcsr_reserve_block2d_${nametype}$ (c_matrix, c_row, c_col, 
+   SUBROUTINE c_dbcsr_reserve_block2d_${nametype}$ (c_matrix, c_row, c_col, &
               c_block, c_row_size, c_col_size, c_transposed, c_existed) &
       BIND(C,name="c_dbcsr_reserve_block2d_${nametype}$")
       
@@ -866,7 +799,7 @@ CONTAINS
       ENDIF
       IF (PRESENT(c_existed)) ALLOCATE(existed)
 
-      CALL dbcsr_reserve_block2d_${nametype}$ (matrix, row, col, block, transposed, existed)
+      CALL dbcsr_reserve_block2d (matrix,c_row, c_col, block, transposed, existed)
       IF (PRESENT(c_existed)) c_existed = existed
    END SUBROUTINE 
    
@@ -875,14 +808,14 @@ CONTAINS
     ! iterator
    !PUBLIC :: dbcsr_iterator_start
    !PUBLIC :: dbcsr_iterator_stop
-   PUBLIC :: dbcsr_iterator_blocks_left
-   PUBLIC :: dbcsr_iterator_next_block
+    !PUBLIC :: dbcsr_iterator_blocks_left
+   ! SOME MODS NEEDED PUBLIC :: dbcsr_iterator_next_block
    
    !-------------------------------!
    !        iterator               !
    !-------------------------------!
 
-   SUBROUTINE c_dbcsr_iterator_stop(c_iterator)
+   SUBROUTINE c_dbcsr_iterator_stop(c_iterator) &
       BIND(C,name="c_dbcsr_iterator_stop")
       
       TYPE(c_ptr), INTENT(INOUT) :: c_iterator
@@ -896,7 +829,7 @@ CONTAINS
    END SUBROUTINE
 
    SUBROUTINE c_dbcsr_iterator_start(c_iterator, c_matrix, c_shared, c_dynamic, &
-                                   c_dynamic_byrows, c_contiguous_pointers, c_read_only)
+                                   c_dynamic_byrows, c_contiguous_pointers, c_read_only) &
       BIND(C,name="c_dbcsr_iterator_start")                               
     
       TYPE(c_ptr), INTENT(INOUT) :: c_iterator
@@ -925,19 +858,191 @@ CONTAINS
       c_iterator = c_loc(iterator)
 #:for var in vars
       IF (ASSOCIATED(${var}$)) DEALLOCATE(${var}$)
+#:endfor
     
    END SUBROUTINE 
 
-   FUNCTION c_dbcsr_iterator_blocks_left(iterator) RESULT(c_blocks_left) &
+   FUNCTION c_dbcsr_iterator_blocks_left(c_iterator) RESULT(c_blocks_left) &
    BIND(C,name="c_dbcsr_iterator_blocks_left")
       TYPE(c_ptr), INTENT(IN), VALUE :: c_iterator
       TYPE(dbcsr_iterator_type), POINTER :: iterator
       LOGICAL(kind=c_bool) :: c_blocks_left
 
       CALL c_f_pointer(c_iterator,iterator)
-      blocks_left = dbcsr_iterator_blocks_left(iterator)
-   END FUNCTION dbcsr_iterator_blocks_left
+      c_blocks_left = dbcsr_iterator_blocks_left(iterator)
+   END FUNCTION 
+   
+   SUBROUTINE c_dbcsr_iterator_next_block_index(c_iterator, c_row, c_column, c_blk, c_blk_p) &
+      BIND(C,name="c_dbcsr_iterator_next_block_index")
 
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_iterator
+      INTEGER(kind=c_int), INTENT(OUT) :: c_row, c_column, c_blk
+      INTEGER(kind=c_int), INTENT(OUT), OPTIONAL :: c_blk_p
+      TYPE(dbcsr_iterator_type), POINTER :: iterator
+
+      CALL c_f_pointer(c_iterator,iterator)
+
+      CALL dbcsr_iterator_next_block(iterator, c_row, c_column, c_blk, c_blk_p)
+      
+      c_blk = c_blk - 1
+      
+   END SUBROUTINE
+
+#:for n, nametype, base, prec, kind, type, dkind, normname, ctype in c_inst_params_float
+   SUBROUTINE c_dbcsr_iterator_next_2d_block_${nametype}$ (c_iterator, c_row, c_column, c_block, &
+                                                          c_transposed, c_block_number, &
+                                                          c_row_size, c_col_size, c_row_offset, c_col_offset) &
+      BIND(C,name="c_dbcsr_iterator_next_2d_block_${nametype}$")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_iterator
+      INTEGER(kind=c_int), INTENT(OUT) :: c_row, c_column
+      TYPE(c_ptr), INTENT(INOUT) :: c_block
+      LOGICAL(kind=c_bool), INTENT(OUT) :: c_transposed
+      INTEGER(kind=c_int), INTENT(OUT), OPTIONAL :: c_block_number, c_row_size, &
+                                        c_col_size, c_row_offset, &
+                                        c_col_offset
+      TYPE(dbcsr_iterator_type), POINTER :: iterator
+      ${ctype}$, DIMENSION(:, :), POINTER :: block
+      LOGICAL :: transposed
+      
+      CALL c_f_pointer(c_iterator,iterator)
+      transposed = c_transposed
+
+      CALL dbcsr_iterator_next_block (iterator, c_row, c_column, block, &
+                                      transposed, c_block_number, &
+                                      c_row_size, c_col_size, c_row_offset, c_col_offset)
+      c_block_number = c_block_number - 1
+      c_row_offset = c_row_offset - 1
+      c_col_offset = c_col_offset - 1
+      c_transposed = transposed
+      c_block = c_loc(block)
+                                                          
+   END SUBROUTINE
+#:endfor
+
+   !--------------------------------------------------------!
+   !                  work operations                       !
+   !--------------------------------------------------------!
+   
+   ! SKIP PUBLIC :: dbcsr_add_block_node
+   !PUBLIC :: dbcsr_put_block
+   ! SKIP PUBLIC :: dbcsr_work_create
+   ! SKIP PUBLIC :: dbcsr_verify_matrix
+   ! SKIP PUBLIC :: dbcsr_add_work_coordinate
+   ! SKIP PUBLIC :: dbcsr_get_wms_data_p
+   ! SKIP PUBLIC :: dbcsr_get_data_p
+   ! SKIP PUBLIC :: dbcsr_set_work_size
+   ! SKIP PUBLIC :: dbcsr_finalize
+
+#:for n, nametype, base, prec, kind, type, dkind, normname, ctype in c_inst_params_float
+   SUBROUTINE c_dbcsr_put_block2d_${nametype}$ (c_matrix, c_row, c_col, c_block, &
+                                                c_row_size, c_col_size, c_summation, c_scale) &
+      BIND(C,name="c_dbcsr_put_block2d_${nametype}$")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      INTEGER(kind=c_int), INTENT(IN), VALUE :: c_row, c_col, c_row_size, c_col_size
+      ${ctype}$, INTENT(IN) :: c_block(c_row_size,c_col_size)
+      LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL :: c_summation
+      ${ctype}$, INTENT(IN), OPTIONAL :: c_scale
+      
+      TYPE(dbcsr_type), POINTER :: matrix
+      LOGICAL :: summation
+      
+      CALL c_f_pointer(c_matrix,matrix)
+
+      IF (PRESENT(c_summation)) THEN
+         summation = c_summation
+         CALL dbcsr_put_block(matrix, c_row + 1, c_col + 1, c_block, summation, c_scale)
+      ELSE
+         CALL dbcsr_put_block(matrix, c_row + 1, c_col + 1, c_block, scale = c_scale)
+      ENDIF
+   END SUBROUTINE 
+#:endfor
+
+   !------------------------------------------------------------!
+   !                   replication                              !
+   !------------------------------------------------------------!
+   
+   !PUBLIC :: dbcsr_replicate_all
+   !PUBLIC :: dbcsr_sum_replicated
+   !PUBLIC :: dbcsr_distribute
+
+   SUBROUTINE c_dbcsr_replicate_all(c_matrix) &
+      BIND(C,name="c_dbcsr_replicate_all")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      TYPE(dbcsr_type), POINTER :: matrix
+      
+      CALL c_f_pointer(c_matrix,matrix)
+      CALL dbcsr_replicate_all(matrix)
+   END SUBROUTINE 
+
+   SUBROUTINE c_dbcsr_distribute(c_matrix, c_fast) &
+      BIND(C,name="c_dbcsr_distribute")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL :: c_fast
+      TYPE(dbcsr_type), POINTER :: matrix
+      LOGICAL :: fast
+
+      CALL c_f_pointer(c_matrix,matrix)
+      IF (PRESENT(c_fast)) THEN
+          fast = c_fast
+          CALL dbcsr_distribute(matrix, fast)
+      ELSE 
+          CALL dbcsr_distribute(matrix)
+      ENDIF
+   END SUBROUTINE 
+
+  SUBROUTINE c_dbcsr_sum_replicated(c_matrix) &
+      BIND(C,name="c_dbcsr_sum_replicated")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      TYPE(dbcsr_type), POINTER :: matrix
+      
+      CALL c_f_pointer(c_matrix,matrix)
+
+      CALL dbcsr_sum_replicated(matrix)
+   END SUBROUTINE 
+
+    
+   !PUBLIC :: dbcsr_norm_frobenius
+   !PUBLIC :: dbcsr_norm_maxabsnorm
+   !PUBLIC :: dbcsr_norm_column
+   !PUBLIC :: dbcsr_hadamard_product
+   !PUBLIC :: dbcsr_func_artanh
+   !PUBLIC :: dbcsr_func_dtanh
+   !PUBLIC :: dbcsr_func_inverse
+   !PUBLIC :: dbcsr_func_tanh
+   !PUBLIC :: dbcsr_print
+   !PUBLIC :: dbcsr_print_block_sum
+   !PUBLIC :: dbcsr_checksum
+   !PUBLIC :: dbcsr_maxabs
+   ! VECTOR? PUBLIC :: dbcsr_norm
+   !PUBLIC :: dbcsr_gershgorin_norm
+   !PUBLIC :: dbcsr_frobenius_norm
+   !PUBLIC :: dbcsr_init_random
+   !PUBLIC :: dbcsr_function_of_elements
+   !PUBLIC :: dbcsr_triu
+   
+   !-----------------------------------------!
+   !       high level matrix functions       !
+   !-----------------------------------------!
+
+   SUBROUTINE c_dbcsr_hadamard_product(c_matrix_a, c_matrix_b, c_matrix_c, c_b_assume_value) &
+      BIND(C,name="c_dbcsr_hadamard_product")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix_a, c_matrix_b, c_matrix_c
+      REAL(kind=c_double), INTENT(IN), OPTIONAL :: c_b_assume_value
+      TYPE(dbcsr_type), POINTER :: matrix_a, matrix_b, matrix_c
+      
+      CALL c_f_pointer(c_matrix_a,matrix_a)
+      CALL c_f_pointer(c_matrix_b,matrix_b)
+      CALL c_f_pointer(c_matrix_c,matrix_c)
+
+      CALL dbcsr_hadamard_product(matrix_a, matrix_b, matrix_c, c_b_assume_value)
+   END SUBROUTINE 
+   
    SUBROUTINE c_dbcsr_print(c_matrix) bind(C, name="c_dbcsr_print")
       TYPE(c_ptr), INTENT(in), value                     :: c_matrix
 
@@ -951,6 +1056,137 @@ CONTAINS
       flush (default_output_unit)
    END SUBROUTINE
 
+   SUBROUTINE c_dbcsr_print_block_sum(c_matrix, c_unit_nr) &
+      BIND(C,name="c_dbcsr_print_block_sum")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      INTEGER(kind=c_int), INTENT(IN), OPTIONAL :: c_unit_nr
+      TYPE(dbcsr_type), POINTER :: matrix
+      
+      CALL c_f_pointer(c_matrix,matrix)
+      CALL dbcsr_print_block_sum(matrix, c_unit_nr)
+      FLUSH (default_output_unit)
+   END SUBROUTINE
+   
+   FUNCTION c_dbcsr_checksum(c_matrix, c_local, c_pos) RESULT(c_checksum) &
+      BIND(C,name="c_dbcsr_checksum")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL :: c_local, c_pos
+      TYPE(dbcsr_type), POINTER :: matrix
+      LOGICAL, POINTER :: local, pos
+      REAL(kind=c_double) :: c_checksum
+
+      CALL c_f_pointer(c_matrix,matrix)
+#:set vars = ['local','pos']
+#:for var in vars
+      NULLIFY(${var}$)
+      IF (PRESENT(c_${var}$)) THEN
+          ALLOCATE(${var}$)
+          ${var}$ = c_${var}$
+      ENDIF
+#:endfor
+      c_checksum = dbcsr_checksum(matrix, local, pos)
+#:for var in vars
+      IF (ASSOCIATED(${var}$)) DEALLOCATE(${var}$)
+#:endfor
+   END FUNCTION 
+   
+   FUNCTION c_dbcsr_maxabs(c_matrix) RESULT(c_norm) &
+      BIND(C,name="c_dbcsr_maxabs")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      TYPE(dbcsr_type), POINTER :: matrix
+      REAL(kind=c_double) :: c_norm
+
+      CALL c_f_pointer(c_matrix,matrix)
+      c_norm = dbcsr_maxabs(matrix)
+   END FUNCTION 
+   
+   FUNCTION c_dbcsr_gershgorin_norm(c_matrix) RESULT(c_norm) &
+      BIND(C,name="c_dbcsr_gershgorin_norm")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      TYPE(dbcsr_type), POINTER :: matrix
+      REAL(kind=c_double) :: c_norm
+
+      CALL c_f_pointer(c_matrix,matrix)
+      c_norm = dbcsr_gershgorin_norm(matrix)
+   END FUNCTION 
+
+   FUNCTION c_dbcsr_frobenius_norm(c_matrix, c_local) RESULT(c_norm) &
+      BIND(C,name="c_dbcsr_frobenius_norm")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL :: c_local
+      TYPE(dbcsr_type), POINTER :: matrix
+      LOGICAL :: local
+      REAL(kind=c_double) :: c_norm
+      
+      CALL c_f_pointer(c_matrix,matrix)
+      IF (PRESENT(c_local)) THEN
+         local = c_local
+         c_norm = dbcsr_frobenius_norm(matrix, local)
+      ELSE
+         c_norm = dbcsr_frobenius_norm(matrix)
+      ENDIF
+   END FUNCTION 
+   
+   SUBROUTINE c_dbcsr_norm_scalar(c_matrix, c_which_norm, c_norm_scalar) &
+      BIND(C,name="c_dbcsr_norm_scalar")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      INTEGER(kind=c_int), INTENT(IN), VALUE :: c_which_norm
+      REAL(kind=c_double), INTENT(OUT) :: c_norm_scalar
+      TYPE(dbcsr_type), POINTER  :: matrix
+     
+      CALL c_f_pointer(c_matrix,matrix)
+      CALL dbcsr_norm(matrix, c_which_norm, c_norm_scalar)
+   END SUBROUTINE 
+   
+   SUBROUTINE c_dbcsr_triu(c_matrix) BIND(C,name="c_dbcsr_triu")
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      TYPE(dbcsr_type), POINTER :: matrix
+      
+      CALL c_f_pointer(c_matrix,matrix)
+      CALL dbcsr_triu(matrix)
+   END SUBROUTINE
+
+   SUBROUTINE c_dbcsr_init_random(c_matrix, c_keep_sparsity) &
+      BIND(C,name="c_dbcsr_init_random")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL :: c_keep_sparsity
+      TYPE(dbcsr_type), POINTER :: matrix
+      LOGICAL :: keep_sparsity
+      
+      CALL c_f_pointer(c_matrix,matrix)
+      IF (PRESENT(c_keep_sparsity)) THEN
+          keep_sparsity = c_keep_sparsity
+          CALL dbcsr_init_random(matrix, keep_sparsity)
+      ELSE 
+          CALL dbcsr_init_random(matrix)
+      ENDIF
+   END SUBROUTINE
+   
+   SUBROUTINE c_dbcsr_function_of_elements(c_matrix, c_func, c_a0, c_a1, c_a2) &
+      BIND(C,name="c_dbcsr_function_of_elements")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      INTEGER(kind=c_int), INTENT(IN), VALUE :: c_func
+      REAL(kind=c_double), INTENT(IN), OPTIONAL :: c_a0, c_a1, c_a2
+      TYPE(dbcsr_type), POINTER :: matrix
+      
+      CALL c_f_pointer(c_matrix,matrix)
+      CALL dbcsr_function_of_elements(matrix, c_func, c_a0, c_a1, c_a2)
+   END SUBROUTINE
+   
+   
+   
+   
+   
+   
+
    SUBROUTINE c_dbcsr_get_stored_coordinates(c_matrix, row, col, processor) bind(C, name="c_dbcsr_get_stored_coordinates")
       TYPE(c_ptr), INTENT(in), value                     :: c_matrix
       INTEGER(kind=c_int), INTENT(in), value             :: row, col
@@ -961,42 +1197,6 @@ CONTAINS
       CALL c_f_pointer(c_matrix, matrix)
 
       CALL dbcsr_get_stored_coordinates(matrix, row + 1, col + 1, processor)
-   END SUBROUTINE
-
-   SUBROUTINE c_dbcsr_put_block_d(c_matrix, row, col, block, block_length) bind(C, name="c_dbcsr_put_block_d")
-      TYPE(c_ptr), INTENT(in), value                     :: c_matrix
-      INTEGER(kind=c_int), INTENT(in), value             :: row, col, block_length
-      REAL(kind=c_double), INTENT(in)                    :: block(block_length)
-
-      TYPE(dbcsr_type), POINTER                          :: matrix
-
-      CALL c_f_pointer(c_matrix, matrix)
-
-      CALL dbcsr_put_block(matrix, row + 1, col + 1, block)
-   END SUBROUTINE
-
-   SUBROUTINE c_dbcsr_multiply_d(transa, transb, alpha, c_matrix_a, c_matrix_b, beta, c_matrix_c, retain_sparsity) &
-      bind(C, name="c_dbcsr_multiply_d")
-      CHARACTER(kind=c_char), INTENT(in), value          :: transa, transb
-      REAL(kind=c_double), INTENT(in), value             :: alpha
-      TYPE(c_ptr), INTENT(in)                            :: c_matrix_a, c_matrix_b
-      REAL(kind=c_double), INTENT(in), value             :: beta
-      TYPE(c_ptr), INTENT(inout)                         :: c_matrix_c
-      LOGICAL(c_bool), INTENT(in), OPTIONAL              :: retain_sparsity
-
-      LOGICAL                                            :: ret_sp
-      TYPE(dbcsr_type), POINTER                          :: matrix_a, matrix_b, matrix_c
-
-      CALL c_f_pointer(c_matrix_a, matrix_a)
-      CALL c_f_pointer(c_matrix_b, matrix_b)
-      CALL c_f_pointer(c_matrix_c, matrix_c)
-
-      IF (PRESENT(retain_sparsity)) THEN
-         ret_sp = retain_sparsity
-         CALL dbcsr_multiply(transa, transb, alpha, matrix_a, matrix_b, beta, matrix_c, retain_sparsity=ret_sp)
-      ELSE
-         CALL dbcsr_multiply(transa, transb, alpha, matrix_a, matrix_b, beta, matrix_c)
-      ENDIF
    END SUBROUTINE
 
    SUBROUTINE c_free_string(c_string) BIND(C, name="c_free_string")

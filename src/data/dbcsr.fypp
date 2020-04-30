@@ -43,8 +43,9 @@
 #:set inst_params_all = list(zip(nametype_all1, type_all1, zero_all1))
 
 #! Definitions for DBCSR_C
-
+#:set extype1 = ['double', 'float', 'double _Complex', 'float _Complex']
 #:set ctype1 = ['REAL(kind=c_double)', 'REAL(kind=c_float)', 'COMPLEX(kind=c_double_complex)', 'COMPLEX(kind=c_float_complex)']
 #:set c_inst_params_float = list(zip(n_inst, nametype1, base1, prec1, kind1, type1, dkind1, normname1, ctype1))
+#:set c_exparams = list(zip(n_inst, nametype1, base1, prec1, ctype1, extype1))
 
 #:endmute
