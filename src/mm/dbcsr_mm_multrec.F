@@ -722,7 +722,6 @@ CONTAINS
       REAL(KIND=real_4), EXTERNAL                :: SCNRM2, SDOT
 #endif
 
-
       REAL(kind=real_8)                          :: filter_eps_opt
 
 #:if nametype1 in ['d', 's']
@@ -731,7 +730,6 @@ CONTAINS
 #:else
       filter_eps_opt = filter_eps
 #:endif
-
 
       lastblk = 0
       nze = 0

@@ -602,7 +602,7 @@ CONTAINS
          col = blki(2, blk)
 #:if nametype1 in ['d', 's']
          bpe = rbs(row)*cbs(col)
-         norms(blk) = REAL(${normname1}$ (bpe, data(bp), 1, data(bp), 1)), KIND=sp)
+         norms(blk) = REAL(${normname1}$ (bpe, data(bp), 1, data(bp), 1)), KIND = sp)
 #:else
          bpe = bp + rbs(row)*cbs(col) - 1
          norms(blk) = REAL(SUM(ABS(DATA(bp:bpe))**2), KIND=sp)
