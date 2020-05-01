@@ -833,7 +833,7 @@ CONTAINS
       BIND(C,name="c_dbcsr_iterator_start")                               
     
       TYPE(c_ptr), INTENT(INOUT) :: c_iterator
-      TYPE(c_ptr), INTENT(IN) :: c_matrix
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL :: c_shared, c_dynamic, c_dynamic_byrows, &
                                                     c_contiguous_pointers, c_read_only
       TYPE(dbcsr_iterator_type), POINTER :: iterator
@@ -884,6 +884,8 @@ CONTAINS
 
       CALL dbcsr_iterator_next_block(iterator, c_row, c_column, c_blk, c_blk_p)
       
+      c_row = c_row - 1
+      c_column = c_column - 1
       c_blk = c_blk - 1
       
    END SUBROUTINE
@@ -911,9 +913,14 @@ CONTAINS
       CALL dbcsr_iterator_next_block (iterator, c_row, c_column, block, &
                                       transposed, c_block_number, &
                                       c_row_size, c_col_size, c_row_offset, c_col_offset)
-      c_block_number = c_block_number - 1
-      c_row_offset = c_row_offset - 1
-      c_col_offset = c_col_offset - 1
+                                      
+      c_row = c_row - 1
+      c_column = c_column - 1
+      
+      IF(PRESENT(c_block_number)) c_block_number = c_block_number - 1
+      IF(PRESENT(c_row_offset)) c_row_offset = c_row_offset - 1
+      IF(PRESENT(c_col_offset)) c_col_offset = c_col_offset - 1
+      
       c_transposed = transposed
       c_block = c_loc(block)
                                                           
@@ -1181,13 +1188,237 @@ CONTAINS
       CALL dbcsr_function_of_elements(matrix, c_func, c_a0, c_a1, c_a2)
    END SUBROUTINE
    
+   ! ---------------------------------------------------- !
+   !                 getters / setters                    !
+   ! ---------------------------------------------------- !
    
+   ! getters / setters
+   !!PUBLIC :: dbcsr_get_info
+   !!PUBLIC :: dbcsr_distribution_get
+   !!PUBLIC :: dbcsr_setname
+   !!PUBLIC :: dbcsr_get_matrix_type
+   !!PUBLIC :: dbcsr_get_occupation
+   !!PUBLIC :: dbcsr_nblkrows_total
+   !!PUBLIC :: dbcsr_nblkcols_total
+   ! ADDED LOCAL TOO
+   !!PUBLIC :: dbcsr_get_num_blocks
+   !!PUBLIC :: dbcsr_get_data_size
+   !!PUBLIC :: dbcsr_has_symmetry
+   !!PUBLIC :: dbcsr_nfullrows_total
+   !!PUBLIC :: dbcsr_nfullcols_total
+   !!PUBLIC :: dbcsr_get_stored_coordinates
+   !!PUBLIC :: dbcsr_valid_index
+   !!PUBLIC :: dbcsr_get_data_type
    
+   FUNCTION c_dbcsr_nblkrows_total(c_matrix) RESULT(c_nblkrows_tot) &
+      BIND(C,name="c_dbcsr_nblkrows_total")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      TYPE(dbcsr_type), POINTER :: matrix
+      INTEGER(kind=c_int) :: c_nblkrows_tot
+      
+      CALL c_f_pointer(c_matrix,matrix)
+      c_nblkrows_tot = dbcsr_nblkrows_total(matrix)
+      
+   END FUNCTION
    
+   FUNCTION c_dbcsr_nblkcols_total(c_matrix) RESULT(c_nblkcols_tot) &
+      BIND(C,name="c_dbcsr_nblkcols_total")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      TYPE(dbcsr_type), POINTER :: matrix
+      INTEGER(kind=c_int) :: c_nblkcols_tot
+      
+      CALL c_f_pointer(c_matrix,matrix)
+      c_nblkcols_tot = dbcsr_nblkcols_total(matrix)
+      
+   END FUNCTION
    
+   FUNCTION c_dbcsr_nblkrows_local(c_matrix) RESULT(c_nblkrows_loc) &
+      BIND(C,name="c_dbcsr_nblkrows_local")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      TYPE(dbcsr_type), POINTER :: matrix
+      INTEGER(kind=c_int) :: c_nblkrows_loc
+      
+      CALL c_f_pointer(c_matrix,matrix)
+      c_nblkrows_loc = dbcsr_nblkrows_local(matrix)
+      
+   END FUNCTION
    
+   FUNCTION c_dbcsr_nblkcols_local(c_matrix) RESULT(c_nblkcols_loc) &
+      BIND(C,name="c_dbcsr_nblkcols_local")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      TYPE(dbcsr_type), POINTER :: matrix
+      INTEGER(kind=c_int) :: c_nblkcols_loc
+      
+      CALL c_f_pointer(c_matrix,matrix)
+      c_nblkcols_loc = dbcsr_nblkcols_local(matrix)
+      
+   END FUNCTION
+   
+   SUBROUTINE c_dbcsr_get_info(c_matrix, c_nblkrows_total, c_nblkcols_total, &
+                             c_nfullrows_total, c_nfullcols_total, &
+                             c_nblkrows_local, c_nblkcols_local, &
+                             c_nfullrows_local, c_nfullcols_local, &
+                             c_my_prow, c_my_pcol, &
+                             c_local_rows, c_local_cols, c_proc_row_dist, c_proc_col_dist, &
+                             c_row_blk_size, c_col_blk_size, c_row_blk_offset, c_col_blk_offset, &
+                             c_distribution, c_name, c_matrix_type, c_data_type, &
+                             c_group) BIND(C,name="c_dbcsr_get_info")
+                             
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      INTEGER(kind=c_int), INTENT(OUT), OPTIONAL :: c_nblkrows_total, c_nblkcols_total, c_nfullrows_total, &
+                                        c_nfullcols_total, c_nblkrows_local, c_nblkcols_local, c_nfullrows_local, &
+                                        c_nfullcols_local, c_my_prow, c_my_pcol                      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_local_rows, c_local_cols, c_proc_row_dist, &
+                                    c_proc_col_dist, c_row_blk_size, c_col_blk_size, &
+                                    c_row_blk_offset, c_col_blk_offset 
+      TYPE(c_ptr), INTENT(OUT), OPTIONAL :: c_distribution
+      TYPE(c_ptr), INTENT(OUT), OPTIONAL :: c_name
+      CHARACTER(kind=c_char), INTENT(OUT), OPTIONAL :: c_matrix_type
+      INTEGER(kind=c_int), INTENT(OUT), OPTIONAL :: c_data_type, c_group
+      
+      TYPE(dbcsr_type), POINTER :: matrix
+      INTEGER(kind=c_int), DIMENSION(:), POINTER :: f_local_rows, f_local_cols, f_proc_row_dist, &
+                                                    f_proc_col_dist, &
+                                                    f_row_blk_size, f_col_blk_size, &
+                                                    f_row_blk_offset, f_col_blk_offset
+      ! copies for the following arrays
+      INTEGER(kind=c_int), DIMENSION(:), POINTER :: local_rows, local_cols, proc_row_dist, &
+                                                    proc_col_dist, &
+                                                    row_blk_size, col_blk_size, &
+                                                    row_blk_offset, col_blk_offset
+      TYPE(dbcsr_distribution_type), POINTER :: distribution
+      CHARACTER(kind=c_char, len=:), POINTER :: name
+      
+      CALL c_f_pointer(c_matrix,matrix)
+      
+      ! Because the pointers passed are always null at the beginning, we cannot just pass them in this case
+      ! we use if/else branches, but reduce their number by grouping some variables together
+      ! and splitting the function into several calls
+      
+#:set optvars = [['local_rows', 'local_cols'], &
+                 ['proc_row_dist', 'proc_col_dist'], &
+                 ['row_blk_size', 'col_blk_size'], &
+                 ['row_blk_offset', 'col_blk_offset']]
+#:set optgroups = []
+      ${gen_vargroups(optvars,optgroups)}$
+      
+      ! This will generate 16 branches
+#:for i in range(len(optgroups))
+      ${print_groupif(optgroups,optvars,i,'C_ASSOCIATED','c_')}$
 
-   SUBROUTINE c_dbcsr_get_stored_coordinates(c_matrix, row, col, processor) bind(C, name="c_dbcsr_get_stored_coordinates")
+      CALL dbcsr_get_info(matrix, c_nblkrows_total, c_nblkcols_total, &
+                             c_nfullrows_total, c_nfullcols_total, &
+                             c_nblkrows_local, c_nblkcols_local, &
+                             c_nfullrows_local, c_nfullcols_local &
+                             ${print_group(optgroups[i])}$, &
+                             matrix_type=c_matrix_type, data_type=c_data_type, &
+                             group = c_group) 
+#:endfor
+      $:"ENDIF"
+      
+      ! now take care of name and dist
+      
+      IF (PRESENT(c_name)) THEN
+          CALL dbcsr_get_info(matrix,name=name)
+          name = TRIM(name)//char(0)
+          c_name = c_loc(name)
+      ENDIF
+      
+      IF (PRESENT(c_distribution)) THEN
+          ALLOCATE(distribution)
+          CALL dbcsr_get_info(matrix,distribution=distribution)
+          c_distribution = c_loc(distribution)
+      ENDIF
+      
+#:set vars = ['local_rows', 'local_cols', 'proc_row_dist', 'proc_col_dist', &
+              'row_blk_size', 'col_blk_size', 'row_blk_offset', 'col_blk_offset']
+#:for var in vars
+      IF (C_ASSOCIATED(c_${var}$)) THEN 
+         PRINT*, "HERE: ${var}$"
+         CALL c_f_pointer(c_${var}$,f_${var}$,SHAPE(${var}$))
+         #:if var in ['local_rows', 'local_cols', 'row_blk_offset', 'col_blk_offset']
+         f_${var}$ = ${var}$ - 1
+         #:else
+         f_${var}$ = ${var}$
+         #:endif
+         NULLIFY(${var}$)
+      ENDIF
+#:endfor
+
+   END SUBROUTINE
+   
+   SUBROUTINE c_dbcsr_distribution_get(c_dist, c_row_dist, c_col_dist, &
+                                       c_nrows, c_ncols, c_has_threads, &
+                                       c_group, c_mynode, c_numnodes, c_nprows, &
+                                       c_npcols, c_myprow, c_mypcol, c_pgrid, &
+                                       c_subgroups_defined, c_prow_group, c_pcol_group) &
+      BIND(C,name="c_dbcsr_distribution_get")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_dist
+      TYPE(c_ptr), INTENT(OUT), OPTIONAL :: c_row_dist, c_col_dist
+      INTEGER(kind=c_int), INTENT(OUT), OPTIONAL :: c_nrows, c_ncols
+      LOGICAL(kind=c_bool), INTENT(OUT), OPTIONAL :: c_has_threads
+      INTEGER(kind=c_int), INTENT(OUT), OPTIONAL :: c_group, c_mynode, c_numnodes, c_nprows, c_npcols, &
+                                                    c_myprow, c_mypcol
+      TYPE(c_ptr), INTENT(OUT), OPTIONAL :: c_pgrid
+      LOGICAL(kind=c_bool), INTENT(OUT), OPTIONAL :: c_subgroups_defined
+      INTEGER(kind=c_int), INTENT(OUT), OPTIONAL :: c_prow_group, c_pcol_group
+      
+      TYPE(dbcsr_distribution_type), POINTER :: dist
+      INTEGER, DIMENSION(:), POINTER :: row_dist, col_dist
+      LOGICAL, POINTER :: has_threads
+      INTEGER, DIMENSION(:, :), POINTER :: pgrid
+      LOGICAL, POINTER :: subgroups_defined
+      
+      CALL c_f_pointer(c_dist,dist)
+#:set bools = ['has_threads', 'subgroups_defined']
+#:for var in bools
+      NULLIFY(${var}$)
+      IF (PRESENT(c_${var}$)) THEN
+          ALLOCATE(${var}$)
+          c_${var}$ = ${var}$
+      ENDIF
+#:endfor
+
+#:set optvars = [['row_dist'], ['col_dist'], ['pgrid']]
+#:set optgroups = []
+${gen_vargroups(optvars,optgroups)}$
+
+#:for i in range(len(optgroups))
+      ${print_groupif(optgroups,optvars,i,'PRESENT','c_')}$
+      
+      CALL dbcsr_distribution_get(dist=dist, nrows=c_nrows, ncols=c_ncols, &
+                                  has_threads=has_threads, &
+                                  group=c_group, mynode=c_mynode, numnodes=c_numnodes, &
+                                  nprows=c_nprows, npcols=c_npcols, myprow=c_myprow, mypcol=c_mypcol, &
+                                  subgroups_defined=subgroups_defined, &
+                                  prow_group=c_prow_group, pcol_group=c_pcol_group &
+                                  ${print_group(optgroups[i])}$)
+#:endfor
+      $:"ENDIF"
+
+#:for var in bools
+      IF (PRESENT(c_${var}$)) THEN
+         c_${var}$ = ${var}$
+         DEALLOCATE(${var}$)
+      ENDIF
+#:endfor
+#:set list = ['row_dist', 'col_dist', 'pgrid']
+#:for var in list
+      IF (PRESENT(c_${var}$)) THEN
+         c_${var}$ = c_loc(${var}$)
+      ENDIF
+#:endfor
+
+   END SUBROUTINE 
+
+   SUBROUTINE c_dbcsr_get_stored_coordinates(c_matrix, row, col, processor) &
+      bind(C, name="c_dbcsr_get_stored_coordinates")
+      
       TYPE(c_ptr), INTENT(in), value                     :: c_matrix
       INTEGER(kind=c_int), INTENT(in), value             :: row, col
       INTEGER(kind=c_int), INTENT(out)                   :: processor
@@ -1198,7 +1429,125 @@ CONTAINS
 
       CALL dbcsr_get_stored_coordinates(matrix, row + 1, col + 1, processor)
    END SUBROUTINE
+   
+   SUBROUTINE c_dbcsr_setname(c_matrix, c_newname) &
+      BIND(C,name="c_dbcsr_setname")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix, c_newname
+      TYPE(dbcsr_type), POINTER :: matrix
+      CHARACTER(:, kind=c_char), ALLOCATABLE  :: newname
+      
+      CALL c_f_pointer(c_matrix,matrix)
+      CALL c_f_string(c_newname,newname)
+      CALL dbcsr_setname(matrix, newname)
+   END SUBROUTINE 
+   
+   FUNCTION c_dbcsr_get_matrix_type(c_matrix) RESULT(c_matrix_type) &
+      BIND(C,name="c_dbcsr_get_matrix_type")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      TYPE(dbcsr_type), POINTER :: matrix
+      CHARACTER(kind=c_char) :: c_matrix_type
 
+      CALL c_f_pointer(c_matrix,matrix)
+      c_matrix_type = dbcsr_get_matrix_type(matrix)
+   END FUNCTION
+
+   FUNCTION c_dbcsr_get_occupation(c_matrix) RESULT(c_occupation) &
+      BIND(C,name="c_dbcsr_get_occupation")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      TYPE(dbcsr_type), POINTER :: matrix
+      REAL(KIND=c_double) :: c_occupation
+      
+      CALL c_f_pointer(c_matrix,matrix)
+      c_occupation = dbcsr_get_occupation(matrix)
+   END FUNCTION 
+   
+   FUNCTION c_dbcsr_get_num_blocks(c_matrix) RESULT(c_num_blocks) &
+      BIND(C,name="c_dbcsr_get_num_blocks")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      TYPE(dbcsr_type), POINTER :: matrix
+      INTEGER(kind=c_int) :: c_num_blocks
+      
+      CALL c_f_pointer(c_matrix,matrix)
+      c_num_blocks = dbcsr_get_num_blocks(matrix)
+      
+   END FUNCTION
+   
+   FUNCTION c_dbcsr_get_data_size(c_matrix) RESULT(c_data_size) &
+      BIND(C,name="c_dbcsr_get_data_size")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      TYPE(dbcsr_type), POINTER :: matrix
+      INTEGER(kind=c_int) :: c_data_size
+      
+      CALL c_f_pointer(c_matrix,matrix)
+      c_data_size = dbcsr_get_data_size(matrix)
+      
+   END FUNCTION
+   
+   
+   FUNCTION c_dbcsr_has_symmetry(c_matrix) RESULT(c_has_symmetry) &
+      BIND(C,name="c_dbcsr_has_symmetry")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      TYPE(dbcsr_type), POINTER :: matrix
+      LOGICAL(kind=c_bool) :: c_has_symmetry
+
+      CALL c_f_pointer(c_matrix,matrix)
+      c_has_symmetry = dbcsr_has_symmetry(matrix)
+      
+   END FUNCTION 
+   
+   FUNCTION c_dbcsr_nfullrows_total(c_matrix) RESULT(c_nfullrows_total) &
+      BIND(C,name="c_dbcsr_nfullrows_total")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      TYPE(dbcsr_type), POINTER :: matrix
+      INTEGER(kind=c_int) :: c_nfullrows_total
+
+      c_nfullrows_total = dbcsr_nfullrows_total(matrix)
+   END FUNCTION 
+   
+   FUNCTION c_dbcsr_nfullcols_total(c_matrix) RESULT(c_nfullcols_total) &
+      BIND(C,name="c_dbcsr_nfullcols_total")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      TYPE(dbcsr_type), POINTER :: matrix
+      INTEGER(kind=c_int) :: c_nfullcols_total
+
+      c_nfullcols_total = dbcsr_nfullcols_total(matrix)
+   END FUNCTION
+   
+   FUNCTION c_dbcsr_valid_index(c_matrix) RESULT(c_valid_index) &
+      BIND(C,name="c_dbcsr_valid_index")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      TYPE(dbcsr_type), POINTER :: matrix
+      LOGICAL(kind=c_bool) :: c_valid_index
+
+      CALL c_f_pointer(c_matrix,matrix)
+      c_valid_index = dbcsr_valid_index(matrix)
+   END FUNCTION  
+   
+   FUNCTION c_dbcsr_get_data_type(c_matrix) RESULT(c_data_type) &
+      BIND(C,name="c_dbcsr_get_data_type")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      TYPE(dbcsr_type), POINTER :: matrix
+      INTEGER(kind=c_int) :: c_data_type
+      
+      CALL c_f_pointer(c_matrix,matrix)
+      c_data_type = dbcsr_get_data_type(matrix)
+   END FUNCTION 
+   
+   
+   ! ---------------------------------------- !
+   !              other                       !
+   ! ---------------------------------------- !
+   
    SUBROUTINE c_free_string(c_string) BIND(C, name="c_free_string")
       TYPE(c_ptr), INTENT(INOUT)             :: c_string
 

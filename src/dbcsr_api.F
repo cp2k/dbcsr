@@ -69,6 +69,8 @@ MODULE dbcsr_api
       dbcsr_has_symmetry_prv => dbcsr_has_symmetry, &
       dbcsr_nblkcols_total_prv => dbcsr_nblkcols_total, &
       dbcsr_nblkrows_total_prv => dbcsr_nblkrows_total, &
+      dbcsr_nblkcols_local_prv => dbcsr_nblkcols_local, &
+      dbcsr_nblkrows_local_prv => dbcsr_nblkrows_local, &
       dbcsr_nfullcols_total_prv => dbcsr_nfullcols_total, &
       dbcsr_nfullrows_total_prv => dbcsr_nfullrows_total, &
       dbcsr_release_prv => dbcsr_release, &
@@ -232,6 +234,8 @@ MODULE dbcsr_api
    PUBLIC :: dbcsr_get_occupation
    PUBLIC :: dbcsr_nblkrows_total
    PUBLIC :: dbcsr_nblkcols_total
+   PUBLIC :: dbcsr_nblkrows_local
+   PUBLIC :: dbcsr_nblkcols_local
    PUBLIC :: dbcsr_get_num_blocks
    PUBLIC :: dbcsr_get_data_size
    PUBLIC :: dbcsr_has_symmetry
@@ -578,6 +582,20 @@ CONTAINS
 
       nblkcols_total = dbcsr_nblkcols_total_prv(matrix%prv)
    END FUNCTION dbcsr_nblkcols_total
+   
+   FUNCTION dbcsr_nblkrows_local(matrix) RESULT(nblkrows_local)
+      TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+      INTEGER                                            :: nblkrows_local
+
+      nblkrows_local = dbcsr_nblkrows_local_prv(matrix%prv)
+   END FUNCTION dbcsr_nblkrows_local
+
+   FUNCTION dbcsr_nblkcols_local(matrix) RESULT(nblkcols_local)
+      TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+      INTEGER                                            :: nblkcols_local
+
+      nblkcols_local = dbcsr_nblkcols_local_prv(matrix%prv)
+   END FUNCTION dbcsr_nblkcols_local
 
    FUNCTION dbcsr_nfullrows_total(matrix) RESULT(nfullrows_total)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix

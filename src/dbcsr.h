@@ -211,7 +211,7 @@ extern "C" {
 
      void* c_dbcsr_iterator_stop(void** c_iterator);
 
-     void* c_dbcsr_iterator_start(void* c_iterator, void* c_matrix, const bool* c_shared, 
+     void* c_dbcsr_iterator_start(void** c_iterator, void* c_matrix, const bool* c_shared, 
                                   const bool* c_dynamic, const bool* c_dynamic_byrows, 
                                   const bool* c_contiguous_pointers, const bool* c_read_only);
 
@@ -275,9 +275,57 @@ extern "C" {
    void c_dbcsr_function_of_elements(void* c_matrix, const int c_func, const double* c_a0, 
            const double* c_a1, const double* c_a2);
 
-
+   //--------------------------------------------------!
+   //           setters/getters                        !
+   //--------------------------------------------------!
+   
+   int c_dbcsr_nblkrows_total(void* c_matrix);
+   
+   int c_dbcsr_nblkcols_total(void* c_matrix);
+   
+   int c_dbcsr_nblkrows_local(void* c_matrix);
+   
+   int c_dbcsr_nblkcols_local(void* c_matrix);
+   
+   void c_dbcsr_get_info(void* c_matrix, int* c_nblkrows_total, int* c_nblkcols_total,
+                             int* c_nfullrows_total, int* c_nfullcols_total, 
+                             int* c_nblkrows_local, int* c_nblkcols_local, 
+                             int* c_nfullrows_local, int* c_nfullcols_local, 
+                             int* c_my_prow, int* c_my_pcol, 
+                             int* c_local_rows, int* c_local_cols, 
+                             int* c_proc_row_dist, int* c_proc_col_dist, 
+                             int* c_row_blk_size, int* c_col_blk_size, 
+                             int* c_row_blk_offset, int* c_col_blk_offset, 
+                             void** c_distribution, char** c_name, char* c_matrix_type, 
+                             int* c_data_type, int* c_group);
+                             
+    void c_dbcsr_distribution_get(void* c_dist, int** c_row_dist, int** c_col_dist, 
+                                  int* c_nrows, int* c_ncols, bool* c_has_threads, 
+                                  int* c_group, int* c_mynode, int* c_numnodes, int* c_nprows, 
+                                  int* c_npcols, int* c_myprow, int* c_mypcol, int** c_pgrid, 
+                                  bool* c_subgroups_defined, int* c_prow_group, int* c_pcol_group);
 
     void c_dbcsr_get_stored_coordinates(void* matrix, int row, int col, int* processor);
+    
+    void c_dbcsr_setname(void* c_matrix, char* c_newname);
+   
+    char c_dbcsr_get_matrix_type(void* c_matrix);
+    
+    double c_dbcsr_get_occupation(void* c_matrix);
+   
+    int c_dbcsr_get_num_blocks(void* c_matrix);
+   
+    int c_dbcsr_get_data_size(void* c_matrix);
+   
+    bool c_dbcsr_has_symmetry(void* c_matrix);
+   
+    int c_dbcsr_nfullrows_total(void* c_matrix);
+   
+    int c_dbcsr_nfullcols_total(void* c_matrix);
+   
+    bool c_dbcsr_valid_index(void* c_matrix);
+   
+    int c_dbcsr_get_data_type(void* c_matrix);
 
     void c_free_string(char** c_string);
 

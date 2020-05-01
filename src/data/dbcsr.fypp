@@ -48,4 +48,121 @@
 #:set c_inst_params_float = list(zip(n_inst, nametype1, base1, prec1, kind1, type1, dkind1, normname1, ctype1))
 #:set c_exparams = list(zip(n_inst, nametype1, base1, prec1, ctype1, extype1))
 
+#! Handling optional arguments for non-interoperable types
+
+#:def add_num(num,numout)
+#! binary number counter e.g. [1,0,0,0] -> [0,1,0,0]
+#:set carry = 1
+#:for i in range(0,len(num))
+#:set outi = 0
+#:if carry == 1 
+ #:if num[i] == 0
+  #:set outi = 1
+  #:set carry = 0
+ #:else
+  #:set outi = 0
+  #:set carry = 1
+ #:endif
+#:else 
+ #:set outi = num[i]
+#:endif
+#:mute
+$: numout.append(outi)
+#:endmute
+#:endfor
+#:enddef
+
+#:def init(list,n)
+#:mute
+ #! fill a list with n zeros
+ #:for i in range(n)
+  $: list.append(0)
+ #:endfor
+#:endmute
+#:enddef
+
+#:def gen_permlist(permlist,n)
+#:mute
+ #! generates a list of permutations from n entries
+ #! example n = 2 -> [[0,0],[0,1],[1,0],[1,1]] where 0/1 means present/not present
+ #:set idx = []
+ #:set newidx = [] 
+ ${init(idx,n)}$
+
+ #:set imax = pow(2,n)
+ #:for i in range(0,imax) 
+        $: permlist.append(idx)
+        ${add_num(idx,newidx)}$
+        #:set idx = newidx
+        #:set newidx = []
+ #:endfor
+#:endmute
+#:enddef
+
+#:def gen_vargroups(varlist,vargroups)
+#:mute
+ #! generates permuted groups of variables from a variable list
+ #! optional variables that appear together may be grouped
+ #! example: varlist = [[var1], [var2,var3]]
+ #! this gives: vargroups = [ [[var1],[var2,var3]], [[var1]], [[var2,var3]], []] 
+ #:set permlist = [] 
+ ${gen_permlist(permlist,len(varlist))}$
+ #:for p in permlist
+    #:set group = []
+    #:for i in range(len(varlist))
+        #:if p[i] == 0
+            $: group.append(varlist[i])
+        #:endif
+   #:endfor
+   $: vargroups.append(group)
+ #:endfor
+#:endmute
+#:enddef
+
+#:def flatten(group,flatgroup)
+#:mute
+#! flattens an array by one level:
+#! [[var1],[var2,var3]] -> [var1,var2,var3]
+#:for sub in group
+ #:for x in sub
+ $: flatgroup.append(x)
+ #:endfor
+#:endfor
+#:endmute
+#:enddef
+
+#:def print_group(group, prefix=", ")
+#! for a group [[var1],[var2,var3]]
+#! prints "var1 = var1, var2 = var2, var3 = var3"
+#:set flatgroup = [item for sublist in group for item in sublist]
+$: prefix * (bool(len(group))) + ", ".join([str(i) + ' = ' + str(i) for i in flatgroup])
+#:enddef
+
+#:def print_groupif(vargroups,varlist,i,check='PRESENT',prefix='')
+#! for a group [[var1]] and a varlist [[var1]],[var2,var3]]
+#! prints "(ELSE) IF (PRESENT(var1) .AND. .NOT. PRESENT(var2) .AND. .NOT. PRESENT(var3)) THEN"
+#! to be used in a loop 
+#:set group = vargroups[i]
+#:set diff = [item for item in varlist if item not in group]
+#:set stat = "ELSE IF"
+#:if i == 0
+#:set stat = "IF"
+#:elif i == len(vargroups) - 1
+#:set stat = "ELSE"
+#:endif
+#:if stat != "ELSE"
+#:set flatgroup = []
+#:set flatdiff = []
+#:mute
+${flatten(group,flatgroup)}$
+${flatten(diff,flatdiff)}$
+#:endmute
+$: stat + "(" +  " .AND. ".join([check + "(" +  prefix + str(i) + ")" for i in flatgroup]) & 
+         + " .AND. " * (bool(len(diff)) * bool(len(diff) - len(varlist))) &
+         + " .AND. ".join([".NOT. " + check + "(" +  prefix + str(i) + ")" for i in flatdiff]) + ") THEN " 
+#:else
+ELSE
+#:endif
+#:enddef
+
 #:endmute
