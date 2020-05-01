@@ -298,12 +298,28 @@ extern "C" {
                              int* c_row_blk_offset, int* c_col_blk_offset, 
                              void** c_distribution, char** c_name, char* c_matrix_type, 
                              int* c_data_type, int* c_group);
-                             
-    void c_dbcsr_distribution_get(void* c_dist, int** c_row_dist, int** c_col_dist, 
+                            
+    void c_dbcsr_distribution_get_aux(void* c_dist, int** c_row_dist, int** c_col_dist, 
                                   int* c_nrows, int* c_ncols, bool* c_has_threads, 
-                                  int* c_group, int* c_mynode, int* c_numnodes, int* c_nprows, 
+                                  MPI_Fint* c_group, int* c_mynode, int* c_numnodes, int* c_nprows, 
                                   int* c_npcols, int* c_myprow, int* c_mypcol, int** c_pgrid, 
                                   bool* c_subgroups_defined, int* c_prow_group, int* c_pcol_group);
+                                  
+    inline void c_dbcsr_distribution_get(void* c_dist, int** c_row_dist, int** c_col_dist, 
+                                  int* c_nrows, int* c_ncols, bool* c_has_threads, 
+                                  MPI_Comm* c_group, int* c_mynode, int* c_numnodes, int* c_nprows, 
+                                  int* c_npcols, int* c_myprow, int* c_mypcol, int** c_pgrid, 
+                                  bool* c_subgroups_defined, int* c_prow_group, int* c_pcol_group)
+    {
+		MPI_Fint fgroup;
+		c_dbcsr_distribution_get_aux(c_dist, c_row_dist, c_col_dist, 
+                                  c_nrows,c_ncols, c_has_threads, 
+                                  &fgroup, c_mynode, c_numnodes, c_nprows, 
+                                  c_npcols, c_myprow, c_mypcol, c_pgrid, 
+                                  c_subgroups_defined,c_prow_group, c_pcol_group);
+                             
+        if (c_group != nullptr) *c_group = MPI_Comm_f2c(fgroup);
+	}
 
     void c_dbcsr_get_stored_coordinates(void* matrix, int row, int col, int* processor);
     
@@ -326,6 +342,14 @@ extern "C" {
     bool c_dbcsr_valid_index(void* c_matrix);
    
     int c_dbcsr_get_data_type(void* c_matrix);
+    
+    //-----------------------------------------------!
+    //                  other                        !
+    //-----------------------------------------------!
+    
+    void c_dbcsr_binary_write(void* c_matrix, char* c_filepath);
+
+    void c_dbcsr_binary_read(void* c_filepath, void* c_distribution, MPI_Fint* c_groupid, void** c_matrix_new);
 
     void c_free_string(char** c_string);
 
@@ -333,4 +357,29 @@ extern "C" {
 }
 #endif
 
-#endif /*DBCSR_H*/
+#if defined(__cplusplus)
+	//---------------------------------------------------------!
+	//                  overloaded functions                   !
+	//---------------------------------------------------------!
+
+#:for n_inst, nametype, base, prec, ctype, extype in c_exparams  
+
+	inline void c_dbcsr_iterator_next_block (void* c_iterator, int* c_row, int* c_column, 
+				 ${extype}$** c_block, bool* c_transposed, int* c_block_number, 
+				 int* c_row_size, int* c_col_size, int* c_row_offset, int* c_col_offset) 
+		 {
+			 c_dbcsr_iterator_next_2d_block_${nametype}$ (c_iterator, c_row, c_column, 
+				 c_block, c_transposed, c_block_number, c_row_size, c_col_size, c_row_offset, c_col_offset);
+		 }
+		 
+	inline void c_dbcsr_put(void* c_matrix, const int c_row, const int c_col, 
+                             const ${extype}$* c_block, const int c_row_size, 
+                             const int c_col_size, const bool* c_summation, 
+                             const ${extype}$* c_scale)
+     {
+		 c_dbcsr_put_block2d_${nametype}$ (c_matrix, c_row, c_col, c_block, c_row_size, 
+                                           c_col_size, c_summation, c_scale);
+     }
+#:endfor
+
+#endif

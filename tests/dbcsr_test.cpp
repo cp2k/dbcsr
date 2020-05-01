@@ -34,19 +34,15 @@ std::vector<int> random_dist(int dist_size, int nbins)
 }
 
 
-// DBCSR example 3
-// This example shows how to multiply two DBCSR matrices
 int main(int argc, char* argv[])
 {
-    // initialize MPI
     MPI_Init(&argc, &argv);
 
-    // setup the mpi environment
     int mpi_size, mpi_rank;
     MPI_Comm_size(MPI_COMM_WORLD, &mpi_size);
     MPI_Comm_rank(MPI_COMM_WORLD, &mpi_rank);
 
-    // make 2D grid
+    // Make 2D grid
     int dims[2] = {0};
     MPI_Dims_create(mpi_size, 2, dims);
     int periods[2] = {1};
@@ -63,7 +59,6 @@ int main(int argc, char* argv[])
         << ", (" << coord[0] << ", " << coord[1] << ") in the 2D grid"
         << std::endl;
 
-    // initialize the DBCSR library
     c_dbcsr_init_lib(MPI_COMM_WORLD, nullptr);
 
     // Total number of blocks
@@ -157,12 +152,7 @@ int main(int argc, char* argv[])
     };
     
 
-    // create the DBCSR matrices, i.e. a double precision non symmetric matrix
-    // with nblkrows_total x nblkcols_total blocks and
-    // sizes "sum(row_blk_sizes)" x "sum(col_blk_sizes)", distributed as
-    // specified by the dist object
-
-    // create, fill and finalize matrix a
+    // create and fill matrix a
     void* matrix_a = nullptr;
     void* matrix_b = nullptr;
     void* matrix_c = nullptr;
@@ -196,7 +186,8 @@ int main(int argc, char* argv[])
     fill_matrix(matrix_a, irblks_1, icblks_1);
     c_dbcsr_finalize(matrix_a);
 
-    // print the matrices
+    
+
     c_dbcsr_print(matrix_a);
     //c_dbcsr_print(matrix_b);
     //c_dbcsr_print(matrix_c);
@@ -321,7 +312,6 @@ int main(int argc, char* argv[])
     
     c_dbcsr_print(matrix_a);
 
-    // release the matrices
     c_dbcsr_release(&matrix_a);
     c_dbcsr_release(&matrix_b);
     c_dbcsr_release(&matrix_c);
@@ -332,10 +322,8 @@ int main(int argc, char* argv[])
 
     MPI_Comm_free(&group);
 
-    // finalize the DBCSR library
     c_dbcsr_finalize_lib();
 
-    // finalize MPI
     MPI_Finalize();
 
     return 0;

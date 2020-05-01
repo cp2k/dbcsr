@@ -1356,7 +1356,7 @@ CONTAINS
                                        c_group, c_mynode, c_numnodes, c_nprows, &
                                        c_npcols, c_myprow, c_mypcol, c_pgrid, &
                                        c_subgroups_defined, c_prow_group, c_pcol_group) &
-      BIND(C,name="c_dbcsr_distribution_get")
+      BIND(C,name="c_dbcsr_distribution_get_aux")
       
       TYPE(c_ptr), INTENT(IN), VALUE :: c_dist
       TYPE(c_ptr), INTENT(OUT), OPTIONAL :: c_row_dist, c_col_dist
@@ -1547,6 +1547,38 @@ ${gen_vargroups(optvars,optgroups)}$
    ! ---------------------------------------- !
    !              other                       !
    ! ---------------------------------------- !
+   
+   SUBROUTINE c_dbcsr_binary_write(c_matrix, c_filepath) &
+      BIND(C,name="c_dbcsr_binary_write")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix, c_filepath
+      TYPE(dbcsr_type), POINTER :: matrix
+      CHARACTER(:, kind=c_char), ALLOCATABLE :: filepath
+      
+      CALL c_f_pointer(c_matrix,matrix)
+      CALL c_f_string(c_filepath,filepath)
+
+      CALL dbcsr_binary_write(matrix, filepath)
+   END SUBROUTINE
+
+   SUBROUTINE c_dbcsr_binary_read(c_filepath, c_distribution, c_groupid, c_matrix_new) &
+      BIND(C,name="c_dbcsr_binary_read")
+   
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_filepath, c_distribution
+      INTEGER(kind=c_int), INTENT(IN) :: c_groupid
+      TYPE(c_ptr), INTENT(INOUT) :: c_matrix_new
+      
+      CHARACTER(:, kind=c_char), ALLOCATABLE :: filepath
+      TYPE(dbcsr_distribution_type), POINTER :: distribution
+      TYPE(dbcsr_type), POINTER :: matrix_new
+      
+      CALL c_f_string(c_filepath,filepath)
+      CALL c_f_pointer(c_distribution,distribution)
+      ALLOCATE(matrix_new)
+
+      CALL dbcsr_binary_read(filepath, distribution, c_groupid, matrix_new)
+      c_matrix_new = c_loc(matrix_new)
+   END SUBROUTINE
    
    SUBROUTINE c_free_string(c_string) BIND(C, name="c_free_string")
       TYPE(c_ptr), INTENT(INOUT)             :: c_string

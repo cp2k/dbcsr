@@ -66,7 +66,10 @@ if (USE_ACCEL)
 endif ()
 
 if (NOT (CMAKE_Fortran_COMPILER_ID STREQUAL "Cray"))
-  set(DBCSR_TESTS_SRCS_CPP dbcsr_tensor_test.cpp)
+set(DBCSR_TESTS_SRCS_CPP
+     dbcsr_test.cpp
+     dbcsr_tensor_test.cpp
+     )
 endif ()
 
 # For each test, set a variable testname_SRCS defining the sources of that test
@@ -77,6 +80,7 @@ set(dbcsr_unittest4_SRCS dbcsr_unittest4.F dbcsr_test_scale_by_vector.F)
 set(dbcsr_tensor_unittest_SRCS dbcsr_tensor_unittest.F)
 set(dbcsr_tas_unittest_SRCS dbcsr_tas_unittest.F)
 set(dbcsr_test_csr_conversions_SRCS dbcsr_test_csr_conversions.F)
+set(dbcsr_test_cpp_SRCS dbcsr_test.cpp)
 set(dbcsr_tensor_test_cpp_SRCS dbcsr_tensor_test.cpp)
 set(dbcsr_acc_test_c_SRCS dbcsr_acc_test.c)
 
