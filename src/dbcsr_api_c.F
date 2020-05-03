@@ -85,7 +85,7 @@ CONTAINS
       BIND(C,name="c_dbcsr_print_statistics")
       
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL :: c_print_timers
-      TYPE(c_ptr), INTENT(IN) :: c_callgraph_filename
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_callgraph_filename
 
       LOGICAL :: print_timers
       CHARACTER(:, kind=c_char), ALLOCATABLE :: callgraph_filename
@@ -214,7 +214,6 @@ CONTAINS
 #:for var in list
       NULLIFY(${var}$)
       IF (PRESENT(c_${var}$)) THEN
-         PRINT*, "${var}$"
          ALLOCATE(${var}$)
          ${var}$ = c_${var}$
       ENDIF
@@ -302,27 +301,6 @@ CONTAINS
 
       CALL dbcsr_finalize(matrix)
    END SUBROUTINE
-
-
-   !PUBLIC :: dbcsr_set
-   !PUBLIC :: dbcsr_add
-   !PUBLIC :: dbcsr_scale
-   !PUBLIC :: dbcsr_scale_by_vector
-   !PUBLIC :: dbcsr_transposed
-   !PUBLIC :: dbcsr_multiply
-   !PUBLIC :: dbcsr_copy
-   !PUBLIC :: dbcsr_copy_into_existing
-   !PUBLIC :: dbcsr_desymmetrize
-   !PUBLIC :: dbcsr_add_on_diag
-   !PUBLIC :: dbcsr_get_block_diag
-   !PUBLIC :: dbcsr_set_diag
-   !PUBLIC :: dbcsr_get_diag
-   !PUBLIC :: dbcsr_filter
-   !PUBLIC :: dbcsr_trace
-   !PUBLIC :: dbcsr_dot
-   !PUBLIC :: dbcsr_complete_redistribute
-   !PUBLIC :: dbcsr_get_block_p
-   !PUBLIC :: dbcsr_clear
 
    !----------------------------------------------------------!
    !              primitive matrix operations                 !
@@ -484,9 +462,9 @@ CONTAINS
       CALL dbcsr_dot (matrix_a, matrix_b, c_result)
    END SUBROUTINE
    
-   SUBROUTINE c_dbcsr_get_block_${nametype}$ (c_matrix, c_row, c_col, c_block, &
+   SUBROUTINE c_dbcsr_get_block_p_${nametype}$ (c_matrix, c_row, c_col, c_block, &
               c_tr, c_found, c_row_size, c_col_size) &
-      BIND(C,name="c_dbcsr_get_block_${nametype}$")
+      BIND(C,name="c_dbcsr_get_block_p_${nametype}$")
       
       TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
       INTEGER(kind=c_int), INTENT(IN), VALUE :: c_row, c_col
@@ -799,7 +777,7 @@ CONTAINS
       ENDIF
       IF (PRESENT(c_existed)) ALLOCATE(existed)
 
-      CALL dbcsr_reserve_block2d (matrix,c_row, c_col, block, transposed, existed)
+      CALL dbcsr_reserve_block2d (matrix,c_row+1, c_col+1, block, transposed, existed)
       IF (PRESENT(c_existed)) c_existed = existed
    END SUBROUTINE 
    
@@ -937,7 +915,7 @@ CONTAINS
    ! SKIP PUBLIC :: dbcsr_verify_matrix
    ! SKIP PUBLIC :: dbcsr_add_work_coordinate
    ! SKIP PUBLIC :: dbcsr_get_wms_data_p
-   ! SKIP PUBLIC :: dbcsr_get_data_p
+   ! MODIFIED PUBLIC :: dbcsr_get_data_p
    ! SKIP PUBLIC :: dbcsr_set_work_size
    ! SKIP PUBLIC :: dbcsr_finalize
 
@@ -964,6 +942,36 @@ CONTAINS
          CALL dbcsr_put_block(matrix, c_row + 1, c_col + 1, c_block, scale = c_scale)
       ENDIF
    END SUBROUTINE 
+   
+   SUBROUTINE c_dbcsr_get_data_${nametype}$ (c_matrix, c_data, c_data_size, c_select_data_type, c_lb, c_ub) &
+      BIND(C,name="c_dbcsr_get_data_${nametype}$")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      TYPE(c_ptr), INTENT(OUT) :: c_data
+      INTEGER(kind=c_int), INTENT(OUT) :: c_data_size
+      ${ctype}$, INTENT(IN) :: c_select_data_type
+      INTEGER(kind=c_int), INTENT(IN), OPTIONAL :: c_lb, c_ub
+      INTEGER(kind=c_int), POINTER :: lb, ub
+      TYPE(dbcsr_type), POINTER :: matrix
+      ${ctype}$, DIMENSION(:), POINTER :: data
+      
+      CALL c_f_pointer(c_matrix,matrix)
+#:set vars = ['lb', 'ub']
+#:for var in vars
+       NULLIFY(${var}$)
+       IF (PRESENT(c_${var}$)) THEN
+          ALLOCATE(${var}$)
+          ${var}$ = c_${var}$ + 1
+       ENDIF
+#:endfor
+
+      data => dbcsr_get_data_p (matrix, c_select_data_type, lb, ub)
+      c_data = c_loc(data)
+      c_data_size = SIZE(data)
+   
+   END SUBROUTINE
+
+
 #:endfor
 
    !------------------------------------------------------------!
@@ -1338,7 +1346,6 @@ CONTAINS
               'row_blk_size', 'col_blk_size', 'row_blk_offset', 'col_blk_offset']
 #:for var in vars
       IF (C_ASSOCIATED(c_${var}$)) THEN 
-         PRINT*, "HERE: ${var}$"
          CALL c_f_pointer(c_${var}$,f_${var}$,SHAPE(${var}$))
          #:if var in ['local_rows', 'local_cols', 'row_blk_offset', 'col_blk_offset']
          f_${var}$ = ${var}$ - 1

@@ -53,11 +53,16 @@ int main(int argc, char* argv[])
     int coord[2];
     MPI_Cart_coords(group, mpi_rank, 2, coord);
 
-    std::cout
-        << "I'm processor " << mpi_rank
-        << " over " << mpi_size << " proc"
-        << ", (" << coord[0] << ", " << coord[1] << ") in the 2D grid"
-        << std::endl;
+	for (int i = 0; i != mpi_size; ++i) {
+		if (mpi_rank == i) {
+			std::cout
+				<< "I'm processor " << mpi_rank
+				<< " over " << mpi_size << " proc"
+				<< ", (" << coord[0] << ", " << coord[1] << ") in the 2D grid"
+				<< std::endl;
+		}
+		MPI_Barrier(MPI_COMM_WORLD);
+	}
 
     c_dbcsr_init_lib(MPI_COMM_WORLD, nullptr);
 
@@ -81,6 +86,8 @@ int main(int argc, char* argv[])
     void* dist1 = nullptr;
     void* dist2 = nullptr;
     void* dist3 = nullptr;
+    
+    if (mpi_rank == 0) std::cout << "Creating distributions..." << std::endl;
 
     c_dbcsr_distribution_new(&dist1, group,
         row_dist_1.data(), row_dist_1.size(),
@@ -128,23 +135,12 @@ int main(int argc, char* argv[])
                     int roff = -1;
                     int coff = -1;
                     bool tr = false;
-                    //c_dbcsr_iterator_next_block_index(iter,&i,&j,&nblk,nullptr);
-                    //std::cout << i << " " << j << " " << nblk << std::endl;
                     
                     double* blk = nullptr;
                     c_dbcsr_iterator_next_2d_block_d(iter, &i, &j, &blk, &tr, &nblk, &rsize, &csize, &roff, &coff);  
+                   
+                    std::generate(blk, blk + rsize*csize, [&](){ return static_cast<double>(std::rand())/RAND_MAX; });
                     
-                    std::cout << i << " " << j << " " << nblk << std::endl;
-                    std::cout << "size: " << rsize << " " << csize << std::endl;
-                    std::cout << "off: " << roff << " " << coff << std::endl;  
-                    
-                    for (int I = 0; I != rsize*csize; ++I) {
-						blk[I] = 2;
-					} std::cout << std::endl;
-                    
-                    //block.resize(row_blk_sizes[i] * col_blk_sizes[j]);
-                    //std::generate(block.begin(), block.end(), [&](){ return static_cast<double>(std::rand())/RAND_MAX; });
-                    //c_dbcsr_put_block2d_d (matrix, i, j, block.data(), row_blk_sizes[i], col_blk_sizes[j], nullptr, nullptr);
         }
         
         c_dbcsr_iterator_stop(&iter);
@@ -156,6 +152,9 @@ int main(int argc, char* argv[])
     void* matrix_a = nullptr;
     void* matrix_b = nullptr;
     void* matrix_c = nullptr;
+    
+    if (mpi_rank == 0) std::cout << "Creating matrices..." << std::endl;
+
         
     c_dbcsr_create_new(&matrix_a, "matrix a", dist1, dbcsr_type_no_symmetry, 
                                row_blk_sizes_1.data(), row_blk_sizes_1.size(), 
@@ -180,20 +179,22 @@ int main(int argc, char* argv[])
     
     std::vector<int> irblks_3 = {0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3};
     std::vector<int> icblks_3 = {0, 1, 2, 3, 0, 2, 3, 1, 2, 3, 0, 1, 2, 3};
-		
-	c_dbcsr_reserve_blocks(matrix_a, irblks_1.data(), icblks_1.data(), irblks_1.size());
+
+    if (mpi_rank == 0) std::cout << "Filling matrices..." << std::endl;
 
     fill_matrix(matrix_a, irblks_1, icblks_1);
     c_dbcsr_finalize(matrix_a);
-
+    fill_matrix(matrix_b, irblks_2, icblks_2);
+    c_dbcsr_finalize(matrix_b);
+    fill_matrix(matrix_c, irblks_3, icblks_3);
+    c_dbcsr_finalize(matrix_c);
     
-
-    c_dbcsr_print(matrix_a);
-    //c_dbcsr_print(matrix_b);
-    //c_dbcsr_print(matrix_c);
+    if (mpi_rank == 0) std::cout << "Multiplying..." << std::endl;
     
+    c_dbcsr_multiply_d('N', 'N', 1.0d, matrix_a, matrix_b, 2.0d, matrix_c, nullptr, nullptr,
+                       nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
     
-    // Testing get_info
+    if (mpi_rank == 0) std::cout << "Testing get_info for matrix_c" << std::endl;
     
     int nblkrowstot(0), nblkcolstot(0),
         nfullrowstot(0), nfullcolstot(0), nblkrowsloc(0), nblkcolsloc(0), 
@@ -215,7 +216,7 @@ int main(int argc, char* argv[])
     char matrix_type;
     int data_type;
     
-    c_dbcsr_get_info(matrix_a, &nblkrowstot, &nblkcolstot,
+    c_dbcsr_get_info(matrix_c, &nblkrowstot, &nblkcolstot,
                      &nfullrowstot, &nfullcolstot, &nblkrowsloc, &nblkcolsloc, 
                      &nfullrowsloc, &nfullcolsloc, &my_prow, &my_pcol, 
                      local_rows.data(), local_cols.data(), proc_row.data(), proc_col.data(),
@@ -256,7 +257,9 @@ int main(int argc, char* argv[])
 		print_vec(col_off)
 	} 
 	
-	// test distribution
+	MPI_Barrier(MPI_COMM_WORLD);
+	
+	if (mpi_rank == 0) std::cout << "Testing distribution_get for dist1" << std::endl;
 	
 	int* row_dist, *col_dist, *pgrid;
 	int nrows, ncols, mynode, numnodes, nprows, 
@@ -303,14 +306,8 @@ int main(int argc, char* argv[])
 		}
 		
 	}
-
-	c_dbcsr_binary_write(matrix_a, "test.txt");	
-    
-    exit(0);
-    
-    c_dbcsr_replicate_all(matrix_a);
-    
-    c_dbcsr_print(matrix_a);
+	
+	MPI_Barrier(MPI_COMM_WORLD);
 
     c_dbcsr_release(&matrix_a);
     c_dbcsr_release(&matrix_b);
@@ -319,6 +316,61 @@ int main(int argc, char* argv[])
     c_dbcsr_distribution_release(&dist1);
     c_dbcsr_distribution_release(&dist2);
     c_dbcsr_distribution_release(&dist3);
+    
+    if (mpi_rank == 0) std::cout << "Extracting block diagonal..." << std::endl;
+    
+    std::vector<int> blk_sizes = {3,3,3};
+    
+    auto rowdist = random_dist(blk_sizes.size(),dims[0]);
+    auto coldist = random_dist(blk_sizes.size(),dims[1]);
+    
+    void* dist4 = nullptr;
+    
+    c_dbcsr_distribution_new(&dist4, group,
+        rowdist.data(), rowdist.size(),
+        coldist.data(), coldist.size());
+    
+    void* matrix_d = nullptr;    
+    
+    c_dbcsr_create_new(&matrix_d, "matrix d", dist4, dbcsr_type_no_symmetry, 
+                               blk_sizes.data(), blk_sizes.size(), 
+                               blk_sizes.data(), blk_sizes.size(), 
+                               nullptr, nullptr, nullptr, nullptr, nullptr, nullptr); 
+                               
+    c_dbcsr_init_random(matrix_d,nullptr);
+    
+    c_dbcsr_print(matrix_d);
+    
+    std::vector<double> alpha(9);
+    for (size_t i = 0; i != alpha.size(); ++i) {
+		alpha[i] = (double)i;
+	}
+    c_dbcsr_scale_by_vector_d (matrix_d, alpha.data(), alpha.size(), "right");
+    
+    c_dbcsr_print(matrix_d);
+    
+    double* data = nullptr;
+    double type = 1.0d;
+    int data_size = 0;
+    c_dbcsr_get_data_d(matrix_d, &data, &data_size, &type, nullptr, nullptr);
+    
+    if (mpi_rank == 0) {
+		std::cout << "Data on rank 0:" << std::endl;
+		for (int i = 0; i != data_size; ++i) {
+			std::cout << data[i] << " ";
+		} std::cout << std::endl;
+	}
+		
+    void* diag = nullptr;
+    c_dbcsr_get_block_diag(matrix_d, &diag);
+    
+    c_dbcsr_print(diag);
+    
+    c_dbcsr_release(&matrix_d);
+    c_dbcsr_release(&diag);
+    c_dbcsr_distribution_release(&dist4);
+
+    c_dbcsr_print_statistics(nullptr, nullptr);
 
     MPI_Comm_free(&group);
 

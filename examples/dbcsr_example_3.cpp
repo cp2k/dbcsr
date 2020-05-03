@@ -57,11 +57,16 @@ int main(int argc, char* argv[])
     int coord[2];
     MPI_Cart_coords(group, mpi_rank, 2, coord);
 
-    std::cout
-        << "I'm processor " << mpi_rank
-        << " over " << mpi_size << " proc"
-        << ", (" << coord[0] << ", " << coord[1] << ") in the 2D grid"
-        << std::endl;
+	for (int i = 0; i != mpi_size; ++i) {
+		if (mpi_rank == i) {
+			std::cout
+				<< "I'm processor " << mpi_rank
+				<< " over " << mpi_size << " proc"
+				<< ", (" << coord[0] << ", " << coord[1] << ") in the 2D grid"
+				<< std::endl;
+		}
+		MPI_Barrier(MPI_COMM_WORLD);
+	}
 
     // initialize the DBCSR library
     c_dbcsr_init_lib(MPI_COMM_WORLD, nullptr);
@@ -87,6 +92,7 @@ int main(int argc, char* argv[])
     void* dist2 = nullptr;
     void* dist3 = nullptr;
 
+	//create distributions
     c_dbcsr_distribution_new(&dist1, group,
         row_dist_1.data(), row_dist_1.size(),
         col_dist_1.data(), col_dist_1.size());
@@ -100,8 +106,6 @@ int main(int argc, char* argv[])
         col_dist_2.data(), col_dist_2.size());
 
     // Fill all blocks, i.e. dense matrices
-    
-    
     auto fill_matrix = [&](void* matrix, std::vector<int>& irblks, std::vector<int>& icblks)
     {
         std::vector<double> block;
@@ -130,26 +134,13 @@ int main(int argc, char* argv[])
                     int nblk = -1;
                     int rsize = -1;
                     int csize = -1;
-                    int roff = -1;
-                    int coff = -1;
                     bool tr = false;
-                    //c_dbcsr_iterator_next_block_index(iter,&i,&j,&nblk,nullptr);
-                    //std::cout << i << " " << j << " " << nblk << std::endl;
                     
                     double* blk = nullptr;
-                    c_dbcsr_iterator_next_2d_block_d(iter, &i, &j, &blk, &tr, &nblk, &rsize, &csize, &roff, &coff);  
+                    c_dbcsr_iterator_next_2d_block_d(iter, &i, &j, &blk, &tr, &nblk, &rsize, &csize, nullptr, nullptr);  
+                   
+                    std::generate(blk, blk + rsize*csize, [&](){ return static_cast<double>(std::rand())/RAND_MAX; });
                     
-                    std::cout << i << " " << j << " " << nblk << std::endl;
-                    std::cout << "size: " << rsize << " " << csize << std::endl;
-                    std::cout << "off: " << roff << " " << coff << std::endl;  
-                    
-                    for (int I = 0; I != rsize*csize; ++I) {
-						blk[I] = 2;
-					} std::cout << std::endl;
-                    
-                    //block.resize(row_blk_sizes[i] * col_blk_sizes[j]);
-                    //std::generate(block.begin(), block.end(), [&](){ return static_cast<double>(std::rand())/RAND_MAX; });
-                    //c_dbcsr_put_block2d_d (matrix, i, j, block.data(), row_blk_sizes[i], col_blk_sizes[j], nullptr, nullptr);
         }
         
         c_dbcsr_iterator_stop(&iter);
@@ -182,6 +173,7 @@ int main(int argc, char* argv[])
                                col_blk_sizes_2.data(), col_blk_sizes_2.size(), 
                                nullptr, nullptr, nullptr, nullptr, nullptr, nullptr); 
     
+    // indices of non-zero blocks
     std::vector<int> irblks_1 = {0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3};
     std::vector<int> icblks_1 = {0, 1, 2, 4, 0, 2, 3, 1, 3, 4, 0, 1, 2};
     
@@ -190,136 +182,19 @@ int main(int argc, char* argv[])
     
     std::vector<int> irblks_3 = {0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3};
     std::vector<int> icblks_3 = {0, 1, 2, 3, 0, 2, 3, 1, 2, 3, 0, 1, 2, 3};
-		
-	c_dbcsr_reserve_blocks(matrix_a, irblks_1.data(), icblks_1.data(), irblks_1.size());
 
     fill_matrix(matrix_a, irblks_1, icblks_1);
     c_dbcsr_finalize(matrix_a);
-
-    // print the matrices
-    c_dbcsr_print(matrix_a);
-    //c_dbcsr_print(matrix_b);
-    //c_dbcsr_print(matrix_c);
+    fill_matrix(matrix_b, irblks_2, icblks_2);
+    c_dbcsr_finalize(matrix_b);
+    fill_matrix(matrix_c, irblks_3, icblks_3);
+    c_dbcsr_finalize(matrix_c);
     
-    
-    // Testing get_info
-    
-    int nblkrowstot(0), nblkcolstot(0),
-        nfullrowstot(0), nfullcolstot(0), nblkrowsloc(0), nblkcolsloc(0), 
-        nfullrowsloc(0), nfullcolsloc(0), my_prow(0), my_pcol(0);
-        
-    //int *local_rows, *local_cols, *proc_row_dist, *proc_col_dist, 
-    //    *row_blk_size, *col_blk_size, *row_blk_offset, *col_blk_offset;
-    
-    std::vector<int> local_rows(c_dbcsr_nblkrows_local(matrix_a));
-    std::vector<int> local_cols(c_dbcsr_nblkcols_local(matrix_a));
-    std::vector<int> proc_row(c_dbcsr_nblkrows_total(matrix_a));
-    std::vector<int> proc_col(c_dbcsr_nblkcols_total(matrix_a));
-    std::vector<int> row_blk(c_dbcsr_nblkrows_total(matrix_a));
-    std::vector<int> col_blk(c_dbcsr_nblkcols_total(matrix_a));
-    std::vector<int> row_off(c_dbcsr_nblkrows_total(matrix_a));
-    std::vector<int> col_off(c_dbcsr_nblkcols_total(matrix_a));
-    
-    char* name;
-    char matrix_type;
-    int data_type;
-    
-    c_dbcsr_get_info(matrix_a, &nblkrowstot, &nblkcolstot,
-                     &nfullrowstot, &nfullcolstot, &nblkrowsloc, &nblkcolsloc, 
-                     &nfullrowsloc, &nfullcolsloc, &my_prow, &my_pcol, 
-                     local_rows.data(), local_cols.data(), proc_row.data(), proc_col.data(),
-                     row_blk.data(), col_blk.data(), nullptr, nullptr, 
-                     nullptr, &name, &matrix_type, &data_type, nullptr);
-                     
-    
-    auto printv = [](std::vector<int>& v) {
-		for (auto x : v) {
-			std::cout << x << " ";
-		} std::cout << std::endl;
-	}; 
-	
-	#define print_var(name) \
-     std::cout << #name << ": " << name << std::endl;
-	
-	#define print_vec(name) \
-	 std::cout << #name << ": " << std::endl; \
-	 printv(name);
-	   
-    if (mpi_rank == 0) {
-		print_var(nblkrowstot) 
-		print_var(nblkcolstot) 
-		print_var(nfullrowstot) 
-		print_var(nfullcolstot) 
-		print_var(nblkrowsloc)
-		print_var(nblkcolsloc) 
-		print_var(nfullrowsloc) 
-		print_var(nfullcolsloc)
-		
-		print_vec(local_rows)
-		print_vec(local_cols)
-		print_vec(proc_row)
-		print_vec(proc_col)
-		print_vec(row_blk)
-		print_vec(col_blk)
-		print_vec(row_off)
-		print_vec(col_off)
-	} 
-	
-	// test distribution
-	
-	int* row_dist, *col_dist, *pgrid;
-	int nrows, ncols, mynode, numnodes, nprows, 
-        npcols, myprow, mypcol, prow_group, pcol_group;
-    bool has_threads, subgroups_defined;
-    MPI_Comm cgroup;
-	
-	c_dbcsr_distribution_get(dist1, &row_dist, &col_dist, 
-                                  &nrows, &ncols, &has_threads, 
-                                  &cgroup, &mynode, &numnodes, &nprows, 
-                                  &npcols, &myprow, &mypcol, &pgrid, 
-                                  &subgroups_defined, &prow_group, &pcol_group);
-                                  
-    if (mpi_rank == 0) {
-		
-		print_var(nrows)
-		print_var(ncols) 
-		print_var(mynode)
-		print_var(numnodes) 
-		print_var(nprows) 
-        print_var(npcols) 
-        print_var(myprow) 
-        print_var(mypcol)
-        print_var(prow_group) 
-        print_var(pcol_group)
-        
-        if (cgroup == group) 
-			std::cout << "Correct MPI communicator." << std::endl;
-        
-        std::cout << "dist row:" << std::endl;
-        for (int i = 0; i != nrows; ++i) {
-			std::cout << row_dist[i] << " ";
-		} std::cout << std::endl;
-		std::cout << "dist col:" << std::endl;
-		for (int i = 0; i != ncols; ++i) {
-			std::cout << col_dist[i] << " ";
-		} std::cout << std::endl;
-		
-		std::cout << "grid: " << std::endl;
-		for (int i = 0; i != nprows; ++i) {
-			for (int j = 0; j != npcols; ++j) {
-				std::cout << pgrid[i + nprows*j] << " ";
-			} std::cout << std::endl;
-		}
-		
-	}
-
-	c_dbcsr_binary_write(matrix_a, "test.txt");	
-    
-    exit(0);
-    
-    c_dbcsr_replicate_all(matrix_a);
-    
-    c_dbcsr_print(matrix_a);
+    // Compute C = 3.0 * A * B + 2.0 * C
+    c_dbcsr_multiply_d('N', 'N', 3.0d, matrix_a, matrix_b, 2.0d, matrix_c, nullptr, nullptr,
+                       nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
+                       
+    c_dbcsr_print(matrix_c);
 
     // release the matrices
     c_dbcsr_release(&matrix_a);

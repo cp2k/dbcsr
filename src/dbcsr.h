@@ -76,7 +76,7 @@ extern "C" {
         c_dbcsr_init_lib_internal(&fcomm, io_unit);
     }
     
-    void c_dbcsr_print_statistics(const bool* c_print_timers, const char** c_callgraph_filename);
+    void c_dbcsr_print_statistics(const bool* c_print_timers, const char* c_callgraph_filename);
 
     void c_dbcsr_finalize_lib(void);
     
@@ -144,9 +144,6 @@ extern "C" {
                                         
     void c_dbcsr_add_on_diag_${nametype}$ (void* c_matrix, const ${extype}$ c_alpha_scalar);
    
-// CHECK SIZES !!!!!!!!!!!!!!
-   
-   
     void c_dbcsr_set_diag_${nametype}$ (void* c_matrix, const ${extype}$* c_diag, const int c_diag_size);
    
     void c_dbcsr_get_diag_${nametype}$ (void* c_matrix, ${extype}$* c_diag, const int c_diag_size);
@@ -155,7 +152,7 @@ extern "C" {
      
     void c_dbcsr_dot_${nametype}$ (void* c_matrix_a, void* c_matrix_b, ${extype}$* c_result);
     
-    void c_dbcsr_get_block_${nametype}$ (void* c_matrix, const int c_row, const int c_col, 
+    void c_dbcsr_get_block_p_${nametype}$ (void* c_matrix, const int c_row, const int c_col, 
                                          ${extype}$** c_block, bool* c_tr, bool* c_found, 
                                          int* c_row_size, int* c_col_size);
 
@@ -236,6 +233,10 @@ extern "C" {
                                             const ${extype}$* c_block, const int c_row_size, 
                                             const int c_col_size, const bool* c_summation, 
                                             const ${extype}$* c_scale);
+                                            
+     void c_dbcsr_get_data_${nametype}$ (void* c_matrix, ${extype}$** c_data, int* c_data_size, 
+                                         ${extype}$* c_select_data_type, int* c_lb, int* c_ub);
+                                            
 #:endfor
      
    //------------------------------------------------------------!
