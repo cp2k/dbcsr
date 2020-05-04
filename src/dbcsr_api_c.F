@@ -729,13 +729,10 @@ CONTAINS
       INTEGER(kind=c_int), INTENT(IN), VALUE :: c_size
       INTEGER(kind=c_int), INTENT(IN) :: c_rows(c_size), c_cols(c_size)
       TYPE(dbcsr_type), POINTER:: matrix
-      INTEGER, DIMENSION(c_size) :: rows, cols
-
+    
       CALL c_f_pointer(c_matrix, matrix)
-      rows = c_rows + 1
-      cols = c_cols + 1
 
-      CALL dbcsr_reserve_blocks(matrix, rows, cols)
+      CALL dbcsr_reserve_blocks(matrix, c_rows + 1, c_cols + 1)
    END SUBROUTINE
 
    SUBROUTINE c_dbcsr_reserve_all_blocks(c_matrix) &
@@ -1328,6 +1325,7 @@ CONTAINS
       ! now take care of name and dist
 
       IF (PRESENT(c_name)) THEN
+         ALLOCATE(CHARACTER(len=default_string_length) :: name)
          CALL dbcsr_get_info(matrix, name=name)
          name = TRIM(name)//char(0)
          c_name = c_loc(name)
@@ -1384,7 +1382,6 @@ CONTAINS
       NULLIFY (${var}$)
       IF (PRESENT(c_${var}$)) THEN
          ALLOCATE (${var}$)
-         c_${var}$ = ${var}$
       ENDIF
 #:endfor
 

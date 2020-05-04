@@ -236,8 +236,13 @@ int main(int argc, char* argv[])
 	#define print_vec(name) \
 	 std::cout << #name << ": " << std::endl; \
 	 printv(name);
+	 
+	
 	   
     if (mpi_rank == 0) {
+	
+	    std::cout << "Name: " << name << std::endl;
+	
 		print_var(nblkrowstot) 
 		print_var(nblkcolstot) 
 		print_var(nfullrowstot) 
@@ -256,6 +261,8 @@ int main(int argc, char* argv[])
 		print_vec(row_off)
 		print_vec(col_off)
 	} 
+	
+	c_free_string(&name);
 	
 	MPI_Barrier(MPI_COMM_WORLD);
 	
