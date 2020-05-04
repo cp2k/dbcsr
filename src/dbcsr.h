@@ -56,6 +56,10 @@ static const char dbcsr_repl_row = 'R';
 static const char dbcsr_repl_col = 'C';
 static const char dbcsr_repl_full = 'A';
 
+typedef void* dbcsr_matrix_t;
+typedef void* dbcsr_dist_t;
+typedef void* dbcsr_iterator_t;
+
 #if defined(__cplusplus)
 extern "C" {
 #endif
@@ -84,38 +88,40 @@ extern "C" {
    //                    create/release                     !
    //-------------------------------------------------------!
    
-    void c_dbcsr_distribution_hold(void* c_dist);
+    void c_dbcsr_distribution_hold(const dbcsr_dist_t c_dist);
 
-    void c_dbcsr_distribution_new_aux(void** dist, MPI_Fint* fcomm, int* row_dist, int row_dist_size,
+    void c_dbcsr_distribution_new_aux(dbcsr_dist_t* dist, MPI_Fint* fcomm, int* row_dist, int row_dist_size,
                                       int* col_dist, int col_dist_size);
 
-    inline void c_dbcsr_distribution_new(void** dist, MPI_Comm comm, int* row_dist, int row_dist_size,
+    inline void c_dbcsr_distribution_new(dbcsr_dist_t* dist, MPI_Comm comm, int* row_dist, int row_dist_size,
                                          int* col_dist, int col_dist_size)
     {
         MPI_Fint fcomm = MPI_Comm_c2f(comm);
         c_dbcsr_distribution_new_aux(dist, &fcomm, row_dist, row_dist_size, col_dist, col_dist_size);
     }
 
-    void c_dbcsr_distribution_release(void** dist);
+    void c_dbcsr_distribution_release(dbcsr_dist_t* dist);
 
-    void c_dbcsr_create_new(void** c_matrix, const char* c_name, void* c_dist, const char c_matrix_type, 
+    void c_dbcsr_create_new(dbcsr_matrix_t* c_matrix, const char* c_name, 
+							   const dbcsr_dist_t, const char c_matrix_type, 
                                const int* c_row_blk_size, const int c_row_size, 
                                const int* c_col_blk_size, const int c_col_size, 
                                const int* c_nze, const int* c_data_type, const bool* c_reuse,
                                const bool* c_reuse_arrays, const bool* c_mutable_work, 
                                const char* c_replication_type);
 
-    void c_dbcsr_create_template(void** c_matrix, char* c_name, void* c_template, 
-                               void* c_dist, const char* c_matrix_type, 
+    void c_dbcsr_create_template(dbcsr_matrix_t* c_matrix, char* c_name, 
+							   const dbcsr_matrix_t c_template, 
+                               const dbcsr_dist_t c_dist, const char* c_matrix_type, 
                                const int* c_row_blk_size, const int c_row_size, 
                                const int* c_col_blk_size, const int c_col_size, 
                                const int* c_nze, const int* c_data_type, 
                                const bool* c_reuse_arrays, const bool* c_mutable_work, 
                                const char* c_replication_type);
                                
-    void c_dbcsr_finalize(void* matrix);
+    void c_dbcsr_finalize(const dbcsr_matrix_t matrix);
 
-    void c_dbcsr_release(void** matrix);
+    void c_dbcsr_release(dbcsr_matrix_t* matrix);
     
    //----------------------------------------------------------!
    //              primitive matrix operations                 !
@@ -123,80 +129,81 @@ extern "C" {
 
 #:for n_inst, nametype, base, prec, ctype, extype in c_exparams  
    
-    void c_dbcsr_set_${nametype}$ (void* c_matrix, const ${extype}$ c_alpha);
+    void c_dbcsr_set_${nametype}$ (dbcsr_matrix_t c_matrix, const ${extype}$ c_alpha);
    
-    void c_dbcsr_add_${nametype}$ (void* c_matrix_a, void* c_matrix_b, 
+    void c_dbcsr_add_${nametype}$ (const dbcsr_matrix_t c_matrix_a, dbcsr_matrix_t c_matrix_b, 
                                   const ${extype}$ c_alpha_scalar, const ${extype}$ c_beta_scalar);
 
-    void c_dbcsr_scale_${nametype}$ (void* c_matrix_a, const ${extype}$ c_alpha_scalar, int c_last_column);
+    void c_dbcsr_scale_${nametype}$ (dbcsr_matrix_t c_matrix_a, const ${extype}$ c_alpha_scalar, const int c_last_column);
     
-    void c_dbcsr_scale_by_vector_${nametype}$ (void* c_matrix_a, const ${extype}$* c_alpha, 
+    void c_dbcsr_scale_by_vector_${nametype}$ (const dbcsr_matrix_t c_matrix_a, const ${extype}$* c_alpha, 
                                                const int c_alpha_size, const char* c_side);
     
     void c_dbcsr_multiply_${nametype}$ (char c_transa, char c_transb,
-                                        const ${extype}$ c_alpha, void* c_matrix_a, void* c_matrix_b, 
-                                        const ${extype}$ c_beta, void* c_matrix_c,
+                                        const ${extype}$ c_alpha, const dbcsr_matrix_t c_matrix_a, 
+                                        const dbcsr_matrix_t c_matrix_b, 
+                                        const ${extype}$ c_beta, dbcsr_matrix_t c_matrix_c,
                                         const int* c_first_row, const int* c_last_row, 
                                         const int* c_first_column, const int* c_last_column,
                                         const int* c_first_k, const int* c_last_k,
                                         const bool* c_retain_sparsity, const double* c_filter_eps, 
                                         long long int* c_flop);
                                         
-    void c_dbcsr_add_on_diag_${nametype}$ (void* c_matrix, const ${extype}$ c_alpha_scalar);
+    void c_dbcsr_add_on_diag_${nametype}$ (dbcsr_matrix_t c_matrix, const ${extype}$ c_alpha_scalar);
    
-    void c_dbcsr_set_diag_${nametype}$ (void* c_matrix, const ${extype}$* c_diag, const int c_diag_size);
+    void c_dbcsr_set_diag_${nametype}$ (dbcsr_matrix_t c_matrix, const ${extype}$* c_diag, const int c_diag_size);
    
-    void c_dbcsr_get_diag_${nametype}$ (void* c_matrix, ${extype}$* c_diag, const int c_diag_size);
+    void c_dbcsr_get_diag_${nametype}$ (const dbcsr_matrix_t c_matrix, ${extype}$* c_diag, const int c_diag_size);
      
-    void c_dbcsr_trace_${nametype}$ (void* c_matrix_a, ${extype}$* c_trace);
+    void c_dbcsr_trace_${nametype}$ (const dbcsr_matrix_t c_matrix_a, ${extype}$* c_trace);
      
-    void c_dbcsr_dot_${nametype}$ (void* c_matrix_a, void* c_matrix_b, ${extype}$* c_result);
+    void c_dbcsr_dot_${nametype}$ (const dbcsr_matrix_t c_matrix_a, const dbcsr_matrix_t c_matrix_b, ${extype}$* c_result);
     
-    void c_dbcsr_get_block_p_${nametype}$ (void* c_matrix, const int c_row, const int c_col, 
+    void c_dbcsr_get_block_p_${nametype}$ (const dbcsr_matrix_t c_matrix, const int c_row, const int c_col, 
                                          ${extype}$** c_block, bool* c_tr, bool* c_found, 
                                          int* c_row_size, int* c_col_size);
 
-    void c_dbcsr_get_block_notrans_p_${nametype}$ (void* c_matrix, const int c_row, const int c_col, 
+    void c_dbcsr_get_block_notrans_p_${nametype}$ (const dbcsr_matrix_t c_matrix, const int c_row, const int c_col, 
                                                    ${extype}$** c_block, bool* c_found, 
                                                    int* c_row_size, int* c_col_size);
 
 #:endfor
    
-    void c_dbcsr_complete_redistribute(void* c_matrix, void** c_redist, 
+    void c_dbcsr_complete_redistribute(dbcsr_matrix_t c_matrix, void** c_redist, 
            const bool* c_keep_sparsity, const bool* c_summation);
 
-    void c_dbcsr_filter(void* c_matrix, const double* c_eps, const int* c_method, 
+    void c_dbcsr_filter(dbcsr_matrix_t c_matrix, const double* c_eps, const int* c_method, 
                         const bool* c_use_absolute, const bool* c_filter_diag);
 
-    void c_dbcsr_get_block_diag(void* c_matrix, void** c_diag);
+    void c_dbcsr_get_block_diag(const dbcsr_matrix_t c_matrix, void** c_diag);
    
-    void c_dbcsr_transposed(void** c_transposed, void* c_normal, const bool* c_shallow_data_copy,
+    void c_dbcsr_transposed(dbcsr_matrix_t* c_transposed, dbcsr_matrix_t c_normal, const bool* c_shallow_data_copy,
                                const bool* c_transpose_data, const bool* c_transpose_distribution, 
                                const bool* c_use_distribution);
    
-    void c_dbcsr_copy(void** c_matrix_b, void* c_matrix_a, const char* c_name, 
+    void c_dbcsr_copy(dbcsr_matrix_t* c_matrix_b, const dbcsr_matrix_t c_matrix_a, const char* c_name, 
                       const bool* c_keep_sparsity, const bool* c_shallow_data, 
                       const bool* c_keep_imaginary, const int c_matrix_type);
 
-    void c_dbcsr_copy_into_existing(void* c_matrix_b, void* c_matrix_a);
+    void c_dbcsr_copy_into_existing(dbcsr_matrix_t c_matrix_b, const dbcsr_matrix_t c_matrix_a);
       
-    void c_dbcsr_desymmetrize(void* c_matrix_a, void** c_matrix_b);
+    void c_dbcsr_desymmetrize(const dbcsr_matrix_t c_matrix_a, dbcsr_matrix_t* c_matrix_b);
 
-    void c_dbcsr_clear(void* c_dbcsr_mat); 
+    void c_dbcsr_clear(dbcsr_matrix_t c_dbcsr_mat); 
 
     //-----------------------------------------------------------------!
     //                   block_reservations                            !
     //-----------------------------------------------------------------!
   
-    void c_dbcsr_reserve_diag_blocks(void* c_matrix);
+    void c_dbcsr_reserve_diag_blocks(dbcsr_matrix_t c_matrix);
    
-    void c_dbcsr_reserve_blocks(void* c_matrix, const int* c_rows, const int* c_cols, const int c_size);
+    void c_dbcsr_reserve_blocks(dbcsr_matrix_t c_matrix, const int* c_rows, const int* c_cols, const int c_size);
 
-    void c_dbcsr_reserve_all_blocks(void* c_matrix);
+    void c_dbcsr_reserve_all_blocks(dbcsr_matrix_t c_matrix);
    
 #:for n_inst, nametype, base, prec, ctype, extype in c_exparams
    
-    void c_dbcsr_reserve_block2d_${nametype}$ (void* c_matrix, const int c_row, const int c_col, 
+    void c_dbcsr_reserve_block2d_${nametype}$ (dbcsr_matrix_t c_matrix, const int c_row, const int c_col, 
               const ${extype}$* c_block, const int c_row_size, const int c_col_size, 
               const bool* c_transposed, bool* c_existed);
    
@@ -206,20 +213,21 @@ extern "C" {
      //        iterator               !
      //-------------------------------!
 
-     void* c_dbcsr_iterator_stop(void** c_iterator);
+     void* c_dbcsr_iterator_stop(dbcsr_iterator_t* c_iterator);
 
-     void* c_dbcsr_iterator_start(void** c_iterator, void* c_matrix, const bool* c_shared, 
+     void* c_dbcsr_iterator_start(dbcsr_iterator_t* c_iterator, const dbcsr_matrix_t c_matrix, const bool* c_shared, 
                                   const bool* c_dynamic, const bool* c_dynamic_byrows, 
                                   const bool* c_contiguous_pointers, const bool* c_read_only);
 
-     bool c_dbcsr_iterator_blocks_left(void* c_iterator);
+     bool c_dbcsr_iterator_blocks_left(const dbcsr_iterator_t c_iterator);
    
-     void c_dbcsr_iterator_next_block_index(void* c_iterator, int* c_row, int* c_column, int* c_blk, int* c_blk_p);
+     void c_dbcsr_iterator_next_block_index(const dbcsr_iterator_t c_iterator, 
+					int* c_row, int* c_column, int* c_blk, int* c_blk_p);
 
 #:for n_inst, nametype, base, prec, ctype, extype in c_exparams
 
-     void c_dbcsr_iterator_next_2d_block_${nametype}$ (void* c_iterator, int* c_row, int* c_column, 
-             ${extype}$** c_block, bool* c_transposed, int* c_block_number, 
+     void c_dbcsr_iterator_next_2d_block_${nametype}$ (const dbcsr_iterator_t c_iterator, 
+             int* c_row, int* c_column, ${extype}$** c_block, bool* c_transposed, int* c_block_number, 
              int* c_row_size, int* c_col_size, int* c_row_offset, int* c_col_offset);
  
 #:endfor
@@ -229,12 +237,12 @@ extern "C" {
    //--------------------------------------------------------!
   
 #:for n_inst, nametype, base, prec, ctype, extype in c_exparams
-     void c_dbcsr_put_block2d_${nametype}$ (void* c_matrix, const int c_row, const int c_col, 
+     void c_dbcsr_put_block2d_${nametype}$ (dbcsr_matrix_t c_matrix, const int c_row, const int c_col, 
                                             const ${extype}$* c_block, const int c_row_size, 
                                             const int c_col_size, const bool* c_summation, 
                                             const ${extype}$* c_scale);
                                             
-     void c_dbcsr_get_data_${nametype}$ (void* c_matrix, ${extype}$** c_data, int* c_data_size, 
+     void c_dbcsr_get_data_${nametype}$ (const dbcsr_matrix_t c_matrix, ${extype}$** c_data, int* c_data_size, 
                                          ${extype}$* c_select_data_type, int* c_lb, int* c_ub);
                                             
 #:endfor
@@ -243,52 +251,53 @@ extern "C" {
    //                   replication                              !
    //------------------------------------------------------------!  
     
-   void c_dbcsr_replicate_all(void* c_matrix);
+   void c_dbcsr_replicate_all(dbcsr_matrix_t c_matrix);
 
-   void c_dbcsr_distribute(void* c_matrix, bool* c_fast);
+   void c_dbcsr_distribute(dbcsr_matrix_t c_matrix, bool* c_fast);
 
-   void c_dbcsr_sum_replicated(void* c_matrix);
+   void c_dbcsr_sum_replicated(dbcsr_matrix_t c_matrix);
    
    //-----------------------------------------!
    //       high level matrix functions       !
    //-----------------------------------------!
 
-   void c_dbcsr_hadamard_product(void* c_matrix_a, void* c_matrix_b, void* c_matrix_c, const double* c_b_assume_value);
+   void c_dbcsr_hadamard_product(const dbcsr_matrix_t c_matrix_a, const dbcsr_matrix_t c_matrix_b, 
+						dbcsr_matrix_t c_matrix_c, const double* c_b_assume_value);
    
-   void c_dbcsr_print(void* matrix);
+   void c_dbcsr_print(const dbcsr_matrix_t matrix);
     
-   void c_dbcsr_print_block_sum(void* c_matrix, const int* c_unit_nr);
+   void c_dbcsr_print_block_sum(const dbcsr_matrix_t c_matrix, const int* c_unit_nr);
    
-   double c_dbcsr_checksum(void* c_matrix, const bool* c_local, const bool* c_pos);
+   double c_dbcsr_checksum(const dbcsr_matrix_t c_matrix, const bool* c_local, const bool* c_pos);
    
-   double c_dbcsr_maxabs(void* c_matrix);
+   double c_dbcsr_maxabs(const dbcsr_matrix_t c_matrix);
    
-   double c_dbcsr_gershgorin_norm(void* c_matrix);
+   double c_dbcsr_gershgorin_norm(const dbcsr_matrix_t c_matrix);
 
-   double c_dbcsr_frobenius_norm(void* c_matrix, const bool* c_local);
+   double c_dbcsr_frobenius_norm(const dbcsr_matrix_t c_matrix, const bool* c_local);
    
-   void c_dbcsr_norm_scalar(void* c_matrix, const int c_which_norm, double* c_norm_scalar);
+   void c_dbcsr_norm_scalar(const dbcsr_matrix_t c_matrix, const int c_which_norm, double* c_norm_scalar);
    
-   void c_dbcsr_triu(void* c_matrix);
+   void c_dbcsr_triu(const dbcsr_matrix_t c_matrix);
 
-   void c_dbcsr_init_random(void* c_matrix, const bool* c_keep_sparsity);
+   void c_dbcsr_init_random(dbcsr_matrix_t c_matrix, const bool* c_keep_sparsity);
    
-   void c_dbcsr_function_of_elements(void* c_matrix, const int c_func, const double* c_a0, 
+   void c_dbcsr_function_of_elements(dbcsr_matrix_t c_matrix, const int c_func, const double* c_a0, 
            const double* c_a1, const double* c_a2);
 
    //--------------------------------------------------!
    //           setters/getters                        !
    //--------------------------------------------------!
    
-   int c_dbcsr_nblkrows_total(void* c_matrix);
+   int c_dbcsr_nblkrows_total(const dbcsr_matrix_t c_matrix);
    
-   int c_dbcsr_nblkcols_total(void* c_matrix);
+   int c_dbcsr_nblkcols_total(const dbcsr_matrix_t c_matrix);
    
-   int c_dbcsr_nblkrows_local(void* c_matrix);
+   int c_dbcsr_nblkrows_local(const dbcsr_matrix_t c_matrix);
    
-   int c_dbcsr_nblkcols_local(void* c_matrix);
+   int c_dbcsr_nblkcols_local(const dbcsr_matrix_t c_matrix);
    
-   void c_dbcsr_get_info(void* c_matrix, int* c_nblkrows_total, int* c_nblkcols_total,
+   void c_dbcsr_get_info(const dbcsr_matrix_t c_matrix, int* c_nblkrows_total, int* c_nblkcols_total,
                              int* c_nfullrows_total, int* c_nfullcols_total, 
                              int* c_nblkrows_local, int* c_nblkcols_local, 
                              int* c_nfullrows_local, int* c_nfullcols_local, 
@@ -297,16 +306,16 @@ extern "C" {
                              int* c_proc_row_dist, int* c_proc_col_dist, 
                              int* c_row_blk_size, int* c_col_blk_size, 
                              int* c_row_blk_offset, int* c_col_blk_offset, 
-                             void** c_distribution, char** c_name, char* c_matrix_type, 
+                             dbcsr_dist_t* c_distribution, char** c_name, char* c_matrix_type, 
                              int* c_data_type, int* c_group);
                             
-    void c_dbcsr_distribution_get_aux(void* c_dist, int** c_row_dist, int** c_col_dist, 
+    void c_dbcsr_distribution_get_aux(const dbcsr_dist_t c_dist, int** c_row_dist, int** c_col_dist, 
                                   int* c_nrows, int* c_ncols, bool* c_has_threads, 
                                   MPI_Fint* c_group, int* c_mynode, int* c_numnodes, int* c_nprows, 
                                   int* c_npcols, int* c_myprow, int* c_mypcol, int** c_pgrid, 
                                   bool* c_subgroups_defined, int* c_prow_group, int* c_pcol_group);
                                   
-    inline void c_dbcsr_distribution_get(void* c_dist, int** c_row_dist, int** c_col_dist, 
+    inline void c_dbcsr_distribution_get(const dbcsr_dist_t c_dist, int** c_row_dist, int** c_col_dist, 
                                   int* c_nrows, int* c_ncols, bool* c_has_threads, 
                                   MPI_Comm* c_group, int* c_mynode, int* c_numnodes, int* c_nprows, 
                                   int* c_npcols, int* c_myprow, int* c_mypcol, int** c_pgrid, 
@@ -322,35 +331,35 @@ extern "C" {
         if (c_group != nullptr) *c_group = MPI_Comm_f2c(fgroup);
 	}
 
-    void c_dbcsr_get_stored_coordinates(void* matrix, int row, int col, int* processor);
+    void c_dbcsr_get_stored_coordinates(const dbcsr_matrix_t matrix, const int row, const int col, int* processor);
     
-    void c_dbcsr_setname(void* c_matrix, char* c_newname);
+    void c_dbcsr_setname(const dbcsr_matrix_t c_matrix, const char* c_newname);
    
-    char c_dbcsr_get_matrix_type(void* c_matrix);
+    char c_dbcsr_get_matrix_type(const dbcsr_matrix_t c_matrix);
     
-    double c_dbcsr_get_occupation(void* c_matrix);
+    double c_dbcsr_get_occupation(const dbcsr_matrix_t c_matrix);
    
-    int c_dbcsr_get_num_blocks(void* c_matrix);
+    int c_dbcsr_get_num_blocks(const dbcsr_matrix_t c_matrix);
    
-    int c_dbcsr_get_data_size(void* c_matrix);
+    int c_dbcsr_get_data_size(const dbcsr_matrix_t c_matrix);
    
-    bool c_dbcsr_has_symmetry(void* c_matrix);
+    bool c_dbcsr_has_symmetry(const dbcsr_matrix_t c_matrix);
    
-    int c_dbcsr_nfullrows_total(void* c_matrix);
+    int c_dbcsr_nfullrows_total(const dbcsr_matrix_t c_matrix);
    
-    int c_dbcsr_nfullcols_total(void* c_matrix);
+    int c_dbcsr_nfullcols_total(const dbcsr_matrix_t c_matrix);
    
-    bool c_dbcsr_valid_index(void* c_matrix);
+    bool c_dbcsr_valid_index(const dbcsr_matrix_t c_matrix);
    
-    int c_dbcsr_get_data_type(void* c_matrix);
+    int c_dbcsr_get_data_type(const dbcsr_matrix_t c_matrix);
     
     //-----------------------------------------------!
     //                  other                        !
     //-----------------------------------------------!
     
-    void c_dbcsr_binary_write(void* c_matrix, char* c_filepath);
+    void c_dbcsr_binary_write(const dbcsr_matrix_t c_matrix, const char* c_filepath);
 
-    void c_dbcsr_binary_read(void* c_filepath, void* c_distribution, MPI_Fint* c_groupid, void** c_matrix_new);
+    void c_dbcsr_binary_read(const char* c_filepath, dbcsr_dist_t c_distribution, MPI_Fint* c_groupid, dbcsr_matrix_t* c_matrix_new);
 
     void c_free_string(char** c_string);
 

@@ -88,9 +88,9 @@ int main(int argc, char* argv[])
     auto row_dist_2 = random_dist(nrows_2, dims[0]);
     auto col_dist_2 = random_dist(ncols_2, dims[1]);
 
-    void* dist1 = nullptr;
-    void* dist2 = nullptr;
-    void* dist3 = nullptr;
+    dbcsr_dist_t dist1 = nullptr;
+    dbcsr_dist_t dist2 = nullptr;
+    dbcsr_dist_t dist3 = nullptr;
 
 	//create distributions
     c_dbcsr_distribution_new(&dist1, group,
@@ -147,16 +147,9 @@ int main(int argc, char* argv[])
         
     };
     
-
-    // create the DBCSR matrices, i.e. a double precision non symmetric matrix
-    // with nblkrows_total x nblkcols_total blocks and
-    // sizes "sum(row_blk_sizes)" x "sum(col_blk_sizes)", distributed as
-    // specified by the dist object
-
-    // create, fill and finalize matrix a
-    void* matrix_a = nullptr;
-    void* matrix_b = nullptr;
-    void* matrix_c = nullptr;
+    dbcsr_matrix_t matrix_a = nullptr;
+    dbcsr_matrix_t matrix_b = nullptr;
+    dbcsr_matrix_t matrix_c = nullptr;
         
     c_dbcsr_create_new(&matrix_a, "matrix a", dist1, dbcsr_type_no_symmetry, 
                                row_blk_sizes_1.data(), row_blk_sizes_1.size(), 
