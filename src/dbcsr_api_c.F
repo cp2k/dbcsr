@@ -1317,7 +1317,8 @@ CONTAINS
       CALL dbcsr_get_info(matrix, c_nblkrows_total, c_nblkcols_total, &
                           c_nfullrows_total, c_nfullcols_total, &
                           c_nblkrows_local, c_nblkcols_local, &
-                          c_nfullrows_local, c_nfullcols_local &
+                          c_nfullrows_local, c_nfullcols_local, &
+                          c_my_prow, c_my_pcol &
                           ${print_group(optgroups[i])}$, &
                           matrix_type=c_matrix_type, data_type=c_data_type, &
                           group=c_group)
@@ -1510,6 +1511,7 @@ CONTAINS
       TYPE(dbcsr_type), POINTER :: matrix
       INTEGER(kind=c_int) :: c_nfullrows_total
 
+      CALL c_f_pointer(c_matrix, matrix)
       c_nfullrows_total = dbcsr_nfullrows_total(matrix)
    END FUNCTION
 
@@ -1520,6 +1522,7 @@ CONTAINS
       TYPE(dbcsr_type), POINTER :: matrix
       INTEGER(kind=c_int) :: c_nfullcols_total
 
+      CALL c_f_pointer(c_matrix, matrix)
       c_nfullcols_total = dbcsr_nfullcols_total(matrix)
    END FUNCTION
 
