@@ -243,10 +243,10 @@ CONTAINS
       TYPE(c_ptr), INTENT(IN), VALUE :: c_name
       TYPE(c_ptr), INTENT(IN), VALUE :: c_template
       TYPE(c_ptr), INTENT(IN), VALUE :: c_dist
-      CHARACTER(kind=c_char), INTENT(IN), VALUE :: c_matrix_type
+      CHARACTER(kind=c_char), INTENT(IN), OPTIONAL :: c_matrix_type
       INTEGER(kind=c_int), INTENT(IN), VALUE :: c_row_size, &
                                                 c_col_size
-      INTEGER(kind=c_int), INTENT(IN), TARGET :: c_row_blk_size(c_row_size), &
+      INTEGER(kind=c_int), INTENT(IN), OPTIONAL, TARGET :: c_row_blk_size(c_row_size), &
                                                  C_col_blk_size(c_col_size)
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL :: c_nze, c_data_type
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL :: c_reuse_arrays, &
@@ -263,8 +263,10 @@ CONTAINS
       CALL c_f_pointer(c_template, template)
       CALL c_f_string(c_name, name)
 
-      row_blk_size => c_row_blk_size
-      col_blk_size => c_col_blk_size
+      NULLIFY(row_blk_size)
+      NULLIFY(col_blk_size)
+      IF (PRESENT(c_row_blk_size)) row_blk_size => c_row_blk_size
+      IF (PRESENT(c_col_blk_size)) col_blk_size => c_col_blk_size
 
       NULLIFY (dist)
       IF (C_ASSOCIATED(c_dist)) CALL c_f_pointer(c_dist, dist)
@@ -729,7 +731,7 @@ CONTAINS
       INTEGER(kind=c_int), INTENT(IN), VALUE :: c_size
       INTEGER(kind=c_int), INTENT(IN) :: c_rows(c_size), c_cols(c_size)
       TYPE(dbcsr_type), POINTER:: matrix
-
+    
       CALL c_f_pointer(c_matrix, matrix)
 
       CALL dbcsr_reserve_blocks(matrix, c_rows + 1, c_cols + 1)
@@ -881,7 +883,6 @@ CONTAINS
       LOGICAL :: transposed
 
       CALL c_f_pointer(c_iterator, iterator)
-      transposed = c_transposed
 
       CALL dbcsr_iterator_next_block(iterator, c_row, c_column, block, &
                                      transposed, c_block_number, &
@@ -1325,7 +1326,7 @@ CONTAINS
       ! now take care of name and dist
 
       IF (PRESENT(c_name)) THEN
-         ALLOCATE (CHARACTER(len=default_string_length) :: name)
+         ALLOCATE(CHARACTER(len=default_string_length) :: name)
          CALL dbcsr_get_info(matrix, name=name)
          name = TRIM(name)//char(0)
          c_name = c_loc(name)

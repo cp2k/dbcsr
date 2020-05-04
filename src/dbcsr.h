@@ -106,7 +106,7 @@ extern "C" {
                                const char* c_replication_type);
 
     void c_dbcsr_create_template(void** c_matrix, char* c_name, void* c_template, 
-                               void* c_dist, const char c_matrix_type, 
+                               void* c_dist, const char* c_matrix_type, 
                                const int* c_row_blk_size, const int c_row_size, 
                                const int* c_col_blk_size, const int c_col_size, 
                                const int* c_nze, const int* c_data_type, 
