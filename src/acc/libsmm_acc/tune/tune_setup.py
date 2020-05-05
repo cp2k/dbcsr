@@ -200,7 +200,9 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, compiler, m, n,
         output = '#include "../../libsmm_acc_benchmark.h"\n\n'
         for j in range(chunk_b - chunk_a):
             output += (
-                "int " + launchers[chunk_a + j] + "(int *param_stack, int stack_size, "
+                "int "
+                + launchers[chunk_a + j]
+                + "(const int *param_stack, int stack_size, "
             )
             if compiler == "nvcc":
                 output += "cudaStream_t stream, "
@@ -208,7 +210,7 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, compiler, m, n,
                 output += "hipStream_t stream, "
             output += (
                 "int m_max, int n_max, int k_max,"
-                + " double *a_data, double *b_data, double *c_data);\n"
+                + " const double *a_data, const double *b_data, double *c_data);\n"
             )
 
         output += "\n"
