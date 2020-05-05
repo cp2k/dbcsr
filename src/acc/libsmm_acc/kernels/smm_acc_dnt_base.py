@@ -132,13 +132,13 @@ class Kernel:
         Compiler: either "nvcc" or "hipcc": determines the C++ dialect to use for kernel launching: either CUDA or HIP
         """
         indent = "  "
-        output = "int launch_" + self.name + "(int *param_stack, int stack_size, "
+        output = "int launch_" + self.name + "(const int *param_stack, int stack_size, "
         if compiler == "nvcc":
             output += "cudaStream_t stream, "
         else:  # i.e. compiler == "hipcc"
             output += "hipStream_t stream, "
         output += "int m_max, int n_max, int k_max, "
-        output += "double *a_data, double *b_data, double *c_data){\n"
+        output += "const double *a_data, const double *b_data, double *c_data){\n"
         output += indent + "int shared_size = 0;\n"
         output += indent + "//%s\n" % str(self.__dict__)
         output += (
