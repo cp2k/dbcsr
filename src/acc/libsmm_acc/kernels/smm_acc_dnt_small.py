@@ -42,8 +42,11 @@ class Kernel_dnt_small(Kernel):
 
     @property
     def func_signature(self):
-        return "smm_acc_dnt_tiny< {m}, {n}, {k}, {threads}, {grouping}, {minblocks} >;\n".format(
-            **self.__dict__
+        return (
+            "smm_acc_dnt_small"
+            + "< {m}, {n}, {k}, {tile_m}, {tile_n}, {threads}, {grouping}, {minblocks} >;\n".format(
+                **self.__dict__
+            )
         )
 
     @property
