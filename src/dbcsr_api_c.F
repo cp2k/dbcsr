@@ -517,17 +517,14 @@ CONTAINS
       BIND(C, name="c_dbcsr_complete_redistribute")
 
       TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
-      TYPE(c_ptr), INTENT(INOUT) :: c_redist
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_redist
       LOGICAL(kind=c_bool), INTENT(IN), OPTIONAL :: c_keep_sparsity, c_summation
       TYPE(dbcsr_type), POINTER :: matrix, redist
       LOGICAL, POINTER :: keep_sparsity, summation
 
       CALL c_f_pointer(c_matrix, matrix)
-      IF (C_ASSOCIATED(c_redist)) THEN
-         CALL c_f_pointer(c_redist, redist)
-      ELSE
-         ALLOCATE (redist)
-      ENDIF
+      CALL c_f_pointer(c_redist, redist)
+
 #:set vars = ['keep_sparsity', 'summation']
 #:for var in vars
       NULLIFY (${var}$)
@@ -538,7 +535,7 @@ CONTAINS
 #:endfor
 
       CALL dbcsr_complete_redistribute(matrix, redist, keep_sparsity, summation)
-      IF (C_ASSOCIATED(c_redist)) c_redist = c_loc(redist)
+      
    END SUBROUTINE
 
    SUBROUTINE c_dbcsr_filter(c_matrix, c_eps, c_method, c_use_absolute, c_filter_diag) &
@@ -944,7 +941,7 @@ CONTAINS
 
       TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
       TYPE(c_ptr), INTENT(OUT) :: c_data
-      INTEGER(kind=c_int), INTENT(OUT) :: c_data_size
+      INTEGER(kind=c_long_long), INTENT(OUT) :: c_data_size
       ${ctype}$, INTENT(IN) :: c_select_data_type
       INTEGER(kind=c_int), INTENT(IN), OPTIONAL :: c_lb, c_ub
       INTEGER(kind=c_int), POINTER :: lb, ub
@@ -1564,10 +1561,10 @@ CONTAINS
    END SUBROUTINE
 
    SUBROUTINE c_dbcsr_binary_read(c_filepath, c_distribution, c_groupid, c_matrix_new) &
-      BIND(C, name="c_dbcsr_binary_read")
+      BIND(C, name="c_dbcsr_binary_read_aux")
 
       TYPE(c_ptr), INTENT(IN), VALUE :: c_filepath, c_distribution
-      INTEGER(kind=c_int), INTENT(IN) :: c_groupid
+      INTEGER(kind=c_int), INTENT(IN), VALUE :: c_groupid
       TYPE(c_ptr), INTENT(INOUT) :: c_matrix_new
 
       CHARACTER(:, kind=c_char), ALLOCATABLE :: filepath

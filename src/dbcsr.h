@@ -134,7 +134,7 @@ extern "C" {
     void c_dbcsr_add_${nametype}$ (const dbcsr_matrix_t c_matrix_a, dbcsr_matrix_t c_matrix_b, 
                                   const ${extype}$ c_alpha_scalar, const ${extype}$ c_beta_scalar);
 
-    void c_dbcsr_scale_${nametype}$ (dbcsr_matrix_t c_matrix_a, const ${extype}$ c_alpha_scalar, const int c_last_column);
+    void c_dbcsr_scale_${nametype}$ (dbcsr_matrix_t c_matrix_a, const ${extype}$ c_alpha_scalar, const int* c_last_column);
     
     void c_dbcsr_scale_by_vector_${nametype}$ (const dbcsr_matrix_t c_matrix_a, const ${extype}$* c_alpha, 
                                                const int c_alpha_size, const char* c_side);
@@ -169,7 +169,7 @@ extern "C" {
 
 #:endfor
    
-    void c_dbcsr_complete_redistribute(dbcsr_matrix_t c_matrix, void** c_redist, 
+    void c_dbcsr_complete_redistribute(const dbcsr_matrix_t c_matrix, dbcsr_matrix_t c_redist, 
            const bool* c_keep_sparsity, const bool* c_summation);
 
     void c_dbcsr_filter(dbcsr_matrix_t c_matrix, const double* c_eps, const int* c_method, 
@@ -183,7 +183,7 @@ extern "C" {
    
     void c_dbcsr_copy(dbcsr_matrix_t* c_matrix_b, const dbcsr_matrix_t c_matrix_a, const char* c_name, 
                       const bool* c_keep_sparsity, const bool* c_shallow_data, 
-                      const bool* c_keep_imaginary, const int c_matrix_type);
+                      const bool* c_keep_imaginary, const int* c_matrix_type);
 
     void c_dbcsr_copy_into_existing(dbcsr_matrix_t c_matrix_b, const dbcsr_matrix_t c_matrix_a);
       
@@ -213,9 +213,9 @@ extern "C" {
      //        iterator               !
      //-------------------------------!
 
-     void* c_dbcsr_iterator_stop(dbcsr_iterator_t* c_iterator);
+     void c_dbcsr_iterator_stop(dbcsr_iterator_t* c_iterator);
 
-     void* c_dbcsr_iterator_start(dbcsr_iterator_t* c_iterator, const dbcsr_matrix_t c_matrix, const bool* c_shared, 
+     void c_dbcsr_iterator_start(dbcsr_iterator_t* c_iterator, const dbcsr_matrix_t c_matrix, const bool* c_shared, 
                                   const bool* c_dynamic, const bool* c_dynamic_byrows, 
                                   const bool* c_contiguous_pointers, const bool* c_read_only);
 
@@ -242,7 +242,7 @@ extern "C" {
                                             const int c_col_size, const bool* c_summation, 
                                             const ${extype}$* c_scale);
                                             
-     void c_dbcsr_get_data_${nametype}$ (const dbcsr_matrix_t c_matrix, ${extype}$** c_data, int* c_data_size, 
+     void c_dbcsr_get_data_${nametype}$ (const dbcsr_matrix_t c_matrix, ${extype}$** c_data, long long int* c_data_size, 
                                          ${extype}$* c_select_data_type, int* c_lb, int* c_ub);
                                             
 #:endfor
@@ -359,7 +359,13 @@ extern "C" {
     
     void c_dbcsr_binary_write(const dbcsr_matrix_t c_matrix, const char* c_filepath);
 
-    void c_dbcsr_binary_read(const char* c_filepath, dbcsr_dist_t c_distribution, MPI_Fint* c_groupid, dbcsr_matrix_t* c_matrix_new);
+    void c_dbcsr_binary_read_aux(const char* c_filepath, dbcsr_dist_t c_distribution, MPI_Fint c_groupid, dbcsr_matrix_t* c_matrix_new);
+
+	inline void c_dbcsr_binary_read(const char* c_filepath, dbcsr_dist_t c_distribution, MPI_Comm comm, dbcsr_matrix_t* c_matrix_new)
+	{
+		MPI_Fint fcomm = MPI_Comm_c2f(comm);
+		c_dbcsr_binary_read_aux(c_filepath, c_distribution, fcomm, c_matrix_new);
+	}
 
     void c_free_string(char** c_string);
 
@@ -386,7 +392,7 @@ extern "C" {
 	}
 
     inline void c_dbcsr_scale (dbcsr_matrix_t c_matrix_a, const ${extype}$ c_alpha_scalar, 
-                               const int c_last_column)
+                               const int* c_last_column)
     {
 		c_dbcsr_scale_${nametype}$ (c_matrix_a, c_alpha_scalar, c_last_column);
 	}
@@ -467,7 +473,7 @@ extern "C" {
              c_row_size, c_col_size, c_row_offset, c_col_offset);
 	}
 	
-	void c_dbcsr_put_block2d (dbcsr_matrix_t c_matrix, const int c_row, const int c_col, 
+	inline void c_dbcsr_put_block2d (dbcsr_matrix_t c_matrix, const int c_row, const int c_col, 
                               const ${extype}$* c_block, const int c_row_size, const int c_col_size, 
                               const bool* c_summation, const ${extype}$* c_scale) 
     {
@@ -475,7 +481,7 @@ extern "C" {
                                           c_col_size, c_summation, c_scale);
     }
                                             
-    void c_dbcsr_get_data (const dbcsr_matrix_t c_matrix, ${extype}$** c_data, int* c_data_size, 
+    inline void c_dbcsr_get_data (const dbcsr_matrix_t c_matrix, ${extype}$** c_data, long long int* c_data_size, 
                            ${extype}$* c_select_data_type, int* c_lb, int* c_ub) 
     {
 		c_dbcsr_get_data_${nametype}$ (c_matrix, c_data, c_data_size, c_select_data_type, c_lb, c_ub);

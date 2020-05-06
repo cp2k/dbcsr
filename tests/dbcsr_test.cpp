@@ -358,7 +358,7 @@ int main(int argc, char* argv[])
     
     double* data = nullptr;
     double type = 1.0d;
-    int data_size = 0;
+    long long int data_size = 0;
     c_dbcsr_get_data_d(matrix_d, &data, &data_size, &type, nullptr, nullptr);
     
     if (mpi_rank == 0) {
