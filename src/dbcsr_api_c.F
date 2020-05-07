@@ -1304,11 +1304,16 @@ CONTAINS
                  ['row_blk_offset', 'col_blk_offset']]
 #:set optgroups = []
       ${gen_vargroups(optvars,optgroups)}$
+      
+#:set vars = ['local_rows', 'local_cols',&
+              'proc_row_dist', 'proc_col_dist',&
+              'row_blk_size', 'col_blk_size',&
+              'row_blk_offset', 'col_blk_offset']
 
       ! This will generate 16 branches
 #:for i in range(len(optgroups))
       ${print_groupif(optgroups,optvars,i,'C_ASSOCIATED','c_')}$
-
+      
       CALL dbcsr_get_info(matrix, c_nblkrows_total, c_nblkcols_total, &
                           c_nfullrows_total, c_nfullcols_total, &
                           c_nblkrows_local, c_nblkcols_local, &
@@ -1349,6 +1354,78 @@ CONTAINS
       ENDIF
 #:endfor
 
+   END SUBROUTINE
+   
+#:set infovars = ['local_rows', 'local_cols', 'proc_row_dist', 'proc_col_dist', &
+              'row_blk_size', 'col_blk_size', 'row_blk_offset', 'col_blk_offset']
+#:for var in infovars
+   SUBROUTINE c_dbcsr_get_${var}$ (c_matrix, c_${var}$) BIND(C,name="c_dbcsr_get_${var}$")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix, c_${var}$
+      TYPE(dbcsr_type), POINTER :: matrix
+      INTEGER(kind=c_int), DIMENSION(:), POINTER :: ${var}$, f_${var}$
+      
+      CALL c_f_pointer(c_matrix,matrix)
+      
+      NULLIFY(${var}$)
+      CALL dbcsr_get_info(matrix=matrix,${var}$=${var}$)
+      
+      CALL c_f_pointer(c_${var}$, f_${var}$, SHAPE(${var}$))
+  #:if var in ['local_rows', 'local_cols', 'row_blk_offset', 'col_blk_offset']
+      f_${var}$ = ${var}$ - 1
+  #:else
+      f_${var}$ = ${var}$
+  #:endif
+      NULLIFY(${var}$)
+      
+   END SUBROUTINE
+#:endfor
+    
+    ! name, group
+   SUBROUTINE c_dbcsr_get_name (c_matrix, c_name) BIND(C,name="c_dbcsr_get_name")
+      
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      TYPE(c_ptr), INTENT(OUT) :: c_name
+      TYPE(dbcsr_type), POINTER :: matrix
+      CHARACTER(kind=c_char, len=:), POINTER :: name
+      
+      CALL c_f_pointer(c_matrix,matrix)
+      
+      NULLIFY(name)
+      ALLOCATE (CHARACTER(len=default_string_length) :: name)
+      CALL dbcsr_get_info(matrix=matrix,name=name)
+      
+      name = TRIM(name)//char(0)
+      c_name = c_loc(name)
+      
+   END SUBROUTINE
+   
+   SUBROUTINE c_dbcsr_get_group (c_matrix, c_group) BIND(C,name="c_dbcsr_get_group_aux")
+      
+       TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+       INTEGER(kind=c_int), INTENT(OUT) :: c_group
+       TYPE(dbcsr_type), POINTER :: matrix
+       
+       CALL c_f_pointer(c_matrix,matrix)
+       
+       CALL dbcsr_get_info(matrix=matrix,group=c_group)
+       
+   END SUBROUTINE
+   
+   SUBROUTINE c_dbcsr_get_distribution (c_matrix, c_dist) &
+       BIND(C,name="c_dbcsr_get_distribution")
+      
+       TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix 
+       TYPE(c_ptr), INTENT(OUT) :: c_dist
+       TYPE(dbcsr_type), POINTER :: matrix
+       TYPE(dbcsr_distribution_type), POINTER :: dist
+       
+       ALLOCATE(dist)
+       CALL c_f_pointer(c_matrix,matrix)
+       
+       CALL dbcsr_get_info(matrix=matrix,distribution=dist)
+       c_dist = c_loc(dist)
+       
    END SUBROUTINE
 
    SUBROUTINE c_dbcsr_distribution_get(c_dist, c_row_dist, c_col_dist, &

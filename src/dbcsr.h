@@ -308,14 +308,33 @@ extern "C" {
                              int* c_row_blk_offset, int* c_col_blk_offset, 
                              dbcsr_dist_t* c_distribution, char** c_name, char* c_matrix_type, 
                              int* c_data_type, int* c_group);
+                             
+#:set infovars = ['local_rows', 'local_cols', 'proc_row_dist', 'proc_col_dist', &
+              'row_blk_size', 'col_blk_size', 'row_blk_offset', 'col_blk_offset']
+#:for var in infovars
+   void c_dbcsr_get_${var}$ (dbcsr_matrix_t c_matrix, int* c_${var}$);
+#:endfor
+    
+   void c_dbcsr_get_name(dbcsr_matrix_t c_matrix, char** c_name);
+   
+   void c_dbcsr_get_group_aux(dbcsr_matrix_t c_matrix, MPI_Fint* fgroup);
+   
+   inline void c_dbcsr_get_group(dbcsr_matrix_t c_matrix, MPI_Comm* c_group)
+   {
+	   MPI_Fint fgroup;
+	   c_dbcsr_get_group_aux(c_matrix,&fgroup);
+	   *c_group = MPI_Comm_f2c(fgroup);
+   };
+   
+   void c_dbcsr_get_distribution(dbcsr_matrix_t c_matrix, dbcsr_dist_t* c_dist);
                             
-    void c_dbcsr_distribution_get_aux(const dbcsr_dist_t c_dist, int** c_row_dist, int** c_col_dist, 
+   void c_dbcsr_distribution_get_aux(const dbcsr_dist_t c_dist, int** c_row_dist, int** c_col_dist, 
                                   int* c_nrows, int* c_ncols, bool* c_has_threads, 
                                   MPI_Fint* c_group, int* c_mynode, int* c_numnodes, int* c_nprows, 
                                   int* c_npcols, int* c_myprow, int* c_mypcol, int** c_pgrid, 
                                   bool* c_subgroups_defined, int* c_prow_group, int* c_pcol_group);
                                   
-    inline void c_dbcsr_distribution_get(const dbcsr_dist_t c_dist, int** c_row_dist, int** c_col_dist, 
+   inline void c_dbcsr_distribution_get(const dbcsr_dist_t c_dist, int** c_row_dist, int** c_col_dist, 
                                   int* c_nrows, int* c_ncols, bool* c_has_threads, 
                                   MPI_Comm* c_group, int* c_mynode, int* c_numnodes, int* c_nprows, 
                                   int* c_npcols, int* c_myprow, int* c_mypcol, int** c_pgrid, 
