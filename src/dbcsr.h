@@ -110,7 +110,7 @@ extern "C" {
                                const bool* c_reuse_arrays, const bool* c_mutable_work, 
                                const char* c_replication_type);
 
-    void c_dbcsr_create_template(dbcsr_matrix_t* c_matrix, char* c_name, 
+    void c_dbcsr_create_template(dbcsr_matrix_t* c_matrix, const char* c_name, 
 							   const dbcsr_matrix_t c_template, 
                                const dbcsr_dist_t c_dist, const char* c_matrix_type, 
                                const int* c_row_blk_size, const int c_row_size, 
@@ -183,7 +183,7 @@ extern "C" {
    
     void c_dbcsr_copy(dbcsr_matrix_t* c_matrix_b, const dbcsr_matrix_t c_matrix_a, const char* c_name, 
                       const bool* c_keep_sparsity, const bool* c_shallow_data, 
-                      const bool* c_keep_imaginary, const int* c_matrix_type);
+                      const bool* c_keep_imaginary, const char* c_matrix_type);
 
     void c_dbcsr_copy_into_existing(dbcsr_matrix_t c_matrix_b, const dbcsr_matrix_t c_matrix_a);
       
