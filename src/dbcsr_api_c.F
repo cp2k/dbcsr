@@ -394,6 +394,16 @@ ${gen_vargroups(optvars,optgroups)}$
 
       LOGICAL                                            :: ret_sp
       TYPE(dbcsr_type), POINTER                          :: matrix_a, matrix_b, matrix_c
+      INTEGER, POINTER :: first_row, last_row, first_column, last_column, first_k, last_k
+      
+#:set vars = ['first_row', 'last_row', 'first_column', 'last_column', 'first_k', 'last_k']
+#:for var in vars
+      NULLIFY(${var}$)
+      IF (PRESENT(c_${var}$)) THEN
+         ALLOCATE(${var}$)
+         ${var}$ = c_${var}$ + 1
+      ENDIF
+#:endfor
 
       CALL c_f_pointer(c_matrix_a, matrix_a)
       CALL c_f_pointer(c_matrix_b, matrix_b)
@@ -403,16 +413,20 @@ ${gen_vargroups(optvars,optgroups)}$
          ret_sp = c_retain_sparsity
          CALL dbcsr_multiply(c_transa, c_transb, &
                              c_alpha, matrix_a, matrix_b, c_beta, matrix_c, &
-                             c_first_row, c_last_row, c_first_column, c_last_column, &
-                             c_first_k, c_last_k, &
+                             first_row, last_row, first_column, last_column, &
+                             first_k, last_k, &
                              ret_sp, c_filter_eps, c_flop)
       ELSE
          CALL dbcsr_multiply(c_transa, c_transb, &
                              c_alpha, matrix_a, matrix_b, c_beta, matrix_c, &
-                             c_first_row, c_last_row, c_first_column, c_last_column, &
-                             c_first_k, c_last_k, &
+                             first_row, last_row, first_column, last_column, &
+                             first_k, last_k, &
                              filter_eps=c_filter_eps, flop=c_flop)
       ENDIF
+
+#:for var in vars
+      IF (PRESENT(c_${var}$)) DEALLOCATE(${var}$)
+#:endfor
 
    END SUBROUTINE
 
