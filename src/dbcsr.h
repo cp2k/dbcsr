@@ -131,7 +131,7 @@ extern "C" {
    
     void c_dbcsr_set_${nametype}$ (dbcsr_matrix_t c_matrix, const ${extype}$ c_alpha);
    
-    void c_dbcsr_add_${nametype}$ (const dbcsr_matrix_t c_matrix_a, dbcsr_matrix_t c_matrix_b, 
+    void c_dbcsr_add_${nametype}$ (dbcsr_matrix_t c_matrix_a, const dbcsr_matrix_t c_matrix_b, 
                                   const ${extype}$ c_alpha_scalar, const ${extype}$ c_beta_scalar);
 
     void c_dbcsr_scale_${nametype}$ (dbcsr_matrix_t c_matrix_a, const ${extype}$ c_alpha_scalar, const int* c_last_column);

@@ -280,10 +280,22 @@ CONTAINS
       ENDIF
 #:endfor
 
-      CALL dbcsr_create(matrix, name, template, dist, c_matrix_type, &
-                        row_blk_size, col_blk_size, &
-                        c_nze, c_data_type, &
-                        reuse_arrays, mutable_work, c_replication_type)
+#:set optvars = [['row_blk_size'], ['col_blk_size']]
+#:set optgroups = []
+${gen_vargroups(optvars,optgroups)}$
+
+#:for i in range(len(optgroups))
+      ${print_groupif(optgroups,optvars,i,'PRESENT','c_')}$
+      
+      CALL dbcsr_create(matrix, name, template, dist, c_matrix_type &
+                        ${print_group(optgroups[i])}$, &
+                        nze=c_nze, data_type=c_data_type, &
+                        reuse_arrays=reuse_arrays, mutable_work=mutable_work, &
+                        replication_type=c_replication_type)
+
+#:endfor
+      $:"ENDIF"
+
 #:for var in list
       IF (ASSOCIATED(${var}$)) DEALLOCATE (${var}$)
 #:endfor
