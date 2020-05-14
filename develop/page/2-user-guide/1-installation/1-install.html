@@ -148,8 +148,8 @@
 <p>To build <code>libsmm_acc</code>, DBCSR's GPU backend, you further need:</p>
 <ul>
 <li>A GPU-capable compiler, either</li>
-<li>CUDA Toolkit (targets NVIDIA GPUs, minimal version required: 5.5)</li>
-<li>or HIP compiler (targets NVIDIA or AMD GPUs)</li>
+<li>CUDA Toolkit (targets NVIDIA GPUs, minimal version required: 5.5) with cuBLAS</li>
+<li>or HIP compiler (targets NVIDIA or AMD GPUs) and hipBLAS</li>
 <li>a C++ compiler which supports at least C++11 standard</li>
 </ul>
 <p>We test against GNU and Intel compilers on Linux systems, GNU compiler on MacOS systems. See a list of supported compilers <a href="./3-supported-compilers.html">here</a>.</p>
