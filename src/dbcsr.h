@@ -404,7 +404,7 @@ extern "C" {
 		c_dbcsr_set_${nametype}$ (c_matrix, c_alpha);
 	}
    
-    inline void c_dbcsr_add (const dbcsr_matrix_t c_matrix_a, dbcsr_matrix_t c_matrix_b, 
+    inline void c_dbcsr_add (dbcsr_matrix_t c_matrix_a, const dbcsr_matrix_t c_matrix_b, 
                              const ${extype}$ c_alpha_scalar, const ${extype}$ c_beta_scalar) 
     {
 		c_dbcsr_add_${nametype}$ (c_matrix_a, c_matrix_b, c_alpha_scalar, c_beta_scalar);
