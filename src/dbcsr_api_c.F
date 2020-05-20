@@ -722,10 +722,11 @@ ${gen_vargroups(optvars,optgroups)}$
    END SUBROUTINE
 
    SUBROUTINE c_dbcsr_clear(c_dbcsr_mat) BIND(C, name="c_dbcsr_clear")
-      TYPE(c_ptr), INTENT(IN) :: c_dbcsr_mat
+      TYPE(c_ptr), INTENT(INOUT) :: c_dbcsr_mat
       TYPE(dbcsr_type), POINTER :: dbcsr_mat
       CALL c_f_pointer(c_dbcsr_mat, dbcsr_mat)
       CALL dbcsr_clear(dbcsr_mat)
+      c_dbcsr_mat = c_loc(dbcsr_mat)
    END SUBROUTINE
 
    ! block reservation

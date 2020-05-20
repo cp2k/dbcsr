@@ -189,7 +189,7 @@ extern "C" {
       
     void c_dbcsr_desymmetrize(const dbcsr_matrix_t c_matrix_a, dbcsr_matrix_t* c_matrix_b);
 
-    void c_dbcsr_clear(dbcsr_matrix_t c_dbcsr_mat); 
+    void c_dbcsr_clear(dbcsr_matrix_t* c_dbcsr_mat); 
 
     //-----------------------------------------------------------------!
     //                   block_reservations                            !
