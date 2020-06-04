@@ -153,7 +153,7 @@ inline void jit_kernel(ACC_DRV(function)& kern_func, libsmm_acc_algo algo, int t
                           std::to_string(threads) + ", " + std::to_string(grouping) + ", " + std::to_string(minblocks) + ">";
             break;
         default:
-            printf("\nerror: algorithm number %i is not encoded.", algo);
+            printf("\nERROR: algorithm number %i is not encoded.\n", algo);
             exit(1);
     }
 
