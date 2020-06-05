@@ -9,9 +9,7 @@
 
 MODULE dbcsr_acc_timings
    !! Accelerator support
-#if defined (__DBCSR_ACC)
-   USE ISO_C_BINDING, ONLY: C_INT, C_CHAR, C_PTR, C_F_POINTER
-#endif
+   USE ISO_C_BINDING, ONLY: C_INT, C_PTR, C_F_POINTER
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -24,7 +22,7 @@ CONTAINS
 
    SUBROUTINE dbcsr_timeset_F(routineN, routineN_len, handle) BIND(C, name="dbcsr_timeset")
 
-      TYPE(C_PTR), INTENT(IN)                :: routineN
+      TYPE(C_PTR), INTENT(IN)      :: routineN
       INTEGER(KIND=C_INT), INTENT(IN)        :: routineN_len
       INTEGER(KIND=C_INT), INTENT(OUT)       :: handle
 
@@ -34,12 +32,14 @@ CONTAINS
 
       CALL C_F_POINTER(routineN, a, [routineN_len])
 
-      ! Convert character array to scalar character string
+      ! Convert character array "a" to scalar character string
+      ! "routineName"
       DO i = 1, routineN_len
          routineName(i:i) = a(i)
       END DO
 
 #if ! defined (__DBCSR_ACC)
+      MARK_USED(handle)
       DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
       CALL timeset(routineName, handle)
@@ -52,6 +52,7 @@ CONTAINS
       INTEGER(KIND=C_INT), INTENT(IN)        :: handle
 
 #if ! defined (__DBCSR_ACC)
+      MARK_USED(handle)
       DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
       CALL timestop(handle)
