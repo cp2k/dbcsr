@@ -26,3 +26,18 @@ jobs:
           workdir: tools/docker
           dockerfile: Dockerfile.build-env-ubuntu
           tags: "latest"
+
+  docker-build-env-gcc:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Publish Gitlab Image
+        uses: elgohr/Publish-Docker-Github-Action@2.12
+        with:
+          name: dbcsr/build-env-latest-gcc
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+          workdir: tools/docker
+          dockerfile: Dockerfile.build-env-latest-gcc
+          tags: "latest"
