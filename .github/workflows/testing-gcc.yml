@@ -1,0 +1,43 @@
+---
+name: Testing with latest gcc
+on:
+  push:
+    branches:
+    - 'develop'
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    container:
+      image: dbcsr/build-env-latest-gcc:latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Checkout submodules
+      shell: bash
+      run: |
+        auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+        git submodule sync --recursive
+        git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
+
+    - name: Configure
+      run: |
+        mkdir -p build
+        cd build
+        cmake -G Ninja \
+          -DUSE_MPI=OFF \
+          -DUSE_OPENMP=ON \
+          -DUSE_SMM=blas \
+          ..
+
+    - name: Build
+      run: cmake --build build -- --verbose
+
+    - name: Test
+      run: |
+        cd build
+        ctest --output-on-failure
+
+#  vim: set ts=2 sw=2 tw=0 :
