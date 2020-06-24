@@ -57,6 +57,9 @@ extern "C" {
 
      void c_dbcsr_t_put_${ndim}$d_block_${dsuffix}$ (const void* c_tensor, const int tensor_dim, const int* c_ind, const int*c_sizes,
         const ${ctype}$* c_block, const bool* c_summation, const ${ctype}$* c_scale);
+        
+      void c_dbcsr_t_get_data_${dsuffix}$ (const void* c_tensor, ${ctype}$** c_data, long long int* c_data_size, 
+		${ctype}$ c_select_data_type, int* c_lb, int* c_ub);
 
 #:endfor
 
@@ -274,6 +277,11 @@ inline void c_dbcsr_t_scale(const void* c_tensor, const ${ctype}$ c_alpha) {
 
 }
 
+inline void c_dbcsr_t_get_data_p(const void* c_tensor, ${ctype}$** c_data, long long int* c_data_size, 
+		${ctype}$ c_select_data_type, int* c_lb, int* c_ub) 
+{
+	c_dbcsr_t_get_data_${dsuffix}$ (c_tensor, c_data, c_data_size, c_select_data_type, c_lb, c_ub);
+}
 #:endfor
 
 
