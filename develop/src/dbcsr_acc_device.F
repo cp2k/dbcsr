@@ -32,10 +32,10 @@ MODULE dbcsr_acc_device
 
       END FUNCTION acc_get_ndevices_cu
 
-      FUNCTION acc_set_active_device_cu(dev_id) RESULT(istat) &
+      FUNCTION acc_set_active_device_cu(device_id) RESULT(istat) &
          BIND(C, name="acc_set_active_device")
          IMPORT
-         INTEGER(KIND=C_INT), INTENT(IN), VALUE   :: dev_id
+         INTEGER(KIND=C_INT), INTENT(IN), VALUE   :: device_id
          INTEGER(KIND=C_INT)                      :: istat
 
       END FUNCTION acc_set_active_device_cu
@@ -67,23 +67,22 @@ CONTAINS
 #endif
    END FUNCTION dbcsr_acc_get_ndevices
 
-   SUBROUTINE dbcsr_acc_set_active_device(dev_id)
+   SUBROUTINE dbcsr_acc_set_active_device(device_id)
       !! Set active accelerator device
 
-      INTEGER :: dev_id
-         !! device ID
+      INTEGER :: device_id
 
 #if defined (__DBCSR_ACC)
       INTEGER :: istat
 
-!$OMP PARALLEL DEFAULT(NONE) PRIVATE(istat) SHARED(dev_id)
-      istat = acc_set_active_device_cu(dev_id)
+!$OMP PARALLEL DEFAULT(NONE) PRIVATE(istat) SHARED(device_id)
+      istat = acc_set_active_device_cu(device_id)
       IF (istat /= 0) &
          DBCSR_ABORT("acc_set_active_device: failed")
 !$OMP END PARALLEL
 
 #else
-      MARK_USED(dev_id)
+      MARK_USED(device_id)
       DBCSR_ABORT("__DBCSR_ACC not compiled in")
 #endif
    END SUBROUTINE dbcsr_acc_set_active_device

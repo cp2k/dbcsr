@@ -230,7 +230,7 @@ private subroutine dev2host_c4_1D(this, hostmem, stream)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>this</strong></td><td><p>device memory</p></td>
+  <td><strong>this</strong></td><td></td>
   
 </tr>
 
@@ -245,7 +245,7 @@ private subroutine dev2host_c4_1D(this, hostmem, stream)
   <td></td>
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>hostmem</strong></td><td><p>host memory</p></td>
+  <td><strong>hostmem</strong></td><td></td>
   
 </tr>
 
@@ -260,7 +260,7 @@ private subroutine dev2host_c4_1D(this, hostmem, stream)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>stream</strong></td><td><p>stream</p></td>
+  <td><strong>stream</strong></td><td></td>
   
 </tr>
 
@@ -335,11 +335,8 @@ private subroutine dev2host_c4_1D(this, hostmem, stream)
       <span class="c">!! Transfers GPU devmem to 1D fortran-array.</span>
 
       <span class="k">TYPE</span><span class="p">(</span><span class="n">acc_devmem_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">this</span>
-         <span class="c">!! device memory</span>
       <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>          <span class="kd">::</span> <span class="n">hostmem</span>
-         <span class="c">!! host memory</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">acc_stream_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">stream</span>
-         <span class="c">!! stream</span>
 
 <span class="cp">#if ! defined (__DBCSR_ACC)</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">this</span><span class="p">)</span>

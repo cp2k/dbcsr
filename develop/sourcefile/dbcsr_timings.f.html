@@ -535,180 +535,181 @@
 <a name="ln-277"></a>
 <a name="ln-278"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">handle</span> <span class="o">/=</span> <span class="n">cs_entry</span><span class="p">%</span><span class="n">routine_id</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-279"></a><span class="k">         PRINT</span> <span class="o">*</span><span class="p">,</span> <span class="s2">&quot;list_size(timer_env%callstack) &quot;</span><span class="p">,</span> <span class="n">list_size</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">callstack</span><span class="p">),</span> <span class="p">&amp;</span>
-<a name="ln-280"></a>            <span class="s2">&quot; handle &quot;</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="s2">&quot; list_size(timers_stack) &quot;</span><span class="p">,</span> <span class="n">list_size</span><span class="p">(</span><span class="n">timers_stack</span><span class="p">)</span>
-<a name="ln-281"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s1">&#39;mismatched timestop &#39;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">r_stat</span><span class="p">%</span><span class="n">routineN</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39; in routine timestop&#39;</span><span class="p">)</span>
-<a name="ln-282"></a>      <span class="k">END IF</span>
-<a name="ln-283"></a>
-<a name="ln-284"></a><span class="k">      </span><span class="n">wt_elapsed</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-285"></a>      <span class="n">en_elapsed</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-286"></a>      <span class="c">! Take timings only when the start time is &gt;=0, i.e. the timings_level is appropriated</span>
-<a name="ln-287"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">cs_entry</span><span class="p">%</span><span class="n">walltime_start</span> <span class="p">.</span><span class="n">GE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-288"></a><span class="k">         </span><span class="n">wt_now</span> <span class="o">=</span> <span class="n">m_walltime</span><span class="p">()</span>
-<a name="ln-289"></a>         <span class="n">en_now</span> <span class="o">=</span> <span class="n">m_energy</span><span class="p">()</span>
-<a name="ln-290"></a>         <span class="c">! add the elapsed time for this timeset/timestop to the time accumulator</span>
-<a name="ln-291"></a>         <span class="n">wt_elapsed</span> <span class="o">=</span> <span class="n">wt_now</span> <span class="o">-</span> <span class="n">cs_entry</span><span class="p">%</span><span class="n">walltime_start</span>
-<a name="ln-292"></a>         <span class="n">en_elapsed</span> <span class="o">=</span> <span class="n">en_now</span> <span class="o">-</span> <span class="n">cs_entry</span><span class="p">%</span><span class="n">energy_start</span>
-<a name="ln-293"></a>      <span class="n">ENDIF</span>
-<a name="ln-294"></a>      <span class="n">r_stat</span><span class="p">%</span><span class="n">active_calls</span> <span class="o">=</span> <span class="n">r_stat</span><span class="p">%</span><span class="n">active_calls</span> <span class="o">-</span> <span class="mi">1</span>
-<a name="ln-295"></a>
-<a name="ln-296"></a>      <span class="c">! if we&#39;re the last instance in the stack, we do the accounting of the total time</span>
-<a name="ln-297"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">r_stat</span><span class="p">%</span><span class="n">active_calls</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-298"></a><span class="k">         </span><span class="n">r_stat</span><span class="p">%</span><span class="n">incl_walltime_accu</span> <span class="o">=</span> <span class="n">r_stat</span><span class="p">%</span><span class="n">incl_walltime_accu</span> <span class="o">+</span> <span class="n">wt_elapsed</span>
-<a name="ln-299"></a>         <span class="n">r_stat</span><span class="p">%</span><span class="n">incl_energy_accu</span> <span class="o">=</span> <span class="n">r_stat</span><span class="p">%</span><span class="n">incl_energy_accu</span> <span class="o">+</span> <span class="n">en_elapsed</span>
-<a name="ln-300"></a>      <span class="n">ENDIF</span>
-<a name="ln-301"></a>
-<a name="ln-302"></a>      <span class="c">! exclusive time we always sum, since children will correct this time with their total time</span>
-<a name="ln-303"></a>      <span class="n">r_stat</span><span class="p">%</span><span class="n">excl_walltime_accu</span> <span class="o">=</span> <span class="n">r_stat</span><span class="p">%</span><span class="n">excl_walltime_accu</span> <span class="o">+</span> <span class="n">wt_elapsed</span>
-<a name="ln-304"></a>      <span class="n">r_stat</span><span class="p">%</span><span class="n">excl_energy_accu</span> <span class="o">=</span> <span class="n">r_stat</span><span class="p">%</span><span class="n">excl_energy_accu</span> <span class="o">+</span> <span class="n">en_elapsed</span>
-<a name="ln-305"></a>
-<a name="ln-306"></a>      <span class="n">stack_size</span> <span class="o">=</span> <span class="n">list_size</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">callstack</span><span class="p">)</span>
-<a name="ln-307"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">stack_size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-308"></a><span class="k">         </span><span class="n">prev_cs_entry</span> <span class="o">=</span> <span class="n">list_peek</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">callstack</span><span class="p">)</span>
-<a name="ln-309"></a>         <span class="n">prev_stat</span> <span class="o">=&gt;</span> <span class="n">list_get</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_stats</span><span class="p">,</span> <span class="n">prev_cs_entry</span><span class="p">%</span><span class="n">routine_id</span><span class="p">)</span>
-<a name="ln-310"></a>         <span class="c">! we fixup the clock of the caller</span>
-<a name="ln-311"></a>         <span class="n">prev_stat</span><span class="p">%</span><span class="n">excl_walltime_accu</span> <span class="o">=</span> <span class="n">prev_stat</span><span class="p">%</span><span class="n">excl_walltime_accu</span> <span class="o">-</span> <span class="n">wt_elapsed</span>
-<a name="ln-312"></a>         <span class="n">prev_stat</span><span class="p">%</span><span class="n">excl_energy_accu</span> <span class="o">=</span> <span class="n">prev_stat</span><span class="p">%</span><span class="n">excl_energy_accu</span> <span class="o">-</span> <span class="n">en_elapsed</span>
-<a name="ln-313"></a>
-<a name="ln-314"></a>         <span class="c">!update callgraph</span>
-<a name="ln-315"></a>         <span class="n">routine_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="o">/</span><span class="n">prev_cs_entry</span><span class="p">%</span><span class="n">routine_id</span><span class="p">,</span> <span class="n">routine_id</span><span class="o">/</span><span class="p">)</span>
-<a name="ln-316"></a>         <span class="n">c_stat</span> <span class="o">=&gt;</span> <span class="n">dict_get</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">callgraph</span><span class="p">,</span> <span class="n">routine_tuple</span><span class="p">,</span> <span class="n">default_value</span><span class="o">=</span><span class="nb">Null</span><span class="p">(</span><span class="n">c_stat</span><span class="p">))</span>
-<a name="ln-317"></a>         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">c_stat</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-318"></a><span class="k">            ALLOCATE</span> <span class="p">(</span><span class="n">c_stat</span><span class="p">)</span>
-<a name="ln-319"></a>            <span class="n">c_stat</span><span class="p">%</span><span class="n">total_calls</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-320"></a>            <span class="n">c_stat</span><span class="p">%</span><span class="n">incl_walltime_accu</span> <span class="o">=</span> <span class="mf">0.0_dp</span>
-<a name="ln-321"></a>            <span class="n">c_stat</span><span class="p">%</span><span class="n">incl_energy_accu</span> <span class="o">=</span> <span class="mf">0.0_dp</span>
-<a name="ln-322"></a>            <span class="k">CALL </span><span class="n">dict_set</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">callgraph</span><span class="p">,</span> <span class="n">routine_tuple</span><span class="p">,</span> <span class="n">c_stat</span><span class="p">)</span>
-<a name="ln-323"></a>         <span class="k">END IF</span>
-<a name="ln-324"></a><span class="k">         </span><span class="n">c_stat</span><span class="p">%</span><span class="n">total_calls</span> <span class="o">=</span> <span class="n">c_stat</span><span class="p">%</span><span class="n">total_calls</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-325"></a>         <span class="n">c_stat</span><span class="p">%</span><span class="n">incl_walltime_accu</span> <span class="o">=</span> <span class="n">c_stat</span><span class="p">%</span><span class="n">incl_walltime_accu</span> <span class="o">+</span> <span class="n">wt_elapsed</span>
-<a name="ln-326"></a>         <span class="n">c_stat</span><span class="p">%</span><span class="n">incl_energy_accu</span> <span class="o">=</span> <span class="n">c_stat</span><span class="p">%</span><span class="n">incl_energy_accu</span> <span class="o">+</span> <span class="n">en_elapsed</span>
-<a name="ln-327"></a>      <span class="n">ENDIF</span>
-<a name="ln-328"></a>
-<a name="ln-329"></a>      <span class="c">!..if debug mode echo the subroutine name</span>
-<a name="ln-330"></a>      <span class="k">IF</span> <span class="p">((</span><span class="n">timer_env</span><span class="p">%</span><span class="n">trace_all</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">r_stat</span><span class="p">%</span><span class="n">trace</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
-<a name="ln-331"></a>          <span class="p">(</span><span class="n">r_stat</span><span class="p">%</span><span class="n">total_calls</span> <span class="o">&lt;</span> <span class="n">timer_env</span><span class="p">%</span><span class="n">trace_max</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-332"></a><span class="k">         WRITE</span> <span class="p">(</span><span class="n">sformat</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot;(A,A,&quot;</span><span class="p">,</span> <span class="nb">MAX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="o">*</span><span class="n">stack_size</span> <span class="o">-</span> <span class="mi">4</span><span class="p">),</span> <span class="s2">&quot;X,I4,1X,I6,1X,A,F12.3)&quot;</span>
-<a name="ln-333"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">mystring</span><span class="p">,</span> <span class="n">sformat</span><span class="p">)</span> <span class="n">timer_env</span><span class="p">%</span><span class="n">trace_str</span><span class="p">,</span> <span class="s2">&quot;&lt;&lt;&quot;</span><span class="p">,</span> <span class="n">stack_size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-334"></a>            <span class="n">r_stat</span><span class="p">%</span><span class="n">total_calls</span><span class="p">,</span> <span class="nb">TRIM</span><span class="p">(</span><span class="n">r_stat</span><span class="p">%</span><span class="n">routineN</span><span class="p">),</span> <span class="n">wt_elapsed</span>
-<a name="ln-335"></a>         <span class="k">CALL </span><span class="n">cuda_mem_info</span><span class="p">(</span><span class="n">gpumem_free</span><span class="p">,</span> <span class="n">gpumem_total</span><span class="p">)</span>
-<a name="ln-336"></a>         <span class="k">CALL </span><span class="n">m_memory</span><span class="p">(</span><span class="n">cpumem</span><span class="p">)</span>
-<a name="ln-337"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="s1">&#39;(A,A,I0,A,A,I0,A)&#39;</span><span class="p">)</span> <span class="nb">TRIM</span><span class="p">(</span><span class="n">mystring</span><span class="p">),</span> <span class="p">&amp;</span>
-<a name="ln-338"></a>            <span class="s2">&quot; Hostmem: &quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">cpumem</span> <span class="o">+</span> <span class="mi">1024</span><span class="o">*</span><span class="mi">1024</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1024</span><span class="o">*</span><span class="mi">1024</span><span class="p">),</span> <span class="s2">&quot; MB&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-339"></a>            <span class="s2">&quot; GPUmem: &quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">gpumem_total</span> <span class="o">-</span> <span class="n">gpumem_free</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1024</span><span class="o">*</span><span class="mi">1024</span><span class="p">),</span> <span class="s2">&quot; MB&quot;</span>
-<a name="ln-340"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">trace_unit</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="nb">TRIM</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
-<a name="ln-341"></a>         <span class="k">CALL </span><span class="n">m_flush</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">trace_unit</span><span class="p">)</span>
-<a name="ln-342"></a>      <span class="n">ENDIF</span>
-<a name="ln-343"></a>
-<a name="ln-344"></a><span class="c">!$OMP END CRITICAL(time_setstop)</span>
-<a name="ln-345"></a><span class="c">!$OMP END MASTER</span>
-<a name="ln-346"></a>
-<a name="ln-347"></a>   <span class="k">END SUBROUTINE </span><span class="n">timestop_handler</span>
-<a name="ln-348"></a>
-<a name="ln-349"></a>   <span class="k">SUBROUTINE </span><span class="n">timings_setup_tracing</span><span class="p">(</span><span class="n">trace_max</span><span class="p">,</span> <span class="n">unit_nr</span><span class="p">,</span> <span class="n">trace_str</span><span class="p">,</span> <span class="n">routine_names</span><span class="p">)</span>
-<a name="ln-350"></a>      <span class="c">!! Set routine tracer</span>
-<a name="ln-351"></a>
-<a name="ln-352"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">trace_max</span><span class="p">,</span> <span class="n">unit_nr</span>
-<a name="ln-353"></a>         <span class="c">!! maximum number of calls reported per routine. Setting this to zero disables tracing.</span>
-<a name="ln-354"></a>         <span class="c">!! output unit used for printing the trace-messages</span>
-<a name="ln-355"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">13</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">trace_str</span>
-<a name="ln-356"></a>         <span class="c">!! short info-string which is printed along with every message</span>
-<a name="ln-357"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">),</span> <span class="p">&amp;</span>
-<a name="ln-358"></a>         <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>              <span class="kd">::</span> <span class="n">routine_names</span>
-<a name="ln-359"></a>         <span class="c">!! List of routine-names. If provided only these routines will be traced. If not present all routines will traced.</span>
-<a name="ln-360"></a>
-<a name="ln-361"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">routine_id</span>
-<a name="ln-362"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">routine_stat_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">r_stat</span>
-<a name="ln-363"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">timer_env_type</span><span class="p">),</span> <span class="k">POINTER</span>                      <span class="kd">::</span> <span class="n">timer_env</span>
-<a name="ln-364"></a>
-<a name="ln-365"></a>      <span class="n">timer_env</span> <span class="o">=&gt;</span> <span class="n">list_peek</span><span class="p">(</span><span class="n">timers_stack</span><span class="p">)</span>
-<a name="ln-366"></a>      <span class="n">timer_env</span><span class="p">%</span><span class="n">trace_max</span> <span class="o">=</span> <span class="n">trace_max</span>
-<a name="ln-367"></a>      <span class="n">timer_env</span><span class="p">%</span><span class="n">trace_unit</span> <span class="o">=</span> <span class="n">unit_nr</span>
-<a name="ln-368"></a>      <span class="n">timer_env</span><span class="p">%</span><span class="n">trace_str</span> <span class="o">=</span> <span class="n">trace_str</span>
-<a name="ln-369"></a>      <span class="n">timer_env</span><span class="p">%</span><span class="n">trace_all</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-<a name="ln-370"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">routine_names</span><span class="p">))</span> <span class="k">RETURN</span>
-<a name="ln-371"></a>
-<a name="ln-372"></a>      <span class="c">! setup routine-specific tracing</span>
-<a name="ln-373"></a>      <span class="n">timer_env</span><span class="p">%</span><span class="n">trace_all</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a name="ln-374"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">routine_names</span><span class="p">)</span>
-<a name="ln-375"></a>         <span class="n">routine_id</span> <span class="o">=</span> <span class="n">routine_name2id</span><span class="p">(</span><span class="n">routine_names</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-<a name="ln-376"></a>         <span class="n">r_stat</span> <span class="o">=&gt;</span> <span class="n">list_get</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_stats</span><span class="p">,</span> <span class="n">routine_id</span><span class="p">)</span>
-<a name="ln-377"></a>         <span class="n">r_stat</span><span class="p">%</span><span class="n">trace</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-<a name="ln-378"></a>      <span class="k">END DO</span>
-<a name="ln-379"></a>
-<a name="ln-380"></a><span class="k">   END SUBROUTINE </span><span class="n">timings_setup_tracing</span>
-<a name="ln-381"></a>
-<a name="ln-382"></a>   <span class="k">SUBROUTINE </span><span class="n">print_stack</span><span class="p">(</span><span class="n">unit_nr</span><span class="p">)</span>
-<a name="ln-383"></a>      <span class="c">!! Print current routine stack</span>
-<a name="ln-384"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">unit_nr</span>
-<a name="ln-385"></a>
-<a name="ln-386"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">i</span>
-<a name="ln-387"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">callstack_entry_type</span><span class="p">)</span>                         <span class="kd">::</span> <span class="n">cs_entry</span>
-<a name="ln-388"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">routine_stat_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">r_stat</span>
-<a name="ln-389"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">timer_env_type</span><span class="p">),</span> <span class="k">POINTER</span>                      <span class="kd">::</span> <span class="n">timer_env</span>
-<a name="ln-390"></a>
-<a name="ln-391"></a>      <span class="c">! catch edge cases where timer_env is not yet/anymore available</span>
-<a name="ln-392"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">list_isready</span><span class="p">(</span><span class="n">timers_stack</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-393"></a>         <span class="k">RETURN</span>
-<a name="ln-394"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">list_size</span><span class="p">(</span><span class="n">timers_stack</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-395"></a>         <span class="k">RETURN</span>
-<a name="ln-396"></a>
-<a name="ln-397"></a><span class="k">      </span><span class="n">timer_env</span> <span class="o">=&gt;</span> <span class="n">list_peek</span><span class="p">(</span><span class="n">timers_stack</span><span class="p">)</span>
-<a name="ln-398"></a>      <span class="k">WRITE</span> <span class="p">(</span><span class="n">unit_nr</span><span class="p">,</span> <span class="s1">&#39;(/,A,/)&#39;</span><span class="p">)</span> <span class="s2">&quot; ===== Routine Calling Stack ===== &quot;</span>
-<a name="ln-399"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="n">list_size</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">callstack</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span>
-<a name="ln-400"></a>         <span class="n">cs_entry</span> <span class="o">=</span> <span class="n">list_get</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">callstack</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-<a name="ln-401"></a>         <span class="n">r_stat</span> <span class="o">=&gt;</span> <span class="n">list_get</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_stats</span><span class="p">,</span> <span class="n">cs_entry</span><span class="p">%</span><span class="n">routine_id</span><span class="p">)</span>
-<a name="ln-402"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">unit_nr</span><span class="p">,</span> <span class="s1">&#39;(T10,I4,1X,A)&#39;</span><span class="p">)</span> <span class="n">i</span><span class="p">,</span> <span class="nb">TRIM</span><span class="p">(</span><span class="n">r_stat</span><span class="p">%</span><span class="n">routineN</span><span class="p">)</span>
-<a name="ln-403"></a>      <span class="k">END DO</span>
-<a name="ln-404"></a><span class="k">      CALL </span><span class="n">m_flush</span><span class="p">(</span><span class="n">unit_nr</span><span class="p">)</span>
-<a name="ln-405"></a>
-<a name="ln-406"></a>   <span class="k">END SUBROUTINE </span><span class="n">print_stack</span>
-<a name="ln-407"></a>
-<a name="ln-408"></a>   <span class="k">FUNCTION </span><span class="n">routine_name2id</span><span class="p">(</span><span class="n">routineN</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">routine_id</span><span class="p">)</span>
-<a name="ln-409"></a>      <span class="c">!! Internal routine used by timeset_handler and timings_setup_tracing.</span>
-<a name="ln-410"></a>      <span class="c">!! If no routine with given name is found in timer_env%routine_names</span>
-<a name="ln-411"></a>      <span class="c">!! then a new entry is created.</span>
-<a name="ln-412"></a>
-<a name="ln-413"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>   <span class="kd">::</span> <span class="n">routineN</span>
-<a name="ln-414"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">routine_id</span>
-<a name="ln-415"></a>
-<a name="ln-416"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="nb">stat</span>
-<a name="ln-417"></a><span class="nb">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">routine_stat_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">r_stat</span>
-<a name="ln-418"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">timer_env_type</span><span class="p">),</span> <span class="k">POINTER</span>                      <span class="kd">::</span> <span class="n">timer_env</span>
-<a name="ln-419"></a>
-<a name="ln-420"></a>      <span class="n">timer_env</span> <span class="o">=&gt;</span> <span class="n">list_peek</span><span class="p">(</span><span class="n">timers_stack</span><span class="p">)</span>
-<a name="ln-421"></a>      <span class="n">routine_id</span> <span class="o">=</span> <span class="n">dict_get</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_names</span><span class="p">,</span> <span class="n">routineN</span><span class="p">,</span> <span class="n">default_value</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-<a name="ln-422"></a>
-<a name="ln-423"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">routine_id</span> <span class="o">/=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">RETURN</span> <span class="c">! found an id - let&#39;s return it</span>
-<a name="ln-424"></a>      <span class="c">! routine not found - let&#39;s create it</span>
-<a name="ln-425"></a>
-<a name="ln-426"></a>      <span class="c">! enforce space free timer names, to make the output of trace/timings of a fixed number fields</span>
-<a name="ln-427"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">INDEX</span><span class="p">(</span><span class="n">routineN</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">LEN_TRIM</span><span class="p">(</span><span class="n">routineN</span><span class="p">)),</span> <span class="s1">&#39; &#39;</span><span class="p">)</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-428"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;timings_name2id: routineN contains spaces: &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
-<a name="ln-429"></a>      <span class="k">END IF</span>
-<a name="ln-430"></a>
-<a name="ln-431"></a>      <span class="c">! register routine_name_dsl with new routine_id</span>
-<a name="ln-432"></a>      <span class="n">routine_id</span> <span class="o">=</span> <span class="n">dict_size</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_names</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-433"></a>      <span class="k">CALL </span><span class="n">dict_set</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_names</span><span class="p">,</span> <span class="n">routineN</span><span class="p">,</span> <span class="n">routine_id</span><span class="p">)</span>
-<a name="ln-434"></a>
-<a name="ln-435"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">r_stat</span><span class="p">,</span> <span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
-<a name="ln-436"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-437"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;timings_name2id: allocation failed&quot;</span><span class="p">)</span>
-<a name="ln-438"></a>      <span class="n">r_stat</span><span class="p">%</span><span class="n">routine_id</span> <span class="o">=</span> <span class="n">routine_id</span>
-<a name="ln-439"></a>      <span class="n">r_stat</span><span class="p">%</span><span class="n">routineN</span> <span class="o">=</span> <span class="n">routineN</span>
-<a name="ln-440"></a>      <span class="n">r_stat</span><span class="p">%</span><span class="n">active_calls</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-441"></a>      <span class="n">r_stat</span><span class="p">%</span><span class="n">excl_walltime_accu</span> <span class="o">=</span> <span class="mf">0.0_dp</span>
-<a name="ln-442"></a>      <span class="n">r_stat</span><span class="p">%</span><span class="n">incl_walltime_accu</span> <span class="o">=</span> <span class="mf">0.0_dp</span>
-<a name="ln-443"></a>      <span class="n">r_stat</span><span class="p">%</span><span class="n">excl_energy_accu</span> <span class="o">=</span> <span class="mf">0.0_dp</span>
-<a name="ln-444"></a>      <span class="n">r_stat</span><span class="p">%</span><span class="n">incl_energy_accu</span> <span class="o">=</span> <span class="mf">0.0_dp</span>
-<a name="ln-445"></a>      <span class="n">r_stat</span><span class="p">%</span><span class="n">total_calls</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-446"></a>      <span class="n">r_stat</span><span class="p">%</span><span class="n">stackdepth_accu</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-447"></a>      <span class="n">r_stat</span><span class="p">%</span><span class="n">trace</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a name="ln-448"></a>      <span class="k">CALL </span><span class="n">list_push</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_stats</span><span class="p">,</span> <span class="n">r_stat</span><span class="p">)</span>
-<a name="ln-449"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">list_size</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_stats</span><span class="p">)</span> <span class="o">/=</span> <span class="n">dict_size</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_names</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-450"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;timings_name2id: assertion failed&quot;</span><span class="p">)</span>
-<a name="ln-451"></a>   <span class="k">END FUNCTION </span><span class="n">routine_name2id</span>
-<a name="ln-452"></a>
-<a name="ln-453"></a><span class="k">END MODULE </span><span class="n">dbcsr_timings</span>
+<a name="ln-280"></a>            <span class="s2">&quot; list_size(timers_stack) &quot;</span><span class="p">,</span> <span class="n">list_size</span><span class="p">(</span><span class="n">timers_stack</span><span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-281"></a>            <span class="s2">&quot; got handle &quot;</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="s2">&quot; expected routineid &quot;</span><span class="p">,</span> <span class="n">cs_entry</span><span class="p">%</span><span class="n">routine_id</span>
+<a name="ln-282"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s1">&#39;mismatched timestop &#39;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">r_stat</span><span class="p">%</span><span class="n">routineN</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39; in routine timestop&#39;</span><span class="p">)</span>
+<a name="ln-283"></a>      <span class="k">END IF</span>
+<a name="ln-284"></a>
+<a name="ln-285"></a><span class="k">      </span><span class="n">wt_elapsed</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-286"></a>      <span class="n">en_elapsed</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-287"></a>      <span class="c">! Take timings only when the start time is &gt;=0, i.e. the timings_level is appropriated</span>
+<a name="ln-288"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">cs_entry</span><span class="p">%</span><span class="n">walltime_start</span> <span class="p">.</span><span class="n">GE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-289"></a><span class="k">         </span><span class="n">wt_now</span> <span class="o">=</span> <span class="n">m_walltime</span><span class="p">()</span>
+<a name="ln-290"></a>         <span class="n">en_now</span> <span class="o">=</span> <span class="n">m_energy</span><span class="p">()</span>
+<a name="ln-291"></a>         <span class="c">! add the elapsed time for this timeset/timestop to the time accumulator</span>
+<a name="ln-292"></a>         <span class="n">wt_elapsed</span> <span class="o">=</span> <span class="n">wt_now</span> <span class="o">-</span> <span class="n">cs_entry</span><span class="p">%</span><span class="n">walltime_start</span>
+<a name="ln-293"></a>         <span class="n">en_elapsed</span> <span class="o">=</span> <span class="n">en_now</span> <span class="o">-</span> <span class="n">cs_entry</span><span class="p">%</span><span class="n">energy_start</span>
+<a name="ln-294"></a>      <span class="n">ENDIF</span>
+<a name="ln-295"></a>      <span class="n">r_stat</span><span class="p">%</span><span class="n">active_calls</span> <span class="o">=</span> <span class="n">r_stat</span><span class="p">%</span><span class="n">active_calls</span> <span class="o">-</span> <span class="mi">1</span>
+<a name="ln-296"></a>
+<a name="ln-297"></a>      <span class="c">! if we&#39;re the last instance in the stack, we do the accounting of the total time</span>
+<a name="ln-298"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">r_stat</span><span class="p">%</span><span class="n">active_calls</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-299"></a><span class="k">         </span><span class="n">r_stat</span><span class="p">%</span><span class="n">incl_walltime_accu</span> <span class="o">=</span> <span class="n">r_stat</span><span class="p">%</span><span class="n">incl_walltime_accu</span> <span class="o">+</span> <span class="n">wt_elapsed</span>
+<a name="ln-300"></a>         <span class="n">r_stat</span><span class="p">%</span><span class="n">incl_energy_accu</span> <span class="o">=</span> <span class="n">r_stat</span><span class="p">%</span><span class="n">incl_energy_accu</span> <span class="o">+</span> <span class="n">en_elapsed</span>
+<a name="ln-301"></a>      <span class="n">ENDIF</span>
+<a name="ln-302"></a>
+<a name="ln-303"></a>      <span class="c">! exclusive time we always sum, since children will correct this time with their total time</span>
+<a name="ln-304"></a>      <span class="n">r_stat</span><span class="p">%</span><span class="n">excl_walltime_accu</span> <span class="o">=</span> <span class="n">r_stat</span><span class="p">%</span><span class="n">excl_walltime_accu</span> <span class="o">+</span> <span class="n">wt_elapsed</span>
+<a name="ln-305"></a>      <span class="n">r_stat</span><span class="p">%</span><span class="n">excl_energy_accu</span> <span class="o">=</span> <span class="n">r_stat</span><span class="p">%</span><span class="n">excl_energy_accu</span> <span class="o">+</span> <span class="n">en_elapsed</span>
+<a name="ln-306"></a>
+<a name="ln-307"></a>      <span class="n">stack_size</span> <span class="o">=</span> <span class="n">list_size</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">callstack</span><span class="p">)</span>
+<a name="ln-308"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">stack_size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-309"></a><span class="k">         </span><span class="n">prev_cs_entry</span> <span class="o">=</span> <span class="n">list_peek</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">callstack</span><span class="p">)</span>
+<a name="ln-310"></a>         <span class="n">prev_stat</span> <span class="o">=&gt;</span> <span class="n">list_get</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_stats</span><span class="p">,</span> <span class="n">prev_cs_entry</span><span class="p">%</span><span class="n">routine_id</span><span class="p">)</span>
+<a name="ln-311"></a>         <span class="c">! we fixup the clock of the caller</span>
+<a name="ln-312"></a>         <span class="n">prev_stat</span><span class="p">%</span><span class="n">excl_walltime_accu</span> <span class="o">=</span> <span class="n">prev_stat</span><span class="p">%</span><span class="n">excl_walltime_accu</span> <span class="o">-</span> <span class="n">wt_elapsed</span>
+<a name="ln-313"></a>         <span class="n">prev_stat</span><span class="p">%</span><span class="n">excl_energy_accu</span> <span class="o">=</span> <span class="n">prev_stat</span><span class="p">%</span><span class="n">excl_energy_accu</span> <span class="o">-</span> <span class="n">en_elapsed</span>
+<a name="ln-314"></a>
+<a name="ln-315"></a>         <span class="c">!update callgraph</span>
+<a name="ln-316"></a>         <span class="n">routine_tuple</span> <span class="o">=</span> <span class="p">(</span><span class="o">/</span><span class="n">prev_cs_entry</span><span class="p">%</span><span class="n">routine_id</span><span class="p">,</span> <span class="n">routine_id</span><span class="o">/</span><span class="p">)</span>
+<a name="ln-317"></a>         <span class="n">c_stat</span> <span class="o">=&gt;</span> <span class="n">dict_get</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">callgraph</span><span class="p">,</span> <span class="n">routine_tuple</span><span class="p">,</span> <span class="n">default_value</span><span class="o">=</span><span class="nb">Null</span><span class="p">(</span><span class="n">c_stat</span><span class="p">))</span>
+<a name="ln-318"></a>         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">c_stat</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-319"></a><span class="k">            ALLOCATE</span> <span class="p">(</span><span class="n">c_stat</span><span class="p">)</span>
+<a name="ln-320"></a>            <span class="n">c_stat</span><span class="p">%</span><span class="n">total_calls</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-321"></a>            <span class="n">c_stat</span><span class="p">%</span><span class="n">incl_walltime_accu</span> <span class="o">=</span> <span class="mf">0.0_dp</span>
+<a name="ln-322"></a>            <span class="n">c_stat</span><span class="p">%</span><span class="n">incl_energy_accu</span> <span class="o">=</span> <span class="mf">0.0_dp</span>
+<a name="ln-323"></a>            <span class="k">CALL </span><span class="n">dict_set</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">callgraph</span><span class="p">,</span> <span class="n">routine_tuple</span><span class="p">,</span> <span class="n">c_stat</span><span class="p">)</span>
+<a name="ln-324"></a>         <span class="k">END IF</span>
+<a name="ln-325"></a><span class="k">         </span><span class="n">c_stat</span><span class="p">%</span><span class="n">total_calls</span> <span class="o">=</span> <span class="n">c_stat</span><span class="p">%</span><span class="n">total_calls</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-326"></a>         <span class="n">c_stat</span><span class="p">%</span><span class="n">incl_walltime_accu</span> <span class="o">=</span> <span class="n">c_stat</span><span class="p">%</span><span class="n">incl_walltime_accu</span> <span class="o">+</span> <span class="n">wt_elapsed</span>
+<a name="ln-327"></a>         <span class="n">c_stat</span><span class="p">%</span><span class="n">incl_energy_accu</span> <span class="o">=</span> <span class="n">c_stat</span><span class="p">%</span><span class="n">incl_energy_accu</span> <span class="o">+</span> <span class="n">en_elapsed</span>
+<a name="ln-328"></a>      <span class="n">ENDIF</span>
+<a name="ln-329"></a>
+<a name="ln-330"></a>      <span class="c">!..if debug mode echo the subroutine name</span>
+<a name="ln-331"></a>      <span class="k">IF</span> <span class="p">((</span><span class="n">timer_env</span><span class="p">%</span><span class="n">trace_all</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">r_stat</span><span class="p">%</span><span class="n">trace</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
+<a name="ln-332"></a>          <span class="p">(</span><span class="n">r_stat</span><span class="p">%</span><span class="n">total_calls</span> <span class="o">&lt;</span> <span class="n">timer_env</span><span class="p">%</span><span class="n">trace_max</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-333"></a><span class="k">         WRITE</span> <span class="p">(</span><span class="n">sformat</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot;(A,A,&quot;</span><span class="p">,</span> <span class="nb">MAX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="o">*</span><span class="n">stack_size</span> <span class="o">-</span> <span class="mi">4</span><span class="p">),</span> <span class="s2">&quot;X,I4,1X,I6,1X,A,F12.3)&quot;</span>
+<a name="ln-334"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">mystring</span><span class="p">,</span> <span class="n">sformat</span><span class="p">)</span> <span class="n">timer_env</span><span class="p">%</span><span class="n">trace_str</span><span class="p">,</span> <span class="s2">&quot;&lt;&lt;&quot;</span><span class="p">,</span> <span class="n">stack_size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-335"></a>            <span class="n">r_stat</span><span class="p">%</span><span class="n">total_calls</span><span class="p">,</span> <span class="nb">TRIM</span><span class="p">(</span><span class="n">r_stat</span><span class="p">%</span><span class="n">routineN</span><span class="p">),</span> <span class="n">wt_elapsed</span>
+<a name="ln-336"></a>         <span class="k">CALL </span><span class="n">cuda_mem_info</span><span class="p">(</span><span class="n">gpumem_free</span><span class="p">,</span> <span class="n">gpumem_total</span><span class="p">)</span>
+<a name="ln-337"></a>         <span class="k">CALL </span><span class="n">m_memory</span><span class="p">(</span><span class="n">cpumem</span><span class="p">)</span>
+<a name="ln-338"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="s1">&#39;(A,A,I0,A,A,I0,A)&#39;</span><span class="p">)</span> <span class="nb">TRIM</span><span class="p">(</span><span class="n">mystring</span><span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-339"></a>            <span class="s2">&quot; Hostmem: &quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">cpumem</span> <span class="o">+</span> <span class="mi">1024</span><span class="o">*</span><span class="mi">1024</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1024</span><span class="o">*</span><span class="mi">1024</span><span class="p">),</span> <span class="s2">&quot; MB&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-340"></a>            <span class="s2">&quot; GPUmem: &quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">gpumem_total</span> <span class="o">-</span> <span class="n">gpumem_free</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1024</span><span class="o">*</span><span class="mi">1024</span><span class="p">),</span> <span class="s2">&quot; MB&quot;</span>
+<a name="ln-341"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">trace_unit</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="nb">TRIM</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+<a name="ln-342"></a>         <span class="k">CALL </span><span class="n">m_flush</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">trace_unit</span><span class="p">)</span>
+<a name="ln-343"></a>      <span class="n">ENDIF</span>
+<a name="ln-344"></a>
+<a name="ln-345"></a><span class="c">!$OMP END CRITICAL(time_setstop)</span>
+<a name="ln-346"></a><span class="c">!$OMP END MASTER</span>
+<a name="ln-347"></a>
+<a name="ln-348"></a>   <span class="k">END SUBROUTINE </span><span class="n">timestop_handler</span>
+<a name="ln-349"></a>
+<a name="ln-350"></a>   <span class="k">SUBROUTINE </span><span class="n">timings_setup_tracing</span><span class="p">(</span><span class="n">trace_max</span><span class="p">,</span> <span class="n">unit_nr</span><span class="p">,</span> <span class="n">trace_str</span><span class="p">,</span> <span class="n">routine_names</span><span class="p">)</span>
+<a name="ln-351"></a>      <span class="c">!! Set routine tracer</span>
+<a name="ln-352"></a>
+<a name="ln-353"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">trace_max</span><span class="p">,</span> <span class="n">unit_nr</span>
+<a name="ln-354"></a>         <span class="c">!! maximum number of calls reported per routine. Setting this to zero disables tracing.</span>
+<a name="ln-355"></a>         <span class="c">!! output unit used for printing the trace-messages</span>
+<a name="ln-356"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">13</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">trace_str</span>
+<a name="ln-357"></a>         <span class="c">!! short info-string which is printed along with every message</span>
+<a name="ln-358"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-359"></a>         <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>              <span class="kd">::</span> <span class="n">routine_names</span>
+<a name="ln-360"></a>         <span class="c">!! List of routine-names. If provided only these routines will be traced. If not present all routines will traced.</span>
+<a name="ln-361"></a>
+<a name="ln-362"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">routine_id</span>
+<a name="ln-363"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">routine_stat_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">r_stat</span>
+<a name="ln-364"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">timer_env_type</span><span class="p">),</span> <span class="k">POINTER</span>                      <span class="kd">::</span> <span class="n">timer_env</span>
+<a name="ln-365"></a>
+<a name="ln-366"></a>      <span class="n">timer_env</span> <span class="o">=&gt;</span> <span class="n">list_peek</span><span class="p">(</span><span class="n">timers_stack</span><span class="p">)</span>
+<a name="ln-367"></a>      <span class="n">timer_env</span><span class="p">%</span><span class="n">trace_max</span> <span class="o">=</span> <span class="n">trace_max</span>
+<a name="ln-368"></a>      <span class="n">timer_env</span><span class="p">%</span><span class="n">trace_unit</span> <span class="o">=</span> <span class="n">unit_nr</span>
+<a name="ln-369"></a>      <span class="n">timer_env</span><span class="p">%</span><span class="n">trace_str</span> <span class="o">=</span> <span class="n">trace_str</span>
+<a name="ln-370"></a>      <span class="n">timer_env</span><span class="p">%</span><span class="n">trace_all</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<a name="ln-371"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">routine_names</span><span class="p">))</span> <span class="k">RETURN</span>
+<a name="ln-372"></a>
+<a name="ln-373"></a>      <span class="c">! setup routine-specific tracing</span>
+<a name="ln-374"></a>      <span class="n">timer_env</span><span class="p">%</span><span class="n">trace_all</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-375"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">routine_names</span><span class="p">)</span>
+<a name="ln-376"></a>         <span class="n">routine_id</span> <span class="o">=</span> <span class="n">routine_name2id</span><span class="p">(</span><span class="n">routine_names</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+<a name="ln-377"></a>         <span class="n">r_stat</span> <span class="o">=&gt;</span> <span class="n">list_get</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_stats</span><span class="p">,</span> <span class="n">routine_id</span><span class="p">)</span>
+<a name="ln-378"></a>         <span class="n">r_stat</span><span class="p">%</span><span class="n">trace</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<a name="ln-379"></a>      <span class="k">END DO</span>
+<a name="ln-380"></a>
+<a name="ln-381"></a><span class="k">   END SUBROUTINE </span><span class="n">timings_setup_tracing</span>
+<a name="ln-382"></a>
+<a name="ln-383"></a>   <span class="k">SUBROUTINE </span><span class="n">print_stack</span><span class="p">(</span><span class="n">unit_nr</span><span class="p">)</span>
+<a name="ln-384"></a>      <span class="c">!! Print current routine stack</span>
+<a name="ln-385"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">unit_nr</span>
+<a name="ln-386"></a>
+<a name="ln-387"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">i</span>
+<a name="ln-388"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">callstack_entry_type</span><span class="p">)</span>                         <span class="kd">::</span> <span class="n">cs_entry</span>
+<a name="ln-389"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">routine_stat_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">r_stat</span>
+<a name="ln-390"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">timer_env_type</span><span class="p">),</span> <span class="k">POINTER</span>                      <span class="kd">::</span> <span class="n">timer_env</span>
+<a name="ln-391"></a>
+<a name="ln-392"></a>      <span class="c">! catch edge cases where timer_env is not yet/anymore available</span>
+<a name="ln-393"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">list_isready</span><span class="p">(</span><span class="n">timers_stack</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-394"></a>         <span class="k">RETURN</span>
+<a name="ln-395"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">list_size</span><span class="p">(</span><span class="n">timers_stack</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-396"></a>         <span class="k">RETURN</span>
+<a name="ln-397"></a>
+<a name="ln-398"></a><span class="k">      </span><span class="n">timer_env</span> <span class="o">=&gt;</span> <span class="n">list_peek</span><span class="p">(</span><span class="n">timers_stack</span><span class="p">)</span>
+<a name="ln-399"></a>      <span class="k">WRITE</span> <span class="p">(</span><span class="n">unit_nr</span><span class="p">,</span> <span class="s1">&#39;(/,A,/)&#39;</span><span class="p">)</span> <span class="s2">&quot; ===== Routine Calling Stack ===== &quot;</span>
+<a name="ln-400"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="n">list_size</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">callstack</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span>
+<a name="ln-401"></a>         <span class="n">cs_entry</span> <span class="o">=</span> <span class="n">list_get</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">callstack</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+<a name="ln-402"></a>         <span class="n">r_stat</span> <span class="o">=&gt;</span> <span class="n">list_get</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_stats</span><span class="p">,</span> <span class="n">cs_entry</span><span class="p">%</span><span class="n">routine_id</span><span class="p">)</span>
+<a name="ln-403"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">unit_nr</span><span class="p">,</span> <span class="s1">&#39;(T10,I4,1X,A)&#39;</span><span class="p">)</span> <span class="n">i</span><span class="p">,</span> <span class="nb">TRIM</span><span class="p">(</span><span class="n">r_stat</span><span class="p">%</span><span class="n">routineN</span><span class="p">)</span>
+<a name="ln-404"></a>      <span class="k">END DO</span>
+<a name="ln-405"></a><span class="k">      CALL </span><span class="n">m_flush</span><span class="p">(</span><span class="n">unit_nr</span><span class="p">)</span>
+<a name="ln-406"></a>
+<a name="ln-407"></a>   <span class="k">END SUBROUTINE </span><span class="n">print_stack</span>
+<a name="ln-408"></a>
+<a name="ln-409"></a>   <span class="k">FUNCTION </span><span class="n">routine_name2id</span><span class="p">(</span><span class="n">routineN</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">routine_id</span><span class="p">)</span>
+<a name="ln-410"></a>      <span class="c">!! Internal routine used by timeset_handler and timings_setup_tracing.</span>
+<a name="ln-411"></a>      <span class="c">!! If no routine with given name is found in timer_env%routine_names</span>
+<a name="ln-412"></a>      <span class="c">!! then a new entry is created.</span>
+<a name="ln-413"></a>
+<a name="ln-414"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>   <span class="kd">::</span> <span class="n">routineN</span>
+<a name="ln-415"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">routine_id</span>
+<a name="ln-416"></a>
+<a name="ln-417"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="nb">stat</span>
+<a name="ln-418"></a><span class="nb">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">routine_stat_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">r_stat</span>
+<a name="ln-419"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">timer_env_type</span><span class="p">),</span> <span class="k">POINTER</span>                      <span class="kd">::</span> <span class="n">timer_env</span>
+<a name="ln-420"></a>
+<a name="ln-421"></a>      <span class="n">timer_env</span> <span class="o">=&gt;</span> <span class="n">list_peek</span><span class="p">(</span><span class="n">timers_stack</span><span class="p">)</span>
+<a name="ln-422"></a>      <span class="n">routine_id</span> <span class="o">=</span> <span class="n">dict_get</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_names</span><span class="p">,</span> <span class="n">routineN</span><span class="p">,</span> <span class="n">default_value</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-423"></a>
+<a name="ln-424"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">routine_id</span> <span class="o">/=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">RETURN</span> <span class="c">! found an id - let&#39;s return it</span>
+<a name="ln-425"></a>      <span class="c">! routine not found - let&#39;s create it</span>
+<a name="ln-426"></a>
+<a name="ln-427"></a>      <span class="c">! enforce space free timer names, to make the output of trace/timings of a fixed number fields</span>
+<a name="ln-428"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">INDEX</span><span class="p">(</span><span class="n">routineN</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">LEN_TRIM</span><span class="p">(</span><span class="n">routineN</span><span class="p">)),</span> <span class="s1">&#39; &#39;</span><span class="p">)</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-429"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;timings_name2id: routineN contains spaces: &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
+<a name="ln-430"></a>      <span class="k">END IF</span>
+<a name="ln-431"></a>
+<a name="ln-432"></a>      <span class="c">! register routine_name_dsl with new routine_id</span>
+<a name="ln-433"></a>      <span class="n">routine_id</span> <span class="o">=</span> <span class="n">dict_size</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_names</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-434"></a>      <span class="k">CALL </span><span class="n">dict_set</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_names</span><span class="p">,</span> <span class="n">routineN</span><span class="p">,</span> <span class="n">routine_id</span><span class="p">)</span>
+<a name="ln-435"></a>
+<a name="ln-436"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">r_stat</span><span class="p">,</span> <span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
+<a name="ln-437"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-438"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;timings_name2id: allocation failed&quot;</span><span class="p">)</span>
+<a name="ln-439"></a>      <span class="n">r_stat</span><span class="p">%</span><span class="n">routine_id</span> <span class="o">=</span> <span class="n">routine_id</span>
+<a name="ln-440"></a>      <span class="n">r_stat</span><span class="p">%</span><span class="n">routineN</span> <span class="o">=</span> <span class="n">routineN</span>
+<a name="ln-441"></a>      <span class="n">r_stat</span><span class="p">%</span><span class="n">active_calls</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-442"></a>      <span class="n">r_stat</span><span class="p">%</span><span class="n">excl_walltime_accu</span> <span class="o">=</span> <span class="mf">0.0_dp</span>
+<a name="ln-443"></a>      <span class="n">r_stat</span><span class="p">%</span><span class="n">incl_walltime_accu</span> <span class="o">=</span> <span class="mf">0.0_dp</span>
+<a name="ln-444"></a>      <span class="n">r_stat</span><span class="p">%</span><span class="n">excl_energy_accu</span> <span class="o">=</span> <span class="mf">0.0_dp</span>
+<a name="ln-445"></a>      <span class="n">r_stat</span><span class="p">%</span><span class="n">incl_energy_accu</span> <span class="o">=</span> <span class="mf">0.0_dp</span>
+<a name="ln-446"></a>      <span class="n">r_stat</span><span class="p">%</span><span class="n">total_calls</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-447"></a>      <span class="n">r_stat</span><span class="p">%</span><span class="n">stackdepth_accu</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-448"></a>      <span class="n">r_stat</span><span class="p">%</span><span class="n">trace</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-449"></a>      <span class="k">CALL </span><span class="n">list_push</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_stats</span><span class="p">,</span> <span class="n">r_stat</span><span class="p">)</span>
+<a name="ln-450"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">list_size</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_stats</span><span class="p">)</span> <span class="o">/=</span> <span class="n">dict_size</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_names</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-451"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;timings_name2id: assertion failed&quot;</span><span class="p">)</span>
+<a name="ln-452"></a>   <span class="k">END FUNCTION </span><span class="n">routine_name2id</span>
+<a name="ln-453"></a>
+<a name="ln-454"></a><span class="k">END MODULE </span><span class="n">dbcsr_timings</span>
 </pre></div>
 
     </section>

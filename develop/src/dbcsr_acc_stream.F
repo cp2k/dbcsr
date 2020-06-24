@@ -109,11 +109,8 @@ CONTAINS
       !! Fortran-wrapper for creation of a CUDA/HIP stream.
 
       TYPE(acc_stream_type), INTENT(OUT) :: this
-         !! stream
       CHARACTER(LEN=*), INTENT(IN)             :: name
-         !! stream name
       INTEGER, INTENT(IN), OPTIONAL            :: priority
-         !! stream priority
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -142,7 +139,6 @@ CONTAINS
 
       TYPE(acc_stream_type), &
          INTENT(INOUT)                          :: this
-         !! stream
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -163,7 +159,6 @@ CONTAINS
 
       TYPE(acc_stream_type), &
          INTENT(IN)                             :: this
-         !! stream
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -182,8 +177,6 @@ CONTAINS
       !! Fortran-wrapper for getting CUDA/HIP streams' priority range.
 
       INTEGER, INTENT(OUT)                     :: least, greatest
-         !! least priority
-         !! greatest priroity
 
 #if ! defined (__DBCSR_ACC)
       least = -1; greatest = -1 ! assign intent-out arguments to silence compiler warnings
@@ -200,8 +193,6 @@ CONTAINS
       !! Checks if two streams are equal
 
       TYPE(acc_stream_type), INTENT(IN) :: this, other
-         !! first stream
-         !! second stream
       LOGICAL                                  :: res
          !! true if equal, false otherwise
 #if ! defined (__DBCSR_ACC)
@@ -217,7 +208,6 @@ CONTAINS
       !! Checks if a streams is associated
 
       TYPE(acc_stream_type), INTENT(IN) :: this
-         !! stream
       LOGICAL                                  :: res
          !! true if associated, false otherwise
 #if ! defined (__DBCSR_ACC)

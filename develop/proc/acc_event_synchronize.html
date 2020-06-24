@@ -230,7 +230,7 @@ public subroutine acc_event_synchronize(this)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>this</strong></td><td><p>event</p></td>
+  <td><strong>this</strong></td><td></td>
   
 </tr>
 
@@ -305,7 +305,6 @@ public subroutine acc_event_synchronize(this)
       <span class="c">!! Fortran-wrapper for waiting for the completion of a HIP/CUDA event.</span>
 
       <span class="k">TYPE</span><span class="p">(</span><span class="n">acc_event_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">this</span>
-         <span class="c">!! event</span>
 
 <span class="cp">#if ! defined (__DBCSR_ACC)</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">this</span><span class="p">)</span>

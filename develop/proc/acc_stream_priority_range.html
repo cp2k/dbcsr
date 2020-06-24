@@ -230,8 +230,7 @@ public subroutine acc_stream_priority_range(least, greatest)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>least</strong></td><td><p>least priority
- greatest priroity</p></td>
+  <td><strong>least</strong></td><td></td>
   
 </tr>
 
@@ -246,8 +245,7 @@ public subroutine acc_stream_priority_range(least, greatest)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>greatest</strong></td><td><p>least priority
- greatest priroity</p></td>
+  <td><strong>greatest</strong></td><td></td>
   
 </tr>
 
@@ -322,8 +320,6 @@ public subroutine acc_stream_priority_range(least, greatest)
       <span class="c">!! Fortran-wrapper for getting CUDA/HIP streams&#39; priority range.</span>
 
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                     <span class="kd">::</span> <span class="n">least</span><span class="p">,</span> <span class="n">greatest</span>
-         <span class="c">!! least priority</span>
-         <span class="c">!! greatest priroity</span>
 
 <span class="cp">#if ! defined (__DBCSR_ACC)</span>
       <span class="n">least</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">greatest</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="c">! assign intent-out arguments to silence compiler warnings</span>

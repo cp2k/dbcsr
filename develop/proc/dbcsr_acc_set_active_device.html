@@ -194,7 +194,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-public subroutine dbcsr_acc_set_active_device(dev_id)
+public subroutine dbcsr_acc_set_active_device(device_id)
     
     
    
@@ -225,12 +225,12 @@ public subroutine dbcsr_acc_set_active_device(dev_id)
   
 <tr>
   
-  <td><span class="anchor" id="variable-dev_id"></span>integer</td>
+  <td><span class="anchor" id="variable-device_id"></span>integer</td>
   <td></td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>dev_id</strong></td><td><p>device ID</p></td>
+  <td><strong>device_id</strong></td><td></td>
   
 </tr>
 
@@ -301,23 +301,22 @@ public subroutine dbcsr_acc_set_active_device(dev_id)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_acc_set_active_device</span><span class="p">(</span><span class="n">dev_id</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_acc_set_active_device</span><span class="p">(</span><span class="n">device_id</span><span class="p">)</span>
       <span class="c">!! Set active accelerator device</span>
 
-      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">dev_id</span>
-         <span class="c">!! device ID</span>
+      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">device_id</span>
 
 <span class="cp">#if defined (__DBCSR_ACC)</span>
       <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">istat</span>
 
-<span class="c">!$OMP PARALLEL DEFAULT(NONE) PRIVATE(istat) SHARED(dev_id)</span>
-      <span class="n">istat</span> <span class="o">=</span> <span class="n">acc_set_active_device_cu</span><span class="p">(</span><span class="n">dev_id</span><span class="p">)</span>
+<span class="c">!$OMP PARALLEL DEFAULT(NONE) PRIVATE(istat) SHARED(device_id)</span>
+      <span class="n">istat</span> <span class="o">=</span> <span class="n">acc_set_active_device_cu</span><span class="p">(</span><span class="n">device_id</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
          <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_set_active_device: failed&quot;</span><span class="p">)</span>
 <span class="c">!$OMP END PARALLEL</span>
 
 <span class="cp">#else</span>
-      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">dev_id</span><span class="p">)</span>
+      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">device_id</span><span class="p">)</span>
       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in&quot;</span><span class="p">)</span>
 <span class="cp">#endif</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_acc_set_active_device</span>

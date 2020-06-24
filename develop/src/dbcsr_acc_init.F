@@ -43,7 +43,6 @@ MODULE dbcsr_acc_init
 CONTAINS
 
    SUBROUTINE acc_init()
-      !! Fortran-wrapper for acc_init
 
 #if ! defined (__DBCSR_ACC)
       DBCSR_ABORT("__DBCSR_ACC not compiled in.")
@@ -56,7 +55,6 @@ CONTAINS
    END SUBROUTINE acc_init
 
    SUBROUTINE acc_finalize()
-      !! Fortran-wrapper for acc_finalize
 
 #if ! defined (__DBCSR_ACC)
       DBCSR_ABORT("__DBCSR_ACC not compiled in.")

@@ -142,7 +142,7 @@ All Procedures &ndash; DBCSR Library
 			 
 			   <tr><td><a href='../proc/acc_event_synchronize.html'>acc_event_synchronize</a></td><td><a href='../module/dbcsr_acc_event.html'>dbcsr_acc_event</a></td><td>Subroutine</td><td><p>Fortran-wrapper for waiting for the completion of a HIP/CUDA event.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_finalize.html'>acc_finalize</a></td><td><a href='../module/dbcsr_acc_init.html'>dbcsr_acc_init</a></td><td>Subroutine</td><td><p>Fortran-wrapper for acc_finalize</p></td></tr>
+			   <tr><td><a href='../proc/acc_finalize.html'>acc_finalize</a></td><td><a href='../module/dbcsr_acc_init.html'>dbcsr_acc_init</a></td><td>Subroutine</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/acc_hostmem_alloc_c4.html'>acc_hostmem_alloc_c4</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Subroutine</td><td><p>Allocates 1D fortan-array as GPU host-pinned memory.</p></td></tr>
 			 
@@ -196,7 +196,7 @@ All Procedures &ndash; DBCSR Library
 			 
 			   <tr><td><a href='../interface/acc_hostmem_deallocate.html'>acc_hostmem_deallocate</a></td><td><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></td><td>Interface</td><td></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_init.html'>acc_init</a></td><td><a href='../module/dbcsr_acc_init.html'>dbcsr_acc_init</a></td><td>Subroutine</td><td><p>Fortran-wrapper for acc_init</p></td></tr>
+			   <tr><td><a href='../proc/acc_init.html'>acc_init</a></td><td><a href='../module/dbcsr_acc_init.html'>dbcsr_acc_init</a></td><td>Subroutine</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/acc_stream_associated.html'>acc_stream_associated</a></td><td><a href='../module/dbcsr_acc_stream.html'>dbcsr_acc_stream</a></td><td>Function</td><td><p>Checks if a streams is associated</p></td></tr>
 			 
@@ -3261,6 +3261,10 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/dbcsr_tas_write_matrix_info.html'>dbcsr_tas_write_matrix_info</a></td><td><a href='../module/dbcsr_tas_io.html'>dbcsr_tas_io</a></td><td>Subroutine</td><td><p>Write basic infos of tall-and-skinny matrix: block dimensions, full dimensions, process grid dimensions</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_tas_write_split_info.html'>dbcsr_tas_write_split_info</a></td><td><a href='../module/dbcsr_tas_io.html'>dbcsr_tas_io</a></td><td>Subroutine</td><td><p>Print info on how matrix is split</p></td></tr>
+			 
+			   <tr><td><a href='../proc/dbcsr_timeset_f.html'>dbcsr_timeset_F</a></td><td><a href='../module/dbcsr_acc_timings.html'>dbcsr_acc_timings</a></td><td>Subroutine</td><td></td></tr>
+			 
+			   <tr><td><a href='../proc/dbcsr_timestop_f.html'>dbcsr_timestop_F</a></td><td><a href='../module/dbcsr_acc_timings.html'>dbcsr_acc_timings</a></td><td>Subroutine</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_to_csr_filter.html'>dbcsr_to_csr_filter</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Subroutine</td><td><p>Apply filtering threshold eps to DBCSR blocks in order to improve
  CSR sparsity (currently only used for testing purposes)</p></td></tr>

@@ -225,7 +225,7 @@ public subroutine timestop_handler(handle)
   
 <tr>
   
-  <td><span class="anchor" id="variable-handle~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-handle~8"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -331,7 +331,8 @@ public subroutine timestop_handler(handle)
 
       <span class="k">IF</span> <span class="p">(</span><span class="n">handle</span> <span class="o">/=</span> <span class="n">cs_entry</span><span class="p">%</span><span class="n">routine_id</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         PRINT</span> <span class="o">*</span><span class="p">,</span> <span class="s2">&quot;list_size(timer_env%callstack) &quot;</span><span class="p">,</span> <span class="n">list_size</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">callstack</span><span class="p">),</span> <span class="p">&amp;</span>
-            <span class="s2">&quot; handle &quot;</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="s2">&quot; list_size(timers_stack) &quot;</span><span class="p">,</span> <span class="n">list_size</span><span class="p">(</span><span class="n">timers_stack</span><span class="p">)</span>
+            <span class="s2">&quot; list_size(timers_stack) &quot;</span><span class="p">,</span> <span class="n">list_size</span><span class="p">(</span><span class="n">timers_stack</span><span class="p">),</span> <span class="p">&amp;</span>
+            <span class="s2">&quot; got handle &quot;</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="s2">&quot; expected routineid &quot;</span><span class="p">,</span> <span class="n">cs_entry</span><span class="p">%</span><span class="n">routine_id</span>
          <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s1">&#39;mismatched timestop &#39;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">r_stat</span><span class="p">%</span><span class="n">routineN</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39; in routine timestop&#39;</span><span class="p">)</span>
       <span class="k">END IF</span>
 

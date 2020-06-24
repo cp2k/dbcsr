@@ -250,7 +250,6 @@ CONTAINS
       !! Returns a logical, which indicates if the given devmem is allocated.
 
       TYPE(acc_devmem_type), INTENT(IN)                  :: this
-         !! device memory
       LOGICAL                                            :: res
          !! true if device memory is allocated, false otherwise
 
@@ -261,7 +260,6 @@ CONTAINS
       !! Returns size of given devmem in terms of item count (not bytes!)
 
       TYPE(acc_devmem_type), INTENT(IN)                  :: this
-         !! device memory
       INTEGER                                            :: res
          !! size of device memory (item count)
 
@@ -287,7 +285,6 @@ CONTAINS
       !! Returns C-pointer to data of given devmem.
 
       TYPE(acc_devmem_type), INTENT(IN)                  :: this
-         !! device memory
       TYPE(C_PTR)                                        :: res
          !! C-pointer to data of given devmem
 
@@ -301,10 +298,8 @@ CONTAINS
       !! Allocates a given devmem.
 
       TYPE(acc_devmem_type), INTENT(INOUT)     :: this
-         !! device memory
       TYPE(acc_devmem_type), INTENT(IN)        :: pointee
       INTEGER, INTENT(IN)                      :: size_in_bytes, lb_in_bytes
-         !! size in bytes
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -355,9 +350,7 @@ CONTAINS
       !! Allocates a given devmem.
 
       TYPE(acc_devmem_type), INTENT(INOUT)     :: this
-         !! device memory
       INTEGER, INTENT(IN)                      :: size_in_bytes
-         !! size in bytes
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -384,7 +377,6 @@ CONTAINS
       !! Deallocates a given devmem.
 
       TYPE(acc_devmem_type), INTENT(INOUT) :: this
-         !! device memory
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -412,7 +404,6 @@ CONTAINS
       !! Sets entries in given devmem to zero, asynchronously.
 
       TYPE(acc_devmem_type), INTENT(INOUT) :: this
-         !! device memory
       INTEGER, INTENT(IN), OPTIONAL        :: first_byte, last_byte
          !! begin of region to zero, defaults to 1 if not given.
          !! end of region to zero, defaults to size if not given.
@@ -459,11 +450,8 @@ CONTAINS
       !! Helper-routine performing actuall host2dev transfers.
 
       TYPE(acc_devmem_type), INTENT(IN)                  :: this
-         !! device memory
       TYPE(C_PTR)                                        :: hostmem_cptr
-         !! host memory
       INTEGER, INTENT(IN)                                :: n_bytes
-         !! number of bytes
       TYPE(acc_stream_type), INTENT(IN)                  :: stream
          !! stream used for memory transfer
 
@@ -490,13 +478,9 @@ CONTAINS
       !! Helper-routine performing actual dev2host transfers.
 
       TYPE(acc_devmem_type), INTENT(IN)                  :: this
-         !! device memory
       TYPE(C_PTR)                                        :: hostmem_cptr
-         !! host memory
       INTEGER, INTENT(IN)                                :: n_bytes
-         !! number of bytes
       TYPE(acc_stream_type), INTENT(IN)                  :: stream
-         !! stream used for memory transfer
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dev2host_raw', routineP = moduleN//':'//routineN
 
@@ -519,19 +503,16 @@ CONTAINS
    END SUBROUTINE dev2host_raw
 #endif
 
-# 527 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 511 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
-# 529 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 513 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
    SUBROUTINE host2dev_i4_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
 
       TYPE(acc_devmem_type), INTENT(IN)        :: this
-         !! device memory
       INTEGER(kind=int_4), DIMENSION(:), POINTER          :: hostmem
-         !! host memory
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-         !! stream
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -547,11 +528,8 @@ CONTAINS
       !! Transfers 2D fortran-array from host to GPU devmem.
 
       TYPE(acc_devmem_type), INTENT(IN)        :: this
-         !! device memory
       INTEGER(kind=int_4), DIMENSION(:, :), POINTER       :: hostmem
-         !! host memory
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-         !! stream
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -567,11 +545,8 @@ CONTAINS
       !! Transfers GPU devmem to 1D fortran-array.
 
       TYPE(acc_devmem_type), INTENT(IN)        :: this
-         !! device memory
       INTEGER(kind=int_4), DIMENSION(:), POINTER          :: hostmem
-         !! host memory
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-         !! stream
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -583,17 +558,14 @@ CONTAINS
 #endif
    END SUBROUTINE dev2host_i4_1D
 
-# 529 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 513 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
    SUBROUTINE host2dev_i8_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
 
       TYPE(acc_devmem_type), INTENT(IN)        :: this
-         !! device memory
       INTEGER(kind=int_8), DIMENSION(:), POINTER          :: hostmem
-         !! host memory
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-         !! stream
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -609,11 +581,8 @@ CONTAINS
       !! Transfers 2D fortran-array from host to GPU devmem.
 
       TYPE(acc_devmem_type), INTENT(IN)        :: this
-         !! device memory
       INTEGER(kind=int_8), DIMENSION(:, :), POINTER       :: hostmem
-         !! host memory
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-         !! stream
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -629,11 +598,8 @@ CONTAINS
       !! Transfers GPU devmem to 1D fortran-array.
 
       TYPE(acc_devmem_type), INTENT(IN)        :: this
-         !! device memory
       INTEGER(kind=int_8), DIMENSION(:), POINTER          :: hostmem
-         !! host memory
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-         !! stream
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -645,17 +611,14 @@ CONTAINS
 #endif
    END SUBROUTINE dev2host_i8_1D
 
-# 529 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 513 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
    SUBROUTINE host2dev_r4_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
 
       TYPE(acc_devmem_type), INTENT(IN)        :: this
-         !! device memory
       REAL(kind=real_4), DIMENSION(:), POINTER          :: hostmem
-         !! host memory
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-         !! stream
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -671,11 +634,8 @@ CONTAINS
       !! Transfers 2D fortran-array from host to GPU devmem.
 
       TYPE(acc_devmem_type), INTENT(IN)        :: this
-         !! device memory
       REAL(kind=real_4), DIMENSION(:, :), POINTER       :: hostmem
-         !! host memory
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-         !! stream
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -691,11 +651,8 @@ CONTAINS
       !! Transfers GPU devmem to 1D fortran-array.
 
       TYPE(acc_devmem_type), INTENT(IN)        :: this
-         !! device memory
       REAL(kind=real_4), DIMENSION(:), POINTER          :: hostmem
-         !! host memory
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-         !! stream
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -707,17 +664,14 @@ CONTAINS
 #endif
    END SUBROUTINE dev2host_r4_1D
 
-# 529 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 513 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
    SUBROUTINE host2dev_r8_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
 
       TYPE(acc_devmem_type), INTENT(IN)        :: this
-         !! device memory
       REAL(kind=real_8), DIMENSION(:), POINTER          :: hostmem
-         !! host memory
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-         !! stream
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -733,11 +687,8 @@ CONTAINS
       !! Transfers 2D fortran-array from host to GPU devmem.
 
       TYPE(acc_devmem_type), INTENT(IN)        :: this
-         !! device memory
       REAL(kind=real_8), DIMENSION(:, :), POINTER       :: hostmem
-         !! host memory
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-         !! stream
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -753,11 +704,8 @@ CONTAINS
       !! Transfers GPU devmem to 1D fortran-array.
 
       TYPE(acc_devmem_type), INTENT(IN)        :: this
-         !! device memory
       REAL(kind=real_8), DIMENSION(:), POINTER          :: hostmem
-         !! host memory
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-         !! stream
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -769,17 +717,14 @@ CONTAINS
 #endif
    END SUBROUTINE dev2host_r8_1D
 
-# 529 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 513 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
    SUBROUTINE host2dev_c4_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
 
       TYPE(acc_devmem_type), INTENT(IN)        :: this
-         !! device memory
       COMPLEX(kind=real_4), DIMENSION(:), POINTER          :: hostmem
-         !! host memory
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-         !! stream
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -795,11 +740,8 @@ CONTAINS
       !! Transfers 2D fortran-array from host to GPU devmem.
 
       TYPE(acc_devmem_type), INTENT(IN)        :: this
-         !! device memory
       COMPLEX(kind=real_4), DIMENSION(:, :), POINTER       :: hostmem
-         !! host memory
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-         !! stream
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -815,11 +757,8 @@ CONTAINS
       !! Transfers GPU devmem to 1D fortran-array.
 
       TYPE(acc_devmem_type), INTENT(IN)        :: this
-         !! device memory
       COMPLEX(kind=real_4), DIMENSION(:), POINTER          :: hostmem
-         !! host memory
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-         !! stream
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -831,17 +770,14 @@ CONTAINS
 #endif
    END SUBROUTINE dev2host_c4_1D
 
-# 529 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 513 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
    SUBROUTINE host2dev_c8_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
 
       TYPE(acc_devmem_type), INTENT(IN)        :: this
-         !! device memory
       COMPLEX(kind=real_8), DIMENSION(:), POINTER          :: hostmem
-         !! host memory
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-         !! stream
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -857,11 +793,8 @@ CONTAINS
       !! Transfers 2D fortran-array from host to GPU devmem.
 
       TYPE(acc_devmem_type), INTENT(IN)        :: this
-         !! device memory
       COMPLEX(kind=real_8), DIMENSION(:, :), POINTER       :: hostmem
-         !! host memory
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-         !! stream
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -877,11 +810,8 @@ CONTAINS
       !! Transfers GPU devmem to 1D fortran-array.
 
       TYPE(acc_devmem_type), INTENT(IN)        :: this
-         !! device memory
       COMPLEX(kind=real_8), DIMENSION(:), POINTER          :: hostmem
-         !! host memory
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-         !! stream
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -893,6 +823,6 @@ CONTAINS
 #endif
    END SUBROUTINE dev2host_c8_1D
 
-# 591 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 566 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
 END MODULE dbcsr_acc_devmem

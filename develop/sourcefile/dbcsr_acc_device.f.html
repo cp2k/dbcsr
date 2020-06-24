@@ -290,10 +290,10 @@
 <a name="ln-32"></a>
 <a name="ln-33"></a>      <span class="k">END FUNCTION </span><span class="n">acc_get_ndevices_cu</span>
 <a name="ln-34"></a>
-<a name="ln-35"></a>      <span class="k">FUNCTION </span><span class="n">acc_set_active_device_cu</span><span class="p">(</span><span class="n">dev_id</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-35"></a>      <span class="k">FUNCTION </span><span class="n">acc_set_active_device_cu</span><span class="p">(</span><span class="n">device_id</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-36"></a>         <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;acc_set_active_device&quot;</span><span class="p">)</span>
 <a name="ln-37"></a>         <span class="k">IMPORT</span>
-<a name="ln-38"></a><span class="k">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">VALUE</span>   <span class="kd">::</span> <span class="n">dev_id</span>
+<a name="ln-38"></a><span class="k">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">VALUE</span>   <span class="kd">::</span> <span class="n">device_id</span>
 <a name="ln-39"></a>         <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">istat</span>
 <a name="ln-40"></a>
 <a name="ln-41"></a>      <span class="k">END FUNCTION </span><span class="n">acc_set_active_device_cu</span>
@@ -325,37 +325,36 @@
 <a name="ln-67"></a><span class="cp">#endif</span>
 <a name="ln-68"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_acc_get_ndevices</span>
 <a name="ln-69"></a>
-<a name="ln-70"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_acc_set_active_device</span><span class="p">(</span><span class="n">dev_id</span><span class="p">)</span>
+<a name="ln-70"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_acc_set_active_device</span><span class="p">(</span><span class="n">device_id</span><span class="p">)</span>
 <a name="ln-71"></a>      <span class="c">!! Set active accelerator device</span>
 <a name="ln-72"></a>
-<a name="ln-73"></a>      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">dev_id</span>
-<a name="ln-74"></a>         <span class="c">!! device ID</span>
-<a name="ln-75"></a>
-<a name="ln-76"></a><span class="cp">#if defined (__DBCSR_ACC)</span>
-<a name="ln-77"></a>      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">istat</span>
-<a name="ln-78"></a>
-<a name="ln-79"></a><span class="c">!$OMP PARALLEL DEFAULT(NONE) PRIVATE(istat) SHARED(dev_id)</span>
-<a name="ln-80"></a>      <span class="n">istat</span> <span class="o">=</span> <span class="n">acc_set_active_device_cu</span><span class="p">(</span><span class="n">dev_id</span><span class="p">)</span>
-<a name="ln-81"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-82"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_set_active_device: failed&quot;</span><span class="p">)</span>
-<a name="ln-83"></a><span class="c">!$OMP END PARALLEL</span>
-<a name="ln-84"></a>
-<a name="ln-85"></a><span class="cp">#else</span>
-<a name="ln-86"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">dev_id</span><span class="p">)</span>
-<a name="ln-87"></a>      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in&quot;</span><span class="p">)</span>
-<a name="ln-88"></a><span class="cp">#endif</span>
-<a name="ln-89"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_acc_set_active_device</span>
-<a name="ln-90"></a>
-<a name="ln-91"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_acc_clear_errors</span><span class="p">()</span>
-<a name="ln-92"></a>      <span class="c">!! Clear GPU errors</span>
-<a name="ln-93"></a><span class="cp">#if defined (__DBCSR_ACC)</span>
-<a name="ln-94"></a>      <span class="k">CALL </span><span class="n">acc_clear_errors_cu</span><span class="p">()</span>
-<a name="ln-95"></a><span class="cp">#else</span>
-<a name="ln-96"></a>      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in&quot;</span><span class="p">)</span>
-<a name="ln-97"></a><span class="cp">#endif</span>
-<a name="ln-98"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_acc_clear_errors</span>
-<a name="ln-99"></a>
-<a name="ln-100"></a><span class="k">END MODULE </span><span class="n">dbcsr_acc_device</span>
+<a name="ln-73"></a>      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">device_id</span>
+<a name="ln-74"></a>
+<a name="ln-75"></a><span class="cp">#if defined (__DBCSR_ACC)</span>
+<a name="ln-76"></a>      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">istat</span>
+<a name="ln-77"></a>
+<a name="ln-78"></a><span class="c">!$OMP PARALLEL DEFAULT(NONE) PRIVATE(istat) SHARED(device_id)</span>
+<a name="ln-79"></a>      <span class="n">istat</span> <span class="o">=</span> <span class="n">acc_set_active_device_cu</span><span class="p">(</span><span class="n">device_id</span><span class="p">)</span>
+<a name="ln-80"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-81"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_set_active_device: failed&quot;</span><span class="p">)</span>
+<a name="ln-82"></a><span class="c">!$OMP END PARALLEL</span>
+<a name="ln-83"></a>
+<a name="ln-84"></a><span class="cp">#else</span>
+<a name="ln-85"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">device_id</span><span class="p">)</span>
+<a name="ln-86"></a>      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in&quot;</span><span class="p">)</span>
+<a name="ln-87"></a><span class="cp">#endif</span>
+<a name="ln-88"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_acc_set_active_device</span>
+<a name="ln-89"></a>
+<a name="ln-90"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_acc_clear_errors</span><span class="p">()</span>
+<a name="ln-91"></a>      <span class="c">!! Clear GPU errors</span>
+<a name="ln-92"></a><span class="cp">#if defined (__DBCSR_ACC)</span>
+<a name="ln-93"></a>      <span class="k">CALL </span><span class="n">acc_clear_errors_cu</span><span class="p">()</span>
+<a name="ln-94"></a><span class="cp">#else</span>
+<a name="ln-95"></a>      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in&quot;</span><span class="p">)</span>
+<a name="ln-96"></a><span class="cp">#endif</span>
+<a name="ln-97"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_acc_clear_errors</span>
+<a name="ln-98"></a>
+<a name="ln-99"></a><span class="k">END MODULE </span><span class="n">dbcsr_acc_device</span>
 </pre></div>
 
     </section>

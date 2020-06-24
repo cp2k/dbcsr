@@ -10,7 +10,7 @@
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
-    <title>dbcsr_acc_init.F &ndash; DBCSR Library</title>
+    <title>dbcsr_acc_timings.F &ndash; DBCSR Library</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -103,7 +103,7 @@
     
   
   <div class="row">
-    <h1>dbcsr_acc_init.F
+    <h1>dbcsr_acc_timings.F
     <small>Source File</small>
     
     </h1>
@@ -121,12 +121,12 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for source files.">14 statements</a>
+    title=" 0.1% of total for source files.">35 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_acc_init.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_acc_timings.F"> Source File</a></li>
      
      
   </ul>
@@ -134,7 +134,7 @@
   
     
   
-     <li class="active">dbcsr_acc_init.F</li>
+     <li class="active">dbcsr_acc_timings.F</li>
   </ol>
 </div>
 </div>
@@ -165,7 +165,7 @@
   <div id="mods-0" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_acc_init.html">dbcsr_acc_init</a>
+      <a class="list-group-item" href="../module/dbcsr_acc_timings.html">dbcsr_acc_timings</a>
       
     </div>
   </div>
@@ -189,7 +189,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
   <div class="list-group">
-    <a class="list-group-item" href="../sourcefile/dbcsr_acc_init.f.html#src">dbcsr_acc_init.F</a>
+    <a class="list-group-item" href="../sourcefile/dbcsr_acc_timings.f.html#src">dbcsr_acc_timings.F</a>
   </div>
 </div>
 
@@ -221,7 +221,7 @@
   <div id="mods-1" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_acc_init.html">dbcsr_acc_init</a>
+      <a class="list-group-item" href="../module/dbcsr_acc_timings.html">dbcsr_acc_timings</a>
       
     </div>
   </div>
@@ -245,7 +245,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
   <div class="list-group">
-    <a class="list-group-item" href="../sourcefile/dbcsr_acc_init.f.html#src">dbcsr_acc_init.F</a>
+    <a class="list-group-item" href="../sourcefile/dbcsr_acc_timings.f.html#src">dbcsr_acc_timings.F</a>
   </div>
 </div>
 
@@ -256,7 +256,7 @@
 
     <section>
       <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="hl"><pre><span></span><a name="ln-1"></a><span class="cp"># 1 &quot;/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_init.F&quot; 1</span>
+    <div class="hl"><pre><span></span><a name="ln-1"></a><span class="cp"># 1 &quot;/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_timings.F&quot; 1</span>
 <a name="ln-2"></a><span class="c">!--------------------------------------------------------------------------------------------------!</span>
 <a name="ln-3"></a><span class="c">! Copyright (C) by the DBCSR developers group - All rights reserved                                !</span>
 <a name="ln-4"></a><span class="c">! This file is part of the DBCSR library.                                                          !</span>
@@ -266,65 +266,59 @@
 <a name="ln-8"></a><span class="c">! SPDX-License-Identifier: GPL-2.0+                                                                !</span>
 <a name="ln-9"></a><span class="c">!--------------------------------------------------------------------------------------------------!</span>
 <a name="ln-10"></a>
-<a name="ln-11"></a><span class="k">MODULE </span><span class="n">dbcsr_acc_init</span>
+<a name="ln-11"></a><span class="k">MODULE </span><span class="n">dbcsr_acc_timings</span>
 <a name="ln-12"></a>   <span class="c">!! Accelerator support</span>
-<a name="ln-13"></a><span class="cp">#if defined (__DBCSR_ACC)</span>
-<a name="ln-14"></a>   <span class="k">USE </span><span class="nb">ISO_C_BINDING</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="kt">C_INT</span><span class="p">,</span> <span class="kt">C_CHAR</span><span class="p">,</span> <span class="kt">C_PTR</span><span class="p">,</span> <span class="nb">C_NULL_PTR</span><span class="p">,</span> <span class="nb">C_NULL_CHAR</span><span class="p">,</span> <span class="nb">C_ASSOCIATED</span>
-<a name="ln-15"></a><span class="cp">#endif</span>
-<a name="ln-16"></a><span class="cp">#include &quot;base/dbcsr_base_uses.f90&quot;</span>
+<a name="ln-13"></a>   <span class="k">USE </span><span class="nb">ISO_C_BINDING</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="kt">C_INT</span><span class="p">,</span> <span class="kt">C_PTR</span><span class="p">,</span> <span class="nb">C_F_POINTER</span>
+<a name="ln-14"></a><span class="cp">#include &quot;base/dbcsr_base_uses.f90&quot;</span>
+<a name="ln-15"></a>
+<a name="ln-16"></a>   <span class="k">IMPLICIT NONE</span>
 <a name="ln-17"></a>
-<a name="ln-18"></a>   <span class="k">IMPLICIT NONE</span>
+<a name="ln-18"></a><span class="k">   PRIVATE</span>
 <a name="ln-19"></a>
-<a name="ln-20"></a><span class="k">   PRIVATE</span>
+<a name="ln-20"></a><span class="k">   </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PRIVATE</span> <span class="kd">::</span> <span class="n">moduleN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_acc_timings&#39;</span>
 <a name="ln-21"></a>
-<a name="ln-22"></a><span class="k">   </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PRIVATE</span> <span class="kd">::</span> <span class="n">moduleN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_acc_init&#39;</span>
+<a name="ln-22"></a><span class="k">CONTAINS</span>
 <a name="ln-23"></a>
-<a name="ln-24"></a>   <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">acc_init</span><span class="p">,</span> <span class="n">acc_finalize</span>
+<a name="ln-24"></a><span class="k">   SUBROUTINE </span><span class="n">dbcsr_timeset_F</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">routineN_len</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;dbcsr_timeset&quot;</span><span class="p">)</span>
 <a name="ln-25"></a>
-<a name="ln-26"></a><span class="cp">#if defined (__DBCSR_ACC)</span>
-<a name="ln-27"></a>
-<a name="ln-28"></a>   <span class="k">INTERFACE</span>
-<a name="ln-29"></a><span class="k">      FUNCTION </span><span class="n">acc_interface_drv_init</span><span class="p">()</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;acc_init&quot;</span><span class="p">)</span>
-<a name="ln-30"></a>         <span class="k">IMPORT</span>
-<a name="ln-31"></a><span class="k">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">istat</span>
-<a name="ln-32"></a>      <span class="k">END FUNCTION </span><span class="n">acc_interface_drv_init</span>
-<a name="ln-33"></a>   <span class="k">END INTERFACE</span>
-<a name="ln-34"></a>
-<a name="ln-35"></a><span class="k">   INTERFACE</span>
-<a name="ln-36"></a><span class="k">      FUNCTION </span><span class="n">acc_interface_drv_finalize</span><span class="p">()</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;acc_finalize&quot;</span><span class="p">)</span>
-<a name="ln-37"></a>         <span class="k">IMPORT</span>
-<a name="ln-38"></a><span class="k">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">istat</span>
-<a name="ln-39"></a>      <span class="k">END FUNCTION </span><span class="n">acc_interface_drv_finalize</span>
-<a name="ln-40"></a>   <span class="k">END INTERFACE</span>
+<a name="ln-26"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="kt">C_PTR</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>      <span class="kd">::</span> <span class="n">routineN</span>
+<a name="ln-27"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">routineN_len</span>
+<a name="ln-28"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>       <span class="kd">::</span> <span class="n">handle</span>
+<a name="ln-29"></a>
+<a name="ln-30"></a>      <span class="kt">CHARACTER</span><span class="p">,</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="n">a</span><span class="p">(:)</span>
+<a name="ln-31"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">routineN_len</span><span class="p">)</span>            <span class="kd">::</span> <span class="n">routineName</span>
+<a name="ln-32"></a>      <span class="kt">INTEGER</span>                                <span class="kd">::</span> <span class="n">i</span>
+<a name="ln-33"></a>
+<a name="ln-34"></a>      <span class="k">CALL </span><span class="nb">C_F_POINTER</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="p">[</span><span class="n">routineN_len</span><span class="p">])</span>
+<a name="ln-35"></a>
+<a name="ln-36"></a>      <span class="c">! Convert character array &quot;a&quot; to scalar character string</span>
+<a name="ln-37"></a>      <span class="c">! &quot;routineName&quot;</span>
+<a name="ln-38"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">routineN_len</span>
+<a name="ln-39"></a>         <span class="n">routineName</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a name="ln-40"></a>      <span class="k">END DO</span>
 <a name="ln-41"></a>
-<a name="ln-42"></a><span class="cp">#endif</span>
-<a name="ln-43"></a><span class="k">CONTAINS</span>
-<a name="ln-44"></a>
-<a name="ln-45"></a><span class="k">   SUBROUTINE </span><span class="n">acc_init</span><span class="p">()</span>
-<a name="ln-46"></a>
-<a name="ln-47"></a><span class="cp">#if ! defined (__DBCSR_ACC)</span>
-<a name="ln-48"></a>      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in.&quot;</span><span class="p">)</span>
-<a name="ln-49"></a><span class="cp">#else</span>
-<a name="ln-50"></a>      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">istat</span>
-<a name="ln-51"></a>      <span class="n">istat</span> <span class="o">=</span> <span class="n">acc_interface_drv_init</span><span class="p">()</span>
-<a name="ln-52"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-53"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_init failed&quot;</span><span class="p">)</span>
-<a name="ln-54"></a><span class="cp">#endif</span>
-<a name="ln-55"></a>   <span class="k">END SUBROUTINE </span><span class="n">acc_init</span>
-<a name="ln-56"></a>
-<a name="ln-57"></a>   <span class="k">SUBROUTINE </span><span class="n">acc_finalize</span><span class="p">()</span>
-<a name="ln-58"></a>
-<a name="ln-59"></a><span class="cp">#if ! defined (__DBCSR_ACC)</span>
-<a name="ln-60"></a>      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in.&quot;</span><span class="p">)</span>
-<a name="ln-61"></a><span class="cp">#else</span>
-<a name="ln-62"></a>      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">istat</span>
-<a name="ln-63"></a>      <span class="n">istat</span> <span class="o">=</span> <span class="n">acc_interface_drv_finalize</span><span class="p">()</span>
-<a name="ln-64"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-65"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_finalize failed&quot;</span><span class="p">)</span>
-<a name="ln-66"></a><span class="cp">#endif</span>
-<a name="ln-67"></a>   <span class="k">END SUBROUTINE </span><span class="n">acc_finalize</span>
-<a name="ln-68"></a>
-<a name="ln-69"></a><span class="k">END MODULE </span><span class="n">dbcsr_acc_init</span>
+<a name="ln-42"></a><span class="cp">#if ! defined (__DBCSR_ACC)</span>
+<a name="ln-43"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<a name="ln-44"></a>      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in.&quot;</span><span class="p">)</span>
+<a name="ln-45"></a><span class="cp">#else</span>
+<a name="ln-46"></a>      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineName</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
+<a name="ln-47"></a><span class="cp">#endif</span>
+<a name="ln-48"></a>
+<a name="ln-49"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_timeset_F</span>
+<a name="ln-50"></a>
+<a name="ln-51"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_timestop_F</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;dbcsr_timestop&quot;</span><span class="p">)</span>
+<a name="ln-52"></a>
+<a name="ln-53"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">handle</span>
+<a name="ln-54"></a>
+<a name="ln-55"></a><span class="cp">#if ! defined (__DBCSR_ACC)</span>
+<a name="ln-56"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<a name="ln-57"></a>      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in.&quot;</span><span class="p">)</span>
+<a name="ln-58"></a><span class="cp">#else</span>
+<a name="ln-59"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<a name="ln-60"></a><span class="cp">#endif</span>
+<a name="ln-61"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_timestop_F</span>
+<a name="ln-62"></a>
+<a name="ln-63"></a><span class="k">END MODULE </span><span class="n">dbcsr_acc_timings</span>
 </pre></div>
 
     </section>

@@ -10,7 +10,7 @@
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
-    <title>acc_stream_wait_event &ndash; DBCSR Library</title>
+    <title>dbcsr_acc_timings &ndash; DBCSR Library</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -103,8 +103,8 @@
     
   
   <div class="row">
-    <h1>acc_stream_wait_event
-      <small>Subroutine</small>
+    <h1>dbcsr_acc_timings 
+    <small>Module</small>
     
     </h1>
     
@@ -121,24 +121,22 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">15 statements</a>
+    title=" 0.1% of total for modules and submodules.">35 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_acc_event.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_acc_timings.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_acc_event.f.html'>dbcsr_acc_event.F</a></li>
-    
-     <li><a href='../module/dbcsr_acc_event.html'>dbcsr_acc_event</a></li>
+     <li><a href='../sourcefile/dbcsr_acc_timings.f.html'>dbcsr_acc_timings.F</a></li>
     
   
-     <li class="active">acc_stream_wait_event</li>
+     <li class="active">dbcsr_acc_timings</li>
   </ol>
 </div>
 </div>
@@ -161,11 +159,16 @@
 
 
 
-
-
-
-
-
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
+  <div id="vars-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_acc_timings.html#variable-modulen~20">moduleN</a>
+      
+    </div>
+  </div>
+</div>
 
 
 
@@ -180,11 +183,24 @@
 
 
 <div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-0">Subroutines</a></h3></div>
   <div class="list-group">
-    <a class="list-group-item" href="../proc/acc_stream_wait_event.html#src">acc_stream_wait_event</a>
+    <div id="subs-0" class="panel-collapse collapse">
+      
+      <a class="list-group-item" href="../module/dbcsr_acc_timings.html#proc-dbcsr_timeset_f">dbcsr_timeset_F</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_acc_timings.html#proc-dbcsr_timestop_f">dbcsr_timestop_F</a>
+      
+    </div>
   </div>
 </div>
+
+
+
+
+
+
+
 
 
 
@@ -193,23 +209,157 @@
     </div>
     
     <div class="col-md-9" id='text'>
-    <h2>
-public subroutine acc_stream_wait_event(stream, event)
+    <p>Accelerator support</p>
+      <br>
+    
+  
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Uses</h3>
+      </div>
+      <ul class="list-group">
+      
+      <li class="list-group-item">
+  <ul class="list-inline">
+    
+    <li><a href="http://fortranwiki.org/fortran/show/ISO_C_BINDING">iso_c_binding</a></li>
+    
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    
+  </ul>
+      </li>
+      
+      
+      
+      </ul>
+    </div>
+    
+
+    
+    
+
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
+  <div id="vars-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_acc_timings.html#variable-modulen~20">moduleN</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-1">Subroutines</a></h3></div>
+  <div class="list-group">
+    <div id="subs-1" class="panel-collapse collapse">
+      
+      <a class="list-group-item" href="../module/dbcsr_acc_timings.html#proc-dbcsr_timeset_f">dbcsr_timeset_F</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_acc_timings.html#proc-dbcsr_timestop_f">dbcsr_timestop_F</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    
+
+    
+    <section>
+    <h2>Variables</h2>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-modulen~20"></span>character(len=*),</td>
+  
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>moduleN</strong></td><td> =</td><td>'dbcsr_acc_timings'</td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+    </section>
+    <br>
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    <section>
+    <h2>Subroutines</h2>
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_timeset_f"></span><h3>
+private subroutine <a href='../proc/dbcsr_timeset_f.html'>dbcsr_timeset_F</a>(routineN, routineN_len, handle) bind(C, name="0")
     
     
    
-</h2>
+</h3></div>
+  <div class="panel-body">
+       
     
-  
-
-
     
-    <p>Fortran-wrapper for making a GPU compute stream wait on an event.
- Because of fortran circular dependency restriction this can not go into acc_stream.F</p>
+    <h4>Arguments</h4>
     
-
-    <h3>Arguments</h3>
-    
+      
       
 <table class="table table-striped varlist">
 <thead><tr><th>Type</th>
@@ -226,12 +376,12 @@ public subroutine acc_stream_wait_event(stream, event)
   
 <tr>
   
-  <td><span class="anchor" id="variable-stream~2"></span>type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),</td>
+  <td><span class="anchor" ></span>type(C_PTR),</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>stream</strong></td><td></td>
+  <td><strong>routineN</strong></td><td></td>
   
 </tr>
 
@@ -241,117 +391,101 @@ public subroutine acc_stream_wait_event(stream, event)
   
 <tr>
   
-  <td><span class="anchor" id="variable-event"></span>type(<a href='../type/acc_event_type.html'>acc_event_type</a>),</td>
+  <td><span class="anchor" ></span>integer(kind=C_INT),</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>event</strong></td><td></td>
+  <td><strong>routineN_len</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=C_INT),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>handle</strong></td><td></td>
   
 </tr>
 
 </tbody>
 </table>
 
-    
-    
-    
-    
-     
-    <br>
-
-    <section class="visible-xs visible-sm hidden-md">
       
-<h3>Contents</h3>
- 
+    
+    
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="panel panel-primary">
-  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
-  <div class="list-group">
-    <a class="list-group-item" href="../proc/acc_stream_wait_event.html#src">acc_stream_wait_event</a>
   </div>
-</div>
-
-
-
-    </section>
-    <br class="visible-xs visible-sm hidden-md">
-
-    
+  </div>
 
     
     
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_timestop_f"></span><h3>
+private subroutine <a href='../proc/dbcsr_timestop_f.html'>dbcsr_timestop_F</a>(handle) bind(C, name="0")
     
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=C_INT),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>handle</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
     
     
 
-    
-    
-    
-    
-    
-
+  </div>
+  </div>
 
     
-    
-    
-    <section>
-    <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">stream</span><span class="p">,</span> <span class="n">event</span><span class="p">)</span>
-      <span class="c">!! Fortran-wrapper for making a GPU compute stream wait on an event.</span>
-      <span class="c">!! Because of fortran circular dependency restriction this can not go into acc_stream.F</span>
-
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">acc_stream_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">stream</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">acc_event_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">event</span>
-
-<span class="cp">#if ! defined (__DBCSR_ACC)</span>
-      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
-      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in.&quot;</span><span class="p">)</span>
-<span class="cp">#else</span>
-      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">istat</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="kt">C_PTR</span><span class="p">)</span>                              <span class="kd">::</span> <span class="n">stream_cptr</span>
-
-      <span class="n">stream_cptr</span> <span class="o">=</span> <span class="n">acc_stream_cptr</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">C_ASSOCIATED</span><span class="p">(</span><span class="n">event</span><span class="p">%</span><span class="n">cptr</span><span class="p">))</span> <span class="p">&amp;</span>
-         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_stream_wait_event: event not allocated&quot;</span><span class="p">)</span>
-      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">C_ASSOCIATED</span><span class="p">(</span><span class="n">stream_cptr</span><span class="p">))</span> <span class="p">&amp;</span>
-         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_stream_wait_event: stream not allocated&quot;</span><span class="p">)</span>
-      <span class="n">istat</span> <span class="o">=</span> <span class="n">acc_interface_stream_wait_event</span><span class="p">(</span><span class="n">stream_cptr</span><span class="p">,</span> <span class="n">event</span><span class="p">%</span><span class="n">cptr</span><span class="p">)</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
-         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_stream_wait_event failed&quot;</span><span class="p">)</span>
-<span class="cp">#endif</span>
-   <span class="k">END SUBROUTINE </span><span class="n">acc_stream_wait_event</span>
-</pre></div>
-
-    </section>
+    </section>    
     <br>
+    
     
     
     </div>
   </div>
 
-
+  
     <hr>    
     </div> <!-- /container -->
     <footer>

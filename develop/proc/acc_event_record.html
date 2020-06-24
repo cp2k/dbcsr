@@ -230,7 +230,7 @@ public subroutine acc_event_record(this, stream)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>this</strong></td><td><p>event</p></td>
+  <td><strong>this</strong></td><td></td>
   
 </tr>
 
@@ -245,7 +245,7 @@ public subroutine acc_event_record(this, stream)
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>stream</strong></td><td><p>stream</p></td>
+  <td><strong>stream</strong></td><td></td>
   
 </tr>
 
@@ -320,9 +320,7 @@ public subroutine acc_event_record(this, stream)
       <span class="c">!! Fortran-wrapper for recording a CUDA/HIP event.</span>
 
       <span class="k">TYPE</span><span class="p">(</span><span class="n">acc_event_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">this</span>
-         <span class="c">!! event</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">acc_stream_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">stream</span>
-         <span class="c">!! stream</span>
 
 <span class="cp">#if ! defined (__DBCSR_ACC)</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">this</span><span class="p">)</span>
