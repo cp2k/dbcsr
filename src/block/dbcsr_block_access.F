@@ -1079,8 +1079,8 @@ CONTAINS
                   data_block, found, data_block2, replace=.FALSE.)
                IF (found) THEN
                   IF (nze > 0) &
-                     CALL ${nametype1}$axpy(nze, ${one1[n]}$, block(1), 1, &
-                                            data_block2%p(1, 1), 1)
+                     CALL ${nametype1}$axpy(nze, ${one1[n]}$, block, 1, &
+                                            data_block2%p, 1)
                   IF (.NOT. ASSOCIATED(data_block%p)) &
                      DBCSR_WARN("Data was not present in block")
                   IF (ASSOCIATED(data_block%p)) DEALLOCATE (data_block%p)
