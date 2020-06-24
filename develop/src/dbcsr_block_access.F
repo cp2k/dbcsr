@@ -1086,8 +1086,8 @@ CONTAINS
                   data_block, found, data_block2, replace=.FALSE.)
                IF (found) THEN
                   IF (nze > 0) &
-                     CALL daxpy(nze, 1.0_real_8, block(1), 1, &
-                                            data_block2%p(1, 1), 1)
+                     CALL daxpy(nze, 1.0_real_8, block, 1, &
+                                            data_block2%p, 1)
                   IF (.NOT. ASSOCIATED(data_block%p)) &
                      DBCSR_WARN("Data was not present in block")
                   IF (ASSOCIATED(data_block%p)) DEALLOCATE (data_block%p)
@@ -1549,8 +1549,8 @@ CONTAINS
                   data_block, found, data_block2, replace=.FALSE.)
                IF (found) THEN
                   IF (nze > 0) &
-                     CALL saxpy(nze, 1.0_real_4, block(1), 1, &
-                                            data_block2%p(1, 1), 1)
+                     CALL saxpy(nze, 1.0_real_4, block, 1, &
+                                            data_block2%p, 1)
                   IF (.NOT. ASSOCIATED(data_block%p)) &
                      DBCSR_WARN("Data was not present in block")
                   IF (ASSOCIATED(data_block%p)) DEALLOCATE (data_block%p)
@@ -2012,8 +2012,8 @@ CONTAINS
                   data_block, found, data_block2, replace=.FALSE.)
                IF (found) THEN
                   IF (nze > 0) &
-                     CALL zaxpy(nze, CMPLX(1.0, 0.0, real_8), block(1), 1, &
-                                            data_block2%p(1, 1), 1)
+                     CALL zaxpy(nze, CMPLX(1.0, 0.0, real_8), block, 1, &
+                                            data_block2%p, 1)
                   IF (.NOT. ASSOCIATED(data_block%p)) &
                      DBCSR_WARN("Data was not present in block")
                   IF (ASSOCIATED(data_block%p)) DEALLOCATE (data_block%p)
@@ -2475,8 +2475,8 @@ CONTAINS
                   data_block, found, data_block2, replace=.FALSE.)
                IF (found) THEN
                   IF (nze > 0) &
-                     CALL caxpy(nze, CMPLX(1.0, 0.0, real_4), block(1), 1, &
-                                            data_block2%p(1, 1), 1)
+                     CALL caxpy(nze, CMPLX(1.0, 0.0, real_4), block, 1, &
+                                            data_block2%p, 1)
                   IF (.NOT. ASSOCIATED(data_block%p)) &
                      DBCSR_WARN("Data was not present in block")
                   IF (ASSOCIATED(data_block%p)) DEALLOCATE (data_block%p)

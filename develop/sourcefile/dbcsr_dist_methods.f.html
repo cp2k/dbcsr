@@ -726,158 +726,157 @@
 <a name="ln-468"></a>
 <a name="ln-469"></a>      <span class="n">dist_p</span> <span class="o">=&gt;</span> <span class="n">dist</span>
 <a name="ln-470"></a><span class="c">!$    IF (.NOT. OMP_IN_PARALLEL()) THEN</span>
-<a name="ln-471"></a><span class="c">!$OMP        PARALLEL DEFAULT(NONE) &amp;</span>
-<a name="ln-472"></a><span class="c">!$OMP                 SHARED(dist_p,row_sizes)</span>
-<a name="ln-473"></a><span class="c">!$       CALL make_threads(dist_p, row_sizes=row_sizes)</span>
-<a name="ln-474"></a><span class="c">!$OMP        END PARALLEL</span>
-<a name="ln-475"></a><span class="c">!$    ELSE</span>
-<a name="ln-476"></a>         <span class="k">CALL </span><span class="n">make_threads</span><span class="p">(</span><span class="n">dist_p</span><span class="p">,</span> <span class="n">row_sizes</span><span class="o">=</span><span class="n">row_sizes</span><span class="p">)</span>
-<a name="ln-477"></a><span class="c">!$OMP        BARRIER</span>
-<a name="ln-478"></a><span class="c">!$    ENDIF</span>
-<a name="ln-479"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_distribution_make_threads</span>
-<a name="ln-480"></a>
-<a name="ln-481"></a>   <span class="k">SUBROUTINE </span><span class="n">make_threads</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">row_sizes</span><span class="p">)</span>
-<a name="ln-482"></a>      <span class="c">!! Creates a distribution for threads</span>
-<a name="ln-483"></a>      <span class="c">!!</span>
-<a name="ln-484"></a>      <span class="c">!! Presence of row_sizes</span>
-<a name="ln-485"></a>      <span class="c">!! When row_sizes is present then the thread distribution</span>
-<a name="ln-486"></a>      <span class="c">!! attempts to distribute rows to threads such that the sum of</span>
-<a name="ln-487"></a>      <span class="c">!! delegated row sizes is approximately matched for all rows.</span>
-<a name="ln-488"></a>      <span class="c">!! When row_sizes is not present then a random distribution is chosen.</span>
-<a name="ln-489"></a>
-<a name="ln-490"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span> <span class="k">POINTER</span>              <span class="kd">::</span> <span class="n">dist</span>
-<a name="ln-491"></a>         <span class="c">!! Add thread distribution to this distribution</span>
-<a name="ln-492"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>        <span class="kd">::</span> <span class="n">row_sizes</span>
-<a name="ln-493"></a>         <span class="c">!! row block sizes</span>
-<a name="ln-494"></a>
-<a name="ln-495"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;make_threads&#39;</span><span class="p">,</span> <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
-<a name="ln-496"></a>
-<a name="ln-497"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">block_size</span><span class="p">,</span> <span class="n">block_size0</span><span class="p">,</span> <span class="n">cur_block</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-498"></a>                                                            <span class="n">group_size</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">last_row</span><span class="p">,</span> <span class="n">nlrows</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-499"></a>                                                            <span class="n">nrows</span><span class="p">,</span> <span class="n">nthreads</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">t_cnt</span>
-<a name="ln-500"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:)</span>                 <span class="kd">::</span> <span class="n">reorder</span><span class="p">,</span> <span class="n">sorted_row_sizes</span>
-<a name="ln-501"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>         <span class="kd">::</span> <span class="n">lrows</span><span class="p">,</span> <span class="n">td</span>
-<a name="ln-502"></a>      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">assigned</span><span class="p">,</span> <span class="n">found</span>
-<a name="ln-503"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">)</span>                                      <span class="kd">::</span> <span class="n">load_fraction</span><span class="p">,</span> <span class="n">rn</span><span class="p">,</span> <span class="n">soft_thr</span>
-<a name="ln-504"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_heap_type</span><span class="p">)</span>                              <span class="kd">::</span> <span class="n">t_heap</span>
-<a name="ln-505"></a>
-<a name="ln-506"></a><span class="c">!   ---------------------------------------------------------------------------</span>
-<a name="ln-507"></a>
-<a name="ln-508"></a>      <span class="n">nthreads</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-509"></a><span class="c">!$    nthreads = OMP_GET_NUM_THREADS()</span>
-<a name="ln-510"></a><span class="c">!$    IF (dist%d%num_threads /= nthreads) &amp;</span>
-<a name="ln-511"></a><span class="c">!$       DBCSR_ABORT(&quot;Thread number has changed&quot;)</span>
-<a name="ln-512"></a>      <span class="n">nrows</span> <span class="o">=</span> <span class="n">dbcsr_distribution_nrows</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
-<a name="ln-513"></a>      <span class="n">nlrows</span> <span class="o">=</span> <span class="n">dbcsr_distribution_nlocal_rows</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
-<a name="ln-514"></a>      <span class="n">lrows</span> <span class="o">=&gt;</span> <span class="n">dbcsr_distribution_local_rows</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
-<a name="ln-515"></a>
-<a name="ln-516"></a><span class="c">!$OMP     BARRIER</span>
-<a name="ln-517"></a><span class="c">!$OMP     MASTER</span>
-<a name="ln-518"></a>
-<a name="ln-519"></a>      <span class="n">load_fraction</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span><span class="p">)</span><span class="o">/</span><span class="mi">10</span><span class="mf">0.0</span>
-<a name="ln-520"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">nthreads</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="n">load_fraction</span> <span class="o">=</span> <span class="mf">1.0</span>
-<a name="ln-521"></a>
-<a name="ln-522"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">has_thread_dist</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-523"></a><span class="k">         </span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">num_threads</span> <span class="o">=</span> <span class="n">nthreads</span>
-<a name="ln-524"></a>         <span class="n">group_size</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">cur_block</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-525"></a>
-<a name="ln-526"></a>         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">td</span><span class="p">(</span><span class="n">nrows</span><span class="p">))</span>
-<a name="ln-527"></a>         <span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">has_thread_dist</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-<a name="ln-528"></a>         <span class="k">CALL </span><span class="n">array_new</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">thread_dist</span><span class="p">,</span> <span class="n">td</span><span class="p">,</span> <span class="n">gift</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
-<a name="ln-529"></a>         <span class="n">td</span> <span class="o">=&gt;</span> <span class="n">array_data</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">thread_dist</span><span class="p">)</span>
-<a name="ln-530"></a>
-<a name="ln-531"></a>         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">row_sizes</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-532"></a>            <span class="c">! The goal is to distribute rows to threads as equally as</span>
-<a name="ln-533"></a>            <span class="c">! possible. The row sizes are first sorted. Each group of</span>
-<a name="ln-534"></a>            <span class="c">! equally sized rows (group_size rows of size cur_block) is</span>
-<a name="ln-535"></a>            <span class="c">! distributed to threads (keeping consecutive rows</span>
-<a name="ln-536"></a>            <span class="c">! together). The group is divided into equally-sized blocks</span>
-<a name="ln-537"></a>            <span class="c">! (block_size0, block_size).  Leftover rows (those that can</span>
-<a name="ln-538"></a>            <span class="c">! not be equally distributed to threads) are then assigned</span>
-<a name="ln-539"></a>            <span class="c">! to threads so that each thread&#39;s cumulative load attempts</span>
-<a name="ln-540"></a>            <span class="c">! to be equal. This distribution is achieved using a heap.</span>
-<a name="ln-541"></a>            <span class="c">!</span>
-<a name="ln-542"></a>            <span class="c">! The heap is used to distribute &quot;leftover&quot;rows to threads.</span>
-<a name="ln-543"></a>            <span class="c">! Leftover rows are those of the same size that can not be</span>
-<a name="ln-544"></a>            <span class="c">! evenly distributed among all threads.</span>
-<a name="ln-545"></a>            <span class="k">CALL </span><span class="n">dbcsr_heap_new</span><span class="p">(</span><span class="n">t_heap</span><span class="p">,</span> <span class="n">nthreads</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-<a name="ln-546"></a>            <span class="c">! We do not want thread 0 to be in the heap.</span>
-<a name="ln-547"></a>            <span class="k">CALL </span><span class="n">dbcsr_heap_fill</span><span class="p">(</span><span class="n">t_heap</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">nthreads</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">))</span>
-<a name="ln-548"></a>            <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">sorted_row_sizes</span><span class="p">(</span><span class="n">nrows</span><span class="p">))</span>
-<a name="ln-549"></a>            <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">reorder</span><span class="p">(</span><span class="n">nrows</span><span class="p">))</span>
-<a name="ln-550"></a>            <span class="n">sorted_row_sizes</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">row_sizes</span><span class="p">(:)</span>
-<a name="ln-551"></a>            <span class="k">CALL </span><span class="n">sort</span><span class="p">(</span><span class="n">sorted_row_sizes</span><span class="p">,</span> <span class="n">nrows</span><span class="p">,</span> <span class="n">reorder</span><span class="p">)</span>
-<a name="ln-552"></a>
-<a name="ln-553"></a>            <span class="n">row</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-554"></a>            <span class="k">DO WHILE</span> <span class="p">(</span><span class="n">row</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">nrows</span><span class="p">)</span>
-<a name="ln-555"></a>               <span class="n">cur_block</span> <span class="o">=</span> <span class="n">sorted_row_sizes</span><span class="p">(</span><span class="n">nrows</span> <span class="o">-</span> <span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-<a name="ln-556"></a>               <span class="n">assigned</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a name="ln-557"></a>               <span class="n">group_size</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-558"></a>
-<a name="ln-559"></a>               <span class="n">last_row</span> <span class="o">=</span> <span class="n">nrows</span> <span class="o">-</span> <span class="n">row</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-560"></a>               <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="n">last_row</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span>
-<a name="ln-561"></a>                  <span class="k">IF</span> <span class="p">(</span><span class="n">cur_block</span> <span class="o">==</span> <span class="n">sorted_row_sizes</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-562"></a><span class="k">                     </span><span class="n">group_size</span> <span class="o">=</span> <span class="n">group_size</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-563"></a>                     <span class="n">row</span> <span class="o">=</span> <span class="n">row</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-564"></a>                  <span class="k">ELSE</span>
-<a name="ln-565"></a><span class="k">                     EXIT</span>
-<a name="ln-566"></a><span class="k">                  END IF</span>
-<a name="ln-567"></a><span class="k">               END DO</span>
-<a name="ln-568"></a>
-<a name="ln-569"></a><span class="k">               </span><span class="n">soft_thr</span> <span class="o">=</span> <span class="n">load_fraction</span> <span class="o">+</span> <span class="n">nthreads</span> <span class="o">-</span> <span class="mi">1</span>
-<a name="ln-570"></a>               <span class="n">block_size0</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">load_fraction</span><span class="o">*</span><span class="p">(</span><span class="n">group_size</span><span class="o">/</span><span class="n">soft_thr</span><span class="p">))</span>
-<a name="ln-571"></a>               <span class="n">block_size</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">group_size</span><span class="o">/</span><span class="n">soft_thr</span><span class="p">)</span>
-<a name="ln-572"></a>
-<a name="ln-573"></a>               <span class="c">!blocks for master thread</span>
-<a name="ln-574"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">block_size0</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-575"></a>                  <span class="n">td</span><span class="p">(</span><span class="n">reorder</span><span class="p">(</span><span class="n">last_row</span><span class="p">:</span><span class="n">last_row</span> <span class="o">-</span> <span class="n">block_size0</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-576"></a>
-<a name="ln-577"></a>               <span class="c">!Other threads</span>
-<a name="ln-578"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">block_size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-579"></a><span class="k">                  DO </span><span class="n">t</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nthreads</span> <span class="o">-</span> <span class="mi">1</span>
-<a name="ln-580"></a>                     <span class="n">td</span><span class="p">(</span><span class="n">reorder</span><span class="p">(</span><span class="n">last_row</span> <span class="o">-</span> <span class="n">block_size0</span> <span class="o">-</span> <span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">block_size</span><span class="p">:</span> <span class="p">&amp;</span>
-<a name="ln-581"></a>                                <span class="n">last_row</span> <span class="o">-</span> <span class="n">block_size0</span> <span class="o">-</span> <span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="n">block_size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">=</span> <span class="n">t</span>
-<a name="ln-582"></a>                  <span class="k">END DO</span>
-<a name="ln-583"></a><span class="k">               END IF</span>
-<a name="ln-584"></a>
-<a name="ln-585"></a>               <span class="c">!Leftover bocks</span>
-<a name="ln-586"></a>               <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="n">last_row</span> <span class="o">-</span> <span class="n">block_size0</span> <span class="o">-</span> <span class="p">(</span><span class="n">nthreads</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">block_size</span><span class="p">,</span> <span class="n">last_row</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">group_size</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span>
-<a name="ln-587"></a>                  <span class="k">CALL </span><span class="n">dbcsr_heap_get_first</span><span class="p">(</span><span class="n">t_heap</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">t_cnt</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
-<a name="ln-588"></a>                  <span class="n">t_cnt</span> <span class="o">=</span> <span class="n">t_cnt</span> <span class="o">+</span> <span class="n">cur_block</span>
-<a name="ln-589"></a>                  <span class="k">CALL </span><span class="n">dbcsr_heap_reset_first</span><span class="p">(</span><span class="n">t_heap</span><span class="p">,</span> <span class="n">t_cnt</span><span class="p">)</span>
-<a name="ln-590"></a>                  <span class="n">td</span><span class="p">(</span><span class="n">reorder</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="o">=</span> <span class="n">t</span>
-<a name="ln-591"></a>               <span class="k">END DO</span>
-<a name="ln-592"></a>
-<a name="ln-593"></a><span class="k">            END DO</span>
-<a name="ln-594"></a><span class="k">            CALL </span><span class="n">dbcsr_heap_release</span><span class="p">(</span><span class="n">t_heap</span><span class="p">)</span>
-<a name="ln-595"></a>            <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">sorted_row_sizes</span><span class="p">)</span>
-<a name="ln-596"></a>            <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">reorder</span><span class="p">)</span>
-<a name="ln-597"></a>         <span class="k">ELSE</span>
-<a name="ln-598"></a><span class="k">            DO </span><span class="n">t</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nrows</span>
-<a name="ln-599"></a>               <span class="k">IF</span> <span class="p">(.</span><span class="n">FALSE</span><span class="p">.)</span> <span class="k">THEN</span>
-<a name="ln-600"></a><span class="k">                  </span><span class="n">td</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">=</span> <span class="nb">MOD</span><span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nthreads</span><span class="p">)</span>
-<a name="ln-601"></a>               <span class="k">ELSE</span>
-<a name="ln-602"></a><span class="k">                  CALL </span><span class="nb">RANDOM_NUMBER</span><span class="p">(</span><span class="n">rn</span><span class="p">)</span>
-<a name="ln-603"></a>                  <span class="c">! Makes sure the numbers are in the proper integer range.</span>
-<a name="ln-604"></a>                  <span class="n">td</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">=</span> <span class="nb">MOD</span><span class="p">(</span><span class="nb">INT</span><span class="p">(</span><span class="n">rn</span><span class="o">*</span><span class="kt">REAL</span><span class="p">(</span><span class="n">nthreads</span><span class="p">)),</span> <span class="n">nthreads</span><span class="p">)</span>
-<a name="ln-605"></a>               <span class="n">ENDIF</span>
-<a name="ln-606"></a>            <span class="k">END DO</span>
-<a name="ln-607"></a><span class="k">         </span><span class="n">ENDIF</span>
-<a name="ln-608"></a>      <span class="n">ENDIF</span>
-<a name="ln-609"></a><span class="c">!$OMP     END MASTER</span>
-<a name="ln-610"></a>   <span class="k">END SUBROUTINE </span><span class="n">make_threads</span>
-<a name="ln-611"></a>
-<a name="ln-612"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_distribution_no_threads</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
-<a name="ln-613"></a>      <span class="c">!! Removes the thread distribution from a distribution</span>
-<a name="ln-614"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">dist</span>
-<a name="ln-615"></a>
-<a name="ln-616"></a><span class="c">!$OMP MASTER</span>
-<a name="ln-617"></a>      <span class="k">CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">thread_dist</span><span class="p">)</span>
-<a name="ln-618"></a>      <span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">has_thread_dist</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a name="ln-619"></a><span class="c">!$OMP END MASTER</span>
-<a name="ln-620"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_distribution_no_threads</span>
-<a name="ln-621"></a>
-<a name="ln-622"></a><span class="k">END MODULE </span><span class="n">dbcsr_dist_methods</span>
+<a name="ln-471"></a><span class="c">!$OMP        PARALLEL DEFAULT(SHARED)</span>
+<a name="ln-472"></a><span class="c">!$       CALL make_threads(dist_p, row_sizes=row_sizes)</span>
+<a name="ln-473"></a><span class="c">!$OMP        END PARALLEL</span>
+<a name="ln-474"></a><span class="c">!$    ELSE</span>
+<a name="ln-475"></a>         <span class="k">CALL </span><span class="n">make_threads</span><span class="p">(</span><span class="n">dist_p</span><span class="p">,</span> <span class="n">row_sizes</span><span class="o">=</span><span class="n">row_sizes</span><span class="p">)</span>
+<a name="ln-476"></a><span class="c">!$OMP        BARRIER</span>
+<a name="ln-477"></a><span class="c">!$    ENDIF</span>
+<a name="ln-478"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_distribution_make_threads</span>
+<a name="ln-479"></a>
+<a name="ln-480"></a>   <span class="k">SUBROUTINE </span><span class="n">make_threads</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">row_sizes</span><span class="p">)</span>
+<a name="ln-481"></a>      <span class="c">!! Creates a distribution for threads</span>
+<a name="ln-482"></a>      <span class="c">!!</span>
+<a name="ln-483"></a>      <span class="c">!! Presence of row_sizes</span>
+<a name="ln-484"></a>      <span class="c">!! When row_sizes is present then the thread distribution</span>
+<a name="ln-485"></a>      <span class="c">!! attempts to distribute rows to threads such that the sum of</span>
+<a name="ln-486"></a>      <span class="c">!! delegated row sizes is approximately matched for all rows.</span>
+<a name="ln-487"></a>      <span class="c">!! When row_sizes is not present then a random distribution is chosen.</span>
+<a name="ln-488"></a>
+<a name="ln-489"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span> <span class="k">POINTER</span>              <span class="kd">::</span> <span class="n">dist</span>
+<a name="ln-490"></a>         <span class="c">!! Add thread distribution to this distribution</span>
+<a name="ln-491"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>        <span class="kd">::</span> <span class="n">row_sizes</span>
+<a name="ln-492"></a>         <span class="c">!! row block sizes</span>
+<a name="ln-493"></a>
+<a name="ln-494"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;make_threads&#39;</span><span class="p">,</span> <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+<a name="ln-495"></a>
+<a name="ln-496"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">block_size</span><span class="p">,</span> <span class="n">block_size0</span><span class="p">,</span> <span class="n">cur_block</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-497"></a>                                                            <span class="n">group_size</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">last_row</span><span class="p">,</span> <span class="n">nlrows</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-498"></a>                                                            <span class="n">nrows</span><span class="p">,</span> <span class="n">nthreads</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">t_cnt</span>
+<a name="ln-499"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:)</span>                 <span class="kd">::</span> <span class="n">reorder</span><span class="p">,</span> <span class="n">sorted_row_sizes</span>
+<a name="ln-500"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>         <span class="kd">::</span> <span class="n">lrows</span><span class="p">,</span> <span class="n">td</span>
+<a name="ln-501"></a>      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">assigned</span><span class="p">,</span> <span class="n">found</span>
+<a name="ln-502"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">)</span>                                      <span class="kd">::</span> <span class="n">load_fraction</span><span class="p">,</span> <span class="n">rn</span><span class="p">,</span> <span class="n">soft_thr</span>
+<a name="ln-503"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_heap_type</span><span class="p">)</span>                              <span class="kd">::</span> <span class="n">t_heap</span>
+<a name="ln-504"></a>
+<a name="ln-505"></a><span class="c">!   ---------------------------------------------------------------------------</span>
+<a name="ln-506"></a>
+<a name="ln-507"></a>      <span class="n">nthreads</span> <span class="o">=</span> <span class="mi">1</span>
+<a name="ln-508"></a><span class="c">!$    nthreads = OMP_GET_NUM_THREADS()</span>
+<a name="ln-509"></a><span class="c">!$    IF (dist%d%num_threads /= nthreads) &amp;</span>
+<a name="ln-510"></a><span class="c">!$       DBCSR_ABORT(&quot;Thread number has changed&quot;)</span>
+<a name="ln-511"></a>      <span class="n">nrows</span> <span class="o">=</span> <span class="n">dbcsr_distribution_nrows</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+<a name="ln-512"></a>      <span class="n">nlrows</span> <span class="o">=</span> <span class="n">dbcsr_distribution_nlocal_rows</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+<a name="ln-513"></a>      <span class="n">lrows</span> <span class="o">=&gt;</span> <span class="n">dbcsr_distribution_local_rows</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+<a name="ln-514"></a>
+<a name="ln-515"></a><span class="c">!$OMP     BARRIER</span>
+<a name="ln-516"></a><span class="c">!$OMP     MASTER</span>
+<a name="ln-517"></a>
+<a name="ln-518"></a>      <span class="n">load_fraction</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span><span class="p">)</span><span class="o">/</span><span class="mi">10</span><span class="mf">0.0</span>
+<a name="ln-519"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">nthreads</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="n">load_fraction</span> <span class="o">=</span> <span class="mf">1.0</span>
+<a name="ln-520"></a>
+<a name="ln-521"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">has_thread_dist</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-522"></a><span class="k">         </span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">num_threads</span> <span class="o">=</span> <span class="n">nthreads</span>
+<a name="ln-523"></a>         <span class="n">group_size</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">cur_block</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-524"></a>
+<a name="ln-525"></a>         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">td</span><span class="p">(</span><span class="n">nrows</span><span class="p">))</span>
+<a name="ln-526"></a>         <span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">has_thread_dist</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<a name="ln-527"></a>         <span class="k">CALL </span><span class="n">array_new</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">thread_dist</span><span class="p">,</span> <span class="n">td</span><span class="p">,</span> <span class="n">gift</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+<a name="ln-528"></a>         <span class="n">td</span> <span class="o">=&gt;</span> <span class="n">array_data</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">thread_dist</span><span class="p">)</span>
+<a name="ln-529"></a>
+<a name="ln-530"></a>         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">row_sizes</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-531"></a>            <span class="c">! The goal is to distribute rows to threads as equally as</span>
+<a name="ln-532"></a>            <span class="c">! possible. The row sizes are first sorted. Each group of</span>
+<a name="ln-533"></a>            <span class="c">! equally sized rows (group_size rows of size cur_block) is</span>
+<a name="ln-534"></a>            <span class="c">! distributed to threads (keeping consecutive rows</span>
+<a name="ln-535"></a>            <span class="c">! together). The group is divided into equally-sized blocks</span>
+<a name="ln-536"></a>            <span class="c">! (block_size0, block_size).  Leftover rows (those that can</span>
+<a name="ln-537"></a>            <span class="c">! not be equally distributed to threads) are then assigned</span>
+<a name="ln-538"></a>            <span class="c">! to threads so that each thread&#39;s cumulative load attempts</span>
+<a name="ln-539"></a>            <span class="c">! to be equal. This distribution is achieved using a heap.</span>
+<a name="ln-540"></a>            <span class="c">!</span>
+<a name="ln-541"></a>            <span class="c">! The heap is used to distribute &quot;leftover&quot;rows to threads.</span>
+<a name="ln-542"></a>            <span class="c">! Leftover rows are those of the same size that can not be</span>
+<a name="ln-543"></a>            <span class="c">! evenly distributed among all threads.</span>
+<a name="ln-544"></a>            <span class="k">CALL </span><span class="n">dbcsr_heap_new</span><span class="p">(</span><span class="n">t_heap</span><span class="p">,</span> <span class="n">nthreads</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<a name="ln-545"></a>            <span class="c">! We do not want thread 0 to be in the heap.</span>
+<a name="ln-546"></a>            <span class="k">CALL </span><span class="n">dbcsr_heap_fill</span><span class="p">(</span><span class="n">t_heap</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">nthreads</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">))</span>
+<a name="ln-547"></a>            <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">sorted_row_sizes</span><span class="p">(</span><span class="n">nrows</span><span class="p">))</span>
+<a name="ln-548"></a>            <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">reorder</span><span class="p">(</span><span class="n">nrows</span><span class="p">))</span>
+<a name="ln-549"></a>            <span class="n">sorted_row_sizes</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">row_sizes</span><span class="p">(:)</span>
+<a name="ln-550"></a>            <span class="k">CALL </span><span class="n">sort</span><span class="p">(</span><span class="n">sorted_row_sizes</span><span class="p">,</span> <span class="n">nrows</span><span class="p">,</span> <span class="n">reorder</span><span class="p">)</span>
+<a name="ln-551"></a>
+<a name="ln-552"></a>            <span class="n">row</span> <span class="o">=</span> <span class="mi">1</span>
+<a name="ln-553"></a>            <span class="k">DO WHILE</span> <span class="p">(</span><span class="n">row</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">nrows</span><span class="p">)</span>
+<a name="ln-554"></a>               <span class="n">cur_block</span> <span class="o">=</span> <span class="n">sorted_row_sizes</span><span class="p">(</span><span class="n">nrows</span> <span class="o">-</span> <span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+<a name="ln-555"></a>               <span class="n">assigned</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-556"></a>               <span class="n">group_size</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-557"></a>
+<a name="ln-558"></a>               <span class="n">last_row</span> <span class="o">=</span> <span class="n">nrows</span> <span class="o">-</span> <span class="n">row</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-559"></a>               <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="n">last_row</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span>
+<a name="ln-560"></a>                  <span class="k">IF</span> <span class="p">(</span><span class="n">cur_block</span> <span class="o">==</span> <span class="n">sorted_row_sizes</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-561"></a><span class="k">                     </span><span class="n">group_size</span> <span class="o">=</span> <span class="n">group_size</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-562"></a>                     <span class="n">row</span> <span class="o">=</span> <span class="n">row</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-563"></a>                  <span class="k">ELSE</span>
+<a name="ln-564"></a><span class="k">                     EXIT</span>
+<a name="ln-565"></a><span class="k">                  END IF</span>
+<a name="ln-566"></a><span class="k">               END DO</span>
+<a name="ln-567"></a>
+<a name="ln-568"></a><span class="k">               </span><span class="n">soft_thr</span> <span class="o">=</span> <span class="n">load_fraction</span> <span class="o">+</span> <span class="n">nthreads</span> <span class="o">-</span> <span class="mi">1</span>
+<a name="ln-569"></a>               <span class="n">block_size0</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">load_fraction</span><span class="o">*</span><span class="p">(</span><span class="n">group_size</span><span class="o">/</span><span class="n">soft_thr</span><span class="p">))</span>
+<a name="ln-570"></a>               <span class="n">block_size</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">group_size</span><span class="o">/</span><span class="n">soft_thr</span><span class="p">)</span>
+<a name="ln-571"></a>
+<a name="ln-572"></a>               <span class="c">!blocks for master thread</span>
+<a name="ln-573"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">block_size0</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-574"></a>                  <span class="n">td</span><span class="p">(</span><span class="n">reorder</span><span class="p">(</span><span class="n">last_row</span><span class="p">:</span><span class="n">last_row</span> <span class="o">-</span> <span class="n">block_size0</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-575"></a>
+<a name="ln-576"></a>               <span class="c">!Other threads</span>
+<a name="ln-577"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">block_size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-578"></a><span class="k">                  DO </span><span class="n">t</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nthreads</span> <span class="o">-</span> <span class="mi">1</span>
+<a name="ln-579"></a>                     <span class="n">td</span><span class="p">(</span><span class="n">reorder</span><span class="p">(</span><span class="n">last_row</span> <span class="o">-</span> <span class="n">block_size0</span> <span class="o">-</span> <span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">block_size</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-580"></a>                                <span class="n">last_row</span> <span class="o">-</span> <span class="n">block_size0</span> <span class="o">-</span> <span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="n">block_size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span> <span class="o">=</span> <span class="n">t</span>
+<a name="ln-581"></a>                  <span class="k">END DO</span>
+<a name="ln-582"></a><span class="k">               END IF</span>
+<a name="ln-583"></a>
+<a name="ln-584"></a>               <span class="c">!Leftover bocks</span>
+<a name="ln-585"></a>               <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="n">last_row</span> <span class="o">-</span> <span class="n">block_size0</span> <span class="o">-</span> <span class="p">(</span><span class="n">nthreads</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">block_size</span><span class="p">,</span> <span class="n">last_row</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">group_size</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span>
+<a name="ln-586"></a>                  <span class="k">CALL </span><span class="n">dbcsr_heap_get_first</span><span class="p">(</span><span class="n">t_heap</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">t_cnt</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
+<a name="ln-587"></a>                  <span class="n">t_cnt</span> <span class="o">=</span> <span class="n">t_cnt</span> <span class="o">+</span> <span class="n">cur_block</span>
+<a name="ln-588"></a>                  <span class="k">CALL </span><span class="n">dbcsr_heap_reset_first</span><span class="p">(</span><span class="n">t_heap</span><span class="p">,</span> <span class="n">t_cnt</span><span class="p">)</span>
+<a name="ln-589"></a>                  <span class="n">td</span><span class="p">(</span><span class="n">reorder</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="o">=</span> <span class="n">t</span>
+<a name="ln-590"></a>               <span class="k">END DO</span>
+<a name="ln-591"></a>
+<a name="ln-592"></a><span class="k">            END DO</span>
+<a name="ln-593"></a><span class="k">            CALL </span><span class="n">dbcsr_heap_release</span><span class="p">(</span><span class="n">t_heap</span><span class="p">)</span>
+<a name="ln-594"></a>            <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">sorted_row_sizes</span><span class="p">)</span>
+<a name="ln-595"></a>            <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">reorder</span><span class="p">)</span>
+<a name="ln-596"></a>         <span class="k">ELSE</span>
+<a name="ln-597"></a><span class="k">            DO </span><span class="n">t</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nrows</span>
+<a name="ln-598"></a>               <span class="k">IF</span> <span class="p">(.</span><span class="n">FALSE</span><span class="p">.)</span> <span class="k">THEN</span>
+<a name="ln-599"></a><span class="k">                  </span><span class="n">td</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">=</span> <span class="nb">MOD</span><span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nthreads</span><span class="p">)</span>
+<a name="ln-600"></a>               <span class="k">ELSE</span>
+<a name="ln-601"></a><span class="k">                  CALL </span><span class="nb">RANDOM_NUMBER</span><span class="p">(</span><span class="n">rn</span><span class="p">)</span>
+<a name="ln-602"></a>                  <span class="c">! Makes sure the numbers are in the proper integer range.</span>
+<a name="ln-603"></a>                  <span class="n">td</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">=</span> <span class="nb">MOD</span><span class="p">(</span><span class="nb">INT</span><span class="p">(</span><span class="n">rn</span><span class="o">*</span><span class="kt">REAL</span><span class="p">(</span><span class="n">nthreads</span><span class="p">)),</span> <span class="n">nthreads</span><span class="p">)</span>
+<a name="ln-604"></a>               <span class="n">ENDIF</span>
+<a name="ln-605"></a>            <span class="k">END DO</span>
+<a name="ln-606"></a><span class="k">         </span><span class="n">ENDIF</span>
+<a name="ln-607"></a>      <span class="n">ENDIF</span>
+<a name="ln-608"></a><span class="c">!$OMP     END MASTER</span>
+<a name="ln-609"></a>   <span class="k">END SUBROUTINE </span><span class="n">make_threads</span>
+<a name="ln-610"></a>
+<a name="ln-611"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_distribution_no_threads</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+<a name="ln-612"></a>      <span class="c">!! Removes the thread distribution from a distribution</span>
+<a name="ln-613"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">dist</span>
+<a name="ln-614"></a>
+<a name="ln-615"></a><span class="c">!$OMP MASTER</span>
+<a name="ln-616"></a>      <span class="k">CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">thread_dist</span><span class="p">)</span>
+<a name="ln-617"></a>      <span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">has_thread_dist</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-618"></a><span class="c">!$OMP END MASTER</span>
+<a name="ln-619"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_distribution_no_threads</span>
+<a name="ln-620"></a>
+<a name="ln-621"></a><span class="k">END MODULE </span><span class="n">dbcsr_dist_methods</span>
 </pre></div>
 
     </section>
