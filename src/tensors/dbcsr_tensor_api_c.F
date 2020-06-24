@@ -28,7 +28,7 @@ MODULE dbcsr_tensor_api_c
    USE dbcsr_tensor_index, ONLY: &
       dbcsr_t_get_mapping_info, ndims_mapping, nd_to_2d_mapping
    USE dbcsr_tensor_types, ONLY: dbcsr_t_create, dbcsr_t_type
-   USE dbcsr_tas_types, ONLY : dbcsr_tas_type
+   USE dbcsr_tas_types, ONLY: dbcsr_tas_type
    USE dbcsr_data_methods, ONLY: dbcsr_get_data_p
 
    IMPLICIT NONE
@@ -701,14 +701,14 @@ CONTAINS
       TYPE(dbcsr_t_iterator_type), POINTER               :: iterator
       INTEGER, DIMENSION(iterator_size)                  :: ind_nd
       INTEGER, DIMENSION(:), POINTER                     :: blk_offset
-      
+
       CALL c_f_pointer(c_iterator, iterator)
 
       NULLIFY (blk_offset)
       IF (PRESENT(c_blk_offset)) ALLOCATE (blk_offset(iterator_size))
 
       CALL dbcsr_t_iterator_next_block(iterator, ind_nd, c_blk, c_blk_p, c_blk_size, blk_offset)
-      
+
       c_ind_nd = ind_nd - 1
       IF (PRESENT(c_blk_offset)) THEN
          c_blk_offset = blk_offset - 1
@@ -1231,44 +1231,44 @@ CONTAINS
 
       max_blks = dbcsr_t_max_nblks_local(tensor)
    END FUNCTION
-   
+
 #:for dparam, dtype, dsuffix, basetype, cftype in cf_dtype_float_list
    SUBROUTINE c_dbcsr_t_get_data_${dsuffix}$ (c_tensor, c_data, c_data_size, &
-      c_select_data_type, c_lb, c_ub) BIND(C, name = "c_dbcsr_t_get_data_${dsuffix}$")
-      
+                                              c_select_data_type, c_lb, c_ub) BIND(C, name="c_dbcsr_t_get_data_${dsuffix}$")
+
       TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
       TYPE(c_ptr), INTENT(INOUT) :: c_data
       INTEGER(kind=c_long_long), INTENT(INOUT) :: c_data_size
       ${basetype}$ (kind=${cftype}$), INTENT(IN), VALUE :: c_select_data_type
-      INTEGER(kind=c_int), INTENT(IN), OPTIONAL :: c_lb, c_ub 
-       
+      INTEGER(kind=c_int), INTENT(IN), OPTIONAL :: c_lb, c_ub
+
       TYPE(dbcsr_t_type), POINTER :: tensor
       ${basetype}$ (kind=${cftype}$), DIMENSION(:), POINTER :: DATA
       INTEGER, POINTER :: lb, ub
-      
+
       CALL c_f_pointer(c_tensor, tensor)
-      
-      NULLIFY(lb)
+
+      NULLIFY (lb)
       IF (PRESENT(c_lb)) THEN
-        ALLOCATE(lb)
-        lb = c_lb + 1
+         ALLOCATE (lb)
+         lb = c_lb + 1
       ENDIF
-      
-      NULLIFY(ub)
+
+      NULLIFY (ub)
       IF (PRESENT(c_ub)) THEN
-        ALLOCATE(ub)
-        ub = ub + 1
+         ALLOCATE (ub)
+         ub = ub + 1
       ENDIF
-      
+
       DATA => dbcsr_get_data_p(tensor%matrix_rep%matrix%data_area, &
                                c_select_data_type, lb, ub)
-      
+
       c_data = c_loc(DATA)
       c_data_size = SIZE(DATA)
-      
-      IF (ASSOCIATED(lb)) DEALLOCATE(lb)
-      IF (ASSOCIATED(ub)) DEALLOCATE(ub)
-       
+
+      IF (ASSOCIATED(lb)) DEALLOCATE (lb)
+      IF (ASSOCIATED(ub)) DEALLOCATE (ub)
+
    END SUBROUTINE
 #:endfor
 

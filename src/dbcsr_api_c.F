@@ -282,11 +282,11 @@ CONTAINS
 
 #:set optvars = [['row_blk_size'], ['col_blk_size']]
 #:set optgroups = []
-${gen_vargroups(optvars,optgroups)}$
+      ${gen_vargroups(optvars,optgroups)}$
 
 #:for i in range(len(optgroups))
       ${print_groupif(optgroups,optvars,i,'PRESENT','c_')}$
-      
+
       CALL dbcsr_create(matrix, name, template, dist, c_matrix_type &
                         ${print_group(optgroups[i])}$, &
                         nze=c_nze, data_type=c_data_type, &
@@ -395,13 +395,13 @@ ${gen_vargroups(optvars,optgroups)}$
       LOGICAL                                            :: ret_sp
       TYPE(dbcsr_type), POINTER                          :: matrix_a, matrix_b, matrix_c
       INTEGER, POINTER :: first_row, last_row, first_column, last_column, first_k, last_k
-      
+
 #:set vars = ['first_row', 'last_row', 'first_column', 'last_column', 'first_k', 'last_k']
 #:for var in vars
-      NULLIFY(${var}$)
+      NULLIFY (${var}$)
       IF (PRESENT(c_${var}$)) THEN
-         ALLOCATE(${var}$)
-         ${var}$ = c_${var}$ + 1
+         ALLOCATE (${var}$)
+         ${var}$ = c_${var}$+1
       ENDIF
 #:endfor
 
@@ -425,7 +425,7 @@ ${gen_vargroups(optvars,optgroups)}$
       ENDIF
 
 #:for var in vars
-      IF (PRESENT(c_${var}$)) DEALLOCATE(${var}$)
+      IF (PRESENT(c_${var}$)) DEALLOCATE (${var}$)
 #:endfor
 
    END SUBROUTINE
