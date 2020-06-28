@@ -59,7 +59,7 @@ void stackTransp(int* stack, int n_stack, double *mat_a, double* mat_atrs,
                  int mat_m, int mat_n);
 
 double checkSum(double* mat_c, int n_c, int mat_m, int mat_n);
-double checkSumTransp(double* mat, int n, int n_stack, int mat_m, int mat_n);
+double checkSumTransp(double* mat, int n_stack, int mat_m, int mat_n);
 
 void libsmm_acc_benchmark_init(libsmm_acc_benchmark_t** handle, benchmark_mode mode,
                                int max_m, int max_n, int max_k);
