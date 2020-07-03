@@ -439,6 +439,10 @@ CONTAINS
       IF (ALLOCATED(bounds_${dim}$)) DEALLOCATE (bounds_${dim}$)
 #:endfor
 
+      IF (PRESENT(c_unit_nr)) THEN
+         flush (c_unit_nr)
+      ENDIF
+
    END SUBROUTINE
 
    SUBROUTINE c_dbcsr_t_contract_index_${dsuffix}$ (c_alpha, c_tensor_1, &
