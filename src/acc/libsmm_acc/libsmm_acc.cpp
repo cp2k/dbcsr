@@ -97,12 +97,12 @@ inline void validate_kernel(ACC_DRV(function)& kern_func, ACC_DRV(stream) stream
     ACC_API_CALL(Memcpy, (h->mat_c, h->d_mat_c, h->n_c * m * n * sizeof(double), ACC(MemcpyDeviceToHost)));
 
     // Validate the kernel based on results
-    double sumGPU =  checkSum(h->mat_c, h->n_c, m, n);
+    double sumGPU = checkSum(h->mat_c, h->n_c, m, n);
+    libsmm_acc_benchmark_finalize(h);
     if(sumGPU != sumCPU){
-        printf("Kernel validation failed for kernel %ix%ix%i\nchecksum_diff: %g\nthreads: %i, grouping: %i\n", m, n, k, sumGPU-sumCPU, threads, grouping);
+        printf("Kernel validation failed for multiplication kernel %ix%ix%i\nchecksum_diff: %g\nthreads: %i, grouping: %i\n", m, n, k, sumGPU-sumCPU, threads, grouping);
         exit(1);
     }
-    libsmm_acc_benchmark_finalize(h);
 }
 
 
