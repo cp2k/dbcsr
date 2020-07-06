@@ -100,7 +100,7 @@ inline void validate_kernel(ACC_DRV(function)& kern_func, ACC_DRV(stream) stream
     double sumGPU = checkSum(h->mat_c, h->n_c, m, n);
     libsmm_acc_benchmark_finalize(h);
     if(sumGPU != sumCPU){
-        printf("Kernel validation failed for multiplication kernel %ix%ix%i\nchecksum_diff: %g\nthreads: %i, grouping: %i\n", m, n, k, sumGPU-sumCPU, threads, grouping);
+        printf("Kernel validation failed for multiplication kernel %ix%ix%i\nchecksum CPU: %g, checksum GPU: %g\nchecksum_diff: %g\n", m, n, k, sumCPU, sumGPU, sumGPU-sumCPU);
         exit(1);
     }
 }
@@ -318,7 +318,7 @@ inline void validate_transpose_kernel(ACC_DRV(function)& kern_func, ACC_DRV(stre
     double sumGPU = checkSumTransp(h->mat_trs_a, h->n_stack_trs_a, m, n);
     libsmm_acc_benchmark_finalize(h);
     if(sumGPU != sumCPU){
-        printf("Kernel validation failed for transpose kernel %ix%i\nchecksum_diff: %g\n", m, n, sumGPU-sumCPU);
+        printf("Kernel validation failed for transpose kernel %ix%i\nchecksum CPU: %g, checksum GPU: %g\nchecksum_diff: %g\n", m, n, sumCPU, sumGPU, sumGPU-sumCPU);
         exit(1);
     }
 }
