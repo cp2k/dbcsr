@@ -292,6 +292,39 @@ extern "C" int libsmm_acc_process (const libsmm_acc_stack_descriptor_type *param
 
 
 //===========================================================================
+inline void validate_transpose_kernel(ACC_DRV(function)& kern_func, ACC_DRV(stream) stream, int threads, int m, int n){
+
+    libsmm_acc_benchmark_t* h;
+    libsmm_acc_benchmark_init(&h, test, m, 0, n);
+
+    // Initialize arrays
+    matInit(h->mat_a, h->n_a, m, n, 42);
+    memset(h->mat_trs_a, 0, m * n * sizeof(double));
+    stackInitTransp(h->stack_trs_a, h->n_stack_trs_a, m, n);
+
+    // Run the matrix-matrix multiplication on the CPU
+    stackTransp(h->stack_trs_a, h->n_stack_trs_a, h->mat_a, h->mat_trs_a, m, n);
+    double sumCPU = checkSumTransp(h->mat_trs_a, h->n_stack_trs_a, m, n);
+
+    // Run the matrix-matrix multiplication kernel on the GPU
+    ACC_API_CALL(Memcpy, (h->d_mat_a, h->mat_a, h->n_a * m * n * sizeof(double), ACC(MemcpyHostToDevice)));
+    ACC_API_CALL(Memcpy, (h->d_stack_trs_a, h->stack_trs_a, h->n_stack_trs_a * sizeof(int), ACC(MemcpyHostToDevice)));
+
+    void *args[] = {&h->d_stack_trs_a, &h->d_mat_a};
+    launch_kernel_from_handle(kern_func, h->n_stack_trs_a, threads, stream, args);
+    ACC_API_CALL(Memcpy, (h->mat_trs_a, h->d_mat_a, h->n_a * m * n * sizeof(double), ACC(MemcpyDeviceToHost)));
+
+    // Validate the kernel based on results
+    double sumGPU = checkSumTransp(h->mat_trs_a, h->n_stack_trs_a, m, n);
+    libsmm_acc_benchmark_finalize(h);
+    if(sumGPU != sumCPU){
+        printf("Kernel validation failed for transpose kernel %ix%i\nchecksum_diff: %g\n", m, n, sumGPU-sumCPU);
+        exit(1);
+    }
+}
+
+
+//===========================================================================
 void jit_transpose_handle(ACC_DRV(function)& kern_func, int m, int n){
 
     std::string routineN = "jit_kernel_transpose";
@@ -363,6 +396,7 @@ int libsmm_acc_transpose_d(const int *trs_stack, int offset, int nblks,
 
         // JIT and store a kernel for this transposition
         jit_transpose_handle(kern_func, m, n);
+        validate_transpose_kernel(kern_func, stream, 128, m, n);
         transpose_handles.emplace(h_mnk, kern_func);
         kernel_it = transpose_handles.find(h_mnk);
 
