@@ -299,7 +299,7 @@ inline void validate_transpose_kernel(ACC_DRV(function)& kern_func, ACC_DRV(stre
 
     // Initialize arrays
     matInit(h->mat_a, h->n_a, m, n, 42);
-    memset(h->mat_trs_a, 0, m * n * sizeof(double));
+    memset(h->mat_trs_a, 0, h->n_a * m * n * sizeof(double));
     stackInitTransp(h->stack_trs_a, h->n_stack_trs_a, m, n);
 
     // Run the matrix-matrix multiplication on the CPU
@@ -407,7 +407,7 @@ int libsmm_acc_transpose_d(const int *trs_stack, int offset, int nblks,
     // Construct argument pointer list and launch function
     kern_func = kernel_it->second; // retrieve handle
     const int* trs_stack_ = trs_stack + offset;
-    void *args[] = { &trs_stack_, &buffer};
+    void *args[] = {&trs_stack_, &buffer};
 
     return launch_kernel_from_handle(kern_func, nblks, 128, stream, args);
 
