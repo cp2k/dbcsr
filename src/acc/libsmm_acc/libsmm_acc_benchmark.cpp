@@ -221,7 +221,12 @@ double checkSumTransp(double* mat, int n_stack, int mat_m, int mat_n){
     double res = 0;
     int size = mat_m * mat_n;
     int n_samples = size / 3;
-    int step = size / n_samples;
+    int step = size;
+
+    if(n_samples > 0){
+        step = size / n_samples;
+    }
+
     for(int s=0; s < n_stack; s++){
         int offset = s * size;
         for(int idx=s%step; idx < size; idx+=step)
