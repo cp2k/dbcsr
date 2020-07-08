@@ -379,7 +379,7 @@ void jit_transpose_handle(ACC_DRV(function)& kern_func, int m, int n){
 
 
 //===========================================================================
-int libsmm_acc_transpose_d(const int *trs_stack, int offset, int nblks,
+int libsmm_acc_transpose_d(const int *trs_stack, int offset, int stack_size,
                            double *buffer, int m, int n, ACC_DRV(stream) stream) {
 
     ACC_DRV(function) kern_func;
@@ -419,10 +419,10 @@ int libsmm_acc_transpose_d(const int *trs_stack, int offset, int nblks,
 
 
 //===========================================================================
-extern "C" int libsmm_acc_transpose (const int *trs_stack, int offset, int nblks, void *buffer, acc_data_t datatype, int m, int n, acc_stream_t* stream) {
+extern "C" int libsmm_acc_transpose (const int *trs_stack, int offset, int stack_size, void *buffer, acc_data_t datatype, int m, int n, acc_stream_t* stream) {
     if(datatype != dbcsr_type_real_8)
         return 0; // transpose not needed
     if(m>MAX_BLOCK_DIM || n>MAX_BLOCK_DIM)
       return 0; // maximum size over any dimension
-    return libsmm_acc_transpose_d(trs_stack, offset, nblks, (double *) buffer, m, n, *((ACC_DRV(stream) *) stream));
+    return libsmm_acc_transpose_d(trs_stack, offset, stack_size, (double *) buffer, m, n, *((ACC_DRV(stream) *) stream));
 }
