@@ -3,6 +3,7 @@ set(DBCSR_PROGRAM_SRCS
   dbcsr_example_1.F
   dbcsr_example_2.F
   dbcsr_example_3.F
+  dbcsr_tensor_example.F
   )
 
 # register each program source file as executable

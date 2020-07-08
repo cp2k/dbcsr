@@ -104,8 +104,9 @@ CONTAINS
       !! Redistributes tensor data according to distributions of target and source tensor.
       !! Permutes tensor index according to `order` argument (if present).
       !! Source and target tensor formats are arbitrary as long as the following requirements are met:
-      !! * source and target tensors have the same number of blocks in each dimension and the same block sizes.
-      !! If `order` argument is present, this must be the case after index permutation.
+      !! * source and target tensors have the same rank and the same sizes in each dimension in terms
+      !!   of tensor elements (block sizes don't need to be the same).
+      !!   If `order` argument is present, sizes must match after index permutation.
       !! OR
       !! * target tensor is not yet created, in this case an exact copy of source tensor is returned.
 
@@ -403,6 +404,32 @@ CONTAINS
       !! tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
       !! * tensor_2(contract_2, notcontract_2)
       !! + beta * tensor_3(map_1, map_2)
+      !!
+      !! note: block sizes of the corresponding indices need to be the same in all tensors.
+      !!
+      !! note: for best performance the tensors should have been created with consistent map1_2d and map2_2d
+      !! arguments as follows:
+      !!    tensor_1:
+      !!       map1_2d == contract_1
+      !!       map2_2d == notcontract_1
+      !!   tensor_2:
+      !!       map1_2d == contract_2
+      !!       map2_2d == notcontract_2
+      !!   tensor_3
+      !!       map1_2d == map_1
+      !!       map2_2d == map_2
+      !! or alternatively:
+      !!    tensor_1:
+      !!       map1_2d == notcontract_1
+      !!       map2_2d == contract_1
+      !!   tensor_2:
+      !!       map1_2d == notcontract_2
+      !!       map2_2d == contract_2
+      !!   tensor_3
+      !!       map1_2d == map_1
+      !!       map2_2d == map_2
+      !! this is an optimization, not a requirement. in general this condition can not always be satisfied
+      !! (if the same tensor appears in more than one contraction).
 
       TYPE(dbcsr_scalar_type), INTENT(IN)            :: alpha
       TYPE(dbcsr_t_type), INTENT(INOUT), TARGET      :: tensor_1
