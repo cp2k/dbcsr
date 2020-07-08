@@ -292,7 +292,7 @@ extern "C" int libsmm_acc_process (const libsmm_acc_stack_descriptor_type *param
 
 
 //===========================================================================
-inline void validate_transpose_kernel(ACC_DRV(function)& kern_func, ACC_DRV(stream) stream, int threads, int m, int n){
+inline void validate_transpose_kernel(ACC_DRV(function)& kern_func, int threads, ACC_DRV(stream) stream, int m, int n){
 
     libsmm_acc_benchmark_t* h;
     libsmm_acc_benchmark_init(&h, test, m, 0, n);
@@ -383,6 +383,10 @@ int libsmm_acc_transpose_d(const int *trs_stack, int offset, int nblks,
                            double *buffer, int m, int n, ACC_DRV(stream) stream) {
 
     ACC_DRV(function) kern_func;
+    int threads = 128;
+    if (m * n + warp_size <= 128){
+        threads = m*n  - (m*n % warp_size) + warp_size;
+    }
 
     // Look up the kernel in the table of already JITed kernels
     Triplet h_mnk = { m, n, 0 };
@@ -396,7 +400,7 @@ int libsmm_acc_transpose_d(const int *trs_stack, int offset, int nblks,
 
         // JIT and store a kernel for this transposition
         jit_transpose_handle(kern_func, m, n);
-        validate_transpose_kernel(kern_func, stream, 128, m, n);
+        validate_transpose_kernel(kern_func, threads, stream, m, n);
         transpose_handles.emplace(h_mnk, kern_func);
         kernel_it = transpose_handles.find(h_mnk);
 
@@ -409,7 +413,7 @@ int libsmm_acc_transpose_d(const int *trs_stack, int offset, int nblks,
     const int* trs_stack_ = trs_stack + offset;
     void *args[] = {&trs_stack_, &buffer};
 
-    return launch_kernel_from_handle(kern_func, nblks, 128, stream, args);
+    return launch_kernel_from_handle(kern_func, stack_size, threads, stream, args);
 
 }
 

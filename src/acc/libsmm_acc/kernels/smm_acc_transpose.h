@@ -19,8 +19,8 @@
  * gridDim.x = number of matrix blocks in this batched matrix transpose
  *           = length of the batched transpose stack
  * blockIdx.x = {0, ..., gridDim.x-1}
- * blockDim.x = 128
- * threadIdx.x = {0, ..., 127}
+ * blockDim.x = 128 or the smallest multiple of warp_size larger or equal to m*n
+ * threadIdx.x = {0, ..., blockDim.x-1}
 
  * Execute batched matrix transpose in place
 
