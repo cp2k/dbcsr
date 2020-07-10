@@ -440,7 +440,9 @@ CONTAINS
 #:endfor
 
       IF (PRESENT(c_unit_nr)) THEN
-         flush (c_unit_nr)
+         IF (c_unit_nr .GE. 0) THEN
+            flush (c_unit_nr)
+         ENDIF
       ENDIF
 
    END SUBROUTINE
@@ -1275,5 +1277,34 @@ CONTAINS
 
    END SUBROUTINE
 #:endfor
+
+   SUBROUTINE c_dbcsr_t_batched_contract_init(c_tensor) &
+      BIND(C, name="c_dbcsr_t_batched_contract_init")
+
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
+      TYPE(dbcsr_t_type), POINTER :: tensor
+
+      CALL c_f_pointer(c_tensor, tensor)
+
+      CALL dbcsr_t_batched_contract_init(tensor)
+
+   END SUBROUTINE
+
+   SUBROUTINE c_dbcsr_t_batched_contract_finalize(c_tensor, c_unit_nr) &
+      BIND(C, name="c_dbcsr_t_batched_contract_finalize")
+
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
+      INTEGER(kind=c_int), OPTIONAL :: c_unit_nr
+
+      TYPE(dbcsr_t_type), POINTER :: tensor
+
+      CALL c_f_pointer(c_tensor, tensor)
+      IF (PRESENT(c_unit_nr)) THEN
+         CALL dbcsr_t_batched_contract_finalize(tensor, c_unit_nr)
+      ELSE
+         CALL dbcsr_t_batched_contract_finalize(tensor)
+      ENDIF
+
+   END SUBROUTINE
 
 END MODULE

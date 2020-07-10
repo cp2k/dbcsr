@@ -197,6 +197,9 @@ extern "C" {
 
      long long int c_dbcsr_t_max_nblks_local(const void* c_tensor);
 
+    void c_dbcsr_t_batched_contract_init(void* c_tensor);
+    void c_dbcsr_t_batched_contract_finalize(void* c_tensor, int* c_unit_nr);
+
 #if defined(__cplusplus)
 }
 #endif
