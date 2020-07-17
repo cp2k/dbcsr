@@ -202,6 +202,30 @@ public subroutine dbcsr_t_contract(alpha, tensor_1, tensor_2, beta, tensor_3, co
  tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
  * tensor_2(contract_2, notcontract_2)
  + beta * tensor_3(map_1, map_2)</p>
+<p>note: block sizes of the corresponding indices need to be the same in all tensors.</p>
+<p>note: for best performance the tensors should have been created with consistent map1_2d and map2_2d
+ arguments as follows:
+    tensor_1:
+       map1_2d == contract_1
+       map2_2d == notcontract_1
+   tensor_2:
+       map1_2d == contract_2
+       map2_2d == notcontract_2
+   tensor_3
+       map1_2d == map_1
+       map2_2d == map_2
+ or alternatively:
+    tensor_1:
+       map1_2d == notcontract_1
+       map2_2d == contract_1
+   tensor_2:
+       map1_2d == notcontract_2
+       map2_2d == contract_2
+   tensor_3
+       map1_2d == map_1
+       map2_2d == map_2
+ this is an optimization, not a requirement. in general this condition can not always be satisfied
+ (if the same tensor appears in more than one contraction).</p>
     
 
     <h3>Arguments</h3>

@@ -673,8 +673,9 @@ public subroutine <a href='../proc/dbcsr_t_copy.html'>dbcsr_t_copy</a>(tensor_in
  Redistributes tensor data according to distributions of target and source tensor.
  Permutes tensor index according to <code>order</code> argument (if present).
  Source and target tensor formats are arbitrary as long as the following requirements are met:
- * source and target tensors have the same number of blocks in each dimension and the same block sizes.
- If <code>order</code> argument is present, this must be the case after index permutation.
+ * source and target tensors have the same rank and the same sizes in each dimension in terms
+   of tensor elements (block sizes don't need to be the same).
+   If <code>order</code> argument is present, sizes must match after index permutation.
  OR
  * target tensor is not yet created, in this case an exact copy of source tensor is returned.</p>
     
@@ -1097,7 +1098,7 @@ public subroutine <a href='../proc/dbcsr_t_contract.html'>dbcsr_t_contract</a>(a
 <p>Contract tensors by multiplying matrix representations.
  tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
  * tensor_2(contract_2, notcontract_2)
- + beta * tensor_3(map_1, map_2)</p>
+ + beta * tensor_3(map_1, map_2)</p><a href="../proc/dbcsr_t_contract.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
