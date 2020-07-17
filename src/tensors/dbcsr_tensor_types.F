@@ -729,7 +729,9 @@ CONTAINS
 
    SUBROUTINE dbcsr_t_create_new(tensor, name, dist, map1_2d, map2_2d, data_type, &
                                  ${varlist("blk_size")}$)
-      !! create a tensor
+      !! create a tensor.
+      !! For performance, the arguments map1_2d and map2_2d (controlling matrix representation of tensor) should be
+      !! consistent with the the contraction to be performed (see documentation of dbcsr_t_contract).
       TYPE(dbcsr_t_type), INTENT(OUT)                   :: tensor
       CHARACTER(len=*), INTENT(IN)                      :: name
       TYPE(dbcsr_t_distribution_type), INTENT(INOUT)    :: dist
