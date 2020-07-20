@@ -18,4 +18,4 @@ int acc_get_gpu_warp_size (void);
 
 int libsmm_acc_is_thread_safe (void);
 
-#endif // LIBSMM_ACC_INIT_H
+#endif /*LIBSMM_ACC_INIT_H*/

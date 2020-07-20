@@ -20,8 +20,9 @@
 #define ACC_RTC(x) nvrtc##x
 #define BACKEND "CUDA"
 
-// Macros for CUDA error handling
-// Wrap calls to CUDA runtime API (CUDART)
+/* Macros for CUDA error handling
+ * Wrap calls to CUDA runtime API (CUDART)
+ */
 #define ACC_API_CALL(func, args)                                  \
   do {                                                            \
     cudaError_t result = ACC(func) args;                          \
@@ -32,7 +33,7 @@
     }                                                             \
   } while(0)
 
-// Wrap calls to CUDA driver API
+/* Wrap calls to CUDA driver API */
 #define ACC_DRV_CALL(func, args)                                  \
   do {                                                            \
     CUresult result = ACC_DRV_FUNC_PREFIX(func) args;             \
@@ -45,7 +46,7 @@
     }                                                             \
   } while(0)
 
-// Wrap calls to CUDA NVRTC API
+/* Wrap calls to CUDA NVRTC API */
 #define ACC_RTC_CALL(func, args)                                  \
   do {                                                            \
     nvrtcResult result = ACC_RTC(func) args;                      \
@@ -63,9 +64,9 @@ extern CUresult cuLaunchJITKernel(CUfunction f, unsigned int gridDimX, unsigned 
                                   unsigned int blockDimX, unsigned int blockDimY, unsigned int blockDimZ,
                                   unsigned int sharedMemBytes, CUstream stream, void **kernelParams, void **extra);
 
-// CUDA Runtime API: flag values
+/* CUDA Runtime API: flag values */
 extern CUevent_flags CUEventDefault;
 extern CUstream_flags CUStreamDefault;
 extern CUsharedconfig CUSharedMemBankSizeEightByte;
 
-#endif // ACC_CUDA_H
+#endif /*ACC_CUDA_H*/

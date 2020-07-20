@@ -42,10 +42,10 @@ extern "C" int hipblas_destroy(hipblasHandle_t *handle)
 
 /****************************************************************************/
 extern "C" int hipblas_dgemm(hipblasHandle_t *handle, char transa, char transb,
-		             int m, int n, int k,
-			     int a_offset, int b_offset, int c_offset,
-			     double *a_data, double *b_data, double *c_data,
-			     double alpha, double beta, hipdaStream_t *stream)
+                 int m, int n, int k,
+           int a_offset, int b_offset, int c_offset,
+           double *a_data, double *b_data, double *c_data,
+           double alpha, double beta, hipdaStream_t *stream)
 {
   hipblasStatus_t cStatus = hipblasSetStream(*handle, *stream);
   if (cStatus != HIPBLAS_STATUS_SUCCESS) {
@@ -58,10 +58,10 @@ extern "C" int hipblas_dgemm(hipblasHandle_t *handle, char transa, char transb,
   int &ldb = transb=='N' ? k : n;
 
   hipblasStatus_t stat = hipblasDgemm(*handle, cTransa, cTransb,
-	   			      m, n, k,
-				      &alpha, &a_data[ a_offset ], lda,
-				      &b_data[ b_offset], ldb,
-				      &beta, &c_data[ c_offset], lda);
+                 m, n, k,
+              &alpha, &a_data[ a_offset ], lda,
+              &b_data[ b_offset], ldb,
+              &beta, &c_data[ c_offset], lda);
   if (stat != HIPBLAS_STATUS_SUCCESS) return(-1);
   if (acc_error_check(hipGetLastError())) return(-1);
   return(0);
