@@ -60,4 +60,4 @@ extern "C" {
 }
 #endif
 
-#endif // DBCSR_H
+#endif /*DBCSR_H*/

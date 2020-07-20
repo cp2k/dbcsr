@@ -72,8 +72,9 @@ smm_acc_dnt_small(const int* __restrict__ param_stack, int stack_size,
   const int cmax = (n % N == 0)?  n / N: n / N + 1;
   const int rmax = (m % M == 0)?  m / M: m / M + 1;
 
-  // buff_l and buff_r can overlap in the multiplication step
-  // (still better than 'if' in inner loop, see ^ref1)
+  /* buff_l and buff_r can overlap in the multiplication step
+   * (still better than 'if' in inner loop, see ^ref1)
+   */
   const int buf_tmp = (mk + k * N * cmax < M * rmax * k + 1)? M * rmax * k + 1: mk + k * N * cmax;
   const int buf_sz = (buf_tmp < mn)? mn: buf_tmp;
 

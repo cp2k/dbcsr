@@ -70,8 +70,9 @@ smm_acc_dnt_medium(const int* __restrict__ param_stack, int stack_size,
   const int cmax = (n % N == 0)?  n / N: n / N + 1;
   const int rmax = (m % M == 0)?  m / M: m / M + 1;
 
-  // buff_l and buff_r can overlap in the multiplication step
-  // (still better than 'if' in inner loop, see ^ref1)
+  /* buff_l and buff_r can overlap in the multiplication step
+   * (still better than 'if' in inner loop, see ^ref1)
+   */
   const int buf_tmp = (mk + k * N * cmax < M * rmax * k + 1)? M * rmax * k + 1: mk + k * N * cmax;
   const int buf_sz = (buf_tmp < mn)? mn: buf_tmp;
 
@@ -145,7 +146,7 @@ smm_acc_dnt_medium(const int* __restrict__ param_stack, int stack_size,
   if (((bidx + 1) * grouping) > stack_size) nrun = stack_size % grouping;
 
   /* Set the partial sum (tile T) to zero */
-  // WHY NO PRAGMA UNROLL ????
+  /* WHY NO PRAGMA UNROLL ???? */
   for (int i = 0; i < M * N; i++)
     myc[i] = 0.0;
 
