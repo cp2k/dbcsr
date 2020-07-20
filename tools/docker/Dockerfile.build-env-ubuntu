@@ -28,7 +28,7 @@ RUN apt-get update \
         unzip \
         curl \
         rsync \
-	valgrind \
+        valgrind \
     && rm -rf /var/lib/apt/lists/* \
     && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 
@@ -38,7 +38,7 @@ ENV LANG en_US.utf8
 # Many of our tools rely on a `python` executable but are python-3 compatible
 RUN ln -s python3 /usr/bin/python
 
-ARG libxsmm_version=1.15
+ARG libxsmm_version=1.16.1
 ARG cmake_version=3.17.0
 
 RUN set -ex && \
