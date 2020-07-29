@@ -56,7 +56,7 @@ class Kernel_dnt_largeDB1(Kernel):
     def func_signature(self):
         return (
             "smm_acc_dnt_largeDB1"
-            + "< {m}, {n}, {k}, {threads}, {grouping}, {minblocks} >;\n".format(
+            + "< {m}, {n}, {k}, {tile_m}, {tile_n}, {w}, {v}, {threads}, {grouping}, {minblocks} >;\n".format(
                 **self.__dict__
             )
         )

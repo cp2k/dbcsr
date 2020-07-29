@@ -29,20 +29,20 @@ enum benchmark_mode {test, tune, timing};
 
 typedef struct {
     benchmark_mode mode;
-    // max block-sizes to expect
+    /* max block-sizes to expect */
     int max_m, max_n, max_k;
-    // number of blocks to allocate in each panel
+    /* number of blocks to allocate in each panel */
     int n_a, n_b, n_c;
-    // length of stack (multiplication, transpose a, transpose b)
+    /* length of stack (multiplication, transpose a, transpose b) */
     int n_stack, n_stack_trs_a, n_stack_trs_b;
-    // host-buffers
+    /* host-buffers */
     double *mat_a, *mat_b, *mat_c;
     double *mat_trs_a, *mat_trs_b;
     int    *stack, *stack_trs_a, *stack_trs_b;
-    // device-buffers
+    /* device-buffers */
     double *d_mat_a, *d_mat_b, *d_mat_c;
     int    *d_stack, *d_stack_trs_a, *d_stack_trs_b;
-    // events for measuring the runtime
+    /* events for measuring the runtime */
     ACC_DRV(event) t_start, t_stop;
 } libsmm_acc_benchmark_t;
 
@@ -77,4 +77,4 @@ int libsmm_acc_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
                                     ACC_DRV(event) start, ACC_DRV(event) stop, char** kernel_descr,
                                     TransposeLauncher* launcher);
 
-#endif // LIBSMM_ACC_BENCHMARK_H
+#endif /*LIBSMM_ACC_BENCHMARK_H*/

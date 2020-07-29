@@ -1916,11 +1916,11 @@ CONTAINS
       REAL(KIND=real_8), DIMENSION(:), POINTER           :: data_d
       TYPE(dbcsr_iterator)                               :: iter
 
-      REAL(KIND=real_8), EXTERNAL                        :: DZNRM2, DDOT
+      REAL(KIND=real_8), EXTERNAL                        :: DZNRM2
 #if defined (__ACCELERATE)
-      REAL(KIND=real_8), EXTERNAL                        :: SCNRM2, SDOT
+      REAL(KIND=real_8), EXTERNAL                        :: SCNRM2
 #else
-      REAL(KIND=real_4), EXTERNAL                        :: SCNRM2, SDOT
+      REAL(KIND=real_4), EXTERNAL                        :: SCNRM2
 #endif
 
 !   ---------------------------------------------------------------------------
@@ -1966,7 +1966,7 @@ CONTAINS
                CASE (dbcsr_filter_frobenius)
                   !
                   ! Frobenius based
-                  nrm_s = SQRT(REAL(SDOT(SIZE(data_s), data_s(1), 1, data_s(1), 1), KIND=real_4))
+                  nrm_s = norm2(data_s)
                   IF (nrm_s .LT. my_absolute*eps%r_sp) &
                      CALL dbcsr_remove_block(matrix, row, col, blk_nze, blk)
                CASE DEFAULT
@@ -1982,7 +1982,7 @@ CONTAINS
                CASE (dbcsr_filter_frobenius)
                   !
                   ! Frobenius based
-                  nrm_d = SQRT(DDOT(SIZE(data_d), data_d(1), 1, data_d(1), 1))
+                  nrm_d = norm2(data_d)
                   IF (nrm_d .LT. my_absolute*eps%r_dp) &
                      CALL dbcsr_remove_block(matrix, row, col, blk_nze, blk)
                CASE DEFAULT
@@ -2736,14 +2736,6 @@ CONTAINS
                                                   b_col_blk_size, b_row_blk_size
       ${type1}$                                  :: sym_fac, fac
       LOGICAL                                  :: found, matrix_a_symm, matrix_b_symm
-#if defined (__ACCELERATE)
-      REAL(real_8), EXTERNAL                   :: SDOT
-#else
-      REAL(real_4), EXTERNAL                   :: SDOT
-#endif
-      REAL(real_8), EXTERNAL                   :: DDOT
-      COMPLEX(real_4), EXTERNAL                :: CDOTU
-      COMPLEX(real_8), EXTERNAL                :: ZDOTU
       ${type1}$, DIMENSION(:), POINTER           :: a_data, b_data
 
 !   ---------------------------------------------------------------------------

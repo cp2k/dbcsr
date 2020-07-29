@@ -570,7 +570,7 @@ CONTAINS
    END SUBROUTINE local_filter
 
 #:include '../data/dbcsr.fypp'
-#:for n, nametype1, base1, prec1, kind1, type1, typesize1, dkind1 in inst_params_float
+#:for n, nametype1, base1, prec1, kind1, type1, dkind1, normname1 in inst_params_float
    SUBROUTINE calc_norms_${nametype1}$ (norms, nblks, &
                                         blki, rbs, cbs, DATA)
      !! Calculates norms of the entire matrix with minimal overhead.
@@ -581,45 +581,32 @@ CONTAINS
       ${type1}$, DIMENSION(:), &
          INTENT(IN)                            :: DATA
 
-      INTEGER, PARAMETER                       :: nsimd = (4*64)/${typesize1}$
-      INTEGER                                  :: i, n, blk, bp, bpe, row, col
-      REAL(kind=sp)                            :: vals(nsimd)
+      INTEGER                                  :: blk, bp, bpe, row, col
+
+      REAL(KIND=real_8), EXTERNAL              :: DDOT
+#if defined (__ACCELERATE)
+      REAL(KIND=real_8), EXTERNAL              :: SDOT
+#else
+      REAL(KIND=real_4), EXTERNAL              :: SDOT
+#endif
 
 !   ---------------------------------------------------------------------------
 
 !$OMP     parallel default(none) &
 !$OMP              shared(DATA, norms, nblks, rbs, cbs, blki) &
-!$OMP              private(vals, i, n, row, col, blk, bp, bpe)
-!$OMP     do schedule(dynamic)
-      DO i = 0, nblks - 1, nsimd
-         n = MIN(nsimd, nblks - i)
-         DO blk = 1, n
-            bp = blki(3, blk + i)
-            IF (bp .NE. 0) THEN
-               row = blki(1, blk + i)
-               col = blki(2, blk + i)
-               bpe = bp + rbs(row)*cbs(col) - 1
+!$OMP              private(row, col, blk, bp, bpe)
+!$OMP     do schedule(static)
+      DO blk = 1, nblks
+         bp = blki(3, blk)
+         row = blki(1, blk)
+         col = blki(2, blk)
 #:if nametype1 in ['d', 's']
-               vals(blk) = REAL(SUM(DATA(bp:bpe)**2), KIND=sp)
+         bpe = rbs(row)*cbs(col)
+         norms(blk) = REAL(${normname1}$ (bpe, data(bp), 1, data(bp), 1)), KIND = sp)
 #:else
-               vals(blk) = REAL(SUM(ABS(DATA(bp:bpe))**2), KIND=sp)
+         bpe = bp + rbs(row)*cbs(col) - 1
+         norms(blk) = REAL(SUM(ABS(DATA(bp:bpe))**2), KIND=sp)
 #:endif
-            ELSE
-               vals(blk) = 0.0_sp
-            ENDIF
-         ENDDO
-         ! SIMD: SQRT is intentionally not in above IF-condition
-         IF (n .EQ. nsimd) THEN
-!$OMP     simd
-            DO blk = 1, nsimd
-               norms(blk + i) = SQRT(vals(blk))
-            ENDDO
-!$OMP     end simd
-         ELSE ! remainder
-            DO blk = 1, n
-               norms(blk + i) = SQRT(vals(blk))
-            ENDDO
-         ENDIF
       ENDDO
 !$OMP     end do
 !$OMP     end parallel

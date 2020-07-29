@@ -85,7 +85,7 @@ CONTAINS
       INTEGER(KIND=int_8)                                :: col, col_s, row, row_s, nrow, ncol
       INTEGER, DIMENSION(2)                              :: pcoord, pdims
       LOGICAL                                            :: reuse_comm_prv, tr
-      REAL(KIND=real_8)                                  :: rn
+      REAL(KIND=real_8), DIMENSION(1)                    :: rn
       REAL(KIND=real_8), ALLOCATABLE, DIMENSION(:, :)    :: values
       TYPE(dbcsr_tas_blk_size_arb)                         :: cbsize_obj, rbsize_obj
       TYPE(dbcsr_tas_dist_cyclic)                          :: col_dist_obj, row_dist_obj
@@ -142,7 +142,7 @@ CONTAINS
       DO row = 1, dbcsr_tas_nblkrows_total(matrix)
          DO col = 1, dbcsr_tas_nblkcols_total(matrix)
             CALL dlarnv(1, jseed, 1, rn)
-            IF (rn .LT. sparsity) THEN
+            IF (rn(1) .LT. sparsity) THEN
                tr = .FALSE.
                row_s = row; col_s = col
                CALL dbcsr_tas_get_stored_coordinates(matrix, row_s, col_s, node_holds_blk)

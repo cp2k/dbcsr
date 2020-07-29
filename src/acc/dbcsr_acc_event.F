@@ -100,9 +100,7 @@ CONTAINS
       !! Because of fortran circular dependency restriction this can not go into acc_stream.F
 
       TYPE(acc_stream_type), INTENT(IN) :: stream
-         !! stream
       TYPE(acc_event_type), INTENT(IN)  :: event
-         !! event
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(stream)
@@ -127,9 +125,7 @@ CONTAINS
       !! Fortran-wrapper for recording a CUDA/HIP event.
 
       TYPE(acc_event_type), INTENT(IN)  :: this
-         !! event
       TYPE(acc_stream_type), INTENT(IN) :: stream
-         !! stream
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -155,7 +151,6 @@ CONTAINS
 
       TYPE(acc_event_type), &
          INTENT(INOUT)                          :: this
-         !! event
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -176,7 +171,6 @@ CONTAINS
 
       TYPE(acc_event_type), &
          INTENT(INOUT)                          :: this
-         !! event
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)
@@ -196,7 +190,6 @@ CONTAINS
       !! Fortran-wrapper for querying a CUDA/HIP event's status.
 
       TYPE(acc_event_type), INTENT(IN)         :: this
-         !! event
       LOGICAL                                  :: res
          !! true if event has occurred, false otherwise
 
@@ -219,7 +212,6 @@ CONTAINS
       !! Fortran-wrapper for waiting for the completion of a HIP/CUDA event.
 
       TYPE(acc_event_type), INTENT(IN)  :: this
-         !! event
 
 #if ! defined (__DBCSR_ACC)
       MARK_USED(this)

@@ -20,8 +20,9 @@
 #define ACC_RTC(x) hiprtc##x
 #define BACKEND "HIP"
 
-// Macro for HIP error handling
-// Wrap calls to HIP API
+/* Macro for HIP error handling
+ * Wrap calls to HIP API
+ */
 #define HIP_API_CALL(func, args)                                  \
   do {                                                            \
     hipError_t result = ACC(func) args;                           \
@@ -32,11 +33,11 @@
     }                                                             \
   } while(0)
 
-// HIP does not differentiate between "runtime" API and "driver" API
+/* HIP does not differentiate between "runtime" API and "driver" API */
 #define ACC_API_CALL(func, args) HIP_API_CALL(func, args)
 #define ACC_DRV_CALL(func, args) HIP_API_CALL(func, args)
 
-// Wrap calls to HIPRTC API
+/* Wrap calls to HIPRTC API */
 #define ACC_RTC_CALL(func, args)                                  \
   do {                                                            \
     hiprtcResult result = ACC_RTC(func) args;                     \
@@ -58,9 +59,10 @@ extern hipError_t hipLaunchJITKernel(hipFunction_t f, unsigned int gridDimX, uns
                                      unsigned int blockDimX, unsigned int blockDimY, unsigned int blockDimZ,
                                      unsigned int sharedMemBytes, hipStream_t stream, void **kernelParams, void **extra);
 
-// HIP API: types
-// In the HIP API, there is no difference between runtime API and driver API
-// we therefore remap what the Driver API types would look like back to runtime API
+/* HIP API: types
+ * In the HIP API, there is no difference between runtime API and driver API
+ * we therefore remap what the Driver API types would look like back to runtime API
+ */
 using hipfunction = hipFunction_t;
 using hipstream = hipStream_t;
 using hipevent = hipEvent_t;
@@ -69,4 +71,4 @@ using hipdevice = hipDevice_t;
 using hipDeviceProp = hipDeviceProp_t;
 using hipcontext = hipCtx_t;
 
-#endif // ACC_HIP_H
+#endif /*ACC_HIP_H*/

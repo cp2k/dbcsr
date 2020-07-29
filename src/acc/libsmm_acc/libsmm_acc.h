@@ -23,6 +23,12 @@
 #include <unordered_map>
 #include <vector>
 
+extern "C" void dbcsr_timeset(const char** routineN, int* routineN_len, int* handle);
+void timeset(std::string routine_name, int& handle);
+
+extern "C" void dbcsr_timestop(int* handle);
+void timestop(int handle);
+
 enum libsmm_acc_algo {
     largeDB1 = 1,
     largeDB2 = 2,
@@ -51,4 +57,4 @@ static std::unordered_map<Triplet, ACC_DRV(function)> transpose_handles;
 int libsmm_acc_transpose_d(const int *trs_stack, int offset, int nblks, double *buffer,
                            int m, int n, ACC_DRV(stream) stream);
 
-#endif // LIBSMM_ACC_H
+#endif /*LIBSMM_ACC_H*/

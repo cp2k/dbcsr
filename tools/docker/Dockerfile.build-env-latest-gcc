@@ -1,0 +1,29 @@
+FROM gcc:latest
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        locales \
+        git \
+        python3-pip \
+        curl \
+        rsync \
+        unzip \
+        liblapack-dev \
+    && rm -rf /var/lib/apt/lists/* \
+    && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+
+# Make sure we have a proper unicode locale and language
+ENV LANG en_US.utf8
+
+# Many of our tools rely on a `python` executable but are python-3 compatible
+RUN ln -sf python3 /usr/bin/python
+
+# Debian is at CMake 3.13 and Ninja 1.8
+ARG cmake_version=3.17.0
+ARG ninja_version=1.10.0
+
+RUN set -ex ; \
+    curl -LsS https://github.com/Kitware/CMake/releases/download/v${cmake_version}/cmake-${cmake_version}-Linux-x86_64.tar.gz | tar --strip-components=1 -xz -C /usr/local ; \
+    curl -LsS https://github.com/ninja-build/ninja/releases/download/v${ninja_version}/ninja-linux.zip | gunzip > /usr/local/bin/ninja && chmod 0755 /usr/local/bin/ninja

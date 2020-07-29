@@ -16,6 +16,7 @@ add_fypp_sources(DBCSR_SRCS
   acc/dbcsr_acc_hostmem.F
   acc/dbcsr_acc_init.F
   acc/dbcsr_acc_stream.F
+  acc/dbcsr_acc_timings.F
   acc/hipblaswrap/dbcsr_hipblas.F
   base/dbcsr_base_hooks.F
   base/dbcsr_kinds.F
@@ -109,9 +110,9 @@ set(DBCSR_ACC_SRCS
   acc/acc_dev.cpp
   acc/acc_error.cpp
   acc/acc_event.cpp
+  acc/acc_init.cpp
   acc/acc_mem.cpp
   acc/acc_stream.cpp
-  acc/acc_init.cpp
   )
 
 set(DBCSR_CUDA_SRCS
@@ -317,9 +318,9 @@ endif ()
 if (WITH_C_API)
   # Build the C API as a separate library
   add_fypp_sources(DBCSR_C_SRCS
-	  dbcsr_api_c.F
-	  tensors/dbcsr_tensor_api_c.F
-	  tensors/dbcsr_tensor.h)
+    dbcsr_api_c.F
+    tensors/dbcsr_tensor_api_c.F
+    tensors/dbcsr_tensor.h)
 
   add_library(dbcsr_c ${DBCSR_C_SRCS})
   set_target_properties(dbcsr_c PROPERTIES
@@ -361,7 +362,7 @@ if (WITH_C_API)
     ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
     )
   install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/dbcsr.h"
-	  "${CMAKE_CURRENT_BINARY_DIR}/tensors/dbcsr_tensor.h"
+    "${CMAKE_CURRENT_BINARY_DIR}/tensors/dbcsr_tensor.h"
     COMPONENT C
     DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
     )

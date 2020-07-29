@@ -73,6 +73,7 @@ set(SUPPORTED_CUDA_ARCHITECTURES
 set(WITH_GPU "P100" CACHE STRING "Set the CUDA GPU architecture if CUDA is enabled (default: P100)")
 set_property(CACHE WITH_GPU PROPERTY STRINGS ${SUPPORTED_CUDA_ARCHITECTURES})
 
+option(USE_HIP "Build with HIP support" OFF)
 set(SUPPORTED_HIP_ARCHITECTURES
     ${SUPPORTED_CUDA_ARCHITECTURES} Mi50)
 set(WITH_GPU "P100" CACHE STRING "Set the CUDA GPU architecture if HIP is enabled (default: P100)")
@@ -186,7 +187,7 @@ if (USE_CUDA)
   # =================================== BLAS on GPU backend
   find_library(CUBLAS cublas HINT ${CMAKE_CUDA_IMPLICIT_LINK_DIRECTORIES})
   if (NOT CUBLAS)
-    message(FATAL_ERROR "cuBLAS library not found but support requested")
+      message(FATAL_ERROR "cuBLAS library not found but support required for DBCSR's CUDA backend")
   else ()
     message(STATUS "Found cuBLAS: ${CUBLAS}")
   endif ()
@@ -248,7 +249,7 @@ if (USE_HIP)
   # =================================== BLAS on GPU backend
   find_library(HIPBLAS hipblas HINTS ${HIP_PATH}/../lib)  # /opt/rocm/lib
   if (NOT HIPBLAS)
-    message(FATAL_ERROR "hipBLAS library not found but support requested")
+      message(FATAL_ERROR "hipBLAS library not found but support required for DBCSR's HIP backend")
   else ()
     message(STATUS "Found hipBLAS: ${HIPBLAS}")
   endif ()
