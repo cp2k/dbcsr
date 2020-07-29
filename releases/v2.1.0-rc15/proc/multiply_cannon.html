@@ -1,0 +1,1364 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="">
+    
+    <meta name="author" content="DBCSR Authors" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>multiply_cannon &ndash; DBCSR Library</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">DBCSR Library </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Guide</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>multiply_cannon
+      <small>Subroutine</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.8% of total for procedures.">470 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_mm_cannon.F"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/dbcsr_mm_cannon.f.html'>dbcsr_mm_cannon.F</a></li>
+    
+     <li><a href='../module/dbcsr_mm_cannon.html'>dbcsr_mm_cannon</a></li>
+    
+  
+     <li class="active">multiply_cannon</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/multiply_cannon.html#src">multiply_cannon</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>
+public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sparsity, filter_eps, flop)
+    
+    
+   
+</h2>
+    
+  
+
+
+    
+    <p>Multiplies two DBCSR matrices</p>
+    
+
+    <h3>Arguments</h3>
+    
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-left_set"></span>type(<a href='../type/dbcsr_2d_array_type.html'>dbcsr_2d_array_type</a>),</td>
+  <td></td>
+  <td></td>
+  
+  <td>POINTER</td><td>::</td>
+  <td><strong>left_set</strong></td><td><p>set of imaged left matrices
+ set of imaged right matrices</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-right_set"></span>type(<a href='../type/dbcsr_2d_array_type.html'>dbcsr_2d_array_type</a>),</td>
+  <td></td>
+  <td></td>
+  
+  <td>POINTER</td><td>::</td>
+  <td><strong>right_set</strong></td><td><p>set of imaged left matrices
+ set of imaged right matrices</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-product_matrix~2"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>product_matrix</strong></td><td><p>DBCSR product matrix</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-retain_sparsity~7"></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>retain_sparsity</strong></td><td><p>retain the sparsity of the existing product matrix; default is no</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-filter_eps~10"></span>real(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>filter_eps</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-flop~18"></span>integer(kind=int_8),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>flop</strong></td><td><p>effective flop</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+    
+    
+    
+    
+     
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/multiply_cannon.html#src">multiply_cannon</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">multiply_cannon</span><span class="p">(</span><span class="n">left_set</span><span class="p">,</span> <span class="n">right_set</span><span class="p">,</span> <span class="n">product_matrix</span><span class="p">,</span> <span class="p">&amp;</span>
+                              <span class="n">retain_sparsity</span><span class="p">,</span> <span class="p">&amp;</span>
+                              <span class="n">filter_eps</span><span class="p">,</span> <span class="n">flop</span><span class="p">)</span>
+      <span class="c">!! Multiplies two DBCSR matrices</span>
+
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_2d_array_type</span><span class="p">),</span> <span class="k">POINTER</span>                 <span class="kd">::</span> <span class="n">left_set</span><span class="p">,</span> <span class="n">right_set</span>
+         <span class="c">!! set of imaged left matrices</span>
+         <span class="c">!! set of imaged right matrices</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">product_matrix</span>
+         <span class="c">!! DBCSR product matrix</span>
+      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">retain_sparsity</span>
+         <span class="c">!! retain the sparsity of the existing product matrix; default is no</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>            <span class="kd">::</span> <span class="n">filter_eps</span>
+      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">flop</span>
+         <span class="c">!! effective flop</span>
+
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;multiply_cannon&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span>                                 <span class="kd">::</span> <span class="n">idata</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ileft</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">imeta</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                            <span class="n">iright</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">M_L</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">M_P</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">M_R</span> <span class="o">=</span> <span class="mi">3</span>
+
+      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">data_type_byte</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">handle1</span><span class="p">,</span> <span class="n">handle2</span><span class="p">,</span> <span class="n">handle3</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">ithread</span><span class="p">,</span> <span class="p">&amp;</span>
+                 <span class="n">left_col_image</span><span class="p">,</span> <span class="n">left_col_mult</span><span class="p">,</span> <span class="n">left_col_nimages</span><span class="p">,</span> <span class="n">left_dst_icol</span><span class="p">,</span> <span class="n">left_dst_irow</span><span class="p">,</span> <span class="p">&amp;</span>
+                 <span class="n">left_dst_p</span><span class="p">,</span> <span class="n">left_dst_pcol</span><span class="p">,</span> <span class="n">left_dst_prow</span><span class="p">,</span> <span class="n">left_dst_vcol</span><span class="p">,</span> <span class="n">left_dst_vrow</span><span class="p">,</span> <span class="n">left_max_nblks</span><span class="p">,</span> <span class="p">&amp;</span>
+                 <span class="n">left_max_nze</span><span class="p">,</span> <span class="n">left_myfirstvcol</span><span class="p">,</span> <span class="n">left_myfirstvrow</span><span class="p">,</span> <span class="n">left_mypcol</span><span class="p">,</span> <span class="n">left_myprow</span><span class="p">,</span> <span class="n">left_npcols</span><span class="p">,</span> <span class="p">&amp;</span>
+                 <span class="n">left_nprows</span><span class="p">,</span> <span class="n">left_recv_icol</span><span class="p">,</span> <span class="n">left_recv_irow</span><span class="p">,</span> <span class="n">left_recv_p</span><span class="p">,</span> <span class="n">left_recv_pcol</span><span class="p">,</span> <span class="n">left_recv_prow</span><span class="p">,</span> <span class="p">&amp;</span>
+                 <span class="n">left_recv_vcol</span><span class="p">,</span> <span class="n">left_recv_vrow</span><span class="p">,</span> <span class="n">left_row_image</span><span class="p">,</span> <span class="n">left_row_mult</span><span class="p">,</span> <span class="n">left_row_nimages</span><span class="p">,</span> <span class="p">&amp;</span>
+                 <span class="n">left_send_icol</span><span class="p">,</span> <span class="n">left_send_irow</span><span class="p">,</span> <span class="n">left_send_p</span><span class="p">,</span> <span class="n">left_send_pcol</span><span class="p">,</span> <span class="n">left_send_prow</span>
+      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">left_send_vcol</span><span class="p">,</span> <span class="n">left_send_vrow</span><span class="p">,</span> <span class="n">left_src_icol</span><span class="p">,</span> <span class="n">left_src_irow</span><span class="p">,</span> <span class="n">left_src_p</span><span class="p">,</span> <span class="p">&amp;</span>
+                 <span class="n">left_src_pcol</span><span class="p">,</span> <span class="n">left_src_prow</span><span class="p">,</span> <span class="n">left_src_vcol</span><span class="p">,</span> <span class="n">left_src_vrow</span><span class="p">,</span> <span class="n">metronome</span><span class="p">,</span> <span class="n">min_nimages</span><span class="p">,</span> <span class="p">&amp;</span>
+                 <span class="n">mp_group</span><span class="p">,</span> <span class="n">mynode</span><span class="p">,</span> <span class="n">nblkrows_used</span><span class="p">,</span> <span class="n">nsteps_k</span><span class="p">,</span> <span class="n">nthreads</span><span class="p">,</span> <span class="n">numnodes</span><span class="p">,</span> <span class="n">nvirt_k</span><span class="p">,</span> <span class="p">&amp;</span>
+                 <span class="n">output_unit</span><span class="p">,</span> <span class="n">right_col_image</span><span class="p">,</span> <span class="n">right_col_mult</span><span class="p">,</span> <span class="n">right_col_nimages</span><span class="p">,</span> <span class="n">right_dst_icol</span><span class="p">,</span> <span class="p">&amp;</span>
+                 <span class="n">right_dst_irow</span><span class="p">,</span> <span class="n">right_dst_p</span><span class="p">,</span> <span class="n">right_dst_pcol</span><span class="p">,</span> <span class="n">right_dst_prow</span><span class="p">,</span> <span class="n">right_dst_vcol</span><span class="p">,</span> <span class="p">&amp;</span>
+                 <span class="n">right_dst_vrow</span><span class="p">,</span> <span class="n">right_max_nblks</span><span class="p">,</span> <span class="n">right_max_nze</span><span class="p">,</span> <span class="n">right_myfirstvcol</span><span class="p">,</span> <span class="n">right_myfirstvrow</span><span class="p">,</span> <span class="p">&amp;</span>
+                 <span class="n">right_mypcol</span><span class="p">,</span> <span class="n">right_myprow</span><span class="p">,</span> <span class="n">right_npcols</span><span class="p">,</span> <span class="n">right_nprows</span><span class="p">,</span> <span class="n">right_recv_icol</span><span class="p">,</span> <span class="n">right_recv_irow</span>
+      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">right_recv_p</span><span class="p">,</span> <span class="n">right_recv_pcol</span><span class="p">,</span> <span class="n">right_recv_prow</span><span class="p">,</span> <span class="n">right_recv_vcol</span><span class="p">,</span> <span class="n">right_recv_vrow</span><span class="p">,</span> <span class="p">&amp;</span>
+                 <span class="n">right_row_image</span><span class="p">,</span> <span class="n">right_row_mult</span><span class="p">,</span> <span class="n">right_row_nimages</span><span class="p">,</span> <span class="n">right_send_icol</span><span class="p">,</span> <span class="n">right_send_irow</span><span class="p">,</span> <span class="p">&amp;</span>
+                 <span class="n">right_send_p</span><span class="p">,</span> <span class="n">right_send_pcol</span><span class="p">,</span> <span class="n">right_send_prow</span><span class="p">,</span> <span class="n">right_send_vcol</span><span class="p">,</span> <span class="n">right_send_vrow</span><span class="p">,</span> <span class="p">&amp;</span>
+                 <span class="n">right_src_icol</span><span class="p">,</span> <span class="n">right_src_irow</span><span class="p">,</span> <span class="n">right_src_p</span><span class="p">,</span> <span class="n">right_src_pcol</span><span class="p">,</span> <span class="n">right_src_prow</span><span class="p">,</span> <span class="p">&amp;</span>
+                 <span class="n">right_src_vcol</span><span class="p">,</span> <span class="n">right_src_vrow</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">size_guess</span><span class="p">,</span> <span class="n">size_guess_init</span><span class="p">,</span> <span class="nb">stat</span><span class="p">,</span> <span class="n">threads_finished</span><span class="p">,</span> <span class="p">&amp;</span>
+                 <span class="n">threads_finished_read</span><span class="p">,</span> <span class="n">v_ki</span><span class="p">,</span> <span class="n">v_ki_left</span><span class="p">,</span> <span class="n">v_ki_right</span>
+      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">flop_single</span><span class="p">,</span> <span class="n">flop_total</span><span class="p">,</span> <span class="n">mem</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:)</span>                 <span class="kd">::</span> <span class="n">row_counts</span><span class="p">,</span> <span class="n">total_row_counts</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:,</span> <span class="p">:)</span>           <span class="kd">::</span> <span class="n">left_sizes</span><span class="p">,</span> <span class="n">my_sizes</span><span class="p">,</span> <span class="n">right_sizes</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:)</span>        <span class="kd">::</span> <span class="n">all_sizes</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span> <span class="kd">::</span> <span class="n">col_blk_sizes2enum</span><span class="p">,</span> <span class="n">enum2col_blk_sizes</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                    <span class="n">enum2row_blk_sizes</span><span class="p">,</span> <span class="n">left_data_rr</span><span class="p">,</span> <span class="n">left_data_sr</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                    <span class="n">left_index_rp</span><span class="p">,</span> <span class="n">left_index_rr</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                    <span class="n">left_index_sp</span><span class="p">,</span> <span class="n">left_index_sr</span><span class="p">,</span> <span class="n">m_sizes</span><span class="p">,</span> <span class="n">n_sizes</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                    <span class="n">right_data_rr</span><span class="p">,</span> <span class="n">right_data_sr</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                    <span class="n">right_index_rp</span><span class="p">,</span> <span class="n">right_index_rr</span><span class="p">,</span> <span class="n">right_index_sp</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                    <span class="n">right_index_sr</span><span class="p">,</span> <span class="n">row_blk_sizes2enum</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>         <span class="kd">::</span> <span class="n">k_sizes</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>      <span class="kd">::</span> <span class="n">left_pgrid</span><span class="p">,</span> <span class="n">product_pgrid</span><span class="p">,</span> <span class="n">right_pgrid</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">SAVE</span>                                      <span class="kd">::</span> <span class="n">mult_id</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">keep_sparsity</span><span class="p">,</span> <span class="n">list_indexing</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                            <span class="n">otf_filtering</span>
+
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">),</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:)</span> <span class="kd">::</span> <span class="n">left_norms</span><span class="p">,</span> <span class="n">right_norms</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                  <span class="n">row_max_epss</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">)</span>                            <span class="kd">::</span> <span class="n">filter_eps_sp</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_2d_array_type</span><span class="p">),</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">left_buffer_2</span><span class="p">,</span> <span class="n">left_buffer_calc</span><span class="p">,</span> <span class="p">&amp;</span>
+                                            <span class="n">left_buffer_comm</span><span class="p">,</span> <span class="n">right_buffer_2</span><span class="p">,</span> <span class="n">right_buffer_calc</span><span class="p">,</span> <span class="n">right_buffer_comm</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">)</span>                     <span class="kd">::</span> <span class="n">left_data_rp</span><span class="p">,</span> <span class="n">left_data_sp</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                  <span class="n">right_data_rp</span><span class="p">,</span> <span class="n">right_data_sp</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span> <span class="k">POINTER</span>            <span class="kd">::</span> <span class="n">trs_stackbuf_calc</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                  <span class="n">trs_stackbuf_comm</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span> <span class="k">TARGET</span>             <span class="kd">::</span> <span class="n">trs_stackbuf_1</span><span class="p">,</span> <span class="n">trs_stackbuf_2</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mm_multrec_type_p</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">ALLOCATABLE</span> <span class="kd">::</span> <span class="n">multrec</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">left_mp_obj</span><span class="p">,</span> <span class="n">product_mp_obj</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                  <span class="n">right_mp_obj</span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
+      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">trs_stackbuf_calc</span><span class="p">,</span> <span class="n">trs_stackbuf_comm</span><span class="p">)</span>
+      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">row_blk_sizes2enum</span><span class="p">,</span> <span class="n">enum2row_blk_sizes</span><span class="p">)</span>
+      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">col_blk_sizes2enum</span><span class="p">,</span> <span class="n">enum2col_blk_sizes</span><span class="p">)</span>
+      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">k_sizes</span><span class="p">)</span>
+      <span class="c">!</span>
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">left_buffer_2</span><span class="p">,</span> <span class="n">right_buffer_2</span><span class="p">)</span>
+      <span class="n">mult_id</span> <span class="o">=</span> <span class="n">mult_id</span> <span class="o">+</span> <span class="mi">1</span>
+
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">retain_sparsity</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">keep_sparsity</span> <span class="o">=</span> <span class="n">retain_sparsity</span>
+      <span class="k">ELSE</span>
+<span class="k">         </span><span class="n">keep_sparsity</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+      <span class="n">ENDIF</span>
+      <span class="n">otf_filtering</span> <span class="o">=</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">filter_eps</span><span class="p">)</span>
+
+<span class="c">!$OMP PARALLEL DEFAULT (NONE) &amp;</span>
+<span class="c">!$OMP SHARED (multrec, nthreads, product_matrix)</span>
+<span class="c">!$OMP MASTER</span>
+      <span class="n">nthreads</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="c">!$    nthreads = OMP_GET_NUM_THREADS()</span>
+      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">))</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Work matrices do not exist&quot;</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">nthreads</span><span class="p">)</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Work matrices not correctly sized.&quot;</span><span class="p">)</span>
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">multrec</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">nthreads</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+<span class="c">!$OMP END MASTER</span>
+<span class="c">!$OMP END PARALLEL</span>
+
+      <span class="n">output_unit</span> <span class="o">=</span> <span class="n">default_output_unit</span>
+      <span class="n">flop_total</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="c">! Set up variables</span>
+      <span class="n">data_type</span> <span class="o">=</span> <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">)</span>
+      <span class="n">data_type_byte</span> <span class="o">=</span> <span class="n">dbcsr_datatype_sizeof</span><span class="p">(</span><span class="n">data_type</span><span class="p">)</span>
+      <span class="n">left_row_nimages</span> <span class="o">=</span> <span class="n">left_set</span><span class="p">%</span><span class="n">image_dist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">row_decimation</span>
+      <span class="n">left_row_mult</span> <span class="o">=</span> <span class="n">left_set</span><span class="p">%</span><span class="n">image_dist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">row_multiplicity</span>
+      <span class="n">left_col_nimages</span> <span class="o">=</span> <span class="n">left_set</span><span class="p">%</span><span class="n">image_dist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">col_decimation</span>
+      <span class="n">left_col_mult</span> <span class="o">=</span> <span class="n">left_set</span><span class="p">%</span><span class="n">image_dist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">col_multiplicity</span>
+      <span class="n">right_row_nimages</span> <span class="o">=</span> <span class="n">right_set</span><span class="p">%</span><span class="n">image_dist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">row_decimation</span>
+      <span class="n">right_row_mult</span> <span class="o">=</span> <span class="n">right_set</span><span class="p">%</span><span class="n">image_dist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">row_multiplicity</span>
+      <span class="n">right_col_nimages</span> <span class="o">=</span> <span class="n">right_set</span><span class="p">%</span><span class="n">image_dist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">col_decimation</span>
+      <span class="n">right_col_mult</span> <span class="o">=</span> <span class="n">right_set</span><span class="p">%</span><span class="n">image_dist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">col_multiplicity</span>
+      <span class="n">left_mp_obj</span> <span class="o">=</span> <span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">left_set</span><span class="p">%</span><span class="n">image_dist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">main</span><span class="p">)</span>
+      <span class="n">right_mp_obj</span> <span class="o">=</span> <span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">right_set</span><span class="p">%</span><span class="n">image_dist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">main</span><span class="p">)</span>
+      <span class="n">product_mp_obj</span> <span class="o">=</span> <span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">dist</span><span class="p">)</span>
+      <span class="n">numnodes</span> <span class="o">=</span> <span class="n">dbcsr_mp_numnodes</span><span class="p">(</span><span class="n">product_mp_obj</span><span class="p">)</span>
+      <span class="n">mynode</span> <span class="o">=</span> <span class="n">dbcsr_mp_mynode</span><span class="p">(</span><span class="n">product_mp_obj</span><span class="p">)</span>
+      <span class="n">left_nprows</span> <span class="o">=</span> <span class="n">dbcsr_mp_nprows</span><span class="p">(</span><span class="n">left_mp_obj</span><span class="p">)</span>
+      <span class="n">left_npcols</span> <span class="o">=</span> <span class="n">dbcsr_mp_npcols</span><span class="p">(</span><span class="n">left_mp_obj</span><span class="p">)</span>
+      <span class="n">left_myprow</span> <span class="o">=</span> <span class="n">dbcsr_mp_myprow</span><span class="p">(</span><span class="n">left_mp_obj</span><span class="p">)</span>
+      <span class="n">left_mypcol</span> <span class="o">=</span> <span class="n">dbcsr_mp_mypcol</span><span class="p">(</span><span class="n">left_mp_obj</span><span class="p">)</span>
+      <span class="n">left_myfirstvrow</span> <span class="o">=</span> <span class="n">dbcsr_mp_myprow</span><span class="p">(</span><span class="n">left_mp_obj</span><span class="p">)</span><span class="o">*</span><span class="n">left_row_nimages</span>
+      <span class="n">left_myfirstvcol</span> <span class="o">=</span> <span class="n">dbcsr_mp_mypcol</span><span class="p">(</span><span class="n">left_mp_obj</span><span class="p">)</span><span class="o">*</span><span class="n">left_col_nimages</span>
+      <span class="n">right_nprows</span> <span class="o">=</span> <span class="n">dbcsr_mp_nprows</span><span class="p">(</span><span class="n">right_mp_obj</span><span class="p">)</span>
+      <span class="n">right_npcols</span> <span class="o">=</span> <span class="n">dbcsr_mp_npcols</span><span class="p">(</span><span class="n">right_mp_obj</span><span class="p">)</span>
+      <span class="n">right_myprow</span> <span class="o">=</span> <span class="n">dbcsr_mp_myprow</span><span class="p">(</span><span class="n">right_mp_obj</span><span class="p">)</span>
+      <span class="n">right_mypcol</span> <span class="o">=</span> <span class="n">dbcsr_mp_mypcol</span><span class="p">(</span><span class="n">right_mp_obj</span><span class="p">)</span>
+      <span class="n">right_myfirstvrow</span> <span class="o">=</span> <span class="n">dbcsr_mp_myprow</span><span class="p">(</span><span class="n">right_mp_obj</span><span class="p">)</span><span class="o">*</span><span class="n">right_row_nimages</span>
+      <span class="n">right_myfirstvcol</span> <span class="o">=</span> <span class="n">dbcsr_mp_mypcol</span><span class="p">(</span><span class="n">right_mp_obj</span><span class="p">)</span><span class="o">*</span><span class="n">right_col_nimages</span>
+      <span class="n">mp_group</span> <span class="o">=</span> <span class="n">dbcsr_mp_group</span><span class="p">(</span><span class="n">product_mp_obj</span><span class="p">)</span>
+      <span class="n">left_pgrid</span> <span class="o">=&gt;</span> <span class="n">dbcsr_mp_pgrid</span><span class="p">(</span><span class="n">left_mp_obj</span><span class="p">)</span>
+      <span class="n">right_pgrid</span> <span class="o">=&gt;</span> <span class="n">dbcsr_mp_pgrid</span><span class="p">(</span><span class="n">right_mp_obj</span><span class="p">)</span>
+      <span class="n">product_pgrid</span> <span class="o">=&gt;</span> <span class="n">dbcsr_mp_pgrid</span><span class="p">(</span><span class="n">product_mp_obj</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_mp_grid_setup</span><span class="p">(</span><span class="n">product_mp_obj</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_mp_grid_setup</span><span class="p">(</span><span class="n">left_mp_obj</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_mp_grid_setup</span><span class="p">(</span><span class="n">right_mp_obj</span><span class="p">)</span>
+      <span class="c">!</span>
+      <span class="c">! Dummy checks</span>
+      <span class="c">! left/right matching</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">left_col_nimages</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">right_row_mult</span><span class="p">)</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Left/Right image mismatch&quot;</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">left_col_mult</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">right_row_nimages</span><span class="p">)</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Left/Right image mismatch&quot;</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">left_col_nimages</span><span class="o">*</span><span class="n">left_npcols</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">right_row_nimages</span><span class="o">*</span><span class="n">right_nprows</span><span class="p">)</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Left/Right total mismatch&quot;</span><span class="p">)</span>
+      <span class="c">! product/left matching</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">left_row_mult</span><span class="o">*</span><span class="n">dbcsr_mp_nprows</span><span class="p">(</span><span class="n">product_mp_obj</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">left_row_nimages</span><span class="o">*</span><span class="n">left_nprows</span><span class="p">)</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Product/Left total mismatch&quot;</span><span class="p">)</span>
+      <span class="c">! product/left matching</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">right_col_mult</span><span class="o">*</span><span class="n">dbcsr_mp_npcols</span><span class="p">(</span><span class="n">product_mp_obj</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">right_col_nimages</span><span class="o">*</span><span class="n">right_npcols</span><span class="p">)</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Product/Right total mismatch&quot;</span><span class="p">)</span>
+      <span class="c">! Limitations</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">left_row_nimages</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Product/Left matrix process grid mismatch&quot;</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">left_row_mult</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Product/Left matrix process grid mismatch&quot;</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">right_col_nimages</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Product/Right matrix process grid mismatch&quot;</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">right_col_mult</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Product/Right matrix process grid mismatch&quot;</span><span class="p">)</span>
+
+      <span class="n">dbcsr_mpi_statistics</span><span class="p">%</span><span class="n">nimages</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="n">dbcsr_mpi_statistics</span><span class="p">%</span><span class="n">nimages</span><span class="p">,</span> <span class="n">left_row_nimages</span><span class="o">*</span><span class="n">left_col_nimages</span><span class="p">)</span>
+      <span class="n">dbcsr_mpi_statistics</span><span class="p">%</span><span class="n">nimages</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="n">dbcsr_mpi_statistics</span><span class="p">%</span><span class="n">nimages</span><span class="p">,</span> <span class="n">right_row_nimages</span><span class="o">*</span><span class="n">right_col_nimages</span><span class="p">)</span>
+      <span class="c">!</span>
+      <span class="c">! Exchange size data</span>
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">my_sizes</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="nb">MAX</span><span class="p">(</span><span class="n">left_row_nimages</span><span class="p">,</span> <span class="n">right_row_nimages</span><span class="p">),</span> <span class="p">&amp;</span>
+                         <span class="nb">MAX</span><span class="p">(</span><span class="n">left_col_nimages</span><span class="p">,</span> <span class="n">right_col_nimages</span><span class="p">)))</span>
+      <span class="n">my_sizes</span><span class="p">(:,</span> <span class="p">:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="k">DO </span><span class="n">left_row_image</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">left_row_nimages</span>
+         <span class="k">DO </span><span class="n">left_col_image</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">left_col_nimages</span>
+            <span class="n">my_sizes</span><span class="p">(</span><span class="n">idata</span> <span class="o">+</span> <span class="n">ileft</span><span class="p">,</span> <span class="n">left_row_image</span><span class="p">,</span> <span class="n">left_col_image</span><span class="p">)</span> <span class="p">&amp;</span>
+               <span class="o">=</span> <span class="n">dbcsr_data_get_size_referenced</span><span class="p">(</span> <span class="p">&amp;</span>
+                 <span class="n">left_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">left_row_image</span><span class="p">,</span> <span class="n">left_col_image</span><span class="p">)%</span><span class="n">data_area</span><span class="p">)</span>
+            <span class="n">my_sizes</span><span class="p">(</span><span class="n">imeta</span> <span class="o">+</span> <span class="n">ileft</span><span class="p">,</span> <span class="n">left_row_image</span><span class="p">,</span> <span class="n">left_col_image</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
+               <span class="n">left_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">left_row_image</span><span class="p">,</span> <span class="n">left_col_image</span><span class="p">)%</span><span class="nb">index</span> <span class="p">&amp;</span>
+               <span class="p">(</span><span class="n">dbcsr_slot_size</span><span class="p">)</span>
+         <span class="n">ENDDO</span>
+      <span class="n">ENDDO</span>
+
+      <span class="k">DO </span><span class="n">right_row_image</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">right_row_nimages</span>
+         <span class="k">DO </span><span class="n">right_col_image</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">right_col_nimages</span>
+            <span class="n">my_sizes</span><span class="p">(</span><span class="n">idata</span> <span class="o">+</span> <span class="n">iright</span><span class="p">,</span> <span class="n">right_row_image</span><span class="p">,</span> <span class="n">right_col_image</span><span class="p">)</span> <span class="p">&amp;</span>
+               <span class="o">=</span> <span class="n">dbcsr_data_get_size_referenced</span><span class="p">(</span> <span class="p">&amp;</span>
+                 <span class="n">right_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">right_row_image</span><span class="p">,</span> <span class="n">right_col_image</span><span class="p">)%</span><span class="n">data_area</span><span class="p">)</span>
+            <span class="n">my_sizes</span><span class="p">(</span><span class="n">imeta</span> <span class="o">+</span> <span class="n">iright</span><span class="p">,</span> <span class="n">right_row_image</span><span class="p">,</span> <span class="n">right_col_image</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
+               <span class="n">right_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">right_row_image</span><span class="p">,</span> <span class="n">right_col_image</span><span class="p">)%</span><span class="nb">index</span> <span class="p">&amp;</span>
+               <span class="p">(</span><span class="n">dbcsr_slot_size</span><span class="p">)</span>
+         <span class="n">ENDDO</span>
+      <span class="n">ENDDO</span>
+
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">all_sizes</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="nb">LBOUND</span><span class="p">(</span><span class="n">my_sizes</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span><span class="nb">UBOUND</span><span class="p">(</span><span class="n">my_sizes</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">&amp;</span>
+                          <span class="nb">LBOUND</span><span class="p">(</span><span class="n">my_sizes</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span><span class="nb">UBOUND</span><span class="p">(</span><span class="n">my_sizes</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="mi">0</span><span class="p">:</span><span class="n">numnodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+      <span class="k">CALL </span><span class="n">mp_allgather</span><span class="p">(</span><span class="n">my_sizes</span><span class="p">,</span> <span class="n">all_sizes</span><span class="p">,</span> <span class="n">mp_group</span><span class="p">)</span>
+      <span class="c">!</span>
+      <span class="c">! Count the maximum possible multiplies per row for on-the-fly</span>
+      <span class="c">! filtering.</span>
+      <span class="n">per_row_eps</span><span class="p">:</span> <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">otf_filtering</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="c">! These arrays must be valid when passed to called subroutines.</span>
+         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">left_norms</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">right_norms</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">row_max_epss</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Could not allocate memory&quot;</span><span class="p">)</span>
+      <span class="k">ELSE</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            IF</span> <span class="p">(</span><span class="n">left_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)%</span><span class="n">bcsc</span><span class="p">)</span> <span class="p">&amp;</span>
+               <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Can not do on-the-fly filtering with CSC-indexed matrices.&quot;</span><span class="p">)</span>
+         <span class="n">ENDIF</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_has_local_row_index</span><span class="p">(</span><span class="n">left_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span> <span class="k">THEN</span>
+<span class="k">            </span><span class="n">nblkrows_used</span> <span class="o">=</span> <span class="n">dbcsr_nblkrows_local</span><span class="p">(</span><span class="n">left_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+         <span class="k">ELSE</span>
+<span class="k">            </span><span class="n">nblkrows_used</span> <span class="o">=</span> <span class="n">dbcsr_nblkrows_total</span><span class="p">(</span><span class="n">left_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+         <span class="n">ENDIF</span>
+         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">row_max_epss</span><span class="p">(</span><span class="n">nblkrows_used</span><span class="p">),</span> <span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Could not allocate memory for left epsilons&quot;</span><span class="p">)</span>
+         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">row_counts</span><span class="p">(</span><span class="n">nblkrows_used</span><span class="p">),</span> <span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Could not allocate memory for left row counts&quot;</span><span class="p">)</span>
+         <span class="c">! The summation could be done prow-locally but it would</span>
+         <span class="c">! complicate the pre-row eps calculation.</span>
+         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">total_row_counts</span><span class="p">(</span><span class="n">nblkrows_used</span><span class="p">),</span> <span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Could not allocate memory for left row counts&quot;</span><span class="p">)</span>
+         <span class="c">! Each prow member matrix (npcols * row_images) counts the</span>
+         <span class="c">! blocks present in each of its rows.</span>
+         <span class="n">total_row_counts</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
+         <span class="k">DO </span><span class="n">left_row_image</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">left_row_nimages</span>
+            <span class="k">DO </span><span class="n">left_col_image</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">left_col_nimages</span>
+               <span class="n">list_indexing</span> <span class="o">=</span> <span class="p">&amp;</span>
+                  <span class="n">left_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">left_row_image</span><span class="p">,</span> <span class="n">left_col_image</span><span class="p">)%</span><span class="n">list_indexing</span>
+               <span class="k">IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">                  IF</span> <span class="p">(</span><span class="n">list_indexing</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">                     IF</span> <span class="p">((</span><span class="n">left_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">left_row_image</span><span class="p">,</span> <span class="n">left_col_image</span><span class="p">)%</span><span class="n">nblks</span><span class="p">)</span><span class="o">*</span><span class="mi">3</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="p">&amp;</span>
+                         <span class="n">SIZE</span><span class="p">(</span><span class="n">left_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">left_row_image</span><span class="p">,</span> <span class="n">left_col_image</span><span class="p">)%</span><span class="n">coo_l</span><span class="p">))</span> <span class="p">&amp;</span>
+                        <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Row count mismatch&quot;</span><span class="p">)</span>
+                  <span class="k">ELSE</span>
+<span class="k">                     IF</span> <span class="p">(</span><span class="n">nblkrows_used</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">left_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">left_row_image</span><span class="p">,</span> <span class="n">left_col_image</span><span class="p">)%</span><span class="n">row_p</span><span class="p">))</span> <span class="p">&amp;</span>
+                        <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Row count mismatch&quot;</span><span class="p">)</span>
+                  <span class="n">ENDIF</span>
+               <span class="n">ENDIF</span>
+               <span class="k">IF</span> <span class="p">(</span><span class="n">list_indexing</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">                  CALL </span><span class="n">count_bins</span><span class="p">(</span> <span class="p">&amp;</span>
+                     <span class="n">left_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">left_row_image</span><span class="p">,</span> <span class="n">left_col_image</span><span class="p">)%</span><span class="n">nblks</span><span class="p">,</span> <span class="p">&amp;</span>
+                     <span class="n">left_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">left_row_image</span><span class="p">,</span> <span class="n">left_col_image</span><span class="p">)%</span><span class="n">coo_l</span><span class="p">(</span><span class="mi">1</span><span class="kd">::</span><span class="mi">3</span><span class="p">),</span> <span class="p">&amp;</span>
+                     <span class="n">nblkrows_used</span><span class="p">,</span> <span class="n">row_counts</span><span class="p">)</span>
+               <span class="k">ELSE</span>
+<span class="k">                  CALL </span><span class="n">dbcsr_count_row_index</span><span class="p">(</span> <span class="p">&amp;</span>
+                     <span class="n">left_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">left_row_image</span><span class="p">,</span> <span class="n">left_col_image</span><span class="p">)%</span><span class="n">row_p</span><span class="p">,</span> <span class="p">&amp;</span>
+                     <span class="n">row_counts</span><span class="p">,</span> <span class="n">nblkrows_used</span><span class="p">)</span>
+               <span class="n">ENDIF</span>
+               <span class="n">total_row_counts</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">total_row_counts</span><span class="p">(:)</span> <span class="p">&amp;</span>
+                                     <span class="o">+</span> <span class="n">row_counts</span><span class="p">(:)</span>
+            <span class="n">ENDDO</span>
+         <span class="n">ENDDO</span>
+         <span class="c">! The counted blocks are then summed up</span>
+         <span class="k">CALL </span><span class="n">mp_sum</span><span class="p">(</span><span class="n">total_row_counts</span><span class="p">,</span> <span class="n">dbcsr_mp_my_row_group</span><span class="p">(</span><span class="n">product_mp_obj</span><span class="p">))</span>
+         <span class="c">! and used to determine the maximum per-block epsilon.</span>
+         <span class="n">filter_eps_sp</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">(</span><span class="n">filter_eps</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="nb">KIND</span><span class="p">(</span><span class="n">row_max_epss</span><span class="p">))</span>
+<span class="c">!$OMP PARALLEL DO DEFAULT (NONE) &amp;</span>
+<span class="c">!$OMP SHARED(nblkrows_used,row_max_epss,filter_eps_sp,&amp;</span>
+<span class="c">!$OMP        total_row_counts)</span>
+         <span class="k">DO </span><span class="n">row</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nblkrows_used</span>
+            <span class="n">row_max_epss</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="p">&amp;</span>
+               <span class="o">=</span> <span class="p">(</span><span class="n">filter_eps_sp</span> <span class="p">&amp;</span>
+                  <span class="o">/</span><span class="kt">REAL</span><span class="p">(</span><span class="nb">MAX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">total_row_counts</span><span class="p">(</span><span class="n">row</span><span class="p">)),</span> <span class="nb">KIND</span><span class="o">=</span><span class="nb">KIND</span><span class="p">(</span><span class="n">row_max_epss</span><span class="p">)))</span><span class="o">**</span><span class="mi">2</span>
+         <span class="k">END DO</span>
+<span class="c">!$OMP END PARALLEL DO</span>
+         <span class="c">!</span>
+         <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">row_counts</span><span class="p">)</span>
+         <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">total_row_counts</span><span class="p">)</span>
+      <span class="n">ENDIF</span> <span class="n">per_row_eps</span>
+      <span class="c">!</span>
+      <span class="c">! The main transfer loop goes through the virtual rows/columns.</span>
+      <span class="c">! The number of steps may be smaller if the grid dimension is very</span>
+      <span class="c">! non-optimal (both left column images and right row images are &gt;</span>
+      <span class="c">! 1).</span>
+      <span class="n">min_nimages</span> <span class="o">=</span> <span class="nb">MIN</span><span class="p">(</span><span class="n">left_col_nimages</span><span class="p">,</span> <span class="n">right_row_nimages</span><span class="p">)</span>
+      <span class="n">nvirt_k</span> <span class="o">=</span> <span class="n">left_npcols</span><span class="o">*</span><span class="n">left_col_nimages</span>
+      <span class="n">nsteps_k</span> <span class="o">=</span> <span class="n">nvirt_k</span><span class="o">/</span><span class="n">min_nimages</span>
+      <span class="c">!</span>
+      <span class="c">! Translate the all_sizes to account for pre-distribution.  This</span>
+      <span class="c">! is just done to simplify lookups.</span>
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">left_sizes</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">left_nprows</span><span class="o">*</span><span class="n">left_row_nimages</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">nvirt_k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+      <span class="n">left_sizes</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+      <span class="k">DO </span><span class="n">left_src_vcol</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">left_col_nimages</span><span class="o">*</span><span class="n">left_npcols</span> <span class="o">-</span> <span class="mi">1</span>
+         <span class="k">DO </span><span class="n">left_src_vrow</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">left_row_nimages</span><span class="o">*</span><span class="n">left_nprows</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="c">! Calculate what was shifted.  The left_src_v{row,col} are</span>
+            <span class="c">! the &quot;source&quot; rows/columns; the left_dst are the shifted</span>
+            <span class="c">! targets where the data was placed in make_images.</span>
+            <span class="k">CALL </span><span class="n">image_calculator</span><span class="p">(</span><span class="n">left_set</span><span class="p">%</span><span class="n">image_dist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                  <span class="n">prow</span><span class="o">=</span><span class="n">left_dst_prow</span><span class="p">,</span> <span class="n">pcol</span><span class="o">=</span><span class="n">left_dst_pcol</span><span class="p">,</span> <span class="p">&amp;</span>
+                                  <span class="n">rowi</span><span class="o">=</span><span class="n">left_dst_irow</span><span class="p">,</span> <span class="n">coli</span><span class="o">=</span><span class="n">left_dst_icol</span><span class="p">,</span> <span class="p">&amp;</span>
+                                  <span class="n">myvprow</span><span class="o">=</span><span class="n">left_src_vrow</span><span class="p">,</span> <span class="n">myvpcol</span><span class="o">=</span><span class="n">left_src_vcol</span><span class="p">,</span> <span class="p">&amp;</span>
+                                  <span class="n">shifting</span><span class="o">=</span><span class="s1">&#39;l&#39;</span><span class="p">)</span>
+            <span class="n">left_dst_p</span> <span class="o">=</span> <span class="n">left_pgrid</span><span class="p">(</span><span class="n">left_dst_prow</span><span class="p">,</span> <span class="n">left_dst_pcol</span><span class="p">)</span>
+            <span class="n">left_sizes</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">left_src_vrow</span><span class="p">,</span> <span class="n">left_src_vcol</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
+               <span class="n">all_sizes</span><span class="p">(</span> <span class="p">&amp;</span>
+               <span class="n">idata</span> <span class="o">+</span> <span class="n">ileft</span><span class="p">,</span> <span class="n">left_dst_irow</span><span class="p">,</span> <span class="n">left_dst_icol</span><span class="p">,</span> <span class="n">left_dst_p</span><span class="p">)</span>
+            <span class="n">left_sizes</span><span class="p">(</span><span class="n">imeta</span><span class="p">,</span> <span class="n">left_src_vrow</span><span class="p">,</span> <span class="n">left_src_vcol</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
+               <span class="n">all_sizes</span><span class="p">(</span> <span class="p">&amp;</span>
+               <span class="n">imeta</span> <span class="o">+</span> <span class="n">ileft</span><span class="p">,</span> <span class="n">left_dst_irow</span><span class="p">,</span> <span class="n">left_dst_icol</span><span class="p">,</span> <span class="n">left_dst_p</span><span class="p">)</span>
+         <span class="n">ENDDO</span>
+      <span class="n">ENDDO</span>
+      <span class="c">!</span>
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">right_sizes</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">nvirt_k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">right_npcols</span><span class="o">*</span><span class="n">right_col_nimages</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+      <span class="n">right_sizes</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+      <span class="k">DO </span><span class="n">right_src_vcol</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">right_col_nimages</span><span class="o">*</span><span class="n">right_npcols</span> <span class="o">-</span> <span class="mi">1</span>
+         <span class="k">DO </span><span class="n">right_src_vrow</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">right_row_nimages</span><span class="o">*</span><span class="n">right_nprows</span> <span class="o">-</span> <span class="mi">1</span>
+            <span class="c">! Calculate what was shifted.  The right_src_v{row,col} are</span>
+            <span class="c">! the &quot;source&quot; rows/columns; the right_dst are the shifted</span>
+            <span class="c">! targets where the data was placed in make_images.</span>
+            <span class="k">CALL </span><span class="n">image_calculator</span><span class="p">(</span><span class="n">right_set</span><span class="p">%</span><span class="n">image_dist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                  <span class="n">prow</span><span class="o">=</span><span class="n">right_dst_prow</span><span class="p">,</span> <span class="n">pcol</span><span class="o">=</span><span class="n">right_dst_pcol</span><span class="p">,</span> <span class="p">&amp;</span>
+                                  <span class="n">rowi</span><span class="o">=</span><span class="n">right_dst_irow</span><span class="p">,</span> <span class="n">coli</span><span class="o">=</span><span class="n">right_dst_icol</span><span class="p">,</span> <span class="p">&amp;</span>
+                                  <span class="n">myvprow</span><span class="o">=</span><span class="n">right_src_vrow</span><span class="p">,</span> <span class="n">myvpcol</span><span class="o">=</span><span class="n">right_src_vcol</span><span class="p">,</span> <span class="p">&amp;</span>
+                                  <span class="n">shifting</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">)</span>
+            <span class="n">right_dst_p</span> <span class="o">=</span> <span class="n">right_pgrid</span><span class="p">(</span><span class="n">right_dst_prow</span><span class="p">,</span> <span class="n">right_dst_pcol</span><span class="p">)</span>
+            <span class="n">right_sizes</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">right_src_vrow</span><span class="p">,</span> <span class="n">right_src_vcol</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
+               <span class="n">all_sizes</span><span class="p">(</span> <span class="p">&amp;</span>
+               <span class="n">idata</span> <span class="o">+</span> <span class="n">iright</span><span class="p">,</span> <span class="n">right_dst_irow</span><span class="p">,</span> <span class="n">right_dst_icol</span><span class="p">,</span> <span class="n">right_dst_p</span><span class="p">)</span>
+            <span class="n">right_sizes</span><span class="p">(</span><span class="n">imeta</span><span class="p">,</span> <span class="n">right_src_vrow</span><span class="p">,</span> <span class="n">right_src_vcol</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
+               <span class="n">all_sizes</span><span class="p">(</span> <span class="p">&amp;</span>
+               <span class="n">imeta</span> <span class="o">+</span> <span class="n">iright</span><span class="p">,</span> <span class="n">right_dst_irow</span><span class="p">,</span> <span class="n">right_dst_icol</span><span class="p">,</span> <span class="n">right_dst_p</span><span class="p">)</span>
+         <span class="n">ENDDO</span>
+      <span class="n">ENDDO</span>
+      <span class="c">!</span>
+      <span class="c">! Setup product work areas</span>
+      <span class="n">left_max_nze</span> <span class="o">=</span> <span class="nb">MAXVAL</span><span class="p">(</span><span class="n">all_sizes</span><span class="p">(</span><span class="n">idata</span> <span class="o">+</span> <span class="n">ileft</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:))</span>
+      <span class="n">left_max_nblks</span> <span class="o">=</span> <span class="nb">MAXVAL</span><span class="p">(</span><span class="n">all_sizes</span><span class="p">(</span><span class="n">imeta</span> <span class="o">+</span> <span class="n">ileft</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:))</span>
+      <span class="n">right_max_nze</span> <span class="o">=</span> <span class="nb">MAXVAL</span><span class="p">(</span><span class="n">all_sizes</span><span class="p">(</span><span class="n">idata</span> <span class="o">+</span> <span class="n">iright</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:))</span>
+      <span class="n">right_max_nblks</span> <span class="o">=</span> <span class="nb">MAXVAL</span><span class="p">(</span><span class="n">all_sizes</span><span class="p">(</span><span class="n">imeta</span> <span class="o">+</span> <span class="n">iright</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:))</span>
+      <span class="c">!!</span>
+      <span class="c">! Evaluate sizes for workspaces</span>
+      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">keep_sparsity</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">has_acc</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            </span><span class="n">size_guess_init</span> <span class="o">=</span> <span class="n">product_matrix_size_guess</span><span class="p">(</span><span class="n">left_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">right_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">product_matrix</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                        <span class="n">left_max_nze</span><span class="p">,</span> <span class="n">right_max_nze</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                        <span class="n">left_col_nimages</span><span class="p">,</span> <span class="n">right_row_nimages</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                        <span class="n">nthreads</span><span class="p">)</span>
+         <span class="k">ELSE</span>
+<span class="k">            </span><span class="n">size_guess_init</span> <span class="o">=</span> <span class="mi">1</span>
+         <span class="n">ENDIF</span>
+      <span class="n">ENDIF</span>
+      <span class="n">ithread</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c">!$OMP PARALLEL DEFAULT(NONE) &amp;</span>
+<span class="c">!$OMP          PRIVATE (i, size_guess, ithread) &amp;</span>
+<span class="c">!$OMP          SHARED (product_matrix, left_max_nze, right_max_nze) &amp;</span>
+<span class="c">!$OMP          SHARED (left_set, right_set, &amp;</span>
+<span class="c">!$OMP                 left_col_nimages, right_row_nimages) &amp;</span>
+<span class="c">!$OMP          SHARED (nthreads, keep_sparsity, mynode, size_guess_init)</span>
+      <span class="c">!</span>
+<span class="c">!$    ithread = OMP_GET_THREAD_NUM()</span>
+      <span class="c">! The work arrays have to be setup (actually, not quite sure).</span>
+      <span class="n">i</span> <span class="o">=</span> <span class="n">ithread</span> <span class="o">+</span> <span class="mi">1</span>
+      <span class="n">size_guess</span> <span class="o">=</span> <span class="n">product_matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">datasize</span> <span class="c">! Should be minimal</span>
+      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">keep_sparsity</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">size_guess</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="n">size_guess</span><span class="p">,</span> <span class="n">size_guess_init</span><span class="p">)</span>
+      <span class="n">ENDIF</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_ensure_size</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">data_area</span><span class="p">,</span> <span class="p">&amp;</span>
+                                  <span class="n">size_guess</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_set_size_referenced</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">data_area</span><span class="p">,</span> <span class="p">&amp;</span>
+                                          <span class="n">product_matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">datasize</span><span class="p">)</span>
+      <span class="c">! XXXXXXX a quick fix right now, allocation with size 1 might actually not be needed at all,</span>
+      <span class="c">!         but something expects this to be associated</span>
+      <span class="k">CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">row_i</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">col_i</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">blk_p</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="c">!$OMP END PARALLEL</span>
+
+      <span class="c">! update capacity of memory-pools, +1 for the dense case</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">memtype_abpanel_1</span><span class="p">%</span><span class="n">pool</span><span class="p">))</span> <span class="p">&amp;</span>
+         <span class="k">CALL </span><span class="n">dbcsr_mempool_limit_capacity</span><span class="p">(</span><span class="n">memtype_abpanel_1</span><span class="p">%</span><span class="n">pool</span><span class="p">,</span> <span class="p">&amp;</span>
+                                           <span class="n">capacity</span><span class="o">=</span><span class="n">left_row_mult</span><span class="o">*</span><span class="n">left_col_nimages</span> <span class="o">+</span> <span class="n">right_row_nimages</span><span class="o">*</span><span class="n">right_col_mult</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">memtype_abpanel_2</span><span class="p">%</span><span class="n">pool</span><span class="p">))</span> <span class="p">&amp;</span>
+         <span class="k">CALL </span><span class="n">dbcsr_mempool_limit_capacity</span><span class="p">(</span><span class="n">memtype_abpanel_2</span><span class="p">%</span><span class="n">pool</span><span class="p">,</span> <span class="p">&amp;</span>
+                                           <span class="n">capacity</span><span class="o">=</span><span class="n">left_row_mult</span><span class="o">*</span><span class="n">left_col_nimages</span> <span class="o">+</span> <span class="n">right_row_nimages</span><span class="o">*</span><span class="n">right_col_mult</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">has_acc</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="c">! enumerate the blocksizes to keep the following 2D-arrays small.</span>
+         <span class="k">CALL </span><span class="n">enumerate_blk_sizes</span><span class="p">(</span><span class="n">right_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)%</span><span class="n">row_blk_size</span><span class="p">%</span><span class="n">low</span><span class="p">%</span><span class="k">data</span><span class="p">,</span> <span class="p">&amp;</span>
+                                  <span class="n">dbcsr_max_row_size</span><span class="p">(</span><span class="n">right_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="p">&amp;</span>
+                                  <span class="n">row_blk_sizes2enum</span><span class="p">,</span> <span class="n">enum2row_blk_sizes</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">enumerate_blk_sizes</span><span class="p">(</span><span class="n">right_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)%</span><span class="n">col_blk_size</span><span class="p">%</span><span class="n">low</span><span class="p">%</span><span class="k">data</span><span class="p">,</span> <span class="p">&amp;</span>
+                                  <span class="n">dbcsr_max_col_size</span><span class="p">(</span><span class="n">right_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="p">&amp;</span>
+                                  <span class="n">col_blk_sizes2enum</span><span class="p">,</span> <span class="n">enum2col_blk_sizes</span><span class="p">)</span>
+      <span class="n">ENDIF</span>
+
+      <span class="c">!</span>
+      <span class="c">! Setup the left buffer matrices</span>
+      <span class="c">!</span>
+      <span class="k">CALL </span><span class="n">buffer_matrices_ensure_size</span><span class="p">(</span><span class="n">left_set</span><span class="p">,</span> <span class="n">index_size</span><span class="o">=</span><span class="n">left_max_nblks</span><span class="p">,</span> <span class="p">&amp;</span>
+                                       <span class="n">data_size</span><span class="o">=</span><span class="n">left_max_nze</span><span class="p">)</span>
+
+      <span class="k">CALL </span><span class="n">setup_buffer_matrices</span><span class="p">(</span><span class="n">left_buffer_2</span><span class="p">,</span> <span class="n">left_row_mult</span><span class="p">,</span> <span class="n">left_col_nimages</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">left_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">index_size</span><span class="o">=</span><span class="n">left_max_nblks</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">data_size</span><span class="o">=</span><span class="n">left_max_nze</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">otf_filtering</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">left_norms</span><span class="p">(</span><span class="n">left_max_nblks</span><span class="p">),</span> <span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Could not allocate memory for left norms&quot;</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="n">otf_filtering</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+      <span class="n">ENDIF</span>
+      <span class="n">left_buffer_calc</span> <span class="o">=&gt;</span> <span class="n">left_set</span>
+      <span class="n">left_buffer_comm</span> <span class="o">=&gt;</span> <span class="n">left_buffer_2</span>
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">left_data_sr</span><span class="p">(</span><span class="n">left_col_nimages</span><span class="p">))</span>
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">left_index_sr</span><span class="p">(</span><span class="n">left_col_nimages</span><span class="p">))</span>
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">left_data_rr</span><span class="p">(</span><span class="n">left_col_nimages</span><span class="p">))</span>
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">left_index_rr</span><span class="p">(</span><span class="n">left_col_nimages</span><span class="p">))</span>
+      <span class="n">left_data_sr</span> <span class="o">=</span> <span class="n">mp_request_null</span>
+      <span class="n">left_data_rr</span> <span class="o">=</span> <span class="n">mp_request_null</span>
+      <span class="n">left_index_sr</span> <span class="o">=</span> <span class="n">mp_request_null</span>
+      <span class="n">left_index_rr</span> <span class="o">=</span> <span class="n">mp_request_null</span>
+
+      <span class="c">! Setup buffers for right matrix</span>
+      <span class="k">CALL </span><span class="n">buffer_matrices_ensure_size</span><span class="p">(</span><span class="n">right_set</span><span class="p">,</span> <span class="n">index_size</span><span class="o">=</span><span class="n">right_max_nblks</span><span class="p">,</span> <span class="p">&amp;</span>
+                                       <span class="n">data_size</span><span class="o">=</span><span class="n">right_max_nze</span><span class="p">)</span>
+
+      <span class="k">CALL </span><span class="n">setup_buffer_matrices</span><span class="p">(</span><span class="n">right_buffer_2</span><span class="p">,</span> <span class="n">right_row_nimages</span><span class="p">,</span> <span class="n">right_col_mult</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">right_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">index_size</span><span class="o">=</span><span class="n">right_max_nblks</span><span class="p">,</span> <span class="n">data_size</span><span class="o">=</span><span class="n">right_max_nze</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">otf_filtering</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">right_norms</span><span class="p">(</span><span class="n">right_max_nblks</span><span class="p">),</span> <span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+            <span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">&quot;Could not allocate memory for right norms&quot;</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="n">otf_filtering</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+      <span class="n">ENDIF</span>
+      <span class="n">right_buffer_calc</span> <span class="o">=&gt;</span> <span class="n">right_set</span>
+      <span class="n">right_buffer_comm</span> <span class="o">=&gt;</span> <span class="n">right_buffer_2</span>
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">right_data_sr</span><span class="p">(</span><span class="n">right_row_nimages</span><span class="p">))</span>
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">right_index_sr</span><span class="p">(</span><span class="n">right_row_nimages</span><span class="p">))</span>
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">right_data_rr</span><span class="p">(</span><span class="n">right_row_nimages</span><span class="p">))</span>
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">right_index_rr</span><span class="p">(</span><span class="n">right_row_nimages</span><span class="p">))</span>
+      <span class="n">right_data_sr</span> <span class="o">=</span> <span class="n">mp_request_null</span>
+      <span class="n">right_data_rr</span> <span class="o">=</span> <span class="n">mp_request_null</span>
+      <span class="n">right_index_sr</span> <span class="o">=</span> <span class="n">mp_request_null</span>
+      <span class="n">right_index_rr</span> <span class="o">=</span> <span class="n">mp_request_null</span>
+      <span class="c">!</span>
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">m_sizes</span><span class="p">(</span><span class="n">dbcsr_nblkrows_local</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">)))</span>
+      <span class="k">CALL </span><span class="n">local_filter</span><span class="p">(</span><span class="n">array_data</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">row_blk_size</span><span class="p">),</span> <span class="n">array_size</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">local_rows</span><span class="p">),</span> <span class="p">&amp;</span>
+                        <span class="n">array_data</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">local_rows</span><span class="p">),</span> <span class="n">m_sizes</span><span class="p">)</span>
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">n_sizes</span><span class="p">(</span><span class="n">dbcsr_nblkcols_local</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">)))</span>
+      <span class="k">CALL </span><span class="n">local_filter</span><span class="p">(</span><span class="n">array_data</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">col_blk_size</span><span class="p">),</span> <span class="n">array_size</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">local_cols</span><span class="p">),</span> <span class="p">&amp;</span>
+                        <span class="n">array_data</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">local_cols</span><span class="p">),</span> <span class="n">n_sizes</span><span class="p">)</span>
+      <span class="c">!</span>
+<span class="c">!$OMP PARALLEL &amp;</span>
+<span class="c">!$OMP DEFAULT (NONE) &amp;</span>
+<span class="c">!$OMP SHARED (left_buffer_comm, right_buffer_comm, product_matrix,&amp;</span>
+<span class="c">!$OMP         keep_sparsity, filter_eps, row_max_epss, multrec, nthreads, &amp;</span>
+<span class="c">!$OMP         right_data_sr, right_data_rr, left_data_sr, left_data_rr,&amp;</span>
+<span class="c">!$OMP         right_index_sr, right_index_rr, left_index_sr, left_index_rr,&amp;</span>
+<span class="c">!$OMP         m_sizes, n_sizes), &amp;</span>
+<span class="c">!$OMP PRIVATE(ithread)</span>
+      <span class="n">ithread</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c">!$    ithread = OMP_GET_THREAD_NUM()</span>
+      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">multrec</span><span class="p">(</span><span class="n">ithread</span><span class="p">)%</span><span class="n">p</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_mm_multrec_init</span><span class="p">(</span><span class="n">multrec</span><span class="p">(</span><span class="n">ithread</span><span class="p">)%</span><span class="n">p</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="nb">product</span><span class="o">=</span><span class="n">product_matrix</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">keep_sparsity</span><span class="o">=</span><span class="n">keep_sparsity</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">eps</span><span class="o">=</span><span class="n">filter_eps</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">row_max_epss</span><span class="o">=</span><span class="n">row_max_epss</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">block_estimate</span><span class="o">=</span><span class="nb">MAX</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">nblks</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                    <span class="n">left_buffer_comm</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)%</span><span class="n">nblks</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                    <span class="n">right_buffer_comm</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)%</span><span class="n">nblks</span><span class="p">)</span><span class="o">/</span><span class="n">nthreads</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">right_row_blk_size</span><span class="o">=</span><span class="n">array_data</span><span class="p">(</span><span class="n">right_buffer_comm</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)%</span><span class="n">row_blk_size</span><span class="p">),</span> <span class="p">&amp;</span>
+                                 <span class="n">m_sizes</span><span class="o">=</span><span class="n">m_sizes</span><span class="p">,</span> <span class="n">n_sizes</span><span class="o">=</span><span class="n">n_sizes</span><span class="p">)</span>
+<span class="c">!$OMP END PARALLEL</span>
+      <span class="c">!</span>
+      <span class="c">! Setup indexing</span>
+      <span class="k">CALL </span><span class="n">setup_rec_index_2d</span><span class="p">(</span><span class="n">left_set</span><span class="p">,</span> <span class="n">left_row_nimages</span><span class="p">,</span> <span class="n">left_col_nimages</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">setup_rec_index_2d</span><span class="p">(</span><span class="n">right_set</span><span class="p">,</span> <span class="n">right_row_nimages</span><span class="p">,</span> <span class="n">right_col_nimages</span><span class="p">)</span>
+      <span class="c">!</span>
+      <span class="c">! Setup the send/receive data pointers</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">left_data_sp</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">left_data_rp</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">right_data_sp</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">right_data_rp</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="n">left_data_sp</span><span class="p">,</span> <span class="n">data_type</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="n">left_data_rp</span><span class="p">,</span> <span class="n">data_type</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="n">right_data_sp</span><span class="p">,</span> <span class="n">data_type</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="n">right_data_rp</span><span class="p">,</span> <span class="n">data_type</span><span class="p">)</span>
+
+      <span class="c">! Setup transpose stackbuffers</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">has_acc</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">trs_stackbuf_1</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">trs_stackbuf_2</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="n">trs_stackbuf_1</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">dbcsr_type_int_4</span><span class="p">,</span> <span class="p">&amp;</span>
+                             <span class="n">data_size</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">right_max_nblks</span><span class="p">,</span> <span class="n">memory_type</span><span class="o">=</span><span class="n">memtype_trsbuffer_1</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="n">trs_stackbuf_2</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">dbcsr_type_int_4</span><span class="p">,</span> <span class="p">&amp;</span>
+                             <span class="n">data_size</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">right_max_nblks</span><span class="p">,</span> <span class="n">memory_type</span><span class="o">=</span><span class="n">memtype_trsbuffer_2</span><span class="p">)</span>
+         <span class="n">trs_stackbuf_calc</span> <span class="o">=&gt;</span> <span class="n">trs_stackbuf_1</span>
+         <span class="n">trs_stackbuf_comm</span> <span class="o">=&gt;</span> <span class="n">trs_stackbuf_2</span>
+      <span class="n">ENDIF</span>
+      <span class="c">!</span>
+      <span class="c">! Reset indices for virtual images</span>
+      <span class="n">v_ki_right</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="n">v_ki_left</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="c">!</span>
+      <span class="c">! Here is the main loop.</span>
+      <span class="c">!</span>
+      <span class="c">! In the first loop iteration, the data is fetched from the</span>
+      <span class="c">! sources. In the remaining iterations, the data are exchanged</span>
+      <span class="c">! among neighbors.  In the last loop only calculations take place.</span>
+      <span class="c">!</span>
+      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;_loop&quot;</span><span class="p">,</span> <span class="n">handle1</span><span class="p">)</span>
+      <span class="c">!</span>
+      <span class="n">grouped_k_index</span><span class="p">:</span> <span class="k">DO </span><span class="n">metronome</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nvirt_k</span> <span class="o">-</span> <span class="mi">1</span>
+         <span class="c">! Wait for right matrix transfer completion. Wait in all but</span>
+         <span class="c">! the first loop iteration.</span>
+         <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;_metrocomm1&quot;</span><span class="p">,</span> <span class="n">handle2</span><span class="p">)</span>
+         <span class="n">wait_right</span><span class="p">:</span> <span class="k">IF</span> <span class="p">(</span><span class="n">v_ki_right</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">right_row_nimages</span><span class="p">)</span> <span class="k">THEN</span>
+            <span class="c">! Reset index</span>
+            <span class="n">v_ki_right</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="s1">&#39;(1X,A)&#39;</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; waiting for right&quot;</span>
+            <span class="c">!</span>
+            <span class="k">CALL </span><span class="n">mp_waitall</span><span class="p">(</span><span class="n">right_data_sr</span><span class="p">)</span>
+            <span class="k">CALL </span><span class="n">mp_waitall</span><span class="p">(</span><span class="n">right_data_rr</span><span class="p">)</span>
+            <span class="k">CALL </span><span class="n">mp_waitall</span><span class="p">(</span><span class="n">right_index_sr</span><span class="p">)</span>
+            <span class="k">CALL </span><span class="n">mp_waitall</span><span class="p">(</span><span class="n">right_index_rr</span><span class="p">)</span>
+            <span class="c">!</span>
+            <span class="c">! Repoint indices of right matrices</span>
+            <span class="k">DO </span><span class="n">v_ki</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">right_row_nimages</span> <span class="o">-</span> <span class="mi">1</span>
+               <span class="k">CALL </span><span class="n">dbcsr_repoint_index</span><span class="p">(</span><span class="n">right_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">v_ki</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+               <span class="n">right_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">v_ki</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)%</span><span class="n">valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+            <span class="n">ENDDO</span>
+         <span class="n">ENDIF</span> <span class="n">wait_right</span>
+         <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle2</span><span class="p">)</span>
+         <span class="c">!</span>
+         <span class="c">! Right matrix transfer. Transfer in all but the last loop</span>
+         <span class="c">! iteration.</span>
+         <span class="n">xfer_right</span><span class="p">:</span> <span class="k">IF</span> <span class="p">(</span><span class="n">v_ki_right</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">metronome</span> <span class="o">+</span> <span class="n">right_row_nimages</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">nvirt_k</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            DO </span><span class="n">v_ki</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">right_row_nimages</span> <span class="o">-</span> <span class="mi">1</span>
+               <span class="c">! Calculate the process to send to.  It&#39;s the virtual</span>
+               <span class="c">! process row -min_nimages up (i.e., smaller row number)</span>
+               <span class="c">! from me.</span>
+               <span class="k">CALL </span><span class="n">image_calculator</span><span class="p">(</span><span class="n">right_set</span><span class="p">%</span><span class="n">image_dist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">prow</span><span class="o">=</span><span class="n">right_send_prow</span><span class="p">,</span> <span class="n">rowi</span><span class="o">=</span><span class="n">right_send_irow</span><span class="p">,</span> <span class="p">&amp;</span> <span class="c">! output</span>
+                                     <span class="n">pcol</span><span class="o">=</span><span class="n">right_send_pcol</span><span class="p">,</span> <span class="n">coli</span><span class="o">=</span><span class="n">right_send_icol</span><span class="p">,</span> <span class="p">&amp;</span> <span class="c">! output</span>
+                                     <span class="n">vprow</span><span class="o">=</span><span class="n">right_send_vrow</span><span class="p">,</span> <span class="n">vpcol</span><span class="o">=</span><span class="n">right_send_vcol</span><span class="p">,</span> <span class="p">&amp;</span> <span class="c">! output</span>
+                                     <span class="c">! myvprow goes through all of my (process row) images</span>
+                                     <span class="n">myvprow</span><span class="o">=</span><span class="n">v_ki</span> <span class="o">+</span> <span class="n">right_myfirstvrow</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">myvpcol</span><span class="o">=</span><span class="n">right_myfirstvcol</span><span class="p">,</span> <span class="p">&amp;</span> <span class="c">! nothing happens in the columns</span>
+                                     <span class="n">vprow_shift</span><span class="o">=-</span><span class="n">right_row_nimages</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">shifting</span><span class="o">=</span><span class="s1">&#39;0&#39;</span><span class="p">)</span>
+               <span class="c">! Calculate which data I send.</span>
+               <span class="k">CALL </span><span class="n">image_calculator</span><span class="p">(</span><span class="n">right_set</span><span class="p">%</span><span class="n">image_dist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">prow</span><span class="o">=</span><span class="n">right_dst_prow</span><span class="p">,</span> <span class="n">rowi</span><span class="o">=</span><span class="n">right_dst_irow</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">pcol</span><span class="o">=</span><span class="n">right_dst_pcol</span><span class="p">,</span> <span class="n">coli</span><span class="o">=</span><span class="n">right_dst_icol</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">vprow</span><span class="o">=</span><span class="n">right_dst_vrow</span><span class="p">,</span> <span class="n">vpcol</span><span class="o">=</span><span class="n">right_dst_vcol</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="c">! myvprows goes through all of my (process row) images</span>
+                                     <span class="n">myvprow</span><span class="o">=</span><span class="n">v_ki</span> <span class="o">+</span> <span class="n">right_myfirstvrow</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">myvpcol</span><span class="o">=</span><span class="n">right_myfirstvcol</span><span class="p">,</span> <span class="p">&amp;</span> <span class="c">! nothing happens in the columns</span>
+                                     <span class="n">vprow_shift</span><span class="o">=</span><span class="n">metronome</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="c">! This is with relative shifting.</span>
+                                     <span class="n">shifting</span><span class="o">=</span><span class="s1">&#39;R&#39;</span><span class="p">)</span>
+               <span class="n">right_dst_p</span> <span class="o">=</span> <span class="n">right_pgrid</span><span class="p">(</span><span class="n">right_dst_prow</span><span class="p">,</span> <span class="n">right_dst_pcol</span><span class="p">)</span>
+               <span class="k">CALL </span><span class="n">dbcsr_data_set_pointer</span><span class="p">(</span> <span class="p">&amp;</span>
+                  <span class="n">area</span><span class="o">=</span><span class="n">right_data_sp</span><span class="p">,</span> <span class="p">&amp;</span>
+                  <span class="n">rsize</span><span class="o">=</span><span class="n">right_sizes</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">right_dst_vrow</span><span class="p">,</span> <span class="n">right_dst_vcol</span><span class="p">),</span> <span class="p">&amp;</span>
+                  <span class="n">csize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="p">&amp;</span>
+                  <span class="n">pointee</span><span class="o">=</span><span class="n">right_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">v_ki</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)%</span><span class="n">data_area</span><span class="p">)</span>
+               <span class="n">right_index_sp</span> <span class="o">=&gt;</span> <span class="n">right_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span> <span class="p">&amp;</span>
+                                 <span class="n">v_ki</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="p">&amp;</span>
+                                 <span class="p">)%</span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span> <span class="p">&amp;</span>
+                                         <span class="n">right_sizes</span><span class="p">(</span><span class="n">imeta</span><span class="p">,</span> <span class="n">right_dst_vrow</span><span class="p">,</span> <span class="n">right_dst_vcol</span><span class="p">))</span>
+               <span class="c">!</span>
+               <span class="c">! Calculate the process to receive from</span>
+               <span class="k">CALL </span><span class="n">image_calculator</span><span class="p">(</span><span class="n">right_set</span><span class="p">%</span><span class="n">image_dist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">prow</span><span class="o">=</span><span class="n">right_recv_prow</span><span class="p">,</span> <span class="n">rowi</span><span class="o">=</span><span class="n">right_recv_irow</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">pcol</span><span class="o">=</span><span class="n">right_recv_pcol</span><span class="p">,</span> <span class="n">coli</span><span class="o">=</span><span class="n">right_recv_icol</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">vprow</span><span class="o">=</span><span class="n">right_recv_vrow</span><span class="p">,</span> <span class="n">vpcol</span><span class="o">=</span><span class="n">right_recv_vcol</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">myvprow</span><span class="o">=</span><span class="n">v_ki</span> <span class="o">+</span> <span class="n">right_myfirstvrow</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">myvpcol</span><span class="o">=</span><span class="n">right_myfirstvcol</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">vprow_shift</span><span class="o">=+</span><span class="n">right_row_nimages</span><span class="p">,</span> <span class="p">&amp;</span> <span class="c">! just the opposite as &quot;send to&quot;</span>
+                                     <span class="n">shifting</span><span class="o">=</span><span class="s1">&#39;0&#39;</span><span class="p">)</span>
+               <span class="c">! Calculate which data I receive</span>
+               <span class="k">CALL </span><span class="n">image_calculator</span><span class="p">(</span><span class="n">right_set</span><span class="p">%</span><span class="n">image_dist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">prow</span><span class="o">=</span><span class="n">right_src_prow</span><span class="p">,</span> <span class="n">rowi</span><span class="o">=</span><span class="n">right_src_irow</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">pcol</span><span class="o">=</span><span class="n">right_src_pcol</span><span class="p">,</span> <span class="n">coli</span><span class="o">=</span><span class="n">right_src_icol</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">vprow</span><span class="o">=</span><span class="n">right_src_vrow</span><span class="p">,</span> <span class="n">vpcol</span><span class="o">=</span><span class="n">right_src_vcol</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">myvprow</span><span class="o">=</span><span class="n">v_ki</span> <span class="o">+</span> <span class="n">right_myfirstvrow</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">myvpcol</span><span class="o">=</span><span class="n">right_myfirstvcol</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="c">! receive window moves with the metronome</span>
+                                     <span class="n">vprow_shift</span><span class="o">=</span><span class="n">metronome</span> <span class="o">+</span> <span class="n">right_row_nimages</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">shifting</span><span class="o">=</span><span class="s1">&#39;R&#39;</span><span class="p">)</span>
+               <span class="c">!</span>
+               <span class="k">IF</span> <span class="p">(</span><span class="n">has_acc</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">                  CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;_acc_sync_right&quot;</span><span class="p">,</span> <span class="n">handle3</span><span class="p">)</span>
+                  <span class="k">CALL </span><span class="n">acc_event_synchronize</span><span class="p">(</span><span class="n">right_buffer_comm</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">v_ki</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">acc_ready</span><span class="p">)</span>
+                  <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle3</span><span class="p">)</span>
+               <span class="n">ENDIF</span>
+
+               <span class="n">right_src_p</span> <span class="o">=</span> <span class="n">right_pgrid</span><span class="p">(</span><span class="n">right_src_prow</span><span class="p">,</span> <span class="n">right_src_pcol</span><span class="p">)</span>
+               <span class="k">CALL </span><span class="n">dbcsr_data_set_pointer</span><span class="p">(</span> <span class="p">&amp;</span>
+                  <span class="n">area</span><span class="o">=</span><span class="n">right_data_rp</span><span class="p">,</span> <span class="p">&amp;</span>
+                  <span class="n">rsize</span><span class="o">=</span><span class="n">right_sizes</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">right_src_vrow</span><span class="p">,</span> <span class="n">right_src_vcol</span><span class="p">),</span> <span class="p">&amp;</span>
+                  <span class="n">csize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="p">&amp;</span>
+                  <span class="n">pointee</span><span class="o">=</span><span class="n">right_buffer_comm</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">v_ki</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)%</span><span class="n">data_area</span><span class="p">)</span>
+               <span class="n">right_index_rp</span> <span class="o">=&gt;</span> <span class="n">right_buffer_comm</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span> <span class="p">&amp;</span>
+                                 <span class="n">v_ki</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span> <span class="p">&amp;</span>
+                                 <span class="p">)%</span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span> <span class="p">&amp;</span>
+                                         <span class="n">right_sizes</span><span class="p">(</span><span class="n">imeta</span><span class="p">,</span> <span class="n">right_src_vrow</span><span class="p">,</span> <span class="n">right_src_vcol</span><span class="p">))</span>
+               <span class="c">!</span>
+               <span class="n">right_send_p</span> <span class="o">=</span> <span class="n">right_pgrid</span><span class="p">(</span><span class="n">right_send_prow</span><span class="p">,</span> <span class="n">right_send_pcol</span><span class="p">)</span>
+               <span class="n">right_recv_p</span> <span class="o">=</span> <span class="n">right_pgrid</span><span class="p">(</span><span class="n">right_recv_prow</span><span class="p">,</span> <span class="n">right_recv_pcol</span><span class="p">)</span>
+               <span class="c">! These are column-communicator relative</span>
+               <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_mp_has_subgroups</span><span class="p">(</span><span class="n">right_mp_obj</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">                  </span><span class="n">right_send_p</span> <span class="o">=</span> <span class="n">right_send_prow</span>
+                  <span class="n">right_recv_p</span> <span class="o">=</span> <span class="n">right_recv_prow</span>
+                  <span class="n">grp</span> <span class="o">=</span> <span class="n">dbcsr_mp_my_col_group</span><span class="p">(</span><span class="n">right_mp_obj</span><span class="p">)</span>
+               <span class="k">ELSE</span>
+<span class="k">                  </span><span class="n">grp</span> <span class="o">=</span> <span class="n">dbcsr_mp_group</span><span class="p">(</span><span class="n">right_mp_obj</span><span class="p">)</span>
+               <span class="n">ENDIF</span>
+               <span class="c">!</span>
+               <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;_metrocomm2&quot;</span><span class="p">,</span> <span class="n">handle2</span><span class="p">)</span>
+               <span class="k">CALL </span><span class="n">dbcsr_irecv_any</span><span class="p">(</span><span class="n">right_data_rp</span><span class="p">,</span> <span class="n">right_recv_p</span><span class="p">,</span> <span class="p">&amp;</span>
+                                    <span class="n">grp</span><span class="p">,</span> <span class="n">right_data_rr</span><span class="p">(</span><span class="n">v_ki</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">right_src_vrow</span><span class="p">)</span>
+               <span class="k">CALL </span><span class="n">mp_irecv</span><span class="p">(</span><span class="n">right_index_rp</span><span class="p">,</span> <span class="n">right_recv_p</span><span class="p">,</span> <span class="p">&amp;</span>
+                             <span class="n">grp</span><span class="p">,</span> <span class="n">right_index_rr</span><span class="p">(</span><span class="n">v_ki</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">right_src_vrow</span><span class="p">)</span>
+               <span class="k">CALL </span><span class="n">dbcsr_isend_any</span><span class="p">(</span><span class="n">right_data_sp</span><span class="p">,</span> <span class="n">right_send_p</span><span class="p">,</span> <span class="p">&amp;</span>
+                                    <span class="n">grp</span><span class="p">,</span> <span class="n">right_data_sr</span><span class="p">(</span><span class="n">v_ki</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">right_dst_vrow</span><span class="p">)</span>
+               <span class="k">CALL </span><span class="n">mp_isend</span><span class="p">(</span><span class="n">right_index_sp</span><span class="p">,</span> <span class="n">right_send_p</span><span class="p">,</span> <span class="p">&amp;</span>
+                             <span class="n">grp</span><span class="p">,</span> <span class="n">right_index_sr</span><span class="p">(</span><span class="n">v_ki</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">right_dst_vrow</span><span class="p">)</span>
+               <span class="n">dbcsr_mpi_statistics</span><span class="p">%</span><span class="n">nexchanged</span> <span class="o">=</span> <span class="n">dbcsr_mpi_statistics</span><span class="p">%</span><span class="n">nexchanged</span> <span class="o">+</span> <span class="mi">1</span>
+               <span class="k">CALL </span><span class="n">count_mpi_statistics</span><span class="p">(</span><span class="n">dbcsr_mpi_statistics</span><span class="p">%</span><span class="n">data_size</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">:),</span> <span class="p">&amp;</span>
+                                         <span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">right_data_rp</span><span class="p">),</span> <span class="p">&amp;</span>
+                                         <span class="n">data_type_byte</span><span class="p">,</span> <span class="p">&amp;</span>
+                                         <span class="n">dbcsr_mpi_statistics</span><span class="p">%</span><span class="n">data_size_breakdown</span><span class="p">(:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">))</span>
+               <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle2</span><span class="p">)</span>
+            <span class="n">ENDDO</span>
+         <span class="n">ENDIF</span> <span class="n">xfer_right</span>
+         <span class="c">!</span>
+         <span class="c">! Wait for left matrix transfer completion. Wait in all but</span>
+         <span class="c">! the first loop iteration.</span>
+         <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;_metrocomm3&quot;</span><span class="p">,</span> <span class="n">handle2</span><span class="p">)</span>
+         <span class="n">wait_left</span><span class="p">:</span> <span class="k">IF</span> <span class="p">(</span><span class="n">v_ki_left</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">left_col_nimages</span><span class="p">)</span> <span class="k">THEN</span>
+            <span class="c">! Reset index</span>
+            <span class="n">v_ki_left</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="s1">&#39;(1X,A)&#39;</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; waiting for left&quot;</span>
+            <span class="k">CALL </span><span class="n">mp_waitall</span><span class="p">(</span><span class="n">left_data_sr</span><span class="p">)</span>
+            <span class="k">CALL </span><span class="n">mp_waitall</span><span class="p">(</span><span class="n">left_data_rr</span><span class="p">)</span>
+            <span class="k">CALL </span><span class="n">mp_waitall</span><span class="p">(</span><span class="n">left_index_sr</span><span class="p">)</span>
+            <span class="k">CALL </span><span class="n">mp_waitall</span><span class="p">(</span><span class="n">left_index_rr</span><span class="p">)</span>
+            <span class="c">!</span>
+            <span class="c">! Repoint indices of left matrices</span>
+            <span class="k">DO </span><span class="n">v_ki</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">left_col_nimages</span> <span class="o">-</span> <span class="mi">1</span>
+               <span class="k">CALL </span><span class="n">dbcsr_repoint_index</span><span class="p">(</span><span class="n">left_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">v_ki</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+               <span class="n">left_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">v_ki</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)%</span><span class="n">valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+            <span class="n">ENDDO</span>
+         <span class="n">ENDIF</span> <span class="n">wait_left</span>
+         <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle2</span><span class="p">)</span>
+         <span class="c">!</span>
+         <span class="c">! Left matrix transfer. Transfer in all but the last processor images.</span>
+         <span class="n">xfer_left</span><span class="p">:</span> <span class="k">IF</span> <span class="p">(</span><span class="n">v_ki_left</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">metronome</span> <span class="o">+</span> <span class="n">left_col_nimages</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">nvirt_k</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            DO </span><span class="n">v_ki</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">left_col_nimages</span> <span class="o">-</span> <span class="mi">1</span>
+               <span class="c">! Calculate the process to send to.</span>
+               <span class="k">CALL </span><span class="n">image_calculator</span><span class="p">(</span><span class="n">left_set</span><span class="p">%</span><span class="n">image_dist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">prow</span><span class="o">=</span><span class="n">left_send_prow</span><span class="p">,</span> <span class="n">rowi</span><span class="o">=</span><span class="n">left_send_irow</span><span class="p">,</span> <span class="p">&amp;</span> <span class="c">! output</span>
+                                     <span class="n">pcol</span><span class="o">=</span><span class="n">left_send_pcol</span><span class="p">,</span> <span class="n">coli</span><span class="o">=</span><span class="n">left_send_icol</span><span class="p">,</span> <span class="p">&amp;</span> <span class="c">! output</span>
+                                     <span class="n">vprow</span><span class="o">=</span><span class="n">left_send_vrow</span><span class="p">,</span> <span class="n">vpcol</span><span class="o">=</span><span class="n">left_send_vcol</span><span class="p">,</span> <span class="p">&amp;</span> <span class="c">! output</span>
+                                     <span class="n">myvprow</span><span class="o">=</span><span class="n">left_myfirstvrow</span><span class="p">,</span> <span class="p">&amp;</span> <span class="c">! nothing happens in the rows</span>
+                                     <span class="c">! go through all my column images</span>
+                                     <span class="n">myvpcol</span><span class="o">=</span><span class="n">v_ki</span> <span class="o">+</span> <span class="n">left_myfirstvcol</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="c">! send to process left_col_nimages left in the grid</span>
+                                     <span class="n">vpcol_shift</span><span class="o">=-</span><span class="n">left_col_nimages</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">shifting</span><span class="o">=</span><span class="s1">&#39;0&#39;</span><span class="p">)</span>
+               <span class="c">! Calculate which data I send.</span>
+               <span class="k">CALL </span><span class="n">image_calculator</span><span class="p">(</span><span class="n">left_set</span><span class="p">%</span><span class="n">image_dist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">prow</span><span class="o">=</span><span class="n">left_dst_prow</span><span class="p">,</span> <span class="n">rowi</span><span class="o">=</span><span class="n">left_dst_irow</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">pcol</span><span class="o">=</span><span class="n">left_dst_pcol</span><span class="p">,</span> <span class="n">coli</span><span class="o">=</span><span class="n">left_dst_icol</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">vprow</span><span class="o">=</span><span class="n">left_dst_vrow</span><span class="p">,</span> <span class="n">vpcol</span><span class="o">=</span><span class="n">left_dst_vcol</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">myvprow</span><span class="o">=</span><span class="n">left_myfirstvrow</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="c">! go through all my column images</span>
+                                     <span class="n">myvpcol</span><span class="o">=</span><span class="n">v_ki</span> <span class="o">+</span> <span class="n">left_myfirstvcol</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">vpcol_shift</span><span class="o">=</span><span class="n">metronome</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="c">! This is with relative shifting.</span>
+                                     <span class="n">shifting</span><span class="o">=</span><span class="s1">&#39;L&#39;</span><span class="p">)</span>
+               <span class="c">!</span>
+               <span class="n">left_dst_p</span> <span class="o">=</span> <span class="n">left_pgrid</span><span class="p">(</span><span class="n">left_dst_prow</span><span class="p">,</span> <span class="n">left_dst_pcol</span><span class="p">)</span>
+               <span class="k">CALL </span><span class="n">dbcsr_data_set_pointer</span><span class="p">(</span> <span class="p">&amp;</span>
+                  <span class="n">area</span><span class="o">=</span><span class="n">left_data_sp</span><span class="p">,</span> <span class="p">&amp;</span>
+                  <span class="n">rsize</span><span class="o">=</span><span class="n">left_sizes</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">left_dst_vrow</span><span class="p">,</span> <span class="n">left_dst_vcol</span><span class="p">),</span> <span class="p">&amp;</span>
+                  <span class="n">csize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="p">&amp;</span>
+                  <span class="n">pointee</span><span class="o">=</span><span class="n">left_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">v_ki</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)%</span><span class="n">data_area</span><span class="p">)</span>
+               <span class="n">left_index_sp</span> <span class="o">=&gt;</span> <span class="n">left_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span> <span class="p">&amp;</span>
+                                <span class="mi">1</span><span class="p">,</span> <span class="n">v_ki</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">&amp;</span>
+                                <span class="p">)%</span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span> <span class="p">&amp;</span>
+                                        <span class="n">left_sizes</span><span class="p">(</span><span class="n">imeta</span><span class="p">,</span> <span class="n">left_dst_vrow</span><span class="p">,</span> <span class="n">left_dst_vcol</span><span class="p">))</span>
+               <span class="c">!</span>
+               <span class="c">! Calculate the process to receive from</span>
+               <span class="k">CALL </span><span class="n">image_calculator</span><span class="p">(</span><span class="n">left_set</span><span class="p">%</span><span class="n">image_dist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">prow</span><span class="o">=</span><span class="n">left_recv_prow</span><span class="p">,</span> <span class="n">rowi</span><span class="o">=</span><span class="n">left_recv_irow</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">pcol</span><span class="o">=</span><span class="n">left_recv_pcol</span><span class="p">,</span> <span class="n">coli</span><span class="o">=</span><span class="n">left_recv_icol</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">vprow</span><span class="o">=</span><span class="n">left_recv_vrow</span><span class="p">,</span> <span class="n">vpcol</span><span class="o">=</span><span class="n">left_recv_vcol</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">myvprow</span><span class="o">=</span><span class="n">left_myfirstvrow</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">myvpcol</span><span class="o">=</span><span class="n">v_ki</span> <span class="o">+</span> <span class="n">left_myfirstvcol</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">vpcol_shift</span><span class="o">=+</span><span class="n">left_col_nimages</span><span class="p">,</span> <span class="p">&amp;</span> <span class="c">! just the opposite as &quot;send to&quot;</span>
+                                     <span class="n">shifting</span><span class="o">=</span><span class="s1">&#39;0&#39;</span><span class="p">)</span>
+               <span class="c">! Calculate which data I receive</span>
+               <span class="k">CALL </span><span class="n">image_calculator</span><span class="p">(</span><span class="n">left_set</span><span class="p">%</span><span class="n">image_dist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">prow</span><span class="o">=</span><span class="n">left_src_prow</span><span class="p">,</span> <span class="n">rowi</span><span class="o">=</span><span class="n">left_src_irow</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">pcol</span><span class="o">=</span><span class="n">left_src_pcol</span><span class="p">,</span> <span class="n">coli</span><span class="o">=</span><span class="n">left_src_icol</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">vprow</span><span class="o">=</span><span class="n">left_src_vrow</span><span class="p">,</span> <span class="n">vpcol</span><span class="o">=</span><span class="n">left_src_vcol</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">myvprow</span><span class="o">=</span><span class="n">left_myfirstvrow</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">myvpcol</span><span class="o">=</span><span class="n">v_ki</span> <span class="o">+</span> <span class="n">left_myfirstvcol</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="c">! receive window moves with the metronome</span>
+                                     <span class="n">vpcol_shift</span><span class="o">=</span><span class="n">metronome</span> <span class="o">+</span> <span class="n">left_col_nimages</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">shifting</span><span class="o">=</span><span class="s1">&#39;L&#39;</span><span class="p">)</span>
+               <span class="c">!</span>
+               <span class="k">IF</span> <span class="p">(</span><span class="n">has_acc</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">                  CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;_acc_sync_left&quot;</span><span class="p">,</span> <span class="n">handle3</span><span class="p">)</span>
+                  <span class="k">CALL </span><span class="n">acc_event_synchronize</span><span class="p">(</span><span class="n">left_buffer_comm</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">v_ki</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">acc_ready</span><span class="p">)</span>
+                  <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle3</span><span class="p">)</span>
+               <span class="n">ENDIF</span>
+
+               <span class="n">left_src_p</span> <span class="o">=</span> <span class="n">left_pgrid</span><span class="p">(</span><span class="n">left_src_prow</span><span class="p">,</span> <span class="n">left_src_pcol</span><span class="p">)</span>
+               <span class="k">CALL </span><span class="n">dbcsr_data_set_pointer</span><span class="p">(</span> <span class="p">&amp;</span>
+                  <span class="n">area</span><span class="o">=</span><span class="n">left_data_rp</span><span class="p">,</span> <span class="p">&amp;</span>
+                  <span class="n">rsize</span><span class="o">=</span><span class="n">left_sizes</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">left_src_vrow</span><span class="p">,</span> <span class="n">left_src_vcol</span><span class="p">),</span> <span class="p">&amp;</span>
+                  <span class="n">csize</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="p">&amp;</span>
+                  <span class="n">pointee</span><span class="o">=</span><span class="n">left_buffer_comm</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">v_ki</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)%</span><span class="n">data_area</span><span class="p">)</span>
+               <span class="n">left_index_rp</span> <span class="o">=&gt;</span> <span class="n">left_buffer_comm</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span> <span class="p">&amp;</span>
+                                <span class="mi">1</span><span class="p">,</span> <span class="n">v_ki</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">&amp;</span>
+                                <span class="p">)%</span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span> <span class="p">&amp;</span>
+                                        <span class="n">left_sizes</span><span class="p">(</span><span class="n">imeta</span><span class="p">,</span> <span class="n">left_src_vrow</span><span class="p">,</span> <span class="n">left_src_vcol</span><span class="p">))</span>
+               <span class="c">!</span>
+               <span class="n">left_send_p</span> <span class="o">=</span> <span class="n">left_pgrid</span><span class="p">(</span><span class="n">left_send_prow</span><span class="p">,</span> <span class="n">left_send_pcol</span><span class="p">)</span>
+               <span class="n">left_recv_p</span> <span class="o">=</span> <span class="n">left_pgrid</span><span class="p">(</span><span class="n">left_recv_prow</span><span class="p">,</span> <span class="n">left_recv_pcol</span><span class="p">)</span>
+               <span class="c">! These are column-communicator relative</span>
+               <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_mp_has_subgroups</span><span class="p">(</span><span class="n">left_mp_obj</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">                  </span><span class="n">left_send_p</span> <span class="o">=</span> <span class="n">left_send_pcol</span>
+                  <span class="n">left_recv_p</span> <span class="o">=</span> <span class="n">left_recv_pcol</span>
+                  <span class="n">grp</span> <span class="o">=</span> <span class="n">dbcsr_mp_my_row_group</span><span class="p">(</span><span class="n">left_mp_obj</span><span class="p">)</span>
+               <span class="k">ELSE</span>
+<span class="k">                  </span><span class="n">grp</span> <span class="o">=</span> <span class="n">dbcsr_mp_group</span><span class="p">(</span><span class="n">left_mp_obj</span><span class="p">)</span>
+               <span class="n">ENDIF</span>
+               <span class="c">!</span>
+               <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;_metrocomm4&quot;</span><span class="p">,</span> <span class="n">handle2</span><span class="p">)</span>
+               <span class="k">CALL </span><span class="n">dbcsr_irecv_any</span><span class="p">(</span><span class="n">left_data_rp</span><span class="p">,</span> <span class="n">left_recv_p</span><span class="p">,</span> <span class="p">&amp;</span>
+                                    <span class="n">grp</span><span class="p">,</span> <span class="n">left_data_rr</span><span class="p">(</span><span class="n">v_ki</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">left_src_vcol</span><span class="p">)</span>
+               <span class="k">CALL </span><span class="n">mp_irecv</span><span class="p">(</span><span class="n">left_index_rp</span><span class="p">,</span> <span class="n">left_recv_p</span><span class="p">,</span> <span class="p">&amp;</span>
+                             <span class="n">grp</span><span class="p">,</span> <span class="n">left_index_rr</span><span class="p">(</span><span class="n">v_ki</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">left_src_vcol</span><span class="p">)</span>
+               <span class="k">CALL </span><span class="n">dbcsr_isend_any</span><span class="p">(</span><span class="n">left_data_sp</span><span class="p">,</span> <span class="n">left_send_p</span><span class="p">,</span> <span class="p">&amp;</span>
+                                    <span class="n">grp</span><span class="p">,</span> <span class="n">left_data_sr</span><span class="p">(</span><span class="n">v_ki</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">left_dst_vcol</span><span class="p">)</span>
+               <span class="k">CALL </span><span class="n">mp_isend</span><span class="p">(</span><span class="n">left_index_sp</span><span class="p">,</span> <span class="n">left_send_p</span><span class="p">,</span> <span class="p">&amp;</span>
+                             <span class="n">grp</span><span class="p">,</span> <span class="n">left_index_sr</span><span class="p">(</span><span class="n">v_ki</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">tag</span><span class="o">=</span><span class="n">left_dst_vcol</span><span class="p">)</span>
+               <span class="n">dbcsr_mpi_statistics</span><span class="p">%</span><span class="n">nexchanged</span> <span class="o">=</span> <span class="n">dbcsr_mpi_statistics</span><span class="p">%</span><span class="n">nexchanged</span> <span class="o">+</span> <span class="mi">1</span>
+               <span class="k">CALL </span><span class="n">count_mpi_statistics</span><span class="p">(</span><span class="n">dbcsr_mpi_statistics</span><span class="p">%</span><span class="n">data_size</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="p">:),</span> <span class="p">&amp;</span>
+                                         <span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">left_data_rp</span><span class="p">),</span> <span class="p">&amp;</span>
+                                         <span class="n">data_type_byte</span><span class="p">,</span> <span class="p">&amp;</span>
+                                         <span class="n">dbcsr_mpi_statistics</span><span class="p">%</span><span class="n">data_size_breakdown</span><span class="p">(:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">))</span>
+               <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle2</span><span class="p">)</span>
+            <span class="n">ENDDO</span>
+         <span class="n">ENDIF</span> <span class="n">xfer_left</span>
+         <span class="c">!</span>
+         <span class="c">! Do multiplication</span>
+         <span class="n">v_ki_left</span> <span class="o">=</span> <span class="n">v_ki_left</span> <span class="o">+</span> <span class="mi">1</span>
+         <span class="n">v_ki_right</span> <span class="o">=</span> <span class="n">v_ki_right</span> <span class="o">+</span> <span class="mi">1</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            CALL </span><span class="n">dbcsr_print</span><span class="p">(</span><span class="n">left_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">v_ki_left</span><span class="p">),</span> <span class="n">nodata</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+            <span class="k">CALL </span><span class="n">dbcsr_print</span><span class="p">(</span><span class="n">right_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">v_ki_right</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">nodata</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+         <span class="n">ENDIF</span>
+         <span class="c">!</span>
+         <span class="c">! from here the code for dbcsr_mm_driver_inner_init was taken</span>
+         <span class="c">!</span>
+         <span class="k">IF</span> <span class="p">(.</span><span class="n">FALSE</span><span class="p">.)</span> <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; TICK&quot;</span><span class="p">,</span> <span class="n">metronome</span>
+         <span class="c">! Since the right matrix is shifted vertically, the</span>
+         <span class="c">! received data always has different notions of &quot;local</span>
+         <span class="c">! rows&quot;.  Thus the local_rows and global_rows must be</span>
+         <span class="c">! recalculated.</span>
+         <span class="k">CALL </span><span class="n">dbcsr_reset_vlocals</span><span class="p">(</span><span class="n">right_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">v_ki_right</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">&amp;</span>
+                                  <span class="n">right_set</span><span class="p">%</span><span class="n">image_dist</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_reset_vlocals</span><span class="p">(</span><span class="n">left_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">v_ki_left</span><span class="p">),</span> <span class="p">&amp;</span>
+                                  <span class="n">left_set</span><span class="p">%</span><span class="n">image_dist</span><span class="p">)</span>
+         <span class="c">!</span>
+         <span class="k">CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">k_sizes</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="n">array_size</span><span class="p">(</span><span class="n">right_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">v_ki_right</span><span class="p">,</span> <span class="mi">1</span><span class="p">)%</span><span class="n">local_rows</span><span class="p">))</span>
+         <span class="k">CALL </span><span class="n">local_filter</span><span class="p">(</span><span class="n">array_data</span><span class="p">(</span><span class="n">right_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">v_ki_right</span><span class="p">,</span> <span class="mi">1</span><span class="p">)%</span><span class="n">row_blk_size</span><span class="p">),</span> <span class="p">&amp;</span>
+                           <span class="n">array_size</span><span class="p">(</span><span class="n">right_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">v_ki_right</span><span class="p">,</span> <span class="mi">1</span><span class="p">)%</span><span class="n">local_rows</span><span class="p">),</span> <span class="p">&amp;</span>
+                           <span class="n">array_data</span><span class="p">(</span><span class="n">right_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">v_ki_right</span><span class="p">,</span> <span class="mi">1</span><span class="p">)%</span><span class="n">local_rows</span><span class="p">),</span> <span class="p">&amp;</span>
+                           <span class="n">k_sizes</span><span class="p">)</span>
+         <span class="c">!</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">has_acc</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            CALL </span><span class="n">dbcsr_data_host2dev</span><span class="p">(</span><span class="n">left_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">v_ki_left</span><span class="p">)%</span><span class="n">data_area</span><span class="p">)</span>
+            <span class="k">CALL </span><span class="n">dbcsr_data_host2dev</span><span class="p">(</span><span class="n">right_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">v_ki_right</span><span class="p">,</span> <span class="mi">1</span><span class="p">)%</span><span class="n">data_area</span><span class="p">)</span>
+            <span class="k">CALL </span><span class="n">acc_transpose_blocks</span><span class="p">(</span><span class="n">right_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">v_ki_right</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">trs_stackbuf_calc</span><span class="p">,</span> <span class="p">&amp;</span>
+                                      <span class="n">k_sizes</span><span class="p">,</span> <span class="n">n_sizes</span><span class="p">,</span> <span class="p">&amp;</span>
+                                      <span class="n">row_blk_sizes2enum</span><span class="p">,</span> <span class="n">enum2row_blk_sizes</span><span class="p">,</span> <span class="p">&amp;</span>
+                                      <span class="n">col_blk_sizes2enum</span><span class="p">,</span> <span class="n">enum2col_blk_sizes</span><span class="p">)</span>
+         <span class="k">END IF</span>
+
+         <span class="c">! Sets the local right-matrix columns</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">otf_filtering</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            </span><span class="n">left_norms</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">huge_norm</span>
+            <span class="n">right_norms</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">huge_norm</span>
+            <span class="k">CALL </span><span class="n">calculate_norms</span><span class="p">(</span><span class="n">right_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">v_ki_right</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">&amp;</span>
+                                 <span class="n">right_norms</span><span class="p">,</span> <span class="n">k_sizes</span><span class="p">,</span> <span class="n">n_sizes</span><span class="p">)</span>
+            <span class="k">CALL </span><span class="n">calculate_norms</span><span class="p">(</span><span class="n">left_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">v_ki_left</span><span class="p">),</span> <span class="p">&amp;</span>
+                                 <span class="n">left_norms</span><span class="p">,</span> <span class="n">m_sizes</span><span class="p">,</span> <span class="n">k_sizes</span><span class="p">)</span>
+         <span class="n">ENDIF</span>
+         <span class="c">!</span>
+         <span class="n">flop_single</span> <span class="o">=</span> <span class="mi">0</span>
+         <span class="n">threads_finished</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="c">!$OMP PARALLEL DEFAULT (NONE) &amp;</span>
+<span class="c">!$OMP SHARED (left_buffer_calc, right_buffer_calc, &amp;</span>
+<span class="c">!$OMP         v_ki_left, v_ki_right, handle2, handle3, &amp;</span>
+<span class="c">!$OMP         product_matrix, multrec,&amp;</span>
+<span class="c">!$OMP         filter_eps, right_norms, left_norms, row_max_epss, &amp;</span>
+<span class="c">!$OMP         keep_sparsity,threads_finished, &amp;</span>
+<span class="c">!$OMP         right_data_sr, right_data_rr, right_index_sr, right_index_rr, &amp;</span>
+<span class="c">!$OMP         left_data_sr, left_data_rr, left_index_sr, left_index_rr, &amp;</span>
+<span class="c">!$OMP         dbcsr_cfg, k_sizes, nvirt_k, metronome) &amp;</span>
+<span class="c">!$OMP PRIVATE (ithread,nthreads,threads_finished_read) &amp;</span>
+<span class="c">!$OMP REDUCTION (+: flop_single)</span>
+         <span class="n">ithread</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">nthreads</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="c">!$       ithread = omp_get_thread_num(); nthreads = omp_get_num_threads()</span>
+
+         <span class="k">IF</span> <span class="p">(</span><span class="n">metronome</span> <span class="o">==</span> <span class="n">nvirt_k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
+            <span class="k">CALL </span><span class="n">dbcsr_mm_multrec_phaseout</span><span class="p">(</span><span class="n">multrec</span><span class="p">(</span><span class="n">ithread</span><span class="p">)%</span><span class="n">p</span><span class="p">)</span>
+<span class="c">!$OMP BARRIER</span>
+         <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;_multrec&quot;</span><span class="p">,</span> <span class="n">handle2</span><span class="p">)</span>
+
+         <span class="k">CALL </span><span class="n">dbcsr_mm_multrec_multiply</span><span class="p">(</span><span class="n">multrec</span><span class="p">(</span><span class="n">ithread</span><span class="p">)%</span><span class="n">p</span><span class="p">,</span> <span class="p">&amp;</span>
+                                        <span class="n">left</span><span class="o">=</span><span class="n">left_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">v_ki_left</span><span class="p">),</span> <span class="p">&amp;</span>
+                                        <span class="n">right</span><span class="o">=</span><span class="n">right_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">v_ki_right</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">&amp;</span>
+                                        <span class="n">flop</span><span class="o">=</span><span class="n">flop_single</span><span class="p">,</span> <span class="p">&amp;</span>
+                                        <span class="n">a_norms</span><span class="o">=</span><span class="n">left_norms</span><span class="p">,</span> <span class="n">b_norms</span><span class="o">=</span><span class="n">right_norms</span><span class="p">,</span> <span class="p">&amp;</span>
+                                        <span class="n">k_sizes</span><span class="o">=</span><span class="n">k_sizes</span><span class="p">)</span>
+
+         <span class="k">IF</span> <span class="p">(</span><span class="n">metronome</span> <span class="o">==</span> <span class="n">nvirt_k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;_multrec_finalize&quot;</span><span class="p">,</span> <span class="n">handle3</span><span class="p">)</span>
+            <span class="k">CALL </span><span class="n">dbcsr_mm_multrec_finalize</span><span class="p">(</span><span class="n">multrec</span><span class="p">(</span><span class="n">ithread</span><span class="p">)%</span><span class="n">p</span><span class="p">)</span>
+            <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">multrec</span><span class="p">(</span><span class="n">ithread</span><span class="p">)%</span><span class="n">p</span><span class="p">)</span>
+            <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle3</span><span class="p">)</span>
+         <span class="n">ENDIF</span>
+
+<span class="c">!$OMP ATOMIC</span>
+         <span class="n">threads_finished</span> <span class="o">=</span> <span class="n">threads_finished</span> <span class="o">+</span> <span class="mi">1</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_comm_thread</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">(</span><span class="n">ithread</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">            DO</span>
+<span class="c">! requires OMP 3.1 (e.g. gcc &gt;=4.7), for correctness, otherwise we keep fingers crossed</span>
+<span class="cp">#if defined _OPENMP &amp;&amp; _OPENMP &gt;= 200711</span>
+<span class="c">!$OMP                 ATOMIC READ</span>
+<span class="cp">#endif</span>
+               <span class="n">threads_finished_read</span> <span class="o">=</span> <span class="n">threads_finished</span>
+               <span class="k">IF</span> <span class="p">(</span><span class="n">threads_finished_read</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">nthreads</span><span class="p">)</span> <span class="k">EXIT</span>
+<span class="k">               CALL </span><span class="n">mp_testany</span><span class="p">(</span><span class="n">right_data_sr</span><span class="p">)</span>
+               <span class="k">CALL </span><span class="n">mp_testany</span><span class="p">(</span><span class="n">right_data_rr</span><span class="p">)</span>
+               <span class="k">CALL </span><span class="n">mp_testany</span><span class="p">(</span><span class="n">left_data_sr</span><span class="p">)</span>
+               <span class="k">CALL </span><span class="n">mp_testany</span><span class="p">(</span><span class="n">left_data_rr</span><span class="p">)</span>
+               <span class="k">CALL </span><span class="n">mp_testany</span><span class="p">(</span><span class="n">right_index_sr</span><span class="p">)</span>
+               <span class="k">CALL </span><span class="n">mp_testany</span><span class="p">(</span><span class="n">right_index_rr</span><span class="p">)</span>
+               <span class="k">CALL </span><span class="n">mp_testany</span><span class="p">(</span><span class="n">left_index_sr</span><span class="p">)</span>
+               <span class="k">CALL </span><span class="n">mp_testany</span><span class="p">(</span><span class="n">left_index_rr</span><span class="p">)</span>
+            <span class="k">END DO</span>
+<span class="k">         END IF</span>
+<span class="c">!$OMP BARRIER</span>
+         <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle2</span><span class="p">)</span>
+
+<span class="c">!$OMP END PARALLEL</span>
+         <span class="n">flop_total</span> <span class="o">=</span> <span class="n">flop_total</span> <span class="o">+</span> <span class="n">flop_single</span>
+         <span class="c">!</span>
+         <span class="c">! Move to the next images</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">v_ki_left</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">left_col_nimages</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            CALL </span><span class="n">dbcsr_switch</span><span class="p">(</span><span class="n">left_buffer_calc</span><span class="p">,</span> <span class="n">left_buffer_comm</span><span class="p">)</span>
+         <span class="n">ENDIF</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">v_ki_right</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">right_row_nimages</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">            CALL </span><span class="n">dbcsr_switch</span><span class="p">(</span><span class="n">right_buffer_calc</span><span class="p">,</span> <span class="n">right_buffer_comm</span><span class="p">)</span>
+            <span class="k">CALL </span><span class="n">dbcsr_switch</span><span class="p">(</span><span class="n">trs_stackbuf_calc</span><span class="p">,</span> <span class="n">trs_stackbuf_comm</span><span class="p">)</span>
+         <span class="n">ENDIF</span>
+
+      <span class="n">ENDDO</span> <span class="n">grouped_k_index</span>
+      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle1</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">m_memory</span><span class="p">(</span><span class="n">mem</span><span class="p">)</span>
+      <span class="n">max_memory</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="n">max_memory</span><span class="p">,</span> <span class="kt">REAL</span><span class="p">(</span><span class="n">mem</span><span class="p">))</span>
+
+      <span class="k">IF</span> <span class="p">(</span><span class="n">has_acc</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">trs_stackbuf_1</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">trs_stackbuf_2</span><span class="p">)</span>
+         <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">row_blk_sizes2enum</span><span class="p">,</span> <span class="n">enum2row_blk_sizes</span><span class="p">)</span>
+         <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">col_blk_sizes2enum</span><span class="p">,</span> <span class="n">enum2col_blk_sizes</span><span class="p">)</span>
+      <span class="k">END IF</span>
+
+<span class="k">      IF</span> <span class="p">(</span><span class="nb">ALLOCATED</span><span class="p">(</span><span class="n">right_norms</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         DEALLOCATE</span> <span class="p">(</span><span class="n">right_norms</span><span class="p">)</span>
+      <span class="n">ENDIF</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">ALLOCATED</span><span class="p">(</span><span class="n">left_norms</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         DEALLOCATE</span> <span class="p">(</span><span class="n">left_norms</span><span class="p">)</span>
+      <span class="n">ENDIF</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">ALLOCATED</span><span class="p">(</span><span class="n">row_max_epss</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         DEALLOCATE</span> <span class="p">(</span><span class="n">row_max_epss</span><span class="p">)</span>
+      <span class="n">ENDIF</span>
+      <span class="c">!</span>
+      <span class="k">CALL </span><span class="n">dbcsr_destroy_array</span><span class="p">(</span><span class="n">right_buffer_2</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_destroy_array</span><span class="p">(</span><span class="n">left_buffer_2</span><span class="p">)</span>
+      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">my_sizes</span><span class="p">)</span>
+      <span class="c">!</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_clear_pointer</span><span class="p">(</span><span class="n">left_data_sp</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_clear_pointer</span><span class="p">(</span><span class="n">left_data_rp</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_clear_pointer</span><span class="p">(</span><span class="n">right_data_sp</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_clear_pointer</span><span class="p">(</span><span class="n">right_data_rp</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">left_data_sp</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">left_data_rp</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">right_data_sp</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">right_data_rp</span><span class="p">)</span>
+      <span class="c">!</span>
+      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">left_data_rr</span><span class="p">,</span> <span class="n">left_data_sr</span><span class="p">,</span> <span class="n">left_index_rr</span><span class="p">,</span> <span class="n">left_index_sr</span><span class="p">,</span> <span class="p">&amp;</span>
+                  <span class="n">right_data_rr</span><span class="p">,</span> <span class="n">right_data_sr</span><span class="p">,</span> <span class="n">right_index_rr</span><span class="p">,</span> <span class="n">right_index_sr</span><span class="p">)</span>
+      <span class="c">!</span>
+      <span class="c">!</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">v_ki</span> <span class="o">=</span> <span class="mi">0</span>
+         <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">blk_p</span><span class="p">)</span>
+            <span class="n">v_ki</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="n">v_ki</span><span class="p">,</span> <span class="nb">ABS</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">blk_p</span><span class="p">(</span><span class="n">i</span><span class="p">)))</span>
+         <span class="n">ENDDO</span>
+         <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; Actual final size&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
+            <span class="nb">LOG</span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">)))</span><span class="o">/</span><span class="nb">LOG</span><span class="p">(</span><span class="mi">1</span><span class="mf">0.0</span><span class="p">),</span> <span class="p">&amp;</span>
+            <span class="nb">LOG</span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">v_ki</span><span class="p">))</span><span class="o">/</span><span class="nb">LOG</span><span class="p">(</span><span class="mi">1</span><span class="mf">0.0</span><span class="p">)</span>
+      <span class="n">ENDIF</span>
+      <span class="c">!</span>
+      <span class="n">flop</span> <span class="o">=</span> <span class="n">flop_total</span>
+      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">left_buffer_2</span><span class="p">,</span> <span class="n">right_buffer_2</span><span class="p">)</span>
+      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">m_sizes</span><span class="p">,</span> <span class="n">n_sizes</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">k_sizes</span><span class="p">))</span> <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">k_sizes</span><span class="p">)</span>
+      <span class="c">!</span>
+      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+   <span class="k">END SUBROUTINE </span><span class="n">multiply_cannon</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    
+    </div>
+  </div>
+
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
+                                          </p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> DBCSR Library was developed by DBCSR Authors</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    
+  </body>
+</html>

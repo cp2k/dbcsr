@@ -1,0 +1,3165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="">
+    
+    <meta name="author" content="DBCSR Authors" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>dbcsr_csr_conversions &ndash; DBCSR Library</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">DBCSR Library </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Guide</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>dbcsr_csr_conversions 
+    <small>Module</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 1.5% of total for modules and submodules.">932 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_csr_conversions.F"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/dbcsr_csr_conversions.f.html'>dbcsr_csr_conversions.F</a></li>
+    
+  
+     <li class="active">dbcsr_csr_conversions</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
+  <div id="vars-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-modulen~51">moduleN</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-careful_mod~19">careful_mod</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-csr_dbcsr_blkrow_dist">csr_dbcsr_blkrow_dist</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-csr_eqrow_ceil_dist">csr_eqrow_ceil_dist</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-csr_eqrow_floor_dist">csr_eqrow_floor_dist</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#inters-0">Interfaces</a></h3></div>
+  <div id="inters-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#interface-csr_create">csr_create</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#types-0">Derived Types</a></h3></div>
+  <div id="types-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#type-csr_mapping_data">csr_mapping_data</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#type-csr_data_area_type">csr_data_area_type</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#type-csr_type">csr_type</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#type-csr_p_type">csr_p_type</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-0">Functions</a></h3></div>
+  <div id="funcs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-dbcsr_has_same_block_structure">dbcsr_has_same_block_structure</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-0">Subroutines</a></h3></div>
+  <div class="list-group">
+    <div id="subs-0" class="panel-collapse collapse">
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_create_new">csr_create_new</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_create_template">csr_create_template</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_copy">csr_copy</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_create_nzerow">csr_create_nzerow</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_destroy">csr_destroy</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_create_from_brd">csr_create_from_brd</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_get_dbcsr_mapping">csr_get_dbcsr_mapping</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-convert_csr_to_brd">convert_csr_to_brd</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-convert_brd_to_csr">convert_brd_to_csr</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_create_from_dbcsr">csr_create_from_dbcsr</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_assert_consistency_with_dbcsr">csr_assert_consistency_with_dbcsr</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-convert_dbcsr_to_csr">convert_dbcsr_to_csr</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-convert_csr_to_dbcsr">convert_csr_to_dbcsr</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-dbcsr_to_csr_filter~2">dbcsr_to_csr_filter</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_write">csr_write</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_print_sparsity">csr_print_sparsity</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-dbcsr_create_brd">dbcsr_create_brd</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <p>DBCSR to CSR matrix format conversion</p>
+      <br>
+    
+  
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Uses</h3>
+      </div>
+      <ul class="list-group">
+      
+      <li class="list-group-item">
+  <ul class="list-inline">
+    
+    <li><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></li>
+    
+    <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
+    
+    <li><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
+    
+    <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
+    
+    <li><a href='../module/dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
+    
+    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+    
+    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
+    
+    <li><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
+    
+    <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+    
+    <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
+    
+    <li><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></li>
+    
+    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+    
+    <li><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
+    
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    
+  </ul>
+      </li>
+      
+      
+      
+      </ul>
+    </div>
+    
+
+    
+    
+
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
+  <div id="vars-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-modulen~51">moduleN</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-careful_mod~19">careful_mod</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-csr_dbcsr_blkrow_dist">csr_dbcsr_blkrow_dist</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-csr_eqrow_ceil_dist">csr_eqrow_ceil_dist</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-csr_eqrow_floor_dist">csr_eqrow_floor_dist</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#inters-1">Interfaces</a></h3></div>
+  <div id="inters-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#interface-csr_create">csr_create</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#types-1">Derived Types</a></h3></div>
+  <div id="types-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#type-csr_mapping_data">csr_mapping_data</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#type-csr_data_area_type">csr_data_area_type</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#type-csr_type">csr_type</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#type-csr_p_type">csr_p_type</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-1">Functions</a></h3></div>
+  <div id="funcs-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-dbcsr_has_same_block_structure">dbcsr_has_same_block_structure</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-1">Subroutines</a></h3></div>
+  <div class="list-group">
+    <div id="subs-1" class="panel-collapse collapse">
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_create_new">csr_create_new</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_create_template">csr_create_template</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_copy">csr_copy</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_create_nzerow">csr_create_nzerow</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_destroy">csr_destroy</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_create_from_brd">csr_create_from_brd</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_get_dbcsr_mapping">csr_get_dbcsr_mapping</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-convert_csr_to_brd">convert_csr_to_brd</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-convert_brd_to_csr">convert_brd_to_csr</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_create_from_dbcsr">csr_create_from_dbcsr</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_assert_consistency_with_dbcsr">csr_assert_consistency_with_dbcsr</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-convert_dbcsr_to_csr">convert_dbcsr_to_csr</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-convert_csr_to_dbcsr">convert_csr_to_dbcsr</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-dbcsr_to_csr_filter~2">dbcsr_to_csr_filter</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_write">csr_write</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_print_sparsity">csr_print_sparsity</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-dbcsr_create_brd">dbcsr_create_brd</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    
+
+    
+    <section>
+    <h2>Variables</h2>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-modulen~51"></span>character(len=*),</td>
+  
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>moduleN</strong></td><td> =</td><td>'dbcsr_csr_conversions'</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-careful_mod~19"></span>logical,</td>
+  
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>careful_mod</strong></td><td> =</td><td>.FALSE.</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-csr_dbcsr_blkrow_dist"></span>integer,</td>
+  
+  <td>public,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>csr_dbcsr_blkrow_dist</strong></td><td> =</td><td>1</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-csr_eqrow_ceil_dist"></span>integer,</td>
+  
+  <td>public,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>csr_eqrow_ceil_dist</strong></td><td> =</td><td>2</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-csr_eqrow_floor_dist"></span>integer,</td>
+  
+  <td>public,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>csr_eqrow_floor_dist</strong></td><td> =</td><td>3</td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+    </section>
+    <br>
+    
+    
+    
+    
+    
+    <section>
+   <h2>Interfaces</h2>
+   
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="interface-csr_create"></span><h3>private interface <a href='../interface/csr_create.html'>csr_create</a>
+    
+  </h3></div>
+  
+  <ul class="list-group">
+  
+  
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+public subroutine <a href='../proc/csr_create_new.html'>csr_create_new</a>(csr_mat, nrows_total, ncols_total, nze_total, nze_local, nrows_local, mp_group, data_type)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Create a new CSR matrix and allocate all internal data (excluding dbcsr_mapping)</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/csr_type.html'>csr_type</a>),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>csr_mat</strong></td><td><p>CSR matrix to return</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nrows_total</strong></td><td><p>total number of rows
+ total number of columns</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ncols_total</strong></td><td><p>total number of rows
+ total number of columns</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8)</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nze_total</strong></td><td><p>total number of non-zero elements</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nze_local</strong></td><td><p>local number of non-zero elements
+ local number of rows</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nrows_local</strong></td><td><p>local number of non-zero elements
+ local number of rows</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mp_group</strong></td><td><p>local number of non-zero elements
+ local number of rows</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>data_type</strong></td><td><p>data type of the CSR matrix (default real double prec.)</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+public subroutine <a href='../proc/csr_create_template.html'>csr_create_template</a>(matrix_b, matrix_a)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Create a new CSR matrix and allocate all internal data using
+ an existing CSR matrix. Copies the indices but no actual matrix data.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/csr_type.html'>csr_type</a>),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>matrix_b</strong></td><td><p>Target CSR matrix</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/csr_type.html'>csr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>matrix_a</strong></td><td><p>Source CSR matrix</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+  
+  </ul>
+</div>
+
+    
+    </section>
+  <br>
+    
+
+    
+    
+    
+    <section>
+     <h2>Derived Types</h2>
+   
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="type-csr_mapping_data"></span><h3>type, private :: <a href='../type/csr_mapping_data.html'>csr_mapping_data</a>
+    
+  </h3></div>
+  <div class="panel-body">
+    
+    
+    <p>Mapping data relating local CSR indices to local indices of a block-row
+ distributed (BRD) DBCSR matrix, and containing the block structure
+ of the original DBCSR matrix from which the CSR matrix was created.</p>
+    
+     
+     <h4>Components</h4>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-csr_to_brd_ind"></span>integer,</td>
+  
+  <td>private,</td>
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>csr_to_brd_ind</strong></td><td>=> </td><td>NULL()</td><td><p>csr_to_brd_ind(csr_ind) gives the location of a matrix element with CSR index csr_ind (location in nzval_local) inside
+ the data_area of the corresponding BRD matrix. If an element of the DBCSR matrix is treated as 0 in the CSR format, the
+ index of this value is not in csr_to_brd_ind.
+ same as csr_to_brd_ind but inverse mapping. If a given DBCSR index dbcsr_ind points to a zero element, then
+ brd_to_csr_ind(dbcsr_ind) is -1.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-brd_to_csr_ind"></span>integer,</td>
+  
+  <td>private,</td>
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>brd_to_csr_ind</strong></td><td>=> </td><td>NULL()</td><td><p>csr_to_brd_ind(csr_ind) gives the location of a matrix element with CSR index csr_ind (location in nzval_local) inside
+ the data_area of the corresponding BRD matrix. If an element of the DBCSR matrix is treated as 0 in the CSR format, the
+ index of this value is not in csr_to_brd_ind.
+ same as csr_to_brd_ind but inverse mapping. If a given DBCSR index dbcsr_ind points to a zero element, then
+ brd_to_csr_ind(dbcsr_ind) is -1.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-brd_mat"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  
+  <td>private</td>
+  <td></td><td>::</td>
+  <td><strong>brd_mat</strong></td><td></td><td></td><td><p>DBCSR     BRD matrix acting as an intermediate step in any conversion from and to DBCSR format.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-has_dbcsr_block_data"></span>logical,</td>
+  
+  <td>private</td>
+  <td></td><td>::</td>
+  <td><strong>has_dbcsr_block_data</strong></td><td> =</td><td>.FALSE.</td><td><p>whether dbcsr_* fields are defined</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dbcsr_nblkcols_total"></span>integer,</td>
+  
+  <td>private</td>
+  <td></td><td>::</td>
+  <td><strong>dbcsr_nblkcols_total</strong></td><td></td><td></td><td><p>data from original DBCSR matrix (not block-row distributed),
+ representing the original block structure.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dbcsr_nblkrows_total"></span>integer,</td>
+  
+  <td>private</td>
+  <td></td><td>::</td>
+  <td><strong>dbcsr_nblkrows_total</strong></td><td></td><td></td><td><p>data from original DBCSR matrix (not block-row distributed),
+ representing the original block structure.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dbcsr_nblks_local"></span>integer,</td>
+  
+  <td>private</td>
+  <td></td><td>::</td>
+  <td><strong>dbcsr_nblks_local</strong></td><td></td><td></td><td><p>data from original DBCSR matrix (not block-row distributed),
+ representing the original block structure.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dbcsr_row_p"></span>integer,</td>
+  
+  <td>private,</td>
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>dbcsr_row_p</strong></td><td></td><td></td><td><p>data from original DBCSR matrix (not block-row distributed),
+ representing the original block structure.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dbcsr_col_i"></span>integer,</td>
+  
+  <td>private,</td>
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>dbcsr_col_i</strong></td><td></td><td></td><td><p>data from original DBCSR matrix (not block-row distributed),
+ representing the original block structure.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dbcsr_row_blk_size"></span>integer,</td>
+  
+  <td>private,</td>
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>dbcsr_row_blk_size</strong></td><td></td><td></td><td><p>data from original DBCSR matrix (not block-row distributed),
+ representing the original block structure.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dbcsr_col_blk_size"></span>integer,</td>
+  
+  <td>private,</td>
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>dbcsr_col_blk_size</strong></td><td></td><td></td><td><p>data from original DBCSR matrix (not block-row distributed),
+ representing the original block structure.</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+     
+     
+          
+     
+  </div>
+</div>
+
+     
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="type-csr_data_area_type"></span><h3>type, private :: <a href='../type/csr_data_area_type.html'>csr_data_area_type</a>
+    
+  </h3></div>
+  <div class="panel-body">
+    
+    
+    <p>Data type of CSR matrices</p>
+    
+     
+     <h4>Components</h4>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-r_sp"></span>real(kind=real_4),</td>
+  
+  <td>public,</td>
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>r_sp</strong></td><td>=> </td><td>Null()</td><td><p>real, single precision data array</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-r_dp"></span>real(kind=real_8),</td>
+  
+  <td>public,</td>
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>r_dp</strong></td><td>=> </td><td>Null()</td><td><p>real, double precision data array</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-c_sp"></span>complex(kind=real_4),</td>
+  
+  <td>public,</td>
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>c_sp</strong></td><td>=> </td><td>Null()</td><td><p>complex, double precision data array</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-c_dp"></span>complex(kind=real_8),</td>
+  
+  <td>public,</td>
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>c_dp</strong></td><td>=> </td><td>Null()</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-data_type~5"></span>integer,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>data_type</strong></td><td> =</td><td>-1</td><td><p>data type of CSR matrix</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+     
+     
+          
+     
+  </div>
+</div>
+
+     
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="type-csr_type"></span><h3>type, public :: <a href='../type/csr_type.html'>csr_type</a>
+    
+  </h3></div>
+  <div class="panel-body">
+    
+    
+    <p>Type for CSR matrices</p>
+    
+     
+     <h4>Components</h4>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nrows_total"></span>integer,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>nrows_total</strong></td><td></td><td></td><td><p>total number of rows
+ total number of columns
+ local number of nonzero elements
+ local number of rows
+ message-passing group ID</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-ncols_total"></span>integer,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>ncols_total</strong></td><td></td><td></td><td><p>total number of rows
+ total number of columns
+ local number of nonzero elements
+ local number of rows
+ message-passing group ID</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nze_local"></span>integer,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>nze_local</strong></td><td></td><td></td><td><p>total number of rows
+ total number of columns
+ local number of nonzero elements
+ local number of rows
+ message-passing group ID</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nrows_local"></span>integer,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>nrows_local</strong></td><td></td><td></td><td><p>total number of rows
+ total number of columns
+ local number of nonzero elements
+ local number of rows
+ message-passing group ID</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-mp_group~2"></span>integer,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>mp_group</strong></td><td></td><td></td><td><p>total number of rows
+ total number of columns
+ local number of nonzero elements
+ local number of rows
+ message-passing group ID</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nze_total"></span>integer(kind=int_8),</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>nze_total</strong></td><td></td><td></td><td><p>total number of nonzero elements</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-rowptr_local"></span>integer,</td>
+  
+  <td>public,</td>
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>rowptr_local</strong></td><td>=> </td><td>NULL()</td><td><p>indices of elements inside nzval_local starting a row
+ column indices of elements inside nzval_local</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-colind_local"></span>integer,</td>
+  
+  <td>public,</td>
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>colind_local</strong></td><td>=> </td><td>NULL()</td><td><p>indices of elements inside nzval_local starting a row
+ column indices of elements inside nzval_local</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nzerow_local"></span>integer,</td>
+  
+  <td>public,</td>
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>nzerow_local</strong></td><td>=> </td><td>NULL()</td><td><p>indices of elements inside nzval_local starting a row
+ column indices of elements inside nzval_local</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nzval_local"></span>type(<a href='../type/csr_data_area_type.html'>csr_data_area_type</a>),</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>nzval_local</strong></td><td></td><td></td><td><p>values of local non-zero elements, row-wise ordering.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dbcsr_mapping"></span>type(<a href='../type/csr_mapping_data.html'>csr_mapping_data</a>),</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>dbcsr_mapping</strong></td><td></td><td></td><td><p>mapping data relating indices of nzval_local to indices of a block-row distributed DBCSR matrix</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-has_mapping"></span>logical,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>has_mapping</strong></td><td> =</td><td>.FALSE.</td><td><p>whether dbcsr_mapping is defined</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-valid~2"></span>logical,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>valid</strong></td><td> =</td><td>.FALSE.</td><td><p>whether essential data (excluding dbcsr_mapping) is completely allocated</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-has_indices"></span>logical,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>has_indices</strong></td><td> =</td><td>.FALSE.</td><td><p>whether rowptr_local and colind_local are defined</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+     
+     
+          
+     
+  </div>
+</div>
+
+     
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="type-csr_p_type"></span><h3>type, public :: <a href='../type/csr_p_type.html'>csr_p_type</a>
+    
+  </h3></div>
+  <div class="panel-body">
+    
+     
+     <h4>Components</h4>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-csr_mat"></span>type(<a href='../type/csr_type.html'>csr_type</a>),</td>
+  
+  <td>public,</td>
+  <td>POINTER</td><td>::</td>
+  <td><strong>csr_mat</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+     
+     
+          
+     
+  </div>
+</div>
+
+     
+    </section>
+  <br>
+    
+    
+     
+    <section>
+    <h2>Functions</h2>
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_has_same_block_structure"></span><h3>
+private function <a href='../proc/dbcsr_has_same_block_structure.html'>dbcsr_has_same_block_structure</a>(matrix_a, matrix_b) result(is_equal)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Helper function to assert that two DBCSR matrices have the same block
+ structure and same sparsity pattern</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>matrix_a</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>matrix_b</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>logical
+  </small></h4>
+  <p>whether matrix_a and matrix_b have the same block structure</p>
+    
+
+  </div>
+  </div>
+
+    
+    </section>
+    <br>
+    
+
+    
+    <section>
+    <h2>Subroutines</h2>
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-csr_create_new"></span><h3>
+public subroutine <a href='../proc/csr_create_new.html'>csr_create_new</a>(csr_mat, nrows_total, ncols_total, nze_total, nze_local, nrows_local, mp_group, data_type)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Create a new CSR matrix and allocate all internal data (excluding dbcsr_mapping)</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/csr_type.html'>csr_type</a>),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>csr_mat</strong></td><td><p>CSR matrix to return</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nrows_total</strong></td><td><p>total number of rows
+ total number of columns</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ncols_total</strong></td><td><p>total number of rows
+ total number of columns</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8)</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nze_total</strong></td><td><p>total number of non-zero elements</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nze_local</strong></td><td><p>local number of non-zero elements
+ local number of rows</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nrows_local</strong></td><td><p>local number of non-zero elements
+ local number of rows</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mp_group</strong></td><td><p>local number of non-zero elements
+ local number of rows</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>data_type</strong></td><td><p>data type of the CSR matrix (default real double prec.)</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-csr_create_template"></span><h3>
+public subroutine <a href='../proc/csr_create_template.html'>csr_create_template</a>(matrix_b, matrix_a)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Create a new CSR matrix and allocate all internal data using
+ an existing CSR matrix. Copies the indices but no actual matrix data.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/csr_type.html'>csr_type</a>),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>matrix_b</strong></td><td><p>Target CSR matrix</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/csr_type.html'>csr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>matrix_a</strong></td><td><p>Source CSR matrix</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-csr_copy"></span><h3>
+private subroutine <a href='../proc/csr_copy.html'>csr_copy</a>(matrix_b, matrix_a)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Copy a CSR matrix.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/csr_type.html'>csr_type</a>),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>matrix_b</strong></td><td><p>Target CSR matrix</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/csr_type.html'>csr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>matrix_a</strong></td><td><p>Source CSR matrix</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-csr_create_nzerow"></span><h3>
+private subroutine <a href='../proc/csr_create_nzerow.html'>csr_create_nzerow</a>(csr_mat, nzerow)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>create a vector containing the number of non-zero elements in each
+ row of a CSR matrix</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/csr_type.html'>csr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>csr_mat</strong></td><td><p>CSR matrix</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(inout),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>nzerow</strong></td><td><p>number of non-zero elements in each row</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-csr_destroy"></span><h3>
+public subroutine <a href='../proc/csr_destroy.html'>csr_destroy</a>(csr_mat)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>destroy a CSR matrix</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/csr_type.html'>csr_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>csr_mat</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-csr_create_from_brd"></span><h3>
+private subroutine <a href='../proc/csr_create_from_brd.html'>csr_create_from_brd</a>(brd_mat, csr_mat, csr_sparsity_brd)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate the internals of a CSR matrix using data from a block-row
+ distributed DBCSR matrix</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>brd_mat</strong></td><td><p>block-row-distributed DBCSR matrix</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/csr_type.html'>csr_type</a>),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>csr_mat</strong></td><td><p>CSR matrix</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>csr_sparsity_brd</strong></td><td><p>BRD matrix representing sparsity pattern of CSR matrix</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-csr_get_dbcsr_mapping"></span><h3>
+private subroutine <a href='../proc/csr_get_dbcsr_mapping.html'>csr_get_dbcsr_mapping</a>(brd_mat, dbcsr_index, csr_index, csr_nze_local, csr_sparsity_brd)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>create the mapping information between a block-row distributed DBCSR
+ matrix and the corresponding CSR matrix</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>brd_mat</strong></td><td><p>the block-row distributed DBCSR matrix</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>dbcsr_index</strong></td><td><p>csr to dbcsr index mapping
+ dbcsr to csr index mapping</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER</td><td>::</td>
+  <td><strong>csr_index</strong></td><td><p>csr to dbcsr index mapping
+ dbcsr to csr index mapping</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>csr_nze_local</strong></td><td><p>number of local non-zero elements</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>csr_sparsity_brd</strong></td><td><p>sparsity of CSR matrix represented in BRD format</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-convert_csr_to_brd"></span><h3>
+private subroutine <a href='../proc/convert_csr_to_brd.html'>convert_csr_to_brd</a>(brd_mat, csr_mat)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Copies data from a CSR matrix to a block-row distributed DBCSR matrix.
+ The DBCSR matrix must have a block structure consistent with the CSR matrix.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>brd_mat</strong></td><td><p>block-row distributed DBCSR matrix</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/csr_type.html'>csr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>csr_mat</strong></td><td><p>CSR matrix</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-convert_brd_to_csr"></span><h3>
+private subroutine <a href='../proc/convert_brd_to_csr.html'>convert_brd_to_csr</a>(brd_mat, csr_mat)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Convert a block-row distributed DBCSR matrix to a CSR matrix
+ The DBCSR matrix must have a block structure consistent with the CSR matrix.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>brd_mat</strong></td><td><p>block-row distributed DBCSR matrix</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/csr_type.html'>csr_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>csr_mat</strong></td><td><p>CSR matrix</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-csr_create_from_dbcsr"></span><h3>
+public subroutine <a href='../proc/csr_create_from_dbcsr.html'>csr_create_from_dbcsr</a>(dbcsr_mat, csr_mat, dist_format, csr_sparsity, numnodes)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>create CSR matrix including dbcsr_mapping from arbitrary DBCSR matrix
+ in order to prepare conversion.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dbcsr_mat</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/csr_type.html'>csr_type</a>),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>csr_mat</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dist_format</strong></td><td><p>how to distribute CSR rows over processes: csr_dbcsr_blkrow_dist: the number of rows per process is adapted to the row
+ block sizes in the DBCSR format such that blocks are not split over different processes. csr_eqrow_ceil_dist: each
+ process holds ceiling(N/P) CSR rows. csr_eqrow_floor_dist: each process holds floor(N/P) CSR rows.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>csr_sparsity</strong></td><td><p>DBCSR matrix containing 0 and 1, representing CSR sparsity pattern 1: non-zero element 0: zero element (not present in
+ CSR format) Note: matrix must be of data_type dbcsr_type_real_4 or dbcsr_type_real_8 (integer types not supported)</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>numnodes</strong></td><td><p>number of nodes to use for distributing CSR matrix (optional, default is number of nodes used for DBCSR matrix)</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-csr_assert_consistency_with_dbcsr"></span><h3>
+private subroutine <a href='../proc/csr_assert_consistency_with_dbcsr.html'>csr_assert_consistency_with_dbcsr</a>(csr_mat, dbcsr_mat)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Helper function to assert that a given CSR matrix and a given DBCSR
+ matrix are consistent before doing the conversion</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/csr_type.html'>csr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>csr_mat</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dbcsr_mat</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-convert_dbcsr_to_csr"></span><h3>
+public subroutine <a href='../proc/convert_dbcsr_to_csr.html'>convert_dbcsr_to_csr</a>(dbcsr_mat, csr_mat)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Convert a DBCSR matrix to a CSR matrix.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dbcsr_mat</strong></td><td><p>DBCSR matrix to convert</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/csr_type.html'>csr_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>csr_mat</strong></td><td><p>correctly allocated CSR matrix</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-convert_csr_to_dbcsr"></span><h3>
+public subroutine <a href='../proc/convert_csr_to_dbcsr.html'>convert_csr_to_dbcsr</a>(dbcsr_mat, csr_mat)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>convert a CSR matrix to a DBCSR matrix</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dbcsr_mat</strong></td><td><p>correctly allocated DBCSR matrix</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/csr_type.html'>csr_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>csr_mat</strong></td><td><p>CSR matrix to convert</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_to_csr_filter~2"></span><h3>
+public subroutine <a href='../proc/dbcsr_to_csr_filter~2.html'>dbcsr_to_csr_filter</a>(dbcsr_mat, csr_sparsity, eps)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Apply filtering threshold eps to DBCSR blocks in order to improve
+ CSR sparsity (currently only used for testing purposes)</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dbcsr_mat</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>csr_sparsity</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>eps</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-csr_write"></span><h3>
+public subroutine <a href='../proc/csr_write.html'>csr_write</a>(csr_mat, unit_nr, upper_triangle, threshold, binary)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Write a CSR matrix to file</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/csr_type.html'>csr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>csr_mat</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>unit_nr</strong></td><td><p>unit number to which output is written</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>upper_triangle</strong></td><td><p>If true (default: false), write only upper triangular part of matrix</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>threshold</strong></td><td><p>threshold on the absolute value of the elements to be printed</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>binary</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-csr_print_sparsity"></span><h3>
+public subroutine <a href='../proc/csr_print_sparsity.html'>csr_print_sparsity</a>(csr_mat, unit_nr)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Print CSR sparsity</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/csr_type.html'>csr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>csr_mat</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>unit_nr</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_create_brd"></span><h3>
+private subroutine <a href='../proc/dbcsr_create_brd.html'>dbcsr_create_brd</a>(dbcsr_mat, brd_mat, equal_dist, floor_dist, numnodes)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Converts a DBCSR matrix to a block row distributed matrix.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dbcsr_mat</strong></td><td><p>DBCSR matrix to be converted</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>brd_mat</strong></td><td><p>converted matrix</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>equal_dist</strong></td><td><p>see documentation of csr_create_from_dbcsr
+ see documentation of csr_create_from_dbcsr</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>floor_dist</strong></td><td><p>see documentation of csr_create_from_dbcsr
+ see documentation of csr_create_from_dbcsr</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>numnodes</strong></td><td><p>number of nodes to use for block row distribution</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    </section>    
+    <br>
+    
+    
+    
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
+                                          </p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> DBCSR Library was developed by DBCSR Authors</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    
+  </body>
+</html>

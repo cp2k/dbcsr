@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="">
+    
+    <meta name="author" content="DBCSR Authors" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>dbcsr_machine.F &ndash; DBCSR Library</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">DBCSR Library </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Guide</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>dbcsr_machine.F
+    <small>Source File</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.1% of total for source files.">68 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_machine.F"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+  
+     <li class="active">dbcsr_machine.F</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#mods-0">Modules</a></h3></div>
+  <div id="mods-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_machine.html">dbcsr_machine</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/dbcsr_machine.f.html#src">dbcsr_machine.F</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+    
+      
+      
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#mods-1">Modules</a></h3></div>
+  <div id="mods-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_machine.html">dbcsr_machine</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/dbcsr_machine.f.html#src">dbcsr_machine.F</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    <section>
+      <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl"><pre><span></span><a name="ln-1"></a><span class="cp"># 1 &quot;/__w/dbcsr/dbcsr/src/base/dbcsr_machine.F&quot; 1</span>
+<a name="ln-2"></a><span class="c">!--------------------------------------------------------------------------------------------------!</span>
+<a name="ln-3"></a><span class="c">! Copyright (C) by the DBCSR developers group - All rights reserved                                !</span>
+<a name="ln-4"></a><span class="c">! This file is part of the DBCSR library.                                                          !</span>
+<a name="ln-5"></a><span class="c">!                                                                                                  !</span>
+<a name="ln-6"></a><span class="c">! For information on the license, see the LICENSE file.                                            !</span>
+<a name="ln-7"></a><span class="c">! For further information please visit https://dbcsr.cp2k.org                                      !</span>
+<a name="ln-8"></a><span class="c">! SPDX-License-Identifier: GPL-2.0+                                                                !</span>
+<a name="ln-9"></a><span class="c">!--------------------------------------------------------------------------------------------------!</span>
+<a name="ln-10"></a>
+<a name="ln-11"></a><span class="k">MODULE </span><span class="n">dbcsr_machine</span>
+<a name="ln-12"></a>   <span class="k">USE </span><span class="n">ISO_FORTRAN_ENV</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">input_unit</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-13"></a>                              <span class="n">output_unit</span>
+<a name="ln-14"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">default_string_length</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-15"></a>                          <span class="n">dp</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-16"></a>                          <span class="n">int_8</span>
+<a name="ln-17"></a>   <span class="k">USE </span><span class="n">dbcsr_machine_internal</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-18"></a>      <span class="n">m_abort</span><span class="p">,</span> <span class="n">m_chdir</span><span class="p">,</span> <span class="n">m_flush_internal</span> <span class="o">=&gt;</span> <span class="n">m_flush</span><span class="p">,</span> <span class="n">m_getarg</span><span class="p">,</span> <span class="n">m_getcwd</span><span class="p">,</span> <span class="n">m_getlog</span><span class="p">,</span> <span class="n">m_getpid</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-19"></a>      <span class="n">m_hostnm</span><span class="p">,</span> <span class="n">m_iargc</span><span class="p">,</span> <span class="n">m_memory</span><span class="p">,</span> <span class="n">m_memory_details</span><span class="p">,</span> <span class="n">m_memory_max</span><span class="p">,</span> <span class="n">m_mov</span><span class="p">,</span> <span class="n">m_procrun</span>
+<a name="ln-20"></a>
+<a name="ln-21"></a><span class="c">!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads, OMP_GET_WTIME</span>
+<a name="ln-22"></a>
+<a name="ln-23"></a>   <span class="k">IMPLICIT NONE</span>
+<a name="ln-24"></a>
+<a name="ln-25"></a>   <span class="c">! Except for some error handling code, all code should</span>
+<a name="ln-26"></a>   <span class="c">! get a unit number from the print keys or from the logger, in order</span>
+<a name="ln-27"></a>   <span class="c">! to guarantee correct output behavior,</span>
+<a name="ln-28"></a>   <span class="c">! for example in farming or path integral runs</span>
+<a name="ln-29"></a>   <span class="c">! default_input_unit should never be used</span>
+<a name="ln-30"></a>   <span class="c">! but we need to know what it is, as we should not try to open it for output</span>
+<a name="ln-31"></a>   <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PUBLIC</span><span class="p">,</span> <span class="k">PARAMETER</span>                   <span class="kd">::</span> <span class="n">default_output_unit</span> <span class="o">=</span> <span class="n">output_unit</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-32"></a>                                                   <span class="n">default_input_unit</span> <span class="o">=</span> <span class="n">input_unit</span>
+<a name="ln-33"></a>
+<a name="ln-34"></a>   <span class="k">PRIVATE</span>
+<a name="ln-35"></a>
+<a name="ln-36"></a><span class="k">   PUBLIC</span> <span class="kd">::</span> <span class="n">m_walltime</span><span class="p">,</span> <span class="n">m_datum</span><span class="p">,</span> <span class="n">m_flush</span><span class="p">,</span> <span class="n">m_flush_internal</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-37"></a>             <span class="n">m_hostnm</span><span class="p">,</span> <span class="n">m_getcwd</span><span class="p">,</span> <span class="n">m_getlog</span><span class="p">,</span> <span class="n">m_getpid</span><span class="p">,</span> <span class="n">m_getarg</span><span class="p">,</span> <span class="n">m_procrun</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-38"></a>             <span class="n">m_memory</span><span class="p">,</span> <span class="n">m_iargc</span><span class="p">,</span> <span class="n">m_abort</span><span class="p">,</span> <span class="n">m_chdir</span><span class="p">,</span> <span class="n">m_mov</span><span class="p">,</span> <span class="n">m_memory_details</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-39"></a>             <span class="n">m_energy</span><span class="p">,</span> <span class="n">m_memory_max</span><span class="p">,</span> <span class="n">m_cpuinfo</span>
+<a name="ln-40"></a>
+<a name="ln-41"></a>   <span class="c">! should only be set according to the state in &amp;GLOBAL</span>
+<a name="ln-42"></a>   <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">SAVE</span><span class="p">,</span> <span class="k">PUBLIC</span> <span class="kd">::</span> <span class="n">flush_should_flush</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-43"></a>
+<a name="ln-44"></a><span class="k">CONTAINS</span>
+<a name="ln-45"></a>
+<a name="ln-46"></a><span class="k">   SUBROUTINE </span><span class="n">m_flush</span><span class="p">(</span><span class="n">lunit</span><span class="p">)</span>
+<a name="ln-47"></a>      <span class="c">!! flushes units if the &amp;GLOBAL flag is set accordingly</span>
+<a name="ln-48"></a>      <span class="c">!! @note</span>
+<a name="ln-49"></a>      <span class="c">!! flushing might degrade performance significantly (30% and more)</span>
+<a name="ln-50"></a>
+<a name="ln-51"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">lunit</span>
+<a name="ln-52"></a>
+<a name="ln-53"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">flush_should_flush</span><span class="p">)</span> <span class="k">CALL </span><span class="n">m_flush_internal</span><span class="p">(</span><span class="n">lunit</span><span class="p">)</span>
+<a name="ln-54"></a>   <span class="k">END SUBROUTINE</span>
+<a name="ln-55"></a><span class="k">   FUNCTION </span><span class="n">m_walltime</span><span class="p">()</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">wt</span><span class="p">)</span>
+<a name="ln-56"></a>      <span class="c">!! returns time from a real-time clock, protected against rolling</span>
+<a name="ln-57"></a>      <span class="c">!! early/easily</span>
+<a name="ln-58"></a>      <span class="c">!! @note</span>
+<a name="ln-59"></a>      <span class="c">!! same implementation for all machines.</span>
+<a name="ln-60"></a>      <span class="c">!! might still roll, if not called multiple times per count_max/count_rate</span>
+<a name="ln-61"></a>
+<a name="ln-62"></a><span class="cp">#if defined(__LIBXSMM)</span>
+<a name="ln-63"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_timer_tick</span><span class="p">,</span> <span class="n">libxsmm_timer_duration</span>
+<a name="ln-64"></a><span class="cp">#endif</span>
+<a name="ln-65"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>                                      <span class="kd">::</span> <span class="n">wt</span>
+<a name="ln-66"></a>
+<a name="ln-67"></a><span class="cp">#if defined(__LIBXSMM)</span>
+<a name="ln-68"></a>      <span class="n">wt</span> <span class="o">=</span> <span class="n">libxsmm_timer_duration</span><span class="p">(</span><span class="mi">0_int_8</span><span class="p">,</span> <span class="n">libxsmm_timer_tick</span><span class="p">())</span>
+<a name="ln-69"></a><span class="cp">#else</span>
+<a name="ln-70"></a>
+<a name="ln-71"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span>                                <span class="kd">::</span> <span class="nb">count</span>
+<a name="ln-72"></a><span class="nb">      </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">SAVE</span>                          <span class="kd">::</span> <span class="n">count_max</span><span class="p">,</span> <span class="n">count_rate</span><span class="p">,</span> <span class="n">cycles</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-73"></a>                                                            <span class="n">last_count</span>
+<a name="ln-74"></a><span class="c">!$    IF (.FALSE.) THEN</span>
+<a name="ln-75"></a><span class="c">! count lies in [0,count_max] and increases monotonically</span>
+<a name="ln-76"></a>
+<a name="ln-77"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">cycles</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span> <span class="c">! get parameters of system_clock and initialise</span>
+<a name="ln-78"></a>            <span class="k">CALL </span><span class="nb">SYSTEM_CLOCK</span><span class="p">(</span><span class="n">count_rate</span><span class="o">=</span><span class="n">count_rate</span><span class="p">,</span> <span class="n">count_max</span><span class="o">=</span><span class="n">count_max</span><span class="p">)</span>
+<a name="ln-79"></a>            <span class="n">cycles</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-80"></a>            <span class="n">last_count</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-81"></a>         <span class="n">ENDIF</span>
+<a name="ln-82"></a>
+<a name="ln-83"></a>         <span class="k">CALL </span><span class="nb">SYSTEM_CLOCK</span><span class="p">(</span><span class="nb">count</span><span class="o">=</span><span class="nb">count</span><span class="p">)</span>
+<a name="ln-84"></a>
+<a name="ln-85"></a>         <span class="c">! protect against non-standard cases where time might be non-monotonous,</span>
+<a name="ln-86"></a>         <span class="c">! but it is unlikely that the clock cycled (e.g. underlying system clock adjustments)</span>
+<a name="ln-87"></a>         <span class="c">! i.e. if count is smaller than last_count by only a small fraction of count_max,</span>
+<a name="ln-88"></a>         <span class="c">! we use last_count instead</span>
+<a name="ln-89"></a>         <span class="c">! if count is smaller, we assume that the clock cycled.</span>
+<a name="ln-90"></a>         <span class="k">IF</span> <span class="p">(</span><span class="nb">count</span> <span class="o">&lt;</span> <span class="n">last_count</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-91"></a><span class="k">            IF</span> <span class="p">(</span><span class="n">last_count</span> <span class="o">-</span> <span class="nb">count</span> <span class="o">&lt;</span> <span class="n">count_max</span><span class="o">/</span><span class="mi">100</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-92"></a><span class="k">               </span><span class="nb">count</span> <span class="o">=</span> <span class="n">last_count</span>
+<a name="ln-93"></a>            <span class="k">ELSE</span>
+<a name="ln-94"></a><span class="k">               </span><span class="n">cycles</span> <span class="o">=</span> <span class="n">cycles</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-95"></a>            <span class="n">ENDIF</span>
+<a name="ln-96"></a>         <span class="n">ENDIF</span>
+<a name="ln-97"></a>
+<a name="ln-98"></a>         <span class="c">! keep track of our history</span>
+<a name="ln-99"></a>         <span class="n">last_count</span> <span class="o">=</span> <span class="nb">count</span>
+<a name="ln-100"></a>
+<a name="ln-101"></a><span class="nb">         </span><span class="n">wt</span> <span class="o">=</span> <span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="nb">count</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span> <span class="o">+</span> <span class="kt">REAL</span><span class="p">(</span><span class="n">cycles</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="mf">1.0_dp</span> <span class="o">+</span> <span class="kt">REAL</span><span class="p">(</span><span class="n">count_max</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)))</span> <span class="p">&amp;</span>
+<a name="ln-102"></a>              <span class="o">/</span><span class="kt">REAL</span><span class="p">(</span><span class="n">count_rate</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>
+<a name="ln-103"></a><span class="c">!$    ELSE</span>
+<a name="ln-104"></a><span class="c">!$       wt = OMP_GET_WTIME()</span>
+<a name="ln-105"></a><span class="c">!$    ENDIF</span>
+<a name="ln-106"></a><span class="cp">#endif</span>
+<a name="ln-107"></a>   <span class="k">END FUNCTION </span><span class="n">m_walltime</span>
+<a name="ln-108"></a>
+<a name="ln-109"></a>   <span class="k">SUBROUTINE </span><span class="n">m_cpuinfo</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+<a name="ln-110"></a>      <span class="c">!! reads /proc/cpuinfo if it exists (i.e. Linux) to return relevant info</span>
+<a name="ln-111"></a>
+<a name="ln-112"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">)</span>               <span class="kd">::</span> <span class="n">model_name</span>
+<a name="ln-113"></a>         <span class="c">!! as obtained from the &#39;model name&#39; field, UNKNOWN otherwise</span>
+<a name="ln-114"></a>
+<a name="ln-115"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span>                                 <span class="kd">::</span> <span class="n">bufferlen</span> <span class="o">=</span> <span class="mi">2048</span>
+<a name="ln-116"></a>
+<a name="ln-117"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="n">bufferlen</span><span class="p">)</span>                           <span class="kd">::</span> <span class="n">buffer</span>
+<a name="ln-118"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">icol</span><span class="p">,</span> <span class="n">iline</span><span class="p">,</span> <span class="n">imod</span><span class="p">,</span> <span class="nb">stat</span>
+<a name="ln-119"></a>
+<a name="ln-120"></a><span class="nb">      </span><span class="n">model_name</span> <span class="o">=</span> <span class="s2">&quot;UNKNOWN&quot;</span>
+<a name="ln-121"></a>      <span class="n">buffer</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<a name="ln-122"></a>      <span class="k">OPEN</span> <span class="p">(</span><span class="mi">121245</span><span class="p">,</span> <span class="k">FILE</span><span class="o">=</span><span class="s2">&quot;/proc/cpuinfo&quot;</span><span class="p">,</span> <span class="n">ACTION</span><span class="o">=</span><span class="s2">&quot;READ&quot;</span><span class="p">,</span> <span class="n">STATUS</span><span class="o">=</span><span class="s2">&quot;OLD&quot;</span><span class="p">,</span> <span class="nb">ACCESS</span><span class="o">=</span><span class="s2">&quot;STREAM&quot;</span><span class="p">,</span> <span class="n">IOSTAT</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
+<a name="ln-123"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-124"></a><span class="k">         DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">bufferlen</span>
+<a name="ln-125"></a>            <span class="k">READ</span> <span class="p">(</span><span class="mi">121245</span><span class="p">,</span> <span class="k">END</span><span class="o">=</span><span class="mi">999</span><span class="p">)</span> <span class="n">buffer</span><span class="p">(</span><span class="n">I</span><span class="p">:</span><span class="n">I</span><span class="p">)</span>
+<a name="ln-126"></a>         <span class="n">ENDDO</span>
+<a name="ln-127"></a><span class="mi">999</span>      <span class="k">CLOSE</span> <span class="p">(</span><span class="mi">121245</span><span class="p">)</span>
+<a name="ln-128"></a>         <span class="n">imod</span> <span class="o">=</span> <span class="nb">INDEX</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="s2">&quot;model name&quot;</span><span class="p">)</span>
+<a name="ln-129"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">imod</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-130"></a><span class="k">            </span><span class="n">icol</span> <span class="o">=</span> <span class="n">imod</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="nb">INDEX</span><span class="p">(</span><span class="n">buffer</span><span class="p">(</span><span class="n">imod</span><span class="p">:),</span> <span class="s2">&quot;:&quot;</span><span class="p">)</span>
+<a name="ln-131"></a>            <span class="n">iline</span> <span class="o">=</span> <span class="n">icol</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="nb">INDEX</span><span class="p">(</span><span class="n">buffer</span><span class="p">(</span><span class="n">icol</span><span class="p">:),</span> <span class="nb">NEW_LINE</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">))</span>
+<a name="ln-132"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">iline</span> <span class="o">==</span> <span class="n">icol</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="n">iline</span> <span class="o">=</span> <span class="n">bufferlen</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-133"></a>            <span class="n">model_name</span> <span class="o">=</span> <span class="n">buffer</span><span class="p">(</span><span class="n">icol</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">iline</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<a name="ln-134"></a>         <span class="n">ENDIF</span>
+<a name="ln-135"></a>      <span class="n">ENDIF</span>
+<a name="ln-136"></a>   <span class="k">END SUBROUTINE </span><span class="n">m_cpuinfo</span>
+<a name="ln-137"></a>
+<a name="ln-138"></a>   <span class="k">FUNCTION </span><span class="n">m_energy</span><span class="p">()</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">wt</span><span class="p">)</span>
+<a name="ln-139"></a>      <span class="c">!! returns the energy used since some time in the past.</span>
+<a name="ln-140"></a>      <span class="c">!! The precise meaning depends on the infrastructure is available.</span>
+<a name="ln-141"></a>      <span class="c">!! In the cray_pm_energy case, this is the energy used by the node in kJ.</span>
+<a name="ln-142"></a>
+<a name="ln-143"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>                            <span class="kd">::</span> <span class="n">wt</span>
+<a name="ln-144"></a>
+<a name="ln-145"></a><span class="cp">#if defined(__CRAY_PM_ENERGY)</span>
+<a name="ln-146"></a>      <span class="n">wt</span> <span class="o">=</span> <span class="n">read_energy</span><span class="p">(</span><span class="s2">&quot;/sys/cray/pm_counters/energy&quot;</span><span class="p">)</span>
+<a name="ln-147"></a><span class="cp">#elif defined(__CRAY_PM_ACCEL_ENERGY)</span>
+<a name="ln-148"></a>      <span class="n">wt</span> <span class="o">=</span> <span class="n">read_energy</span><span class="p">(</span><span class="s2">&quot;/sys/cray/pm_counters/accel_energy&quot;</span><span class="p">)</span>
+<a name="ln-149"></a><span class="cp">#else</span>
+<a name="ln-150"></a>      <span class="n">wt</span> <span class="o">=</span> <span class="mf">0.0</span> <span class="c">! fallback default</span>
+<a name="ln-151"></a><span class="cp">#endif</span>
+<a name="ln-152"></a>
+<a name="ln-153"></a>   <span class="k">END FUNCTION </span><span class="n">m_energy</span>
+<a name="ln-154"></a>
+<a name="ln-155"></a><span class="cp">#if defined(__CRAY_PM_ACCEL_ENERGY) || defined(__CRAY_PM_ENERGY)</span>
+<a name="ln-156"></a>   <span class="k">FUNCTION </span><span class="n">read_energy</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">wt</span><span class="p">)</span>
+<a name="ln-157"></a>      <span class="c">!! reads energy values from the sys-filesystem</span>
+<a name="ln-158"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">)</span>                                   <span class="kd">::</span> <span class="n">filename</span>
+<a name="ln-159"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>                                      <span class="kd">::</span> <span class="n">wt</span>
+<a name="ln-160"></a>
+<a name="ln-161"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="mi">80</span><span class="p">)</span>                                  <span class="kd">::</span> <span class="k">DATA</span>
+<a name="ln-162"></a><span class="k">      </span><span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">iostat</span>
+<a name="ln-163"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">raw</span>
+<a name="ln-164"></a>
+<a name="ln-165"></a>      <span class="k">OPEN</span> <span class="p">(</span><span class="mi">121245</span><span class="p">,</span> <span class="k">FILE</span><span class="o">=</span><span class="n">filename</span><span class="p">,</span> <span class="n">ACTION</span><span class="o">=</span><span class="s2">&quot;READ&quot;</span><span class="p">,</span> <span class="n">STATUS</span><span class="o">=</span><span class="s2">&quot;OLD&quot;</span><span class="p">,</span> <span class="nb">ACCESS</span><span class="o">=</span><span class="s2">&quot;STREAM&quot;</span><span class="p">)</span>
+<a name="ln-166"></a>      <span class="k">DO </span><span class="n">I</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">80</span>
+<a name="ln-167"></a>         <span class="k">READ</span> <span class="p">(</span><span class="mi">121245</span><span class="p">,</span> <span class="k">END</span><span class="o">=</span><span class="mi">999</span><span class="p">)</span> <span class="k">DATA</span><span class="p">(</span><span class="n">I</span><span class="p">:</span><span class="n">I</span><span class="p">)</span>
+<a name="ln-168"></a>      <span class="n">ENDDO</span>
+<a name="ln-169"></a><span class="mi">999</span>   <span class="k">CLOSE</span> <span class="p">(</span><span class="mi">121245</span><span class="p">)</span>
+<a name="ln-170"></a>      <span class="k">DATA</span><span class="p">(</span><span class="n">I</span><span class="p">:</span><span class="mi">80</span><span class="p">)</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<a name="ln-171"></a>      <span class="k">READ</span> <span class="p">(</span><span class="k">DATA</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">IOSTAT</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span> <span class="n">raw</span>
+<a name="ln-172"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">iostat</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-173"></a><span class="k">         </span><span class="n">wt</span> <span class="o">=</span> <span class="mf">0.0_dp</span>
+<a name="ln-174"></a>      <span class="k">ELSE</span>
+<a name="ln-175"></a>         <span class="c">! convert from J to kJ</span>
+<a name="ln-176"></a>         <span class="n">wt</span> <span class="o">=</span> <span class="n">raw</span><span class="o">/</span><span class="mi">100</span><span class="mf">0.0_dp</span>
+<a name="ln-177"></a>      <span class="n">ENDIF</span>
+<a name="ln-178"></a>   <span class="k">END FUNCTION </span><span class="n">read_energy</span>
+<a name="ln-179"></a><span class="cp">#endif</span>
+<a name="ln-180"></a>
+<a name="ln-181"></a>   <span class="k">SUBROUTINE </span><span class="n">m_datum</span><span class="p">(</span><span class="n">cal_date</span><span class="p">)</span>
+<a name="ln-182"></a>      <span class="c">!! returns a datum in human readable format using a standard Fortran routine</span>
+<a name="ln-183"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">cal_date</span>
+<a name="ln-184"></a>
+<a name="ln-185"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>                                  <span class="kd">::</span> <span class="nb">time</span>
+<a name="ln-186"></a><span class="nb">      </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>                                   <span class="kd">::</span> <span class="n">date</span>
+<a name="ln-187"></a>
+<a name="ln-188"></a>      <span class="k">CALL </span><span class="nb">DATE_AND_TIME</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="n">date</span><span class="p">,</span> <span class="nb">time</span><span class="o">=</span><span class="nb">time</span><span class="p">)</span>
+<a name="ln-189"></a>      <span class="n">cal_date</span> <span class="o">=</span> <span class="n">date</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">4</span><span class="p">)</span><span class="o">//</span><span class="s2">&quot;-&quot;</span><span class="o">//</span><span class="n">date</span><span class="p">(</span><span class="mi">5</span><span class="p">:</span><span class="mi">6</span><span class="p">)</span><span class="o">//</span><span class="s2">&quot;-&quot;</span><span class="o">//</span><span class="n">date</span><span class="p">(</span><span class="mi">7</span><span class="p">:</span><span class="mi">8</span><span class="p">)</span><span class="o">//</span><span class="s2">&quot; &quot;</span><span class="o">//</span><span class="nb">time</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">)</span><span class="o">//</span><span class="s2">&quot;:&quot;</span><span class="o">//</span><span class="nb">time</span><span class="p">(</span><span class="mi">3</span><span class="p">:</span><span class="mi">4</span><span class="p">)</span><span class="o">//</span><span class="s2">&quot;:&quot;</span><span class="o">//</span><span class="nb">time</span><span class="p">(</span><span class="mi">5</span><span class="p">:</span><span class="mi">10</span><span class="p">)</span>
+<a name="ln-190"></a>
+<a name="ln-191"></a>   <span class="k">END SUBROUTINE </span><span class="n">m_datum</span>
+<a name="ln-192"></a>
+<a name="ln-193"></a><span class="k">END MODULE </span><span class="n">dbcsr_machine</span>
+</pre></div>
+
+    </section>
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
+                                          </p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> DBCSR Library was developed by DBCSR Authors</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    
+  </body>
+</html>
