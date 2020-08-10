@@ -12,6 +12,7 @@
 
 #include <hip/hip_runtime.h>
 #include <hip/hip_runtime_api.h>
+#include <hipblas_v2.h>
 #include <hip/hiprtc.h>
 
 

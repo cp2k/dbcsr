@@ -13,11 +13,13 @@
 #include <cuda.h>
 #include <cuda_runtime.h>
 #include <nvrtc.h>
+#include "cublas_v2.h"
 
 #define ACC(x) cuda##x
 #define ACC_DRV(x) CU##x
 #define ACC_DRV_FUNC_PREFIX(x) cu##x
 #define ACC_RTC(x) nvrtc##x
+#define ACC_BLAS(x) cublas##x
 #define BACKEND "CUDA"
 
 /* Macros for CUDA error handling
@@ -53,6 +55,34 @@
     if (result != NVRTC_SUCCESS) {                                \
       printf("\nNVRTC ERROR: %s failed with error %s\n",          \
              #func, nvrtcGetErrorString(result));                 \
+      exit(1);                                                    \
+    }                                                             \
+  } while(0)
+
+
+/* Wrap calls to CUDA CUBLAS API */
+#define ACC_BLAS_CALL(func, args)                                 \
+  do {                                                            \
+    cublasStatus_t result = ACC_BLAS(func) args;                  \
+    if (result != CUBLAS_STATUS_SUCCESS) {                        \
+      char* error_name = "CUBLAS_ERRROR";                         \
+      if(result == CUBLAS_STATUS_NOT_INITIALIZED){ \
+        error_name = "CUBLAS_STATUS_NOT_INITIALIZED"; \
+      } else if(result == CUBLAS_STATUS_ALLOC_FAILED{ \
+        error_name = "CUBLAS_STATUS_ALLOC_FAILED"; \
+      } else if(result == CUBLAS_STATUS_INVALID_VALUE){ \
+        error_name = "CUBLAS_STATUS_INVALID_VALUE"; \
+      } else if(result == CUBLAS_STATUS_ARCH_MISMATCH){ \
+        error_name = "CUBLAS_STATUS_ARCH_MISMATCH"; \
+      } else if(result == CUBLAS_STATUS_MAPPING_ERROR){ \
+        error_name = "CUBLAS_STATUS_MAPPING_ERROR"; \
+      } else if(result == CUBLAS_STATUS_EXECUTION_FAILED){        \
+        error_name = "CUBLAS_STATUS_EXECUTION_FAILED";            \
+      } else if(result == CUBLAS_STATUS_INTERNAL_ERROR){          \
+        error_name = "CUBLAS_STATUS_INTERNAL_ERROR";              \
+      }                                                           \
+      printf("\nCUBLAS ERROR: %s failed with error %s\n",         \
+             #func, error_name);                                  \
       exit(1);                                                    \
     }                                                             \
   } while(0)

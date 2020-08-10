@@ -7,19 +7,80 @@
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
 
-#include "libsmm_acc.h"
 #include "libsmm_acc_init.h"
+//#include "libsmm_acc.h"
 #include "parameters.h"
+#include "../cuda/cublas.h"
+
+#ifdef __CUDA
+# include "../cuda/acc_cuda.h"
+#else
+# include "../hip/acc_hip.h"
+#endif
 
 #if defined _OPENMP
 #include <omp.h>
 #endif
 
+
+cublasHandle_t* cublas_handle;
+
 //===========================================================================
-int libsmm_acc_init() {
-    libsmm_acc_check_gpu_warp_size_consistency();
+int libsmm_acc_gpu_blas_init(){
+#if defined _OPENMP
+    // allocate memory for cublas handles
+    int nthreads = 0;
+#pragma omp master
+{
+    nthreads = omp_get_num_threads();
+    cublas_handles.resize(nthreads);
+}
+#pragma omp barrier
+    int ithread = omp_get_thread_num();
+    // initialize cublas and store cublas handles
+    // one handle per thread!
+    cublasHandle_t* c_handle;
+    cublas_create(&c_handle);
+    cublas_handles.emplace(ithread, c_handle);
+#else
+    cublas_create(&cublas_handle);
+#endif
+
     return 0;
 }
+
+
+//===========================================================================
+int libsmm_acc_init() {
+
+    // check warp size consistency
+    libsmm_acc_check_gpu_warp_size_consistency();
+
+    libsmm_acc_gpu_blas_init();
+    //printf("[libsmm_acc_init] exit with cublas_handles size = %i\n", int(cublas_handles.size()));
+    return 0;
+}
+
+
+//===========================================================================
+int libsmm_acc_finalize() {
+
+    // deallocate memory for cublas handles
+#if defined _OPENMP
+    int ithread = omp_get_thread_num();
+#else
+    //int ithread = 0;
+#endif
+    // initialize cublas and store cublas handles
+    // one handle per thread!
+    //FIXME cublas_destroy(cublas_handle);
+#if defined _OPENMP
+#pragma omp barrier
+#endif
+
+    return 0;
+}
+
 
 //===========================================================================
 int libsmm_acc_check_gpu_warp_size_consistency() {

@@ -8,7 +8,6 @@ include(CMakePackageConfigHelpers)
 # SOURCE FILE LISTS
 add_fypp_sources(DBCSR_SRCS
   dbcsr_api.F
-  acc/cublaswrap/dbcsr_cublas.F
   acc/cuda/dbcsr_cuda_profiling.F
   acc/dbcsr_acc_device.F
   acc/dbcsr_acc_devmem.F
@@ -17,7 +16,7 @@ add_fypp_sources(DBCSR_SRCS
   acc/dbcsr_acc_init.F
   acc/dbcsr_acc_stream.F
   acc/dbcsr_acc_timings.F
-  acc/hipblaswrap/dbcsr_hipblas.F
+  acc/hip/dbcsr_hipblas.F
   base/dbcsr_base_hooks.F
   base/dbcsr_kinds.F
   base/dbcsr_machine.F
@@ -118,12 +117,12 @@ set(DBCSR_ACC_SRCS
 set(DBCSR_CUDA_SRCS
   acc/cuda/acc_cuda.cpp
   acc/cuda/dbcsr_cuda_nvtx_cu.cu
-  acc/cublaswrap/cublas.cu
+  acc/cuda/cublas.cu
   )
 
 set(DBCSR_HIP_SRCS
   acc/hip/acc_hip.cpp
-  acc/hipblaswrap/hipblas.cpp
+  acc/hip/hipblas.cpp
   )
 
 # set the __SHORT_FILE__ per file for dbcsr sources

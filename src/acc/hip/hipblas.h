@@ -6,27 +6,21 @@
  * For further information please visit https://dbcsr.cp2k.org                                    *
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
-#ifndef DBCSR_ACC_LIBSMM_H
-#define DBCSR_ACC_LIBSMM_H
 
-#include "acc.h"
+#include <stdio.h>
+#include "acc_hip.h"
+#include "../acc_error.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
 
-extern "C" int libsmm_acc_init(void);
-int libsmm_acc_is_thread_safe(void);
+/****************************************************************************/
+int hipblas_create(hipblasHandle_t **handle);
 
-int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int nblks,
-  void* dev_data, acc_data_t datatype, int m, int n, acc_stream_t* stream);
+/****************************************************************************/
+int hipblas_destroy(hipblasHandle_t *handle);
 
-extern "C" int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, int stack_size,
-  int nparams, acc_data_t datatype, const void* dev_a_data, const void* dev_b_data, void* dev_c_data,
-  int m_max, int n_max, int k_max, acc_bool_t def_mnk, acc_stream_t* stream);
-
-#ifdef __cplusplus
-}
-#endif
-
-#endif /*DBCSR_ACC_LIBSMM_H*/
+/****************************************************************************/
+int hipblas_dgemm(hipblasHandle_t *handle, char transa, char transb,
+                 int m, int n, int k,
+                 int a_offset, int b_offset, int c_offset,
+                 double *a_data, double *b_data, double *c_data,
+                 double alpha, double beta, hipdaStream_t *stream);

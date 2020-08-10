@@ -10,8 +10,6 @@
 MODULE dbcsr_config
    !! Configuration options for DBCSR
    USE dbcsr_acc_device, ONLY: dbcsr_acc_get_ndevices
-   USE dbcsr_cublas, ONLY: cublas_handle_type
-   USE dbcsr_hipblas, ONLY: hipblas_handle_type
    USE dbcsr_kinds, ONLY: default_string_length, &
                           dp
    USE dbcsr_ptr_util, ONLY: dbcsr_data_allocation, &
@@ -119,13 +117,6 @@ MODULE dbcsr_config
 
    TYPE(dbcsr_config_type), PROTECTED, SAVE :: dbcsr_cfg = dbcsr_config_type() ! defaults
 
-   ! CUBLAS handle (a handle per each thread)
-   TYPE(cublas_handle_type), DIMENSION(:), ALLOCATABLE :: cublas_handles
-   ! HIPBLAS handle (a handle per each thread)
-   TYPE(hipblas_handle_type), DIMENSION(:), ALLOCATABLE :: hipblas_handles
-
-   ! Max dimension for any block dimension
-   INTEGER, PARAMETER :: max_kernel_dim = 80
    ! Accelerator active device, default to -1, i.e. no device
    INTEGER, PARAMETER :: default_accdrv_active_device_id = -1
    INTEGER :: accdrv_active_device_id = default_accdrv_active_device_id
@@ -133,9 +124,6 @@ MODULE dbcsr_config
    PUBLIC :: dbcsr_cfg, has_MPI, has_acc, default_resize_factor
    PUBLIC :: mm_driver_blas, mm_driver_matmul, mm_driver_smm, mm_driver_xsmm, mm_driver_auto
    PUBLIC :: dbcsr_set_config, dbcsr_get_default_config, dbcsr_print_config
-   PUBLIC :: cublas_handles
-   PUBLIC :: hipblas_handles
-   PUBLIC :: max_kernel_dim
    PUBLIC :: get_accdrv_active_device_id, set_accdrv_active_device_id, reset_accdrv_active_device_id
 
 CONTAINS

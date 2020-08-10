@@ -10,12 +10,22 @@
 #ifndef LIBSMM_ACC_INIT_H
 #define LIBSMM_ACC_INIT_H
 
-int libsmm_acc_init (void);
+#ifdef __CUDA
+# include "../cuda/acc_cuda.h"
+#else
+# include "../hip/acc_hip.h"
+#endif
+
+extern "C" int libsmm_acc_init (void);
+
+int libsmm_acc_gpu_blas_init();
 
 int libsmm_acc_check_gpu_warp_size_consistency (void);
 
 int acc_get_gpu_warp_size (void);
 
-int libsmm_acc_is_thread_safe (void);
+extern "C" int libsmm_acc_is_thread_safe (void);
+
+extern cublasHandle_t* cublas_handle;
 
 #endif /*LIBSMM_ACC_INIT_H*/

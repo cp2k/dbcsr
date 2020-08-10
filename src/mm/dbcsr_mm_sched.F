@@ -105,9 +105,16 @@ CONTAINS
    SUBROUTINE stats_init(stats)
       !! Initialize a stats_type
       TYPE(stats_type), INTENT(INOUT)                    :: stats
+      INTEGER                                            :: ithread
 
+      ithread = 0
+!$    ithread = OMP_GET_THREAD_NUM()
+
+      WRITE(*,*) "[stats_init](", ithread, ") start"
       ALLOCATE (stats%num_mnk_stacks(1, 9))
+      WRITE(*,*) "[stats_init] blob"
       stats%num_mnk_stacks(1, :) = 0 ! entry for the default stack
+      WRITE(*,*) "[stats_init] exit"
    END SUBROUTINE stats_init
 
    SUBROUTINE dbcsr_mm_sched_lib_init()
@@ -115,8 +122,11 @@ CONTAINS
 
       INTEGER                                            :: ithread, nthreads
 
+      WRITE(*,*) "[dbcsr_mm_sched_lib_init] start"
       nthreads = 1; ithread = 0
 !$    nthreads = OMP_GET_NUM_THREADS(); ithread = OMP_GET_THREAD_NUM()
+      WRITE(*,*) "[dbcsr_mm_sched_lib_init] nthreads ", nthreads
+      WRITE(*,*) "[dbcsr_mm_sched_lib_init] ithread ", ithread
 
 !$OMP     MASTER
       ALLOCATE (stats_per_thread(0:nthreads - 1))
@@ -128,6 +138,7 @@ CONTAINS
       CALL dbcsr_mm_accdrv_lib_init()
       CALL dbcsr_mm_hostdrv_lib_init()
 
+      WRITE(*,*) "[dbcsr_mm_sched_lib_init] exit"
    END SUBROUTINE dbcsr_mm_sched_lib_init
 
    SUBROUTINE dbcsr_mm_sched_lib_finalize()
@@ -182,6 +193,7 @@ CONTAINS
 
       INTEGER                                            :: handle
 
+      WRITE(*,*) "[dbcsr_mm_sched_init] start"
       CALL timeset(routineN, handle)
 
       this%product_wm => product_wm
@@ -191,10 +203,14 @@ CONTAINS
       ! We just have to remember its datasize, in case it already contains data.
       this%product_wm_orig_datasize = this%product_wm%datasize
 
+      WRITE(*,*) "[dbcsr_mm_sched_init] call hostdrv_init"
       CALL dbcsr_mm_hostdrv_init(this%hostdrv, product_wm)
+      WRITE(*,*) "[dbcsr_mm_sched_init] called hostdrv_init"
 
       IF (has_acc) &
+         WRITE(*,*) "[dbcsr_mm_sched_init] call accdrv_init"
          CALL dbcsr_mm_accdrv_init(this%accdrv, product_wm, nlayers)
+         WRITE(*,*) "[dbcsr_mm_sched_init] called accdrv_init"
 
       CALL timestop(handle)
 
