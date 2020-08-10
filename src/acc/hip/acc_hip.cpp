@@ -38,3 +38,7 @@ hipError_t hipStreamCreate(hipStream_t *stream, unsigned int flags){
 hipError_t hipLaunchJITKernel(hipFunction_t f, unsigned int gridDimX, unsigned int gridDimY, unsigned int gridDimZ, unsigned int blockDimX, unsigned int blockDimY, unsigned int blockDimZ, unsigned int sharedMemBytes, hipStream_t stream, void **kernelParams, void **extra){
   return hipModuleLaunchKernel(f, gridDimX, gridDimY, gridDimZ, blockDimX, blockDimY, blockDimZ, sharedMemBytes, stream, kernelParams, extra);
 }
+
+hipblasStatus_t ACC_BLAS_STATUS_SUCCESS = HIPBLAS_STATUS_SUCCESS;
+hipblasOperation_t ACC_BLAS_OP_N = HIPBLAS_OP_N;
+hipblasOperation_t ACC_BLAS_OP_T = HIPBLAS_OP_T;

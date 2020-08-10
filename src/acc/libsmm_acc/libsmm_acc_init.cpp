@@ -7,7 +7,6 @@
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
 
-#include "libsmm_acc.h"
 #include "libsmm_acc_init.h"
 #include "parameters.h"
 
@@ -15,11 +14,60 @@
 #include <omp.h>
 #endif
 
+
+std::vector<ACC_BLAS(Handle_t)*> acc_blashandles;
+
 //===========================================================================
-int libsmm_acc_init() {
-    libsmm_acc_check_gpu_warp_size_consistency();
+int libsmm_acc_gpu_blas_init(){
+    // allocate memory for acc_blas handles
+#if defined _OPENMP
+    int nthreads = omp_get_num_threads();
+#else
+    int nthreads = 1;
+#endif
+    acc_blashandles.resize(nthreads);
+
+    // initialize acc_blas and store acc_blas handles
+    // one handle per thread!
+    for(int i = 0; i < nthreads; i++){
+        ACC_BLAS(Handle_t)* c_handle;
+        acc_blas_create(&c_handle);
+        acc_blashandles[i] = c_handle;
+    }
+
     return 0;
 }
+
+
+//===========================================================================
+int libsmm_acc_init() {
+
+    // check warp size consistency
+    libsmm_acc_check_gpu_warp_size_consistency();
+    libsmm_acc_gpu_blas_init();
+    return 0;
+}
+
+
+//===========================================================================
+int libsmm_acc_finalize() {
+
+    // deallocate memory for acc_blas handles
+#if defined _OPENMP
+    int nthreads = omp_get_num_threads();
+#else
+    int nthreads = 1;
+#endif
+
+    // free acc_blas handle resources
+    // one handle per thread!
+    for(int i = 0; i < nthreads; i++){
+        acc_blas_destroy(acc_blashandles[i]);
+    }
+
+    return 0;
+}
+
 
 //===========================================================================
 int libsmm_acc_check_gpu_warp_size_consistency() {
