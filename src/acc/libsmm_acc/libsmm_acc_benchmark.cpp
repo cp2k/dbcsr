@@ -36,10 +36,10 @@ void libsmm_acc_benchmark_init(libsmm_acc_benchmark_t** handle, benchmark_mode m
             h->n_stack_trs_b = 0;
             break;
         case test:
-            h->n_a = 100;
-            h->n_b = 100;
-            h->n_c = 10;
-            h->n_stack = 100;
+            h->n_a = 1;
+            h->n_b = 1;
+            h->n_c = 1;
+            h->n_stack = 1;
             h->n_stack_trs_a = h->n_a;
             h->n_stack_trs_b = h->n_b;
             break;
@@ -318,12 +318,12 @@ int libsmm_acc_benchmark(libsmm_acc_benchmark_t* h,
     // Warmup run (more often if n_iter is small)
     for(int i=0; i<n_warm; i++)
         launchers[ikern](h->d_stack, h->n_stack, stream, mat_m, mat_n, mat_k, h->d_mat_a, h->d_mat_b, h->d_mat_c);
-    ACC_API_CALL(Memset, (h->d_mat_c, 0, h->n_c * mat_m * mat_n * sizeof(double)));
 
     ACC_DRV_CALL(EventRecord, (h->t_start, stream));
 
     for(int i=0; i<n_iter; i++)
         launchers[ikern](h->d_stack, h->n_stack, stream, mat_m, mat_n, mat_k, h->d_mat_a, h->d_mat_b, h->d_mat_c);
+    ACC_API_CALL(Memset, (h->d_mat_c, 0, h->n_c * mat_m * mat_n * sizeof(double)));
 
     ACC_DRV_CALL(EventRecord, (h->t_stop, stream));
     ACC_DRV_CALL(EventSynchronize, (h->t_stop));

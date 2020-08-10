@@ -440,4 +440,5 @@ smm_acc_dnt_medium(const int* __restrict__ param_stack, int stack_size,
     }
     if (need_sync) syncthreads ();
   }
+
 }

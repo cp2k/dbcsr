@@ -8,14 +8,12 @@
  *------------------------------------------------------------------------------------------------*/
 
 #include <stdio.h>
-#include <hipblas.h>
-#include <hip/hip_runtime.h>
-#include <hip/hip_runtime_api.h>
+
+#include "../cuda/acc_blas.h"
 #include "../cuda/acc_error.h"
 
-
 /****************************************************************************/
-extern "C" int hipblas_create(hipblasHandle_t **handle)
+int acc_blas_create(hipblasHandle_t **handle)
 {
   *handle = (hipblasHandle_t*)malloc(sizeof(hipblasHandle_t));
   hipblasStatus_t cStatus = hipblasCreate(*handle);
@@ -28,7 +26,7 @@ extern "C" int hipblas_create(hipblasHandle_t **handle)
 }
 
 /****************************************************************************/
-extern "C" int hipblas_destroy(hipblasHandle_t *handle)
+int acc_blas_destroy(hipblasHandle_t *handle)
 {
   hipblasStatus_t cStatus = hipblasDestroy(*handle);
   free(handle);
@@ -41,11 +39,11 @@ extern "C" int hipblas_destroy(hipblasHandle_t *handle)
 }
 
 /****************************************************************************/
-extern "C" int hipblas_dgemm(hipblasHandle_t *handle, char transa, char transb,
-                 int m, int n, int k,
-           int a_offset, int b_offset, int c_offset,
-           double *a_data, double *b_data, double *c_data,
-           double alpha, double beta, hipStream_t *stream)
+int acc_blas_dgemm(hipblasHandle_t *handle, char transa, char transb,
+                   int m, int n, int k,
+                   int a_offset, int b_offset, int c_offset,
+                   const double *a_data, const double *b_data, double *c_data,
+                   double alpha, double beta, hipStream_t *stream)
 {
   hipblasStatus_t cStatus = hipblasSetStream(*handle, *stream);
   if (cStatus != HIPBLAS_STATUS_SUCCESS) {

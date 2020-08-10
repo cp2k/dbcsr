@@ -12,11 +12,13 @@
 
 #include <hip/hip_runtime.h>
 #include <hip/hip_runtime_api.h>
+#include <hipblas.h>
 #include <hip/hiprtc.h>
 
 
 #define ACC(x) hip##x
 #define ACC_DRV(x) ACC(x)
+#define ACC_BLAS(x) hipblas##x
 #define ACC_RTC(x) hiprtc##x
 #define BACKEND "HIP"
 
