@@ -12,11 +12,12 @@
 
 #include <hip/hip_runtime.h>
 #include <hip/hip_runtime_api.h>
+#include <hipblas.h>
 #include <hip/hiprtc.h>
-
 
 #define ACC(x) hip##x
 #define ACC_DRV(x) ACC(x)
+#define ACC_BLAS(x) hipblas##x
 #define ACC_RTC(x) hiprtc##x
 #define BACKEND "HIP"
 
@@ -48,6 +49,38 @@
     }                                                             \
   } while(0)
 
+/* Wrap calls to HIPBLAS API */
+#define ACC_BLAS_CALL(func, args)                                 \
+  do {                                                            \
+    hipblasStatus_t result = ACC_BLAS(func) args;                 \
+    if (result != HIPBLAS_STATUS_SUCCESS) {                       \
+      char* error_name = "HIPBLAS_ERRROR";                        \
+      if (result == HIPBLAS_STATUS_NOT_INITIALIZED){              \
+        error_name = "HIPBLAS_STATUS_NOT_INITIALIZED ";           \
+      } else if (result == HIPBLAS_STATUS_ALLOC_FAILED){          \
+        error_name = "HIPBLAS_STATUS_ALLOC_FAILED ";              \
+      } else if (result == HIPBLAS_STATUS_INVALID_VALUE){         \
+        error_name = "HIPBLAS_STATUS_INVALID_VALUE ";             \
+      } else if (result == HIPBLAS_STATUS_MAPPING_ERROR){         \
+        error_name = "HIPBLAS_STATUS_MAPPING_ERROR ";             \
+      } else if (result == HIPBLAS_STATUS_EXECUTION_FAILED){      \
+        error_name = "HIPBLAS_STATUS_EXECUTION_FAILED ";          \
+      } else if (result == HIPBLAS_STATUS_INTERNAL_ERROR){        \
+        error_name = "HIPBLAS_STATUS_INTERNAL_ERROR ";            \
+      } else if (result == HIPBLAS_STATUS_NOT_SUPPORTED){         \
+        error_name = "HIPBLAS_STATUS_NOT_SUPPORTED ";             \
+      } else if (result == HIPBLAS_STATUS_ARCH_MISMATCH){         \
+        error_name = "HIPBLAS_STATUS_ARCH_MISMATCH ";             \
+      } else if (result == HIPBLAS_STATUS_HANDLE_IS_NULLPTR){     \
+        error_name = "HIPBLAS_STATUS_HANDLE_IS_NULLPTR ";         \
+      }                                                           \
+      printf("\nHIPBLAS ERROR: %s failed with error %s\n",        \
+             #func, error_name);                                  \
+      exit(1);                                                    \
+    }                                                             \
+  } while(0)
+
+extern hipError_t hipHostAlloc(void **ptr, size_t size, unsigned int flags);
 extern hipError_t hipHostAlloc(void **ptr, size_t size, unsigned int flags);
 extern unsigned int hipHostAllocDefault;
 extern hipError_t hipFreeHost(void *ptr);
@@ -70,5 +103,10 @@ using hipmodule = hipModule_t;
 using hipdevice = hipDevice_t;
 using hipDeviceProp = hipDeviceProp_t;
 using hipcontext = hipCtx_t;
+
+/* HIPBLAS status and operations */
+extern hipblasStatus_t ACC_BLAS_STATUS_SUCCESS;
+extern hipblasOperation_t ACC_BLAS_OP_N;
+extern hipblasOperation_t ACC_BLAS_OP_T;
 
 #endif /*ACC_HIP_H*/

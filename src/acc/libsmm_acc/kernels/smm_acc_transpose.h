@@ -35,7 +35,7 @@
  *     mat is column major: m = number of rows, n = number of columns
 
  * Algorithm specificities:
- * - the temporary buffer (of size m * n * 8 bytes) in which matrix elements are stored has to fit entirely into shared memory. Therefore, this kernel cannot be run for mattrix sizes such that m * n * 8 bytes > available shared memory per block.
+ * - the temporary buffer (of size m * n * 8 bytes) in which matrix elements are stored has to fit entirely into shared memory. Therefore, this kernel cannot be run for matrix sizes such that m * n * 8 bytes > available shared memory per block.
  */
 
 template <int m, int n>

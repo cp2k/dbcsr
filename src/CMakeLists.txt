@@ -8,7 +8,6 @@ include(CMakePackageConfigHelpers)
 # SOURCE FILE LISTS
 add_fypp_sources(DBCSR_SRCS
   dbcsr_api.F
-  acc/cublaswrap/dbcsr_cublas.F
   acc/cuda/dbcsr_cuda_profiling.F
   acc/dbcsr_acc_device.F
   acc/dbcsr_acc_devmem.F
@@ -17,7 +16,7 @@ add_fypp_sources(DBCSR_SRCS
   acc/dbcsr_acc_init.F
   acc/dbcsr_acc_stream.F
   acc/dbcsr_acc_timings.F
-  acc/hipblaswrap/dbcsr_hipblas.F
+  acc/hip/dbcsr_hipblas.F
   base/dbcsr_base_hooks.F
   base/dbcsr_kinds.F
   base/dbcsr_machine.F
@@ -107,20 +106,20 @@ add_fypp_sources(DBCSR_SRCS
   )
 
 set(DBCSR_CUDA_SRCS
+  acc/cuda/acc_cublas.cu
   acc/cuda/acc_cuda.cpp
-  acc/cuda/dbcsr_cuda_nvtx_cu.cu
-  acc/cublaswrap/cublas.cu
   acc/cuda/acc_dev.cpp
   acc/cuda/acc_error.cpp
   acc/cuda/acc_event.cpp
   acc/cuda/acc_init.cpp
   acc/cuda/acc_mem.cpp
   acc/cuda/acc_stream.cpp
+  acc/cuda/dbcsr_cuda_nvtx_cu.cu
   )
 
 set(DBCSR_HIP_SRCS
   acc/hip/acc_hip.cpp
-  acc/hipblaswrap/hipblas.cpp
+  acc/cuda/acc_cublas.cu
   acc/cuda/acc_dev.cpp
   acc/cuda/acc_error.cpp
   acc/cuda/acc_event.cpp
@@ -283,7 +282,6 @@ if (USE_HIP)
 
   # add libsmm_acc which has its own CMakeLists.txt due to code generation
   add_subdirectory(acc/libsmm_acc)
-  include_directories(${HIP_PATH}/../include)
   target_link_libraries(dbcsr PUBLIC libsmm_acc)
   target_link_libraries(dbcsr PUBLIC ${ROCM_HIPRTC_LIB})
 
@@ -293,9 +291,11 @@ if (USE_HIP)
   # Compile the rest of the HIP source files into a static library
   set_source_files_properties(${DBCSR_ACC_SRCS} PROPERTIES HIP_SOURCE_PROPERTY_FORMAT 1)
   hip_add_library(acc STATIC ${DBCSR_ACC_SRCS})
+  target_include_directories(acc PRIVATE ${HIP_PATH}/../include)
   target_compile_definitions(acc PRIVATE ARCH_NUMBER=${ACC_ARCH_NUMBER})
   target_compile_definitions(acc PRIVATE __HIP)
   target_compile_options(acc PRIVATE "-fPIC")
+  target_link_libraries(acc PUBLIC ${HIPBLAS})
   target_link_libraries(dbcsr PUBLIC acc)
   install(TARGETS acc
     EXPORT accTargets
@@ -313,7 +313,6 @@ if (USE_HIP)
     )
 
   target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC)
-  target_link_libraries(dbcsr PRIVATE ${HIPBLAS})
   target_compile_definitions(dbcsr PRIVATE __HIP)
 
 endif ()

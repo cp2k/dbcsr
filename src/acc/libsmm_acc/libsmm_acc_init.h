@@ -10,12 +10,20 @@
 #ifndef LIBSMM_ACC_INIT_H
 #define LIBSMM_ACC_INIT_H
 
-int libsmm_acc_init (void);
+#include "../cuda/acc_blas.h"
+
+#include <vector>
+
+extern "C" int libsmm_acc_init (void);
+
+int libsmm_acc_gpu_blas_init();
 
 int libsmm_acc_check_gpu_warp_size_consistency (void);
 
 int acc_get_gpu_warp_size (void);
 
-int libsmm_acc_is_thread_safe (void);
+extern "C" int libsmm_acc_is_thread_safe (void);
+
+extern std::vector<ACC_BLAS(Handle_t)*> acc_blashandles;
 
 #endif /*LIBSMM_ACC_INIT_H*/
