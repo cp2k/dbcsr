@@ -156,6 +156,7 @@ smm_acc_dnt_medium(const int* __restrict__ param_stack, int stack_size,
   psp = bidx * npar * grouping;
 #pragma unroll 3
   for (int i = tidx; i < nrun; i += threads){
+    // param_stack is 1-based, convert to 0-based here
     param_stack_s[i * npar    ] = __ldg(&param_stack[psp + i * npar    ]) - 1; /* value = index in a_data */
     param_stack_s[i * npar + 1] = __ldg(&param_stack[psp + i * npar + 1]) - 1; /* value = index in b_data */
     param_stack_s[i * npar + 2] = __ldg(&param_stack[psp + i * npar + 2]) - 1; /* value = index in c_data */
