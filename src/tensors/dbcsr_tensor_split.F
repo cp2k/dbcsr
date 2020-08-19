@@ -42,7 +42,8 @@ MODULE dbcsr_tensor_split
                                  dbcsr_t_blk_sizes, &
                                  ndims_matrix_row, &
                                  ndims_matrix_column, &
-                                 dbcsr_t_filter
+                                 dbcsr_t_filter, &
+                                 dbcsr_t_copy_contraction_storage
    USE dbcsr_api, ONLY: ${uselist(dtype_float_param)}$
    USE dbcsr_kinds, ONLY: ${uselist(dtype_float_prec)}$, dp
 
@@ -690,10 +691,7 @@ CONTAINS
       IF (move_data_prv) CALL dbcsr_t_clear(tensor_in)
 
       ! transfer data for batched contraction
-      IF (tensor_in%matrix_rep%do_batched > 0) THEN
-         ALLOCATE (tensor_out%matrix_rep%mm_storage, SOURCE=tensor_in%matrix_rep%mm_storage)
-         tensor_out%matrix_rep%do_batched = tensor_in%matrix_rep%do_batched
-      ENDIF
+      CALL dbcsr_t_copy_contraction_storage(tensor_in, tensor_out)
 
    END SUBROUTINE
 

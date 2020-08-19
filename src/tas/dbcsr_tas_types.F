@@ -28,7 +28,8 @@ MODULE dbcsr_tas_types
       dbcsr_tas_distribution_type, &
       dbcsr_tas_iterator, &
       dbcsr_tas_split_info, &
-      dbcsr_tas_type
+      dbcsr_tas_type, &
+      dbcsr_tas_mm_storage
 
    ! info on MPI Cartesian grid that is split on MPI subgroups.
    ! info on distribution of matrix rows / columns to different subgroups.
@@ -41,7 +42,9 @@ MODULE dbcsr_tas_types
       INTEGER :: pgrid_split_size ! how many process rows/cols in subgroups
       INTEGER :: group_size ! group size (how many cores) of subgroups
       INTEGER :: mp_comm_group ! sub communicator
-      LOGICAL :: strict_split = .FALSE. ! if .true., split factor should not be modified (for testing only)
+      INTEGER, ALLOCATABLE :: ngroup_opt ! optimal number of groups (split factor)
+      LOGICAL, DIMENSION(2) :: strict_split = [.FALSE., .FALSE.]
+      ! if .true., split factor should not be modified (2 parameters for current and general settings)
       INTEGER, POINTER :: refcount => NULL() ! lightweight reference counting for communicators
    END TYPE
 
@@ -77,12 +80,9 @@ MODULE dbcsr_tas_types
       LOGICAL :: valid = .FALSE. ! has been created?
 
       ! storage and flags for batched matrix multiplication
-      INTEGER :: do_batched = 0 ! whether we are doing batched MM:
-      ! - 0 no batched MM
-      ! - 1 batched MM but mm_storage not yet initialized
-      ! - 2 batched MM and mm_storage initialized
+      INTEGER :: do_batched = 0 ! state flag for batched multiplication
       TYPE(dbcsr_tas_mm_storage), ALLOCATABLE :: mm_storage ! storage for batched processing of matrix matrix multiplication.
-
+      LOGICAL :: has_opt_pgrid = .FALSE. ! whether pgrid was automatically optimized
    END TYPE
 
    TYPE dbcsr_tas_iterator

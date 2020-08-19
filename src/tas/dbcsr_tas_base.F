@@ -85,6 +85,8 @@ MODULE dbcsr_tas_base
       dbcsr_tas_nblkcols_total, &
       dbcsr_tas_nblkrows_local, &
       dbcsr_tas_nblkrows_total, &
+      dbcsr_tas_nfullrows_total, &
+      dbcsr_tas_nfullcols_total, &
       dbcsr_tas_put_block, &
       dbcsr_tas_reserve_blocks, &
       dbcsr_tas_set, &
