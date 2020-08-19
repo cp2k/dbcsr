@@ -473,11 +473,12 @@ CONTAINS
 
    END SUBROUTINE
 
-   SUBROUTINE dbcsr_tas_merge(matrix_out, matrix_in, move_data)
+   SUBROUTINE dbcsr_tas_merge(matrix_out, matrix_in, summation, move_data)
       !! Merge submatrices of matrix_in to matrix_out by sum
 
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_out
       TYPE(dbcsr_tas_type), INTENT(INOUT)                  :: matrix_in
+      LOGICAL, INTENT(IN), OPTIONAL                      :: summation
       LOGICAL, INTENT(IN), OPTIONAL                      :: move_data
          !! memory optimization: move data to matrix_out such that matrix_in is empty on return
 
@@ -500,7 +501,11 @@ CONTAINS
 
       CALL timeset(routineN, handle)
 
-      CALL dbcsr_clear(matrix_out)
+      IF (PRESENT(summation)) THEN
+         IF (.NOT. summation) CALL dbcsr_clear(matrix_out)
+      ELSE
+         CALL dbcsr_clear(matrix_out)
+      ENDIF
 
       IF (PRESENT(move_data)) THEN
          move_prv = move_data

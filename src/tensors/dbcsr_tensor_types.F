@@ -31,14 +31,15 @@ MODULE dbcsr_tensor_types
       dbcsr_tas_get_num_blocks, dbcsr_tas_get_num_blocks_total, dbcsr_tas_get_data_size, dbcsr_tas_get_nze, &
       dbcsr_tas_get_nze_total, dbcsr_tas_clear, dbcsr_tas_get_data_type
    USE dbcsr_tas_types, ONLY: &
-      dbcsr_tas_type, dbcsr_tas_distribution_type, dbcsr_tas_split_info
+      dbcsr_tas_type, dbcsr_tas_distribution_type, dbcsr_tas_split_info, dbcsr_tas_mm_storage
+   USE dbcsr_tas_mm, ONLY: dbcsr_tas_set_batched_state
    USE dbcsr_tensor_index, ONLY: &
       get_2d_indices_tensor, get_nd_indices_pgrid, create_nd_to_2d_mapping, destroy_nd_to_2d_mapping, &
       dbcsr_t_get_mapping_info, nd_to_2d_mapping, split_tensor_index, combine_tensor_index, combine_pgrid_index, &
       split_pgrid_index, ndims_mapping, ndims_mapping_row, ndims_mapping_column
    USE dbcsr_tas_split, ONLY: &
       dbcsr_tas_create_split_rows_or_cols, dbcsr_tas_release_info, dbcsr_tas_info_hold, &
-      dbcsr_tas_create_split, dbcsr_tas_get_split_info
+      dbcsr_tas_create_split, dbcsr_tas_get_split_info, dbcsr_tas_set_strict_split
    USE dbcsr_kinds, ONLY: default_string_length, int_8, dp
    USE dbcsr_mpiwrap, ONLY: &
       mp_cart_create, mp_cart_rank, mp_environ, mp_dims_create, mp_comm_free, mp_comm_dup, mp_sum, mp_max
@@ -84,6 +85,7 @@ MODULE dbcsr_tensor_types
       dbcsr_t_pgrid_create_expert, &
       dbcsr_t_pgrid_destroy, &
       dbcsr_t_pgrid_type, &
+      dbcsr_t_pgrid_set_strict_split, &
       dbcsr_t_scale, &
       dbcsr_t_set, &
       dbcsr_t_type, &
@@ -96,13 +98,22 @@ MODULE dbcsr_tensor_types
       dbcsr_t_nblks_total, &
       dbcsr_t_blk_size, &
       dbcsr_t_max_nblks_local, &
-      dbcsr_t_default_distvec
+      dbcsr_t_default_distvec, &
+      dbcsr_t_contraction_storage, &
+      dbcsr_t_copy_contraction_storage
 
    TYPE dbcsr_t_pgrid_type
       TYPE(nd_to_2d_mapping)                  :: nd_index_grid
       INTEGER                                 :: mp_comm_2d
       TYPE(dbcsr_tas_split_info), ALLOCATABLE :: tas_split_info
       INTEGER                                 :: nproc
+   END TYPE
+
+   TYPE dbcsr_t_contraction_storage
+      REAL(real_8) :: nsplit_avg
+      INTEGER :: ibatch
+      TYPE(array_list) :: batch_ranges
+      LOGICAL :: static
    END TYPE
 
    TYPE dbcsr_t_type
@@ -121,6 +132,7 @@ MODULE dbcsr_tensor_types
       CHARACTER(LEN=default_string_length) :: name
       ! lightweight reference counting for communicators:
       INTEGER, POINTER                     :: refcount => NULL()
+      TYPE(dbcsr_t_contraction_storage), ALLOCATABLE :: contraction_storage
    END TYPE dbcsr_t_type
 
    TYPE dbcsr_t_distribution_type
@@ -359,7 +371,8 @@ CONTAINS
 
    END FUNCTION
 
-   FUNCTION dbcsr_t_nd_mp_comm(comm_2d, map1_2d, map2_2d, dims_nd, dims1_nd, dims2_nd, pdims_2d, tdims)
+   FUNCTION dbcsr_t_nd_mp_comm(comm_2d, map1_2d, map2_2d, dims_nd, dims1_nd, dims2_nd, pdims_2d, tdims, &
+                               nsplit, dimsplit)
       !! Create a default nd process topology that is consistent with a given 2d topology.
       !! Purpose: a nd tensor defined on the returned process grid can be represented as a DBCSR
       !! matrix with the given 2d topology.
@@ -383,6 +396,7 @@ CONTAINS
          !! tensor block dimensions. If present, process grid dimensions are created such that good
          !! load balancing is ensured even if some of the tensor dimensions are small (i.e. on the same order
          !! or smaller than nproc**(1/ndim) where ndim is the tensor rank)
+      INTEGER, INTENT(IN), OPTIONAL :: nsplit, dimsplit
       INTEGER                                           :: ndim1, ndim2
       INTEGER                                           :: numtask
       INTEGER, DIMENSION(2)                             :: dims_2d, task_coor
@@ -436,7 +450,7 @@ CONTAINS
       ENDIF
 
       CALL dbcsr_t_pgrid_create_expert(comm_2d, dims_nd_prv, dbcsr_t_nd_mp_comm, &
-                                       tensor_dims=tdims, map1_2d=map1_2d, map2_2d=map2_2d)
+                                       tensor_dims=tdims, map1_2d=map1_2d, map2_2d=map2_2d, nsplit=nsplit, dimsplit=dimsplit)
 
       CALL timestop(handle)
 
@@ -643,6 +657,8 @@ CONTAINS
          CALL dbcsr_tas_distribution_new(dist%dist, comm_2d, row_dist_obj, col_dist_obj, split_info=pgrid_prv%tas_split_info)
       ELSE
          CALL dbcsr_tas_distribution_new(dist%dist, comm_2d, row_dist_obj, col_dist_obj)
+         ALLOCATE (pgrid_prv%tas_split_info, SOURCE=dist%dist%info)
+         CALL dbcsr_tas_info_hold(pgrid_prv%tas_split_info)
       ENDIF
 
       dist%nd_dist = nd_dist
@@ -1241,6 +1257,12 @@ CONTAINS
       ENDIF
    END SUBROUTINE
 
+   SUBROUTINE dbcsr_t_pgrid_set_strict_split(pgrid)
+      !! freeze current split factor such that it is never changed during contraction
+      TYPE(dbcsr_t_pgrid_type), INTENT(INOUT) :: pgrid
+      IF (ALLOCATED(pgrid%tas_split_info)) CALL dbcsr_tas_set_strict_split(pgrid%tas_split_info)
+   END SUBROUTINE
+
    SUBROUTINE dbcsr_t_pgrid_remap(pgrid_in, map1_2d, map2_2d, pgrid_out)
       !! remap a process grid (needed when mapping between tensor and matrix index is changed)
 
@@ -1573,6 +1595,28 @@ CONTAINS
          !! distribution
 
       CALL dbcsr_tas_default_distvec(nblk, nproc, blk_size, dist)
+
+   END SUBROUTINE
+
+   SUBROUTINE dbcsr_t_copy_contraction_storage(tensor_in, tensor_out)
+      TYPE(dbcsr_t_type), INTENT(IN) :: tensor_in
+      TYPE(dbcsr_t_type), INTENT(INOUT) :: tensor_out
+      TYPE(dbcsr_t_contraction_storage), ALLOCATABLE :: tensor_storage_tmp
+      TYPE(dbcsr_tas_mm_storage), ALLOCATABLE :: tas_storage_tmp
+
+      IF (tensor_in%matrix_rep%do_batched > 0) THEN
+         ALLOCATE (tas_storage_tmp, SOURCE=tensor_in%matrix_rep%mm_storage)
+         ! transfer data for batched contraction
+         IF (ALLOCATED(tensor_out%matrix_rep%mm_storage)) DEALLOCATE (tensor_out%matrix_rep%mm_storage)
+         CALL move_alloc(tas_storage_tmp, tensor_out%matrix_rep%mm_storage)
+      ENDIF
+      CALL dbcsr_tas_set_batched_state(tensor_out%matrix_rep, state=tensor_in%matrix_rep%do_batched, &
+                                       opt_grid=tensor_in%matrix_rep%has_opt_pgrid)
+      IF (ALLOCATED(tensor_in%contraction_storage)) THEN
+         ALLOCATE (tensor_storage_tmp, SOURCE=tensor_in%contraction_storage)
+      ENDIF
+      IF (ALLOCATED(tensor_out%contraction_storage)) DEALLOCATE (tensor_out%contraction_storage)
+      IF (ALLOCATED(tensor_storage_tmp)) CALL move_alloc(tensor_storage_tmp, tensor_out%contraction_storage)
 
    END SUBROUTINE
 
