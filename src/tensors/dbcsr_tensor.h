@@ -58,18 +58,20 @@ extern "C" {
      void c_dbcsr_t_put_${ndim}$d_block_${dsuffix}$ (const void* c_tensor, const int tensor_dim, const int* c_ind, const int*c_sizes,
         const ${ctype}$* c_block, const bool* c_summation, const ${ctype}$* c_scale);
         
-      void c_dbcsr_t_get_data_${dsuffix}$ (const void* c_tensor, ${ctype}$** c_data, long long int* c_data_size, 
-		${ctype}$ c_select_data_type, int* c_lb, int* c_ub);
-
+      void c_dbcsr_t_get_${ndim}$d_block_p_${dsuffix}$ (const void* c_tensor, const int* c_ind, 
+        ${ctype}$** c_block, bool* c_found);
+        
 #:endfor
 
-     void c_dbcsr_t_contract_${dsuffix}$ (
-       const ${ctype}$ c_alpha,
-       void* c_tensor_1,
-       void* c_tensor_2,
-       const ${ctype}$ c_beta,
-       void* c_tensor_3,
-       const int* c_contract_1, const int c_contract_1_size,
+      void c_dbcsr_t_get_data_${dsuffix}$ (const void* c_tensor, ${ctype}$** c_data, long long int* c_data_size, 
+		${ctype}$ c_select_data_type, int* c_lb, int* c_ub);
+     void c_dbcsr_t_contract_${dsuffix}$ (	
+	    const ${ctype}$ c_alpha, 
+	    void* c_tensor_1, 
+	    void* c_tensor_2, 
+	    const ${ctype}$ c_beta, 
+	    void* c_tensor_3, 
+	    const int* c_contract_1, const int c_contract_1_size,
         const int* c_notcontract_1, const int c_notcontract_1_size,
         const int* c_contract_2, const int c_contract_2_size,
         const int* c_notcontract_2, const int c_notcontract_2_size,
@@ -120,8 +122,8 @@ extern "C" {
 #:endfor
 
 
-     void c_dbcsr_t_get_stored_coordinates(const void* c_tensor, const int tensor_dim, int* c_ind_nd, int* c_processor);
-
+     void c_dbcsr_t_get_stored_coordinates(const void* c_tensor, const int tensor_dim, const int* c_ind_nd, int* c_processor);
+   
      void c_dbcsr_t_reserve_blocks_index(const void* c_tensor, const int nblocks, ${varlist("const int* c_blk_ind")}$);
 
      void c_dbcsr_t_reserve_blocks_template(const void* c_tensor_in, const void* tensor_out);
@@ -225,6 +227,22 @@ inline void c_dbcsr_t_get_block(const void* c_tensor, const int* c_ind, const in
    }
 
 }
+
+inline void c_dbcsr_t_get_block_p(const void* c_tensor, const int* c_ind, 
+	${ctype}$** c_block, bool* c_found) {
+			
+	int tensor_dim = c_dbcsr_t_ndims(c_tensor);
+	
+	switch(tensor_dim) {
+		#:for ndim in ndims
+		case ${ndim}$: c_dbcsr_t_get_${ndim}$d_block_p_${dsuffix}$ (c_tensor,
+		c_ind, c_block, c_found);
+		break;
+		#:endfor
+	}
+	
+}
+
 #:endfor
 
 #:for dsuffix, ctype in c_dtype_float_list
@@ -244,11 +262,11 @@ inline void c_dbcsr_t_put_block(const void* c_tensor, const int* c_ind, const in
 }
 #:endfor
 
-inline void c_dbcsr_t_get_stored_coordinates(const void* c_tensor, int* c_ind_nd, int* c_processor) {
-
-   int tensor_dim = c_dbcsr_t_ndims(c_tensor);
-   c_dbcsr_t_get_stored_coordinates(c_tensor, tensor_dim, c_ind_nd, c_processor);
-
+inline void c_dbcsr_t_get_stored_coordinates(const void* c_tensor, const int* c_ind_nd, int* c_processor) {
+	
+	int tensor_dim = c_dbcsr_t_ndims(c_tensor);
+	c_dbcsr_t_get_stored_coordinates(c_tensor, tensor_dim, c_ind_nd, c_processor);
+	
 }
 
 inline void c_dbcsr_t_iterator_next_block(const void* c_iterator, int* c_ind_nd,
