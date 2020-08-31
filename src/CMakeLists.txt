@@ -196,6 +196,13 @@ if (MPI_FOUND)
 endif ()
 
 # =================================================================================================
+# Link OpenMP runtime library even if DBCSR main code is not built with OpenMP
+
+if (OpenMP_FOUND)
+  target_link_libraries(dbcsr PRIVATE OpenMP::OpenMP_Fortran)
+endif ()
+
+# =================================================================================================
 # DBCSR LIBRARY's CUDA BACKEND
 
 # adapted from https://cliutils.gitlab.io/modern-cmake/chapters/packages/CUDA.html:
