@@ -21,7 +21,7 @@
 #include <array>
 #include <iostream>
 
-#if defined _OPENMP
+#if defined(_OPENMP)
 #include <omp.h>
 #endif
 

@@ -106,24 +106,27 @@ add_fypp_sources(DBCSR_SRCS
   work/dbcsr_work_operations.F
   )
 
-set(DBCSR_ACC_SRCS
-  acc/acc_dev.cpp
-  acc/acc_error.cpp
-  acc/acc_event.cpp
-  acc/acc_init.cpp
-  acc/acc_mem.cpp
-  acc/acc_stream.cpp
-  )
-
 set(DBCSR_CUDA_SRCS
   acc/cuda/acc_cuda.cpp
   acc/cuda/dbcsr_cuda_nvtx_cu.cu
   acc/cublaswrap/cublas.cu
+  acc/cuda/acc_dev.cpp
+  acc/cuda/acc_error.cpp
+  acc/cuda/acc_event.cpp
+  acc/cuda/acc_init.cpp
+  acc/cuda/acc_mem.cpp
+  acc/cuda/acc_stream.cpp
   )
 
 set(DBCSR_HIP_SRCS
   acc/hip/acc_hip.cpp
   acc/hipblaswrap/hipblas.cpp
+  acc/cuda/acc_dev.cpp
+  acc/cuda/acc_error.cpp
+  acc/cuda/acc_event.cpp
+  acc/cuda/acc_init.cpp
+  acc/cuda/acc_mem.cpp
+  acc/cuda/acc_stream.cpp
   )
 
 # set the __SHORT_FILE__ per file for dbcsr sources
@@ -193,13 +196,6 @@ if (MPI_FOUND)
 endif ()
 
 # =================================================================================================
-# DBCSR's OpenMP/offload backend
-
-if (OpenMP_FOUND)
-  target_link_libraries(dbcsr PRIVATE OpenMP::OpenMP_Fortran)
-endif ()
-
-# =================================================================================================
 # DBCSR LIBRARY's CUDA BACKEND
 
 # adapted from https://cliutils.gitlab.io/modern-cmake/chapters/packages/CUDA.html:
@@ -243,7 +239,7 @@ if (USE_CUDA)
   target_link_libraries(dbcsr PRIVATE nvrtc)
 
   # Complete list of GPU-support sources
-  set(DBCSR_ACC_SRCS ${DBCSR_ACC_SRCS} ${DBCSR_CUDA_SRCS})
+  set(DBCSR_ACC_SRCS ${DBCSR_CUDA_SRCS})
 
   # Make an object library
   add_library(acc OBJECT ${DBCSR_ACC_SRCS})
@@ -284,7 +280,7 @@ if (USE_HIP)
   target_link_libraries(dbcsr PUBLIC ${ROCM_HIPRTC_LIB})
 
   # Complete list of GPU-support sources
-  set(DBCSR_ACC_SRCS ${DBCSR_ACC_SRCS} ${DBCSR_HIP_SRCS})
+  set(DBCSR_ACC_SRCS ${DBCSR_HIP_SRCS})
 
   # Compile the rest of the HIP source files into a static library
   set_source_files_properties(${DBCSR_ACC_SRCS} PROPERTIES HIP_SOURCE_PROPERTY_FORMAT 1)

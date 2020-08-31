@@ -9,7 +9,7 @@
 
 #include <stdio.h>
 #include "cublas_v2.h"
-#include "../acc_error.h"
+#include "../cuda/acc_error.h"
 
 
 /****************************************************************************/

@@ -11,7 +11,7 @@
 #include "libsmm_acc_init.h"
 #include "parameters.h"
 
-#if defined _OPENMP
+#if defined(_OPENMP)
 #include <omp.h>
 #endif
 
@@ -41,7 +41,7 @@ int acc_get_gpu_warp_size() {
 
 //===========================================================================
 extern "C" int libsmm_acc_is_thread_safe() {
-#if defined _OPENMP
+#if defined(_OPENMP)
     return 1;  // i.e. true, libsmm_acc is threaded
 #else
     return 0;  // i.e. false, libsmm_acc is not threaded
