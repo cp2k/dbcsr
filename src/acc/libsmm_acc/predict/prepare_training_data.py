@@ -41,9 +41,6 @@ def update_maximums(dictionnary_to_update, dictionnary_partial):
 
 # ===============================================================================
 def get_idx_baseline(data_mnk, algorithm, baseline_pars):
-    """
-
-    """
     if algorithm in ["tiny"]:
         idx_baseline = data_mnk[
             (data_mnk.m == baseline_pars["m"])
