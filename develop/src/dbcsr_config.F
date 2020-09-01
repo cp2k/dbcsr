@@ -256,7 +256,7 @@ CONTAINS
             IF (.NOT. has_xsmm) DBCSR_ABORT("Support for libxsmm not compiled in.")
             dbcsr_cfg%mm_driver = mm_driver_xsmm
          ELSE
-            DBCSR_ABORT("Unkown MM driver: "//TRIM(mm_driver))
+            DBCSR_ABORT("Unknown MM driver: "//TRIM(mm_driver))
          ENDIF
       ENDIF
 
@@ -351,7 +351,7 @@ CONTAINS
          CASE (mm_driver_smm); mm_name = mm_name_smm
          CASE (mm_driver_xsmm); mm_name = mm_name_xsmm
          CASE DEFAULT
-            DBCSR_ABORT("Unkown MM driver")
+            DBCSR_ABORT("Unknown MM driver")
          END SELECT
          WRITE (UNIT=unit_nr, FMT='(1X,A,T41,A40)') &
             "DBCSR| CPU Multiplication driver", ADJUSTR(mm_name(1:40))

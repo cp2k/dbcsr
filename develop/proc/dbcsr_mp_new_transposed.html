@@ -324,8 +324,6 @@ public subroutine dbcsr_mp_new_transposed(mp_t, mp)
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                     <span class="kd">::</span> <span class="n">mp</span>
          <span class="c">!! original multiprocessor environment</span>
 
-<span class="c">!   ---------------------------------------------------------------------------</span>
-
       <span class="k">CALL </span><span class="n">dbcsr_mp_new</span><span class="p">(</span><span class="n">mp_t</span><span class="p">,</span> <span class="n">dbcsr_mp_group</span><span class="p">(</span><span class="n">mp</span><span class="p">),</span> <span class="p">&amp;</span>
                         <span class="nb">TRANSPOSE</span><span class="p">(</span><span class="n">dbcsr_mp_pgrid</span><span class="p">(</span><span class="n">mp</span><span class="p">)),</span> <span class="p">&amp;</span>
                         <span class="n">dbcsr_mp_mynode</span><span class="p">(</span><span class="n">mp</span><span class="p">),</span> <span class="n">dbcsr_mp_numnodes</span><span class="p">(</span><span class="n">mp</span><span class="p">),</span> <span class="p">&amp;</span>

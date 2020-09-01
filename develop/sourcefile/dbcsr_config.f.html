@@ -514,7 +514,7 @@
 <a name="ln-256"></a><span class="k">            IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">has_xsmm</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Support for libxsmm not compiled in.&quot;</span><span class="p">)</span>
 <a name="ln-257"></a>            <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_driver</span> <span class="o">=</span> <span class="n">mm_driver_xsmm</span>
 <a name="ln-258"></a>         <span class="k">ELSE</span>
-<a name="ln-259"></a><span class="k">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Unkown MM driver: &quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">))</span>
+<a name="ln-259"></a><span class="k">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Unknown MM driver: &quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">))</span>
 <a name="ln-260"></a>         <span class="n">ENDIF</span>
 <a name="ln-261"></a>      <span class="n">ENDIF</span>
 <a name="ln-262"></a>
@@ -609,7 +609,7 @@
 <a name="ln-351"></a>         <span class="k">CASE</span> <span class="p">(</span><span class="n">mm_driver_smm</span><span class="p">);</span> <span class="n">mm_name</span> <span class="o">=</span> <span class="n">mm_name_smm</span>
 <a name="ln-352"></a>         <span class="k">CASE</span> <span class="p">(</span><span class="n">mm_driver_xsmm</span><span class="p">);</span> <span class="n">mm_name</span> <span class="o">=</span> <span class="n">mm_name_xsmm</span>
 <a name="ln-353"></a>         <span class="k">CASE </span><span class="n">DEFAULT</span>
-<a name="ln-354"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Unkown MM driver&quot;</span><span class="p">)</span>
+<a name="ln-354"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Unknown MM driver&quot;</span><span class="p">)</span>
 <a name="ln-355"></a>         <span class="k">END SELECT</span>
 <a name="ln-356"></a><span class="k">         WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T41,A40)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-357"></a>            <span class="s2">&quot;DBCSR| CPU Multiplication driver&quot;</span><span class="p">,</span> <span class="nb">ADJUSTR</span><span class="p">(</span><span class="n">mm_name</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">40</span><span class="p">))</span>

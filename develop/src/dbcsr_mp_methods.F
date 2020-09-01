@@ -268,8 +268,6 @@ CONTAINS
       TYPE(dbcsr_mp_obj), INTENT(INOUT)                  :: mp_env
          !! multiprocessor environment
 
-!   ---------------------------------------------------------------------------
-
       mp_env%mp%refcount = mp_env%mp%refcount + 1
    END SUBROUTINE dbcsr_mp_hold
 
@@ -287,60 +285,70 @@ CONTAINS
 
       pgrid => mp_env%mp%pgrid
    END FUNCTION dbcsr_mp_pgrid
+
    PURE FUNCTION dbcsr_mp_numnodes(mp_env) RESULT(numnodes)
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER                                            :: numnodes
 
       numnodes = mp_env%mp%numnodes
    END FUNCTION dbcsr_mp_numnodes
+
    PURE FUNCTION dbcsr_mp_mynode(mp_env) RESULT(mynode)
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER                                            :: mynode
 
       mynode = mp_env%mp%mynode
    END FUNCTION dbcsr_mp_mynode
+
    PURE FUNCTION dbcsr_mp_group(mp_env) RESULT(mp_group)
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER                                            :: mp_group
 
       mp_group = mp_env%mp%mp_group
    END FUNCTION dbcsr_mp_group
+
    PURE FUNCTION dbcsr_mp_nprows(mp_env) RESULT(nprows)
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER                                            :: nprows
 
       nprows = SIZE(mp_env%mp%pgrid, 1)
    END FUNCTION dbcsr_mp_nprows
+
    PURE FUNCTION dbcsr_mp_npcols(mp_env) RESULT(npcols)
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER                                            :: npcols
 
       npcols = SIZE(mp_env%mp%pgrid, 2)
    END FUNCTION dbcsr_mp_npcols
+
    PURE FUNCTION dbcsr_mp_myprow(mp_env) RESULT(myprow)
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER                                            :: myprow
 
       myprow = mp_env%mp%myprow
    END FUNCTION dbcsr_mp_myprow
+
    PURE FUNCTION dbcsr_mp_mypcol(mp_env) RESULT(mypcol)
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER                                            :: mypcol
 
       mypcol = mp_env%mp%mypcol
    END FUNCTION dbcsr_mp_mypcol
+
    PURE FUNCTION dbcsr_mp_has_subgroups(mp_env) RESULT(has_subgroups)
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       LOGICAL                                            :: has_subgroups
 
       has_subgroups = mp_env%mp%subgroups_defined
    END FUNCTION dbcsr_mp_has_subgroups
+
    PURE FUNCTION dbcsr_mp_my_row_group(mp_env) RESULT(row_group)
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER                                            :: row_group
 
       row_group = mp_env%mp%prow_group
    END FUNCTION dbcsr_mp_my_row_group
+
    PURE FUNCTION dbcsr_mp_my_col_group(mp_env) RESULT(col_group)
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       INTEGER                                            :: col_group
@@ -355,8 +363,6 @@ CONTAINS
          !! transposed multiprocessor environment
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp
          !! original multiprocessor environment
-
-!   ---------------------------------------------------------------------------
 
       CALL dbcsr_mp_new(mp_t, dbcsr_mp_group(mp), &
                         TRANSPOSE(dbcsr_mp_pgrid(mp)), &

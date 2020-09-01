@@ -307,8 +307,6 @@ public subroutine dbcsr_mp_hold(mp_env)
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">mp_env</span>
          <span class="c">!! multiprocessor environment</span>
 
-<span class="c">!   ---------------------------------------------------------------------------</span>
-
       <span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">refcount</span> <span class="o">=</span> <span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">refcount</span> <span class="o">+</span> <span class="mi">1</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_mp_hold</span>
 </pre></div>

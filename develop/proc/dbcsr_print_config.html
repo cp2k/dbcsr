@@ -314,7 +314,7 @@ public subroutine dbcsr_print_config(unit_nr)
          <span class="k">CASE</span> <span class="p">(</span><span class="n">mm_driver_smm</span><span class="p">);</span> <span class="n">mm_name</span> <span class="o">=</span> <span class="n">mm_name_smm</span>
          <span class="k">CASE</span> <span class="p">(</span><span class="n">mm_driver_xsmm</span><span class="p">);</span> <span class="n">mm_name</span> <span class="o">=</span> <span class="n">mm_name_xsmm</span>
          <span class="k">CASE </span><span class="n">DEFAULT</span>
-            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Unkown MM driver&quot;</span><span class="p">)</span>
+            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Unknown MM driver&quot;</span><span class="p">)</span>
          <span class="k">END SELECT</span>
 <span class="k">         WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T41,A40)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
             <span class="s2">&quot;DBCSR| CPU Multiplication driver&quot;</span><span class="p">,</span> <span class="nb">ADJUSTR</span><span class="p">(</span><span class="n">mm_name</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">40</span><span class="p">))</span>
