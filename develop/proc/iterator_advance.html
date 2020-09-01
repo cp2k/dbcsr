@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">48 statements</a>
+    title=" 0.1% of total for procedures.">46 statements</a>
      </li> 
      
      
@@ -307,7 +307,7 @@ private subroutine iterator_advance(iterator)
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_iterator</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                <span class="kd">::</span> <span class="n">iterator</span>
          <span class="c">!! the iterator</span>
 
-      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">ithread</span><span class="p">,</span> <span class="n">my_old_row</span><span class="p">,</span> <span class="n">next_row</span><span class="p">,</span> <span class="n">p</span>
+      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">ithread</span><span class="p">,</span> <span class="n">my_old_row</span><span class="p">,</span> <span class="n">p</span>
       <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">advance</span><span class="p">,</span> <span class="n">jumped_row</span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>
@@ -330,9 +330,7 @@ private subroutine iterator_advance(iterator)
                <span class="k">IF</span> <span class="p">(</span><span class="n">jumped_row</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="c">!$OMP                 CRITICAL (crit_common_pos)</span>
                   <span class="c">! Set the common_pos to the next available row.</span>
-                  <span class="n">next_row</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">common_pos</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">iterator</span><span class="p">%</span><span class="n">row</span><span class="p">)</span>
-                  <span class="n">next_row</span> <span class="o">=</span> <span class="n">next_row</span> <span class="o">-</span> <span class="n">iterator</span><span class="p">%</span><span class="n">common_pos</span>
-                  <span class="n">iterator</span><span class="p">%</span><span class="n">common_pos</span> <span class="o">=</span> <span class="n">iterator</span><span class="p">%</span><span class="n">common_pos</span> <span class="o">+</span> <span class="n">next_row</span>
+                  <span class="n">iterator</span><span class="p">%</span><span class="n">common_pos</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">row</span><span class="p">,</span> <span class="n">iterator</span><span class="p">%</span><span class="n">common_pos</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
                   <span class="n">iterator</span><span class="p">%</span><span class="n">row</span> <span class="o">=</span> <span class="n">iterator</span><span class="p">%</span><span class="n">common_pos</span>
 <span class="c">!$OMP                 END CRITICAL (crit_common_pos)</span>
                   <span class="k">IF</span> <span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">row</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">iterator</span><span class="p">%</span><span class="n">nblkrows_total</span><span class="p">)</span> <span class="k">THEN</span>

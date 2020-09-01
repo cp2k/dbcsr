@@ -587,9 +587,8 @@ private subroutine dbcsr_put_block_s(matrix, row, col, block, lb_row_col, transp
          <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">found</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">datasize</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">datasize</span> <span class="o">+</span> <span class="n">nze</span>
          <span class="n">ENDIF</span>
-<span class="c">!$OMP CRITICAL (dbcsr_put_block_critical)</span>
+<span class="c">!$OMP ATOMIC WRITE</span>
          <span class="n">matrix</span><span class="p">%</span><span class="n">valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<span class="c">!$OMP END CRITICAL (dbcsr_put_block_critical)</span>
       <span class="n">ENDIF</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">flop</span><span class="p">))</span> <span class="n">flop</span> <span class="o">=</span> <span class="n">flop</span> <span class="o">+</span> <span class="n">my_flop</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_put_block_s</span>

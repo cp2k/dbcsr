@@ -453,9 +453,14 @@ private subroutine dbcsr_reserve_block2d_s(matrix, row, col, block, transposed, 
                      <span class="n">data_block</span><span class="p">,</span> <span class="n">found</span><span class="p">,</span> <span class="n">data_block2</span><span class="p">)</span>
 
       <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">found</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="cp">#if defined(_OPENMP) &amp;&amp; (200711 &lt;= _OPENMP)</span>
+<span class="c">!$OMP ATOMIC WRITE</span>
+         <span class="n">matrix</span><span class="p">%</span><span class="n">valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<span class="cp">#else</span>
 <span class="c">!$OMP CRITICAL (critical_reserve_block2d)</span>
          <span class="n">matrix</span><span class="p">%</span><span class="n">valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <span class="c">!$OMP END CRITICAL (critical_reserve_block2d)</span>
+<span class="cp">#endif</span>
          <span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">lastblk</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">lastblk</span> <span class="o">+</span> <span class="mi">1</span>
          <span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">datasize</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">datasize</span> <span class="o">+</span> <span class="n">row_size</span><span class="o">*</span><span class="n">col_size</span>
       <span class="k">ELSE</span>
