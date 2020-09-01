@@ -25,7 +25,7 @@ MODULE dbcsr_tensor_types
       sizes_of_arrays, sum_of_arrays, array_sublist, get_arrays, get_ith_array, array_eq_i
    USE dbcsr_api, ONLY: &
       dbcsr_distribution_get, dbcsr_distribution_type, dbcsr_get_info, dbcsr_type, &
-      dbcsr_type_real_4, dbcsr_type_complex_4, dbcsr_type_complex_8, dbcsr_type_real_8
+      dbcsr_type_complex_4, dbcsr_type_real_4, dbcsr_type_real_8, dbcsr_type_complex_8
    USE dbcsr_kinds, ONLY: &
       real_8, real_4, &
       default_string_length
