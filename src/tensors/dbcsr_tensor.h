@@ -17,7 +17,7 @@
 #:set ndims = range(2,maxrank+1)
 #:set ddims = range(1,maxrank+1)
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 extern "C" {
 #endif
 
@@ -194,7 +194,7 @@ extern "C" {
 
      long long int c_dbcsr_t_max_nblks_local(const void* c_tensor);
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 }
 #endif
 

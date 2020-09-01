@@ -13,7 +13,7 @@
 #include <mpi.h>
 #include <stdbool.h> /* we need bool from C99 */
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 extern "C" {
 #endif
     void c_dbcsr_init_lib_internal(MPI_Fint* fcomm, int* io_unit);
@@ -56,7 +56,7 @@ extern "C" {
 
   void c_free_string(char** c_string);
 
-#ifdef __cplusplus
+#if defined(__cplusplus)
 }
 #endif
 
