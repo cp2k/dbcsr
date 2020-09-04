@@ -48,7 +48,7 @@ MODULE dbcsr_tas_mm
    USE dbcsr_kinds, ONLY: &
       int_8, real_8, real_4, default_string_length
    USE dbcsr_mpiwrap, ONLY: &
-      mp_comm_compare, mp_environ, mp_sum, mp_comm_free, mp_cart_create, mp_max
+      mp_comm_compare, mp_environ, mp_sum, mp_comm_free, mp_cart_create, mp_max, mp_sync
    USE dbcsr_operations, ONLY: &
       dbcsr_scale, dbcsr_get_info, dbcsr_copy, dbcsr_clear, dbcsr_add, dbcsr_zero
    USE dbcsr_tas_io, ONLY: &
@@ -129,6 +129,7 @@ CONTAINS
       TYPE(dbcsr_type)                           :: matrix_a_mm, matrix_b_mm, matrix_c_mm
 
       CALL timeset(routineN, handle)
+      CALL mp_sync(matrix_a%dist%info%mp_comm)
       CALL timeset("dbcsr_tas_total", handle2)
 
       NULLIFY (matrix_b_rs, matrix_a_rs, matrix_c_rs)
@@ -259,6 +260,7 @@ CONTAINS
                                      blk_ind=result_index, nze=nze_c, retain_sparsity=retain_sparsity)
 
          IF (PRESENT(result_index)) THEN
+            CALL mp_sync(matrix_a%dist%info%mp_comm)
             CALL timestop(handle2)
             CALL timestop(handle)
             RETURN
@@ -486,6 +488,7 @@ CONTAINS
          info_c = dbcsr_tas_info(matrix_c_rs)
          CALL dbcsr_tas_info_hold(info_c)
 
+         CALL mp_sync(matrix_a%dist%info%mp_comm)
          CALL timeset("dbcsr_tas_dbcsr", handle4)
          SELECT CASE (tr_case)
          CASE (dbcsr_no_transpose)
@@ -503,6 +506,7 @@ CONTAINS
 
             CALL timestop(handle3)
          END SELECT
+         CALL mp_sync(matrix_a%dist%info%mp_comm)
          CALL timestop(handle4)
 
          CALL dbcsr_release(matrix_a_mm)
@@ -574,11 +578,13 @@ CONTAINS
          info_c = dbcsr_tas_info(matrix_c_rep)
          CALL dbcsr_tas_info_hold(info_c)
 
+         CALL mp_sync(matrix_a%dist%info%mp_comm)
          CALL timeset("dbcsr_tas_dbcsr", handle4)
          CALL timeset("dbcsr_tas_mm_2", handle3)
          CALL dbcsr_multiply(transa=transa_prv, transb=transb_prv, alpha=alpha, matrix_a=matrix_a_mm, &
                              matrix_b=matrix_b_mm, beta=beta, matrix_c=matrix_c_mm, &
                              filter_eps=filter_eps_prv/REAL(nsplit, KIND=real_8), retain_sparsity=retain_sparsity, flop=flop)
+         CALL mp_sync(matrix_a%dist%info%mp_comm)
          CALL timestop(handle3)
          CALL timestop(handle4)
 
@@ -653,6 +659,7 @@ CONTAINS
          info_c = dbcsr_tas_info(matrix_c_rs)
          CALL dbcsr_tas_info_hold(info_c)
 
+         CALL mp_sync(matrix_a%dist%info%mp_comm)
          CALL timeset("dbcsr_tas_dbcsr", handle4)
          SELECT CASE (tr_case)
          CASE (dbcsr_no_transpose)
@@ -668,6 +675,7 @@ CONTAINS
                                 filter_eps=filter_eps_prv, retain_sparsity=retain_sparsity, flop=flop)
             CALL timestop(handle3)
          END SELECT
+         CALL mp_sync(matrix_a%dist%info%mp_comm)
          CALL timestop(handle4)
 
          CALL dbcsr_release(matrix_a_mm)
@@ -757,6 +765,7 @@ CONTAINS
       CALL dbcsr_tas_release_info(info_b)
       CALL dbcsr_tas_release_info(info_c)
 
+      CALL mp_sync(matrix_a%dist%info%mp_comm)
       CALL timestop(handle2)
       CALL timestop(handle)
 
@@ -1588,6 +1597,7 @@ CONTAINS
       TYPE(dbcsr_tas_type), INTENT(INOUT) :: matrix
       INTEGER :: handle
 
+      CALL mp_sync(matrix%dist%info%mp_comm)
       CALL timeset("dbcsr_tas_total", handle)
 
       IF (matrix%do_batched == 0) RETURN
@@ -1603,6 +1613,7 @@ CONTAINS
       DEALLOCATE (matrix%mm_storage)
       CALL dbcsr_tas_set_batched_state(matrix, state=0)
 
+      CALL mp_sync(matrix%dist%info%mp_comm)
       CALL timestop(handle)
 
    END SUBROUTINE

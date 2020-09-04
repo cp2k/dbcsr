@@ -55,7 +55,7 @@ MODULE dbcsr_tensor
    USE dbcsr_kinds, ONLY: &
       ${uselist(dtype_float_prec)}$, default_string_length, int_8, dp
    USE dbcsr_mpiwrap, ONLY: &
-      mp_environ, mp_max, mp_sum, mp_comm_free, mp_cart_create
+      mp_environ, mp_max, mp_sum, mp_comm_free, mp_cart_create, mp_sync
    USE dbcsr_toollib, ONLY: &
       sort
    USE dbcsr_tensor_reshape, ONLY: &
@@ -125,6 +125,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                  :: unit_nr
       INTEGER :: handle
 
+      CALL mp_sync(tensor_in%pgrid%mp_comm_2d)
       CALL timeset("dbcsr_t_total", handle)
 
       ! make sure that it is safe to use dbcsr_t_copy during a batched contraction
@@ -132,6 +133,7 @@ CONTAINS
       CALL dbcsr_tas_batched_mm_complete(tensor_out%matrix_rep, warn=.TRUE.)
 
       CALL dbcsr_t_copy_expert(tensor_in, tensor_out, order, summation, bounds, move_data, unit_nr)
+      CALL mp_sync(tensor_in%pgrid%mp_comm_2d)
       CALL timestop(handle)
    END SUBROUTINE
 
@@ -517,6 +519,7 @@ CONTAINS
 
       INTEGER                     :: handle
 
+      CALL mp_sync(tensor_1%pgrid%mp_comm_2d)
       CALL timeset("dbcsr_t_total", handle)
       CALL dbcsr_t_contract_expert(alpha, tensor_1, tensor_2, beta, tensor_3, &
                                    contract_1, notcontract_1, &
@@ -535,6 +538,7 @@ CONTAINS
                                    retain_sparsity=retain_sparsity, &
                                    unit_nr=unit_nr, &
                                    log_verbose=log_verbose)
+      CALL mp_sync(tensor_1%pgrid%mp_comm_2d)
       CALL timestop(handle)
 
    END SUBROUTINE
@@ -2084,6 +2088,7 @@ CONTAINS
       LOGICAL :: do_write
       INTEGER :: unit_nr_prv, handle
 
+      CALL mp_sync(tensor%pgrid%mp_comm_2d)
       CALL timeset("dbcsr_t_total", handle)
       unit_nr_prv = prep_output_unit(unit_nr)
 
@@ -2107,6 +2112,7 @@ CONTAINS
 
       CALL destroy_array_list(tensor%contraction_storage%batch_ranges)
       DEALLOCATE (tensor%contraction_storage)
+      CALL mp_sync(tensor%pgrid%mp_comm_2d)
       CALL timestop(handle)
 
    END SUBROUTINE
