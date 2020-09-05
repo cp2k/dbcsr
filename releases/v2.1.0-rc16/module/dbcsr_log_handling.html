@@ -1,0 +1,2631 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="">
+    
+    <meta name="author" content="DBCSR Authors" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>dbcsr_log_handling &ndash; DBCSR Library</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">DBCSR Library </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Guide</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>dbcsr_log_handling 
+    <small>Module</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.6% of total for modules and submodules.">379 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_log_handling.F"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/dbcsr_log_handling.f.html'>dbcsr_log_handling.F</a></li>
+    
+  
+     <li class="active">dbcsr_log_handling</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
+  <div id="vars-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#variable-modulen~23">moduleN</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#variable-debug_this_module~3">debug_this_module</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#variable-dbcsr_fatal_level">dbcsr_fatal_level</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#variable-dbcsr_failure_level">dbcsr_failure_level</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#variable-dbcsr_warning_level">dbcsr_warning_level</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#variable-dbcsr_note_level">dbcsr_note_level</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#variable-stack_pointer">stack_pointer</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#variable-max_stack_pointer">max_stack_pointer</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#variable-default_logger_stack">default_logger_stack</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#variable-last_logger_id_nr">last_logger_id_nr</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#inters-0">Interfaces</a></h3></div>
+  <div id="inters-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#interface-dbcsr_to_string">dbcsr_to_string</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#types-0">Derived Types</a></h3></div>
+  <div id="types-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#type-dbcsr_logger_type">dbcsr_logger_type</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#type-dbcsr_logger_p_type">dbcsr_logger_p_type</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#type-default_logger_stack_type">default_logger_stack_type</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-0">Functions</a></h3></div>
+  <div id="funcs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_default_logger_stack_size">dbcsr_default_logger_stack_size</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_get_default_logger">dbcsr_get_default_logger</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_logger_would_log">dbcsr_logger_would_log</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_logger_get_unit_nr">dbcsr_logger_get_unit_nr</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_logger_get_default_io_unit">dbcsr_logger_get_default_io_unit</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_logger_get_default_unit_nr">dbcsr_logger_get_default_unit_nr</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_int_to_string">dbcsr_int_to_string</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_real_dp_to_string">dbcsr_real_dp_to_string</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_logical_to_string">dbcsr_logical_to_string</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-0">Subroutines</a></h3></div>
+  <div class="list-group">
+    <div id="subs-0" class="panel-collapse collapse">
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_add_default_logger">dbcsr_add_default_logger</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_rm_default_logger">dbcsr_rm_default_logger</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_logger_create">dbcsr_logger_create</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_logger_retain">dbcsr_logger_retain</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_logger_release">dbcsr_logger_release</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_logger_set_log_level">dbcsr_logger_set_log_level</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_logger_generate_filename">dbcsr_logger_generate_filename</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_logger_set">dbcsr_logger_set</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <p>various routines to log and control the output.
+ The idea is that decisions about where to log should not be done in
+ the code that generates the log, but should be globally changeable
+ a central place.
+ So some care has been taken to have enough information about the
+ place from where the log comes so that in the future intelligent and
+ flexible decisions can be taken by the logger, without having to change
+ other code.
+ </p><div class="alert alert-info" role="alert"><h4>Note</h4><p>contains also routines to convert to a string.
+ in my idea they should have been with variable length,
+ (i.e. they should have returned a trim(adjustl(actual_result)))
+ As a logger should be robust, at the moment I have given up.
+ At the moment logging and output refer to the same object
+ (dbcsr_logger_type)
+ as these are actually different it might be better to separate them
+ (they have already separate routines in a separate module
+ @see dbcsr_output_handling).
+ some practices (use of print *, no dbcsr_error_type,
+ manual retain release of some objects) are dictated by the need to
+ have minimal dependency
+ </p></div>
+<p>
+<p>@see dbcsr_error_handling
+ @version 12.2001</p>
+      <br>
+    
+  
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Uses</h3>
+      </div>
+      <ul class="list-group">
+      
+      <li class="list-group-item">
+  <ul class="list-inline">
+    
+    <li><a href='../module/dbcsr_files.html'>dbcsr_files</a></li>
+    
+    <li><a href='../module/dbcsr_iter_types.html'>dbcsr_iter_types</a></li>
+    
+    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+    
+    <li><a href='../module/dbcsr_machine.html'>dbcsr_machine</a></li>
+    
+    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
+    
+    <li><a href='../module/dbcsr_string_utilities.html'>dbcsr_string_utilities</a></li>
+    
+    <li><a href='../module/dbcsr_timings.html'>dbcsr_timings</a></li>
+    
+    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+    
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    
+  </ul>
+      </li>
+      
+      
+      
+      </ul>
+    </div>
+    
+
+    
+    
+
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
+  <div id="vars-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#variable-modulen~23">moduleN</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#variable-debug_this_module~3">debug_this_module</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#variable-dbcsr_fatal_level">dbcsr_fatal_level</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#variable-dbcsr_failure_level">dbcsr_failure_level</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#variable-dbcsr_warning_level">dbcsr_warning_level</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#variable-dbcsr_note_level">dbcsr_note_level</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#variable-stack_pointer">stack_pointer</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#variable-max_stack_pointer">max_stack_pointer</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#variable-default_logger_stack">default_logger_stack</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#variable-last_logger_id_nr">last_logger_id_nr</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#inters-1">Interfaces</a></h3></div>
+  <div id="inters-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#interface-dbcsr_to_string">dbcsr_to_string</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#types-1">Derived Types</a></h3></div>
+  <div id="types-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#type-dbcsr_logger_type">dbcsr_logger_type</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#type-dbcsr_logger_p_type">dbcsr_logger_p_type</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#type-default_logger_stack_type">default_logger_stack_type</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-1">Functions</a></h3></div>
+  <div id="funcs-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_default_logger_stack_size">dbcsr_default_logger_stack_size</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_get_default_logger">dbcsr_get_default_logger</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_logger_would_log">dbcsr_logger_would_log</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_logger_get_unit_nr">dbcsr_logger_get_unit_nr</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_logger_get_default_io_unit">dbcsr_logger_get_default_io_unit</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_logger_get_default_unit_nr">dbcsr_logger_get_default_unit_nr</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_int_to_string">dbcsr_int_to_string</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_real_dp_to_string">dbcsr_real_dp_to_string</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_logical_to_string">dbcsr_logical_to_string</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-1">Subroutines</a></h3></div>
+  <div class="list-group">
+    <div id="subs-1" class="panel-collapse collapse">
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_add_default_logger">dbcsr_add_default_logger</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_rm_default_logger">dbcsr_rm_default_logger</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_logger_create">dbcsr_logger_create</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_logger_retain">dbcsr_logger_retain</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_logger_release">dbcsr_logger_release</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_logger_set_log_level">dbcsr_logger_set_log_level</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_logger_generate_filename">dbcsr_logger_generate_filename</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_log_handling.html#proc-dbcsr_logger_set">dbcsr_logger_set</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    
+
+    
+    <section>
+    <h2>Variables</h2>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-modulen~23"></span>character(len=*),</td>
+  
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>moduleN</strong></td><td> =</td><td>'dbcsr_log_handling'</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-debug_this_module~3"></span>logical,</td>
+  
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>debug_this_module</strong></td><td> =</td><td>.FALSE.</td><td><p>level of an error</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dbcsr_fatal_level"></span>integer,</td>
+  
+  <td>public,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>dbcsr_fatal_level</strong></td><td> =</td><td>3</td><td><p>level of a failure</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dbcsr_failure_level"></span>integer,</td>
+  
+  <td>public,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>dbcsr_failure_level</strong></td><td> =</td><td>2</td><td><p>level of a warning</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dbcsr_warning_level"></span>integer,</td>
+  
+  <td>public,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>dbcsr_warning_level</strong></td><td> =</td><td>1</td><td><p>level of a note</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dbcsr_note_level"></span>integer,</td>
+  
+  <td>public,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>dbcsr_note_level</strong></td><td> =</td><td>0</td><td><p>a generic function to trasform different types to strings</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-stack_pointer"></span>integer,</td>
+  
+  <td>private</td>
+  <td></td><td>::</td>
+  <td><strong>stack_pointer</strong></td><td> =</td><td>0</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-max_stack_pointer"></span>integer,</td>
+  
+  <td>private,</td>
+  <td>parameter</td><td>::</td>
+  <td><strong>max_stack_pointer</strong></td><td> =</td><td>10</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-default_logger_stack"></span>type(<a href='../type/default_logger_stack_type.html'>default_logger_stack_type</a>),</td>
+  
+  <td>private,</td>
+  <td>SAVE, DIMENSION(max_stack_pointer)</td><td>::</td>
+  <td><strong>default_logger_stack</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-last_logger_id_nr"></span>integer,</td>
+  
+  <td>private,</td>
+  <td>SAVE</td><td>::</td>
+  <td><strong>last_logger_id_nr</strong></td><td> =</td><td>0</td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+    </section>
+    <br>
+    
+    
+    
+    
+    
+    <section>
+   <h2>Interfaces</h2>
+   
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="interface-dbcsr_to_string"></span><h3>public interface <a href='../interface/dbcsr_to_string.html'>dbcsr_to_string</a>
+    
+  </h3></div>
+  
+  <ul class="list-group">
+  
+  
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private function <a href='../proc/dbcsr_int_to_string.html'>dbcsr_int_to_string</a>(i) result(res)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>converts an int to a string
+ (should be a variable length string, but that does not work with
+ all the compilers)</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>i</strong></td><td><p>the integer to convert</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>character(len=6)
+  </small></h4>
+  
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private function <a href='../proc/dbcsr_real_dp_to_string.html'>dbcsr_real_dp_to_string</a>(val) result(res)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>convert a double precision real in a string
+ (should be a variable length string, but that does not work with
+ all the compilers)</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=dp),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>val</strong></td><td><p>the number to convert</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>character(len=11)
+  </small></h4>
+  
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private function <a href='../proc/dbcsr_logical_to_string.html'>dbcsr_logical_to_string</a>(val) result(res)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>convert a logical in a string ('T' or 'F')</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>val</strong></td><td><p>the number to convert</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>character(len=1)
+  </small></h4>
+  
+    
+
+    </li>
+  
+  
+  </ul>
+</div>
+
+    
+    </section>
+  <br>
+    
+
+    
+    
+    
+    <section>
+     <h2>Derived Types</h2>
+   
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="type-dbcsr_logger_type"></span><h3>type, public :: <a href='../type/dbcsr_logger_type.html'>dbcsr_logger_type</a>
+    
+  </h3></div>
+  <div class="panel-body">
+    
+    
+    <p>type of a logger, at the moment it contains just a print level
+ starting at which level it should be logged
+ (0 note, 1 warning, 2 failure, 3 fatal)
+ it could be expanded with the ability to focus on one or more
+ module/object/thread/processor
+ </p><a href="../type/dbcsr_logger_type.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+     
+     <h4>Components</h4>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-id_nr~2"></span>integer,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>id_nr</strong></td><td></td><td></td><td><p>unique number to identify the logger
+ reference count (see cp2k/doc/ReferenceCounting.html)</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-ref_count~2"></span>integer,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>ref_count</strong></td><td></td><td></td><td><p>unique number to identify the logger
+ reference count (see cp2k/doc/ReferenceCounting.html)</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-print_level~2"></span>integer,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>print_level</strong></td><td></td><td></td><td><p>the level starting at which something gets printed</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-default_local_unit_nr"></span>integer,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>default_local_unit_nr</strong></td><td></td><td></td><td><p>default unit for local logging (-1 if not yet initialized). Local logging guarantee to each task its own file.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-default_global_unit_nr"></span>integer,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>default_global_unit_nr</strong></td><td></td><td></td><td><p>default unit for global logging (-1 if not yet initialized). This unit is valid only on the processor with
+ %mp_env%mp%mynode==%mv_env%mp%source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-close_local_unit_on_dealloc"></span>logical,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>close_local_unit_on_dealloc</strong></td><td></td><td></td><td><p>if the local unit should be closed when this logger is deallocated
+ whether the global unit should be closed when this logger is deallocated</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-close_global_unit_on_dealloc"></span>logical,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>close_global_unit_on_dealloc</strong></td><td></td><td></td><td><p>if the local unit should be closed when this logger is deallocated
+ whether the global unit should be closed when this logger is deallocated</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-suffix"></span>character(len=default_string_length),</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>suffix</strong></td><td></td><td></td><td><p>a short string that is used as suffix in all the filenames created by this logger. Can be used to guarantee the
+ uniqueness of generated filename</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-local_filename"></span>character(len=default_path_length),</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>local_filename</strong></td><td></td><td></td><td><p>the root of the name of the file used for local logging (can be different from the name of the file corresponding to
+ default_local_unit_nr, only the one used if the unit needs to be opened)
+ the root of the name of the file used for global logging (can be different from the name of the file corresponding to
+ default_global_unit_nr, only the one used if the unit needs to be opened)</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-global_filename"></span>character(len=default_path_length),</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>global_filename</strong></td><td></td><td></td><td><p>the root of the name of the file used for local logging (can be different from the name of the file corresponding to
+ default_local_unit_nr, only the one used if the unit needs to be opened)
+ the root of the name of the file used for global logging (can be different from the name of the file corresponding to
+ default_global_unit_nr, only the one used if the unit needs to be opened)</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-mp_env"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>mp_env</strong></td><td></td><td></td><td><p>the parallel environment for the output.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-iter_info"></span>type(<a href='../type/dbcsr_iteration_info_type.html'>dbcsr_iteration_info_type</a>),</td>
+  
+  <td>public,</td>
+  <td>POINTER</td><td>::</td>
+  <td><strong>iter_info</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+     
+     
+          
+     
+  </div>
+</div>
+
+     
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="type-dbcsr_logger_p_type"></span><h3>type, public :: <a href='../type/dbcsr_logger_p_type.html'>dbcsr_logger_p_type</a>
+    
+  </h3></div>
+  <div class="panel-body">
+    
+     
+     <h4>Components</h4>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-p~10"></span>type(<a href='../type/dbcsr_logger_type.html'>dbcsr_logger_type</a>),</td>
+  
+  <td>public,</td>
+  <td>POINTER</td><td>::</td>
+  <td><strong>p</strong></td><td>=> </td><td>Null()</td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+     
+     
+          
+     
+  </div>
+</div>
+
+     
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="type-default_logger_stack_type"></span><h3>type, private :: <a href='../type/default_logger_stack_type.html'>default_logger_stack_type</a>
+    
+  </h3></div>
+  <div class="panel-body">
+    
+     
+     <h4>Components</h4>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dbcsr_default_logger"></span>type(<a href='../type/dbcsr_logger_type.html'>dbcsr_logger_type</a>),</td>
+  
+  <td>public,</td>
+  <td>POINTER</td><td>::</td>
+  <td><strong>dbcsr_default_logger</strong></td><td>=> </td><td>Null()</td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+     
+     
+          
+     
+  </div>
+</div>
+
+     
+    </section>
+  <br>
+    
+    
+     
+    <section>
+    <h2>Functions</h2>
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_default_logger_stack_size"></span><h3>
+public function <a href='../proc/dbcsr_default_logger_stack_size.html'>dbcsr_default_logger_stack_size</a>() result(res)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      <em>None</em>
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_get_default_logger"></span><h3>
+public function <a href='../proc/dbcsr_get_default_logger.html'>dbcsr_get_default_logger</a>() result(res)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>returns the default logger
+ </p><a href="../proc/dbcsr_get_default_logger.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      <em>None</em>
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>type(<a href='../type/dbcsr_logger_type.html'>dbcsr_logger_type</a>),
+  POINTER</small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_logger_would_log"></span><h3>
+public function <a href='../proc/dbcsr_logger_would_log.html'>dbcsr_logger_would_log</a>(logger, level) result(res)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>this function can be called to check if the logger would log
+ a message with the given level from the given source
+ you should use this function if you do direct logging
+ (without using dbcsr_logger_log), or if you want to know if the generation
+ of some costly log info is necessary</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_logger_type.html'>dbcsr_logger_type</a>),</td>
+  <td></td>
+  <td></td>
+  
+  <td>POINTER</td><td>::</td>
+  <td><strong>logger</strong></td><td><p>the logger you want to log in</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>level</strong></td><td><p>describes the of the message: dbcsr_fatal_level(3), dbcsr_failure_level(2), dbcsr_warning_level(1), dbcsr_note_level(0).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>logical
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_logger_get_unit_nr"></span><h3>
+public function <a href='../proc/dbcsr_logger_get_unit_nr.html'>dbcsr_logger_get_unit_nr</a>(logger, local) result(res)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>returns the unit nr for the requested kind of log.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_logger_type.html'>dbcsr_logger_type</a>),</td>
+  <td></td>
+  <td></td>
+  
+  <td>POINTER</td><td>::</td>
+  <td><strong>logger</strong></td><td><p>the logger you want to log in</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>local</strong></td><td><p>if true returns a local logger (one per task), otherwise returns a global logger (only the process with
+ mp_env%mp%mynode== mp_env%mp%source should write to the global logger). Defaults to false</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_logger_get_default_io_unit"></span><h3>
+public function <a href='../proc/dbcsr_logger_get_default_io_unit.html'>dbcsr_logger_get_default_io_unit</a>(logger) result(res)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>returns the unit nr for the ionode (-1 on all other processors)
+ skips as well checks if the procs calling this function is not the ionode</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_logger_type.html'>dbcsr_logger_type</a>),</td>
+  <td></td>
+  <td>optional</td>
+  
+  <td>POINTER</td><td>::</td>
+  <td><strong>logger</strong></td><td><p>the logger you want to log in</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_logger_get_default_unit_nr"></span><h3>
+public recursive function <a href='../proc/dbcsr_logger_get_default_unit_nr.html'>dbcsr_logger_get_default_unit_nr</a>(logger, local, skip_not_ionode) result(res)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>asks the default unit number of the given logger.
+ try to use dbcsr_logger_get_unit_nr</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_logger_type.html'>dbcsr_logger_type</a>),</td>
+  <td></td>
+  <td>optional</td>
+  
+  <td>POINTER</td><td>::</td>
+  <td><strong>logger</strong></td><td><p>the logger you want info from</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>local</strong></td><td><p>if you want the local unit nr (defaults to false)</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>skip_not_ionode</strong></td><td><p>if you want the local unit nr (defaults to false)</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_int_to_string"></span><h3>
+private function <a href='../proc/dbcsr_int_to_string.html'>dbcsr_int_to_string</a>(i) result(res)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>converts an int to a string
+ (should be a variable length string, but that does not work with
+ all the compilers)</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>i</strong></td><td><p>the integer to convert</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>character(len=6)
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_real_dp_to_string"></span><h3>
+private function <a href='../proc/dbcsr_real_dp_to_string.html'>dbcsr_real_dp_to_string</a>(val) result(res)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>convert a double precision real in a string
+ (should be a variable length string, but that does not work with
+ all the compilers)</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=dp),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>val</strong></td><td><p>the number to convert</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>character(len=11)
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_logical_to_string"></span><h3>
+private function <a href='../proc/dbcsr_logical_to_string.html'>dbcsr_logical_to_string</a>(val) result(res)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>convert a logical in a string ('T' or 'F')</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>val</strong></td><td><p>the number to convert</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>character(len=1)
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    </section>
+    <br>
+    
+
+    
+    <section>
+    <h2>Subroutines</h2>
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_add_default_logger"></span><h3>
+public subroutine <a href='../proc/dbcsr_add_default_logger.html'>dbcsr_add_default_logger</a>(logger)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>adds a default logger.
+ MUST be called before logging occurs
+ </p><a href="../proc/dbcsr_add_default_logger.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_logger_type.html'>dbcsr_logger_type</a>),</td>
+  <td></td>
+  <td></td>
+  
+  <td>POINTER</td><td>::</td>
+  <td><strong>logger</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_rm_default_logger"></span><h3>
+public subroutine <a href='../proc/dbcsr_rm_default_logger.html'>dbcsr_rm_default_logger</a>()
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>the cousin of dbcsr_add_default_logger, decrements the stack, so that
+ the default logger is what it has
+ been</p>
+    
+    <h4>Arguments</h4>
+    
+      <em>None</em>
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_logger_create"></span><h3>
+public subroutine <a href='../proc/dbcsr_logger_create.html'>dbcsr_logger_create</a>(logger, mp_env, print_level, default_global_unit_nr, default_local_unit_nr, global_filename, local_filename, close_global_unit_on_dealloc, iter_info, close_local_unit_on_dealloc, suffix, template_logger)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>initializes a logger
+ </p><a href="../proc/dbcsr_logger_create.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_logger_type.html'>dbcsr_logger_type</a>),</td>
+  <td></td>
+  <td></td>
+  
+  <td>POINTER</td><td>::</td>
+  <td><strong>logger</strong></td><td><p>the logger to initialize</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
+  <td></td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>mp_env</strong></td><td><p>the parallel environment (this is most likely the global parallel environment</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>print_level</strong></td><td><p>the level starting with which something is written (defaults to dbcsr_note_level)
+ the default unit_nr for output (if not given, and no file is given defaults to the standard output)
+ the default unit number for local (i.e. task) output. If not given defaults to a out.taskid file created upon</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>default_global_unit_nr</strong></td><td><p>the level starting with which something is written (defaults to dbcsr_note_level)
+ the default unit_nr for output (if not given, and no file is given defaults to the standard output)
+ the default unit number for local (i.e. task) output. If not given defaults to a out.taskid file created upon</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>default_local_unit_nr</strong></td><td><p>the level starting with which something is written (defaults to dbcsr_note_level)
+ the default unit_nr for output (if not given, and no file is given defaults to the standard output)
+ the default unit number for local (i.e. task) output. If not given defaults to a out.taskid file created upon</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>character(len=*),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>global_filename</strong></td><td><p>a new file to open (can be given instead of the global_unit_nr)
+ a new file to open (with suffix and mp_env%mp%mynode appended). Can be given instead of the default_local_unit_nr). the
+ file is created only upon the first local logging request</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>character(len=*),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>local_filename</strong></td><td><p>a new file to open (can be given instead of the global_unit_nr)
+ a new file to open (with suffix and mp_env%mp%mynode appended). Can be given instead of the default_local_unit_nr). the
+ file is created only upon the first local logging request</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>close_global_unit_on_dealloc</strong></td><td><p>if the unit should be closed when the logger is deallocated (defaults to true if a local_filename is given, to false
+ otherwise)</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_iteration_info_type.html'>dbcsr_iteration_info_type</a>),</td>
+  <td></td>
+  <td>optional</td>
+  
+  <td>POINTER</td><td>::</td>
+  <td><strong>iter_info</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>close_local_unit_on_dealloc</strong></td><td><p>if the unit should be closed when the logger is deallocated (defaults to true)</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>character(len=*),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>suffix</strong></td><td><p>the suffix that should be added to all the generated filenames</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_logger_type.html'>dbcsr_logger_type</a>),</td>
+  <td></td>
+  <td>optional</td>
+  
+  <td>POINTER</td><td>::</td>
+  <td><strong>template_logger</strong></td><td><p>a logger from where to take the unspecified things</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_logger_retain"></span><h3>
+public subroutine <a href='../proc/dbcsr_logger_retain.html'>dbcsr_logger_retain</a>(logger)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>retains the given logger (to be called to keep a shared copy of
+ the logger)</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_logger_type.html'>dbcsr_logger_type</a>),</td>
+  <td></td>
+  <td></td>
+  
+  <td>POINTER</td><td>::</td>
+  <td><strong>logger</strong></td><td><p>the logger to retain</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_logger_release"></span><h3>
+public subroutine <a href='../proc/dbcsr_logger_release.html'>dbcsr_logger_release</a>(logger)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>releases this logger</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_logger_type.html'>dbcsr_logger_type</a>),</td>
+  <td></td>
+  <td></td>
+  
+  <td>POINTER</td><td>::</td>
+  <td><strong>logger</strong></td><td><p>the logger to release</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_logger_set_log_level"></span><h3>
+public subroutine <a href='../proc/dbcsr_logger_set_log_level.html'>dbcsr_logger_set_log_level</a>(logger, level)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>changes the logging level. Log messages with a level less than the one
+ given wo not be printed.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_logger_type.html'>dbcsr_logger_type</a>),</td>
+  <td></td>
+  <td></td>
+  
+  <td>POINTER</td><td>::</td>
+  <td><strong>logger</strong></td><td><p>the logger to change</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>level</strong></td><td><p>the new logging level for the logger</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_logger_generate_filename"></span><h3>
+public subroutine <a href='../proc/dbcsr_logger_generate_filename.html'>dbcsr_logger_generate_filename</a>(logger, res, root, postfix, local)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>generates a unique filename (ie adding eventual suffixes and
+ process ids)
+ </p><a href="../proc/dbcsr_logger_generate_filename.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_logger_type.html'>dbcsr_logger_type</a>),</td>
+  <td></td>
+  <td></td>
+  
+  <td>POINTER</td><td>::</td>
+  <td><strong>logger</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>character(len=*),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>res</strong></td><td><p>the resulting string</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>character(len=*),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>root</strong></td><td><p>the start of filename
+ the end of the name</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>character(len=*),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>postfix</strong></td><td><p>the start of filename
+ the end of the name</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>local</strong></td><td><p>if the name should be local to this task (defaults to false)</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_logger_set"></span><h3>
+public subroutine <a href='../proc/dbcsr_logger_set.html'>dbcsr_logger_set</a>(logger, local_filename, global_filename)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>sets various attributes of the given logger</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_logger_type.html'>dbcsr_logger_type</a>),</td>
+  <td></td>
+  <td></td>
+  
+  <td>POINTER</td><td>::</td>
+  <td><strong>logger</strong></td><td><p>the logger you want to change</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>character(len=*),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>local_filename</strong></td><td><p>the root of the name of the file used for local logging
+ the root of the name of the file used for global logging</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>character(len=*),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>global_filename</strong></td><td><p>the root of the name of the file used for local logging
+ the root of the name of the file used for global logging</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    </section>    
+    <br>
+    
+    
+    
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
+                                          </p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> DBCSR Library was developed by DBCSR Authors</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    
+  </body>
+</html>
