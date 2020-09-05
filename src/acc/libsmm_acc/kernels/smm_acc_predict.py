@@ -435,38 +435,45 @@ class PredictiveParameters:
         # found over all algorithms for this given (m, n, k)
 
         if not partial_initialization:
-            assert "threads" in params_df.columns.values, (
-                "Missing column: threads. Available columns:\n"
-                + str(params_df.columns.values)
+            assert (
+                "threads" in params_df.columns.values
+            ), "Missing column: threads. Available columns:\n" + str(
+                params_df.columns.values
             )
-            assert "grouping" in params_df.columns.values, (
-                "Missing column: grouping. Available columns:\n"
-                + str(params_df.columns.values)
+            assert (
+                "grouping" in params_df.columns.values
+            ), "Missing column: grouping. Available columns:\n" + str(
+                params_df.columns.values
             )
-            assert "minblocks" in params_df.columns.values, (
-                "Missing column: minblocks. Available columns:\n"
-                + str(params_df.columns.values)
+            assert (
+                "minblocks" in params_df.columns.values
+            ), "Missing column: minblocks. Available columns:\n" + str(
+                params_df.columns.values
             )
             algos = np.unique(params_df["algorithm"].values)
             assert len(algos) == 1
             algo = algos[0]
             if algo in ["small", "medium", "largeDB1", "largeDB2"]:
-                assert "tile_m" in params_df.columns.values, (
-                    "Missing column: tile_m. Available columns:\n"
-                    + str(params_df.columns.values)
+                assert (
+                    "tile_m" in params_df.columns.values
+                ), "Missing column: tile_m. Available columns:\n" + str(
+                    params_df.columns.values
                 )
-                assert "tile_n" in params_df.columns.values, (
-                    "Missing column: tile_n. Available columns:\n"
-                    + str(params_df.columns.values)
+                assert (
+                    "tile_n" in params_df.columns.values
+                ), "Missing column: tile_n. Available columns:\n" + str(
+                    params_df.columns.values
                 )
                 if algo in ["largeDB1", "largeDB2"]:
-                    assert "w" in params_df.columns.values, (
-                        "Missing column: w. Available columns:\n"
-                        + str(params_df.columns.values)
+                    assert (
+                        "w" in params_df.columns.values
+                    ), "Missing column: w. Available columns:\n" + str(
+                        params_df.columns.values
                     )
-                    assert "v" in params_df.columns.values, (
-                        "Missing column: v. Available columns:\n"
-                        + str(params_df.columns.values)
+                    assert (
+                        "v" in params_df.columns.values
+                    ), "Missing column: v. Available columns:\n" + str(
+                        params_df.columns.values
                     )
 
         self.params = params_df

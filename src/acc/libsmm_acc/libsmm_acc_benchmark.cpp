@@ -214,14 +214,19 @@ double checkSum(double* mat_c, int n_c, int mat_m, int mat_n){
 
 
 //===========================================================================
-double checkSumTransp(double* mat, int n, int n_stack, int mat_m, int mat_n){
+double checkSumTransp(double* mat, int n_stack, int mat_m, int mat_n){
     // for transposition, a regular checkSum does not inform about the
     // transpose's correctness. Instead, we perform a checkSum on a
     // sample of elements.
     double res = 0;
     int size = mat_m * mat_n;
     int n_samples = size / 3;
-    int step = size / n_samples;
+    int step = size;
+
+    if(n_samples > 0){
+        step = size / n_samples;
+    }
+
     for(int s=0; s < n_stack; s++){
         int offset = s * size;
         for(int idx=s%step; idx < size; idx+=step)
@@ -394,7 +399,7 @@ int libsmm_acc_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
 
  // Reference result on CPU
  stackTransp(stack, n_stack, mat, mat_trs, mat_m, mat_n);
- sumCPU = checkSumTransp(mat_trs, n, n_stack, mat_m, mat_n);
+ sumCPU = checkSumTransp(mat_trs, n_stack, mat_m, mat_n);
 
  // Compute on GPU
  ACC_API_CALL(Memcpy, (d_mat, mat, n * mat_m * mat_n * sizeof(double), ACC(MemcpyHostToDevice)));
@@ -418,7 +423,7 @@ int libsmm_acc_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
  ACC_API_CALL(Memcpy, (mat_trs, d_mat, n * mat_m * mat_n * sizeof(double), ACC(MemcpyDeviceToHost)));
  clean_string(kernel_descr[0], descr);
 
- sumGPU = checkSumTransp(mat_trs, n, n_stack, mat_m, mat_n);
+ sumGPU = checkSumTransp(mat_trs, n_stack, mat_m, mat_n);
  if(sumGPU != sumCPU){
      printf("%sERROR %s checksum_diff: %g\n", msg_prefix, descr, sumGPU-sumCPU);
      error_counter++;

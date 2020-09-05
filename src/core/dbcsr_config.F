@@ -16,6 +16,7 @@ MODULE dbcsr_config
                           dp
    USE dbcsr_ptr_util, ONLY: dbcsr_data_allocation, &
                              dbcsr_data_allocation_type
+   USE dbcsr_kinds, ONLY: real_8
 #include "base/dbcsr_base_uses.f90"
 
 !$ USE OMP_LIB, ONLY: omp_get_max_threads
@@ -115,6 +116,7 @@ MODULE dbcsr_config
       INTEGER  :: accdrv_binning_nbins = 4096
       INTEGER  :: accdrv_binning_binsize = 16
       LOGICAL  :: use_mempools_cpu = .FALSE.
+      REAL(KIND=real_8) :: tas_split_factor = 3.0_real_8
    END TYPE dbcsr_config_type
 
    TYPE(dbcsr_config_type), PROTECTED, SAVE :: dbcsr_cfg = dbcsr_config_type() ! defaults
@@ -164,7 +166,8 @@ CONTAINS
       accdrv_do_inhomogenous, &
       accdrv_binning_nbins, &
       accdrv_binning_binsize, &
-      use_mempools_cpu)
+      use_mempools_cpu, &
+      tas_split_factor)
 
       CHARACTER(len=*), INTENT(IN), OPTIONAL             :: mm_driver
       LOGICAL, INTENT(IN), OPTIONAL                      :: use_mpi_allocator
@@ -192,6 +195,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: accdrv_binning_nbins, &
                                                             accdrv_binning_binsize
       LOGICAL, INTENT(IN), OPTIONAL                      :: use_mempools_cpu
+      REAL(KIND=real_8), INTENT(IN), OPTIONAL            :: tas_split_factor
 
       INTEGER                                            :: nthreads
 
@@ -215,6 +219,7 @@ CONTAINS
       IF (PRESENT(accdrv_binning_nbins)) dbcsr_cfg%accdrv_binning_nbins = accdrv_binning_nbins
       IF (PRESENT(accdrv_binning_binsize)) dbcsr_cfg%accdrv_binning_binsize = accdrv_binning_binsize
       IF (PRESENT(use_mempools_cpu)) dbcsr_cfg%use_mempools_cpu = use_mempools_cpu
+      IF (PRESENT(tas_split_factor)) dbcsr_cfg%tas_split_factor = tas_split_factor
 
       IF (PRESENT(comm_thread_load)) THEN
          dbcsr_cfg%comm_thread_load = comm_thread_load
@@ -255,7 +260,7 @@ CONTAINS
             IF (.NOT. has_xsmm) DBCSR_ABORT("Support for libxsmm not compiled in.")
             dbcsr_cfg%mm_driver = mm_driver_xsmm
          ELSE
-            DBCSR_ABORT("Unkown MM driver: "//TRIM(mm_driver))
+            DBCSR_ABORT("Unknown MM driver: "//TRIM(mm_driver))
          ENDIF
       ENDIF
 
@@ -284,7 +289,8 @@ CONTAINS
       accdrv_do_inhomogenous, &
       accdrv_binning_nbins, &
       accdrv_binning_binsize, &
-      use_mempools_cpu)
+      use_mempools_cpu, &
+      tas_split_factor)
 !
       LOGICAL, INTENT(OUT), OPTIONAL                     :: use_mpi_allocator
       INTEGER, INTENT(OUT), OPTIONAL                     :: mm_stack_size, avg_elements_images, &
@@ -304,6 +310,7 @@ CONTAINS
       INTEGER, INTENT(OUT), OPTIONAL                     :: accdrv_binning_nbins, &
                                                             accdrv_binning_binsize
       LOGICAL, INTENT(OUT), OPTIONAL                     :: use_mempools_cpu
+      REAL(KIND=real_8), INTENT(OUT), OPTIONAL           :: tas_split_factor
 
       TYPE(dbcsr_config_type)                            :: default_cfg
       TYPE(dbcsr_data_allocation_type)                   :: default_data_allocation
@@ -330,6 +337,7 @@ CONTAINS
       IF (PRESENT(accdrv_binning_nbins)) accdrv_binning_nbins = default_cfg%accdrv_binning_nbins
       IF (PRESENT(accdrv_binning_binsize)) accdrv_binning_binsize = default_cfg%accdrv_binning_binsize
       IF (PRESENT(use_mempools_cpu)) use_mempools_cpu = default_cfg%use_mempools_cpu
+      IF (PRESENT(tas_split_factor)) tas_split_factor = default_cfg%tas_split_factor
 
       DBCSR_ASSERT(default_cfg%nm_stacks == default_cfg%nn_stacks)
       DBCSR_ASSERT(default_cfg%nm_stacks == default_cfg%nk_stacks)
@@ -350,7 +358,7 @@ CONTAINS
          CASE (mm_driver_smm); mm_name = mm_name_smm
          CASE (mm_driver_xsmm); mm_name = mm_name_xsmm
          CASE DEFAULT
-            DBCSR_ABORT("Unkown MM driver")
+            DBCSR_ABORT("Unknown MM driver")
          END SELECT
          WRITE (UNIT=unit_nr, FMT='(1X,A,T41,A40)') &
             "DBCSR| CPU Multiplication driver", ADJUSTR(mm_name(1:40))
@@ -433,6 +441,9 @@ CONTAINS
             END IF
          END IF
       ENDIF
+
+      WRITE (UNIT=unit_nr, FMT='(1X,A,T74,ES7.1)') &
+         "DBCSR| Split modifier for TAS multiplication algorithm", dbcsr_cfg%tas_split_factor
 
    END SUBROUTINE dbcsr_print_config
 

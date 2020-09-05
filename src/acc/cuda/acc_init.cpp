@@ -7,47 +7,44 @@
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
 
-#ifdef __CUDA
-#include "cuda/acc_cuda.h"
-#else
-#include "hip/acc_hip.h"
+#if defined(__CUDA)
+# include "acc_cuda.h"
+#elif defined(__HIP)
+# include "../hip/acc_hip.h"
 #endif
+
+#include "../acc.h"
+#include "../acc_libsmm.h"
 
 #include <stdio.h>
-#include <math.h>
-#include "acc_error.h"
-#include "include/acc.h"
 
-// for debug purpose
-static const int verbose_print = 1;
-
-/****************************************************************************/
-extern "C" int acc_get_ndevices(int *n_devices){
-  ACC_API_CALL(GetDeviceCount, (n_devices));
-  return 0;
-}
-
-
-/****************************************************************************/
-extern "C" int acc_set_active_device(int device_id){
-  int myDevice, runtimeVersion;
-
-  ACC_API_CALL(RuntimeGetVersion, (&runtimeVersion));
-  ACC_API_CALL(SetDevice, (device_id));
-  ACC_API_CALL(GetDevice, (&myDevice));
-
-  if (myDevice != device_id)
-    return -1;
-
-  // establish context
-  ACC_API_CALL(Free, (0));
-
-#ifdef __HIP_PLATFORM_NVCC__
-  if (verbose_print){
-    ACC_API_CALL(DeviceSetLimit, (ACC(LimitPrintfFifoSize), (size_t) 1000000000));
-  }
+#if defined(__CUDA_PROFILING)
+# include <nvToolsExtCudaRt.h>
 #endif
 
+/****************************************************************************/
+extern "C" int acc_init(){
+  int myDevice;
+  // Driver boilerplate
+  ACC_DRV_CALL(Init, (0));
+  ACC_DRV(device) acc_device;
+  ACC_API_CALL(GetDevice, (&myDevice));
+  ACC_DRV_CALL(DeviceGet, (&acc_device, myDevice));
+  ACC_DRV(context) ctx;
+  ACC_DRV_CALL(DevicePrimaryCtxRetain, (&ctx, acc_device));
+
+  // Initialize libsmm_acc, DBCSR's GPU backend
+  libsmm_acc_init();
   return 0;
 }
 
+/****************************************************************************/
+extern "C" int acc_finalize(){
+  int myDevice;
+  // Release driver resources
+  ACC_DRV(device) acc_device;
+  ACC_API_CALL(GetDevice, (&myDevice));
+  ACC_DRV_CALL(DeviceGet, (&acc_device, myDevice));
+  ACC_DRV_CALL(DevicePrimaryCtxRelease, (acc_device));
+  return 0;
+}

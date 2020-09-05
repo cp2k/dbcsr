@@ -41,19 +41,20 @@ MODULE dbcsr_tas_split
       dbcsr_tas_release_info, &
       dbcsr_tas_create_split, &
       dbcsr_tas_create_split_rows_or_cols, &
+      dbcsr_tas_set_strict_split, &
       group_to_mrowcol, &
       group_to_world_proc_map, &
       rowsplit, &
       world_to_group_proc_map, &
       accept_pgrid_dims, &
-      default_nsplit_accept_ratio_1
+      default_nsplit_accept_ratio, &
+      default_pdims_accept_ratio
 
    CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_tas_split'
 
    INTEGER, PARAMETER :: rowsplit = 1, colsplit = 2
    REAL(real_8), PARAMETER :: default_pdims_accept_ratio = 1.2_real_8
-   REAL(real_8), PARAMETER :: default_nsplit_accept_ratio_1 = 1.5_real_8
-   REAL(real_8), PARAMETER :: default_nsplit_accept_ratio_2 = 2.5_real_8
+   REAL(real_8), PARAMETER :: default_nsplit_accept_ratio = 1.5_real_8
 
    INTERFACE dbcsr_tas_mp_comm
       MODULE PROCEDURE dbcsr_tas_mp_comm
@@ -148,7 +149,7 @@ CONTAINS
 
       INTEGER, INTENT(IN)                                :: mp_comm
       INTEGER, INTENT(IN)                                :: split_rowcol
-      INTEGER, INTENT(INOUT)                             :: nsplit
+      INTEGER, INTENT(IN)                             :: nsplit
       INTEGER                                            :: dbcsr_tas_mp_comm
 
       CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_mp_comm', &
@@ -219,7 +220,6 @@ CONTAINS
       INTEGER                                    :: lb, ub, count, count_square, count_accept, split, &
                                                     minpos, get_opt_nsplit
       INTEGER, DIMENSION(2)                      :: dims_sub
-      REAL(KIND=real_8)                          :: nsplit_accept_ratio
 
       DBCSR_ASSERT(nsplit > 0)
 
@@ -227,18 +227,8 @@ CONTAINS
          DBCSR_ASSERT(PRESENT(pdim_nonsplit))
       ENDIF
 
-      IF (split_pgrid) THEN
-         ! if process grid dimensions are fixed, we need more flexibility in split factor in order
-         ! to obtain balanced grid dimensions --> larger accept ratio
-         nsplit_accept_ratio = default_nsplit_accept_ratio_2
-      ELSE
-         ! if process grid dimensions are flexible, less flexibility in split factor sufficient in
-         ! order to obtain balanced grid dimensions --> smaller accept ratio
-         nsplit_accept_ratio = default_nsplit_accept_ratio_1
-      ENDIF
-
-      lb = CEILING(REAL(nsplit, real_8)/nsplit_accept_ratio)
-      ub = FLOOR(REAL(nsplit, real_8)*nsplit_accept_ratio)
+      lb = CEILING(REAL(nsplit, real_8)/default_nsplit_accept_ratio)
+      ub = FLOOR(REAL(nsplit, real_8)*default_nsplit_accept_ratio)
 
       IF (ub < lb) ub = lb
 
@@ -373,7 +363,10 @@ CONTAINS
       igroup = pcoord(split_rowcol)/pdims_group(split_rowcol)
 
       CALL dbcsr_tas_create_split_rows_or_cols(split_info, mp_comm, nsplit_opt, igroup, split_rowcol, own_comm=own_comm)
-      IF (.NOT. opt_nsplit_prv) split_info%strict_split = .TRUE.
+
+      IF (nsplit > 0) THEN
+         ALLOCATE (split_info%ngroup_opt, SOURCE=nsplit)
+      ENDIF
 
       CALL timestop(handle)
 
@@ -451,6 +444,8 @@ CONTAINS
       ENDIF
 
       split_info%pdims = 0
+
+      IF (ALLOCATED(split_info%ngroup_opt)) DEALLOCATE (split_info%ngroup_opt)
    END SUBROUTINE
 
    SUBROUTINE dbcsr_tas_info_hold(split_info)
@@ -642,6 +637,12 @@ CONTAINS
 
       ALLOCATE (sort_indices(nrowcols))
       CALL sort(rowcols, nrowcols, sort_indices)
+   END SUBROUTINE
+
+   SUBROUTINE dbcsr_tas_set_strict_split(info)
+      !! freeze current split factor such that it is never changed during multiplication
+      TYPE(dbcsr_tas_split_info), INTENT(INOUT)                      :: info
+      info%strict_split = [.TRUE., .TRUE.]
    END SUBROUTINE
 
 END MODULE

@@ -21,7 +21,7 @@
 #include <array>
 #include <iostream>
 
-#if defined _OPENMP
+#if defined(_OPENMP)
 #include <omp.h>
 #endif
 
@@ -97,12 +97,12 @@ inline void validate_kernel(ACC_DRV(function)& kern_func, ACC_DRV(stream) stream
     ACC_API_CALL(Memcpy, (h->mat_c, h->d_mat_c, h->n_c * m * n * sizeof(double), ACC(MemcpyDeviceToHost)));
 
     // Validate the kernel based on results
-    double sumGPU =  checkSum(h->mat_c, h->n_c, m, n);
+    double sumGPU = checkSum(h->mat_c, h->n_c, m, n);
+    libsmm_acc_benchmark_finalize(h);
     if(sumGPU != sumCPU){
-        printf("Kernel validation failed for kernel %ix%ix%i\nchecksum_diff: %g\nthreads: %i, grouping: %i\n", m, n, k, sumGPU-sumCPU, threads, grouping);
+        printf("Kernel validation failed for multiplication kernel %ix%ix%i\nchecksum CPU: %g, checksum GPU: %g\nchecksum_diff: %g\n", m, n, k, sumCPU, sumGPU, sumGPU-sumCPU);
         exit(1);
     }
-    libsmm_acc_benchmark_finalize(h);
 }
 
 
@@ -292,6 +292,39 @@ extern "C" int libsmm_acc_process (const libsmm_acc_stack_descriptor_type *param
 
 
 //===========================================================================
+inline void validate_transpose_kernel(ACC_DRV(function)& kern_func, int threads, ACC_DRV(stream) stream, int m, int n){
+
+    libsmm_acc_benchmark_t* h;
+    libsmm_acc_benchmark_init(&h, test, m, 0, n);
+
+    // Initialize arrays
+    matInit(h->mat_a, h->n_a, m, n, 42);
+    memset(h->mat_trs_a, 0, h->n_a * m * n * sizeof(double));
+    stackInitTransp(h->stack_trs_a, h->n_stack_trs_a, m, n);
+
+    // Run the matrix-matrix multiplication on the CPU
+    stackTransp(h->stack_trs_a, h->n_stack_trs_a, h->mat_a, h->mat_trs_a, m, n);
+    double sumCPU = checkSumTransp(h->mat_trs_a, h->n_stack_trs_a, m, n);
+
+    // Run the matrix-matrix multiplication kernel on the GPU
+    ACC_API_CALL(Memcpy, (h->d_mat_a, h->mat_a, h->n_a * m * n * sizeof(double), ACC(MemcpyHostToDevice)));
+    ACC_API_CALL(Memcpy, (h->d_stack_trs_a, h->stack_trs_a, h->n_stack_trs_a * sizeof(int), ACC(MemcpyHostToDevice)));
+
+    void *args[] = {&h->d_stack_trs_a, &h->d_mat_a};
+    launch_kernel_from_handle(kern_func, h->n_stack_trs_a, threads, stream, args);
+    ACC_API_CALL(Memcpy, (h->mat_trs_a, h->d_mat_a, h->n_a * m * n * sizeof(double), ACC(MemcpyDeviceToHost)));
+
+    // Validate the kernel based on results
+    double sumGPU = checkSumTransp(h->mat_trs_a, h->n_stack_trs_a, m, n);
+    libsmm_acc_benchmark_finalize(h);
+    if(sumGPU != sumCPU){
+        printf("Kernel validation failed for transpose kernel %ix%i\nchecksum CPU: %g, checksum GPU: %g\nchecksum_diff: %g\n", m, n, sumCPU, sumGPU, sumGPU-sumCPU);
+        exit(1);
+    }
+}
+
+
+//===========================================================================
 void jit_transpose_handle(ACC_DRV(function)& kern_func, int m, int n){
 
     std::string routineN = "jit_kernel_transpose";
@@ -346,10 +379,14 @@ void jit_transpose_handle(ACC_DRV(function)& kern_func, int m, int n){
 
 
 //===========================================================================
-int libsmm_acc_transpose_d(const int *trs_stack, int offset, int nblks,
+int libsmm_acc_transpose_d(const int *trs_stack, int offset, int stack_size,
                            double *buffer, int m, int n, ACC_DRV(stream) stream) {
 
     ACC_DRV(function) kern_func;
+    int threads = 128;
+    if (m * n + warp_size <= 128){
+        threads = m*n  - (m*n % warp_size) + warp_size;
+    }
 
     // Look up the kernel in the table of already JITed kernels
     Triplet h_mnk = { m, n, 0 };
@@ -363,6 +400,7 @@ int libsmm_acc_transpose_d(const int *trs_stack, int offset, int nblks,
 
         // JIT and store a kernel for this transposition
         jit_transpose_handle(kern_func, m, n);
+        validate_transpose_kernel(kern_func, threads, stream, m, n);
         transpose_handles.emplace(h_mnk, kern_func);
         kernel_it = transpose_handles.find(h_mnk);
 
@@ -373,18 +411,18 @@ int libsmm_acc_transpose_d(const int *trs_stack, int offset, int nblks,
     // Construct argument pointer list and launch function
     kern_func = kernel_it->second; // retrieve handle
     const int* trs_stack_ = trs_stack + offset;
-    void *args[] = { &trs_stack_, &buffer};
+    void *args[] = {&trs_stack_, &buffer};
 
-    return launch_kernel_from_handle(kern_func, nblks, 128, stream, args);
+    return launch_kernel_from_handle(kern_func, stack_size, threads, stream, args);
 
 }
 
 
 //===========================================================================
-extern "C" int libsmm_acc_transpose (const int *trs_stack, int offset, int nblks, void *buffer, acc_data_t datatype, int m, int n, acc_stream_t* stream) {
+extern "C" int libsmm_acc_transpose (const int *trs_stack, int offset, int stack_size, void *buffer, acc_data_t datatype, int m, int n, acc_stream_t* stream) {
     if(datatype != dbcsr_type_real_8)
         return 0; // transpose not needed
     if(m>MAX_BLOCK_DIM || n>MAX_BLOCK_DIM)
       return 0; // maximum size over any dimension
-    return libsmm_acc_transpose_d(trs_stack, offset, nblks, (double *) buffer, m, n, *((ACC_DRV(stream) *) stream));
+    return libsmm_acc_transpose_d(trs_stack, offset, stack_size, (double *) buffer, m, n, *((ACC_DRV(stream) *) stream));
 }

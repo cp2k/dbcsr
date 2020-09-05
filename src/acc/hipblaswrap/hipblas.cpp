@@ -11,7 +11,7 @@
 #include "hipblas_v2.h"
 #include <hip/hip_runtime.h>
 #include <hip/hip_runtime_api.h>
-#include "../acc_error.h"
+#include "../cuda/acc_error.h"
 
 
 /****************************************************************************/

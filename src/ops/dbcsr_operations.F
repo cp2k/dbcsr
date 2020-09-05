@@ -121,6 +121,7 @@ MODULE dbcsr_operations
    PUBLIC :: dbcsr_crop_matrix
    PUBLIC :: dbcsr_get_info, dbcsr_may_be_dense, dbcsr_get_occupation
    PUBLIC :: dbcsr_clear, dbcsr_add_block_node, dbcsr_conform_scalar
+   PUBLIC :: dbcsr_zero
 
 ! The interfaces for the generic routines found in the generated
 ! generic files.

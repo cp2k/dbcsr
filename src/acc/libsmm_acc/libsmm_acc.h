@@ -10,13 +10,13 @@
 #ifndef LIBSMM_ACC_H
 #define LIBSMM_ACC_H
 
-#ifdef __CUDA
+#if defined(__CUDA)
 # include "../cuda/acc_cuda.h"
-#else
+#elif defined(__HIP)
 # include "../hip/acc_hip.h"
 #endif
 
-#include "../include/acc_libsmm.h"
+#include "../acc_libsmm.h"
 #include "parameters_utils.h"
 
 #include <cstdio>
