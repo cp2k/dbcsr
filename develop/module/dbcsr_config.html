@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.4% of total for modules and submodules.">264 statements</a>
+    title=" 0.4% of total for modules and submodules.">271 statements</a>
      </li> 
      
      
@@ -309,6 +309,8 @@
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
     <li><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
+    
+    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
     <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
@@ -1210,6 +1212,20 @@
   
 </tr>
 
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-tas_split_factor"></span>real(kind=real_8),</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>tas_split_factor</strong></td><td> =</td><td>3.0_real_8</td><td></td>
+  
+</tr>
+
 </tbody>
 </table>
 
@@ -1271,7 +1287,7 @@ public function <a href='../proc/get_accdrv_active_device_id.html'>get_accdrv_ac
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_set_config"></span><h3>
-public subroutine <a href='../proc/dbcsr_set_config.html'>dbcsr_set_config</a>(mm_driver, use_mpi_allocator, mm_stack_size, avg_elements_images, num_mult_images, nstacks, use_mpi_rma, num_layers_3D, use_comm_thread, comm_thread_load, mm_densification, multrec_limit, accdrv_priority_streams, accdrv_priority_buffers, accdrv_posterior_streams, accdrv_posterior_buffers, accdrv_avoid_after_busy, accdrv_min_flop_process, accdrv_stack_sort, accdrv_min_flop_sort, accdrv_do_inhomogenous, accdrv_binning_nbins, accdrv_binning_binsize, use_mempools_cpu)
+public subroutine <a href='../proc/dbcsr_set_config.html'>dbcsr_set_config</a>(mm_driver, use_mpi_allocator, mm_stack_size, avg_elements_images, num_mult_images, nstacks, use_mpi_rma, num_layers_3D, use_comm_thread, comm_thread_load, mm_densification, multrec_limit, accdrv_priority_streams, accdrv_priority_buffers, accdrv_posterior_streams, accdrv_posterior_buffers, accdrv_avoid_after_busy, accdrv_min_flop_process, accdrv_stack_sort, accdrv_min_flop_sort, accdrv_do_inhomogenous, accdrv_binning_nbins, accdrv_binning_binsize, use_mempools_cpu, tas_split_factor)
     
     
    
@@ -1653,6 +1669,21 @@ public subroutine <a href='../proc/dbcsr_set_config.html'>dbcsr_set_config</a>(m
   
 </tr>
 
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>tas_split_factor</strong></td><td></td>
+  
+</tr>
+
 </tbody>
 </table>
 
@@ -1667,7 +1698,7 @@ public subroutine <a href='../proc/dbcsr_set_config.html'>dbcsr_set_config</a>(m
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_get_default_config"></span><h3>
-public subroutine <a href='../proc/dbcsr_get_default_config.html'>dbcsr_get_default_config</a>(use_mpi_allocator, mm_stack_size, avg_elements_images, num_mult_images, nstacks, use_mpi_rma, num_layers_3D, use_comm_thread, comm_thread_load, mm_densification, multrec_limit, accdrv_priority_streams, accdrv_priority_buffers, accdrv_posterior_streams, accdrv_posterior_buffers, accdrv_avoid_after_busy, accdrv_min_flop_process, accdrv_stack_sort, accdrv_min_flop_sort, accdrv_do_inhomogenous, accdrv_binning_nbins, accdrv_binning_binsize, use_mempools_cpu)
+public subroutine <a href='../proc/dbcsr_get_default_config.html'>dbcsr_get_default_config</a>(use_mpi_allocator, mm_stack_size, avg_elements_images, num_mult_images, nstacks, use_mpi_rma, num_layers_3D, use_comm_thread, comm_thread_load, mm_densification, multrec_limit, accdrv_priority_streams, accdrv_priority_buffers, accdrv_posterior_streams, accdrv_posterior_buffers, accdrv_avoid_after_busy, accdrv_min_flop_process, accdrv_stack_sort, accdrv_min_flop_sort, accdrv_do_inhomogenous, accdrv_binning_nbins, accdrv_binning_binsize, use_mempools_cpu, tas_split_factor)
     
     
    
@@ -2031,6 +2062,21 @@ public subroutine <a href='../proc/dbcsr_get_default_config.html'>dbcsr_get_defa
   
   <td></td><td>::</td>
   <td><strong>use_mempools_cpu</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>tas_split_factor</strong></td><td></td>
   
 </tr>
 

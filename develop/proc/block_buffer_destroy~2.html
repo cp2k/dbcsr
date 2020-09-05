@@ -303,19 +303,19 @@ private subroutine block_buffer_destroy(buffer)
       <span class="k">TYPE</span><span class="p">(</span><span class="n">block_buffer_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">buffer</span>
 
       <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span>
-<span class="cp"># 678 &quot;/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F&quot;</span>
+<span class="cp"># 683 &quot;/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F&quot;</span>
       <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
          <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">msg_r_dp</span><span class="p">)</span>
-<span class="cp"># 678 &quot;/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F&quot;</span>
+<span class="cp"># 683 &quot;/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F&quot;</span>
       <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
          <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">msg_r_sp</span><span class="p">)</span>
-<span class="cp"># 678 &quot;/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F&quot;</span>
+<span class="cp"># 683 &quot;/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F&quot;</span>
       <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
          <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">msg_c_dp</span><span class="p">)</span>
-<span class="cp"># 678 &quot;/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F&quot;</span>
+<span class="cp"># 683 &quot;/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F&quot;</span>
       <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
          <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">msg_c_sp</span><span class="p">)</span>
-<span class="cp"># 681 &quot;/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F&quot;</span>
+<span class="cp"># 686 &quot;/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F&quot;</span>
       <span class="k">END SELECT</span>
 <span class="k">      DEALLOCATE</span> <span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">indx</span><span class="p">)</span>
       <span class="n">buffer</span><span class="p">%</span><span class="n">nblock</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>

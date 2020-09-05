@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">56 statements</a>
+    title=" 0.1% of total for procedures.">57 statements</a>
      </li> 
      
      
@@ -188,7 +188,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-public function dbcsr_t_nd_mp_comm(comm_2d, map1_2d, map2_2d, dims_nd, dims1_nd, dims2_nd, pdims_2d, tdims)
+public function dbcsr_t_nd_mp_comm(comm_2d, map1_2d, map2_2d, dims_nd, dims1_nd, dims2_nd, pdims_2d, tdims, nsplit, dimsplit)
     
     
    
@@ -338,6 +338,36 @@ public function dbcsr_t_nd_mp_comm(comm_2d, map1_2d, map2_2d, dims_nd, dims1_nd,
   <td><strong>tdims</strong></td><td><p>tensor block dimensions. If present, process grid dimensions are created such that good
  load balancing is ensured even if some of the tensor dimensions are small (i.e. on the same order
  or smaller than nproc**(1/ndim) where ndim is the tensor rank)</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nsplit"></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>nsplit</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dimsplit"></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>dimsplit</strong></td><td></td>
   
 </tr>
 

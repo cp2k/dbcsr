@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.7% of total for modules and submodules.">409 statements</a>
+    title=" 0.6% of total for modules and submodules.">409 statements</a>
      </li> 
      
      
@@ -172,9 +172,7 @@
       
       <a class="list-group-item" href="../module/dbcsr_tas_split.html#variable-default_pdims_accept_ratio">default_pdims_accept_ratio</a>
       
-      <a class="list-group-item" href="../module/dbcsr_tas_split.html#variable-default_nsplit_accept_ratio_1">default_nsplit_accept_ratio_1</a>
-      
-      <a class="list-group-item" href="../module/dbcsr_tas_split.html#variable-default_nsplit_accept_ratio_2">default_nsplit_accept_ratio_2</a>
+      <a class="list-group-item" href="../module/dbcsr_tas_split.html#variable-default_nsplit_accept_ratio">default_nsplit_accept_ratio</a>
       
     </div>
   </div>
@@ -250,6 +248,8 @@
       <a class="list-group-item" href="../module/dbcsr_tas_split.html#proc-block_index_global_to_local">block_index_global_to_local</a>
       
       <a class="list-group-item" href="../module/dbcsr_tas_split.html#proc-group_to_mrowcol">group_to_mrowcol</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_split.html#proc-dbcsr_tas_set_strict_split">dbcsr_tas_set_strict_split</a>
       
     </div>
   </div>
@@ -333,9 +333,7 @@
       
       <a class="list-group-item" href="../module/dbcsr_tas_split.html#variable-default_pdims_accept_ratio">default_pdims_accept_ratio</a>
       
-      <a class="list-group-item" href="../module/dbcsr_tas_split.html#variable-default_nsplit_accept_ratio_1">default_nsplit_accept_ratio_1</a>
-      
-      <a class="list-group-item" href="../module/dbcsr_tas_split.html#variable-default_nsplit_accept_ratio_2">default_nsplit_accept_ratio_2</a>
+      <a class="list-group-item" href="../module/dbcsr_tas_split.html#variable-default_nsplit_accept_ratio">default_nsplit_accept_ratio</a>
       
     </div>
   </div>
@@ -411,6 +409,8 @@
       <a class="list-group-item" href="../module/dbcsr_tas_split.html#proc-block_index_global_to_local">block_index_global_to_local</a>
       
       <a class="list-group-item" href="../module/dbcsr_tas_split.html#proc-group_to_mrowcol">group_to_mrowcol</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_split.html#proc-dbcsr_tas_set_strict_split">dbcsr_tas_set_strict_split</a>
       
     </div>
   </div>
@@ -493,7 +493,7 @@
   
   <td><span class="anchor" id="variable-default_pdims_accept_ratio"></span>real(kind=real_8),</td>
   
-  <td>private,</td>
+  <td>public,</td>
   <td>parameter</td><td>::</td>
   <td><strong>default_pdims_accept_ratio</strong></td><td> =</td><td>1.2_real_8</td><td></td>
   
@@ -505,25 +505,11 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-default_nsplit_accept_ratio_1"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-default_nsplit_accept_ratio"></span>real(kind=real_8),</td>
   
   <td>public,</td>
   <td>parameter</td><td>::</td>
-  <td><strong>default_nsplit_accept_ratio_1</strong></td><td> =</td><td>1.5_real_8</td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-default_nsplit_accept_ratio_2"></span>real(kind=real_8),</td>
-  
-  <td>private,</td>
-  <td>parameter</td><td>::</td>
-  <td><strong>default_nsplit_accept_ratio_2</strong></td><td> =</td><td>2.5_real_8</td><td></td>
+  <td><strong>default_nsplit_accept_ratio</strong></td><td> =</td><td>1.5_real_8</td><td></td>
   
 </tr>
 
@@ -756,7 +742,7 @@ public function <a href='../proc/dbcsr_tas_mp_comm.html'>dbcsr_tas_mp_comm</a>(m
 <tr>
   
   <td><span class="anchor" ></span>integer,</td>
-  <td>intent(inout)</td>
+  <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
@@ -2503,6 +2489,65 @@ public subroutine <a href='../proc/group_to_mrowcol.html'>group_to_mrowcol</a>(i
   
   <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
   <td><strong>rowcols</strong></td><td><p>rows/ columns on this group</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_set_strict_split"></span><h3>
+public subroutine <a href='../proc/dbcsr_tas_set_strict_split.html'>dbcsr_tas_set_strict_split</a>(info)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>freeze current split factor such that it is never changed during multiplication</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>info</strong></td><td></td>
   
 </tr>
 

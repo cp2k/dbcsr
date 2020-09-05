@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 2.2% of total for modules and submodules.">1346 statements</a>
+    title=" 2.8% of total for modules and submodules.">1794 statements</a>
      </li> 
      
      
@@ -186,6 +186,8 @@
   <div id="funcs-0" class="panel-collapse collapse">
     <div class="list-group">
       
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-update_contraction_storage">update_contraction_storage</a>
+      
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-compat_map">compat_map</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-opt_pgrid">opt_pgrid</a>
@@ -202,6 +204,8 @@
     <div id="subs-0" class="panel-collapse collapse">
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_copy">dbcsr_t_copy</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_copy_expert">dbcsr_t_copy_expert</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_copy_nocomm">dbcsr_t_copy_nocomm</a>
       
@@ -240,6 +244,14 @@
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_batched_contract_init">dbcsr_t_batched_contract_init</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_batched_contract_finalize">dbcsr_t_batched_contract_finalize</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_change_pgrid">dbcsr_t_change_pgrid</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_change_pgrid_2d">dbcsr_t_change_pgrid_2d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-pdims_realtoint">pdims_realtoint</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-nearest_divisor">nearest_divisor</a>
       
     </div>
   </div>
@@ -301,8 +313,6 @@
     <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
     
     <li><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></li>
-    
-    <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
     
     <li><a href='../module/dbcsr_tas_split.html'>dbcsr_tas_split</a></li>
     
@@ -366,6 +376,8 @@
   <div id="funcs-1" class="panel-collapse collapse">
     <div class="list-group">
       
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-update_contraction_storage">update_contraction_storage</a>
+      
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-compat_map">compat_map</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-opt_pgrid">opt_pgrid</a>
@@ -382,6 +394,8 @@
     <div id="subs-1" class="panel-collapse collapse">
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_copy">dbcsr_t_copy</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_copy_expert">dbcsr_t_copy_expert</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_copy_nocomm">dbcsr_t_copy_nocomm</a>
       
@@ -420,6 +434,14 @@
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_batched_contract_init">dbcsr_t_batched_contract_init</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_batched_contract_finalize">dbcsr_t_batched_contract_finalize</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_change_pgrid">dbcsr_t_change_pgrid</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_change_pgrid_2d">dbcsr_t_change_pgrid_2d</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-pdims_realtoint">pdims_realtoint</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-nearest_divisor">nearest_divisor</a>
       
     </div>
   </div>
@@ -484,6 +506,105 @@
      
     <section>
     <h2>Functions</h2>
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-update_contraction_storage"></span><h3>
+private function <a href='../proc/update_contraction_storage.html'>update_contraction_storage</a>(storage, split_opt, split) result(do_change_pgrid)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>update contraction storage that keeps track of process grids during a batched contraction
+ and decide if tensor process grid needs to be optimized</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_contraction_storage.html'>dbcsr_t_contraction_storage</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>storage</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>split_opt</strong></td><td><p>optimized TAS process grid</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>split</strong></td><td><p>current TAS process grid</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>logical,
+  DIMENSION(2)</small></h4>
+  
+    
+
+  </div>
+  </div>
+
     
     
   <div class="panel panel-default">
@@ -766,6 +887,155 @@ public subroutine <a href='../proc/dbcsr_t_copy.html'>dbcsr_t_copy</a>(tensor_in
   
   <td>DIMENSION(2, ndims_tensor(tensor_in))</td><td>::</td>
   <td><strong>bounds</strong></td><td><p>crop tensor data: start and end index for each tensor dimension</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>move_data</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>unit_nr</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_copy_expert"></span><h3>
+private subroutine <a href='../proc/dbcsr_t_copy_expert.html'>dbcsr_t_copy_expert</a>(tensor_in, tensor_out, order, summation, bounds, move_data, unit_nr)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>expert routine for copying a tensor. For internal use only.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td>intent(inout),</td>
+  <td></td>
+  
+  <td>TARGET</td><td>::</td>
+  <td><strong>tensor_in</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td>intent(inout),</td>
+  <td></td>
+  
+  <td>TARGET</td><td>::</td>
+  <td><strong>tensor_out</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(ndims_tensor(tensor_in))</td><td>::</td>
+  <td><strong>order</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>summation</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(2, ndims_tensor(tensor_in))</td><td>::</td>
+  <td><strong>bounds</strong></td><td></td>
   
 </tr>
 
@@ -1289,7 +1559,8 @@ public subroutine <a href='../proc/dbcsr_t_contract.html'>dbcsr_t_contract</a>(a
   <td>optional</td>
   
   <td>DIMENSION(2, SIZE(contract_1))</td><td>::</td>
-  <td><strong>bounds_1</strong></td><td><p>bounds corresponding to contract_1 AKA contract_2</p></td>
+  <td><strong>bounds_1</strong></td><td><p>bounds corresponding to contract_1 AKA contract_2: start and end index of an index range over
+ which to contract. For use in batched contraction.</p></td>
   
 </tr>
 
@@ -1304,7 +1575,8 @@ public subroutine <a href='../proc/dbcsr_t_contract.html'>dbcsr_t_contract</a>(a
   <td>optional</td>
   
   <td>DIMENSION(2, SIZE(notcontract_1))</td><td>::</td>
-  <td><strong>bounds_2</strong></td><td><p>bounds corresponding to notcontract_1</p></td>
+  <td><strong>bounds_2</strong></td><td><p>bounds corresponding to notcontract_1: start and end index of an index range.
+ For use in batched contraction.</p></td>
   
 </tr>
 
@@ -1319,7 +1591,8 @@ public subroutine <a href='../proc/dbcsr_t_contract.html'>dbcsr_t_contract</a>(a
   <td>optional</td>
   
   <td>DIMENSION(2, SIZE(notcontract_2))</td><td>::</td>
-  <td><strong>bounds_3</strong></td><td><p>bounds corresponding to notcontract_2</p></td>
+  <td><strong>bounds_3</strong></td><td><p>bounds corresponding to notcontract_2: start and end index of an index range.
+ For use in batched contraction.</p></td>
   
 </tr>
 
@@ -2091,7 +2364,7 @@ private subroutine <a href='../proc/align_tensor.html'>align_tensor</a>(tensor_i
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-reshape_mm_compatible"></span><h3>
-private subroutine <a href='../proc/reshape_mm_compatible.html'>reshape_mm_compatible</a>(tensor1, tensor2, tensor1_out, tensor2_out, ind1_free, ind1_linked, ind2_free, ind2_linked, trans1, trans2, new1, new2, nodata1, nodata2, move_data_1, move_data_2, optimize_dist, unit_nr)
+private subroutine <a href='../proc/reshape_mm_compatible.html'>reshape_mm_compatible</a>(tensor1, tensor2, tensor1_out, tensor2_out, ind1_free, ind1_linked, ind2_free, ind2_linked, trans1, trans2, new1, new2, ref_tensor, nodata1, nodata2, move_data_1, move_data_2, optimize_dist, unit_nr)
     
     
    
@@ -2308,6 +2581,21 @@ private subroutine <a href='../proc/reshape_mm_compatible.html'>reshape_mm_compa
   <td></td><td>::</td>
   <td><strong>new2</strong></td><td><p>whether a new tensor 1 was created
  whether a new tensor 2 was created</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ref_tensor</strong></td><td></td>
   
 </tr>
 
@@ -3922,7 +4210,7 @@ private subroutine <a href='../proc/dbcsr_t_print_contraction_index.html'>dbcsr_
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_batched_contract_init"></span><h3>
-public subroutine <a href='../proc/dbcsr_t_batched_contract_init.html'>dbcsr_t_batched_contract_init</a>(tensor)
+public subroutine <a href='../proc/dbcsr_t_batched_contract_init.html'>dbcsr_t_batched_contract_init</a>(tensor, batch_range_1, batch_range_2, batch_range_3, batch_range_4)
     
     
    
@@ -3937,14 +4225,7 @@ public subroutine <a href='../proc/dbcsr_t_batched_contract_init.html'>dbcsr_t_b
 
 
 
-<p>initialize batched contraction for this tensor. This ensures that no unnecessary communication takes place
- in a series of batched contractions (i.e. partial contraction with specification of bounds
- in order to reduce memory), under the following conditions:
- - the same tensor is used in multiple contraction calls and its data is not changed via calls
-   to routines other than dbcsr_t_contract
- - if tensor is the result of a contraction, it must not be reused as input for another contraction
- If tensor is the result of a contraction, its publicly accessible data will not be updated until
- dbcsr_t_batched_contract_finalize has been called.</p>
+<p>Initialize batched contraction for this tensor.</p><a href="../proc/dbcsr_t_batched_contract_init.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -3971,6 +4252,82 @@ public subroutine <a href='../proc/dbcsr_t_batched_contract_init.html'>dbcsr_t_b
   
   <td></td><td>::</td>
   <td><strong>tensor</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>batch_range_1</strong></td><td><p>For internal load balancing optimizations, optionally specify the index ranges of
+ batched contraction.
+ batch_range_i refers to the ith tensor dimension and contains all block indices starting
+ a new range. The size should be the number of ranges plus one, the last element being the
+ block index plus one of the last block in the last range.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>batch_range_2</strong></td><td><p>For internal load balancing optimizations, optionally specify the index ranges of
+ batched contraction.
+ batch_range_i refers to the ith tensor dimension and contains all block indices starting
+ a new range. The size should be the number of ranges plus one, the last element being the
+ block index plus one of the last block in the last range.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>batch_range_3</strong></td><td><p>For internal load balancing optimizations, optionally specify the index ranges of
+ batched contraction.
+ batch_range_i refers to the ith tensor dimension and contains all block indices starting
+ a new range. The size should be the number of ranges plus one, the last element being the
+ block index plus one of the last block in the last range.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>batch_range_4</strong></td><td><p>For internal load balancing optimizations, optionally specify the index ranges of
+ batched contraction.
+ batch_range_i refers to the ith tensor dimension and contains all block indices starting
+ a new range. The size should be the number of ranges plus one, the last element being the
+ block index plus one of the last block in the last range.</p></td>
   
 </tr>
 
@@ -4046,6 +4403,587 @@ public subroutine <a href='../proc/dbcsr_t_batched_contract_finalize.html'>dbcsr
   
   <td></td><td>::</td>
   <td><strong>unit_nr</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_change_pgrid"></span><h3>
+private subroutine <a href='../proc/dbcsr_t_change_pgrid.html'>dbcsr_t_change_pgrid</a>(tensor, pgrid, batch_range_1, batch_range_2, batch_range_3, batch_range_4, nodata, pgrid_changed, unit_nr)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>change the process grid of a tensor</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>tensor</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>pgrid</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>batch_range_1</strong></td><td><p>For internal load balancing optimizations, optionally specify the index ranges of
+ batched contraction.
+ batch_range_i refers to the ith tensor dimension and contains all block indices starting
+ a new range. The size should be the number of ranges plus one, the last element being the
+ block index plus one of the last block in the last range.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>batch_range_2</strong></td><td><p>For internal load balancing optimizations, optionally specify the index ranges of
+ batched contraction.
+ batch_range_i refers to the ith tensor dimension and contains all block indices starting
+ a new range. The size should be the number of ranges plus one, the last element being the
+ block index plus one of the last block in the last range.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>batch_range_3</strong></td><td><p>For internal load balancing optimizations, optionally specify the index ranges of
+ batched contraction.
+ batch_range_i refers to the ith tensor dimension and contains all block indices starting
+ a new range. The size should be the number of ranges plus one, the last element being the
+ block index plus one of the last block in the last range.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>batch_range_4</strong></td><td><p>For internal load balancing optimizations, optionally specify the index ranges of
+ batched contraction.
+ batch_range_i refers to the ith tensor dimension and contains all block indices starting
+ a new range. The size should be the number of ranges plus one, the last element being the
+ block index plus one of the last block in the last range.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>nodata</strong></td><td><p>optionally don't copy the tensor data (then tensor is empty on returned)</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(out),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>pgrid_changed</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>unit_nr</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_change_pgrid_2d"></span><h3>
+private subroutine <a href='../proc/dbcsr_t_change_pgrid_2d.html'>dbcsr_t_change_pgrid_2d</a>(tensor, mp_comm, pdims, nodata, nsplit, dimsplit, pgrid_changed, unit_nr)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>map tensor to a new 2d process grid for the matrix representation.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>tensor</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>mp_comm</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>pdims</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>nodata</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>nsplit</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>dimsplit</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(out),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>pgrid_changed</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>unit_nr</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-pdims_realtoint"></span><h3>
+private subroutine <a href='../proc/pdims_realtoint.html'>pdims_realtoint</a>(nproc, pdims_real, pdims_int, pdims_min, pdims_max)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nproc</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>pdims_real</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>pdims_int</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>pdims_min</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>pdims_max</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-nearest_divisor"></span><h3>
+private subroutine <a href='../proc/nearest_divisor.html'>nearest_divisor</a>(n, div_approx, div_min, div_max, div_near)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>div_approx</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>div_min</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>div_max</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>div_near</strong></td><td></td>
   
 </tr>
 

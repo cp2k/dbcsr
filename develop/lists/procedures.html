@@ -2732,20 +2732,17 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/dbcsr_t_batched_contract_finalize.html'>dbcsr_t_batched_contract_finalize</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>finalize batched contraction. This performs all communication that has been postponed in the
  contraction calls.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/dbcsr_t_batched_contract_init.html'>dbcsr_t_batched_contract_init</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>initialize batched contraction for this tensor. This ensures that no unnecessary communication takes place
- in a series of batched contractions (i.e. partial contraction with specification of bounds
- in order to reduce memory), under the following conditions:
- - the same tensor is used in multiple contraction calls and its data is not changed via calls
-   to routines other than dbcsr_t_contract
- - if tensor is the result of a contraction, it must not be reused as input for another contraction
- If tensor is the result of a contraction, its publicly accessible data will not be updated until
- dbcsr_t_batched_contract_finalize has been called.</p></td></tr>
+			   <tr><td><a href='../proc/dbcsr_t_batched_contract_init.html'>dbcsr_t_batched_contract_init</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>Initialize batched contraction for this tensor.</p><a href="../proc/dbcsr_t_batched_contract_init.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_t_blk_offsets.html'>dbcsr_t_blk_offsets</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>offset of tensor block</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_t_blk_size.html'>dbcsr_t_blk_size</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Function</td><td><p>block size of block with index ind along dimension idim</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_t_blk_sizes.html'>dbcsr_t_blk_sizes</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>Size of tensor block</p></td></tr>
+			 
+			   <tr><td><a href='../proc/dbcsr_t_change_pgrid.html'>dbcsr_t_change_pgrid</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>change the process grid of a tensor</p></td></tr>
+			 
+			   <tr><td><a href='../proc/dbcsr_t_change_pgrid_2d.html'>dbcsr_t_change_pgrid_2d</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>map tensor to a new 2d process grid for the matrix representation.</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_t_checksum.html'>dbcsr_t_checksum</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Function</td><td><p>checksum of a tensor consistent with dbcsr_checksum</p></td></tr>
 			 
@@ -2777,6 +2774,10 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
    If <code>order</code> argument is present, sizes must match after index permutation.
  OR
  * target tensor is not yet created, in this case an exact copy of source tensor is returned.</p></td></tr>
+			 
+			   <tr><td><a href='../proc/dbcsr_t_copy_contraction_storage.html'>dbcsr_t_copy_contraction_storage</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td></td></tr>
+			 
+			   <tr><td><a href='../proc/dbcsr_t_copy_expert.html'>dbcsr_t_copy_expert</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>expert routine for copying a tensor. For internal use only.</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_t_copy_matrix_to_tensor.html'>dbcsr_t_copy_matrix_to_tensor</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>copy matrix to tensor.</p></td></tr>
 			 
@@ -2949,6 +2950,8 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/dbcsr_t_pgrid_remap.html'>dbcsr_t_pgrid_remap</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>remap a process grid (needed when mapping between tensor and matrix index is changed)</p></td></tr>
 			 
+			   <tr><td><a href='../proc/dbcsr_t_pgrid_set_strict_split.html'>dbcsr_t_pgrid_set_strict_split</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>freeze current split factor such that it is never changed during contraction</p></td></tr>
+			 
 			   <tr><td><a href='../proc/dbcsr_t_print_contraction_index.html'>dbcsr_t_print_contraction_index</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>print tensor contraction indices in a human readable way</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_t_put_2d_block_c_dp.html'>dbcsr_t_put_2d_block_c_dp</a></td><td><a href='../module/dbcsr_tensor_block.html'>dbcsr_tensor_block</a></td><td>Subroutine</td><td><p>Template for dbcsr_t_put_block.</p></td></tr>
@@ -3041,6 +3044,8 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/dbcsr_t_write_tensor_dist.html'>dbcsr_t_write_tensor_dist</a></td><td><a href='../module/dbcsr_tensor_io.html'>dbcsr_tensor_io</a></td><td>Subroutine</td><td><p>Write info on tensor distribution &amp; load balance</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_t_write_tensor_info.html'>dbcsr_t_write_tensor_info</a></td><td><a href='../module/dbcsr_tensor_io.html'>dbcsr_tensor_io</a></td><td>Subroutine</td><td><p>Write tensor global info: block dimensions, full dimensions and process grid dimensions</p></td></tr>
+			 
+			   <tr><td><a href='../proc/dbcsr_tas_batched_mm_complete.html'>dbcsr_tas_batched_mm_complete</a></td><td><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></td><td>Subroutine</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_tas_batched_mm_finalize.html'>dbcsr_tas_batched_mm_finalize</a></td><td><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></td><td>Subroutine</td><td></td></tr>
 			 
@@ -3247,6 +3252,8 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../interface/dbcsr_tas_set.html'>dbcsr_tas_set</a></td><td><a href='../module/dbcsr_tas_base.html'>dbcsr_tas_base</a></td><td>Interface</td><td></td></tr>
 			 
+			   <tr><td><a href='../proc/dbcsr_tas_set_batched_state.html'>dbcsr_tas_set_batched_state</a></td><td><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></td><td>Subroutine</td><td><p>set state flags during batched multiplication</p></td></tr>
+			 
 			   <tr><td><a href='../proc/dbcsr_tas_set_c_dp.html'>dbcsr_tas_set_c_dp</a></td><td><a href='../module/dbcsr_tas_base.html'>dbcsr_tas_base</a></td><td>Subroutine</td><td><p>As dbcsr_set</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_tas_set_c_sp.html'>dbcsr_tas_set_c_sp</a></td><td><a href='../module/dbcsr_tas_base.html'>dbcsr_tas_base</a></td><td>Subroutine</td><td><p>As dbcsr_set</p></td></tr>
@@ -3254,6 +3261,8 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/dbcsr_tas_set_r_dp.html'>dbcsr_tas_set_r_dp</a></td><td><a href='../module/dbcsr_tas_base.html'>dbcsr_tas_base</a></td><td>Subroutine</td><td><p>As dbcsr_set</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_tas_set_r_sp.html'>dbcsr_tas_set_r_sp</a></td><td><a href='../module/dbcsr_tas_base.html'>dbcsr_tas_base</a></td><td>Subroutine</td><td><p>As dbcsr_set</p></td></tr>
+			 
+			   <tr><td><a href='../proc/dbcsr_tas_set_strict_split.html'>dbcsr_tas_set_strict_split</a></td><td><a href='../module/dbcsr_tas_split.html'>dbcsr_tas_split</a></td><td>Subroutine</td><td><p>freeze current split factor such that it is never changed during multiplication</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_tas_setup_test_matrix.html'>dbcsr_tas_setup_test_matrix</a></td><td><a href='../module/dbcsr_tas_test.html'>dbcsr_tas_test</a></td><td>Subroutine</td><td><p>Setup tall-and-skinny matrix for testing</p></td></tr>
 			 
@@ -5674,6 +5683,8 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/ndims_tensor.html'>ndims_tensor</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Function</td><td><p>tensor rank</p></td></tr>
 			 
+			   <tr><td><a href='../proc/nearest_divisor.html'>nearest_divisor</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td></td></tr>
+			 
 			   <tr><td><a href='../proc/new_dbcsr_tas_blk_size_arb.html'>new_dbcsr_tas_blk_size_arb</a></td><td><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></td><td>Function</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/new_dbcsr_tas_blk_size_one.html'>new_dbcsr_tas_blk_size_one</a></td><td><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></td><td>Function</td><td></td></tr>
@@ -5707,6 +5718,8 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/ordered_search.html'>ordered_search</a></td><td><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></td><td>Subroutine</td><td><p>search a value in an ordered array of indices</p></td></tr>
 			 
 			   <tr><td><a href='../proc/pd_blk_cs.html'>pd_blk_cs</a></td><td><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></td><td>Function</td><td></td></tr>
+			 
+			   <tr><td><a href='../proc/pdims_realtoint.html'>pdims_realtoint</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/permute.html'>permute</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td><p>Compute all permutations p of (1, 2, ..., n)</p></td></tr>
 			 
@@ -6037,6 +6050,9 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/tree_to_linear_s.html'>tree_to_linear_s</a></td><td><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></td><td>Subroutine</td><td><p>Converts mutable data to linear (array) type.</p></td></tr>
 			 
 			   <tr><td><a href='../proc/tree_to_linear_z.html'>tree_to_linear_z</a></td><td><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></td><td>Subroutine</td><td><p>Converts mutable data to linear (array) type.</p></td></tr>
+			 
+			   <tr><td><a href='../proc/update_contraction_storage.html'>update_contraction_storage</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Function</td><td><p>update contraction storage that keeps track of process grids during a batched contraction
+ and decide if tensor process grid needs to be optimized</p></td></tr>
 			 
 			   <tr><td><a href='../proc/update_row_info.html'>update_row_info</a></td><td><a href='../module/dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></td><td>Subroutine</td><td><p>Updates the row info stored in the iterator
  </p><a href="../proc/update_row_info.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>

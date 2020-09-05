@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">62 statements</a>
+    title=" 0.1% of total for procedures.">63 statements</a>
      </li> 
      
      
@@ -225,7 +225,7 @@ public subroutine dbcsr_print_config(unit_nr)
   
 <tr>
   
-  <td><span class="anchor" id="variable-unit_nr~20"></span>integer,</td>
+  <td><span class="anchor" id="variable-unit_nr~23"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -397,6 +397,9 @@ public subroutine dbcsr_print_config(unit_nr)
             <span class="k">END IF</span>
 <span class="k">         END IF</span>
 <span class="k">      </span><span class="n">ENDIF</span>
+
+      <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T74,ES7.1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+         <span class="s2">&quot;DBCSR| Split modifier for TAS multiplication algorithm&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">tas_split_factor</span>
 
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_print_config</span>
 </pre></div>

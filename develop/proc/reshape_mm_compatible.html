@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.3% of total for procedures.">182 statements</a>
+    title=" 0.3% of total for procedures.">183 statements</a>
      </li> 
      
      
@@ -188,7 +188,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-private subroutine reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_out, ind1_free, ind1_linked, ind2_free, ind2_linked, trans1, trans2, new1, new2, nodata1, nodata2, move_data_1, move_data_2, optimize_dist, unit_nr)
+private subroutine reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_out, ind1_free, ind1_linked, ind2_free, ind2_linked, trans1, trans2, new1, new2, ref_tensor, nodata1, nodata2, move_data_1, move_data_2, optimize_dist, unit_nr)
     
     
    
@@ -409,6 +409,21 @@ private subroutine reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_
   
 <tr>
   
+  <td><span class="anchor" id="variable-ref_tensor"></span>integer,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ref_tensor</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
   <td><span class="anchor" id="variable-nodata1"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
@@ -488,7 +503,7 @@ private subroutine reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_
   
 <tr>
   
-  <td><span class="anchor" id="variable-unit_nr~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-unit_nr~7"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   

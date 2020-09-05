@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">31 statements</a>
+    title=" 0.1% of total for procedures.">33 statements</a>
      </li> 
      
      
@@ -202,30 +202,25 @@ public subroutine dbcsr_t_contract(alpha, tensor_1, tensor_2, beta, tensor_3, co
  tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
  * tensor_2(contract_2, notcontract_2)
  + beta * tensor_3(map_1, map_2)</p>
-<p>note: block sizes of the corresponding indices need to be the same in all tensors.</p>
-<p>note: for best performance the tensors should have been created with consistent map1_2d and map2_2d
- arguments as follows:
-    tensor_1:
-       map1_2d == contract_1
-       map2_2d == notcontract_1
-   tensor_2:
-       map1_2d == contract_2
-       map2_2d == notcontract_2
-   tensor_3
-       map1_2d == map_1
-       map2_2d == map_2
- or alternatively:
-    tensor_1:
-       map1_2d == notcontract_1
-       map2_2d == contract_1
-   tensor_2:
-       map1_2d == notcontract_2
-       map2_2d == contract_2
-   tensor_3
-       map1_2d == map_1
-       map2_2d == map_2
- this is an optimization, not a requirement. in general this condition can not always be satisfied
- (if the same tensor appears in more than one contraction).</p>
+<p></p><div class="alert alert-info" role="alert"><h4>Note</h4><p>note 1: block sizes of the corresponding indices need to be the same in all tensors.</p>
+<p>note 2: for best performance the tensors should have been created in matrix layouts
+ compatible with the contraction, e.g. tensor_1 should have been created with either
+ map1_2d == contract_1 and map2_2d == notcontract_1 or map1_2d == notcontract_1 and
+ map2_2d == contract_1 (the same with tensor_2 and contract_2 / notcontract_2 and with
+ tensor_3 and map_1 / map_2).
+ Furthermore the two largest tensors involved in the contraction should map both to either
+ tall or short matrices: the largest matrix dimension should be "on the same side"
+ and should have identical distribution (which is always the case if the distributions were
+ obtained with dbcsr_t_default_distvec).</p>
+<p>note 3: if the same tensor occurs in multiple contractions, a different tensor object should
+ be created for each contraction and the data should be copied between the tensors by use of
+ dbcsr_t_copy. If the same tensor object is used in multiple contractions, matrix layouts are
+ not compatible for all contractions (see note 2).</p>
+<p>note 4: automatic optimizations are enabled by using the feature of batched contraction, see
+ dbcsr_t_batched_contract_init, dbcsr_t_batched_contract_finalize. The arguments bounds_1,
+ bounds_2, bounds_3 give the index ranges of the batches.
+ </p></div>
+<p>
     
 
     <h3>Arguments</h3>
@@ -416,7 +411,8 @@ public subroutine dbcsr_t_contract(alpha, tensor_1, tensor_2, beta, tensor_3, co
   <td>optional</td>
   
   <td>DIMENSION(2, SIZE(contract_1))</td><td>::</td>
-  <td><strong>bounds_1</strong></td><td><p>bounds corresponding to contract_1 AKA contract_2</p></td>
+  <td><strong>bounds_1</strong></td><td><p>bounds corresponding to contract_1 AKA contract_2: start and end index of an index range over
+ which to contract. For use in batched contraction.</p></td>
   
 </tr>
 
@@ -431,7 +427,8 @@ public subroutine dbcsr_t_contract(alpha, tensor_1, tensor_2, beta, tensor_3, co
   <td>optional</td>
   
   <td>DIMENSION(2, SIZE(notcontract_1))</td><td>::</td>
-  <td><strong>bounds_2</strong></td><td><p>bounds corresponding to notcontract_1</p></td>
+  <td><strong>bounds_2</strong></td><td><p>bounds corresponding to notcontract_1: start and end index of an index range.
+ For use in batched contraction.</p></td>
   
 </tr>
 
@@ -446,7 +443,8 @@ public subroutine dbcsr_t_contract(alpha, tensor_1, tensor_2, beta, tensor_3, co
   <td>optional</td>
   
   <td>DIMENSION(2, SIZE(notcontract_2))</td><td>::</td>
-  <td><strong>bounds_3</strong></td><td><p>bounds corresponding to notcontract_2</p></td>
+  <td><strong>bounds_3</strong></td><td><p>bounds corresponding to notcontract_2: start and end index of an index range.
+ For use in batched contraction.</p></td>
   
 </tr>
 
@@ -549,7 +547,7 @@ public subroutine dbcsr_t_contract(alpha, tensor_1, tensor_2, beta, tensor_3, co
   
 <tr>
   
-  <td><span class="anchor" id="variable-move_data~3"></span>logical,</td>
+  <td><span class="anchor" id="variable-move_data~4"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -579,7 +577,7 @@ public subroutine dbcsr_t_contract(alpha, tensor_1, tensor_2, beta, tensor_3, co
   
 <tr>
   
-  <td><span class="anchor" id="variable-unit_nr~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-unit_nr~5"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   

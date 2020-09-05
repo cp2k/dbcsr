@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.2% of total for procedures.">102 statements</a>
+    title=" 0.2% of total for procedures.">107 statements</a>
      </li> 
      
      
@@ -188,7 +188,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-public subroutine dbcsr_tas_merge(matrix_out, matrix_in, move_data)
+public subroutine dbcsr_tas_merge(matrix_out, matrix_in, summation, move_data)
     
     
    
@@ -249,7 +249,22 @@ public subroutine dbcsr_tas_merge(matrix_out, matrix_in, move_data)
   
 <tr>
   
-  <td><span class="anchor" id="variable-move_data~15"></span>logical,</td>
+  <td><span class="anchor" id="variable-summation~51"></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>summation</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-move_data~16"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
   

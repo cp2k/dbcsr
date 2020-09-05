@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 2.0% of total for modules and submodules.">1235 statements</a>
+    title=" 2.0% of total for modules and submodules.">1267 statements</a>
      </li> 
      
      
@@ -206,6 +206,8 @@
     <div class="list-group">
       
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#type-dbcsr_t_pgrid_type">dbcsr_t_pgrid_type</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#type-dbcsr_t_contraction_storage">dbcsr_t_contraction_storage</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#type-dbcsr_t_type">dbcsr_t_type</a>
       
@@ -317,6 +319,8 @@
       
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_pgrid_destroy">dbcsr_t_pgrid_destroy</a>
       
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_pgrid_set_strict_split">dbcsr_t_pgrid_set_strict_split</a>
+      
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_pgrid_remap">dbcsr_t_pgrid_remap</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_pgrid_change_dims">dbcsr_t_pgrid_change_dims</a>
@@ -350,6 +354,8 @@
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_scale">dbcsr_t_scale</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_default_distvec">dbcsr_t_default_distvec</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_copy_contraction_storage">dbcsr_t_copy_contraction_storage</a>
       
     </div>
   </div>
@@ -392,6 +398,8 @@
     <li><a href='../module/dbcsr_tas_base.html'>dbcsr_tas_base</a></li>
     
     <li><a href='../module/dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
+    
+    <li><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></li>
     
     <li><a href='../module/dbcsr_tensor_index.html'>dbcsr_tensor_index</a></li>
     
@@ -481,6 +489,8 @@
     <div class="list-group">
       
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#type-dbcsr_t_pgrid_type">dbcsr_t_pgrid_type</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#type-dbcsr_t_contraction_storage">dbcsr_t_contraction_storage</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#type-dbcsr_t_type">dbcsr_t_type</a>
       
@@ -592,6 +602,8 @@
       
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_pgrid_destroy">dbcsr_t_pgrid_destroy</a>
       
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_pgrid_set_strict_split">dbcsr_t_pgrid_set_strict_split</a>
+      
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_pgrid_remap">dbcsr_t_pgrid_remap</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_pgrid_change_dims">dbcsr_t_pgrid_change_dims</a>
@@ -625,6 +637,8 @@
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_scale">dbcsr_t_scale</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_default_distvec">dbcsr_t_default_distvec</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tensor_types.html#proc-dbcsr_t_copy_contraction_storage">dbcsr_t_copy_contraction_storage</a>
       
     </div>
   </div>
@@ -2194,6 +2208,92 @@ private subroutine <a href='../proc/dbcsr_t_filter_c_sp.html'>dbcsr_t_filter_c_s
      
      
 <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="type-dbcsr_t_contraction_storage"></span><h3>type, public :: <a href='../type/dbcsr_t_contraction_storage.html'>dbcsr_t_contraction_storage</a>
+    
+  </h3></div>
+  <div class="panel-body">
+    
+     
+     <h4>Components</h4>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th><th>Visibility</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nsplit_avg"></span>real(kind=real_8),</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>nsplit_avg</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-ibatch"></span>integer,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>ibatch</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-batch_ranges"></span>type(<a href='../type/array_list.html'>array_list</a>),</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>batch_ranges</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-static"></span>logical,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>static</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+     
+     
+          
+     
+  </div>
+</div>
+
+     
+     
+<div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="type-dbcsr_t_type"></span><h3>type, public :: <a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>
     
   </h3></div>
@@ -2404,6 +2504,20 @@ private subroutine <a href='../proc/dbcsr_t_filter_c_sp.html'>dbcsr_t_filter_c_s
   <td>public,</td>
   <td>POINTER</td><td>::</td>
   <td><strong>refcount</strong></td><td>=> </td><td>NULL()</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-contraction_storage"></span>type(<a href='../type/dbcsr_t_contraction_storage.html'>dbcsr_t_contraction_storage</a>),</td>
+  
+  <td>public,</td>
+  <td>ALLOCATABLE</td><td>::</td>
+  <td><strong>contraction_storage</strong></td><td></td><td></td><td></td>
   
 </tr>
 
@@ -3142,7 +3256,7 @@ private function <a href='../proc/tas_blk_size_t.html'>tas_blk_size_t</a>(t, row
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_nd_mp_comm"></span><h3>
-public function <a href='../proc/dbcsr_t_nd_mp_comm.html'>dbcsr_t_nd_mp_comm</a>(comm_2d, map1_2d, map2_2d, dims_nd, dims1_nd, dims2_nd, pdims_2d, tdims)
+public function <a href='../proc/dbcsr_t_nd_mp_comm.html'>dbcsr_t_nd_mp_comm</a>(comm_2d, map1_2d, map2_2d, dims_nd, dims1_nd, dims2_nd, pdims_2d, tdims, nsplit, dimsplit)
     
     
    
@@ -3297,6 +3411,36 @@ public function <a href='../proc/dbcsr_t_nd_mp_comm.html'>dbcsr_t_nd_mp_comm</a>
   <td><strong>tdims</strong></td><td><p>tensor block dimensions. If present, process grid dimensions are created such that good
  load balancing is ensured even if some of the tensor dimensions are small (i.e. on the same order
  or smaller than nproc**(1/ndim) where ndim is the tensor rank)</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>nsplit</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>dimsplit</strong></td><td></td>
   
 </tr>
 
@@ -6374,6 +6518,65 @@ public subroutine <a href='../proc/dbcsr_t_pgrid_destroy.html'>dbcsr_t_pgrid_des
     
     
   <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_pgrid_set_strict_split"></span><h3>
+public subroutine <a href='../proc/dbcsr_t_pgrid_set_strict_split.html'>dbcsr_t_pgrid_set_strict_split</a>(pgrid)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>freeze current split factor such that it is never changed during contraction</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>pgrid</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_pgrid_remap"></span><h3>
 private subroutine <a href='../proc/dbcsr_t_pgrid_remap.html'>dbcsr_t_pgrid_remap</a>(pgrid_in, map1_2d, map2_2d, pgrid_out)
     
@@ -8166,6 +8369,72 @@ public subroutine <a href='../proc/dbcsr_t_default_distvec.html'>dbcsr_t_default
   
   <td>DIMENSION(nblk)</td><td>::</td>
   <td><strong>dist</strong></td><td><p>distribution</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_copy_contraction_storage"></span><h3>
+public subroutine <a href='../proc/dbcsr_t_copy_contraction_storage.html'>dbcsr_t_copy_contraction_storage</a>(tensor_in, tensor_out)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>tensor_in</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>tensor_out</strong></td><td></td>
   
 </tr>
 

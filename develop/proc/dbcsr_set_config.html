@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">79 statements</a>
+    title=" 0.1% of total for procedures.">81 statements</a>
      </li> 
      
      
@@ -194,7 +194,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-public subroutine dbcsr_set_config(mm_driver, use_mpi_allocator, mm_stack_size, avg_elements_images, num_mult_images, nstacks, use_mpi_rma, num_layers_3D, use_comm_thread, comm_thread_load, mm_densification, multrec_limit, accdrv_priority_streams, accdrv_priority_buffers, accdrv_posterior_streams, accdrv_posterior_buffers, accdrv_avoid_after_busy, accdrv_min_flop_process, accdrv_stack_sort, accdrv_min_flop_sort, accdrv_do_inhomogenous, accdrv_binning_nbins, accdrv_binning_binsize, use_mempools_cpu)
+public subroutine dbcsr_set_config(mm_driver, use_mpi_allocator, mm_stack_size, avg_elements_images, num_mult_images, nstacks, use_mpi_rma, num_layers_3D, use_comm_thread, comm_thread_load, mm_densification, multrec_limit, accdrv_priority_streams, accdrv_priority_buffers, accdrv_posterior_streams, accdrv_posterior_buffers, accdrv_avoid_after_busy, accdrv_min_flop_process, accdrv_stack_sort, accdrv_min_flop_sort, accdrv_do_inhomogenous, accdrv_binning_nbins, accdrv_binning_binsize, use_mempools_cpu, tas_split_factor)
     
     
    
@@ -577,6 +577,21 @@ public subroutine dbcsr_set_config(mm_driver, use_mpi_allocator, mm_stack_size, 
   
 </tr>
 
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-tas_split_factor~2"></span>real(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>tas_split_factor</strong></td><td></td>
+  
+</tr>
+
 </tbody>
 </table>
 
@@ -668,7 +683,8 @@ public subroutine dbcsr_set_config(mm_driver, use_mpi_allocator, mm_stack_size, 
       <span class="n">accdrv_do_inhomogenous</span><span class="p">,</span> <span class="p">&amp;</span>
       <span class="n">accdrv_binning_nbins</span><span class="p">,</span> <span class="p">&amp;</span>
       <span class="n">accdrv_binning_binsize</span><span class="p">,</span> <span class="p">&amp;</span>
-      <span class="n">use_mempools_cpu</span><span class="p">)</span>
+      <span class="n">use_mempools_cpu</span><span class="p">,</span> <span class="p">&amp;</span>
+      <span class="n">tas_split_factor</span><span class="p">)</span>
 
       <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>             <span class="kd">::</span> <span class="n">mm_driver</span>
       <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">use_mpi_allocator</span>
@@ -696,6 +712,7 @@ public subroutine dbcsr_set_config(mm_driver, use_mpi_allocator, mm_stack_size, 
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">accdrv_binning_nbins</span><span class="p">,</span> <span class="p">&amp;</span>
                                                             <span class="n">accdrv_binning_binsize</span>
       <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">use_mempools_cpu</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>            <span class="kd">::</span> <span class="n">tas_split_factor</span>
 
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">nthreads</span>
 
@@ -719,6 +736,7 @@ public subroutine dbcsr_set_config(mm_driver, use_mpi_allocator, mm_stack_size, 
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_binning_nbins</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_binning_nbins</span> <span class="o">=</span> <span class="n">accdrv_binning_nbins</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_binning_binsize</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_binning_binsize</span> <span class="o">=</span> <span class="n">accdrv_binning_binsize</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_mempools_cpu</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mempools_cpu</span> <span class="o">=</span> <span class="n">use_mempools_cpu</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">tas_split_factor</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">tas_split_factor</span> <span class="o">=</span> <span class="n">tas_split_factor</span>
 
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">comm_thread_load</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span> <span class="o">=</span> <span class="n">comm_thread_load</span>

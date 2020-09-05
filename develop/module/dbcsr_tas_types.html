@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for modules and submodules.">56 statements</a>
+    title=" 0.1% of total for modules and submodules.">58 statements</a>
      </li> 
      
      
@@ -497,11 +497,25 @@
   
 <tr>
   
+  <td><span class="anchor" id="variable-ngroup_opt"></span>integer,</td>
+  
+  <td>public,</td>
+  <td>ALLOCATABLE</td><td>::</td>
+  <td><strong>ngroup_opt</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
   <td><span class="anchor" id="variable-strict_split"></span>logical,</td>
   
-  <td>public</td>
-  <td></td><td>::</td>
-  <td><strong>strict_split</strong></td><td> =</td><td>.FALSE.</td><td></td>
+  <td>public,</td>
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>strict_split</strong></td><td> =</td><td>[.FALSE., .FALSE.]</td><td></td>
   
 </tr>
 
@@ -632,7 +646,7 @@
      
      
 <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="type-dbcsr_tas_mm_storage"></span><h3>type, private :: <a href='../type/dbcsr_tas_mm_storage.html'>dbcsr_tas_mm_storage</a>
+  <div class="panel-heading codesum"><span class="anchor" id="type-dbcsr_tas_mm_storage"></span><h3>type, public :: <a href='../type/dbcsr_tas_mm_storage.html'>dbcsr_tas_mm_storage</a>
     
   </h3></div>
   <div class="panel-body">
@@ -914,6 +928,20 @@
   <td>public,</td>
   <td>ALLOCATABLE</td><td>::</td>
   <td><strong>mm_storage</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-has_opt_pgrid"></span>logical,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>has_opt_pgrid</strong></td><td> =</td><td>.FALSE.</td><td></td>
   
 </tr>
 

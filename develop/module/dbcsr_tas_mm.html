@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 1.8% of total for modules and submodules.">1097 statements</a>
+    title=" 1.9% of total for modules and submodules.">1180 statements</a>
      </li> 
      
      
@@ -223,6 +223,10 @@
       
       <a class="list-group-item" href="../module/dbcsr_tas_mm.html#proc-dbcsr_tas_batched_mm_finalize">dbcsr_tas_batched_mm_finalize</a>
       
+      <a class="list-group-item" href="../module/dbcsr_tas_mm.html#proc-dbcsr_tas_set_batched_state">dbcsr_tas_set_batched_state</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_mm.html#proc-dbcsr_tas_batched_mm_complete">dbcsr_tas_batched_mm_complete</a>
+      
     </div>
   </div>
 </div>
@@ -295,6 +299,8 @@
     <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
     
     <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
+    
+    <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
     
     <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
@@ -382,6 +388,10 @@
       <a class="list-group-item" href="../module/dbcsr_tas_mm.html#proc-dbcsr_tas_batched_mm_init">dbcsr_tas_batched_mm_init</a>
       
       <a class="list-group-item" href="../module/dbcsr_tas_mm.html#proc-dbcsr_tas_batched_mm_finalize">dbcsr_tas_batched_mm_finalize</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_mm.html#proc-dbcsr_tas_set_batched_state">dbcsr_tas_set_batched_state</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_tas_mm.html#proc-dbcsr_tas_batched_mm_complete">dbcsr_tas_batched_mm_complete</a>
       
     </div>
   </div>
@@ -901,10 +911,9 @@ public subroutine <a href='../proc/dbcsr_tas_multiply.html'>dbcsr_tas_multiply</
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>POINTER</td><td>::</td>
+  <td></td><td>::</td>
   <td><strong>split_opt</strong></td><td><p>optionally return split info containing optimal grid and split parameters. This can be used to choose optimal process
- grids for subsequent matrix multiplications with matrices of similar shape and sparsity. under some conditions,
- split_opt can not be returned, in this case the pointer is not associated</p></td>
+ grids for subsequent matrix multiplications with matrices of similar shape and sparsity.</p></td>
   
 </tr>
 
@@ -1065,7 +1074,7 @@ public subroutine <a href='../proc/dbcsr_tas_multiply.html'>dbcsr_tas_multiply</
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-redistribute_and_sum"></span><h3>
-private subroutine <a href='../proc/redistribute_and_sum.html'>redistribute_and_sum</a>(matrix_in, matrix_out, alpha)
+private subroutine <a href='../proc/redistribute_and_sum.html'>redistribute_and_sum</a>(matrix_in, matrix_out, local_copy, alpha)
     
     
    
@@ -1114,6 +1123,21 @@ private subroutine <a href='../proc/redistribute_and_sum.html'>redistribute_and_
   
   <td></td><td>::</td>
   <td><strong>matrix_out</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>local_copy</strong></td><td></td>
   
 </tr>
 
@@ -2302,10 +2326,10 @@ private subroutine <a href='../proc/convert_to_new_pgrid.html'>convert_to_new_pg
 <tr>
   
   <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
-  <td>intent(inout),</td>
+  <td>intent(inout)</td>
   <td></td>
   
-  <td>TARGET</td><td>::</td>
+  <td></td><td>::</td>
   <td><strong>matrix_in</strong></td><td></td>
   
 </tr>
@@ -2317,10 +2341,10 @@ private subroutine <a href='../proc/convert_to_new_pgrid.html'>convert_to_new_pg
 <tr>
   
   <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
-  <td>intent(out),</td>
+  <td>intent(out)</td>
   <td></td>
   
-  <td>POINTER</td><td>::</td>
+  <td></td><td>::</td>
   <td><strong>matrix_out</strong></td><td></td>
   
 </tr>
@@ -2471,6 +2495,161 @@ public subroutine <a href='../proc/dbcsr_tas_batched_mm_finalize.html'>dbcsr_tas
   
   <td></td><td>::</td>
   <td><strong>matrix</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_set_batched_state"></span><h3>
+public subroutine <a href='../proc/dbcsr_tas_set_batched_state.html'>dbcsr_tas_set_batched_state</a>(matrix, state, opt_grid)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>set state flags during batched multiplication</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>matrix</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>state</strong></td><td><a href="None" class="pull-right"><emph>Read more&hellip;</emph></a></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>opt_grid</strong></td><td><p>whether process grid was already optimized and should not be changed</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_tas_batched_mm_complete"></span><h3>
+public subroutine <a href='../proc/dbcsr_tas_batched_mm_complete.html'>dbcsr_tas_batched_mm_complete</a>(matrix, warn)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>matrix</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>warn</strong></td><td></td>
   
 </tr>
 

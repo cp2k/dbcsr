@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 2.6% of total for derived types.</p>Including implementation: 27 statements,  2.1% of total for derived types.">27 statements</a>
+    title="<p> 2.7% of total for derived types.</p>Including implementation: 28 statements,  2.2% of total for derived types.">28 statements</a>
      </li> 
      
      
@@ -215,6 +215,8 @@
       <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-accdrv_binning_binsize">accdrv_binning_binsize</a>
       
       <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-use_mempools_cpu">use_mempools_cpu</a>
+      
+      <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-tas_split_factor">tas_split_factor</a>
       
     </div>
   </div>
@@ -321,6 +323,8 @@
       <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-accdrv_binning_binsize">accdrv_binning_binsize</a>
       
       <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-use_mempools_cpu">use_mempools_cpu</a>
+      
+      <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-tas_split_factor">tas_split_factor</a>
       
     </div>
   </div>
@@ -720,6 +724,20 @@
   
 </tr>
 
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-tas_split_factor"></span>real(kind=real_8),</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>tas_split_factor</strong></td><td> =</td><td>3.0_real_8</td><td></td>
+  
+</tr>
+
 </tbody>
 </table>
 
@@ -766,6 +784,7 @@
       <span class="kt">INTEGER</span>  <span class="kd">::</span> <span class="n">accdrv_binning_nbins</span> <span class="o">=</span> <span class="mi">4096</span>
       <span class="kt">INTEGER</span>  <span class="kd">::</span> <span class="n">accdrv_binning_binsize</span> <span class="o">=</span> <span class="mi">16</span>
       <span class="kt">LOGICAL</span>  <span class="kd">::</span> <span class="n">use_mempools_cpu</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span> <span class="kd">::</span> <span class="n">tas_split_factor</span> <span class="o">=</span> <span class="mf">3.0_real_8</span>
    <span class="k">END TYPE </span><span class="n">dbcsr_config_type</span>
 </pre></div>
 
