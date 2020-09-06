@@ -2053,7 +2053,7 @@ CONTAINS
 #:for idim in range(1, maxdim+1)
       IF (ndims_tensor(tensor) >= ${idim}$) THEN
          IF (PRESENT(batch_range_${idim}$)) THEN
-            ALLOCATE (batch_range_prv_${idim}$, SOURCE=batch_range_${idim}$)
+            CALL allocate_any(batch_range_prv_${idim}$, source=batch_range_${idim}$)
             static_range = .FALSE.
          ELSE
             ALLOCATE (batch_range_prv_${idim}$ (2))
