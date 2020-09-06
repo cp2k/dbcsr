@@ -32,7 +32,7 @@ MODULE dbcsr_tensor
       dbcsr_type, dbcsr_iterator_type, dbcsr_iterator_blocks_left, &
       dbcsr_iterator_next_block, dbcsr_iterator_start, dbcsr_iterator_stop, &
       dbcsr_transpose, dbcsr_no_transpose, dbcsr_scalar, dbcsr_put_block, &
-      dbcsr_type_complex_4, dbcsr_type_real_8, dbcsr_type_complex_8, dbcsr_type_real_4, dbcsr_clear, &
+      dbcsr_type_real_8, dbcsr_type_complex_8, dbcsr_type_complex_4, dbcsr_type_real_4, dbcsr_clear, &
       dbcsr_release, dbcsr_desymmetrize, dbcsr_has_symmetry
    USE dbcsr_tas_types, ONLY: &
       dbcsr_tas_split_info
@@ -58,7 +58,7 @@ MODULE dbcsr_tensor
       dbcsr_t_max_nblks_local, dbcsr_t_default_distvec, dbcsr_t_contraction_storage, dbcsr_t_nblks_total, &
       dbcsr_t_distribution_new, dbcsr_t_copy_contraction_storage, dbcsr_t_pgrid_destroy
    USE dbcsr_kinds, ONLY: &
-      real_8, real_4, default_string_length, int_8, dp
+      real_4, real_8, default_string_length, int_8, dp
    USE dbcsr_mpiwrap, ONLY: &
       mp_environ, mp_max, mp_sum, mp_comm_free, mp_cart_create, mp_sync
    USE dbcsr_toollib, ONLY: &
@@ -2244,7 +2244,7 @@ CONTAINS
 # 2054 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
       IF (ndims_tensor(tensor) >= 1) THEN
          IF (PRESENT(batch_range_1)) THEN
-            ALLOCATE (batch_range_prv_1, SOURCE=batch_range_1)
+            CALL allocate_any(batch_range_prv_1, source=batch_range_1)
             static_range = .FALSE.
          ELSE
             ALLOCATE (batch_range_prv_1 (2))
@@ -2255,7 +2255,7 @@ CONTAINS
 # 2054 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
       IF (ndims_tensor(tensor) >= 2) THEN
          IF (PRESENT(batch_range_2)) THEN
-            ALLOCATE (batch_range_prv_2, SOURCE=batch_range_2)
+            CALL allocate_any(batch_range_prv_2, source=batch_range_2)
             static_range = .FALSE.
          ELSE
             ALLOCATE (batch_range_prv_2 (2))
@@ -2266,7 +2266,7 @@ CONTAINS
 # 2054 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
       IF (ndims_tensor(tensor) >= 3) THEN
          IF (PRESENT(batch_range_3)) THEN
-            ALLOCATE (batch_range_prv_3, SOURCE=batch_range_3)
+            CALL allocate_any(batch_range_prv_3, source=batch_range_3)
             static_range = .FALSE.
          ELSE
             ALLOCATE (batch_range_prv_3 (2))
@@ -2277,7 +2277,7 @@ CONTAINS
 # 2054 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor.F"
       IF (ndims_tensor(tensor) >= 4) THEN
          IF (PRESENT(batch_range_4)) THEN
-            ALLOCATE (batch_range_prv_4, SOURCE=batch_range_4)
+            CALL allocate_any(batch_range_prv_4, source=batch_range_4)
             static_range = .FALSE.
          ELSE
             ALLOCATE (batch_range_prv_4 (2))
