@@ -8,7 +8,7 @@
  *------------------------------------------------------------------------------------------------*/
 
 #include <stdio.h>
-#include "hipblas_v2.h"
+#include <hipblas.h>
 #include <hip/hip_runtime.h>
 #include <hip/hip_runtime_api.h>
 #include "../cuda/acc_error.h"
@@ -23,7 +23,7 @@ extern "C" int hipblas_create(hipblasHandle_t **handle)
     printf ("HIPBLAS initialization failed\n");
     return(-1);
   }
-  if (acc_error_check(hipGetLastError)()) return(-1);
+  if (acc_error_check(hipGetLastError())) return(-1);
   return(0);
 }
 
@@ -45,15 +45,15 @@ extern "C" int hipblas_dgemm(hipblasHandle_t *handle, char transa, char transb,
                  int m, int n, int k,
            int a_offset, int b_offset, int c_offset,
            double *a_data, double *b_data, double *c_data,
-           double alpha, double beta, hipdaStream_t *stream)
+           double alpha, double beta, hipStream_t *stream)
 {
   hipblasStatus_t cStatus = hipblasSetStream(*handle, *stream);
   if (cStatus != HIPBLAS_STATUS_SUCCESS) {
     printf ("HIPBLAS SetStream failed\n");
     return(-1);
   }
-  hipblasOperation_t cTransa = transa=='N' ? CUBLAS_OP_N : CUBLAS_OP_T;
-  hipblasOperation_t cTransb = transb=='N' ? CUBLAS_OP_N : CUBLAS_OP_T;
+  hipblasOperation_t cTransa = transa=='N' ? HIPBLAS_OP_N : HIPBLAS_OP_T;
+  hipblasOperation_t cTransb = transb=='N' ? HIPBLAS_OP_N : HIPBLAS_OP_T;
   int &lda = transa=='N' ? m : k;
   int &ldb = transb=='N' ? k : n;
 
