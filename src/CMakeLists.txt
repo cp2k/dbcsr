@@ -283,6 +283,7 @@ if (USE_HIP)
 
   # add libsmm_acc which has its own CMakeLists.txt due to code generation
   add_subdirectory(acc/libsmm_acc)
+  include_directories(${HIP_PATH}/../include)
   target_link_libraries(dbcsr PUBLIC libsmm_acc)
   target_link_libraries(dbcsr PUBLIC ${ROCM_HIPRTC_LIB})
 
