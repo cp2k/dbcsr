@@ -222,7 +222,7 @@ if (USE_HIP)
   endif()
 
   # Find hiprtc library (adds support for JIT-ing in HIP)
-  find_library(ROCM_HIPRTC_LIB hiprtc HINTS ${HIP_PATH}/lib)
+  find_library(ROCM_HIPRTC_LIB amdhip64 HINTS ${HIP_PATH}/lib)
   if(NOT ROCM_HIPRTC_LIB)
     message(FATAL_ERROR "HIPRTC (HIP library for just-in-time compilation) not found")
   endif()
