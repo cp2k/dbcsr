@@ -54,7 +54,7 @@ MODULE dbcsr_tas_split
 
    INTEGER, PARAMETER :: rowsplit = 1, colsplit = 2
    REAL(real_8), PARAMETER :: default_pdims_accept_ratio = 1.2_real_8
-   REAL(real_8), PARAMETER :: default_nsplit_accept_ratio = 1.5_real_8
+   REAL(real_8), PARAMETER :: default_nsplit_accept_ratio = 3.0_real_8
 
    INTERFACE dbcsr_tas_mp_comm
       MODULE PROCEDURE dbcsr_tas_mp_comm
