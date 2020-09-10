@@ -43,7 +43,7 @@ MODULE dbcsr_tensor_api
    USE dbcsr_tensor_index, ONLY: &
       dbcsr_t_get_mapping_info
    USE dbcsr_tensor_io, ONLY: &
-      dbcsr_t_write_split_info, dbcsr_t_write_blocks
+      dbcsr_t_write_tensor_info, dbcsr_t_write_split_info, dbcsr_t_write_blocks, dbcsr_t_write_tensor_dist
 
    IMPLICIT NONE
 
@@ -91,6 +91,8 @@ MODULE dbcsr_tensor_api
    PUBLIC :: dbcsr_t_get_mapping_info
    PUBLIC :: dbcsr_t_write_split_info
    PUBLIC :: dbcsr_t_write_blocks
+   PUBLIC :: dbcsr_t_write_tensor_dist
+   PUBLIC :: dbcsr_t_write_tensor_info
    PUBLIC :: dbcsr_t_mp_dims_create
    PUBLIC :: dbcsr_t_batched_contract_init
    PUBLIC :: dbcsr_t_batched_contract_finalize
