@@ -125,7 +125,7 @@ CONTAINS
       TYPE(dbcsr_tas_split_info)                 :: info, info_a, info_b, info_c
       CHARACTER(LEN=*), PARAMETER                :: routineN = 'dbcsr_tas_multiply', &
                                                     routineP = moduleN//':'//routineN
-      INTEGER(KIND=int_8)                        :: nze_a, nze_b, nze_c
+      INTEGER(KIND=int_8)                        :: nze_a, nze_b, nze_c, nze_c_sum
       TYPE(dbcsr_type)                           :: matrix_a_mm, matrix_b_mm, matrix_c_mm
 
       CALL timeset(routineN, handle)
@@ -594,6 +594,7 @@ CONTAINS
          nze_c = dbcsr_get_nze(matrix_c_mm)
 
          CALL redistribute_and_sum(matrix_c_mm, matrix_c_rep%matrix, local_copy=.NOT. opt_pgrid, alpha=beta)
+         nze_c_sum = dbcsr_tas_get_nze_total(matrix_c_rep)
 
          CALL dbcsr_release(matrix_c_mm)
 
@@ -611,7 +612,15 @@ CONTAINS
             CALL dbcsr_tas_destroy(matrix_c_rep)
             DEALLOCATE (matrix_c_rep)
          ENDIF
+
          IF (PRESENT(filter_eps)) CALL dbcsr_tas_filter(matrix_c_rs, filter_eps)
+
+         ! set upper limit on memory consumption for replicated matrix and complete batched mm
+         ! if limit is exceeded
+         IF (nze_c_sum > default_nsplit_accept_ratio*MAX(nze_a, nze_b)) THEN
+            CALL dbcsr_tas_batched_mm_complete(matrix_c)
+         ENDIF
+
       CASE (3)
          IF (matrix_a%do_batched <= 2) THEN
             ALLOCATE (matrix_a_rep)
@@ -710,6 +719,7 @@ CONTAINS
             CALL dbcsr_tas_get_split_info(info_c, mp_comm=mp_comm, mp_comm_group=mp_comm_group)
             CALL mp_sum(nze_c, mp_comm_group)
             CALL mp_max(nze_c, mp_comm)
+
          END SELECT
          nsplit_opt = split_factor_estimate(max_mm_dim, nze_a, nze_b, nze_c, numproc)
          ! ideally we should rederive the split factor from the actual sparsity of C, but
