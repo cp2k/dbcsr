@@ -154,37 +154,37 @@
 
 <h4>2. Adapt <code>tune_setup.py</code> to your environment</h4>
 <p>The <code>tune_setup.py</code> script generates job files. You have to adapt the script to the environment of your supercomputer and your personal settings.</p>
-<div class="codehilite"><pre><span></span><code>...
-  def gen_jobfile(outdir, m, n, k):
+<div class="codehilite"><pre><span></span><code><span class="o">...</span>
+  <span class="n">def</span> <span class="n">gen_jobfile</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
 
-    ...
+    <span class="o">...</span>
 
-    output = &quot;#!/bin/bash -l\n&quot;
-    output += &quot;#SBATCH --nodes=%d\n&quot; % num_nodes
-    output += &quot;#SBATCH --ntasks-per-core=1\n&quot;
-    output += &quot;#SBATCH --ntasks-per-node=1\n&quot;
-    output += &quot;#SBATCH --cpus-per-task=&quot; + &quot;%d\n&quot; % cpus_per_node
-    output += &quot;#SBATCH --time=%s\n&quot; % time
-    output += &quot;#SBATCH --partition=normal\n&quot;
-    output += &quot;#SBATCH --constraint=gpu\n&quot;
-    output += &quot;\n&quot;
-    output += &quot;source <span class="cp">${</span><span class="n">MODULESHOME</span><span class="cp">}</span>/init/sh;\n&quot;
-    output += &quot;module load daint-gpu\n&quot;
-    output += &quot;module unload PrgEnv-cray\n&quot;
-    output += &quot;module load PrgEnv-gnu\n&quot;
-    if compiler == &quot;nvcc&quot;:
-        output += &quot;module load cudatoolkit/8.0.61_2.4.9-6.0.7.0_17.1__g899857c\n&quot;
-    else: # i.e. compiler = hipcc
-        output += &quot;module load hip\n&quot;
-    output += &quot;module list\n&quot;
-    output += &quot;export CRAY_CUDA_MPS=1\n&quot;
-    output += &quot;cd <span class="nv">$SLURM_SUBMIT_DIR</span> \n&quot;
-    output += &quot;\n&quot;
-    output += &quot;date\n&quot;
+    <span class="n">output</span> <span class="o">=</span> <span class="s2">&quot;#!/bin/bash -l</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;#SBATCH --nodes=</span><span class="si">%d</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">num_nodes</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;#SBATCH --ntasks-per-core=1</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;#SBATCH --ntasks-per-node=1</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;#SBATCH --cpus-per-task=&quot;</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">cpus_per_node</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;#SBATCH --time=</span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">time</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;#SBATCH --partition=normal</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;#SBATCH --constraint=gpu</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;source ${MODULESHOME}/init/sh;</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;module load daint-gpu</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;module unload PrgEnv-cray</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;module load PrgEnv-gnu</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="k">if</span> <span class="n">compiler</span> <span class="o">==</span> <span class="s2">&quot;nvcc&quot;</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;module load cudatoolkit/8.0.61_2.4.9-6.0.7.0_17.1__g899857c</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="k">else</span><span class="p">:</span> <span class="c1"># i.e. compiler = hipcc</span>
+        <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;module load hip</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;module list</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;export CRAY_CUDA_MPS=1</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;cd $SLURM_SUBMIT_DIR </span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+    <span class="n">output</span> <span class="o">+=</span> <span class="s2">&quot;date</span><span class="se">\n</span><span class="s2">&quot;</span>
 
-    ...
+    <span class="o">...</span>
 
-...
+<span class="o">...</span>
 </code></pre></div>
 
 
