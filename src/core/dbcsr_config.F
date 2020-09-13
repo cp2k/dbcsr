@@ -116,7 +116,7 @@ MODULE dbcsr_config
       INTEGER  :: accdrv_binning_nbins = 4096
       INTEGER  :: accdrv_binning_binsize = 16
       LOGICAL  :: use_mempools_cpu = .FALSE.
-      REAL(KIND=real_8) :: tas_split_factor = 3.0_real_8
+      REAL(KIND=real_8) :: tas_split_factor = 1.0_real_8
    END TYPE dbcsr_config_type
 
    TYPE(dbcsr_config_type), PROTECTED, SAVE :: dbcsr_cfg = dbcsr_config_type() ! defaults
