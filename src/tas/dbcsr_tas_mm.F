@@ -1211,7 +1211,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL              :: unit_nr
       LOGICAL                                    :: dist_compatible
 
-      INTEGER                                    :: res, same_local_rowcols, split_check
+      INTEGER                                    :: res, same_local_rowcols, split_check_a, split_check_b
       TYPE(dbcsr_tas_split_info)                 :: info_a, info_b
       INTEGER                                    :: unit_nr_prv, numproc
       INTEGER, DIMENSION(2)                      :: pdims_a, pdims_b, pcoord_a, pcoord_b
@@ -1222,10 +1222,15 @@ CONTAINS
 
       info_a = dbcsr_tas_info(mat_a)
       info_b = dbcsr_tas_info(mat_b)
-      CALL dbcsr_tas_get_split_info(info_a, split_rowcol=split_check)
-      IF (split_check /= split_rc_a) RETURN
-      CALL dbcsr_tas_get_split_info(info_b, split_rowcol=split_check)
-      IF (split_check /= split_rc_b) RETURN
+      CALL dbcsr_tas_get_split_info(info_a, split_rowcol=split_check_a)
+      CALL dbcsr_tas_get_split_info(info_b, split_rowcol=split_check_b)
+      IF (split_check_b /= split_rc_b .OR. split_check_a /= split_rc_a) THEN
+         IF (unit_nr_prv > 0) THEN
+            WRITE (unit_nr_prv, *) "matrix layout a not compatible", split_check_a, split_rc_a
+            WRITE (unit_nr_prv, *) "matrix layout b not compatible", split_check_b, split_rc_b
+         ENDIF
+         RETURN
+      ENDIF
 
       ! check if communicators are equivalent (global process grid and subgrids)
       ! Note: mpi_comm_compare is not sufficient since this does not compare associated Cartesian grids.
@@ -1233,42 +1238,38 @@ CONTAINS
       CALL mp_environ(numproc, pdims_a, pcoord_a, info_a%mp_comm)
       CALL mp_environ(numproc, pdims_b, pcoord_b, info_b%mp_comm)
       IF (.NOT. array_eq(pdims_a, pdims_b)) THEN
+         IF (unit_nr_prv > 0) THEN
+            WRITE (unit_nr_prv, *) "mp dims not compatible:", pdims_a, "|", pdims_b
+         ENDIF
          RETURN
       ENDIF
 
       CALL mp_comm_compare(info_a%mp_comm_group, info_b%mp_comm_group, res)
       IF (res .GT. 1) THEN
+         IF (unit_nr_prv > 0) THEN
+            WRITE (unit_nr_prv, *) "mp comm not compatible"
+         ENDIF
          RETURN
       ENDIF
 
-      IF (unit_nr_prv > 0) THEN
-         WRITE (unit_nr_prv, *) "mp comm compatible"
-      ENDIF
-
       IF (mat_a%dist%info%split_rowcol == mat_b%dist%info%split_rowcol) THEN
-
-         IF (unit_nr_prv > 0) THEN
-            WRITE (unit_nr_prv, *) "split compatible"
-         ENDIF
 
          same_local_rowcols = MERGE(1, 0, array_eq(mat_a%dist%local_rowcols, mat_b%dist%local_rowcols))
          CALL mp_sum(same_local_rowcols, info_a%mp_comm)
 
          IF (same_local_rowcols == numproc) THEN
-            IF (unit_nr_prv > 0) THEN
-               WRITE (unit_nr_prv, *) "local rowcols compatible"
-            ENDIF
             dist_compatible = .TRUE.
          ELSE
             IF (unit_nr_prv > 0) THEN
+               WRITE (unit_nr_prv, *) "local rowcols not compatible"
                WRITE (unit_nr_prv, *) "local rowcols A", mat_a%dist%local_rowcols
                WRITE (unit_nr_prv, *) "local rowcols B", mat_b%dist%local_rowcols
             ENDIF
          ENDIF
-      ENDIF
-
-      IF (unit_nr_prv > 0) THEN
-         WRITE (unit_nr_prv, *) "is compatible?", dist_compatible
+      ELSE
+         IF (unit_nr_prv > 0) THEN
+            WRITE (unit_nr_prv, *) "split not compatible", mat_a%dist%info%split_rowcol, mat_b%dist%info%split_rowcol
+         ENDIF
       ENDIF
 
    END FUNCTION
