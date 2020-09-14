@@ -1155,7 +1155,7 @@ CONTAINS
             is_new = .FALSE.
             RETURN
          ELSE
-            nsplit_prv = 1
+            DBCSR_ABORT("should not happen")
          ENDIF
       ELSE
          nsplit_prv = nsplit
@@ -1211,7 +1211,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL              :: unit_nr
       LOGICAL                                    :: dist_compatible
 
-      INTEGER                                    :: res, same_local_rowcols, split_check_a, split_check_b
+      INTEGER                                    :: same_local_rowcols, split_check_a, split_check_b
       TYPE(dbcsr_tas_split_info)                 :: info_a, info_b
       INTEGER                                    :: unit_nr_prv, numproc
       INTEGER, DIMENSION(2)                      :: pdims_a, pdims_b, pcoord_a, pcoord_b
@@ -1232,22 +1232,14 @@ CONTAINS
          RETURN
       ENDIF
 
-      ! check if communicators are equivalent (global process grid and subgrids)
+      ! check if communicators are equivalent
       ! Note: mpi_comm_compare is not sufficient since this does not compare associated Cartesian grids.
-      ! It's sufficient to check dimensions of global grid and rank order of subgrids.
+      ! It's sufficient to check dimensions of global grid, subgrids will be determined later on (change_split)
       CALL mp_environ(numproc, pdims_a, pcoord_a, info_a%mp_comm)
       CALL mp_environ(numproc, pdims_b, pcoord_b, info_b%mp_comm)
       IF (.NOT. array_eq(pdims_a, pdims_b)) THEN
          IF (unit_nr_prv > 0) THEN
             WRITE (unit_nr_prv, *) "mp dims not compatible:", pdims_a, "|", pdims_b
-         ENDIF
-         RETURN
-      ENDIF
-
-      CALL mp_comm_compare(info_a%mp_comm_group, info_b%mp_comm_group, res)
-      IF (res .GT. 1) THEN
-         IF (unit_nr_prv > 0) THEN
-            WRITE (unit_nr_prv, *) "mp comm not compatible"
          ENDIF
          RETURN
       ENDIF
