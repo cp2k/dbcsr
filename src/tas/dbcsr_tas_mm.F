@@ -980,8 +980,9 @@ CONTAINS
       IF ((.NOT. optimize_dist_prv) .AND. dist_compatible(matrix1_in, matrix2_in, split_rc_1, split_rc_2)) THEN
          CALL change_split(matrix1_in, matrix1_out, nsplit_prv, split_rc_1, new1, &
                            move_data=move_data_1, nodata=nodata1, opt_nsplit=opt_nsplit)
+         CALL dbcsr_tas_get_split_info(dbcsr_tas_info(matrix1_out), nsplit=nsplit_prv)
          CALL change_split(matrix2_in, matrix2_out, nsplit_prv, split_rc_2, new2, &
-                           move_data=move_data_2, nodata=nodata2, opt_nsplit=opt_nsplit)
+                           move_data=move_data_2, nodata=nodata2, opt_nsplit=.FALSE.)
          IF (unit_nr_prv > 0) THEN
             WRITE (unit_nr_prv, "(T2,A,1X,A,1X,A,1X,A)") "No redistribution of", TRIM(matrix1_in%matrix%name), &
                "and", TRIM(matrix2_in%matrix%name)
@@ -1215,6 +1216,7 @@ CONTAINS
       TYPE(dbcsr_tas_split_info)                 :: info_a, info_b
       INTEGER                                    :: unit_nr_prv, numproc
       INTEGER, DIMENSION(2)                      :: pdims_a, pdims_b, pcoord_a, pcoord_b
+      INTEGER(int_8), DIMENSION(:), ALLOCATABLE         :: local_rowcols_a, local_rowcols_b
 
       unit_nr_prv = prep_output_unit(unit_nr)
 
@@ -1224,7 +1226,7 @@ CONTAINS
       info_b = dbcsr_tas_info(mat_b)
       CALL dbcsr_tas_get_split_info(info_a, split_rowcol=split_check_a)
       CALL dbcsr_tas_get_split_info(info_b, split_rowcol=split_check_b)
-      IF (split_check_b /= split_rc_b .OR. split_check_a /= split_rc_a) THEN
+      IF (split_check_b /= split_rc_b .OR. split_check_a /= split_rc_a .OR. split_rc_a /= split_rc_b) THEN
          IF (unit_nr_prv > 0) THEN
             WRITE (unit_nr_prv, *) "matrix layout a not compatible", split_check_a, split_rc_a
             WRITE (unit_nr_prv, *) "matrix layout b not compatible", split_check_b, split_rc_b
@@ -1244,23 +1246,27 @@ CONTAINS
          RETURN
       ENDIF
 
-      IF (mat_a%dist%info%split_rowcol == mat_b%dist%info%split_rowcol) THEN
+      ! check that distribution is the same by comparing local rows / columns for each matrix
+      SELECT CASE (split_rc_a)
+      CASE (rowsplit)
+         CALL dbcsr_tas_get_info(mat_a, local_rows=local_rowcols_a)
+         CALL dbcsr_tas_get_info(mat_b, local_rows=local_rowcols_b)
+      CASE (colsplit)
+         CALL dbcsr_tas_get_info(mat_a, local_cols=local_rowcols_a)
+         CALL dbcsr_tas_get_info(mat_b, local_cols=local_rowcols_b)
+      END SELECT
 
-         same_local_rowcols = MERGE(1, 0, array_eq(mat_a%dist%local_rowcols, mat_b%dist%local_rowcols))
-         CALL mp_sum(same_local_rowcols, info_a%mp_comm)
+      same_local_rowcols = MERGE(1, 0, array_eq(local_rowcols_a, local_rowcols_b))
 
-         IF (same_local_rowcols == numproc) THEN
-            dist_compatible = .TRUE.
-         ELSE
-            IF (unit_nr_prv > 0) THEN
-               WRITE (unit_nr_prv, *) "local rowcols not compatible"
-               WRITE (unit_nr_prv, *) "local rowcols A", mat_a%dist%local_rowcols
-               WRITE (unit_nr_prv, *) "local rowcols B", mat_b%dist%local_rowcols
-            ENDIF
-         ENDIF
+      CALL mp_sum(same_local_rowcols, info_a%mp_comm)
+
+      IF (same_local_rowcols == numproc) THEN
+         dist_compatible = .TRUE.
       ELSE
          IF (unit_nr_prv > 0) THEN
-            WRITE (unit_nr_prv, *) "split not compatible", mat_a%dist%info%split_rowcol, mat_b%dist%info%split_rowcol
+            WRITE (unit_nr_prv, *) "local rowcols not compatible"
+            WRITE (unit_nr_prv, *) "local rowcols A", local_rowcols_a
+            WRITE (unit_nr_prv, *) "local rowcols B", local_rowcols_b
          ENDIF
       ENDIF
 
