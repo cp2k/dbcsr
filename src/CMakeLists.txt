@@ -298,7 +298,7 @@ if (USE_HIP)
   target_compile_options(acc PRIVATE "-fPIC")
   target_link_libraries(dbcsr PUBLIC acc)
   install(TARGETS acc
-    EXPORT libsmm_accTargets
+    EXPORT accTargets
     LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
     ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
   )
@@ -383,6 +383,10 @@ write_basic_package_version_file("${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfigVersion
   )
 if (USE_HIP)
   install(EXPORT libsmm_accTargets
+    NAMESPACE "${config_namespace}"
+    DESTINATION "${config_install_dir}"
+    )
+  install(EXPORT accTargets
     NAMESPACE "${config_namespace}"
     DESTINATION "${config_install_dir}"
     )
