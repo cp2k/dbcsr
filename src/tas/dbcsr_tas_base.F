@@ -1041,7 +1041,7 @@ CONTAINS
       IF (PRESENT(local_cols)) THEN
          ALLOCATE (local_cols(SIZE(local_cols_local)))
          DO icol = 1, SIZE(local_cols_local)
-            CALL block_index_local_to_global(info, matrix%dist, column_group=local_cols_local(irow), column=local_cols(irow))
+            CALL block_index_local_to_global(info, matrix%dist, column_group=local_cols_local(icol), column=local_cols(icol))
          ENDDO
       ENDIF
 
