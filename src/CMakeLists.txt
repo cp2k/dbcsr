@@ -295,6 +295,7 @@ if (USE_HIP)
   hip_add_library(acc STATIC ${DBCSR_ACC_SRCS})
   target_compile_definitions(acc PRIVATE ARCH_NUMBER=${ACC_ARCH_NUMBER})
   target_compile_definitions(acc PRIVATE __HIP)
+  target_compile_options(acc PRIVATE "-fPIC")
   target_link_libraries(dbcsr PUBLIC acc)
   install(TARGETS acc
     EXPORT libsmm_accTargets
