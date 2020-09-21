@@ -277,7 +277,7 @@ endif ()
 
 if (USE_HIP)
 
-  if (OpenMP_FOUND)
+  if (USE_OPENMP)
     set(HIP_HIPCC_FLAGS "${HIP_HIPCC_FLAGS} ${OpenMP_CXX_FLAGS}")
   endif ()
 

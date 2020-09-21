@@ -213,11 +213,6 @@ if (USE_CUDA OR USE_HIP)
       target_link_libraries(${libsmm_acc_test} dbcsr)
       target_compile_definitions(${libsmm_acc_test} PRIVATE __HIP)
 
-      if (OpenMP_FOUND)
-        target_link_libraries(${libsmm_acc_test} OpenMP::OpenMP_CXX)
-        target_link_libraries(${libsmm_acc_test} /opt/rh/llvm-toolset-7/root/usr/lib64/libomp.so)
-      endif ()
-
     endforeach ()
 
   endif()
