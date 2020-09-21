@@ -64,6 +64,12 @@ else () # i.e. USE_HIP
   hip_add_library(libsmm_acc STATIC ${LIBSMM_ACC_FILES})
   target_compile_options(libsmm_acc PUBLIC "-fPIC")
   target_link_libraries(libsmm_acc INTERFACE "stdc++")
+  if (USE_OPENMP)
+    # since HIP is based on clang, not GCC, doing:
+    # target_link_libraries(libsmm_acc PUBLIC OpenMP::OpenMP_CXX)
+    # does not work - it links to GNU's OpenMP (libgomp.so) and not clang's libomp.so
+    target_link_libraries(libsmm_acc PUBLIC ${HIP_OpenMP_FLAGS})
+  endif ()
 
   # libsmm_acc calls timing functions - since we're compiling libsmm_acc as a static library, we have to link
   add_library(dbcsr_timings OBJECT ${DBCSR_TIMING_SRCS_FTN})

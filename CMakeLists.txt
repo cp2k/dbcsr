@@ -213,6 +213,14 @@ if (USE_HIP)
   endif()
   set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${HIP_PATH}/cmake")
 
+  if(NOT DEFINED ROCM_PATH)
+    if(NOT DEFINED ENV{ROCM_PATH})
+      set(ROCM_PATH "/opt/rocm" CACHE PATH "Path to ROCm installation")
+    else()
+      set(ROCM_PATH $ENV{ROCM_PATH} CACHE PATH "Path to ROCm installation")
+    endif()
+  endif()
+
   # Find HIP package
   find_package(HIP)
   if(HIP_FOUND)
@@ -244,6 +252,10 @@ if (USE_HIP)
   message(STATUS "GPU target architecture: " ${WITH_GPU})
   message(STATUS "GPU architecture number: " ${ACC_ARCH_NUMBER})
   message(STATUS "HIPCC flags: " ${HIP_HIPCC_FLAGS})
+  if (USE_OPENMP)
+    set(HIP_OpenMP_FLAGS "-L${ROCM_PATH}/llvm/lib -lomp")
+    message(STATUS "HIP OpenMP linking flags: ${HIP_OpenMP_FLAGS}")
+  endif()
 
   # =================================== BLAS on GPU backend
   find_library(HIPBLAS hipblas HINTS ${HIP_PATH}/../lib)  # /opt/rocm/lib
