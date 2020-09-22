@@ -243,7 +243,9 @@ int libsmm_acc_process_d(const int *param_stack, int stack_size, ACC_DRV(stream)
     Triplet h_mnk = { m, n, k };
     kernel_map_iterator kernel_it;
 
+#if defined _OPENMP
 #pragma omp critical (jit_multiplication)
+#endif
 {
 
     // Look up the kernel in the table of already JITed kernels
@@ -392,7 +394,9 @@ int libsmm_acc_transpose_d(const int *trs_stack, int offset, int stack_size,
     Triplet h_mnk = { m, n, 0 };
     std::unordered_map<std::array<int, 3>, ACC_DRV(function)>::iterator kernel_it;
 
+#if defined _OPENMP
 #pragma omp critical (jit_transpose)
+#endif
 {
 
     kernel_it = transpose_handles.find(h_mnk);
