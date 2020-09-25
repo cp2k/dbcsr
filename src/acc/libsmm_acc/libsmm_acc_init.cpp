@@ -24,6 +24,19 @@
 
 std::vector<ACC_BLAS(Handle_t)*> acc_blashandles;
 
+
+//===========================================================================
+void timeset(std::string routine_name, int& handle){
+    const char* routine_name_ = routine_name.c_str();
+    int routine_name_length  = routine_name.length();
+    dbcsr_timeset(&routine_name_, &routine_name_length, &handle);
+}
+
+void timestop(int handle){
+    dbcsr_timestop(&handle);
+}
+
+
 //===========================================================================
 int libsmm_acc_gpu_blas_init(){
     // allocate memory for acc_blas handles
@@ -48,16 +61,24 @@ int libsmm_acc_gpu_blas_init(){
 
 //===========================================================================
 int libsmm_acc_init() {
+    std::string routineN = "libsmm_acc_init";
+    int handle;
+    timeset(routineN, handle);
 
     // check warp size consistency
     libsmm_acc_check_gpu_warp_size_consistency();
     libsmm_acc_gpu_blas_init();
+
+    timestop(handle);
     return 0;
 }
 
 
 //===========================================================================
 int libsmm_acc_finalize() {
+    std::string routineN = "libsmm_acc_finalize";
+    int handle;
+    timeset(routineN, handle);
 
     // deallocate memory for acc_blas handles
 #if defined _OPENMP
@@ -72,6 +93,7 @@ int libsmm_acc_finalize() {
         acc_blas_destroy(acc_blashandles[i]);
     }
 
+    timestop(handle);
     return 0;
 }
 
