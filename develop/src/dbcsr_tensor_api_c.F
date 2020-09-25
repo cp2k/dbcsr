@@ -26,7 +26,7 @@ MODULE dbcsr_tensor_api_c
    USE dbcsr_allocate_wrap, ONLY: allocate_any
    USE dbcsr_tensor_api
    USE dbcsr_kinds, ONLY: &
-      real_8, real_4, default_string_length, int_8
+      real_4, real_8, default_string_length, int_8
    USE dbcsr_data_types, ONLY: dbcsr_scalar_type
    USE dbcsr_data_methods, ONLY: dbcsr_scalar
    USE dbcsr_machine, ONLY: default_output_unit
@@ -1820,7 +1820,7 @@ ENDIF
       CALL c_f_pointer(c_tensor, tensor)
 
       CALL dbcsr_t_get_block(tensor, c_ind + 1, c_sizes, c_block, found)
-      c_found = found
+      c_found = LOGICAL(found, kind=c_bool)
 
    END SUBROUTINE
 # 519 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
@@ -1845,7 +1845,7 @@ ENDIF
       CALL c_f_pointer(c_tensor, tensor)
 
       CALL dbcsr_t_get_block(tensor, c_ind + 1, c_sizes, c_block, found)
-      c_found = found
+      c_found = LOGICAL(found, kind=c_bool)
 
    END SUBROUTINE
 # 519 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
@@ -1870,7 +1870,7 @@ ENDIF
       CALL c_f_pointer(c_tensor, tensor)
 
       CALL dbcsr_t_get_block(tensor, c_ind + 1, c_sizes, c_block, found)
-      c_found = found
+      c_found = LOGICAL(found, kind=c_bool)
 
    END SUBROUTINE
 # 544 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
@@ -1897,7 +1897,7 @@ ENDIF
       CALL c_f_pointer(c_tensor, tensor)
 
       CALL dbcsr_t_get_block(tensor, c_ind + 1, c_sizes, c_block, found)
-      c_found = found
+      c_found = LOGICAL(found, kind=c_bool)
 
    END SUBROUTINE
 # 519 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
@@ -1922,7 +1922,7 @@ ENDIF
       CALL c_f_pointer(c_tensor, tensor)
 
       CALL dbcsr_t_get_block(tensor, c_ind + 1, c_sizes, c_block, found)
-      c_found = found
+      c_found = LOGICAL(found, kind=c_bool)
 
    END SUBROUTINE
 # 519 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
@@ -1947,7 +1947,7 @@ ENDIF
       CALL c_f_pointer(c_tensor, tensor)
 
       CALL dbcsr_t_get_block(tensor, c_ind + 1, c_sizes, c_block, found)
-      c_found = found
+      c_found = LOGICAL(found, kind=c_bool)
 
    END SUBROUTINE
 # 544 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
@@ -1974,7 +1974,7 @@ ENDIF
       CALL c_f_pointer(c_tensor, tensor)
 
       CALL dbcsr_t_get_block(tensor, c_ind + 1, c_sizes, c_block, found)
-      c_found = found
+      c_found = LOGICAL(found, kind=c_bool)
 
    END SUBROUTINE
 # 519 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
@@ -1999,7 +1999,7 @@ ENDIF
       CALL c_f_pointer(c_tensor, tensor)
 
       CALL dbcsr_t_get_block(tensor, c_ind + 1, c_sizes, c_block, found)
-      c_found = found
+      c_found = LOGICAL(found, kind=c_bool)
 
    END SUBROUTINE
 # 519 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
@@ -2024,7 +2024,7 @@ ENDIF
       CALL c_f_pointer(c_tensor, tensor)
 
       CALL dbcsr_t_get_block(tensor, c_ind + 1, c_sizes, c_block, found)
-      c_found = found
+      c_found = LOGICAL(found, kind=c_bool)
 
    END SUBROUTINE
 # 544 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
@@ -2051,7 +2051,7 @@ ENDIF
       CALL c_f_pointer(c_tensor, tensor)
 
       CALL dbcsr_t_get_block(tensor, c_ind + 1, c_sizes, c_block, found)
-      c_found = found
+      c_found = LOGICAL(found, kind=c_bool)
 
    END SUBROUTINE
 # 519 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
@@ -2076,7 +2076,7 @@ ENDIF
       CALL c_f_pointer(c_tensor, tensor)
 
       CALL dbcsr_t_get_block(tensor, c_ind + 1, c_sizes, c_block, found)
-      c_found = found
+      c_found = LOGICAL(found, kind=c_bool)
 
    END SUBROUTINE
 # 519 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
@@ -2101,7 +2101,7 @@ ENDIF
       CALL c_f_pointer(c_tensor, tensor)
 
       CALL dbcsr_t_get_block(tensor, c_ind + 1, c_sizes, c_block, found)
-      c_found = found
+      c_found = LOGICAL(found, kind=c_bool)
 
    END SUBROUTINE
 # 544 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F"
@@ -2682,7 +2682,7 @@ ENDIF
       LOGICAL(kind=c_bool)                               :: c_dbcsr_t_iterator_blocks_left
 
       CALL c_f_pointer(c_iterator, iterator)
-      c_dbcsr_t_iterator_blocks_left = dbcsr_t_iterator_blocks_left(iterator)
+      c_dbcsr_t_iterator_blocks_left = LOGICAL(dbcsr_t_iterator_blocks_left(iterator), kind=c_bool)
 
    END FUNCTION
 
@@ -3252,7 +3252,7 @@ ENDIF
                                        c_dims1_2d, c_dims2_2d, &
                                        c_map1_2d, c_map2_2d, c_map_nd, &
                                        base, col_major)
-         c_col_major = col_major
+         c_col_major = LOGICAL(col_major, kind=c_bool)
       ELSE
          CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, ndim_nd, ndim1_2d, &
                                        ndim2_2d, c_dims_2d_i8, c_dims_2d, c_dims_nd, &

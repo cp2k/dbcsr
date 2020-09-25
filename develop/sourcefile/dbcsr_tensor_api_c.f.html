@@ -284,7 +284,7 @@
 <a name="ln-26"></a>   <span class="k">USE </span><span class="n">dbcsr_allocate_wrap</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">allocate_any</span>
 <a name="ln-27"></a>   <span class="k">USE </span><span class="n">dbcsr_tensor_api</span>
 <a name="ln-28"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
-<a name="ln-29"></a>      <span class="n">real_8</span><span class="p">,</span> <span class="n">real_4</span><span class="p">,</span> <span class="n">default_string_length</span><span class="p">,</span> <span class="n">int_8</span>
+<a name="ln-29"></a>      <span class="n">real_4</span><span class="p">,</span> <span class="n">real_8</span><span class="p">,</span> <span class="n">default_string_length</span><span class="p">,</span> <span class="n">int_8</span>
 <a name="ln-30"></a>   <span class="k">USE </span><span class="n">dbcsr_data_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_scalar_type</span>
 <a name="ln-31"></a>   <span class="k">USE </span><span class="n">dbcsr_data_methods</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_scalar</span>
 <a name="ln-32"></a>   <span class="k">USE </span><span class="n">dbcsr_machine</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">default_output_unit</span>
@@ -2078,7 +2078,7 @@
 <a name="ln-1820"></a>      <span class="k">CALL </span><span class="nb">c_f_pointer</span><span class="p">(</span><span class="n">c_tensor</span><span class="p">,</span> <span class="n">tensor</span><span class="p">)</span>
 <a name="ln-1821"></a>
 <a name="ln-1822"></a>      <span class="k">CALL </span><span class="n">dbcsr_t_get_block</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">c_ind</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c_sizes</span><span class="p">,</span> <span class="n">c_block</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
-<a name="ln-1823"></a>      <span class="n">c_found</span> <span class="o">=</span> <span class="n">found</span>
+<a name="ln-1823"></a>      <span class="n">c_found</span> <span class="o">=</span> <span class="kt">LOGICAL</span><span class="p">(</span><span class="n">found</span><span class="p">,</span> <span class="nb">kind</span><span class="o">=</span><span class="kt">c_bool</span><span class="p">)</span>
 <a name="ln-1824"></a>
 <a name="ln-1825"></a>   <span class="k">END SUBROUTINE</span>
 <a name="ln-1826"></a><span class="cp"># 519 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F&quot;</span>
@@ -2103,7 +2103,7 @@
 <a name="ln-1845"></a>      <span class="k">CALL </span><span class="nb">c_f_pointer</span><span class="p">(</span><span class="n">c_tensor</span><span class="p">,</span> <span class="n">tensor</span><span class="p">)</span>
 <a name="ln-1846"></a>
 <a name="ln-1847"></a>      <span class="k">CALL </span><span class="n">dbcsr_t_get_block</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">c_ind</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c_sizes</span><span class="p">,</span> <span class="n">c_block</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
-<a name="ln-1848"></a>      <span class="n">c_found</span> <span class="o">=</span> <span class="n">found</span>
+<a name="ln-1848"></a>      <span class="n">c_found</span> <span class="o">=</span> <span class="kt">LOGICAL</span><span class="p">(</span><span class="n">found</span><span class="p">,</span> <span class="nb">kind</span><span class="o">=</span><span class="kt">c_bool</span><span class="p">)</span>
 <a name="ln-1849"></a>
 <a name="ln-1850"></a>   <span class="k">END SUBROUTINE</span>
 <a name="ln-1851"></a><span class="cp"># 519 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F&quot;</span>
@@ -2128,7 +2128,7 @@
 <a name="ln-1870"></a>      <span class="k">CALL </span><span class="nb">c_f_pointer</span><span class="p">(</span><span class="n">c_tensor</span><span class="p">,</span> <span class="n">tensor</span><span class="p">)</span>
 <a name="ln-1871"></a>
 <a name="ln-1872"></a>      <span class="k">CALL </span><span class="n">dbcsr_t_get_block</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">c_ind</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c_sizes</span><span class="p">,</span> <span class="n">c_block</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
-<a name="ln-1873"></a>      <span class="n">c_found</span> <span class="o">=</span> <span class="n">found</span>
+<a name="ln-1873"></a>      <span class="n">c_found</span> <span class="o">=</span> <span class="kt">LOGICAL</span><span class="p">(</span><span class="n">found</span><span class="p">,</span> <span class="nb">kind</span><span class="o">=</span><span class="kt">c_bool</span><span class="p">)</span>
 <a name="ln-1874"></a>
 <a name="ln-1875"></a>   <span class="k">END SUBROUTINE</span>
 <a name="ln-1876"></a><span class="cp"># 544 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F&quot;</span>
@@ -2155,7 +2155,7 @@
 <a name="ln-1897"></a>      <span class="k">CALL </span><span class="nb">c_f_pointer</span><span class="p">(</span><span class="n">c_tensor</span><span class="p">,</span> <span class="n">tensor</span><span class="p">)</span>
 <a name="ln-1898"></a>
 <a name="ln-1899"></a>      <span class="k">CALL </span><span class="n">dbcsr_t_get_block</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">c_ind</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c_sizes</span><span class="p">,</span> <span class="n">c_block</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
-<a name="ln-1900"></a>      <span class="n">c_found</span> <span class="o">=</span> <span class="n">found</span>
+<a name="ln-1900"></a>      <span class="n">c_found</span> <span class="o">=</span> <span class="kt">LOGICAL</span><span class="p">(</span><span class="n">found</span><span class="p">,</span> <span class="nb">kind</span><span class="o">=</span><span class="kt">c_bool</span><span class="p">)</span>
 <a name="ln-1901"></a>
 <a name="ln-1902"></a>   <span class="k">END SUBROUTINE</span>
 <a name="ln-1903"></a><span class="cp"># 519 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F&quot;</span>
@@ -2180,7 +2180,7 @@
 <a name="ln-1922"></a>      <span class="k">CALL </span><span class="nb">c_f_pointer</span><span class="p">(</span><span class="n">c_tensor</span><span class="p">,</span> <span class="n">tensor</span><span class="p">)</span>
 <a name="ln-1923"></a>
 <a name="ln-1924"></a>      <span class="k">CALL </span><span class="n">dbcsr_t_get_block</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">c_ind</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c_sizes</span><span class="p">,</span> <span class="n">c_block</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
-<a name="ln-1925"></a>      <span class="n">c_found</span> <span class="o">=</span> <span class="n">found</span>
+<a name="ln-1925"></a>      <span class="n">c_found</span> <span class="o">=</span> <span class="kt">LOGICAL</span><span class="p">(</span><span class="n">found</span><span class="p">,</span> <span class="nb">kind</span><span class="o">=</span><span class="kt">c_bool</span><span class="p">)</span>
 <a name="ln-1926"></a>
 <a name="ln-1927"></a>   <span class="k">END SUBROUTINE</span>
 <a name="ln-1928"></a><span class="cp"># 519 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F&quot;</span>
@@ -2205,7 +2205,7 @@
 <a name="ln-1947"></a>      <span class="k">CALL </span><span class="nb">c_f_pointer</span><span class="p">(</span><span class="n">c_tensor</span><span class="p">,</span> <span class="n">tensor</span><span class="p">)</span>
 <a name="ln-1948"></a>
 <a name="ln-1949"></a>      <span class="k">CALL </span><span class="n">dbcsr_t_get_block</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">c_ind</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c_sizes</span><span class="p">,</span> <span class="n">c_block</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
-<a name="ln-1950"></a>      <span class="n">c_found</span> <span class="o">=</span> <span class="n">found</span>
+<a name="ln-1950"></a>      <span class="n">c_found</span> <span class="o">=</span> <span class="kt">LOGICAL</span><span class="p">(</span><span class="n">found</span><span class="p">,</span> <span class="nb">kind</span><span class="o">=</span><span class="kt">c_bool</span><span class="p">)</span>
 <a name="ln-1951"></a>
 <a name="ln-1952"></a>   <span class="k">END SUBROUTINE</span>
 <a name="ln-1953"></a><span class="cp"># 544 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F&quot;</span>
@@ -2232,7 +2232,7 @@
 <a name="ln-1974"></a>      <span class="k">CALL </span><span class="nb">c_f_pointer</span><span class="p">(</span><span class="n">c_tensor</span><span class="p">,</span> <span class="n">tensor</span><span class="p">)</span>
 <a name="ln-1975"></a>
 <a name="ln-1976"></a>      <span class="k">CALL </span><span class="n">dbcsr_t_get_block</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">c_ind</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c_sizes</span><span class="p">,</span> <span class="n">c_block</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
-<a name="ln-1977"></a>      <span class="n">c_found</span> <span class="o">=</span> <span class="n">found</span>
+<a name="ln-1977"></a>      <span class="n">c_found</span> <span class="o">=</span> <span class="kt">LOGICAL</span><span class="p">(</span><span class="n">found</span><span class="p">,</span> <span class="nb">kind</span><span class="o">=</span><span class="kt">c_bool</span><span class="p">)</span>
 <a name="ln-1978"></a>
 <a name="ln-1979"></a>   <span class="k">END SUBROUTINE</span>
 <a name="ln-1980"></a><span class="cp"># 519 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F&quot;</span>
@@ -2257,7 +2257,7 @@
 <a name="ln-1999"></a>      <span class="k">CALL </span><span class="nb">c_f_pointer</span><span class="p">(</span><span class="n">c_tensor</span><span class="p">,</span> <span class="n">tensor</span><span class="p">)</span>
 <a name="ln-2000"></a>
 <a name="ln-2001"></a>      <span class="k">CALL </span><span class="n">dbcsr_t_get_block</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">c_ind</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c_sizes</span><span class="p">,</span> <span class="n">c_block</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
-<a name="ln-2002"></a>      <span class="n">c_found</span> <span class="o">=</span> <span class="n">found</span>
+<a name="ln-2002"></a>      <span class="n">c_found</span> <span class="o">=</span> <span class="kt">LOGICAL</span><span class="p">(</span><span class="n">found</span><span class="p">,</span> <span class="nb">kind</span><span class="o">=</span><span class="kt">c_bool</span><span class="p">)</span>
 <a name="ln-2003"></a>
 <a name="ln-2004"></a>   <span class="k">END SUBROUTINE</span>
 <a name="ln-2005"></a><span class="cp"># 519 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F&quot;</span>
@@ -2282,7 +2282,7 @@
 <a name="ln-2024"></a>      <span class="k">CALL </span><span class="nb">c_f_pointer</span><span class="p">(</span><span class="n">c_tensor</span><span class="p">,</span> <span class="n">tensor</span><span class="p">)</span>
 <a name="ln-2025"></a>
 <a name="ln-2026"></a>      <span class="k">CALL </span><span class="n">dbcsr_t_get_block</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">c_ind</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c_sizes</span><span class="p">,</span> <span class="n">c_block</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
-<a name="ln-2027"></a>      <span class="n">c_found</span> <span class="o">=</span> <span class="n">found</span>
+<a name="ln-2027"></a>      <span class="n">c_found</span> <span class="o">=</span> <span class="kt">LOGICAL</span><span class="p">(</span><span class="n">found</span><span class="p">,</span> <span class="nb">kind</span><span class="o">=</span><span class="kt">c_bool</span><span class="p">)</span>
 <a name="ln-2028"></a>
 <a name="ln-2029"></a>   <span class="k">END SUBROUTINE</span>
 <a name="ln-2030"></a><span class="cp"># 544 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F&quot;</span>
@@ -2309,7 +2309,7 @@
 <a name="ln-2051"></a>      <span class="k">CALL </span><span class="nb">c_f_pointer</span><span class="p">(</span><span class="n">c_tensor</span><span class="p">,</span> <span class="n">tensor</span><span class="p">)</span>
 <a name="ln-2052"></a>
 <a name="ln-2053"></a>      <span class="k">CALL </span><span class="n">dbcsr_t_get_block</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">c_ind</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c_sizes</span><span class="p">,</span> <span class="n">c_block</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
-<a name="ln-2054"></a>      <span class="n">c_found</span> <span class="o">=</span> <span class="n">found</span>
+<a name="ln-2054"></a>      <span class="n">c_found</span> <span class="o">=</span> <span class="kt">LOGICAL</span><span class="p">(</span><span class="n">found</span><span class="p">,</span> <span class="nb">kind</span><span class="o">=</span><span class="kt">c_bool</span><span class="p">)</span>
 <a name="ln-2055"></a>
 <a name="ln-2056"></a>   <span class="k">END SUBROUTINE</span>
 <a name="ln-2057"></a><span class="cp"># 519 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F&quot;</span>
@@ -2334,7 +2334,7 @@
 <a name="ln-2076"></a>      <span class="k">CALL </span><span class="nb">c_f_pointer</span><span class="p">(</span><span class="n">c_tensor</span><span class="p">,</span> <span class="n">tensor</span><span class="p">)</span>
 <a name="ln-2077"></a>
 <a name="ln-2078"></a>      <span class="k">CALL </span><span class="n">dbcsr_t_get_block</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">c_ind</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c_sizes</span><span class="p">,</span> <span class="n">c_block</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
-<a name="ln-2079"></a>      <span class="n">c_found</span> <span class="o">=</span> <span class="n">found</span>
+<a name="ln-2079"></a>      <span class="n">c_found</span> <span class="o">=</span> <span class="kt">LOGICAL</span><span class="p">(</span><span class="n">found</span><span class="p">,</span> <span class="nb">kind</span><span class="o">=</span><span class="kt">c_bool</span><span class="p">)</span>
 <a name="ln-2080"></a>
 <a name="ln-2081"></a>   <span class="k">END SUBROUTINE</span>
 <a name="ln-2082"></a><span class="cp"># 519 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F&quot;</span>
@@ -2359,7 +2359,7 @@
 <a name="ln-2101"></a>      <span class="k">CALL </span><span class="nb">c_f_pointer</span><span class="p">(</span><span class="n">c_tensor</span><span class="p">,</span> <span class="n">tensor</span><span class="p">)</span>
 <a name="ln-2102"></a>
 <a name="ln-2103"></a>      <span class="k">CALL </span><span class="n">dbcsr_t_get_block</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">c_ind</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">c_sizes</span><span class="p">,</span> <span class="n">c_block</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
-<a name="ln-2104"></a>      <span class="n">c_found</span> <span class="o">=</span> <span class="n">found</span>
+<a name="ln-2104"></a>      <span class="n">c_found</span> <span class="o">=</span> <span class="kt">LOGICAL</span><span class="p">(</span><span class="n">found</span><span class="p">,</span> <span class="nb">kind</span><span class="o">=</span><span class="kt">c_bool</span><span class="p">)</span>
 <a name="ln-2105"></a>
 <a name="ln-2106"></a>   <span class="k">END SUBROUTINE</span>
 <a name="ln-2107"></a><span class="cp"># 544 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_api_c.F&quot;</span>
@@ -2940,7 +2940,7 @@
 <a name="ln-2682"></a>      <span class="kt">LOGICAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="kt">c_bool</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">c_dbcsr_t_iterator_blocks_left</span>
 <a name="ln-2683"></a>
 <a name="ln-2684"></a>      <span class="k">CALL </span><span class="nb">c_f_pointer</span><span class="p">(</span><span class="n">c_iterator</span><span class="p">,</span> <span class="n">iterator</span><span class="p">)</span>
-<a name="ln-2685"></a>      <span class="n">c_dbcsr_t_iterator_blocks_left</span> <span class="o">=</span> <span class="n">dbcsr_t_iterator_blocks_left</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span>
+<a name="ln-2685"></a>      <span class="n">c_dbcsr_t_iterator_blocks_left</span> <span class="o">=</span> <span class="kt">LOGICAL</span><span class="p">(</span><span class="n">dbcsr_t_iterator_blocks_left</span><span class="p">(</span><span class="n">iterator</span><span class="p">),</span> <span class="nb">kind</span><span class="o">=</span><span class="kt">c_bool</span><span class="p">)</span>
 <a name="ln-2686"></a>
 <a name="ln-2687"></a>   <span class="k">END FUNCTION</span>
 <a name="ln-2688"></a>
@@ -3510,7 +3510,7 @@
 <a name="ln-3252"></a>                                       <span class="n">c_dims1_2d</span><span class="p">,</span> <span class="n">c_dims2_2d</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-3253"></a>                                       <span class="n">c_map1_2d</span><span class="p">,</span> <span class="n">c_map2_2d</span><span class="p">,</span> <span class="n">c_map_nd</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-3254"></a>                                       <span class="n">base</span><span class="p">,</span> <span class="n">col_major</span><span class="p">)</span>
-<a name="ln-3255"></a>         <span class="n">c_col_major</span> <span class="o">=</span> <span class="n">col_major</span>
+<a name="ln-3255"></a>         <span class="n">c_col_major</span> <span class="o">=</span> <span class="kt">LOGICAL</span><span class="p">(</span><span class="n">col_major</span><span class="p">,</span> <span class="nb">kind</span><span class="o">=</span><span class="kt">c_bool</span><span class="p">)</span>
 <a name="ln-3256"></a>      <span class="k">ELSE</span>
 <a name="ln-3257"></a><span class="k">         CALL </span><span class="n">dbcsr_t_get_mapping_info</span><span class="p">(</span><span class="n">tensor</span><span class="p">%</span><span class="n">nd_index_blk</span><span class="p">,</span> <span class="n">ndim_nd</span><span class="p">,</span> <span class="n">ndim1_2d</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-3258"></a>                                       <span class="n">ndim2_2d</span><span class="p">,</span> <span class="n">c_dims_2d_i8</span><span class="p">,</span> <span class="n">c_dims_2d</span><span class="p">,</span> <span class="n">c_dims_nd</span><span class="p">,</span> <span class="p">&amp;</span>
