@@ -16,7 +16,6 @@
 
 #include <sstream>
 #include <fstream>
-#include <string>
 #include <cstring>
 #include <algorithm>
 #include <array>
@@ -46,17 +45,6 @@
 #endif
 #define ARCH_OPTION STRINGIFY(CONCAT(ARCH_OPTION_NAME, ARCH_NUMBER))
 
-
-//===========================================================================
-void timeset(std::string routine_name, int& handle){
-    const char* routine_name_ = routine_name.c_str();
-    int routine_name_length  = routine_name.length();
-    dbcsr_timeset(&routine_name_, &routine_name_length, &handle);
-}
-
-void timestop(int handle){
-    dbcsr_timestop(&handle);
-}
 
 //===========================================================================
 inline int launch_kernel_from_handle(ACC_DRV(function) const& kern_func, int nblks, int threads, ACC_DRV(stream) stream, void** args){
