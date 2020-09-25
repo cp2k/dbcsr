@@ -260,7 +260,7 @@ if (USE_HIP)
   # =================================== BLAS on GPU backend
   find_library(HIPBLAS hipblas HINTS ${HIP_PATH}/../lib)  # /opt/rocm/lib
   if (NOT HIPBLAS)
-      message(FATAL_ERROR "hipBLAS library not found but support required for DBCSR's HIP backend")
+    message(FATAL_ERROR "hipBLAS library not found but support required for DBCSR's HIP backend")
   else ()
     message(STATUS "Found hipBLAS: ${HIPBLAS}")
   endif ()
