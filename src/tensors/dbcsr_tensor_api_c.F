@@ -537,7 +537,7 @@ CONTAINS
       CALL c_f_pointer(c_tensor, tensor)
 
       CALL dbcsr_t_get_block(tensor, c_ind + 1, c_sizes, c_block, found)
-      c_found = found
+      c_found = logical(found, kind=c_bool)
 
    END SUBROUTINE
 #:endfor
@@ -723,7 +723,7 @@ CONTAINS
       LOGICAL(kind=c_bool)                               :: c_dbcsr_t_iterator_blocks_left
 
       CALL c_f_pointer(c_iterator, iterator)
-      c_dbcsr_t_iterator_blocks_left = dbcsr_t_iterator_blocks_left(iterator)
+      c_dbcsr_t_iterator_blocks_left = logical(dbcsr_t_iterator_blocks_left(iterator), kind=c_bool)
 
    END FUNCTION
 
@@ -1072,7 +1072,7 @@ CONTAINS
                                        c_dims1_2d, c_dims2_2d, &
                                        c_map1_2d, c_map2_2d, c_map_nd, &
                                        base, col_major)
-         c_col_major = col_major
+         c_col_major = logical(col_major, kind=c_bool)
       ELSE
          CALL dbcsr_t_get_mapping_info(tensor%nd_index_blk, ndim_nd, ndim1_2d, &
                                        ndim2_2d, c_dims_2d_i8, c_dims_2d, c_dims_nd, &
