@@ -7,6 +7,9 @@
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
 
+#ifndef LIBSMM_ACC_H
+#define LIBSMM_ACC_H
+
 #if defined(__CUDA)
 # include "acc_cuda.h"
 #elif defined(__HIP)
@@ -14,3 +17,5 @@
 #endif
 
 int acc_error_check (ACC(Error_t) acc_error);
+
+#endif /* LIBSMM_ACC_H */
