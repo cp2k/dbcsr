@@ -1,10 +1,5 @@
-
-set(DBCSR_PROGRAM_SRCS
-  dbcsr_example_1.F
-  dbcsr_example_2.F
-  dbcsr_example_3.F
-  dbcsr_tensor_example.F
-  )
+set(DBCSR_PROGRAM_SRCS dbcsr_example_1.F dbcsr_example_2.F dbcsr_example_3.F
+                       dbcsr_tensor_example.F)
 
 # register each program source file as executable
 foreach (dbcsr_program_src ${DBCSR_PROGRAM_SRCS})
@@ -16,9 +11,10 @@ foreach (dbcsr_program_src ${DBCSR_PROGRAM_SRCS})
   endif ()
   target_link_libraries(${dbcsr_program_name} dbcsr)
 
-  # with the Intel compiler CMake 3.12 seems to forget that the source is actually Fortran
-  # and needs to be told explicitly:
-  set_target_properties(${dbcsr_program_name} PROPERTIES LINKER_LANGUAGE Fortran)
+  # with the Intel compiler CMake 3.12 seems to forget that the source is
+  # actually Fortran and needs to be told explicitly:
+  set_target_properties(${dbcsr_program_name} PROPERTIES LINKER_LANGUAGE
+                                                         Fortran)
 endforeach ()
 
 if (WITH_C_API)
