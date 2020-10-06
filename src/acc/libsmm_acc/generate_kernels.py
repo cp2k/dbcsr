@@ -106,21 +106,21 @@ def cpp_function_to_string(cpp_file, kernel_name):
 
     out = variable_declaration.format(var_name=kernel_name) + "\n"
     in_comment = False
-    for l in cpp_file:
+    for line in cpp_file:
         if not in_comment:
             # ignore comments and empty lines
             if (
-                re.match(commented_line, l) is not None
-                or len(l) == 0
-                or '#include "smm_acc_common.h"' in l
+                re.match(commented_line, line) is not None
+                or len(line) == 0
+                or '#include "smm_acc_common.h"' in line
             ):
                 pass
-            elif re.match(open_comment, l) is not None:
+            elif re.match(open_comment, line) is not None:
                 in_comment = True
             else:
-                out += line_in_string.format(l.replace('"', '\\"')) + "\n"
+                out += line_in_string.format(line.replace('"', '\\"')) + "\n"
         else:  # in_comment == True
-            if re.match(close_comment, l) is not None:
+            if re.match(close_comment, line) is not None:
                 in_comment = False
             else:
                 pass

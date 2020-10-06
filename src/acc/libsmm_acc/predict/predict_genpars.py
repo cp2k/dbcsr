@@ -19,8 +19,8 @@ import argparse
 from joblib import Parallel, delayed
 from predict_helpers import safe_pickle_load
 
-sys.path.append("../")  # noqa: E402
-from kernels.smm_acc_predict import (
+sys.path.append("../")
+from kernels.smm_acc_predict import (  # noqa: E402
     gpu_architectures,
     kernel_algorithm,
     to_string,

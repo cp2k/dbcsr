@@ -9,11 +9,15 @@ repos:
   hooks:
   - id: black
 - repo: https://gitlab.com/pycqa/flake8
-  rev: 3.7.9
+  rev: 3.8.4
   hooks:
   - id: flake8
+    exclude: >-
+      (?x)^(
+        .cp2k/.*|
+      )$
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v2.5.0
+  rev: v3.2.0
   hooks:
   - id: check-ast
   - id: check-yaml
