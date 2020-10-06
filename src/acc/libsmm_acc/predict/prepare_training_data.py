@@ -115,10 +115,8 @@ def get_performance_closest_to_baseline(
         else:
             assert False, (
                 'Could not find closest baseline for mnk=({}x{}x{}) and for algorithm "{}".'
-                + "\nLast baseline parameters searched:\n{}"
-                + "\nParameter sets searched:\n".format(
-                    m, n, k, algorithm, baseline_pars
-                )
+                "\nLast baseline parameters searched:\n{}"
+                "\nParameter sets searched:\n".format(m, n, k, algorithm, baseline_pars)
             )
 
     idx_baseline = idx_baseline[0]
@@ -278,21 +276,21 @@ Derived data: {:15,}""".format(
 
 
 # ===============================================================================
-def get_non_null(l):
+def get_non_null(nlist):
     """
-    Given a list "l", return its first non-null element, if existing, otherwise return null.
+    Given a list of numbers, return its first positive element, if it exists, zero otherwise.
     """
-    for e in l:
+    for e in nlist:
         if e > 0:
             return e
     return 0
 
 
-def get_max(l):
+def get_max(nlist):
     """
     Return the largest element of a list of numbers
     """
-    return np.array(l).max()
+    return np.array(nlist).max()
 
 
 def list_of_dics_to_dic_of_lists(list_of_dics):
