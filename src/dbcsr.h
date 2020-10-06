@@ -312,7 +312,7 @@ extern "C" {
 #:set infovars = ['local_rows', 'local_cols', 'proc_row_dist', 'proc_col_dist', &
               'row_blk_size', 'col_blk_size', 'row_blk_offset', 'col_blk_offset']
 #:for var in infovars
-   void c_dbcsr_get_${var}$ (dbcsr_matrix_t c_matrix, int* c_${var}$);
+   void c_dbcsr_get_${var}$ (dbcsr_matrix_t c_matrix, int* c_${var}$, int c_size);
 #:endfor
     
    void c_dbcsr_get_name(dbcsr_matrix_t c_matrix, char** c_name);

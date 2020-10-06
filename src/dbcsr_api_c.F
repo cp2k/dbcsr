@@ -1386,22 +1386,28 @@ CONTAINS
 #:set infovars = ['local_rows', 'local_cols', 'proc_row_dist', 'proc_col_dist', &
               'row_blk_size', 'col_blk_size', 'row_blk_offset', 'col_blk_offset']
 #:for var in infovars
-   SUBROUTINE c_dbcsr_get_${var}$ (c_matrix, c_${var}$) BIND(C, name="c_dbcsr_get_${var}$")
+   SUBROUTINE c_dbcsr_get_${var}$ (c_matrix, c_${var}$, c_size) BIND(C, name="c_dbcsr_get_${var}$")
 
-      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix, c_${var}$
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_matrix
+      INTEGER(kind=c_int), INTENT(IN), VALUE :: c_size
+      INTEGER(kind=c_int), INTENT(INOUT), DIMENSION(c_size) :: c_${var}$
       TYPE(dbcsr_type), POINTER :: matrix
-      INTEGER(kind=c_int), DIMENSION(:), POINTER :: ${var}$, f_${var}$
-
+      INTEGER(kind=c_int), DIMENSION(:), POINTER :: ${var}$
+      INTEGER :: i
+    
       CALL c_f_pointer(c_matrix, matrix)
 
       NULLIFY (${var}$)
       CALL dbcsr_get_info(matrix=matrix, ${var}$=${var}$)
 
-      CALL c_f_pointer(c_${var}$, f_${var}$, SHAPE(${var}$))
   #:if var in ['local_rows', 'local_cols', 'row_blk_offset', 'col_blk_offset']
-      f_${var}$ = ${var}$-1
+      DO i = 1,c_size
+         c_${var}$(i) = ${var}$(i) - 1
+      ENDDO
   #:else
-      f_${var}$ = ${var}$
+      DO i = 1,c_size
+         c_${var}$(i) = ${var}$(i);
+      ENDDO
   #:endif
       NULLIFY (${var}$)
 
