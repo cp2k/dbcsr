@@ -62,8 +62,7 @@ else () # i.e. USE_HIP
   set_source_files_properties(${LIBSMM_ACC_SRC_FILES} PROPERTIES HIP_SOURCE_PROPERTY_FORMAT 1)
   # hip_add_library does not support OBJECT libraries. For this reason, we are forced to use a static library
   hip_add_library(libsmm_acc STATIC ${LIBSMM_ACC_FILES})
-  target_include_directories(libsmm_acc PUBLIC ${HIP_PATH}/../include)
-  target_compile_options(libsmm_acc PUBLIC "-fPIC")
+  target_include_directories(libsmm_acc PRIVATE ${HIP_PATH}/../include)
   target_link_libraries(libsmm_acc INTERFACE "stdc++")
   target_link_libraries(libsmm_acc PUBLIC ${HIPBLAS})
   if (USE_OPENMP)

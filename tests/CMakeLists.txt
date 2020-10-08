@@ -202,7 +202,7 @@ if (USE_CUDA OR USE_HIP)
     hip_add_executable(libsmm_acc_unittest_transpose libsmm_acc_unittest_transpose.cpp)
     target_link_options(libsmm_acc_unittest_transpose PRIVATE ${HIP_ARCH_FLAGS})
 
-    # Workaround issue in hip_add_library: explicitely write dependency between __ & __
+    # Workaround issue in hip_add_library: explicitely write dependency between the unit test & the script that generates it
     add_custom_target(generate_libsmm_acc_unittest_multiply_test_cpp DEPENDS libsmm_acc_unittest_multiply.cpp)
     add_dependencies(libsmm_acc_unittest_multiply generate_libsmm_acc_unittest_multiply_test_cpp)
     add_custom_target(generate_libsmm_acc_timer_multiply_test_cpp DEPENDS libsmm_acc_timer_multiply.cpp)
@@ -210,8 +210,10 @@ if (USE_CUDA OR USE_HIP)
 
     foreach (libsmm_acc_test ${LIBSMM_ACC_TESTS_BUILD})
 
-      target_link_libraries(${libsmm_acc_test} dbcsr)
       target_compile_definitions(${libsmm_acc_test} PRIVATE __HIP)
+      target_include_directories(${libsmm_acc_test} PRIVATE ${HIP_PATH}/../include)
+
+      target_link_libraries(${libsmm_acc_test} dbcsr)
 
     endforeach ()
 
