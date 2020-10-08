@@ -24,8 +24,8 @@ typedef int (*KernelLauncher)(const int *param_stack_dev, int stack_size,
                               ACC_DRV(stream) stream, int m, int n, int k,
                               const double * a_data, const double * b_data, double * c_data);
 
-typedef int (*TransposeLauncher)(const int *param_stack, int offset, int nblks,
-                                 double *buffer, int m, int n, ACC_DRV(stream) stream);
+typedef int (*TransposeLauncher)(const int *param_stack, int offset, int nblks, double *buffer,
+                                 int m, int n, ACC_DRV(stream) stream);
 
 enum benchmark_mode {test, tune, timing};
 

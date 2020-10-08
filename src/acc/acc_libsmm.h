@@ -24,11 +24,11 @@ extern "C" int libsmm_acc_init(void);
 acc_bool_t libsmm_acc_is_thread_safe(void);
 
 int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int nblks,
-  void* dev_data, acc_data_t datatype, int m, int n, acc_stream_t* stream);
+  void* dev_data, acc_data_t datatype, int m, int n, int max_kernel_dim, acc_stream_t* stream);
 
 extern "C" int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, int stack_size,
   int nparams, acc_data_t datatype, const void* dev_a_data, const void* dev_b_data, void* dev_c_data,
-  int m_max, int n_max, int k_max, acc_bool_t def_mnk, acc_stream_t* stream);
+  int m_max, int n_max, int k_max, int max_kernel_dim, acc_bool_t def_mnk, acc_stream_t* stream);
 
 #if defined(__cplusplus)
 }

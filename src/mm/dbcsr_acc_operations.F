@@ -18,6 +18,7 @@ MODULE dbcsr_acc_operations
    USE dbcsr_acc_stream, ONLY: acc_stream_cptr, &
                                acc_stream_type, &
                                acc_stream_synchronize
+   USE dbcsr_config, ONLY: max_kernel_dim
    USE dbcsr_mm_types, ONLY: dbcsr_ps_width
    USE dbcsr_kinds, ONLY: real_8, dp
    USE dbcsr_types, ONLY: dbcsr_type_real_8
@@ -39,8 +40,8 @@ MODULE dbcsr_acc_operations
 #if defined (__DBCSR_ACC)
    INTERFACE
       FUNCTION libsmm_acc_process_cu(param_stack_host, param_stack_dev, stack_size, nparams, &
-                                     data_type, &
-                                     a_data, b_data, c_data, m_max, n_max, k_max, def_mnk, &
+                                     data_type, a_data, b_data, c_data, m_max, &
+                                     n_max, k_max, max_kernel_dim, def_mnk, &
                                      stream_ptr) &
          RESULT(istat) &
          BIND(C, name="libsmm_acc_process")
@@ -49,7 +50,8 @@ MODULE dbcsr_acc_operations
          TYPE(C_PTR), INTENT(IN), VALUE           :: param_stack_dev
          INTEGER(KIND=C_INT), INTENT(IN), VALUE   :: stack_size, nparams, data_type
          TYPE(C_PTR), INTENT(IN), VALUE           :: a_data, b_data, c_data
-         INTEGER(KIND=C_INT), INTENT(IN), VALUE   :: m_max, n_max, k_max, def_mnk
+         INTEGER(KIND=C_INT), INTENT(IN), VALUE   :: m_max, n_max, k_max
+         INTEGER(KIND=C_INT), INTENT(IN), VALUE   :: max_kernel_dim, def_mnk
          TYPE(C_PTR), VALUE                       :: stream_ptr
          INTEGER(KIND=C_INT)                      :: istat
 
@@ -57,7 +59,8 @@ MODULE dbcsr_acc_operations
    END INTERFACE
 
    INTERFACE
-      FUNCTION libsmm_acc_transpose_cu(trs_stack, offset, nblks, buffer, data_type, m, n, stream_ptr) &
+      FUNCTION libsmm_acc_transpose_cu(trs_stack, offset, nblks, buffer, &
+                                       data_type, m, n, max_kernel_dim, stream_ptr) &
          RESULT(istat) &
          BIND(C, name="libsmm_acc_transpose")
          IMPORT
@@ -65,6 +68,7 @@ MODULE dbcsr_acc_operations
          INTEGER(KIND=C_INT), INTENT(IN), VALUE   :: offset, nblks
          TYPE(C_PTR), INTENT(IN), VALUE           :: buffer
          INTEGER(KIND=C_INT), INTENT(IN), VALUE   :: data_type, m, n
+         INTEGER(KIND=C_INT), INTENT(IN), VALUE   :: max_kernel_dim
          TYPE(C_PTR), VALUE                       :: stream_ptr
          INTEGER(KIND=C_INT)                      :: istat
 
@@ -132,6 +136,7 @@ CONTAINS
                                     INT(m_max, KIND=C_INT), &
                                     INT(n_max, KIND=C_INT), &
                                     INT(k_max, KIND=C_INT), &
+                                    INT(max_kernel_dim, KIND=C_INT), &
                                     mnk, acc_stream_cptr(stream))
       IF (istat == 100) DBCSR_ABORT("failed due to accGetLastError().")
       success = (istat == 0) ! false if no suitable kernel was found
@@ -171,8 +176,8 @@ CONTAINS
       istat = 0
 
       ! Call batched in-place transpose in libsmm_acc
-      IF (m .LE. 80 .AND. &
-          n .LE. 80) THEN
+      IF (m .LE. max_kernel_dim .AND. &
+          n .LE. max_kernel_dim) THEN
          istat = libsmm_acc_transpose_cu(acc_devmem_cptr(trs_stack), &
                                          INT(offset, KIND=C_INT), &
                                          INT(nblks, KIND=C_INT), &
@@ -180,6 +185,7 @@ CONTAINS
                                          INT(datatype, KIND=C_INT), &
                                          INT(m, KIND=C_INT), &
                                          INT(n, KIND=C_INT), &
+                                         INT(max_kernel_dim, KIND=C_INT), &
                                          acc_stream_cptr(stream))
       ENDIF
 
