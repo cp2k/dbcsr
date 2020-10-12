@@ -255,7 +255,7 @@ public subroutine dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack
   
 <tr>
   
-  <td><span class="anchor" id="variable-stack_size~18"></span>integer,</td>
+  <td><span class="anchor" id="variable-stack_size~21"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -270,7 +270,7 @@ public subroutine dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack
   
 <tr>
   
-  <td><span class="anchor" id="variable-datatype"></span>integer,</td>
+  <td><span class="anchor" id="variable-datatype~3"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -390,7 +390,7 @@ public subroutine dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack
   
 <tr>
   
-  <td><span class="anchor" id="variable-stream~2"></span>type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),</td>
+  <td><span class="anchor" id="variable-stream~48"></span>type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -405,7 +405,7 @@ public subroutine dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack
   
 <tr>
   
-  <td><span class="anchor" id="variable-success~2"></span>logical,</td>
+  <td><span class="anchor" id="variable-success~3"></span>logical,</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -515,9 +515,11 @@ public subroutine dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack
       <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_acc_do_mm_stack&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
                                      <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 
-      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">error_handle</span><span class="p">,</span> <span class="n">istat</span><span class="p">,</span> <span class="n">ithread</span><span class="p">,</span> <span class="n">istack</span>
+      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">error_handle</span><span class="p">,</span> <span class="n">istat</span>
       <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">mnk</span>
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_CHAR</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">transb</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">POINTER</span>         <span class="kd">::</span> <span class="n">param_stack_host_ptr</span>
+
+      <span class="n">param_stack_host_ptr</span> <span class="o">=&gt;</span> <span class="n">param_stack_host</span><span class="p">(:,</span> <span class="p">:)</span>
 
       <span class="k">IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">)</span>
 
@@ -525,71 +527,21 @@ public subroutine dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack
       <span class="k">IF</span> <span class="p">(</span><span class="n">def_mnk</span><span class="p">)</span> <span class="n">mnk</span> <span class="o">=</span> <span class="mi">1</span>
       <span class="n">istat</span> <span class="o">=</span> <span class="o">-</span><span class="mi">100</span> <span class="c">! big kernels</span>
 
-      <span class="c">! Limits the call to small kernels</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">m_max</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">max_kernel_dim</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
-          <span class="n">n_max</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">max_kernel_dim</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
-          <span class="n">k_max</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">max_kernel_dim</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">         </span><span class="n">istat</span> <span class="o">=</span> <span class="n">libsmm_acc_process_cu</span><span class="p">(</span><span class="n">acc_devmem_cptr</span><span class="p">(</span><span class="n">param_stack_dev</span><span class="p">),</span> <span class="p">&amp;</span>
-                                       <span class="nb">INT</span><span class="p">(</span><span class="n">stack_size</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
-                                       <span class="nb">INT</span><span class="p">(</span><span class="n">dbcsr_ps_width</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
-                                       <span class="nb">INT</span><span class="p">(</span><span class="n">datatype</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
-                                       <span class="n">acc_devmem_cptr</span><span class="p">(</span><span class="n">a_data</span><span class="p">),</span> <span class="p">&amp;</span>
-                                       <span class="n">acc_devmem_cptr</span><span class="p">(</span><span class="n">b_data</span><span class="p">),</span> <span class="p">&amp;</span>
-                                       <span class="n">acc_devmem_cptr</span><span class="p">(</span><span class="n">c_data</span><span class="p">),</span> <span class="p">&amp;</span>
-                                       <span class="nb">INT</span><span class="p">(</span><span class="n">m_max</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
-                                       <span class="nb">INT</span><span class="p">(</span><span class="n">n_max</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
-                                       <span class="nb">INT</span><span class="p">(</span><span class="n">k_max</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
-                                       <span class="n">mnk</span><span class="p">,</span> <span class="n">acc_stream_cptr</span><span class="p">(</span><span class="n">stream</span><span class="p">))</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="o">==</span> <span class="mi">100</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;failed due to accGetLastError().&quot;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-
-      <span class="c">! Call Cublas/Hipblas for big kernels</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">datatype</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">dbcsr_type_real_8</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">istat</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="o">-</span><span class="mi">100</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">         </span><span class="n">ithread</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="c">!$       ithread = omp_get_thread_num()</span>
-         <span class="k">DO </span><span class="n">istack</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">stack_size</span>
-            <span class="k">IF</span> <span class="p">(</span><span class="n">param_stack_host</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">istack</span><span class="p">)</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">max_kernel_dim</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
-                <span class="n">param_stack_host</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">istack</span><span class="p">)</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">max_kernel_dim</span><span class="p">)</span> <span class="k">THEN</span>
-               <span class="c">! Transpose for B-blocks</span>
-               <span class="n">transb</span> <span class="o">=</span> <span class="s1">&#39;T&#39;</span>
-            <span class="k">ELSE</span>
-<span class="k">               </span><span class="n">transb</span> <span class="o">=</span> <span class="s1">&#39;N&#39;</span>
-            <span class="n">ENDIF</span>
-<span class="cp">#if (__CUDA)</span>
-            <span class="n">istat</span> <span class="o">=</span> <span class="n">cublas_dgemm_cu</span><span class="p">(</span><span class="n">cublas_handles</span><span class="p">(</span><span class="n">ithread</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)%</span><span class="n">handle_ptr</span><span class="p">,</span> <span class="p">&amp;</span>
-                                    <span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="n">transb</span><span class="p">,</span> <span class="p">&amp;</span>
-                                    <span class="nb">INT</span><span class="p">(</span><span class="n">param_stack_host</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">istack</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
-                                    <span class="nb">INT</span><span class="p">(</span><span class="n">param_stack_host</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">istack</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
-                                    <span class="nb">INT</span><span class="p">(</span><span class="n">param_stack_host</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">istack</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
-                                    <span class="nb">INT</span><span class="p">(</span><span class="n">param_stack_host</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">istack</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
-                                    <span class="nb">INT</span><span class="p">(</span><span class="n">param_stack_host</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">istack</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
-                                    <span class="nb">INT</span><span class="p">(</span><span class="n">param_stack_host</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="n">istack</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
+      <span class="c">! Call batched matrix-matrix multiplication in libsmm_acc</span>
+      <span class="n">istat</span> <span class="o">=</span> <span class="n">libsmm_acc_process_cu</span><span class="p">(</span><span class="nb">C_LOC</span><span class="p">(</span><span class="n">param_stack_host_ptr</span><span class="p">),</span> <span class="p">&amp;</span>
+                                    <span class="n">acc_devmem_cptr</span><span class="p">(</span><span class="n">param_stack_dev</span><span class="p">),</span> <span class="p">&amp;</span>
+                                    <span class="nb">INT</span><span class="p">(</span><span class="n">stack_size</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
+                                    <span class="nb">INT</span><span class="p">(</span><span class="n">dbcsr_ps_width</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
+                                    <span class="nb">INT</span><span class="p">(</span><span class="n">datatype</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
                                     <span class="n">acc_devmem_cptr</span><span class="p">(</span><span class="n">a_data</span><span class="p">),</span> <span class="p">&amp;</span>
                                     <span class="n">acc_devmem_cptr</span><span class="p">(</span><span class="n">b_data</span><span class="p">),</span> <span class="p">&amp;</span>
                                     <span class="n">acc_devmem_cptr</span><span class="p">(</span><span class="n">c_data</span><span class="p">),</span> <span class="p">&amp;</span>
-                                    <span class="mf">1.0_dp</span><span class="p">,</span> <span class="mf">1.0_dp</span><span class="p">,</span> <span class="p">&amp;</span>
-                                    <span class="n">acc_stream_cptr</span><span class="p">(</span><span class="n">stream</span><span class="p">))</span>
-            <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;failed to run CUBLAS.&quot;</span><span class="p">)</span>
-<span class="cp">#elif (__HIP)</span>
-            <span class="n">istat</span> <span class="o">=</span> <span class="n">hipblas_dgemm_hip</span><span class="p">(</span><span class="n">hipblas_handles</span><span class="p">(</span><span class="n">ithread</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)%</span><span class="n">handle_ptr</span><span class="p">,</span> <span class="p">&amp;</span>
-                                      <span class="s1">&#39;N&#39;</span><span class="p">,</span> <span class="n">transb</span><span class="p">,</span> <span class="p">&amp;</span>
-                                      <span class="nb">INT</span><span class="p">(</span><span class="n">param_stack_host</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">istack</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
-                                      <span class="nb">INT</span><span class="p">(</span><span class="n">param_stack_host</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">istack</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
-                                      <span class="nb">INT</span><span class="p">(</span><span class="n">param_stack_host</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">istack</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
-                                      <span class="nb">INT</span><span class="p">(</span><span class="n">param_stack_host</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">istack</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
-                                      <span class="nb">INT</span><span class="p">(</span><span class="n">param_stack_host</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">istack</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
-                                      <span class="nb">INT</span><span class="p">(</span><span class="n">param_stack_host</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="n">istack</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
-                                      <span class="n">acc_devmem_cptr</span><span class="p">(</span><span class="n">a_data</span><span class="p">),</span> <span class="p">&amp;</span>
-                                      <span class="n">acc_devmem_cptr</span><span class="p">(</span><span class="n">b_data</span><span class="p">),</span> <span class="p">&amp;</span>
-                                      <span class="n">acc_devmem_cptr</span><span class="p">(</span><span class="n">c_data</span><span class="p">),</span> <span class="p">&amp;</span>
-                                      <span class="mf">1.0_dp</span><span class="p">,</span> <span class="mf">1.0_dp</span><span class="p">,</span> <span class="p">&amp;</span>
-                                      <span class="n">acc_stream_cptr</span><span class="p">(</span><span class="n">stream</span><span class="p">))</span>
-            <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;failed to run HIPBLAS.&quot;</span><span class="p">)</span>
-<span class="cp">#endif</span>
-         <span class="n">ENDDO</span>
-         <span class="k">CALL </span><span class="n">acc_stream_synchronize</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-
+                                    <span class="nb">INT</span><span class="p">(</span><span class="n">m_max</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
+                                    <span class="nb">INT</span><span class="p">(</span><span class="n">n_max</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
+                                    <span class="nb">INT</span><span class="p">(</span><span class="n">k_max</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
+                                    <span class="nb">INT</span><span class="p">(</span><span class="n">max_kernel_dim</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
+                                    <span class="n">mnk</span><span class="p">,</span> <span class="n">acc_stream_cptr</span><span class="p">(</span><span class="n">stream</span><span class="p">))</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="o">==</span> <span class="mi">100</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;failed due to accGetLastError().&quot;</span><span class="p">)</span>
       <span class="n">success</span> <span class="o">=</span> <span class="p">(</span><span class="n">istat</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="c">! false if no suitable kernel was found</span>
 
       <span class="k">IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>

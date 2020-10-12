@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">28 statements</a>
+    title=" 0.0% of total for procedures.">25 statements</a>
      </li> 
      
      
@@ -286,20 +286,13 @@ public subroutine dbcsr_finalize_lib()
       <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_finalize_lib&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
                                      <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 
-      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">error_handle</span><span class="p">,</span> <span class="n">ithread</span>
+      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">error_handle</span>
 
       <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">is_initialized</span><span class="p">)</span> <span class="k">RETURN</span>
 <span class="k">      CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">)</span>
 
-<span class="c">!$OMP     PARALLEL DEFAULT(NONE) PRIVATE(ithread) SHARED(ext_io_unit, default_group, cublas_handles)</span>
+<span class="c">!$OMP     PARALLEL DEFAULT(NONE) SHARED(ext_io_unit, default_group)</span>
       <span class="k">CALL </span><span class="n">dbcsr_multiply_lib_finalize</span><span class="p">()</span>
-      <span class="n">ithread</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="c">!$    ithread = omp_get_thread_num()</span>
-      <span class="k">CALL </span><span class="n">cublas_handle_destroy</span><span class="p">(</span><span class="n">cublas_handles</span><span class="p">(</span><span class="n">ithread</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
-<span class="c">!$OMP BARRIER</span>
-<span class="c">!$OMP MASTER</span>
-      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">cublas_handles</span><span class="p">)</span>
-<span class="c">!$OMP END MASTER</span>
 <span class="c">!$OMP     END PARALLEL</span>
 
       <span class="n">is_initialized</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>

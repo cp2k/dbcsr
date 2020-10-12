@@ -121,21 +121,21 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">32 statements</a>
+    title=" 0.1% of total for procedures.">33 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tas_reshape_ops.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor_reshape.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_tas_reshape_ops.f.html'>dbcsr_tas_reshape_ops.F</a></li>
+     <li><a href='../sourcefile/dbcsr_tensor_reshape.f.html'>dbcsr_tensor_reshape.F</a></li>
     
-     <li><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></li>
+     <li><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></li>
     
   
      <li class="active">block_buffer_get_next_block_r_sp</li>
@@ -219,7 +219,7 @@ private subroutine block_buffer_get_next_block_r_sp(buffer, ndata, index, block,
   
 <tr>
   
-  <td><span class="anchor" id="variable-buffer~20"></span>type(<a href='../type/block_buffer_type.html'>block_buffer_type</a>),</td>
+  <td><span class="anchor" id="variable-buffer~14"></span>type(<a href='../type/block_buffer_type.html'>block_buffer_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -234,7 +234,7 @@ private subroutine block_buffer_get_next_block_r_sp(buffer, ndata, index, block,
   
 <tr>
   
-  <td><span class="anchor" id="variable-ndata~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-ndata~9"></span>integer,</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -249,11 +249,11 @@ private subroutine block_buffer_get_next_block_r_sp(buffer, ndata, index, block,
   
 <tr>
   
-  <td><span class="anchor" id="variable-index~14"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-index~14"></span>integer,</td>
   <td>intent(out),</td>
   <td></td>
   
-  <td>DIMENSION(2)</td><td>::</td>
+  <td>DIMENSION(ndims_buffer(buffer))</td><td>::</td>
   <td><strong>index</strong></td><td></td>
   
 </tr>
@@ -264,11 +264,11 @@ private subroutine block_buffer_get_next_block_r_sp(buffer, ndata, index, block,
   
 <tr>
   
-  <td><span class="anchor" id="variable-block~70"></span>real(kind=real_4),</td>
+  <td><span class="anchor" id="variable-block~115"></span>real(kind=real_4),</td>
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:, :)</td><td>::</td>
+  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
   <td><strong>block</strong></td><td></td>
   
 </tr>

@@ -1,4 +1,4 @@
-# 1 "/__w/dbcsr/dbcsr/src/acc/hipblaswrap/dbcsr_hipblas.F" 1
+# 1 "/__w/dbcsr/dbcsr/src/acc/hip/dbcsr_hipblas.F" 1
 !--------------------------------------------------------------------------------------------------!
 ! Copyright (C) by the DBCSR developers group - All rights reserved                                !
 ! This file is part of the DBCSR library.                                                          !

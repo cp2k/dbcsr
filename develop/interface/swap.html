@@ -121,21 +121,21 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 0.0% of total for procedures.</p>Including implementation: 17 statements,  0.0% of total for procedures.">3 statements</a>
+    title="<p> 0.0% of total for procedures.</p>Including implementation: 18 statements,  0.0% of total for procedures.">4 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_toollib.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tas_util.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_toollib.f.html'>dbcsr_toollib.F</a></li>
+     <li><a href='../sourcefile/dbcsr_tas_util.f.html'>dbcsr_tas_util.F</a></li>
     
-     <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
+     <li><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></li>
     
   
      <li class="active">swap</li>
@@ -183,9 +183,9 @@
   <div id="modprocs-0" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../interface/swap.html#moduleprocedure-iswap">iswap</a>
+      <a class="list-group-item" href="../interface/swap.html#moduleprocedure-swap_i8">swap_i8</a>
       
-      <a class="list-group-item" href="../interface/swap.html#moduleprocedure-bswap">bswap</a>
+      <a class="list-group-item" href="../interface/swap.html#moduleprocedure-swap_i">swap_i</a>
       
     </div>
   </div>
@@ -234,9 +234,9 @@
   <div id="modprocs-1" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../interface/swap.html#moduleprocedure-iswap">iswap</a>
+      <a class="list-group-item" href="../interface/swap.html#moduleprocedure-swap_i8">swap_i8</a>
       
-      <a class="list-group-item" href="../interface/swap.html#moduleprocedure-bswap">bswap</a>
+      <a class="list-group-item" href="../interface/swap.html#moduleprocedure-swap_i">swap_i</a>
       
     </div>
   </div>
@@ -257,8 +257,8 @@
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-iswap"></span><h3>
-private subroutine <a href='../proc/iswap.html'>iswap</a>(a, b)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-swap_i8"></span><h3>
+private subroutine <a href='../proc/swap_i8.html'>swap_i8</a>(arr)
     
     
    
@@ -266,14 +266,6 @@ private subroutine <a href='../proc/iswap.html'>iswap</a>(a, b)
   <div class="panel-body">
        
     
-
-
-
-
-
-
-
-<p>Swaps two integers</p>
     
     <h4>Arguments</h4>
     
@@ -294,29 +286,12 @@ private subroutine <a href='../proc/iswap.html'>iswap</a>(a, b)
   
 <tr>
   
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(inout)</td>
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
+  <td>intent(inout),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>a</strong></td><td><p>Integers to swap
- Integers to swap</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(inout)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>b</strong></td><td><p>Integers to swap
- Integers to swap</p></td>
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>arr</strong></td><td></td>
   
 </tr>
 
@@ -333,8 +308,8 @@ private subroutine <a href='../proc/iswap.html'>iswap</a>(a, b)
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-bswap"></span><h3>
-private subroutine <a href='../proc/bswap.html'>bswap</a>(a, b)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-swap_i"></span><h3>
+private subroutine <a href='../proc/swap_i.html'>swap_i</a>(arr)
     
     
    
@@ -342,14 +317,6 @@ private subroutine <a href='../proc/bswap.html'>bswap</a>(a, b)
   <div class="panel-body">
        
     
-
-
-
-
-
-
-
-<p>Swaps two logicals</p>
     
     <h4>Arguments</h4>
     
@@ -370,29 +337,12 @@ private subroutine <a href='../proc/bswap.html'>bswap</a>(a, b)
   
 <tr>
   
-  <td><span class="anchor" ></span>logical,</td>
-  <td>intent(inout)</td>
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(inout),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>a</strong></td><td><p>Logicals to swap
- Logicals to swap</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>logical,</td>
-  <td>intent(inout)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>b</strong></td><td><p>Logicals to swap
- Logicals to swap</p></td>
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>arr</strong></td><td></td>
   
 </tr>
 

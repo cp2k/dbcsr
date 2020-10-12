@@ -121,21 +121,21 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 1.0% of total for derived types.</p>Including implementation: 10 statements,  0.8% of total for derived types.">10 statements</a>
+    title="<p> 1.1% of total for derived types.</p>Including implementation: 11 statements,  0.8% of total for derived types.">11 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tas_reshape_ops.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor_reshape.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_tas_reshape_ops.f.html'>dbcsr_tas_reshape_ops.F</a></li>
+     <li><a href='../sourcefile/dbcsr_tensor_reshape.f.html'>dbcsr_tensor_reshape.F</a></li>
     
-     <li><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></li>
+     <li><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></li>
     
   
      <li class="active">block_buffer_type</li>
@@ -166,6 +166,8 @@
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
       
+      <a class="list-group-item" href="../type/block_buffer_type.html#variable-ndim">ndim</a>
+      
       <a class="list-group-item" href="../type/block_buffer_type.html#variable-nblock">nblock</a>
       
       <a class="list-group-item" href="../type/block_buffer_type.html#variable-indx">indx</a>
@@ -178,7 +180,7 @@
       
       <a class="list-group-item" href="../type/block_buffer_type.html#variable-msg_c_sp">msg_c_sp</a>
       
-      <a class="list-group-item" href="../type/block_buffer_type.html#variable-data_type~5">data_type</a>
+      <a class="list-group-item" href="../type/block_buffer_type.html#variable-data_type~2">data_type</a>
       
       <a class="list-group-item" href="../type/block_buffer_type.html#variable-endpos">endpos</a>
       
@@ -230,6 +232,8 @@
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
       
+      <a class="list-group-item" href="../type/block_buffer_type.html#variable-ndim">ndim</a>
+      
       <a class="list-group-item" href="../type/block_buffer_type.html#variable-nblock">nblock</a>
       
       <a class="list-group-item" href="../type/block_buffer_type.html#variable-indx">indx</a>
@@ -242,7 +246,7 @@
       
       <a class="list-group-item" href="../type/block_buffer_type.html#variable-msg_c_sp">msg_c_sp</a>
       
-      <a class="list-group-item" href="../type/block_buffer_type.html#variable-data_type~5">data_type</a>
+      <a class="list-group-item" href="../type/block_buffer_type.html#variable-data_type~2">data_type</a>
       
       <a class="list-group-item" href="../type/block_buffer_type.html#variable-endpos">endpos</a>
       
@@ -292,6 +296,20 @@
   
 <tr>
   
+  <td><span class="anchor" id="variable-ndim"></span>integer,</td>
+  
+  <td>public</td>
+  <td></td><td>::</td>
+  <td><strong>ndim</strong></td><td> =</td><td>-1</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
   <td><span class="anchor" id="variable-nblock"></span>integer,</td>
   
   <td>public</td>
@@ -306,7 +324,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-indx"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-indx"></span>integer,</td>
   
   <td>public,</td>
   <td>DIMENSION(:, :), ALLOCATABLE</td><td>::</td>
@@ -376,7 +394,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-data_type~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type~2"></span>integer,</td>
   
   <td>public</td>
   <td></td><td>::</td>

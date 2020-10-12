@@ -143,14 +143,12 @@
 <hr>
 <h3>Auto-tuning procedure</h3>
 <h4>1. Go to the <code>libsmm_acc/tune</code> directory</h4>
-<div class="codehilite"><pre><span></span><code>$ <span class="nb">cd</span> dbcsr/src/acc/libsmm_acc/libsmm_acc/tune
+<div class="bash codehilite"><pre><span></span><code>$ <span class="nb">cd</span> dbcsr/src/acc/libsmm_acc/libsmm_acc/tune
 </code></pre></div>
-
 
 <p>The <code>parameters.h</code> file (a C++ header file generated from the JSON record of multiplication kernels and their optimal parameters) is needed for the auto-tuning procedure. One can copy it over from a build directory for example, as follows:</p>
-<div class="codehilite"><pre><span></span><code>$ cp ~/dbcsr/build_dir/src/acc/libsmm_acc/parameters.h ../
+<div class="bash codehilite"><pre><span></span><code>$ cp ~/dbcsr/build_dir/src/acc/libsmm_acc/parameters.h ../
 </code></pre></div>
-
 
 <h4>2. Adapt <code>tune_setup.py</code> to your environment</h4>
 <p>The <code>tune_setup.py</code> script generates job files. You have to adapt the script to the environment of your supercomputer and your personal settings.</p>
@@ -187,12 +185,11 @@
 <span class="o">...</span>
 </code></pre></div>
 
-
 <h4>3. Run the script <code>tune_setup.py</code></h4>
 <p>Specify which GPU you are auto-tuning for by passing the appropriate <code>parameters_GPU.json</code> file as an argument with <code>-p</code>.
 In addition, the script takes as arguments the block sizes you want to add to <code>libsmm_acc</code>. You can specify these as a list of integers or provide the parameter file of a different GPU from which to read the block sizes to autotune.</p>
 <p>For example, if the system you want to autotune for contains blocks of size 5 and 8, run:</p>
-<div class="codehilite"><pre><span></span><code>$ ./tune_setup.py <span class="m">5</span> <span class="m">8</span> -p ../parameters/parameters_P100.json
+<div class="bash codehilite"><pre><span></span><code>$ ./tune_setup.py <span class="m">5</span> <span class="m">8</span> -p ../parameters/parameters_P100.json
 Reading parameters from parameters_P100.json
 libsmm_acc: Found <span class="m">74096</span> existing parameter sets, of which <span class="m">1641</span> are autotuned and <span class="m">72455</span> are predicted.
 Requested to autotune <span class="m">8</span> triplets
@@ -206,9 +203,8 @@ Found <span class="m">125344</span> parameter sets <span class="k">for</span> 8x
 Found <span class="m">125344</span> parameter sets <span class="k">for</span> 8x8x8
 </code></pre></div>
 
-
 <p>Or, if you want to obtain, for the NVIDIA P100, the parameters of the same block sizes as recorded for the NVIDIA K40, run:</p>
-<div class="codehilite"><pre><span></span><code>$ ./tune_setup.py -p ../parameters/parameters_P100.json ../parameters/parameters_K40.json
+<div class="bash codehilite"><pre><span></span><code>$ ./tune_setup.py -p ../parameters/parameters_P100.json ../parameters/parameters_K40.json
 Reading parameters from parameters_P100.json
 libsmm_acc: Found <span class="m">74093</span> existing parameter sets, of which <span class="m">1638</span> are autotuned and <span class="m">72455</span> are predicted.
 Reading parameters to autotune from parameters_K40.json
@@ -221,15 +217,13 @@ Found <span class="m">173764</span> parameter sets <span class="k">for</span> 9x
 ...
 </code></pre></div>
 
-
 <p>The script will create a directory for each combination of the block sizes:</p>
-<div class="codehilite"><pre><span></span><code>$ ls -d tune_*
+<div class="bash codehilite"><pre><span></span><code>$ ls -d tune_*
 tune_5x5x5  tune_5x5x8  tune_5x8x5  tune_5x8x8  tune_8x5x5  tune_8x5x8  tune_8x8x5  tune_8x8x8
 </code></pre></div>
 
-
 <p>Each directory contains a number of files:</p>
-<div class="codehilite"><pre><span></span><code>$ ls -1 tune_8x8x8/
+<div class="bash codehilite"><pre><span></span><code>$ ls -1 tune_8x8x8/
 Makefile
 tune_8x8x8_exe0_main.cu/cpp
 tune_8x8x8_exe0_part0.cu/cpp
@@ -240,7 +234,6 @@ tune_8x8x8_exe0_part4.cu/cpp
 tune_8x8x8.job
 </code></pre></div>
 
-
 <p>For each possible parameter-set a <em>launcher</em> is generated. A launcher is a small snippet of C code, which launches the kernel by using the CUDA specific <code>&lt;&lt;&lt; &gt;&gt;&gt;</code>-notation or HIP's <code>hipLaunchKernelGGL</code> function. It also instantiates the C++ template which contains the actual kernel code.</p>
 <p>In order to parallelize the benchmarking, the launchers are distributed over multiple executables. Currently, up to 10'000 launchers are benchmarked by one <em>executable</em>. Each executable is linked together from several <code>tune_*_part???.o</code> and a <code>tune_*_main.o</code>. Each part-files contains up to 100 launchers. This allows to parallelize the compilation over multiple CPU cores.</p>
 <h4>4. Adapt <code>tune_submit.py</code> to your environment</h4>
@@ -248,7 +241,7 @@ tune_8x8x8.job
 <h4>5. Submit Jobs</h4>
 <p>Each tune-directory contains a job file. Since there might be many tune-directories, the convenience script <code>tune_submit.py</code> can be used to submit jobs. It will go through all the <code>tune_*</code>-directories and check if its job has already been submitted or run. For this, the script calls <code>squeue</code> in the background and it searches for <code>slurm-*.out</code>files. In order to limit the number of jobs submitted at a time, a maximum number of jobs to submit can be specified with <code>-j</code>.</p>
 <p>When <code>tune_submit.py</code> is called without arguments, it will just list the jobs that could be submitted:</p>
-<div class="codehilite"><pre><span></span><code>$ ./tune_submit.py 
+<div class="bash codehilite"><pre><span></span><code>$ ./tune_submit.py 
           tune_5x5x5: Would submit, run with <span class="s2">&quot;doit!&quot;</span>
           tune_5x5x8: Would submit, run with <span class="s2">&quot;doit!&quot;</span>
           tune_5x8x5: Would submit, run with <span class="s2">&quot;doit!&quot;</span>
@@ -260,9 +253,8 @@ tune_8x8x8.job
 Number of <span class="nb">jobs</span> submitted: <span class="m">8</span>
 </code></pre></div>
 
-
 <p>Only when <code>tune_submit.py</code> is called with <code>doit!</code> as its first argument, will it actually submit jobs:</p>
-<div class="codehilite"><pre><span></span><code>$ ./tune_submit.py doit!
+<div class="bash codehilite"><pre><span></span><code>$ ./tune_submit.py doit!
           tune_5x5x5: Submitting
 Submitted batch job <span class="m">277987</span>
           tune_5x5x8: Submitting
@@ -282,10 +274,9 @@ Submitted batch job <span class="m">277994</span>
 Number of <span class="nb">jobs</span> submitted: <span class="m">8</span>
 </code></pre></div>
 
-
 <h4>6. Collect Results</h4>
 <p>Run <code>tune_collect.py</code> to parse all log files and determine the best kernel for each blocksize:</p>
-<div class="codehilite"><pre><span></span><code>$ ./tune_collect.py
+<div class="bash codehilite"><pre><span></span><code>$ ./tune_collect.py
 Reading: tune_5x5x5/tune_5x5x5_exe0.log
 Reading: tune_5x5x8/tune_5x5x8_exe0.log
 Reading: tune_5x8x5/tune_5x8x5_exe0.log
@@ -306,15 +297,13 @@ Kernel_dnt_tiny<span class="o">(</span><span class="nv">m</span><span class="o">
 Wrote parameters.json
 </code></pre></div>
 
-
 <p>The file <code>parameters.json</code> in <code>dbcsr/src/acc/libsmm_acc/parameters</code> now contains the newly autotuned parameters.</p>
 <h4>7. Merge new parameters with original parameter-file</h4>
 <p>Run <code>tune_merge.py</code> to merge the new parameters with the original ones:</p>
-<div class="codehilite"><pre><span></span><code>$ ./tune_merge.py
+<div class="bash codehilite"><pre><span></span><code>$ ./tune_merge.py
 Merging parameters.json with parameters_P100.json
 Wrote parameters.new.json
 </code></pre></div>
-
 
 <p>The file <code>parameters.new.json</code> can now be used as a parameter file. Rename it to <code>parameters_GPU.json</code>, with the appropriate <code>GPU</code>.</p>
 <h4>8. (optional) Explore the data</h4>

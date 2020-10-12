@@ -206,9 +206,13 @@ public subroutine dbcsr_mm_multrec_multiply(this, left, right, flop, a_norms, b_
     
     <p>Multiplies two DBCSR matrices using recursive algorithm
  This routine sets up the multiplication.  Specifically, it <ul>
- <li> verifies input sanity
+ 
+<li> verifies input sanity
  <li> converts everything into "local indexing"
- </ul></p>
+ </ul>
+
+
+</p>
     
 
     <h3>Arguments</h3>
@@ -229,7 +233,7 @@ public subroutine dbcsr_mm_multrec_multiply(this, left, right, flop, a_norms, b_
   
 <tr>
   
-  <td><span class="anchor" id="variable-this~20"></span>type(<a href='../type/dbcsr_mm_multrec_type.html'>dbcsr_mm_multrec_type</a>),</td>
+  <td><span class="anchor" id="variable-this~49"></span>type(<a href='../type/dbcsr_mm_multrec_type.html'>dbcsr_mm_multrec_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -244,7 +248,7 @@ public subroutine dbcsr_mm_multrec_multiply(this, left, right, flop, a_norms, b_
   
 <tr>
   
-  <td><span class="anchor" id="variable-left~6"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-left~5"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -260,7 +264,7 @@ public subroutine dbcsr_mm_multrec_multiply(this, left, right, flop, a_norms, b_
   
 <tr>
   
-  <td><span class="anchor" id="variable-right~6"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-right~5"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -276,7 +280,7 @@ public subroutine dbcsr_mm_multrec_multiply(this, left, right, flop, a_norms, b_
   
 <tr>
   
-  <td><span class="anchor" id="variable-flop~13"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-flop~10"></span>integer(kind=int_8),</td>
   <td>intent(inout)</td>
   <td></td>
   
