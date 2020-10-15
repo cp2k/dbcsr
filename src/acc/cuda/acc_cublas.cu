@@ -56,3 +56,31 @@ int acc_blas_dgemm(ACC_BLAS(Handle_t) *handle, char transa, char transb,
 
   return(0);
 }
+
+/****************************************************************************/
+int acc_blas_transpose(ACC_BLAS(Handle_t) *handle, int m, int n, int offset,
+                       double *data, ACC(Stream_t) *stream)
+{
+
+  ACC_BLAS_CALL(SetStream, (*handle, *stream));
+
+  const double alpha = 1.;
+  const double beta = 0.;
+
+  // cu/hip blas does not have in-place transpose:
+  // we duplicate the matrix into a temporary buffer before transposing
+  double *data_temp;
+  ACC_API_CALL(Malloc, (&data_temp, m * n * sizeof(double)));
+  ACC_API_CALL(Memcpy, (data, data_temp, m * n * sizeof(double), ACC(MemcpyDeviceToDevice)));
+
+  ACC_BLAS_CALL(Dgeam, (*handle, ACC_BLAS_OP_T, ACC_BLAS_OP_N,
+				m, n,
+				&alpha, data_temp, n,
+				&beta, data_temp, m,
+                &data[offset], m));
+
+  // free temporary buffer
+  ACC_API_CALL(Free, (data_temp));
+
+  return(0);
+}

@@ -120,8 +120,6 @@ MODULE dbcsr_config
 
    TYPE(dbcsr_config_type), PROTECTED, SAVE :: dbcsr_cfg = dbcsr_config_type() ! defaults
 
-   ! Max dimension for any block dimension
-   INTEGER, PARAMETER :: max_kernel_dim = 80
    ! Accelerator active device, default to -1, i.e. no device
    INTEGER, PARAMETER :: default_accdrv_active_device_id = -1
    INTEGER :: accdrv_active_device_id = default_accdrv_active_device_id
@@ -129,7 +127,6 @@ MODULE dbcsr_config
    PUBLIC :: dbcsr_cfg, has_MPI, has_acc, default_resize_factor
    PUBLIC :: mm_driver_blas, mm_driver_matmul, mm_driver_smm, mm_driver_xsmm, mm_driver_auto
    PUBLIC :: dbcsr_set_config, dbcsr_get_default_config, dbcsr_print_config
-   PUBLIC :: max_kernel_dim
    PUBLIC :: get_accdrv_active_device_id, set_accdrv_active_device_id, reset_accdrv_active_device_id
 
 CONTAINS
