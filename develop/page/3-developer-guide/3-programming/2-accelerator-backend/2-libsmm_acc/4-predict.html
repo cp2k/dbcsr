@@ -141,7 +141,7 @@
 <h3>Requirements</h3>
 <p>Python version required: <code>python 3.6</code></p>
 <p>Install all python packages required (if you do not want this project's requirements to interfere with your other Python projects, consider doing so in a <a href="https://docs.python.org/3/tutorial/venv.html">virtual environment</a>), using</p>
-<div class="bash codehilite"><pre><span></span><code>pip install -r requirements.txt
+<div class="codehilite"><pre><span></span><code>pip install -r requirements.txt
 </code></pre></div>
 
 <hr>
@@ -190,7 +190,7 @@
 <li>Compute derived training data and write it to a CSV file</li>
 <li>Compress training data files from CSV to Parquet files</li>
 </ul>
-<div class="bash codehilite"><pre><span></span><code>./prepare_data.py  <span class="c1"># --folder /scratch/autotuning_dataset -a 60 -j12, e.g. to run with 12 threads</span>
+<div class="codehilite"><pre><span></span><code>./prepare_data.py  <span class="c1"># --folder /scratch/autotuning_dataset -a 60 -j12, e.g. to run with 12 threads</span>
 </code></pre></div>
 
 <p>The data preparation is relatively computationally expensive, especially for large data sets.
@@ -213,7 +213,7 @@ A good way of running it, is to</p>
 <p>Explore the data interactively using the <a href="notebooks/inspect_training_data.ipynb">provided Jupyter notebook</a>.</p>
 <h4>4. Train</h4>
 <p>For each algorithm, build a predictive model using decision trees and feature selection based on the features' permutation importance. </p>
-<div class="bash codehilite"><pre><span></span><code>./predict_train.py  <span class="c1"># --algo medium --folder /scratch/autotuning_dataset, e.g.</span>
+<div class="codehilite"><pre><span></span><code>./predict_train.py  <span class="c1"># --algo medium --folder /scratch/autotuning_dataset, e.g.</span>
 </code></pre></div>
 
 <p>Use the command-line parameters <code>--folder</code> and <code>--destination_folder</code> to choose the folder from which data is read, as well as the folder to which models, logs, etc. are written.
@@ -222,7 +222,7 @@ This may take several hours. For example, training algorithm 'medium' for the P1
 Moreover, depending on the size of the training data, large amounts of memory may be needed. For example, training algorithm 'medium' for the P100 was run on a 192 GB node.</p>
 <h4>5. Generate optimal parameters</h4>
 <p>Given predictive models (in the form of serialized <a href="https://scikit-learn.org/">scikit-learn</a> model objects) for all unseen (m,n,k)s, generate or update a file of optimal parameters</p>
-<div class="bash codehilite"><pre><span></span><code>./predict_genpars.py  -c <span class="m">5000</span> <span class="se">\ </span> <span class="c1"># chunk size</span>
+<div class="codehilite"><pre><span></span><code>./predict_genpars.py  -c <span class="m">5000</span> <span class="se">\ </span> <span class="c1"># chunk size</span>
     -j <span class="m">12</span> <span class="se">\ </span><span class="c1"># 12 threads</span>
     --largeDB2 /scratch/largeDB2/feature_tree_refit.p <span class="se">\ </span><span class="c1"># path to models</span>
     --largeDB1 /scratch/largeDB1/feature_tree_refit.p <span class="se">\</span>
@@ -233,7 +233,7 @@ Moreover, depending on the size of the training data, large amounts of memory ma
 
 <p>This may take several hours. For example, generating parameters for the P100 took 8 hours on a single Piz Daint (CSCS) node. For this reason, intermediate results are stored in JSON files in a folder <code>predict_genpars_ckpt</code>. Once this script has finished running, and you've successfully obtained a new <code>parameters_GPU.json</code> file, you may delete the checkpoint folder <code>predict_genpars_ckpt</code>.</p>
 <h4>6. Evaluate the predicted parameters</h4>
-<div class="bash codehilite"><pre><span></span><code>./predict_evaluate.py -f libsmm_acc_predicted.out -n libsmm_acc_baseline.out
+<div class="codehilite"><pre><span></span><code>./predict_evaluate.py -f libsmm_acc_predicted.out -n libsmm_acc_baseline.out
 </code></pre></div>
 
 <h4>7. Contribute your new parameters and data</h4>

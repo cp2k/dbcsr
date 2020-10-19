@@ -134,15 +134,15 @@
 <p>We are providing CMake helper files to easily include DBCSR in any other CMake-based project.
 For this you have to build DBCSR using CMake as described above and then also install it.</p>
 <p>As a user being able to run commands as root, use:</p>
-<div class="bash codehilite"><pre><span></span><code>    sudo make install  <span class="c1"># will install to /usr/local</span>
+<div class="codehilite"><pre><span></span><code>    sudo make install  <span class="c1"># will install to /usr/local</span>
 </code></pre></div>
 
 <p>if you can not run commands as root, use the following to add a custom prefix to the installation:</p>
-<div class="bash codehilite"><pre><span></span><code>    make <span class="nv">DESTDIR</span><span class="o">=</span>/my/dbcsr/install/location install
+<div class="codehilite"><pre><span></span><code>    make <span class="nv">DESTDIR</span><span class="o">=</span>/my/dbcsr/install/location install
 </code></pre></div>
 
 <p>In your project's CMake you can then easily search for the DBCSR library:</p>
-<div class="cmake codehilite"><pre><span></span><code><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">3.12</span><span class="p">)</span>
+<div class="codehilite"><pre><span></span><code><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">3.12</span><span class="p">)</span>
 
 <span class="nb">enable_language</span><span class="p">(</span><span class="s">Fortran</span> <span class="s">C</span> <span class="s">CXX</span><span class="p">)</span>  <span class="c"># only request the required language</span>
 
@@ -165,7 +165,7 @@ For this you have to build DBCSR using CMake as described above and then also in
 
 <p>If you installed DBCSR into a custom prefix, you have to make sure that CMake
 is able to find the DBCSR CMake configuration:</p>
-<div class="bash codehilite"><pre><span></span><code>    <span class="nv">CMAKE_PREFIX_PATH</span><span class="o">=</span>/my/dbcsr/install/location/usr/local/lib/cmake cmake ..
+<div class="codehilite"><pre><span></span><code>    <span class="nv">CMAKE_PREFIX_PATH</span><span class="o">=</span>/my/dbcsr/install/location/usr/local/lib/cmake cmake ..
 </code></pre></div>
     </div>
     

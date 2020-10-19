@@ -142,7 +142,7 @@ the <code>.ci/</code> folder or in the <code>.travis.yml</code>.</p>
 <h3>GNU compiler, system MPI and system-provided OpenBLAS</h3>
 <p>Most Linux systems provide the GNU compiler, a system MPI (OpenMPI or MPICH) using the
 GNU compiler as a backend and OpenBLAS for BLAS/LAPACK:</p>
-<div class="bash codehilite"><pre><span></span><code>    cmake ..
+<div class="codehilite"><pre><span></span><code>    cmake ..
 </code></pre></div>
 
 <h3>GNU compiler, system MPI and Intel MKL</h3>
@@ -153,13 +153,13 @@ with an OS-provided GCC 7.4.1 on Linux openSUSE Leap 15.1, using CMake 3.12.0.</
 <ol>
 <li>Make sure the MKL environment is properly loaded:</li>
 </ol>
-<div class="bash codehilite"><pre><span></span><code>       <span class="nb">source</span> /sw/intel/mkl/bin/mklvars.sh intel64
+<div class="codehilite"><pre><span></span><code>       <span class="nb">source</span> /sw/intel/mkl/bin/mklvars.sh intel64
 </code></pre></div>
 
 <ol>
 <li>Make sure CMake picks the Intel MKL over any system-provided BLAS library:</li>
 </ol>
-<div class="bash codehilite"><pre><span></span><code>       cmake -DBLA_VENDOR<span class="o">=</span>Intel10_64lp_seq ..
+<div class="codehilite"><pre><span></span><code>       cmake -DBLA_VENDOR<span class="o">=</span>Intel10_64lp_seq ..
 </code></pre></div>
 
 <h2>Intel</h2>
@@ -174,14 +174,14 @@ with an OS-provided GCC 7.4.1 on Linux openSUSE Leap 15.1, using CMake 3.12.0.</
 <ol>
 <li>Make sure that the Intel environment is properly loaded:</li>
 </ol>
-<div class="bash codehilite"><pre><span></span><code>       <span class="nb">source</span> /sw/intel/bin/compilervars.sh intel64
+<div class="codehilite"><pre><span></span><code>       <span class="nb">source</span> /sw/intel/bin/compilervars.sh intel64
 </code></pre></div>
 
 <ol>
 <li>Use the Intel-provided MPI compiler wrappers for the GNU toolchain,
    to override CMake's auto-detection which may pick up the system MPI:</li>
 </ol>
-<div class="bash codehilite"><pre><span></span><code>       <span class="nv">CC</span><span class="o">=</span>mpicc <span class="nv">FC</span><span class="o">=</span>mpifc <span class="nv">CXX</span><span class="o">=</span>mpicxx cmake ..
+<div class="codehilite"><pre><span></span><code>       <span class="nv">CC</span><span class="o">=</span>mpicc <span class="nv">FC</span><span class="o">=</span>mpifc <span class="nv">CXX</span><span class="o">=</span>mpicxx cmake ..
 </code></pre></div>
 
 <h3>Intel MPI, GNU Compiler and Intel MKL</h3>
@@ -190,13 +190,13 @@ with an OS-provided GCC 7.4.1 on Linux openSUSE Leap 15.1, using CMake 3.12.0.</
 <ol>
 <li>Make sure that the Intel environment is properly loaded:</li>
 </ol>
-<div class="bash codehilite"><pre><span></span><code>       <span class="nb">source</span> /sw/intel/bin/compilervars.sh intel64
+<div class="codehilite"><pre><span></span><code>       <span class="nb">source</span> /sw/intel/bin/compilervars.sh intel64
 </code></pre></div>
 
 <ol>
 <li>Use the Intel-provided MPI compiler wrappers for the GNU toolchain:</li>
 </ol>
-<div class="bash codehilite"><pre><span></span><code>       <span class="nv">CC</span><span class="o">=</span>mpicc <span class="nv">FC</span><span class="o">=</span>mpifc <span class="nv">CXX</span><span class="o">=</span>mpicxx cmake -DBLA_VENDOR<span class="o">=</span>Intel10_64lp_seq ..
+<div class="codehilite"><pre><span></span><code>       <span class="nv">CC</span><span class="o">=</span>mpicc <span class="nv">FC</span><span class="o">=</span>mpifc <span class="nv">CXX</span><span class="o">=</span>mpicxx cmake -DBLA_VENDOR<span class="o">=</span>Intel10_64lp_seq ..
 </code></pre></div>
 
 <h3>Intel MPI, Intel Compiler and Intel MKL</h3>
@@ -205,20 +205,20 @@ on Linux openSUSE Leap 15.1, using CMake 3.12.0.</p>
 <ol>
 <li>Make sure that the Intel environment is properly loaded:</li>
 </ol>
-<div class="bash codehilite"><pre><span></span><code>       <span class="nb">source</span> /sw/intel/bin/compilervars.sh intel64
+<div class="codehilite"><pre><span></span><code>       <span class="nb">source</span> /sw/intel/bin/compilervars.sh intel64
 </code></pre></div>
 
 <ol>
 <li>Use the Intel-provided MPI compiler wrappers:</li>
 </ol>
-<div class="bash codehilite"><pre><span></span><code>       <span class="nv">CC</span><span class="o">=</span>mpiicc <span class="nv">FC</span><span class="o">=</span>mpiifort <span class="nv">CXX</span><span class="o">=</span>mpiicxx cmake -DBLA_VENDOR<span class="o">=</span>Intel10_64lp_seq ..
+<div class="codehilite"><pre><span></span><code>       <span class="nv">CC</span><span class="o">=</span>mpiicc <span class="nv">FC</span><span class="o">=</span>mpiifort <span class="nv">CXX</span><span class="o">=</span>mpiicxx cmake -DBLA_VENDOR<span class="o">=</span>Intel10_64lp_seq ..
 </code></pre></div>
 
 <h2>MacOS</h2>
 <p>Follow what is described in the previous sections.
 For GNU, if you have installed Command Line Tools by Apple and GCC with Homebrew that can lead to a
 conflict in which compiler CMake will use. Therefore, we suggest specifying GCC, for example</p>
-<div class="bash codehilite"><pre><span></span><code>    <span class="nv">CC</span><span class="o">=</span>gcc-9 <span class="nv">CXX</span><span class="o">=</span>g++-9 cmake ..
+<div class="codehilite"><pre><span></span><code>    <span class="nv">CC</span><span class="o">=</span>gcc-9 <span class="nv">CXX</span><span class="o">=</span>g++-9 cmake ..
 </code></pre></div>
 
 <p>where <code>-9</code> can be adapted to your version.</p>
@@ -226,14 +226,14 @@ conflict in which compiler CMake will use. Therefore, we suggest specifying GCC,
 <p>Please note that you need at least PGI &gt;= 19.11.</p>
 <p>Assuming that your <code>$PATH</code> is set correctly such that <code>pgcc</code>, <code>pgc++</code> and <code>pgfortran</code> can be found,
 run the following to get a DBCSR version without MPI:</p>
-<div class="bash codehilite"><pre><span></span><code>    <span class="nv">CC</span><span class="o">=</span>pgcc <span class="nv">CXX</span><span class="o">=</span>pgc++ <span class="nv">FC</span><span class="o">=</span>pgfortran cmake -DUSE_MPI<span class="o">=</span>OFF ..
+<div class="codehilite"><pre><span></span><code>    <span class="nv">CC</span><span class="o">=</span>pgcc <span class="nv">CXX</span><span class="o">=</span>pgc++ <span class="nv">FC</span><span class="o">=</span>pgfortran cmake -DUSE_MPI<span class="o">=</span>OFF ..
 </code></pre></div>
 
 <p>the <code>-DUSE_MPI=OFF</code> is needed here to avoid that CMake picks up any MPI installation, for example from Homebrew.</p>
 <p>To build with MPI you need an MPI implementation built for/with the PGI compiler, for example the MPICH
 usually bundled with the PGI installation.</p>
 <p>Make sure that <code>$PATH</code> is correctly set to include <code>mpicc</code> and <code>mpifort</code> from the PGI MPICH installation, then run:</p>
-<div class="bash codehilite"><pre><span></span><code>    <span class="nv">CC</span><span class="o">=</span>mpicc <span class="nv">CXX</span><span class="o">=</span>mpicxx <span class="nv">FC</span><span class="o">=</span>mpifort <span class="nv">MPICH_CC</span><span class="o">=</span>pgcc cmake ..
+<div class="codehilite"><pre><span></span><code>    <span class="nv">CC</span><span class="o">=</span>mpicc <span class="nv">CXX</span><span class="o">=</span>mpicxx <span class="nv">FC</span><span class="o">=</span>mpifort <span class="nv">MPICH_CC</span><span class="o">=</span>pgcc cmake ..
 </code></pre></div>
 
 <h2>Cray</h2>
@@ -241,7 +241,7 @@ usually bundled with the PGI installation.</p>
 the modules specified below or to be able to properly build with the loaded modules.</p>
 <p>Please contact your cluster/datacenter administrator for more information.</p>
 <p>Example for the CSCS' Piz Daint:</p>
-<div class="bash codehilite"><pre><span></span><code>    module load daint-mc  <span class="c1"># to build for the non-GPU partition</span>
+<div class="codehilite"><pre><span></span><code>    module load daint-mc  <span class="c1"># to build for the non-GPU partition</span>
     module load daint-gpu  <span class="c1"># to build for the GPU partition</span>
 </code></pre></div>
 
@@ -254,14 +254,14 @@ using CMake 3.14.5.</p>
 <ol>
 <li>Make sure that the <code>PrgEnv-cray</code> module is loaded:</li>
 </ol>
-<div class="bash codehilite"><pre><span></span><code>       module load PrgEnv-cray
+<div class="codehilite"><pre><span></span><code>       module load PrgEnv-cray
 </code></pre></div>
 
 <ol>
 <li>While the MPI wrapper/compiler will be detected automatically,
    must the BLAS/LAPACK libraries be specified manually:</li>
 </ol>
-<div class="bash codehilite"><pre><span></span><code>       cmake <span class="se">\</span>
+<div class="codehilite"><pre><span></span><code>       cmake <span class="se">\</span>
          -DCMAKE_SYSTEM_NAME<span class="o">=</span>CrayLinuxEnvironment <span class="se">\</span>
          -DBLAS_LIBRARIES<span class="o">=</span><span class="s2">&quot;-lsci_cray_mpi_mp -lhugetlbfs&quot;</span> <span class="se">\</span>
          -DLAPACK_LIBRARIES<span class="o">=</span><span class="s2">&quot;-lsci_cray_mpi_mp&quot;</span> <span class="se">\</span>
@@ -274,14 +274,14 @@ using CMake 3.14.5.</p>
 <ol>
 <li>Make sure that the <code>PrgEnv-intel</code> module is loaded:</li>
 </ol>
-<div class="bash codehilite"><pre><span></span><code>       module load PrgEnv-intel
+<div class="codehilite"><pre><span></span><code>       module load PrgEnv-intel
 </code></pre></div>
 
 <ol>
 <li>While the MPI wrapper/compiler will be detected automatically,
    must the BLAS/LAPACK libraries be specified manually:</li>
 </ol>
-<div class="bash codehilite"><pre><span></span><code>       cmake <span class="se">\</span>
+<div class="codehilite"><pre><span></span><code>       cmake <span class="se">\</span>
          -DCMAKE_SYSTEM_NAME<span class="o">=</span>CrayLinuxEnvironment <span class="se">\</span>
          -DBLAS_LIBRARIES<span class="o">=</span><span class="s2">&quot;-lsci_intel_mpi_mp -lhugetlbfs&quot;</span> <span class="se">\</span>
          -DLAPACK_LIBRARIES<span class="o">=</span><span class="s2">&quot;-lsci_intel_mpi_mp&quot;</span> <span class="se">\</span>
@@ -294,14 +294,14 @@ using CMake 3.14.5.</p>
 <ol>
 <li>Make sure that the <code>PrgEnv-gnu</code> module is loaded:</li>
 </ol>
-<div class="bash codehilite"><pre><span></span><code>       module load PrgEnv-gnu
+<div class="codehilite"><pre><span></span><code>       module load PrgEnv-gnu
 </code></pre></div>
 
 <ol>
 <li>While the MPI wrapper/compiler will be detected automatically,
    must the BLAS/LAPACK libraries be specified manually:</li>
 </ol>
-<div class="bash codehilite"><pre><span></span><code>       cmake <span class="se">\</span>
+<div class="codehilite"><pre><span></span><code>       cmake <span class="se">\</span>
          -DCMAKE_SYSTEM_NAME<span class="o">=</span>CrayLinuxEnvironment <span class="se">\</span>
          -DBLAS_LIBRARIES<span class="o">=</span><span class="s2">&quot;-lsci_gnu_mpi_mp -lhugetlbfs&quot;</span> <span class="se">\</span>
          -DLAPACK_LIBRARIES<span class="o">=</span><span class="s2">&quot;-lsci_gnu_mpi_mp&quot;</span> <span class="se">\</span>

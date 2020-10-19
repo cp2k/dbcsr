@@ -19,7 +19,7 @@ MODULE dbcsr_tensor_test
 # 15 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 # 16 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
-   USE dbcsr_api, ONLY: dbcsr_type_real_4, dbcsr_type_complex_4, dbcsr_type_real_8, dbcsr_type_complex_8
+   USE dbcsr_api, ONLY: dbcsr_type_complex_4, dbcsr_type_real_8, dbcsr_type_real_4, dbcsr_type_complex_8
    USE dbcsr_tas_base, ONLY: dbcsr_tas_info
    USE dbcsr_tensor, ONLY: &
       dbcsr_t_copy, dbcsr_t_get_block, dbcsr_t_iterator_type, dbcsr_t_iterator_blocks_left, &
