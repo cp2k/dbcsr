@@ -56,7 +56,8 @@ function (ADD_FYPP_SOURCES OUTVAR)
       # now add the custom command to generate the output file
       add_custom_command(
         OUTPUT "${of}"
-        COMMAND ${FYPP_EXECUTABLE} ARGS ${fypp_flags} "${f}" "${of}"
+        COMMAND ${Python_EXECUTABLE} ${FYPP_EXECUTABLE} ARGS ${fypp_flags}
+                "${f}" "${of}"
         MAIN_DEPENDENCY "${f}"
         VERBATIM)
     elseif ("${f}" MATCHES ".h$")
@@ -65,7 +66,7 @@ function (ADD_FYPP_SOURCES OUTVAR)
       # now add the custom command to generate the output file
       add_custom_command(
         OUTPUT "${of}"
-        COMMAND ${FYPP_EXECUTABLE} ARGS "-F" "${f}" "${of}"
+        COMMAND ${Python_EXECUTABLE} ${FYPP_EXECUTABLE} ARGS "-F" "${f}" "${of}"
         DEPENDS "${f}")
     else ()
       configure_file("${f}" "${of}" COPYONLY)

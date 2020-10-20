@@ -139,7 +139,7 @@ find_package(LAPACK REQUIRED) # needed for some of the integrated test routines,
                               # also calls find_package(BLAS)
 
 # =================================== Python this module looks preferably for
-# version 3 of Python. If not found, version 2 is searched In CMake 3.15, if a
+# version 3 of Python. If not found, version 2 is searched. In CMake 3.15, if a
 # python virtual environment is activated, it will search the virtual
 # environment for a python interpreter before searching elsewhere in the system.
 # In CMake <3.15, the system is searched before the virtual environment.
