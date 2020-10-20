@@ -134,11 +134,13 @@
 <p>We are providing CMake helper files to easily include DBCSR in any other CMake-based project.
 For this you have to build DBCSR using CMake as described above and then also install it.</p>
 <p>As a user being able to run commands as root, use:</p>
-<div class="codehilite"><pre><span></span><code>    sudo make install  <span class="c1"># will install to /usr/local</span>
+<div class="codehilite"><pre><span></span><code>    sudo cmake --build . -- install  <span class="c1"># will install to /usr/local</span>
 </code></pre></div>
 
-<p>if you can not run commands as root, use the following to add a custom prefix to the installation:</p>
-<div class="codehilite"><pre><span></span><code>    make <span class="nv">DESTDIR</span><span class="o">=</span>/my/dbcsr/install/location install
+<p>If you can not run commands as root, use <code>-DCMAKE_INSTALL_PREFIX=...</code> when calling CMake to set
+an alternative base installation path for DBCSR instead:</p>
+<div class="codehilite"><pre><span></span><code>    cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span>/my/custom/prefix ..
+    cmake --build . -- install
 </code></pre></div>
 
 <p>In your project's CMake you can then easily search for the DBCSR library:</p>
@@ -150,7 +152,7 @@ For this you have to build DBCSR using CMake as described above and then also in
 <span class="nb">find_package</span><span class="p">(</span><span class="s">MPI</span><span class="p">)</span>
 
 <span class="c"># for Fortran:</span>
-<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_Fortran_FLAGS</span> <span class="s2">&quot;-std=f2003&quot;</span><span class="p">)</span>  <span class="c"># your Fortran code likely needs to be F2003+ compatible as well</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_Fortran_FLAGS</span> <span class="s2">&quot;-std=f2018&quot;</span><span class="p">)</span>  <span class="c"># your Fortran code likely needs to be F2018+ compatible as well</span>
 <span class="nb">add_executable</span><span class="p">(</span><span class="s">dbcsr_example_fortran</span> <span class="s">dbcsr_example.f90</span><span class="p">)</span>
 <span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">dbcsr_example_fortran</span> <span class="s">DBCSR::dbcsr</span><span class="p">)</span>
 
@@ -165,7 +167,7 @@ For this you have to build DBCSR using CMake as described above and then also in
 
 <p>If you installed DBCSR into a custom prefix, you have to make sure that CMake
 is able to find the DBCSR CMake configuration:</p>
-<div class="codehilite"><pre><span></span><code>    <span class="nv">CMAKE_PREFIX_PATH</span><span class="o">=</span>/my/dbcsr/install/location/usr/local/lib/cmake cmake ..
+<div class="codehilite"><pre><span></span><code>    <span class="nv">DBCSR_DIR</span><span class="o">=</span>/my/custom/prefix cmake ..
 </code></pre></div>
     </div>
     
