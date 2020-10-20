@@ -8,13 +8,15 @@ For this you have to build DBCSR using CMake as described above and then also in
 As a user being able to run commands as root, use:
 
 ```bash
-    sudo make install  # will install to /usr/local
+    sudo cmake --build . -- install  # will install to /usr/local
 ```
 
-if you can not run commands as root, use the following to add a custom prefix to the installation:
+If you can not run commands as root, use `-DCMAKE_INSTALL_PREFIX=...` when calling CMake to set
+an alternative base installation path for DBCSR instead:
 
 ```bash
-    make DESTDIR=/my/dbcsr/install/location install
+    cmake -DCMAKE_INSTALL_PREFIX=/my/custom/prefix ..
+    cmake --build . -- install
 ```
 
 In your project's CMake you can then easily search for the DBCSR library:
@@ -28,7 +30,7 @@ find_package(DBCSR 2.0.0 CONFIG REQUIRED)
 find_package(MPI)
 
 # for Fortran:
-set(CMAKE_Fortran_FLAGS "-std=f2003")  # your Fortran code likely needs to be F2003+ compatible as well
+set(CMAKE_Fortran_FLAGS "-std=f2018")  # your Fortran code likely needs to be F2018+ compatible as well
 add_executable(dbcsr_example_fortran dbcsr_example.f90)
 target_link_libraries(dbcsr_example_fortran DBCSR::dbcsr)
 
@@ -45,5 +47,5 @@ If you installed DBCSR into a custom prefix, you have to make sure that CMake
 is able to find the DBCSR CMake configuration:
 
 ```bash
-    CMAKE_PREFIX_PATH=/my/dbcsr/install/location/usr/local/lib/cmake cmake ..
+    DBCSR_DIR=/my/custom/prefix cmake ..
 ```
