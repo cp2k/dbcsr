@@ -307,6 +307,21 @@ using CMake 3.14.5.</p>
          -DLAPACK_LIBRARIES<span class="o">=</span><span class="s2">&quot;-lsci_gnu_mpi_mp&quot;</span> <span class="se">\</span>
          ..
 </code></pre></div>
+
+<h2>Any compiler</h2>
+<h3>Custom compiler flags</h3>
+<p>In the DBCSR build system we preload the default compiler flags (especially the ones for Fortran) with flags
+required to build the code with a specific compiler, while additional optimization flags are added based on the
+CMake build type.</p>
+<p>This allows the user to override optimization flags by setting a custom build type and providing optimization flags
+for that build type as follows:</p>
+<div class="codehilite"><pre><span></span><code>       cmake <span class="se">\</span>
+         -DCMAKE_BUILD_TYPE<span class="o">=</span>custom <span class="se">\</span>
+         -DCMAKE_C_FLAGS_CUSTOM<span class="o">=</span><span class="s2">&quot;-O3 -march=native&quot;</span> <span class="se">\</span>
+         -DCMAKE_CXX_FLAGS_CUSTOM<span class="o">=</span><span class="s2">&quot;-O3 -march=native&quot;</span> <span class="se">\</span>
+         -DCMAKE_Fortran_FLAGS_CUSTOM<span class="o">=</span><span class="s2">&quot;-O3 -march=native&quot;</span> <span class="se">\</span>
+         ..
+</code></pre></div>
     </div>
     
     <div class="col-md-3 col-md-pull-9">
