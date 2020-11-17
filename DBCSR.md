@@ -17,6 +17,7 @@ md_base_dir: @CMAKE_SOURCE_DIR@
 page_dir: @CMAKE_SOURCE_DIR@/docs/guide
 src_dir: ./src
          ./tests
+         ./examples
 output_dir: @CMAKE_BINARY_DIR@/doc
 docmark_alt: #
 predocmark_alt: <

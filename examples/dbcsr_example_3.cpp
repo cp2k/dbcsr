@@ -33,15 +33,19 @@ std::vector<int> random_dist(int dist_size, int nbins)
 }
 
 
+// DBCSR example 3
+// This example shows how to multiply two DBCSR matrices
 int main(int argc, char* argv[])
 {
+    // initialize MPI
     MPI_Init(&argc, &argv);
 
+    // setup the mpi environment
     int mpi_size, mpi_rank;
     MPI_Comm_size(MPI_COMM_WORLD, &mpi_size);
     MPI_Comm_rank(MPI_COMM_WORLD, &mpi_rank);
 
-    // Make 2D grid
+    // make 2D grid
     int dims[2] = {0};
     MPI_Dims_create(mpi_size, 2, dims);
     int periods[2] = {1};
@@ -58,20 +62,22 @@ int main(int argc, char* argv[])
         << ", (" << coord[0] << ", " << coord[1] << ") in the 2D grid"
         << std::endl;
 
+    // initialize the DBCSR library
     c_dbcsr_init_lib(MPI_COMM_WORLD, nullptr);
 
-    // Total number of blocks
+    // the matrix will contain nblkrows_total row blocks and nblkcols_total column blocks
     int nblkrows_total = 4;
     int nblkcols_total = 4;
 
-    // Block sizes
+    // set the block size for each row and column
     std::vector<int> row_blk_sizes(nblkrows_total, 2), col_blk_sizes(nblkcols_total, 2);
 
+    // set the row and column distributions (here the distribution is set randomly)
     auto row_dist = random_dist(nblkrows_total, dims[0]);
     auto col_dist = random_dist(nblkcols_total, dims[1]);
 
+    // set the DBCSR distribution object
     void* dist = nullptr;
-
     c_dbcsr_distribution_new(&dist, group,
         row_dist.data(), row_dist.size(),
         col_dist.data(), col_dist.size());
@@ -103,7 +109,12 @@ int main(int argc, char* argv[])
         }
     };
 
-    // create and fill matrix a
+    // create the DBCSR matrices, i.e. a double precision non symmetric matrix
+    // with nblkrows_total x nblkcols_total blocks and
+    // sizes "sum(row_blk_sizes)" x "sum(col_blk_sizes)", distributed as
+    // specified by the dist object
+
+    // create, fill and finalize matrix a
     void* matrix_a = nullptr;
     c_dbcsr_create_new_d(&matrix_a, "this is my matrix a", dist, 'N',
         row_blk_sizes.data(), row_blk_sizes.size(),
@@ -111,7 +122,7 @@ int main(int argc, char* argv[])
     fill_matrix(matrix_a);
     c_dbcsr_finalize(matrix_a);
 
-    // create and fill matrix b
+    // create, fill and finalize matrix b
     void* matrix_b = nullptr;
     c_dbcsr_create_new_d(&matrix_b, "this is my matrix b", dist, 'N',
         row_blk_sizes.data(), row_blk_sizes.size(),
@@ -119,7 +130,7 @@ int main(int argc, char* argv[])
     fill_matrix(matrix_b);
     c_dbcsr_finalize(matrix_b);
 
-    // create matrix c, empty
+    // create and finalize matrix c (empty)
     void* matrix_c = nullptr;
     c_dbcsr_create_new_d(&matrix_c, "matrix c", dist, 'N',
         row_blk_sizes.data(), row_blk_sizes.size(),
@@ -129,21 +140,25 @@ int main(int argc, char* argv[])
     // multiply the matrices
     c_dbcsr_multiply_d('N', 'N', 1.0, &matrix_a, &matrix_b, 0.0, &matrix_c, nullptr);
 
+    // print the matrices
     c_dbcsr_print(matrix_a);
     c_dbcsr_print(matrix_b);
     c_dbcsr_print(matrix_c);
 
+    // release the matrices
     c_dbcsr_release(&matrix_a);
     c_dbcsr_release(&matrix_b);
     c_dbcsr_release(&matrix_c);
 
     c_dbcsr_distribution_release(&dist);
 
-
+    // free comm
     MPI_Comm_free(&group);
 
+    // finalize the DBCSR library
     c_dbcsr_finalize_lib();
 
+    // finalize MPI
     MPI_Finalize();
 
     return 0;
