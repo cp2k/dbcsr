@@ -8,7 +8,7 @@
 !--------------------------------------------------------------------------------------------------!
 
 PROGRAM dbcsr_example_3
-   !! DBCSR example 3
+   !! DBCSR example 3:
    !! This example shows how to multiply two dbcsr matrices
 
    USE mpi
@@ -50,7 +50,7 @@ PROGRAM dbcsr_example_3
 !$ ENDIF
 
    !
-   ! setup the mp environment
+   ! setup the mpi environment
    CALL mpi_comm_size(MPI_COMM_WORLD, numnodes, ierr)
    IF (ierr /= 0) STOP "Error in MPI_Comm_size"
    npdims(:) = 0
@@ -65,7 +65,7 @@ PROGRAM dbcsr_example_3
 
    !***************************************************************************************
    !
-   ! initialize libdbcsr
+   ! initialize the DBCSR library
    CALL dbcsr_init_lib(MPI_COMM_WORLD)
 
    !
@@ -185,8 +185,9 @@ PROGRAM dbcsr_example_3
    CALL mpi_comm_free(group, ierr)
    IF (ierr /= 0) STOP "Error in MPI_Comm_free"
 
-   ! finalize libdbcsr
+   ! finalize the DBCSR library
    CALL dbcsr_finalize_lib()
+
    !
    ! finalize mpi
    CALL mpi_finalize(ierr)

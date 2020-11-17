@@ -7,8 +7,8 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-program dbcsr_tensor_example
-
+program dbcsr_tensor_example_1
+   !! Sparse tensor contraction example
    use mpi
    use dbcsr_api, only: &
       dbcsr_type, dbcsr_distribution_type, dbcsr_init_lib, dbcsr_distribution_new, &
@@ -180,7 +180,7 @@ program dbcsr_tensor_example
    beta = beta*scale_exp
    gamma = gamma*scale_exp
 
-   ! iniialize mpi
+   ! initialize mpi
    call mpi_init(ierr)
    if (ierr /= 0) stop "error in mpi_init"
 
