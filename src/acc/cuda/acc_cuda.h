@@ -65,7 +65,7 @@
   do {                                                            \
     cublasStatus_t result = ACC_BLAS(func) args;                  \
     if (result != CUBLAS_STATUS_SUCCESS) {                        \
-      char* error_name = "CUBLAS_ERRROR";                         \
+      const char* error_name = "CUBLAS_ERRROR";                   \
       if (result == CUBLAS_STATUS_NOT_INITIALIZED){               \
         error_name = "CUBLAS_STATUS_NOT_INITIALIZED";             \
       } else if (result == CUBLAS_STATUS_ALLOC_FAILED){           \
