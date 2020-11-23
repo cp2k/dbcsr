@@ -35,7 +35,7 @@ jobs:
         touch build/doc/.nojekyll
 
     - name: Setup SSH agent 🔑
-      uses: webfactory/ssh-agent@v0.2.0
+      uses: webfactory/ssh-agent@v0.4.1
       with:
         ssh-private-key: ${{ secrets.SSH_DEPLOY_KEY }}
 
