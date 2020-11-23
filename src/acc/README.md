@@ -1,4 +1,4 @@
-# ACCerator Interfaces
+# ACCelerator Interfaces
 
 ## Overview
 
