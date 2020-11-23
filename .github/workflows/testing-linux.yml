@@ -73,7 +73,8 @@ jobs:
       uses: codecov/codecov-action@v1
       with:
         file: build/coverage.info
-        yml: .codecov.yml
+        flags: unittests,${{ matrix.use_mpi }},${{ matrix.use_openmp }},${{ matrix.use_smm }}
+        name: dbcsr-unittests-${{ matrix.use_mpi }}-${{ matrix.use_openmp }}-${{ matrix.use_smm }}-cpu-only
         fail_ci_if_error: true
 
   ##################################################################################
