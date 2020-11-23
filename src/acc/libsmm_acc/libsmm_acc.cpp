@@ -25,11 +25,6 @@
 #include <omp.h>
 #endif
 
-#define dbcsr_type_real_4     1
-#define dbcsr_type_real_8     3
-#define dbcsr_type_complex_4  5
-#define dbcsr_type_complex_8  7
-
 // MACRO HELPERS
 #define STRINGIFY_NX(x) #x
 #define STRINGIFY(x) STRINGIFY_NX(x)
@@ -97,10 +92,11 @@ inline void validate_kernel(ACC_DRV(function)& kern_func, ACC_DRV(stream) stream
 
 //===========================================================================
 inline void jit_kernel(ACC_DRV(function)& kern_func, libsmm_acc_algo algo, int tile_m, int tile_n, int w, int v, int threads, int grouping, int minblocks, int m, int n, int k){
+#if !defined(NO_DBCSR_TIMESET)
     std::string routineN = "jit_kernel_multiply";
     int handle;
     timeset(routineN, handle);
-
+#endif
     // Get the code and the lowered name corresponding the kernel to launch
     std::string kernel_code = smm_acc_common; // prepend include file content to code
     std::string kernel_name;
@@ -186,8 +182,9 @@ inline void jit_kernel(ACC_DRV(function)& kern_func, libsmm_acc_algo algo, int t
 
     // Destroy program
     ACC_RTC_CALL(DestroyProgram, (&kernel_program));
-
+#if !defined(NO_DBCSR_TIMESET)
     timestop(handle);
+#endif
 }
 
 
@@ -302,7 +299,7 @@ int libsmm_acc_process_d(const int* param_stack, int stack_size, ACC_DRV(stream)
 
 
 //===========================================================================
-int libsmm_acc_process (const int* param_stack_host, const int *param_stack_dev, int stack_size, int nparams, acc_data_t datatype, const void *a_data, const void *b_data, void *c_data, int m, int n, int k, int max_kernel_dim, int def_mnk, acc_stream_t *stream){
+int libsmm_acc_process (const int* param_stack_host, const int *param_stack_dev, int stack_size, int nparams, libsmm_acc_data_t datatype, const void *a_data, const void *b_data, void *c_data, int m, int n, int k, int max_kernel_dim, int def_mnk, void *stream){
     if(def_mnk!=1)
         return -1; // inhomogeneous stacks not supported
     if(datatype==dbcsr_type_real_8) {
@@ -351,11 +348,11 @@ inline void validate_transpose_kernel(ACC_DRV(function)& kern_func, int threads,
 
 //===========================================================================
 void jit_transpose_handle(ACC_DRV(function)& kern_func, int m, int n){
-
+#if !defined(NO_DBCSR_TIMESET)
     std::string routineN = "jit_kernel_transpose";
     int handle;
     timeset(routineN, handle);
-
+#endif
     // Create nvrtcProgram
     ACC_RTC(Program) kernel_program;
     std::string transpose_code = smm_acc_common + smm_acc_transpose;
@@ -398,8 +395,9 @@ void jit_transpose_handle(ACC_DRV(function)& kern_func, int m, int n){
 
     // Destroy program
     ACC_RTC_CALL(DestroyProgram, (&kernel_program));
-
+#if !defined(NO_DBCSR_TIMESET)
     timestop(handle);
+#endif
 }
 
 
@@ -446,7 +444,7 @@ int libsmm_acc_transpose_d(const int *trs_stack, int offset, int stack_size,
 
 
 //===========================================================================
-extern "C" int libsmm_acc_transpose (const int *trs_stack, int offset, int stack_size, void *buffer, acc_data_t datatype, int m, int n, int max_kernel_dim, acc_stream_t* stream) {
+extern "C" int libsmm_acc_transpose (const int *trs_stack, int offset, int stack_size, void *buffer, libsmm_acc_data_t datatype, int m, int n, int max_kernel_dim, void* stream) {
     if(datatype != dbcsr_type_real_8)
         return 0; // transpose not needed
     if(m>max_kernel_dim || n>max_kernel_dim)

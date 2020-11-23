@@ -15,11 +15,13 @@
 #include <vector>
 #include <string>
 
+#if !defined(NO_DBCSR_TIMESET)
 extern "C" void dbcsr_timeset(const char** routineN, int* routineN_len, int* handle);
-void timeset(std::string routine_name, int& handle);
+void timeset(const std::string& routine_name, int& handle);
 
 extern "C" void dbcsr_timestop(int* handle);
 void timestop(int handle);
+#endif
 
 extern "C" int libsmm_acc_init (void);
 

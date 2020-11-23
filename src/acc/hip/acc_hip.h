@@ -54,7 +54,7 @@
   do {                                                            \
     hipblasStatus_t result = ACC_BLAS(func) args;                 \
     if (result != HIPBLAS_STATUS_SUCCESS) {                       \
-      char* error_name = "HIPBLAS_ERRROR";                        \
+      const char* error_name = "HIPBLAS_ERRROR";                  \
       if (result == HIPBLAS_STATUS_NOT_INITIALIZED){              \
         error_name = "HIPBLAS_STATUS_NOT_INITIALIZED ";           \
       } else if (result == HIPBLAS_STATUS_ALLOC_FAILED){          \
