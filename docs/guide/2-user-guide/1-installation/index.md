@@ -88,16 +88,6 @@ If you want to use Python from a virtual environment and your CMake version is <
     -DPython_EXECUTABLE=/path/to/python
 ```
 
-### Running Tests
-
-To run the tests, use:
-
-```bash
-    make test
-```
-
-Please, note that if you are using OpenMP builds, then you have to set the environment variable `OMP_NESTED=false`.
-
 ### C/C++ Interface
 
 If MPI support is enabled (the default), the C API is automatically built.

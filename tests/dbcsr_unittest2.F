@@ -7,8 +7,10 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-PROGRAM dbcsr_unittest
-   !! Tests for DBCSR operations
+PROGRAM dbcsr_unittest_2
+   !! Tests for DBCSR multiply:
+   !! large blocks (block size=100)
+   !! and rectangular matrices (block size=5)
 
    USE dbcsr_kinds, ONLY: dp
    USE dbcsr_lib, ONLY: dbcsr_finalize_lib, &
@@ -126,4 +128,4 @@ PROGRAM dbcsr_unittest
 
    CALL mp_world_finalize()
 
-END PROGRAM dbcsr_unittest
+END PROGRAM dbcsr_unittest_2

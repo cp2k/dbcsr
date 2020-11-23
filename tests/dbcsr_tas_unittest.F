@@ -9,7 +9,7 @@
 
 PROGRAM dbcsr_tas_unittest
 
-   !! unit testing for tall-and-skinny matrices
+   !! Unit testing for tall-and-skinny matrices
    USE dbcsr_api, ONLY: dbcsr_finalize_lib, &
                         dbcsr_init_lib, &
                         dbcsr_print_statistics
