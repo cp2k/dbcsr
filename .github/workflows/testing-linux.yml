@@ -73,7 +73,7 @@ jobs:
       uses: codecov/codecov-action@v1
       with:
         file: build/coverage.info
-        flags: unittests,${{ matrix.use_mpi }},${{ matrix.use_openmp }},${{ matrix.use_smm }}
+        flags: unittests,${{ matrix.use_mpi == 'MPI=ON' && 'with-mpi' || 'without-mpi' }},${{ matrix.use_openmp == 'OPENMP=ON' && 'with-openmp' || 'without-openmp' }},${{ matrix.use_smm == 'SMM=blas' && 'with-blas' || 'with-libxsmm' }}
         name: dbcsr-unittests-${{ matrix.use_mpi }}-${{ matrix.use_openmp }}-${{ matrix.use_smm }}-cpu-only
         fail_ci_if_error: true
 
