@@ -7,8 +7,10 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-PROGRAM dbcsr_unittest
-   !! Tests for DBCSR's libsmm_acc backend
+PROGRAM dbcsr_unittest_3
+   !! Tests for DBCSR multiply:
+   !! various block sizes that are run by the libsmm_acc GPU backend if
+   !! DBCSR is compiled with GPU support.
 
    USE dbcsr_kinds, ONLY: dp
    USE dbcsr_lib, ONLY: dbcsr_finalize_lib, &
@@ -139,4 +141,4 @@ PROGRAM dbcsr_unittest
 
    CALL mp_world_finalize()
 
-END PROGRAM dbcsr_unittest
+END PROGRAM dbcsr_unittest_3

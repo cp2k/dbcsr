@@ -7,8 +7,9 @@
 ! SPDX-License-Identifier: GPL-2.0+                                                                !
 !--------------------------------------------------------------------------------------------------!
 
-PROGRAM dbcsr_unittest
-   !! Tests for DBCSR operations
+PROGRAM dbcsr_unittest_1
+   !! Tests for DBCSR operations:
+   !! add, multiply and multiply-ghost
 
    USE dbcsr_kinds, ONLY: dp
    USE dbcsr_lib, ONLY: dbcsr_finalize_lib, &
@@ -318,4 +319,4 @@ PROGRAM dbcsr_unittest
    !
    ! finalize libdbcsr errors
 
-END PROGRAM dbcsr_unittest
+END PROGRAM dbcsr_unittest_1
