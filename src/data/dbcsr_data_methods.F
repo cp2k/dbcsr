@@ -75,9 +75,6 @@ CONTAINS
       !! Transfers data from host- to device-buffer, asynchronously.
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_host2dev', &
-                                     routineP = moduleN//':'//routineN
-
       COMPLEX(KIND=real_4), DIMENSION(:), POINTER        :: c_sp
       COMPLEX(KIND=real_8), DIMENSION(:), POINTER        :: c_dp
       INTEGER(KIND=int_4), DIMENSION(:), POINTER         :: i4
@@ -117,9 +114,6 @@ CONTAINS
    SUBROUTINE dbcsr_data_dev2host(area)
       !! Transfers data from device- to host-buffer, asynchronously.
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_dev2host', &
-                                     routineP = moduleN//':'//routineN
 
       COMPLEX(KIND=real_4), DIMENSION(:), POINTER        :: c_sp
       COMPLEX(KIND=real_8), DIMENSION(:), POINTER        :: c_dp
@@ -161,8 +155,7 @@ CONTAINS
       TYPE(dbcsr_memtype_type), INTENT(IN), OPTIONAL     :: memory_type
          !! type of memory to use
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_new', routineP = moduleN//':'//routineN
-
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_new'
       INTEGER                                            :: d, handle, total_size_oversized, &
                                                             total_size_requested
       INTEGER, DIMENSION(2)                              :: sizes_oversized, sizes_requested
@@ -235,8 +228,7 @@ CONTAINS
          !! increase size by this factor
       TYPE(dbcsr_data_obj), INTENT(INOUT), OPTIONAL      :: area_resize
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_ensure_size', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_ensure_size'
 
       INTEGER                                            :: current_size, handle, wanted_size
       LOGICAL                                            :: nocp, pad
@@ -431,8 +423,7 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
          !! data area
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_release', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_release'
 
       INTEGER                                            :: handle
 

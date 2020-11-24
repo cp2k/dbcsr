@@ -79,8 +79,7 @@ CONTAINS
       INTEGER, DIMENSION(4), INTENT(in)                  :: limits
       LOGICAL, INTENT(in)                                :: retain_sparsity
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_test_adds', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_test_adds'
       CHARACTER, DIMENSION(2, 5), PARAMETER :: symmetries = &
                                                RESHAPE((/dbcsr_type_no_symmetry, dbcsr_type_no_symmetry, &
                                                          dbcsr_type_symmetric, dbcsr_type_symmetric, &
@@ -248,7 +247,7 @@ CONTAINS
       INTEGER, DIMENSION(4), INTENT(in)                  :: limits
       LOGICAL, INTENT(in)                                :: retain_sparsity
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'test_add', routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'test_add'
 
       INTEGER                                            :: c, handle, r
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: col_dist_a, col_dist_b, row_dist_a, &
@@ -370,8 +369,7 @@ CONTAINS
       LOGICAL, INTENT(out)                               :: success
          !! if passed the check success=T
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_check_add', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_check_add'
       INTEGER                                            :: col, col_size, handle, i, istat, j, ld, &
                                                             lwork, m, mynode, n, numnodes, row, &
                                                             row_size

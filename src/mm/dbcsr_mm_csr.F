@@ -216,8 +216,7 @@ CONTAINS
       INTEGER, DIMENSION(1:3, 1:bf), INTENT(IN)          :: b_index
       REAL(KIND=sp), DIMENSION(:), POINTER               :: a_norms, b_norms
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_csr_multiply_low', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_csr_multiply_low'
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
       INTEGER :: a_blk, a_col_l, a_row_l, b_blk, b_col_l, c_blk_id, c_col_logical, c_nze, &
@@ -371,8 +370,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN)                  :: right_row_blk_size
       INTEGER, OPTIONAL                                  :: nlayers
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_csr_init', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_csr_init'
 
       INTEGER                                            :: default_stack, handle, istack, ithread, &
                                                             k_map, k_size, m_map, m_size, n_map, &
@@ -544,8 +542,7 @@ CONTAINS
          !! guess for the number of blocks in the product matrix, can be zero
       INTEGER, DIMENSION(:), INTENT(IN)                  :: row_map, col_map
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'fill_hash_tables', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'fill_hash_tables'
 
       INTEGER                                            :: col, handle, i, imat, n_rows, row
 
@@ -584,9 +581,6 @@ CONTAINS
    SUBROUTINE dbcsr_mm_csr_finalize(this)
       !! Finalizes a multiplication cycle for a set of C-blocks.
       TYPE(dbcsr_mm_csr_type), INTENT(INOUT)             :: this
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_csr_finalize', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: i
 
@@ -758,8 +752,6 @@ CONTAINS
       REAL(KIND=sp), DIMENSION(1:af - ai + 1), INTENT(OUT)   :: csr_norms
       REAL(KIND=sp), DIMENSION(:), INTENT(IN)            :: list_norms
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'build_csr_index', &
-                                     routineP = moduleN//':'//routineN
       LOGICAL, PARAMETER                                 :: careful = .FALSE., dbg = .FALSE.
 
       INTEGER                                            :: i, row

@@ -216,8 +216,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: pgrid_dims
          !! Dimensions of MPI group
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mp_make_env', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mp_make_env'
 
       INTEGER                                            :: error_handle, mynode, numnodes, pcol, &
                                                             prow

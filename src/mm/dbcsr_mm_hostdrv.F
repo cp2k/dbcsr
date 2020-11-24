@@ -75,8 +75,7 @@ CONTAINS
       TYPE(dbcsr_mm_hostdrv_type), INTENT(INOUT)         :: this
       TYPE(dbcsr_work_type), POINTER                     :: product_wm
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_hostdrv_init', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_hostdrv_init'
 
       INTEGER                                            :: handle
 
@@ -103,8 +102,7 @@ CONTAINS
       TYPE(stack_descriptor_type), INTENT(IN)            :: stack_descr
       LOGICAL, INTENT(OUT)                               :: success, used_smm
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_hostdrv_process', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_hostdrv_process'
       LOGICAL, PARAMETER                                 :: careful = careful_mod, dbg = .FALSE.
 
       INTEGER                                            :: error_handle, sp
@@ -281,9 +279,6 @@ CONTAINS
       ${type1}$, DIMENSION(*), INTENT(INOUT)      :: c_data
         !! Product data
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'blas_process_mm_stack_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                   :: sp
 
 !   ---------------------------------------------------------------------------
@@ -319,9 +314,6 @@ CONTAINS
       ${type1}$, DIMENSION(*), INTENT(INOUT)      :: c_data
         !! Product data
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'internal_process_mm_stack_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                   :: sp
 
 !   ---------------------------------------------------------------------------
@@ -355,9 +347,6 @@ CONTAINS
       ${type1}$, DIMENSION(*), INTENT(INOUT)      :: c_data
         !! Product data
       LOGICAL, INTENT(OUT)                      :: used_smm
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'smm_process_mm_stack_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
 
 #if defined(__HAS_smm_${nametype1}$nn)
 
@@ -426,8 +415,6 @@ CONTAINS
       LOGICAL, INTENT(OUT)                           :: used_smm
         !! Flag to signal if an efficient kernel was used
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'xsmm_process_mm_batch_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
 #if ${xsmm_supported[n]}$
       IF (stack_descr%defined_mnk) THEN ! homogeneous stack
          CALL libxsmm_gemm_batch(LIBXSMM_GEMM_PRECISION, LIBXSMM_GEMM_PRECISION, 'N', 'N', &

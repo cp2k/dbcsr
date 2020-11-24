@@ -71,9 +71,6 @@ CONTAINS
       INTEGER                                            :: io_unit, narg, args_shift
       CHARACTER(len=*), DIMENSION(:), INTENT(IN)         :: args
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_perf_multiply', &
-                                     routineP = moduleN//':'//routineN
-
       CHARACTER                                          :: symmetries(3), trans(2)
       INTEGER                                            :: i, iblk, kblk_to_read, limits(6), &
                                                             matrix_sizes(3), mblk_to_read, &
@@ -226,8 +223,7 @@ CONTAINS
       REAL(real_8), INTENT(in)                           :: chksum_threshold, chksum_ref, &
                                                             chksum_ref_pos
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_perf_multiply_low', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_perf_multiply_low'
 
       CHARACTER                                          :: a_symm, b_symm, c_symm, transa, transb
       INTEGER                                            :: handle, mynode, numnodes, numthreads
@@ -478,8 +474,7 @@ CONTAINS
       REAL(real_8), INTENT(in)                           :: chksum_threshold, chksum_ref, &
                                                             chksum_ref_pos
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'perf_multiply', routineP = moduleN//':'//routineN
-
+      CHARACTER(len=*), PARAMETER :: routineN = 'perf_multiply'
       INTEGER                                            :: c_a, c_b, c_c, handle, irep, mynode, &
                                                             nthreads, numnodes, r_a, r_b, r_c
       INTEGER(int_8)                                     :: flop

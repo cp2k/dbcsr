@@ -374,9 +374,6 @@ CONTAINS
          !! multiplicity
          !! number of images in the new distribution
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'rebin_distribution', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                            :: bin, i, old_nbins, virtual_bin
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: bin_multiplier
 
@@ -461,9 +458,6 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN)                  :: src_sizes, dst_sizes
          !! sizes of source blocks
          !! sizes of target blocks
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_reblocking_targets', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: common_extent, current_dst, current_int, &
                                                             current_src, dst_off, n_dst, n_src, &
@@ -597,8 +591,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: local_prow
          !! find local elements for this local row
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_local_rows', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_local_rows'
 
       INTEGER                                            :: el, error_handle, nprows, prow
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: nle
@@ -645,8 +638,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: local_pcol
          !! find local elements for this local column
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_local_cols', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_local_cols'
 
       INTEGER                                            :: el, error_handle, npcols, pcol
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: nle
@@ -741,8 +733,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: element_sizes
          !! sizes of elements
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_dist_bin', routineP = moduleN//':'//routineN
-
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_dist_bin'
       INTEGER                                            :: bin, bin_cnt, error_handle, i
       LOGICAL                                            :: found
       REAL(kind=sp)                                      :: rn

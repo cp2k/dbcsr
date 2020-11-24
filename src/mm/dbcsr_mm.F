@@ -164,9 +164,6 @@ CONTAINS
    SUBROUTINE dbcsr_multiply_lib_finalize()
       !! Finalize the library
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_multiply_lib_finalize', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                            :: ithread
 
       CALL dbcsr_mm_multrec_lib_finalize()
@@ -387,8 +384,7 @@ CONTAINS
       INTEGER(KIND=int_8), INTENT(OUT), OPTIONAL         :: flop
          !! effective flop
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_multiply_generic', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_multiply_generic'
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
       REAL(real_8), PARAMETER                            :: make_dense_occ_thresh = 1.0_dp
 

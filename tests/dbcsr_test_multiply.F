@@ -89,8 +89,7 @@ CONTAINS
       INTEGER, DIMENSION(6), INTENT(in)                  :: limits
       LOGICAL, INTENT(in)                                :: retain_sparsity
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_test_multiplies', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_test_multiplies'
       CHARACTER, DIMENSION(3), PARAMETER :: &
          trans = (/dbcsr_no_transpose, dbcsr_transpose, dbcsr_conjugate_transpose/)
       CHARACTER, DIMENSION(3, 12), PARAMETER :: symmetries = &
@@ -370,7 +369,7 @@ CONTAINS
       INTEGER, DIMENSION(6), INTENT(in)                  :: limits
       LOGICAL, INTENT(in)                                :: retain_sparsity
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'test_multiply', routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'test_multiply'
 
       INTEGER                                            :: c_a, c_b, c_c, handle, r_a, r_b, r_c
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: blk_offsets, col_dist_a, col_dist_b, &
@@ -547,8 +546,7 @@ CONTAINS
       LOGICAL, INTENT(out)                               :: success
          !! if passed the check success=T
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_check_multiply', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_check_multiply'
       INTEGER :: a_col, a_m, a_n, a_row, b_col, b_m, b_n, b_row, c_col, c_col_size, c_row, &
                  c_row_size, handle, i, istat, j, k, lda, ldb, ldc, lwork, m, mynode, n, numnodes
       CHARACTER, PARAMETER                               :: norm = 'I'

@@ -55,8 +55,7 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(OUT), OPTIONAL        :: previous_data_area
          !! previous data area
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_switch_data_area', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_switch_data_area'
 
       INTEGER                                            :: handle
 
@@ -83,15 +82,11 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: shallow
          !! shallow copy (default is deep)
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_copyall', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                            :: i, n
       LOGICAL                                            :: shallow_copy
 
 !   ---------------------------------------------------------------------------
 
-!      CALL timeset(routineN, error_handle)
       IF (.NOT. ASSOCIATED(source_area%d)) &
          DBCSR_ABORT("Attempt to copy unassigned data")
       IF (source_area%d%refcount .LE. 0) &
@@ -146,9 +141,6 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: drop_real, multiply_by_i
          !! drops real part of complex numbers instead of the imaginary part; default is false
          !! converts real to complex by placing into imaginary instead of real part
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_convert', &
-                                     routineP = moduleN//':'//routineN
 
       COMPLEX(KIND=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: s_data_c, t_data_c
       COMPLEX(KIND=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: s_data_z, t_data_z
@@ -307,9 +299,6 @@ CONTAINS
          !! mark data as transposed by negating the blk_p index entries
          !! transpose data blocks
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_copy_sort_data', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                            :: blk, col_size, nblks, nrows, nze, &
                                                             nze_prev, row, row_size
       LOGICAL                                            :: mark, trb
@@ -378,8 +367,7 @@ CONTAINS
          !! multiple source areas
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: old_blk_d
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_sort_data', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_sort_data'
 
       INTEGER                                            :: handle, i, nblks
       LOGICAL                                            :: multidata

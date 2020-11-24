@@ -90,9 +90,6 @@ CONTAINS
          !! number of bytes to allocate
       TYPE(acc_stream_type), INTENT(IN)                  :: stream
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'acc_hostmem_alloc_raw', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                            :: istat
       TYPE(C_PTR)                                        :: stream_cptr
 
@@ -111,9 +108,6 @@ CONTAINS
    SUBROUTINE acc_hostmem_dealloc_raw(host_mem_c_ptr, stream)
       TYPE(C_PTR), INTENT(IN)                            :: host_mem_c_ptr
       TYPE(acc_stream_type), INTENT(IN)                  :: stream
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'acc_hostmem_dealloc_raw', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: istat
       TYPE(C_PTR)                                        :: stream_cptr
@@ -194,8 +188,6 @@ CONTAINS
       ${type}$, DIMENSION(:), POINTER          :: host_mem
          !! pointer to array
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-      CHARACTER(len=*), PARAMETER :: routineN = 'acc_hostmem_dealloc_${nametype}$', &
-                                     routineP = moduleN//':'//routineN
 
       IF (SIZE(host_mem) == 0) RETURN
 #if defined (__DBCSR_ACC)
@@ -213,8 +205,6 @@ CONTAINS
       ${type}$, DIMENSION(:, :), POINTER        :: host_mem
          !! pointer to array
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-      CHARACTER(len=*), PARAMETER :: routineN = 'acc_hostmem_dealloc_${nametype}$_2D', &
-                                     routineP = moduleN//':'//routineN
 
       IF (SIZE(host_mem) == 0) RETURN
 #if defined (__DBCSR_ACC)

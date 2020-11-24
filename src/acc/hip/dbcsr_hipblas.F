@@ -73,10 +73,9 @@ CONTAINS
    SUBROUTINE hipblas_handle_init(hipblas_handle)
       TYPE(hipblas_handle_type), INTENT(OUT) :: hipblas_handle
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'hipblas_handle_init', &
-                                     routineP = moduleN//':'//routineN
-
 #if (__HIP)
+      CHARACTER(len=*), PARAMETER :: routineN = 'hipblas_handle_init'
+
       INTEGER(KIND=C_INT)      :: err
       INTEGER                  :: handle
 
@@ -93,10 +92,9 @@ CONTAINS
    SUBROUTINE hipblas_handle_destroy(hipblas_handle)
       TYPE(hipblas_handle_type), INTENT(INOUT) :: hipblas_handle
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'hipblas_handle_destroy', &
-                                     routineP = moduleN//':'//routineN
-
 #if (__HIP)
+      CHARACTER(len=*), PARAMETER :: routineN = 'hipblas_handle_destroy'
+
       INTEGER(KIND=C_INT)      :: err
       INTEGER                  :: handle
 

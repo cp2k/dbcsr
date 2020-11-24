@@ -152,8 +152,7 @@ CONTAINS
       INTEGER                                        :: handle, unit_nr_prv
       INTEGER, DIMENSION(:), ALLOCATABLE             :: map1_in_1, map1_in_2, map2_in_1, map2_in_2
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_copy', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_copy'
       LOGICAL                                        :: dist_compatible_tas, dist_compatible_tensor, &
                                                         summation_prv, new_in_1, new_in_2, &
                                                         new_in_3, new_out_1, block_compatible, &
@@ -288,7 +287,7 @@ CONTAINS
       TYPE(block_nd) :: blk_data
       LOGICAL :: found
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_copy_nocomm', routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_copy_nocomm'
       INTEGER :: handle
 
       CALL timeset(routineN, handle)
@@ -331,8 +330,7 @@ CONTAINS
       LOGICAL                                            :: tr
 
       INTEGER                                            :: handle
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_copy_matrix_to_tensor', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_copy_matrix_to_tensor'
 
       CALL timeset(routineN, handle)
       DBCSR_ASSERT(tensor_out%valid)
@@ -383,8 +381,7 @@ CONTAINS
       INTEGER                                :: blk, handle
       INTEGER, DIMENSION(2)                  :: ind_2d
       REAL(KIND=real_8), DIMENSION(:, :), ALLOCATABLE :: block
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_copy_tensor_to_matrix', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_copy_tensor_to_matrix'
       LOGICAL :: found
 
       CALL timeset(routineN, handle)
@@ -514,9 +511,6 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                  :: log_verbose
          !! verbose logging (for testing only)
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_contract', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                     :: handle
 
       CALL mp_sync(tensor_1%pgrid%mp_comm_2d)
@@ -611,8 +605,7 @@ CONTAINS
       INTEGER                                        :: occ_1, occ_2
       INTEGER, DIMENSION(:), ALLOCATABLE             :: dims1, dims2, dims3
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_contract', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_contract'
       CHARACTER(LEN=1), DIMENSION(:), ALLOCATABLE    :: indchar1, indchar2, indchar3, indchar1_mod, &
                                                         indchar2_mod, indchar3_mod
       CHARACTER(LEN=1), DIMENSION(15) :: alph = &
@@ -1627,8 +1620,7 @@ CONTAINS
       TYPE(dbcsr_t_distribution_type)        :: dist
       INTEGER                                :: comm_2d_prv, handle, i
       INTEGER, DIMENSION(ndims_tensor(tensor_in)) :: pdims, myploc
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_remap', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_remap'
       LOGICAL                               :: nodata_prv
       TYPE(dbcsr_t_pgrid_type)              :: comm_nd
 
@@ -1720,8 +1712,7 @@ CONTAINS
          INTENT(OUT), OPTIONAL                        :: order
          !! permutation resulting from alignment
       INTEGER, DIMENSION(ndims_tensor(tensor_in))     :: order_prv
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_align_index', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_align_index'
       INTEGER                                         :: handle
 
       CALL timeset(routineN, handle)
@@ -1743,8 +1734,7 @@ CONTAINS
          INTENT(IN)                                   :: order
 
       TYPE(nd_to_2d_mapping)                          :: nd_index_blk_rs, nd_index_rs
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_permute_index', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_permute_index'
       INTEGER                                         :: handle
       INTEGER                                         :: ndims
 
