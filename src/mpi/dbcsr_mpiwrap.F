@@ -17,6 +17,7 @@ MODULE dbcsr_mpiwrap
    USE dbcsr_machine, ONLY: m_abort, m_hostnm
 
 #include "base/dbcsr_base_uses.f90"
+#:include 'dbcsr_mpiwrap.fypp'
 
 #if defined(__parallel) && !defined(__MPI_VERSION)
 #define __MPI_VERSION 3
@@ -219,25 +220,8 @@ MODULE dbcsr_mpiwrap
       MODULE PROCEDURE mp_maxloc_dv
    END INTERFACE
 
-   INTERFACE mp_bcast
-      MODULE PROCEDURE mp_bcast_i, mp_bcast_iv, mp_bcast_im, mp_bcast_i3, &
-         mp_bcast_l, mp_bcast_lv, mp_bcast_lm, mp_bcast_l3, &
-         mp_bcast_r, mp_bcast_rv, mp_bcast_rm, mp_bcast_r3, &
-         mp_bcast_d, mp_bcast_dv, mp_bcast_dm, mp_bcast_d3, &
-         mp_bcast_c, mp_bcast_cv, mp_bcast_cm, mp_bcast_c3, &
-         mp_bcast_z, mp_bcast_zv, mp_bcast_zm, mp_bcast_z3
-      MODULE PROCEDURE mp_bcast_b, mp_bcast_bv
-      MODULE PROCEDURE mp_bcast_av, mp_bcast_am
-   END INTERFACE
-
-   INTERFACE mp_ibcast
-      MODULE PROCEDURE mp_ibcast_i, mp_ibcast_iv, &
-         mp_ibcast_l, mp_ibcast_lv, &
-         mp_ibcast_r, mp_ibcast_rv, &
-         mp_ibcast_d, mp_ibcast_dv, &
-         mp_ibcast_c, mp_ibcast_cv, &
-         mp_ibcast_z, mp_ibcast_zv
-   END INTERFACE
+   $:gen_mp_iface('bcast', suffixes=['', 'v', 'm', '3'], extra_suffixes=['b', 'bv', 'av', 'am'])
+   $:gen_mp_iface('ibcast', suffixes=['', 'v'])
 
    INTERFACE mp_sum
       MODULE PROCEDURE mp_sum_i, mp_sum_iv, mp_sum_im, mp_sum_im3, mp_sum_im4, &
@@ -255,73 +239,13 @@ MODULE dbcsr_mpiwrap
       MODULE PROCEDURE mp_sum_b, mp_sum_bv
    END INTERFACE
 
-   INTERFACE mp_isum
-      MODULE PROCEDURE mp_isum_iv, &
-         mp_isum_lv, &
-         mp_isum_rv, &
-         mp_isum_dv, &
-         mp_isum_cv, &
-         mp_isum_zv
-      MODULE PROCEDURE mp_isum_bv
-   END INTERFACE
-
-   INTERFACE mp_sum_partial
-      MODULE PROCEDURE mp_sum_partial_im, &
-         mp_sum_partial_lm, &
-         mp_sum_partial_rm, &
-         mp_sum_partial_dm, &
-         mp_sum_partial_cm, &
-         mp_sum_partial_zm
-   END INTERFACE
-
-   INTERFACE mp_max
-      MODULE PROCEDURE mp_max_i, mp_max_iv, &
-         mp_max_l, mp_max_lv, &
-         mp_max_r, mp_max_rv, &
-         mp_max_d, mp_max_dv, &
-         mp_max_c, mp_max_cv, &
-         mp_max_z, mp_max_zv
-   END INTERFACE
-
-   INTERFACE mp_min
-      MODULE PROCEDURE mp_min_i, mp_min_iv, &
-         mp_min_l, mp_min_lv, &
-         mp_min_r, mp_min_rv, &
-         mp_min_d, mp_min_dv, &
-         mp_min_c, mp_min_cv, &
-         mp_min_z, mp_min_zv
-   END INTERFACE
-
-   INTERFACE mp_prod
-      MODULE PROCEDURE mp_prod_r, mp_prod_d, mp_prod_c, mp_prod_z
-   END INTERFACE
-
-   INTERFACE mp_gather
-      MODULE PROCEDURE mp_gather_i, mp_gather_iv, mp_gather_im, &
-         mp_gather_l, mp_gather_lv, mp_gather_lm, &
-         mp_gather_r, mp_gather_rv, mp_gather_rm, &
-         mp_gather_d, mp_gather_dv, mp_gather_dm, &
-         mp_gather_c, mp_gather_cv, mp_gather_cm, &
-         mp_gather_z, mp_gather_zv, mp_gather_zm
-   END INTERFACE
-
-   INTERFACE mp_gatherv
-      MODULE PROCEDURE mp_gatherv_iv, &
-         mp_gatherv_lv, &
-         mp_gatherv_rv, &
-         mp_gatherv_dv, &
-         mp_gatherv_cv, &
-         mp_gatherv_zv
-   END INTERFACE
-
-   INTERFACE mp_igatherv
-      MODULE PROCEDURE mp_igatherv_iv, &
-         mp_igatherv_lv, &
-         mp_igatherv_rv, &
-         mp_igatherv_dv, &
-         mp_igatherv_cv, &
-         mp_igatherv_zv
-   END INTERFACE
+   $:gen_mp_iface('isum', suffixes=['v'], extra_suffixes=['bv'])
+   $:gen_mp_iface('sum_partial', suffixes=['m'])
+   $:gen_mp_iface('max', suffixes=['', 'v'])
+   $:gen_mp_iface('min', suffixes=['', 'v'])
+   $:gen_mp_iface('prod')
+   $:gen_mp_iface('gather', suffixes=['', 'm', 'v'])
+   $:gen_mp_iface('gatherv', suffixes=['v'])
 
    INTERFACE mp_allgather
      !! @todo move allgatherv to a separate declaration
@@ -380,15 +304,6 @@ MODULE dbcsr_mpiwrap
          mp_iallgatherv_zv, mp_iallgatherv_zv2
    END INTERFACE
 
-   INTERFACE mp_scatter
-      MODULE PROCEDURE mp_scatter_iv, &
-         mp_scatter_lv, &
-         mp_scatter_rv, &
-         mp_scatter_dv, &
-         mp_scatter_cv, &
-         mp_scatter_zv
-   END INTERFACE
-
    INTERFACE mp_iscatter
       MODULE PROCEDURE mp_iscatter_i, &
          mp_iscatter_l, &
@@ -410,188 +325,30 @@ MODULE dbcsr_mpiwrap
          mp_iscatterv_zv
    END INTERFACE
 
-   INTERFACE mp_sum_scatter
-      MODULE PROCEDURE mp_sum_scatter_iv, &
-         mp_sum_scatter_lv, &
-         mp_sum_scatter_rv, &
-         mp_sum_scatter_dv, &
-         mp_sum_scatter_cv, &
-         mp_sum_scatter_zv
-   END INTERFACE
+   $:gen_mp_iface('alltoall', suffixes=['', '22', '44', '11v'])
 
-   INTERFACE mp_alltoall
-      MODULE PROCEDURE mp_alltoall_i, mp_alltoall_i22, &
-         mp_alltoall_i44, &
-         mp_alltoall_i11v, &
-         mp_alltoall_l, mp_alltoall_l22, &
-         mp_alltoall_l44, &
-         mp_alltoall_l11v, &
-         mp_alltoall_r, mp_alltoall_r22, &
-         mp_alltoall_r44, &
-         mp_alltoall_r11v, &
-         mp_alltoall_d, mp_alltoall_d22, &
-         mp_alltoall_d44, &
-         mp_alltoall_d11v, &
-         mp_alltoall_c, mp_alltoall_c22, &
-         mp_alltoall_c44, &
-         mp_alltoall_c11v, &
-         mp_alltoall_z, mp_alltoall_z22, &
-         mp_alltoall_z44, &
-         mp_alltoall_z11v
-   END INTERFACE
+   $:gen_mp_iface('send', suffixes=['', 'v'])
+   $:gen_mp_iface('recv', suffixes=['', 'v'])
+   $:gen_mp_iface('sendrecv', suffixes=['v', ])
+   $:gen_mp_iface('isendrecv', suffixes=['', 'v'])
 
-   INTERFACE mp_send
-      MODULE PROCEDURE mp_send_i, mp_send_iv, &
-         mp_send_l, mp_send_lv, &
-         mp_send_r, mp_send_rv, &
-         mp_send_d, mp_send_dv, &
-         mp_send_c, mp_send_cv, &
-         mp_send_z, mp_send_zv
-   END INTERFACE
+   $:gen_mp_iface('isend', suffixes=['v', 'm2'], extra_suffixes=['bv', 'custom'])
+   $:gen_mp_iface('irecv', suffixes=['v', 'm2'], extra_suffixes=['bv', 'custom'])
 
-   INTERFACE mp_recv
-      MODULE PROCEDURE mp_recv_i, mp_recv_iv, &
-         mp_recv_l, mp_recv_lv, &
-         mp_recv_r, mp_recv_rv, &
-         mp_recv_d, mp_recv_dv, &
-         mp_recv_c, mp_recv_cv, &
-         mp_recv_z, mp_recv_zv
-   END INTERFACE
+   $:gen_mp_iface('win_create', suffixes=['v'])
+   $:gen_mp_iface('rget', suffixes=['v'])
+   $:gen_mp_iface('allocate')
+   $:gen_mp_iface('deallocate')
 
-   INTERFACE mp_sendrecv
-      MODULE PROCEDURE mp_sendrecv_iv, &
-         mp_sendrecv_lv, &
-         mp_sendrecv_rv, &
-         mp_sendrecv_dv, &
-         mp_sendrecv_cv, &
-         mp_sendrecv_zv
-   END INTERFACE
+   $:gen_mp_iface('type_make', extra_suffixes=['struct'])
 
-   INTERFACE mp_isendrecv
-      MODULE PROCEDURE mp_isendrecv_i, mp_isendrecv_iv, &
-         mp_isendrecv_l, mp_isendrecv_lv, &
-         mp_isendrecv_r, mp_isendrecv_rv, &
-         mp_isendrecv_d, mp_isendrecv_dv, &
-         mp_isendrecv_c, mp_isendrecv_cv, &
-         mp_isendrecv_z, mp_isendrecv_zv
-   END INTERFACE
+   $:gen_mp_iface('file_write_at', suffixes=['', 'v'], extra_suffixes=['ch'])
+   $:gen_mp_iface('file_write_at_all', suffixes=['', 'v'], extra_suffixes=['ch'])
+   $:gen_mp_iface('file_read_at', suffixes=['', 'v'], extra_suffixes=['ch'])
+   $:gen_mp_iface('file_read_at_all', suffixes=['', 'v'], extra_suffixes=['ch'])
 
-   INTERFACE mp_isend
-      MODULE PROCEDURE mp_isend_iv, mp_isend_im2, &
-         mp_isend_lv, mp_isend_lm2, &
-         mp_isend_rv, mp_isend_rm2, &
-         mp_isend_dv, mp_isend_dm2, &
-         mp_isend_cv, mp_isend_cm2, &
-         mp_isend_zv, mp_isend_zm2
-      MODULE PROCEDURE mp_isend_bv
-      MODULE PROCEDURE mp_isend_custom
-   END INTERFACE
-
-   INTERFACE mp_irecv
-      MODULE PROCEDURE mp_irecv_iv, mp_irecv_im2, &
-         mp_irecv_lv, mp_irecv_lm2, &
-         mp_irecv_rv, mp_irecv_rm2, &
-         mp_irecv_dv, mp_irecv_dm2, &
-         mp_irecv_cv, mp_irecv_cm2, &
-         mp_irecv_zv, mp_irecv_zm2
-      MODULE PROCEDURE mp_irecv_bv
-      MODULE PROCEDURE mp_irecv_custom
-   END INTERFACE
-
-   INTERFACE mp_win_create
-      MODULE PROCEDURE mp_win_create_iv, &
-         mp_win_create_lv, &
-         mp_win_create_rv, &
-         mp_win_create_dv, &
-         mp_win_create_cv, &
-         mp_win_create_zv
-   END INTERFACE
-
-   INTERFACE mp_rget
-      MODULE PROCEDURE mp_rget_iv, &
-         mp_rget_lv, &
-         mp_rget_rv, &
-         mp_rget_dv, &
-         mp_rget_cv, &
-         mp_rget_zv
-   END INTERFACE
-
-   INTERFACE mp_allocate
-      MODULE PROCEDURE mp_allocate_i, &
-         mp_allocate_l, &
-         mp_allocate_r, &
-         mp_allocate_d, &
-         mp_allocate_c, &
-         mp_allocate_z
-   END INTERFACE
-
-   INTERFACE mp_deallocate
-      MODULE PROCEDURE mp_deallocate_i, &
-         mp_deallocate_l, &
-         mp_deallocate_r, &
-         mp_deallocate_d, &
-         mp_deallocate_c, &
-         mp_deallocate_z
-   END INTERFACE
-
-   INTERFACE mp_type_make
-      MODULE PROCEDURE mp_type_make_struct
-      MODULE PROCEDURE mp_type_make_i, mp_type_make_l, &
-         mp_type_make_r, mp_type_make_d, &
-         mp_type_make_c, mp_type_make_z
-   END INTERFACE
-
-   INTERFACE mp_file_write_at
-      MODULE PROCEDURE mp_file_write_at_ch, &
-         mp_file_write_at_i, mp_file_write_at_iv, &
-         mp_file_write_at_r, mp_file_write_at_rv, &
-         mp_file_write_at_d, mp_file_write_at_dv, &
-         mp_file_write_at_c, mp_file_write_at_cv, &
-         mp_file_write_at_z, mp_file_write_at_zv, &
-         mp_file_write_at_l, mp_file_write_at_lv
-   END INTERFACE
-
-   INTERFACE mp_file_write_at_all
-      MODULE PROCEDURE mp_file_write_at_all_ch, &
-         mp_file_write_at_all_i, mp_file_write_at_all_iv, &
-         mp_file_write_at_all_l, mp_file_write_at_all_lv, &
-         mp_file_write_at_all_r, mp_file_write_at_all_rv, &
-         mp_file_write_at_all_d, mp_file_write_at_all_dv, &
-         mp_file_write_at_all_c, mp_file_write_at_all_cv, &
-         mp_file_write_at_all_z, mp_file_write_at_all_zv
-   END INTERFACE
-
-   INTERFACE mp_file_read_at
-      MODULE PROCEDURE mp_file_read_at_ch, &
-         mp_file_read_at_i, mp_file_read_at_iv, &
-         mp_file_read_at_r, mp_file_read_at_rv, &
-         mp_file_read_at_d, mp_file_read_at_dv, &
-         mp_file_read_at_c, mp_file_read_at_cv, &
-         mp_file_read_at_z, mp_file_read_at_zv, &
-         mp_file_read_at_l, mp_file_read_at_lv
-   END INTERFACE
-
-   INTERFACE mp_file_read_at_all
-      MODULE PROCEDURE mp_file_read_at_all_ch, &
-         mp_file_read_at_all_i, mp_file_read_at_all_iv, &
-         mp_file_read_at_all_l, mp_file_read_at_all_lv, &
-         mp_file_read_at_all_r, mp_file_read_at_all_rv, &
-         mp_file_read_at_all_d, mp_file_read_at_all_dv, &
-         mp_file_read_at_all_c, mp_file_read_at_all_cv, &
-         mp_file_read_at_all_z, mp_file_read_at_all_zv
-   END INTERFACE
-
-   INTERFACE mp_alloc_mem
-      MODULE PROCEDURE mp_alloc_mem_i, mp_alloc_mem_l, &
-         mp_alloc_mem_d, mp_alloc_mem_z, &
-         mp_alloc_mem_r, mp_alloc_mem_c
-   END INTERFACE
-
-   INTERFACE mp_free_mem
-      MODULE PROCEDURE mp_free_mem_i, mp_free_mem_l, &
-         mp_free_mem_d, mp_free_mem_z, &
-         mp_free_mem_r, mp_free_mem_c
-   END INTERFACE
+   $:gen_mp_iface('alloc_mem')
+   $:gen_mp_iface('free_mem')
 
 ! Type declarations
    TYPE mp_indexing_meta_type
@@ -2977,7 +2734,6 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_win_unlock_all
 
-#:include 'dbcsr_mpiwrap.fypp'
 #:for nametype1, type1, mpi_type1, mpi_2type1, kind1, bytes1, handle1, zero1, one1 in inst_params
    SUBROUTINE mp_alltoall_${nametype1}$11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
