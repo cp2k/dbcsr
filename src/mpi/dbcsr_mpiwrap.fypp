@@ -20,4 +20,11 @@
 #:set one1 = ['1_int_4', '1_int_8', '1.0_real_8', '1.0_real_4', 'CMPLX(1.0, 0.0, real_8)', 'CMPLX(1.0, 0.0, real_4)']
 
 #:set inst_params = list(zip(nametype1, type1, mpi_type1, mpi_2type1, kind1, bytes1, handle1, zero1, one1))
+
+#! Generate interface declarations using the cartesian combination of nametypes and suffixes, and extra_suffixes
+#:def gen_mp_iface(basename, nametypes=nametype1, suffixes=[''], extra_suffixes=[])
+   INTERFACE mp_${basename}$
+      MODULE PROCEDURE ${', '.join(['mp_{}_{}{}'.format(basename, nt, su) for nt in nametypes for su in suffixes] + ['mp_{}_{}'.format(basename, su) for su in extra_suffixes])}$
+   END INTERFACE
+#:enddef
 #:endmute
