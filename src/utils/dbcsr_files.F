@@ -230,29 +230,6 @@ CONTAINS
 
    END FUNCTION get_unit_number
 
-   SUBROUTINE init_preconnection_list()
-      !! Allocate and initialise the list of preconnected units
-
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'init_preconnection_list', &
-                                     routineP = moduleN//':'//routineN
-
-      INTEGER                                            :: ic, nc
-
-      nc = SIZE(preconnected)
-
-      DO ic = 1, nc
-         preconnected(ic)%file_name = ""
-         preconnected(ic)%unit_number = -1
-      END DO
-
-      ! Define reserved unit numbers
-      preconnected(1)%file_name = "stdin"
-      preconnected(1)%unit_number = default_input_unit
-      preconnected(2)%file_name = "stdout"
-      preconnected(2)%unit_number = default_output_unit
-
-   END SUBROUTINE init_preconnection_list
-
    SUBROUTINE open_file(file_name, file_status, file_form, file_action, &
                         file_position, file_pad, unit_number, debug, &
                         skip_get_unit_number, file_access)
