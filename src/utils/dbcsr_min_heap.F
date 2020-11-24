@@ -56,13 +56,6 @@ CONTAINS
       child = 2*n
    END FUNCTION get_left_child
 
-   ELEMENTAL FUNCTION get_right_child(n) RESULT(child)
-      INTEGER, INTENT(IN)                                :: n
-      INTEGER                                            :: child
-
-      child = 2*n + 1
-   END FUNCTION get_right_child
-
    ELEMENTAL FUNCTION get_value(heap, n) RESULT(value)
       TYPE(dbcsr_heap_type), INTENT(IN)                  :: heap
       INTEGER, INTENT(IN)                                :: n
@@ -70,17 +63,6 @@ CONTAINS
 
       value = heap%nodes(n)%node%value
    END FUNCTION get_value
-
-   ELEMENTAL FUNCTION get_value_by_key(heap, key) RESULT(value)
-      TYPE(dbcsr_heap_type), INTENT(IN)                  :: heap
-      INTEGER(KIND=keyt), INTENT(IN)                     :: key
-      INTEGER(KIND=valt)                                 :: value
-
-      INTEGER                                            :: n
-
-      n = heap%index(key)
-      value = get_value(heap, n)
-   END FUNCTION get_value_by_key
 
    ! Initialization functions
 
