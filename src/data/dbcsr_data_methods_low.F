@@ -115,17 +115,6 @@ CONTAINS
       data_type = area%d%data_type
    END FUNCTION dbcsr_data_get_type
 
-   PURE FUNCTION dbcsr_data_unique(area) RESULT(unique)
-      !! Returns if there is a single reference of the data
-
-      TYPE(dbcsr_data_obj), INTENT(IN)                   :: area
-         !! data area
-      LOGICAL                                            :: unique
-         !! true if reference is 1
-
-      unique = area%d%refcount .EQ. 1
-   END FUNCTION dbcsr_data_unique
-
    FUNCTION dbcsr_data_get_memory_type(area) RESULT(memory_type)
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: area
       TYPE(dbcsr_memtype_type)                           :: memory_type
@@ -819,27 +808,6 @@ CONTAINS
       END SELECT
    END FUNCTION dbcsr_scalar_one
 
-   ELEMENTAL FUNCTION dbcsr_scalar_i(data_type) RESULT(i)
-      !! Returns an encapsulated scalar "sqrt(-1)"
-
-      INTEGER, INTENT(IN)                                :: data_type
-         !! use the data type
-      TYPE(dbcsr_scalar_type)                            :: i
-         !! encapsulated value of i
-
-      i = dbcsr_scalar_zero(data_type)
-      SELECT CASE (data_type)
-      CASE (dbcsr_type_real_4)
-         i%r_sp = 0.0_real_4
-      CASE (dbcsr_type_real_8)
-         i%r_dp = 0.0_real_8
-      CASE (dbcsr_type_complex_4)
-         i%c_sp = CMPLX(0.0, 1.0, real_4)
-      CASE (dbcsr_type_complex_8)
-         i%c_dp = CMPLX(0.0, 1.0, real_8)
-      END SELECT
-   END FUNCTION dbcsr_scalar_i
-
    ELEMENTAL FUNCTION dbcsr_scalar_zero(data_type) RESULT(zero)
       !! Returns an encapsulated scalar "0"
 
@@ -904,26 +872,6 @@ CONTAINS
          negated = dbcsr_scalar_zero(s%data_type)
       END SELECT
    END FUNCTION dbcsr_scalar_negative
-
-   ELEMENTAL FUNCTION dbcsr_scalar_add(s1, s2) RESULT(s_sum)
-      !! Returns an encapsulated scalar as a negation of the given
-      TYPE(dbcsr_scalar_type), INTENT(IN)                :: s1, s2
-      TYPE(dbcsr_scalar_type)                            :: s_sum
-
-      s_sum = dbcsr_scalar_zero(s1%data_type)
-      SELECT CASE (s1%data_type)
-      CASE (dbcsr_type_real_4)
-         s_sum%r_sp = s1%r_sp + s2%r_sp
-      CASE (dbcsr_type_real_8)
-         s_sum%r_dp = s1%r_dp + s2%r_dp
-      CASE (dbcsr_type_complex_4)
-         s_sum%c_sp = s1%c_sp + s2%c_sp
-      CASE (dbcsr_type_complex_8)
-         s_sum%c_dp = s1%c_dp + s2%c_dp
-      CASE default
-         s_sum = dbcsr_scalar_zero(s1%data_type)
-      END SELECT
-   END FUNCTION dbcsr_scalar_add
 
    ELEMENTAL FUNCTION dbcsr_scalar_multiply(s1, s2) RESULT(s_product)
       TYPE(dbcsr_scalar_type), INTENT(IN)                :: s1, s2
