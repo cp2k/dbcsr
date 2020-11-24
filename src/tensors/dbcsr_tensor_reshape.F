@@ -275,13 +275,6 @@ CONTAINS
       CALL allocate_any(index, source=buffer%indx(1:indx_shape(1), 1:indx_shape(2)))
    END SUBROUTINE
 
-   SUBROUTINE block_buffer_iterator_reset(buffer)
-      !! Reset buffer block iterator
-      TYPE(block_buffer_type), INTENT(INOUT) :: buffer
-
-      buffer%endpos = 0
-   END SUBROUTINE
-
    PURE FUNCTION block_buffer_blocks_left(buffer)
       !! how many blocks left in iterator
       TYPE(block_buffer_type), INTENT(IN) :: buffer

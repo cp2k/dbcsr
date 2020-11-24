@@ -885,20 +885,6 @@ CONTAINS
       nblkrows_local = dbcsr_nblkrows_total(matrix%matrix)
    END FUNCTION
 
-   FUNCTION dbcsr_tas_nfullrows_local(matrix) RESULT(nfullrows_local)
-      TYPE(dbcsr_tas_type), INTENT(IN)                     :: matrix
-      INTEGER                                            :: nfullrows_local
-
-      nfullrows_local = dbcsr_nfullrows_total(matrix%matrix)
-   END FUNCTION
-
-   FUNCTION dbcsr_tas_nfullcols_local(matrix) RESULT(nfullcols_local)
-      TYPE(dbcsr_tas_type), INTENT(IN)                     :: matrix
-      INTEGER                                            :: nfullcols_local
-
-      nfullcols_local = dbcsr_nfullcols_total(matrix%matrix)
-   END FUNCTION
-
    PURE FUNCTION dbcsr_tas_get_num_blocks(matrix) RESULT(num_blocks)
       !! As dbcsr_get_num_blocks: get number of local blocks
       TYPE(dbcsr_tas_type), INTENT(IN) :: matrix

@@ -1778,40 +1778,6 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE
 
-   SUBROUTINE dbcsr_t_get_nonzero_index(tensor, dim, bounds, ind)
-      !! Get all indices along one dimension that have at least one occupied block
-
-      TYPE(dbcsr_t_type), INTENT(IN) :: tensor
-      INTEGER, INTENT(IN) :: dim
-         !! which dimension
-      INTEGER, INTENT(IN), DIMENSION(2, ndims_tensor(tensor)) :: bounds
-         !! bounds of (full) tensor index
-      LOGICAL, ALLOCATABLE, DIMENSION(:), INTENT(OUT) :: ind
-         !! indices with occupied blocks
-      INTEGER, DIMENSION(ndims_tensor(tensor)) :: bdims, blk_index, blk_size, blk_offset
-      INTEGER :: bdim, blk, idim
-      TYPE(dbcsr_t_iterator_type)                     :: iter
-
-      CALL blk_dims_tensor(tensor, bdims)
-      bdim = bdims(dim)
-      ALLOCATE (ind(bdim))
-      ind = .FALSE.
-
-      CALL dbcsr_t_iterator_start(iter, tensor)
-
-      blk_loop: DO WHILE (dbcsr_t_iterator_blocks_left(iter))
-         CALL dbcsr_t_iterator_next_block(iter, blk_index, blk, blk_size=blk_size, blk_offset=blk_offset)
-         DO idim = 1, ndims_tensor(tensor)
-            IF (bounds(1, idim) > blk_offset(idim) - 1 + blk_size(idim)) CYCLE blk_loop
-            IF (bounds(2, idim) < blk_offset(idim)) CYCLE blk_loop
-         ENDDO
-
-         ind(blk_index(dim)) = .TRUE.
-      ENDDO blk_loop
-
-      CALL dbcsr_t_iterator_stop(iter)
-   END SUBROUTINE
-
    SUBROUTINE dbcsr_t_contract_index(alpha, tensor_1, tensor_2, beta, tensor_3, &
                                      contract_1, notcontract_1, &
                                      contract_2, notcontract_2, &
@@ -2263,57 +2229,6 @@ CONTAINS
          CALL dbcsr_t_change_pgrid(tensor, pgrid, nodata=nodata, pgrid_changed=pgrid_changed, unit_nr=unit_nr)
       ENDIF
       CALL dbcsr_t_pgrid_destroy(pgrid)
-
-   END SUBROUTINE
-
-   SUBROUTINE pdims_realtoint(nproc, pdims_real, pdims_int, pdims_min, pdims_max)
-      INTEGER, INTENT(IN) :: nproc
-      REAL(real_8), DIMENSION(2), INTENT(IN) :: pdims_real
-      INTEGER, DIMENSION(2), INTENT(OUT) :: pdims_int, pdims_min, pdims_max
-      INTEGER, DIMENSION(2) :: ind
-
-      IF (pdims_real(1) > pdims_real(2)) THEN
-         ind = [2, 1]
-      ELSE
-         ind = [1, 2]
-      ENDIF
-
-      CALL nearest_divisor(nproc, pdims_real(ind(1)), pdims_min(1), pdims_max(1), pdims_int(1))
-      pdims_int(2) = nproc/pdims_int(1)
-      DBCSR_ASSERT(pdims_int(1)*pdims_int(2) == nproc)
-      pdims_min(2) = nproc/pdims_min(1)
-      DBCSR_ASSERT(pdims_min(1)*pdims_min(2) == nproc)
-      pdims_max(2) = nproc/pdims_max(1)
-      DBCSR_ASSERT(pdims_max(1)*pdims_max(2) == nproc)
-
-      pdims_int(ind) = pdims_int
-      pdims_min(ind) = pdims_min
-      pdims_max(ind) = pdims_max
-   END SUBROUTINE
-
-   SUBROUTINE nearest_divisor(n, div_approx, div_min, div_max, div_near)
-      INTEGER, INTENT(IN) :: n
-      REAL(real_8), INTENT(IN) :: div_approx
-      INTEGER :: div_min, div_max, div_near
-
-      div_min = FLOOR(div_approx)
-      div_min = MAX(1, div_min)
-      div_max = div_min + 1
-      div_max = MIN(n, div_max)
-
-      DO WHILE (MOD(n, div_min) .NE. 0)
-         div_min = div_min - 1
-      ENDDO
-
-      DO WHILE (MOD(n, div_max) .NE. 0)
-         div_max = div_max + 1
-      ENDDO
-
-      IF (div_approx/REAL(div_min, real_8) < REAL(div_max, real_8)/div_approx) THEN
-         div_near = div_min
-      ELSE
-         div_near = div_max
-      ENDIF
 
    END SUBROUTINE
 
