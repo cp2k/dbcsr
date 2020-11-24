@@ -32,7 +32,7 @@ DBCSR performance tests:
 To run all the tests, use:
 
 ```bash
-    make test
+make test
 ```
 
 Or run individual tests from the `build` directory, as follows:
@@ -45,20 +45,27 @@ Note that the tests of libsmm_acc (the GPU-backend) do not use MPI since libsmm_
 
 Note that if you are using OpenMP builds, then you have to set the environment variable `OMP_NESTED=false`.
 
+### Input Files for Performance Driver
 
- 39 Performance:
- 40 ============
- 41
- 42 * Running, examples:
- 43
- 44   Modify the input.perf input file and pass it as standard input
- 45   to the executable generated above, e.g.:
- 46
- 47   a) To test pure MPI performance test using [n] nodes:
- 48
- 49   > mpirun -np [n] ./bin/dbcsr_performance_driver.x tests/input.perf 2>&1 | tee perf.log
- 50
- 51   b) To test hybrid MPI/OpenMP performance test using [n] nodes, each spanning [t] threads:
- 52
- 53   > export OMP_NUM_THREADS=[t]; mpirun -np [n] ./bin/dbcsr_performance_driver.x tests/input.perf 2>&1 | tee perf.log
+The test suite comes with a performance driver ([[dbcsr_performance_driver(program)]]), which evaluates the performance of matrix-matrix multiplication in DBCSR.
+
+Input matrices can be specified in an input file, passed to the executable as standard input, for example:
+
+a) To test pure MPI performance test using [n] nodes:
+
+```bash
+mpirun -np [n] ./build/tests/dbcsr_perf tests/input.perf 2>&1 | tee perf.log
+```
+
+b) To test hybrid MPI/OpenMP performance test using [n] nodes, each spanning [t] threads:
+
+```bash
+export OMP_NUM_THREADS=[t]; mpirun -np [n] ./build/tests/dbcsr_perf tests/input.perf 2>&1 | tee perf.log
+```
+
+###  How to Write Input Files
+
+Examples of input files can be found in `tests/inputs` for different sizes of matrices and different block sizes.
+
+You can also write custom input files: for more information, follow the template in `tests/input.perf`.
 
