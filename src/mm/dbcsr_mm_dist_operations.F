@@ -77,8 +77,7 @@ CONTAINS
                                                             nimages_cols
          !! number of bins in the distribution to match the local columns
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_create_image_dist', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_create_image_dist'
 
       INTEGER                                            :: ncols, npcols, nprows, nrows
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: col_dist_data, col_img_data, col_vdist, &
@@ -220,9 +219,6 @@ CONTAINS
       TYPE(dbcsr_distribution_obj), INTENT(IN)           :: dist
       TYPE(dbcsr_imagedistribution_obj), INTENT(IN)      :: template
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_new_image_dist', &
-                                     routineP = moduleN//':'//routineN
-
 !   ---------------------------------------------------------------------------
 
       idid = idid + 1
@@ -262,8 +258,7 @@ CONTAINS
       TYPE(array_i1d_obj), INTENT(OUT)                   :: m_map, k_vmap, n_map
       TYPE(array_i1d_obj), INTENT(IN)                    :: old_m_sizes
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_dists_dense', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_dists_dense'
 
       INTEGER                                            :: error_handle, i, j, k_nbins, m_nbins, &
                                                             n_nbins, nthreads
@@ -462,8 +457,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: local_vprow
          !! the local virtual process row
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_local_vrows', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_local_vrows'
 
       INTEGER                                            :: el, error_handle, nvprows, vprow
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: itmp, nle
@@ -511,8 +505,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: local_vpcol
          !! the local virtual process column
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_local_vcols', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_local_vcols'
 
       INTEGER                                            :: el, error_handle, nvpcols, vpcol
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: nle
@@ -568,9 +561,6 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: myprow, mypcol, myrowi, mycoli, myvprow, &
                                                             myvpcol, vprow_shift, vpcol_shift
       CHARACTER, INTENT(IN), OPTIONAL                    :: shifting
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'image_calculator', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: col_mult, my_pcol, my_prow, ncol_images, &
                                                             npcols, nprows, nrow_images, nvpcols, &
@@ -652,9 +642,6 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: nel_new
       TYPE(array_i1d_obj), INTENT(OUT)                   :: new_sizes
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'make_sizes_dense', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                            :: el, nel_old
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: map, new_s, old_s
 
@@ -685,9 +672,6 @@ CONTAINS
          !! Number of bins in the subdistribution
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: subdist
          !! Subdistribution
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_1dist_dense', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: b, i, n_new_bins
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: dense, map, old_d
@@ -756,8 +740,7 @@ CONTAINS
       TYPE(array_i1d_obj), INTENT(OUT)                   :: row_map
          !! mapping to local rows
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_global_row_map', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_global_row_map'
 
       INTEGER                                            :: error_handle, nprows
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: rmap, row_dist
@@ -787,8 +770,7 @@ CONTAINS
       TYPE(array_i1d_obj), INTENT(OUT)                   :: col_map
          !! mapping to local columns
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_global_col_map', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_global_col_map'
 
       INTEGER                                            :: error_handle, npcols
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: cmap, col_dist
@@ -818,8 +800,7 @@ CONTAINS
       TYPE(array_i1d_obj), INTENT(OUT)                   :: vrow_map
          !! mapping to local rows
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_global_vrow_map', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_global_vrow_map'
 
       INTEGER                                            :: error_handle, nvprows
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: rmap, vrow_dist
@@ -850,8 +831,7 @@ CONTAINS
       TYPE(array_i1d_obj), INTENT(OUT)                   :: vcol_map
          !! mapping to local columns
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_global_vcol_map', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_global_vcol_map'
 
       INTEGER                                            :: error_handle, nvpcols
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: rmap, vcol_dist
@@ -939,9 +919,6 @@ CONTAINS
          !! number of bins in the new real distribution
          !! number of images in the new distribution
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'reimage_distribution', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                            :: bin, i
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: bin_multiplier
 
@@ -972,9 +949,6 @@ CONTAINS
          !! matching between bins
       INTEGER, DIMENSION(nelements), INTENT(IN)          :: images
          !! images to which element belong
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'make_vdistribution', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: el
 
@@ -1023,9 +997,6 @@ CONTAINS
          !! number of bins in the new real distribution
          !! multiplicity
          !! number of images in the new distribution
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'rebin_imaged_distribution', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: i, virtual_bin
 

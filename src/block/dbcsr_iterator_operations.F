@@ -144,8 +144,7 @@ CONTAINS
          !! Whether returned pointers need to be contiguous; default is FALSE.
          !! User promises not to change returned data; default is FALSE
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_iterator_start', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_iterator_start'
 
       INTEGER                                            :: error_handle
       TYPE(dbcsr_distribution_obj)                       :: dist
@@ -269,8 +268,7 @@ CONTAINS
       TYPE(dbcsr_iterator), INTENT(INOUT)                :: iterator
          !! the iterator
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_iterator_stop', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_iterator_stop'
 
       INTEGER                                            :: error_handle
 
@@ -312,15 +310,11 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN)                  :: blk_p
          !! block pointers, used to check validity
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'find_first_valid_block', &
-                                     routineP = moduleN//':'//routineN
-
 !   ---------------------------------------------------------------------------
 !IF (pos .LT. 1) pos = 1
 
       DO WHILE (pos .LE. maxpos)
          IF (blk_p(pos) .EQ. 0) THEN
-            !WRITE(*,*)routineN//" Skipping deleted block."
             pos = pos + 1
          ELSE
             EXIT
@@ -341,9 +335,6 @@ CONTAINS
          !! maxmimum row
       INTEGER, DIMENSION(:), INTENT(IN)                  :: row_p
          !! row pointers
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'find_proper_row', &
-                                     routineP = moduleN//':'//routineN
 
 !   ---------------------------------------------------------------------------
 
@@ -386,9 +377,6 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: tid
          !! my thread number
       INTEGER, DIMENSION(1:*), INTENT(IN), OPTIONAL      :: local2global
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'find_proper_position', &
-                                     routineP = moduleN//':'//routineN
 
       LOGICAL                                            :: local, row_inrange, row_ok
 
@@ -578,8 +566,7 @@ CONTAINS
       INTEGER, INTENT(in)                                :: row
          !! seek to this row
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_iterator_seek', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_iterator_seek'
 
       INTEGER                                            :: error_handle
 
@@ -621,8 +608,7 @@ CONTAINS
          !! logical row offset of block
          !! logical column offset of block
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_block_index', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_block_index'
 
       INTEGER                                            :: bp, error_handle
 
@@ -674,8 +660,7 @@ CONTAINS
          !! logical row offset of block
          !! logical column offset of block
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_area_block', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_area_block'
 
       INTEGER                                            :: blk_p, block_col_size, block_row_size, &
                                                             bp, csize, error_handle, nze, rsize
@@ -751,9 +736,6 @@ CONTAINS
         !! logical row size of block
         !! logical column size of block
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_1d_block_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                  :: blk_p, bp, csize, nze, rsize
 
 !   ---------------------------------------------------------------------------
@@ -809,8 +791,7 @@ CONTAINS
         !! logical row size of block
         !! logical column size of block
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_2d_block_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_2d_block_${nametype1}$'
 
       INTEGER                                  :: blk_p, bp, csize, nze, rsize, &
                                                   block_row_size, block_col_size

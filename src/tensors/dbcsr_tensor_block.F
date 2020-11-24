@@ -171,8 +171,6 @@ CONTAINS
       !! Generalization of dbcsr_iterator_start for tensors.
       TYPE(dbcsr_t_iterator_type), INTENT(OUT)           :: iterator
       TYPE(dbcsr_t_type), INTENT(IN)                     :: tensor
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_iterator_start', &
-                                     routineP = moduleN//':'//routineN
 
       DBCSR_ASSERT(tensor%valid)
 
@@ -187,8 +185,6 @@ CONTAINS
    SUBROUTINE dbcsr_t_iterator_stop(iterator)
       !! Generalization of dbcsr_iterator_stop for tensors.
       TYPE(dbcsr_t_iterator_type), INTENT(INOUT) :: iterator
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_iterator_stop', &
-                                     routineP = moduleN//':'//routineN
 
       CALL dbcsr_tas_iterator_stop(iterator%iter)
       CALL destroy_nd_to_2d_mapping(iterator%nd_index)
@@ -228,8 +224,6 @@ CONTAINS
          !! blk offset in each dimension
 
       INTEGER(KIND=int_8), DIMENSION(2)              :: ind_2d
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_iterator_next_block', &
-                                     routineP = moduleN//':'//routineN
 
       CALL dbcsr_tas_iterator_next_block(iterator%iter, ind_2d(1), ind_2d(2), blk, blk_p=blk_p)
 
@@ -245,8 +239,6 @@ CONTAINS
       !! Generalization of dbcsr_iterator_blocks_left for tensors.
       TYPE(dbcsr_t_iterator_type), INTENT(IN) :: iterator
       LOGICAL                                 :: dbcsr_t_iterator_blocks_left
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_iterator_blocks_left', &
-                                     routineP = moduleN//':'//routineN
 
       dbcsr_t_iterator_blocks_left = dbcsr_tas_iterator_blocks_left(iterator%iter)
 
@@ -257,8 +249,7 @@ CONTAINS
       TYPE(dbcsr_t_type), INTENT(INOUT)   :: tensor
       INTEGER, DIMENSION(:, :), INTENT(IN) :: blk_ind
       INTEGER                             :: handle
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_reserve_blocks_index_array', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_reserve_blocks_index_array'
 
       CALL timeset(routineN, handle)
 #:for ndim in ndims
@@ -280,8 +271,7 @@ CONTAINS
       INTEGER(KIND=int_8), DIMENSION(2)                       :: ind_2d
       TYPE(array_list)                            :: blks
       INTEGER, DIMENSION(ndims_tensor(tensor))   :: iblk_nd, ind_nd, nblk_tmp
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_reserve_blocks_index', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_reserve_blocks_index'
 
       CALL timeset(routineN, handle)
       DBCSR_ASSERT(tensor%valid)
@@ -313,8 +303,7 @@ CONTAINS
       INTEGER                           :: handle
 
       INTEGER, DIMENSION(dbcsr_t_get_num_blocks(tensor_in), ndims_tensor(tensor_in)) :: blk_ind
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_reserve_blocks_template', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_reserve_blocks_template'
 
       CALL timeset(routineN, handle)
 
@@ -335,8 +324,7 @@ CONTAINS
       INTEGER, DIMENSION(2)              :: ind_2d
       TYPE(dbcsr_iterator_type)          :: iter
       INTEGER                            :: handle
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_reserve_blocks_matrix_to_tensor', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_reserve_blocks_matrix_to_tensor'
 
       CALL timeset(routineN, handle)
 
@@ -374,8 +362,7 @@ CONTAINS
       TYPE(dbcsr_t_iterator_type)           :: iter
       INTEGER, ALLOCATABLE, DIMENSION(:) :: blk_ind_1, blk_ind_2
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_reserve_blocks_tensor_to_matrix', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_reserve_blocks_tensor_to_matrix'
       INTEGER :: handle, blk, iblk, nblk
       INTEGER, DIMENSION(2)              :: ind_2d
 
@@ -469,8 +456,6 @@ CONTAINS
          !! block to get
       LOGICAL, INTENT(OUT)                         :: found
          !! whether block was found
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_get_anyd_block', &
-                                     routineP = moduleN//':'//routineN
 
       SELECT CASE (dbcsr_t_get_data_type(tensor))
 #:for dparam, dtype, dsuffix in dtype_float_list
@@ -493,8 +478,6 @@ CONTAINS
          !! whether block should be summed to existing block
       TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL :: scale
          !! scaling factor
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_put_anyd_block', &
-                                     routineP = moduleN//':'//routineN
 
       SELECT CASE (block%data_type)
 #:for dparam, dtype, dsuffix in dtype_float_list
@@ -582,8 +565,6 @@ CONTAINS
       INTEGER, DIMENSION(2)                                 :: shape_2d
       ${dtype}$, POINTER, DIMENSION(:, :)                   :: block_2d
       INTEGER, DIMENSION(${ndim}$)                          :: shape_nd
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_put_${ndim}$d_block_${dsuffix}$', &
-                                     routineP = moduleN//':'//routineN
       LOGICAL :: found, new_block
       ${dtype}$, DIMENSION(${arrlist("sizes", nmax=ndim)}$) :: block_check
 
@@ -671,8 +652,6 @@ CONTAINS
       LOGICAL                                               :: tr
       INTEGER                                               :: i
       ${dtype}$, DIMENSION(${shape_colon(ndim)}$), POINTER  :: block_ptr
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_get_${ndim}$d_block_${dsuffix}$', &
-                                     routineP = moduleN//':'//routineN
 
       NULLIFY (block_2d_ptr)
 

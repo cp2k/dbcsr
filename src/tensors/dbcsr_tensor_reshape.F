@@ -299,8 +299,7 @@ CONTAINS
       INTEGER                                :: iproc, mynode, numnodes, rec_counter, &
                                                 send_counter
       INTEGER                                   :: handle
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_communicate_buffer', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_communicate_buffer'
 
       CALL timeset(routineN, handle)
       CALL mp_environ(numnodes, mynode, mp_comm)

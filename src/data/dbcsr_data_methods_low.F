@@ -150,8 +150,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN), CONTIGUOUS      :: sizes
          !! sizes to allocate to
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'internal_data_allocate', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'internal_data_allocate'
 
       INTEGER                                            :: error_handle
 
@@ -213,8 +212,7 @@ CONTAINS
       TYPE(dbcsr_data_area_type), INTENT(INOUT)          :: area
          !! internal structure holding array pointers
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'internal_data_deallocate', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'internal_data_deallocate'
 
       INTEGER                                            :: handle
 
@@ -276,11 +274,6 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
          !! data area
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_clear_pointer', &
-                                     routineP = moduleN//':'//routineN
-
-!   ---------------------------------------------------------------------------
-
       IF (.NOT. ASSOCIATED(area%d)) THEN
          RETURN
       ENDIF
@@ -321,11 +314,6 @@ CONTAINS
       LOGICAL                                            :: valid
          !! whether the data area is valid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_valid', &
-                                     routineP = moduleN//':'//routineN
-
-!   ---------------------------------------------------------------------------
-
       valid = ASSOCIATED(area%d)
    END FUNCTION dbcsr_data_valid
 
@@ -337,8 +325,7 @@ CONTAINS
       LOGICAL                                            :: valid
          !! whether the data pointer exists
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_exists', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_exists'
 
       INTEGER                                            :: error_handle
 
@@ -388,11 +375,6 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
          !! data area
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_hold', &
-                                     routineP = moduleN//':'//routineN
-
-!   ---------------------------------------------------------------------------
-
       IF (careful_mod) THEN
          IF (.NOT. ASSOCIATED(area%d)) &
             DBCSR_ABORT("Can't hold an empty data area.")
@@ -420,9 +402,6 @@ CONTAINS
          !! data area to point to
       INTEGER, INTENT(IN), OPTIONAL                      :: source_lb
          !! point to this offset in pointee
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'set_data_area_area', &
-                                     routineP = moduleN//':'//routineN
 
       COMPLEX(KIND=real_4), DIMENSION(:), POINTER        :: c_sp
       COMPLEX(KIND=real_8), DIMENSION(:), POINTER        :: c_dp
@@ -525,9 +504,6 @@ CONTAINS
       INTEGER                                            :: data_size
          !! size of data
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_get_size', &
-                                     routineP = moduleN//':'//routineN
-
       data_size = 0
       IF (ASSOCIATED(area%d)) THEN
          SELECT CASE (area%d%data_type)
@@ -579,8 +555,7 @@ CONTAINS
          !! lower bounds
          !! upper bounds
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_verify_bounds', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_verify_bounds'
 
       INTEGER                                            :: data_type, handle
 
@@ -646,8 +621,7 @@ CONTAINS
          !! data area
       INTEGER, DIMENSION(:), INTENT(in)                  :: lb, ub
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_zero', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_zero'
 
       INTEGER                                            :: error_handle
 
@@ -705,8 +679,7 @@ CONTAINS
       LOGICAL, INTENT(OUT)                               :: valid
          !! whether the data is actually allocated
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_get_sizes_any', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_get_sizes_any'
 
       INTEGER                                            :: handle
 
@@ -770,8 +743,7 @@ CONTAINS
       LOGICAL, INTENT(OUT)                               :: valid
          !! whether the data is actually allocated
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_get_sizes_2', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_get_sizes_2'
 
       INTEGER                                            :: handle
       INTEGER, DIMENSION(2)                              :: s
@@ -805,8 +777,7 @@ CONTAINS
       LOGICAL, INTENT(OUT)                               :: valid
          !! whether the data is actually allocated
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_get_sizes_1', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_get_sizes_1'
 
       INTEGER                                            :: handle
       INTEGER, DIMENSION(1)                              :: s
@@ -1137,10 +1108,6 @@ CONTAINS
       ${type1}$, DIMENSION(:), POINTER, CONTIGUOUS :: p
         !! source data pointer
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'set_data_p_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
-
-!   ---------------------------------------------------------------------------
       IF (area%d%data_type /= ${dkind1}$) &
          DBCSR_ABORT("set_data_p_${nametype1}$: data-area has wrong type")
 
@@ -1158,11 +1125,6 @@ CONTAINS
         !! target data area
       ${type1}$, DIMENSION(:, :), POINTER         :: p
         !! source data pointer
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'set_data_p_2d_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
-
-!   ---------------------------------------------------------------------------
 
       IF (area%d%data_type /= ${dkind1}$_2d) &
          DBCSR_ABORT("set_data_p_2d_${nametype1}$: data-area has wrong type")
@@ -1187,9 +1149,6 @@ CONTAINS
         !! upper bound for pointer
       ${type1}$, DIMENSION(:), POINTER :: DATA
         !! pointer to data
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_data_c_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                        :: l, u
 
@@ -1238,9 +1197,6 @@ CONTAINS
         !! lower bound for pointer
         !! upper bound for pointer
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_data_p_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                        :: l, u
 !   ---------------------------------------------------------------------------
 
@@ -1281,9 +1237,6 @@ CONTAINS
       INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL :: lb, ub
         !! lower bound for pointer
         !! upper bound for pointer
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_data_p_2d_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER, DIMENSION(2)          :: l, u
 !   ---------------------------------------------------------------------------
@@ -1326,9 +1279,6 @@ CONTAINS
         !! lower bound for pointer
         !! upper bound for pointer
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'get_data_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                        :: l, u
 !   ---------------------------------------------------------------------------
 
@@ -1365,9 +1315,6 @@ CONTAINS
       INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL :: lb, ub
         !! lower bound for pointer
         !! upper bound for pointer
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'get_data_2d_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER, DIMENSION(2)          :: l, u
 !   ---------------------------------------------------------------------------
@@ -1407,11 +1354,6 @@ CONTAINS
       TYPE(dbcsr_scalar_type)   :: encapsulated_scalar
         !! encapsulated scalar
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_scalar_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
-
-!   ---------------------------------------------------------------------------
-
       encapsulated_scalar = dbcsr_scalar_zero(${dkind1}$)
       encapsulated_scalar%${base1}$_${prec1}$ = scalar
    END FUNCTION dbcsr_scalar_${nametype1}$
@@ -1423,11 +1365,6 @@ CONTAINS
         !! encapsulated scalar
       ${type1}$, INTENT(OUT)                :: value
         !! value of the scalar
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_scalar_get_value_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
-
-!   ---------------------------------------------------------------------------
 
       value = encapsulated_scalar%${base1}$_${prec1}$
    END SUBROUTINE dbcsr_scalar_get_value_${nametype1}$

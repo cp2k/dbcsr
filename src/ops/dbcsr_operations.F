@@ -201,9 +201,6 @@ CONTAINS
       ${type1}$, INTENT(IN)                      :: scalar
       TYPE(dbcsr_type), INTENT(IN)             :: matrix
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'make_conformant_scalar_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
-
       TYPE(dbcsr_scalar_type)                  :: encapsulated
       INTEGER                                  :: data_type, scalar_data_type
 
@@ -233,9 +230,6 @@ CONTAINS
          !! the column
       REAL(KIND=dp), DIMENSION(:, :), POINTER            :: block
          !! the block to put
-
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_add_block_node', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: c, ithread, mynode, p, r
       LOGICAL                                            :: dbg, existed, is_there, tr
@@ -281,8 +275,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
          !! DBCSR matrix
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_conjg', routineP = moduleN//':'//routineN
-
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_conjg'
       INTEGER                                            :: blk, col, data_type, handle, row
       LOGICAL                                            :: tr
       TYPE(dbcsr_data_obj)                               :: data_any
@@ -317,8 +310,7 @@ CONTAINS
       !! fill a dbcsr matrix with zeros
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_a
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_zero', routineP = moduleN//':'//routineN
-
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_zero'
       INTEGER                                            :: handle
 
       CALL timeset(routineN, handle)
@@ -360,8 +352,7 @@ CONTAINS
       INTEGER, DIMENSION(4), INTENT(IN), OPTIONAL        :: limits
          !! Scale only a subbox
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_scale_anytype', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_scale_anytype'
       INTEGER, PARAMETER                                 :: first_col_i = 3, first_row_i = 1, &
                                                             last_col_i = 4, last_row_i = 2
 
@@ -490,8 +481,7 @@ CONTAINS
       CHARACTER(LEN=*), INTENT(IN)                       :: side
          !! apply the scaling from the side
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_scale_by_vector_anytype', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_scale_by_vector_anytype'
 
       INTEGER                                            :: a_blk, a_col, a_col_size, a_nze, a_row, &
                                                             a_row_size, col_offset, data_type, &
@@ -605,8 +595,7 @@ CONTAINS
       TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: alpha_scalar, beta_scalar
       INTEGER(KIND=int_8), INTENT(INOUT), OPTIONAL       :: flop
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_add_anytype', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_add_anytype'
 
       INTEGER                                            :: data_type_a, data_type_b, &
                                                             handle, size_work, iw
@@ -702,8 +691,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix_b
       REAL(real_8), INTENT(IN)                           :: alpha_scalar, beta_scalar
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_add_d', routineP = moduleN//':'//routineN
-
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_add_d'
       INTEGER                                            :: handle
 
       CALL timeset(routineN, handle)
@@ -738,8 +726,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix_b
       REAL(real_4), INTENT(IN)                           :: alpha_scalar, beta_scalar
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_add_s', routineP = moduleN//':'//routineN
-
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_add_s'
       INTEGER                                            :: handle
 
       CALL timeset(routineN, handle)
@@ -759,8 +746,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix_b
       COMPLEX(real_8), INTENT(IN)                        :: alpha_scalar, beta_scalar
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_add_z', routineP = moduleN//':'//routineN
-
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_add_z'
       INTEGER                                            :: handle
 
       CALL timeset(routineN, handle)
@@ -785,8 +771,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix_b
       COMPLEX(real_4), INTENT(IN)                        :: alpha_scalar, beta_scalar
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_add_c', routineP = moduleN//':'//routineN
-
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_add_c'
       INTEGER                                            :: handle
 
       CALL timeset(routineN, handle)
@@ -838,8 +823,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: func
       REAL(kind=dp), INTENT(IN), OPTIONAL                :: a0, a1, a2
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_function_of_elements', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_function_of_elements'
 
       INTEGER                                            :: blk, col, col_size, data_type, handle, &
                                                             ielem, nze, row, row_size
@@ -975,8 +959,7 @@ CONTAINS
          !! DBCSR matrix
       REAL(KIND=dp), INTENT(IN), OPTIONAL                :: b_assume_value
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_hadamard_product', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_hadamard_product'
 
       INTEGER                                            :: blk, col, col_size, data_type, handle, &
                                                             nze, row, row_size
@@ -1086,8 +1069,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
       LOGICAL, OPTIONAL                                  :: keep_sparsity
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_init_random', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_init_random'
 
       INTEGER                                            :: col, col_size, handle, hold, iseed(4), &
                                                             mynode, ncol, nrow, row, row_size, &
@@ -1156,8 +1138,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(INOUT)                    :: diag
          !! the diagonal
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_block_diag', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_block_diag'
 
       INTEGER                                            :: blk, col, handle, row
       LOGICAL                                            :: tr
@@ -1191,9 +1172,6 @@ CONTAINS
       CHARACTER, INTENT(IN)                    :: matrix_type
       INTEGER, INTENT(IN)                      :: data_type
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'symmetry_consistent', &
-                                     routineP = moduleN//':'//routineN
-
       symmetry_consistent = .FALSE.
 
       SELECT CASE (data_type)
@@ -1218,9 +1196,6 @@ CONTAINS
       !! \brief data from matrix_a(source) to matrix_b(target)
 
       CHARACTER, INTENT(IN)                    :: matrix_type_a, matrix_type_b
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'symmetry_compatible', &
-                                     routineP = moduleN//':'//routineN
 
       symmetry_compatible = .FALSE.
 
@@ -1265,8 +1240,7 @@ CONTAINS
       CHARACTER, INTENT(IN), OPTIONAL                    :: matrix_type
          !! 'N' for normal, 'T' for transposed, 'S' for symmetric, and 'A' for antisymmetric
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_copy', routineP = moduleN//':'//routineN
-
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_copy'
       CHARACTER                                          :: new_matrix_type, repl_type
       INTEGER                                            :: handle, new_type
       LOGICAL                                            :: keep_sparse, shallow
@@ -1358,8 +1332,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix_a
          !! source DBCSR matrix
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_copy_into_existing', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_copy_into_existing'
 
       INTEGER                                            :: col_size, data_type, dst_col, dst_row, &
                                                             handle, rel, row_size, src_col, &
@@ -1460,8 +1433,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix_a
          !! source DBCSR matrix
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_copy_into_existing_sym', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_copy_into_existing_sym'
 
       INTEGER                                            :: col_size, data_type, dst_col, dst_row, &
                                                             handle, row_size, src_col, src_cs, &
@@ -1568,8 +1540,7 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: shallow_data
          !! shallow data copy
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_copy_submatrix', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_copy_submatrix'
 
       INTEGER                                            :: blk_p, col, handle, nblocks, new_blk, &
                                                             old_blk, row
@@ -1681,8 +1652,7 @@ CONTAINS
          !! columns to extract (array of size 2 holding the lower and upper inclusive bounds)
       LOGICAL, INTENT(IN), OPTIONAL                      :: shallow_data
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_crop_matrix', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_crop_matrix'
 
       INTEGER                                            :: col, f_col_f, f_row_f, handle, l_col_l, &
                                                             l_row_l, row
@@ -1857,8 +1827,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix_a
          !! the matrix
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_triu', routineP = moduleN//':'//routineN
-
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_triu'
       INTEGER                                            :: blk, blk_nze, col, col_size, handle, i, &
                                                             j, row, row_size
       LOGICAL                                            :: tr
@@ -1903,8 +1872,7 @@ CONTAINS
       LOGICAL, INTENT(in), OPTIONAL                      :: use_absolute, filter_diag
          !! NYI
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_filter_anytype', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_filter_anytype'
 
       COMPLEX(KIND=real_4), DIMENSION(:), POINTER        :: data_c
       COMPLEX(KIND=real_8), DIMENSION(:), POINTER        :: data_z
@@ -2044,8 +2012,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: which_norm
       REAL(KIND=real_8), INTENT(OUT)                     :: norm_scalar
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_norm_scalar', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_norm_scalar'
 
       INTEGER                                            ::  handle
 
@@ -2093,8 +2060,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: which_norm
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: norm_vector
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_norm_vec', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_norm_vec'
 
       INTEGER                                            :: blk, col, col_offset, i, j, row, &
                                                             row_offset, handle
@@ -2395,8 +2361,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(inout)                    :: matrix
          !! dbcsr matrix to operate on
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_sum_replicated', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_sum_replicated'
 
       INTEGER                                            :: comm, handle, index_checksum, mynode, &
                                                             numnodes
@@ -2480,8 +2445,6 @@ CONTAINS
       INTEGER, OPTIONAL                                  :: data_type
          !! data type (single/double precision real/complex)
       INTEGER, INTENT(OUT), OPTIONAL                     :: group
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_info', routineP = moduleN//':'//routineN
 
 !   ---------------------------------------------------------------------------
 
@@ -2598,8 +2561,7 @@ CONTAINS
       REAL(kind=real_8), INTENT(INOUT)                   :: trace
          !! the trace of the product of the matrices
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_trace_sd', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_trace_sd'
 
       INTEGER                                            :: handle
       REAL(kind=real_4)                                  :: trace_4
@@ -2626,8 +2588,7 @@ CONTAINS
          !! DBCSR matrices
       REAL(kind=real_8), INTENT(INOUT)                   :: trace
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_dot_sd', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_dot_sd'
 
       INTEGER                                            :: handle
       REAL(kind=real_4)                                  :: trace_4
@@ -2657,8 +2618,7 @@ CONTAINS
       ${type1}$, INTENT(INOUT)                   :: trace
          !! the trace of the matrix
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_trace_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_trace_${nametype1}$'
 
       INTEGER                                  :: a_blk, a_col, a_col_size, &
                                                   a_nze, a_row, a_row_size, i, &
@@ -2725,9 +2685,6 @@ CONTAINS
          !! DBCSR matrices
       ${type1}$, INTENT(INOUT)                   :: trace
          !! the trace of the product of the matrices
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_dot_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER :: a_blk, a_col, a_col_size, a_row_size, b_blk, b_col_size, &
                  b_frst_blk, b_last_blk, b_row_size, nze, row, a_beg, a_end, b_beg, b_end
@@ -2818,8 +2775,7 @@ CONTAINS
       ${type1}$, INTENT(IN)                      :: alpha_scalar
       INTEGER, INTENT(IN), OPTIONAL            :: last_column
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_scale_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_scale_${nametype1}$'
 
       INTEGER                                  :: error_handler
       TYPE(dbcsr_scalar_type)                  :: sc
@@ -2843,8 +2799,6 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(INOUT)            :: matrix_a
       ${type1}$, DIMENSION(:), INTENT(IN), TARGET, CONTIGUOUS :: alpha
       CHARACTER(LEN=*), INTENT(IN)              :: side
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_scale_by_vector_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
       ${type1}$, DIMENSION(:), POINTER, CONTIGUOUS :: tmp_p
       TYPE(dbcsr_data_obj)                      :: enc_alpha_vec
 
