@@ -401,26 +401,6 @@ CONTAINS
       ENDDO
    END SUBROUTINE rebin_distribution
 
-   PURE SUBROUTINE evenly_bin(array, nbins)
-      !! Evenly distributes elements into bins
-
-      INTEGER, DIMENSION(:), INTENT(OUT)                 :: array
-         !! elements to bin
-      INTEGER, INTENT(IN)                                :: nbins
-         !! number of bins into which elements are distributed
-
-      INTEGER                                            :: bin, first, last, maxbinsize
-
-!   ---------------------------------------------------------------------------
-
-      maxbinsize = CEILING(REAL(SIZE(array), KIND=dp)/REAL(nbins, KIND=dp))
-      DO bin = 1, nbins
-         first = 1 + (bin - 1)*maxbinsize
-         last = MIN(1 + (bin)*maxbinsize - 1, SIZE(array))
-         array(first:last) = bin - 1
-      ENDDO
-   END SUBROUTINE evenly_bin
-
    SUBROUTINE dbcsr_reblocking_targets(ints, numints, n_src_dsts, &
                                        src_sizes, dst_sizes)
       !! Calculates the intersections of blocks
