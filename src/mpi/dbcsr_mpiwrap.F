@@ -175,7 +175,8 @@ MODULE dbcsr_mpiwrap
 
    ! vector types
    PUBLIC :: mp_type_indexed_make_r, mp_type_indexed_make_d, &
-             mp_type_indexed_make_c, mp_type_indexed_make_z
+             mp_type_indexed_make_c, mp_type_indexed_make_z, &
+             mp_type_indexed_make_i, mp_type_indexed_make_l
 
    ! misc
    PUBLIC :: mp_get_library_version, mp_get_processor_name
@@ -202,10 +203,6 @@ MODULE dbcsr_mpiwrap
 
    INTERFACE mp_testany
       MODULE PROCEDURE mp_testany_1, mp_testany_2
-   END INTERFACE
-
-   INTERFACE mp_type_free
-      MODULE PROCEDURE mp_type_free_m, mp_type_free_v
    END INTERFACE
 
    !
@@ -344,7 +341,6 @@ MODULE dbcsr_mpiwrap
 
    $:gen_mp_iface('file_write_at', suffixes=['', 'v'], extra_suffixes=['ch'])
    $:gen_mp_iface('file_write_at_all', suffixes=['', 'v'], extra_suffixes=['ch'])
-   $:gen_mp_iface('file_read_at', suffixes=['', 'v'], extra_suffixes=['ch'])
    $:gen_mp_iface('file_read_at_all', suffixes=['', 'v'], extra_suffixes=['ch'])
 
    $:gen_mp_iface('alloc_mem')
@@ -2358,24 +2354,6 @@ CONTAINS
 #endif
    END SUBROUTINE mp_file_write_at_all_ch
 
-   SUBROUTINE mp_file_read_at_ch(fh, offset, msg)
-      CHARACTER(LEN=*), INTENT(OUT)              :: msg
-      INTEGER, INTENT(IN)                        :: fh
-      INTEGER(kind=file_offset), INTENT(IN)      :: offset
-
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_ch'
-
-#if defined(__parallel)
-      INTEGER                                    :: ierr
-
-      CALL MPI_FILE_READ_AT(fh, offset, msg, LEN(msg), MPI_CHARACTER, MPI_STATUS_IGNORE, ierr)
-      IF (ierr .NE. 0) &
-         DBCSR_ABORT("mpi_file_read_at_ch @ "//routineN)
-#else
-      READ (UNIT=fh, POS=offset + 1) msg
-#endif
-   END SUBROUTINE mp_file_read_at_ch
-
    SUBROUTINE mp_file_read_at_all_ch(fh, offset, msg)
       CHARACTER(LEN=*), INTENT(OUT)              :: msg
       INTEGER, INTENT(IN)                        :: fh
@@ -2512,18 +2490,6 @@ CONTAINS
       CALL timestop(handle)
 
    END SUBROUTINE mp_type_free_m
-
-   SUBROUTINE mp_type_free_v(type_descriptors)
-      TYPE(mp_type_descriptor_type), DIMENSION(:), &
-         INTENT(inout)                                   :: type_descriptors
-
-      INTEGER                                            :: i
-
-      DO i = 1, SIZE(type_descriptors)
-         CALL mp_type_free(type_descriptors(i))
-      ENDDO
-
-   END SUBROUTINE mp_type_free_v
 
    SUBROUTINE mp_isend_custom(msgin, dest, comm, request, tag)
       !! Non-blocking send of custom type
@@ -3684,41 +3650,6 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_prod_${nametype1}$
 
-   SUBROUTINE mp_scatter_${nametype1}$v(msg_scatter, msg, root, gid)
-      !! Scatters data from one processes to all others
-      !!
-      !! MPI mapping
-      !! mpi_scatter
-
-      ${type1}$, CONTIGUOUS, INTENT(IN)        :: msg_scatter(:)
-         !! Data to scatter (for root process)
-      ${type1}$, CONTIGUOUS, INTENT(OUT)       :: msg(:)
-         !! Received data
-      INTEGER, INTENT(IN)                      :: root, gid
-         !! Process which scatters data
-         !! Message passing environment identifier
-
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_scatter_${nametype1}$v'
-
-      INTEGER                                  :: handle, ierr, msglen
-
-      ierr = 0
-      CALL timeset(routineN, handle)
-
-      msglen = SIZE(msg)
-#if defined(__parallel)
-      CALL mpi_scatter(msg_scatter, msglen, ${mpi_type1}$, msg, &
-                       msglen, ${mpi_type1}$, root, gid, ierr)
-      IF (ierr /= 0) CALL mp_stop(ierr, "mpi_scatter @ "//routineN)
-      CALL add_perf(perf_id=4, msg_size=msglen*${bytes1}$)
-#else
-      MARK_USED(root)
-      MARK_USED(gid)
-      msg = msg_scatter
-#endif
-      CALL timestop(handle)
-   END SUBROUTINE mp_scatter_${nametype1}$v
-
    SUBROUTINE mp_iscatter_${nametype1}$ (msg_scatter, msg, root, gid, request)
       !! Scatters data from one processes to all others
       !!
@@ -4016,68 +3947,6 @@ CONTAINS
 #endif
       CALL timestop(handle)
    END SUBROUTINE mp_gatherv_${nametype1}$v
-
-   SUBROUTINE mp_igatherv_${nametype1}$v(sendbuf, sendcount, recvbuf, recvcounts, displs, root, comm, request)
-      !! Gathers data from all processes to one.
-      !!
-      !! Data length
-      !! Data can have different lengths
-      !!
-      !! Offsets
-      !! Offsets start at 0
-      !!
-      !! MPI mapping
-      !! mpi_gather
-
-      ${type1}$, DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: sendbuf
-         !! Data to send to root
-      ${type1}$, DIMENSION(:), CONTIGUOUS, INTENT(OUT)     :: recvbuf
-         !! Received data (on root)
-      INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN)        :: recvcounts, displs
-         !! Sizes of data received from processes
-         !! Offsets of data received from processes
-      INTEGER, INTENT(IN)                      :: sendcount, root, comm
-         !! Process which gathers the data
-         !! Message passing environment identifier
-      INTEGER, INTENT(INOUT)                   :: request
-
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_igatherv_${nametype1}$v', &
-                                     routineP = moduleN//':'//routineN
-
-      INTEGER                                  :: handle, ierr
-
-      ierr = 0
-      CALL timeset(routineN, handle)
-
-#if defined(__parallel)
-#if __MPI_VERSION > 2
-      CALL mpi_igatherv(sendbuf, sendcount, ${mpi_type1}$, &
-                        recvbuf, recvcounts, displs, ${mpi_type1}$, &
-                        root, comm, request, ierr)
-      IF (ierr /= 0) CALL mp_stop(ierr, "mpi_igatherv @ "//routineN)
-      CALL add_perf(perf_id=24, &
-                    msg_size=sendcount*${bytes1}$)
-#else
-      MARK_USED(sendbuf)
-      MARK_USED(sendcount)
-      MARK_USED(recvbuf)
-      MARK_USED(recvcounts)
-      MARK_USED(displs)
-      MARK_USED(root)
-      MARK_USED(comm)
-      request = mp_request_null
-      DBCSR_ABORT("mp_igatherv requires MPI-3 standard")
-#endif
-#else
-      MARK_USED(sendcount)
-      MARK_USED(recvcounts)
-      MARK_USED(root)
-      MARK_USED(comm)
-      recvbuf(1 + displs(1):1 + displs(1) + recvcounts(1)) = sendbuf(1:sendcount)
-      request = mp_request_null
-#endif
-      CALL timestop(handle)
-   END SUBROUTINE mp_igatherv_${nametype1}$v
 
    SUBROUTINE mp_allgather_${nametype1}$ (msgout, msgin, gid)
       !! Gathers a datum from all processes and all processes receive the
@@ -4778,41 +4647,6 @@ CONTAINS
 
    END SUBROUTINE mp_iallgatherv_${nametype1}$v_internal
 #endif
-
-   SUBROUTINE mp_sum_scatter_${nametype1}$v(msgout, msgin, rcount, gid)
-      !! Sums a vector and partitions the result among processes
-
-      ${type1}$, CONTIGUOUS, INTENT(IN)        :: msgout(:)
-         !! Data to sum
-      ${type1}$, CONTIGUOUS, INTENT(OUT)       :: msgin(:)
-         !! Received portion of summed data
-      INTEGER, CONTIGUOUS, INTENT(IN)          :: rcount(:)
-      INTEGER, INTENT(IN)                      :: gid
-         !! Partition sizes of the summed data for every process
-         !! Message passing environment identifier
-
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_sum_scatter_${nametype1}$v', &
-                                     routineP = moduleN//':'//routineN
-
-      INTEGER                                  :: handle, ierr
-
-      ierr = 0
-      CALL timeset(routineN, handle)
-
-#if defined(__parallel)
-      CALL MPI_REDUCE_SCATTER(msgout, msgin, rcount, ${mpi_type1}$, MPI_SUM, &
-                              gid, ierr)
-      IF (ierr /= 0) CALL mp_stop(ierr, "mpi_reduce_scatter @ "//routineN)
-
-      CALL add_perf(perf_id=3, &
-                    msg_size=rcount(1)*2*${bytes1}$)
-#else
-      MARK_USED(rcount)
-      MARK_USED(gid)
-      msgin = msgout
-#endif
-      CALL timestop(handle)
-   END SUBROUTINE mp_sum_scatter_${nametype1}$v
 
    SUBROUTINE mp_sendrecv_${nametype1}$v(msgin, dest, msgout, source, comm)
       !! Sends and receives vector data
@@ -5532,61 +5366,8 @@ CONTAINS
 #endif
    END SUBROUTINE mp_file_write_at_all_${nametype1}$
 
-   SUBROUTINE mp_file_read_at_${nametype1}$v(fh, offset, msg, msglen)
-      !! (parallel) Blocking individual file read using explicit offsets
-      !! (serial) Unformatted stream read
-      !!
-      !! MPI-I/O mapping   mpi_file_read_at
-      !!
-      !! STREAM-I/O mapping   READ
-
-      ${type1}$, INTENT(OUT)                     :: msg(:)
-         !! data to be read from the file
-      INTEGER, INTENT(IN)                        :: fh
-         !! file handle (file storage unit)
-      INTEGER, INTENT(IN), OPTIONAL              :: msglen
-         !! number of elements of data
-      INTEGER                                    :: msg_len
-      INTEGER(kind=file_offset), INTENT(IN)      :: offset
-         !! file offset (position)
-
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_${nametype1}$v'
-
-      INTEGER                                    :: ierr
-
-      ierr = 0
-      msg_len = SIZE(msg)
-      IF (PRESENT(msglen)) msg_len = msglen
-#if defined(__parallel)
-      CALL MPI_FILE_READ_AT(fh, offset, msg, msg_len, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
-      IF (ierr .NE. 0) &
-         DBCSR_ABORT("mpi_file_read_at_${nametype1}$v @ "//routineN)
-#else
-      READ (UNIT=fh, POS=offset + 1) msg(1:msg_len)
-#endif
-   END SUBROUTINE mp_file_read_at_${nametype1}$v
-
 ! *****************************************************************************
 ! *****************************************************************************
-   SUBROUTINE mp_file_read_at_${nametype1}$ (fh, offset, msg)
-      ${type1}$, INTENT(OUT)                     :: msg
-      INTEGER, INTENT(IN)                        :: fh
-      INTEGER(kind=file_offset), INTENT(IN)      :: offset
-
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_${nametype1}$'
-
-      INTEGER                                    :: ierr
-
-      ierr = 0
-#if defined(__parallel)
-      CALL MPI_FILE_READ_AT(fh, offset, msg, 1, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
-      IF (ierr .NE. 0) &
-         DBCSR_ABORT("mpi_file_read_at_${nametype1}$ @ "//routineN)
-#else
-      READ (UNIT=fh, POS=offset + 1) msg
-#endif
-   END SUBROUTINE mp_file_read_at_${nametype1}$
-
    SUBROUTINE mp_file_read_at_all_${nametype1}$v(fh, offset, msg, msglen)
       !! (parallel) Blocking collective file read using explicit offsets
       !! (serial) Unformatted stream read
