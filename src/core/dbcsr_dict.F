@@ -69,12 +69,6 @@ MODULE dbcsr_dict
 #:endfor
    END INTERFACE
 
-   INTERFACE dict_isready
-#:for keytype, valuetype in keyvalue_list
-      MODULE PROCEDURE dict_${keytype}$_${valuetype}$_isready
-#:endfor
-   END INTERFACE
-
    INTERFACE dict_haskey
 #:for keytype, valuetype in keyvalue_list
       MODULE PROCEDURE dict_${keytype}$_${valuetype}$_haskey
@@ -93,12 +87,6 @@ MODULE dbcsr_dict
 #:endfor
    END INTERFACE
 
-   INTERFACE dict_del
-#:for keytype, valuetype in keyvalue_list
-      MODULE PROCEDURE dict_${keytype}$_${valuetype}$_del
-#:endfor
-   END INTERFACE
-
    INTERFACE dict_items
 #:for keytype, valuetype in keyvalue_list
       MODULE PROCEDURE dict_${keytype}$_${valuetype}$_items
@@ -108,12 +96,6 @@ MODULE dbcsr_dict
    INTERFACE dict_size
 #:for keytype, valuetype in keyvalue_list
       MODULE PROCEDURE dict_${keytype}$_${valuetype}$_size
-#:endfor
-   END INTERFACE
-
-   INTERFACE dict_update
-#:for keytype, valuetype in keyvalue_list
-      MODULE PROCEDURE dict_${keytype}$_${valuetype}$_update
 #:endfor
    END INTERFACE
 
@@ -151,13 +133,6 @@ $:fct
       dict%size = 0
 
    END SUBROUTINE dict_${keytype}$_${valuetype}$_init
-
-   FUNCTION dict_${keytype}$_${valuetype}$_isready(dict) RESULT(res)
-      !! Test if the given dictionary has been initialized.
-      TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: dict
-      LOGICAL                                               :: res
-      res = ASSOCIATED(dict%buckets)
-   END FUNCTION dict_${keytype}$_${valuetype}$_isready
 
    SUBROUTINE dict_${keytype}$_${valuetype}$_destroy(dict)
       !! Deallocated the internal data-structures if the given dictionary.
@@ -318,43 +293,6 @@ $:fct
       DBCSR_ABORT("dict_${keytype}$_${valuetype}$_get: Key not found in dictionary.")
    END FUNCTION dict_${keytype}$_${valuetype}$_get
 
-   SUBROUTINE dict_${keytype}$_${valuetype}$_del(dict, key)
-      !! Remove the value for a given key from the dictionary.
-      !! If the key is not found the program stops.
-
-      TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: dict
-      ${keytype_fort}$                                        :: key
-      TYPE(private_item_type_${keytype}$_${valuetype}$), POINTER                      :: item, prev_item
-      INTEGER(KIND=int_8)                                   :: hash, idx
-
-      IF (.not. ASSOCIATED(dict%buckets)) &
-         DBCSR_ABORT("dict_${keytype}$_${valuetype}$_del: dictionary is not initialized.")
-
-      hash = hash_${keytype}$ (key)
-      idx = MOD(hash, INT(size(dict%buckets), KIND=int_8)) + 1
-
-      item => dict%buckets(idx)%p
-      prev_item => Null()
-      do while (ASSOCIATED(item))
-         IF (item%hash == hash) THEN
-            IF (@{isequal(item%key, key)}@) THEN
-               IF (ASSOCIATED(prev_item)) THEN
-                  prev_item%next => item%next
-               ELSE
-                  dict%buckets(idx)%p => item%next
-               END IF
-               deallocate (item)
-               dict%size = dict%size - 1
-               return
-            END IF
-         END IF
-         prev_item => item
-         item => item%next
-      end do
-
-      DBCSR_ABORT("dict_${keytype}$_${valuetype}$_del: Key not found in dictionary.")
-   END SUBROUTINE dict_${keytype}$_${valuetype}$_del
-
    FUNCTION dict_${keytype}$_${valuetype}$_size(dict) RESULT(size)
       !! Returns the number of key/value-items currently stored in the dictionary.
       TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: dict
@@ -423,33 +361,6 @@ $:fct
       IF (j /= dict%size + 1) &
          DBCSR_ABORT("dict_${keytype}$_${valuetype}$_items: assertion failed!")
    END FUNCTION dict_${keytype}$_${valuetype}$_items
-
-   SUBROUTINE dict_${keytype}$_${valuetype}$_update(dict, from_dict)
-      !! Copies all key/values-items from one dictionary to another.
-      !! Afterwards dict will contain all items from the from_dict and
-      !! additionally all its previous items, which were not overwritten.
-      !! The two dictionaries have to be of the same type.
-
-      TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: dict
-         !! destination of items
-      TYPE(dict_${keytype}$_${valuetype}$_type), intent(inout)  :: from_dict
-         !! source of items - will not be change
-      TYPE(dict_${keytype}$_${valuetype}$_item_type), dimension(:), &
-         POINTER :: from_items
-      INTEGER :: i
-
-      IF (.not. ASSOCIATED(dict%buckets)) &
-         DBCSR_ABORT("dict_${keytype}$_${valuetype}$_update: dictionary is not initialized.")
-      IF (.not. ASSOCIATED(from_dict%buckets)) &
-         DBCSR_ABORT("dict_${keytype}$_${valuetype}$_update: from_dict is not initialized.")
-
-      from_items => dict_${keytype}$_${valuetype}$_items(from_dict)
-      do i = 1, size(from_items)
-         call dict_${keytype}$_${valuetype}$_set(dict, &
-                                                 from_items(i)%key, from_items(i)%value)
-      end do
-      deallocate (from_items)
-   END SUBROUTINE dict_${keytype}$_${valuetype}$_update
 
 #:endfor
 
