@@ -559,31 +559,6 @@ CONTAINS
       END SELECT
    END SUBROUTINE dbcsr_isendrecv_any
 
-   FUNCTION dbcsr_mp_type_indexed_make_any(count, lengths, displs, data_type) &
-      RESULT(new_mp_data_type)
-      INTEGER, INTENT(IN)                                :: count
-      INTEGER, DIMENSION(1:count), INTENT(IN)            :: lengths, displs
-      INTEGER, INTENT(IN)                                :: data_type
-      TYPE(mp_type_descriptor_type)                      :: new_mp_data_type
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mp_type_indexed_make_any', &
-                                     routineP = moduleN//':'//routineN
-
-      SELECT CASE (data_type)
-      CASE (dbcsr_type_real_4)
-         new_mp_data_type = mp_type_indexed_make_r(count, lengths, displs)
-      CASE (dbcsr_type_real_8)
-         new_mp_data_type = mp_type_indexed_make_d(count, lengths, displs)
-      CASE (dbcsr_type_complex_4)
-         new_mp_data_type = mp_type_indexed_make_c(count, lengths, displs)
-      CASE (dbcsr_type_complex_8)
-         new_mp_data_type = mp_type_indexed_make_z(count, lengths, displs)
-      CASE default
-         DBCSR_ABORT("Invalid data type")
-      END SELECT
-
-   END FUNCTION dbcsr_mp_type_indexed_make_any
-
    SUBROUTINE dbcsr_allgatherv(send_data, scount, recv_data, recv_count, recv_displ, gid)
       !! Allgather of encapsulated data
       !! @note see mp_allgatherv_dv
