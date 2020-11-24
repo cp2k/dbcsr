@@ -31,3 +31,17 @@ If you need to rebuild the image, use:
 $ cd dbcsr/tools/docker
 $ docker build -t dbcsr/build-env-ubuntu-20.04 -f Dockerfile.build-env-ubuntu .
 ```
+
+## ROCm Build Environment
+
+The image is based on Ubuntu 18.04 and contains:
+
+* GNU Fortran Compiler
+* OpenBLAS
+* MPICH
+* CMake (recent version)
+* Ninja (recent version)
+* Git 2.18+
+* ROCm
+* ROCm libraries (rocblas, rocsolver, hipblas)
+
