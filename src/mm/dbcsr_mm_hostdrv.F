@@ -450,10 +450,11 @@ CONTAINS
    END SUBROUTINE xsmm_process_mm_batch_${nametype1}$
 #endif
 
+#if defined(__LIBXSMM)
    SUBROUTINE xsmm_process_mm_stack_${nametype1}$ (stack_descr, params, &
                                                    stack_size, a_data, b_data, c_data, used_smm)
      !! Processes MM stack and issues libxsmm calls
-#if defined(__LIBXSMM) && ${xsmm_supported[n]}$
+#if ${xsmm_supported[n]}$
       ! Caution: This dependency is ignored by makedep.py, because libxsmm.F is kinda empty.
       USE libxsmm, ONLY: libxsmm_function => libxsmm_${nametype1}$mmfunction, &
                          libxsmm_dispatch => libxsmm_${nametype1}$mmdispatch, &
@@ -491,9 +492,7 @@ CONTAINS
       LOGICAL, INTENT(OUT)                           :: used_smm
         !! Flag to signal if an efficient kernel was used
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'libxsmm_process_mm_stack_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
-#if defined(__LIBXSMM) && ${xsmm_supported[n]}$
+#if ${xsmm_supported[n]}$
       DBCSR_ASSERT(LIBXSMM_COL_MAJOR /= 0 .AND. LIBXSMM_ROW_MAJOR == 0)
       processed = .FALSE.
       used_smm = .FALSE.
@@ -586,6 +585,7 @@ CONTAINS
       used_smm = .FALSE.
 #endif
    END SUBROUTINE xsmm_process_mm_stack_${nametype1}$
+#endif
 
    PURE SUBROUTINE internal_mm_${nametype1}$_nn( &
       M, N, K, A, B, C)
