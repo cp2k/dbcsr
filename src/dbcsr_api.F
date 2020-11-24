@@ -328,11 +328,6 @@ MODULE dbcsr_api
       MODULE PROCEDURE dbcsr_create_new, dbcsr_create_template
    END INTERFACE
 
-   INTERFACE dbcsr_conform_scalar
-      MODULE PROCEDURE make_conformant_scalar_d, make_conformant_scalar_s
-      MODULE PROCEDURE make_conformant_scalar_c, make_conformant_scalar_z
-   END INTERFACE
-
    INTERFACE dbcsr_trace
       MODULE PROCEDURE dbcsr_trace_d, dbcsr_trace_s
       MODULE PROCEDURE dbcsr_trace_z, dbcsr_trace_c
@@ -993,7 +988,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: method
       LOGICAL, INTENT(in), OPTIONAL                      :: use_absolute, filter_diag
 
-      CALL dbcsr_filter_prv(matrix%prv, dbcsr_conform_scalar(eps, matrix), &
+      CALL dbcsr_filter_prv(matrix%prv, dbcsr_conform_scalar_prv(eps, matrix%prv), &
                             method, use_absolute, filter_diag)
    END SUBROUTINE dbcsr_filter
 
@@ -1171,17 +1166,6 @@ CONTAINS
 
 #:include 'data/dbcsr.fypp'
 #:for n, nametype1, base1, prec1, kind1, type1, dkind1 in inst_params_float
-   FUNCTION make_conformant_scalar_${nametype1}$ (scalar, matrix) RESULT(encapsulated)
-      !! Encapsulates a given scalar value and makes it conform with the
-      !! type of the matrix.
-
-      ${type1}$, INTENT(IN)                      :: scalar
-      TYPE(dbcsr_type), INTENT(IN)             :: matrix
-      TYPE(dbcsr_scalar_type)                  :: encapsulated
-
-      encapsulated = dbcsr_conform_scalar_prv(scalar, matrix%prv)
-   END FUNCTION make_conformant_scalar_${nametype1}$
-
    SUBROUTINE dbcsr_reserve_block2d_${nametype1}$ (matrix, row, col, block, transposed, existed)
       TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
       INTEGER, INTENT(IN)                      :: row, col
