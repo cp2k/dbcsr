@@ -28,7 +28,7 @@ srun -N 1 --ntasks-per-core 2 --ntasks-per-node 12 --cpus-per-task 2 ./examples/
 
 How to run (this example and DBCSR for tensors in general):
 * best performance is obtained by running with mpi and one openmp thread per rank.
-* ideally number of mpi ranks should be composed of small prime factors (e.g. powers of 2). 
-* for sparse data & heterogeneous block sizes, DBCSR should be run on CPUs with libxsmm backend. 
+* ideally number of mpi ranks should be composed of small prime factors (e.g. powers of 2).
+* for sparse data & heterogeneous block sizes, DBCSR should be run on CPUs with libxsmm backend.
 * for dense data best performance is obtained by choosing homogeneous block sizes of 64 and by compiling with GPU support.
 
