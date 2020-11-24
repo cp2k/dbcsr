@@ -1,0 +1,43 @@
+FROM rocm/dev-ubuntu-18.04:latest
+
+# install compilers, libraries & co
+RUN apt-get update
+RUN apt-get install -y \
+        locales \
+        gfortran \
+        gcc-7 \
+        g++-7 \
+        llvm-7-dev \
+        llvm-7-tools \
+        mpich \
+        libomp-7-dev \
+        libmpich-dev \
+        libopenblas-dev \
+        wget
+
+# install rocm libraries
+RUN wget -q -O - http://repo.radeon.com/rocm/rocm.gpg.key | sudo apt-key add -
+RUN echo 'deb [arch=amd64] http://repo.radeon.com/rocm/apt/debian/ xenial main' | sudo tee /etc/apt/sources.list.d/rocm.list
+RUN apt-get update
+RUN apt-get install -y \
+        rocm-dev \
+        rocblas \
+        rocsolver \
+        hipblas
+
+# install git 2.18+
+RUN apt-get install -y software-properties-common
+RUN add-apt-repository ppa:git-core/ppa
+RUN apt-get install -y git
+
+# install ninja
+RUN apt-get install -y wget
+RUN wget https://github.com/Kitware/ninja/releases/download/v1.10.0.gfb670.kitware.jobserver-1/ninja-1.10.0.gfb670.kitware.jobserver-1_x86_64-linux-gnu.tar.gz
+RUN tar -xzvf ninja-1.10.0.gfb670.kitware.jobserver-1_x86_64-linux-gnu.tar.gz
+ENV PATH="/ninja-1.10.0.gfb670.kitware.jobserver-1_x86_64-linux-gnu:${PATH}"
+
+# install cmake
+RUN wget https://github.com/Kitware/CMake/releases/download/v3.17.0/cmake-3.17.0-Linux-x86_64.tar.gz
+RUN tar -xzvf cmake-3.17.0-Linux-x86_64.tar.gz
+ENV PATH="/cmake-3.17.0-Linux-x86_64/bin:${PATH}"
+
