@@ -294,59 +294,6 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE csr_create_template
 
-   SUBROUTINE csr_copy(matrix_b, matrix_a)
-      !! Copy a CSR matrix.
-
-      TYPE(csr_type), INTENT(OUT)                        :: matrix_b
-         !! Target CSR matrix
-      TYPE(csr_type), INTENT(IN)                         :: matrix_a
-         !! Source CSR matrix
-
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_copy', routineP = moduleN//':'//routineN
-
-      INTEGER                                            :: handle
-
-      CALL timeset(routineN, handle)
-
-      IF (.NOT. matrix_a%valid) &
-         DBCSR_ABORT("Source CSR matrix must be created.")
-      IF (.NOT. matrix_a%has_indices) &
-         DBCSR_ABORT("Source CSR matrix must have indices.")
-
-      IF (.NOT. matrix_b%valid) THEN
-         CALL csr_create(matrix_b, matrix_a)
-      ENDIF
-
-      IF (matrix_b%nzval_local%data_type /= matrix_a%nzval_local%data_type) &
-         DBCSR_ABORT("Matrices don't have the same datatype.")
-
-      IF (matrix_b%nze_local /= matrix_a%nze_local) &
-         DBCSR_ABORT("Matrices don't have the same number of local non-zero elements.")
-
-      IF (matrix_b%nrows_local /= matrix_a%nrows_local) &
-         DBCSR_ABORT("Matrices don't have the same number of local rows.")
-
-      IF (.NOT. matrix_b%has_indices) THEN
-         matrix_b%rowptr_local = matrix_a%rowptr_local
-         matrix_b%nzerow_local = matrix_a%nzerow_local
-         matrix_b%colind_local = matrix_a%colind_local
-      ENDIF
-
-      SELECT CASE (matrix_a%nzval_local%data_type)
-      CASE (dbcsr_type_real_4)
-         matrix_b%nzval_local%r_sp = matrix_a%nzval_local%r_sp
-      CASE (dbcsr_type_real_8)
-         matrix_b%nzval_local%r_dp = matrix_a%nzval_local%r_dp
-      CASE (dbcsr_type_complex_4)
-         matrix_b%nzval_local%c_sp = matrix_a%nzval_local%c_sp
-      CASE (dbcsr_type_complex_8)
-         matrix_b%nzval_local%c_dp = matrix_a%nzval_local%c_dp
-      END SELECT
-
-      CALL timestop(handle)
-
-   END SUBROUTINE csr_copy
-
    SUBROUTINE csr_create_nzerow(csr_mat, nzerow)
       !! create a vector containing the number of non-zero elements in each
       !! row of a CSR matrix
