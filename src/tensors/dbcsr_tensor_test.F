@@ -58,22 +58,8 @@ MODULE dbcsr_tensor_test
       dbcsr_t_checksum, &
       dbcsr_t_reset_randmat_seed
 
-   INTERFACE repl_dense_array_to_dist_sparse_tensor
-#:for dparam, dtype, dsuffix in dtype_float_list
-#:for ndim in ndims
-      MODULE PROCEDURE repl_dense_${ndim}$d_array_to_dist_sparse_tensor_${dsuffix}$
-#:endfor
-#:endfor
-   END INTERFACE
-
-   INTERFACE write_array
-#:for ndim in ndims
-      MODULE PROCEDURE write_${ndim}$d_array
-#:endfor
-   END INTERFACE
-
    INTERFACE dist_sparse_tensor_to_repl_dense_array
-#:for dparam, dtype, dsuffix in dtype_float_list
+#:for dparam, dtype, dsuffix in [dtype_float_list[0]]
 #:for ndim in ndims
       MODULE PROCEDURE dist_sparse_tensor_to_repl_dense_${ndim}$d_array_${dsuffix}$
 #:endfor
@@ -505,7 +491,7 @@ CONTAINS
 
    END SUBROUTINE
 
-#:for dprec, dparam, dtype, dsuffix in dtype_float_list_prec
+#:for dprec, dparam, dtype, dsuffix in [dtype_float_list_prec[0]]
 #:for ndim in ndims
    SUBROUTINE dist_sparse_tensor_to_repl_dense_${ndim}$d_array_${dsuffix}$ (tensor, array)
       !! Transform a distributed sparse tensor to a replicated dense array. This is only useful for
@@ -543,39 +529,6 @@ CONTAINS
       ENDDO
       CALL dbcsr_t_iterator_stop(iterator)
       CALL mp_sum(array, tensor%pgrid%mp_comm_2d)
-
-   END SUBROUTINE
-#:endfor
-#:endfor
-
-#:for dprec, dparam, dtype, dsuffix in dtype_float_list_prec
-#:for ndim in ndims
-   SUBROUTINE repl_dense_${ndim}$d_array_to_dist_sparse_tensor_${dsuffix}$ (tensor, array)
-      TYPE(dbcsr_t_type), INTENT(INOUT)                             :: tensor
-      ${dtype}$, ALLOCATABLE, DIMENSION(${shape_colon(ndim)}$), &
-         INTENT(INOUT)                                           :: array
-      ${dtype}$, ALLOCATABLE, DIMENSION(${shape_colon(ndim)}$)   :: block
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
-      TYPE(dbcsr_t_iterator_type)                                     :: iterator
-      INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
-
-      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. ${ndim}$)
-      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
-
-      CALL dbcsr_t_iterator_start(iterator, tensor)
-      DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
-         CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
-         CALL allocate_any(block, shape_spec=blk_size)
-         DO idim = 1, ndims_tensor(tensor)
-            blk_start(idim) = blk_offset(idim)
-            blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
-         ENDDO
-         block(${shape_colon(ndim)}$) = &
-            array(${", ".join(["blk_start("+str(idim)+"):blk_end("+str(idim)+")" for idim in range(1, ndim + 1)])}$)
-         CALL dbcsr_t_put_block(tensor, ind_nd, blk_size, block)
-         DEALLOCATE (block)
-      ENDDO
 
    END SUBROUTINE
 #:endfor
@@ -793,30 +746,6 @@ CONTAINS
       ENDIF
 
    END SUBROUTINE
-
-#:for ndim in ndims
-   SUBROUTINE write_${ndim}$d_array(array, unit_nr, array_compare)
-      !! Write nd array
-      REAL(KIND=real_8), DIMENSION(${shape_colon(ndim)}$), INTENT(IN) :: array
-      INTEGER, INTENT(IN)                                             :: unit_nr
-      REAL(KIND=real_8), DIMENSION(${shape_colon(ndim)}$), INTENT(IN), OPTIONAL :: array_compare
-      INTEGER                                            :: ${varlist("i", nmax=ndim)}$
-#:for idim in range(ndim,0,-1)
-      DO i_${idim}$ = 1, SIZE(array, ${idim}$)
-#:endfor
-         IF (INT(array(${varlist("i", nmax=ndim)}$), KIND=int_8) .GT. 0) THEN
-            WRITE (unit_nr, '(${ndim+1}$I20)', advance='no') ${varlist("i", nmax=ndim)}$, INT(array(${varlist("i", nmax=ndim)}$), &
-                                                                                              KIND=int_8)
-            IF (PRESENT(array_compare)) THEN
-               WRITE (unit_nr, '(I20)', advance='no') INT(array_compare(${varlist("i", nmax=ndim)}$), KIND=int_8)
-            ENDIF
-            WRITE (unit_nr, *)
-         ENDIF
-#:for idim in range(ndim,0,-1)
-      ENDDO
-#:endfor
-   END SUBROUTINE
-#:endfor
 
    FUNCTION sizes_2d(nd_sizes, map1, map2)
       !! mapped sizes in 2d
