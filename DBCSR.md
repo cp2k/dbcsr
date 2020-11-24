@@ -1,5 +1,5 @@
 ---
-project: DBCSR Library
+project: DBCSR
 project_github: https://github.com/cp2k/dbcsr
 project_download: https://github.com/cp2k/dbcsr/releases
 project_website: https://dbcsr.cp2k.org
@@ -25,6 +25,7 @@ source: true
 graph: false
 search: false
 favicon: @CMAKE_SOURCE_DIR@/docs/media/logo/logo.png
+version: @dbcsr_VERSION@
 ---
 
 --------------------
