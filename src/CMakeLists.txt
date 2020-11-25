@@ -266,11 +266,13 @@ if (USE_CUDA)
   # Make an object library
   add_library(acc OBJECT ${DBCSR_ACC_SRCS})
   target_compile_definitions(acc PRIVATE __CUDA)
+  target_compile_definitions(
+    acc PRIVATE $<$<BOOL:${WITH_CUDA_PROFILING}>:__CUDA_PROFILING>)
   target_include_directories(acc
                              PRIVATE ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
   target_sources(dbcsr PRIVATE $<TARGET_OBJECTS:acc>)
   target_compile_definitions(acc PRIVATE __DBCSR_ACC)
-  target_link_libraries(acc PRIVATE ${CUBLAS})
+  target_link_libraries(acc PRIVATE ${CUBLAS} ${CUDA_NVTOOLSEXT})
 
   # tests need some of the libsmm_acc headers and for CMake <3.12 compatibility,
   # we can't set it on the the object library itself
@@ -278,8 +280,11 @@ if (USE_CUDA)
     dbcsr PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/acc/libsmm_acc>)
 
   target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC)
-  target_link_libraries(dbcsr PRIVATE ${CUBLAS})
+  target_link_libraries(dbcsr PRIVATE ${CUBLAS} ${CUDA_NVTOOLSEXT})
   target_compile_definitions(dbcsr PRIVATE __CUDA)
+  # __CUDA_PROFILING also affects core/ parts like the timings
+  target_compile_definitions(
+    dbcsr PRIVATE $<$<BOOL:${WITH_CUDA_PROFILING}>:__CUDA_PROFILING>)
 
   if (APPLE)
     # Help the static cuda runtime find the driver (libcuda.dyllib) at runtime.

@@ -41,6 +41,8 @@ if (USE_CUDA)
   add_library(libsmm_acc OBJECT ${LIBSMM_ACC_FILES})
   target_compile_definitions(libsmm_acc PRIVATE __CUDA)
   target_compile_definitions(libsmm_acc PRIVATE ARCH_NUMBER=${ACC_ARCH_NUMBER})
+  target_compile_definitions(
+    libsmm_acc PRIVATE $<$<BOOL:${WITH_CUDA_PROFILING}>:__CUDA_PROFILING>)
 
 else () # i.e. USE_HIP
 
