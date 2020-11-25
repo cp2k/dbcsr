@@ -91,21 +91,7 @@ set(USE_SMM
 set_property(CACHE USE_SMM PROPERTY STRINGS blas libxsmm)
 
 option(USE_CUDA "Build with CUDA support" OFF)
-set(SUPPORTED_CUDA_ARCHITECTURES K20X K40 K80 P100 V100)
-set(WITH_GPU
-    "P100"
-    CACHE STRING
-          "Set the CUDA GPU architecture if CUDA is enabled (default: P100)")
-set_property(CACHE WITH_GPU PROPERTY STRINGS ${SUPPORTED_CUDA_ARCHITECTURES})
-
 option(USE_HIP "Build with HIP support" OFF)
-set(SUPPORTED_HIP_ARCHITECTURES ${SUPPORTED_CUDA_ARCHITECTURES} Mi50)
-set(WITH_GPU
-    "P100"
-    CACHE STRING
-          "Set the CUDA GPU architecture if HIP is enabled (default: P100)")
-set_property(CACHE WITH_GPU PROPERTY STRINGS ${SUPPORTED_HIP_ARCHITECTURES})
-
 # USE_CUDA and USE_HIP are mutually exclusive options: we either compile with
 # nvcc OR with hipcc
 if (USE_CUDA AND USE_HIP)
@@ -113,6 +99,15 @@ if (USE_CUDA AND USE_HIP)
     FATAL_ERROR
       "USE_CUDA and USE_HIP options are mutually exclusive. Please choose one.")
 endif ()
+
+set(SUPPORTED_CUDA_ARCHITECTURES K20X K40 K80 P100 V100)
+set(SUPPORTED_HIP_ARCHITECTURES Mi50)
+set(WITH_GPU
+    "P100"
+    CACHE STRING
+          "Set the CUDA GPU architecture if HIP is enabled (default: P100)")
+set_property(CACHE WITH_GPU PROPERTY STRINGS ${SUPPORTED_CUDA_ARCHITECTURES}
+                                     ${SUPPORTED_HIP_ARCHITECTURES})
 
 # =================================================================================================
 # LANGUAGES AND TESTING
