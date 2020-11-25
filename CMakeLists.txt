@@ -109,6 +109,8 @@ set(WITH_GPU
 set_property(CACHE WITH_GPU PROPERTY STRINGS ${SUPPORTED_CUDA_ARCHITECTURES}
                                      ${SUPPORTED_HIP_ARCHITECTURES})
 
+option(WITH_CUDA_PROFILING "Enable profiling within CUDA" OFF)
+
 # =================================================================================================
 # LANGUAGES AND TESTING
 enable_language(Fortran)
@@ -223,11 +225,13 @@ if (USE_CUDA)
 
   # set cuda architecture number and compilation flags
   set(ACC_ARCH_NUMBER ${GPU_ARCH_NUMBER_${WITH_GPU}})
-  set(CMAKE_CUDA_FLAGS
-      "${CMAKE_CUDA_FLAGS} -arch=sm_${ACC_ARCH_NUMBER} --cudart static -D__CUDA"
-  )
+  # TODO: use CMAKE_CUDA_RUNTIME_LIBRARY with CMake 3.17+ and CUDA_ARCHITECTURES
+  # with CMake 3.18+
+  string(APPEND CMAKE_CUDA_FLAGS " -arch=sm_${ACC_ARCH_NUMBER} --cudart static")
+  add_compile_definitions($<$<COMPILE_LANGUAGE:CUDA>:__CUDA>)
   message(STATUS "GPU target architecture: " ${WITH_GPU})
   message(STATUS "GPU architecture number: " ${ACC_ARCH_NUMBER})
+  message(STATUS "GPU profiling enabled: " ${WITH_CUDA_PROFILING})
 
   # =================================== BLAS on GPU backend
   find_library(CUBLAS cublas HINT ${CMAKE_CUDA_IMPLICIT_LINK_DIRECTORIES})
@@ -238,6 +242,15 @@ if (USE_CUDA)
     )
   else ()
     message(STATUS "Found cuBLAS: ${CUBLAS}")
+  endif ()
+
+  if (WITH_CUDA_PROFILING)
+    find_library(
+      CUDA_NVTOOLSEXT nvToolsExt
+      PATHS ${CMAKE_CUDA_IMPLICIT_LINK_DIRECTORIES}
+      DOC "Building with CUDA profiling requires the nvToolsExt CUDA library"
+          REQUIRED)
+    message(STATUS "Found nvToolsExt: ${CUDA_NVTOOLSEXT}")
   endif ()
 
 endif ()

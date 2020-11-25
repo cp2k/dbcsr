@@ -31,7 +31,7 @@ We test against GNU and Intel compilers on Linux systems, GNU compiler on MacOS 
 Download either a [release tarball](https://github.com/cp2k/dbcsr/releases) or clone the latest version from Git using:
 
 ```bash
-    git clone --recursive https://github.com/cp2k/dbcsr.git
+git clone --recursive https://github.com/cp2k/dbcsr.git
 ```
 
 ## Build
@@ -46,27 +46,28 @@ The 4 variants can be combined with the accelerator support.
 Run inside the `dbcsr` directory:
 
 ```bash
-    mkdir build
-    cd build
-    cmake ..
-    make
+mkdir build
+cd build
+cmake ..
+make
 ```
 
  The configuration flags for the CMake command are (default first):
 
 ```
-    -DUSE_MPI=<ON|OFF>
-    -DUSE_OPENMP=<ON|OFF>
-    -DUSE_SMM=<blas|libxsmm>
-    -DUSE_CUDA=<OFF|ON>
-    -DUSE_HIP=<OFF|ON>
-    -DWITH_C_API=<ON|OFF>
-    -DWITH_EXAMPLES=<ON|OFF>
-    -DWITH_GPU=<P100|K20X|K40|K80|V100|Mi50>
-    -DCMAKE_BUILD_TYPE=<Release|Debug|Coverage>
-    -DBUILD_TESTING=<ON|OFF>
-    -DTEST_MPI_RANKS=<auto,N>
-    -DTEST_OMP_THREADS=<2,N>
+-DUSE_MPI=<ON|OFF>
+-DUSE_OPENMP=<ON|OFF>
+-DUSE_SMM=<blas|libxsmm>
+-DUSE_CUDA=<OFF|ON>
+-DUSE_HIP=<OFF|ON>
+-DWITH_C_API=<ON|OFF>
+-DWITH_EXAMPLES=<ON|OFF>
+-DWITH_GPU=<P100|K20X|K40|K80|V100|Mi50>
+-DWITH_CUDA_PROFILING=<OFF|ON>
+-DCMAKE_BUILD_TYPE=<Release|Debug|Coverage>
+-DBUILD_TESTING=<ON|OFF>
+-DTEST_MPI_RANKS=<auto,N>
+-DTEST_OMP_THREADS=<2,N>
 ```
 
 When providing a custom build of `libxsmm`, make sure that its library directory is added to the `PKG_CONFIG_PATH` variable prior
