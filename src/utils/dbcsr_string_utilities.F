@@ -135,21 +135,6 @@ CONTAINS
 
    END SUBROUTINE remove_word
 
-   SUBROUTINE lowercase(string)
-      !! Convert all upper case characters in a string to lower case.
-      CHARACTER(LEN=*), INTENT(INOUT)                    :: string
-
-      INTEGER                                            :: i, iascii
-
-      DO i = 1, LEN_TRIM(string)
-         iascii = ICHAR(string(i:i))
-         IF ((iascii >= 65) .AND. (iascii <= 90)) THEN
-            string(i:i) = CHAR(iascii + 32)
-         END IF
-      END DO
-
-   END SUBROUTINE lowercase
-
    SUBROUTINE uppercase(string)
       !! Convert all lower case characters in a string to upper case.
       CHARACTER(LEN=*), INTENT(INOUT)                    :: string
