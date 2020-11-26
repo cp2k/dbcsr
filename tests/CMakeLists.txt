@@ -58,8 +58,13 @@ endforeach ()
 # =================================== DBCSR CORRECTNESS TESTS Define all the
 # tests here, will be used as the executable name
 set(DBCSR_TESTS
-    dbcsr_unittest1 dbcsr_unittest2 dbcsr_unittest3 dbcsr_tensor_unittest
-    dbcsr_tas_unittest dbcsr_test_csr_conversions)
+    dbcsr_unittest1
+    dbcsr_unittest2
+    dbcsr_unittest3
+    dbcsr_unittest4
+    dbcsr_tensor_unittest
+    dbcsr_tas_unittest
+    dbcsr_test_csr_conversions)
 
 if (NOT (CMAKE_Fortran_COMPILER_ID STREQUAL "Cray"))
   set(DBCSR_TESTS_CPP dbcsr_tensor_test_cpp)
@@ -72,6 +77,7 @@ set(dbcsr_unittest_common_SRCS dbcsr_test_add.F dbcsr_test_multiply.F)
 set(dbcsr_unittest1_SRCS dbcsr_unittest1.F)
 set(dbcsr_unittest2_SRCS dbcsr_unittest2.F)
 set(dbcsr_unittest3_SRCS dbcsr_unittest3.F)
+set(dbcsr_unittest4_SRCS dbcsr_unittest4.F dbcsr_test_scale_by_vector.F)
 set(dbcsr_tensor_unittest_SRCS dbcsr_tensor_unittest.F)
 set(dbcsr_tas_unittest_SRCS dbcsr_tas_unittest.F)
 set(dbcsr_test_csr_conversions_SRCS dbcsr_test_csr_conversions.F)

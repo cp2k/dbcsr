@@ -522,36 +522,10 @@ CONTAINS
       END SELECT
 
       ! check that alpha and matrix have matching sizes
-      IF (right) THEN
-         SELECT CASE (data_type)
-         CASE (dbcsr_type_real_4)
-            IF (dbcsr_nfullcols_total(matrix_a) /= SIZE(alpha%d%r_sp)) &
-               DBCSR_ABORT("vector size does not match matrix col size")
-         CASE (dbcsr_type_real_8)
-            IF (dbcsr_nfullcols_total(matrix_a) /= SIZE(alpha%d%r_dp)) &
-               DBCSR_ABORT("vector size does not match matrix col size")
-         CASE (dbcsr_type_complex_4)
-            IF (dbcsr_nfullcols_total(matrix_a) /= SIZE(alpha%d%c_sp)) &
-               DBCSR_ABORT("vector size does not match matrix col size")
-         CASE (dbcsr_type_complex_8)
-            IF (dbcsr_nfullcols_total(matrix_a) /= SIZE(alpha%d%c_dp)) &
-               DBCSR_ABORT("vector size does not match matrix col size")
-         END SELECT
-      ELSE
-         SELECT CASE (data_type)
-         CASE (dbcsr_type_real_4)
-            IF (dbcsr_nfullrows_total(matrix_a) /= SIZE(alpha%d%r_sp)) &
-               DBCSR_ABORT("vector size does not match matrix row size")
-         CASE (dbcsr_type_real_8)
-            IF (dbcsr_nfullrows_total(matrix_a) /= SIZE(alpha%d%r_dp)) &
-               DBCSR_ABORT("vector size does not match matrix row size")
-         CASE (dbcsr_type_complex_4)
-            IF (dbcsr_nfullrows_total(matrix_a) /= SIZE(alpha%d%c_sp)) &
-               DBCSR_ABORT("vector size does not match matrix row size")
-         CASE (dbcsr_type_complex_8)
-            IF (dbcsr_nfullrows_total(matrix_a) /= SIZE(alpha%d%c_dp)) &
-               DBCSR_ABORT("vector size does not match matrix row size")
-         END SELECT
+      IF (right .AND. dbcsr_nfullcols_total(matrix_a) /= dbcsr_data_get_size(alpha)) THEN
+         DBCSR_ABORT("vector size does not match matrix row size for RHS scaling")
+      ELSE IF ((.NOT. right) .AND. dbcsr_nfullrows_total(matrix_a) /= dbcsr_data_get_size(alpha)) THEN
+         DBCSR_ABORT("vector size does not match matrix col size for LHS scaling")
       END IF
 
       !
