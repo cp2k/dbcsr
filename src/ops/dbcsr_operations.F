@@ -600,25 +600,25 @@ CONTAINS
             SELECT CASE (data_type)
             CASE (dbcsr_type_real_4)
                DO i = 1, a_row_size
-                  DO irow = i, i + a_col_size**2 - 1, a_col_size
+                  DO irow = i, i + a_col_size*a_row_size - 1, a_row_size
                      data_any%d%r_sp(irow) = data_any%d%r_sp(irow)*alpha%d%r_sp(row_offset + i - 1)
                   END DO
                ENDDO
             CASE (dbcsr_type_real_8)
                DO i = 1, a_row_size
-                  DO irow = i, i + a_col_size**2 - 1, a_col_size
+                  DO irow = i, i + a_col_size*a_row_size - 1, a_row_size
                      data_any%d%r_dp(irow) = data_any%d%r_dp(irow)*alpha%d%r_dp(row_offset + i - 1)
                   END DO
                ENDDO
             CASE (dbcsr_type_complex_4)
                DO i = 1, a_row_size
-                  DO irow = i, i + a_col_size**2 - 1, a_col_size
+                  DO irow = i, i + a_col_size*a_row_size - 1, a_row_size
                      data_any%d%c_sp(irow) = data_any%d%c_sp(irow)*alpha%d%c_sp(row_offset + i - 1)
                   END DO
                ENDDO
             CASE (dbcsr_type_complex_8)
                DO i = 1, a_row_size
-                  DO irow = i, i + a_col_size**2 - 1, a_col_size
+                  DO irow = i, i + a_col_size*a_row_size - 1, a_row_size
                      data_any%d%c_dp(irow) = data_any%d%c_dp(irow)*alpha%d%c_dp(row_offset + i - 1)
                   END DO
                ENDDO
