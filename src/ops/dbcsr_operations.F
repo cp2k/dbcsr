@@ -504,9 +504,13 @@ CONTAINS
 
       CALL timeset(routineN, handle)
 
-! check that alpha and matrix have the same data type
+      ! check that alpha and matrix have the same data type
       IF (dbcsr_get_data_type(matrix_a) .NE. alpha%d%data_type) &
          DBCSR_ABORT("wrong data type matrix_a")
+
+      IF (ASSOCIATED(alpha%d%r2_sp) .OR. ASSOCIATED(alpha%d%r2_dp) &
+          .OR. ASSOCIATED(alpha%d%c2_sp) .OR. ASSOCIATED(alpha%d%c2_dp)) &
+         DBCSR_ABORT("alpha is not a vector")
       !
       ! set vars
       right = .TRUE.
@@ -516,6 +520,40 @@ CONTAINS
       CASE DEFAULT
          DBCSR_ABORT("wrong side="//side)
       END SELECT
+
+      ! check that alpha and matrix have matching sizes
+      IF (right) THEN
+         SELECT CASE (data_type)
+         CASE (dbcsr_type_real_4)
+            IF (dbcsr_nfullcols_total(matrix_a) /= SIZE(alpha%d%r_sp)) &
+               DBCSR_ABORT("vector size does not match matrix col size")
+         CASE (dbcsr_type_real_8)
+            IF (dbcsr_nfullcols_total(matrix_a) /= SIZE(alpha%d%r_dp)) &
+               DBCSR_ABORT("vector size does not match matrix col size")
+         CASE (dbcsr_type_complex_4)
+            IF (dbcsr_nfullcols_total(matrix_a) /= SIZE(alpha%d%c_sp)) &
+               DBCSR_ABORT("vector size does not match matrix col size")
+         CASE (dbcsr_type_complex_8)
+            IF (dbcsr_nfullcols_total(matrix_a) /= SIZE(alpha%d%c_dp)) &
+               DBCSR_ABORT("vector size does not match matrix col size")
+         END SELECT
+      ELSE
+         SELECT CASE (data_type)
+         CASE (dbcsr_type_real_4)
+            IF (dbcsr_nfullrows_total(matrix_a) /= SIZE(alpha%d%r_sp)) &
+               DBCSR_ABORT("vector size does not match matrix row size")
+         CASE (dbcsr_type_real_8)
+            IF (dbcsr_nfullrows_total(matrix_a) /= SIZE(alpha%d%r_dp)) &
+               DBCSR_ABORT("vector size does not match matrix row size")
+         CASE (dbcsr_type_complex_4)
+            IF (dbcsr_nfullrows_total(matrix_a) /= SIZE(alpha%d%c_sp)) &
+               DBCSR_ABORT("vector size does not match matrix row size")
+         CASE (dbcsr_type_complex_8)
+            IF (dbcsr_nfullrows_total(matrix_a) /= SIZE(alpha%d%c_dp)) &
+               DBCSR_ABORT("vector size does not match matrix row size")
+         END SELECT
+      END IF
+
       !
       ! let's go
       data_type = dbcsr_get_data_type(matrix_a)
