@@ -327,24 +327,6 @@ CONTAINS
 #endif
    END SUBROUTINE acc_devmem_set_cptr
 
-   SUBROUTINE acc_devmem_info(free, avail)
-      !! Fortran-wrapper for getting GPU memory info.
-
-      INTEGER, INTENT(OUT)                     :: free, avail
-         !! free device memory
-         !! available device memory
-
-#if ! defined (__DBCSR_ACC)
-      avail = -1; free = -1 ! assign intent-out arguments to silence compiler warnings
-      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
-#else
-      INTEGER                                  :: istat
-      istat = acc_interface_dev_mem_info(free, avail)
-      IF (istat /= 0) &
-         DBCSR_ABORT("acc_devmem_info: failed.")
-#endif
-   END SUBROUTINE acc_devmem_info
-
    SUBROUTINE acc_devmem_allocate_bytes(this, size_in_bytes)
       !! Allocates a given devmem.
 
