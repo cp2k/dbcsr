@@ -586,9 +586,13 @@ CONTAINS
 
       CALL timeset(routineN, handle)
 
-! check that alpha and matrix have the same data type
+      ! check that alpha and matrix have the same data type
       IF (dbcsr_get_data_type(matrix_a) .NE. alpha%d%data_type) &
          DBCSR_ABORT("wrong data type matrix_a")
+
+      IF (ASSOCIATED(alpha%d%r2_sp) .OR. ASSOCIATED(alpha%d%r2_dp) &
+          .OR. ASSOCIATED(alpha%d%c2_sp) .OR. ASSOCIATED(alpha%d%c2_dp)) &
+         DBCSR_ABORT("alpha is not a vector")
       !
       ! set vars
       right = .TRUE.
@@ -598,6 +602,14 @@ CONTAINS
       CASE DEFAULT
          DBCSR_ABORT("wrong side="//side)
       END SELECT
+
+      ! check that alpha and matrix have matching sizes
+      IF (right .AND. dbcsr_nfullcols_total(matrix_a) /= dbcsr_data_get_size(alpha)) THEN
+         DBCSR_ABORT("vector size does not match matrix row size for RHS scaling")
+      ELSE IF ((.NOT. right) .AND. dbcsr_nfullrows_total(matrix_a) /= dbcsr_data_get_size(alpha)) THEN
+         DBCSR_ABORT("vector size does not match matrix col size for LHS scaling")
+      END IF
+
       !
       ! let's go
       data_type = dbcsr_get_data_type(matrix_a)
@@ -644,25 +656,25 @@ CONTAINS
             SELECT CASE (data_type)
             CASE (dbcsr_type_real_4)
                DO i = 1, a_row_size
-                  DO irow = i, i + a_col_size**2 - 1, a_col_size
+                  DO irow = i, i + a_col_size*a_row_size - 1, a_row_size
                      data_any%d%r_sp(irow) = data_any%d%r_sp(irow)*alpha%d%r_sp(row_offset + i - 1)
                   END DO
                ENDDO
             CASE (dbcsr_type_real_8)
                DO i = 1, a_row_size
-                  DO irow = i, i + a_col_size**2 - 1, a_col_size
+                  DO irow = i, i + a_col_size*a_row_size - 1, a_row_size
                      data_any%d%r_dp(irow) = data_any%d%r_dp(irow)*alpha%d%r_dp(row_offset + i - 1)
                   END DO
                ENDDO
             CASE (dbcsr_type_complex_4)
                DO i = 1, a_row_size
-                  DO irow = i, i + a_col_size**2 - 1, a_col_size
+                  DO irow = i, i + a_col_size*a_row_size - 1, a_row_size
                      data_any%d%c_sp(irow) = data_any%d%c_sp(irow)*alpha%d%c_sp(row_offset + i - 1)
                   END DO
                ENDDO
             CASE (dbcsr_type_complex_8)
                DO i = 1, a_row_size
-                  DO irow = i, i + a_col_size**2 - 1, a_col_size
+                  DO irow = i, i + a_col_size*a_row_size - 1, a_row_size
                      data_any%d%c_dp(irow) = data_any%d%c_dp(irow)*alpha%d%c_dp(row_offset + i - 1)
                   END DO
                ENDDO
@@ -2735,8 +2747,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/ops/../data/dbcsr.fypp"
 
 # 45 "/__w/dbcsr/dbcsr/src/ops/../data/dbcsr.fypp"
-# 2651 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F" 2
-# 2652 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 2663 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F" 2
+# 2664 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
    SUBROUTINE dbcsr_trace_d (matrix_a, trace)
       !! traces a DBCSR matrix
 
@@ -3236,7 +3248,7 @@ CONTAINS
       ENDIF
 
    END SUBROUTINE dbcsr_add_anytype_d
-# 2652 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 2664 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
    SUBROUTINE dbcsr_trace_s (matrix_a, trace)
       !! traces a DBCSR matrix
 
@@ -3736,7 +3748,7 @@ CONTAINS
       ENDIF
 
    END SUBROUTINE dbcsr_add_anytype_s
-# 2652 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 2664 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
    SUBROUTINE dbcsr_trace_z (matrix_a, trace)
       !! traces a DBCSR matrix
 
@@ -4236,7 +4248,7 @@ CONTAINS
       ENDIF
 
    END SUBROUTINE dbcsr_add_anytype_z
-# 2652 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 2664 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
    SUBROUTINE dbcsr_trace_c (matrix_a, trace)
       !! traces a DBCSR matrix
 
@@ -4736,6 +4748,6 @@ CONTAINS
       ENDIF
 
    END SUBROUTINE dbcsr_add_anytype_c
-# 3152 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 3164 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
 END MODULE dbcsr_operations

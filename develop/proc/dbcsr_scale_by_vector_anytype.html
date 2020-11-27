@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">89 statements</a>
+    title=" 0.2% of total for procedures.">95 statements</a>
      </li> 
      
      
@@ -355,9 +355,13 @@ private subroutine dbcsr_scale_by_vector_anytype(matrix_a, alpha, side)
 
       <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
 
-<span class="c">! check that alpha and matrix have the same data type</span>
+      <span class="c">! check that alpha and matrix have the same data type</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">alpha</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span> <span class="p">&amp;</span>
          <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;wrong data type matrix_a&quot;</span><span class="p">)</span>
+
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">alpha</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_sp</span><span class="p">)</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">alpha</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_dp</span><span class="p">)</span> <span class="p">&amp;</span>
+          <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">alpha</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_sp</span><span class="p">)</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">alpha</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_dp</span><span class="p">))</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;alpha is not a vector&quot;</span><span class="p">)</span>
       <span class="c">!</span>
       <span class="c">! set vars</span>
       <span class="n">right</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
@@ -367,6 +371,14 @@ private subroutine dbcsr_scale_by_vector_anytype(matrix_a, alpha, side)
       <span class="k">CASE </span><span class="n">DEFAULT</span>
          <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;wrong side=&quot;</span><span class="o">//</span><span class="n">side</span><span class="p">)</span>
       <span class="k">END SELECT</span>
+
+      <span class="c">! check that alpha and matrix have matching sizes</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">right</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span> <span class="o">/=</span> <span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">alpha</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;vector size does not match matrix row size for RHS scaling&quot;</span><span class="p">)</span>
+      <span class="k">ELSE IF</span> <span class="p">((.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">right</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">dbcsr_nfullrows_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span> <span class="o">/=</span> <span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">alpha</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;vector size does not match matrix col size for LHS scaling&quot;</span><span class="p">)</span>
+      <span class="k">END IF</span>
+
       <span class="c">!</span>
       <span class="c">! let&#39;s go</span>
       <span class="n">data_type</span> <span class="o">=</span> <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span>
@@ -413,25 +425,25 @@ private subroutine dbcsr_scale_by_vector_anytype(matrix_a, alpha, side)
 <span class="k">            SELECT CASE</span> <span class="p">(</span><span class="n">data_type</span><span class="p">)</span>
             <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
                <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">a_row_size</span>
-                  <span class="k">DO </span><span class="n">irow</span> <span class="o">=</span> <span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">a_col_size</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">a_col_size</span>
+                  <span class="k">DO </span><span class="n">irow</span> <span class="o">=</span> <span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">a_col_size</span><span class="o">*</span><span class="n">a_row_size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">a_row_size</span>
                      <span class="n">data_any</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">(</span><span class="n">irow</span><span class="p">)</span> <span class="o">=</span> <span class="n">data_any</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">(</span><span class="n">irow</span><span class="p">)</span><span class="o">*</span><span class="n">alpha</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">(</span><span class="n">row_offset</span> <span class="o">+</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
                   <span class="k">END DO</span>
 <span class="k">               </span><span class="n">ENDDO</span>
             <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
                <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">a_row_size</span>
-                  <span class="k">DO </span><span class="n">irow</span> <span class="o">=</span> <span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">a_col_size</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">a_col_size</span>
+                  <span class="k">DO </span><span class="n">irow</span> <span class="o">=</span> <span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">a_col_size</span><span class="o">*</span><span class="n">a_row_size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">a_row_size</span>
                      <span class="n">data_any</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(</span><span class="n">irow</span><span class="p">)</span> <span class="o">=</span> <span class="n">data_any</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(</span><span class="n">irow</span><span class="p">)</span><span class="o">*</span><span class="n">alpha</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(</span><span class="n">row_offset</span> <span class="o">+</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
                   <span class="k">END DO</span>
 <span class="k">               </span><span class="n">ENDDO</span>
             <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
                <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">a_row_size</span>
-                  <span class="k">DO </span><span class="n">irow</span> <span class="o">=</span> <span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">a_col_size</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">a_col_size</span>
+                  <span class="k">DO </span><span class="n">irow</span> <span class="o">=</span> <span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">a_col_size</span><span class="o">*</span><span class="n">a_row_size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">a_row_size</span>
                      <span class="n">data_any</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">(</span><span class="n">irow</span><span class="p">)</span> <span class="o">=</span> <span class="n">data_any</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">(</span><span class="n">irow</span><span class="p">)</span><span class="o">*</span><span class="n">alpha</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">(</span><span class="n">row_offset</span> <span class="o">+</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
                   <span class="k">END DO</span>
 <span class="k">               </span><span class="n">ENDDO</span>
             <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
                <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">a_row_size</span>
-                  <span class="k">DO </span><span class="n">irow</span> <span class="o">=</span> <span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">a_col_size</span><span class="o">**</span><span class="mi">2</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">a_col_size</span>
+                  <span class="k">DO </span><span class="n">irow</span> <span class="o">=</span> <span class="n">i</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="n">a_col_size</span><span class="o">*</span><span class="n">a_row_size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">a_row_size</span>
                      <span class="n">data_any</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(</span><span class="n">irow</span><span class="p">)</span> <span class="o">=</span> <span class="n">data_any</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(</span><span class="n">irow</span><span class="p">)</span><span class="o">*</span><span class="n">alpha</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(</span><span class="n">row_offset</span> <span class="o">+</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
                   <span class="k">END DO</span>
 <span class="k">               </span><span class="n">ENDDO</span>
