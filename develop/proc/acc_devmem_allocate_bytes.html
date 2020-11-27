@@ -327,8 +327,7 @@ public subroutine acc_devmem_allocate_bytes(this, size_in_bytes)
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">size_in_bytes</span><span class="p">)</span>
       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in.&quot;</span><span class="p">)</span>
 <span class="cp">#else</span>
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;acc_devmem_allocate&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;acc_devmem_allocate&#39;</span>
 
       <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">istat</span>
 

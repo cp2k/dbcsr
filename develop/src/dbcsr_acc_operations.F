@@ -32,8 +32,6 @@ MODULE dbcsr_acc_operations
 
    PRIVATE
 
-   CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_acc_operations'
-
    LOGICAL, PARAMETER :: careful_mod = .FALSE.
 
    PUBLIC :: dbcsr_acc_do_mm_stack, dbcsr_acc_transpose
@@ -110,8 +108,7 @@ CONTAINS
       DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_acc_do_mm_stack', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_acc_do_mm_stack'
 
       INTEGER                                  :: error_handle, istat
       INTEGER(KIND=C_INT)                      :: mnk
@@ -168,8 +165,7 @@ CONTAINS
       DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_acc_transpose', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_acc_transpose'
 
       INTEGER                                  :: error_handle, istat
 
