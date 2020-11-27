@@ -30,8 +30,6 @@ MODULE dbcsr_acc_devmem
 
    PRIVATE
 
-   CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_acc_devmem'
-
    PUBLIC :: acc_devmem_type
    PUBLIC :: acc_devmem_allocate_bytes, acc_devmem_deallocate
    PUBLIC :: acc_devmem_setzero_bytes
@@ -356,8 +354,7 @@ CONTAINS
       MARK_USED(size_in_bytes)
       DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
-      CHARACTER(len=*), PARAMETER :: routineN = 'acc_devmem_allocate', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'acc_devmem_allocate'
 
       INTEGER                                  :: istat
 
@@ -381,8 +378,7 @@ CONTAINS
       MARK_USED(this)
       DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
-      CHARACTER(len=*), PARAMETER :: routineN = 'acc_devmem_deallocate', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'acc_devmem_deallocate'
 
       INTEGER                                  :: istat
 
@@ -416,8 +412,7 @@ CONTAINS
       MARK_USED(stream)
       DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
-      CHARACTER(len=*), PARAMETER :: routineN = 'acc_devmem_setzero', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'acc_devmem_setzero'
 
       INTEGER                                  :: istat
       INTEGER(KIND=C_SIZE_T)                   :: length, offset
@@ -454,7 +449,7 @@ CONTAINS
       TYPE(acc_stream_type), INTENT(IN)                  :: stream
          !! stream used for memory transfer
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'host2dev_raw', routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'host2dev_raw'
 
       INTEGER                                            :: istat
       TYPE(C_PTR)                                        :: stream_cptr
@@ -481,7 +476,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: n_bytes
       TYPE(acc_stream_type), INTENT(IN)                  :: stream
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dev2host_raw', routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dev2host_raw'
 
       INTEGER                                            :: istat
       TYPE(C_PTR)                                        :: stream_cptr
