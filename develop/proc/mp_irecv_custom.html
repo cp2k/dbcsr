@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">38 statements</a>
+    title=" 0.1% of total for procedures.">35 statements</a>
      </li> 
      
      
@@ -368,14 +368,14 @@ private subroutine mp_irecv_custom(msgout, source, comm, request, tag)
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">request</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">tag</span>
 
+      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">ierr</span>
+
+<span class="cp">#if defined(__parallel)</span>
       <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;mp_irecv_custom&#39;</span>
-
-      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">ierr</span><span class="p">,</span> <span class="n">my_tag</span>
-
+      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">my_tag</span>
       <span class="n">ierr</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="n">my_tag</span> <span class="o">=</span> <span class="mi">0</span>
 
-<span class="cp">#if defined(__parallel)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">tag</span><span class="p">))</span> <span class="n">my_tag</span> <span class="o">=</span> <span class="n">tag</span>
 
       <span class="k">CALL </span><span class="n">mpi_irecv</span><span class="p">(</span><span class="n">MPI_BOTTOM</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">msgout</span><span class="p">%</span><span class="n">type_handle</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">my_tag</span><span class="p">,</span> <span class="p">&amp;</span>

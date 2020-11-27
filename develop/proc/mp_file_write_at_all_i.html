@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">9 statements</a>
+    title=" 0.0% of total for procedures.">6 statements</a>
      </li> 
      
      
@@ -334,12 +334,12 @@ private subroutine mp_file_write_at_all_i(fh, offset, msg)
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                        <span class="kd">::</span> <span class="n">fh</span>
       <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">file_offset</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>      <span class="kd">::</span> <span class="n">offset</span>
 
+<span class="cp">#if defined(__parallel)</span>
       <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;mp_file_write_at_all_i&#39;</span>
 
       <span class="kt">INTEGER</span>                                    <span class="kd">::</span> <span class="n">ierr</span>
 
       <span class="n">ierr</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="cp">#if defined(__parallel)</span>
       <span class="k">CALL </span><span class="n">MPI_FILE_WRITE_AT_ALL</span><span class="p">(</span><span class="n">fh</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">MPI_INTEGER</span><span class="p">,</span> <span class="n">MPI_STATUS_IGNORE</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
          <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;mpi_file_write_at_all_i @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>

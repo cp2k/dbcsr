@@ -224,8 +224,6 @@ All Procedures &ndash; DBCSR
  for every call to start there has to be (exactly) one call to stop
  </p><a href="../proc/add_mp_perf_env.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			 
-			   <tr><td><a href='../proc/add_perf.html'>add_perf</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>adds the performance informations of one call</p></td></tr>
-			 
 			   <tr><td><a href='../proc/add_timer_env.html'>add_timer_env</a></td><td><a href='../module/dbcsr_timings.html'>dbcsr_timings</a></td><td>Subroutine</td><td><p>adds the given timer_env to the top of the stack
  </p><a href="../proc/add_timer_env.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			 
@@ -4216,26 +4214,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/mp_allgatherv_zv.html'>mp_allgatherv_zv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Gathers vector data from all processes and all processes receive the
  same data</p><a href="../proc/mp_allgatherv_zv.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			 
-			   <tr><td><a href='../interface/mp_alloc_mem.html'>mp_alloc_mem</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Interface</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_alloc_mem_c.html'>mp_alloc_mem_c</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Allocates an array, using MPI_ALLOC_MEM ... this is hackish
- as the Fortran version returns an integer, which we take to be a C_PTR</p></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_alloc_mem_d.html'>mp_alloc_mem_d</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Allocates an array, using MPI_ALLOC_MEM ... this is hackish
- as the Fortran version returns an integer, which we take to be a C_PTR</p></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_alloc_mem_i.html'>mp_alloc_mem_i</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Allocates an array, using MPI_ALLOC_MEM ... this is hackish
- as the Fortran version returns an integer, which we take to be a C_PTR</p></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_alloc_mem_l.html'>mp_alloc_mem_l</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Allocates an array, using MPI_ALLOC_MEM ... this is hackish
- as the Fortran version returns an integer, which we take to be a C_PTR</p></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_alloc_mem_r.html'>mp_alloc_mem_r</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Allocates an array, using MPI_ALLOC_MEM ... this is hackish
- as the Fortran version returns an integer, which we take to be a C_PTR</p></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_alloc_mem_z.html'>mp_alloc_mem_z</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Allocates an array, using MPI_ALLOC_MEM ... this is hackish
- as the Fortran version returns an integer, which we take to be a C_PTR</p></td></tr>
-			 
 			   <tr><td><a href='../interface/mp_allocate.html'>mp_allocate</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Interface</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/mp_allocate_c.html'>mp_allocate_c</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Allocates special parallel memory</p></td></tr>
@@ -4550,26 +4528,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/mp_file_write_at_zv.html'>mp_file_write_at_zv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>(parallel) Blocking individual file write using explicit offsets
  (serial) Unformatted stream write</p><a href="../proc/mp_file_write_at_zv.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			 
-			   <tr><td><a href='../interface/mp_free_mem.html'>mp_free_mem</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Interface</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_free_mem_c.html'>mp_free_mem_c</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Deallocates am array, ... this is hackish
- as the Fortran version takes an integer, which we hope to get by reference</p></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_free_mem_d.html'>mp_free_mem_d</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Deallocates am array, ... this is hackish
- as the Fortran version takes an integer, which we hope to get by reference</p></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_free_mem_i.html'>mp_free_mem_i</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Deallocates am array, ... this is hackish
- as the Fortran version takes an integer, which we hope to get by reference</p></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_free_mem_l.html'>mp_free_mem_l</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Deallocates am array, ... this is hackish
- as the Fortran version takes an integer, which we hope to get by reference</p></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_free_mem_r.html'>mp_free_mem_r</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Deallocates am array, ... this is hackish
- as the Fortran version takes an integer, which we hope to get by reference</p></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_free_mem_z.html'>mp_free_mem_z</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Deallocates am array, ... this is hackish
- as the Fortran version takes an integer, which we hope to get by reference</p></td></tr>
 			 
 			   <tr><td><a href='../interface/mp_gather.html'>mp_gather</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Interface</td><td></td></tr>
 			 

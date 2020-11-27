@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">14 statements</a>
+    title=" 0.0% of total for procedures.">6 statements</a>
      </li> 
      
      
@@ -324,16 +324,13 @@ public subroutine mp_get_library_version(version, resultlen)
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">resultlen</span>
          <span class="c">!! Length (in printable characters) of the result returned in version (integer)</span>
 
+<span class="cp">#if defined(__parallel)</span>
+<span class="cp">#if __MPI_VERSION &gt; 2</span>
       <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;mp_get_library_version&#39;</span>
 
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">ierr</span>
 
       <span class="n">ierr</span> <span class="o">=</span> <span class="mi">0</span>
-
-      <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
-
-<span class="cp">#if defined(__parallel)</span>
-<span class="cp">#if __MPI_VERSION &gt; 2</span>
       <span class="k">CALL </span><span class="n">mpi_get_library_version</span><span class="p">(</span><span class="n">version</span><span class="p">,</span> <span class="n">resultlen</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_get_library_version @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
 <span class="cp">#else</span>
@@ -342,7 +339,7 @@ public subroutine mp_get_library_version(version, resultlen)
       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;mp_get_library_version requires MPI-3 standard&quot;</span><span class="p">)</span>
 <span class="cp">#endif</span>
 <span class="cp">#else</span>
-      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">version</span><span class="p">)</span>
+      <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
       <span class="n">resultlen</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="cp">#endif</span>
    <span class="k">END SUBROUTINE </span><span class="n">mp_get_library_version</span>

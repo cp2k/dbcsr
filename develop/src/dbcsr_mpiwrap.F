@@ -494,16 +494,19 @@ MODULE dbcsr_mpiwrap
 # 344 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
 
+
+#if defined(__parallel)
    INTERFACE mp_alloc_mem
-# 346 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 348 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_alloc_mem_i, mp_alloc_mem_l, mp_alloc_mem_d, mp_alloc_mem_r, mp_alloc_mem_z, mp_alloc_mem_c
-# 346 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 348 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
    INTERFACE mp_free_mem
-# 347 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 349 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
       MODULE PROCEDURE mp_free_mem_i, mp_free_mem_l, mp_free_mem_d, mp_free_mem_r, mp_free_mem_z, mp_free_mem_c
-# 347 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 349 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    END INTERFACE
+#endif
 
 ! Type declarations
    TYPE mp_indexing_meta_type
@@ -870,12 +873,12 @@ CONTAINS
       CALL mp_perf_env_describe(perf_env, scr)
    END SUBROUTINE describe_mp_perf_env
 
+#if defined(__parallel)
    SUBROUTINE add_perf(perf_id, msg_size)
       !! adds the performance informations of one call
       INTEGER, INTENT(in)                      :: perf_id
       INTEGER, INTENT(in)                      :: msg_size
 
-#if defined(__parallel)
       TYPE(mp_perf_type), POINTER              :: mp_perf
 
       IF (stack_pointer < 1) return
@@ -884,12 +887,8 @@ CONTAINS
       mp_perf => mp_perf_stack(stack_pointer)%mp_perf_env%mp_perfs(perf_id)
       mp_perf%count = mp_perf%count + 1
       mp_perf%msg_size = mp_perf%msg_size + REAL(msg_size, dp)
-#else
-      MARK_USED(perf_id)
-      MARK_USED(msg_size)
-#endif
-
    END SUBROUTINE add_perf
+#endif
 
    SUBROUTINE mp_abort()
       !! globally stops all tasks
@@ -2272,16 +2271,13 @@ CONTAINS
       INTEGER, INTENT(OUT)                               :: resultlen
          !! Length (in printable characters) of the result returned in version (integer)
 
+#if defined(__parallel)
+#if __MPI_VERSION > 2
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_get_library_version'
 
       INTEGER                                            :: ierr
 
       ierr = 0
-
-      version = ''
-
-#if defined(__parallel)
-#if __MPI_VERSION > 2
       CALL mpi_get_library_version(version, resultlen, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_get_library_version @ "//routineN)
 #else
@@ -2290,7 +2286,7 @@ CONTAINS
       DBCSR_ABORT("mp_get_library_version requires MPI-3 standard")
 #endif
 #else
-      MARK_USED(version)
+      version = ''
       resultlen = 0
 #endif
    END SUBROUTINE mp_get_library_version
@@ -2482,9 +2478,9 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_ch'
 
-#if defined(__parallel)
       INTEGER                                    :: ierr
 
       CALL MPI_FILE_WRITE_AT(fh, offset, msg, LEN(msg), MPI_CHARACTER, MPI_STATUS_IGNORE, ierr)
@@ -2500,9 +2496,9 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_ch'
 
-#if defined(__parallel)
       INTEGER                                    :: ierr
 
       CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, LEN(msg), MPI_CHARACTER, MPI_STATUS_IGNORE, ierr)
@@ -2518,9 +2514,9 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_ch'
 
-#if defined(__parallel)
       INTEGER                                    :: ierr
 
       CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, LEN(msg), MPI_CHARACTER, MPI_STATUS_IGNORE, ierr)
@@ -2542,12 +2538,11 @@ CONTAINS
       INTEGER, INTENT(OUT)                               :: type_size
          !! size of the data type
 
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_type_size'
-
       INTEGER                                            :: ierr
 
       ierr = 0
-#if defined(__parallel)
       CALL MPI_TYPE_SIZE(type_descriptor%type_handle, type_size, ierr)
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_type_size @ "//routineN)
@@ -2657,16 +2652,15 @@ CONTAINS
       INTEGER, INTENT(out)                               :: request
       INTEGER, INTENT(in), OPTIONAL                      :: tag
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isend_custom'
-
-      INTEGER                                            :: ierr, my_tag
-
-      ierr = 0
-      my_tag = 0
+      INTEGER                                            :: ierr
 
 #if defined(__parallel)
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isend_custom'
+      INTEGER                                            :: my_tag
+      my_tag = 0
       IF (PRESENT(tag)) my_tag = tag
 
+      ierr = 0
       CALL mpi_isend(MPI_BOTTOM, 1, msgin%type_handle, dest, my_tag, &
                      comm, request, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
@@ -2689,14 +2683,14 @@ CONTAINS
       INTEGER, INTENT(out)                               :: request
       INTEGER, INTENT(in), OPTIONAL                      :: tag
 
+      INTEGER                                            :: ierr
+
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_irecv_custom'
-
-      INTEGER                                            :: ierr, my_tag
-
+      INTEGER                                            :: my_tag
       ierr = 0
       my_tag = 0
 
-#if defined(__parallel)
       IF (PRESENT(tag)) my_tag = tag
 
       CALL mpi_irecv(MPI_BOTTOM, 1, msgout%type_handle, source, my_tag, &
@@ -2813,7 +2807,7 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE mp_win_unlock_all
 
-# 2658 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 2652 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    SUBROUTINE mp_alltoall_i11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -5437,17 +5431,20 @@ CONTAINS
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
          !! file offset (position)
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_iv'
+      INTEGER                                    :: msg_len
 
-      INTEGER                                    :: ierr, msg_len
-
-      ierr = 0
       msg_len = SIZE(msg)
       IF (PRESENT(msglen)) msg_len = msglen
+
 #if defined(__parallel)
-      CALL MPI_FILE_WRITE_AT(fh, offset, msg, msg_len, MPI_INTEGER, MPI_STATUS_IGNORE, ierr)
-      IF (ierr .NE. 0) &
-         DBCSR_ABORT("mpi_file_write_at_iv @ "//routineN)
+      BLOCK
+         CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_iv'
+         INTEGER :: ierr
+         ierr = 0
+         CALL MPI_FILE_WRITE_AT(fh, offset, msg, msg_len, MPI_INTEGER, MPI_STATUS_IGNORE, ierr)
+         IF (ierr .NE. 0) &
+            DBCSR_ABORT("mpi_file_write_at_iv @ "//routineN)
+      END BLOCK
 #else
       WRITE (UNIT=fh, POS=offset + 1) msg(1:msg_len)
 #endif
@@ -5460,12 +5457,12 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_i'
 
       INTEGER                                    :: ierr
 
       ierr = 0
-#if defined(__parallel)
       CALL MPI_FILE_WRITE_AT(fh, offset, msg, 1, MPI_INTEGER, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_file_write_at_i @ "//routineN)
@@ -5488,17 +5485,18 @@ CONTAINS
       INTEGER                                    :: msg_len
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_iv'
-
-      INTEGER                                    :: ierr
-
-      ierr = 0
       msg_len = SIZE(msg)
       IF (PRESENT(msglen)) msg_len = msglen
 #if defined(__parallel)
-      CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, msg_len, MPI_INTEGER, MPI_STATUS_IGNORE, ierr)
-      IF (ierr .NE. 0) &
-         DBCSR_ABORT("mpi_file_write_at_all_iv @ "//routineN)
+      BLOCK
+         CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_iv'
+         INTEGER                                    :: ierr
+         ierr = 0
+
+         CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, msg_len, MPI_INTEGER, MPI_STATUS_IGNORE, ierr)
+         IF (ierr .NE. 0) &
+            DBCSR_ABORT("mpi_file_write_at_all_iv @ "//routineN)
+      END BLOCK
 #else
       WRITE (UNIT=fh, POS=offset + 1) msg(1:msg_len)
 #endif
@@ -5511,12 +5509,12 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_i'
 
       INTEGER                                    :: ierr
 
       ierr = 0
-#if defined(__parallel)
       CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, 1, MPI_INTEGER, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_file_write_at_all_i @ "//routineN)
@@ -5540,17 +5538,20 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL              :: msglen
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_iv'
+      INTEGER                                    :: msg_len
 
-      INTEGER                                    :: ierr, msg_len
-
-      ierr = 0
       msg_len = SIZE(msg)
       IF (PRESENT(msglen)) msg_len = msglen
 #if defined(__parallel)
-      CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, msg_len, MPI_INTEGER, MPI_STATUS_IGNORE, ierr)
-      IF (ierr .NE. 0) &
-         DBCSR_ABORT("mpi_file_read_at_all_iv @ "//routineN)
+      BLOCK
+         CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_iv'
+         INTEGER                                    :: ierr
+         ierr = 0
+
+         CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, msg_len, MPI_INTEGER, MPI_STATUS_IGNORE, ierr)
+         IF (ierr .NE. 0) &
+            DBCSR_ABORT("mpi_file_read_at_all_iv @ "//routineN)
+      END BLOCK
 #else
       READ (UNIT=fh, POS=offset + 1) msg(1:msg_len)
 #endif
@@ -5563,12 +5564,12 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_i'
 
       INTEGER                                    :: ierr
 
       ierr = 0
-#if defined(__parallel)
       CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, 1, MPI_INTEGER, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_file_read_at_all_i @ "//routineN)
@@ -5610,6 +5611,7 @@ CONTAINS
       ENDIF
    END FUNCTION mp_type_make_i
 
+#if defined(__parallel)
    SUBROUTINE mp_alloc_mem_i (DATA, len, stat)
       !! Allocates an array, using MPI_ALLOC_MEM ... this is hackish
       !! as the Fortran version returns an integer, which we take to be a C_PTR
@@ -5621,7 +5623,6 @@ CONTAINS
       INTEGER, INTENT(OUT), OPTIONAL           :: stat
          !! allocation status result
 
-#if defined(__parallel)
       INTEGER                                  :: size, ierr, length, &
                                                   mp_info, mp_res
       INTEGER(KIND=MPI_ADDRESS_KIND)           :: mp_size
@@ -5637,18 +5638,10 @@ CONTAINS
       CALL MPI_ALLOC_MEM(mp_size, mp_info, mp_baseptr, mp_res)
       CALL C_F_POINTER(mp_baseptr, DATA, (/length/))
       IF (PRESENT(stat)) stat = mp_res
-#else
-      INTEGER                                 :: length, mystat
-      length = MAX(len, 1)
-      IF (PRESENT(stat)) THEN
-         ALLOCATE (DATA(length), stat=mystat)
-         stat = mystat ! show to convention checker that stat is used
-      ELSE
-         ALLOCATE (DATA(length))
-      ENDIF
-#endif
    END SUBROUTINE mp_alloc_mem_i
+#endif
 
+#if defined(__parallel)
    SUBROUTINE mp_free_mem_i (DATA, stat)
       !! Deallocates am array, ... this is hackish
       !! as the Fortran version takes an integer, which we hope to get by reference
@@ -5659,16 +5652,13 @@ CONTAINS
       INTEGER, INTENT(OUT), OPTIONAL           :: stat
          !! allocation status result
 
-#if defined(__parallel)
       INTEGER                                  :: mp_res
       CALL MPI_FREE_MEM(DATA, mp_res)
       IF (PRESENT(stat)) stat = mp_res
-#else
-      DEALLOCATE (DATA)
-      IF (PRESENT(stat)) stat = 0
-#endif
    END SUBROUTINE mp_free_mem_i
-# 2658 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+#endif
+
+# 2652 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    SUBROUTINE mp_alltoall_l11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -8292,17 +8282,20 @@ CONTAINS
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
          !! file offset (position)
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_lv'
+      INTEGER                                    :: msg_len
 
-      INTEGER                                    :: ierr, msg_len
-
-      ierr = 0
       msg_len = SIZE(msg)
       IF (PRESENT(msglen)) msg_len = msglen
+
 #if defined(__parallel)
-      CALL MPI_FILE_WRITE_AT(fh, offset, msg, msg_len, MPI_INTEGER8, MPI_STATUS_IGNORE, ierr)
-      IF (ierr .NE. 0) &
-         DBCSR_ABORT("mpi_file_write_at_lv @ "//routineN)
+      BLOCK
+         CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_lv'
+         INTEGER :: ierr
+         ierr = 0
+         CALL MPI_FILE_WRITE_AT(fh, offset, msg, msg_len, MPI_INTEGER8, MPI_STATUS_IGNORE, ierr)
+         IF (ierr .NE. 0) &
+            DBCSR_ABORT("mpi_file_write_at_lv @ "//routineN)
+      END BLOCK
 #else
       WRITE (UNIT=fh, POS=offset + 1) msg(1:msg_len)
 #endif
@@ -8315,12 +8308,12 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_l'
 
       INTEGER                                    :: ierr
 
       ierr = 0
-#if defined(__parallel)
       CALL MPI_FILE_WRITE_AT(fh, offset, msg, 1, MPI_INTEGER8, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_file_write_at_l @ "//routineN)
@@ -8343,17 +8336,18 @@ CONTAINS
       INTEGER                                    :: msg_len
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_lv'
-
-      INTEGER                                    :: ierr
-
-      ierr = 0
       msg_len = SIZE(msg)
       IF (PRESENT(msglen)) msg_len = msglen
 #if defined(__parallel)
-      CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, msg_len, MPI_INTEGER8, MPI_STATUS_IGNORE, ierr)
-      IF (ierr .NE. 0) &
-         DBCSR_ABORT("mpi_file_write_at_all_lv @ "//routineN)
+      BLOCK
+         CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_lv'
+         INTEGER                                    :: ierr
+         ierr = 0
+
+         CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, msg_len, MPI_INTEGER8, MPI_STATUS_IGNORE, ierr)
+         IF (ierr .NE. 0) &
+            DBCSR_ABORT("mpi_file_write_at_all_lv @ "//routineN)
+      END BLOCK
 #else
       WRITE (UNIT=fh, POS=offset + 1) msg(1:msg_len)
 #endif
@@ -8366,12 +8360,12 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_l'
 
       INTEGER                                    :: ierr
 
       ierr = 0
-#if defined(__parallel)
       CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, 1, MPI_INTEGER8, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_file_write_at_all_l @ "//routineN)
@@ -8395,17 +8389,20 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL              :: msglen
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_lv'
+      INTEGER                                    :: msg_len
 
-      INTEGER                                    :: ierr, msg_len
-
-      ierr = 0
       msg_len = SIZE(msg)
       IF (PRESENT(msglen)) msg_len = msglen
 #if defined(__parallel)
-      CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, msg_len, MPI_INTEGER8, MPI_STATUS_IGNORE, ierr)
-      IF (ierr .NE. 0) &
-         DBCSR_ABORT("mpi_file_read_at_all_lv @ "//routineN)
+      BLOCK
+         CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_lv'
+         INTEGER                                    :: ierr
+         ierr = 0
+
+         CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, msg_len, MPI_INTEGER8, MPI_STATUS_IGNORE, ierr)
+         IF (ierr .NE. 0) &
+            DBCSR_ABORT("mpi_file_read_at_all_lv @ "//routineN)
+      END BLOCK
 #else
       READ (UNIT=fh, POS=offset + 1) msg(1:msg_len)
 #endif
@@ -8418,12 +8415,12 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_l'
 
       INTEGER                                    :: ierr
 
       ierr = 0
-#if defined(__parallel)
       CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, 1, MPI_INTEGER8, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_file_read_at_all_l @ "//routineN)
@@ -8465,6 +8462,7 @@ CONTAINS
       ENDIF
    END FUNCTION mp_type_make_l
 
+#if defined(__parallel)
    SUBROUTINE mp_alloc_mem_l (DATA, len, stat)
       !! Allocates an array, using MPI_ALLOC_MEM ... this is hackish
       !! as the Fortran version returns an integer, which we take to be a C_PTR
@@ -8476,7 +8474,6 @@ CONTAINS
       INTEGER, INTENT(OUT), OPTIONAL           :: stat
          !! allocation status result
 
-#if defined(__parallel)
       INTEGER                                  :: size, ierr, length, &
                                                   mp_info, mp_res
       INTEGER(KIND=MPI_ADDRESS_KIND)           :: mp_size
@@ -8492,18 +8489,10 @@ CONTAINS
       CALL MPI_ALLOC_MEM(mp_size, mp_info, mp_baseptr, mp_res)
       CALL C_F_POINTER(mp_baseptr, DATA, (/length/))
       IF (PRESENT(stat)) stat = mp_res
-#else
-      INTEGER                                 :: length, mystat
-      length = MAX(len, 1)
-      IF (PRESENT(stat)) THEN
-         ALLOCATE (DATA(length), stat=mystat)
-         stat = mystat ! show to convention checker that stat is used
-      ELSE
-         ALLOCATE (DATA(length))
-      ENDIF
-#endif
    END SUBROUTINE mp_alloc_mem_l
+#endif
 
+#if defined(__parallel)
    SUBROUTINE mp_free_mem_l (DATA, stat)
       !! Deallocates am array, ... this is hackish
       !! as the Fortran version takes an integer, which we hope to get by reference
@@ -8514,16 +8503,13 @@ CONTAINS
       INTEGER, INTENT(OUT), OPTIONAL           :: stat
          !! allocation status result
 
-#if defined(__parallel)
       INTEGER                                  :: mp_res
       CALL MPI_FREE_MEM(DATA, mp_res)
       IF (PRESENT(stat)) stat = mp_res
-#else
-      DEALLOCATE (DATA)
-      IF (PRESENT(stat)) stat = 0
-#endif
    END SUBROUTINE mp_free_mem_l
-# 2658 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+#endif
+
+# 2652 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    SUBROUTINE mp_alltoall_d11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -11147,17 +11133,20 @@ CONTAINS
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
          !! file offset (position)
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_dv'
+      INTEGER                                    :: msg_len
 
-      INTEGER                                    :: ierr, msg_len
-
-      ierr = 0
       msg_len = SIZE(msg)
       IF (PRESENT(msglen)) msg_len = msglen
+
 #if defined(__parallel)
-      CALL MPI_FILE_WRITE_AT(fh, offset, msg, msg_len, MPI_DOUBLE_PRECISION, MPI_STATUS_IGNORE, ierr)
-      IF (ierr .NE. 0) &
-         DBCSR_ABORT("mpi_file_write_at_dv @ "//routineN)
+      BLOCK
+         CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_dv'
+         INTEGER :: ierr
+         ierr = 0
+         CALL MPI_FILE_WRITE_AT(fh, offset, msg, msg_len, MPI_DOUBLE_PRECISION, MPI_STATUS_IGNORE, ierr)
+         IF (ierr .NE. 0) &
+            DBCSR_ABORT("mpi_file_write_at_dv @ "//routineN)
+      END BLOCK
 #else
       WRITE (UNIT=fh, POS=offset + 1) msg(1:msg_len)
 #endif
@@ -11170,12 +11159,12 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_d'
 
       INTEGER                                    :: ierr
 
       ierr = 0
-#if defined(__parallel)
       CALL MPI_FILE_WRITE_AT(fh, offset, msg, 1, MPI_DOUBLE_PRECISION, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_file_write_at_d @ "//routineN)
@@ -11198,17 +11187,18 @@ CONTAINS
       INTEGER                                    :: msg_len
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_dv'
-
-      INTEGER                                    :: ierr
-
-      ierr = 0
       msg_len = SIZE(msg)
       IF (PRESENT(msglen)) msg_len = msglen
 #if defined(__parallel)
-      CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, msg_len, MPI_DOUBLE_PRECISION, MPI_STATUS_IGNORE, ierr)
-      IF (ierr .NE. 0) &
-         DBCSR_ABORT("mpi_file_write_at_all_dv @ "//routineN)
+      BLOCK
+         CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_dv'
+         INTEGER                                    :: ierr
+         ierr = 0
+
+         CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, msg_len, MPI_DOUBLE_PRECISION, MPI_STATUS_IGNORE, ierr)
+         IF (ierr .NE. 0) &
+            DBCSR_ABORT("mpi_file_write_at_all_dv @ "//routineN)
+      END BLOCK
 #else
       WRITE (UNIT=fh, POS=offset + 1) msg(1:msg_len)
 #endif
@@ -11221,12 +11211,12 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_d'
 
       INTEGER                                    :: ierr
 
       ierr = 0
-#if defined(__parallel)
       CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, 1, MPI_DOUBLE_PRECISION, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_file_write_at_all_d @ "//routineN)
@@ -11250,17 +11240,20 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL              :: msglen
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_dv'
+      INTEGER                                    :: msg_len
 
-      INTEGER                                    :: ierr, msg_len
-
-      ierr = 0
       msg_len = SIZE(msg)
       IF (PRESENT(msglen)) msg_len = msglen
 #if defined(__parallel)
-      CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, msg_len, MPI_DOUBLE_PRECISION, MPI_STATUS_IGNORE, ierr)
-      IF (ierr .NE. 0) &
-         DBCSR_ABORT("mpi_file_read_at_all_dv @ "//routineN)
+      BLOCK
+         CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_dv'
+         INTEGER                                    :: ierr
+         ierr = 0
+
+         CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, msg_len, MPI_DOUBLE_PRECISION, MPI_STATUS_IGNORE, ierr)
+         IF (ierr .NE. 0) &
+            DBCSR_ABORT("mpi_file_read_at_all_dv @ "//routineN)
+      END BLOCK
 #else
       READ (UNIT=fh, POS=offset + 1) msg(1:msg_len)
 #endif
@@ -11273,12 +11266,12 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_d'
 
       INTEGER                                    :: ierr
 
       ierr = 0
-#if defined(__parallel)
       CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, 1, MPI_DOUBLE_PRECISION, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_file_read_at_all_d @ "//routineN)
@@ -11320,6 +11313,7 @@ CONTAINS
       ENDIF
    END FUNCTION mp_type_make_d
 
+#if defined(__parallel)
    SUBROUTINE mp_alloc_mem_d (DATA, len, stat)
       !! Allocates an array, using MPI_ALLOC_MEM ... this is hackish
       !! as the Fortran version returns an integer, which we take to be a C_PTR
@@ -11331,7 +11325,6 @@ CONTAINS
       INTEGER, INTENT(OUT), OPTIONAL           :: stat
          !! allocation status result
 
-#if defined(__parallel)
       INTEGER                                  :: size, ierr, length, &
                                                   mp_info, mp_res
       INTEGER(KIND=MPI_ADDRESS_KIND)           :: mp_size
@@ -11347,18 +11340,10 @@ CONTAINS
       CALL MPI_ALLOC_MEM(mp_size, mp_info, mp_baseptr, mp_res)
       CALL C_F_POINTER(mp_baseptr, DATA, (/length/))
       IF (PRESENT(stat)) stat = mp_res
-#else
-      INTEGER                                 :: length, mystat
-      length = MAX(len, 1)
-      IF (PRESENT(stat)) THEN
-         ALLOCATE (DATA(length), stat=mystat)
-         stat = mystat ! show to convention checker that stat is used
-      ELSE
-         ALLOCATE (DATA(length))
-      ENDIF
-#endif
    END SUBROUTINE mp_alloc_mem_d
+#endif
 
+#if defined(__parallel)
    SUBROUTINE mp_free_mem_d (DATA, stat)
       !! Deallocates am array, ... this is hackish
       !! as the Fortran version takes an integer, which we hope to get by reference
@@ -11369,16 +11354,13 @@ CONTAINS
       INTEGER, INTENT(OUT), OPTIONAL           :: stat
          !! allocation status result
 
-#if defined(__parallel)
       INTEGER                                  :: mp_res
       CALL MPI_FREE_MEM(DATA, mp_res)
       IF (PRESENT(stat)) stat = mp_res
-#else
-      DEALLOCATE (DATA)
-      IF (PRESENT(stat)) stat = 0
-#endif
    END SUBROUTINE mp_free_mem_d
-# 2658 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+#endif
+
+# 2652 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    SUBROUTINE mp_alltoall_r11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -14002,17 +13984,20 @@ CONTAINS
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
          !! file offset (position)
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_rv'
+      INTEGER                                    :: msg_len
 
-      INTEGER                                    :: ierr, msg_len
-
-      ierr = 0
       msg_len = SIZE(msg)
       IF (PRESENT(msglen)) msg_len = msglen
+
 #if defined(__parallel)
-      CALL MPI_FILE_WRITE_AT(fh, offset, msg, msg_len, MPI_REAL, MPI_STATUS_IGNORE, ierr)
-      IF (ierr .NE. 0) &
-         DBCSR_ABORT("mpi_file_write_at_rv @ "//routineN)
+      BLOCK
+         CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_rv'
+         INTEGER :: ierr
+         ierr = 0
+         CALL MPI_FILE_WRITE_AT(fh, offset, msg, msg_len, MPI_REAL, MPI_STATUS_IGNORE, ierr)
+         IF (ierr .NE. 0) &
+            DBCSR_ABORT("mpi_file_write_at_rv @ "//routineN)
+      END BLOCK
 #else
       WRITE (UNIT=fh, POS=offset + 1) msg(1:msg_len)
 #endif
@@ -14025,12 +14010,12 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_r'
 
       INTEGER                                    :: ierr
 
       ierr = 0
-#if defined(__parallel)
       CALL MPI_FILE_WRITE_AT(fh, offset, msg, 1, MPI_REAL, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_file_write_at_r @ "//routineN)
@@ -14053,17 +14038,18 @@ CONTAINS
       INTEGER                                    :: msg_len
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_rv'
-
-      INTEGER                                    :: ierr
-
-      ierr = 0
       msg_len = SIZE(msg)
       IF (PRESENT(msglen)) msg_len = msglen
 #if defined(__parallel)
-      CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, msg_len, MPI_REAL, MPI_STATUS_IGNORE, ierr)
-      IF (ierr .NE. 0) &
-         DBCSR_ABORT("mpi_file_write_at_all_rv @ "//routineN)
+      BLOCK
+         CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_rv'
+         INTEGER                                    :: ierr
+         ierr = 0
+
+         CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, msg_len, MPI_REAL, MPI_STATUS_IGNORE, ierr)
+         IF (ierr .NE. 0) &
+            DBCSR_ABORT("mpi_file_write_at_all_rv @ "//routineN)
+      END BLOCK
 #else
       WRITE (UNIT=fh, POS=offset + 1) msg(1:msg_len)
 #endif
@@ -14076,12 +14062,12 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_r'
 
       INTEGER                                    :: ierr
 
       ierr = 0
-#if defined(__parallel)
       CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, 1, MPI_REAL, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_file_write_at_all_r @ "//routineN)
@@ -14105,17 +14091,20 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL              :: msglen
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_rv'
+      INTEGER                                    :: msg_len
 
-      INTEGER                                    :: ierr, msg_len
-
-      ierr = 0
       msg_len = SIZE(msg)
       IF (PRESENT(msglen)) msg_len = msglen
 #if defined(__parallel)
-      CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, msg_len, MPI_REAL, MPI_STATUS_IGNORE, ierr)
-      IF (ierr .NE. 0) &
-         DBCSR_ABORT("mpi_file_read_at_all_rv @ "//routineN)
+      BLOCK
+         CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_rv'
+         INTEGER                                    :: ierr
+         ierr = 0
+
+         CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, msg_len, MPI_REAL, MPI_STATUS_IGNORE, ierr)
+         IF (ierr .NE. 0) &
+            DBCSR_ABORT("mpi_file_read_at_all_rv @ "//routineN)
+      END BLOCK
 #else
       READ (UNIT=fh, POS=offset + 1) msg(1:msg_len)
 #endif
@@ -14128,12 +14117,12 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_r'
 
       INTEGER                                    :: ierr
 
       ierr = 0
-#if defined(__parallel)
       CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, 1, MPI_REAL, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_file_read_at_all_r @ "//routineN)
@@ -14175,6 +14164,7 @@ CONTAINS
       ENDIF
    END FUNCTION mp_type_make_r
 
+#if defined(__parallel)
    SUBROUTINE mp_alloc_mem_r (DATA, len, stat)
       !! Allocates an array, using MPI_ALLOC_MEM ... this is hackish
       !! as the Fortran version returns an integer, which we take to be a C_PTR
@@ -14186,7 +14176,6 @@ CONTAINS
       INTEGER, INTENT(OUT), OPTIONAL           :: stat
          !! allocation status result
 
-#if defined(__parallel)
       INTEGER                                  :: size, ierr, length, &
                                                   mp_info, mp_res
       INTEGER(KIND=MPI_ADDRESS_KIND)           :: mp_size
@@ -14202,18 +14191,10 @@ CONTAINS
       CALL MPI_ALLOC_MEM(mp_size, mp_info, mp_baseptr, mp_res)
       CALL C_F_POINTER(mp_baseptr, DATA, (/length/))
       IF (PRESENT(stat)) stat = mp_res
-#else
-      INTEGER                                 :: length, mystat
-      length = MAX(len, 1)
-      IF (PRESENT(stat)) THEN
-         ALLOCATE (DATA(length), stat=mystat)
-         stat = mystat ! show to convention checker that stat is used
-      ELSE
-         ALLOCATE (DATA(length))
-      ENDIF
-#endif
    END SUBROUTINE mp_alloc_mem_r
+#endif
 
+#if defined(__parallel)
    SUBROUTINE mp_free_mem_r (DATA, stat)
       !! Deallocates am array, ... this is hackish
       !! as the Fortran version takes an integer, which we hope to get by reference
@@ -14224,16 +14205,13 @@ CONTAINS
       INTEGER, INTENT(OUT), OPTIONAL           :: stat
          !! allocation status result
 
-#if defined(__parallel)
       INTEGER                                  :: mp_res
       CALL MPI_FREE_MEM(DATA, mp_res)
       IF (PRESENT(stat)) stat = mp_res
-#else
-      DEALLOCATE (DATA)
-      IF (PRESENT(stat)) stat = 0
-#endif
    END SUBROUTINE mp_free_mem_r
-# 2658 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+#endif
+
+# 2652 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    SUBROUTINE mp_alltoall_z11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -16857,17 +16835,20 @@ CONTAINS
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
          !! file offset (position)
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_zv'
+      INTEGER                                    :: msg_len
 
-      INTEGER                                    :: ierr, msg_len
-
-      ierr = 0
       msg_len = SIZE(msg)
       IF (PRESENT(msglen)) msg_len = msglen
+
 #if defined(__parallel)
-      CALL MPI_FILE_WRITE_AT(fh, offset, msg, msg_len, MPI_DOUBLE_COMPLEX, MPI_STATUS_IGNORE, ierr)
-      IF (ierr .NE. 0) &
-         DBCSR_ABORT("mpi_file_write_at_zv @ "//routineN)
+      BLOCK
+         CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_zv'
+         INTEGER :: ierr
+         ierr = 0
+         CALL MPI_FILE_WRITE_AT(fh, offset, msg, msg_len, MPI_DOUBLE_COMPLEX, MPI_STATUS_IGNORE, ierr)
+         IF (ierr .NE. 0) &
+            DBCSR_ABORT("mpi_file_write_at_zv @ "//routineN)
+      END BLOCK
 #else
       WRITE (UNIT=fh, POS=offset + 1) msg(1:msg_len)
 #endif
@@ -16880,12 +16861,12 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_z'
 
       INTEGER                                    :: ierr
 
       ierr = 0
-#if defined(__parallel)
       CALL MPI_FILE_WRITE_AT(fh, offset, msg, 1, MPI_DOUBLE_COMPLEX, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_file_write_at_z @ "//routineN)
@@ -16908,17 +16889,18 @@ CONTAINS
       INTEGER                                    :: msg_len
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_zv'
-
-      INTEGER                                    :: ierr
-
-      ierr = 0
       msg_len = SIZE(msg)
       IF (PRESENT(msglen)) msg_len = msglen
 #if defined(__parallel)
-      CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, msg_len, MPI_DOUBLE_COMPLEX, MPI_STATUS_IGNORE, ierr)
-      IF (ierr .NE. 0) &
-         DBCSR_ABORT("mpi_file_write_at_all_zv @ "//routineN)
+      BLOCK
+         CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_zv'
+         INTEGER                                    :: ierr
+         ierr = 0
+
+         CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, msg_len, MPI_DOUBLE_COMPLEX, MPI_STATUS_IGNORE, ierr)
+         IF (ierr .NE. 0) &
+            DBCSR_ABORT("mpi_file_write_at_all_zv @ "//routineN)
+      END BLOCK
 #else
       WRITE (UNIT=fh, POS=offset + 1) msg(1:msg_len)
 #endif
@@ -16931,12 +16913,12 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_z'
 
       INTEGER                                    :: ierr
 
       ierr = 0
-#if defined(__parallel)
       CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, 1, MPI_DOUBLE_COMPLEX, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_file_write_at_all_z @ "//routineN)
@@ -16960,17 +16942,20 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL              :: msglen
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_zv'
+      INTEGER                                    :: msg_len
 
-      INTEGER                                    :: ierr, msg_len
-
-      ierr = 0
       msg_len = SIZE(msg)
       IF (PRESENT(msglen)) msg_len = msglen
 #if defined(__parallel)
-      CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, msg_len, MPI_DOUBLE_COMPLEX, MPI_STATUS_IGNORE, ierr)
-      IF (ierr .NE. 0) &
-         DBCSR_ABORT("mpi_file_read_at_all_zv @ "//routineN)
+      BLOCK
+         CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_zv'
+         INTEGER                                    :: ierr
+         ierr = 0
+
+         CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, msg_len, MPI_DOUBLE_COMPLEX, MPI_STATUS_IGNORE, ierr)
+         IF (ierr .NE. 0) &
+            DBCSR_ABORT("mpi_file_read_at_all_zv @ "//routineN)
+      END BLOCK
 #else
       READ (UNIT=fh, POS=offset + 1) msg(1:msg_len)
 #endif
@@ -16983,12 +16968,12 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_z'
 
       INTEGER                                    :: ierr
 
       ierr = 0
-#if defined(__parallel)
       CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, 1, MPI_DOUBLE_COMPLEX, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_file_read_at_all_z @ "//routineN)
@@ -17030,6 +17015,7 @@ CONTAINS
       ENDIF
    END FUNCTION mp_type_make_z
 
+#if defined(__parallel)
    SUBROUTINE mp_alloc_mem_z (DATA, len, stat)
       !! Allocates an array, using MPI_ALLOC_MEM ... this is hackish
       !! as the Fortran version returns an integer, which we take to be a C_PTR
@@ -17041,7 +17027,6 @@ CONTAINS
       INTEGER, INTENT(OUT), OPTIONAL           :: stat
          !! allocation status result
 
-#if defined(__parallel)
       INTEGER                                  :: size, ierr, length, &
                                                   mp_info, mp_res
       INTEGER(KIND=MPI_ADDRESS_KIND)           :: mp_size
@@ -17057,18 +17042,10 @@ CONTAINS
       CALL MPI_ALLOC_MEM(mp_size, mp_info, mp_baseptr, mp_res)
       CALL C_F_POINTER(mp_baseptr, DATA, (/length/))
       IF (PRESENT(stat)) stat = mp_res
-#else
-      INTEGER                                 :: length, mystat
-      length = MAX(len, 1)
-      IF (PRESENT(stat)) THEN
-         ALLOCATE (DATA(length), stat=mystat)
-         stat = mystat ! show to convention checker that stat is used
-      ELSE
-         ALLOCATE (DATA(length))
-      ENDIF
-#endif
    END SUBROUTINE mp_alloc_mem_z
+#endif
 
+#if defined(__parallel)
    SUBROUTINE mp_free_mem_z (DATA, stat)
       !! Deallocates am array, ... this is hackish
       !! as the Fortran version takes an integer, which we hope to get by reference
@@ -17079,16 +17056,13 @@ CONTAINS
       INTEGER, INTENT(OUT), OPTIONAL           :: stat
          !! allocation status result
 
-#if defined(__parallel)
       INTEGER                                  :: mp_res
       CALL MPI_FREE_MEM(DATA, mp_res)
       IF (PRESENT(stat)) stat = mp_res
-#else
-      DEALLOCATE (DATA)
-      IF (PRESENT(stat)) stat = 0
-#endif
    END SUBROUTINE mp_free_mem_z
-# 2658 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+#endif
+
+# 2652 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
    SUBROUTINE mp_alltoall_c11v(sb, scount, sdispl, rb, rcount, rdispl, group)
       !! All-to-all data exchange, rank-1 data of different sizes
       !!
@@ -19712,17 +19686,20 @@ CONTAINS
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
          !! file offset (position)
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_cv'
+      INTEGER                                    :: msg_len
 
-      INTEGER                                    :: ierr, msg_len
-
-      ierr = 0
       msg_len = SIZE(msg)
       IF (PRESENT(msglen)) msg_len = msglen
+
 #if defined(__parallel)
-      CALL MPI_FILE_WRITE_AT(fh, offset, msg, msg_len, MPI_COMPLEX, MPI_STATUS_IGNORE, ierr)
-      IF (ierr .NE. 0) &
-         DBCSR_ABORT("mpi_file_write_at_cv @ "//routineN)
+      BLOCK
+         CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_cv'
+         INTEGER :: ierr
+         ierr = 0
+         CALL MPI_FILE_WRITE_AT(fh, offset, msg, msg_len, MPI_COMPLEX, MPI_STATUS_IGNORE, ierr)
+         IF (ierr .NE. 0) &
+            DBCSR_ABORT("mpi_file_write_at_cv @ "//routineN)
+      END BLOCK
 #else
       WRITE (UNIT=fh, POS=offset + 1) msg(1:msg_len)
 #endif
@@ -19735,12 +19712,12 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_c'
 
       INTEGER                                    :: ierr
 
       ierr = 0
-#if defined(__parallel)
       CALL MPI_FILE_WRITE_AT(fh, offset, msg, 1, MPI_COMPLEX, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_file_write_at_c @ "//routineN)
@@ -19763,17 +19740,18 @@ CONTAINS
       INTEGER                                    :: msg_len
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_cv'
-
-      INTEGER                                    :: ierr
-
-      ierr = 0
       msg_len = SIZE(msg)
       IF (PRESENT(msglen)) msg_len = msglen
 #if defined(__parallel)
-      CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, msg_len, MPI_COMPLEX, MPI_STATUS_IGNORE, ierr)
-      IF (ierr .NE. 0) &
-         DBCSR_ABORT("mpi_file_write_at_all_cv @ "//routineN)
+      BLOCK
+         CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_cv'
+         INTEGER                                    :: ierr
+         ierr = 0
+
+         CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, msg_len, MPI_COMPLEX, MPI_STATUS_IGNORE, ierr)
+         IF (ierr .NE. 0) &
+            DBCSR_ABORT("mpi_file_write_at_all_cv @ "//routineN)
+      END BLOCK
 #else
       WRITE (UNIT=fh, POS=offset + 1) msg(1:msg_len)
 #endif
@@ -19786,12 +19764,12 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_c'
 
       INTEGER                                    :: ierr
 
       ierr = 0
-#if defined(__parallel)
       CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, 1, MPI_COMPLEX, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_file_write_at_all_c @ "//routineN)
@@ -19815,17 +19793,20 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL              :: msglen
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_cv'
+      INTEGER                                    :: msg_len
 
-      INTEGER                                    :: ierr, msg_len
-
-      ierr = 0
       msg_len = SIZE(msg)
       IF (PRESENT(msglen)) msg_len = msglen
 #if defined(__parallel)
-      CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, msg_len, MPI_COMPLEX, MPI_STATUS_IGNORE, ierr)
-      IF (ierr .NE. 0) &
-         DBCSR_ABORT("mpi_file_read_at_all_cv @ "//routineN)
+      BLOCK
+         CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_cv'
+         INTEGER                                    :: ierr
+         ierr = 0
+
+         CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, msg_len, MPI_COMPLEX, MPI_STATUS_IGNORE, ierr)
+         IF (ierr .NE. 0) &
+            DBCSR_ABORT("mpi_file_read_at_all_cv @ "//routineN)
+      END BLOCK
 #else
       READ (UNIT=fh, POS=offset + 1) msg(1:msg_len)
 #endif
@@ -19838,12 +19819,12 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_c'
 
       INTEGER                                    :: ierr
 
       ierr = 0
-#if defined(__parallel)
       CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, 1, MPI_COMPLEX, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_file_read_at_all_c @ "//routineN)
@@ -19885,6 +19866,7 @@ CONTAINS
       ENDIF
    END FUNCTION mp_type_make_c
 
+#if defined(__parallel)
    SUBROUTINE mp_alloc_mem_c (DATA, len, stat)
       !! Allocates an array, using MPI_ALLOC_MEM ... this is hackish
       !! as the Fortran version returns an integer, which we take to be a C_PTR
@@ -19896,7 +19878,6 @@ CONTAINS
       INTEGER, INTENT(OUT), OPTIONAL           :: stat
          !! allocation status result
 
-#if defined(__parallel)
       INTEGER                                  :: size, ierr, length, &
                                                   mp_info, mp_res
       INTEGER(KIND=MPI_ADDRESS_KIND)           :: mp_size
@@ -19912,18 +19893,10 @@ CONTAINS
       CALL MPI_ALLOC_MEM(mp_size, mp_info, mp_baseptr, mp_res)
       CALL C_F_POINTER(mp_baseptr, DATA, (/length/))
       IF (PRESENT(stat)) stat = mp_res
-#else
-      INTEGER                                 :: length, mystat
-      length = MAX(len, 1)
-      IF (PRESENT(stat)) THEN
-         ALLOCATE (DATA(length), stat=mystat)
-         stat = mystat ! show to convention checker that stat is used
-      ELSE
-         ALLOCATE (DATA(length))
-      ENDIF
-#endif
    END SUBROUTINE mp_alloc_mem_c
+#endif
 
+#if defined(__parallel)
    SUBROUTINE mp_free_mem_c (DATA, stat)
       !! Deallocates am array, ... this is hackish
       !! as the Fortran version takes an integer, which we hope to get by reference
@@ -19934,15 +19907,12 @@ CONTAINS
       INTEGER, INTENT(OUT), OPTIONAL           :: stat
          !! allocation status result
 
-#if defined(__parallel)
       INTEGER                                  :: mp_res
       CALL MPI_FREE_MEM(DATA, mp_res)
       IF (PRESENT(stat)) stat = mp_res
-#else
-      DEALLOCATE (DATA)
-      IF (PRESENT(stat)) stat = 0
-#endif
    END SUBROUTINE mp_free_mem_c
-# 5513 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+#endif
+
+# 5503 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 END MODULE dbcsr_mpiwrap

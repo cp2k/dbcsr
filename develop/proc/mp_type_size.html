@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">17 statements</a>
+    title=" 0.0% of total for procedures.">14 statements</a>
      </li> 
      
      
@@ -329,12 +329,11 @@ public subroutine mp_type_size(type_descriptor, type_size)
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">type_size</span>
          <span class="c">!! size of the data type</span>
 
+<span class="cp">#if defined(__parallel)</span>
       <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;mp_type_size&#39;</span>
-
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">ierr</span>
 
       <span class="n">ierr</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="cp">#if defined(__parallel)</span>
       <span class="k">CALL </span><span class="n">MPI_TYPE_SIZE</span><span class="p">(</span><span class="n">type_descriptor</span><span class="p">%</span><span class="n">type_handle</span><span class="p">,</span> <span class="n">type_size</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
          <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;mpi_type_size @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
