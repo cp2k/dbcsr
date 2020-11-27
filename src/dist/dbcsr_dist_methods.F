@@ -466,6 +466,7 @@ CONTAINS
 
       dist_p => dist
 !$    IF (.NOT. OMP_IN_PARALLEL()) THEN
+! GCC 10.2 refused to build with DEFAULT(NONE) SHARED(dist_p, row_sizes) here:
 !$OMP        PARALLEL DEFAULT(SHARED)
 !$       CALL make_threads(dist_p, row_sizes=row_sizes)
 !$OMP        END PARALLEL

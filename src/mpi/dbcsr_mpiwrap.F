@@ -343,7 +343,6 @@ MODULE dbcsr_mpiwrap
    $:gen_mp_iface('file_write_at_all', suffixes=['', 'v'], extra_suffixes=['ch'])
    $:gen_mp_iface('file_read_at_all', suffixes=['', 'v'], extra_suffixes=['ch'])
 
-
 #if defined(__parallel)
    $:gen_mp_iface('alloc_mem')
    $:gen_mp_iface('free_mem')
