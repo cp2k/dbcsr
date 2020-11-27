@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">21 statements</a>
+    title=" 0.0% of total for procedures.">20 statements</a>
      </li> 
      
      
@@ -255,7 +255,7 @@ public subroutine dbcsr_iscatterv_any(base, counts, displs, msg, recvcount, root
   
 <tr>
   
-  <td><span class="anchor" id="variable-displs~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-displs"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -413,9 +413,6 @@ public subroutine dbcsr_iscatterv_any(base, counts, displs, msg, recvcount, root
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                <span class="kd">::</span> <span class="n">msg</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">recvcount</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">grp</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                             <span class="kd">::</span> <span class="n">request</span>
-
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_iscatterv_any&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 
       <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_data_get_type</span><span class="p">(</span><span class="n">base</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">dbcsr_data_get_type</span><span class="p">(</span><span class="n">msg</span><span class="p">))</span> <span class="p">&amp;</span>
          <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Different data type for msgin and msgout&quot;</span><span class="p">)</span>

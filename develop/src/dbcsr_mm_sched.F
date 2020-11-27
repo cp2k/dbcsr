@@ -178,8 +178,7 @@ CONTAINS
       TYPE(dbcsr_work_type), POINTER                     :: product_wm
       INTEGER, OPTIONAL                                  :: nlayers
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_sched_init', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_sched_init'
 
       INTEGER                                            :: handle
 
@@ -215,8 +214,7 @@ CONTAINS
       !! Finalizes a multiplication cycle for a set of C-blocks.
       TYPE(dbcsr_mm_sched_type), INTENT(INOUT)           :: this
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_sched_finalize', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_sched_finalize'
 
       INTEGER                                            :: handle
 
@@ -237,8 +235,7 @@ CONTAINS
       !! Finalizes a multiplication cycle for a set of C-blocks.
       TYPE(dbcsr_mm_sched_type), INTENT(INOUT)           :: this
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_sched_dev2host_init', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_sched_dev2host_init'
 
       INTEGER                                            :: handle
 
@@ -283,9 +280,6 @@ CONTAINS
       INTEGER, DIMENSION(:, :), POINTER                  :: stack_data
       INTEGER, POINTER                                   :: stack_fillcount
       TYPE(stack_descriptor_type), INTENT(IN)            :: stack_descr
-
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_mm_sched_process', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: ithread, sp, stacked_datasize
       INTEGER(kind=int_8)                                :: flop_per_entry, total_flop

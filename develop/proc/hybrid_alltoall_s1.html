@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.3% of total for procedures.">186 statements</a>
+    title=" 0.3% of total for procedures.">185 statements</a>
      </li> 
      
      
@@ -472,9 +472,6 @@ public subroutine hybrid_alltoall_s1(sb, scount, sdispl, rb, rcount, rdispl, mp_
          <span class="c">!! Use point-to-point for row/column; default is no</span>
          <span class="c">!! Use point-to-point for remaining; default is no</span>
          <span class="c">!! Use regular global collective; default is no</span>
-
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;hybrid_alltoall_s&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 
       <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">all_group</span><span class="p">,</span> <span class="n">mynode</span><span class="p">,</span> <span class="n">mypcol</span><span class="p">,</span> <span class="n">myprow</span><span class="p">,</span> <span class="n">nall_rr</span><span class="p">,</span> <span class="n">nall_sr</span><span class="p">,</span> <span class="n">ncol_rr</span><span class="p">,</span> <span class="p">&amp;</span>
                  <span class="n">ncol_sr</span><span class="p">,</span> <span class="n">npcols</span><span class="p">,</span> <span class="n">nprows</span><span class="p">,</span> <span class="n">nrow_rr</span><span class="p">,</span> <span class="n">nrow_sr</span><span class="p">,</span> <span class="n">numnodes</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="p">&amp;</span>

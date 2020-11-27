@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 1.5% of total for modules and submodules.">932 statements</a>
+    title=" 1.5% of total for modules and submodules.">901 statements</a>
      </li> 
      
      
@@ -240,8 +240,6 @@
       <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_create_new">csr_create_new</a>
       
       <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_create_template">csr_create_template</a>
-      
-      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_copy">csr_copy</a>
       
       <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_create_nzerow">csr_create_nzerow</a>
       
@@ -432,8 +430,6 @@
       <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_create_new">csr_create_new</a>
       
       <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_create_template">csr_create_template</a>
-      
-      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_copy">csr_copy</a>
       
       <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#proc-csr_create_nzerow">csr_create_nzerow</a>
       
@@ -1732,80 +1728,6 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
 
 <p>Create a new CSR matrix and allocate all internal data using
  an existing CSR matrix. Copies the indices but no actual matrix data.</p>
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>type(<a href='../type/csr_type.html'>csr_type</a>),</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>matrix_b</strong></td><td><p>Target CSR matrix</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>type(<a href='../type/csr_type.html'>csr_type</a>),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>matrix_a</strong></td><td><p>Source CSR matrix</p></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-  </div>
-  </div>
-
-    
-    
-  <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-csr_copy"></span><h3>
-private subroutine <a href='../proc/csr_copy.html'>csr_copy</a>(matrix_b, matrix_a)
-    
-    
-   
-</h3></div>
-  <div class="panel-body">
-       
-    
-
-
-
-
-
-
-
-<p>Copy a CSR matrix.</p>
     
     <h4>Arguments</h4>
     

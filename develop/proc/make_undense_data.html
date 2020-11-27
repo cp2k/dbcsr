@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">34 statements</a>
+    title=" 0.1% of total for procedures.">33 statements</a>
      </li> 
      
      
@@ -226,7 +226,7 @@ private subroutine make_undense_data(matrix, dense_data, nfullrows, nfullcols, d
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~228"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~222"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -478,9 +478,6 @@ private subroutine make_undense_data(matrix, dense_data, nfullrows, nfullcols, d
          <span class="c">!! column block offsets for dense data</span>
          <span class="c">!! mapping from undense to dense rows</span>
          <span class="c">!! mapping from undense to dense rows</span>
-
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;make_undense_data&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 
       <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">blk_col</span><span class="p">,</span> <span class="n">blk_col_size</span><span class="p">,</span> <span class="n">blk_row</span><span class="p">,</span> <span class="n">blk_row_size</span><span class="p">,</span> <span class="n">dense_col</span><span class="p">,</span> <span class="n">dense_col_offset</span><span class="p">,</span> <span class="p">&amp;</span>
                  <span class="n">dense_cs</span><span class="p">,</span> <span class="n">dense_offset</span><span class="p">,</span> <span class="n">dense_row</span><span class="p">,</span> <span class="n">dense_row_offset</span><span class="p">,</span> <span class="n">dense_rs</span><span class="p">,</span> <span class="n">sco</span><span class="p">,</span> <span class="n">sro</span>

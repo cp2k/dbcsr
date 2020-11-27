@@ -176,8 +176,7 @@ CONTAINS
       TYPE(dbcsr_work_type), POINTER                     :: product_wm
       INTEGER, OPTIONAL                                  :: nlayers
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_accdrv_init', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_accdrv_init'
 
       INTEGER                                            :: handle, i, ithread, my_nlayers, nthreads
       TYPE(dbcsr_data_obj)                               :: c_area
@@ -489,8 +488,7 @@ CONTAINS
       TYPE(stack_descriptor_type), INTENT(IN)            :: stack_descr
       LOGICAL, INTENT(OUT)                               :: success
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_accdrv_process', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_accdrv_process'
 
       INTEGER                                            :: error_handle, error_handle2, &
                                                             flop_per_entry, i, ithread, &

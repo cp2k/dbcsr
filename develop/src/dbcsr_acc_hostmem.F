@@ -91,9 +91,6 @@ CONTAINS
          !! number of bytes to allocate
       TYPE(acc_stream_type), INTENT(IN)                  :: stream
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'acc_hostmem_alloc_raw', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                            :: istat
       TYPE(C_PTR)                                        :: stream_cptr
 
@@ -113,9 +110,6 @@ CONTAINS
       TYPE(C_PTR), INTENT(IN)                            :: host_mem_c_ptr
       TYPE(acc_stream_type), INTENT(IN)                  :: stream
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'acc_hostmem_dealloc_raw', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                            :: istat
       TYPE(C_PTR)                                        :: stream_cptr
 
@@ -134,9 +128,9 @@ CONTAINS
    END SUBROUTINE acc_hostmem_dealloc_raw
 #endif
 
-# 142 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
+# 136 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
-# 144 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
+# 138 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
    SUBROUTINE acc_hostmem_alloc_i4 (host_mem, n, stream)
       !! Allocates 1D fortan-array as GPU host-pinned memory.
@@ -190,8 +184,6 @@ CONTAINS
       INTEGER(kind=int_4), DIMENSION(:), POINTER          :: host_mem
          !! pointer to array
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-      CHARACTER(len=*), PARAMETER :: routineN = 'acc_hostmem_dealloc_i4', &
-                                     routineP = moduleN//':'//routineN
 
       IF (SIZE(host_mem) == 0) RETURN
 #if defined (__DBCSR_ACC)
@@ -209,8 +201,6 @@ CONTAINS
       INTEGER(kind=int_4), DIMENSION(:, :), POINTER        :: host_mem
          !! pointer to array
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-      CHARACTER(len=*), PARAMETER :: routineN = 'acc_hostmem_dealloc_i4_2D', &
-                                     routineP = moduleN//':'//routineN
 
       IF (SIZE(host_mem) == 0) RETURN
 #if defined (__DBCSR_ACC)
@@ -222,7 +212,7 @@ CONTAINS
 #endif
    END SUBROUTINE acc_hostmem_dealloc_i4_2D
 
-# 144 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
+# 138 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
    SUBROUTINE acc_hostmem_alloc_i8 (host_mem, n, stream)
       !! Allocates 1D fortan-array as GPU host-pinned memory.
@@ -276,8 +266,6 @@ CONTAINS
       INTEGER(kind=int_8), DIMENSION(:), POINTER          :: host_mem
          !! pointer to array
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-      CHARACTER(len=*), PARAMETER :: routineN = 'acc_hostmem_dealloc_i8', &
-                                     routineP = moduleN//':'//routineN
 
       IF (SIZE(host_mem) == 0) RETURN
 #if defined (__DBCSR_ACC)
@@ -295,8 +283,6 @@ CONTAINS
       INTEGER(kind=int_8), DIMENSION(:, :), POINTER        :: host_mem
          !! pointer to array
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-      CHARACTER(len=*), PARAMETER :: routineN = 'acc_hostmem_dealloc_i8_2D', &
-                                     routineP = moduleN//':'//routineN
 
       IF (SIZE(host_mem) == 0) RETURN
 #if defined (__DBCSR_ACC)
@@ -308,7 +294,7 @@ CONTAINS
 #endif
    END SUBROUTINE acc_hostmem_dealloc_i8_2D
 
-# 144 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
+# 138 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
    SUBROUTINE acc_hostmem_alloc_r4 (host_mem, n, stream)
       !! Allocates 1D fortan-array as GPU host-pinned memory.
@@ -362,8 +348,6 @@ CONTAINS
       REAL(kind=real_4), DIMENSION(:), POINTER          :: host_mem
          !! pointer to array
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-      CHARACTER(len=*), PARAMETER :: routineN = 'acc_hostmem_dealloc_r4', &
-                                     routineP = moduleN//':'//routineN
 
       IF (SIZE(host_mem) == 0) RETURN
 #if defined (__DBCSR_ACC)
@@ -381,8 +365,6 @@ CONTAINS
       REAL(kind=real_4), DIMENSION(:, :), POINTER        :: host_mem
          !! pointer to array
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-      CHARACTER(len=*), PARAMETER :: routineN = 'acc_hostmem_dealloc_r4_2D', &
-                                     routineP = moduleN//':'//routineN
 
       IF (SIZE(host_mem) == 0) RETURN
 #if defined (__DBCSR_ACC)
@@ -394,7 +376,7 @@ CONTAINS
 #endif
    END SUBROUTINE acc_hostmem_dealloc_r4_2D
 
-# 144 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
+# 138 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
    SUBROUTINE acc_hostmem_alloc_r8 (host_mem, n, stream)
       !! Allocates 1D fortan-array as GPU host-pinned memory.
@@ -448,8 +430,6 @@ CONTAINS
       REAL(kind=real_8), DIMENSION(:), POINTER          :: host_mem
          !! pointer to array
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-      CHARACTER(len=*), PARAMETER :: routineN = 'acc_hostmem_dealloc_r8', &
-                                     routineP = moduleN//':'//routineN
 
       IF (SIZE(host_mem) == 0) RETURN
 #if defined (__DBCSR_ACC)
@@ -467,8 +447,6 @@ CONTAINS
       REAL(kind=real_8), DIMENSION(:, :), POINTER        :: host_mem
          !! pointer to array
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-      CHARACTER(len=*), PARAMETER :: routineN = 'acc_hostmem_dealloc_r8_2D', &
-                                     routineP = moduleN//':'//routineN
 
       IF (SIZE(host_mem) == 0) RETURN
 #if defined (__DBCSR_ACC)
@@ -480,7 +458,7 @@ CONTAINS
 #endif
    END SUBROUTINE acc_hostmem_dealloc_r8_2D
 
-# 144 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
+# 138 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
    SUBROUTINE acc_hostmem_alloc_c4 (host_mem, n, stream)
       !! Allocates 1D fortan-array as GPU host-pinned memory.
@@ -534,8 +512,6 @@ CONTAINS
       COMPLEX(kind=real_4), DIMENSION(:), POINTER          :: host_mem
          !! pointer to array
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-      CHARACTER(len=*), PARAMETER :: routineN = 'acc_hostmem_dealloc_c4', &
-                                     routineP = moduleN//':'//routineN
 
       IF (SIZE(host_mem) == 0) RETURN
 #if defined (__DBCSR_ACC)
@@ -553,8 +529,6 @@ CONTAINS
       COMPLEX(kind=real_4), DIMENSION(:, :), POINTER        :: host_mem
          !! pointer to array
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-      CHARACTER(len=*), PARAMETER :: routineN = 'acc_hostmem_dealloc_c4_2D', &
-                                     routineP = moduleN//':'//routineN
 
       IF (SIZE(host_mem) == 0) RETURN
 #if defined (__DBCSR_ACC)
@@ -566,7 +540,7 @@ CONTAINS
 #endif
    END SUBROUTINE acc_hostmem_dealloc_c4_2D
 
-# 144 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
+# 138 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
    SUBROUTINE acc_hostmem_alloc_c8 (host_mem, n, stream)
       !! Allocates 1D fortan-array as GPU host-pinned memory.
@@ -620,8 +594,6 @@ CONTAINS
       COMPLEX(kind=real_8), DIMENSION(:), POINTER          :: host_mem
          !! pointer to array
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-      CHARACTER(len=*), PARAMETER :: routineN = 'acc_hostmem_dealloc_c8', &
-                                     routineP = moduleN//':'//routineN
 
       IF (SIZE(host_mem) == 0) RETURN
 #if defined (__DBCSR_ACC)
@@ -639,8 +611,6 @@ CONTAINS
       COMPLEX(kind=real_8), DIMENSION(:, :), POINTER        :: host_mem
          !! pointer to array
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-      CHARACTER(len=*), PARAMETER :: routineN = 'acc_hostmem_dealloc_c8_2D', &
-                                     routineP = moduleN//':'//routineN
 
       IF (SIZE(host_mem) == 0) RETURN
 #if defined (__DBCSR_ACC)
@@ -652,6 +622,6 @@ CONTAINS
 #endif
    END SUBROUTINE acc_hostmem_dealloc_c8_2D
 
-# 230 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
+# 220 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_hostmem.F"
 
 END MODULE dbcsr_acc_hostmem

@@ -118,8 +118,7 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: move_data
          !! memory optimization: move data to matrix_out such that matrix_in is empty on return
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_reshape', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_reshape'
 
       INTEGER                                            :: handle, handle2, iproc, mp_comm, mynode, nblock, &
                                                             ndata, numnodes, bcount, nblk
@@ -323,8 +322,7 @@ CONTAINS
 
       TYPE(dbcsr_data_obj) :: block
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_replicate', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_replicate'
 
       INTEGER :: handle, handle2
 
@@ -498,8 +496,7 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: move_data
          !! memory optimization: move data to matrix_out such that matrix_in is empty on return
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_merge', routineP = moduleN//':'//routineN
-
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_merge'
       INTEGER                                            :: data_type, handle, handle2, iproc, mp_comm, &
                                                             mynode, nblock, ndata, numnodes, nblk, bcount
       INTEGER(KIND=int_8), ALLOCATABLE, DIMENSION(:, :)  :: index_recv
@@ -643,8 +640,7 @@ CONTAINS
          DIMENSION(:, :), INTENT(OUT)                    :: index
 
       INTEGER, DIMENSION(2)                              :: indx_shape
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'block_buffer_get_index', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'block_buffer_get_index'
       INTEGER :: handle
 
       CALL timeset(routineN, handle)
@@ -653,13 +649,6 @@ CONTAINS
       ALLOCATE (INDEX(indx_shape(1), indx_shape(2)))
       INDEX(:, :) = buffer%indx(1:indx_shape(1), 1:indx_shape(2))
       CALL timestop(handle)
-   END SUBROUTINE
-
-   SUBROUTINE block_buffer_iterator_reset(buffer)
-      !! Reset buffer block iterator
-      TYPE(block_buffer_type), INTENT(INOUT)             :: buffer
-
-      buffer%endpos = 0
    END SUBROUTINE
 
    PURE FUNCTION block_buffer_blocks_left(buffer)
@@ -683,19 +672,19 @@ CONTAINS
       buffer%data_type = data_type
       buffer%endpos = 0
       SELECT CASE (data_type)
-# 671 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 660 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
       CASE (dbcsr_type_real_8)
          ALLOCATE (buffer%msg_r_dp (ndata))
-# 671 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 660 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
       CASE (dbcsr_type_real_4)
          ALLOCATE (buffer%msg_r_sp (ndata))
-# 671 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 660 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
       CASE (dbcsr_type_complex_8)
          ALLOCATE (buffer%msg_c_dp (ndata))
-# 671 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 660 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
       CASE (dbcsr_type_complex_4)
          ALLOCATE (buffer%msg_c_sp (ndata))
-# 674 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 663 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
       END SELECT
       ALLOCATE (buffer%indx(nblock, 3))
    END SUBROUTINE
@@ -704,19 +693,19 @@ CONTAINS
       TYPE(block_buffer_type), INTENT(INOUT) :: buffer
 
       SELECT CASE (buffer%data_type)
-# 683 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 672 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
       CASE (dbcsr_type_real_8)
          DEALLOCATE (buffer%msg_r_dp)
-# 683 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 672 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
       CASE (dbcsr_type_real_4)
          DEALLOCATE (buffer%msg_r_sp)
-# 683 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 672 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
       CASE (dbcsr_type_complex_8)
          DEALLOCATE (buffer%msg_c_dp)
-# 683 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 672 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
       CASE (dbcsr_type_complex_4)
          DEALLOCATE (buffer%msg_c_sp)
-# 686 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 675 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
       END SELECT
       DEALLOCATE (buffer%indx)
       buffer%nblock = -1
@@ -731,34 +720,34 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(IN)         :: block
       LOGICAL, INTENT(IN), OPTIONAL :: transposed
 
-# 701 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 690 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
       REAL(kind=real_8), DIMENSION(:, :), POINTER :: block_r_dp
-# 701 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 690 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
       REAL(kind=real_4), DIMENSION(:, :), POINTER :: block_r_sp
-# 701 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 690 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
       COMPLEX(kind=real_8), DIMENSION(:, :), POINTER :: block_c_dp
-# 701 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 690 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
       COMPLEX(kind=real_4), DIMENSION(:, :), POINTER :: block_c_sp
-# 703 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 692 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
 
       SELECT CASE (buffer%data_type)
-# 706 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 695 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
       CASE (dbcsr_type_real_8)
          block_r_dp => dbcsr_get_data_p_2d_d (block)
          CALL block_buffer_add_block_r_dp (buffer, index, block_r_dp, transposed)
-# 706 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 695 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
       CASE (dbcsr_type_real_4)
          block_r_sp => dbcsr_get_data_p_2d_s (block)
          CALL block_buffer_add_block_r_sp (buffer, index, block_r_sp, transposed)
-# 706 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 695 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
       CASE (dbcsr_type_complex_8)
          block_c_dp => dbcsr_get_data_p_2d_z (block)
          CALL block_buffer_add_block_c_dp (buffer, index, block_c_dp, transposed)
-# 706 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 695 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
       CASE (dbcsr_type_complex_4)
          block_c_sp => dbcsr_get_data_p_2d_c (block)
          CALL block_buffer_add_block_c_sp (buffer, index, block_c_sp, transposed)
-# 710 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 699 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
       END SELECT
    END SUBROUTINE
 
@@ -771,18 +760,15 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL               :: advance_iter
       LOGICAL :: valid
       INTEGER, DIMENSION(2) :: sizes
-# 723 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 712 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
       REAL(kind=real_8), DIMENSION(:, :), POINTER :: data_r_dp
-# 723 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 712 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
       REAL(kind=real_4), DIMENSION(:, :), POINTER :: data_r_sp
-# 723 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 712 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
       COMPLEX(kind=real_8), DIMENSION(:, :), POINTER :: data_c_dp
-# 723 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 712 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
       COMPLEX(kind=real_4), DIMENSION(:, :), POINTER :: data_c_sp
-# 725 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
-
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'block_buffer_get_next_area_block', &
-                                     routineP = moduleN//':'//routineN
+# 714 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
 
       IF (PRESENT(block)) THEN
          CALL dbcsr_data_get_sizes(block, sizes, valid)
@@ -791,7 +777,7 @@ CONTAINS
       ENDIF
 
       SELECT CASE (buffer%data_type)
-# 737 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 723 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
       CASE (dbcsr_type_real_8)
          IF (PRESENT(block)) THEN
             ALLOCATE (data_r_dp (sizes(1), sizes(2)))
@@ -800,7 +786,7 @@ CONTAINS
          ELSE
             CALL block_buffer_get_next_block_r_dp (buffer, ndata, index, advance_iter=advance_iter)
          ENDIF
-# 737 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 723 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
       CASE (dbcsr_type_real_4)
          IF (PRESENT(block)) THEN
             ALLOCATE (data_r_sp (sizes(1), sizes(2)))
@@ -809,7 +795,7 @@ CONTAINS
          ELSE
             CALL block_buffer_get_next_block_r_sp (buffer, ndata, index, advance_iter=advance_iter)
          ENDIF
-# 737 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 723 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
       CASE (dbcsr_type_complex_8)
          IF (PRESENT(block)) THEN
             ALLOCATE (data_c_dp (sizes(1), sizes(2)))
@@ -818,7 +804,7 @@ CONTAINS
          ELSE
             CALL block_buffer_get_next_block_c_dp (buffer, ndata, index, advance_iter=advance_iter)
          ENDIF
-# 737 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 723 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
       CASE (dbcsr_type_complex_4)
          IF (PRESENT(block)) THEN
             ALLOCATE (data_c_sp (sizes(1), sizes(2)))
@@ -827,11 +813,11 @@ CONTAINS
          ELSE
             CALL block_buffer_get_next_block_c_sp (buffer, ndata, index, advance_iter=advance_iter)
          ENDIF
-# 746 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 732 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
       END SELECT
    END SUBROUTINE
 
-# 750 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 736 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
    SUBROUTINE block_buffer_add_block_r_dp (buffer, index, block, transposed)
       !! insert a block into block buffer (at current iterator position)
 
@@ -883,7 +869,7 @@ CONTAINS
       ENDIF
       buffer%endpos = buffer%endpos + 1
    END SUBROUTINE
-# 750 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 736 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
    SUBROUTINE block_buffer_add_block_r_sp (buffer, index, block, transposed)
       !! insert a block into block buffer (at current iterator position)
 
@@ -935,7 +921,7 @@ CONTAINS
       ENDIF
       buffer%endpos = buffer%endpos + 1
    END SUBROUTINE
-# 750 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 736 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
    SUBROUTINE block_buffer_add_block_c_dp (buffer, index, block, transposed)
       !! insert a block into block buffer (at current iterator position)
 
@@ -987,7 +973,7 @@ CONTAINS
       ENDIF
       buffer%endpos = buffer%endpos + 1
    END SUBROUTINE
-# 750 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 736 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
    SUBROUTINE block_buffer_add_block_c_sp (buffer, index, block, transposed)
       !! insert a block into block buffer (at current iterator position)
 
@@ -1039,9 +1025,9 @@ CONTAINS
       ENDIF
       buffer%endpos = buffer%endpos + 1
    END SUBROUTINE
-# 802 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 788 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
 
-# 804 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 790 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
    SUBROUTINE block_buffer_get_next_block_r_dp (buffer, ndata, index, block, advance_iter)
       !! get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.
       TYPE(block_buffer_type), INTENT(INOUT)      :: buffer
@@ -1082,7 +1068,7 @@ CONTAINS
 
       IF (do_advance) buffer%endpos = buffer%endpos + 1
    END SUBROUTINE
-# 804 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 790 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
    SUBROUTINE block_buffer_get_next_block_r_sp (buffer, ndata, index, block, advance_iter)
       !! get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.
       TYPE(block_buffer_type), INTENT(INOUT)      :: buffer
@@ -1123,7 +1109,7 @@ CONTAINS
 
       IF (do_advance) buffer%endpos = buffer%endpos + 1
    END SUBROUTINE
-# 804 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 790 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
    SUBROUTINE block_buffer_get_next_block_c_dp (buffer, ndata, index, block, advance_iter)
       !! get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.
       TYPE(block_buffer_type), INTENT(INOUT)      :: buffer
@@ -1164,7 +1150,7 @@ CONTAINS
 
       IF (do_advance) buffer%endpos = buffer%endpos + 1
    END SUBROUTINE
-# 804 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 790 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
    SUBROUTINE block_buffer_get_next_block_c_sp (buffer, ndata, index, block, advance_iter)
       !! get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.
       TYPE(block_buffer_type), INTENT(INOUT)      :: buffer
@@ -1205,7 +1191,7 @@ CONTAINS
 
       IF (do_advance) buffer%endpos = buffer%endpos + 1
    END SUBROUTINE
-# 845 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 831 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
 
    SUBROUTINE dbcsr_tas_communicate_buffer(mp_comm, buffer_recv, buffer_send, req_array)
       !! communicate buffer
@@ -1216,8 +1202,7 @@ CONTAINS
       INTEGER                                :: iproc, mynode, numnodes, rec_counter, &
                                                 send_counter
       INTEGER                                   :: handle
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_communicate_buffer', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_communicate_buffer'
 
       CALL timeset(routineN, handle)
       CALL mp_environ(numnodes, mynode, mp_comm)
@@ -1232,19 +1217,19 @@ CONTAINS
                rec_counter = rec_counter + 1
                CALL mp_irecv(buffer_recv(iproc)%indx, iproc, mp_comm, req_array(rec_counter, 3), tag=4)
                SELECT CASE (buffer_recv(iproc)%data_type)
-# 872 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 857 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
                CASE (dbcsr_type_real_8)
                   CALL mp_irecv(buffer_recv(iproc)%msg_r_dp, iproc, mp_comm, req_array(rec_counter, 4), tag=7)
-# 872 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 857 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
                CASE (dbcsr_type_real_4)
                   CALL mp_irecv(buffer_recv(iproc)%msg_r_sp, iproc, mp_comm, req_array(rec_counter, 4), tag=7)
-# 872 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 857 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
                CASE (dbcsr_type_complex_8)
                   CALL mp_irecv(buffer_recv(iproc)%msg_c_dp, iproc, mp_comm, req_array(rec_counter, 4), tag=7)
-# 872 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 857 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
                CASE (dbcsr_type_complex_4)
                   CALL mp_irecv(buffer_recv(iproc)%msg_c_sp, iproc, mp_comm, req_array(rec_counter, 4), tag=7)
-# 875 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 860 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
                END SELECT
             END IF
          END DO
@@ -1254,19 +1239,19 @@ CONTAINS
                send_counter = send_counter + 1
                CALL mp_isend(buffer_send(iproc)%indx, iproc, mp_comm, req_array(send_counter, 1), tag=4)
                SELECT CASE (buffer_recv(iproc)%data_type)
-# 885 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 870 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
                CASE (dbcsr_type_real_8)
                   CALL mp_isend(buffer_send(iproc)%msg_r_dp, iproc, mp_comm, req_array(send_counter, 2), tag=7)
-# 885 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 870 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
                CASE (dbcsr_type_real_4)
                   CALL mp_isend(buffer_send(iproc)%msg_r_sp, iproc, mp_comm, req_array(send_counter, 2), tag=7)
-# 885 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 870 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
                CASE (dbcsr_type_complex_8)
                   CALL mp_isend(buffer_send(iproc)%msg_c_dp, iproc, mp_comm, req_array(send_counter, 2), tag=7)
-# 885 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 870 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
                CASE (dbcsr_type_complex_4)
                   CALL mp_isend(buffer_send(iproc)%msg_c_sp, iproc, mp_comm, req_array(send_counter, 2), tag=7)
-# 888 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 873 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
                END SELECT
             END IF
          END DO
@@ -1282,19 +1267,19 @@ CONTAINS
          IF (buffer_recv(0)%nblock > 0) THEN
             buffer_recv(0)%indx(:, :) = buffer_send(0)%indx(:, :)
             SELECT CASE (buffer_recv(0)%data_type)
-# 904 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 889 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
             CASE (dbcsr_type_real_8)
                buffer_recv(0)%msg_r_dp (:) = buffer_send(0)%msg_r_dp (:)
-# 904 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 889 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
             CASE (dbcsr_type_real_4)
                buffer_recv(0)%msg_r_sp (:) = buffer_send(0)%msg_r_sp (:)
-# 904 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 889 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
             CASE (dbcsr_type_complex_8)
                buffer_recv(0)%msg_c_dp (:) = buffer_send(0)%msg_c_dp (:)
-# 904 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 889 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
             CASE (dbcsr_type_complex_4)
                buffer_recv(0)%msg_c_sp (:) = buffer_send(0)%msg_c_sp (:)
-# 907 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
+# 892 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F"
             END SELECT
          ENDIF
       ENDIF

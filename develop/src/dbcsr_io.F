@@ -601,8 +601,7 @@ CONTAINS
       CHARACTER(len=*), INTENT(IN)         :: filepath
          !! path to the file
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_binary_write', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_binary_write'
 
       INTEGER                               :: nblkrows_total, nblkcols_total, &
                                                nblks, size_of_pgrid, &
@@ -768,8 +767,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(INOUT)               :: matrix_new
          !! DBCSR matrix
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_binary_read', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_binary_read'
 
       INTEGER                               :: nblkrows_total, nblkcols_total, &
                                                nblks, darea_size, data_type, type_size, &
@@ -1090,8 +1088,7 @@ CONTAINS
          !! matrix
       INTEGER, INTENT(IN), OPTIONAL                      :: unit_nr
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_print_block_sum', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_print_block_sum'
 
       COMPLEX(KIND=real_4)                               :: blk_sum_c_sp
       COMPLEX(KIND=real_4), DIMENSION(:), POINTER        :: c_sp

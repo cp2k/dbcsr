@@ -225,7 +225,7 @@ private subroutine dbcsr_trace_s(matrix_a, trace)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_a~62"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_a~61"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -324,8 +324,7 @@ private subroutine dbcsr_trace_s(matrix_a, trace)
       <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">trace</span>
          <span class="c">!! the trace of the matrix</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_trace_s&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_trace_s&#39;</span>
 
       <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">a_blk</span><span class="p">,</span> <span class="n">a_col</span><span class="p">,</span> <span class="n">a_col_size</span><span class="p">,</span> <span class="p">&amp;</span>
                                                   <span class="n">a_nze</span><span class="p">,</span> <span class="n">a_row</span><span class="p">,</span> <span class="n">a_row_size</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="p">&amp;</span>

@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">6 statements</a>
+    title=" 0.0% of total for procedures.">5 statements</a>
      </li> 
      
      
@@ -223,7 +223,7 @@ public function dbcsr_has_local_row_index(matrix) result(local_indexing)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~110"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~106"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -311,9 +311,6 @@ public function dbcsr_has_local_row_index(matrix) result(local_indexing)
     <div class="highlight"><pre><span></span>   <span class="k">FUNCTION </span><span class="n">dbcsr_has_local_row_index</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">local_indexing</span><span class="p">)</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">matrix</span>
       <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">local_indexing</span>
-
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_has_local_row_index&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 
       <span class="n">local_indexing</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">local_indexing</span>
    <span class="k">END FUNCTION </span><span class="n">dbcsr_has_local_row_index</span>

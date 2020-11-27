@@ -124,8 +124,6 @@ All Procedures &ndash; DBCSR
 			 
 			   <tr><td><a href='../interface/acc_devmem_host2dev.html'>acc_devmem_host2dev</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Interface</td><td></td></tr>
 			 
-			   <tr><td><a href='../proc/acc_devmem_info.html'>acc_devmem_info</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Fortran-wrapper for getting GPU memory info.</p></td></tr>
-			 
 			   <tr><td><a href='../proc/acc_devmem_set_cptr.html'>acc_devmem_set_cptr</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Allocates a given devmem.</p></td></tr>
 			 
 			   <tr><td><a href='../proc/acc_devmem_setzero_bytes.html'>acc_devmem_setzero_bytes</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Sets entries in given devmem to zero, asynchronously.</p></td></tr>
@@ -506,10 +504,6 @@ All Procedures &ndash; DBCSR
 			   <tr><td><a href='../proc/block_buffer_get_next_block_r_sp.html'>block_buffer_get_next_block_r_sp</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Subroutine</td><td><p>get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.</p></td></tr>
 			 
 			   <tr><td><a href='../proc/block_buffer_get_next_block_r_sp~2.html'>block_buffer_get_next_block_r_sp</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Subroutine</td><td><p>get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.</p></td></tr>
-			 
-			   <tr><td><a href='../proc/block_buffer_iterator_reset.html'>block_buffer_iterator_reset</a></td><td><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></td><td>Subroutine</td><td><p>Reset buffer block iterator</p></td></tr>
-			 
-			   <tr><td><a href='../proc/block_buffer_iterator_reset~2.html'>block_buffer_iterator_reset</a></td><td><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></td><td>Subroutine</td><td><p>Reset buffer block iterator</p></td></tr>
 			 
 			   <tr><td><a href='../proc/block_copy_1d1d_c.html'>block_copy_1d1d_c</a></td><td><a href='../module/dbcsr_block_operations.html'>dbcsr_block_operations</a></td><td>Subroutine</td><td><p>Copy a block</p></td></tr>
 			 
@@ -1120,8 +1114,6 @@ All Procedures &ndash; DBCSR
 			   <tr><td><a href='../proc/csr_assert_consistency_with_dbcsr.html'>csr_assert_consistency_with_dbcsr</a></td><td><a href='../module/dbcsr_csr_conversions.html'>dbcsr_csr_conversions</a></td><td>Subroutine</td><td><p>Helper function to assert that a given CSR matrix and a given DBCSR
  matrix are consistent before doing the conversion</p></td></tr>
 			 
-			   <tr><td><a href='../proc/csr_copy.html'>csr_copy</a></td><td><a href='../module/dbcsr_csr_conversions.html'>dbcsr_csr_conversions</a></td><td>Subroutine</td><td><p>Copy a CSR matrix.</p></td></tr>
-			 
 			   <tr><td><a href='../interface/csr_create.html'>csr_create</a></td><td><a href='../module/dbcsr_csr_conversions.html'>dbcsr_csr_conversions</a></td><td>Interface</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/csr_create_from_brd.html'>csr_create_from_brd</a></td><td><a href='../module/dbcsr_csr_conversions.html'>dbcsr_csr_conversions</a></td><td>Subroutine</td><td><p>Allocate the internals of a CSR matrix using data from a block-row
@@ -1373,9 +1365,7 @@ All Procedures &ndash; DBCSR
  number full rows and columns matches that of the existing
  matrix.</p></td></tr>
 			 
-			   <tr><td><a href='../interface/dbcsr_conform_scalar.html'>dbcsr_conform_scalar</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Interface</td><td></td></tr>
-			 
-			   <tr><td><a href='../interface/dbcsr_conform_scalar~2.html'>dbcsr_conform_scalar</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Interface</td><td></td></tr>
+			   <tr><td><a href='../interface/dbcsr_conform_scalar.html'>dbcsr_conform_scalar</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Interface</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_conjg.html'>dbcsr_conjg</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Subroutine</td><td><p>Conjugate a DBCSR matrix</p></td></tr>
 			 
@@ -1499,8 +1489,6 @@ All Procedures &ndash; DBCSR
 			   <tr><td><a href='../interface/dbcsr_data_set_pointer.html'>dbcsr_data_set_pointer</a></td><td><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></td><td>Interface</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_data_set_size_referenced.html'>dbcsr_data_set_size_referenced</a></td><td><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></td><td>Subroutine</td><td><p>Sets the referenced size of the data area</p></td></tr>
-			 
-			   <tr><td><a href='../proc/dbcsr_data_unique.html'>dbcsr_data_unique</a></td><td><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></td><td>Function</td><td><p>Returns if there is a single reference of the data</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_data_valid.html'>dbcsr_data_valid</a></td><td><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></td><td>Function</td><td><p>Checks whether a data area is valid</p></td></tr>
 			 
@@ -2289,8 +2277,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/dbcsr_mp_type_from_anytype.html'>dbcsr_mp_type_from_anytype</a></td><td><a href='../module/dbcsr_mp_operations.html'>dbcsr_mp_operations</a></td><td>Function</td><td><p>Creates an MPI combined type from the given anytype.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/dbcsr_mp_type_indexed_make_any.html'>dbcsr_mp_type_indexed_make_any</a></td><td><a href='../module/dbcsr_mp_operations.html'>dbcsr_mp_operations</a></td><td>Function</td><td></td></tr>
-			 
 			   <tr><td><a href='../interface/dbcsr_multiply.html'>dbcsr_multiply</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Interface</td><td></td></tr>
 			 
 			   <tr><td><a href='../interface/dbcsr_multiply~2.html'>dbcsr_multiply</a></td><td><a href='../module/dbcsr_multiply_api.html'>dbcsr_multiply_api</a></td><td>Interface</td><td></td></tr>
@@ -2539,8 +2525,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../interface/dbcsr_scalar.html'>dbcsr_scalar</a></td><td><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></td><td>Interface</td><td><p>Encapsulates a scalar.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/dbcsr_scalar_add.html'>dbcsr_scalar_add</a></td><td><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></td><td>Function</td><td><p>Returns an encapsulated scalar as a negation of the given</p></td></tr>
-			 
 			   <tr><td><a href='../proc/dbcsr_scalar_are_equal.html'>dbcsr_scalar_are_equal</a></td><td><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></td><td>Function</td><td><p>Returns whether an encapsulated scalar is equal to another value</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_scalar_c.html'>dbcsr_scalar_c</a></td><td><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></td><td>Function</td><td><p>Sets a scalar in an encapsulated data structure</p></td></tr>
@@ -2560,8 +2544,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/dbcsr_scalar_get_value_s.html'>dbcsr_scalar_get_value_s</a></td><td><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></td><td>Subroutine</td><td><p>Sets a scalar in an encapsulated data structure</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_scalar_get_value_z.html'>dbcsr_scalar_get_value_z</a></td><td><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></td><td>Subroutine</td><td><p>Sets a scalar in an encapsulated data structure</p></td></tr>
-			 
-			   <tr><td><a href='../proc/dbcsr_scalar_i.html'>dbcsr_scalar_i</a></td><td><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></td><td>Function</td><td><p>Returns an encapsulated scalar "sqrt(-1)"</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_scalar_multiply.html'>dbcsr_scalar_multiply</a></td><td><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></td><td>Function</td><td></td></tr>
 			 
@@ -2873,8 +2855,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/dbcsr_t_get_info.html'>dbcsr_t_get_info</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>As dbcsr_get_info but for tensors</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_t_get_mapping_info.html'>dbcsr_t_get_mapping_info</a></td><td><a href='../module/dbcsr_tensor_index.html'>dbcsr_tensor_index</a></td><td>Subroutine</td><td><p>get mapping info</p></td></tr>
-			 
-			   <tr><td><a href='../proc/dbcsr_t_get_nonzero_index.html'>dbcsr_t_get_nonzero_index</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td><p>Get all indices along one dimension that have at least one occupied block</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_t_get_num_blocks.html'>dbcsr_t_get_num_blocks</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Function</td><td><p>As dbcsr_get_num_blocks: get number of local blocks</p></td></tr>
 			 
@@ -3208,11 +3188,7 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/dbcsr_tas_nblkrows_total.html'>dbcsr_tas_nblkrows_total</a></td><td><a href='../module/dbcsr_tas_base.html'>dbcsr_tas_base</a></td><td>Function</td><td></td></tr>
 			 
-			   <tr><td><a href='../proc/dbcsr_tas_nfullcols_local.html'>dbcsr_tas_nfullcols_local</a></td><td><a href='../module/dbcsr_tas_base.html'>dbcsr_tas_base</a></td><td>Function</td><td></td></tr>
-			 
 			   <tr><td><a href='../proc/dbcsr_tas_nfullcols_total.html'>dbcsr_tas_nfullcols_total</a></td><td><a href='../module/dbcsr_tas_base.html'>dbcsr_tas_base</a></td><td>Function</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/dbcsr_tas_nfullrows_local.html'>dbcsr_tas_nfullrows_local</a></td><td><a href='../module/dbcsr_tas_base.html'>dbcsr_tas_base</a></td><td>Function</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/dbcsr_tas_nfullrows_total.html'>dbcsr_tas_nfullrows_total</a></td><td><a href='../module/dbcsr_tas_base.html'>dbcsr_tas_base</a></td><td>Function</td><td></td></tr>
 			 
@@ -3409,16 +3385,11 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/dev2host_r8_1d.html'>dev2host_r8_1D</a></td><td><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></td><td>Subroutine</td><td><p>Transfers GPU devmem to 1D fortran-array.</p></td></tr>
 			 
-			   <tr><td><a href='../interface/dict_del.html'>dict_del</a></td><td><a href='../module/dbcsr_dict.html'>dbcsr_dict</a></td><td>Interface</td><td></td></tr>
-			 
 			   <tr><td><a href='../interface/dict_destroy.html'>dict_destroy</a></td><td><a href='../module/dbcsr_dict.html'>dbcsr_dict</a></td><td>Interface</td><td></td></tr>
 			 
 			   <tr><td><a href='../interface/dict_get.html'>dict_get</a></td><td><a href='../module/dbcsr_dict.html'>dbcsr_dict</a></td><td>Interface</td><td></td></tr>
 			 
 			   <tr><td><a href='../interface/dict_haskey.html'>dict_haskey</a></td><td><a href='../module/dbcsr_dict.html'>dbcsr_dict</a></td><td>Interface</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/dict_i4tuple_callstat_del.html'>dict_i4tuple_callstat_del</a></td><td><a href='../module/dbcsr_dict.html'>dbcsr_dict</a></td><td>Subroutine</td><td><p>Remove the value for a given key from the dictionary.
- If the key is not found the program stops.</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dict_i4tuple_callstat_destroy.html'>dict_i4tuple_callstat_destroy</a></td><td><a href='../module/dbcsr_dict.html'>dbcsr_dict</a></td><td>Subroutine</td><td><p>Deallocated the internal data-structures if the given dictionary.
  Caution: If the stored keys or values are pointers, their targets will
@@ -3432,8 +3403,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/dict_i4tuple_callstat_init.html'>dict_i4tuple_callstat_init</a></td><td><a href='../module/dbcsr_dict.html'>dbcsr_dict</a></td><td>Subroutine</td><td><p>Allocates the internal data-structures of the given dictionary.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/dict_i4tuple_callstat_isready.html'>dict_i4tuple_callstat_isready</a></td><td><a href='../module/dbcsr_dict.html'>dbcsr_dict</a></td><td>Function</td><td><p>Test if the given dictionary has been initialized.</p></td></tr>
-			 
 			   <tr><td><a href='../proc/dict_i4tuple_callstat_items.html'>dict_i4tuple_callstat_items</a></td><td><a href='../module/dbcsr_dict.html'>dbcsr_dict</a></td><td>Function</td><td><p>Returns a pointer to an array of all key/value-items stored in the dictionary.
  Caution: The caller is responsible for deallocating targeted array after usage.</p></td></tr>
 			 
@@ -3441,23 +3410,13 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/dict_i4tuple_callstat_size.html'>dict_i4tuple_callstat_size</a></td><td><a href='../module/dbcsr_dict.html'>dbcsr_dict</a></td><td>Function</td><td><p>Returns the number of key/value-items currently stored in the dictionary.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/dict_i4tuple_callstat_update.html'>dict_i4tuple_callstat_update</a></td><td><a href='../module/dbcsr_dict.html'>dbcsr_dict</a></td><td>Subroutine</td><td><p>Copies all key/values-items from one dictionary to another.
- Afterwards dict will contain all items from the from_dict and
- additionally all its previous items, which were not overwritten.
- The two dictionaries have to be of the same type.</p></td></tr>
-			 
 			   <tr><td><a href='../interface/dict_init.html'>dict_init</a></td><td><a href='../module/dbcsr_dict.html'>dbcsr_dict</a></td><td>Interface</td><td></td></tr>
-			 
-			   <tr><td><a href='../interface/dict_isready.html'>dict_isready</a></td><td><a href='../module/dbcsr_dict.html'>dbcsr_dict</a></td><td>Interface</td><td></td></tr>
 			 
 			   <tr><td><a href='../interface/dict_items.html'>dict_items</a></td><td><a href='../module/dbcsr_dict.html'>dbcsr_dict</a></td><td>Interface</td><td></td></tr>
 			 
 			   <tr><td><a href='../interface/dict_set.html'>dict_set</a></td><td><a href='../module/dbcsr_dict.html'>dbcsr_dict</a></td><td>Interface</td><td></td></tr>
 			 
 			   <tr><td><a href='../interface/dict_size.html'>dict_size</a></td><td><a href='../module/dbcsr_dict.html'>dbcsr_dict</a></td><td>Interface</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/dict_str_i4_del.html'>dict_str_i4_del</a></td><td><a href='../module/dbcsr_dict.html'>dbcsr_dict</a></td><td>Subroutine</td><td><p>Remove the value for a given key from the dictionary.
- If the key is not found the program stops.</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dict_str_i4_destroy.html'>dict_str_i4_destroy</a></td><td><a href='../module/dbcsr_dict.html'>dbcsr_dict</a></td><td>Subroutine</td><td><p>Deallocated the internal data-structures if the given dictionary.
  Caution: If the stored keys or values are pointers, their targets will
@@ -3471,8 +3430,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/dict_str_i4_init.html'>dict_str_i4_init</a></td><td><a href='../module/dbcsr_dict.html'>dbcsr_dict</a></td><td>Subroutine</td><td><p>Allocates the internal data-structures of the given dictionary.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/dict_str_i4_isready.html'>dict_str_i4_isready</a></td><td><a href='../module/dbcsr_dict.html'>dbcsr_dict</a></td><td>Function</td><td><p>Test if the given dictionary has been initialized.</p></td></tr>
-			 
 			   <tr><td><a href='../proc/dict_str_i4_items.html'>dict_str_i4_items</a></td><td><a href='../module/dbcsr_dict.html'>dbcsr_dict</a></td><td>Function</td><td><p>Returns a pointer to an array of all key/value-items stored in the dictionary.
  Caution: The caller is responsible for deallocating targeted array after usage.</p></td></tr>
 			 
@@ -3480,51 +3437,17 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/dict_str_i4_size.html'>dict_str_i4_size</a></td><td><a href='../module/dbcsr_dict.html'>dbcsr_dict</a></td><td>Function</td><td><p>Returns the number of key/value-items currently stored in the dictionary.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/dict_str_i4_update.html'>dict_str_i4_update</a></td><td><a href='../module/dbcsr_dict.html'>dbcsr_dict</a></td><td>Subroutine</td><td><p>Copies all key/values-items from one dictionary to another.
- Afterwards dict will contain all items from the from_dict and
- additionally all its previous items, which were not overwritten.
- The two dictionaries have to be of the same type.</p></td></tr>
-			 
-			   <tr><td><a href='../interface/dict_update.html'>dict_update</a></td><td><a href='../module/dbcsr_dict.html'>dbcsr_dict</a></td><td>Interface</td><td></td></tr>
-			 
 			   <tr><td><a href='../proc/dims_tensor.html'>dims_tensor</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Subroutine</td><td><p>tensor dimensions</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dist_compatible.html'>dist_compatible</a></td><td><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></td><td>Function</td><td><p>Check whether matrices have same distribution and same split.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/dist_sparse_tensor_to_repl_dense_2d_array_c_dp.html'>dist_sparse_tensor_to_repl_dense_2d_array_c_dp</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td><p>Transform a distributed sparse tensor to a replicated dense array. This is only useful for
- testing tensor contraction by matrix multiplication of dense arrays.</p></td></tr>
-			 
-			   <tr><td><a href='../proc/dist_sparse_tensor_to_repl_dense_2d_array_c_sp.html'>dist_sparse_tensor_to_repl_dense_2d_array_c_sp</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td><p>Transform a distributed sparse tensor to a replicated dense array. This is only useful for
- testing tensor contraction by matrix multiplication of dense arrays.</p></td></tr>
-			 
 			   <tr><td><a href='../proc/dist_sparse_tensor_to_repl_dense_2d_array_r_dp.html'>dist_sparse_tensor_to_repl_dense_2d_array_r_dp</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td><p>Transform a distributed sparse tensor to a replicated dense array. This is only useful for
- testing tensor contraction by matrix multiplication of dense arrays.</p></td></tr>
-			 
-			   <tr><td><a href='../proc/dist_sparse_tensor_to_repl_dense_2d_array_r_sp.html'>dist_sparse_tensor_to_repl_dense_2d_array_r_sp</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td><p>Transform a distributed sparse tensor to a replicated dense array. This is only useful for
- testing tensor contraction by matrix multiplication of dense arrays.</p></td></tr>
-			 
-			   <tr><td><a href='../proc/dist_sparse_tensor_to_repl_dense_3d_array_c_dp.html'>dist_sparse_tensor_to_repl_dense_3d_array_c_dp</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td><p>Transform a distributed sparse tensor to a replicated dense array. This is only useful for
- testing tensor contraction by matrix multiplication of dense arrays.</p></td></tr>
-			 
-			   <tr><td><a href='../proc/dist_sparse_tensor_to_repl_dense_3d_array_c_sp.html'>dist_sparse_tensor_to_repl_dense_3d_array_c_sp</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td><p>Transform a distributed sparse tensor to a replicated dense array. This is only useful for
  testing tensor contraction by matrix multiplication of dense arrays.</p></td></tr>
 			 
 			   <tr><td><a href='../proc/dist_sparse_tensor_to_repl_dense_3d_array_r_dp.html'>dist_sparse_tensor_to_repl_dense_3d_array_r_dp</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td><p>Transform a distributed sparse tensor to a replicated dense array. This is only useful for
  testing tensor contraction by matrix multiplication of dense arrays.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/dist_sparse_tensor_to_repl_dense_3d_array_r_sp.html'>dist_sparse_tensor_to_repl_dense_3d_array_r_sp</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td><p>Transform a distributed sparse tensor to a replicated dense array. This is only useful for
- testing tensor contraction by matrix multiplication of dense arrays.</p></td></tr>
-			 
-			   <tr><td><a href='../proc/dist_sparse_tensor_to_repl_dense_4d_array_c_dp.html'>dist_sparse_tensor_to_repl_dense_4d_array_c_dp</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td><p>Transform a distributed sparse tensor to a replicated dense array. This is only useful for
- testing tensor contraction by matrix multiplication of dense arrays.</p></td></tr>
-			 
-			   <tr><td><a href='../proc/dist_sparse_tensor_to_repl_dense_4d_array_c_sp.html'>dist_sparse_tensor_to_repl_dense_4d_array_c_sp</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td><p>Transform a distributed sparse tensor to a replicated dense array. This is only useful for
- testing tensor contraction by matrix multiplication of dense arrays.</p></td></tr>
-			 
 			   <tr><td><a href='../proc/dist_sparse_tensor_to_repl_dense_4d_array_r_dp.html'>dist_sparse_tensor_to_repl_dense_4d_array_r_dp</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td><p>Transform a distributed sparse tensor to a replicated dense array. This is only useful for
- testing tensor contraction by matrix multiplication of dense arrays.</p></td></tr>
-			 
-			   <tr><td><a href='../proc/dist_sparse_tensor_to_repl_dense_4d_array_r_sp.html'>dist_sparse_tensor_to_repl_dense_4d_array_r_sp</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td><p>Transform a distributed sparse tensor to a replicated dense array. This is only useful for
  testing tensor contraction by matrix multiplication of dense arrays.</p></td></tr>
 			 
 			   <tr><td><a href='../interface/dist_sparse_tensor_to_repl_dense_array.html'>dist_sparse_tensor_to_repl_dense_array</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Interface</td><td></td></tr>
@@ -3554,8 +3477,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/enumerate_block_elements.html'>enumerate_block_elements</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td><p>Enumerate tensor entries in block
  \blk_2 block values for 2 dimensions
  \blk_3 block values for 3 dimensions</p></td></tr>
-			 
-			   <tr><td><a href='../proc/evenly_bin.html'>evenly_bin</a></td><td><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></td><td>Subroutine</td><td><p>Evenly distributes elements into bins</p></td></tr>
 			 
 			   <tr><td><a href='../proc/factorial.html'>factorial</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Function</td><td><p>Compute factorial</p></td></tr>
 			 
@@ -3644,8 +3565,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/get_rank3d.html'>get_rank3D</a></td><td><a href='../module/dbcsr_mm_3d.html'>dbcsr_mm_3d</a></td><td>Function</td><td><p>Return the rank of the 3D layer (3D communicator for C), Column-major order</p></td></tr>
 			 
-			   <tr><td><a href='../proc/get_right_child.html'>get_right_child</a></td><td><a href='../module/dbcsr_min_heap.html'>dbcsr_min_heap</a></td><td>Function</td><td></td></tr>
-			 
 			   <tr><td><a href='../proc/get_stored_canonical.html'>get_stored_canonical</a></td><td><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></td><td>Subroutine</td><td><p>Canonical logic</p></td></tr>
 			 
 			   <tr><td><a href='../proc/get_timer_env.html'>get_timer_env</a></td><td><a href='../module/dbcsr_timings.html'>dbcsr_timings</a></td><td>Function</td><td><p>returns the current timer env from the stack</p></td></tr>
@@ -3654,8 +3573,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
  </p><a href="../proc/get_unit_number.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			 
 			   <tr><td><a href='../proc/get_value.html'>get_value</a></td><td><a href='../module/dbcsr_min_heap.html'>dbcsr_min_heap</a></td><td>Function</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/get_value_by_key.html'>get_value_by_key</a></td><td><a href='../module/dbcsr_min_heap.html'>dbcsr_min_heap</a></td><td>Function</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/global_offsets_to_local.html'>global_offsets_to_local</a></td><td><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></td><td>Subroutine</td><td><p>Converts global offsets to local</p><a href="../proc/global_offsets_to_local.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			 
@@ -3726,8 +3643,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/index_linked_sort.html'>index_linked_sort</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/index_unique.html'>index_unique</a></td><td><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></td><td>Subroutine</td><td><p>Get all unique elements in index_in</p></td></tr>
-			 
-			   <tr><td><a href='../proc/init_preconnection_list.html'>init_preconnection_list</a></td><td><a href='../module/dbcsr_files.html'>dbcsr_files</a></td><td>Subroutine</td><td><p>Allocate and initialise the list of preconnected units</p></td></tr>
 			 
 			   <tr><td><a href='../proc/integer_to_string.html'>integer_to_string</a></td><td><a href='../module/dbcsr_string_utilities.html'>dbcsr_string_utilities</a></td><td>Subroutine</td><td><p>Converts an integer number to a string.
  The WRITE statement will return an error message, if the number of
@@ -3958,8 +3873,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/local_filter_sp.html'>local_filter_sp</a></td><td><a href='../module/dbcsr_mm_multrec.html'>dbcsr_mm_multrec</a></td><td>Subroutine</td><td><p>Gathers the local elements from all data (full_data) for
  single precision elements.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/lowercase.html'>lowercase</a></td><td><a href='../module/dbcsr_string_utilities.html'>dbcsr_string_utilities</a></td><td>Subroutine</td><td><p>Convert all upper case characters in a string to lower case.</p></td></tr>
-			 
 			   <tr><td><a href='../proc/m_abort.html'>m_abort</a></td><td><a href='../module/dbcsr_machine_internal.html'>dbcsr_machine_internal</a></td><td>Subroutine</td><td><p>Can be used to get a nice core</p></td></tr>
 			 
 			   <tr><td><a href='../proc/m_chdir.html'>m_chdir</a></td><td><a href='../module/dbcsr_machine_internal.html'>dbcsr_machine_internal</a></td><td>Subroutine</td><td></td></tr>
@@ -4006,28 +3919,16 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/make_buffers.html'>make_buffers</a></td><td><a href='../module/dbcsr_mm_3d.html'>dbcsr_mm_3d</a></td><td>Subroutine</td><td><p>Prepare orig images for MPI windows</p></td></tr>
 			 
-			   <tr><td><a href='../proc/make_conformant_scalar_c.html'>make_conformant_scalar_c</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td><p>Encapsulates a given scalar value and makes it conform with the
+			   <tr><td><a href='../proc/make_conformant_scalar_c.html'>make_conformant_scalar_c</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Function</td><td><p>Encapsulates a given scalar value and makes it conform with the
  type of the matrix.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/make_conformant_scalar_c~2.html'>make_conformant_scalar_c</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Function</td><td><p>Encapsulates a given scalar value and makes it conform with the
+			   <tr><td><a href='../proc/make_conformant_scalar_d.html'>make_conformant_scalar_d</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Function</td><td><p>Encapsulates a given scalar value and makes it conform with the
  type of the matrix.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/make_conformant_scalar_d.html'>make_conformant_scalar_d</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td><p>Encapsulates a given scalar value and makes it conform with the
+			   <tr><td><a href='../proc/make_conformant_scalar_s.html'>make_conformant_scalar_s</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Function</td><td><p>Encapsulates a given scalar value and makes it conform with the
  type of the matrix.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/make_conformant_scalar_d~2.html'>make_conformant_scalar_d</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Function</td><td><p>Encapsulates a given scalar value and makes it conform with the
- type of the matrix.</p></td></tr>
-			 
-			   <tr><td><a href='../proc/make_conformant_scalar_s.html'>make_conformant_scalar_s</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td><p>Encapsulates a given scalar value and makes it conform with the
- type of the matrix.</p></td></tr>
-			 
-			   <tr><td><a href='../proc/make_conformant_scalar_s~2.html'>make_conformant_scalar_s</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Function</td><td><p>Encapsulates a given scalar value and makes it conform with the
- type of the matrix.</p></td></tr>
-			 
-			   <tr><td><a href='../proc/make_conformant_scalar_z.html'>make_conformant_scalar_z</a></td><td><a href='../module/dbcsr_api.html'>dbcsr_api</a></td><td>Function</td><td><p>Encapsulates a given scalar value and makes it conform with the
- type of the matrix.</p></td></tr>
-			 
-			   <tr><td><a href='../proc/make_conformant_scalar_z~2.html'>make_conformant_scalar_z</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Function</td><td><p>Encapsulates a given scalar value and makes it conform with the
+			   <tr><td><a href='../proc/make_conformant_scalar_z.html'>make_conformant_scalar_z</a></td><td><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></td><td>Function</td><td><p>Encapsulates a given scalar value and makes it conform with the
  type of the matrix.</p></td></tr>
 			 
 			   <tr><td><a href='../proc/make_coordinate_tuple.html'>make_coordinate_tuple</a></td><td><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></td><td>Function</td><td></td></tr>
@@ -4548,8 +4449,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/mp_file_open.html'>mp_file_open</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Opens a file</p><a href="../proc/mp_file_open.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			 
-			   <tr><td><a href='../interface/mp_file_read_at.html'>mp_file_read_at</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Interface</td><td></td></tr>
-			 
 			   <tr><td><a href='../interface/mp_file_read_at_all.html'>mp_file_read_at_all</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Interface</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/mp_file_read_at_all_c.html'>mp_file_read_at_all_c</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td></td></tr>
@@ -4583,38 +4482,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/mp_file_read_at_all_zv.html'>mp_file_read_at_all_zv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>(parallel) Blocking collective file read using explicit offsets
  (serial) Unformatted stream read</p><a href="../proc/mp_file_read_at_all_zv.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_file_read_at_c.html'>mp_file_read_at_c</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_file_read_at_ch.html'>mp_file_read_at_ch</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_file_read_at_cv.html'>mp_file_read_at_cv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>(parallel) Blocking individual file read using explicit offsets
- (serial) Unformatted stream read</p><a href="../proc/mp_file_read_at_cv.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_file_read_at_d.html'>mp_file_read_at_d</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_file_read_at_dv.html'>mp_file_read_at_dv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>(parallel) Blocking individual file read using explicit offsets
- (serial) Unformatted stream read</p><a href="../proc/mp_file_read_at_dv.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_file_read_at_i.html'>mp_file_read_at_i</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_file_read_at_iv.html'>mp_file_read_at_iv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>(parallel) Blocking individual file read using explicit offsets
- (serial) Unformatted stream read</p><a href="../proc/mp_file_read_at_iv.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_file_read_at_l.html'>mp_file_read_at_l</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_file_read_at_lv.html'>mp_file_read_at_lv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>(parallel) Blocking individual file read using explicit offsets
- (serial) Unformatted stream read</p><a href="../proc/mp_file_read_at_lv.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_file_read_at_r.html'>mp_file_read_at_r</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_file_read_at_rv.html'>mp_file_read_at_rv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>(parallel) Blocking individual file read using explicit offsets
- (serial) Unformatted stream read</p><a href="../proc/mp_file_read_at_rv.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_file_read_at_z.html'>mp_file_read_at_z</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_file_read_at_zv.html'>mp_file_read_at_zv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>(parallel) Blocking individual file read using explicit offsets
- (serial) Unformatted stream read</p><a href="../proc/mp_file_read_at_zv.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			 
 			   <tr><td><a href='../interface/mp_file_write_at.html'>mp_file_write_at</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Interface</td><td></td></tr>
 			 
@@ -4970,20 +4837,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/mp_ibcast_zv.html'>mp_ibcast_zv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Broadcasts rank-1 data to all processes
  </p><a href="../proc/mp_ibcast_zv.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			 
-			   <tr><td><a href='../interface/mp_igatherv.html'>mp_igatherv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Interface</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_igatherv_cv.html'>mp_igatherv_cv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Gathers data from all processes to one.</p><a href="../proc/mp_igatherv_cv.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_igatherv_dv.html'>mp_igatherv_dv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Gathers data from all processes to one.</p><a href="../proc/mp_igatherv_dv.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_igatherv_iv.html'>mp_igatherv_iv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Gathers data from all processes to one.</p><a href="../proc/mp_igatherv_iv.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_igatherv_lv.html'>mp_igatherv_lv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Gathers data from all processes to one.</p><a href="../proc/mp_igatherv_lv.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_igatherv_rv.html'>mp_igatherv_rv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Gathers data from all processes to one.</p><a href="../proc/mp_igatherv_rv.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_igatherv_zv.html'>mp_igatherv_zv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Gathers data from all processes to one.</p><a href="../proc/mp_igatherv_zv.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			 
 			   <tr><td><a href='../interface/mp_irecv.html'>mp_irecv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Interface</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/mp_irecv_bv.html'>mp_irecv_bv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Non-blocking receive of logical vector data
@@ -5324,20 +5177,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/mp_rget_zv.html'>mp_rget_zv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Single-sided get function for vector data
  </p><a href="../proc/mp_rget_zv.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			 
-			   <tr><td><a href='../interface/mp_scatter.html'>mp_scatter</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Interface</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_scatter_cv.html'>mp_scatter_cv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Scatters data from one processes to all others</p><a href="../proc/mp_scatter_cv.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_scatter_dv.html'>mp_scatter_dv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Scatters data from one processes to all others</p><a href="../proc/mp_scatter_dv.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_scatter_iv.html'>mp_scatter_iv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Scatters data from one processes to all others</p><a href="../proc/mp_scatter_iv.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_scatter_lv.html'>mp_scatter_lv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Scatters data from one processes to all others</p><a href="../proc/mp_scatter_lv.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_scatter_rv.html'>mp_scatter_rv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Scatters data from one processes to all others</p><a href="../proc/mp_scatter_rv.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_scatter_zv.html'>mp_scatter_zv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Scatters data from one processes to all others</p><a href="../proc/mp_scatter_zv.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
-			 
 			   <tr><td><a href='../interface/mp_send.html'>mp_send</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Interface</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/mp_send_c.html'>mp_send_c</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Send one datum to another process</p><a href="../proc/mp_send_c.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
@@ -5519,20 +5358,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/mp_sum_rv.html'>mp_sum_rv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Element-wise sum of a rank-1 array on all processes.
  </p><a href="../proc/mp_sum_rv.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			 
-			   <tr><td><a href='../interface/mp_sum_scatter.html'>mp_sum_scatter</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Interface</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_sum_scatter_cv.html'>mp_sum_scatter_cv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Sums a vector and partitions the result among processes</p></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_sum_scatter_dv.html'>mp_sum_scatter_dv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Sums a vector and partitions the result among processes</p></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_sum_scatter_iv.html'>mp_sum_scatter_iv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Sums a vector and partitions the result among processes</p></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_sum_scatter_lv.html'>mp_sum_scatter_lv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Sums a vector and partitions the result among processes</p></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_sum_scatter_rv.html'>mp_sum_scatter_rv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Sums a vector and partitions the result among processes</p></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_sum_scatter_zv.html'>mp_sum_scatter_zv</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Sums a vector and partitions the result among processes</p></td></tr>
-			 
 			   <tr><td><a href='../proc/mp_sum_z.html'>mp_sum_z</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Sums a datum from all processes with result left on all processes.</p><a href="../proc/mp_sum_z.html" class="pull-right"><emph>Read more&hellip;</emph></a></td></tr>
 			 
 			   <tr><td><a href='../proc/mp_sum_zm.html'>mp_sum_zm</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>Element-wise sum of a rank-2 array on all processes.
@@ -5564,11 +5389,7 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/mp_testany_2.html'>mp_testany_2</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td><p>tests for completion of the given requests</p></td></tr>
 			 
-			   <tr><td><a href='../interface/mp_type_free.html'>mp_type_free</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Interface</td><td></td></tr>
-			 
 			   <tr><td><a href='../proc/mp_type_free_m.html'>mp_type_free_m</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/mp_type_free_v.html'>mp_type_free_v</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Subroutine</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/mp_type_indexed_make_c.html'>mp_type_indexed_make_c</a></td><td><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></td><td>Function</td><td></td></tr>
 			 
@@ -5683,8 +5504,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/ndims_tensor.html'>ndims_tensor</a></td><td><a href='../module/dbcsr_tensor_types.html'>dbcsr_tensor_types</a></td><td>Function</td><td><p>tensor rank</p></td></tr>
 			 
-			   <tr><td><a href='../proc/nearest_divisor.html'>nearest_divisor</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td></td></tr>
-			 
 			   <tr><td><a href='../proc/new_dbcsr_tas_blk_size_arb.html'>new_dbcsr_tas_blk_size_arb</a></td><td><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></td><td>Function</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/new_dbcsr_tas_blk_size_one.html'>new_dbcsr_tas_blk_size_one</a></td><td><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></td><td>Function</td><td></td></tr>
@@ -5718,8 +5537,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/ordered_search.html'>ordered_search</a></td><td><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></td><td>Subroutine</td><td><p>search a value in an ordered array of indices</p></td></tr>
 			 
 			   <tr><td><a href='../proc/pd_blk_cs.html'>pd_blk_cs</a></td><td><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></td><td>Function</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/pdims_realtoint.html'>pdims_realtoint</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/permute.html'>permute</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td><p>Compute all permutations p of (1, 2, ..., n)</p></td></tr>
 			 
@@ -5827,32 +5644,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/remove_word.html'>remove_word</a></td><td><a href='../module/dbcsr_string_utilities.html'>dbcsr_string_utilities</a></td><td>Subroutine</td><td><p>remove a word from a string (words are separated by white spaces)</p></td></tr>
 			 
 			   <tr><td><a href='../proc/reorder_arrays.html'>reorder_arrays</a></td><td><a href='../module/dbcsr_array_list_methods.html'>dbcsr_array_list_methods</a></td><td>Subroutine</td><td><p>reorder array list.</p></td></tr>
-			 
-			   <tr><td><a href='../proc/repl_dense_2d_array_to_dist_sparse_tensor_c_dp.html'>repl_dense_2d_array_to_dist_sparse_tensor_c_dp</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/repl_dense_2d_array_to_dist_sparse_tensor_c_sp.html'>repl_dense_2d_array_to_dist_sparse_tensor_c_sp</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/repl_dense_2d_array_to_dist_sparse_tensor_r_dp.html'>repl_dense_2d_array_to_dist_sparse_tensor_r_dp</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/repl_dense_2d_array_to_dist_sparse_tensor_r_sp.html'>repl_dense_2d_array_to_dist_sparse_tensor_r_sp</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/repl_dense_3d_array_to_dist_sparse_tensor_c_dp.html'>repl_dense_3d_array_to_dist_sparse_tensor_c_dp</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/repl_dense_3d_array_to_dist_sparse_tensor_c_sp.html'>repl_dense_3d_array_to_dist_sparse_tensor_c_sp</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/repl_dense_3d_array_to_dist_sparse_tensor_r_dp.html'>repl_dense_3d_array_to_dist_sparse_tensor_r_dp</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/repl_dense_3d_array_to_dist_sparse_tensor_r_sp.html'>repl_dense_3d_array_to_dist_sparse_tensor_r_sp</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/repl_dense_4d_array_to_dist_sparse_tensor_c_dp.html'>repl_dense_4d_array_to_dist_sparse_tensor_c_dp</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/repl_dense_4d_array_to_dist_sparse_tensor_c_sp.html'>repl_dense_4d_array_to_dist_sparse_tensor_c_sp</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/repl_dense_4d_array_to_dist_sparse_tensor_r_dp.html'>repl_dense_4d_array_to_dist_sparse_tensor_r_dp</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/repl_dense_4d_array_to_dist_sparse_tensor_r_sp.html'>repl_dense_4d_array_to_dist_sparse_tensor_r_sp</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td></td></tr>
-			 
-			   <tr><td><a href='../interface/repl_dense_array_to_dist_sparse_tensor.html'>repl_dense_array_to_dist_sparse_tensor</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Interface</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/repl_dist.html'>repl_dist</a></td><td><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></td><td>Function</td><td></td></tr>
 			 
@@ -6069,22 +5860,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
  \return whether the point is within the bounds</p></td></tr>
 			 
 			   <tr><td><a href='../proc/world_to_group_proc_map.html'>world_to_group_proc_map</a></td><td><a href='../module/dbcsr_tas_split.html'>dbcsr_tas_split</a></td><td>Subroutine</td><td><p>map global process info to group</p></td></tr>
-			 
-			   <tr><td><a href='../proc/write_2d_array.html'>write_2d_array</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td><p>Write nd array</p></td></tr>
-			 
-			   <tr><td><a href='../proc/write_3d_array.html'>write_3d_array</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td><p>Write nd array</p></td></tr>
-			 
-			   <tr><td><a href='../proc/write_4d_array.html'>write_4d_array</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Subroutine</td><td><p>Write nd array</p></td></tr>
-			 
-			   <tr><td><a href='../interface/write_array.html'>write_array</a></td><td><a href='../module/dbcsr_tensor_test.html'>dbcsr_tensor_test</a></td><td>Interface</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/xsmm_process_mm_stack_c.html'>xsmm_process_mm_stack_c</a></td><td><a href='../module/dbcsr_mm_hostdrv.html'>dbcsr_mm_hostdrv</a></td><td>Subroutine</td><td><p>Processes MM stack and issues libxsmm calls</p></td></tr>
-			 
-			   <tr><td><a href='../proc/xsmm_process_mm_stack_d.html'>xsmm_process_mm_stack_d</a></td><td><a href='../module/dbcsr_mm_hostdrv.html'>dbcsr_mm_hostdrv</a></td><td>Subroutine</td><td><p>Processes MM stack and issues libxsmm calls</p></td></tr>
-			 
-			   <tr><td><a href='../proc/xsmm_process_mm_stack_s.html'>xsmm_process_mm_stack_s</a></td><td><a href='../module/dbcsr_mm_hostdrv.html'>dbcsr_mm_hostdrv</a></td><td>Subroutine</td><td><p>Processes MM stack and issues libxsmm calls</p></td></tr>
-			 
-			   <tr><td><a href='../proc/xsmm_process_mm_stack_z.html'>xsmm_process_mm_stack_z</a></td><td><a href='../module/dbcsr_mm_hostdrv.html'>dbcsr_mm_hostdrv</a></td><td>Subroutine</td><td><p>Processes MM stack and issues libxsmm calls</p></td></tr>
 			 
 			   <tr><td><a href='../proc/xstring.html'>xstring</a></td><td><a href='../module/dbcsr_string_utilities.html'>dbcsr_string_utilities</a></td><td>Subroutine</td><td></td></tr>
 			 

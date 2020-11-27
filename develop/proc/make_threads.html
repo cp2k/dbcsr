@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">76 statements</a>
+    title=" 0.1% of total for procedures.">75 statements</a>
      </li> 
      
      
@@ -334,8 +334,6 @@ private subroutine make_threads(dist, row_sizes)
          <span class="c">!! Add thread distribution to this distribution</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>        <span class="kd">::</span> <span class="n">row_sizes</span>
          <span class="c">!! row block sizes</span>
-
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;make_threads&#39;</span><span class="p">,</span> <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">block_size</span><span class="p">,</span> <span class="n">block_size0</span><span class="p">,</span> <span class="n">cur_block</span><span class="p">,</span> <span class="p">&amp;</span>
                                                             <span class="n">group_size</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">last_row</span><span class="p">,</span> <span class="n">nlrows</span><span class="p">,</span> <span class="p">&amp;</span>

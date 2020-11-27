@@ -83,8 +83,7 @@ CONTAINS
          numproc_group, numproc_group_check, handle
       INTEGER, DIMENSION(2)                              :: pcoord, pcoord_group, pdims, pdims_group
       LOGICAL                                            :: to_assert, own_comm_prv
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_create_split_rows_or_cols', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_create_split_rows_or_cols'
 
       CALL timeset(routineN, handle)
 
@@ -153,8 +152,7 @@ CONTAINS
       INTEGER, INTENT(IN)                             :: nsplit
       INTEGER                                            :: dbcsr_tas_mp_comm
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_mp_comm', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_mp_comm'
 
       INTEGER                                            :: handle, iproc, numproc
       INTEGER, DIMENSION(2)                              :: myploc, npdims
@@ -319,8 +317,7 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: opt_nsplit
          !! whether nsplit should be optimized to process grid
 
-      CHARACTER(LEN=*), PARAMETER                        :: routineN = 'dbcsr_tas_create_split', &
-                                                            routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER                        :: routineN = 'dbcsr_tas_create_split'
 
       INTEGER                                            :: &
          handle, iproc, numproc, igroup, nsplit_opt, pdim_split, pdim_nonsplit
@@ -568,8 +565,6 @@ CONTAINS
       TYPE(dbcsr_tas_distribution_type), INTENT(IN)        :: dist
       INTEGER(KIND=int_8), INTENT(IN), OPTIONAL          :: row, column
       INTEGER, INTENT(OUT), OPTIONAL                     :: row_group, column_group
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'block_index_global_to_local', &
-                                     routineP = moduleN//':'//routineN
 
       SELECT CASE (info%split_rowcol)
       CASE (rowsplit)
@@ -588,9 +583,6 @@ CONTAINS
       INTEGER(KIND=int_8), intent(in) :: el
       INTEGER, INTENT(in), OPTIONAL   :: l_index, u_index
       INTEGER                         :: res, lindex, uindex, aindex
-
-      character(len=*), parameter :: routineN = 'i8_bsearch', &
-                                     routineP = moduleN//':'//routineN
 
       lindex = 1
       uindex = size(array)

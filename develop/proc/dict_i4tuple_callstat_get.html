@@ -227,7 +227,7 @@ private function dict_i4tuple_callstat_get(dict, key, default_value) result(valu
   
 <tr>
   
-  <td><span class="anchor" id="variable-dict~7"></span>type(<a href='../type/dict_i4tuple_callstat_type.html'>dict_i4tuple_callstat_type</a>),</td>
+  <td><span class="anchor" id="variable-dict~5"></span>type(<a href='../type/dict_i4tuple_callstat_type.html'>dict_i4tuple_callstat_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -242,7 +242,7 @@ private function dict_i4tuple_callstat_get(dict, key, default_value) result(valu
   
 <tr>
   
-  <td><span class="anchor" id="variable-key~65"></span>integer(kind=int_4),</td>
+  <td><span class="anchor" id="variable-key~64"></span>integer(kind=int_4),</td>
   <td></td>
   <td></td>
   
@@ -276,7 +276,7 @@ private function dict_i4tuple_callstat_get(dict, key, default_value) result(valu
     
     
     
-   <h3>Return Value <small><span class="anchor" id="variable-value~71"></span>type(<a href='../type/call_stat_type.html'>call_stat_type</a>),
+   <h3>Return Value <small><span class="anchor" id="variable-value~70"></span>type(<a href='../type/call_stat_type.html'>call_stat_type</a>),
   POINTER</small></h3>
     
     
@@ -353,9 +353,9 @@ private function dict_i4tuple_callstat_get(dict, key, default_value) result(valu
 <span class="k">      TYPE</span><span class="p">(</span><span class="n">private_item_type_i4tuple_callstat</span><span class="p">),</span> <span class="k">POINTER</span>                      <span class="kd">::</span> <span class="n">item</span>
       <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span>                                   <span class="kd">::</span> <span class="n">hash</span><span class="p">,</span> <span class="n">idx</span>
 
-<span class="cp"># 293 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F&quot;</span>
+<span class="cp"># 268 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F&quot;</span>
       <span class="k">NULLIFY</span> <span class="p">(</span><span class="k">value</span><span class="p">)</span>
-<span class="cp"># 295 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F&quot;</span>
+<span class="cp"># 270 &quot;/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F&quot;</span>
 
       <span class="k">IF</span> <span class="p">(.</span><span class="nb">not</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">dict</span><span class="p">%</span><span class="n">buckets</span><span class="p">))</span> <span class="p">&amp;</span>
          <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;dict_i4tuple_callstat_get: dictionary is not initialized.&quot;</span><span class="p">)</span>

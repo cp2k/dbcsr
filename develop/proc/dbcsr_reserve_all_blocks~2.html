@@ -226,7 +226,7 @@ public subroutine dbcsr_reserve_all_blocks(matrix)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~124"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~120"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -309,8 +309,7 @@ public subroutine dbcsr_reserve_all_blocks(matrix)
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">matrix</span>
          <span class="c">!! Matrix into which blocks should be added.</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_reserve_all_blocks&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_reserve_all_blocks&#39;</span>
 
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">blk_count</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">col_local</span><span class="p">,</span> <span class="n">col_s</span><span class="p">,</span> <span class="p">&amp;</span>
                                                             <span class="n">error_handle</span><span class="p">,</span> <span class="n">myrank</span><span class="p">,</span> <span class="n">rank</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="p">&amp;</span>

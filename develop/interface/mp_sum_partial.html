@@ -187,13 +187,13 @@
       
       <a class="list-group-item" href="../interface/mp_sum_partial.html#moduleprocedure-mp_sum_partial_lm">mp_sum_partial_lm</a>
       
-      <a class="list-group-item" href="../interface/mp_sum_partial.html#moduleprocedure-mp_sum_partial_rm">mp_sum_partial_rm</a>
-      
       <a class="list-group-item" href="../interface/mp_sum_partial.html#moduleprocedure-mp_sum_partial_dm">mp_sum_partial_dm</a>
       
-      <a class="list-group-item" href="../interface/mp_sum_partial.html#moduleprocedure-mp_sum_partial_cm">mp_sum_partial_cm</a>
+      <a class="list-group-item" href="../interface/mp_sum_partial.html#moduleprocedure-mp_sum_partial_rm">mp_sum_partial_rm</a>
       
       <a class="list-group-item" href="../interface/mp_sum_partial.html#moduleprocedure-mp_sum_partial_zm">mp_sum_partial_zm</a>
+      
+      <a class="list-group-item" href="../interface/mp_sum_partial.html#moduleprocedure-mp_sum_partial_cm">mp_sum_partial_cm</a>
       
     </div>
   </div>
@@ -246,13 +246,13 @@
       
       <a class="list-group-item" href="../interface/mp_sum_partial.html#moduleprocedure-mp_sum_partial_lm">mp_sum_partial_lm</a>
       
-      <a class="list-group-item" href="../interface/mp_sum_partial.html#moduleprocedure-mp_sum_partial_rm">mp_sum_partial_rm</a>
-      
       <a class="list-group-item" href="../interface/mp_sum_partial.html#moduleprocedure-mp_sum_partial_dm">mp_sum_partial_dm</a>
       
-      <a class="list-group-item" href="../interface/mp_sum_partial.html#moduleprocedure-mp_sum_partial_cm">mp_sum_partial_cm</a>
+      <a class="list-group-item" href="../interface/mp_sum_partial.html#moduleprocedure-mp_sum_partial_rm">mp_sum_partial_rm</a>
       
       <a class="list-group-item" href="../interface/mp_sum_partial.html#moduleprocedure-mp_sum_partial_zm">mp_sum_partial_zm</a>
+      
+      <a class="list-group-item" href="../interface/mp_sum_partial.html#moduleprocedure-mp_sum_partial_cm">mp_sum_partial_cm</a>
       
     </div>
   </div>
@@ -451,95 +451,6 @@ private subroutine <a href='../proc/mp_sum_partial_lm.html'>mp_sum_partial_lm</a
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_sum_partial_rm"></span><h3>
-private subroutine <a href='../proc/mp_sum_partial_rm.html'>mp_sum_partial_rm</a>(msg, res, gid)
-    
-    
-   
-</h3></div>
-  <div class="panel-body">
-       
-    
-
-
-
-
-
-
-
-<p>Partial sum of data from all processes with result on each process.</p>
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>CONTIGUOUS</td><td>::</td>
-  <td><strong>msg</strong>(:,:)</td><td><p>Matrix to sum (input)</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(out),</td>
-  <td></td>
-  
-  <td>CONTIGUOUS</td><td>::</td>
-  <td><strong>res</strong>(:,:)</td><td><p>Matrix containing result (output)</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>gid</strong></td><td><p>Message passing environment identifier</p></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-  </div>
-  </div>
-
-   
-    
-  <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-mp_sum_partial_dm"></span><h3>
 private subroutine <a href='../proc/mp_sum_partial_dm.html'>mp_sum_partial_dm</a>(msg, res, gid)
     
@@ -629,8 +540,8 @@ private subroutine <a href='../proc/mp_sum_partial_dm.html'>mp_sum_partial_dm</a
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_sum_partial_cm"></span><h3>
-private subroutine <a href='../proc/mp_sum_partial_cm.html'>mp_sum_partial_cm</a>(msg, res, gid)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_sum_partial_rm"></span><h3>
+private subroutine <a href='../proc/mp_sum_partial_rm.html'>mp_sum_partial_rm</a>(msg, res, gid)
     
     
    
@@ -666,7 +577,7 @@ private subroutine <a href='../proc/mp_sum_partial_cm.html'>mp_sum_partial_cm</a
   
 <tr>
   
-  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -681,7 +592,7 @@ private subroutine <a href='../proc/mp_sum_partial_cm.html'>mp_sum_partial_cm</a
   
 <tr>
   
-  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
   <td>intent(out),</td>
   <td></td>
   
@@ -771,6 +682,95 @@ private subroutine <a href='../proc/mp_sum_partial_zm.html'>mp_sum_partial_zm</a
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>res</strong>(:,:)</td><td><p>Matrix containing result (output)</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>gid</strong></td><td><p>Message passing environment identifier</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+   
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_sum_partial_cm"></span><h3>
+private subroutine <a href='../proc/mp_sum_partial_cm.html'>mp_sum_partial_cm</a>(msg, res, gid)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Partial sum of data from all processes with result on each process.</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>msg</strong>(:,:)</td><td><p>Matrix to sum (input)</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
   <td>intent(out),</td>
   <td></td>
   

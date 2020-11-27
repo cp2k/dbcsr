@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 0.0% of total for procedures.</p>Including implementation: 387 statements,  0.6% of total for procedures.">3 statements</a>
+    title="<p> 0.0% of total for procedures.</p>Including implementation: 387 statements,  0.7% of total for procedures.">3 statements</a>
      </li> 
      
      
@@ -191,21 +191,21 @@
       
       <a class="list-group-item" href="../interface/mp_recv.html#moduleprocedure-mp_recv_lv">mp_recv_lv</a>
       
-      <a class="list-group-item" href="../interface/mp_recv.html#moduleprocedure-mp_recv_r">mp_recv_r</a>
-      
-      <a class="list-group-item" href="../interface/mp_recv.html#moduleprocedure-mp_recv_rv">mp_recv_rv</a>
-      
       <a class="list-group-item" href="../interface/mp_recv.html#moduleprocedure-mp_recv_d">mp_recv_d</a>
       
       <a class="list-group-item" href="../interface/mp_recv.html#moduleprocedure-mp_recv_dv">mp_recv_dv</a>
       
-      <a class="list-group-item" href="../interface/mp_recv.html#moduleprocedure-mp_recv_c">mp_recv_c</a>
+      <a class="list-group-item" href="../interface/mp_recv.html#moduleprocedure-mp_recv_r">mp_recv_r</a>
       
-      <a class="list-group-item" href="../interface/mp_recv.html#moduleprocedure-mp_recv_cv">mp_recv_cv</a>
+      <a class="list-group-item" href="../interface/mp_recv.html#moduleprocedure-mp_recv_rv">mp_recv_rv</a>
       
       <a class="list-group-item" href="../interface/mp_recv.html#moduleprocedure-mp_recv_z">mp_recv_z</a>
       
       <a class="list-group-item" href="../interface/mp_recv.html#moduleprocedure-mp_recv_zv">mp_recv_zv</a>
+      
+      <a class="list-group-item" href="../interface/mp_recv.html#moduleprocedure-mp_recv_c">mp_recv_c</a>
+      
+      <a class="list-group-item" href="../interface/mp_recv.html#moduleprocedure-mp_recv_cv">mp_recv_cv</a>
       
     </div>
   </div>
@@ -262,21 +262,21 @@
       
       <a class="list-group-item" href="../interface/mp_recv.html#moduleprocedure-mp_recv_lv">mp_recv_lv</a>
       
-      <a class="list-group-item" href="../interface/mp_recv.html#moduleprocedure-mp_recv_r">mp_recv_r</a>
-      
-      <a class="list-group-item" href="../interface/mp_recv.html#moduleprocedure-mp_recv_rv">mp_recv_rv</a>
-      
       <a class="list-group-item" href="../interface/mp_recv.html#moduleprocedure-mp_recv_d">mp_recv_d</a>
       
       <a class="list-group-item" href="../interface/mp_recv.html#moduleprocedure-mp_recv_dv">mp_recv_dv</a>
       
-      <a class="list-group-item" href="../interface/mp_recv.html#moduleprocedure-mp_recv_c">mp_recv_c</a>
+      <a class="list-group-item" href="../interface/mp_recv.html#moduleprocedure-mp_recv_r">mp_recv_r</a>
       
-      <a class="list-group-item" href="../interface/mp_recv.html#moduleprocedure-mp_recv_cv">mp_recv_cv</a>
+      <a class="list-group-item" href="../interface/mp_recv.html#moduleprocedure-mp_recv_rv">mp_recv_rv</a>
       
       <a class="list-group-item" href="../interface/mp_recv.html#moduleprocedure-mp_recv_z">mp_recv_z</a>
       
       <a class="list-group-item" href="../interface/mp_recv.html#moduleprocedure-mp_recv_zv">mp_recv_zv</a>
+      
+      <a class="list-group-item" href="../interface/mp_recv.html#moduleprocedure-mp_recv_c">mp_recv_c</a>
+      
+      <a class="list-group-item" href="../interface/mp_recv.html#moduleprocedure-mp_recv_cv">mp_recv_cv</a>
       
     </div>
   </div>
@@ -719,217 +719,6 @@ private subroutine <a href='../proc/mp_recv_lv.html'>mp_recv_lv</a>(msg, source,
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_recv_r"></span><h3>
-private subroutine <a href='../proc/mp_recv_r.html'>mp_recv_r</a>(msg, source, tag, gid)
-    
-    
-   
-</h3></div>
-  <div class="panel-body">
-       
-    
-
-
-
-
-
-
-
-<p>Receive one datum from another process</p><a href="../proc/mp_recv_r.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(inout)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>msg</strong></td><td><p>Place received data into this variable</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(inout)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>source</strong></td><td><p>Process to receive from
- Transfer identifier</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(inout)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>tag</strong></td><td><p>Process to receive from
- Transfer identifier</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>gid</strong></td><td><p>Message passing environment identifier</p></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-  </div>
-  </div>
-
-   
-    
-  <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_recv_rv"></span><h3>
-private subroutine <a href='../proc/mp_recv_rv.html'>mp_recv_rv</a>(msg, source, tag, gid)
-    
-    
-   
-</h3></div>
-  <div class="panel-body">
-       
-    
-
-
-
-
-
-
-
-<p>Receive rank-1 data from another process
- </p><a href="../proc/mp_recv_rv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(inout),</td>
-  <td></td>
-  
-  <td>CONTIGUOUS</td><td>::</td>
-  <td><strong>msg</strong>(:)</td><td><p>Place received data into this rank-1 array</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(inout)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>source</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(inout)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>tag</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>gid</strong></td><td></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-  </div>
-  </div>
-
-   
-    
-  <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-mp_recv_d"></span><h3>
 private subroutine <a href='../proc/mp_recv_d.html'>mp_recv_d</a>(msg, source, tag, gid)
     
@@ -1141,8 +930,8 @@ private subroutine <a href='../proc/mp_recv_dv.html'>mp_recv_dv</a>(msg, source,
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_recv_c"></span><h3>
-private subroutine <a href='../proc/mp_recv_c.html'>mp_recv_c</a>(msg, source, tag, gid)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_recv_r"></span><h3>
+private subroutine <a href='../proc/mp_recv_r.html'>mp_recv_r</a>(msg, source, tag, gid)
     
     
    
@@ -1157,7 +946,7 @@ private subroutine <a href='../proc/mp_recv_c.html'>mp_recv_c</a>(msg, source, t
 
 
 
-<p>Receive one datum from another process</p><a href="../proc/mp_recv_c.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+<p>Receive one datum from another process</p><a href="../proc/mp_recv_r.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -1178,7 +967,7 @@ private subroutine <a href='../proc/mp_recv_c.html'>mp_recv_c</a>(msg, source, t
   
 <tr>
   
-  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -1247,8 +1036,8 @@ private subroutine <a href='../proc/mp_recv_c.html'>mp_recv_c</a>(msg, source, t
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_recv_cv"></span><h3>
-private subroutine <a href='../proc/mp_recv_cv.html'>mp_recv_cv</a>(msg, source, tag, gid)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_recv_rv"></span><h3>
+private subroutine <a href='../proc/mp_recv_rv.html'>mp_recv_rv</a>(msg, source, tag, gid)
     
     
    
@@ -1264,7 +1053,7 @@ private subroutine <a href='../proc/mp_recv_cv.html'>mp_recv_cv</a>(msg, source,
 
 
 <p>Receive rank-1 data from another process
- </p><a href="../proc/mp_recv_cv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+ </p><a href="../proc/mp_recv_rv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -1285,7 +1074,7 @@ private subroutine <a href='../proc/mp_recv_cv.html'>mp_recv_cv</a>(msg, source,
   
 <tr>
   
-  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
   <td>intent(inout),</td>
   <td></td>
   
@@ -1497,6 +1286,217 @@ private subroutine <a href='../proc/mp_recv_zv.html'>mp_recv_zv</a>(msg, source,
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(inout),</td>
+  <td></td>
+  
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>msg</strong>(:)</td><td><p>Place received data into this rank-1 array</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>source</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>tag</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>gid</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+   
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_recv_c"></span><h3>
+private subroutine <a href='../proc/mp_recv_c.html'>mp_recv_c</a>(msg, source, tag, gid)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Receive one datum from another process</p><a href="../proc/mp_recv_c.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>msg</strong></td><td><p>Place received data into this variable</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>source</strong></td><td><p>Process to receive from
+ Transfer identifier</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>tag</strong></td><td><p>Process to receive from
+ Transfer identifier</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>gid</strong></td><td><p>Message passing environment identifier</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+   
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_recv_cv"></span><h3>
+private subroutine <a href='../proc/mp_recv_cv.html'>mp_recv_cv</a>(msg, source, tag, gid)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Receive rank-1 data from another process
+ </p><a href="../proc/mp_recv_cv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
   <td>intent(inout),</td>
   <td></td>
   

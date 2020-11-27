@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 0.0% of total for procedures.</p>Including implementation: 156 statements,  0.3% of total for procedures.">4 statements</a>
+    title="<p> 0.0% of total for procedures.</p>Including implementation: 155 statements,  0.3% of total for procedures.">3 statements</a>
      </li> 
      
      
@@ -187,13 +187,13 @@
       
       <a class="list-group-item" href="../interface/mp_isum.html#moduleprocedure-mp_isum_lv">mp_isum_lv</a>
       
-      <a class="list-group-item" href="../interface/mp_isum.html#moduleprocedure-mp_isum_rv">mp_isum_rv</a>
-      
       <a class="list-group-item" href="../interface/mp_isum.html#moduleprocedure-mp_isum_dv">mp_isum_dv</a>
       
-      <a class="list-group-item" href="../interface/mp_isum.html#moduleprocedure-mp_isum_cv">mp_isum_cv</a>
+      <a class="list-group-item" href="../interface/mp_isum.html#moduleprocedure-mp_isum_rv">mp_isum_rv</a>
       
       <a class="list-group-item" href="../interface/mp_isum.html#moduleprocedure-mp_isum_zv">mp_isum_zv</a>
+      
+      <a class="list-group-item" href="../interface/mp_isum.html#moduleprocedure-mp_isum_cv">mp_isum_cv</a>
       
       <a class="list-group-item" href="../interface/mp_isum.html#moduleprocedure-mp_isum_bv">mp_isum_bv</a>
       
@@ -248,13 +248,13 @@
       
       <a class="list-group-item" href="../interface/mp_isum.html#moduleprocedure-mp_isum_lv">mp_isum_lv</a>
       
-      <a class="list-group-item" href="../interface/mp_isum.html#moduleprocedure-mp_isum_rv">mp_isum_rv</a>
-      
       <a class="list-group-item" href="../interface/mp_isum.html#moduleprocedure-mp_isum_dv">mp_isum_dv</a>
       
-      <a class="list-group-item" href="../interface/mp_isum.html#moduleprocedure-mp_isum_cv">mp_isum_cv</a>
+      <a class="list-group-item" href="../interface/mp_isum.html#moduleprocedure-mp_isum_rv">mp_isum_rv</a>
       
       <a class="list-group-item" href="../interface/mp_isum.html#moduleprocedure-mp_isum_zv">mp_isum_zv</a>
+      
+      <a class="list-group-item" href="../interface/mp_isum.html#moduleprocedure-mp_isum_cv">mp_isum_cv</a>
       
       <a class="list-group-item" href="../interface/mp_isum.html#moduleprocedure-mp_isum_bv">mp_isum_bv</a>
       
@@ -457,96 +457,6 @@ private subroutine <a href='../proc/mp_isum_lv.html'>mp_isum_lv</a>(msg, gid, re
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_isum_rv"></span><h3>
-private subroutine <a href='../proc/mp_isum_rv.html'>mp_isum_rv</a>(msg, gid, request)
-    
-    
-   
-</h3></div>
-  <div class="panel-body">
-       
-    
-
-
-
-
-
-
-
-<p>Element-wise sum of a rank-1 array on all processes.
- </p><a href="../proc/mp_isum_rv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(inout),</td>
-  <td></td>
-  
-  <td>CONTIGUOUS</td><td>::</td>
-  <td><strong>msg</strong>(:)</td><td><p>Vector to sum and result</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>gid</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(inout)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>request</strong></td><td></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-  </div>
-  </div>
-
-   
-    
-  <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-mp_isum_dv"></span><h3>
 private subroutine <a href='../proc/mp_isum_dv.html'>mp_isum_dv</a>(msg, gid, request)
     
@@ -637,8 +547,8 @@ private subroutine <a href='../proc/mp_isum_dv.html'>mp_isum_dv</a>(msg, gid, re
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_isum_cv"></span><h3>
-private subroutine <a href='../proc/mp_isum_cv.html'>mp_isum_cv</a>(msg, gid, request)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_isum_rv"></span><h3>
+private subroutine <a href='../proc/mp_isum_rv.html'>mp_isum_rv</a>(msg, gid, request)
     
     
    
@@ -654,7 +564,7 @@ private subroutine <a href='../proc/mp_isum_cv.html'>mp_isum_cv</a>(msg, gid, re
 
 
 <p>Element-wise sum of a rank-1 array on all processes.
- </p><a href="../proc/mp_isum_cv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+ </p><a href="../proc/mp_isum_rv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -675,7 +585,7 @@ private subroutine <a href='../proc/mp_isum_cv.html'>mp_isum_cv</a>(msg, gid, re
   
 <tr>
   
-  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
   <td>intent(inout),</td>
   <td></td>
   
@@ -766,6 +676,96 @@ private subroutine <a href='../proc/mp_isum_zv.html'>mp_isum_zv</a>(msg, gid, re
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(inout),</td>
+  <td></td>
+  
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>msg</strong>(:)</td><td><p>Vector to sum and result</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>gid</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>request</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+   
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_isum_cv"></span><h3>
+private subroutine <a href='../proc/mp_isum_cv.html'>mp_isum_cv</a>(msg, gid, request)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Element-wise sum of a rank-1 array on all processes.
+ </p><a href="../proc/mp_isum_cv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
   <td>intent(inout),</td>
   <td></td>
   

@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.2% of total for source files.">156 statements</a>
+    title=" 0.3% of total for source files.">156 statements</a>
      </li> 
      
      
@@ -488,7 +488,7 @@
 <a name="ln-230"></a>      <span class="c">!! Initialize the DBCSR library</span>
 <a name="ln-231"></a>      <span class="c">!! Prepares the DBCSR library for use.</span>
 <a name="ln-232"></a>
-<a name="ln-233"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_init_lib_low&#39;</span><span class="p">,</span> <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+<a name="ln-233"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_init_lib_low&#39;</span>
 <a name="ln-234"></a>
 <a name="ln-235"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">error_handle</span>
 <a name="ln-236"></a>
@@ -523,95 +523,94 @@
 <a name="ln-265"></a><span class="cp">#if defined(__LIBXSMM)</span>
 <a name="ln-266"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_finalize</span>
 <a name="ln-267"></a><span class="cp">#endif</span>
-<a name="ln-268"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_finalize_lib&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-269"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
-<a name="ln-270"></a>
-<a name="ln-271"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">error_handle</span>
-<a name="ln-272"></a>
-<a name="ln-273"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">is_initialized</span><span class="p">)</span> <span class="k">RETURN</span>
-<a name="ln-274"></a><span class="k">      CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">)</span>
-<a name="ln-275"></a>
-<a name="ln-276"></a><span class="c">!$OMP     PARALLEL DEFAULT(NONE) SHARED(ext_io_unit, default_group)</span>
-<a name="ln-277"></a>      <span class="k">CALL </span><span class="n">dbcsr_multiply_lib_finalize</span><span class="p">()</span>
-<a name="ln-278"></a><span class="c">!$OMP     END PARALLEL</span>
-<a name="ln-279"></a>
-<a name="ln-280"></a>      <span class="n">is_initialized</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a name="ln-281"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
-<a name="ln-282"></a>
-<a name="ln-283"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-284"></a><span class="k">         CALL </span><span class="n">dbcsr_rm_default_logger</span><span class="p">()</span>
-<a name="ln-285"></a>         <span class="k">CALL </span><span class="n">rm_mp_perf_env</span><span class="p">()</span>
-<a name="ln-286"></a>         <span class="k">CALL </span><span class="n">rm_timer_env</span><span class="p">()</span>
-<a name="ln-287"></a>         <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">logger</span><span class="p">)</span>
-<a name="ln-288"></a>      <span class="n">ENDIF</span>
-<a name="ln-289"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">timeset_hook</span><span class="p">)</span>
-<a name="ln-290"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">timestop_hook</span><span class="p">)</span>
-<a name="ln-291"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">dbcsr_abort_hook</span><span class="p">)</span>
-<a name="ln-292"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">dbcsr_warn_hook</span><span class="p">)</span>
-<a name="ln-293"></a>      <span class="k">CALL </span><span class="n">dbcsr_mp_release</span><span class="p">(</span><span class="n">mp_env</span><span class="p">)</span>
-<a name="ln-294"></a>      <span class="k">CALL </span><span class="n">mp_comm_free</span><span class="p">(</span><span class="n">default_group</span><span class="p">)</span>
-<a name="ln-295"></a><span class="cp">#if defined(__LIBXSMM)</span>
-<a name="ln-296"></a>      <span class="k">CALL </span><span class="n">libxsmm_finalize</span><span class="p">()</span>
-<a name="ln-297"></a><span class="cp">#endif</span>
-<a name="ln-298"></a>      <span class="c">! Reset Acc ID</span>
-<a name="ln-299"></a>      <span class="k">CALL </span><span class="n">reset_accdrv_active_device_id</span><span class="p">()</span>
-<a name="ln-300"></a>
-<a name="ln-301"></a>      <span class="c">! Check the number of communicators</span>
-<a name="ln-302"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">check_comm_count</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">mp_get_comm_count</span><span class="p">()</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-303"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Number of DBCSR sub-communicators is not zero!&quot;</span><span class="p">)</span>
-<a name="ln-304"></a>      <span class="n">ENDIF</span>
-<a name="ln-305"></a>
-<a name="ln-306"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_finalize_lib</span>
-<a name="ln-307"></a>
-<a name="ln-308"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_print_statistics</span><span class="p">(</span><span class="n">print_timers</span><span class="p">,</span> <span class="n">callgraph_filename</span><span class="p">)</span>
-<a name="ln-309"></a>      <span class="c">!! Show the whole DBCSR statistics</span>
-<a name="ln-310"></a>      <span class="c">!! Prepares the DBCSR library for use.</span>
-<a name="ln-311"></a>
-<a name="ln-312"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>          <span class="kd">::</span> <span class="n">print_timers</span>
-<a name="ln-313"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span> <span class="kd">::</span> <span class="n">callgraph_filename</span>
-<a name="ln-314"></a>
-<a name="ln-315"></a>      <span class="kt">LOGICAL</span> <span class="kd">::</span> <span class="n">my_print_timers</span>
-<a name="ln-316"></a>
-<a name="ln-317"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">ext_io_unit</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-318"></a><span class="k">         WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">ext_io_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(/,T2,A)&quot;</span><span class="p">)</span> <span class="nb">REPEAT</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="mi">79</span><span class="p">)</span>
-<a name="ln-319"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">ext_io_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(T2,A,T80,A)&quot;</span><span class="p">)</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span>
-<a name="ln-320"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">ext_io_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(T2,A,T35,A,T80,A)&quot;</span><span class="p">)</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;DBCSR STATISTICS&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span>
-<a name="ln-321"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">ext_io_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(T2,A,T80,A)&quot;</span><span class="p">)</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span>
-<a name="ln-322"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">ext_io_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(T2,A)&quot;</span><span class="p">)</span> <span class="nb">REPEAT</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="mi">79</span><span class="p">)</span>
-<a name="ln-323"></a>      <span class="k">END IF</span>
-<a name="ln-324"></a>
-<a name="ln-325"></a><span class="k">      call </span><span class="n">dbcsr_multiply_print_statistics</span><span class="p">(</span><span class="n">default_group</span><span class="p">,</span> <span class="n">ext_io_unit</span><span class="p">)</span>
-<a name="ln-326"></a>
-<a name="ln-327"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">ext_io_unit</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">ext_io_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(T2,A)&quot;</span><span class="p">)</span> <span class="nb">REPEAT</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="mi">79</span><span class="p">)</span>
-<a name="ln-328"></a>
-<a name="ln-329"></a>      <span class="k">CALL </span><span class="n">describe_mp_perf_env</span><span class="p">(</span><span class="n">ext_io_unit</span><span class="p">)</span>
-<a name="ln-330"></a>
-<a name="ln-331"></a>      <span class="n">my_print_timers</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a name="ln-332"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">print_timers</span><span class="p">))</span> <span class="n">my_print_timers</span> <span class="o">=</span> <span class="n">print_timers</span>
-<a name="ln-333"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">my_print_timers</span><span class="p">)</span> <span class="k">CALL </span><span class="n">dbcsr_print_timers</span><span class="p">()</span>
-<a name="ln-334"></a>
-<a name="ln-335"></a>      <span class="c">! Dump callgraph</span>
-<a name="ln-336"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">callgraph_filename</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-337"></a><span class="k">         CALL </span><span class="n">timings_report_callgraph</span><span class="p">(</span><span class="n">callgraph_filename</span><span class="p">)</span>
-<a name="ln-338"></a>      <span class="n">ENDIF</span>
-<a name="ln-339"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_print_statistics</span>
-<a name="ln-340"></a>
-<a name="ln-341"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_print_timers</span><span class="p">()</span>
-<a name="ln-342"></a>      <span class="c">!! Print timers</span>
-<a name="ln-343"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-344"></a><span class="k">         CALL </span><span class="n">timings_report_print</span><span class="p">(</span><span class="n">ext_io_unit</span><span class="p">,</span> <span class="mf">0.0_dp</span><span class="p">,</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span> <span class="n">cost_type_time</span><span class="p">,</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="n">mp_env</span><span class="p">)</span>
-<a name="ln-345"></a>      <span class="n">ENDIF</span>
-<a name="ln-346"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_print_timers</span>
-<a name="ln-347"></a>
-<a name="ln-348"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_clear_mempools</span><span class="p">()</span>
-<a name="ln-349"></a>      <span class="c">!! Deallocate memory contained in mempools</span>
-<a name="ln-350"></a>
-<a name="ln-351"></a><span class="c">!$OMP     PARALLEL DEFAULT(NONE)</span>
-<a name="ln-352"></a>      <span class="k">CALL </span><span class="n">dbcsr_multiply_clear_mempools</span><span class="p">()</span>
-<a name="ln-353"></a><span class="c">!$OMP     END PARALLEL</span>
-<a name="ln-354"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_clear_mempools</span>
-<a name="ln-355"></a>
-<a name="ln-356"></a><span class="k">END MODULE </span><span class="n">dbcsr_lib</span>
+<a name="ln-268"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_finalize_lib&#39;</span>
+<a name="ln-269"></a>
+<a name="ln-270"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">error_handle</span>
+<a name="ln-271"></a>
+<a name="ln-272"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">is_initialized</span><span class="p">)</span> <span class="k">RETURN</span>
+<a name="ln-273"></a><span class="k">      CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">)</span>
+<a name="ln-274"></a>
+<a name="ln-275"></a><span class="c">!$OMP     PARALLEL DEFAULT(NONE) SHARED(ext_io_unit, default_group)</span>
+<a name="ln-276"></a>      <span class="k">CALL </span><span class="n">dbcsr_multiply_lib_finalize</span><span class="p">()</span>
+<a name="ln-277"></a><span class="c">!$OMP     END PARALLEL</span>
+<a name="ln-278"></a>
+<a name="ln-279"></a>      <span class="n">is_initialized</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-280"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
+<a name="ln-281"></a>
+<a name="ln-282"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-283"></a><span class="k">         CALL </span><span class="n">dbcsr_rm_default_logger</span><span class="p">()</span>
+<a name="ln-284"></a>         <span class="k">CALL </span><span class="n">rm_mp_perf_env</span><span class="p">()</span>
+<a name="ln-285"></a>         <span class="k">CALL </span><span class="n">rm_timer_env</span><span class="p">()</span>
+<a name="ln-286"></a>         <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">logger</span><span class="p">)</span>
+<a name="ln-287"></a>      <span class="n">ENDIF</span>
+<a name="ln-288"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">timeset_hook</span><span class="p">)</span>
+<a name="ln-289"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">timestop_hook</span><span class="p">)</span>
+<a name="ln-290"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">dbcsr_abort_hook</span><span class="p">)</span>
+<a name="ln-291"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">dbcsr_warn_hook</span><span class="p">)</span>
+<a name="ln-292"></a>      <span class="k">CALL </span><span class="n">dbcsr_mp_release</span><span class="p">(</span><span class="n">mp_env</span><span class="p">)</span>
+<a name="ln-293"></a>      <span class="k">CALL </span><span class="n">mp_comm_free</span><span class="p">(</span><span class="n">default_group</span><span class="p">)</span>
+<a name="ln-294"></a><span class="cp">#if defined(__LIBXSMM)</span>
+<a name="ln-295"></a>      <span class="k">CALL </span><span class="n">libxsmm_finalize</span><span class="p">()</span>
+<a name="ln-296"></a><span class="cp">#endif</span>
+<a name="ln-297"></a>      <span class="c">! Reset Acc ID</span>
+<a name="ln-298"></a>      <span class="k">CALL </span><span class="n">reset_accdrv_active_device_id</span><span class="p">()</span>
+<a name="ln-299"></a>
+<a name="ln-300"></a>      <span class="c">! Check the number of communicators</span>
+<a name="ln-301"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">check_comm_count</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">mp_get_comm_count</span><span class="p">()</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-302"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Number of DBCSR sub-communicators is not zero!&quot;</span><span class="p">)</span>
+<a name="ln-303"></a>      <span class="n">ENDIF</span>
+<a name="ln-304"></a>
+<a name="ln-305"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_finalize_lib</span>
+<a name="ln-306"></a>
+<a name="ln-307"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_print_statistics</span><span class="p">(</span><span class="n">print_timers</span><span class="p">,</span> <span class="n">callgraph_filename</span><span class="p">)</span>
+<a name="ln-308"></a>      <span class="c">!! Show the whole DBCSR statistics</span>
+<a name="ln-309"></a>      <span class="c">!! Prepares the DBCSR library for use.</span>
+<a name="ln-310"></a>
+<a name="ln-311"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>          <span class="kd">::</span> <span class="n">print_timers</span>
+<a name="ln-312"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span> <span class="kd">::</span> <span class="n">callgraph_filename</span>
+<a name="ln-313"></a>
+<a name="ln-314"></a>      <span class="kt">LOGICAL</span> <span class="kd">::</span> <span class="n">my_print_timers</span>
+<a name="ln-315"></a>
+<a name="ln-316"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">ext_io_unit</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-317"></a><span class="k">         WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">ext_io_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(/,T2,A)&quot;</span><span class="p">)</span> <span class="nb">REPEAT</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="mi">79</span><span class="p">)</span>
+<a name="ln-318"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">ext_io_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(T2,A,T80,A)&quot;</span><span class="p">)</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span>
+<a name="ln-319"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">ext_io_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(T2,A,T35,A,T80,A)&quot;</span><span class="p">)</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;DBCSR STATISTICS&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span>
+<a name="ln-320"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">ext_io_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(T2,A,T80,A)&quot;</span><span class="p">)</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span>
+<a name="ln-321"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">ext_io_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(T2,A)&quot;</span><span class="p">)</span> <span class="nb">REPEAT</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="mi">79</span><span class="p">)</span>
+<a name="ln-322"></a>      <span class="k">END IF</span>
+<a name="ln-323"></a>
+<a name="ln-324"></a><span class="k">      call </span><span class="n">dbcsr_multiply_print_statistics</span><span class="p">(</span><span class="n">default_group</span><span class="p">,</span> <span class="n">ext_io_unit</span><span class="p">)</span>
+<a name="ln-325"></a>
+<a name="ln-326"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">ext_io_unit</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">ext_io_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(T2,A)&quot;</span><span class="p">)</span> <span class="nb">REPEAT</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="mi">79</span><span class="p">)</span>
+<a name="ln-327"></a>
+<a name="ln-328"></a>      <span class="k">CALL </span><span class="n">describe_mp_perf_env</span><span class="p">(</span><span class="n">ext_io_unit</span><span class="p">)</span>
+<a name="ln-329"></a>
+<a name="ln-330"></a>      <span class="n">my_print_timers</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-331"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">print_timers</span><span class="p">))</span> <span class="n">my_print_timers</span> <span class="o">=</span> <span class="n">print_timers</span>
+<a name="ln-332"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">my_print_timers</span><span class="p">)</span> <span class="k">CALL </span><span class="n">dbcsr_print_timers</span><span class="p">()</span>
+<a name="ln-333"></a>
+<a name="ln-334"></a>      <span class="c">! Dump callgraph</span>
+<a name="ln-335"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">callgraph_filename</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-336"></a><span class="k">         CALL </span><span class="n">timings_report_callgraph</span><span class="p">(</span><span class="n">callgraph_filename</span><span class="p">)</span>
+<a name="ln-337"></a>      <span class="n">ENDIF</span>
+<a name="ln-338"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_print_statistics</span>
+<a name="ln-339"></a>
+<a name="ln-340"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_print_timers</span><span class="p">()</span>
+<a name="ln-341"></a>      <span class="c">!! Print timers</span>
+<a name="ln-342"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-343"></a><span class="k">         CALL </span><span class="n">timings_report_print</span><span class="p">(</span><span class="n">ext_io_unit</span><span class="p">,</span> <span class="mf">0.0_dp</span><span class="p">,</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span> <span class="n">cost_type_time</span><span class="p">,</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="n">mp_env</span><span class="p">)</span>
+<a name="ln-344"></a>      <span class="n">ENDIF</span>
+<a name="ln-345"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_print_timers</span>
+<a name="ln-346"></a>
+<a name="ln-347"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_clear_mempools</span><span class="p">()</span>
+<a name="ln-348"></a>      <span class="c">!! Deallocate memory contained in mempools</span>
+<a name="ln-349"></a>
+<a name="ln-350"></a><span class="c">!$OMP     PARALLEL DEFAULT(NONE)</span>
+<a name="ln-351"></a>      <span class="k">CALL </span><span class="n">dbcsr_multiply_clear_mempools</span><span class="p">()</span>
+<a name="ln-352"></a><span class="c">!$OMP     END PARALLEL</span>
+<a name="ln-353"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_clear_mempools</span>
+<a name="ln-354"></a>
+<a name="ln-355"></a><span class="k">END MODULE </span><span class="n">dbcsr_lib</span>
 </pre></div>
 
     </section>

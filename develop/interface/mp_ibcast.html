@@ -191,21 +191,21 @@
       
       <a class="list-group-item" href="../interface/mp_ibcast.html#moduleprocedure-mp_ibcast_lv">mp_ibcast_lv</a>
       
-      <a class="list-group-item" href="../interface/mp_ibcast.html#moduleprocedure-mp_ibcast_r">mp_ibcast_r</a>
-      
-      <a class="list-group-item" href="../interface/mp_ibcast.html#moduleprocedure-mp_ibcast_rv">mp_ibcast_rv</a>
-      
       <a class="list-group-item" href="../interface/mp_ibcast.html#moduleprocedure-mp_ibcast_d">mp_ibcast_d</a>
       
       <a class="list-group-item" href="../interface/mp_ibcast.html#moduleprocedure-mp_ibcast_dv">mp_ibcast_dv</a>
       
-      <a class="list-group-item" href="../interface/mp_ibcast.html#moduleprocedure-mp_ibcast_c">mp_ibcast_c</a>
+      <a class="list-group-item" href="../interface/mp_ibcast.html#moduleprocedure-mp_ibcast_r">mp_ibcast_r</a>
       
-      <a class="list-group-item" href="../interface/mp_ibcast.html#moduleprocedure-mp_ibcast_cv">mp_ibcast_cv</a>
+      <a class="list-group-item" href="../interface/mp_ibcast.html#moduleprocedure-mp_ibcast_rv">mp_ibcast_rv</a>
       
       <a class="list-group-item" href="../interface/mp_ibcast.html#moduleprocedure-mp_ibcast_z">mp_ibcast_z</a>
       
       <a class="list-group-item" href="../interface/mp_ibcast.html#moduleprocedure-mp_ibcast_zv">mp_ibcast_zv</a>
+      
+      <a class="list-group-item" href="../interface/mp_ibcast.html#moduleprocedure-mp_ibcast_c">mp_ibcast_c</a>
+      
+      <a class="list-group-item" href="../interface/mp_ibcast.html#moduleprocedure-mp_ibcast_cv">mp_ibcast_cv</a>
       
     </div>
   </div>
@@ -262,21 +262,21 @@
       
       <a class="list-group-item" href="../interface/mp_ibcast.html#moduleprocedure-mp_ibcast_lv">mp_ibcast_lv</a>
       
-      <a class="list-group-item" href="../interface/mp_ibcast.html#moduleprocedure-mp_ibcast_r">mp_ibcast_r</a>
-      
-      <a class="list-group-item" href="../interface/mp_ibcast.html#moduleprocedure-mp_ibcast_rv">mp_ibcast_rv</a>
-      
       <a class="list-group-item" href="../interface/mp_ibcast.html#moduleprocedure-mp_ibcast_d">mp_ibcast_d</a>
       
       <a class="list-group-item" href="../interface/mp_ibcast.html#moduleprocedure-mp_ibcast_dv">mp_ibcast_dv</a>
       
-      <a class="list-group-item" href="../interface/mp_ibcast.html#moduleprocedure-mp_ibcast_c">mp_ibcast_c</a>
+      <a class="list-group-item" href="../interface/mp_ibcast.html#moduleprocedure-mp_ibcast_r">mp_ibcast_r</a>
       
-      <a class="list-group-item" href="../interface/mp_ibcast.html#moduleprocedure-mp_ibcast_cv">mp_ibcast_cv</a>
+      <a class="list-group-item" href="../interface/mp_ibcast.html#moduleprocedure-mp_ibcast_rv">mp_ibcast_rv</a>
       
       <a class="list-group-item" href="../interface/mp_ibcast.html#moduleprocedure-mp_ibcast_z">mp_ibcast_z</a>
       
       <a class="list-group-item" href="../interface/mp_ibcast.html#moduleprocedure-mp_ibcast_zv">mp_ibcast_zv</a>
+      
+      <a class="list-group-item" href="../interface/mp_ibcast.html#moduleprocedure-mp_ibcast_c">mp_ibcast_c</a>
+      
+      <a class="list-group-item" href="../interface/mp_ibcast.html#moduleprocedure-mp_ibcast_cv">mp_ibcast_cv</a>
       
     </div>
   </div>
@@ -719,217 +719,6 @@ private subroutine <a href='../proc/mp_ibcast_lv.html'>mp_ibcast_lv</a>(msg, sou
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_ibcast_r"></span><h3>
-private subroutine <a href='../proc/mp_ibcast_r.html'>mp_ibcast_r</a>(msg, source, gid, request)
-    
-    
-   
-</h3></div>
-  <div class="panel-body">
-       
-    
-
-
-
-
-
-
-
-<p>Broadcasts a datum to all processes.</p><a href="../proc/mp_ibcast_r.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real(kind=real_4)</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>msg</strong></td><td><p>Datum to broadcast</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>source</strong></td><td><p>Processes which broadcasts
- Message passing environment identifier</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>gid</strong></td><td><p>Processes which broadcasts
- Message passing environment identifier</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(inout)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>request</strong></td><td></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-  </div>
-  </div>
-
-   
-    
-  <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_ibcast_rv"></span><h3>
-private subroutine <a href='../proc/mp_ibcast_rv.html'>mp_ibcast_rv</a>(msg, source, gid, request)
-    
-    
-   
-</h3></div>
-  <div class="panel-body">
-       
-    
-
-
-
-
-
-
-
-<p>Broadcasts rank-1 data to all processes
- </p><a href="../proc/mp_ibcast_rv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td></td>
-  <td></td>
-  
-  <td>CONTIGUOUS</td><td>::</td>
-  <td><strong>msg</strong>(:)</td><td><p>Data to broadcast</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>source</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>gid</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(inout)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>request</strong></td><td></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-  </div>
-  </div>
-
-   
-    
-  <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-mp_ibcast_d"></span><h3>
 private subroutine <a href='../proc/mp_ibcast_d.html'>mp_ibcast_d</a>(msg, source, gid, request)
     
@@ -1141,8 +930,8 @@ private subroutine <a href='../proc/mp_ibcast_dv.html'>mp_ibcast_dv</a>(msg, sou
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_ibcast_c"></span><h3>
-private subroutine <a href='../proc/mp_ibcast_c.html'>mp_ibcast_c</a>(msg, source, gid, request)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_ibcast_r"></span><h3>
+private subroutine <a href='../proc/mp_ibcast_r.html'>mp_ibcast_r</a>(msg, source, gid, request)
     
     
    
@@ -1157,7 +946,7 @@ private subroutine <a href='../proc/mp_ibcast_c.html'>mp_ibcast_c</a>(msg, sourc
 
 
 
-<p>Broadcasts a datum to all processes.</p><a href="../proc/mp_ibcast_c.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+<p>Broadcasts a datum to all processes.</p><a href="../proc/mp_ibcast_r.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -1178,7 +967,7 @@ private subroutine <a href='../proc/mp_ibcast_c.html'>mp_ibcast_c</a>(msg, sourc
   
 <tr>
   
-  <td><span class="anchor" ></span>complex(kind=real_4)</td>
+  <td><span class="anchor" ></span>real(kind=real_4)</td>
   <td></td>
   <td></td>
   
@@ -1247,8 +1036,8 @@ private subroutine <a href='../proc/mp_ibcast_c.html'>mp_ibcast_c</a>(msg, sourc
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_ibcast_cv"></span><h3>
-private subroutine <a href='../proc/mp_ibcast_cv.html'>mp_ibcast_cv</a>(msg, source, gid, request)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_ibcast_rv"></span><h3>
+private subroutine <a href='../proc/mp_ibcast_rv.html'>mp_ibcast_rv</a>(msg, source, gid, request)
     
     
    
@@ -1264,7 +1053,7 @@ private subroutine <a href='../proc/mp_ibcast_cv.html'>mp_ibcast_cv</a>(msg, sou
 
 
 <p>Broadcasts rank-1 data to all processes
- </p><a href="../proc/mp_ibcast_cv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+ </p><a href="../proc/mp_ibcast_rv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -1285,7 +1074,7 @@ private subroutine <a href='../proc/mp_ibcast_cv.html'>mp_ibcast_cv</a>(msg, sou
   
 <tr>
   
-  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
   <td></td>
   <td></td>
   
@@ -1497,6 +1286,217 @@ private subroutine <a href='../proc/mp_ibcast_zv.html'>mp_ibcast_zv</a>(msg, sou
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>msg</strong>(:)</td><td><p>Data to broadcast</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>source</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>gid</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>request</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+   
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_ibcast_c"></span><h3>
+private subroutine <a href='../proc/mp_ibcast_c.html'>mp_ibcast_c</a>(msg, source, gid, request)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Broadcasts a datum to all processes.</p><a href="../proc/mp_ibcast_c.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4)</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>msg</strong></td><td><p>Datum to broadcast</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>source</strong></td><td><p>Processes which broadcasts
+ Message passing environment identifier</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer</td>
+  <td></td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>gid</strong></td><td><p>Processes which broadcasts
+ Message passing environment identifier</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>request</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+   
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_ibcast_cv"></span><h3>
+private subroutine <a href='../proc/mp_ibcast_cv.html'>mp_ibcast_cv</a>(msg, source, gid, request)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Broadcasts rank-1 data to all processes
+ </p><a href="../proc/mp_ibcast_cv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
   <td></td>
   <td></td>
   

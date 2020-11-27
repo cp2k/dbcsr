@@ -225,7 +225,7 @@ public function dbcsr_get_data_size_used(matrix) result(data_size)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~327"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~321"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -318,8 +318,7 @@ public function dbcsr_get_data_size_used(matrix) result(data_size)
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">data_size</span>
          <span class="c">!! Data size used by matrix</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_get_data_size_used&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_get_data_size_used&#39;</span>
 
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">blk</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">,</span> <span class="n">nze</span><span class="p">,</span> <span class="n">row</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="n">col_blk_sizes</span><span class="p">,</span> <span class="n">row_blk_sizes</span>

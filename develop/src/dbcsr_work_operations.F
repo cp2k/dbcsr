@@ -156,8 +156,7 @@ CONTAINS
       CHARACTER, INTENT(IN), OPTIONAL                    :: replication_type
          !! replication to be used for this matrix; default is dbcsr_repl_none
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_create_new', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_create_new'
 
       CHARACTER                                          :: matrix_type_l
       INTEGER                                            :: handle, my_nze
@@ -459,9 +458,6 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: reuse_arrays, mutable_work, make_index
       CHARACTER, INTENT(IN), OPTIONAL                    :: replication_type
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_create_template', &
-                                     routineP = moduleN//':'//routineN
-
       CHARACTER                                          :: new_matrix_type, new_replication_type
       CHARACTER(len=default_string_length)               :: new_name
       INTEGER                                            :: new_data_type, new_max_cbs, new_max_rbs
@@ -638,8 +634,7 @@ CONTAINS
          !! estimated size of data
       TYPE(dbcsr_memtype_type), INTENT(IN), OPTIONAL     :: memory_type
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_init_wm', routineP = moduleN//':'//routineN
-
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_init_wm'
       INTEGER                                            :: handle, nblks, stat
 
 !   ---------------------------------------------------------------------------
@@ -691,8 +686,7 @@ CONTAINS
          !! use mutable work type, default is what was specified in create
       TYPE(dbcsr_memtype_type), INTENT(IN), OPTIONAL     :: memory_type
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_work_create', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_work_create'
 
       INTEGER                                            :: handle, iw, nw, ow
       LOGICAL                                            :: wms_new, wms_realloc
@@ -764,7 +758,7 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: reshuffle
          !! whether the data should be reshuffled, default is false
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_finalize', routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_finalize'
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
       INTEGER                                            :: handle, i, nblks, nwms, start_offset
@@ -966,8 +960,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
       LOGICAL, INTENT(IN), OPTIONAL                      :: reshuffle
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_special_finalize', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_special_finalize'
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
       INTEGER                                            :: handle
@@ -1082,8 +1075,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
          !! matrix to finalize
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'quick_finalize', routineP = moduleN//':'//routineN
-
+      CHARACTER(len=*), PARAMETER :: routineN = 'quick_finalize'
       INTEGER                                            :: error_handle, nblks, nrows
 
 !   ---------------------------------------------------------------------------
@@ -1127,8 +1119,7 @@ CONTAINS
       INTEGER, DIMENSION(4), INTENT(IN), OPTIONAL        :: limits
          !! the limits to use for copying
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_add_wm_from_matrix', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_add_wm_from_matrix'
 
       INTEGER                                            :: handle, ithread, nthreads, nwms, &
                                                             old_nwms, size_used
@@ -1187,8 +1178,7 @@ CONTAINS
       INTEGER, DIMENSION(4), INTENT(IN), OPTIONAL        :: limits
          !! only fills blocks within this range
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_fill_wm_from_matrix', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_fill_wm_from_matrix'
 
       INTEGER                                            :: blk, blk_p, col, handle, ithread, &
                                                             nthreads, nwms, nze, row, wblk_p, &
@@ -1312,8 +1302,7 @@ CONTAINS
       TYPE(dbcsr_work_type), INTENT(INOUT)               :: wm
          !! work matrix
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_work_destroy', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_work_destroy'
 
       INTEGER                                            :: handle
 
@@ -1341,8 +1330,7 @@ CONTAINS
       !! Deallocates and destroys a work matrix.
       TYPE(dbcsr_type), INTENT(INOUT)                    :: m
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_work_destroy_all', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_work_destroy_all'
 
       INTEGER                                            :: handle, i
 
@@ -1378,8 +1366,7 @@ CONTAINS
       INTEGER, INTENT(OUT), OPTIONAL                     :: index
          !! saved position
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'add_work_coordinate', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'add_work_coordinate'
 
       INTEGER                                            :: handle
 
@@ -1412,8 +1399,7 @@ CONTAINS
       LOGICAL, INTENT(IN)                                :: sort_data
          !! whether data will be fully sorted
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_merge_all', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_merge_all'
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
       INTEGER                                            :: handle, my_row_count, nblks, &
@@ -1688,8 +1674,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
          !! matrix to work on
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_merge_single_wm', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_merge_single_wm'
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
       INTEGER                                            :: handle, nblks, nrows
@@ -1784,8 +1769,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: nwms, nrows, max_row_count
       LOGICAL, INTENT(IN)                                :: sort_data
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'merge_index', routineP = moduleN//':'//routineN
-
+      CHARACTER(len=*), PARAMETER :: routineN = 'merge_index'
       INTEGER                                            :: blk1, blk2, error_handle, first_row_blk, &
                                                             last_row_blk, row, src_blk_1, &
                                                             src_blk_2, t
@@ -1852,8 +1836,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/work/../data/dbcsr.fypp"
 
 # 45 "/__w/dbcsr/dbcsr/src/work/../data/dbcsr.fypp"
-# 1849 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F" 2
-# 1850 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
+# 1833 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F" 2
+# 1834 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
    SUBROUTINE tree_to_linear_d (wm)
      !! Converts mutable data to linear (array) type.
 
@@ -1864,8 +1848,7 @@ CONTAINS
       TYPE(dbcsr_work_type), INTENT(INOUT)     :: wm
         !! work matrix to convert
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'tree_to_linear_d', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'tree_to_linear_d'
 
       INTEGER                                  :: blk, blk_p, treesize, &
                                                   error_handler, needed_size
@@ -1920,7 +1903,7 @@ CONTAINS
       CALL timestop(error_handler)
    END SUBROUTINE tree_to_linear_d
 
-# 1850 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
+# 1834 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
    SUBROUTINE tree_to_linear_s (wm)
      !! Converts mutable data to linear (array) type.
 
@@ -1931,8 +1914,7 @@ CONTAINS
       TYPE(dbcsr_work_type), INTENT(INOUT)     :: wm
         !! work matrix to convert
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'tree_to_linear_s', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'tree_to_linear_s'
 
       INTEGER                                  :: blk, blk_p, treesize, &
                                                   error_handler, needed_size
@@ -1987,7 +1969,7 @@ CONTAINS
       CALL timestop(error_handler)
    END SUBROUTINE tree_to_linear_s
 
-# 1850 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
+# 1834 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
    SUBROUTINE tree_to_linear_z (wm)
      !! Converts mutable data to linear (array) type.
 
@@ -1998,8 +1980,7 @@ CONTAINS
       TYPE(dbcsr_work_type), INTENT(INOUT)     :: wm
         !! work matrix to convert
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'tree_to_linear_z', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'tree_to_linear_z'
 
       INTEGER                                  :: blk, blk_p, treesize, &
                                                   error_handler, needed_size
@@ -2054,7 +2035,7 @@ CONTAINS
       CALL timestop(error_handler)
    END SUBROUTINE tree_to_linear_z
 
-# 1850 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
+# 1834 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
    SUBROUTINE tree_to_linear_c (wm)
      !! Converts mutable data to linear (array) type.
 
@@ -2065,8 +2046,7 @@ CONTAINS
       TYPE(dbcsr_work_type), INTENT(INOUT)     :: wm
         !! work matrix to convert
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'tree_to_linear_c', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'tree_to_linear_c'
 
       INTEGER                                  :: blk, blk_p, treesize, &
                                                   error_handler, needed_size
@@ -2121,6 +2101,6 @@ CONTAINS
       CALL timestop(error_handler)
    END SUBROUTINE tree_to_linear_c
 
-# 1917 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
+# 1900 "/__w/dbcsr/dbcsr/src/work/dbcsr_work_operations.F"
 
 END MODULE dbcsr_work_operations

@@ -46,9 +46,6 @@ CONTAINS
       !! Creates a memory pool.
       TYPE(dbcsr_mempool_type), POINTER                  :: pool
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_mempool_create', &
-                                     routineP = moduleN//':'//routineN
-
       IF (ASSOCIATED(pool)) DBCSR_ABORT("pool already allocated")
       ALLOCATE (pool)
 !$    CALL OMP_INIT_LOCK(pool%lock)
@@ -59,9 +56,6 @@ CONTAINS
       !! Ensures that mempool has at least the given capacity.
       TYPE(dbcsr_mempool_type), POINTER                  :: pool
       INTEGER, INTENT(IN)                                :: capacity
-
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_mempool_limit_capacity', &
-                                     routineP = moduleN//':'//routineN
 
       IF (.NOT. ASSOCIATED(pool)) RETURN
 !$    CALL OMP_SET_LOCK(pool%lock)
@@ -75,9 +69,6 @@ CONTAINS
       TYPE(dbcsr_memtype_type)                           :: memtype
       INTEGER, INTENT(IN)                                :: datatype, datasize
       TYPE(dbcsr_data_obj)                               :: res
-
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_mempool_get', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: best_size, s
       TYPE(dbcsr_mempool_entry_type), POINTER            :: best_cur, best_prev, cur, prev
@@ -125,9 +116,6 @@ CONTAINS
       !! Adds an unused (refcount==0) data_area to the pool.
       TYPE(dbcsr_data_obj)                               :: area
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_mempool_add', &
-                                     routineP = moduleN//':'//routineN
-
       TYPE(dbcsr_mempool_entry_type), POINTER            :: new_entry
       TYPE(dbcsr_mempool_type), POINTER                  :: pool
 
@@ -149,9 +137,6 @@ CONTAINS
    SUBROUTINE mempool_collect_garbage(pool)
       !! Ensures that pool_size < max_size, e.g. that there is a free slot.
       TYPE(dbcsr_mempool_type), POINTER                  :: pool
-
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mempool_collect_garbage', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: n
       TYPE(dbcsr_mempool_entry_type), POINTER            :: cur, prev
@@ -182,9 +167,6 @@ CONTAINS
       !! Finalizes mempool, includes deallocation of all contained data_areas.
       TYPE(dbcsr_mempool_type), POINTER                  :: pool
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_mempool_destruct', &
-                                     routineP = moduleN//':'//routineN
-
       IF (.NOT. ASSOCIATED(pool)) DBCSR_ABORT("pool not allocated")
 
       CALL dbcsr_mempool_clear(pool)
@@ -199,8 +181,7 @@ CONTAINS
       !! Deallocates all data_areas contained in given mempool.
       TYPE(dbcsr_mempool_type), POINTER                  :: pool
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_mempool_clear', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_mempool_clear'
 
       INTEGER                                            :: handle
       TYPE(dbcsr_mempool_entry_type), POINTER            :: cur, prev
@@ -232,9 +213,6 @@ CONTAINS
       TYPE(acc_stream_type), OPTIONAL                    :: acc_stream
       REAL(KIND=dp), OPTIONAL                            :: oversize_factor
       LOGICAL, INTENT(IN), OPTIONAL                      :: has_pool
-
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_memtype_setup', &
-                                     routineP = moduleN//':'//routineN
 
       LOGICAL                                            :: is_ok, my_has_pool
       TYPE(dbcsr_memtype_type)                           :: aim

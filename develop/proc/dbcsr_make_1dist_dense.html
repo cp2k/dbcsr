@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">29 statements</a>
+    title=" 0.0% of total for procedures.">28 statements</a>
      </li> 
      
      
@@ -225,7 +225,7 @@ private subroutine dbcsr_make_1dist_dense(nbins, old_dist, dense_dist, dist_map,
   
 <tr>
   
-  <td><span class="anchor" id="variable-nbins~7"></span>integer,</td>
+  <td><span class="anchor" id="variable-nbins~6"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -392,9 +392,6 @@ private subroutine dbcsr_make_1dist_dense(nbins, old_dist, dense_dist, dist_map,
          <span class="c">!! Number of bins in the subdistribution</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>        <span class="kd">::</span> <span class="n">subdist</span>
          <span class="c">!! Subdistribution</span>
-
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_make_1dist_dense&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">b</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">n_new_bins</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">CONTIGUOUS</span>         <span class="kd">::</span> <span class="n">dense</span><span class="p">,</span> <span class="n">map</span><span class="p">,</span> <span class="n">old_d</span>

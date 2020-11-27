@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.7% of total for source files.">414 statements</a>
+    title=" 0.7% of total for source files.">401 statements</a>
      </li> 
      
      
@@ -633,406 +633,377 @@
 <a name="ln-375"></a>         <span class="c">!! multiplicity</span>
 <a name="ln-376"></a>         <span class="c">!! number of images in the new distribution</span>
 <a name="ln-377"></a>
-<a name="ln-378"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;rebin_distribution&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-379"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+<a name="ln-378"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">bin</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">old_nbins</span><span class="p">,</span> <span class="n">virtual_bin</span>
+<a name="ln-379"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:)</span>                 <span class="kd">::</span> <span class="n">bin_multiplier</span>
 <a name="ln-380"></a>
-<a name="ln-381"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">bin</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">old_nbins</span><span class="p">,</span> <span class="n">virtual_bin</span>
-<a name="ln-382"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:)</span>                 <span class="kd">::</span> <span class="n">bin_multiplier</span>
-<a name="ln-383"></a>
-<a name="ln-384"></a><span class="c">!   ---------------------------------------------------------------------------</span>
-<a name="ln-385"></a>
-<a name="ln-386"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">MOD</span><span class="p">(</span><span class="n">nbins</span><span class="o">*</span><span class="n">nimages</span><span class="p">,</span> <span class="n">multiplicity</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-387"></a>         <span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">&quot;mulitplicity is not divisor of new process grid coordinate&quot;</span><span class="p">)</span>
-<a name="ln-388"></a>      <span class="n">old_nbins</span> <span class="o">=</span> <span class="p">(</span><span class="n">nbins</span><span class="o">*</span><span class="n">nimages</span><span class="p">)</span><span class="o">/</span><span class="n">multiplicity</span>
-<a name="ln-389"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">bin_multiplier</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">old_nbins</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
-<a name="ln-390"></a>      <span class="n">bin_multiplier</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-391"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">new_bins</span><span class="p">)</span>
-<a name="ln-392"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">i</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">source_bins</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-393"></a><span class="k">            </span><span class="n">bin</span> <span class="o">=</span> <span class="n">source_bins</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a name="ln-394"></a>         <span class="k">ELSE</span>
-<a name="ln-395"></a>            <span class="c">! Fill remainder with a cyclic distribution</span>
-<a name="ln-396"></a>            <span class="n">bin</span> <span class="o">=</span> <span class="nb">MOD</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">old_nbins</span><span class="p">)</span>
-<a name="ln-397"></a>         <span class="n">ENDIF</span>
-<a name="ln-398"></a>         <span class="n">virtual_bin</span> <span class="o">=</span> <span class="n">bin</span><span class="o">*</span><span class="n">multiplicity</span> <span class="o">+</span> <span class="n">bin_multiplier</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span>
-<a name="ln-399"></a>         <span class="n">new_bins</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">virtual_bin</span><span class="o">/</span><span class="n">nimages</span>
-<a name="ln-400"></a>         <span class="k">images</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="nb">MOD</span><span class="p">(</span><span class="n">virtual_bin</span><span class="p">,</span> <span class="n">nimages</span><span class="p">)</span>
-<a name="ln-401"></a>         <span class="n">bin_multiplier</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span> <span class="o">=</span> <span class="n">bin_multiplier</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-402"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">bin_multiplier</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span> <span class="p">.</span><span class="n">GE</span><span class="p">.</span> <span class="n">multiplicity</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-403"></a><span class="k">            </span><span class="n">bin_multiplier</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-404"></a>         <span class="n">ENDIF</span>
-<a name="ln-405"></a>      <span class="n">ENDDO</span>
-<a name="ln-406"></a>   <span class="k">END SUBROUTINE </span><span class="n">rebin_distribution</span>
-<a name="ln-407"></a>
-<a name="ln-408"></a>   <span class="k">PURE SUBROUTINE </span><span class="n">evenly_bin</span><span class="p">(</span><span class="k">array</span><span class="p">,</span> <span class="n">nbins</span><span class="p">)</span>
-<a name="ln-409"></a>      <span class="c">!! Evenly distributes elements into bins</span>
-<a name="ln-410"></a>
-<a name="ln-411"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                 <span class="kd">::</span> <span class="k">array</span>
-<a name="ln-412"></a>         <span class="c">!! elements to bin</span>
-<a name="ln-413"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">nbins</span>
-<a name="ln-414"></a>         <span class="c">!! number of bins into which elements are distributed</span>
-<a name="ln-415"></a>
-<a name="ln-416"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">bin</span><span class="p">,</span> <span class="n">first</span><span class="p">,</span> <span class="n">last</span><span class="p">,</span> <span class="n">maxbinsize</span>
-<a name="ln-417"></a>
-<a name="ln-418"></a><span class="c">!   ---------------------------------------------------------------------------</span>
-<a name="ln-419"></a>
-<a name="ln-420"></a>      <span class="n">maxbinsize</span> <span class="o">=</span> <span class="nb">CEILING</span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="k">array</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="o">/</span><span class="kt">REAL</span><span class="p">(</span><span class="n">nbins</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">))</span>
-<a name="ln-421"></a>      <span class="k">DO </span><span class="n">bin</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nbins</span>
-<a name="ln-422"></a>         <span class="n">first</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">bin</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">maxbinsize</span>
-<a name="ln-423"></a>         <span class="n">last</span> <span class="o">=</span> <span class="nb">MIN</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">bin</span><span class="p">)</span><span class="o">*</span><span class="n">maxbinsize</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="k">array</span><span class="p">))</span>
-<a name="ln-424"></a>         <span class="k">array</span><span class="p">(</span><span class="n">first</span><span class="p">:</span><span class="n">last</span><span class="p">)</span> <span class="o">=</span> <span class="n">bin</span> <span class="o">-</span> <span class="mi">1</span>
-<a name="ln-425"></a>      <span class="n">ENDDO</span>
-<a name="ln-426"></a>   <span class="k">END SUBROUTINE </span><span class="n">evenly_bin</span>
-<a name="ln-427"></a>
-<a name="ln-428"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_reblocking_targets</span><span class="p">(</span><span class="n">ints</span><span class="p">,</span> <span class="n">numints</span><span class="p">,</span> <span class="n">n_src_dsts</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-429"></a>                                       <span class="n">src_sizes</span><span class="p">,</span> <span class="n">dst_sizes</span><span class="p">)</span>
-<a name="ln-430"></a>      <span class="c">!! Calculates the intersections of blocks</span>
-<a name="ln-431"></a>      <span class="c">!!</span>
-<a name="ln-432"></a>      <span class="c">!! ints output format</span>
-<a name="ln-433"></a>      <span class="c">!! The ints array should be up to twice as large as the number of</span>
-<a name="ln-434"></a>      <span class="c">!! intersecting blocks. Each entry is comprised of the target</span>
-<a name="ln-435"></a>      <span class="c">!! block and the common length along with the offsets of the</span>
-<a name="ln-436"></a>      <span class="c">!! intersection in the old and new blocks.</span>
-<a name="ln-437"></a>      <span class="c">!!</span>
-<a name="ln-438"></a>      <span class="c">!! n_src_dsts format</span>
-<a name="ln-439"></a>      <span class="c">!! This arrays stored the number of intersecting blocks in common</span>
-<a name="ln-440"></a>      <span class="c">!! (position 2) and the offset of the first common intersecting</span>
-<a name="ln-441"></a>      <span class="c">!! block (position 1).</span>
-<a name="ln-442"></a>      <span class="c">!!</span>
-<a name="ln-443"></a>      <span class="c">!! Interpretation (Mapping old blocks into new blocks)</span>
-<a name="ln-444"></a>      <span class="c">!! The old element belongs to block B. Lookup row B in</span>
-<a name="ln-445"></a>      <span class="c">!! n_src_dsts.  The first element F tells you which is the first</span>
-<a name="ln-446"></a>      <span class="c">!! new block to map into and the second element tells you into</span>
-<a name="ln-447"></a>      <span class="c">!! how many new blocks N you have to map.  You then look up rows</span>
-<a name="ln-448"></a>      <span class="c">!! F to F+N-1 in ints. The first block tells you into which block</span>
-<a name="ln-449"></a>      <span class="c">!! it is mapped and the second element tells you how many</span>
-<a name="ln-450"></a>      <span class="c">!! elements they have in common. The third element specifies the</span>
-<a name="ln-451"></a>      <span class="c">!! offset of the intersection in the old block while the fourth</span>
-<a name="ln-452"></a>      <span class="c">!! specifies the offset of the intersection in the new block.</span>
-<a name="ln-453"></a>      <span class="c">!! @note This routine is used in the counting and sending loops in</span>
-<a name="ln-454"></a>      <span class="c">!! dbcsr_complete_redistribute</span>
-<a name="ln-455"></a>
-<a name="ln-456"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                             <span class="kd">::</span> <span class="n">numints</span>
-<a name="ln-457"></a>         <span class="c">!! maximum number of expected intersections</span>
-<a name="ln-458"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">numints</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">ints</span>
-<a name="ln-459"></a>         <span class="c">!! intersections of blocks</span>
-<a name="ln-460"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>              <span class="kd">::</span> <span class="n">n_src_dsts</span>
-<a name="ln-461"></a>         <span class="c">!! offset and number intersections belonging to source blocks</span>
-<a name="ln-462"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">src_sizes</span><span class="p">,</span> <span class="n">dst_sizes</span>
-<a name="ln-463"></a>         <span class="c">!! sizes of source blocks</span>
-<a name="ln-464"></a>         <span class="c">!! sizes of target blocks</span>
-<a name="ln-465"></a>
-<a name="ln-466"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_reblocking_targets&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-467"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
-<a name="ln-468"></a>
-<a name="ln-469"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">common_extent</span><span class="p">,</span> <span class="n">current_dst</span><span class="p">,</span> <span class="n">current_int</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-470"></a>                                                            <span class="n">current_src</span><span class="p">,</span> <span class="n">dst_off</span><span class="p">,</span> <span class="n">n_dst</span><span class="p">,</span> <span class="n">n_src</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-471"></a>                                                            <span class="n">s_dst</span><span class="p">,</span> <span class="n">s_src</span><span class="p">,</span> <span class="n">src_off</span>
-<a name="ln-472"></a>
-<a name="ln-473"></a><span class="c">!   ---------------------------------------------------------------------------</span>
-<a name="ln-474"></a>
-<a name="ln-475"></a>      <span class="n">n_src</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">src_sizes</span><span class="p">)</span>
-<a name="ln-476"></a>      <span class="n">n_dst</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">dst_sizes</span><span class="p">)</span>
-<a name="ln-477"></a>      <span class="n">current_int</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-478"></a>      <span class="n">current_src</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-479"></a>      <span class="n">s_src</span> <span class="o">=</span> <span class="mi">0</span> <span class="c">! HUGE(0)</span>
-<a name="ln-480"></a>      <span class="k">DO WHILE</span> <span class="p">(</span><span class="n">s_src</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">current_src</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">n_src</span><span class="p">)</span>
-<a name="ln-481"></a>         <span class="n">current_src</span> <span class="o">=</span> <span class="n">current_src</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-482"></a>         <span class="n">src_off</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-483"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">current_src</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">n_src</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-484"></a><span class="k">            </span><span class="n">s_src</span> <span class="o">=</span> <span class="n">src_sizes</span><span class="p">(</span><span class="n">current_src</span><span class="p">)</span>
-<a name="ln-485"></a>            <span class="n">n_src_dsts</span><span class="p">(:,</span> <span class="n">current_src</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="o">/</span><span class="n">current_int</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="o">/</span><span class="p">)</span>
-<a name="ln-486"></a>         <span class="n">ENDIF</span>
-<a name="ln-487"></a>      <span class="k">END DO</span>
-<a name="ln-488"></a><span class="k">      </span><span class="n">current_dst</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-489"></a>      <span class="n">s_dst</span> <span class="o">=</span> <span class="mi">0</span> <span class="c">! HUGE(0)</span>
-<a name="ln-490"></a>      <span class="k">DO WHILE</span> <span class="p">(</span><span class="n">s_dst</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">current_dst</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">n_dst</span><span class="p">)</span>
-<a name="ln-491"></a>         <span class="n">current_dst</span> <span class="o">=</span> <span class="n">current_dst</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-492"></a>         <span class="n">dst_off</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-493"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">current_dst</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">n_dst</span><span class="p">)</span> <span class="n">s_dst</span> <span class="o">=</span> <span class="n">dst_sizes</span><span class="p">(</span><span class="n">current_dst</span><span class="p">)</span>
-<a name="ln-494"></a>      <span class="k">END DO</span>
-<a name="ln-495"></a><span class="k">      </span><span class="n">current_int</span> <span class="o">=</span> <span class="n">current_int</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-496"></a>      <span class="k">DO WHILE</span> <span class="p">(</span><span class="n">current_src</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">n_src</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">current_dst</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">n_dst</span><span class="p">)</span>
-<a name="ln-497"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">current_int</span> <span class="o">&gt;</span> <span class="n">numints</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-498"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Ran out of space.&quot;</span><span class="p">)</span>
-<a name="ln-499"></a>         <span class="c">! Calculate how many elements do the current blocks have in</span>
-<a name="ln-500"></a>         <span class="c">! common and record these as going to the current target block.</span>
-<a name="ln-501"></a>         <span class="n">common_extent</span> <span class="o">=</span> <span class="nb">MIN</span><span class="p">(</span><span class="n">s_src</span><span class="p">,</span> <span class="n">s_dst</span><span class="p">)</span>
-<a name="ln-502"></a>         <span class="n">ints</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">current_int</span><span class="p">)</span> <span class="o">=</span> <span class="n">current_dst</span> <span class="c">! target block</span>
-<a name="ln-503"></a>         <span class="n">ints</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">current_int</span><span class="p">)</span> <span class="o">=</span> <span class="n">common_extent</span>
-<a name="ln-504"></a>         <span class="n">ints</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">current_int</span><span class="p">)</span> <span class="o">=</span> <span class="n">src_off</span>
-<a name="ln-505"></a>         <span class="n">ints</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">current_int</span><span class="p">)</span> <span class="o">=</span> <span class="n">dst_off</span>
-<a name="ln-506"></a>         <span class="c">! We&#39;ve used up the common extents.</span>
-<a name="ln-507"></a>         <span class="n">s_src</span> <span class="o">=</span> <span class="n">s_src</span> <span class="o">-</span> <span class="n">common_extent</span>
-<a name="ln-508"></a>         <span class="n">s_dst</span> <span class="o">=</span> <span class="n">s_dst</span> <span class="o">-</span> <span class="n">common_extent</span>
-<a name="ln-509"></a>         <span class="n">src_off</span> <span class="o">=</span> <span class="n">src_off</span> <span class="o">+</span> <span class="n">common_extent</span>
-<a name="ln-510"></a>         <span class="n">dst_off</span> <span class="o">=</span> <span class="n">dst_off</span> <span class="o">+</span> <span class="n">common_extent</span>
-<a name="ln-511"></a>         <span class="c">! We&#39;ve used up another block.</span>
-<a name="ln-512"></a>         <span class="n">n_src_dsts</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">current_src</span><span class="p">)</span> <span class="o">=</span> <span class="n">n_src_dsts</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">current_src</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-513"></a>         <span class="c">! Check if we&#39;ve used up the whole source block.</span>
-<a name="ln-514"></a>         <span class="k">DO WHILE</span> <span class="p">(</span><span class="n">s_src</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">current_src</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">n_src</span><span class="p">)</span>
-<a name="ln-515"></a>            <span class="n">current_src</span> <span class="o">=</span> <span class="n">current_src</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-516"></a>            <span class="n">src_off</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-517"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">current_src</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">n_src</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-518"></a><span class="k">               </span><span class="n">s_src</span> <span class="o">=</span> <span class="n">src_sizes</span><span class="p">(</span><span class="n">current_src</span><span class="p">)</span>
-<a name="ln-519"></a>               <span class="n">n_src_dsts</span><span class="p">(:,</span> <span class="n">current_src</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="o">/</span><span class="n">current_int</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="o">/</span><span class="p">)</span>
-<a name="ln-520"></a>            <span class="n">ENDIF</span>
-<a name="ln-521"></a>         <span class="k">END DO</span>
-<a name="ln-522"></a><span class="k">         DO WHILE</span> <span class="p">(</span><span class="n">s_dst</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">current_dst</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">n_dst</span><span class="p">)</span>
-<a name="ln-523"></a>            <span class="n">current_dst</span> <span class="o">=</span> <span class="n">current_dst</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-524"></a>            <span class="n">dst_off</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-525"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">current_dst</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">n_dst</span><span class="p">)</span> <span class="n">s_dst</span> <span class="o">=</span> <span class="n">dst_sizes</span><span class="p">(</span><span class="n">current_dst</span><span class="p">)</span>
-<a name="ln-526"></a>         <span class="k">END DO</span>
-<a name="ln-527"></a><span class="k">         </span><span class="n">current_int</span> <span class="o">=</span> <span class="n">current_int</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-528"></a>      <span class="n">ENDDO</span>
-<a name="ln-529"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">current_src</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">n_src</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-530"></a>         <span class="n">n_src_dsts</span><span class="p">(:,</span> <span class="n">current_src</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">n_src</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="mi">7</span>
-<a name="ln-531"></a>      <span class="n">numints</span> <span class="o">=</span> <span class="n">current_int</span> <span class="o">-</span> <span class="mi">1</span>
-<a name="ln-532"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_reblocking_targets</span>
-<a name="ln-533"></a>
-<a name="ln-534"></a>   <span class="k">PURE SUBROUTINE </span><span class="n">dbcsr_find_column</span><span class="p">(</span><span class="n">find_col</span><span class="p">,</span> <span class="n">frst_blk</span><span class="p">,</span> <span class="n">last_blk</span><span class="p">,</span> <span class="n">col_i</span><span class="p">,</span> <span class="n">blk_p</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-535"></a>                                     <span class="n">blk</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
-<a name="ln-536"></a>      <span class="c">!! Finds the block that has the given column.</span>
-<a name="ln-537"></a>      <span class="c">!! If the block having the queried column is found, the blk parameter</span>
-<a name="ln-538"></a>      <span class="c">!! is set to this block number and the found parameter is true.</span>
-<a name="ln-539"></a>      <span class="c">!! Otherwise found is false and the block number is invalid.</span>
-<a name="ln-540"></a>      <span class="c">!!</span>
-<a name="ln-541"></a>      <span class="c">!! Index validity</span>
-<a name="ln-542"></a>      <span class="c">!! The blk_p array of block pointers is a required parameter to enable</span>
-<a name="ln-543"></a>      <span class="c">!! the detection of deleted blocks.</span>
-<a name="ln-544"></a>
-<a name="ln-545"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">find_col</span><span class="p">,</span> <span class="n">frst_blk</span><span class="p">,</span> <span class="n">last_blk</span>
-<a name="ln-546"></a>         <span class="c">!! column to find</span>
-<a name="ln-547"></a>         <span class="c">!! first block number in row</span>
-<a name="ln-548"></a>         <span class="c">!! last block number in row</span>
-<a name="ln-549"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">col_i</span><span class="p">,</span> <span class="n">blk_p</span>
-<a name="ln-550"></a>         <span class="c">!! col indices</span>
-<a name="ln-551"></a>         <span class="c">!! block pointers</span>
-<a name="ln-552"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">blk</span>
-<a name="ln-553"></a>         <span class="c">!! block number with searched-for column</span>
-<a name="ln-554"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">found</span>
-<a name="ln-555"></a>         <span class="c">!! flag specified whether a block that has the correct column was found</span>
+<a name="ln-381"></a><span class="c">!   ---------------------------------------------------------------------------</span>
+<a name="ln-382"></a>
+<a name="ln-383"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">MOD</span><span class="p">(</span><span class="n">nbins</span><span class="o">*</span><span class="n">nimages</span><span class="p">,</span> <span class="n">multiplicity</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-384"></a>         <span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">&quot;mulitplicity is not divisor of new process grid coordinate&quot;</span><span class="p">)</span>
+<a name="ln-385"></a>      <span class="n">old_nbins</span> <span class="o">=</span> <span class="p">(</span><span class="n">nbins</span><span class="o">*</span><span class="n">nimages</span><span class="p">)</span><span class="o">/</span><span class="n">multiplicity</span>
+<a name="ln-386"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">bin_multiplier</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">old_nbins</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+<a name="ln-387"></a>      <span class="n">bin_multiplier</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-388"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">new_bins</span><span class="p">)</span>
+<a name="ln-389"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">i</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">source_bins</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-390"></a><span class="k">            </span><span class="n">bin</span> <span class="o">=</span> <span class="n">source_bins</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a name="ln-391"></a>         <span class="k">ELSE</span>
+<a name="ln-392"></a>            <span class="c">! Fill remainder with a cyclic distribution</span>
+<a name="ln-393"></a>            <span class="n">bin</span> <span class="o">=</span> <span class="nb">MOD</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">old_nbins</span><span class="p">)</span>
+<a name="ln-394"></a>         <span class="n">ENDIF</span>
+<a name="ln-395"></a>         <span class="n">virtual_bin</span> <span class="o">=</span> <span class="n">bin</span><span class="o">*</span><span class="n">multiplicity</span> <span class="o">+</span> <span class="n">bin_multiplier</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span>
+<a name="ln-396"></a>         <span class="n">new_bins</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">virtual_bin</span><span class="o">/</span><span class="n">nimages</span>
+<a name="ln-397"></a>         <span class="k">images</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="nb">MOD</span><span class="p">(</span><span class="n">virtual_bin</span><span class="p">,</span> <span class="n">nimages</span><span class="p">)</span>
+<a name="ln-398"></a>         <span class="n">bin_multiplier</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span> <span class="o">=</span> <span class="n">bin_multiplier</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-399"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">bin_multiplier</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span> <span class="p">.</span><span class="n">GE</span><span class="p">.</span> <span class="n">multiplicity</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-400"></a><span class="k">            </span><span class="n">bin_multiplier</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-401"></a>         <span class="n">ENDIF</span>
+<a name="ln-402"></a>      <span class="n">ENDDO</span>
+<a name="ln-403"></a>   <span class="k">END SUBROUTINE </span><span class="n">rebin_distribution</span>
+<a name="ln-404"></a>
+<a name="ln-405"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_reblocking_targets</span><span class="p">(</span><span class="n">ints</span><span class="p">,</span> <span class="n">numints</span><span class="p">,</span> <span class="n">n_src_dsts</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-406"></a>                                       <span class="n">src_sizes</span><span class="p">,</span> <span class="n">dst_sizes</span><span class="p">)</span>
+<a name="ln-407"></a>      <span class="c">!! Calculates the intersections of blocks</span>
+<a name="ln-408"></a>      <span class="c">!!</span>
+<a name="ln-409"></a>      <span class="c">!! ints output format</span>
+<a name="ln-410"></a>      <span class="c">!! The ints array should be up to twice as large as the number of</span>
+<a name="ln-411"></a>      <span class="c">!! intersecting blocks. Each entry is comprised of the target</span>
+<a name="ln-412"></a>      <span class="c">!! block and the common length along with the offsets of the</span>
+<a name="ln-413"></a>      <span class="c">!! intersection in the old and new blocks.</span>
+<a name="ln-414"></a>      <span class="c">!!</span>
+<a name="ln-415"></a>      <span class="c">!! n_src_dsts format</span>
+<a name="ln-416"></a>      <span class="c">!! This arrays stored the number of intersecting blocks in common</span>
+<a name="ln-417"></a>      <span class="c">!! (position 2) and the offset of the first common intersecting</span>
+<a name="ln-418"></a>      <span class="c">!! block (position 1).</span>
+<a name="ln-419"></a>      <span class="c">!!</span>
+<a name="ln-420"></a>      <span class="c">!! Interpretation (Mapping old blocks into new blocks)</span>
+<a name="ln-421"></a>      <span class="c">!! The old element belongs to block B. Lookup row B in</span>
+<a name="ln-422"></a>      <span class="c">!! n_src_dsts.  The first element F tells you which is the first</span>
+<a name="ln-423"></a>      <span class="c">!! new block to map into and the second element tells you into</span>
+<a name="ln-424"></a>      <span class="c">!! how many new blocks N you have to map.  You then look up rows</span>
+<a name="ln-425"></a>      <span class="c">!! F to F+N-1 in ints. The first block tells you into which block</span>
+<a name="ln-426"></a>      <span class="c">!! it is mapped and the second element tells you how many</span>
+<a name="ln-427"></a>      <span class="c">!! elements they have in common. The third element specifies the</span>
+<a name="ln-428"></a>      <span class="c">!! offset of the intersection in the old block while the fourth</span>
+<a name="ln-429"></a>      <span class="c">!! specifies the offset of the intersection in the new block.</span>
+<a name="ln-430"></a>      <span class="c">!! @note This routine is used in the counting and sending loops in</span>
+<a name="ln-431"></a>      <span class="c">!! dbcsr_complete_redistribute</span>
+<a name="ln-432"></a>
+<a name="ln-433"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                             <span class="kd">::</span> <span class="n">numints</span>
+<a name="ln-434"></a>         <span class="c">!! maximum number of expected intersections</span>
+<a name="ln-435"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">numints</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">ints</span>
+<a name="ln-436"></a>         <span class="c">!! intersections of blocks</span>
+<a name="ln-437"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>              <span class="kd">::</span> <span class="n">n_src_dsts</span>
+<a name="ln-438"></a>         <span class="c">!! offset and number intersections belonging to source blocks</span>
+<a name="ln-439"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">src_sizes</span><span class="p">,</span> <span class="n">dst_sizes</span>
+<a name="ln-440"></a>         <span class="c">!! sizes of source blocks</span>
+<a name="ln-441"></a>         <span class="c">!! sizes of target blocks</span>
+<a name="ln-442"></a>
+<a name="ln-443"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">common_extent</span><span class="p">,</span> <span class="n">current_dst</span><span class="p">,</span> <span class="n">current_int</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-444"></a>                                                            <span class="n">current_src</span><span class="p">,</span> <span class="n">dst_off</span><span class="p">,</span> <span class="n">n_dst</span><span class="p">,</span> <span class="n">n_src</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-445"></a>                                                            <span class="n">s_dst</span><span class="p">,</span> <span class="n">s_src</span><span class="p">,</span> <span class="n">src_off</span>
+<a name="ln-446"></a>
+<a name="ln-447"></a><span class="c">!   ---------------------------------------------------------------------------</span>
+<a name="ln-448"></a>
+<a name="ln-449"></a>      <span class="n">n_src</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">src_sizes</span><span class="p">)</span>
+<a name="ln-450"></a>      <span class="n">n_dst</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">dst_sizes</span><span class="p">)</span>
+<a name="ln-451"></a>      <span class="n">current_int</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-452"></a>      <span class="n">current_src</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-453"></a>      <span class="n">s_src</span> <span class="o">=</span> <span class="mi">0</span> <span class="c">! HUGE(0)</span>
+<a name="ln-454"></a>      <span class="k">DO WHILE</span> <span class="p">(</span><span class="n">s_src</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">current_src</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">n_src</span><span class="p">)</span>
+<a name="ln-455"></a>         <span class="n">current_src</span> <span class="o">=</span> <span class="n">current_src</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-456"></a>         <span class="n">src_off</span> <span class="o">=</span> <span class="mi">1</span>
+<a name="ln-457"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">current_src</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">n_src</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-458"></a><span class="k">            </span><span class="n">s_src</span> <span class="o">=</span> <span class="n">src_sizes</span><span class="p">(</span><span class="n">current_src</span><span class="p">)</span>
+<a name="ln-459"></a>            <span class="n">n_src_dsts</span><span class="p">(:,</span> <span class="n">current_src</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="o">/</span><span class="n">current_int</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="o">/</span><span class="p">)</span>
+<a name="ln-460"></a>         <span class="n">ENDIF</span>
+<a name="ln-461"></a>      <span class="k">END DO</span>
+<a name="ln-462"></a><span class="k">      </span><span class="n">current_dst</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-463"></a>      <span class="n">s_dst</span> <span class="o">=</span> <span class="mi">0</span> <span class="c">! HUGE(0)</span>
+<a name="ln-464"></a>      <span class="k">DO WHILE</span> <span class="p">(</span><span class="n">s_dst</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">current_dst</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">n_dst</span><span class="p">)</span>
+<a name="ln-465"></a>         <span class="n">current_dst</span> <span class="o">=</span> <span class="n">current_dst</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-466"></a>         <span class="n">dst_off</span> <span class="o">=</span> <span class="mi">1</span>
+<a name="ln-467"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">current_dst</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">n_dst</span><span class="p">)</span> <span class="n">s_dst</span> <span class="o">=</span> <span class="n">dst_sizes</span><span class="p">(</span><span class="n">current_dst</span><span class="p">)</span>
+<a name="ln-468"></a>      <span class="k">END DO</span>
+<a name="ln-469"></a><span class="k">      </span><span class="n">current_int</span> <span class="o">=</span> <span class="n">current_int</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-470"></a>      <span class="k">DO WHILE</span> <span class="p">(</span><span class="n">current_src</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">n_src</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">current_dst</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">n_dst</span><span class="p">)</span>
+<a name="ln-471"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">current_int</span> <span class="o">&gt;</span> <span class="n">numints</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-472"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Ran out of space.&quot;</span><span class="p">)</span>
+<a name="ln-473"></a>         <span class="c">! Calculate how many elements do the current blocks have in</span>
+<a name="ln-474"></a>         <span class="c">! common and record these as going to the current target block.</span>
+<a name="ln-475"></a>         <span class="n">common_extent</span> <span class="o">=</span> <span class="nb">MIN</span><span class="p">(</span><span class="n">s_src</span><span class="p">,</span> <span class="n">s_dst</span><span class="p">)</span>
+<a name="ln-476"></a>         <span class="n">ints</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">current_int</span><span class="p">)</span> <span class="o">=</span> <span class="n">current_dst</span> <span class="c">! target block</span>
+<a name="ln-477"></a>         <span class="n">ints</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">current_int</span><span class="p">)</span> <span class="o">=</span> <span class="n">common_extent</span>
+<a name="ln-478"></a>         <span class="n">ints</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">current_int</span><span class="p">)</span> <span class="o">=</span> <span class="n">src_off</span>
+<a name="ln-479"></a>         <span class="n">ints</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">current_int</span><span class="p">)</span> <span class="o">=</span> <span class="n">dst_off</span>
+<a name="ln-480"></a>         <span class="c">! We&#39;ve used up the common extents.</span>
+<a name="ln-481"></a>         <span class="n">s_src</span> <span class="o">=</span> <span class="n">s_src</span> <span class="o">-</span> <span class="n">common_extent</span>
+<a name="ln-482"></a>         <span class="n">s_dst</span> <span class="o">=</span> <span class="n">s_dst</span> <span class="o">-</span> <span class="n">common_extent</span>
+<a name="ln-483"></a>         <span class="n">src_off</span> <span class="o">=</span> <span class="n">src_off</span> <span class="o">+</span> <span class="n">common_extent</span>
+<a name="ln-484"></a>         <span class="n">dst_off</span> <span class="o">=</span> <span class="n">dst_off</span> <span class="o">+</span> <span class="n">common_extent</span>
+<a name="ln-485"></a>         <span class="c">! We&#39;ve used up another block.</span>
+<a name="ln-486"></a>         <span class="n">n_src_dsts</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">current_src</span><span class="p">)</span> <span class="o">=</span> <span class="n">n_src_dsts</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">current_src</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-487"></a>         <span class="c">! Check if we&#39;ve used up the whole source block.</span>
+<a name="ln-488"></a>         <span class="k">DO WHILE</span> <span class="p">(</span><span class="n">s_src</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">current_src</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">n_src</span><span class="p">)</span>
+<a name="ln-489"></a>            <span class="n">current_src</span> <span class="o">=</span> <span class="n">current_src</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-490"></a>            <span class="n">src_off</span> <span class="o">=</span> <span class="mi">1</span>
+<a name="ln-491"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">current_src</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">n_src</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-492"></a><span class="k">               </span><span class="n">s_src</span> <span class="o">=</span> <span class="n">src_sizes</span><span class="p">(</span><span class="n">current_src</span><span class="p">)</span>
+<a name="ln-493"></a>               <span class="n">n_src_dsts</span><span class="p">(:,</span> <span class="n">current_src</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="o">/</span><span class="n">current_int</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="o">/</span><span class="p">)</span>
+<a name="ln-494"></a>            <span class="n">ENDIF</span>
+<a name="ln-495"></a>         <span class="k">END DO</span>
+<a name="ln-496"></a><span class="k">         DO WHILE</span> <span class="p">(</span><span class="n">s_dst</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">current_dst</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">n_dst</span><span class="p">)</span>
+<a name="ln-497"></a>            <span class="n">current_dst</span> <span class="o">=</span> <span class="n">current_dst</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-498"></a>            <span class="n">dst_off</span> <span class="o">=</span> <span class="mi">1</span>
+<a name="ln-499"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">current_dst</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">n_dst</span><span class="p">)</span> <span class="n">s_dst</span> <span class="o">=</span> <span class="n">dst_sizes</span><span class="p">(</span><span class="n">current_dst</span><span class="p">)</span>
+<a name="ln-500"></a>         <span class="k">END DO</span>
+<a name="ln-501"></a><span class="k">         </span><span class="n">current_int</span> <span class="o">=</span> <span class="n">current_int</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-502"></a>      <span class="n">ENDDO</span>
+<a name="ln-503"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">current_src</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">n_src</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-504"></a>         <span class="n">n_src_dsts</span><span class="p">(:,</span> <span class="n">current_src</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">n_src</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="mi">7</span>
+<a name="ln-505"></a>      <span class="n">numints</span> <span class="o">=</span> <span class="n">current_int</span> <span class="o">-</span> <span class="mi">1</span>
+<a name="ln-506"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_reblocking_targets</span>
+<a name="ln-507"></a>
+<a name="ln-508"></a>   <span class="k">PURE SUBROUTINE </span><span class="n">dbcsr_find_column</span><span class="p">(</span><span class="n">find_col</span><span class="p">,</span> <span class="n">frst_blk</span><span class="p">,</span> <span class="n">last_blk</span><span class="p">,</span> <span class="n">col_i</span><span class="p">,</span> <span class="n">blk_p</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-509"></a>                                     <span class="n">blk</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
+<a name="ln-510"></a>      <span class="c">!! Finds the block that has the given column.</span>
+<a name="ln-511"></a>      <span class="c">!! If the block having the queried column is found, the blk parameter</span>
+<a name="ln-512"></a>      <span class="c">!! is set to this block number and the found parameter is true.</span>
+<a name="ln-513"></a>      <span class="c">!! Otherwise found is false and the block number is invalid.</span>
+<a name="ln-514"></a>      <span class="c">!!</span>
+<a name="ln-515"></a>      <span class="c">!! Index validity</span>
+<a name="ln-516"></a>      <span class="c">!! The blk_p array of block pointers is a required parameter to enable</span>
+<a name="ln-517"></a>      <span class="c">!! the detection of deleted blocks.</span>
+<a name="ln-518"></a>
+<a name="ln-519"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">find_col</span><span class="p">,</span> <span class="n">frst_blk</span><span class="p">,</span> <span class="n">last_blk</span>
+<a name="ln-520"></a>         <span class="c">!! column to find</span>
+<a name="ln-521"></a>         <span class="c">!! first block number in row</span>
+<a name="ln-522"></a>         <span class="c">!! last block number in row</span>
+<a name="ln-523"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">col_i</span><span class="p">,</span> <span class="n">blk_p</span>
+<a name="ln-524"></a>         <span class="c">!! col indices</span>
+<a name="ln-525"></a>         <span class="c">!! block pointers</span>
+<a name="ln-526"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">blk</span>
+<a name="ln-527"></a>         <span class="c">!! block number with searched-for column</span>
+<a name="ln-528"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">found</span>
+<a name="ln-529"></a>         <span class="c">!! flag specified whether a block that has the correct column was found</span>
+<a name="ln-530"></a>
+<a name="ln-531"></a>      <span class="k">CALL </span><span class="n">ordered_search</span><span class="p">(</span><span class="n">col_i</span><span class="p">,</span> <span class="n">find_col</span><span class="p">,</span> <span class="n">blk</span><span class="p">,</span> <span class="n">found</span><span class="p">,</span> <span class="n">frst_blk</span><span class="p">,</span> <span class="n">last_blk</span><span class="p">)</span>
+<a name="ln-532"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">found</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-533"></a><span class="k">         </span><span class="n">found</span> <span class="o">=</span> <span class="n">blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span>
+<a name="ln-534"></a>      <span class="n">ENDIF</span>
+<a name="ln-535"></a>
+<a name="ln-536"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_find_column</span>
+<a name="ln-537"></a>
+<a name="ln-538"></a>   <span class="k">SUBROUTINE </span><span class="n">find_all_local_elements</span><span class="p">(</span><span class="n">local_elements</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-539"></a>                                      <span class="n">bin_distribution</span><span class="p">,</span> <span class="n">nbins</span><span class="p">)</span>
+<a name="ln-540"></a>      <span class="c">!! Finds the local virtual elements</span>
+<a name="ln-541"></a>      <span class="c">!! All elements are mapped at once.  Therefore an entry in the</span>
+<a name="ln-542"></a>      <span class="c">!! resulting array can be used as a lookup index for any of the local</span>
+<a name="ln-543"></a>      <span class="c">!! element arrays.  The distribution itself tells into which array to</span>
+<a name="ln-544"></a>      <span class="c">!! look.</span>
+<a name="ln-545"></a>
+<a name="ln-546"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">nbins</span>
+<a name="ln-547"></a>         <span class="c">!! number of bins</span>
+<a name="ln-548"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">bin_distribution</span>
+<a name="ln-549"></a>         <span class="c">!! distribution of elements to bins</span>
+<a name="ln-550"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">nbins</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-551"></a>         <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                                   <span class="kd">::</span> <span class="n">local_elements</span>
+<a name="ln-552"></a>         <span class="c">!! local virtual elements</span>
+<a name="ln-553"></a>
+<a name="ln-554"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">bin</span><span class="p">,</span> <span class="n">el</span>
+<a name="ln-555"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">nbins</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">nlve</span>
 <a name="ln-556"></a>
-<a name="ln-557"></a>      <span class="k">CALL </span><span class="n">ordered_search</span><span class="p">(</span><span class="n">col_i</span><span class="p">,</span> <span class="n">find_col</span><span class="p">,</span> <span class="n">blk</span><span class="p">,</span> <span class="n">found</span><span class="p">,</span> <span class="n">frst_blk</span><span class="p">,</span> <span class="n">last_blk</span><span class="p">)</span>
-<a name="ln-558"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">found</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-559"></a><span class="k">         </span><span class="n">found</span> <span class="o">=</span> <span class="n">blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span>
-<a name="ln-560"></a>      <span class="n">ENDIF</span>
-<a name="ln-561"></a>
-<a name="ln-562"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_find_column</span>
-<a name="ln-563"></a>
-<a name="ln-564"></a>   <span class="k">SUBROUTINE </span><span class="n">find_all_local_elements</span><span class="p">(</span><span class="n">local_elements</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-565"></a>                                      <span class="n">bin_distribution</span><span class="p">,</span> <span class="n">nbins</span><span class="p">)</span>
-<a name="ln-566"></a>      <span class="c">!! Finds the local virtual elements</span>
-<a name="ln-567"></a>      <span class="c">!! All elements are mapped at once.  Therefore an entry in the</span>
-<a name="ln-568"></a>      <span class="c">!! resulting array can be used as a lookup index for any of the local</span>
-<a name="ln-569"></a>      <span class="c">!! element arrays.  The distribution itself tells into which array to</span>
-<a name="ln-570"></a>      <span class="c">!! look.</span>
-<a name="ln-571"></a>
-<a name="ln-572"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">nbins</span>
-<a name="ln-573"></a>         <span class="c">!! number of bins</span>
-<a name="ln-574"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">bin_distribution</span>
-<a name="ln-575"></a>         <span class="c">!! distribution of elements to bins</span>
-<a name="ln-576"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">nbins</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="p">&amp;</span>
-<a name="ln-577"></a>         <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                                   <span class="kd">::</span> <span class="n">local_elements</span>
-<a name="ln-578"></a>         <span class="c">!! local virtual elements</span>
-<a name="ln-579"></a>
-<a name="ln-580"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">bin</span><span class="p">,</span> <span class="n">el</span>
-<a name="ln-581"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">nbins</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">nlve</span>
-<a name="ln-582"></a>
-<a name="ln-583"></a>      <span class="n">nlve</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-584"></a>      <span class="k">DO </span><span class="n">el</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">bin_distribution</span><span class="p">)</span>
-<a name="ln-585"></a>         <span class="n">bin</span> <span class="o">=</span> <span class="n">bin_distribution</span><span class="p">(</span><span class="n">el</span><span class="p">)</span>
-<a name="ln-586"></a>         <span class="n">nlve</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span> <span class="o">=</span> <span class="n">nlve</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-587"></a>         <span class="n">local_elements</span><span class="p">(</span><span class="n">bin</span><span class="p">)%</span><span class="n">low</span><span class="p">%</span><span class="k">data</span><span class="p">(</span><span class="n">nlve</span><span class="p">(</span><span class="n">bin</span><span class="p">))</span> <span class="o">=</span> <span class="n">el</span>
-<a name="ln-588"></a>      <span class="n">ENDDO</span>
-<a name="ln-589"></a>   <span class="k">END SUBROUTINE </span><span class="n">find_all_local_elements</span>
-<a name="ln-590"></a>
-<a name="ln-591"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_get_local_rows</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">local_rows</span><span class="p">,</span> <span class="n">local_prow</span><span class="p">)</span>
-<a name="ln-592"></a>      <span class="c">!! Determines mapping from local to global rows</span>
-<a name="ln-593"></a>
-<a name="ln-594"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">dist</span>
-<a name="ln-595"></a>         <span class="c">!! mapping for this distribution</span>
-<a name="ln-596"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">local_rows</span>
-<a name="ln-597"></a>         <span class="c">!! local elements for specified row</span>
-<a name="ln-598"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">local_prow</span>
-<a name="ln-599"></a>         <span class="c">!! find local elements for this local row</span>
-<a name="ln-600"></a>
-<a name="ln-601"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_get_local_rows&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-602"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
-<a name="ln-603"></a>
-<a name="ln-604"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">el</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">,</span> <span class="n">nprows</span><span class="p">,</span> <span class="n">prow</span>
-<a name="ln-605"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:)</span>                 <span class="kd">::</span> <span class="n">nle</span>
-<a name="ln-606"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="n">itmp</span><span class="p">,</span> <span class="n">row_dist</span>
-<a name="ln-607"></a>
-<a name="ln-608"></a>      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">)</span>
-<a name="ln-609"></a>      <span class="c">! If the current local row mappings do not exist, create them.</span>
-<a name="ln-610"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">has_other_l_rows</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-611"></a><span class="k">         </span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">has_other_l_rows</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-<a name="ln-612"></a>         <span class="n">nprows</span> <span class="o">=</span> <span class="n">dbcsr_mp_nprows</span><span class="p">(</span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span>
-<a name="ln-613"></a>         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">other_l_rows</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">dbcsr_mp_nprows</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">mp_env</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
-<a name="ln-614"></a>         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">nle</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">nprows</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
-<a name="ln-615"></a>         <span class="n">row_dist</span> <span class="o">=&gt;</span> <span class="n">dbcsr_distribution_row_dist</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
-<a name="ln-616"></a>         <span class="c">! Count the number of local elements per row.</span>
-<a name="ln-617"></a>         <span class="n">nle</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-618"></a>         <span class="k">DO </span><span class="n">el</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">row_dist</span><span class="p">)</span>
-<a name="ln-619"></a>            <span class="n">prow</span> <span class="o">=</span> <span class="n">row_dist</span><span class="p">(</span><span class="n">el</span><span class="p">)</span>
-<a name="ln-620"></a>            <span class="n">nle</span><span class="p">(</span><span class="n">prow</span><span class="p">)</span> <span class="o">=</span> <span class="n">nle</span><span class="p">(</span><span class="n">prow</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-621"></a>         <span class="n">ENDDO</span>
-<a name="ln-622"></a>         <span class="k">DO </span><span class="n">prow</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nprows</span> <span class="o">-</span> <span class="mi">1</span>
-<a name="ln-623"></a>            <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">itmp</span><span class="p">(</span><span class="n">nle</span><span class="p">(</span><span class="n">prow</span><span class="p">)))</span>
-<a name="ln-624"></a>            <span class="n">itmp</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-625"></a>            <span class="k">CALL </span><span class="n">array_new</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">other_l_rows</span><span class="p">(</span><span class="n">prow</span><span class="p">),</span> <span class="p">&amp;</span>
-<a name="ln-626"></a>                           <span class="n">itmp</span><span class="p">,</span> <span class="n">lb</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<a name="ln-627"></a>            <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">itmp</span><span class="p">)</span>
-<a name="ln-628"></a>         <span class="n">ENDDO</span>
-<a name="ln-629"></a>         <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">nle</span><span class="p">)</span>
-<a name="ln-630"></a>         <span class="k">CALL </span><span class="n">find_all_local_elements</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">other_l_rows</span><span class="p">,</span> <span class="n">row_dist</span><span class="p">,</span> <span class="n">nprows</span><span class="p">)</span>
-<a name="ln-631"></a>      <span class="k">ELSE</span>
-<a name="ln-632"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">careful_mod</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">other_l_rows</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-633"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Local rows mapping does not exist.&quot;</span><span class="p">)</span>
-<a name="ln-634"></a>      <span class="n">ENDIF</span>
-<a name="ln-635"></a>      <span class="n">local_rows</span> <span class="o">=</span> <span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">other_l_rows</span><span class="p">(</span><span class="n">local_prow</span><span class="p">)</span>
-<a name="ln-636"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
-<a name="ln-637"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_get_local_rows</span>
-<a name="ln-638"></a>
-<a name="ln-639"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_get_local_cols</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">local_cols</span><span class="p">,</span> <span class="n">local_pcol</span><span class="p">)</span>
-<a name="ln-640"></a>      <span class="c">!! Determines mapping from local to global columns</span>
-<a name="ln-641"></a>
-<a name="ln-642"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">dist</span>
-<a name="ln-643"></a>         <span class="c">!! mapping for this distribution</span>
-<a name="ln-644"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">local_cols</span>
-<a name="ln-645"></a>         <span class="c">!! local elements for specified column</span>
-<a name="ln-646"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">local_pcol</span>
-<a name="ln-647"></a>         <span class="c">!! find local elements for this local column</span>
-<a name="ln-648"></a>
-<a name="ln-649"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_get_local_cols&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-650"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
-<a name="ln-651"></a>
-<a name="ln-652"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">el</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">,</span> <span class="n">npcols</span><span class="p">,</span> <span class="n">pcol</span>
-<a name="ln-653"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:)</span>                 <span class="kd">::</span> <span class="n">nle</span>
-<a name="ln-654"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="n">col_dist</span><span class="p">,</span> <span class="n">itmp</span>
-<a name="ln-655"></a>
-<a name="ln-656"></a>      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">)</span>
-<a name="ln-657"></a>      <span class="c">! If the current local col mappings do not exist, create them.</span>
-<a name="ln-658"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">has_other_l_cols</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-659"></a><span class="k">         </span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">has_other_l_cols</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-<a name="ln-660"></a>         <span class="n">npcols</span> <span class="o">=</span> <span class="n">dbcsr_mp_npcols</span><span class="p">(</span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span>
-<a name="ln-661"></a>         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">other_l_cols</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">dbcsr_mp_npcols</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">mp_env</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
-<a name="ln-662"></a>         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">nle</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">npcols</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
-<a name="ln-663"></a>         <span class="n">col_dist</span> <span class="o">=&gt;</span> <span class="n">dbcsr_distribution_col_dist</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
-<a name="ln-664"></a>         <span class="c">! Count the number of local elements per col.</span>
-<a name="ln-665"></a>         <span class="n">nle</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-666"></a>         <span class="k">DO </span><span class="n">el</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">col_dist</span><span class="p">)</span>
-<a name="ln-667"></a>            <span class="n">pcol</span> <span class="o">=</span> <span class="n">col_dist</span><span class="p">(</span><span class="n">el</span><span class="p">)</span>
-<a name="ln-668"></a>            <span class="n">nle</span><span class="p">(</span><span class="n">pcol</span><span class="p">)</span> <span class="o">=</span> <span class="n">nle</span><span class="p">(</span><span class="n">pcol</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-669"></a>         <span class="n">ENDDO</span>
-<a name="ln-670"></a>         <span class="k">DO </span><span class="n">pcol</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">npcols</span> <span class="o">-</span> <span class="mi">1</span>
-<a name="ln-671"></a>            <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">itmp</span><span class="p">(</span><span class="n">nle</span><span class="p">(</span><span class="n">pcol</span><span class="p">)))</span>
-<a name="ln-672"></a>            <span class="n">itmp</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-673"></a>            <span class="k">CALL </span><span class="n">array_new</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">other_l_cols</span><span class="p">(</span><span class="n">pcol</span><span class="p">),</span> <span class="p">&amp;</span>
-<a name="ln-674"></a>                           <span class="n">itmp</span><span class="p">,</span> <span class="n">lb</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<a name="ln-675"></a>            <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">itmp</span><span class="p">)</span>
-<a name="ln-676"></a>         <span class="n">ENDDO</span>
-<a name="ln-677"></a>         <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">nle</span><span class="p">)</span>
-<a name="ln-678"></a>         <span class="k">CALL </span><span class="n">find_all_local_elements</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">other_l_cols</span><span class="p">,</span> <span class="n">col_dist</span><span class="p">,</span> <span class="n">npcols</span><span class="p">)</span>
-<a name="ln-679"></a>      <span class="k">ELSE</span>
-<a name="ln-680"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">careful_mod</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">other_l_cols</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-681"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Local columns mapping does not exist.&quot;</span><span class="p">)</span>
+<a name="ln-557"></a>      <span class="n">nlve</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-558"></a>      <span class="k">DO </span><span class="n">el</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">bin_distribution</span><span class="p">)</span>
+<a name="ln-559"></a>         <span class="n">bin</span> <span class="o">=</span> <span class="n">bin_distribution</span><span class="p">(</span><span class="n">el</span><span class="p">)</span>
+<a name="ln-560"></a>         <span class="n">nlve</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span> <span class="o">=</span> <span class="n">nlve</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-561"></a>         <span class="n">local_elements</span><span class="p">(</span><span class="n">bin</span><span class="p">)%</span><span class="n">low</span><span class="p">%</span><span class="k">data</span><span class="p">(</span><span class="n">nlve</span><span class="p">(</span><span class="n">bin</span><span class="p">))</span> <span class="o">=</span> <span class="n">el</span>
+<a name="ln-562"></a>      <span class="n">ENDDO</span>
+<a name="ln-563"></a>   <span class="k">END SUBROUTINE </span><span class="n">find_all_local_elements</span>
+<a name="ln-564"></a>
+<a name="ln-565"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_get_local_rows</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">local_rows</span><span class="p">,</span> <span class="n">local_prow</span><span class="p">)</span>
+<a name="ln-566"></a>      <span class="c">!! Determines mapping from local to global rows</span>
+<a name="ln-567"></a>
+<a name="ln-568"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">dist</span>
+<a name="ln-569"></a>         <span class="c">!! mapping for this distribution</span>
+<a name="ln-570"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">local_rows</span>
+<a name="ln-571"></a>         <span class="c">!! local elements for specified row</span>
+<a name="ln-572"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">local_prow</span>
+<a name="ln-573"></a>         <span class="c">!! find local elements for this local row</span>
+<a name="ln-574"></a>
+<a name="ln-575"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_get_local_rows&#39;</span>
+<a name="ln-576"></a>
+<a name="ln-577"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">el</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">,</span> <span class="n">nprows</span><span class="p">,</span> <span class="n">prow</span>
+<a name="ln-578"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:)</span>                 <span class="kd">::</span> <span class="n">nle</span>
+<a name="ln-579"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="n">itmp</span><span class="p">,</span> <span class="n">row_dist</span>
+<a name="ln-580"></a>
+<a name="ln-581"></a>      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">)</span>
+<a name="ln-582"></a>      <span class="c">! If the current local row mappings do not exist, create them.</span>
+<a name="ln-583"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">has_other_l_rows</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-584"></a><span class="k">         </span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">has_other_l_rows</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<a name="ln-585"></a>         <span class="n">nprows</span> <span class="o">=</span> <span class="n">dbcsr_mp_nprows</span><span class="p">(</span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span>
+<a name="ln-586"></a>         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">other_l_rows</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">dbcsr_mp_nprows</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">mp_env</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+<a name="ln-587"></a>         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">nle</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">nprows</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+<a name="ln-588"></a>         <span class="n">row_dist</span> <span class="o">=&gt;</span> <span class="n">dbcsr_distribution_row_dist</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+<a name="ln-589"></a>         <span class="c">! Count the number of local elements per row.</span>
+<a name="ln-590"></a>         <span class="n">nle</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-591"></a>         <span class="k">DO </span><span class="n">el</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">row_dist</span><span class="p">)</span>
+<a name="ln-592"></a>            <span class="n">prow</span> <span class="o">=</span> <span class="n">row_dist</span><span class="p">(</span><span class="n">el</span><span class="p">)</span>
+<a name="ln-593"></a>            <span class="n">nle</span><span class="p">(</span><span class="n">prow</span><span class="p">)</span> <span class="o">=</span> <span class="n">nle</span><span class="p">(</span><span class="n">prow</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-594"></a>         <span class="n">ENDDO</span>
+<a name="ln-595"></a>         <span class="k">DO </span><span class="n">prow</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nprows</span> <span class="o">-</span> <span class="mi">1</span>
+<a name="ln-596"></a>            <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">itmp</span><span class="p">(</span><span class="n">nle</span><span class="p">(</span><span class="n">prow</span><span class="p">)))</span>
+<a name="ln-597"></a>            <span class="n">itmp</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-598"></a>            <span class="k">CALL </span><span class="n">array_new</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">other_l_rows</span><span class="p">(</span><span class="n">prow</span><span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-599"></a>                           <span class="n">itmp</span><span class="p">,</span> <span class="n">lb</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-600"></a>            <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">itmp</span><span class="p">)</span>
+<a name="ln-601"></a>         <span class="n">ENDDO</span>
+<a name="ln-602"></a>         <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">nle</span><span class="p">)</span>
+<a name="ln-603"></a>         <span class="k">CALL </span><span class="n">find_all_local_elements</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">other_l_rows</span><span class="p">,</span> <span class="n">row_dist</span><span class="p">,</span> <span class="n">nprows</span><span class="p">)</span>
+<a name="ln-604"></a>      <span class="k">ELSE</span>
+<a name="ln-605"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">careful_mod</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">other_l_rows</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-606"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Local rows mapping does not exist.&quot;</span><span class="p">)</span>
+<a name="ln-607"></a>      <span class="n">ENDIF</span>
+<a name="ln-608"></a>      <span class="n">local_rows</span> <span class="o">=</span> <span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">other_l_rows</span><span class="p">(</span><span class="n">local_prow</span><span class="p">)</span>
+<a name="ln-609"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
+<a name="ln-610"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_get_local_rows</span>
+<a name="ln-611"></a>
+<a name="ln-612"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_get_local_cols</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">local_cols</span><span class="p">,</span> <span class="n">local_pcol</span><span class="p">)</span>
+<a name="ln-613"></a>      <span class="c">!! Determines mapping from local to global columns</span>
+<a name="ln-614"></a>
+<a name="ln-615"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">dist</span>
+<a name="ln-616"></a>         <span class="c">!! mapping for this distribution</span>
+<a name="ln-617"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">local_cols</span>
+<a name="ln-618"></a>         <span class="c">!! local elements for specified column</span>
+<a name="ln-619"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">local_pcol</span>
+<a name="ln-620"></a>         <span class="c">!! find local elements for this local column</span>
+<a name="ln-621"></a>
+<a name="ln-622"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_get_local_cols&#39;</span>
+<a name="ln-623"></a>
+<a name="ln-624"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">el</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">,</span> <span class="n">npcols</span><span class="p">,</span> <span class="n">pcol</span>
+<a name="ln-625"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:)</span>                 <span class="kd">::</span> <span class="n">nle</span>
+<a name="ln-626"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>                     <span class="kd">::</span> <span class="n">col_dist</span><span class="p">,</span> <span class="n">itmp</span>
+<a name="ln-627"></a>
+<a name="ln-628"></a>      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">)</span>
+<a name="ln-629"></a>      <span class="c">! If the current local col mappings do not exist, create them.</span>
+<a name="ln-630"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">has_other_l_cols</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-631"></a><span class="k">         </span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">has_other_l_cols</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<a name="ln-632"></a>         <span class="n">npcols</span> <span class="o">=</span> <span class="n">dbcsr_mp_npcols</span><span class="p">(</span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span>
+<a name="ln-633"></a>         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">other_l_cols</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">dbcsr_mp_npcols</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">mp_env</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+<a name="ln-634"></a>         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">nle</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">npcols</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+<a name="ln-635"></a>         <span class="n">col_dist</span> <span class="o">=&gt;</span> <span class="n">dbcsr_distribution_col_dist</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+<a name="ln-636"></a>         <span class="c">! Count the number of local elements per col.</span>
+<a name="ln-637"></a>         <span class="n">nle</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-638"></a>         <span class="k">DO </span><span class="n">el</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">col_dist</span><span class="p">)</span>
+<a name="ln-639"></a>            <span class="n">pcol</span> <span class="o">=</span> <span class="n">col_dist</span><span class="p">(</span><span class="n">el</span><span class="p">)</span>
+<a name="ln-640"></a>            <span class="n">nle</span><span class="p">(</span><span class="n">pcol</span><span class="p">)</span> <span class="o">=</span> <span class="n">nle</span><span class="p">(</span><span class="n">pcol</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-641"></a>         <span class="n">ENDDO</span>
+<a name="ln-642"></a>         <span class="k">DO </span><span class="n">pcol</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">npcols</span> <span class="o">-</span> <span class="mi">1</span>
+<a name="ln-643"></a>            <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">itmp</span><span class="p">(</span><span class="n">nle</span><span class="p">(</span><span class="n">pcol</span><span class="p">)))</span>
+<a name="ln-644"></a>            <span class="n">itmp</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-645"></a>            <span class="k">CALL </span><span class="n">array_new</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">other_l_cols</span><span class="p">(</span><span class="n">pcol</span><span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-646"></a>                           <span class="n">itmp</span><span class="p">,</span> <span class="n">lb</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<a name="ln-647"></a>            <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">itmp</span><span class="p">)</span>
+<a name="ln-648"></a>         <span class="n">ENDDO</span>
+<a name="ln-649"></a>         <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">nle</span><span class="p">)</span>
+<a name="ln-650"></a>         <span class="k">CALL </span><span class="n">find_all_local_elements</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">other_l_cols</span><span class="p">,</span> <span class="n">col_dist</span><span class="p">,</span> <span class="n">npcols</span><span class="p">)</span>
+<a name="ln-651"></a>      <span class="k">ELSE</span>
+<a name="ln-652"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">careful_mod</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">other_l_cols</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-653"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Local columns mapping does not exist.&quot;</span><span class="p">)</span>
+<a name="ln-654"></a>      <span class="n">ENDIF</span>
+<a name="ln-655"></a>      <span class="n">local_cols</span> <span class="o">=</span> <span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">other_l_cols</span><span class="p">(</span><span class="n">local_pcol</span><span class="p">)</span>
+<a name="ln-656"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
+<a name="ln-657"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_get_local_cols</span>
+<a name="ln-658"></a>
+<a name="ln-659"></a>   <span class="k">PURE FUNCTION </span><span class="n">mostly_non_transposed</span><span class="p">(</span><span class="n">blk_p</span><span class="p">)</span>
+<a name="ln-660"></a>      <span class="c">!! Determines whether most blocks are stored transposed in normally.</span>
+<a name="ln-661"></a>      <span class="c">!! @note Tries to be quick and not necessarily accurate.</span>
+<a name="ln-662"></a>
+<a name="ln-663"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">blk_p</span>
+<a name="ln-664"></a>         <span class="c">!! Pointers to blocks</span>
+<a name="ln-665"></a>      <span class="kt">LOGICAL</span>                           <span class="kd">::</span> <span class="n">mostly_non_transposed</span>
+<a name="ln-666"></a>
+<a name="ln-667"></a>      <span class="kt">INTEGER</span>            <span class="kd">::</span> <span class="n">n</span><span class="p">,</span> <span class="n">str</span><span class="p">,</span> <span class="n">sntr</span>
+<a name="ln-668"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">allcheck_cutoff</span> <span class="o">=</span> <span class="mi">8</span>
+<a name="ln-669"></a>
+<a name="ln-670"></a>      <span class="n">n</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">blk_p</span><span class="p">)</span>
+<a name="ln-671"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">n</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-672"></a><span class="k">         </span><span class="n">mostly_non_transposed</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<a name="ln-673"></a>         <span class="k">RETURN</span>
+<a name="ln-674"></a><span class="k">      </span><span class="n">ENDIF</span>
+<a name="ln-675"></a>      <span class="n">str</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-676"></a>      <span class="n">sntr</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-677"></a>      <span class="k">CALL </span><span class="n">check_range</span><span class="p">(</span><span class="n">blk_p</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">allcheck_cutoff</span><span class="p">,</span> <span class="n">sntr</span><span class="p">,</span> <span class="n">str</span><span class="p">)</span>
+<a name="ln-678"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">n</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">4</span><span class="o">*</span><span class="n">allcheck_cutoff</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-679"></a><span class="k">         CALL </span><span class="n">check_range</span><span class="p">(</span><span class="n">blk_p</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">allcheck_cutoff</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="n">allcheck_cutoff</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-680"></a>                          <span class="n">sntr</span><span class="p">,</span> <span class="n">str</span><span class="p">)</span>
+<a name="ln-681"></a>         <span class="k">CALL </span><span class="n">check_range</span><span class="p">(</span><span class="n">blk_p</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="n">allcheck_cutoff</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">sntr</span><span class="p">,</span> <span class="n">str</span><span class="p">)</span>
 <a name="ln-682"></a>      <span class="n">ENDIF</span>
-<a name="ln-683"></a>      <span class="n">local_cols</span> <span class="o">=</span> <span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">other_l_cols</span><span class="p">(</span><span class="n">local_pcol</span><span class="p">)</span>
-<a name="ln-684"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
-<a name="ln-685"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_get_local_cols</span>
-<a name="ln-686"></a>
-<a name="ln-687"></a>   <span class="k">PURE FUNCTION </span><span class="n">mostly_non_transposed</span><span class="p">(</span><span class="n">blk_p</span><span class="p">)</span>
-<a name="ln-688"></a>      <span class="c">!! Determines whether most blocks are stored transposed in normally.</span>
-<a name="ln-689"></a>      <span class="c">!! @note Tries to be quick and not necessarily accurate.</span>
-<a name="ln-690"></a>
-<a name="ln-691"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">blk_p</span>
-<a name="ln-692"></a>         <span class="c">!! Pointers to blocks</span>
-<a name="ln-693"></a>      <span class="kt">LOGICAL</span>                           <span class="kd">::</span> <span class="n">mostly_non_transposed</span>
-<a name="ln-694"></a>
-<a name="ln-695"></a>      <span class="kt">INTEGER</span>            <span class="kd">::</span> <span class="n">n</span><span class="p">,</span> <span class="n">str</span><span class="p">,</span> <span class="n">sntr</span>
-<a name="ln-696"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">allcheck_cutoff</span> <span class="o">=</span> <span class="mi">8</span>
-<a name="ln-697"></a>
-<a name="ln-698"></a>      <span class="n">n</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">blk_p</span><span class="p">)</span>
-<a name="ln-699"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">n</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-700"></a><span class="k">         </span><span class="n">mostly_non_transposed</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-<a name="ln-701"></a>         <span class="k">RETURN</span>
-<a name="ln-702"></a><span class="k">      </span><span class="n">ENDIF</span>
-<a name="ln-703"></a>      <span class="n">str</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-704"></a>      <span class="n">sntr</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-705"></a>      <span class="k">CALL </span><span class="n">check_range</span><span class="p">(</span><span class="n">blk_p</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">allcheck_cutoff</span><span class="p">,</span> <span class="n">sntr</span><span class="p">,</span> <span class="n">str</span><span class="p">)</span>
-<a name="ln-706"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">n</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">4</span><span class="o">*</span><span class="n">allcheck_cutoff</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-707"></a><span class="k">         CALL </span><span class="n">check_range</span><span class="p">(</span><span class="n">blk_p</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">allcheck_cutoff</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="n">allcheck_cutoff</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-708"></a>                          <span class="n">sntr</span><span class="p">,</span> <span class="n">str</span><span class="p">)</span>
-<a name="ln-709"></a>         <span class="k">CALL </span><span class="n">check_range</span><span class="p">(</span><span class="n">blk_p</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="n">allcheck_cutoff</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">sntr</span><span class="p">,</span> <span class="n">str</span><span class="p">)</span>
-<a name="ln-710"></a>      <span class="n">ENDIF</span>
-<a name="ln-711"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">str</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-712"></a><span class="k">         </span><span class="n">mostly_non_transposed</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-<a name="ln-713"></a>         <span class="k">RETURN</span>
-<a name="ln-714"></a><span class="k">      ELSE</span>
-<a name="ln-715"></a>         <span class="c">! Bias towards .TRUE.</span>
-<a name="ln-716"></a>         <span class="n">mostly_non_transposed</span> <span class="o">=</span> <span class="p">((</span><span class="mi">2</span><span class="o">*</span><span class="n">str</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">str</span> <span class="o">+</span> <span class="n">sntr</span><span class="p">))</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span>
-<a name="ln-717"></a>      <span class="n">ENDIF</span>
-<a name="ln-718"></a>      <span class="k">RETURN</span>
-<a name="ln-719"></a><span class="k">   CONTAINS</span>
-<a name="ln-720"></a><span class="k">      PURE SUBROUTINE </span><span class="n">check_range</span><span class="p">(</span><span class="n">blk_p</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">,</span> <span class="n">sntr</span><span class="p">,</span> <span class="n">str</span><span class="p">)</span>
-<a name="ln-721"></a>         <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">blk_p</span>
-<a name="ln-722"></a>         <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span>
-<a name="ln-723"></a>         <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                             <span class="kd">::</span> <span class="n">sntr</span><span class="p">,</span> <span class="n">str</span>
+<a name="ln-683"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">str</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-684"></a><span class="k">         </span><span class="n">mostly_non_transposed</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<a name="ln-685"></a>         <span class="k">RETURN</span>
+<a name="ln-686"></a><span class="k">      ELSE</span>
+<a name="ln-687"></a>         <span class="c">! Bias towards .TRUE.</span>
+<a name="ln-688"></a>         <span class="n">mostly_non_transposed</span> <span class="o">=</span> <span class="p">((</span><span class="mi">2</span><span class="o">*</span><span class="n">str</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">str</span> <span class="o">+</span> <span class="n">sntr</span><span class="p">))</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span>
+<a name="ln-689"></a>      <span class="n">ENDIF</span>
+<a name="ln-690"></a>      <span class="k">RETURN</span>
+<a name="ln-691"></a><span class="k">   CONTAINS</span>
+<a name="ln-692"></a><span class="k">      PURE SUBROUTINE </span><span class="n">check_range</span><span class="p">(</span><span class="n">blk_p</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">,</span> <span class="n">sntr</span><span class="p">,</span> <span class="n">str</span><span class="p">)</span>
+<a name="ln-693"></a>         <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">blk_p</span>
+<a name="ln-694"></a>         <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span>
+<a name="ln-695"></a>         <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                             <span class="kd">::</span> <span class="n">sntr</span><span class="p">,</span> <span class="n">str</span>
+<a name="ln-696"></a>
+<a name="ln-697"></a>         <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span>
+<a name="ln-698"></a>
+<a name="ln-699"></a>         <span class="n">b1</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">lb</span><span class="p">)</span>
+<a name="ln-700"></a>         <span class="n">b2</span> <span class="o">=</span> <span class="nb">MIN</span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">blk_p</span><span class="p">),</span> <span class="n">ub</span><span class="p">)</span>
+<a name="ln-701"></a>         <span class="n">sntr</span> <span class="o">=</span> <span class="n">sntr</span> <span class="o">+</span> <span class="nb">COUNT</span><span class="p">(</span><span class="n">blk_p</span><span class="p">(</span><span class="n">b1</span><span class="p">:</span><span class="n">b2</span><span class="p">)</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span>
+<a name="ln-702"></a>         <span class="n">str</span> <span class="o">=</span> <span class="n">str</span> <span class="o">+</span> <span class="nb">COUNT</span><span class="p">(</span><span class="n">blk_p</span><span class="p">(</span><span class="n">b1</span><span class="p">:</span><span class="n">b2</span><span class="p">)</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span>
+<a name="ln-703"></a>      <span class="k">END SUBROUTINE </span><span class="n">check_range</span>
+<a name="ln-704"></a>   <span class="k">END FUNCTION </span><span class="n">mostly_non_transposed</span>
+<a name="ln-705"></a>
+<a name="ln-706"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_dist_bin</span><span class="p">(</span><span class="n">bin_dist</span><span class="p">,</span> <span class="n">nelements</span><span class="p">,</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">element_sizes</span><span class="p">)</span>
+<a name="ln-707"></a>      <span class="c">!! Creates a sane 1-D distribution</span>
+<a name="ln-708"></a>
+<a name="ln-709"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">POINTER</span>        <span class="kd">::</span> <span class="n">bin_dist</span>
+<a name="ln-710"></a>         <span class="c">!! Distribution of elements to bins</span>
+<a name="ln-711"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">nelements</span><span class="p">,</span> <span class="n">nbins</span>
+<a name="ln-712"></a>         <span class="c">!! Number of elements</span>
+<a name="ln-713"></a>         <span class="c">!! Number of bins</span>
+<a name="ln-714"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>        <span class="kd">::</span> <span class="n">element_sizes</span>
+<a name="ln-715"></a>         <span class="c">!! sizes of elements</span>
+<a name="ln-716"></a>
+<a name="ln-717"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_dist_bin&#39;</span>
+<a name="ln-718"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">bin</span><span class="p">,</span> <span class="n">bin_cnt</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">,</span> <span class="n">i</span>
+<a name="ln-719"></a>      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">found</span>
+<a name="ln-720"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">)</span>                                      <span class="kd">::</span> <span class="n">rn</span>
+<a name="ln-721"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_heap_type</span><span class="p">)</span>                              <span class="kd">::</span> <span class="n">bin_heap</span>
+<a name="ln-722"></a>
+<a name="ln-723"></a><span class="c">!   ---------------------------------------------------------------------------</span>
 <a name="ln-724"></a>
-<a name="ln-725"></a>         <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span>
-<a name="ln-726"></a>
-<a name="ln-727"></a>         <span class="n">b1</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">lb</span><span class="p">)</span>
-<a name="ln-728"></a>         <span class="n">b2</span> <span class="o">=</span> <span class="nb">MIN</span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">blk_p</span><span class="p">),</span> <span class="n">ub</span><span class="p">)</span>
-<a name="ln-729"></a>         <span class="n">sntr</span> <span class="o">=</span> <span class="n">sntr</span> <span class="o">+</span> <span class="nb">COUNT</span><span class="p">(</span><span class="n">blk_p</span><span class="p">(</span><span class="n">b1</span><span class="p">:</span><span class="n">b2</span><span class="p">)</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span>
-<a name="ln-730"></a>         <span class="n">str</span> <span class="o">=</span> <span class="n">str</span> <span class="o">+</span> <span class="nb">COUNT</span><span class="p">(</span><span class="n">blk_p</span><span class="p">(</span><span class="n">b1</span><span class="p">:</span><span class="n">b2</span><span class="p">)</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span>
-<a name="ln-731"></a>      <span class="k">END SUBROUTINE </span><span class="n">check_range</span>
-<a name="ln-732"></a>   <span class="k">END FUNCTION </span><span class="n">mostly_non_transposed</span>
-<a name="ln-733"></a>
-<a name="ln-734"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_dist_bin</span><span class="p">(</span><span class="n">bin_dist</span><span class="p">,</span> <span class="n">nelements</span><span class="p">,</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">element_sizes</span><span class="p">)</span>
-<a name="ln-735"></a>      <span class="c">!! Creates a sane 1-D distribution</span>
-<a name="ln-736"></a>
-<a name="ln-737"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">POINTER</span>        <span class="kd">::</span> <span class="n">bin_dist</span>
-<a name="ln-738"></a>         <span class="c">!! Distribution of elements to bins</span>
-<a name="ln-739"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">nelements</span><span class="p">,</span> <span class="n">nbins</span>
-<a name="ln-740"></a>         <span class="c">!! Number of elements</span>
-<a name="ln-741"></a>         <span class="c">!! Number of bins</span>
-<a name="ln-742"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>        <span class="kd">::</span> <span class="n">element_sizes</span>
-<a name="ln-743"></a>         <span class="c">!! sizes of elements</span>
-<a name="ln-744"></a>
-<a name="ln-745"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_dist_bin&#39;</span><span class="p">,</span> <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
-<a name="ln-746"></a>
-<a name="ln-747"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">bin</span><span class="p">,</span> <span class="n">bin_cnt</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">,</span> <span class="n">i</span>
-<a name="ln-748"></a>      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">found</span>
-<a name="ln-749"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">)</span>                                      <span class="kd">::</span> <span class="n">rn</span>
-<a name="ln-750"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_heap_type</span><span class="p">)</span>                              <span class="kd">::</span> <span class="n">bin_heap</span>
-<a name="ln-751"></a>
-<a name="ln-752"></a><span class="c">!   ---------------------------------------------------------------------------</span>
-<a name="ln-753"></a>
-<a name="ln-754"></a>      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">)</span>
-<a name="ln-755"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">bin_dist</span><span class="p">(</span><span class="n">nelements</span><span class="p">))</span>
-<a name="ln-756"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">element_sizes</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-757"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">element_sizes</span><span class="p">)</span> <span class="o">/=</span> <span class="n">nelements</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-758"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Array of element sizes does not match the number of elements.&quot;</span><span class="p">)</span>
-<a name="ln-759"></a>         <span class="k">CALL </span><span class="n">dbcsr_heap_new</span><span class="p">(</span><span class="n">bin_heap</span><span class="p">,</span> <span class="n">nbins</span><span class="p">)</span>
-<a name="ln-760"></a>         <span class="k">CALL </span><span class="n">dbcsr_heap_fill</span><span class="p">(</span><span class="n">bin_heap</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">bin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">nbins</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">))</span>
-<a name="ln-761"></a>         <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nelements</span>
-<a name="ln-762"></a>            <span class="k">CALL </span><span class="n">dbcsr_heap_get_first</span><span class="p">(</span><span class="n">bin_heap</span><span class="p">,</span> <span class="n">bin</span><span class="p">,</span> <span class="n">bin_cnt</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
-<a name="ln-763"></a>            <span class="n">bin_dist</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">bin</span> <span class="o">-</span> <span class="mi">1</span>
-<a name="ln-764"></a>            <span class="n">bin_cnt</span> <span class="o">=</span> <span class="n">bin_cnt</span> <span class="o">+</span> <span class="n">element_sizes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a name="ln-765"></a>            <span class="k">CALL </span><span class="n">dbcsr_heap_reset_first</span><span class="p">(</span><span class="n">bin_heap</span><span class="p">,</span> <span class="n">bin_cnt</span><span class="p">)</span>
-<a name="ln-766"></a>         <span class="n">ENDDO</span>
-<a name="ln-767"></a>         <span class="k">CALL </span><span class="n">dbcsr_heap_release</span><span class="p">(</span><span class="n">bin_heap</span><span class="p">)</span>
-<a name="ln-768"></a>      <span class="k">ELSE</span>
-<a name="ln-769"></a><span class="k">         DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nelements</span>
-<a name="ln-770"></a>            <span class="k">CALL </span><span class="nb">RANDOM_NUMBER</span><span class="p">(</span><span class="n">rn</span><span class="p">)</span>
-<a name="ln-771"></a>            <span class="n">bin_dist</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="nb">MOD</span><span class="p">(</span><span class="nb">INT</span><span class="p">(</span><span class="n">rn</span><span class="o">*</span><span class="kt">REAL</span><span class="p">(</span><span class="n">nbins</span><span class="p">,</span> <span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">)),</span> <span class="n">nbins</span><span class="p">)</span>
-<a name="ln-772"></a>         <span class="n">ENDDO</span>
-<a name="ln-773"></a>      <span class="n">ENDIF</span>
-<a name="ln-774"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
-<a name="ln-775"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_dist_bin</span>
-<a name="ln-776"></a>
-<a name="ln-777"></a><span class="k">END MODULE </span><span class="n">dbcsr_dist_operations</span>
+<a name="ln-725"></a>      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">)</span>
+<a name="ln-726"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">bin_dist</span><span class="p">(</span><span class="n">nelements</span><span class="p">))</span>
+<a name="ln-727"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">element_sizes</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-728"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">element_sizes</span><span class="p">)</span> <span class="o">/=</span> <span class="n">nelements</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-729"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Array of element sizes does not match the number of elements.&quot;</span><span class="p">)</span>
+<a name="ln-730"></a>         <span class="k">CALL </span><span class="n">dbcsr_heap_new</span><span class="p">(</span><span class="n">bin_heap</span><span class="p">,</span> <span class="n">nbins</span><span class="p">)</span>
+<a name="ln-731"></a>         <span class="k">CALL </span><span class="n">dbcsr_heap_fill</span><span class="p">(</span><span class="n">bin_heap</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">bin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">nbins</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">))</span>
+<a name="ln-732"></a>         <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nelements</span>
+<a name="ln-733"></a>            <span class="k">CALL </span><span class="n">dbcsr_heap_get_first</span><span class="p">(</span><span class="n">bin_heap</span><span class="p">,</span> <span class="n">bin</span><span class="p">,</span> <span class="n">bin_cnt</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
+<a name="ln-734"></a>            <span class="n">bin_dist</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">bin</span> <span class="o">-</span> <span class="mi">1</span>
+<a name="ln-735"></a>            <span class="n">bin_cnt</span> <span class="o">=</span> <span class="n">bin_cnt</span> <span class="o">+</span> <span class="n">element_sizes</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<a name="ln-736"></a>            <span class="k">CALL </span><span class="n">dbcsr_heap_reset_first</span><span class="p">(</span><span class="n">bin_heap</span><span class="p">,</span> <span class="n">bin_cnt</span><span class="p">)</span>
+<a name="ln-737"></a>         <span class="n">ENDDO</span>
+<a name="ln-738"></a>         <span class="k">CALL </span><span class="n">dbcsr_heap_release</span><span class="p">(</span><span class="n">bin_heap</span><span class="p">)</span>
+<a name="ln-739"></a>      <span class="k">ELSE</span>
+<a name="ln-740"></a><span class="k">         DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nelements</span>
+<a name="ln-741"></a>            <span class="k">CALL </span><span class="nb">RANDOM_NUMBER</span><span class="p">(</span><span class="n">rn</span><span class="p">)</span>
+<a name="ln-742"></a>            <span class="n">bin_dist</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="nb">MOD</span><span class="p">(</span><span class="nb">INT</span><span class="p">(</span><span class="n">rn</span><span class="o">*</span><span class="kt">REAL</span><span class="p">(</span><span class="n">nbins</span><span class="p">,</span> <span class="nb">kind</span><span class="o">=</span><span class="n">sp</span><span class="p">)),</span> <span class="n">nbins</span><span class="p">)</span>
+<a name="ln-743"></a>         <span class="n">ENDDO</span>
+<a name="ln-744"></a>      <span class="n">ENDIF</span>
+<a name="ln-745"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
+<a name="ln-746"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_dist_bin</span>
+<a name="ln-747"></a>
+<a name="ln-748"></a><span class="k">END MODULE </span><span class="n">dbcsr_dist_operations</span>
 </pre></div>
 
     </section>

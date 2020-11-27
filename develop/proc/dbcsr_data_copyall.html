@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">40 statements</a>
+    title=" 0.1% of total for procedures.">39 statements</a>
      </li> 
      
      
@@ -341,15 +341,11 @@ public subroutine dbcsr_data_copyall(target_area, source_area, shallow)
       <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">shallow</span>
          <span class="c">!! shallow copy (default is deep)</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_data_copyall&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
-
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">n</span>
       <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">shallow_copy</span>
 
 <span class="c">!   ---------------------------------------------------------------------------</span>
 
-<span class="c">!      CALL timeset(routineN, error_handle)</span>
       <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">source_area</span><span class="p">%</span><span class="n">d</span><span class="p">))</span> <span class="p">&amp;</span>
          <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Attempt to copy unassigned data&quot;</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">source_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">refcount</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>

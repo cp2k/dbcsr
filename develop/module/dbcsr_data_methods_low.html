@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 2.2% of total for modules and submodules.">1373 statements</a>
+    title=" 2.1% of total for modules and submodules.">1295 statements</a>
      </li> 
      
      
@@ -216,8 +216,6 @@
       
       <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#proc-dbcsr_data_get_type">dbcsr_data_get_type</a>
       
-      <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#proc-dbcsr_data_unique">dbcsr_data_unique</a>
-      
       <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#proc-dbcsr_data_get_memory_type">dbcsr_data_get_memory_type</a>
       
       <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#proc-dbcsr_data_valid">dbcsr_data_valid</a>
@@ -228,15 +226,11 @@
       
       <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#proc-dbcsr_scalar_one">dbcsr_scalar_one</a>
       
-      <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#proc-dbcsr_scalar_i">dbcsr_scalar_i</a>
-      
       <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#proc-dbcsr_scalar_zero">dbcsr_scalar_zero</a>
       
       <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#proc-dbcsr_scalar_are_equal">dbcsr_scalar_are_equal</a>
       
       <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#proc-dbcsr_scalar_negative">dbcsr_scalar_negative</a>
-      
-      <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#proc-dbcsr_scalar_add">dbcsr_scalar_add</a>
       
       <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#proc-dbcsr_scalar_multiply">dbcsr_scalar_multiply</a>
       
@@ -482,8 +476,6 @@
       
       <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#proc-dbcsr_data_get_type">dbcsr_data_get_type</a>
       
-      <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#proc-dbcsr_data_unique">dbcsr_data_unique</a>
-      
       <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#proc-dbcsr_data_get_memory_type">dbcsr_data_get_memory_type</a>
       
       <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#proc-dbcsr_data_valid">dbcsr_data_valid</a>
@@ -494,15 +486,11 @@
       
       <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#proc-dbcsr_scalar_one">dbcsr_scalar_one</a>
       
-      <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#proc-dbcsr_scalar_i">dbcsr_scalar_i</a>
-      
       <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#proc-dbcsr_scalar_zero">dbcsr_scalar_zero</a>
       
       <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#proc-dbcsr_scalar_are_equal">dbcsr_scalar_are_equal</a>
       
       <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#proc-dbcsr_scalar_negative">dbcsr_scalar_negative</a>
-      
-      <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#proc-dbcsr_scalar_add">dbcsr_scalar_add</a>
       
       <a class="list-group-item" href="../module/dbcsr_data_methods_low.html#proc-dbcsr_scalar_multiply">dbcsr_scalar_multiply</a>
       
@@ -4137,74 +4125,6 @@ public pure function <a href='../proc/dbcsr_data_get_type.html'>dbcsr_data_get_t
     
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_data_unique"></span><h3>
-private pure function <a href='../proc/dbcsr_data_unique.html'>dbcsr_data_unique</a>(area) result(unique)
-    
-    
-   
-</h3></div>
-  <div class="panel-body">
-       
-    
-
-
-
-
-
-
-
-<p>Returns if there is a single reference of the data</p>
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>area</strong></td><td><p>data area</p></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-  
-  
-  
-  
-     <h4>Return Value <small>logical
-  </small></h4>
-  <p>true if reference is 1</p>
-    
-
-  </div>
-  </div>
-
-    
-    
-  <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_data_get_memory_type"></span><h3>
 public function <a href='../proc/dbcsr_data_get_memory_type.html'>dbcsr_data_get_memory_type</a>(area) result(memory_type)
     
@@ -4537,74 +4457,6 @@ public elemental function <a href='../proc/dbcsr_scalar_one.html'>dbcsr_scalar_o
     
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_scalar_i"></span><h3>
-private elemental function <a href='../proc/dbcsr_scalar_i.html'>dbcsr_scalar_i</a>(data_type) result(i)
-    
-    
-   
-</h3></div>
-  <div class="panel-body">
-       
-    
-
-
-
-
-
-
-
-<p>Returns an encapsulated scalar "sqrt(-1)"</p>
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>data_type</strong></td><td><p>use the data type</p></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-  
-  
-  
-  
-     <h4>Return Value <small>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>)
-  </small></h4>
-  <p>encapsulated value of i</p>
-    
-
-  </div>
-  </div>
-
-    
-    
-  <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_scalar_zero"></span><h3>
 public elemental function <a href='../proc/dbcsr_scalar_zero.html'>dbcsr_scalar_zero</a>(data_type) result(zero)
     
@@ -4818,89 +4670,6 @@ public elemental function <a href='../proc/dbcsr_scalar_negative.html'>dbcsr_sca
      <h4>Return Value <small>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>)
   </small></h4>
   <p>negated value</p>
-    
-
-  </div>
-  </div>
-
-    
-    
-  <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_scalar_add"></span><h3>
-private elemental function <a href='../proc/dbcsr_scalar_add.html'>dbcsr_scalar_add</a>(s1, s2) result(s_sum)
-    
-    
-   
-</h3></div>
-  <div class="panel-body">
-       
-    
-
-
-
-
-
-
-
-<p>Returns an encapsulated scalar as a negation of the given</p>
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>s1</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>s2</strong></td><td></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-  
-  
-  
-  
-     <h4>Return Value <small>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>)
-  </small></h4>
-  
     
 
   </div>

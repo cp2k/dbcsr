@@ -94,10 +94,6 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
          !! DBCSR matrix
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_release', routineP = moduleN//':'//routineN
-
-!   ---------------------------------------------------------------------------
-
       matrix%refcount = matrix%refcount - 1
       IF (matrix%refcount .EQ. 0) THEN
          CALL dbcsr_destroy(matrix)
@@ -112,8 +108,7 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: force
          !! force deallocation
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_destroy', routineP = moduleN//':'//routineN
-
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_destroy'
       INTEGER                                            :: error_handle
       LOGICAL                                            :: force_all
 
@@ -572,9 +567,6 @@ CONTAINS
       INTEGER                                            :: data_size
          !! size of data
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_data_size', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                            :: data_type
 
       data_size = 0
@@ -594,8 +586,7 @@ CONTAINS
       INTEGER                                            :: data_size
          !! Data size used by matrix
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_data_size_used', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_data_size_used'
 
       INTEGER                                            :: blk, col, error_handle, nze, row
       INTEGER, DIMENSION(:), POINTER                     :: col_blk_sizes, row_blk_sizes
@@ -651,9 +642,6 @@ CONTAINS
       TYPE(dbcsr_1d_array_type), INTENT(INOUT)           :: marray
          !! matrix array
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_destroy_1d_array', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                            :: i
 
 !   ---------------------------------------------------------------------------
@@ -670,9 +658,6 @@ CONTAINS
 
       TYPE(dbcsr_2d_array_type), INTENT(INOUT)           :: marray
          !! matrix array
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_destroy_2d_array', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: col, row
 
@@ -771,11 +756,6 @@ CONTAINS
       TYPE(dbcsr_mutable_obj), INTENT(OUT)               :: mutable
          !! mutable data
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mutable_init', &
-                                     routineP = moduleN//':'//routineN
-
-!   ---------------------------------------------------------------------------
-
       NULLIFY (mutable%m)
    END SUBROUTINE dbcsr_mutable_init
 
@@ -784,9 +764,6 @@ CONTAINS
 
       TYPE(dbcsr_mutable_obj), INTENT(INOUT)             :: mutable
          !! mutable data
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mutable_destroy', &
-                                     routineP = moduleN//':'//routineN
 
 !   ---------------------------------------------------------------------------
 
@@ -807,9 +784,6 @@ CONTAINS
       TYPE(dbcsr_mutable_obj), INTENT(INOUT)             :: mutable
          !! mutable data
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mutable_release', &
-                                     routineP = moduleN//':'//routineN
-
 !   ---------------------------------------------------------------------------
 
       IF (.NOT. ASSOCIATED(mutable%m)) &
@@ -827,9 +801,6 @@ CONTAINS
          !! mutable data
       INTEGER, INTENT(IN)                                :: data_type
          !! data type to be stored here (see dbcsr_types for possibilities)
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mutable_new', &
-                                     routineP = moduleN//':'//routineN
 
 !   ---------------------------------------------------------------------------
 

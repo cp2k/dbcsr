@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">7 statements</a>
+    title=" 0.0% of total for procedures.">6 statements</a>
      </li> 
      
      
@@ -324,8 +324,6 @@ public subroutine mp_get_processor_name(procname, resultlen)
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">resultlen</span>
          <span class="c">!! Length (in characters) of procname (INTEGER)</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;mp_get_processor_name&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 <span class="cp">#if defined(__parallel)</span>
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">ierr</span>
 

@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.2% of total for source files.">124 statements</a>
+    title=" 0.2% of total for source files.">114 statements</a>
      </li> 
      
      
@@ -394,77 +394,62 @@
 <a name="ln-136"></a>
 <a name="ln-137"></a>   <span class="k">END SUBROUTINE </span><span class="n">remove_word</span>
 <a name="ln-138"></a>
-<a name="ln-139"></a>   <span class="k">SUBROUTINE </span><span class="n">lowercase</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
-<a name="ln-140"></a>      <span class="c">!! Convert all upper case characters in a string to lower case.</span>
+<a name="ln-139"></a>   <span class="k">SUBROUTINE </span><span class="n">uppercase</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+<a name="ln-140"></a>      <span class="c">!! Convert all lower case characters in a string to upper case.</span>
 <a name="ln-141"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">string</span>
 <a name="ln-142"></a>
 <a name="ln-143"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">iascii</span>
 <a name="ln-144"></a>
 <a name="ln-145"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">LEN_TRIM</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
 <a name="ln-146"></a>         <span class="n">iascii</span> <span class="o">=</span> <span class="nb">ICHAR</span><span class="p">(</span><span class="n">string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">))</span>
-<a name="ln-147"></a>         <span class="k">IF</span> <span class="p">((</span><span class="n">iascii</span> <span class="o">&gt;=</span> <span class="mi">65</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">(</span><span class="n">iascii</span> <span class="o">&lt;=</span> <span class="mi">90</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-148"></a><span class="k">            </span><span class="n">string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="nb">CHAR</span><span class="p">(</span><span class="n">iascii</span> <span class="o">+</span> <span class="mi">32</span><span class="p">)</span>
+<a name="ln-147"></a>         <span class="k">IF</span> <span class="p">((</span><span class="n">iascii</span> <span class="o">&gt;=</span> <span class="mi">97</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">(</span><span class="n">iascii</span> <span class="o">&lt;=</span> <span class="mi">122</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-148"></a><span class="k">            </span><span class="n">string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="nb">CHAR</span><span class="p">(</span><span class="n">iascii</span> <span class="o">-</span> <span class="mi">32</span><span class="p">)</span>
 <a name="ln-149"></a>         <span class="k">END IF</span>
 <a name="ln-150"></a><span class="k">      END DO</span>
 <a name="ln-151"></a>
-<a name="ln-152"></a><span class="k">   END SUBROUTINE </span><span class="n">lowercase</span>
+<a name="ln-152"></a><span class="k">   END SUBROUTINE </span><span class="n">uppercase</span>
 <a name="ln-153"></a>
-<a name="ln-154"></a>   <span class="k">SUBROUTINE </span><span class="n">uppercase</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
-<a name="ln-155"></a>      <span class="c">!! Convert all lower case characters in a string to upper case.</span>
-<a name="ln-156"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">string</span>
-<a name="ln-157"></a>
-<a name="ln-158"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">iascii</span>
-<a name="ln-159"></a>
-<a name="ln-160"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">LEN_TRIM</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
-<a name="ln-161"></a>         <span class="n">iascii</span> <span class="o">=</span> <span class="nb">ICHAR</span><span class="p">(</span><span class="n">string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">))</span>
-<a name="ln-162"></a>         <span class="k">IF</span> <span class="p">((</span><span class="n">iascii</span> <span class="o">&gt;=</span> <span class="mi">97</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">(</span><span class="n">iascii</span> <span class="o">&lt;=</span> <span class="mi">122</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-163"></a><span class="k">            </span><span class="n">string</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="nb">CHAR</span><span class="p">(</span><span class="n">iascii</span> <span class="o">-</span> <span class="mi">32</span><span class="p">)</span>
-<a name="ln-164"></a>         <span class="k">END IF</span>
-<a name="ln-165"></a><span class="k">      END DO</span>
+<a name="ln-154"></a>   <span class="k">SUBROUTINE </span><span class="n">xstring</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">ia</span><span class="p">,</span> <span class="n">ib</span><span class="p">)</span>
+<a name="ln-155"></a>
+<a name="ln-156"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">string</span>
+<a name="ln-157"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">ia</span><span class="p">,</span> <span class="n">ib</span>
+<a name="ln-158"></a>
+<a name="ln-159"></a>      <span class="n">ia</span> <span class="o">=</span> <span class="mi">1</span>
+<a name="ln-160"></a>      <span class="n">ib</span> <span class="o">=</span> <span class="nb">LEN_TRIM</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+<a name="ln-161"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">ib</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-162"></a><span class="k">         DO WHILE</span> <span class="p">(</span><span class="n">string</span><span class="p">(</span><span class="n">ia</span><span class="p">:</span><span class="n">ia</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
+<a name="ln-163"></a>            <span class="n">ia</span> <span class="o">=</span> <span class="n">ia</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-164"></a>         <span class="k">END DO</span>
+<a name="ln-165"></a><span class="k">      END IF</span>
 <a name="ln-166"></a>
-<a name="ln-167"></a><span class="k">   END SUBROUTINE </span><span class="n">uppercase</span>
+<a name="ln-167"></a><span class="k">   END SUBROUTINE </span><span class="n">xstring</span>
 <a name="ln-168"></a>
-<a name="ln-169"></a>   <span class="k">SUBROUTINE </span><span class="n">xstring</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">ia</span><span class="p">,</span> <span class="n">ib</span><span class="p">)</span>
+<a name="ln-169"></a>   <span class="k">FUNCTION </span><span class="n">str_comp</span><span class="p">(</span><span class="n">str1</span><span class="p">,</span> <span class="n">str2</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">equal</span><span class="p">)</span>
 <a name="ln-170"></a>
-<a name="ln-171"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">string</span>
-<a name="ln-172"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">ia</span><span class="p">,</span> <span class="n">ib</span>
+<a name="ln-171"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">str1</span><span class="p">,</span> <span class="n">str2</span>
+<a name="ln-172"></a>      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">equal</span>
 <a name="ln-173"></a>
-<a name="ln-174"></a>      <span class="n">ia</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-175"></a>      <span class="n">ib</span> <span class="o">=</span> <span class="nb">LEN_TRIM</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
-<a name="ln-176"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">ib</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-177"></a><span class="k">         DO WHILE</span> <span class="p">(</span><span class="n">string</span><span class="p">(</span><span class="n">ia</span><span class="p">:</span><span class="n">ia</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
-<a name="ln-178"></a>            <span class="n">ia</span> <span class="o">=</span> <span class="n">ia</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-179"></a>         <span class="k">END DO</span>
-<a name="ln-180"></a><span class="k">      END IF</span>
-<a name="ln-181"></a>
-<a name="ln-182"></a><span class="k">   END SUBROUTINE </span><span class="n">xstring</span>
-<a name="ln-183"></a>
-<a name="ln-184"></a>   <span class="k">FUNCTION </span><span class="n">str_comp</span><span class="p">(</span><span class="n">str1</span><span class="p">,</span> <span class="n">str2</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">equal</span><span class="p">)</span>
-<a name="ln-185"></a>
-<a name="ln-186"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">str1</span><span class="p">,</span> <span class="n">str2</span>
-<a name="ln-187"></a>      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">equal</span>
-<a name="ln-188"></a>
-<a name="ln-189"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">i1</span><span class="p">,</span> <span class="n">i2</span><span class="p">,</span> <span class="n">j1</span><span class="p">,</span> <span class="n">j2</span>
-<a name="ln-190"></a>
-<a name="ln-191"></a>      <span class="n">i1</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-192"></a>      <span class="n">i2</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-193"></a>      <span class="n">j1</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-194"></a>      <span class="n">j2</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-195"></a>      <span class="k">CALL </span><span class="n">xstring</span><span class="p">(</span><span class="n">str1</span><span class="p">,</span> <span class="n">i1</span><span class="p">,</span> <span class="n">i2</span><span class="p">)</span>
-<a name="ln-196"></a>      <span class="k">CALL </span><span class="n">xstring</span><span class="p">(</span><span class="n">str2</span><span class="p">,</span> <span class="n">j1</span><span class="p">,</span> <span class="n">j2</span><span class="p">)</span>
-<a name="ln-197"></a>      <span class="n">equal</span> <span class="o">=</span> <span class="p">(</span><span class="n">str1</span><span class="p">(</span><span class="n">i1</span><span class="p">:</span><span class="n">i2</span><span class="p">)</span> <span class="o">==</span> <span class="n">str2</span><span class="p">(</span><span class="n">j1</span><span class="p">:</span><span class="n">j2</span><span class="p">))</span>
-<a name="ln-198"></a>   <span class="k">END FUNCTION </span><span class="n">str_comp</span>
-<a name="ln-199"></a>
-<a name="ln-200"></a>   <span class="k">FUNCTION </span><span class="n">is_whitespace</span><span class="p">(</span><span class="n">testchar</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">resval</span><span class="p">)</span>
-<a name="ln-201"></a>      <span class="c">!! returns .true. if the character passed is a whitespace char.</span>
-<a name="ln-202"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">testchar</span>
-<a name="ln-203"></a>      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">resval</span>
-<a name="ln-204"></a>
-<a name="ln-205"></a>      <span class="n">resval</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a name="ln-206"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">ANY</span><span class="p">(</span><span class="n">default_blank_character</span> <span class="o">==</span> <span class="n">testchar</span><span class="p">))</span> <span class="n">resval</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-<a name="ln-207"></a>   <span class="k">END FUNCTION </span><span class="n">is_whitespace</span>
-<a name="ln-208"></a>
-<a name="ln-209"></a><span class="k">END MODULE </span><span class="n">dbcsr_string_utilities</span>
+<a name="ln-174"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">i1</span><span class="p">,</span> <span class="n">i2</span><span class="p">,</span> <span class="n">j1</span><span class="p">,</span> <span class="n">j2</span>
+<a name="ln-175"></a>
+<a name="ln-176"></a>      <span class="n">i1</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-177"></a>      <span class="n">i2</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-178"></a>      <span class="n">j1</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-179"></a>      <span class="n">j2</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-180"></a>      <span class="k">CALL </span><span class="n">xstring</span><span class="p">(</span><span class="n">str1</span><span class="p">,</span> <span class="n">i1</span><span class="p">,</span> <span class="n">i2</span><span class="p">)</span>
+<a name="ln-181"></a>      <span class="k">CALL </span><span class="n">xstring</span><span class="p">(</span><span class="n">str2</span><span class="p">,</span> <span class="n">j1</span><span class="p">,</span> <span class="n">j2</span><span class="p">)</span>
+<a name="ln-182"></a>      <span class="n">equal</span> <span class="o">=</span> <span class="p">(</span><span class="n">str1</span><span class="p">(</span><span class="n">i1</span><span class="p">:</span><span class="n">i2</span><span class="p">)</span> <span class="o">==</span> <span class="n">str2</span><span class="p">(</span><span class="n">j1</span><span class="p">:</span><span class="n">j2</span><span class="p">))</span>
+<a name="ln-183"></a>   <span class="k">END FUNCTION </span><span class="n">str_comp</span>
+<a name="ln-184"></a>
+<a name="ln-185"></a>   <span class="k">FUNCTION </span><span class="n">is_whitespace</span><span class="p">(</span><span class="n">testchar</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">resval</span><span class="p">)</span>
+<a name="ln-186"></a>      <span class="c">!! returns .true. if the character passed is a whitespace char.</span>
+<a name="ln-187"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">testchar</span>
+<a name="ln-188"></a>      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">resval</span>
+<a name="ln-189"></a>
+<a name="ln-190"></a>      <span class="n">resval</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-191"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">ANY</span><span class="p">(</span><span class="n">default_blank_character</span> <span class="o">==</span> <span class="n">testchar</span><span class="p">))</span> <span class="n">resval</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<a name="ln-192"></a>   <span class="k">END FUNCTION </span><span class="n">is_whitespace</span>
+<a name="ln-193"></a>
+<a name="ln-194"></a><span class="k">END MODULE </span><span class="n">dbcsr_string_utilities</span>
 </pre></div>
 
     </section>

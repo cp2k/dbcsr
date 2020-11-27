@@ -189,9 +189,9 @@
       
       <a class="list-group-item" href="../interface/mp_free_mem.html#moduleprocedure-mp_free_mem_d">mp_free_mem_d</a>
       
-      <a class="list-group-item" href="../interface/mp_free_mem.html#moduleprocedure-mp_free_mem_z">mp_free_mem_z</a>
-      
       <a class="list-group-item" href="../interface/mp_free_mem.html#moduleprocedure-mp_free_mem_r">mp_free_mem_r</a>
+      
+      <a class="list-group-item" href="../interface/mp_free_mem.html#moduleprocedure-mp_free_mem_z">mp_free_mem_z</a>
       
       <a class="list-group-item" href="../interface/mp_free_mem.html#moduleprocedure-mp_free_mem_c">mp_free_mem_c</a>
       
@@ -248,9 +248,9 @@
       
       <a class="list-group-item" href="../interface/mp_free_mem.html#moduleprocedure-mp_free_mem_d">mp_free_mem_d</a>
       
-      <a class="list-group-item" href="../interface/mp_free_mem.html#moduleprocedure-mp_free_mem_z">mp_free_mem_z</a>
-      
       <a class="list-group-item" href="../interface/mp_free_mem.html#moduleprocedure-mp_free_mem_r">mp_free_mem_r</a>
+      
+      <a class="list-group-item" href="../interface/mp_free_mem.html#moduleprocedure-mp_free_mem_z">mp_free_mem_z</a>
       
       <a class="list-group-item" href="../interface/mp_free_mem.html#moduleprocedure-mp_free_mem_c">mp_free_mem_c</a>
       
@@ -498,81 +498,6 @@ private subroutine <a href='../proc/mp_free_mem_d.html'>mp_free_mem_d</a>(DATA, 
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_free_mem_z"></span><h3>
-private subroutine <a href='../proc/mp_free_mem_z.html'>mp_free_mem_z</a>(DATA, stat)
-    
-    
-   
-</h3></div>
-  <div class="panel-body">
-       
-    
-
-
-
-
-
-
-
-<p>Deallocates am array, ... this is hackish
- as the Fortran version takes an integer, which we hope to get by reference</p>
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>complex(kind=real_8),</td>
-  <td></td>
-  <td></td>
-  
-  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
-  <td><strong>DATA</strong></td><td><p>data array to allocate</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(out),</td>
-  <td>optional</td>
-  
-  <td></td><td>::</td>
-  <td><strong>stat</strong></td><td><p>allocation status result</p></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-  </div>
-  </div>
-
-   
-    
-  <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-mp_free_mem_r"></span><h3>
 private subroutine <a href='../proc/mp_free_mem_r.html'>mp_free_mem_r</a>(DATA, stat)
     
@@ -612,6 +537,81 @@ private subroutine <a href='../proc/mp_free_mem_r.html'>mp_free_mem_r</a>(DATA, 
 <tr>
   
   <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
+  <td><strong>DATA</strong></td><td><p>data array to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>stat</strong></td><td><p>allocation status result</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+   
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_free_mem_z"></span><h3>
+private subroutine <a href='../proc/mp_free_mem_z.html'>mp_free_mem_z</a>(DATA, stat)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Deallocates am array, ... this is hackish
+ as the Fortran version takes an integer, which we hope to get by reference</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
   <td></td>
   <td></td>
   

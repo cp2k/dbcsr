@@ -258,8 +258,6 @@ CONTAINS
       INTEGER, INTENT(OUT)                               :: nlow
       INTEGER, INTENT(IN)                                :: mi, half
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'rec_split', routineP = moduleN//':'//routineN
-
       INTEGER                                            :: el, half_m, p_high, p_low
 
       half_m = mi + half - 1
@@ -285,8 +283,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: max_size
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: enum, rev_enum
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'enumerate_blk_sizes', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'enumerate_blk_sizes'
 
       INTEGER                                            :: handle, i, n
 
@@ -328,8 +325,7 @@ CONTAINS
                                                                 col_blk_sizes2enum, enum2col_blk_sizes
       LOGICAL, INTENT(IN), OPTIONAL                      :: noresize
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'acc_transpose_blocks', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'acc_transpose_blocks'
 
       INTEGER                                            :: blk_p, handle, handle1, i, m, mi, &
                                                             mi_max, n, nblks, ni, ni_max, offset, x, &
@@ -514,8 +510,7 @@ CONTAINS
          !! Block norms
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS, INTENT(IN) :: row_blk_sizes, col_blk_sizes
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'calculate_norms', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'calculate_norms'
 
       INTEGER                                            :: data_type, handle, nblks
 
@@ -576,8 +571,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
 
 # 45 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
-# 573 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F" 2
-# 574 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 568 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F" 2
+# 569 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
    SUBROUTINE calc_norms_d (norms, nblks, &
                                         blki, rbs, cbs, DATA)
      !! Calculates norms of the entire matrix with minimal overhead.
@@ -607,15 +602,15 @@ CONTAINS
          bp = blki(3, blk)
          row = blki(1, blk)
          col = blki(2, blk)
-# 604 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 599 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
          bpe = rbs(row)*cbs(col)
          norms(blk) = REAL((DDOT (bpe, data(bp), 1, data(bp), 1)), KIND = sp)
-# 610 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 605 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
       ENDDO
 !$OMP     end do
 !$OMP     end parallel
    END SUBROUTINE calc_norms_d
-# 574 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 569 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
    SUBROUTINE calc_norms_s (norms, nblks, &
                                         blki, rbs, cbs, DATA)
      !! Calculates norms of the entire matrix with minimal overhead.
@@ -645,15 +640,15 @@ CONTAINS
          bp = blki(3, blk)
          row = blki(1, blk)
          col = blki(2, blk)
-# 604 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 599 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
          bpe = rbs(row)*cbs(col)
          norms(blk) = REAL((SDOT (bpe, data(bp), 1, data(bp), 1)), KIND = sp)
-# 610 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 605 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
       ENDDO
 !$OMP     end do
 !$OMP     end parallel
    END SUBROUTINE calc_norms_s
-# 574 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 569 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
    SUBROUTINE calc_norms_z (norms, nblks, &
                                         blki, rbs, cbs, DATA)
      !! Calculates norms of the entire matrix with minimal overhead.
@@ -683,15 +678,15 @@ CONTAINS
          bp = blki(3, blk)
          row = blki(1, blk)
          col = blki(2, blk)
-# 607 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 602 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
          bpe = bp + rbs(row)*cbs(col) - 1
          norms(blk) = REAL(SUM(ABS(DATA(bp:bpe))**2), KIND=sp)
-# 610 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 605 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
       ENDDO
 !$OMP     end do
 !$OMP     end parallel
    END SUBROUTINE calc_norms_z
-# 574 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 569 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
    SUBROUTINE calc_norms_c (norms, nblks, &
                                         blki, rbs, cbs, DATA)
      !! Calculates norms of the entire matrix with minimal overhead.
@@ -721,14 +716,14 @@ CONTAINS
          bp = blki(3, blk)
          row = blki(1, blk)
          col = blki(2, blk)
-# 607 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 602 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
          bpe = bp + rbs(row)*cbs(col) - 1
          norms(blk) = REAL(SUM(ABS(DATA(bp:bpe))**2), KIND=sp)
-# 610 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 605 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
       ENDDO
 !$OMP     end do
 !$OMP     end parallel
    END SUBROUTINE calc_norms_c
-# 615 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
+# 610 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
 
 END MODULE dbcsr_mm_common

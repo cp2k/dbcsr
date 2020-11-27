@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">61 statements</a>
+    title=" 0.1% of total for procedures.">60 statements</a>
      </li> 
      
      
@@ -302,7 +302,7 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p>
   
 <tr>
   
-  <td><span class="anchor" id="variable-stack_descr~10"></span>type(<a href='../type/stack_descriptor_type.html'>stack_descriptor_type</a>),</td>
+  <td><span class="anchor" id="variable-stack_descr~6"></span>type(<a href='../type/stack_descriptor_type.html'>stack_descriptor_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -386,9 +386,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">POINTER</span>                  <span class="kd">::</span> <span class="n">stack_data</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">POINTER</span>                                   <span class="kd">::</span> <span class="n">stack_fillcount</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">stack_descriptor_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>            <span class="kd">::</span> <span class="n">stack_descr</span>
-
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_mm_sched_process&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">ithread</span><span class="p">,</span> <span class="n">sp</span><span class="p">,</span> <span class="n">stacked_datasize</span>
       <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">flop_per_entry</span><span class="p">,</span> <span class="n">total_flop</span>

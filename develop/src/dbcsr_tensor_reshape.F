@@ -34,7 +34,7 @@ MODULE dbcsr_tensor_reshape
                                  dbcsr_t_clear
    USE dbcsr_kinds, ONLY: default_string_length
    USE dbcsr_kinds, ONLY: real_8, real_4
-   USE dbcsr_api, ONLY: dbcsr_type_real_8, dbcsr_type_real_4, dbcsr_type_complex_4, dbcsr_type_complex_8
+   USE dbcsr_api, ONLY: dbcsr_type_real_4, dbcsr_type_complex_4, dbcsr_type_complex_8, dbcsr_type_real_8
    USE dbcsr_mpiwrap, ONLY: mp_alltoall, &
                             mp_environ, &
                             mp_irecv, &
@@ -340,13 +340,6 @@ CONTAINS
       CALL allocate_any(index, source=buffer%indx(1:indx_shape(1), 1:indx_shape(2)))
    END SUBROUTINE
 
-   SUBROUTINE block_buffer_iterator_reset(buffer)
-      !! Reset buffer block iterator
-      TYPE(block_buffer_type), INTENT(INOUT) :: buffer
-
-      buffer%endpos = 0
-   END SUBROUTINE
-
    PURE FUNCTION block_buffer_blocks_left(buffer)
       !! how many blocks left in iterator
       TYPE(block_buffer_type), INTENT(IN) :: buffer
@@ -364,8 +357,7 @@ CONTAINS
       INTEGER                                :: iproc, mynode, numnodes, rec_counter, &
                                                 send_counter
       INTEGER                                   :: handle
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_communicate_buffer', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_communicate_buffer'
 
       CALL timeset(routineN, handle)
       CALL mp_environ(numnodes, mynode, mp_comm)
@@ -380,19 +372,19 @@ CONTAINS
                rec_counter = rec_counter + 1
                CALL mp_irecv(buffer_recv(iproc)%indx, iproc, mp_comm, req_array(rec_counter, 3), tag=4)
                SELECT CASE (buffer_recv(iproc)%data_type)
-# 319 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
+# 311 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
                CASE (dbcsr_type_real_8)
                   CALL mp_irecv(buffer_recv(iproc)%msg_r_dp, iproc, mp_comm, req_array(rec_counter, 4), tag=7)
-# 319 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
+# 311 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
                CASE (dbcsr_type_real_4)
                   CALL mp_irecv(buffer_recv(iproc)%msg_r_sp, iproc, mp_comm, req_array(rec_counter, 4), tag=7)
-# 319 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
+# 311 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
                CASE (dbcsr_type_complex_8)
                   CALL mp_irecv(buffer_recv(iproc)%msg_c_dp, iproc, mp_comm, req_array(rec_counter, 4), tag=7)
-# 319 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
+# 311 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
                CASE (dbcsr_type_complex_4)
                   CALL mp_irecv(buffer_recv(iproc)%msg_c_sp, iproc, mp_comm, req_array(rec_counter, 4), tag=7)
-# 322 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
+# 314 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
                END SELECT
             END IF
          END DO
@@ -402,19 +394,19 @@ CONTAINS
                send_counter = send_counter + 1
                CALL mp_isend(buffer_send(iproc)%indx, iproc, mp_comm, req_array(send_counter, 1), tag=4)
                SELECT CASE (buffer_recv(iproc)%data_type)
-# 332 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
+# 324 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
                CASE (dbcsr_type_real_8)
                   CALL mp_isend(buffer_send(iproc)%msg_r_dp, iproc, mp_comm, req_array(send_counter, 2), tag=7)
-# 332 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
+# 324 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
                CASE (dbcsr_type_real_4)
                   CALL mp_isend(buffer_send(iproc)%msg_r_sp, iproc, mp_comm, req_array(send_counter, 2), tag=7)
-# 332 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
+# 324 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
                CASE (dbcsr_type_complex_8)
                   CALL mp_isend(buffer_send(iproc)%msg_c_dp, iproc, mp_comm, req_array(send_counter, 2), tag=7)
-# 332 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
+# 324 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
                CASE (dbcsr_type_complex_4)
                   CALL mp_isend(buffer_send(iproc)%msg_c_sp, iproc, mp_comm, req_array(send_counter, 2), tag=7)
-# 335 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
+# 327 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
                END SELECT
             END IF
          END DO
@@ -430,19 +422,19 @@ CONTAINS
          IF (buffer_recv(0)%nblock > 0) THEN
             buffer_recv(0)%indx(:, :) = buffer_send(0)%indx(:, :)
             SELECT CASE (buffer_recv(0)%data_type)
-# 351 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
+# 343 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
             CASE (dbcsr_type_real_8)
                buffer_recv(0)%msg_r_dp (:) = buffer_send(0)%msg_r_dp (:)
-# 351 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
+# 343 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
             CASE (dbcsr_type_real_4)
                buffer_recv(0)%msg_r_sp (:) = buffer_send(0)%msg_r_sp (:)
-# 351 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
+# 343 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
             CASE (dbcsr_type_complex_8)
                buffer_recv(0)%msg_c_dp (:) = buffer_send(0)%msg_c_dp (:)
-# 351 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
+# 343 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
             CASE (dbcsr_type_complex_4)
                buffer_recv(0)%msg_c_sp (:) = buffer_send(0)%msg_c_sp (:)
-# 354 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
+# 346 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
             END SELECT
          ENDIF
       ENDIF
@@ -450,7 +442,7 @@ CONTAINS
 
    END SUBROUTINE
 
-# 362 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
+# 354 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
    SUBROUTINE block_buffer_add_block_r_dp (buffer, ndata, index, block)
       !! add block to buffer.
       TYPE(block_buffer_type), INTENT(INOUT)               :: buffer
@@ -476,7 +468,7 @@ CONTAINS
       ENDIF
       buffer%endpos = buffer%endpos + 1
    END SUBROUTINE
-# 362 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
+# 354 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
    SUBROUTINE block_buffer_add_block_r_sp (buffer, ndata, index, block)
       !! add block to buffer.
       TYPE(block_buffer_type), INTENT(INOUT)               :: buffer
@@ -502,7 +494,7 @@ CONTAINS
       ENDIF
       buffer%endpos = buffer%endpos + 1
    END SUBROUTINE
-# 362 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
+# 354 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
    SUBROUTINE block_buffer_add_block_c_dp (buffer, ndata, index, block)
       !! add block to buffer.
       TYPE(block_buffer_type), INTENT(INOUT)               :: buffer
@@ -528,7 +520,7 @@ CONTAINS
       ENDIF
       buffer%endpos = buffer%endpos + 1
    END SUBROUTINE
-# 362 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
+# 354 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
    SUBROUTINE block_buffer_add_block_c_sp (buffer, ndata, index, block)
       !! add block to buffer.
       TYPE(block_buffer_type), INTENT(INOUT)               :: buffer
@@ -554,9 +546,9 @@ CONTAINS
       ENDIF
       buffer%endpos = buffer%endpos + 1
    END SUBROUTINE
-# 388 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
+# 380 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
 
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
+# 382 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
    SUBROUTINE block_buffer_get_next_block_r_dp (buffer, ndata, index, block, advance_iter)
       !! get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.
 
@@ -595,7 +587,7 @@ CONTAINS
 
       IF (do_advance) buffer%endpos = buffer%endpos + 1
    END SUBROUTINE
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
+# 382 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
    SUBROUTINE block_buffer_get_next_block_r_sp (buffer, ndata, index, block, advance_iter)
       !! get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.
 
@@ -634,7 +626,7 @@ CONTAINS
 
       IF (do_advance) buffer%endpos = buffer%endpos + 1
    END SUBROUTINE
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
+# 382 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
    SUBROUTINE block_buffer_get_next_block_c_dp (buffer, ndata, index, block, advance_iter)
       !! get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.
 
@@ -673,7 +665,7 @@ CONTAINS
 
       IF (do_advance) buffer%endpos = buffer%endpos + 1
    END SUBROUTINE
-# 390 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
+# 382 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
    SUBROUTINE block_buffer_get_next_block_c_sp (buffer, ndata, index, block, advance_iter)
       !! get next block from buffer. Iterator is advanced only if block is retrieved or advance_iter.
 
@@ -712,6 +704,6 @@ CONTAINS
 
       IF (do_advance) buffer%endpos = buffer%endpos + 1
    END SUBROUTINE
-# 429 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
+# 421 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F"
 
 END MODULE dbcsr_tensor_reshape

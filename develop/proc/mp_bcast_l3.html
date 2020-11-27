@@ -226,7 +226,7 @@ private subroutine mp_bcast_l3(msg, source, gid)
   
 <tr>
   
-  <td><span class="anchor" id="variable-msg~64"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-msg~60"></span>integer(kind=int_8),</td>
   <td></td>
   <td></td>
   
@@ -256,7 +256,7 @@ private subroutine mp_bcast_l3(msg, source, gid)
   
 <tr>
   
-  <td><span class="anchor" id="variable-gid~67"></span>integer</td>
+  <td><span class="anchor" id="variable-gid~65"></span>integer</td>
   <td></td>
   <td></td>
   
@@ -340,8 +340,7 @@ private subroutine mp_bcast_l3(msg, source, gid)
          <span class="c">!! Data to broadcast</span>
       <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">source</span><span class="p">,</span> <span class="n">gid</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;mp_bcast_l3&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;mp_bcast_l3&#39;</span>
 
       <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">handle</span><span class="p">,</span> <span class="n">ierr</span><span class="p">,</span> <span class="n">msglen</span>
 

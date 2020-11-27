@@ -227,7 +227,7 @@ private subroutine mp_allgather_d22(msgout, msgin, gid)
   
 <tr>
   
-  <td><span class="anchor" id="variable-msgout~53"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-msgout~51"></span>real(kind=real_8),</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -242,7 +242,7 @@ private subroutine mp_allgather_d22(msgout, msgin, gid)
   
 <tr>
   
-  <td><span class="anchor" id="variable-msgin~55"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-msgin~53"></span>real(kind=real_8),</td>
   <td>intent(out),</td>
   <td></td>
   
@@ -257,7 +257,7 @@ private subroutine mp_allgather_d22(msgout, msgin, gid)
   
 <tr>
   
-  <td><span class="anchor" id="variable-gid~142"></span>integer,</td>
+  <td><span class="anchor" id="variable-gid~137"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -343,8 +343,7 @@ private subroutine mp_allgather_d22(msgout, msgin, gid)
       <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>       <span class="kd">::</span> <span class="n">msgin</span><span class="p">(:,</span> <span class="p">:)</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">gid</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;mp_allgather_d22&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;mp_allgather_d22&#39;</span>
 
       <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">handle</span><span class="p">,</span> <span class="n">ierr</span>
 <span class="cp">#if defined(__parallel)</span>

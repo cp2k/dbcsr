@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">6 statements</a>
+    title=" 0.0% of total for procedures.">5 statements</a>
      </li> 
      
      
@@ -323,11 +323,6 @@ private subroutine dbcsr_scalar_get_value_s(encapsulated_scalar, value)
         <span class="c">!! encapsulated scalar</span>
       <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                <span class="kd">::</span> <span class="k">value</span>
         <span class="c">!! value of the scalar</span>
-
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_scalar_get_value_s&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
-
-<span class="c">!   ---------------------------------------------------------------------------</span>
 
       <span class="k">value</span> <span class="o">=</span> <span class="n">encapsulated_scalar</span><span class="p">%</span><span class="n">r_sp</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_scalar_get_value_s</span>

@@ -47,9 +47,6 @@ CONTAINS
       CHARACTER(LEN=*), INTENT(IN)                       :: file_name
       INTEGER, INTENT(IN)                                :: unit_number
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'assign_preconnection', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                            :: ic, islot, nc
 
       IF ((unit_number < 1) .OR. (unit_number > max_unit_number)) THEN
@@ -103,8 +100,6 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: unit_number
       CHARACTER(LEN=*), INTENT(IN), OPTIONAL             :: file_status
       LOGICAL, INTENT(IN), OPTIONAL                      :: keep_preconnection
-
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'close_file', routineP = moduleN//':'//routineN
 
       CHARACTER(LEN=2*default_path_length)               :: message
       CHARACTER(LEN=6)                                   :: status_string
@@ -180,9 +175,6 @@ CONTAINS
       CHARACTER(LEN=*), INTENT(IN)                       :: file_name
       INTEGER                                            :: unit_number
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'delete_preconnection', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                            :: ic, nc
 
       nc = SIZE(preconnected)
@@ -239,29 +231,6 @@ CONTAINS
 
    END FUNCTION get_unit_number
 
-   SUBROUTINE init_preconnection_list()
-      !! Allocate and initialise the list of preconnected units
-
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'init_preconnection_list', &
-                                     routineP = moduleN//':'//routineN
-
-      INTEGER                                            :: ic, nc
-
-      nc = SIZE(preconnected)
-
-      DO ic = 1, nc
-         preconnected(ic)%file_name = ""
-         preconnected(ic)%unit_number = -1
-      END DO
-
-      ! Define reserved unit numbers
-      preconnected(1)%file_name = "stdin"
-      preconnected(1)%unit_number = default_input_unit
-      preconnected(2)%file_name = "stdout"
-      preconnected(2)%unit_number = default_output_unit
-
-   END SUBROUTINE init_preconnection_list
-
    SUBROUTINE open_file(file_name, file_status, file_form, file_action, &
                         file_position, file_pad, unit_number, debug, &
                         skip_get_unit_number, file_access)
@@ -276,8 +245,7 @@ CONTAINS
       CHARACTER(LEN=*), INTENT(IN), OPTIONAL             :: file_access
          !! file access mode
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'open_file', routineP = moduleN//':'//routineN
-
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'open_file'
       CHARACTER(LEN=11) :: access_string, action_string, current_action, current_form, &
                            form_string, pad_string, position_string, status_string
       CHARACTER(LEN=2*default_path_length)               :: message
@@ -449,9 +417,6 @@ CONTAINS
 
       INTEGER, INTENT(IN), OPTIONAL                      :: output_unit
          !! which unit to print to (optional)
-
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'print_preconnection_list', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: ic, nc, unit
 

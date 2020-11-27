@@ -143,9 +143,6 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: datatype
       INTEGER                                            :: size
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_datatype_sizeof', &
-                                     routineP = moduleN//':'//routineN
-
       size = 0
       SELECT CASE (datatype)
       CASE (dbcsr_type_int_4)

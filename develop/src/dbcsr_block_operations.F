@@ -139,9 +139,6 @@ CONTAINS
          !! lower bound of 2nd dimension for target
          !! lower bound of 2nd dimension for source
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_block_transpose_aa', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                            :: data_size, lb2_s, lb2_t, lb_s, lb_t, &
                                                             ub_s, ub_t
 !     ---------------------------------------------------------------------------
@@ -295,9 +292,6 @@ CONTAINS
       TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: scale
          !! scale data
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_block_copy_aa', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                            :: data_size, lb_s, lb_t, ub_s, ub_t
 
 !     ---------------------------------------------------------------------------
@@ -397,8 +391,7 @@ CONTAINS
          !! lower bound for destination (and source if not given explicitly)
          !! lower bound of 2nd dimension for target
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_block_scale', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_block_scale'
 
       INTEGER                                            :: data_size, handle, lb2_t, lb_t, ub_t
 !     ---------------------------------------------------------------------------
@@ -469,8 +462,7 @@ CONTAINS
          !! lower bound for destination (and source if not given explicitly)
          !! lower bound of 2nd dimension for target
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_block_real_neg', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_block_real_neg'
 
       INTEGER                                            :: data_size, handle, lb2_t, lb_t, ub_t
 !     ---------------------------------------------------------------------------
@@ -551,8 +543,7 @@ CONTAINS
          !! lower bound for destination (and source if not given explicitly)
          !! lower bound of 2nd dimension for target
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_block_conjg', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_block_conjg'
 
       INTEGER                                            :: data_size, handle, lb2_t, lb_t, ub_t
 !     ---------------------------------------------------------------------------
@@ -614,8 +605,7 @@ CONTAINS
          !! number of rows in existing block
          !! number of columns in existing block
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_block_transpose_a', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_block_transpose_a'
 
       INTEGER                                            :: handle
 !     ---------------------------------------------------------------------------
@@ -661,9 +651,6 @@ CONTAINS
          !! 2nd dimension lower bound
          !! 2nd dimension data size
          !! 2nd dimension lower bound for source
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_copy_aa', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: lb2_s, lb_s, ub, ub2, ub2_s, ub_s
 !     ---------------------------------------------------------------------------
@@ -712,7 +699,6 @@ CONTAINS
             lb2_s = lb2
             ub2_s = ub2
          ENDIF
-         !write(*,*)routineN//" lb,ub2D <- S",lb2, ub2, lb2_s, ub2_s
       ENDIF
       SELECT CASE (src%d%data_type)
       CASE (dbcsr_type_real_4)
@@ -844,8 +830,7 @@ CONTAINS
          !! lower bounds for source
          !! sizes for source
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_copy_aa2', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_copy_aa2'
 
       INTEGER                                            :: dst_d, dst_dt, handle, src_d, src_dt
       INTEGER, DIMENSION(2)                              :: dst_ub, src_ub
@@ -1012,8 +997,6 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: lb2, ub2
       LOGICAL, INTENT(in)                                :: tr
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_clear_nt', &
-                                     routineP = moduleN//':'//routineN
 !     ---------------------------------------------------------------------------
       IF (tr) THEN
          CALL dbcsr_data_clear0(area, lb=lb2, ub=ub2, value=value, lb2=lb, ub2=ub)
@@ -1036,12 +1019,8 @@ CONTAINS
          !! upper bound for clearing
          !! upper bound for clearing
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_clear0', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                            :: l, l2, s, u, u2
 !     ---------------------------------------------------------------------------
-!     CALL timeset(routineN, handle)
       IF (.NOT. ASSOCIATED(area%d)) &
          DBCSR_ABORT("Data area must be setup.")
       IF (PRESENT(value)) THEN
@@ -1267,8 +1246,6 @@ CONTAINS
          !! offset in target
          !! offset in source
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_block_partial_copy', &
-                                     routineP = moduleN//':'//routineN
       LOGICAL, PARAMETER                                 :: verification = careful_mod
 
       INTEGER                                            :: dst_o, src_o
@@ -1400,9 +1377,6 @@ CONTAINS
          !! Block to add to block_a
       INTEGER, INTENT(IN), OPTIONAL                      :: len
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_add_anytype', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                            :: n
 !     ---------------------------------------------------------------------------
       IF (careful_mod) THEN
@@ -1449,8 +1423,6 @@ CONTAINS
          !! Block to add to block_a
       INTEGER, INTENT(IN)                                :: lb_a, lb_b, len
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_add_anytype_bounds', &
-                                     routineP = moduleN//':'//routineN
 !     ---------------------------------------------------------------------------
       IF (careful_mod) THEN
          IF (dbcsr_data_get_type(block_a) /= dbcsr_data_get_type(block_a)) &
@@ -1480,8 +1452,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp"
 
 # 45 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp"
-# 1477 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F" 2
-# 1478 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
+# 1449 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F" 2
+# 1450 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
    PURE_BLOCKOPS SUBROUTINE block_partial_copy_d (dst, dst_rs, dst_cs, dst_tr, &
                                                               src, src_rs, src_cs, src_tr, &
                                                               dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
@@ -1503,9 +1475,6 @@ CONTAINS
       LOGICAL, INTENT(IN)                      :: src_tr
       INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
                                                   src_c_lb, nrow, ncol
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_partial_copy_d', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                  :: col, row
 !    ---------------------------------------------------------------------------
@@ -1582,8 +1551,6 @@ CONTAINS
       INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
                                                   src_c_lb, nrow, ncol
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_partial_copy_1d2d_d', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
 !    Factors out the 4 combinations to remove branches from the inner loop.
 !    rs is the logical row size so it always remains the leading dimension.
@@ -1672,9 +1639,6 @@ CONTAINS
       INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
                                                   src_c_lb, nrow, ncol
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_partial_copy_2d1d_d', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                  :: col, row
 !    ---------------------------------------------------------------------------
 !    Factors out the 4 combinations to remove branches from the inner loop.
@@ -1731,8 +1695,6 @@ CONTAINS
       INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
                                                   src_c_lb, nrow, ncol
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_partial_copy_2d2d_d', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
 !    Factors out the 4 combinations to remove branches from the inner loop.
 !    rs is the logical row size so it always remains the leading dimension.
@@ -1816,8 +1778,6 @@ CONTAINS
       REAL(kind=real_8), DIMENSION(*), INTENT(IN)  :: extent_in
         !! input data
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_d', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
       extent_out(out_fe:out_fe + n - 1) = extent_in(in_fe:in_fe + n - 1)
    END SUBROUTINE block_copy_d
@@ -1837,8 +1797,6 @@ CONTAINS
         !! input matrix size
         !! input matrix size
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_d', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
 #if defined(__LIBXSMM_TRANS)
       CALL libxsmm_otrans(libxsmm_ptr1(extent_out), libxsmm_ptr1(extent_in), &
@@ -1863,8 +1821,6 @@ CONTAINS
       REAL(kind=real_8), DIMENSION(:), INTENT(IN)             :: extent_in
         !! input matrix in the form of a 1-d array
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_2d1d_d', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
       extent_out = RESHAPE(extent_in, (/rows, columns/))
    END SUBROUTINE block_copy_2d1d_d
@@ -1881,8 +1837,6 @@ CONTAINS
       REAL(kind=real_8), DIMENSION(rows*columns), INTENT(IN)  :: extent_in
         !! input matrix in the form of a 1-d array
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_1d1d_d', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
       extent_out(:) = extent_in(:)
    END SUBROUTINE block_copy_1d1d_d
@@ -1899,8 +1853,6 @@ CONTAINS
       REAL(kind=real_8), DIMENSION(rows, columns), INTENT(IN)  :: extent_in
         !! input matrix in the form of a 2-d array
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_2d2d_d', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
       extent_out(:, :) = extent_in(:, :)
    END SUBROUTINE block_copy_2d2d_d
@@ -1920,8 +1872,6 @@ CONTAINS
       REAL(kind=real_8), DIMENSION(:), INTENT(IN)                      :: extent_in
         !! input matrix in the form of a 1-d array
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_2d1d_d', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
 #if defined(__LIBXSMM_TRANS)
       CALL libxsmm_otrans(libxsmm_ptr2(extent_out), libxsmm_ptr1(extent_in), &
@@ -1945,8 +1895,6 @@ CONTAINS
       REAL(kind=real_8), DIMENSION(rows, columns), INTENT(IN) :: extent_in
         !! input matrix in the form of a 2-d array
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_1d2d_d', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
       extent_out = RESHAPE(extent_in, (/rows*columns/))
    END SUBROUTINE block_copy_1d2d_d
@@ -1966,8 +1914,6 @@ CONTAINS
       REAL(kind=real_8), DIMENSION(rows, columns), INTENT(IN) :: extent_in
         !! input matrix in the form of a 2-d array
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_1d2d_d', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
 #if defined(__LIBXSMM_TRANS)
       CALL libxsmm_otrans(libxsmm_ptr1(extent_out), libxsmm_ptr2(extent_in), &
@@ -1991,8 +1937,6 @@ CONTAINS
       REAL(kind=real_8), DIMENSION(rows*columns), INTENT(INOUT) :: extent
         !! Matrix in the form of a 1-d array
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_inplace_d', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
 #if defined(__LIBXSMM_TRANS) && 0
       CALL libxsmm_itrans(libxsmm_ptr1(extent), 8, rows, columns, rows)
@@ -2027,8 +1971,6 @@ CONTAINS
         !! source data array
       INTEGER, INTENT(IN), OPTIONAL            :: source_lb
         !! lower bound of source
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_set_ad', &
-                                     routineP = moduleN//':'//routineN
       INTEGER                                  :: lb_s, ub, ub_s
 
       REAL(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: cont_data
@@ -2060,7 +2002,7 @@ CONTAINS
       REAL(kind=real_8), DIMENSION(len), INTENT(IN)    :: block_b
       block_a(1:len) = block_a(1:len) + block_b(1:len)
    END SUBROUTINE block_add_d
-# 1478 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
+# 1450 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
    PURE_BLOCKOPS SUBROUTINE block_partial_copy_s (dst, dst_rs, dst_cs, dst_tr, &
                                                               src, src_rs, src_cs, src_tr, &
                                                               dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
@@ -2082,9 +2024,6 @@ CONTAINS
       LOGICAL, INTENT(IN)                      :: src_tr
       INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
                                                   src_c_lb, nrow, ncol
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_partial_copy_s', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                  :: col, row
 !    ---------------------------------------------------------------------------
@@ -2161,8 +2100,6 @@ CONTAINS
       INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
                                                   src_c_lb, nrow, ncol
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_partial_copy_1d2d_s', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
 !    Factors out the 4 combinations to remove branches from the inner loop.
 !    rs is the logical row size so it always remains the leading dimension.
@@ -2251,9 +2188,6 @@ CONTAINS
       INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
                                                   src_c_lb, nrow, ncol
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_partial_copy_2d1d_s', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                  :: col, row
 !    ---------------------------------------------------------------------------
 !    Factors out the 4 combinations to remove branches from the inner loop.
@@ -2310,8 +2244,6 @@ CONTAINS
       INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
                                                   src_c_lb, nrow, ncol
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_partial_copy_2d2d_s', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
 !    Factors out the 4 combinations to remove branches from the inner loop.
 !    rs is the logical row size so it always remains the leading dimension.
@@ -2395,8 +2327,6 @@ CONTAINS
       REAL(kind=real_4), DIMENSION(*), INTENT(IN)  :: extent_in
         !! input data
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_s', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
       extent_out(out_fe:out_fe + n - 1) = extent_in(in_fe:in_fe + n - 1)
    END SUBROUTINE block_copy_s
@@ -2416,8 +2346,6 @@ CONTAINS
         !! input matrix size
         !! input matrix size
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_s', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
 #if defined(__LIBXSMM_TRANS)
       CALL libxsmm_otrans(libxsmm_ptr1(extent_out), libxsmm_ptr1(extent_in), &
@@ -2442,8 +2370,6 @@ CONTAINS
       REAL(kind=real_4), DIMENSION(:), INTENT(IN)             :: extent_in
         !! input matrix in the form of a 1-d array
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_2d1d_s', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
       extent_out = RESHAPE(extent_in, (/rows, columns/))
    END SUBROUTINE block_copy_2d1d_s
@@ -2460,8 +2386,6 @@ CONTAINS
       REAL(kind=real_4), DIMENSION(rows*columns), INTENT(IN)  :: extent_in
         !! input matrix in the form of a 1-d array
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_1d1d_s', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
       extent_out(:) = extent_in(:)
    END SUBROUTINE block_copy_1d1d_s
@@ -2478,8 +2402,6 @@ CONTAINS
       REAL(kind=real_4), DIMENSION(rows, columns), INTENT(IN)  :: extent_in
         !! input matrix in the form of a 2-d array
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_2d2d_s', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
       extent_out(:, :) = extent_in(:, :)
    END SUBROUTINE block_copy_2d2d_s
@@ -2499,8 +2421,6 @@ CONTAINS
       REAL(kind=real_4), DIMENSION(:), INTENT(IN)                      :: extent_in
         !! input matrix in the form of a 1-d array
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_2d1d_s', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
 #if defined(__LIBXSMM_TRANS)
       CALL libxsmm_otrans(libxsmm_ptr2(extent_out), libxsmm_ptr1(extent_in), &
@@ -2524,8 +2444,6 @@ CONTAINS
       REAL(kind=real_4), DIMENSION(rows, columns), INTENT(IN) :: extent_in
         !! input matrix in the form of a 2-d array
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_1d2d_s', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
       extent_out = RESHAPE(extent_in, (/rows*columns/))
    END SUBROUTINE block_copy_1d2d_s
@@ -2545,8 +2463,6 @@ CONTAINS
       REAL(kind=real_4), DIMENSION(rows, columns), INTENT(IN) :: extent_in
         !! input matrix in the form of a 2-d array
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_1d2d_s', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
 #if defined(__LIBXSMM_TRANS)
       CALL libxsmm_otrans(libxsmm_ptr1(extent_out), libxsmm_ptr2(extent_in), &
@@ -2570,8 +2486,6 @@ CONTAINS
       REAL(kind=real_4), DIMENSION(rows*columns), INTENT(INOUT) :: extent
         !! Matrix in the form of a 1-d array
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_inplace_s', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
 #if defined(__LIBXSMM_TRANS) && 0
       CALL libxsmm_itrans(libxsmm_ptr1(extent), 4, rows, columns, rows)
@@ -2606,8 +2520,6 @@ CONTAINS
         !! source data array
       INTEGER, INTENT(IN), OPTIONAL            :: source_lb
         !! lower bound of source
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_set_as', &
-                                     routineP = moduleN//':'//routineN
       INTEGER                                  :: lb_s, ub, ub_s
 
       REAL(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: cont_data
@@ -2639,7 +2551,7 @@ CONTAINS
       REAL(kind=real_4), DIMENSION(len), INTENT(IN)    :: block_b
       block_a(1:len) = block_a(1:len) + block_b(1:len)
    END SUBROUTINE block_add_s
-# 1478 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
+# 1450 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
    PURE_BLOCKOPS SUBROUTINE block_partial_copy_z (dst, dst_rs, dst_cs, dst_tr, &
                                                               src, src_rs, src_cs, src_tr, &
                                                               dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
@@ -2661,9 +2573,6 @@ CONTAINS
       LOGICAL, INTENT(IN)                      :: src_tr
       INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
                                                   src_c_lb, nrow, ncol
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_partial_copy_z', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                  :: col, row
 !    ---------------------------------------------------------------------------
@@ -2740,8 +2649,6 @@ CONTAINS
       INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
                                                   src_c_lb, nrow, ncol
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_partial_copy_1d2d_z', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
 !    Factors out the 4 combinations to remove branches from the inner loop.
 !    rs is the logical row size so it always remains the leading dimension.
@@ -2830,9 +2737,6 @@ CONTAINS
       INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
                                                   src_c_lb, nrow, ncol
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_partial_copy_2d1d_z', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                  :: col, row
 !    ---------------------------------------------------------------------------
 !    Factors out the 4 combinations to remove branches from the inner loop.
@@ -2889,8 +2793,6 @@ CONTAINS
       INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
                                                   src_c_lb, nrow, ncol
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_partial_copy_2d2d_z', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
 !    Factors out the 4 combinations to remove branches from the inner loop.
 !    rs is the logical row size so it always remains the leading dimension.
@@ -2974,8 +2876,6 @@ CONTAINS
       COMPLEX(kind=real_8), DIMENSION(*), INTENT(IN)  :: extent_in
         !! input data
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_z', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
       extent_out(out_fe:out_fe + n - 1) = extent_in(in_fe:in_fe + n - 1)
    END SUBROUTINE block_copy_z
@@ -2995,8 +2895,6 @@ CONTAINS
         !! input matrix size
         !! input matrix size
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_z', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
 #if defined(__LIBXSMM_TRANS)
       CALL libxsmm_otrans(libxsmm_ptr1(extent_out), libxsmm_ptr1(extent_in), &
@@ -3021,8 +2919,6 @@ CONTAINS
       COMPLEX(kind=real_8), DIMENSION(:), INTENT(IN)             :: extent_in
         !! input matrix in the form of a 1-d array
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_2d1d_z', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
       extent_out = RESHAPE(extent_in, (/rows, columns/))
    END SUBROUTINE block_copy_2d1d_z
@@ -3039,8 +2935,6 @@ CONTAINS
       COMPLEX(kind=real_8), DIMENSION(rows*columns), INTENT(IN)  :: extent_in
         !! input matrix in the form of a 1-d array
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_1d1d_z', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
       extent_out(:) = extent_in(:)
    END SUBROUTINE block_copy_1d1d_z
@@ -3057,8 +2951,6 @@ CONTAINS
       COMPLEX(kind=real_8), DIMENSION(rows, columns), INTENT(IN)  :: extent_in
         !! input matrix in the form of a 2-d array
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_2d2d_z', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
       extent_out(:, :) = extent_in(:, :)
    END SUBROUTINE block_copy_2d2d_z
@@ -3078,8 +2970,6 @@ CONTAINS
       COMPLEX(kind=real_8), DIMENSION(:), INTENT(IN)                      :: extent_in
         !! input matrix in the form of a 1-d array
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_2d1d_z', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
 #if defined(__LIBXSMM_TRANS)
       CALL libxsmm_otrans(libxsmm_ptr2(extent_out), libxsmm_ptr1(extent_in), &
@@ -3103,8 +2993,6 @@ CONTAINS
       COMPLEX(kind=real_8), DIMENSION(rows, columns), INTENT(IN) :: extent_in
         !! input matrix in the form of a 2-d array
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_1d2d_z', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
       extent_out = RESHAPE(extent_in, (/rows*columns/))
    END SUBROUTINE block_copy_1d2d_z
@@ -3124,8 +3012,6 @@ CONTAINS
       COMPLEX(kind=real_8), DIMENSION(rows, columns), INTENT(IN) :: extent_in
         !! input matrix in the form of a 2-d array
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_1d2d_z', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
 #if defined(__LIBXSMM_TRANS)
       CALL libxsmm_otrans(libxsmm_ptr1(extent_out), libxsmm_ptr2(extent_in), &
@@ -3149,8 +3035,6 @@ CONTAINS
       COMPLEX(kind=real_8), DIMENSION(rows*columns), INTENT(INOUT) :: extent
         !! Matrix in the form of a 1-d array
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_inplace_z', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
 #if defined(__LIBXSMM_TRANS) && 0
       CALL libxsmm_itrans(libxsmm_ptr1(extent), 16, rows, columns, rows)
@@ -3185,8 +3069,6 @@ CONTAINS
         !! source data array
       INTEGER, INTENT(IN), OPTIONAL            :: source_lb
         !! lower bound of source
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_set_az', &
-                                     routineP = moduleN//':'//routineN
       INTEGER                                  :: lb_s, ub, ub_s
 
       COMPLEX(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: cont_data
@@ -3218,7 +3100,7 @@ CONTAINS
       COMPLEX(kind=real_8), DIMENSION(len), INTENT(IN)    :: block_b
       block_a(1:len) = block_a(1:len) + block_b(1:len)
    END SUBROUTINE block_add_z
-# 1478 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
+# 1450 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
    PURE_BLOCKOPS SUBROUTINE block_partial_copy_c (dst, dst_rs, dst_cs, dst_tr, &
                                                               src, src_rs, src_cs, src_tr, &
                                                               dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
@@ -3240,9 +3122,6 @@ CONTAINS
       LOGICAL, INTENT(IN)                      :: src_tr
       INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
                                                   src_c_lb, nrow, ncol
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_partial_copy_c', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                  :: col, row
 !    ---------------------------------------------------------------------------
@@ -3319,8 +3198,6 @@ CONTAINS
       INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
                                                   src_c_lb, nrow, ncol
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_partial_copy_1d2d_c', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
 !    Factors out the 4 combinations to remove branches from the inner loop.
 !    rs is the logical row size so it always remains the leading dimension.
@@ -3409,9 +3286,6 @@ CONTAINS
       INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
                                                   src_c_lb, nrow, ncol
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_partial_copy_2d1d_c', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                  :: col, row
 !    ---------------------------------------------------------------------------
 !    Factors out the 4 combinations to remove branches from the inner loop.
@@ -3468,8 +3342,6 @@ CONTAINS
       INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
                                                   src_c_lb, nrow, ncol
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_partial_copy_2d2d_c', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
 !    Factors out the 4 combinations to remove branches from the inner loop.
 !    rs is the logical row size so it always remains the leading dimension.
@@ -3553,8 +3425,6 @@ CONTAINS
       COMPLEX(kind=real_4), DIMENSION(*), INTENT(IN)  :: extent_in
         !! input data
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_c', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
       extent_out(out_fe:out_fe + n - 1) = extent_in(in_fe:in_fe + n - 1)
    END SUBROUTINE block_copy_c
@@ -3574,8 +3444,6 @@ CONTAINS
         !! input matrix size
         !! input matrix size
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_c', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
 #if defined(__LIBXSMM_TRANS)
       CALL libxsmm_otrans(libxsmm_ptr1(extent_out), libxsmm_ptr1(extent_in), &
@@ -3600,8 +3468,6 @@ CONTAINS
       COMPLEX(kind=real_4), DIMENSION(:), INTENT(IN)             :: extent_in
         !! input matrix in the form of a 1-d array
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_2d1d_c', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
       extent_out = RESHAPE(extent_in, (/rows, columns/))
    END SUBROUTINE block_copy_2d1d_c
@@ -3618,8 +3484,6 @@ CONTAINS
       COMPLEX(kind=real_4), DIMENSION(rows*columns), INTENT(IN)  :: extent_in
         !! input matrix in the form of a 1-d array
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_1d1d_c', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
       extent_out(:) = extent_in(:)
    END SUBROUTINE block_copy_1d1d_c
@@ -3636,8 +3500,6 @@ CONTAINS
       COMPLEX(kind=real_4), DIMENSION(rows, columns), INTENT(IN)  :: extent_in
         !! input matrix in the form of a 2-d array
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_2d2d_c', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
       extent_out(:, :) = extent_in(:, :)
    END SUBROUTINE block_copy_2d2d_c
@@ -3657,8 +3519,6 @@ CONTAINS
       COMPLEX(kind=real_4), DIMENSION(:), INTENT(IN)                      :: extent_in
         !! input matrix in the form of a 1-d array
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_2d1d_c', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
 #if defined(__LIBXSMM_TRANS)
       CALL libxsmm_otrans(libxsmm_ptr2(extent_out), libxsmm_ptr1(extent_in), &
@@ -3682,8 +3542,6 @@ CONTAINS
       COMPLEX(kind=real_4), DIMENSION(rows, columns), INTENT(IN) :: extent_in
         !! input matrix in the form of a 2-d array
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_copy_1d2d_c', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
       extent_out = RESHAPE(extent_in, (/rows*columns/))
    END SUBROUTINE block_copy_1d2d_c
@@ -3703,8 +3561,6 @@ CONTAINS
       COMPLEX(kind=real_4), DIMENSION(rows, columns), INTENT(IN) :: extent_in
         !! input matrix in the form of a 2-d array
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_copy_1d2d_c', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
 #if defined(__LIBXSMM_TRANS)
       CALL libxsmm_otrans(libxsmm_ptr1(extent_out), libxsmm_ptr2(extent_in), &
@@ -3728,8 +3584,6 @@ CONTAINS
       COMPLEX(kind=real_4), DIMENSION(rows*columns), INTENT(INOUT) :: extent
         !! Matrix in the form of a 1-d array
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'block_transpose_inplace_c', &
-                                     routineP = moduleN//':'//routineN
 !    ---------------------------------------------------------------------------
 #if defined(__LIBXSMM_TRANS) && 0
       CALL libxsmm_itrans(libxsmm_ptr1(extent), 8, rows, columns, rows)
@@ -3764,8 +3618,6 @@ CONTAINS
         !! source data array
       INTEGER, INTENT(IN), OPTIONAL            :: source_lb
         !! lower bound of source
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_set_ac', &
-                                     routineP = moduleN//':'//routineN
       INTEGER                                  :: lb_s, ub, ub_s
 
       COMPLEX(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: cont_data
@@ -3797,6 +3649,6 @@ CONTAINS
       COMPLEX(kind=real_4), DIMENSION(len), INTENT(IN)    :: block_b
       block_a(1:len) = block_a(1:len) + block_b(1:len)
    END SUBROUTINE block_add_c
-# 2057 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
+# 1999 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
 
 END MODULE dbcsr_block_operations

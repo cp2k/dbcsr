@@ -19,7 +19,7 @@ MODULE dbcsr_tensor_test
 # 15 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 # 16 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
-   USE dbcsr_api, ONLY: dbcsr_type_real_8, dbcsr_type_real_4, dbcsr_type_complex_8, dbcsr_type_complex_4
+   USE dbcsr_api, ONLY: dbcsr_type_real_8, dbcsr_type_complex_8, dbcsr_type_complex_4, dbcsr_type_real_4
    USE dbcsr_tas_base, ONLY: dbcsr_tas_info
    USE dbcsr_tensor, ONLY: &
       dbcsr_t_copy, dbcsr_t_get_block, dbcsr_t_iterator_type, dbcsr_t_iterator_blocks_left, &
@@ -63,86 +63,16 @@ MODULE dbcsr_tensor_test
       dbcsr_t_checksum, &
       dbcsr_t_reset_randmat_seed
 
-   INTERFACE repl_dense_array_to_dist_sparse_tensor
+   INTERFACE dist_sparse_tensor_to_repl_dense_array
 # 63 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 # 64 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      MODULE PROCEDURE repl_dense_2d_array_to_dist_sparse_tensor_r_dp
+      MODULE PROCEDURE dist_sparse_tensor_to_repl_dense_2d_array_r_dp
 # 64 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      MODULE PROCEDURE repl_dense_3d_array_to_dist_sparse_tensor_r_dp
+      MODULE PROCEDURE dist_sparse_tensor_to_repl_dense_3d_array_r_dp
 # 64 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      MODULE PROCEDURE repl_dense_4d_array_to_dist_sparse_tensor_r_dp
-# 66 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 63 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 64 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      MODULE PROCEDURE repl_dense_2d_array_to_dist_sparse_tensor_r_sp
-# 64 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      MODULE PROCEDURE repl_dense_3d_array_to_dist_sparse_tensor_r_sp
-# 64 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      MODULE PROCEDURE repl_dense_4d_array_to_dist_sparse_tensor_r_sp
-# 66 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 63 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 64 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      MODULE PROCEDURE repl_dense_2d_array_to_dist_sparse_tensor_c_dp
-# 64 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      MODULE PROCEDURE repl_dense_3d_array_to_dist_sparse_tensor_c_dp
-# 64 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      MODULE PROCEDURE repl_dense_4d_array_to_dist_sparse_tensor_c_dp
-# 66 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 63 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 64 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      MODULE PROCEDURE repl_dense_2d_array_to_dist_sparse_tensor_c_sp
-# 64 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      MODULE PROCEDURE repl_dense_3d_array_to_dist_sparse_tensor_c_sp
-# 64 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      MODULE PROCEDURE repl_dense_4d_array_to_dist_sparse_tensor_c_sp
+      MODULE PROCEDURE dist_sparse_tensor_to_repl_dense_4d_array_r_dp
 # 66 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 # 67 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-   END INTERFACE
-
-   INTERFACE write_array
-# 71 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      MODULE PROCEDURE write_2d_array
-# 71 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      MODULE PROCEDURE write_3d_array
-# 71 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      MODULE PROCEDURE write_4d_array
-# 73 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-   END INTERFACE
-
-   INTERFACE dist_sparse_tensor_to_repl_dense_array
-# 77 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 78 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      MODULE PROCEDURE dist_sparse_tensor_to_repl_dense_2d_array_r_dp
-# 78 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      MODULE PROCEDURE dist_sparse_tensor_to_repl_dense_3d_array_r_dp
-# 78 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      MODULE PROCEDURE dist_sparse_tensor_to_repl_dense_4d_array_r_dp
-# 80 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 77 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 78 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      MODULE PROCEDURE dist_sparse_tensor_to_repl_dense_2d_array_r_sp
-# 78 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      MODULE PROCEDURE dist_sparse_tensor_to_repl_dense_3d_array_r_sp
-# 78 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      MODULE PROCEDURE dist_sparse_tensor_to_repl_dense_4d_array_r_sp
-# 80 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 77 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 78 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      MODULE PROCEDURE dist_sparse_tensor_to_repl_dense_2d_array_c_dp
-# 78 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      MODULE PROCEDURE dist_sparse_tensor_to_repl_dense_3d_array_c_dp
-# 78 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      MODULE PROCEDURE dist_sparse_tensor_to_repl_dense_4d_array_c_dp
-# 80 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 77 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 78 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      MODULE PROCEDURE dist_sparse_tensor_to_repl_dense_2d_array_c_sp
-# 78 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      MODULE PROCEDURE dist_sparse_tensor_to_repl_dense_3d_array_c_sp
-# 78 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      MODULE PROCEDURE dist_sparse_tensor_to_repl_dense_4d_array_c_sp
-# 80 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 81 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
    END INTERFACE
 
    INTEGER, SAVE :: randmat_counter = 0
@@ -195,19 +125,19 @@ CONTAINS
       LOGICAL                    :: blocks_equal
 
       SELECT CASE (block1%data_type)
-# 134 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 120 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (dbcsr_type_real_8)
          blocks_equal = MAXVAL(ABS(block1%r_dp%blk - block2%r_dp%blk)) .LT. 1.0E-12_real_8
-# 134 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 120 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (dbcsr_type_real_4)
          blocks_equal = MAXVAL(ABS(block1%r_sp%blk - block2%r_sp%blk)) .LT. 1.0E-12_real_4
-# 134 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 120 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (dbcsr_type_complex_8)
          blocks_equal = MAXVAL(ABS(block1%c_dp%blk - block2%c_dp%blk)) .LT. 1.0E-12_real_8
-# 134 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 120 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (dbcsr_type_complex_4)
          blocks_equal = MAXVAL(ABS(block1%c_sp%blk - block2%c_sp%blk)) .LT. 1.0E-12_real_4
-# 137 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 123 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       END SELECT
 
    END FUNCTION
@@ -301,7 +231,7 @@ CONTAINS
          WRITE (io_unit, '(A)') repeat("-", 80)
          WRITE (io_unit, '(A)') "Block sizes:"
 
-# 231 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 217 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          IF (ndims >= 1) THEN
             WRITE (io_unit, '(T4,A,1X,I1,A,1X)', advance='no') 'Dim', 1, ':'
             DO iblk = 1, SIZE(blk_size_1)
@@ -309,7 +239,7 @@ CONTAINS
             ENDDO
             WRITE (io_unit, *)
          ENDIF
-# 231 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 217 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          IF (ndims >= 2) THEN
             WRITE (io_unit, '(T4,A,1X,I1,A,1X)', advance='no') 'Dim', 2, ':'
             DO iblk = 1, SIZE(blk_size_2)
@@ -317,7 +247,7 @@ CONTAINS
             ENDDO
             WRITE (io_unit, *)
          ENDIF
-# 231 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 217 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          IF (ndims >= 3) THEN
             WRITE (io_unit, '(T4,A,1X,I1,A,1X)', advance='no') 'Dim', 3, ':'
             DO iblk = 1, SIZE(blk_size_3)
@@ -325,7 +255,7 @@ CONTAINS
             ENDDO
             WRITE (io_unit, *)
          ENDIF
-# 231 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 217 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          IF (ndims >= 4) THEN
             WRITE (io_unit, '(T4,A,1X,I1,A,1X)', advance='no') 'Dim', 4, ':'
             DO iblk = 1, SIZE(blk_size_4)
@@ -333,26 +263,26 @@ CONTAINS
             ENDDO
             WRITE (io_unit, *)
          ENDIF
-# 239 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 225 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
          WRITE (io_unit, '(A)') "Non-zero blocks:"
          DO iblk = 1, SIZE(blk_ind_1)
-# 243 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 229 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             IF (ndims == 2) THEN
                WRITE (io_unit, '(T4,A, I3, A, 2I3, 1X, A)') &
                   'Block', iblk, ': (', blk_ind_1(iblk), blk_ind_2(iblk), ')'
             ENDIF
-# 243 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 229 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             IF (ndims == 3) THEN
                WRITE (io_unit, '(T4,A, I3, A, 3I3, 1X, A)') &
                   'Block', iblk, ': (', blk_ind_1(iblk), blk_ind_2(iblk), blk_ind_3(iblk), ')'
             ENDIF
-# 243 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 229 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             IF (ndims == 4) THEN
                WRITE (io_unit, '(T4,A, I3, A, 4I3, 1X, A)') &
                   'Block', iblk, ': (', blk_ind_1(iblk), blk_ind_2(iblk), blk_ind_3(iblk), blk_ind_4(iblk), ')'
             ENDIF
-# 248 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 234 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          ENDDO
 
          WRITE (io_unit, *)
@@ -380,7 +310,7 @@ CONTAINS
             CALL mp_environ(numnodes, mynode, mp_comm)
             CALL mp_environ_pgrid(comm_nd, pdims, myploc)
 
-# 276 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 262 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             IF (1 <= ndims) THEN
                nblks = SIZE(blk_size_1)
                ALLOCATE (dist1_1 (nblks))
@@ -388,7 +318,7 @@ CONTAINS
                CALL dbcsr_t_default_distvec(nblks, pdims(1), blk_size_1, dist1_1)
                CALL dbcsr_t_default_distvec(nblks, pdims(1), blk_size_1, dist2_1)
             ENDIF
-# 276 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 262 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             IF (2 <= ndims) THEN
                nblks = SIZE(blk_size_2)
                ALLOCATE (dist1_2 (nblks))
@@ -396,7 +326,7 @@ CONTAINS
                CALL dbcsr_t_default_distvec(nblks, pdims(2), blk_size_2, dist1_2)
                CALL dbcsr_t_default_distvec(nblks, pdims(2), blk_size_2, dist2_2)
             ENDIF
-# 276 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 262 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             IF (3 <= ndims) THEN
                nblks = SIZE(blk_size_3)
                ALLOCATE (dist1_3 (nblks))
@@ -404,7 +334,7 @@ CONTAINS
                CALL dbcsr_t_default_distvec(nblks, pdims(3), blk_size_3, dist1_3)
                CALL dbcsr_t_default_distvec(nblks, pdims(3), blk_size_3, dist2_3)
             ENDIF
-# 276 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 262 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             IF (4 <= ndims) THEN
                nblks = SIZE(blk_size_4)
                ALLOCATE (dist1_4 (nblks))
@@ -412,7 +342,7 @@ CONTAINS
                CALL dbcsr_t_default_distvec(nblks, pdims(4), blk_size_4, dist1_4)
                CALL dbcsr_t_default_distvec(nblks, pdims(4), blk_size_4, dist2_4)
             ENDIF
-# 284 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 270 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
             WRITE (tensor_name, '(A,1X,I3,1X)') "Test", icount
 
@@ -430,7 +360,7 @@ CONTAINS
                WRITE (io_unit, '(A1)') ")"
 
                WRITE (io_unit, '(T4,A)') "Reference distribution:"
-# 302 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 288 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                IF (1 <= ndims) THEN
                   WRITE (io_unit, '(T7,A,1X)', advance='no') "Dist vec 1:"
                   DO idist = 1, SIZE(dist2_1)
@@ -438,7 +368,7 @@ CONTAINS
                   ENDDO
                   WRITE (io_unit, *)
                ENDIF
-# 302 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 288 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                IF (2 <= ndims) THEN
                   WRITE (io_unit, '(T7,A,1X)', advance='no') "Dist vec 2:"
                   DO idist = 1, SIZE(dist2_2)
@@ -446,7 +376,7 @@ CONTAINS
                   ENDDO
                   WRITE (io_unit, *)
                ENDIF
-# 302 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 288 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                IF (3 <= ndims) THEN
                   WRITE (io_unit, '(T7,A,1X)', advance='no') "Dist vec 3:"
                   DO idist = 1, SIZE(dist2_3)
@@ -454,7 +384,7 @@ CONTAINS
                   ENDDO
                   WRITE (io_unit, *)
                ENDIF
-# 302 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 288 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                IF (4 <= ndims) THEN
                   WRITE (io_unit, '(T7,A,1X)', advance='no') "Dist vec 4:"
                   DO idist = 1, SIZE(dist2_4)
@@ -462,10 +392,10 @@ CONTAINS
                   ENDDO
                   WRITE (io_unit, *)
                ENDIF
-# 310 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 296 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
                WRITE (io_unit, '(T4,A)') "Test distribution:"
-# 313 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 299 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                IF (1 <= ndims) THEN
                   WRITE (io_unit, '(T7,A,1X)', advance='no') "Dist vec 1:"
                   DO idist = 1, SIZE(dist2_1)
@@ -473,7 +403,7 @@ CONTAINS
                   ENDDO
                   WRITE (io_unit, *)
                ENDIF
-# 313 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 299 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                IF (2 <= ndims) THEN
                   WRITE (io_unit, '(T7,A,1X)', advance='no') "Dist vec 2:"
                   DO idist = 1, SIZE(dist2_2)
@@ -481,7 +411,7 @@ CONTAINS
                   ENDDO
                   WRITE (io_unit, *)
                ENDIF
-# 313 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 299 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                IF (3 <= ndims) THEN
                   WRITE (io_unit, '(T7,A,1X)', advance='no') "Dist vec 3:"
                   DO idist = 1, SIZE(dist2_3)
@@ -489,7 +419,7 @@ CONTAINS
                   ENDDO
                   WRITE (io_unit, *)
                ENDIF
-# 313 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 299 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
                IF (4 <= ndims) THEN
                   WRITE (io_unit, '(T7,A,1X)', advance='no') "Dist vec 4:"
                   DO idist = 1, SIZE(dist2_4)
@@ -497,56 +427,56 @@ CONTAINS
                   ENDDO
                   WRITE (io_unit, *)
                ENDIF
-# 321 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 307 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             ENDIF
 
-# 324 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 310 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             IF (ndims == 2) THEN
                CALL dbcsr_t_distribution_new(dist2, comm_nd, dist2_1, dist2_2)
                CALL dbcsr_t_create(tensor2, "Ref", dist2, map1_ref, map2_ref, &
                                    dbcsr_type_real_8, blk_size_1, blk_size_2)
                CALL dbcsr_t_setup_test_tensor(tensor2, comm_nd%mp_comm_2d, .TRUE., blk_ind_1, blk_ind_2)
             ENDIF
-# 324 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 310 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             IF (ndims == 3) THEN
                CALL dbcsr_t_distribution_new(dist2, comm_nd, dist2_1, dist2_2, dist2_3)
                CALL dbcsr_t_create(tensor2, "Ref", dist2, map1_ref, map2_ref, &
                                    dbcsr_type_real_8, blk_size_1, blk_size_2, blk_size_3)
                CALL dbcsr_t_setup_test_tensor(tensor2, comm_nd%mp_comm_2d, .TRUE., blk_ind_1, blk_ind_2, blk_ind_3)
             ENDIF
-# 324 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 310 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             IF (ndims == 4) THEN
                CALL dbcsr_t_distribution_new(dist2, comm_nd, dist2_1, dist2_2, dist2_3, dist2_4)
                CALL dbcsr_t_create(tensor2, "Ref", dist2, map1_ref, map2_ref, &
                                    dbcsr_type_real_8, blk_size_1, blk_size_2, blk_size_3, blk_size_4)
                CALL dbcsr_t_setup_test_tensor(tensor2, comm_nd%mp_comm_2d, .TRUE., blk_ind_1, blk_ind_2, blk_ind_3, blk_ind_4)
             ENDIF
-# 331 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 317 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
             IF (verbose) CALL dbcsr_t_write_blocks(tensor2, io_unit, unit_nr)
 
-# 335 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 321 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             IF (ndims == 2) THEN
                CALL dbcsr_t_distribution_new(dist1, comm_nd, dist1_1, dist1_2)
                CALL dbcsr_t_create(tensor1, tensor_name, dist1, map1, map2, &
                                    dbcsr_type_real_8, blk_size_1, blk_size_2)
                CALL dbcsr_t_setup_test_tensor(tensor1, comm_nd%mp_comm_2d, .TRUE., blk_ind_1, blk_ind_2)
             ENDIF
-# 335 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 321 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             IF (ndims == 3) THEN
                CALL dbcsr_t_distribution_new(dist1, comm_nd, dist1_1, dist1_2, dist1_3)
                CALL dbcsr_t_create(tensor1, tensor_name, dist1, map1, map2, &
                                    dbcsr_type_real_8, blk_size_1, blk_size_2, blk_size_3)
                CALL dbcsr_t_setup_test_tensor(tensor1, comm_nd%mp_comm_2d, .TRUE., blk_ind_1, blk_ind_2, blk_ind_3)
             ENDIF
-# 335 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 321 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             IF (ndims == 4) THEN
                CALL dbcsr_t_distribution_new(dist1, comm_nd, dist1_1, dist1_2, dist1_3, dist1_4)
                CALL dbcsr_t_create(tensor1, tensor_name, dist1, map1, map2, &
                                    dbcsr_type_real_8, blk_size_1, blk_size_2, blk_size_3, blk_size_4)
                CALL dbcsr_t_setup_test_tensor(tensor1, comm_nd%mp_comm_2d, .TRUE., blk_ind_1, blk_ind_2, blk_ind_3, blk_ind_4)
             ENDIF
-# 342 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 328 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
             IF (verbose) CALL dbcsr_t_write_blocks(tensor1, io_unit, unit_nr)
 
@@ -566,23 +496,23 @@ CONTAINS
             CALL dbcsr_t_destroy(tensor2)
             CALL dbcsr_t_distribution_destroy(dist2)
 
-# 362 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 348 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             IF (1 <= ndims) THEN
                DEALLOCATE (dist1_1, dist2_1)
             ENDIF
-# 362 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 348 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             IF (2 <= ndims) THEN
                DEALLOCATE (dist1_2, dist2_2)
             ENDIF
-# 362 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 348 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             IF (3 <= ndims) THEN
                DEALLOCATE (dist1_3, dist2_3)
             ENDIF
-# 362 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 348 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             IF (4 <= ndims) THEN
                DEALLOCATE (dist1_4, dist2_4)
             ENDIF
-# 366 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 352 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
          ENDDO
       ENDDO
@@ -605,16 +535,16 @@ CONTAINS
       INTEGER, DIMENSION(ndims_tensor(tensor))          :: blk_index, blk_offset, blk_size, &
                                                            tensor_dims
       INTEGER, DIMENSION(:, :), ALLOCATABLE               :: ind_nd
-# 389 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 375 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       REAL(KIND=real_8), ALLOCATABLE, &
          DIMENSION(:,:)                :: blk_values_2
-# 389 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 375 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       REAL(KIND=real_8), ALLOCATABLE, &
          DIMENSION(:,:,:)                :: blk_values_3
-# 389 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 375 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       REAL(KIND=real_8), ALLOCATABLE, &
          DIMENSION(:,:,:,:)                :: blk_values_4
-# 392 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 378 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       TYPE(dbcsr_t_iterator_type)                        :: iterator
       INTEGER, DIMENSION(4)                              :: iseed
       INTEGER, DIMENSION(2)                              :: blk_index_2d, nblks_2d
@@ -631,81 +561,81 @@ CONTAINS
       ALLOCATE (ind_nd(nblks_alloc, ndims_tensor(tensor)))
       my_nblks_alloc = 0
       DO ib = 1, nblks_alloc
-# 409 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 395 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          IF (ndims_tensor(tensor) == 2) THEN
             ind_nd(ib, :) = [blk_ind_1(ib), blk_ind_2(ib)]
          ENDIF
-# 409 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 395 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          IF (ndims_tensor(tensor) == 3) THEN
             ind_nd(ib, :) = [blk_ind_1(ib), blk_ind_2(ib), blk_ind_3(ib)]
          ENDIF
-# 409 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 395 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          IF (ndims_tensor(tensor) == 4) THEN
             ind_nd(ib, :) = [blk_ind_1(ib), blk_ind_2(ib), blk_ind_3(ib), blk_ind_4(ib)]
          ENDIF
-# 413 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 399 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          CALL dbcsr_t_get_stored_coordinates(tensor, ind_nd(ib, :), proc)
          IF (proc == mynode) THEN
             my_nblks_alloc = my_nblks_alloc + 1
          ENDIF
       ENDDO
 
-# 420 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 406 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       IF (ndims_tensor(tensor) >= 1) THEN
          ALLOCATE (my_blk_ind_1 (my_nblks_alloc))
       ENDIF
-# 420 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 406 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       IF (ndims_tensor(tensor) >= 2) THEN
          ALLOCATE (my_blk_ind_2 (my_nblks_alloc))
       ENDIF
-# 420 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 406 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       IF (ndims_tensor(tensor) >= 3) THEN
          ALLOCATE (my_blk_ind_3 (my_nblks_alloc))
       ENDIF
-# 420 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 406 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       IF (ndims_tensor(tensor) >= 4) THEN
          ALLOCATE (my_blk_ind_4 (my_nblks_alloc))
       ENDIF
-# 424 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 410 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
       i = 0
       DO ib = 1, nblks_alloc
          CALL dbcsr_t_get_stored_coordinates(tensor, ind_nd(ib, :), proc)
          IF (proc == mynode) THEN
             i = i + 1
-# 431 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 417 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             IF (ndims_tensor(tensor) >= 1) THEN
                my_blk_ind_1 (i) = blk_ind_1 (ib)
             ENDIF
-# 431 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 417 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             IF (ndims_tensor(tensor) >= 2) THEN
                my_blk_ind_2 (i) = blk_ind_2 (ib)
             ENDIF
-# 431 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 417 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             IF (ndims_tensor(tensor) >= 3) THEN
                my_blk_ind_3 (i) = blk_ind_3 (ib)
             ENDIF
-# 431 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 417 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             IF (ndims_tensor(tensor) >= 4) THEN
                my_blk_ind_4 (i) = blk_ind_4 (ib)
             ENDIF
-# 435 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 421 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          ENDIF
       ENDDO
 
-# 439 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 425 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       IF (ndims_tensor(tensor) == 2) THEN
          CALL dbcsr_t_reserve_blocks(tensor, my_blk_ind_1, my_blk_ind_2)
       ENDIF
-# 439 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 425 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       IF (ndims_tensor(tensor) == 3) THEN
          CALL dbcsr_t_reserve_blocks(tensor, my_blk_ind_1, my_blk_ind_2, my_blk_ind_3)
       ENDIF
-# 439 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 425 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       IF (ndims_tensor(tensor) == 4) THEN
          CALL dbcsr_t_reserve_blocks(tensor, my_blk_ind_1, my_blk_ind_2, my_blk_ind_3, my_blk_ind_4)
       ENDIF
-# 443 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 429 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
       CALL dbcsr_t_iterator_start(iterator, tensor)
       DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
@@ -718,7 +648,7 @@ CONTAINS
             nze = PRODUCT(blk_size)
          ENDIF
 
-# 456 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 442 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          IF (ndims_tensor(tensor) == 2) THEN
             CALL allocate_any(blk_values_2, shape_spec=blk_size)
             CALL dims_tensor(tensor, tensor_dims)
@@ -730,7 +660,7 @@ CONTAINS
             CALL dbcsr_t_put_block(tensor, blk_index, blk_size, blk_values_2)
             DEALLOCATE (blk_values_2)
          ENDIF
-# 456 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 442 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          IF (ndims_tensor(tensor) == 3) THEN
             CALL allocate_any(blk_values_3, shape_spec=blk_size)
             CALL dims_tensor(tensor, tensor_dims)
@@ -742,7 +672,7 @@ CONTAINS
             CALL dbcsr_t_put_block(tensor, blk_index, blk_size, blk_values_3)
             DEALLOCATE (blk_values_3)
          ENDIF
-# 456 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 442 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          IF (ndims_tensor(tensor) == 4) THEN
             CALL allocate_any(blk_values_4, shape_spec=blk_size)
             CALL dims_tensor(tensor, tensor_dims)
@@ -754,7 +684,7 @@ CONTAINS
             CALL dbcsr_t_put_block(tensor, blk_index, blk_size, blk_values_4)
             DEALLOCATE (blk_values_4)
          ENDIF
-# 468 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 454 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       ENDDO
       CALL dbcsr_t_iterator_stop(iterator)
 
@@ -769,88 +699,88 @@ CONTAINS
          !! size of block
          !! block offset (indices of first element)
          !! global tensor sizes
-# 483 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 469 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       REAL(KIND=real_8), DIMENSION(:,:), &
          OPTIONAL, INTENT(OUT)                           :: blk_2
-# 483 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 469 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       REAL(KIND=real_8), DIMENSION(:,:,:), &
          OPTIONAL, INTENT(OUT)                           :: blk_3
-# 483 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 469 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       REAL(KIND=real_8), DIMENSION(:,:,:,:), &
          OPTIONAL, INTENT(OUT)                           :: blk_4
-# 486 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 472 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       INTEGER                                            :: ndim
       INTEGER, DIMENSION(SIZE(blk_size))                 :: arr_ind, tens_ind
       INTEGER                                            :: i_1, i_2, i_3, i_4
 
       ndim = SIZE(tensor_size)
 
-# 493 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 479 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       IF (ndim == 2) THEN
-# 495 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 481 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          DO i_2 = 1, blk_size(2)
-# 495 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 481 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          DO i_1 = 1, blk_size(1)
-# 497 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 483 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             arr_ind(:) = [i_1, i_2]
             tens_ind(:) = arr_ind(:) + blk_offset(:) - 1
             blk_2 (arr_ind(1), arr_ind(2)) = combine_tensor_index(tens_ind, tensor_size)
-# 501 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 487 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          ENDDO
-# 501 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 487 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          ENDDO
-# 503 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 489 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       ENDIF
-# 493 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 479 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       IF (ndim == 3) THEN
-# 495 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 481 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          DO i_3 = 1, blk_size(3)
-# 495 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 481 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          DO i_2 = 1, blk_size(2)
-# 495 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 481 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          DO i_1 = 1, blk_size(1)
-# 497 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 483 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             arr_ind(:) = [i_1, i_2, i_3]
             tens_ind(:) = arr_ind(:) + blk_offset(:) - 1
             blk_3 (arr_ind(1), arr_ind(2), arr_ind(3)) = combine_tensor_index(tens_ind, tensor_size)
-# 501 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 487 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          ENDDO
-# 501 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 487 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          ENDDO
-# 501 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 487 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          ENDDO
-# 503 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 489 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       ENDIF
-# 493 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 479 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       IF (ndim == 4) THEN
-# 495 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 481 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          DO i_4 = 1, blk_size(4)
-# 495 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 481 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          DO i_3 = 1, blk_size(3)
-# 495 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 481 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          DO i_2 = 1, blk_size(2)
-# 495 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 481 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          DO i_1 = 1, blk_size(1)
-# 497 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 483 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
             arr_ind(:) = [i_1, i_2, i_3, i_4]
             tens_ind(:) = arr_ind(:) + blk_offset(:) - 1
             blk_4 (arr_ind(1), arr_ind(2), arr_ind(3), arr_ind(4)) = combine_tensor_index(tens_ind, tensor_size)
-# 501 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 487 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          ENDDO
-# 501 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 487 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          ENDDO
-# 501 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 487 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          ENDDO
-# 501 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 487 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          ENDDO
-# 503 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 489 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       ENDIF
-# 505 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 491 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
    END SUBROUTINE
 
-# 509 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 510 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 495 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 496 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
    SUBROUTINE dist_sparse_tensor_to_repl_dense_2d_array_r_dp (tensor, array)
       !! Transform a distributed sparse tensor to a replicated dense array. This is only useful for
       !! testing tensor contraction by matrix multiplication of dense arrays.
@@ -889,7 +819,7 @@ CONTAINS
       CALL mp_sum(array, tensor%pgrid%mp_comm_2d)
 
    END SUBROUTINE
-# 510 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 496 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
    SUBROUTINE dist_sparse_tensor_to_repl_dense_3d_array_r_dp (tensor, array)
       !! Transform a distributed sparse tensor to a replicated dense array. This is only useful for
       !! testing tensor contraction by matrix multiplication of dense arrays.
@@ -928,7 +858,7 @@ CONTAINS
       CALL mp_sum(array, tensor%pgrid%mp_comm_2d)
 
    END SUBROUTINE
-# 510 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 496 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
    SUBROUTINE dist_sparse_tensor_to_repl_dense_4d_array_r_dp (tensor, array)
       !! Transform a distributed sparse tensor to a replicated dense array. This is only useful for
       !! testing tensor contraction by matrix multiplication of dense arrays.
@@ -967,723 +897,8 @@ CONTAINS
       CALL mp_sum(array, tensor%pgrid%mp_comm_2d)
 
    END SUBROUTINE
-# 549 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 509 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 510 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-   SUBROUTINE dist_sparse_tensor_to_repl_dense_2d_array_r_sp (tensor, array)
-      !! Transform a distributed sparse tensor to a replicated dense array. This is only useful for
-      !! testing tensor contraction by matrix multiplication of dense arrays.
-
-      TYPE(dbcsr_t_type), INTENT(INOUT)                          :: tensor
-      REAL(kind=real_4), ALLOCATABLE, DIMENSION(:,:), &
-         INTENT(OUT)                                             :: array
-      REAL(kind=real_4), ALLOCATABLE, DIMENSION(:,:)   :: block
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
-      TYPE(dbcsr_t_iterator_type)                                     :: iterator
-      INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
-      LOGICAL                                                    :: found
-
-      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 2)
-      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
-      CALL allocate_any(array, shape_spec=dims_nd)
-      array(:,:) = 0.0_real_4
-
-      CALL dbcsr_t_iterator_start(iterator, tensor)
-      DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
-         CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
-         CALL dbcsr_t_get_block(tensor, ind_nd, block, found)
-         DBCSR_ASSERT(found)
-
-         DO idim = 1, ndims_tensor(tensor)
-            blk_start(idim) = blk_offset(idim)
-            blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
-         ENDDO
-         array(blk_start(1):blk_end(1), blk_start(2):blk_end(2)) = &
-            block(:,:)
-
-         DEALLOCATE (block)
-      ENDDO
-      CALL dbcsr_t_iterator_stop(iterator)
-      CALL mp_sum(array, tensor%pgrid%mp_comm_2d)
-
-   END SUBROUTINE
-# 510 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-   SUBROUTINE dist_sparse_tensor_to_repl_dense_3d_array_r_sp (tensor, array)
-      !! Transform a distributed sparse tensor to a replicated dense array. This is only useful for
-      !! testing tensor contraction by matrix multiplication of dense arrays.
-
-      TYPE(dbcsr_t_type), INTENT(INOUT)                          :: tensor
-      REAL(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:), &
-         INTENT(OUT)                                             :: array
-      REAL(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:)   :: block
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
-      TYPE(dbcsr_t_iterator_type)                                     :: iterator
-      INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
-      LOGICAL                                                    :: found
-
-      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 3)
-      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
-      CALL allocate_any(array, shape_spec=dims_nd)
-      array(:,:,:) = 0.0_real_4
-
-      CALL dbcsr_t_iterator_start(iterator, tensor)
-      DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
-         CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
-         CALL dbcsr_t_get_block(tensor, ind_nd, block, found)
-         DBCSR_ASSERT(found)
-
-         DO idim = 1, ndims_tensor(tensor)
-            blk_start(idim) = blk_offset(idim)
-            blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
-         ENDDO
-         array(blk_start(1):blk_end(1), blk_start(2):blk_end(2), blk_start(3):blk_end(3)) = &
-            block(:,:,:)
-
-         DEALLOCATE (block)
-      ENDDO
-      CALL dbcsr_t_iterator_stop(iterator)
-      CALL mp_sum(array, tensor%pgrid%mp_comm_2d)
-
-   END SUBROUTINE
-# 510 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-   SUBROUTINE dist_sparse_tensor_to_repl_dense_4d_array_r_sp (tensor, array)
-      !! Transform a distributed sparse tensor to a replicated dense array. This is only useful for
-      !! testing tensor contraction by matrix multiplication of dense arrays.
-
-      TYPE(dbcsr_t_type), INTENT(INOUT)                          :: tensor
-      REAL(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:,:), &
-         INTENT(OUT)                                             :: array
-      REAL(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:,:)   :: block
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
-      TYPE(dbcsr_t_iterator_type)                                     :: iterator
-      INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
-      LOGICAL                                                    :: found
-
-      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 4)
-      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
-      CALL allocate_any(array, shape_spec=dims_nd)
-      array(:,:,:,:) = 0.0_real_4
-
-      CALL dbcsr_t_iterator_start(iterator, tensor)
-      DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
-         CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
-         CALL dbcsr_t_get_block(tensor, ind_nd, block, found)
-         DBCSR_ASSERT(found)
-
-         DO idim = 1, ndims_tensor(tensor)
-            blk_start(idim) = blk_offset(idim)
-            blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
-         ENDDO
-         array(blk_start(1):blk_end(1), blk_start(2):blk_end(2), blk_start(3):blk_end(3), blk_start(4):blk_end(4)) = &
-            block(:,:,:,:)
-
-         DEALLOCATE (block)
-      ENDDO
-      CALL dbcsr_t_iterator_stop(iterator)
-      CALL mp_sum(array, tensor%pgrid%mp_comm_2d)
-
-   END SUBROUTINE
-# 549 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 509 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 510 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-   SUBROUTINE dist_sparse_tensor_to_repl_dense_2d_array_c_dp (tensor, array)
-      !! Transform a distributed sparse tensor to a replicated dense array. This is only useful for
-      !! testing tensor contraction by matrix multiplication of dense arrays.
-
-      TYPE(dbcsr_t_type), INTENT(INOUT)                          :: tensor
-      COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:,:), &
-         INTENT(OUT)                                             :: array
-      COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:,:)   :: block
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
-      TYPE(dbcsr_t_iterator_type)                                     :: iterator
-      INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
-      LOGICAL                                                    :: found
-
-      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 2)
-      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
-      CALL allocate_any(array, shape_spec=dims_nd)
-      array(:,:) = 0.0_real_8
-
-      CALL dbcsr_t_iterator_start(iterator, tensor)
-      DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
-         CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
-         CALL dbcsr_t_get_block(tensor, ind_nd, block, found)
-         DBCSR_ASSERT(found)
-
-         DO idim = 1, ndims_tensor(tensor)
-            blk_start(idim) = blk_offset(idim)
-            blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
-         ENDDO
-         array(blk_start(1):blk_end(1), blk_start(2):blk_end(2)) = &
-            block(:,:)
-
-         DEALLOCATE (block)
-      ENDDO
-      CALL dbcsr_t_iterator_stop(iterator)
-      CALL mp_sum(array, tensor%pgrid%mp_comm_2d)
-
-   END SUBROUTINE
-# 510 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-   SUBROUTINE dist_sparse_tensor_to_repl_dense_3d_array_c_dp (tensor, array)
-      !! Transform a distributed sparse tensor to a replicated dense array. This is only useful for
-      !! testing tensor contraction by matrix multiplication of dense arrays.
-
-      TYPE(dbcsr_t_type), INTENT(INOUT)                          :: tensor
-      COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:), &
-         INTENT(OUT)                                             :: array
-      COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:)   :: block
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
-      TYPE(dbcsr_t_iterator_type)                                     :: iterator
-      INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
-      LOGICAL                                                    :: found
-
-      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 3)
-      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
-      CALL allocate_any(array, shape_spec=dims_nd)
-      array(:,:,:) = 0.0_real_8
-
-      CALL dbcsr_t_iterator_start(iterator, tensor)
-      DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
-         CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
-         CALL dbcsr_t_get_block(tensor, ind_nd, block, found)
-         DBCSR_ASSERT(found)
-
-         DO idim = 1, ndims_tensor(tensor)
-            blk_start(idim) = blk_offset(idim)
-            blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
-         ENDDO
-         array(blk_start(1):blk_end(1), blk_start(2):blk_end(2), blk_start(3):blk_end(3)) = &
-            block(:,:,:)
-
-         DEALLOCATE (block)
-      ENDDO
-      CALL dbcsr_t_iterator_stop(iterator)
-      CALL mp_sum(array, tensor%pgrid%mp_comm_2d)
-
-   END SUBROUTINE
-# 510 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-   SUBROUTINE dist_sparse_tensor_to_repl_dense_4d_array_c_dp (tensor, array)
-      !! Transform a distributed sparse tensor to a replicated dense array. This is only useful for
-      !! testing tensor contraction by matrix multiplication of dense arrays.
-
-      TYPE(dbcsr_t_type), INTENT(INOUT)                          :: tensor
-      COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:,:), &
-         INTENT(OUT)                                             :: array
-      COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:,:)   :: block
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
-      TYPE(dbcsr_t_iterator_type)                                     :: iterator
-      INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
-      LOGICAL                                                    :: found
-
-      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 4)
-      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
-      CALL allocate_any(array, shape_spec=dims_nd)
-      array(:,:,:,:) = 0.0_real_8
-
-      CALL dbcsr_t_iterator_start(iterator, tensor)
-      DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
-         CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
-         CALL dbcsr_t_get_block(tensor, ind_nd, block, found)
-         DBCSR_ASSERT(found)
-
-         DO idim = 1, ndims_tensor(tensor)
-            blk_start(idim) = blk_offset(idim)
-            blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
-         ENDDO
-         array(blk_start(1):blk_end(1), blk_start(2):blk_end(2), blk_start(3):blk_end(3), blk_start(4):blk_end(4)) = &
-            block(:,:,:,:)
-
-         DEALLOCATE (block)
-      ENDDO
-      CALL dbcsr_t_iterator_stop(iterator)
-      CALL mp_sum(array, tensor%pgrid%mp_comm_2d)
-
-   END SUBROUTINE
-# 549 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 509 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 510 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-   SUBROUTINE dist_sparse_tensor_to_repl_dense_2d_array_c_sp (tensor, array)
-      !! Transform a distributed sparse tensor to a replicated dense array. This is only useful for
-      !! testing tensor contraction by matrix multiplication of dense arrays.
-
-      TYPE(dbcsr_t_type), INTENT(INOUT)                          :: tensor
-      COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:,:), &
-         INTENT(OUT)                                             :: array
-      COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:,:)   :: block
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
-      TYPE(dbcsr_t_iterator_type)                                     :: iterator
-      INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
-      LOGICAL                                                    :: found
-
-      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 2)
-      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
-      CALL allocate_any(array, shape_spec=dims_nd)
-      array(:,:) = 0.0_real_4
-
-      CALL dbcsr_t_iterator_start(iterator, tensor)
-      DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
-         CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
-         CALL dbcsr_t_get_block(tensor, ind_nd, block, found)
-         DBCSR_ASSERT(found)
-
-         DO idim = 1, ndims_tensor(tensor)
-            blk_start(idim) = blk_offset(idim)
-            blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
-         ENDDO
-         array(blk_start(1):blk_end(1), blk_start(2):blk_end(2)) = &
-            block(:,:)
-
-         DEALLOCATE (block)
-      ENDDO
-      CALL dbcsr_t_iterator_stop(iterator)
-      CALL mp_sum(array, tensor%pgrid%mp_comm_2d)
-
-   END SUBROUTINE
-# 510 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-   SUBROUTINE dist_sparse_tensor_to_repl_dense_3d_array_c_sp (tensor, array)
-      !! Transform a distributed sparse tensor to a replicated dense array. This is only useful for
-      !! testing tensor contraction by matrix multiplication of dense arrays.
-
-      TYPE(dbcsr_t_type), INTENT(INOUT)                          :: tensor
-      COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:), &
-         INTENT(OUT)                                             :: array
-      COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:)   :: block
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
-      TYPE(dbcsr_t_iterator_type)                                     :: iterator
-      INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
-      LOGICAL                                                    :: found
-
-      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 3)
-      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
-      CALL allocate_any(array, shape_spec=dims_nd)
-      array(:,:,:) = 0.0_real_4
-
-      CALL dbcsr_t_iterator_start(iterator, tensor)
-      DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
-         CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
-         CALL dbcsr_t_get_block(tensor, ind_nd, block, found)
-         DBCSR_ASSERT(found)
-
-         DO idim = 1, ndims_tensor(tensor)
-            blk_start(idim) = blk_offset(idim)
-            blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
-         ENDDO
-         array(blk_start(1):blk_end(1), blk_start(2):blk_end(2), blk_start(3):blk_end(3)) = &
-            block(:,:,:)
-
-         DEALLOCATE (block)
-      ENDDO
-      CALL dbcsr_t_iterator_stop(iterator)
-      CALL mp_sum(array, tensor%pgrid%mp_comm_2d)
-
-   END SUBROUTINE
-# 510 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-   SUBROUTINE dist_sparse_tensor_to_repl_dense_4d_array_c_sp (tensor, array)
-      !! Transform a distributed sparse tensor to a replicated dense array. This is only useful for
-      !! testing tensor contraction by matrix multiplication of dense arrays.
-
-      TYPE(dbcsr_t_type), INTENT(INOUT)                          :: tensor
-      COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:,:), &
-         INTENT(OUT)                                             :: array
-      COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:,:)   :: block
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
-      TYPE(dbcsr_t_iterator_type)                                     :: iterator
-      INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
-      LOGICAL                                                    :: found
-
-      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 4)
-      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
-      CALL allocate_any(array, shape_spec=dims_nd)
-      array(:,:,:,:) = 0.0_real_4
-
-      CALL dbcsr_t_iterator_start(iterator, tensor)
-      DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
-         CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
-         CALL dbcsr_t_get_block(tensor, ind_nd, block, found)
-         DBCSR_ASSERT(found)
-
-         DO idim = 1, ndims_tensor(tensor)
-            blk_start(idim) = blk_offset(idim)
-            blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
-         ENDDO
-         array(blk_start(1):blk_end(1), blk_start(2):blk_end(2), blk_start(3):blk_end(3), blk_start(4):blk_end(4)) = &
-            block(:,:,:,:)
-
-         DEALLOCATE (block)
-      ENDDO
-      CALL dbcsr_t_iterator_stop(iterator)
-      CALL mp_sum(array, tensor%pgrid%mp_comm_2d)
-
-   END SUBROUTINE
-# 549 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 550 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-
-# 552 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 553 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-   SUBROUTINE repl_dense_2d_array_to_dist_sparse_tensor_r_dp (tensor, array)
-      TYPE(dbcsr_t_type), INTENT(INOUT)                             :: tensor
-      REAL(kind=real_8), ALLOCATABLE, DIMENSION(:,:), &
-         INTENT(INOUT)                                           :: array
-      REAL(kind=real_8), ALLOCATABLE, DIMENSION(:,:)   :: block
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
-      TYPE(dbcsr_t_iterator_type)                                     :: iterator
-      INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
-
-      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 2)
-      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
-
-      CALL dbcsr_t_iterator_start(iterator, tensor)
-      DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
-         CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
-         CALL allocate_any(block, shape_spec=blk_size)
-         DO idim = 1, ndims_tensor(tensor)
-            blk_start(idim) = blk_offset(idim)
-            blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
-         ENDDO
-         block(:,:) = &
-            array(blk_start(1):blk_end(1), blk_start(2):blk_end(2))
-         CALL dbcsr_t_put_block(tensor, ind_nd, blk_size, block)
-         DEALLOCATE (block)
-      ENDDO
-
-   END SUBROUTINE
-# 553 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-   SUBROUTINE repl_dense_3d_array_to_dist_sparse_tensor_r_dp (tensor, array)
-      TYPE(dbcsr_t_type), INTENT(INOUT)                             :: tensor
-      REAL(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:), &
-         INTENT(INOUT)                                           :: array
-      REAL(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:)   :: block
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
-      TYPE(dbcsr_t_iterator_type)                                     :: iterator
-      INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
-
-      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 3)
-      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
-
-      CALL dbcsr_t_iterator_start(iterator, tensor)
-      DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
-         CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
-         CALL allocate_any(block, shape_spec=blk_size)
-         DO idim = 1, ndims_tensor(tensor)
-            blk_start(idim) = blk_offset(idim)
-            blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
-         ENDDO
-         block(:,:,:) = &
-            array(blk_start(1):blk_end(1), blk_start(2):blk_end(2), blk_start(3):blk_end(3))
-         CALL dbcsr_t_put_block(tensor, ind_nd, blk_size, block)
-         DEALLOCATE (block)
-      ENDDO
-
-   END SUBROUTINE
-# 553 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-   SUBROUTINE repl_dense_4d_array_to_dist_sparse_tensor_r_dp (tensor, array)
-      TYPE(dbcsr_t_type), INTENT(INOUT)                             :: tensor
-      REAL(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:,:), &
-         INTENT(INOUT)                                           :: array
-      REAL(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:,:)   :: block
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
-      TYPE(dbcsr_t_iterator_type)                                     :: iterator
-      INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
-
-      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 4)
-      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
-
-      CALL dbcsr_t_iterator_start(iterator, tensor)
-      DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
-         CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
-         CALL allocate_any(block, shape_spec=blk_size)
-         DO idim = 1, ndims_tensor(tensor)
-            blk_start(idim) = blk_offset(idim)
-            blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
-         ENDDO
-         block(:,:,:,:) = &
-            array(blk_start(1):blk_end(1), blk_start(2):blk_end(2), blk_start(3):blk_end(3), blk_start(4):blk_end(4))
-         CALL dbcsr_t_put_block(tensor, ind_nd, blk_size, block)
-         DEALLOCATE (block)
-      ENDDO
-
-   END SUBROUTINE
-# 582 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 552 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 553 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-   SUBROUTINE repl_dense_2d_array_to_dist_sparse_tensor_r_sp (tensor, array)
-      TYPE(dbcsr_t_type), INTENT(INOUT)                             :: tensor
-      REAL(kind=real_4), ALLOCATABLE, DIMENSION(:,:), &
-         INTENT(INOUT)                                           :: array
-      REAL(kind=real_4), ALLOCATABLE, DIMENSION(:,:)   :: block
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
-      TYPE(dbcsr_t_iterator_type)                                     :: iterator
-      INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
-
-      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 2)
-      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
-
-      CALL dbcsr_t_iterator_start(iterator, tensor)
-      DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
-         CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
-         CALL allocate_any(block, shape_spec=blk_size)
-         DO idim = 1, ndims_tensor(tensor)
-            blk_start(idim) = blk_offset(idim)
-            blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
-         ENDDO
-         block(:,:) = &
-            array(blk_start(1):blk_end(1), blk_start(2):blk_end(2))
-         CALL dbcsr_t_put_block(tensor, ind_nd, blk_size, block)
-         DEALLOCATE (block)
-      ENDDO
-
-   END SUBROUTINE
-# 553 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-   SUBROUTINE repl_dense_3d_array_to_dist_sparse_tensor_r_sp (tensor, array)
-      TYPE(dbcsr_t_type), INTENT(INOUT)                             :: tensor
-      REAL(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:), &
-         INTENT(INOUT)                                           :: array
-      REAL(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:)   :: block
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
-      TYPE(dbcsr_t_iterator_type)                                     :: iterator
-      INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
-
-      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 3)
-      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
-
-      CALL dbcsr_t_iterator_start(iterator, tensor)
-      DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
-         CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
-         CALL allocate_any(block, shape_spec=blk_size)
-         DO idim = 1, ndims_tensor(tensor)
-            blk_start(idim) = blk_offset(idim)
-            blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
-         ENDDO
-         block(:,:,:) = &
-            array(blk_start(1):blk_end(1), blk_start(2):blk_end(2), blk_start(3):blk_end(3))
-         CALL dbcsr_t_put_block(tensor, ind_nd, blk_size, block)
-         DEALLOCATE (block)
-      ENDDO
-
-   END SUBROUTINE
-# 553 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-   SUBROUTINE repl_dense_4d_array_to_dist_sparse_tensor_r_sp (tensor, array)
-      TYPE(dbcsr_t_type), INTENT(INOUT)                             :: tensor
-      REAL(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:,:), &
-         INTENT(INOUT)                                           :: array
-      REAL(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:,:)   :: block
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
-      TYPE(dbcsr_t_iterator_type)                                     :: iterator
-      INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
-
-      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 4)
-      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
-
-      CALL dbcsr_t_iterator_start(iterator, tensor)
-      DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
-         CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
-         CALL allocate_any(block, shape_spec=blk_size)
-         DO idim = 1, ndims_tensor(tensor)
-            blk_start(idim) = blk_offset(idim)
-            blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
-         ENDDO
-         block(:,:,:,:) = &
-            array(blk_start(1):blk_end(1), blk_start(2):blk_end(2), blk_start(3):blk_end(3), blk_start(4):blk_end(4))
-         CALL dbcsr_t_put_block(tensor, ind_nd, blk_size, block)
-         DEALLOCATE (block)
-      ENDDO
-
-   END SUBROUTINE
-# 582 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 552 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 553 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-   SUBROUTINE repl_dense_2d_array_to_dist_sparse_tensor_c_dp (tensor, array)
-      TYPE(dbcsr_t_type), INTENT(INOUT)                             :: tensor
-      COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:,:), &
-         INTENT(INOUT)                                           :: array
-      COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:,:)   :: block
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
-      TYPE(dbcsr_t_iterator_type)                                     :: iterator
-      INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
-
-      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 2)
-      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
-
-      CALL dbcsr_t_iterator_start(iterator, tensor)
-      DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
-         CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
-         CALL allocate_any(block, shape_spec=blk_size)
-         DO idim = 1, ndims_tensor(tensor)
-            blk_start(idim) = blk_offset(idim)
-            blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
-         ENDDO
-         block(:,:) = &
-            array(blk_start(1):blk_end(1), blk_start(2):blk_end(2))
-         CALL dbcsr_t_put_block(tensor, ind_nd, blk_size, block)
-         DEALLOCATE (block)
-      ENDDO
-
-   END SUBROUTINE
-# 553 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-   SUBROUTINE repl_dense_3d_array_to_dist_sparse_tensor_c_dp (tensor, array)
-      TYPE(dbcsr_t_type), INTENT(INOUT)                             :: tensor
-      COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:), &
-         INTENT(INOUT)                                           :: array
-      COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:)   :: block
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
-      TYPE(dbcsr_t_iterator_type)                                     :: iterator
-      INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
-
-      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 3)
-      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
-
-      CALL dbcsr_t_iterator_start(iterator, tensor)
-      DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
-         CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
-         CALL allocate_any(block, shape_spec=blk_size)
-         DO idim = 1, ndims_tensor(tensor)
-            blk_start(idim) = blk_offset(idim)
-            blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
-         ENDDO
-         block(:,:,:) = &
-            array(blk_start(1):blk_end(1), blk_start(2):blk_end(2), blk_start(3):blk_end(3))
-         CALL dbcsr_t_put_block(tensor, ind_nd, blk_size, block)
-         DEALLOCATE (block)
-      ENDDO
-
-   END SUBROUTINE
-# 553 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-   SUBROUTINE repl_dense_4d_array_to_dist_sparse_tensor_c_dp (tensor, array)
-      TYPE(dbcsr_t_type), INTENT(INOUT)                             :: tensor
-      COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:,:), &
-         INTENT(INOUT)                                           :: array
-      COMPLEX(kind=real_8), ALLOCATABLE, DIMENSION(:,:,:,:)   :: block
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
-      TYPE(dbcsr_t_iterator_type)                                     :: iterator
-      INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
-
-      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 4)
-      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
-
-      CALL dbcsr_t_iterator_start(iterator, tensor)
-      DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
-         CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
-         CALL allocate_any(block, shape_spec=blk_size)
-         DO idim = 1, ndims_tensor(tensor)
-            blk_start(idim) = blk_offset(idim)
-            blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
-         ENDDO
-         block(:,:,:,:) = &
-            array(blk_start(1):blk_end(1), blk_start(2):blk_end(2), blk_start(3):blk_end(3), blk_start(4):blk_end(4))
-         CALL dbcsr_t_put_block(tensor, ind_nd, blk_size, block)
-         DEALLOCATE (block)
-      ENDDO
-
-   END SUBROUTINE
-# 582 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 552 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 553 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-   SUBROUTINE repl_dense_2d_array_to_dist_sparse_tensor_c_sp (tensor, array)
-      TYPE(dbcsr_t_type), INTENT(INOUT)                             :: tensor
-      COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:,:), &
-         INTENT(INOUT)                                           :: array
-      COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:,:)   :: block
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
-      TYPE(dbcsr_t_iterator_type)                                     :: iterator
-      INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
-
-      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 2)
-      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
-
-      CALL dbcsr_t_iterator_start(iterator, tensor)
-      DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
-         CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
-         CALL allocate_any(block, shape_spec=blk_size)
-         DO idim = 1, ndims_tensor(tensor)
-            blk_start(idim) = blk_offset(idim)
-            blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
-         ENDDO
-         block(:,:) = &
-            array(blk_start(1):blk_end(1), blk_start(2):blk_end(2))
-         CALL dbcsr_t_put_block(tensor, ind_nd, blk_size, block)
-         DEALLOCATE (block)
-      ENDDO
-
-   END SUBROUTINE
-# 553 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-   SUBROUTINE repl_dense_3d_array_to_dist_sparse_tensor_c_sp (tensor, array)
-      TYPE(dbcsr_t_type), INTENT(INOUT)                             :: tensor
-      COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:), &
-         INTENT(INOUT)                                           :: array
-      COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:)   :: block
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
-      TYPE(dbcsr_t_iterator_type)                                     :: iterator
-      INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
-
-      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 3)
-      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
-
-      CALL dbcsr_t_iterator_start(iterator, tensor)
-      DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
-         CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
-         CALL allocate_any(block, shape_spec=blk_size)
-         DO idim = 1, ndims_tensor(tensor)
-            blk_start(idim) = blk_offset(idim)
-            blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
-         ENDDO
-         block(:,:,:) = &
-            array(blk_start(1):blk_end(1), blk_start(2):blk_end(2), blk_start(3):blk_end(3))
-         CALL dbcsr_t_put_block(tensor, ind_nd, blk_size, block)
-         DEALLOCATE (block)
-      ENDDO
-
-   END SUBROUTINE
-# 553 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-   SUBROUTINE repl_dense_4d_array_to_dist_sparse_tensor_c_sp (tensor, array)
-      TYPE(dbcsr_t_type), INTENT(INOUT)                             :: tensor
-      COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:,:), &
-         INTENT(INOUT)                                           :: array
-      COMPLEX(kind=real_4), ALLOCATABLE, DIMENSION(:,:,:,:)   :: block
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: dims_nd, ind_nd, blk_size, blk_offset
-      TYPE(dbcsr_t_iterator_type)                                     :: iterator
-      INTEGER                                                    :: blk, idim
-      INTEGER, DIMENSION(ndims_tensor(tensor))                  :: blk_start, blk_end
-
-      DBCSR_ASSERT(ndims_tensor(tensor) .EQ. 4)
-      CALL dbcsr_t_get_info(tensor, nfull_total=dims_nd)
-
-      CALL dbcsr_t_iterator_start(iterator, tensor)
-      DO WHILE (dbcsr_t_iterator_blocks_left(iterator))
-         CALL dbcsr_t_iterator_next_block(iterator, ind_nd, blk, blk_size=blk_size, blk_offset=blk_offset)
-         CALL allocate_any(block, shape_spec=blk_size)
-         DO idim = 1, ndims_tensor(tensor)
-            blk_start(idim) = blk_offset(idim)
-            blk_end(idim) = blk_offset(idim) + blk_size(idim) - 1
-         ENDDO
-         block(:,:,:,:) = &
-            array(blk_start(1):blk_end(1), blk_start(2):blk_end(2), blk_start(3):blk_end(3), blk_start(4):blk_end(4))
-         CALL dbcsr_t_put_block(tensor, ind_nd, blk_size, block)
-         DEALLOCATE (block)
-      ENDDO
-
-   END SUBROUTINE
-# 582 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-# 583 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 535 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 536 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
    SUBROUTINE dbcsr_t_contract_test(alpha, tensor_1, tensor_2, beta, tensor_3, &
                                     contract_1, notcontract_1, &
@@ -1717,7 +932,7 @@ CONTAINS
       INTEGER, DIMENSION(2, ndims_tensor(tensor_1)) :: bounds_t1
       INTEGER, DIMENSION(2, ndims_tensor(tensor_2)) :: bounds_t2
 
-# 617 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 570 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       REAL(KIND=real_8), ALLOCATABLE, &
          DIMENSION(:,:) :: array_1_2d, &
                                              array_2_2d, &
@@ -1729,7 +944,7 @@ CONTAINS
                                              array_2_rs2d, &
                                              array_3_rs2d, &
                                              array_3_0_rs2d
-# 617 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 570 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       REAL(KIND=real_8), ALLOCATABLE, &
          DIMENSION(:,:,:) :: array_1_3d, &
                                              array_2_3d, &
@@ -1741,7 +956,7 @@ CONTAINS
                                              array_2_rs3d, &
                                              array_3_rs3d, &
                                              array_3_0_rs3d
-# 617 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 570 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       REAL(KIND=real_8), ALLOCATABLE, &
          DIMENSION(:,:,:,:) :: array_1_4d, &
                                              array_2_4d, &
@@ -1753,7 +968,7 @@ CONTAINS
                                              array_2_rs4d, &
                                              array_3_rs4d, &
                                              array_3_0_rs4d
-# 629 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 582 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       REAL(KIND=real_8), ALLOCATABLE, &
          DIMENSION(:, :)                   :: array_1_mm, &
                                               array_2_mm, &
@@ -1795,16 +1010,16 @@ CONTAINS
       ENDIF
 
       SELECT CASE (ndims_tensor(tensor_3))
-# 671 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 624 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (2)
          CALL dist_sparse_tensor_to_repl_dense_array(tensor_3, array_3_0_2d)
-# 671 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 624 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (3)
          CALL dist_sparse_tensor_to_repl_dense_array(tensor_3, array_3_0_3d)
-# 671 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 624 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (4)
          CALL dist_sparse_tensor_to_repl_dense_array(tensor_3, array_3_0_4d)
-# 674 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 627 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       END SELECT
 
       CALL dbcsr_t_contract(alpha, tensor_1, tensor_2, beta, tensor_3, &
@@ -1850,252 +1065,252 @@ CONTAINS
       ENDIF
 
       ! Convert tensors to simple multidimensional arrays
-# 720 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 673 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       SELECT CASE (ndims_tensor(tensor_1))
-# 722 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 675 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (2)
-# 724 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 677 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          CALL dist_sparse_tensor_to_repl_dense_array(tensor_1, array_1_2d_full)
          CALL allocate_any(array_1_2d, shape_spec=SHAPE(array_1_2d_full))
          array_1_2d = 0.0_real_8
          array_1_2d(bounds_t1(1, 1):bounds_t1(2, 1), bounds_t1(1, 2):bounds_t1(2, 2)) = &
          array_1_2d_full(bounds_t1(1, 1):bounds_t1(2, 1), bounds_t1(1, 2):bounds_t1(2, 2))
-# 732 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 685 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
-# 722 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 675 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (3)
-# 724 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 677 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          CALL dist_sparse_tensor_to_repl_dense_array(tensor_1, array_1_3d_full)
          CALL allocate_any(array_1_3d, shape_spec=SHAPE(array_1_3d_full))
          array_1_3d = 0.0_real_8
          array_1_3d(bounds_t1(1, 1):bounds_t1(2, 1), bounds_t1(1, 2):bounds_t1(2, 2), bounds_t1(1, 3):bounds_t1(2, 3)) = &
          array_1_3d_full(bounds_t1(1, 1):bounds_t1(2, 1), bounds_t1(1, 2):bounds_t1(2, 2), bounds_t1(1, 3):bounds_t1(2, 3))
-# 732 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 685 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
-# 722 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 675 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (4)
-# 724 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 677 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          CALL dist_sparse_tensor_to_repl_dense_array(tensor_1, array_1_4d_full)
          CALL allocate_any(array_1_4d, shape_spec=SHAPE(array_1_4d_full))
          array_1_4d = 0.0_real_8
          array_1_4d(bounds_t1(1, 1):bounds_t1(2, 1), bounds_t1(1, 2):bounds_t1(2, 2), bounds_t1(1, 3):bounds_t1(2, 3),&
-# 727 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 680 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
              & bounds_t1(1, 4):bounds_t1(2, 4)) = &
          array_1_4d_full(bounds_t1(1, 1):bounds_t1(2, 1), bounds_t1(1, 2):bounds_t1(2, 2), bounds_t1(1, 3):bounds_t1(2, 3),&
-# 728 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 681 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
              & bounds_t1(1, 4):bounds_t1(2, 4))
-# 732 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 685 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
-# 734 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 687 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       END SELECT
-# 720 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 673 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       SELECT CASE (ndims_tensor(tensor_2))
-# 722 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 675 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (2)
-# 724 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 677 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          CALL dist_sparse_tensor_to_repl_dense_array(tensor_2, array_2_2d_full)
          CALL allocate_any(array_2_2d, shape_spec=SHAPE(array_2_2d_full))
          array_2_2d = 0.0_real_8
          array_2_2d(bounds_t2(1, 1):bounds_t2(2, 1), bounds_t2(1, 2):bounds_t2(2, 2)) = &
          array_2_2d_full(bounds_t2(1, 1):bounds_t2(2, 1), bounds_t2(1, 2):bounds_t2(2, 2))
-# 732 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 685 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
-# 722 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 675 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (3)
-# 724 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 677 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          CALL dist_sparse_tensor_to_repl_dense_array(tensor_2, array_2_3d_full)
          CALL allocate_any(array_2_3d, shape_spec=SHAPE(array_2_3d_full))
          array_2_3d = 0.0_real_8
          array_2_3d(bounds_t2(1, 1):bounds_t2(2, 1), bounds_t2(1, 2):bounds_t2(2, 2), bounds_t2(1, 3):bounds_t2(2, 3)) = &
          array_2_3d_full(bounds_t2(1, 1):bounds_t2(2, 1), bounds_t2(1, 2):bounds_t2(2, 2), bounds_t2(1, 3):bounds_t2(2, 3))
-# 732 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 685 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
-# 722 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 675 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (4)
-# 724 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 677 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          CALL dist_sparse_tensor_to_repl_dense_array(tensor_2, array_2_4d_full)
          CALL allocate_any(array_2_4d, shape_spec=SHAPE(array_2_4d_full))
          array_2_4d = 0.0_real_8
          array_2_4d(bounds_t2(1, 1):bounds_t2(2, 1), bounds_t2(1, 2):bounds_t2(2, 2), bounds_t2(1, 3):bounds_t2(2, 3),&
-# 727 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 680 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
              & bounds_t2(1, 4):bounds_t2(2, 4)) = &
          array_2_4d_full(bounds_t2(1, 1):bounds_t2(2, 1), bounds_t2(1, 2):bounds_t2(2, 2), bounds_t2(1, 3):bounds_t2(2, 3),&
-# 728 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 681 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
              & bounds_t2(1, 4):bounds_t2(2, 4))
-# 732 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 685 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
-# 734 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 687 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       END SELECT
-# 720 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 673 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       SELECT CASE (ndims_tensor(tensor_3))
-# 722 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 675 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (2)
-# 730 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 683 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          CALL dist_sparse_tensor_to_repl_dense_array(tensor_3, array_3_2d)
-# 732 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 685 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
-# 722 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 675 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (3)
-# 730 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 683 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          CALL dist_sparse_tensor_to_repl_dense_array(tensor_3, array_3_3d)
-# 732 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 685 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
-# 722 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 675 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (4)
-# 730 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 683 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          CALL dist_sparse_tensor_to_repl_dense_array(tensor_3, array_3_4d)
-# 732 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 685 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
-# 734 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 687 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       END SELECT
-# 736 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 689 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
       ! Get array sizes
 
-# 740 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 693 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       SELECT CASE (ndims_tensor(tensor_1))
-# 742 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 695 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (2)
          CALL allocate_any(size_1, source=SHAPE(array_1_2d))
 
-# 742 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 695 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (3)
          CALL allocate_any(size_1, source=SHAPE(array_1_3d))
 
-# 742 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 695 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (4)
          CALL allocate_any(size_1, source=SHAPE(array_1_4d))
 
-# 746 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 699 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       END SELECT
-# 740 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 693 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       SELECT CASE (ndims_tensor(tensor_2))
-# 742 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 695 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (2)
          CALL allocate_any(size_2, source=SHAPE(array_2_2d))
 
-# 742 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 695 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (3)
          CALL allocate_any(size_2, source=SHAPE(array_2_3d))
 
-# 742 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 695 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (4)
          CALL allocate_any(size_2, source=SHAPE(array_2_4d))
 
-# 746 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 699 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       END SELECT
-# 740 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 693 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       SELECT CASE (ndims_tensor(tensor_3))
-# 742 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 695 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (2)
          CALL allocate_any(size_3, source=SHAPE(array_3_2d))
 
-# 742 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 695 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (3)
          CALL allocate_any(size_3, source=SHAPE(array_3_3d))
 
-# 742 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 695 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       CASE (4)
          CALL allocate_any(size_3, source=SHAPE(array_3_4d))
 
-# 746 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 699 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       END SELECT
-# 748 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 701 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
-# 750 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 703 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       ALLOCATE (order_t1 (ndims_tensor(tensor_1)))
-# 750 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 703 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       ALLOCATE (order_t2 (ndims_tensor(tensor_2)))
-# 750 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 703 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
       ALLOCATE (order_t3 (ndims_tensor(tensor_3)))
-# 752 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 705 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
       ASSOCIATE (map_t1_1 => notcontract_1, map_t1_2 => contract_1, &
                  map_t2_1 => notcontract_2, map_t2_2 => contract_2, &
                  map_t3_1 => map_1, map_t3_2 => map_2)
 
-# 758 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 711 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          order_t1 (:) = dbcsr_t_inverse_order([map_t1_1, map_t1_2])
 
          SELECT CASE (ndims_tensor(tensor_1))
-# 762 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 715 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          CASE (2)
             CALL allocate_any(array_1_rs2d, source=array_1_2d, order=order_t1)
             CALL allocate_any(array_1_mm, sizes_2d(size_1, map_t1_1, map_t1_2))
             array_1_mm(:, :) = RESHAPE(array_1_rs2d, SHAPE(array_1_mm))
-# 762 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 715 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          CASE (3)
             CALL allocate_any(array_1_rs3d, source=array_1_3d, order=order_t1)
             CALL allocate_any(array_1_mm, sizes_2d(size_1, map_t1_1, map_t1_2))
             array_1_mm(:, :) = RESHAPE(array_1_rs3d, SHAPE(array_1_mm))
-# 762 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 715 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          CASE (4)
             CALL allocate_any(array_1_rs4d, source=array_1_4d, order=order_t1)
             CALL allocate_any(array_1_mm, sizes_2d(size_1, map_t1_1, map_t1_2))
             array_1_mm(:, :) = RESHAPE(array_1_rs4d, SHAPE(array_1_mm))
-# 767 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 720 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          END SELECT
-# 758 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 711 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          order_t2 (:) = dbcsr_t_inverse_order([map_t2_1, map_t2_2])
 
          SELECT CASE (ndims_tensor(tensor_2))
-# 762 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 715 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          CASE (2)
             CALL allocate_any(array_2_rs2d, source=array_2_2d, order=order_t2)
             CALL allocate_any(array_2_mm, sizes_2d(size_2, map_t2_1, map_t2_2))
             array_2_mm(:, :) = RESHAPE(array_2_rs2d, SHAPE(array_2_mm))
-# 762 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 715 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          CASE (3)
             CALL allocate_any(array_2_rs3d, source=array_2_3d, order=order_t2)
             CALL allocate_any(array_2_mm, sizes_2d(size_2, map_t2_1, map_t2_2))
             array_2_mm(:, :) = RESHAPE(array_2_rs3d, SHAPE(array_2_mm))
-# 762 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 715 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          CASE (4)
             CALL allocate_any(array_2_rs4d, source=array_2_4d, order=order_t2)
             CALL allocate_any(array_2_mm, sizes_2d(size_2, map_t2_1, map_t2_2))
             array_2_mm(:, :) = RESHAPE(array_2_rs4d, SHAPE(array_2_mm))
-# 767 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 720 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          END SELECT
-# 758 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 711 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          order_t3 (:) = dbcsr_t_inverse_order([map_t3_1, map_t3_2])
 
          SELECT CASE (ndims_tensor(tensor_3))
-# 762 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 715 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          CASE (2)
             CALL allocate_any(array_3_rs2d, source=array_3_2d, order=order_t3)
             CALL allocate_any(array_3_mm, sizes_2d(size_3, map_t3_1, map_t3_2))
             array_3_mm(:, :) = RESHAPE(array_3_rs2d, SHAPE(array_3_mm))
-# 762 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 715 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          CASE (3)
             CALL allocate_any(array_3_rs3d, source=array_3_3d, order=order_t3)
             CALL allocate_any(array_3_mm, sizes_2d(size_3, map_t3_1, map_t3_2))
             array_3_mm(:, :) = RESHAPE(array_3_rs3d, SHAPE(array_3_mm))
-# 762 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 715 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          CASE (4)
             CALL allocate_any(array_3_rs4d, source=array_3_4d, order=order_t3)
             CALL allocate_any(array_3_mm, sizes_2d(size_3, map_t3_1, map_t3_2))
             array_3_mm(:, :) = RESHAPE(array_3_rs4d, SHAPE(array_3_mm))
-# 767 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 720 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          END SELECT
-# 769 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 722 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
          SELECT CASE (ndims_tensor(tensor_3))
-# 772 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 725 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          CASE (2)
             CALL allocate_any(array_3_0_rs2d, source=array_3_0_2d, order=order_t3)
             CALL allocate_any(array_3_test_mm, sizes_2d(size_3, map_t3_1, map_t3_2))
             array_3_test_mm(:, :) = RESHAPE(array_3_0_rs2d, SHAPE(array_3_mm))
-# 772 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 725 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          CASE (3)
             CALL allocate_any(array_3_0_rs3d, source=array_3_0_3d, order=order_t3)
             CALL allocate_any(array_3_test_mm, sizes_2d(size_3, map_t3_1, map_t3_2))
             array_3_test_mm(:, :) = RESHAPE(array_3_0_rs3d, SHAPE(array_3_mm))
-# 772 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 725 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          CASE (4)
             CALL allocate_any(array_3_0_rs4d, source=array_3_0_4d, order=order_t3)
             CALL allocate_any(array_3_test_mm, sizes_2d(size_3, map_t3_1, map_t3_2))
             array_3_test_mm(:, :) = RESHAPE(array_3_0_rs4d, SHAPE(array_3_mm))
-# 777 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
+# 730 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
          END SELECT
 
          array_3_test_mm(:, :) = beta%r_dp*array_3_test_mm(:, :) + alpha%r_dp*MATMUL(array_1_mm, transpose(array_2_mm))
@@ -2103,9 +1318,9 @@ CONTAINS
       END ASSOCIATE
 
       eql_diff = MAXVAL(ABS(array_3_test_mm(:, :) - array_3_mm(:, :)))
-      notzero = MAXVAL(ABS(array_3_test_mm(:, :))) .GT. 1.0E-12_real_4
+      notzero = MAXVAL(ABS(array_3_test_mm(:, :))) .GT. 1.0E-12_real_8
 
-      eql = eql_diff .LT. 1.0E-11_real_4
+      eql = eql_diff .LT. 1.0E-11_real_8
 
       IF (.NOT. eql .OR. .NOT. notzero) THEN
          IF (io_unit > 0) WRITE (io_unit, *) 'Test failed!', eql_diff
@@ -2115,98 +1330,6 @@ CONTAINS
       ENDIF
 
    END SUBROUTINE
-
-# 798 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-   SUBROUTINE write_2d_array(array, unit_nr, array_compare)
-      !! Write nd array
-      REAL(KIND=real_8), DIMENSION(:,:), INTENT(IN) :: array
-      INTEGER, INTENT(IN)                                             :: unit_nr
-      REAL(KIND=real_8), DIMENSION(:,:), INTENT(IN), OPTIONAL :: array_compare
-      INTEGER                                            :: i_1, i_2
-# 805 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      DO i_2 = 1, SIZE(array, 2)
-# 805 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      DO i_1 = 1, SIZE(array, 1)
-# 807 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-         IF (INT(array(i_1, i_2), KIND=int_8) .GT. 0) THEN
-            WRITE (unit_nr, '(3I20)', advance='no') i_1, i_2, INT(array(i_1, i_2), &
-                                                                                              KIND=int_8)
-            IF (PRESENT(array_compare)) THEN
-               WRITE (unit_nr, '(I20)', advance='no') INT(array_compare(i_1, i_2), KIND=int_8)
-            ENDIF
-            WRITE (unit_nr, *)
-         ENDIF
-# 816 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      ENDDO
-# 816 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      ENDDO
-# 818 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-   END SUBROUTINE
-# 798 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-   SUBROUTINE write_3d_array(array, unit_nr, array_compare)
-      !! Write nd array
-      REAL(KIND=real_8), DIMENSION(:,:,:), INTENT(IN) :: array
-      INTEGER, INTENT(IN)                                             :: unit_nr
-      REAL(KIND=real_8), DIMENSION(:,:,:), INTENT(IN), OPTIONAL :: array_compare
-      INTEGER                                            :: i_1, i_2, i_3
-# 805 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      DO i_3 = 1, SIZE(array, 3)
-# 805 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      DO i_2 = 1, SIZE(array, 2)
-# 805 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      DO i_1 = 1, SIZE(array, 1)
-# 807 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-         IF (INT(array(i_1, i_2, i_3), KIND=int_8) .GT. 0) THEN
-            WRITE (unit_nr, '(4I20)', advance='no') i_1, i_2, i_3, INT(array(i_1, i_2, i_3), &
-                                                                                              KIND=int_8)
-            IF (PRESENT(array_compare)) THEN
-               WRITE (unit_nr, '(I20)', advance='no') INT(array_compare(i_1, i_2, i_3), KIND=int_8)
-            ENDIF
-            WRITE (unit_nr, *)
-         ENDIF
-# 816 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      ENDDO
-# 816 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      ENDDO
-# 816 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      ENDDO
-# 818 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-   END SUBROUTINE
-# 798 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-   SUBROUTINE write_4d_array(array, unit_nr, array_compare)
-      !! Write nd array
-      REAL(KIND=real_8), DIMENSION(:,:,:,:), INTENT(IN) :: array
-      INTEGER, INTENT(IN)                                             :: unit_nr
-      REAL(KIND=real_8), DIMENSION(:,:,:,:), INTENT(IN), OPTIONAL :: array_compare
-      INTEGER                                            :: i_1, i_2, i_3, i_4
-# 805 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      DO i_4 = 1, SIZE(array, 4)
-# 805 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      DO i_3 = 1, SIZE(array, 3)
-# 805 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      DO i_2 = 1, SIZE(array, 2)
-# 805 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      DO i_1 = 1, SIZE(array, 1)
-# 807 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-         IF (INT(array(i_1, i_2, i_3, i_4), KIND=int_8) .GT. 0) THEN
-            WRITE (unit_nr, '(5I20)', advance='no') i_1, i_2, i_3, i_4, INT(array(i_1, i_2, i_3, i_4), &
-                                                                                              KIND=int_8)
-            IF (PRESENT(array_compare)) THEN
-               WRITE (unit_nr, '(I20)', advance='no') INT(array_compare(i_1, i_2, i_3, i_4), KIND=int_8)
-            ENDIF
-            WRITE (unit_nr, *)
-         ENDIF
-# 816 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      ENDDO
-# 816 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      ENDDO
-# 816 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      ENDDO
-# 816 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-      ENDDO
-# 818 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
-   END SUBROUTINE
-# 820 "/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_test.F"
 
    FUNCTION sizes_2d(nd_sizes, map1, map2)
       !! mapped sizes in 2d

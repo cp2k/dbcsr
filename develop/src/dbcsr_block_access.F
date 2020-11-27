@@ -145,8 +145,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: block_number
          !! the block number, if it is known
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_remove_block', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_remove_block'
 
       INTEGER                                            :: b, c, error_handle, r
       LOGICAL                                            :: found, tr
@@ -203,8 +202,7 @@ CONTAINS
          !! logical row size of block
          !! logical column size of block
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_block_p_area', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_block_p_area'
 
       INTEGER                                            :: blk, csize, error_handle, iw, offset, &
                                                             rsize, stored_col, stored_row
@@ -292,8 +290,7 @@ CONTAINS
       INTEGER(KIND=int_8), INTENT(INOUT), OPTIONAL       :: flop
       TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: scale
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_put_block_area', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_put_block_area'
 
       INTEGER                                            :: data_type_m, error_handle
       LOGICAL                                            :: do_scale
@@ -399,8 +396,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
          !! Matrix into which blocks should be added.
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_reserve_all_blocks', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_reserve_all_blocks'
 
       INTEGER                                            :: blk_count, col, col_local, col_s, &
                                                             error_handle, myrank, rank, row, &
@@ -458,9 +454,6 @@ CONTAINS
 
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
          !! Matrix into which blocks should be added.
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_reserve_diag_blocks', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: blk_count, col, col_s, myrank, rank, &
                                                             row, row_s
@@ -521,8 +514,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: blk_pointers
          !! block pointers to use for new blocks
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_reserve_blocks', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_reserve_blocks'
 
       INTEGER :: blk, blk_p, data_size_new, data_size_old, handle, nblkrows, nblks_actual_added, &
                  nblks_added, nblks_new, nblks_old, new_data_sizes, nze
@@ -652,9 +644,6 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: base_offset
          !! The block pointer
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_set_block_pointer_any', &
-                                     routineP = moduleN//':'//routineN
-
 !   ---------------------------------------------------------------------------
 
       IF (main_tr) THEN
@@ -672,9 +661,9 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp"
 
 # 45 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp"
-# 669 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F" 2
+# 658 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F" 2
 
-# 671 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
+# 660 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
    SUBROUTINE dbcsr_get_2d_block_p_d (matrix, row, col, block, tr, found, &
                                                   row_size, col_size)
      !! Gets a 2-d block from a dbcsr matrix
@@ -694,8 +683,7 @@ CONTAINS
         !! logical row size of block
         !! logical column size of block
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_2d_block_p_d', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_2d_block_p_d'
 
       REAL(kind=real_8), DIMENSION(:), POINTER         :: block_1d
       INTEGER                                  :: rsize, csize, &
@@ -777,9 +765,6 @@ CONTAINS
         !! logical row size of block
         !! logical column size of block
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_block_p_d', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                  :: blk, csize, &
                                                   nze, offset, &
                                                   rsize, stored_row, &
@@ -832,9 +817,6 @@ CONTAINS
         !! the block holds transposed data
       LOGICAL, INTENT(OUT), OPTIONAL           :: existed
         !! block already existed
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_reserve_block2d_d', &
-                                     routineP = moduleN//':'//routineN
 
       TYPE(btree_data_dp2d)          :: data_block, data_block2
       INTEGER                                  :: col_size, row_size, &
@@ -935,9 +917,6 @@ CONTAINS
 
       REAL(kind=real_8), DIMENSION(:), POINTER           :: block_1d
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_put_block2d_d', &
-                                     routineP = moduleN//':'//routineN
-
       NULLIFY (block_1d)
 
       block_1d(1:SIZE(block)) => block
@@ -964,9 +943,6 @@ CONTAINS
       INTEGER(KIND=int_8), INTENT(INOUT), OPTIONAL :: flop
       REAL(kind=real_8), INTENT(IN), OPTIONAL            :: scale
         !! scale the OBblock being added
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_put_block_d', &
-                                     routineP = moduleN//':'//routineN
 
       TYPE(btree_data_dp2d)          :: data_block, data_block2
       INTEGER                                  :: blk, col_size, &
@@ -1126,8 +1102,7 @@ CONTAINS
         !! The block pointer
 
       CHARACTER(len=*), PARAMETER :: &
-         routineN = 'dbcsr_set_block_pointer_2d_d', &
-         routineP = moduleN//':'//routineN
+         routineN = 'dbcsr_set_block_pointer_2d_d'
 
       INTEGER                                  :: error_handler
       REAL(kind=real_8), DIMENSION(:), POINTER           :: lin_blk_p
@@ -1141,7 +1116,7 @@ CONTAINS
                                lin_blk_p)
       IF (careful_mod) CALL timestop(error_handler)
    END SUBROUTINE dbcsr_set_block_pointer_2d_d
-# 671 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
+# 660 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
    SUBROUTINE dbcsr_get_2d_block_p_s (matrix, row, col, block, tr, found, &
                                                   row_size, col_size)
      !! Gets a 2-d block from a dbcsr matrix
@@ -1161,8 +1136,7 @@ CONTAINS
         !! logical row size of block
         !! logical column size of block
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_2d_block_p_s', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_2d_block_p_s'
 
       REAL(kind=real_4), DIMENSION(:), POINTER         :: block_1d
       INTEGER                                  :: rsize, csize, &
@@ -1244,9 +1218,6 @@ CONTAINS
         !! logical row size of block
         !! logical column size of block
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_block_p_s', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                  :: blk, csize, &
                                                   nze, offset, &
                                                   rsize, stored_row, &
@@ -1299,9 +1270,6 @@ CONTAINS
         !! the block holds transposed data
       LOGICAL, INTENT(OUT), OPTIONAL           :: existed
         !! block already existed
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_reserve_block2d_s', &
-                                     routineP = moduleN//':'//routineN
 
       TYPE(btree_data_sp2d)          :: data_block, data_block2
       INTEGER                                  :: col_size, row_size, &
@@ -1402,9 +1370,6 @@ CONTAINS
 
       REAL(kind=real_4), DIMENSION(:), POINTER           :: block_1d
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_put_block2d_s', &
-                                     routineP = moduleN//':'//routineN
-
       NULLIFY (block_1d)
 
       block_1d(1:SIZE(block)) => block
@@ -1431,9 +1396,6 @@ CONTAINS
       INTEGER(KIND=int_8), INTENT(INOUT), OPTIONAL :: flop
       REAL(kind=real_4), INTENT(IN), OPTIONAL            :: scale
         !! scale the OBblock being added
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_put_block_s', &
-                                     routineP = moduleN//':'//routineN
 
       TYPE(btree_data_sp2d)          :: data_block, data_block2
       INTEGER                                  :: blk, col_size, &
@@ -1593,8 +1555,7 @@ CONTAINS
         !! The block pointer
 
       CHARACTER(len=*), PARAMETER :: &
-         routineN = 'dbcsr_set_block_pointer_2d_s', &
-         routineP = moduleN//':'//routineN
+         routineN = 'dbcsr_set_block_pointer_2d_s'
 
       INTEGER                                  :: error_handler
       REAL(kind=real_4), DIMENSION(:), POINTER           :: lin_blk_p
@@ -1608,7 +1569,7 @@ CONTAINS
                                lin_blk_p)
       IF (careful_mod) CALL timestop(error_handler)
    END SUBROUTINE dbcsr_set_block_pointer_2d_s
-# 671 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
+# 660 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
    SUBROUTINE dbcsr_get_2d_block_p_z (matrix, row, col, block, tr, found, &
                                                   row_size, col_size)
      !! Gets a 2-d block from a dbcsr matrix
@@ -1628,8 +1589,7 @@ CONTAINS
         !! logical row size of block
         !! logical column size of block
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_2d_block_p_z', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_2d_block_p_z'
 
       COMPLEX(kind=real_8), DIMENSION(:), POINTER         :: block_1d
       INTEGER                                  :: rsize, csize, &
@@ -1711,9 +1671,6 @@ CONTAINS
         !! logical row size of block
         !! logical column size of block
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_block_p_z', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                  :: blk, csize, &
                                                   nze, offset, &
                                                   rsize, stored_row, &
@@ -1766,9 +1723,6 @@ CONTAINS
         !! the block holds transposed data
       LOGICAL, INTENT(OUT), OPTIONAL           :: existed
         !! block already existed
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_reserve_block2d_z', &
-                                     routineP = moduleN//':'//routineN
 
       TYPE(btree_data_zp2d)          :: data_block, data_block2
       INTEGER                                  :: col_size, row_size, &
@@ -1869,9 +1823,6 @@ CONTAINS
 
       COMPLEX(kind=real_8), DIMENSION(:), POINTER           :: block_1d
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_put_block2d_z', &
-                                     routineP = moduleN//':'//routineN
-
       NULLIFY (block_1d)
 
       block_1d(1:SIZE(block)) => block
@@ -1898,9 +1849,6 @@ CONTAINS
       INTEGER(KIND=int_8), INTENT(INOUT), OPTIONAL :: flop
       COMPLEX(kind=real_8), INTENT(IN), OPTIONAL            :: scale
         !! scale the OBblock being added
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_put_block_z', &
-                                     routineP = moduleN//':'//routineN
 
       TYPE(btree_data_zp2d)          :: data_block, data_block2
       INTEGER                                  :: blk, col_size, &
@@ -2060,8 +2008,7 @@ CONTAINS
         !! The block pointer
 
       CHARACTER(len=*), PARAMETER :: &
-         routineN = 'dbcsr_set_block_pointer_2d_z', &
-         routineP = moduleN//':'//routineN
+         routineN = 'dbcsr_set_block_pointer_2d_z'
 
       INTEGER                                  :: error_handler
       COMPLEX(kind=real_8), DIMENSION(:), POINTER           :: lin_blk_p
@@ -2075,7 +2022,7 @@ CONTAINS
                                lin_blk_p)
       IF (careful_mod) CALL timestop(error_handler)
    END SUBROUTINE dbcsr_set_block_pointer_2d_z
-# 671 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
+# 660 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
    SUBROUTINE dbcsr_get_2d_block_p_c (matrix, row, col, block, tr, found, &
                                                   row_size, col_size)
      !! Gets a 2-d block from a dbcsr matrix
@@ -2095,8 +2042,7 @@ CONTAINS
         !! logical row size of block
         !! logical column size of block
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_2d_block_p_c', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_2d_block_p_c'
 
       COMPLEX(kind=real_4), DIMENSION(:), POINTER         :: block_1d
       INTEGER                                  :: rsize, csize, &
@@ -2178,9 +2124,6 @@ CONTAINS
         !! logical row size of block
         !! logical column size of block
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_block_p_c', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                  :: blk, csize, &
                                                   nze, offset, &
                                                   rsize, stored_row, &
@@ -2233,9 +2176,6 @@ CONTAINS
         !! the block holds transposed data
       LOGICAL, INTENT(OUT), OPTIONAL           :: existed
         !! block already existed
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_reserve_block2d_c', &
-                                     routineP = moduleN//':'//routineN
 
       TYPE(btree_data_cp2d)          :: data_block, data_block2
       INTEGER                                  :: col_size, row_size, &
@@ -2336,9 +2276,6 @@ CONTAINS
 
       COMPLEX(kind=real_4), DIMENSION(:), POINTER           :: block_1d
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_put_block2d_c', &
-                                     routineP = moduleN//':'//routineN
-
       NULLIFY (block_1d)
 
       block_1d(1:SIZE(block)) => block
@@ -2365,9 +2302,6 @@ CONTAINS
       INTEGER(KIND=int_8), INTENT(INOUT), OPTIONAL :: flop
       COMPLEX(kind=real_4), INTENT(IN), OPTIONAL            :: scale
         !! scale the OBblock being added
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_put_block_c', &
-                                     routineP = moduleN//':'//routineN
 
       TYPE(btree_data_cp2d)          :: data_block, data_block2
       INTEGER                                  :: blk, col_size, &
@@ -2527,8 +2461,7 @@ CONTAINS
         !! The block pointer
 
       CHARACTER(len=*), PARAMETER :: &
-         routineN = 'dbcsr_set_block_pointer_2d_c', &
-         routineP = moduleN//':'//routineN
+         routineN = 'dbcsr_set_block_pointer_2d_c'
 
       INTEGER                                  :: error_handler
       COMPLEX(kind=real_4), DIMENSION(:), POINTER           :: lin_blk_p
@@ -2542,6 +2475,6 @@ CONTAINS
                                lin_blk_p)
       IF (careful_mod) CALL timestop(error_handler)
    END SUBROUTINE dbcsr_set_block_pointer_2d_c
-# 1138 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
+# 1113 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_access.F"
 
 END MODULE dbcsr_block_access

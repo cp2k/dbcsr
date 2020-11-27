@@ -329,11 +329,6 @@ MODULE dbcsr_api
       MODULE PROCEDURE dbcsr_create_new, dbcsr_create_template
    END INTERFACE
 
-   INTERFACE dbcsr_conform_scalar
-      MODULE PROCEDURE make_conformant_scalar_d, make_conformant_scalar_s
-      MODULE PROCEDURE make_conformant_scalar_c, make_conformant_scalar_z
-   END INTERFACE
-
    INTERFACE dbcsr_trace
       MODULE PROCEDURE dbcsr_trace_d, dbcsr_trace_s
       MODULE PROCEDURE dbcsr_trace_z, dbcsr_trace_c
@@ -994,7 +989,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: method
       LOGICAL, INTENT(in), OPTIONAL                      :: use_absolute, filter_diag
 
-      CALL dbcsr_filter_prv(matrix%prv, dbcsr_conform_scalar(eps, matrix), &
+      CALL dbcsr_filter_prv(matrix%prv, dbcsr_conform_scalar_prv(eps, matrix%prv), &
                             method, use_absolute, filter_diag)
    END SUBROUTINE dbcsr_filter
 
@@ -1176,19 +1171,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
 
 # 45 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
-# 1173 "/__w/dbcsr/dbcsr/src/dbcsr_api.F" 2
-# 1174 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
-   FUNCTION make_conformant_scalar_d (scalar, matrix) RESULT(encapsulated)
-      !! Encapsulates a given scalar value and makes it conform with the
-      !! type of the matrix.
-
-      REAL(kind=real_8), INTENT(IN)                      :: scalar
-      TYPE(dbcsr_type), INTENT(IN)             :: matrix
-      TYPE(dbcsr_scalar_type)                  :: encapsulated
-
-      encapsulated = dbcsr_conform_scalar_prv(scalar, matrix%prv)
-   END FUNCTION make_conformant_scalar_d
-
+# 1168 "/__w/dbcsr/dbcsr/src/dbcsr_api.F" 2
+# 1169 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
    SUBROUTINE dbcsr_reserve_block2d_d (matrix, row, col, block, transposed, existed)
       TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
       INTEGER, INTENT(IN)                      :: row, col
@@ -1446,18 +1430,7 @@ CONTAINS
 
       DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
    END FUNCTION dbcsr_get_data_d
-# 1174 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
-   FUNCTION make_conformant_scalar_s (scalar, matrix) RESULT(encapsulated)
-      !! Encapsulates a given scalar value and makes it conform with the
-      !! type of the matrix.
-
-      REAL(kind=real_4), INTENT(IN)                      :: scalar
-      TYPE(dbcsr_type), INTENT(IN)             :: matrix
-      TYPE(dbcsr_scalar_type)                  :: encapsulated
-
-      encapsulated = dbcsr_conform_scalar_prv(scalar, matrix%prv)
-   END FUNCTION make_conformant_scalar_s
-
+# 1169 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
    SUBROUTINE dbcsr_reserve_block2d_s (matrix, row, col, block, transposed, existed)
       TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
       INTEGER, INTENT(IN)                      :: row, col
@@ -1715,18 +1688,7 @@ CONTAINS
 
       DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
    END FUNCTION dbcsr_get_data_s
-# 1174 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
-   FUNCTION make_conformant_scalar_z (scalar, matrix) RESULT(encapsulated)
-      !! Encapsulates a given scalar value and makes it conform with the
-      !! type of the matrix.
-
-      COMPLEX(kind=real_8), INTENT(IN)                      :: scalar
-      TYPE(dbcsr_type), INTENT(IN)             :: matrix
-      TYPE(dbcsr_scalar_type)                  :: encapsulated
-
-      encapsulated = dbcsr_conform_scalar_prv(scalar, matrix%prv)
-   END FUNCTION make_conformant_scalar_z
-
+# 1169 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
    SUBROUTINE dbcsr_reserve_block2d_z (matrix, row, col, block, transposed, existed)
       TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
       INTEGER, INTENT(IN)                      :: row, col
@@ -1984,18 +1946,7 @@ CONTAINS
 
       DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
    END FUNCTION dbcsr_get_data_z
-# 1174 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
-   FUNCTION make_conformant_scalar_c (scalar, matrix) RESULT(encapsulated)
-      !! Encapsulates a given scalar value and makes it conform with the
-      !! type of the matrix.
-
-      COMPLEX(kind=real_4), INTENT(IN)                      :: scalar
-      TYPE(dbcsr_type), INTENT(IN)             :: matrix
-      TYPE(dbcsr_scalar_type)                  :: encapsulated
-
-      encapsulated = dbcsr_conform_scalar_prv(scalar, matrix%prv)
-   END FUNCTION make_conformant_scalar_c
-
+# 1169 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
    SUBROUTINE dbcsr_reserve_block2d_c (matrix, row, col, block, transposed, existed)
       TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
       INTEGER, INTENT(IN)                      :: row, col
@@ -2253,6 +2204,6 @@ CONTAINS
 
       DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
    END FUNCTION dbcsr_get_data_c
-# 1443 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
+# 1427 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
 END MODULE dbcsr_api

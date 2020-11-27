@@ -403,8 +403,7 @@ public subroutine dbcsr_block_scale(dst, scale, row_size, col_size, lb, lb2)
          <span class="c">!! lower bound for destination (and source if not given explicitly)</span>
          <span class="c">!! lower bound of 2nd dimension for target</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_block_scale&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_block_scale&#39;</span>
 
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">data_size</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">lb2_t</span><span class="p">,</span> <span class="n">lb_t</span><span class="p">,</span> <span class="n">ub_t</span>
 <span class="c">!     ---------------------------------------------------------------------------</span>

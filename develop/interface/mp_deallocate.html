@@ -187,13 +187,13 @@
       
       <a class="list-group-item" href="../interface/mp_deallocate.html#moduleprocedure-mp_deallocate_l">mp_deallocate_l</a>
       
-      <a class="list-group-item" href="../interface/mp_deallocate.html#moduleprocedure-mp_deallocate_r">mp_deallocate_r</a>
-      
       <a class="list-group-item" href="../interface/mp_deallocate.html#moduleprocedure-mp_deallocate_d">mp_deallocate_d</a>
       
-      <a class="list-group-item" href="../interface/mp_deallocate.html#moduleprocedure-mp_deallocate_c">mp_deallocate_c</a>
+      <a class="list-group-item" href="../interface/mp_deallocate.html#moduleprocedure-mp_deallocate_r">mp_deallocate_r</a>
       
       <a class="list-group-item" href="../interface/mp_deallocate.html#moduleprocedure-mp_deallocate_z">mp_deallocate_z</a>
+      
+      <a class="list-group-item" href="../interface/mp_deallocate.html#moduleprocedure-mp_deallocate_c">mp_deallocate_c</a>
       
     </div>
   </div>
@@ -246,13 +246,13 @@
       
       <a class="list-group-item" href="../interface/mp_deallocate.html#moduleprocedure-mp_deallocate_l">mp_deallocate_l</a>
       
-      <a class="list-group-item" href="../interface/mp_deallocate.html#moduleprocedure-mp_deallocate_r">mp_deallocate_r</a>
-      
       <a class="list-group-item" href="../interface/mp_deallocate.html#moduleprocedure-mp_deallocate_d">mp_deallocate_d</a>
       
-      <a class="list-group-item" href="../interface/mp_deallocate.html#moduleprocedure-mp_deallocate_c">mp_deallocate_c</a>
+      <a class="list-group-item" href="../interface/mp_deallocate.html#moduleprocedure-mp_deallocate_r">mp_deallocate_r</a>
       
       <a class="list-group-item" href="../interface/mp_deallocate.html#moduleprocedure-mp_deallocate_z">mp_deallocate_z</a>
+      
+      <a class="list-group-item" href="../interface/mp_deallocate.html#moduleprocedure-mp_deallocate_c">mp_deallocate_c</a>
       
     </div>
   </div>
@@ -421,80 +421,6 @@ private subroutine <a href='../proc/mp_deallocate_l.html'>mp_deallocate_l</a>(DA
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_deallocate_r"></span><h3>
-private subroutine <a href='../proc/mp_deallocate_r.html'>mp_deallocate_r</a>(DATA, stat)
-    
-    
-   
-</h3></div>
-  <div class="panel-body">
-       
-    
-
-
-
-
-
-
-
-<p>Deallocates special parallel memory</p>
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td></td>
-  <td></td>
-  
-  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
-  <td><strong>DATA</strong></td><td><p>pointer to special memory to deallocate</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(out),</td>
-  <td>optional</td>
-  
-  <td></td><td>::</td>
-  <td><strong>stat</strong></td><td></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-  </div>
-  </div>
-
-   
-    
-  <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-mp_deallocate_d"></span><h3>
 private subroutine <a href='../proc/mp_deallocate_d.html'>mp_deallocate_d</a>(DATA, stat)
     
@@ -569,8 +495,8 @@ private subroutine <a href='../proc/mp_deallocate_d.html'>mp_deallocate_d</a>(DA
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_deallocate_c"></span><h3>
-private subroutine <a href='../proc/mp_deallocate_c.html'>mp_deallocate_c</a>(DATA, stat)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_deallocate_r"></span><h3>
+private subroutine <a href='../proc/mp_deallocate_r.html'>mp_deallocate_r</a>(DATA, stat)
     
     
    
@@ -606,7 +532,7 @@ private subroutine <a href='../proc/mp_deallocate_c.html'>mp_deallocate_c</a>(DA
   
 <tr>
   
-  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
   <td></td>
   <td></td>
   
@@ -681,6 +607,80 @@ private subroutine <a href='../proc/mp_deallocate_z.html'>mp_deallocate_z</a>(DA
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
+  <td><strong>DATA</strong></td><td><p>pointer to special memory to deallocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>stat</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+   
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_deallocate_c"></span><h3>
+private subroutine <a href='../proc/mp_deallocate_c.html'>mp_deallocate_c</a>(DATA, stat)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Deallocates special parallel memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
   <td></td>
   <td></td>
   

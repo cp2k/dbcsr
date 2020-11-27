@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.7% of total for modules and submodules.">414 statements</a>
+    title=" 0.7% of total for modules and submodules.">401 statements</a>
      </li> 
      
      
@@ -220,8 +220,6 @@
       <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-dbcsr_transpose_dims">dbcsr_transpose_dims</a>
       
       <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-rebin_distribution">rebin_distribution</a>
-      
-      <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-evenly_bin">evenly_bin</a>
       
       <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-dbcsr_reblocking_targets">dbcsr_reblocking_targets</a>
       
@@ -364,8 +362,6 @@
       <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-dbcsr_transpose_dims">dbcsr_transpose_dims</a>
       
       <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-rebin_distribution">rebin_distribution</a>
-      
-      <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-evenly_bin">evenly_bin</a>
       
       <a class="list-group-item" href="../module/dbcsr_dist_operations.html#proc-dbcsr_reblocking_targets">dbcsr_reblocking_targets</a>
       
@@ -1621,80 +1617,6 @@ public subroutine <a href='../proc/rebin_distribution.html'>rebin_distribution</
   <td><strong>nimages</strong></td><td><p>number of bins in the new real distribution
  multiplicity
  number of images in the new distribution</p></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-  </div>
-  </div>
-
-    
-    
-  <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-evenly_bin"></span><h3>
-private subroutine <a href='../proc/evenly_bin.html'>evenly_bin</a>(array, nbins)
-    
-    
-   
-</h3></div>
-  <div class="panel-body">
-       
-    
-
-
-
-
-
-
-
-<p>Evenly distributes elements into bins</p>
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(out),</td>
-  <td></td>
-  
-  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>array</strong></td><td><p>elements to bin</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>nbins</strong></td><td><p>number of bins into which elements are distributed</p></td>
   
 </tr>
 

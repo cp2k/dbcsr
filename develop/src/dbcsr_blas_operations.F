@@ -43,8 +43,6 @@ CONTAINS
       INTEGER, INTENT(OUT)                               :: iseed(4)
          !! a lapack compatible seed
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'set_larnv_seed', routineP = moduleN//':'//routineN
-
       INTEGER(KIND=int_8)                                :: map
 
       map = ((irow - 1 + icol*INT(nrow, int_8))*(1 + MODULO(ival, 2**16)))*2 + 1 + 0*ncol ! ncol used
@@ -63,9 +61,6 @@ CONTAINS
          !! requires each int to be in the range 0..2**12, and the iseed(4) odd
       INTEGER, INTENT(IN)                                :: n
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: x
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_lapack_larnv', &
-                                     routineP = moduleN//':'//routineN
 
       SELECT CASE (x%d%data_type)
       CASE (dbcsr_type_real_4)

@@ -294,7 +294,7 @@ private subroutine mp_alltoall_z11v(sb, scount, sdispl, rb, rcount, rdispl, grou
   
 <tr>
   
-  <td><span class="anchor" id="variable-rcount~27"></span>integer,</td>
+  <td><span class="anchor" id="variable-rcount~23"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -428,8 +428,7 @@ private subroutine mp_alltoall_z11v(sb, scount, sdispl, rb, rcount, rdispl, grou
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">group</span>
          <span class="c">!! Message passing environment identifier</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;mp_alltoall_z11v&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;mp_alltoall_z11v&#39;</span>
 
       <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">handle</span><span class="p">,</span> <span class="n">ierr</span>
 <span class="cp">#if defined(__parallel)</span>

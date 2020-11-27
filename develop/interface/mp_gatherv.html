@@ -187,13 +187,13 @@
       
       <a class="list-group-item" href="../interface/mp_gatherv.html#moduleprocedure-mp_gatherv_lv">mp_gatherv_lv</a>
       
-      <a class="list-group-item" href="../interface/mp_gatherv.html#moduleprocedure-mp_gatherv_rv">mp_gatherv_rv</a>
-      
       <a class="list-group-item" href="../interface/mp_gatherv.html#moduleprocedure-mp_gatherv_dv">mp_gatherv_dv</a>
       
-      <a class="list-group-item" href="../interface/mp_gatherv.html#moduleprocedure-mp_gatherv_cv">mp_gatherv_cv</a>
+      <a class="list-group-item" href="../interface/mp_gatherv.html#moduleprocedure-mp_gatherv_rv">mp_gatherv_rv</a>
       
       <a class="list-group-item" href="../interface/mp_gatherv.html#moduleprocedure-mp_gatherv_zv">mp_gatherv_zv</a>
+      
+      <a class="list-group-item" href="../interface/mp_gatherv.html#moduleprocedure-mp_gatherv_cv">mp_gatherv_cv</a>
       
     </div>
   </div>
@@ -246,13 +246,13 @@
       
       <a class="list-group-item" href="../interface/mp_gatherv.html#moduleprocedure-mp_gatherv_lv">mp_gatherv_lv</a>
       
-      <a class="list-group-item" href="../interface/mp_gatherv.html#moduleprocedure-mp_gatherv_rv">mp_gatherv_rv</a>
-      
       <a class="list-group-item" href="../interface/mp_gatherv.html#moduleprocedure-mp_gatherv_dv">mp_gatherv_dv</a>
       
-      <a class="list-group-item" href="../interface/mp_gatherv.html#moduleprocedure-mp_gatherv_cv">mp_gatherv_cv</a>
+      <a class="list-group-item" href="../interface/mp_gatherv.html#moduleprocedure-mp_gatherv_rv">mp_gatherv_rv</a>
       
       <a class="list-group-item" href="../interface/mp_gatherv.html#moduleprocedure-mp_gatherv_zv">mp_gatherv_zv</a>
+      
+      <a class="list-group-item" href="../interface/mp_gatherv.html#moduleprocedure-mp_gatherv_cv">mp_gatherv_cv</a>
       
     </div>
   </div>
@@ -549,144 +549,6 @@ private subroutine <a href='../proc/mp_gatherv_lv.html'>mp_gatherv_lv</a>(sendbu
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_gatherv_rv"></span><h3>
-private subroutine <a href='../proc/mp_gatherv_rv.html'>mp_gatherv_rv</a>(sendbuf, recvbuf, recvcounts, displs, root, comm)
-    
-    
-   
-</h3></div>
-  <div class="panel-body">
-       
-    
-
-
-
-
-
-
-
-<p>Gathers data from all processes to one.</p><a href="../proc/mp_gatherv_rv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
-  <td><strong>sendbuf</strong></td><td><p>Data to send to root</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(out),</td>
-  <td></td>
-  
-  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
-  <td><strong>recvbuf</strong></td><td><p>Received data (on root)</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
-  <td><strong>recvcounts</strong></td><td><p>Sizes of data received from processes
- Offsets of data received from processes</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
-  <td><strong>displs</strong></td><td><p>Sizes of data received from processes
- Offsets of data received from processes</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>root</strong></td><td><p>Process which gathers the data
- Message passing environment identifier</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>comm</strong></td><td><p>Process which gathers the data
- Message passing environment identifier</p></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-  </div>
-  </div>
-
-   
-    
-  <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-mp_gatherv_dv"></span><h3>
 private subroutine <a href='../proc/mp_gatherv_dv.html'>mp_gatherv_dv</a>(sendbuf, recvbuf, recvcounts, displs, root, comm)
     
@@ -825,8 +687,8 @@ private subroutine <a href='../proc/mp_gatherv_dv.html'>mp_gatherv_dv</a>(sendbu
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_gatherv_cv"></span><h3>
-private subroutine <a href='../proc/mp_gatherv_cv.html'>mp_gatherv_cv</a>(sendbuf, recvbuf, recvcounts, displs, root, comm)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_gatherv_rv"></span><h3>
+private subroutine <a href='../proc/mp_gatherv_rv.html'>mp_gatherv_rv</a>(sendbuf, recvbuf, recvcounts, displs, root, comm)
     
     
    
@@ -841,7 +703,7 @@ private subroutine <a href='../proc/mp_gatherv_cv.html'>mp_gatherv_cv</a>(sendbu
 
 
 
-<p>Gathers data from all processes to one.</p><a href="../proc/mp_gatherv_cv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+<p>Gathers data from all processes to one.</p><a href="../proc/mp_gatherv_rv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -862,7 +724,7 @@ private subroutine <a href='../proc/mp_gatherv_cv.html'>mp_gatherv_cv</a>(sendbu
   
 <tr>
   
-  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -877,7 +739,7 @@ private subroutine <a href='../proc/mp_gatherv_cv.html'>mp_gatherv_cv</a>(sendbu
   
 <tr>
   
-  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
   <td>intent(out),</td>
   <td></td>
   
@@ -1016,6 +878,144 @@ private subroutine <a href='../proc/mp_gatherv_zv.html'>mp_gatherv_zv</a>(sendbu
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
+  <td><strong>recvbuf</strong></td><td><p>Received data (on root)</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
+  <td><strong>recvcounts</strong></td><td><p>Sizes of data received from processes
+ Offsets of data received from processes</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
+  <td><strong>displs</strong></td><td><p>Sizes of data received from processes
+ Offsets of data received from processes</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>root</strong></td><td><p>Process which gathers the data
+ Message passing environment identifier</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>comm</strong></td><td><p>Process which gathers the data
+ Message passing environment identifier</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+   
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_gatherv_cv"></span><h3>
+private subroutine <a href='../proc/mp_gatherv_cv.html'>mp_gatherv_cv</a>(sendbuf, recvbuf, recvcounts, displs, root, comm)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Gathers data from all processes to one.</p><a href="../proc/mp_gatherv_cv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
+  <td><strong>sendbuf</strong></td><td><p>Data to send to root</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
   <td>intent(out),</td>
   <td></td>
   

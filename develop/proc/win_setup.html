@@ -223,7 +223,7 @@ private subroutine win_setup(buffer, do_win_create, request)
   
 <tr>
   
-  <td><span class="anchor" id="variable-buffer~17"></span>type(<a href='../type/dbcsr_buffer.html'>dbcsr_buffer</a>),</td>
+  <td><span class="anchor" id="variable-buffer~16"></span>type(<a href='../type/dbcsr_buffer.html'>dbcsr_buffer</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -253,7 +253,7 @@ private subroutine win_setup(buffer, do_win_create, request)
   
 <tr>
   
-  <td><span class="anchor" id="variable-request~134"></span>integer,</td>
+  <td><span class="anchor" id="variable-request~128"></span>integer,</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -334,8 +334,7 @@ private subroutine win_setup(buffer, do_win_create, request)
       <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>               <span class="kd">::</span> <span class="n">do_win_create</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                             <span class="kd">::</span> <span class="n">request</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;win_setup&#39;</span><span class="p">,</span> <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
-
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;win_setup&#39;</span>
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">handle</span><span class="p">,</span> <span class="n">handle1</span>
 
       <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>

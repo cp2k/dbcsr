@@ -105,7 +105,7 @@ CONTAINS
          !! checksum after each multiplication
 
       CHARACTER(len=*), PARAMETER :: fmt_desc = '(A,3(1X,I6),1X,A,2(1X,I5),1X,A,2(1X,L1))', &
-                                     routineN = 'dbcsr_run_tests', routineP = moduleN//':'//routineN
+                                     routineN = 'dbcsr_run_tests'
 
       CHARACTER                                          :: t_a, t_b
       INTEGER                                            :: bmax, bmin, cart_group, error_handle, &
@@ -257,8 +257,6 @@ CONTAINS
       INTEGER                                            :: io_unit
          !! unit for status updates
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'test_binary_io', routineP = moduleN//':'//routineN
-
       CHARACTER(LEN=100)                                 :: file_name
       REAL(kind=real_8)                                  :: norm, post, pre
       TYPE(dbcsr_type)                                   :: matrix_a_read
@@ -312,8 +310,7 @@ CONTAINS
          !! which unit to write to, if not negative
       LOGICAL                                            :: always_checksum
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'test_multiplies_multiproc', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'test_multiplies_multiproc'
 
       INTEGER                                            :: cart_group, error_handle, group, &
                                                             loop_iter, mynode, numnodes, test

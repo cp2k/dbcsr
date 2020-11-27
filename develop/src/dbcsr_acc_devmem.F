@@ -328,24 +328,6 @@ CONTAINS
 #endif
    END SUBROUTINE acc_devmem_set_cptr
 
-   SUBROUTINE acc_devmem_info(free, avail)
-      !! Fortran-wrapper for getting GPU memory info.
-
-      INTEGER, INTENT(OUT)                     :: free, avail
-         !! free device memory
-         !! available device memory
-
-#if ! defined (__DBCSR_ACC)
-      avail = -1; free = -1 ! assign intent-out arguments to silence compiler warnings
-      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
-#else
-      INTEGER                                  :: istat
-      istat = acc_interface_dev_mem_info(free, avail)
-      IF (istat /= 0) &
-         DBCSR_ABORT("acc_devmem_info: failed.")
-#endif
-   END SUBROUTINE acc_devmem_info
-
    SUBROUTINE acc_devmem_allocate_bytes(this, size_in_bytes)
       !! Allocates a given devmem.
 
@@ -503,9 +485,9 @@ CONTAINS
    END SUBROUTINE dev2host_raw
 #endif
 
-# 511 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 493 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
-# 513 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 495 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
    SUBROUTINE host2dev_i4_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
@@ -558,7 +540,7 @@ CONTAINS
 #endif
    END SUBROUTINE dev2host_i4_1D
 
-# 513 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 495 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
    SUBROUTINE host2dev_i8_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
@@ -611,7 +593,7 @@ CONTAINS
 #endif
    END SUBROUTINE dev2host_i8_1D
 
-# 513 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 495 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
    SUBROUTINE host2dev_r4_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
@@ -664,7 +646,7 @@ CONTAINS
 #endif
    END SUBROUTINE dev2host_r4_1D
 
-# 513 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 495 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
    SUBROUTINE host2dev_r8_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
@@ -717,7 +699,7 @@ CONTAINS
 #endif
    END SUBROUTINE dev2host_r8_1D
 
-# 513 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 495 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
    SUBROUTINE host2dev_c4_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
@@ -770,7 +752,7 @@ CONTAINS
 #endif
    END SUBROUTINE dev2host_c4_1D
 
-# 513 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 495 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
    SUBROUTINE host2dev_c8_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
@@ -823,6 +805,6 @@ CONTAINS
 #endif
    END SUBROUTINE dev2host_c8_1D
 
-# 566 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 548 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
 END MODULE dbcsr_acc_devmem

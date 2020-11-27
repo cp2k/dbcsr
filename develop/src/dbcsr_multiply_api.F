@@ -78,9 +78,6 @@ CONTAINS
       REAL(KIND=real_8), INTENT(IN), OPTIONAL            :: filter_eps
       INTEGER(KIND=int_8), INTENT(OUT), OPTIONAL         :: flop
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_multiply_d', &
-                                     routineP = moduleN//':'//routineN
-
       IF (dbcsr_get_data_type(matrix_a) .EQ. dbcsr_type_real_4 .AND. &
           dbcsr_get_data_type(matrix_b) .EQ. dbcsr_type_real_4 .AND. &
           dbcsr_get_data_type(matrix_c) .EQ. dbcsr_type_real_4) THEN

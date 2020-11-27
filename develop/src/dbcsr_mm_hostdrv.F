@@ -76,8 +76,7 @@ CONTAINS
       TYPE(dbcsr_mm_hostdrv_type), INTENT(INOUT)         :: this
       TYPE(dbcsr_work_type), POINTER                     :: product_wm
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_hostdrv_init', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_hostdrv_init'
 
       INTEGER                                            :: handle
 
@@ -104,8 +103,7 @@ CONTAINS
       TYPE(stack_descriptor_type), INTENT(IN)            :: stack_descr
       LOGICAL, INTENT(OUT)                               :: success, used_smm
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_hostdrv_process', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_hostdrv_process'
       LOGICAL, PARAMETER                                 :: careful = careful_mod, dbg = .FALSE.
 
       INTEGER                                            :: error_handle, sp
@@ -269,8 +267,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
 
 # 45 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
-# 266 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F" 2
-# 267 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 264 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F" 2
+# 265 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
    SUBROUTINE blas_process_mm_stack_d (params, &
                                                    stack_size, &
                                                    a_data, b_data, c_data)
@@ -287,9 +285,6 @@ CONTAINS
         !! Right-matrix data
       REAL(kind=real_8), DIMENSION(*), INTENT(INOUT)      :: c_data
         !! Product data
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'blas_process_mm_stack_d', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                   :: sp
 
@@ -326,9 +321,6 @@ CONTAINS
       REAL(kind=real_8), DIMENSION(*), INTENT(INOUT)      :: c_data
         !! Product data
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'internal_process_mm_stack_d', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                   :: sp
 
 !   ---------------------------------------------------------------------------
@@ -362,9 +354,6 @@ CONTAINS
       REAL(kind=real_8), DIMENSION(*), INTENT(INOUT)      :: c_data
         !! Product data
       LOGICAL, INTENT(OUT)                      :: used_smm
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'smm_process_mm_stack_d', &
-                                     routineP = moduleN//':'//routineN
 
 #if defined(__HAS_smm_dnn)
 
@@ -433,8 +422,6 @@ CONTAINS
       LOGICAL, INTENT(OUT)                           :: used_smm
         !! Flag to signal if an efficient kernel was used
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'xsmm_process_mm_batch_d', &
-                                     routineP = moduleN//':'//routineN
 #if 1
       IF (stack_descr%defined_mnk) THEN ! homogeneous stack
          CALL libxsmm_gemm_batch(LIBXSMM_GEMM_PRECISION, LIBXSMM_GEMM_PRECISION, 'N', 'N', &
@@ -470,10 +457,11 @@ CONTAINS
    END SUBROUTINE xsmm_process_mm_batch_d
 #endif
 
+#if defined(__LIBXSMM)
    SUBROUTINE xsmm_process_mm_stack_d (stack_descr, params, &
                                                    stack_size, a_data, b_data, c_data, used_smm)
      !! Processes MM stack and issues libxsmm calls
-#if defined(__LIBXSMM) && 1
+#if 1
       ! Caution: This dependency is ignored by makedep.py, because libxsmm.F is kinda empty.
       USE libxsmm, ONLY: libxsmm_function => libxsmm_dmmfunction, &
                          libxsmm_dispatch => libxsmm_dmmdispatch, &
@@ -511,9 +499,7 @@ CONTAINS
       LOGICAL, INTENT(OUT)                           :: used_smm
         !! Flag to signal if an efficient kernel was used
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'libxsmm_process_mm_stack_d', &
-                                     routineP = moduleN//':'//routineN
-#if defined(__LIBXSMM) && 1
+#if 1
       DBCSR_ASSERT(LIBXSMM_COL_MAJOR /= 0 .AND. LIBXSMM_ROW_MAJOR == 0)
       processed = .FALSE.
       used_smm = .FALSE.
@@ -606,6 +592,7 @@ CONTAINS
       used_smm = .FALSE.
 #endif
    END SUBROUTINE xsmm_process_mm_stack_d
+#endif
 
    PURE SUBROUTINE internal_mm_d_nn( &
       M, N, K, A, B, C)
@@ -615,7 +602,7 @@ CONTAINS
       REAL(kind=real_8), INTENT(IN)                      :: A(M, K)
       C(:, :) = C(:, :) + MATMUL(A, B)
    END SUBROUTINE internal_mm_d_nn
-# 267 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 265 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
    SUBROUTINE blas_process_mm_stack_s (params, &
                                                    stack_size, &
                                                    a_data, b_data, c_data)
@@ -632,9 +619,6 @@ CONTAINS
         !! Right-matrix data
       REAL(kind=real_4), DIMENSION(*), INTENT(INOUT)      :: c_data
         !! Product data
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'blas_process_mm_stack_s', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                   :: sp
 
@@ -671,9 +655,6 @@ CONTAINS
       REAL(kind=real_4), DIMENSION(*), INTENT(INOUT)      :: c_data
         !! Product data
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'internal_process_mm_stack_s', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                   :: sp
 
 !   ---------------------------------------------------------------------------
@@ -707,9 +688,6 @@ CONTAINS
       REAL(kind=real_4), DIMENSION(*), INTENT(INOUT)      :: c_data
         !! Product data
       LOGICAL, INTENT(OUT)                      :: used_smm
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'smm_process_mm_stack_s', &
-                                     routineP = moduleN//':'//routineN
 
 #if defined(__HAS_smm_snn)
 
@@ -778,8 +756,6 @@ CONTAINS
       LOGICAL, INTENT(OUT)                           :: used_smm
         !! Flag to signal if an efficient kernel was used
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'xsmm_process_mm_batch_s', &
-                                     routineP = moduleN//':'//routineN
 #if 1
       IF (stack_descr%defined_mnk) THEN ! homogeneous stack
          CALL libxsmm_gemm_batch(LIBXSMM_GEMM_PRECISION, LIBXSMM_GEMM_PRECISION, 'N', 'N', &
@@ -815,10 +791,11 @@ CONTAINS
    END SUBROUTINE xsmm_process_mm_batch_s
 #endif
 
+#if defined(__LIBXSMM)
    SUBROUTINE xsmm_process_mm_stack_s (stack_descr, params, &
                                                    stack_size, a_data, b_data, c_data, used_smm)
      !! Processes MM stack and issues libxsmm calls
-#if defined(__LIBXSMM) && 1
+#if 1
       ! Caution: This dependency is ignored by makedep.py, because libxsmm.F is kinda empty.
       USE libxsmm, ONLY: libxsmm_function => libxsmm_smmfunction, &
                          libxsmm_dispatch => libxsmm_smmdispatch, &
@@ -856,9 +833,7 @@ CONTAINS
       LOGICAL, INTENT(OUT)                           :: used_smm
         !! Flag to signal if an efficient kernel was used
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'libxsmm_process_mm_stack_s', &
-                                     routineP = moduleN//':'//routineN
-#if defined(__LIBXSMM) && 1
+#if 1
       DBCSR_ASSERT(LIBXSMM_COL_MAJOR /= 0 .AND. LIBXSMM_ROW_MAJOR == 0)
       processed = .FALSE.
       used_smm = .FALSE.
@@ -951,6 +926,7 @@ CONTAINS
       used_smm = .FALSE.
 #endif
    END SUBROUTINE xsmm_process_mm_stack_s
+#endif
 
    PURE SUBROUTINE internal_mm_s_nn( &
       M, N, K, A, B, C)
@@ -960,7 +936,7 @@ CONTAINS
       REAL(kind=real_4), INTENT(IN)                      :: A(M, K)
       C(:, :) = C(:, :) + MATMUL(A, B)
    END SUBROUTINE internal_mm_s_nn
-# 267 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 265 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
    SUBROUTINE blas_process_mm_stack_z (params, &
                                                    stack_size, &
                                                    a_data, b_data, c_data)
@@ -977,9 +953,6 @@ CONTAINS
         !! Right-matrix data
       COMPLEX(kind=real_8), DIMENSION(*), INTENT(INOUT)      :: c_data
         !! Product data
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'blas_process_mm_stack_z', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                   :: sp
 
@@ -1016,9 +989,6 @@ CONTAINS
       COMPLEX(kind=real_8), DIMENSION(*), INTENT(INOUT)      :: c_data
         !! Product data
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'internal_process_mm_stack_z', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                   :: sp
 
 !   ---------------------------------------------------------------------------
@@ -1052,9 +1022,6 @@ CONTAINS
       COMPLEX(kind=real_8), DIMENSION(*), INTENT(INOUT)      :: c_data
         !! Product data
       LOGICAL, INTENT(OUT)                      :: used_smm
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'smm_process_mm_stack_z', &
-                                     routineP = moduleN//':'//routineN
 
 #if defined(__HAS_smm_znn)
 
@@ -1123,8 +1090,6 @@ CONTAINS
       LOGICAL, INTENT(OUT)                           :: used_smm
         !! Flag to signal if an efficient kernel was used
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'xsmm_process_mm_batch_z', &
-                                     routineP = moduleN//':'//routineN
 #if 0
       IF (stack_descr%defined_mnk) THEN ! homogeneous stack
          CALL libxsmm_gemm_batch(LIBXSMM_GEMM_PRECISION, LIBXSMM_GEMM_PRECISION, 'N', 'N', &
@@ -1160,10 +1125,11 @@ CONTAINS
    END SUBROUTINE xsmm_process_mm_batch_z
 #endif
 
+#if defined(__LIBXSMM)
    SUBROUTINE xsmm_process_mm_stack_z (stack_descr, params, &
                                                    stack_size, a_data, b_data, c_data, used_smm)
      !! Processes MM stack and issues libxsmm calls
-#if defined(__LIBXSMM) && 0
+#if 0
       ! Caution: This dependency is ignored by makedep.py, because libxsmm.F is kinda empty.
       USE libxsmm, ONLY: libxsmm_function => libxsmm_zmmfunction, &
                          libxsmm_dispatch => libxsmm_zmmdispatch, &
@@ -1201,9 +1167,7 @@ CONTAINS
       LOGICAL, INTENT(OUT)                           :: used_smm
         !! Flag to signal if an efficient kernel was used
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'libxsmm_process_mm_stack_z', &
-                                     routineP = moduleN//':'//routineN
-#if defined(__LIBXSMM) && 0
+#if 0
       DBCSR_ASSERT(LIBXSMM_COL_MAJOR /= 0 .AND. LIBXSMM_ROW_MAJOR == 0)
       processed = .FALSE.
       used_smm = .FALSE.
@@ -1296,6 +1260,7 @@ CONTAINS
       used_smm = .FALSE.
 #endif
    END SUBROUTINE xsmm_process_mm_stack_z
+#endif
 
    PURE SUBROUTINE internal_mm_z_nn( &
       M, N, K, A, B, C)
@@ -1305,7 +1270,7 @@ CONTAINS
       COMPLEX(kind=real_8), INTENT(IN)                      :: A(M, K)
       C(:, :) = C(:, :) + MATMUL(A, B)
    END SUBROUTINE internal_mm_z_nn
-# 267 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 265 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
    SUBROUTINE blas_process_mm_stack_c (params, &
                                                    stack_size, &
                                                    a_data, b_data, c_data)
@@ -1322,9 +1287,6 @@ CONTAINS
         !! Right-matrix data
       COMPLEX(kind=real_4), DIMENSION(*), INTENT(INOUT)      :: c_data
         !! Product data
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'blas_process_mm_stack_c', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                   :: sp
 
@@ -1361,9 +1323,6 @@ CONTAINS
       COMPLEX(kind=real_4), DIMENSION(*), INTENT(INOUT)      :: c_data
         !! Product data
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'internal_process_mm_stack_c', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                   :: sp
 
 !   ---------------------------------------------------------------------------
@@ -1397,9 +1356,6 @@ CONTAINS
       COMPLEX(kind=real_4), DIMENSION(*), INTENT(INOUT)      :: c_data
         !! Product data
       LOGICAL, INTENT(OUT)                      :: used_smm
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'smm_process_mm_stack_c', &
-                                     routineP = moduleN//':'//routineN
 
 #if defined(__HAS_smm_cnn)
 
@@ -1468,8 +1424,6 @@ CONTAINS
       LOGICAL, INTENT(OUT)                           :: used_smm
         !! Flag to signal if an efficient kernel was used
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'xsmm_process_mm_batch_c', &
-                                     routineP = moduleN//':'//routineN
 #if 0
       IF (stack_descr%defined_mnk) THEN ! homogeneous stack
          CALL libxsmm_gemm_batch(LIBXSMM_GEMM_PRECISION, LIBXSMM_GEMM_PRECISION, 'N', 'N', &
@@ -1505,10 +1459,11 @@ CONTAINS
    END SUBROUTINE xsmm_process_mm_batch_c
 #endif
 
+#if defined(__LIBXSMM)
    SUBROUTINE xsmm_process_mm_stack_c (stack_descr, params, &
                                                    stack_size, a_data, b_data, c_data, used_smm)
      !! Processes MM stack and issues libxsmm calls
-#if defined(__LIBXSMM) && 0
+#if 0
       ! Caution: This dependency is ignored by makedep.py, because libxsmm.F is kinda empty.
       USE libxsmm, ONLY: libxsmm_function => libxsmm_cmmfunction, &
                          libxsmm_dispatch => libxsmm_cmmdispatch, &
@@ -1546,9 +1501,7 @@ CONTAINS
       LOGICAL, INTENT(OUT)                           :: used_smm
         !! Flag to signal if an efficient kernel was used
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'libxsmm_process_mm_stack_c', &
-                                     routineP = moduleN//':'//routineN
-#if defined(__LIBXSMM) && 0
+#if 0
       DBCSR_ASSERT(LIBXSMM_COL_MAJOR /= 0 .AND. LIBXSMM_ROW_MAJOR == 0)
       processed = .FALSE.
       used_smm = .FALSE.
@@ -1641,6 +1594,7 @@ CONTAINS
       used_smm = .FALSE.
 #endif
    END SUBROUTINE xsmm_process_mm_stack_c
+#endif
 
    PURE SUBROUTINE internal_mm_c_nn( &
       M, N, K, A, B, C)
@@ -1650,6 +1604,6 @@ CONTAINS
       COMPLEX(kind=real_4), INTENT(IN)                      :: A(M, K)
       C(:, :) = C(:, :) + MATMUL(A, B)
    END SUBROUTINE internal_mm_c_nn
-# 612 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 599 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 
 END MODULE dbcsr_mm_hostdrv

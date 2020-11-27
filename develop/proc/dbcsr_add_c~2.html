@@ -223,7 +223,7 @@ private subroutine dbcsr_add_c(matrix_a, matrix_b, alpha_scalar, beta_scalar)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_a~45"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_a~44"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -238,7 +238,7 @@ private subroutine dbcsr_add_c(matrix_a, matrix_b, alpha_scalar, beta_scalar)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_b~29"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_b~28"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -349,8 +349,7 @@ private subroutine dbcsr_add_c(matrix_a, matrix_b, alpha_scalar, beta_scalar)
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">matrix_b</span>
       <span class="kt">COMPLEX</span><span class="p">(</span><span class="n">real_4</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                        <span class="kd">::</span> <span class="n">alpha_scalar</span><span class="p">,</span> <span class="n">beta_scalar</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_add_c&#39;</span><span class="p">,</span> <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
-
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_add_c&#39;</span>
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">handle</span>
 
       <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>

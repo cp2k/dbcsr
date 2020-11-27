@@ -226,7 +226,7 @@ private subroutine mp_send_cv(msg, dest, tag, gid)
   
 <tr>
   
-  <td><span class="anchor" id="variable-msg~212"></span>complex(kind=real_4),</td>
+  <td><span class="anchor" id="variable-msg~196"></span>complex(kind=real_4),</td>
   <td></td>
   <td></td>
   
@@ -271,7 +271,7 @@ private subroutine mp_send_cv(msg, dest, tag, gid)
   
 <tr>
   
-  <td><span class="anchor" id="variable-gid~247"></span>integer</td>
+  <td><span class="anchor" id="variable-gid~237"></span>integer</td>
   <td></td>
   <td></td>
   
@@ -355,8 +355,7 @@ private subroutine mp_send_cv(msg, dest, tag, gid)
          <span class="c">!! Rank-1 data to send</span>
       <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">dest</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">gid</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;mp_send_cv&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;mp_send_cv&#39;</span>
 
       <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">handle</span><span class="p">,</span> <span class="n">ierr</span><span class="p">,</span> <span class="n">msglen</span>
 

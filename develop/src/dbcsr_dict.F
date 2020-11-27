@@ -20,7 +20,7 @@ MODULE dbcsr_dict
    !! size will be allocated and the items are then copied over.
    !! This ensures that the dictionary will perform operations in O(1).
 
-   USE dbcsr_kinds, ONLY: int_8, int_4, default_string_length
+   USE dbcsr_kinds, ONLY: int_8, default_string_length, int_4
    USE dbcsr_timings_base_type, ONLY: call_stat_type
 #include "base/dbcsr_base_uses.f90"
    IMPLICIT NONE
@@ -109,137 +109,113 @@ MODULE dbcsr_dict
 # 70 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
    END INTERFACE
 
-   INTERFACE dict_isready
+   INTERFACE dict_haskey
 # 74 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
-      MODULE PROCEDURE dict_str_i4_isready
+      MODULE PROCEDURE dict_str_i4_haskey
 # 74 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
-      MODULE PROCEDURE dict_i4tuple_callstat_isready
+      MODULE PROCEDURE dict_i4tuple_callstat_haskey
 # 76 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
    END INTERFACE
 
-   INTERFACE dict_haskey
+   INTERFACE dict_set
 # 80 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
-      MODULE PROCEDURE dict_str_i4_haskey
+      MODULE PROCEDURE dict_str_i4_set
 # 80 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
-      MODULE PROCEDURE dict_i4tuple_callstat_haskey
+      MODULE PROCEDURE dict_i4tuple_callstat_set
 # 82 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
    END INTERFACE
 
-   INTERFACE dict_set
+   INTERFACE dict_get
 # 86 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
-      MODULE PROCEDURE dict_str_i4_set
+      MODULE PROCEDURE dict_str_i4_get
 # 86 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
-      MODULE PROCEDURE dict_i4tuple_callstat_set
+      MODULE PROCEDURE dict_i4tuple_callstat_get
 # 88 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
    END INTERFACE
 
-   INTERFACE dict_get
+   INTERFACE dict_items
 # 92 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
-      MODULE PROCEDURE dict_str_i4_get
+      MODULE PROCEDURE dict_str_i4_items
 # 92 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
-      MODULE PROCEDURE dict_i4tuple_callstat_get
+      MODULE PROCEDURE dict_i4tuple_callstat_items
 # 94 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
    END INTERFACE
 
-   INTERFACE dict_del
+   INTERFACE dict_size
 # 98 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
-      MODULE PROCEDURE dict_str_i4_del
+      MODULE PROCEDURE dict_str_i4_size
 # 98 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
-      MODULE PROCEDURE dict_i4tuple_callstat_del
+      MODULE PROCEDURE dict_i4tuple_callstat_size
 # 100 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
    END INTERFACE
 
-   INTERFACE dict_items
-# 104 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
-      MODULE PROCEDURE dict_str_i4_items
-# 104 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
-      MODULE PROCEDURE dict_i4tuple_callstat_items
-# 106 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
-   END INTERFACE
-
-   INTERFACE dict_size
-# 110 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
-      MODULE PROCEDURE dict_str_i4_size
-# 110 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
-      MODULE PROCEDURE dict_i4tuple_callstat_size
-# 112 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
-   END INTERFACE
-
-   INTERFACE dict_update
-# 116 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
-      MODULE PROCEDURE dict_str_i4_update
-# 116 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
-      MODULE PROCEDURE dict_i4tuple_callstat_update
-# 118 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
-   END INTERFACE
-
    INTERFACE dict_destroy
-# 122 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 104 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
       MODULE PROCEDURE dict_str_i4_destroy
-# 122 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 104 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
       MODULE PROCEDURE dict_i4tuple_callstat_destroy
-# 124 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 106 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
    END INTERFACE
 
 CONTAINS
 
-# 129 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
 FUNCTION hash_str(key) RESULT(hash)
-# 129 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
    !! This is joaat_hash from string_table.F, generates the hash of a given string
-# 129 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
    !! @note
-# 129 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
    !!       http://en.wikipedia.org/wiki/Hash_table
-# 129 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
    !!       http://www.burtleburtle.net/bob/hash/doobs.html
-# 129 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
 
-# 129 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
     CHARACTER(LEN=*), INTENT(IN)             :: key
-# 129 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
        !! key a string of any length
-# 129 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
     INTEGER(KIND=int_8)                      :: hash
-# 129 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
     INTEGER(KIND=int_8), PARAMETER           :: b32 = 2_int_8**32-1_int_8
-# 129 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
     INTEGER                                  :: i
-# 129 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
 
-# 129 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
     hash=0_int_8
-# 129 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
     DO i=1,LEN(key)
-# 129 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
        hash=IAND(hash+ICHAR(key(i:i))                ,b32)
-# 129 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
        hash=IAND(     hash+IAND(ISHFT(hash,10),b32)  ,b32)
-# 129 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
        hash=IAND(IEOR(hash,IAND(ISHFT(hash,-6),b32)) ,b32)
-# 129 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
     ENDDO
-# 129 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
     hash=IAND(     hash+IAND(ISHFT(hash,  3),b32)  ,b32)
-# 129 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
     hash=IAND(IEOR(hash,IAND(ISHFT(hash,-11),b32)) ,b32)
-# 129 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
     hash=IAND(     hash+IAND(ISHFT(hash, 15),b32)  ,b32)
-# 129 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
 END FUNCTION hash_str
-# 129 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
 FUNCTION hash_i4tuple(key) RESULT(hash)
-# 129 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
    INTEGER(kind=int_4), dimension(2), INTENT(IN) :: key
-# 129 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
    INTEGER(kind=int_4)                           :: hash
-# 129 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
    hash = SUM(key)
-# 129 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 111 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
 END FUNCTION hash_i4tuple
-# 131 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 113 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
 
-# 133 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 115 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
    SUBROUTINE dict_str_i4_init(dict, initial_capacity)
       !! Allocates the internal data-structures of the given dictionary.
 
@@ -261,13 +237,6 @@ END FUNCTION hash_i4tuple
       dict%size = 0
 
    END SUBROUTINE dict_str_i4_init
-
-   FUNCTION dict_str_i4_isready(dict) RESULT(res)
-      !! Test if the given dictionary has been initialized.
-      TYPE(dict_str_i4_type), intent(inout)  :: dict
-      LOGICAL                                               :: res
-      res = ASSOCIATED(dict%buckets)
-   END FUNCTION dict_str_i4_isready
 
    SUBROUTINE dict_str_i4_destroy(dict)
       !! Deallocated the internal data-structures if the given dictionary.
@@ -397,9 +366,9 @@ END FUNCTION hash_i4tuple
       TYPE(private_item_type_str_i4), POINTER                      :: item
       INTEGER(KIND=int_8)                                   :: hash, idx
 
-# 291 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 266 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
       value = 0
-# 295 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 270 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
 
       IF (.not. ASSOCIATED(dict%buckets)) &
          DBCSR_ABORT("dict_str_i4_get: dictionary is not initialized.")
@@ -425,43 +394,6 @@ END FUNCTION hash_i4tuple
 
       DBCSR_ABORT("dict_str_i4_get: Key not found in dictionary.")
    END FUNCTION dict_str_i4_get
-
-   SUBROUTINE dict_str_i4_del(dict, key)
-      !! Remove the value for a given key from the dictionary.
-      !! If the key is not found the program stops.
-
-      TYPE(dict_str_i4_type), intent(inout)  :: dict
-      CHARACTER(LEN=default_string_length)                                        :: key
-      TYPE(private_item_type_str_i4), POINTER                      :: item, prev_item
-      INTEGER(KIND=int_8)                                   :: hash, idx
-
-      IF (.not. ASSOCIATED(dict%buckets)) &
-         DBCSR_ABORT("dict_str_i4_del: dictionary is not initialized.")
-
-      hash = hash_str (key)
-      idx = MOD(hash, INT(size(dict%buckets), KIND=int_8)) + 1
-
-      item => dict%buckets(idx)%p
-      prev_item => Null()
-      do while (ASSOCIATED(item))
-         IF (item%hash == hash) THEN
-            IF (item%key == key) THEN
-               IF (ASSOCIATED(prev_item)) THEN
-                  prev_item%next => item%next
-               ELSE
-                  dict%buckets(idx)%p => item%next
-               END IF
-               deallocate (item)
-               dict%size = dict%size - 1
-               return
-            END IF
-         END IF
-         prev_item => item
-         item => item%next
-      end do
-
-      DBCSR_ABORT("dict_str_i4_del: Key not found in dictionary.")
-   END SUBROUTINE dict_str_i4_del
 
    FUNCTION dict_str_i4_size(dict) RESULT(size)
       !! Returns the number of key/value-items currently stored in the dictionary.
@@ -532,34 +464,7 @@ END FUNCTION hash_i4tuple
          DBCSR_ABORT("dict_str_i4_items: assertion failed!")
    END FUNCTION dict_str_i4_items
 
-   SUBROUTINE dict_str_i4_update(dict, from_dict)
-      !! Copies all key/values-items from one dictionary to another.
-      !! Afterwards dict will contain all items from the from_dict and
-      !! additionally all its previous items, which were not overwritten.
-      !! The two dictionaries have to be of the same type.
-
-      TYPE(dict_str_i4_type), intent(inout)  :: dict
-         !! destination of items
-      TYPE(dict_str_i4_type), intent(inout)  :: from_dict
-         !! source of items - will not be change
-      TYPE(dict_str_i4_item_type), dimension(:), &
-         POINTER :: from_items
-      INTEGER :: i
-
-      IF (.not. ASSOCIATED(dict%buckets)) &
-         DBCSR_ABORT("dict_str_i4_update: dictionary is not initialized.")
-      IF (.not. ASSOCIATED(from_dict%buckets)) &
-         DBCSR_ABORT("dict_str_i4_update: from_dict is not initialized.")
-
-      from_items => dict_str_i4_items(from_dict)
-      do i = 1, size(from_items)
-         call dict_str_i4_set(dict, &
-                                                 from_items(i)%key, from_items(i)%value)
-      end do
-      deallocate (from_items)
-   END SUBROUTINE dict_str_i4_update
-
-# 133 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 115 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
    SUBROUTINE dict_i4tuple_callstat_init(dict, initial_capacity)
       !! Allocates the internal data-structures of the given dictionary.
 
@@ -581,13 +486,6 @@ END FUNCTION hash_i4tuple
       dict%size = 0
 
    END SUBROUTINE dict_i4tuple_callstat_init
-
-   FUNCTION dict_i4tuple_callstat_isready(dict) RESULT(res)
-      !! Test if the given dictionary has been initialized.
-      TYPE(dict_i4tuple_callstat_type), intent(inout)  :: dict
-      LOGICAL                                               :: res
-      res = ASSOCIATED(dict%buckets)
-   END FUNCTION dict_i4tuple_callstat_isready
 
    SUBROUTINE dict_i4tuple_callstat_destroy(dict)
       !! Deallocated the internal data-structures if the given dictionary.
@@ -717,9 +615,9 @@ END FUNCTION hash_i4tuple
       TYPE(private_item_type_i4tuple_callstat), POINTER                      :: item
       INTEGER(KIND=int_8)                                   :: hash, idx
 
-# 293 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 268 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
       NULLIFY (value)
-# 295 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 270 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
 
       IF (.not. ASSOCIATED(dict%buckets)) &
          DBCSR_ABORT("dict_i4tuple_callstat_get: dictionary is not initialized.")
@@ -745,43 +643,6 @@ END FUNCTION hash_i4tuple
 
       DBCSR_ABORT("dict_i4tuple_callstat_get: Key not found in dictionary.")
    END FUNCTION dict_i4tuple_callstat_get
-
-   SUBROUTINE dict_i4tuple_callstat_del(dict, key)
-      !! Remove the value for a given key from the dictionary.
-      !! If the key is not found the program stops.
-
-      TYPE(dict_i4tuple_callstat_type), intent(inout)  :: dict
-      INTEGER(kind=int_4), dimension(2)                                        :: key
-      TYPE(private_item_type_i4tuple_callstat), POINTER                      :: item, prev_item
-      INTEGER(KIND=int_8)                                   :: hash, idx
-
-      IF (.not. ASSOCIATED(dict%buckets)) &
-         DBCSR_ABORT("dict_i4tuple_callstat_del: dictionary is not initialized.")
-
-      hash = hash_i4tuple (key)
-      idx = MOD(hash, INT(size(dict%buckets), KIND=int_8)) + 1
-
-      item => dict%buckets(idx)%p
-      prev_item => Null()
-      do while (ASSOCIATED(item))
-         IF (item%hash == hash) THEN
-            IF (ALL(item%key==key)) THEN
-               IF (ASSOCIATED(prev_item)) THEN
-                  prev_item%next => item%next
-               ELSE
-                  dict%buckets(idx)%p => item%next
-               END IF
-               deallocate (item)
-               dict%size = dict%size - 1
-               return
-            END IF
-         END IF
-         prev_item => item
-         item => item%next
-      end do
-
-      DBCSR_ABORT("dict_i4tuple_callstat_del: Key not found in dictionary.")
-   END SUBROUTINE dict_i4tuple_callstat_del
 
    FUNCTION dict_i4tuple_callstat_size(dict) RESULT(size)
       !! Returns the number of key/value-items currently stored in the dictionary.
@@ -852,33 +713,6 @@ END FUNCTION hash_i4tuple
          DBCSR_ABORT("dict_i4tuple_callstat_items: assertion failed!")
    END FUNCTION dict_i4tuple_callstat_items
 
-   SUBROUTINE dict_i4tuple_callstat_update(dict, from_dict)
-      !! Copies all key/values-items from one dictionary to another.
-      !! Afterwards dict will contain all items from the from_dict and
-      !! additionally all its previous items, which were not overwritten.
-      !! The two dictionaries have to be of the same type.
-
-      TYPE(dict_i4tuple_callstat_type), intent(inout)  :: dict
-         !! destination of items
-      TYPE(dict_i4tuple_callstat_type), intent(inout)  :: from_dict
-         !! source of items - will not be change
-      TYPE(dict_i4tuple_callstat_item_type), dimension(:), &
-         POINTER :: from_items
-      INTEGER :: i
-
-      IF (.not. ASSOCIATED(dict%buckets)) &
-         DBCSR_ABORT("dict_i4tuple_callstat_update: dictionary is not initialized.")
-      IF (.not. ASSOCIATED(from_dict%buckets)) &
-         DBCSR_ABORT("dict_i4tuple_callstat_update: from_dict is not initialized.")
-
-      from_items => dict_i4tuple_callstat_items(from_dict)
-      do i = 1, size(from_items)
-         call dict_i4tuple_callstat_set(dict, &
-                                                 from_items(i)%key, from_items(i)%value)
-      end do
-      deallocate (from_items)
-   END SUBROUTINE dict_i4tuple_callstat_update
-
-# 455 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
+# 366 "/__w/dbcsr/dbcsr/src/core/dbcsr_dict.F"
 
 END MODULE dbcsr_dict

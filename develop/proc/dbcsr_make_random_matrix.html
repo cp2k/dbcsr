@@ -225,7 +225,7 @@ public subroutine dbcsr_make_random_matrix(matrix, row_blk_sizes, col_blk_sizes,
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~211"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~205"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -315,7 +315,7 @@ public subroutine dbcsr_make_random_matrix(matrix, row_blk_sizes, col_blk_sizes,
   
 <tr>
   
-  <td><span class="anchor" id="variable-data_type~31"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type~30"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -433,8 +433,7 @@ public subroutine dbcsr_make_random_matrix(matrix, row_blk_sizes, col_blk_sizes,
       <span class="kt">CHARACTER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>                    <span class="kd">::</span> <span class="n">symmetry</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span> <span class="kd">::</span> <span class="n">dist</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_make_random_matrix&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_make_random_matrix&#39;</span>
 
       <span class="kt">CHARACTER</span>                                          <span class="kd">::</span> <span class="n">my_symmetry</span>
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">col</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">,</span> <span class="n">max_nze</span><span class="p">,</span> <span class="p">&amp;</span>

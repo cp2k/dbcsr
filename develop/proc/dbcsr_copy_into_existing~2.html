@@ -225,7 +225,7 @@ public subroutine dbcsr_copy_into_existing(matrix_b, matrix_a)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_b~32"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_b~31"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -240,7 +240,7 @@ public subroutine dbcsr_copy_into_existing(matrix_b, matrix_a)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_a~49"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_a~48"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -324,8 +324,7 @@ public subroutine dbcsr_copy_into_existing(matrix_b, matrix_a)
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">matrix_a</span>
          <span class="c">!! source DBCSR matrix</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_copy_into_existing&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_copy_into_existing&#39;</span>
 
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">col_size</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">dst_col</span><span class="p">,</span> <span class="n">dst_row</span><span class="p">,</span> <span class="p">&amp;</span>
                                                             <span class="n">handle</span><span class="p">,</span> <span class="n">rel</span><span class="p">,</span> <span class="n">row_size</span><span class="p">,</span> <span class="n">src_col</span><span class="p">,</span> <span class="p">&amp;</span>

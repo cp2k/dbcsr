@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">60 statements</a>
+    title=" 0.1% of total for procedures.">59 statements</a>
      </li> 
      
      
@@ -225,7 +225,7 @@ private subroutine dbcsr_reserve_block2d_s(matrix, row, col, block, transposed, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~136"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~132"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -393,9 +393,6 @@ private subroutine dbcsr_reserve_block2d_s(matrix, row, col, block, transposed, 
         <span class="c">!! the block holds transposed data</span>
       <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>           <span class="kd">::</span> <span class="n">existed</span>
         <span class="c">!! block already existed</span>
-
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_reserve_block2d_s&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 
       <span class="k">TYPE</span><span class="p">(</span><span class="n">btree_data_sp2d</span><span class="p">)</span>          <span class="kd">::</span> <span class="n">data_block</span><span class="p">,</span> <span class="n">data_block2</span>
       <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">col_size</span><span class="p">,</span> <span class="n">row_size</span><span class="p">,</span> <span class="p">&amp;</span>

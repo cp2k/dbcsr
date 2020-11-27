@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">38 statements</a>
+    title=" 0.1% of total for procedures.">37 statements</a>
      </li> 
      
      
@@ -345,9 +345,6 @@ public function dbcsr_mempool_get(memtype, datatype, datasize) result(res)
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">)</span>                           <span class="kd">::</span> <span class="n">memtype</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">datatype</span><span class="p">,</span> <span class="n">datasize</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">res</span>
-
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_mempool_get&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">best_size</span><span class="p">,</span> <span class="n">s</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mempool_entry_type</span><span class="p">),</span> <span class="k">POINTER</span>            <span class="kd">::</span> <span class="n">best_cur</span><span class="p">,</span> <span class="n">best_prev</span><span class="p">,</span> <span class="n">cur</span><span class="p">,</span> <span class="n">prev</span>

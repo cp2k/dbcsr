@@ -187,13 +187,13 @@
       
       <a class="list-group-item" href="../interface/mp_sendrecv.html#moduleprocedure-mp_sendrecv_lv">mp_sendrecv_lv</a>
       
-      <a class="list-group-item" href="../interface/mp_sendrecv.html#moduleprocedure-mp_sendrecv_rv">mp_sendrecv_rv</a>
-      
       <a class="list-group-item" href="../interface/mp_sendrecv.html#moduleprocedure-mp_sendrecv_dv">mp_sendrecv_dv</a>
       
-      <a class="list-group-item" href="../interface/mp_sendrecv.html#moduleprocedure-mp_sendrecv_cv">mp_sendrecv_cv</a>
+      <a class="list-group-item" href="../interface/mp_sendrecv.html#moduleprocedure-mp_sendrecv_rv">mp_sendrecv_rv</a>
       
       <a class="list-group-item" href="../interface/mp_sendrecv.html#moduleprocedure-mp_sendrecv_zv">mp_sendrecv_zv</a>
+      
+      <a class="list-group-item" href="../interface/mp_sendrecv.html#moduleprocedure-mp_sendrecv_cv">mp_sendrecv_cv</a>
       
     </div>
   </div>
@@ -246,13 +246,13 @@
       
       <a class="list-group-item" href="../interface/mp_sendrecv.html#moduleprocedure-mp_sendrecv_lv">mp_sendrecv_lv</a>
       
-      <a class="list-group-item" href="../interface/mp_sendrecv.html#moduleprocedure-mp_sendrecv_rv">mp_sendrecv_rv</a>
-      
       <a class="list-group-item" href="../interface/mp_sendrecv.html#moduleprocedure-mp_sendrecv_dv">mp_sendrecv_dv</a>
       
-      <a class="list-group-item" href="../interface/mp_sendrecv.html#moduleprocedure-mp_sendrecv_cv">mp_sendrecv_cv</a>
+      <a class="list-group-item" href="../interface/mp_sendrecv.html#moduleprocedure-mp_sendrecv_rv">mp_sendrecv_rv</a>
       
       <a class="list-group-item" href="../interface/mp_sendrecv.html#moduleprocedure-mp_sendrecv_zv">mp_sendrecv_zv</a>
+      
+      <a class="list-group-item" href="../interface/mp_sendrecv.html#moduleprocedure-mp_sendrecv_cv">mp_sendrecv_cv</a>
       
     </div>
   </div>
@@ -515,127 +515,6 @@ private subroutine <a href='../proc/mp_sendrecv_lv.html'>mp_sendrecv_lv</a>(msgi
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_sendrecv_rv"></span><h3>
-private subroutine <a href='../proc/mp_sendrecv_rv.html'>mp_sendrecv_rv</a>(msgin, dest, msgout, source, comm)
-    
-    
-   
-</h3></div>
-  <div class="panel-body">
-       
-    
-
-
-
-
-
-
-
-<p>Sends and receives vector data</p>
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>CONTIGUOUS</td><td>::</td>
-  <td><strong>msgin</strong>(:)</td><td><p>Data to send</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>dest</strong></td><td><p>Process to send data to</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td>intent(out),</td>
-  <td></td>
-  
-  <td>CONTIGUOUS</td><td>::</td>
-  <td><strong>msgout</strong>(:)</td><td><p>Received data</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>source</strong></td><td><p>Process from which to receive
- Message passing environment identifier</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>comm</strong></td><td><p>Process from which to receive
- Message passing environment identifier</p></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-  </div>
-  </div>
-
-   
-    
-  <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-mp_sendrecv_dv"></span><h3>
 private subroutine <a href='../proc/mp_sendrecv_dv.html'>mp_sendrecv_dv</a>(msgin, dest, msgout, source, comm)
     
@@ -757,8 +636,8 @@ private subroutine <a href='../proc/mp_sendrecv_dv.html'>mp_sendrecv_dv</a>(msgi
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_sendrecv_cv"></span><h3>
-private subroutine <a href='../proc/mp_sendrecv_cv.html'>mp_sendrecv_cv</a>(msgin, dest, msgout, source, comm)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_sendrecv_rv"></span><h3>
+private subroutine <a href='../proc/mp_sendrecv_rv.html'>mp_sendrecv_rv</a>(msgin, dest, msgout, source, comm)
     
     
    
@@ -794,7 +673,7 @@ private subroutine <a href='../proc/mp_sendrecv_cv.html'>mp_sendrecv_cv</a>(msgi
   
 <tr>
   
-  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -824,7 +703,7 @@ private subroutine <a href='../proc/mp_sendrecv_cv.html'>mp_sendrecv_cv</a>(msgi
   
 <tr>
   
-  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
   <td>intent(out),</td>
   <td></td>
   
@@ -946,6 +825,127 @@ private subroutine <a href='../proc/mp_sendrecv_zv.html'>mp_sendrecv_zv</a>(msgi
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>msgout</strong>(:)</td><td><p>Received data</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>source</strong></td><td><p>Process from which to receive
+ Message passing environment identifier</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>comm</strong></td><td><p>Process from which to receive
+ Message passing environment identifier</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+   
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_sendrecv_cv"></span><h3>
+private subroutine <a href='../proc/mp_sendrecv_cv.html'>mp_sendrecv_cv</a>(msgin, dest, msgout, source, comm)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Sends and receives vector data</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>CONTIGUOUS</td><td>::</td>
+  <td><strong>msgin</strong>(:)</td><td><p>Data to send</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dest</strong></td><td><p>Process to send data to</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
   <td>intent(out),</td>
   <td></td>
   

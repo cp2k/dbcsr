@@ -71,8 +71,7 @@ CONTAINS
       TYPE(dbcsr_mp_obj), INTENT(IN)                     :: mp_env
       LOGICAL, INTENT(in), OPTIONAL                      :: most_ptp, remainder_ptp, no_hybrid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'hybrid_alltoall_any', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'hybrid_alltoall_any'
 
       INTEGER                                            :: error_handle
 
@@ -128,9 +127,6 @@ CONTAINS
          !! Use point-to-point for row/column; default is no
          !! Use point-to-point for remaining; default is no
          !! Use regular global collective; default is no
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'hybrid_alltoall_i1', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER :: all_group, mynode, mypcol, myprow, nall_rr, nall_sr, ncol_rr, &
                  ncol_sr, npcols, nprows, nrow_rr, nrow_sr, numnodes, dst, src, &
@@ -346,9 +342,6 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: msgout
       INTEGER, INTENT(IN)                                :: source, comm
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_sendrecv_any', &
-                                     routineP = moduleN//':'//routineN
-
       IF (dbcsr_data_get_type(msgin) .NE. dbcsr_data_get_type(msgout)) &
          DBCSR_ABORT("Different data type for msgin and msgout")
 
@@ -375,9 +368,6 @@ CONTAINS
       INTEGER, INTENT(OUT)                               :: request
       INTEGER, INTENT(IN), OPTIONAL                      :: tag
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_isend_any', &
-                                     routineP = moduleN//':'//routineN
-
       SELECT CASE (dbcsr_data_get_type(msgin))
       CASE (dbcsr_type_real_4)
          CALL mp_isend(msgin%d%r_sp, dest, comm, request, tag)
@@ -401,9 +391,6 @@ CONTAINS
       INTEGER, INTENT(OUT)                               :: request
       INTEGER, INTENT(IN), OPTIONAL                      :: tag
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_irecv_any', &
-                                     routineP = moduleN//':'//routineN
-
       SELECT CASE (dbcsr_data_get_type(msgin))
       CASE (dbcsr_type_real_4)
          CALL mp_irecv(msgin%d%r_sp, source, comm, request, tag)
@@ -423,9 +410,6 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: base
       INTEGER, INTENT(IN)                                :: comm
       INTEGER, INTENT(OUT)                               :: win
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_win_create_any', &
-                                     routineP = moduleN//':'//routineN
 
       SELECT CASE (dbcsr_data_get_type(base))
       CASE (dbcsr_type_real_4)
@@ -451,8 +435,6 @@ CONTAINS
       INTEGER, INTENT(OUT)                               :: request
       TYPE(mp_type_descriptor_type), INTENT(IN), &
          OPTIONAL                                        :: origin_datatype, target_datatype
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_rget_any', routineP = moduleN//':'//routineN
 
       IF (dbcsr_data_get_type(base) /= dbcsr_data_get_type(win_data)) &
          DBCSR_ABORT("Mismatch data type between buffer and window")
@@ -481,9 +463,6 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: source, grp
       INTEGER, INTENT(INOUT)                             :: request
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_ibcast_any', &
-                                     routineP = moduleN//':'//routineN
-
       SELECT CASE (dbcsr_data_get_type(base))
       CASE (dbcsr_type_real_4)
          CALL mp_ibcast(base%d%r_sp, source, grp, request)
@@ -505,9 +484,6 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: msg
       INTEGER, INTENT(IN)                                :: recvcount, root, grp
       INTEGER, INTENT(INOUT)                             :: request
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_iscatterv_any', &
-                                     routineP = moduleN//':'//routineN
 
       IF (dbcsr_data_get_type(base) .NE. dbcsr_data_get_type(msg)) &
          DBCSR_ABORT("Different data type for msgin and msgout")
@@ -534,9 +510,6 @@ CONTAINS
       INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: counts, displs
       INTEGER, INTENT(IN)                                :: root, grp
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_gatherv_any', &
-                                     routineP = moduleN//':'//routineN
-
       IF (dbcsr_data_get_type(base) .NE. dbcsr_data_get_type(msg)) &
          DBCSR_ABORT("Different data type for msgin and msgout")
 
@@ -561,9 +534,6 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: msgout
       INTEGER, INTENT(IN)                                :: source, grp
       INTEGER, INTENT(OUT)                               :: send_request, recv_request
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_isendrecv_any', &
-                                     routineP = moduleN//':'//routineN
 
       IF (dbcsr_data_get_type(msgin) .NE. dbcsr_data_get_type(msgout)) &
          DBCSR_ABORT("Different data type for msgin and msgout")
@@ -590,31 +560,6 @@ CONTAINS
       END SELECT
    END SUBROUTINE dbcsr_isendrecv_any
 
-   FUNCTION dbcsr_mp_type_indexed_make_any(count, lengths, displs, data_type) &
-      RESULT(new_mp_data_type)
-      INTEGER, INTENT(IN)                                :: count
-      INTEGER, DIMENSION(1:count), INTENT(IN)            :: lengths, displs
-      INTEGER, INTENT(IN)                                :: data_type
-      TYPE(mp_type_descriptor_type)                      :: new_mp_data_type
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mp_type_indexed_make_any', &
-                                     routineP = moduleN//':'//routineN
-
-      SELECT CASE (data_type)
-      CASE (dbcsr_type_real_4)
-         new_mp_data_type = mp_type_indexed_make_r(count, lengths, displs)
-      CASE (dbcsr_type_real_8)
-         new_mp_data_type = mp_type_indexed_make_d(count, lengths, displs)
-      CASE (dbcsr_type_complex_4)
-         new_mp_data_type = mp_type_indexed_make_c(count, lengths, displs)
-      CASE (dbcsr_type_complex_8)
-         new_mp_data_type = mp_type_indexed_make_z(count, lengths, displs)
-      CASE default
-         DBCSR_ABORT("Invalid data type")
-      END SELECT
-
-   END FUNCTION dbcsr_mp_type_indexed_make_any
-
    SUBROUTINE dbcsr_allgatherv(send_data, scount, recv_data, recv_count, recv_displ, gid)
       !! Allgather of encapsulated data
       !! @note see mp_allgatherv_dv
@@ -624,9 +569,6 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: recv_data
       INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: recv_count, recv_displ
       INTEGER, INTENT(IN)                                :: gid
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_allgatherv', &
-                                     routineP = moduleN//':'//routineN
 
       IF (dbcsr_data_get_type(send_data) /= dbcsr_data_get_type(recv_data)) &
          DBCSR_ABORT("Data type mismatch")
@@ -654,8 +596,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/mpi/../data/dbcsr.fypp"
 
 # 45 "/__w/dbcsr/dbcsr/src/mpi/../data/dbcsr.fypp"
-# 651 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F" 2
-# 652 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
+# 593 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F" 2
+# 594 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
    SUBROUTINE hybrid_alltoall_d1(sb, scount, sdispl, &
                                              rb, rcount, rdispl, mp_env, most_ptp, remainder_ptp, no_hybrid)
       !! Row/column and global all-to-all
@@ -680,9 +622,6 @@ CONTAINS
          !! Use point-to-point for row/column; default is no
          !! Use point-to-point for remaining; default is no
          !! Use regular global collective; default is no
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'hybrid_alltoall_d', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER :: all_group, mynode, mypcol, myprow, nall_rr, nall_sr, ncol_rr, &
                  ncol_sr, npcols, nprows, nrow_rr, nrow_sr, numnodes, dst, src, &
@@ -878,7 +817,7 @@ CONTAINS
          ENDDO
       END SUBROUTINE remainder_point_to_point
    END SUBROUTINE hybrid_alltoall_d1
-# 652 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
+# 594 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
    SUBROUTINE hybrid_alltoall_s1(sb, scount, sdispl, &
                                              rb, rcount, rdispl, mp_env, most_ptp, remainder_ptp, no_hybrid)
       !! Row/column and global all-to-all
@@ -903,9 +842,6 @@ CONTAINS
          !! Use point-to-point for row/column; default is no
          !! Use point-to-point for remaining; default is no
          !! Use regular global collective; default is no
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'hybrid_alltoall_s', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER :: all_group, mynode, mypcol, myprow, nall_rr, nall_sr, ncol_rr, &
                  ncol_sr, npcols, nprows, nrow_rr, nrow_sr, numnodes, dst, src, &
@@ -1101,7 +1037,7 @@ CONTAINS
          ENDDO
       END SUBROUTINE remainder_point_to_point
    END SUBROUTINE hybrid_alltoall_s1
-# 652 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
+# 594 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
    SUBROUTINE hybrid_alltoall_z1(sb, scount, sdispl, &
                                              rb, rcount, rdispl, mp_env, most_ptp, remainder_ptp, no_hybrid)
       !! Row/column and global all-to-all
@@ -1126,9 +1062,6 @@ CONTAINS
          !! Use point-to-point for row/column; default is no
          !! Use point-to-point for remaining; default is no
          !! Use regular global collective; default is no
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'hybrid_alltoall_z', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER :: all_group, mynode, mypcol, myprow, nall_rr, nall_sr, ncol_rr, &
                  ncol_sr, npcols, nprows, nrow_rr, nrow_sr, numnodes, dst, src, &
@@ -1324,7 +1257,7 @@ CONTAINS
          ENDDO
       END SUBROUTINE remainder_point_to_point
    END SUBROUTINE hybrid_alltoall_z1
-# 652 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
+# 594 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
    SUBROUTINE hybrid_alltoall_c1(sb, scount, sdispl, &
                                              rb, rcount, rdispl, mp_env, most_ptp, remainder_ptp, no_hybrid)
       !! Row/column and global all-to-all
@@ -1349,9 +1282,6 @@ CONTAINS
          !! Use point-to-point for row/column; default is no
          !! Use point-to-point for remaining; default is no
          !! Use regular global collective; default is no
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'hybrid_alltoall_c', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER :: all_group, mynode, mypcol, myprow, nall_rr, nall_sr, ncol_rr, &
                  ncol_sr, npcols, nprows, nrow_rr, nrow_sr, numnodes, dst, src, &
@@ -1547,6 +1477,6 @@ CONTAINS
          ENDDO
       END SUBROUTINE remainder_point_to_point
    END SUBROUTINE hybrid_alltoall_c1
-# 875 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
+# 814 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F"
 
 END MODULE dbcsr_mp_operations

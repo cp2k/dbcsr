@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for source files.">32 statements</a>
+    title=" 0.0% of total for source files.">30 statements</a>
      </li> 
      
      
@@ -332,45 +332,43 @@
 <a name="ln-74"></a><span class="k">   SUBROUTINE </span><span class="n">hipblas_handle_init</span><span class="p">(</span><span class="n">hipblas_handle</span><span class="p">)</span>
 <a name="ln-75"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">hipblas_handle_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">hipblas_handle</span>
 <a name="ln-76"></a>
-<a name="ln-77"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;hipblas_handle_init&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-78"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+<a name="ln-77"></a><span class="cp">#if (__HIP)</span>
+<a name="ln-78"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;hipblas_handle_init&#39;</span>
 <a name="ln-79"></a>
-<a name="ln-80"></a><span class="cp">#if (__HIP)</span>
-<a name="ln-81"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span>      <span class="kd">::</span> <span class="n">err</span>
-<a name="ln-82"></a>      <span class="kt">INTEGER</span>                  <span class="kd">::</span> <span class="n">handle</span>
-<a name="ln-83"></a>
-<a name="ln-84"></a>      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
-<a name="ln-85"></a>      <span class="n">err</span> <span class="o">=</span> <span class="n">hipblas_create_hip</span><span class="p">(</span><span class="n">hipblas_handle</span><span class="p">%</span><span class="n">handle_ptr</span><span class="p">)</span>
-<a name="ln-86"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">err</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-87"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;hipblas cannot be created&quot;</span><span class="p">)</span>
-<a name="ln-88"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
-<a name="ln-89"></a><span class="cp">#else</span>
-<a name="ln-90"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">hipblas_handle</span><span class="p">)</span>
-<a name="ln-91"></a><span class="cp">#endif</span>
-<a name="ln-92"></a>   <span class="k">END SUBROUTINE</span>
-<a name="ln-93"></a>
-<a name="ln-94"></a><span class="k">   SUBROUTINE </span><span class="n">hipblas_handle_destroy</span><span class="p">(</span><span class="n">hipblas_handle</span><span class="p">)</span>
-<a name="ln-95"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">hipblas_handle_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">hipblas_handle</span>
-<a name="ln-96"></a>
-<a name="ln-97"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;hipblas_handle_destroy&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-98"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
-<a name="ln-99"></a>
-<a name="ln-100"></a><span class="cp">#if (__HIP)</span>
-<a name="ln-101"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span>      <span class="kd">::</span> <span class="n">err</span>
-<a name="ln-102"></a>      <span class="kt">INTEGER</span>                  <span class="kd">::</span> <span class="n">handle</span>
-<a name="ln-103"></a>
-<a name="ln-104"></a>      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
-<a name="ln-105"></a>      <span class="n">err</span> <span class="o">=</span> <span class="n">hipblas_destroy_hip</span><span class="p">(</span><span class="n">hipblas_handle</span><span class="p">%</span><span class="n">handle_ptr</span><span class="p">)</span>
-<a name="ln-106"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">err</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-107"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;hipblas cannot be destroyed&quot;</span><span class="p">)</span>
-<a name="ln-108"></a>      <span class="n">hipblas_handle</span><span class="p">%</span><span class="n">handle_ptr</span> <span class="o">=</span> <span class="nb">c_null_ptr</span>
-<a name="ln-109"></a><span class="nb">      </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
-<a name="ln-110"></a><span class="cp">#else</span>
-<a name="ln-111"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">hipblas_handle</span><span class="p">)</span>
-<a name="ln-112"></a><span class="cp">#endif</span>
-<a name="ln-113"></a>   <span class="k">END SUBROUTINE</span>
-<a name="ln-114"></a>
-<a name="ln-115"></a><span class="k">END MODULE </span><span class="n">dbcsr_hipblas</span>
+<a name="ln-80"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span>      <span class="kd">::</span> <span class="n">err</span>
+<a name="ln-81"></a>      <span class="kt">INTEGER</span>                  <span class="kd">::</span> <span class="n">handle</span>
+<a name="ln-82"></a>
+<a name="ln-83"></a>      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
+<a name="ln-84"></a>      <span class="n">err</span> <span class="o">=</span> <span class="n">hipblas_create_hip</span><span class="p">(</span><span class="n">hipblas_handle</span><span class="p">%</span><span class="n">handle_ptr</span><span class="p">)</span>
+<a name="ln-85"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">err</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-86"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;hipblas cannot be created&quot;</span><span class="p">)</span>
+<a name="ln-87"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<a name="ln-88"></a><span class="cp">#else</span>
+<a name="ln-89"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">hipblas_handle</span><span class="p">)</span>
+<a name="ln-90"></a><span class="cp">#endif</span>
+<a name="ln-91"></a>   <span class="k">END SUBROUTINE</span>
+<a name="ln-92"></a>
+<a name="ln-93"></a><span class="k">   SUBROUTINE </span><span class="n">hipblas_handle_destroy</span><span class="p">(</span><span class="n">hipblas_handle</span><span class="p">)</span>
+<a name="ln-94"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">hipblas_handle_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">hipblas_handle</span>
+<a name="ln-95"></a>
+<a name="ln-96"></a><span class="cp">#if (__HIP)</span>
+<a name="ln-97"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;hipblas_handle_destroy&#39;</span>
+<a name="ln-98"></a>
+<a name="ln-99"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span>      <span class="kd">::</span> <span class="n">err</span>
+<a name="ln-100"></a>      <span class="kt">INTEGER</span>                  <span class="kd">::</span> <span class="n">handle</span>
+<a name="ln-101"></a>
+<a name="ln-102"></a>      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
+<a name="ln-103"></a>      <span class="n">err</span> <span class="o">=</span> <span class="n">hipblas_destroy_hip</span><span class="p">(</span><span class="n">hipblas_handle</span><span class="p">%</span><span class="n">handle_ptr</span><span class="p">)</span>
+<a name="ln-104"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">err</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-105"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;hipblas cannot be destroyed&quot;</span><span class="p">)</span>
+<a name="ln-106"></a>      <span class="n">hipblas_handle</span><span class="p">%</span><span class="n">handle_ptr</span> <span class="o">=</span> <span class="nb">c_null_ptr</span>
+<a name="ln-107"></a><span class="nb">      </span><span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<a name="ln-108"></a><span class="cp">#else</span>
+<a name="ln-109"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">hipblas_handle</span><span class="p">)</span>
+<a name="ln-110"></a><span class="cp">#endif</span>
+<a name="ln-111"></a>   <span class="k">END SUBROUTINE</span>
+<a name="ln-112"></a>
+<a name="ln-113"></a><span class="k">END MODULE </span><span class="n">dbcsr_hipblas</span>
 </pre></div>
 
     </section>

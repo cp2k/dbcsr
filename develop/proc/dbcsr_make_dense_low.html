@@ -619,8 +619,7 @@ public subroutine dbcsr_make_dense_low(und_matrix, dense_matrix, und_local_rows,
          <span class="c">!! Make rows dense</span>
          <span class="c">!! Make columns dense</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_make_dense_low&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_make_dense_low&#39;</span>
 
       <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">dense_nblkcols_local</span><span class="p">,</span> <span class="n">dense_nblkcols_total</span><span class="p">,</span> <span class="n">dense_nblkrows_local</span><span class="p">,</span> <span class="p">&amp;</span>
                  <span class="n">dense_nblkrows_total</span><span class="p">,</span> <span class="n">dense_nlocal_blocks</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">,</span> <span class="n">nfullcols</span><span class="p">,</span> <span class="n">nfullrows</span><span class="p">,</span> <span class="p">&amp;</span>

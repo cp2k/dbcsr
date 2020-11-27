@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.6% of total for source files.">379 statements</a>
+    title=" 0.6% of total for source files.">378 statements</a>
      </li> 
      
      
@@ -403,558 +403,555 @@
 <a name="ln-145"></a><span class="k">   FUNCTION </span><span class="n">dbcsr_default_logger_stack_size</span><span class="p">()</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
 <a name="ln-146"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">res</span>
 <a name="ln-147"></a>
-<a name="ln-148"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_default_logger_stack_size&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-149"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+<a name="ln-148"></a>      <span class="n">res</span> <span class="o">=</span> <span class="n">stack_pointer</span>
+<a name="ln-149"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_default_logger_stack_size</span>
 <a name="ln-150"></a>
-<a name="ln-151"></a>      <span class="n">res</span> <span class="o">=</span> <span class="n">stack_pointer</span>
-<a name="ln-152"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_default_logger_stack_size</span>
-<a name="ln-153"></a>
-<a name="ln-154"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_add_default_logger</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span>
-<a name="ln-155"></a>      <span class="c">!! adds a default logger.</span>
-<a name="ln-156"></a>      <span class="c">!! MUST be called before logging occurs</span>
-<a name="ln-157"></a>      <span class="c">!! @note</span>
-<a name="ln-158"></a>      <span class="c">!! increments a stack of default loggers the latest one will be</span>
-<a name="ln-159"></a>      <span class="c">!! available within the program</span>
-<a name="ln-160"></a>
-<a name="ln-161"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">logger</span>
+<a name="ln-151"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_add_default_logger</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span>
+<a name="ln-152"></a>      <span class="c">!! adds a default logger.</span>
+<a name="ln-153"></a>      <span class="c">!! MUST be called before logging occurs</span>
+<a name="ln-154"></a>      <span class="c">!! @note</span>
+<a name="ln-155"></a>      <span class="c">!! increments a stack of default loggers the latest one will be</span>
+<a name="ln-156"></a>      <span class="c">!! available within the program</span>
+<a name="ln-157"></a>
+<a name="ln-158"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">logger</span>
+<a name="ln-159"></a>
+<a name="ln-160"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_add_default_logger&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-161"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 <a name="ln-162"></a>
-<a name="ln-163"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_add_default_logger&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-164"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
-<a name="ln-165"></a>
-<a name="ln-166"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">stack_pointer</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;</span> <span class="n">max_stack_pointer</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-167"></a><span class="k">         CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span> <span class="n">routineP</span><span class="o">//</span> <span class="p">&amp;</span>
-<a name="ln-168"></a>                          <span class="s2">&quot;too many default loggers, increase max_stack_pointer in &quot;</span><span class="o">//</span><span class="n">moduleN</span><span class="p">)</span>
-<a name="ln-169"></a>      <span class="n">ENDIF</span>
+<a name="ln-163"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">stack_pointer</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;</span> <span class="n">max_stack_pointer</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-164"></a><span class="k">         CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span> <span class="n">routineP</span><span class="o">//</span> <span class="p">&amp;</span>
+<a name="ln-165"></a>                          <span class="s2">&quot;too many default loggers, increase max_stack_pointer in &quot;</span><span class="o">//</span><span class="n">moduleN</span><span class="p">)</span>
+<a name="ln-166"></a>      <span class="n">ENDIF</span>
+<a name="ln-167"></a>
+<a name="ln-168"></a>      <span class="n">stack_pointer</span> <span class="o">=</span> <span class="n">stack_pointer</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-169"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">default_logger_stack</span><span class="p">(</span><span class="n">stack_pointer</span><span class="p">)%</span><span class="n">dbcsr_default_logger</span><span class="p">)</span>
 <a name="ln-170"></a>
-<a name="ln-171"></a>      <span class="n">stack_pointer</span> <span class="o">=</span> <span class="n">stack_pointer</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-172"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">default_logger_stack</span><span class="p">(</span><span class="n">stack_pointer</span><span class="p">)%</span><span class="n">dbcsr_default_logger</span><span class="p">)</span>
+<a name="ln-171"></a>      <span class="n">default_logger_stack</span><span class="p">(</span><span class="n">stack_pointer</span><span class="p">)%</span><span class="n">dbcsr_default_logger</span> <span class="o">=&gt;</span> <span class="n">logger</span>
+<a name="ln-172"></a>      <span class="k">CALL </span><span class="n">dbcsr_logger_retain</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span>
 <a name="ln-173"></a>
-<a name="ln-174"></a>      <span class="n">default_logger_stack</span><span class="p">(</span><span class="n">stack_pointer</span><span class="p">)%</span><span class="n">dbcsr_default_logger</span> <span class="o">=&gt;</span> <span class="n">logger</span>
-<a name="ln-175"></a>      <span class="k">CALL </span><span class="n">dbcsr_logger_retain</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span>
-<a name="ln-176"></a>
-<a name="ln-177"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_add_default_logger</span>
-<a name="ln-178"></a>
-<a name="ln-179"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_rm_default_logger</span><span class="p">()</span>
-<a name="ln-180"></a>      <span class="c">!! the cousin of dbcsr_add_default_logger, decrements the stack, so that</span>
-<a name="ln-181"></a>      <span class="c">!! the default logger is what it has</span>
-<a name="ln-182"></a>      <span class="c">!! been</span>
-<a name="ln-183"></a>
-<a name="ln-184"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">stack_pointer</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-185"></a><span class="k">         CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span> <span class="n">moduleN</span><span class="o">//</span><span class="s2">&quot;:dbcsr_rm_default_logger&quot;</span><span class="o">//</span> <span class="p">&amp;</span>
-<a name="ln-186"></a>                          <span class="s2">&quot;can not destroy default logger &quot;</span><span class="o">//</span><span class="n">moduleN</span><span class="p">)</span>
-<a name="ln-187"></a>      <span class="n">ENDIF</span>
-<a name="ln-188"></a>
-<a name="ln-189"></a>      <span class="k">CALL </span><span class="n">dbcsr_logger_release</span><span class="p">(</span><span class="n">default_logger_stack</span><span class="p">(</span><span class="n">stack_pointer</span><span class="p">)%</span><span class="n">dbcsr_default_logger</span><span class="p">)</span>
-<a name="ln-190"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">default_logger_stack</span><span class="p">(</span><span class="n">stack_pointer</span><span class="p">)%</span><span class="n">dbcsr_default_logger</span><span class="p">)</span>
-<a name="ln-191"></a>      <span class="n">stack_pointer</span> <span class="o">=</span> <span class="n">stack_pointer</span> <span class="o">-</span> <span class="mi">1</span>
-<a name="ln-192"></a>
-<a name="ln-193"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_rm_default_logger</span>
-<a name="ln-194"></a>
-<a name="ln-195"></a>   <span class="k">FUNCTION </span><span class="n">dbcsr_get_default_logger</span><span class="p">()</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-<a name="ln-196"></a>      <span class="c">!! returns the default logger</span>
-<a name="ln-197"></a>      <span class="c">!! @note</span>
-<a name="ln-198"></a>      <span class="c">!! initializes the default loggers if necessary</span>
-<a name="ln-199"></a>
-<a name="ln-200"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">res</span>
-<a name="ln-201"></a>
-<a name="ln-202"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">stack_pointer</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-203"></a><span class="k">         CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span> <span class="s2">&quot;dbcsr_log_handling:dbcsr_get_default_logger&quot;</span><span class="o">//</span> <span class="p">&amp;</span>
-<a name="ln-204"></a>                          <span class="s2">&quot;default logger not yet initialized (CALL dbcsr_init_default_logger)&quot;</span><span class="p">)</span>
-<a name="ln-205"></a>      <span class="k">END IF</span>
-<a name="ln-206"></a><span class="k">      </span><span class="n">res</span> <span class="o">=&gt;</span> <span class="n">default_logger_stack</span><span class="p">(</span><span class="n">stack_pointer</span><span class="p">)%</span><span class="n">dbcsr_default_logger</span>
-<a name="ln-207"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">res</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-208"></a><span class="k">         CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span> <span class="s2">&quot;dbcsr_log_handling:dbcsr_get_default_logger&quot;</span><span class="o">//</span> <span class="p">&amp;</span>
-<a name="ln-209"></a>                          <span class="s2">&quot;default logger is null (released too much ?)&quot;</span><span class="p">)</span>
-<a name="ln-210"></a>      <span class="k">END IF</span>
-<a name="ln-211"></a><span class="k">   END FUNCTION </span><span class="n">dbcsr_get_default_logger</span>
-<a name="ln-212"></a>
-<a name="ln-213"></a><span class="c">! ================== log ==================</span>
-<a name="ln-214"></a>
-<a name="ln-215"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_logger_create</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">mp_env</span><span class="p">,</span> <span class="n">print_level</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-216"></a>                                  <span class="n">default_global_unit_nr</span><span class="p">,</span> <span class="n">default_local_unit_nr</span><span class="p">,</span> <span class="n">global_filename</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-217"></a>                                  <span class="n">local_filename</span><span class="p">,</span> <span class="n">close_global_unit_on_dealloc</span><span class="p">,</span> <span class="n">iter_info</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-218"></a>                                  <span class="n">close_local_unit_on_dealloc</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="n">template_logger</span><span class="p">)</span>
-<a name="ln-219"></a>      <span class="c">!! initializes a logger</span>
-<a name="ln-220"></a>      <span class="c">!! @note</span>
-<a name="ln-221"></a>      <span class="c">!! the handling of *_filename, default_*_unit_nr, close_*_unit_on_dealloc</span>
-<a name="ln-222"></a>      <span class="c">!! tries to take the right decision with different inputs, and thus is a</span>
-<a name="ln-223"></a>      <span class="c">!! little complex.</span>
-<a name="ln-224"></a>
-<a name="ln-225"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">logger</span>
-<a name="ln-226"></a>         <span class="c">!! the logger to initialize</span>
-<a name="ln-227"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">),</span> <span class="k">OPTIONAL</span>                       <span class="kd">::</span> <span class="n">mp_env</span>
-<a name="ln-228"></a>         <span class="c">!! the parallel environment (this is most likely the global parallel environment</span>
-<a name="ln-229"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">print_level</span><span class="p">,</span> <span class="n">default_global_unit_nr</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-230"></a>                                                            <span class="n">default_local_unit_nr</span>
-<a name="ln-231"></a>         <span class="c">!! the level starting with which something is written (defaults to dbcsr_note_level)</span>
-<a name="ln-232"></a>         <span class="c">!! the default unit_nr for output (if not given, and no file is given defaults to the standard output)</span>
-<a name="ln-233"></a>         <span class="c">!! the default unit number for local (i.e. task) output. If not given defaults to a out.taskid file created upon</span>
-<a name="ln-234"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>             <span class="kd">::</span> <span class="n">global_filename</span><span class="p">,</span> <span class="n">local_filename</span>
-<a name="ln-235"></a>         <span class="c">!! a new file to open (can be given instead of the global_unit_nr)</span>
-<a name="ln-236"></a>         <span class="c">!! a new file to open (with suffix and mp_env%mp%mynode appended). Can be given instead of the default_local_unit_nr). the</span>
-<a name="ln-237"></a>         <span class="c">!! file is created only upon the first local logging request</span>
-<a name="ln-238"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">close_global_unit_on_dealloc</span>
-<a name="ln-239"></a>         <span class="c">!! if the unit should be closed when the logger is deallocated (defaults to true if a local_filename is given, to false</span>
-<a name="ln-240"></a>         <span class="c">!! otherwise)</span>
-<a name="ln-241"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_iteration_info_type</span><span class="p">),</span> <span class="k">OPTIONAL</span><span class="p">,</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">iter_info</span>
-<a name="ln-242"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">close_local_unit_on_dealloc</span>
-<a name="ln-243"></a>         <span class="c">!! if the unit should be closed when the logger is deallocated (defaults to true)</span>
-<a name="ln-244"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>             <span class="kd">::</span> <span class="n">suffix</span>
-<a name="ln-245"></a>         <span class="c">!! the suffix that should be added to all the generated filenames</span>
-<a name="ln-246"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">OPTIONAL</span><span class="p">,</span> <span class="k">POINTER</span>         <span class="kd">::</span> <span class="n">template_logger</span>
-<a name="ln-247"></a>         <span class="c">!! a logger from where to take the unspecified things</span>
+<a name="ln-174"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_add_default_logger</span>
+<a name="ln-175"></a>
+<a name="ln-176"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_rm_default_logger</span><span class="p">()</span>
+<a name="ln-177"></a>      <span class="c">!! the cousin of dbcsr_add_default_logger, decrements the stack, so that</span>
+<a name="ln-178"></a>      <span class="c">!! the default logger is what it has</span>
+<a name="ln-179"></a>      <span class="c">!! been</span>
+<a name="ln-180"></a>
+<a name="ln-181"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">stack_pointer</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-182"></a><span class="k">         CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span> <span class="n">moduleN</span><span class="o">//</span><span class="s2">&quot;:dbcsr_rm_default_logger&quot;</span><span class="o">//</span> <span class="p">&amp;</span>
+<a name="ln-183"></a>                          <span class="s2">&quot;can not destroy default logger &quot;</span><span class="o">//</span><span class="n">moduleN</span><span class="p">)</span>
+<a name="ln-184"></a>      <span class="n">ENDIF</span>
+<a name="ln-185"></a>
+<a name="ln-186"></a>      <span class="k">CALL </span><span class="n">dbcsr_logger_release</span><span class="p">(</span><span class="n">default_logger_stack</span><span class="p">(</span><span class="n">stack_pointer</span><span class="p">)%</span><span class="n">dbcsr_default_logger</span><span class="p">)</span>
+<a name="ln-187"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">default_logger_stack</span><span class="p">(</span><span class="n">stack_pointer</span><span class="p">)%</span><span class="n">dbcsr_default_logger</span><span class="p">)</span>
+<a name="ln-188"></a>      <span class="n">stack_pointer</span> <span class="o">=</span> <span class="n">stack_pointer</span> <span class="o">-</span> <span class="mi">1</span>
+<a name="ln-189"></a>
+<a name="ln-190"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_rm_default_logger</span>
+<a name="ln-191"></a>
+<a name="ln-192"></a>   <span class="k">FUNCTION </span><span class="n">dbcsr_get_default_logger</span><span class="p">()</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+<a name="ln-193"></a>      <span class="c">!! returns the default logger</span>
+<a name="ln-194"></a>      <span class="c">!! @note</span>
+<a name="ln-195"></a>      <span class="c">!! initializes the default loggers if necessary</span>
+<a name="ln-196"></a>
+<a name="ln-197"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">res</span>
+<a name="ln-198"></a>
+<a name="ln-199"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">stack_pointer</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-200"></a><span class="k">         CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span> <span class="s2">&quot;dbcsr_log_handling:dbcsr_get_default_logger&quot;</span><span class="o">//</span> <span class="p">&amp;</span>
+<a name="ln-201"></a>                          <span class="s2">&quot;default logger not yet initialized (CALL dbcsr_init_default_logger)&quot;</span><span class="p">)</span>
+<a name="ln-202"></a>      <span class="k">END IF</span>
+<a name="ln-203"></a><span class="k">      </span><span class="n">res</span> <span class="o">=&gt;</span> <span class="n">default_logger_stack</span><span class="p">(</span><span class="n">stack_pointer</span><span class="p">)%</span><span class="n">dbcsr_default_logger</span>
+<a name="ln-204"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">res</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-205"></a><span class="k">         CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span> <span class="s2">&quot;dbcsr_log_handling:dbcsr_get_default_logger&quot;</span><span class="o">//</span> <span class="p">&amp;</span>
+<a name="ln-206"></a>                          <span class="s2">&quot;default logger is null (released too much ?)&quot;</span><span class="p">)</span>
+<a name="ln-207"></a>      <span class="k">END IF</span>
+<a name="ln-208"></a><span class="k">   END FUNCTION </span><span class="n">dbcsr_get_default_logger</span>
+<a name="ln-209"></a>
+<a name="ln-210"></a><span class="c">! ================== log ==================</span>
+<a name="ln-211"></a>
+<a name="ln-212"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_logger_create</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">mp_env</span><span class="p">,</span> <span class="n">print_level</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-213"></a>                                  <span class="n">default_global_unit_nr</span><span class="p">,</span> <span class="n">default_local_unit_nr</span><span class="p">,</span> <span class="n">global_filename</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-214"></a>                                  <span class="n">local_filename</span><span class="p">,</span> <span class="n">close_global_unit_on_dealloc</span><span class="p">,</span> <span class="n">iter_info</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-215"></a>                                  <span class="n">close_local_unit_on_dealloc</span><span class="p">,</span> <span class="n">suffix</span><span class="p">,</span> <span class="n">template_logger</span><span class="p">)</span>
+<a name="ln-216"></a>      <span class="c">!! initializes a logger</span>
+<a name="ln-217"></a>      <span class="c">!! @note</span>
+<a name="ln-218"></a>      <span class="c">!! the handling of *_filename, default_*_unit_nr, close_*_unit_on_dealloc</span>
+<a name="ln-219"></a>      <span class="c">!! tries to take the right decision with different inputs, and thus is a</span>
+<a name="ln-220"></a>      <span class="c">!! little complex.</span>
+<a name="ln-221"></a>
+<a name="ln-222"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">logger</span>
+<a name="ln-223"></a>         <span class="c">!! the logger to initialize</span>
+<a name="ln-224"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mp_obj</span><span class="p">),</span> <span class="k">OPTIONAL</span>                       <span class="kd">::</span> <span class="n">mp_env</span>
+<a name="ln-225"></a>         <span class="c">!! the parallel environment (this is most likely the global parallel environment</span>
+<a name="ln-226"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">print_level</span><span class="p">,</span> <span class="n">default_global_unit_nr</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-227"></a>                                                            <span class="n">default_local_unit_nr</span>
+<a name="ln-228"></a>         <span class="c">!! the level starting with which something is written (defaults to dbcsr_note_level)</span>
+<a name="ln-229"></a>         <span class="c">!! the default unit_nr for output (if not given, and no file is given defaults to the standard output)</span>
+<a name="ln-230"></a>         <span class="c">!! the default unit number for local (i.e. task) output. If not given defaults to a out.taskid file created upon</span>
+<a name="ln-231"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>             <span class="kd">::</span> <span class="n">global_filename</span><span class="p">,</span> <span class="n">local_filename</span>
+<a name="ln-232"></a>         <span class="c">!! a new file to open (can be given instead of the global_unit_nr)</span>
+<a name="ln-233"></a>         <span class="c">!! a new file to open (with suffix and mp_env%mp%mynode appended). Can be given instead of the default_local_unit_nr). the</span>
+<a name="ln-234"></a>         <span class="c">!! file is created only upon the first local logging request</span>
+<a name="ln-235"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">close_global_unit_on_dealloc</span>
+<a name="ln-236"></a>         <span class="c">!! if the unit should be closed when the logger is deallocated (defaults to true if a local_filename is given, to false</span>
+<a name="ln-237"></a>         <span class="c">!! otherwise)</span>
+<a name="ln-238"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_iteration_info_type</span><span class="p">),</span> <span class="k">OPTIONAL</span><span class="p">,</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">iter_info</span>
+<a name="ln-239"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">close_local_unit_on_dealloc</span>
+<a name="ln-240"></a>         <span class="c">!! if the unit should be closed when the logger is deallocated (defaults to true)</span>
+<a name="ln-241"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>             <span class="kd">::</span> <span class="n">suffix</span>
+<a name="ln-242"></a>         <span class="c">!! the suffix that should be added to all the generated filenames</span>
+<a name="ln-243"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">OPTIONAL</span><span class="p">,</span> <span class="k">POINTER</span>         <span class="kd">::</span> <span class="n">template_logger</span>
+<a name="ln-244"></a>         <span class="c">!! a logger from where to take the unspecified things</span>
+<a name="ln-245"></a>
+<a name="ln-246"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_logger_create&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-247"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 <a name="ln-248"></a>
-<a name="ln-249"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_logger_create&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-250"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
-<a name="ln-251"></a>
-<a name="ln-252"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="nb">stat</span>
-<a name="ln-253"></a>
-<a name="ln-254"></a><span class="nb">      </span><span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
-<a name="ln-255"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-256"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; could not ALLOCATE a logger&quot;</span><span class="p">)</span>
-<a name="ln-257"></a>
-<a name="ln-258"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">iter_info</span><span class="p">)</span>
-<a name="ln-259"></a>      <span class="n">logger</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-260"></a>      <span class="n">last_logger_id_nr</span> <span class="o">=</span> <span class="n">last_logger_id_nr</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-261"></a>      <span class="n">logger</span><span class="p">%</span><span class="n">id_nr</span> <span class="o">=</span> <span class="n">last_logger_id_nr</span>
-<a name="ln-262"></a>
-<a name="ln-263"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">template_logger</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-264"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">template_logger</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-265"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; template_logger%ref_count&lt;1&quot;</span><span class="p">)</span>
-<a name="ln-266"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">print_level</span> <span class="o">=</span> <span class="n">template_logger</span><span class="p">%</span><span class="n">print_level</span>
-<a name="ln-267"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">default_global_unit_nr</span> <span class="o">=</span> <span class="n">template_logger</span><span class="p">%</span><span class="n">default_global_unit_nr</span>
-<a name="ln-268"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">close_local_unit_on_dealloc</span> <span class="o">=</span> <span class="n">template_logger</span><span class="p">%</span><span class="n">close_local_unit_on_dealloc</span>
-<a name="ln-269"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">close_local_unit_on_dealloc</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-270"></a><span class="k">            </span><span class="n">logger</span><span class="p">%</span><span class="n">default_local_unit_nr</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-<a name="ln-271"></a>         <span class="k">ELSE</span>
-<a name="ln-272"></a><span class="k">            </span><span class="n">logger</span><span class="p">%</span><span class="n">default_local_unit_nr</span> <span class="o">=</span> <span class="n">template_logger</span><span class="p">%</span><span class="n">default_local_unit_nr</span>
-<a name="ln-273"></a>         <span class="k">END IF</span>
-<a name="ln-274"></a><span class="k">         </span><span class="n">logger</span><span class="p">%</span><span class="n">close_global_unit_on_dealloc</span> <span class="o">=</span> <span class="n">template_logger</span><span class="p">%</span><span class="n">close_global_unit_on_dealloc</span>
-<a name="ln-275"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">close_global_unit_on_dealloc</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-276"></a><span class="k">            </span><span class="n">logger</span><span class="p">%</span><span class="n">default_global_unit_nr</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-<a name="ln-277"></a>         <span class="k">ELSE</span>
-<a name="ln-278"></a><span class="k">            </span><span class="n">logger</span><span class="p">%</span><span class="n">default_global_unit_nr</span> <span class="o">=</span> <span class="n">template_logger</span><span class="p">%</span><span class="n">default_global_unit_nr</span>
-<a name="ln-279"></a>         <span class="k">END IF</span>
-<a name="ln-280"></a><span class="k">         </span><span class="n">logger</span><span class="p">%</span><span class="n">local_filename</span> <span class="o">=</span> <span class="n">template_logger</span><span class="p">%</span><span class="n">local_filename</span>
-<a name="ln-281"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">global_filename</span> <span class="o">=</span> <span class="n">template_logger</span><span class="p">%</span><span class="n">global_filename</span>
-<a name="ln-282"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">mp_env</span> <span class="o">=</span> <span class="n">template_logger</span><span class="p">%</span><span class="n">mp_env</span>
-<a name="ln-283"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">suffix</span> <span class="o">=</span> <span class="n">template_logger</span><span class="p">%</span><span class="n">suffix</span>
-<a name="ln-284"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">iter_info</span> <span class="o">=&gt;</span> <span class="n">template_logger</span><span class="p">%</span><span class="n">iter_info</span>
-<a name="ln-285"></a>      <span class="k">ELSE</span>
-<a name="ln-286"></a>         <span class="c">! create a file if nothing is specified, one can also get the unit from the default logger</span>
-<a name="ln-287"></a>         <span class="c">! which should have something reasonable as the argument is required in that case</span>
-<a name="ln-288"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">default_global_unit_nr</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-<a name="ln-289"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">close_global_unit_on_dealloc</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-<a name="ln-290"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">local_filename</span> <span class="o">=</span> <span class="s2">&quot;localLog&quot;</span>
-<a name="ln-291"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">global_filename</span> <span class="o">=</span> <span class="s2">&quot;mainLog&quot;</span>
-<a name="ln-292"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">print_level</span> <span class="o">=</span> <span class="n">dbcsr_note_level</span>
-<a name="ln-293"></a>         <span class="c">! generate a file for default local logger</span>
-<a name="ln-294"></a>         <span class="c">! except the ionode that should write to the default global logger</span>
-<a name="ln-295"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">default_local_unit_nr</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-<a name="ln-296"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">close_local_unit_on_dealloc</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-<a name="ln-297"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">suffix</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
-<a name="ln-298"></a>      <span class="k">END IF</span>
-<a name="ln-299"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mp_env</span><span class="p">))</span> <span class="n">logger</span><span class="p">%</span><span class="n">mp_env</span> <span class="o">=</span> <span class="n">mp_env</span>
-<a name="ln-300"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-301"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; mp env not associated&quot;</span><span class="p">)</span>
-<a name="ln-302"></a>
-<a name="ln-303"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">refcount</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-304"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; mp_env%ref_count&lt;1&quot;</span><span class="p">)</span>
-<a name="ln-305"></a>      <span class="n">logger</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">refcount</span> <span class="o">=</span> <span class="n">logger</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">refcount</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-306"></a>
-<a name="ln-307"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">print_level</span><span class="p">))</span> <span class="n">logger</span><span class="p">%</span><span class="n">print_level</span> <span class="o">=</span> <span class="n">print_level</span>
-<a name="ln-308"></a>
-<a name="ln-309"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">default_global_unit_nr</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-310"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">default_global_unit_nr</span> <span class="o">=</span> <span class="n">default_global_unit_nr</span>
-<a name="ln-311"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">global_filename</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-312"></a><span class="k">         </span><span class="n">logger</span><span class="p">%</span><span class="n">global_filename</span> <span class="o">=</span> <span class="n">global_filename</span>
-<a name="ln-313"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">close_global_unit_on_dealloc</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-<a name="ln-314"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">default_global_unit_nr</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-<a name="ln-315"></a>      <span class="k">END IF</span>
-<a name="ln-316"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">close_global_unit_on_dealloc</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-317"></a><span class="k">         </span><span class="n">logger</span><span class="p">%</span><span class="n">close_global_unit_on_dealloc</span> <span class="o">=</span> <span class="n">close_global_unit_on_dealloc</span>
-<a name="ln-318"></a>         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">default_global_unit_nr</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">global_filename</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
-<a name="ln-319"></a>             <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">close_global_unit_on_dealloc</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-320"></a><span class="k">            </span><span class="n">logger</span><span class="p">%</span><span class="n">default_global_unit_nr</span> <span class="o">=</span> <span class="n">default_global_unit_nr</span>
-<a name="ln-321"></a>         <span class="k">END IF</span>
-<a name="ln-322"></a><span class="k">      END IF</span>
-<a name="ln-323"></a>
-<a name="ln-324"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">default_local_unit_nr</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-325"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">default_local_unit_nr</span> <span class="o">=</span> <span class="n">default_local_unit_nr</span>
-<a name="ln-326"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">local_filename</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-327"></a><span class="k">         </span><span class="n">logger</span><span class="p">%</span><span class="n">local_filename</span> <span class="o">=</span> <span class="n">local_filename</span>
-<a name="ln-328"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">close_local_unit_on_dealloc</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-<a name="ln-329"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">default_local_unit_nr</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-<a name="ln-330"></a>      <span class="k">END IF</span>
-<a name="ln-331"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">suffix</span><span class="p">))</span> <span class="n">logger</span><span class="p">%</span><span class="n">suffix</span> <span class="o">=</span> <span class="n">suffix</span>
-<a name="ln-332"></a>
-<a name="ln-333"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">close_local_unit_on_dealloc</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-334"></a><span class="k">         </span><span class="n">logger</span><span class="p">%</span><span class="n">close_local_unit_on_dealloc</span> <span class="o">=</span> <span class="n">close_local_unit_on_dealloc</span>
-<a name="ln-335"></a>         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">default_local_unit_nr</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">local_filename</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
-<a name="ln-336"></a>             <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">close_local_unit_on_dealloc</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-337"></a><span class="k">            </span><span class="n">logger</span><span class="p">%</span><span class="n">default_local_unit_nr</span> <span class="o">=</span> <span class="n">default_local_unit_nr</span>
-<a name="ln-338"></a>         <span class="k">END IF</span>
-<a name="ln-339"></a><span class="k">      END IF</span>
-<a name="ln-340"></a>
-<a name="ln-341"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">default_local_unit_nr</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-342"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mynode</span> <span class="o">==</span> <span class="n">logger</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">source</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-343"></a><span class="k">            </span><span class="n">logger</span><span class="p">%</span><span class="n">default_local_unit_nr</span> <span class="o">=</span> <span class="n">logger</span><span class="p">%</span><span class="n">default_global_unit_nr</span>
-<a name="ln-344"></a>            <span class="n">logger</span><span class="p">%</span><span class="n">close_local_unit_on_dealloc</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a name="ln-345"></a>         <span class="n">ENDIF</span>
-<a name="ln-346"></a>      <span class="n">ENDIF</span>
-<a name="ln-347"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">iter_info</span><span class="p">))</span> <span class="n">logger</span><span class="p">%</span><span class="n">iter_info</span> <span class="o">=&gt;</span> <span class="n">iter_info</span>
-<a name="ln-348"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">iter_info</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-349"></a><span class="k">         CALL </span><span class="n">dbcsr_iteration_info_retain</span><span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">iter_info</span><span class="p">)</span>
-<a name="ln-350"></a>      <span class="k">ELSE</span>
-<a name="ln-351"></a><span class="k">         CALL </span><span class="n">dbcsr_iteration_info_create</span><span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">iter_info</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
-<a name="ln-352"></a>      <span class="k">END IF</span>
-<a name="ln-353"></a><span class="k">   END SUBROUTINE </span><span class="n">dbcsr_logger_create</span>
-<a name="ln-354"></a>
-<a name="ln-355"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_logger_retain</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span>
-<a name="ln-356"></a>      <span class="c">!! retains the given logger (to be called to keep a shared copy of</span>
-<a name="ln-357"></a>      <span class="c">!! the logger)</span>
+<a name="ln-249"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="nb">stat</span>
+<a name="ln-250"></a>
+<a name="ln-251"></a><span class="nb">      </span><span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
+<a name="ln-252"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-253"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; could not ALLOCATE a logger&quot;</span><span class="p">)</span>
+<a name="ln-254"></a>
+<a name="ln-255"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">iter_info</span><span class="p">)</span>
+<a name="ln-256"></a>      <span class="n">logger</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">=</span> <span class="mi">1</span>
+<a name="ln-257"></a>      <span class="n">last_logger_id_nr</span> <span class="o">=</span> <span class="n">last_logger_id_nr</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-258"></a>      <span class="n">logger</span><span class="p">%</span><span class="n">id_nr</span> <span class="o">=</span> <span class="n">last_logger_id_nr</span>
+<a name="ln-259"></a>
+<a name="ln-260"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">template_logger</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-261"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">template_logger</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-262"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; template_logger%ref_count&lt;1&quot;</span><span class="p">)</span>
+<a name="ln-263"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">print_level</span> <span class="o">=</span> <span class="n">template_logger</span><span class="p">%</span><span class="n">print_level</span>
+<a name="ln-264"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">default_global_unit_nr</span> <span class="o">=</span> <span class="n">template_logger</span><span class="p">%</span><span class="n">default_global_unit_nr</span>
+<a name="ln-265"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">close_local_unit_on_dealloc</span> <span class="o">=</span> <span class="n">template_logger</span><span class="p">%</span><span class="n">close_local_unit_on_dealloc</span>
+<a name="ln-266"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">close_local_unit_on_dealloc</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-267"></a><span class="k">            </span><span class="n">logger</span><span class="p">%</span><span class="n">default_local_unit_nr</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<a name="ln-268"></a>         <span class="k">ELSE</span>
+<a name="ln-269"></a><span class="k">            </span><span class="n">logger</span><span class="p">%</span><span class="n">default_local_unit_nr</span> <span class="o">=</span> <span class="n">template_logger</span><span class="p">%</span><span class="n">default_local_unit_nr</span>
+<a name="ln-270"></a>         <span class="k">END IF</span>
+<a name="ln-271"></a><span class="k">         </span><span class="n">logger</span><span class="p">%</span><span class="n">close_global_unit_on_dealloc</span> <span class="o">=</span> <span class="n">template_logger</span><span class="p">%</span><span class="n">close_global_unit_on_dealloc</span>
+<a name="ln-272"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">close_global_unit_on_dealloc</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-273"></a><span class="k">            </span><span class="n">logger</span><span class="p">%</span><span class="n">default_global_unit_nr</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<a name="ln-274"></a>         <span class="k">ELSE</span>
+<a name="ln-275"></a><span class="k">            </span><span class="n">logger</span><span class="p">%</span><span class="n">default_global_unit_nr</span> <span class="o">=</span> <span class="n">template_logger</span><span class="p">%</span><span class="n">default_global_unit_nr</span>
+<a name="ln-276"></a>         <span class="k">END IF</span>
+<a name="ln-277"></a><span class="k">         </span><span class="n">logger</span><span class="p">%</span><span class="n">local_filename</span> <span class="o">=</span> <span class="n">template_logger</span><span class="p">%</span><span class="n">local_filename</span>
+<a name="ln-278"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">global_filename</span> <span class="o">=</span> <span class="n">template_logger</span><span class="p">%</span><span class="n">global_filename</span>
+<a name="ln-279"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">mp_env</span> <span class="o">=</span> <span class="n">template_logger</span><span class="p">%</span><span class="n">mp_env</span>
+<a name="ln-280"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">suffix</span> <span class="o">=</span> <span class="n">template_logger</span><span class="p">%</span><span class="n">suffix</span>
+<a name="ln-281"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">iter_info</span> <span class="o">=&gt;</span> <span class="n">template_logger</span><span class="p">%</span><span class="n">iter_info</span>
+<a name="ln-282"></a>      <span class="k">ELSE</span>
+<a name="ln-283"></a>         <span class="c">! create a file if nothing is specified, one can also get the unit from the default logger</span>
+<a name="ln-284"></a>         <span class="c">! which should have something reasonable as the argument is required in that case</span>
+<a name="ln-285"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">default_global_unit_nr</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<a name="ln-286"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">close_global_unit_on_dealloc</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<a name="ln-287"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">local_filename</span> <span class="o">=</span> <span class="s2">&quot;localLog&quot;</span>
+<a name="ln-288"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">global_filename</span> <span class="o">=</span> <span class="s2">&quot;mainLog&quot;</span>
+<a name="ln-289"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">print_level</span> <span class="o">=</span> <span class="n">dbcsr_note_level</span>
+<a name="ln-290"></a>         <span class="c">! generate a file for default local logger</span>
+<a name="ln-291"></a>         <span class="c">! except the ionode that should write to the default global logger</span>
+<a name="ln-292"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">default_local_unit_nr</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<a name="ln-293"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">close_local_unit_on_dealloc</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<a name="ln-294"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">suffix</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<a name="ln-295"></a>      <span class="k">END IF</span>
+<a name="ln-296"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mp_env</span><span class="p">))</span> <span class="n">logger</span><span class="p">%</span><span class="n">mp_env</span> <span class="o">=</span> <span class="n">mp_env</span>
+<a name="ln-297"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-298"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; mp env not associated&quot;</span><span class="p">)</span>
+<a name="ln-299"></a>
+<a name="ln-300"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">refcount</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-301"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; mp_env%ref_count&lt;1&quot;</span><span class="p">)</span>
+<a name="ln-302"></a>      <span class="n">logger</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">refcount</span> <span class="o">=</span> <span class="n">logger</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">refcount</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-303"></a>
+<a name="ln-304"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">print_level</span><span class="p">))</span> <span class="n">logger</span><span class="p">%</span><span class="n">print_level</span> <span class="o">=</span> <span class="n">print_level</span>
+<a name="ln-305"></a>
+<a name="ln-306"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">default_global_unit_nr</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-307"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">default_global_unit_nr</span> <span class="o">=</span> <span class="n">default_global_unit_nr</span>
+<a name="ln-308"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">global_filename</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-309"></a><span class="k">         </span><span class="n">logger</span><span class="p">%</span><span class="n">global_filename</span> <span class="o">=</span> <span class="n">global_filename</span>
+<a name="ln-310"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">close_global_unit_on_dealloc</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<a name="ln-311"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">default_global_unit_nr</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<a name="ln-312"></a>      <span class="k">END IF</span>
+<a name="ln-313"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">close_global_unit_on_dealloc</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-314"></a><span class="k">         </span><span class="n">logger</span><span class="p">%</span><span class="n">close_global_unit_on_dealloc</span> <span class="o">=</span> <span class="n">close_global_unit_on_dealloc</span>
+<a name="ln-315"></a>         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">default_global_unit_nr</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">global_filename</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
+<a name="ln-316"></a>             <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">close_global_unit_on_dealloc</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-317"></a><span class="k">            </span><span class="n">logger</span><span class="p">%</span><span class="n">default_global_unit_nr</span> <span class="o">=</span> <span class="n">default_global_unit_nr</span>
+<a name="ln-318"></a>         <span class="k">END IF</span>
+<a name="ln-319"></a><span class="k">      END IF</span>
+<a name="ln-320"></a>
+<a name="ln-321"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">default_local_unit_nr</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-322"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">default_local_unit_nr</span> <span class="o">=</span> <span class="n">default_local_unit_nr</span>
+<a name="ln-323"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">local_filename</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-324"></a><span class="k">         </span><span class="n">logger</span><span class="p">%</span><span class="n">local_filename</span> <span class="o">=</span> <span class="n">local_filename</span>
+<a name="ln-325"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">close_local_unit_on_dealloc</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<a name="ln-326"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">default_local_unit_nr</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<a name="ln-327"></a>      <span class="k">END IF</span>
+<a name="ln-328"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">suffix</span><span class="p">))</span> <span class="n">logger</span><span class="p">%</span><span class="n">suffix</span> <span class="o">=</span> <span class="n">suffix</span>
+<a name="ln-329"></a>
+<a name="ln-330"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">close_local_unit_on_dealloc</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-331"></a><span class="k">         </span><span class="n">logger</span><span class="p">%</span><span class="n">close_local_unit_on_dealloc</span> <span class="o">=</span> <span class="n">close_local_unit_on_dealloc</span>
+<a name="ln-332"></a>         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">default_local_unit_nr</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">local_filename</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
+<a name="ln-333"></a>             <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">close_local_unit_on_dealloc</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-334"></a><span class="k">            </span><span class="n">logger</span><span class="p">%</span><span class="n">default_local_unit_nr</span> <span class="o">=</span> <span class="n">default_local_unit_nr</span>
+<a name="ln-335"></a>         <span class="k">END IF</span>
+<a name="ln-336"></a><span class="k">      END IF</span>
+<a name="ln-337"></a>
+<a name="ln-338"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">default_local_unit_nr</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-339"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mynode</span> <span class="o">==</span> <span class="n">logger</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">source</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-340"></a><span class="k">            </span><span class="n">logger</span><span class="p">%</span><span class="n">default_local_unit_nr</span> <span class="o">=</span> <span class="n">logger</span><span class="p">%</span><span class="n">default_global_unit_nr</span>
+<a name="ln-341"></a>            <span class="n">logger</span><span class="p">%</span><span class="n">close_local_unit_on_dealloc</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-342"></a>         <span class="n">ENDIF</span>
+<a name="ln-343"></a>      <span class="n">ENDIF</span>
+<a name="ln-344"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">iter_info</span><span class="p">))</span> <span class="n">logger</span><span class="p">%</span><span class="n">iter_info</span> <span class="o">=&gt;</span> <span class="n">iter_info</span>
+<a name="ln-345"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">iter_info</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-346"></a><span class="k">         CALL </span><span class="n">dbcsr_iteration_info_retain</span><span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">iter_info</span><span class="p">)</span>
+<a name="ln-347"></a>      <span class="k">ELSE</span>
+<a name="ln-348"></a><span class="k">         CALL </span><span class="n">dbcsr_iteration_info_create</span><span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">iter_info</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+<a name="ln-349"></a>      <span class="k">END IF</span>
+<a name="ln-350"></a><span class="k">   END SUBROUTINE </span><span class="n">dbcsr_logger_create</span>
+<a name="ln-351"></a>
+<a name="ln-352"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_logger_retain</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span>
+<a name="ln-353"></a>      <span class="c">!! retains the given logger (to be called to keep a shared copy of</span>
+<a name="ln-354"></a>      <span class="c">!! the logger)</span>
+<a name="ln-355"></a>
+<a name="ln-356"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">logger</span>
+<a name="ln-357"></a>         <span class="c">!! the logger to retain</span>
 <a name="ln-358"></a>
-<a name="ln-359"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">logger</span>
-<a name="ln-360"></a>         <span class="c">!! the logger to retain</span>
+<a name="ln-359"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_logger_retain&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-360"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 <a name="ln-361"></a>
-<a name="ln-362"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_logger_retain&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-363"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
-<a name="ln-364"></a>
-<a name="ln-365"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-366"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; logger not associated&quot;</span><span class="p">)</span>
-<a name="ln-367"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-368"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; logger%ref_count&lt;1&quot;</span><span class="p">)</span>
-<a name="ln-369"></a>      <span class="n">logger</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">=</span> <span class="n">logger</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-370"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_logger_retain</span>
+<a name="ln-362"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-363"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; logger not associated&quot;</span><span class="p">)</span>
+<a name="ln-364"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-365"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; logger%ref_count&lt;1&quot;</span><span class="p">)</span>
+<a name="ln-366"></a>      <span class="n">logger</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">=</span> <span class="n">logger</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-367"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_logger_retain</span>
+<a name="ln-368"></a>
+<a name="ln-369"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_logger_release</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span>
+<a name="ln-370"></a>      <span class="c">!! releases this logger</span>
 <a name="ln-371"></a>
-<a name="ln-372"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_logger_release</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span>
-<a name="ln-373"></a>      <span class="c">!! releases this logger</span>
+<a name="ln-372"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">logger</span>
+<a name="ln-373"></a>         <span class="c">!! the logger to release</span>
 <a name="ln-374"></a>
-<a name="ln-375"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">logger</span>
-<a name="ln-376"></a>         <span class="c">!! the logger to release</span>
+<a name="ln-375"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_logger_release&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-376"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 <a name="ln-377"></a>
-<a name="ln-378"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_logger_release&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-379"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
-<a name="ln-380"></a>
-<a name="ln-381"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-382"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-383"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; logger%ref_count&lt;1&quot;</span><span class="p">)</span>
-<a name="ln-384"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">=</span> <span class="n">logger</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">-</span> <span class="mi">1</span>
-<a name="ln-385"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-386"></a><span class="k">            IF</span> <span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">close_global_unit_on_dealloc</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
-<a name="ln-387"></a>                <span class="n">logger</span><span class="p">%</span><span class="n">default_global_unit_nr</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-388"></a><span class="k">               CALL </span><span class="n">close_file</span><span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">default_global_unit_nr</span><span class="p">)</span>
-<a name="ln-389"></a>               <span class="n">logger</span><span class="p">%</span><span class="n">close_global_unit_on_dealloc</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a name="ln-390"></a>               <span class="n">logger</span><span class="p">%</span><span class="n">default_global_unit_nr</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-<a name="ln-391"></a>            <span class="k">END IF</span>
-<a name="ln-392"></a><span class="k">            IF</span> <span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">close_local_unit_on_dealloc</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
-<a name="ln-393"></a>                <span class="n">logger</span><span class="p">%</span><span class="n">default_local_unit_nr</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-394"></a><span class="k">               CALL </span><span class="n">close_file</span><span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">default_local_unit_nr</span><span class="p">)</span>
-<a name="ln-395"></a>               <span class="n">logger</span><span class="p">%</span><span class="n">close_local_unit_on_dealloc</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a name="ln-396"></a>               <span class="n">logger</span><span class="p">%</span><span class="n">default_local_unit_nr</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-<a name="ln-397"></a>            <span class="k">END IF</span>
-<a name="ln-398"></a><span class="k">            CALL </span><span class="n">dbcsr_mp_release</span><span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">mp_env</span><span class="p">)</span>
-<a name="ln-399"></a>            <span class="k">CALL </span><span class="n">dbcsr_iteration_info_release</span><span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">iter_info</span><span class="p">)</span>
-<a name="ln-400"></a>            <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">logger</span><span class="p">)</span>
-<a name="ln-401"></a>         <span class="k">END IF</span>
-<a name="ln-402"></a><span class="k">      END IF</span>
-<a name="ln-403"></a><span class="k">   END SUBROUTINE </span><span class="n">dbcsr_logger_release</span>
-<a name="ln-404"></a>
-<a name="ln-405"></a>   <span class="k">FUNCTION </span><span class="n">dbcsr_logger_would_log</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-<a name="ln-406"></a>      <span class="c">!! this function can be called to check if the logger would log</span>
-<a name="ln-407"></a>      <span class="c">!! a message with the given level from the given source</span>
-<a name="ln-408"></a>      <span class="c">!! you should use this function if you do direct logging</span>
-<a name="ln-409"></a>      <span class="c">!! (without using dbcsr_logger_log), or if you want to know if the generation</span>
-<a name="ln-410"></a>      <span class="c">!! of some costly log info is necessary</span>
-<a name="ln-411"></a>
-<a name="ln-412"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">logger</span>
-<a name="ln-413"></a>         <span class="c">!! the logger you want to log in</span>
-<a name="ln-414"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">level</span>
-<a name="ln-415"></a>         <span class="c">!! describes the of the message: dbcsr_fatal_level(3), dbcsr_failure_level(2), dbcsr_warning_level(1), dbcsr_note_level(0).</span>
-<a name="ln-416"></a>      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">res</span>
+<a name="ln-378"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-379"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-380"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; logger%ref_count&lt;1&quot;</span><span class="p">)</span>
+<a name="ln-381"></a>         <span class="n">logger</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">=</span> <span class="n">logger</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">-</span> <span class="mi">1</span>
+<a name="ln-382"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-383"></a><span class="k">            IF</span> <span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">close_global_unit_on_dealloc</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
+<a name="ln-384"></a>                <span class="n">logger</span><span class="p">%</span><span class="n">default_global_unit_nr</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-385"></a><span class="k">               CALL </span><span class="n">close_file</span><span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">default_global_unit_nr</span><span class="p">)</span>
+<a name="ln-386"></a>               <span class="n">logger</span><span class="p">%</span><span class="n">close_global_unit_on_dealloc</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-387"></a>               <span class="n">logger</span><span class="p">%</span><span class="n">default_global_unit_nr</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<a name="ln-388"></a>            <span class="k">END IF</span>
+<a name="ln-389"></a><span class="k">            IF</span> <span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">close_local_unit_on_dealloc</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
+<a name="ln-390"></a>                <span class="n">logger</span><span class="p">%</span><span class="n">default_local_unit_nr</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-391"></a><span class="k">               CALL </span><span class="n">close_file</span><span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">default_local_unit_nr</span><span class="p">)</span>
+<a name="ln-392"></a>               <span class="n">logger</span><span class="p">%</span><span class="n">close_local_unit_on_dealloc</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-393"></a>               <span class="n">logger</span><span class="p">%</span><span class="n">default_local_unit_nr</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<a name="ln-394"></a>            <span class="k">END IF</span>
+<a name="ln-395"></a><span class="k">            CALL </span><span class="n">dbcsr_mp_release</span><span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">mp_env</span><span class="p">)</span>
+<a name="ln-396"></a>            <span class="k">CALL </span><span class="n">dbcsr_iteration_info_release</span><span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">iter_info</span><span class="p">)</span>
+<a name="ln-397"></a>            <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">logger</span><span class="p">)</span>
+<a name="ln-398"></a>         <span class="k">END IF</span>
+<a name="ln-399"></a><span class="k">      END IF</span>
+<a name="ln-400"></a><span class="k">   END SUBROUTINE </span><span class="n">dbcsr_logger_release</span>
+<a name="ln-401"></a>
+<a name="ln-402"></a>   <span class="k">FUNCTION </span><span class="n">dbcsr_logger_would_log</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+<a name="ln-403"></a>      <span class="c">!! this function can be called to check if the logger would log</span>
+<a name="ln-404"></a>      <span class="c">!! a message with the given level from the given source</span>
+<a name="ln-405"></a>      <span class="c">!! you should use this function if you do direct logging</span>
+<a name="ln-406"></a>      <span class="c">!! (without using dbcsr_logger_log), or if you want to know if the generation</span>
+<a name="ln-407"></a>      <span class="c">!! of some costly log info is necessary</span>
+<a name="ln-408"></a>
+<a name="ln-409"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">logger</span>
+<a name="ln-410"></a>         <span class="c">!! the logger you want to log in</span>
+<a name="ln-411"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">level</span>
+<a name="ln-412"></a>         <span class="c">!! describes the of the message: dbcsr_fatal_level(3), dbcsr_failure_level(2), dbcsr_warning_level(1), dbcsr_note_level(0).</span>
+<a name="ln-413"></a>      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">res</span>
+<a name="ln-414"></a>
+<a name="ln-415"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_logger_would_log&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-416"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 <a name="ln-417"></a>
-<a name="ln-418"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_logger_would_log&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-419"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
-<a name="ln-420"></a>
-<a name="ln-421"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">lggr</span>
-<a name="ln-422"></a>
-<a name="ln-423"></a>      <span class="n">lggr</span> <span class="o">=&gt;</span> <span class="n">logger</span>
-<a name="ln-424"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">lggr</span><span class="p">))</span> <span class="n">lggr</span> <span class="o">=&gt;</span> <span class="n">dbcsr_get_default_logger</span><span class="p">()</span>
-<a name="ln-425"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-426"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; logger%ref_count&lt;1&quot;</span><span class="p">)</span>
+<a name="ln-418"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">lggr</span>
+<a name="ln-419"></a>
+<a name="ln-420"></a>      <span class="n">lggr</span> <span class="o">=&gt;</span> <span class="n">logger</span>
+<a name="ln-421"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">lggr</span><span class="p">))</span> <span class="n">lggr</span> <span class="o">=&gt;</span> <span class="n">dbcsr_get_default_logger</span><span class="p">()</span>
+<a name="ln-422"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-423"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; logger%ref_count&lt;1&quot;</span><span class="p">)</span>
+<a name="ln-424"></a>
+<a name="ln-425"></a>      <span class="n">res</span> <span class="o">=</span> <span class="n">level</span> <span class="o">&gt;=</span> <span class="n">lggr</span><span class="p">%</span><span class="n">print_level</span>
+<a name="ln-426"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_logger_would_log</span>
 <a name="ln-427"></a>
-<a name="ln-428"></a>      <span class="n">res</span> <span class="o">=</span> <span class="n">level</span> <span class="o">&gt;=</span> <span class="n">lggr</span><span class="p">%</span><span class="n">print_level</span>
-<a name="ln-429"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_logger_would_log</span>
+<a name="ln-428"></a>   <span class="k">FUNCTION </span><span class="n">dbcsr_logger_get_unit_nr</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">local</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+<a name="ln-429"></a>      <span class="c">!! returns the unit nr for the requested kind of log.</span>
 <a name="ln-430"></a>
-<a name="ln-431"></a>   <span class="k">FUNCTION </span><span class="n">dbcsr_logger_get_unit_nr</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">local</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-<a name="ln-432"></a>      <span class="c">!! returns the unit nr for the requested kind of log.</span>
-<a name="ln-433"></a>
-<a name="ln-434"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">logger</span>
-<a name="ln-435"></a>         <span class="c">!! the logger you want to log in</span>
-<a name="ln-436"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">local</span>
-<a name="ln-437"></a>         <span class="c">!! if true returns a local logger (one per task), otherwise returns a global logger (only the process with</span>
-<a name="ln-438"></a>         <span class="c">!! mp_env%mp%mynode== mp_env%mp%source should write to the global logger). Defaults to false</span>
-<a name="ln-439"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">res</span>
+<a name="ln-431"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">logger</span>
+<a name="ln-432"></a>         <span class="c">!! the logger you want to log in</span>
+<a name="ln-433"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">local</span>
+<a name="ln-434"></a>         <span class="c">!! if true returns a local logger (one per task), otherwise returns a global logger (only the process with</span>
+<a name="ln-435"></a>         <span class="c">!! mp_env%mp%mynode== mp_env%mp%source should write to the global logger). Defaults to false</span>
+<a name="ln-436"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">res</span>
+<a name="ln-437"></a>
+<a name="ln-438"></a>      <span class="n">res</span> <span class="o">=</span> <span class="n">dbcsr_logger_get_default_unit_nr</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="n">local</span><span class="p">)</span>
+<a name="ln-439"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_logger_get_unit_nr</span>
 <a name="ln-440"></a>
-<a name="ln-441"></a>      <span class="n">res</span> <span class="o">=</span> <span class="n">dbcsr_logger_get_default_unit_nr</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="n">local</span><span class="p">)</span>
-<a name="ln-442"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_logger_get_unit_nr</span>
-<a name="ln-443"></a>
-<a name="ln-444"></a>   <span class="k">FUNCTION </span><span class="n">dbcsr_logger_get_default_io_unit</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-<a name="ln-445"></a>      <span class="c">!! returns the unit nr for the ionode (-1 on all other processors)</span>
-<a name="ln-446"></a>      <span class="c">!! skips as well checks if the procs calling this function is not the ionode</span>
-<a name="ln-447"></a>
-<a name="ln-448"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">OPTIONAL</span><span class="p">,</span> <span class="k">POINTER</span>         <span class="kd">::</span> <span class="n">logger</span>
-<a name="ln-449"></a>         <span class="c">!! the logger you want to log in</span>
-<a name="ln-450"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">res</span>
-<a name="ln-451"></a>
-<a name="ln-452"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">local_logger</span>
-<a name="ln-453"></a>
-<a name="ln-454"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">logger</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-455"></a><span class="k">         </span><span class="n">local_logger</span> <span class="o">=&gt;</span> <span class="n">logger</span>
-<a name="ln-456"></a>      <span class="k">ELSE IF</span> <span class="p">(</span><span class="n">stack_pointer</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-457"></a><span class="k">         </span><span class="n">res</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="c">! edge case: default logger not yet/anymore available</span>
-<a name="ln-458"></a>         <span class="k">RETURN</span>
-<a name="ln-459"></a><span class="k">      ELSE</span>
-<a name="ln-460"></a><span class="k">         </span><span class="n">local_logger</span> <span class="o">=&gt;</span> <span class="n">dbcsr_get_default_logger</span><span class="p">()</span>
-<a name="ln-461"></a>      <span class="n">ENDIF</span>
+<a name="ln-441"></a>   <span class="k">FUNCTION </span><span class="n">dbcsr_logger_get_default_io_unit</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+<a name="ln-442"></a>      <span class="c">!! returns the unit nr for the ionode (-1 on all other processors)</span>
+<a name="ln-443"></a>      <span class="c">!! skips as well checks if the procs calling this function is not the ionode</span>
+<a name="ln-444"></a>
+<a name="ln-445"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">OPTIONAL</span><span class="p">,</span> <span class="k">POINTER</span>         <span class="kd">::</span> <span class="n">logger</span>
+<a name="ln-446"></a>         <span class="c">!! the logger you want to log in</span>
+<a name="ln-447"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">res</span>
+<a name="ln-448"></a>
+<a name="ln-449"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">local_logger</span>
+<a name="ln-450"></a>
+<a name="ln-451"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">logger</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-452"></a><span class="k">         </span><span class="n">local_logger</span> <span class="o">=&gt;</span> <span class="n">logger</span>
+<a name="ln-453"></a>      <span class="k">ELSE IF</span> <span class="p">(</span><span class="n">stack_pointer</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-454"></a><span class="k">         </span><span class="n">res</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="c">! edge case: default logger not yet/anymore available</span>
+<a name="ln-455"></a>         <span class="k">RETURN</span>
+<a name="ln-456"></a><span class="k">      ELSE</span>
+<a name="ln-457"></a><span class="k">         </span><span class="n">local_logger</span> <span class="o">=&gt;</span> <span class="n">dbcsr_get_default_logger</span><span class="p">()</span>
+<a name="ln-458"></a>      <span class="n">ENDIF</span>
+<a name="ln-459"></a>
+<a name="ln-460"></a>      <span class="n">res</span> <span class="o">=</span> <span class="n">dbcsr_logger_get_default_unit_nr</span><span class="p">(</span><span class="n">local_logger</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span> <span class="n">skip_not_ionode</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+<a name="ln-461"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_logger_get_default_io_unit</span>
 <a name="ln-462"></a>
-<a name="ln-463"></a>      <span class="n">res</span> <span class="o">=</span> <span class="n">dbcsr_logger_get_default_unit_nr</span><span class="p">(</span><span class="n">local_logger</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span> <span class="n">skip_not_ionode</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
-<a name="ln-464"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_logger_get_default_io_unit</span>
-<a name="ln-465"></a>
-<a name="ln-466"></a><span class="c">! *************************** dbcsr_logger_type settings ***************************</span>
-<a name="ln-467"></a>
-<a name="ln-468"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_logger_set_log_level</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span>
-<a name="ln-469"></a>      <span class="c">!! changes the logging level. Log messages with a level less than the one</span>
-<a name="ln-470"></a>      <span class="c">!! given wo not be printed.</span>
-<a name="ln-471"></a>
-<a name="ln-472"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">logger</span>
-<a name="ln-473"></a>         <span class="c">!! the logger to change</span>
-<a name="ln-474"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">level</span>
-<a name="ln-475"></a>         <span class="c">!! the new logging level for the logger</span>
+<a name="ln-463"></a><span class="c">! *************************** dbcsr_logger_type settings ***************************</span>
+<a name="ln-464"></a>
+<a name="ln-465"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_logger_set_log_level</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span>
+<a name="ln-466"></a>      <span class="c">!! changes the logging level. Log messages with a level less than the one</span>
+<a name="ln-467"></a>      <span class="c">!! given wo not be printed.</span>
+<a name="ln-468"></a>
+<a name="ln-469"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">logger</span>
+<a name="ln-470"></a>         <span class="c">!! the logger to change</span>
+<a name="ln-471"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">level</span>
+<a name="ln-472"></a>         <span class="c">!! the new logging level for the logger</span>
+<a name="ln-473"></a>
+<a name="ln-474"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_logger_set_log_level&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-475"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 <a name="ln-476"></a>
-<a name="ln-477"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_logger_set_log_level&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-478"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
-<a name="ln-479"></a>
-<a name="ln-480"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-481"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; logger not associated&quot;</span><span class="p">)</span>
-<a name="ln-482"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-483"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; logger%ref_count&lt;1&quot;</span><span class="p">)</span>
-<a name="ln-484"></a>      <span class="n">logger</span><span class="p">%</span><span class="n">print_level</span> <span class="o">=</span> <span class="n">level</span>
-<a name="ln-485"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_logger_set_log_level</span>
-<a name="ln-486"></a>
-<a name="ln-487"></a>   <span class="k">RECURSIVE FUNCTION </span><span class="n">dbcsr_logger_get_default_unit_nr</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">local</span><span class="p">,</span> <span class="n">skip_not_ionode</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-<a name="ln-488"></a>      <span class="c">!! asks the default unit number of the given logger.</span>
-<a name="ln-489"></a>      <span class="c">!! try to use dbcsr_logger_get_unit_nr</span>
-<a name="ln-490"></a>
-<a name="ln-491"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">OPTIONAL</span><span class="p">,</span> <span class="k">POINTER</span>         <span class="kd">::</span> <span class="n">logger</span>
-<a name="ln-492"></a>         <span class="c">!! the logger you want info from</span>
-<a name="ln-493"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">local</span><span class="p">,</span> <span class="n">skip_not_ionode</span>
-<a name="ln-494"></a>         <span class="c">!! if you want the local unit nr (defaults to false)</span>
-<a name="ln-495"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">res</span>
+<a name="ln-477"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-478"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; logger not associated&quot;</span><span class="p">)</span>
+<a name="ln-479"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-480"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; logger%ref_count&lt;1&quot;</span><span class="p">)</span>
+<a name="ln-481"></a>      <span class="n">logger</span><span class="p">%</span><span class="n">print_level</span> <span class="o">=</span> <span class="n">level</span>
+<a name="ln-482"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_logger_set_log_level</span>
+<a name="ln-483"></a>
+<a name="ln-484"></a>   <span class="k">RECURSIVE FUNCTION </span><span class="n">dbcsr_logger_get_default_unit_nr</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">local</span><span class="p">,</span> <span class="n">skip_not_ionode</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+<a name="ln-485"></a>      <span class="c">!! asks the default unit number of the given logger.</span>
+<a name="ln-486"></a>      <span class="c">!! try to use dbcsr_logger_get_unit_nr</span>
+<a name="ln-487"></a>
+<a name="ln-488"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">OPTIONAL</span><span class="p">,</span> <span class="k">POINTER</span>         <span class="kd">::</span> <span class="n">logger</span>
+<a name="ln-489"></a>         <span class="c">!! the logger you want info from</span>
+<a name="ln-490"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">local</span><span class="p">,</span> <span class="n">skip_not_ionode</span>
+<a name="ln-491"></a>         <span class="c">!! if you want the local unit nr (defaults to false)</span>
+<a name="ln-492"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">res</span>
+<a name="ln-493"></a>
+<a name="ln-494"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_logger_get_default_unit_nr&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-495"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 <a name="ln-496"></a>
-<a name="ln-497"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_logger_get_default_unit_nr&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-498"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
-<a name="ln-499"></a>
-<a name="ln-500"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">default_path_length</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">filename</span><span class="p">,</span> <span class="n">host_name</span>
-<a name="ln-501"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">iostat</span><span class="p">,</span> <span class="n">pid</span>
-<a name="ln-502"></a>      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="nb">loc</span><span class="p">,</span> <span class="n">skip</span>
-<a name="ln-503"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">lggr</span>
-<a name="ln-504"></a>
-<a name="ln-505"></a>      <span class="nb">loc</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-<a name="ln-506"></a>      <span class="n">skip</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a name="ln-507"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">logger</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-508"></a><span class="k">         </span><span class="n">lggr</span> <span class="o">=&gt;</span> <span class="n">logger</span>
-<a name="ln-509"></a>      <span class="k">ELSE</span>
-<a name="ln-510"></a><span class="k">         NULLIFY</span> <span class="p">(</span><span class="n">lggr</span><span class="p">)</span>
-<a name="ln-511"></a>      <span class="n">ENDIF</span>
-<a name="ln-512"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">lggr</span><span class="p">))</span> <span class="n">lggr</span> <span class="o">=&gt;</span> <span class="n">dbcsr_get_default_logger</span><span class="p">()</span>
-<a name="ln-513"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-514"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; logger%ref_count&lt;1&quot;</span><span class="p">)</span>
-<a name="ln-515"></a>
-<a name="ln-516"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">local</span><span class="p">))</span> <span class="nb">loc</span> <span class="o">=</span> <span class="n">local</span>
-<a name="ln-517"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">skip_not_ionode</span><span class="p">))</span> <span class="n">skip</span> <span class="o">=</span> <span class="n">skip_not_ionode</span>
-<a name="ln-518"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">loc</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-519"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">default_global_unit_nr</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-520"></a><span class="k">            IF</span> <span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mynode</span> <span class="o">==</span> <span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">source</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-521"></a><span class="k">               CALL </span><span class="n">dbcsr_logger_generate_filename</span><span class="p">(</span><span class="n">lggr</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">lggr</span><span class="p">%</span><span class="n">global_filename</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-522"></a>                                                   <span class="s2">&quot;.out&quot;</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
-<a name="ln-523"></a>               <span class="k">CALL </span><span class="n">open_file</span><span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="n">file_status</span><span class="o">=</span><span class="s2">&quot;unknown&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-524"></a>                              <span class="n">file_action</span><span class="o">=</span><span class="s2">&quot;WRITE&quot;</span><span class="p">,</span> <span class="n">file_position</span><span class="o">=</span><span class="s2">&quot;APPEND&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-525"></a>                              <span class="n">unit_number</span><span class="o">=</span><span class="n">lggr</span><span class="p">%</span><span class="n">default_global_unit_nr</span><span class="p">)</span>
-<a name="ln-526"></a>            <span class="k">ELSE IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">skip</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-527"></a><span class="k">               </span><span class="n">lggr</span><span class="p">%</span><span class="n">default_global_unit_nr</span> <span class="o">=</span> <span class="n">dbcsr_logger_get_default_unit_nr</span><span class="p">(</span><span class="n">lggr</span><span class="p">,</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+<a name="ln-497"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">default_path_length</span><span class="p">)</span>                 <span class="kd">::</span> <span class="n">filename</span><span class="p">,</span> <span class="n">host_name</span>
+<a name="ln-498"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">iostat</span><span class="p">,</span> <span class="n">pid</span>
+<a name="ln-499"></a>      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="nb">loc</span><span class="p">,</span> <span class="n">skip</span>
+<a name="ln-500"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">lggr</span>
+<a name="ln-501"></a>
+<a name="ln-502"></a>      <span class="nb">loc</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<a name="ln-503"></a>      <span class="n">skip</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-504"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">logger</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-505"></a><span class="k">         </span><span class="n">lggr</span> <span class="o">=&gt;</span> <span class="n">logger</span>
+<a name="ln-506"></a>      <span class="k">ELSE</span>
+<a name="ln-507"></a><span class="k">         NULLIFY</span> <span class="p">(</span><span class="n">lggr</span><span class="p">)</span>
+<a name="ln-508"></a>      <span class="n">ENDIF</span>
+<a name="ln-509"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">lggr</span><span class="p">))</span> <span class="n">lggr</span> <span class="o">=&gt;</span> <span class="n">dbcsr_get_default_logger</span><span class="p">()</span>
+<a name="ln-510"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-511"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; logger%ref_count&lt;1&quot;</span><span class="p">)</span>
+<a name="ln-512"></a>
+<a name="ln-513"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">local</span><span class="p">))</span> <span class="nb">loc</span> <span class="o">=</span> <span class="n">local</span>
+<a name="ln-514"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">skip_not_ionode</span><span class="p">))</span> <span class="n">skip</span> <span class="o">=</span> <span class="n">skip_not_ionode</span>
+<a name="ln-515"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">loc</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-516"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">default_global_unit_nr</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-517"></a><span class="k">            IF</span> <span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mynode</span> <span class="o">==</span> <span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">source</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-518"></a><span class="k">               CALL </span><span class="n">dbcsr_logger_generate_filename</span><span class="p">(</span><span class="n">lggr</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">lggr</span><span class="p">%</span><span class="n">global_filename</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-519"></a>                                                   <span class="s2">&quot;.out&quot;</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
+<a name="ln-520"></a>               <span class="k">CALL </span><span class="n">open_file</span><span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="n">file_status</span><span class="o">=</span><span class="s2">&quot;unknown&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-521"></a>                              <span class="n">file_action</span><span class="o">=</span><span class="s2">&quot;WRITE&quot;</span><span class="p">,</span> <span class="n">file_position</span><span class="o">=</span><span class="s2">&quot;APPEND&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-522"></a>                              <span class="n">unit_number</span><span class="o">=</span><span class="n">lggr</span><span class="p">%</span><span class="n">default_global_unit_nr</span><span class="p">)</span>
+<a name="ln-523"></a>            <span class="k">ELSE IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">skip</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-524"></a><span class="k">               </span><span class="n">lggr</span><span class="p">%</span><span class="n">default_global_unit_nr</span> <span class="o">=</span> <span class="n">dbcsr_logger_get_default_unit_nr</span><span class="p">(</span><span class="n">lggr</span><span class="p">,</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+<a name="ln-525"></a>               <span class="n">lggr</span><span class="p">%</span><span class="n">close_global_unit_on_dealloc</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-526"></a>            <span class="k">ELSE</span>
+<a name="ln-527"></a><span class="k">               </span><span class="n">lggr</span><span class="p">%</span><span class="n">default_global_unit_nr</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
 <a name="ln-528"></a>               <span class="n">lggr</span><span class="p">%</span><span class="n">close_global_unit_on_dealloc</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a name="ln-529"></a>            <span class="k">ELSE</span>
-<a name="ln-530"></a><span class="k">               </span><span class="n">lggr</span><span class="p">%</span><span class="n">default_global_unit_nr</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-<a name="ln-531"></a>               <span class="n">lggr</span><span class="p">%</span><span class="n">close_global_unit_on_dealloc</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a name="ln-532"></a>            <span class="k">END IF</span>
-<a name="ln-533"></a><span class="k">         END IF</span>
-<a name="ln-534"></a><span class="k">         IF</span> <span class="p">((</span><span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mynode</span> <span class="o">/=</span> <span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">source</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">skip</span><span class="p">))</span> <span class="k">THEN</span>
-<a name="ln-535"></a><span class="k">            WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">lggr</span><span class="p">%</span><span class="n">default_global_unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(/,T2,A)&#39;</span><span class="p">,</span> <span class="n">IOSTAT</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-536"></a>               <span class="s1">&#39; *** WARNING non ionode asked for global logger ***&#39;</span>
-<a name="ln-537"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">iostat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-538"></a><span class="k">               CALL </span><span class="n">m_getpid</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
-<a name="ln-539"></a>               <span class="k">CALL </span><span class="n">m_hostnm</span><span class="p">(</span><span class="n">host_name</span><span class="p">)</span>
-<a name="ln-540"></a>               <span class="k">PRINT</span> <span class="o">*</span><span class="p">,</span> <span class="s2">&quot; *** Error trying to WRITE to the local logger ***&quot;</span>
-<a name="ln-541"></a>               <span class="k">PRINT</span> <span class="o">*</span><span class="p">,</span> <span class="s2">&quot; *** MPI_id           = &quot;</span><span class="p">,</span> <span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mynode</span>
-<a name="ln-542"></a>               <span class="k">PRINT</span> <span class="o">*</span><span class="p">,</span> <span class="s2">&quot; *** MPI_Communicator = &quot;</span><span class="p">,</span> <span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mp_group</span>
-<a name="ln-543"></a>               <span class="k">PRINT</span> <span class="o">*</span><span class="p">,</span> <span class="s2">&quot; *** PID              = &quot;</span><span class="p">,</span> <span class="n">pid</span>
-<a name="ln-544"></a>               <span class="k">PRINT</span> <span class="o">*</span><span class="p">,</span> <span class="s2">&quot; *** Hostname         = &quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">host_name</span><span class="p">)</span>
-<a name="ln-545"></a>               <span class="k">CALL </span><span class="n">print_stack</span><span class="p">(</span><span class="n">default_output_unit</span><span class="p">)</span>
-<a name="ln-546"></a>            <span class="k">ELSE</span>
-<a name="ln-547"></a><span class="k">               CALL </span><span class="n">print_stack</span><span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">default_global_unit_nr</span><span class="p">)</span>
-<a name="ln-548"></a>            <span class="k">END IF</span>
-<a name="ln-549"></a><span class="k">         END IF</span>
-<a name="ln-550"></a><span class="k">         </span><span class="n">res</span> <span class="o">=</span> <span class="n">lggr</span><span class="p">%</span><span class="n">default_global_unit_nr</span>
-<a name="ln-551"></a>      <span class="k">ELSE</span>
-<a name="ln-552"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">default_local_unit_nr</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-553"></a><span class="k">            CALL </span><span class="n">dbcsr_logger_generate_filename</span><span class="p">(</span><span class="n">lggr</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">lggr</span><span class="p">%</span><span class="n">local_filename</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-554"></a>                                                <span class="s2">&quot;.out&quot;</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
-<a name="ln-555"></a>            <span class="k">CALL </span><span class="n">open_file</span><span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="n">file_status</span><span class="o">=</span><span class="s2">&quot;unknown&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-556"></a>                           <span class="n">file_action</span><span class="o">=</span><span class="s2">&quot;WRITE&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-557"></a>                           <span class="n">file_position</span><span class="o">=</span><span class="s2">&quot;APPEND&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-558"></a>                           <span class="n">unit_number</span><span class="o">=</span><span class="n">lggr</span><span class="p">%</span><span class="n">default_local_unit_nr</span><span class="p">)</span>
-<a name="ln-559"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">lggr</span><span class="p">%</span><span class="n">default_local_unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(/,T2,A,I0,A,I0,A)&#39;</span><span class="p">,</span> <span class="n">IOSTAT</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-560"></a>               <span class="s1">&#39;*** Local logger file of MPI task &#39;</span><span class="p">,</span> <span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mynode</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-561"></a>               <span class="s1">&#39; in communicator &#39;</span><span class="p">,</span> <span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mp_group</span><span class="p">,</span> <span class="s1">&#39; ***&#39;</span>
-<a name="ln-562"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">iostat</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-563"></a><span class="k">               CALL </span><span class="n">m_getpid</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
-<a name="ln-564"></a>               <span class="k">CALL </span><span class="n">m_hostnm</span><span class="p">(</span><span class="n">host_name</span><span class="p">)</span>
-<a name="ln-565"></a>               <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">lggr</span><span class="p">%</span><span class="n">default_local_unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(T2,A,I0)&#39;</span><span class="p">,</span> <span class="n">IOSTAT</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-566"></a>                  <span class="s1">&#39;*** PID      = &#39;</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-567"></a>                  <span class="s1">&#39;*** Hostname = &#39;</span><span class="o">//</span><span class="n">host_name</span>
-<a name="ln-568"></a>               <span class="k">CALL </span><span class="n">print_stack</span><span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">default_local_unit_nr</span><span class="p">)</span>
-<a name="ln-569"></a>            <span class="k">END IF</span>
-<a name="ln-570"></a><span class="k">            IF</span> <span class="p">(</span><span class="n">iostat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-571"></a><span class="k">               CALL </span><span class="n">m_getpid</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
-<a name="ln-572"></a>               <span class="k">CALL </span><span class="n">m_hostnm</span><span class="p">(</span><span class="n">host_name</span><span class="p">)</span>
-<a name="ln-573"></a>               <span class="k">PRINT</span> <span class="o">*</span><span class="p">,</span> <span class="s2">&quot; *** Error trying to WRITE to the local logger ***&quot;</span>
-<a name="ln-574"></a>               <span class="k">PRINT</span> <span class="o">*</span><span class="p">,</span> <span class="s2">&quot; *** MPI_id           = &quot;</span><span class="p">,</span> <span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mynode</span>
-<a name="ln-575"></a>               <span class="k">PRINT</span> <span class="o">*</span><span class="p">,</span> <span class="s2">&quot; *** MPI_Communicator = &quot;</span><span class="p">,</span> <span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mp_group</span>
-<a name="ln-576"></a>               <span class="k">PRINT</span> <span class="o">*</span><span class="p">,</span> <span class="s2">&quot; *** PID              = &quot;</span><span class="p">,</span> <span class="n">pid</span>
-<a name="ln-577"></a>               <span class="k">PRINT</span> <span class="o">*</span><span class="p">,</span> <span class="s2">&quot; *** Hostname         = &quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">host_name</span><span class="p">)</span>
-<a name="ln-578"></a>               <span class="k">CALL </span><span class="n">print_stack</span><span class="p">(</span><span class="n">default_output_unit</span><span class="p">)</span>
-<a name="ln-579"></a>            <span class="k">END IF</span>
-<a name="ln-580"></a>
-<a name="ln-581"></a><span class="k">         END IF</span>
-<a name="ln-582"></a><span class="k">         </span><span class="n">res</span> <span class="o">=</span> <span class="n">lggr</span><span class="p">%</span><span class="n">default_local_unit_nr</span>
-<a name="ln-583"></a>      <span class="k">END IF</span>
-<a name="ln-584"></a><span class="k">   END FUNCTION </span><span class="n">dbcsr_logger_get_default_unit_nr</span>
-<a name="ln-585"></a>
-<a name="ln-586"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_logger_generate_filename</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">postfix</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-587"></a>                                             <span class="n">local</span><span class="p">)</span>
-<a name="ln-588"></a>      <span class="c">!! generates a unique filename (ie adding eventual suffixes and</span>
-<a name="ln-589"></a>      <span class="c">!! process ids)</span>
-<a name="ln-590"></a>      <span class="c">!! @note</span>
-<a name="ln-591"></a>      <span class="c">!! this should be a function returning a variable length string.</span>
-<a name="ln-592"></a>      <span class="c">!! All spaces are moved to the end of the string.</span>
-<a name="ln-593"></a>      <span class="c">!! Not fully optimized: result must be a little longer than the</span>
-<a name="ln-594"></a>      <span class="c">!! resulting compressed filename</span>
-<a name="ln-595"></a>
-<a name="ln-596"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">logger</span>
-<a name="ln-597"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">res</span>
-<a name="ln-598"></a>         <span class="c">!! the resulting string</span>
-<a name="ln-599"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">root</span><span class="p">,</span> <span class="n">postfix</span>
-<a name="ln-600"></a>         <span class="c">!! the start of filename</span>
-<a name="ln-601"></a>         <span class="c">!! the end of the name</span>
-<a name="ln-602"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">local</span>
-<a name="ln-603"></a>         <span class="c">!! if the name should be local to this task (defaults to false)</span>
+<a name="ln-529"></a>            <span class="k">END IF</span>
+<a name="ln-530"></a><span class="k">         END IF</span>
+<a name="ln-531"></a><span class="k">         IF</span> <span class="p">((</span><span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mynode</span> <span class="o">/=</span> <span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">source</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">skip</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-532"></a><span class="k">            WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">lggr</span><span class="p">%</span><span class="n">default_global_unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(/,T2,A)&#39;</span><span class="p">,</span> <span class="n">IOSTAT</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-533"></a>               <span class="s1">&#39; *** WARNING non ionode asked for global logger ***&#39;</span>
+<a name="ln-534"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">iostat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-535"></a><span class="k">               CALL </span><span class="n">m_getpid</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
+<a name="ln-536"></a>               <span class="k">CALL </span><span class="n">m_hostnm</span><span class="p">(</span><span class="n">host_name</span><span class="p">)</span>
+<a name="ln-537"></a>               <span class="k">PRINT</span> <span class="o">*</span><span class="p">,</span> <span class="s2">&quot; *** Error trying to WRITE to the local logger ***&quot;</span>
+<a name="ln-538"></a>               <span class="k">PRINT</span> <span class="o">*</span><span class="p">,</span> <span class="s2">&quot; *** MPI_id           = &quot;</span><span class="p">,</span> <span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mynode</span>
+<a name="ln-539"></a>               <span class="k">PRINT</span> <span class="o">*</span><span class="p">,</span> <span class="s2">&quot; *** MPI_Communicator = &quot;</span><span class="p">,</span> <span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mp_group</span>
+<a name="ln-540"></a>               <span class="k">PRINT</span> <span class="o">*</span><span class="p">,</span> <span class="s2">&quot; *** PID              = &quot;</span><span class="p">,</span> <span class="n">pid</span>
+<a name="ln-541"></a>               <span class="k">PRINT</span> <span class="o">*</span><span class="p">,</span> <span class="s2">&quot; *** Hostname         = &quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">host_name</span><span class="p">)</span>
+<a name="ln-542"></a>               <span class="k">CALL </span><span class="n">print_stack</span><span class="p">(</span><span class="n">default_output_unit</span><span class="p">)</span>
+<a name="ln-543"></a>            <span class="k">ELSE</span>
+<a name="ln-544"></a><span class="k">               CALL </span><span class="n">print_stack</span><span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">default_global_unit_nr</span><span class="p">)</span>
+<a name="ln-545"></a>            <span class="k">END IF</span>
+<a name="ln-546"></a><span class="k">         END IF</span>
+<a name="ln-547"></a><span class="k">         </span><span class="n">res</span> <span class="o">=</span> <span class="n">lggr</span><span class="p">%</span><span class="n">default_global_unit_nr</span>
+<a name="ln-548"></a>      <span class="k">ELSE</span>
+<a name="ln-549"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">default_local_unit_nr</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-550"></a><span class="k">            CALL </span><span class="n">dbcsr_logger_generate_filename</span><span class="p">(</span><span class="n">lggr</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">lggr</span><span class="p">%</span><span class="n">local_filename</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-551"></a>                                                <span class="s2">&quot;.out&quot;</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+<a name="ln-552"></a>            <span class="k">CALL </span><span class="n">open_file</span><span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="n">file_status</span><span class="o">=</span><span class="s2">&quot;unknown&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-553"></a>                           <span class="n">file_action</span><span class="o">=</span><span class="s2">&quot;WRITE&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-554"></a>                           <span class="n">file_position</span><span class="o">=</span><span class="s2">&quot;APPEND&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-555"></a>                           <span class="n">unit_number</span><span class="o">=</span><span class="n">lggr</span><span class="p">%</span><span class="n">default_local_unit_nr</span><span class="p">)</span>
+<a name="ln-556"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">lggr</span><span class="p">%</span><span class="n">default_local_unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(/,T2,A,I0,A,I0,A)&#39;</span><span class="p">,</span> <span class="n">IOSTAT</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-557"></a>               <span class="s1">&#39;*** Local logger file of MPI task &#39;</span><span class="p">,</span> <span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mynode</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-558"></a>               <span class="s1">&#39; in communicator &#39;</span><span class="p">,</span> <span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mp_group</span><span class="p">,</span> <span class="s1">&#39; ***&#39;</span>
+<a name="ln-559"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">iostat</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-560"></a><span class="k">               CALL </span><span class="n">m_getpid</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
+<a name="ln-561"></a>               <span class="k">CALL </span><span class="n">m_hostnm</span><span class="p">(</span><span class="n">host_name</span><span class="p">)</span>
+<a name="ln-562"></a>               <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">lggr</span><span class="p">%</span><span class="n">default_local_unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(T2,A,I0)&#39;</span><span class="p">,</span> <span class="n">IOSTAT</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-563"></a>                  <span class="s1">&#39;*** PID      = &#39;</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-564"></a>                  <span class="s1">&#39;*** Hostname = &#39;</span><span class="o">//</span><span class="n">host_name</span>
+<a name="ln-565"></a>               <span class="k">CALL </span><span class="n">print_stack</span><span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">default_local_unit_nr</span><span class="p">)</span>
+<a name="ln-566"></a>            <span class="k">END IF</span>
+<a name="ln-567"></a><span class="k">            IF</span> <span class="p">(</span><span class="n">iostat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-568"></a><span class="k">               CALL </span><span class="n">m_getpid</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
+<a name="ln-569"></a>               <span class="k">CALL </span><span class="n">m_hostnm</span><span class="p">(</span><span class="n">host_name</span><span class="p">)</span>
+<a name="ln-570"></a>               <span class="k">PRINT</span> <span class="o">*</span><span class="p">,</span> <span class="s2">&quot; *** Error trying to WRITE to the local logger ***&quot;</span>
+<a name="ln-571"></a>               <span class="k">PRINT</span> <span class="o">*</span><span class="p">,</span> <span class="s2">&quot; *** MPI_id           = &quot;</span><span class="p">,</span> <span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mynode</span>
+<a name="ln-572"></a>               <span class="k">PRINT</span> <span class="o">*</span><span class="p">,</span> <span class="s2">&quot; *** MPI_Communicator = &quot;</span><span class="p">,</span> <span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mp_group</span>
+<a name="ln-573"></a>               <span class="k">PRINT</span> <span class="o">*</span><span class="p">,</span> <span class="s2">&quot; *** PID              = &quot;</span><span class="p">,</span> <span class="n">pid</span>
+<a name="ln-574"></a>               <span class="k">PRINT</span> <span class="o">*</span><span class="p">,</span> <span class="s2">&quot; *** Hostname         = &quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">host_name</span><span class="p">)</span>
+<a name="ln-575"></a>               <span class="k">CALL </span><span class="n">print_stack</span><span class="p">(</span><span class="n">default_output_unit</span><span class="p">)</span>
+<a name="ln-576"></a>            <span class="k">END IF</span>
+<a name="ln-577"></a>
+<a name="ln-578"></a><span class="k">         END IF</span>
+<a name="ln-579"></a><span class="k">         </span><span class="n">res</span> <span class="o">=</span> <span class="n">lggr</span><span class="p">%</span><span class="n">default_local_unit_nr</span>
+<a name="ln-580"></a>      <span class="k">END IF</span>
+<a name="ln-581"></a><span class="k">   END FUNCTION </span><span class="n">dbcsr_logger_get_default_unit_nr</span>
+<a name="ln-582"></a>
+<a name="ln-583"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_logger_generate_filename</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">res</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">postfix</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-584"></a>                                             <span class="n">local</span><span class="p">)</span>
+<a name="ln-585"></a>      <span class="c">!! generates a unique filename (ie adding eventual suffixes and</span>
+<a name="ln-586"></a>      <span class="c">!! process ids)</span>
+<a name="ln-587"></a>      <span class="c">!! @note</span>
+<a name="ln-588"></a>      <span class="c">!! this should be a function returning a variable length string.</span>
+<a name="ln-589"></a>      <span class="c">!! All spaces are moved to the end of the string.</span>
+<a name="ln-590"></a>      <span class="c">!! Not fully optimized: result must be a little longer than the</span>
+<a name="ln-591"></a>      <span class="c">!! resulting compressed filename</span>
+<a name="ln-592"></a>
+<a name="ln-593"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">logger</span>
+<a name="ln-594"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">res</span>
+<a name="ln-595"></a>         <span class="c">!! the resulting string</span>
+<a name="ln-596"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">root</span><span class="p">,</span> <span class="n">postfix</span>
+<a name="ln-597"></a>         <span class="c">!! the start of filename</span>
+<a name="ln-598"></a>         <span class="c">!! the end of the name</span>
+<a name="ln-599"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">local</span>
+<a name="ln-600"></a>         <span class="c">!! if the name should be local to this task (defaults to false)</span>
+<a name="ln-601"></a>
+<a name="ln-602"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_logger_generate_filename&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-603"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 <a name="ln-604"></a>
-<a name="ln-605"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_logger_generate_filename&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-606"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+<a name="ln-605"></a>      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="nb">loc</span>
+<a name="ln-606"></a><span class="nb">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">lggr</span>
 <a name="ln-607"></a>
-<a name="ln-608"></a>      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="nb">loc</span>
-<a name="ln-609"></a><span class="nb">      </span><span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">lggr</span>
-<a name="ln-610"></a>
-<a name="ln-611"></a>      <span class="nb">loc</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a name="ln-612"></a>      <span class="n">res</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span>
-<a name="ln-613"></a>      <span class="n">lggr</span> <span class="o">=&gt;</span> <span class="n">logger</span>
-<a name="ln-614"></a>
-<a name="ln-615"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">lggr</span><span class="p">))</span> <span class="n">lggr</span> <span class="o">=&gt;</span> <span class="n">dbcsr_get_default_logger</span><span class="p">()</span>
-<a name="ln-616"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-617"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; logger%ref_count&lt;1&quot;</span><span class="p">)</span>
-<a name="ln-618"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">local</span><span class="p">))</span> <span class="nb">loc</span> <span class="o">=</span> <span class="n">local</span>
-<a name="ln-619"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">loc</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-620"></a><span class="k">         </span><span class="n">res</span> <span class="o">=</span> <span class="nb">TRIM</span><span class="p">(</span><span class="n">root</span><span class="p">)</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">suffix</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39;_p&#39;</span><span class="o">//</span> <span class="p">&amp;</span>
-<a name="ln-621"></a>               <span class="n">dbcsr_to_string</span><span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mynode</span><span class="p">)</span><span class="o">//</span><span class="n">postfix</span>
-<a name="ln-622"></a>      <span class="k">ELSE</span>
-<a name="ln-623"></a><span class="k">         </span><span class="n">res</span> <span class="o">=</span> <span class="nb">TRIM</span><span class="p">(</span><span class="n">root</span><span class="p">)</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">suffix</span><span class="p">)</span><span class="o">//</span><span class="n">postfix</span>
-<a name="ln-624"></a>      <span class="k">END IF</span>
-<a name="ln-625"></a><span class="k">      CALL </span><span class="n">compress</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">full</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
-<a name="ln-626"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_logger_generate_filename</span>
+<a name="ln-608"></a>      <span class="nb">loc</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-609"></a>      <span class="n">res</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span>
+<a name="ln-610"></a>      <span class="n">lggr</span> <span class="o">=&gt;</span> <span class="n">logger</span>
+<a name="ln-611"></a>
+<a name="ln-612"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">lggr</span><span class="p">))</span> <span class="n">lggr</span> <span class="o">=&gt;</span> <span class="n">dbcsr_get_default_logger</span><span class="p">()</span>
+<a name="ln-613"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-614"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; logger%ref_count&lt;1&quot;</span><span class="p">)</span>
+<a name="ln-615"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">local</span><span class="p">))</span> <span class="nb">loc</span> <span class="o">=</span> <span class="n">local</span>
+<a name="ln-616"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">loc</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-617"></a><span class="k">         </span><span class="n">res</span> <span class="o">=</span> <span class="nb">TRIM</span><span class="p">(</span><span class="n">root</span><span class="p">)</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">suffix</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39;_p&#39;</span><span class="o">//</span> <span class="p">&amp;</span>
+<a name="ln-618"></a>               <span class="n">dbcsr_to_string</span><span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mynode</span><span class="p">)</span><span class="o">//</span><span class="n">postfix</span>
+<a name="ln-619"></a>      <span class="k">ELSE</span>
+<a name="ln-620"></a><span class="k">         </span><span class="n">res</span> <span class="o">=</span> <span class="nb">TRIM</span><span class="p">(</span><span class="n">root</span><span class="p">)</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">suffix</span><span class="p">)</span><span class="o">//</span><span class="n">postfix</span>
+<a name="ln-621"></a>      <span class="k">END IF</span>
+<a name="ln-622"></a><span class="k">      CALL </span><span class="n">compress</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">full</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+<a name="ln-623"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_logger_generate_filename</span>
+<a name="ln-624"></a>
+<a name="ln-625"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_logger_set</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">local_filename</span><span class="p">,</span> <span class="n">global_filename</span><span class="p">)</span>
+<a name="ln-626"></a>      <span class="c">!! sets various attributes of the given logger</span>
 <a name="ln-627"></a>
-<a name="ln-628"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_logger_set</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">local_filename</span><span class="p">,</span> <span class="n">global_filename</span><span class="p">)</span>
-<a name="ln-629"></a>      <span class="c">!! sets various attributes of the given logger</span>
-<a name="ln-630"></a>
-<a name="ln-631"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">logger</span>
-<a name="ln-632"></a>         <span class="c">!! the logger you want to change</span>
-<a name="ln-633"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>             <span class="kd">::</span> <span class="n">local_filename</span><span class="p">,</span> <span class="n">global_filename</span>
-<a name="ln-634"></a>         <span class="c">!! the root of the name of the file used for local logging</span>
-<a name="ln-635"></a>         <span class="c">!! the root of the name of the file used for global logging</span>
+<a name="ln-628"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_logger_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">logger</span>
+<a name="ln-629"></a>         <span class="c">!! the logger you want to change</span>
+<a name="ln-630"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>             <span class="kd">::</span> <span class="n">local_filename</span><span class="p">,</span> <span class="n">global_filename</span>
+<a name="ln-631"></a>         <span class="c">!! the root of the name of the file used for local logging</span>
+<a name="ln-632"></a>         <span class="c">!! the root of the name of the file used for global logging</span>
+<a name="ln-633"></a>
+<a name="ln-634"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_logger_set&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-635"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 <a name="ln-636"></a>
-<a name="ln-637"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_logger_set&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-638"></a>                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
-<a name="ln-639"></a>
-<a name="ln-640"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">))</span> <span class="p">&amp;</span>
-<a name="ln-641"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; unassociated logger&quot;</span><span class="p">)</span>
-<a name="ln-642"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">local_filename</span><span class="p">))</span> <span class="n">logger</span><span class="p">%</span><span class="n">local_filename</span> <span class="o">=</span> <span class="n">local_filename</span>
-<a name="ln-643"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">global_filename</span><span class="p">))</span> <span class="n">logger</span><span class="p">%</span><span class="n">global_filename</span> <span class="o">=</span> <span class="n">global_filename</span>
-<a name="ln-644"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_logger_set</span>
-<a name="ln-645"></a>
-<a name="ln-646"></a>   <span class="k">FUNCTION </span><span class="n">dbcsr_int_to_string</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-<a name="ln-647"></a>      <span class="c">!! converts an int to a string</span>
-<a name="ln-648"></a>      <span class="c">!! (should be a variable length string, but that does not work with</span>
-<a name="ln-649"></a>      <span class="c">!! all the compilers)</span>
-<a name="ln-650"></a>
-<a name="ln-651"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">i</span>
-<a name="ln-652"></a>         <span class="c">!! the integer to convert</span>
-<a name="ln-653"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>                                   <span class="kd">::</span> <span class="n">res</span>
-<a name="ln-654"></a>
-<a name="ln-655"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>                                   <span class="kd">::</span> <span class="n">t_res</span>
-<a name="ln-656"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">iostat</span>
-<a name="ln-657"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>                                      <span class="kd">::</span> <span class="n">tmp_r</span>
-<a name="ln-658"></a>
-<a name="ln-659"></a>      <span class="n">iostat</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-660"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="mi">999999</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">99999</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-661"></a><span class="k">         </span><span class="n">tmp_r</span> <span class="o">=</span> <span class="n">i</span>
-<a name="ln-662"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">t_res</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;(es6.1)&#39;</span><span class="p">,</span> <span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span> <span class="n">tmp_r</span>
-<a name="ln-663"></a>      <span class="k">ELSE</span>
-<a name="ln-664"></a><span class="k">         WRITE</span> <span class="p">(</span><span class="n">t_res</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;(i6)&#39;</span><span class="p">,</span> <span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span> <span class="n">i</span>
-<a name="ln-665"></a>      <span class="k">END IF</span>
-<a name="ln-666"></a><span class="k">      </span><span class="n">res</span> <span class="o">=</span> <span class="n">t_res</span>
-<a name="ln-667"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">iostat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-668"></a><span class="k">         PRINT</span> <span class="o">*</span><span class="p">,</span> <span class="s2">&quot;dbcsr_int_to_string ioerror&quot;</span><span class="p">,</span> <span class="n">iostat</span>
-<a name="ln-669"></a>         <span class="k">CALL </span><span class="n">print_stack</span><span class="p">(</span><span class="n">dbcsr_logger_get_default_unit_nr</span><span class="p">())</span>
-<a name="ln-670"></a>      <span class="k">END IF</span>
-<a name="ln-671"></a><span class="k">   END FUNCTION </span><span class="n">dbcsr_int_to_string</span>
-<a name="ln-672"></a>
-<a name="ln-673"></a>   <span class="k">FUNCTION </span><span class="n">dbcsr_real_dp_to_string</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-<a name="ln-674"></a>      <span class="c">!! convert a double precision real in a string</span>
-<a name="ln-675"></a>      <span class="c">!! (should be a variable length string, but that does not work with</span>
-<a name="ln-676"></a>      <span class="c">!! all the compilers)</span>
-<a name="ln-677"></a>
-<a name="ln-678"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                          <span class="kd">::</span> <span class="n">val</span>
-<a name="ln-679"></a>         <span class="c">!! the number to convert</span>
-<a name="ln-680"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>                                  <span class="kd">::</span> <span class="n">res</span>
+<a name="ln-637"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-638"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; unassociated logger&quot;</span><span class="p">)</span>
+<a name="ln-639"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">local_filename</span><span class="p">))</span> <span class="n">logger</span><span class="p">%</span><span class="n">local_filename</span> <span class="o">=</span> <span class="n">local_filename</span>
+<a name="ln-640"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">global_filename</span><span class="p">))</span> <span class="n">logger</span><span class="p">%</span><span class="n">global_filename</span> <span class="o">=</span> <span class="n">global_filename</span>
+<a name="ln-641"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_logger_set</span>
+<a name="ln-642"></a>
+<a name="ln-643"></a>   <span class="k">FUNCTION </span><span class="n">dbcsr_int_to_string</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+<a name="ln-644"></a>      <span class="c">!! converts an int to a string</span>
+<a name="ln-645"></a>      <span class="c">!! (should be a variable length string, but that does not work with</span>
+<a name="ln-646"></a>      <span class="c">!! all the compilers)</span>
+<a name="ln-647"></a>
+<a name="ln-648"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">i</span>
+<a name="ln-649"></a>         <span class="c">!! the integer to convert</span>
+<a name="ln-650"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>                                   <span class="kd">::</span> <span class="n">res</span>
+<a name="ln-651"></a>
+<a name="ln-652"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>                                   <span class="kd">::</span> <span class="n">t_res</span>
+<a name="ln-653"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">iostat</span>
+<a name="ln-654"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>                                      <span class="kd">::</span> <span class="n">tmp_r</span>
+<a name="ln-655"></a>
+<a name="ln-656"></a>      <span class="n">iostat</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-657"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="mi">999999</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">99999</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-658"></a><span class="k">         </span><span class="n">tmp_r</span> <span class="o">=</span> <span class="n">i</span>
+<a name="ln-659"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">t_res</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;(es6.1)&#39;</span><span class="p">,</span> <span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span> <span class="n">tmp_r</span>
+<a name="ln-660"></a>      <span class="k">ELSE</span>
+<a name="ln-661"></a><span class="k">         WRITE</span> <span class="p">(</span><span class="n">t_res</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;(i6)&#39;</span><span class="p">,</span> <span class="n">iostat</span><span class="o">=</span><span class="n">iostat</span><span class="p">)</span> <span class="n">i</span>
+<a name="ln-662"></a>      <span class="k">END IF</span>
+<a name="ln-663"></a><span class="k">      </span><span class="n">res</span> <span class="o">=</span> <span class="n">t_res</span>
+<a name="ln-664"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">iostat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-665"></a><span class="k">         PRINT</span> <span class="o">*</span><span class="p">,</span> <span class="s2">&quot;dbcsr_int_to_string ioerror&quot;</span><span class="p">,</span> <span class="n">iostat</span>
+<a name="ln-666"></a>         <span class="k">CALL </span><span class="n">print_stack</span><span class="p">(</span><span class="n">dbcsr_logger_get_default_unit_nr</span><span class="p">())</span>
+<a name="ln-667"></a>      <span class="k">END IF</span>
+<a name="ln-668"></a><span class="k">   END FUNCTION </span><span class="n">dbcsr_int_to_string</span>
+<a name="ln-669"></a>
+<a name="ln-670"></a>   <span class="k">FUNCTION </span><span class="n">dbcsr_real_dp_to_string</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+<a name="ln-671"></a>      <span class="c">!! convert a double precision real in a string</span>
+<a name="ln-672"></a>      <span class="c">!! (should be a variable length string, but that does not work with</span>
+<a name="ln-673"></a>      <span class="c">!! all the compilers)</span>
+<a name="ln-674"></a>
+<a name="ln-675"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                          <span class="kd">::</span> <span class="n">val</span>
+<a name="ln-676"></a>         <span class="c">!! the number to convert</span>
+<a name="ln-677"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>                                  <span class="kd">::</span> <span class="n">res</span>
+<a name="ln-678"></a>
+<a name="ln-679"></a>      <span class="k">WRITE</span> <span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s1">&#39;(es11.4)&#39;</span><span class="p">)</span> <span class="n">val</span>
+<a name="ln-680"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_real_dp_to_string</span>
 <a name="ln-681"></a>
-<a name="ln-682"></a>      <span class="k">WRITE</span> <span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="s1">&#39;(es11.4)&#39;</span><span class="p">)</span> <span class="n">val</span>
-<a name="ln-683"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_real_dp_to_string</span>
+<a name="ln-682"></a>   <span class="k">FUNCTION </span><span class="n">dbcsr_logical_to_string</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+<a name="ln-683"></a>      <span class="c">!! convert a logical in a string (&#39;T&#39; or &#39;F&#39;)</span>
 <a name="ln-684"></a>
-<a name="ln-685"></a>   <span class="k">FUNCTION </span><span class="n">dbcsr_logical_to_string</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-<a name="ln-686"></a>      <span class="c">!! convert a logical in a string (&#39;T&#39; or &#39;F&#39;)</span>
-<a name="ln-687"></a>
-<a name="ln-688"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">val</span>
-<a name="ln-689"></a>         <span class="c">!! the number to convert</span>
-<a name="ln-690"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>                                   <span class="kd">::</span> <span class="n">res</span>
-<a name="ln-691"></a>
-<a name="ln-692"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-693"></a><span class="k">         </span><span class="n">res</span> <span class="o">=</span> <span class="s1">&#39;T&#39;</span>
-<a name="ln-694"></a>      <span class="k">ELSE</span>
-<a name="ln-695"></a><span class="k">         </span><span class="n">res</span> <span class="o">=</span> <span class="s1">&#39;F&#39;</span>
-<a name="ln-696"></a>      <span class="k">END IF</span>
-<a name="ln-697"></a><span class="k">   END FUNCTION </span><span class="n">dbcsr_logical_to_string</span>
-<a name="ln-698"></a>
-<a name="ln-699"></a><span class="k">END MODULE </span><span class="n">dbcsr_log_handling</span>
+<a name="ln-685"></a>      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">val</span>
+<a name="ln-686"></a>         <span class="c">!! the number to convert</span>
+<a name="ln-687"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>                                   <span class="kd">::</span> <span class="n">res</span>
+<a name="ln-688"></a>
+<a name="ln-689"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-690"></a><span class="k">         </span><span class="n">res</span> <span class="o">=</span> <span class="s1">&#39;T&#39;</span>
+<a name="ln-691"></a>      <span class="k">ELSE</span>
+<a name="ln-692"></a><span class="k">         </span><span class="n">res</span> <span class="o">=</span> <span class="s1">&#39;F&#39;</span>
+<a name="ln-693"></a>      <span class="k">END IF</span>
+<a name="ln-694"></a><span class="k">   END FUNCTION </span><span class="n">dbcsr_logical_to_string</span>
+<a name="ln-695"></a>
+<a name="ln-696"></a><span class="k">END MODULE </span><span class="n">dbcsr_log_handling</span>
 </pre></div>
 
     </section>

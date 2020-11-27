@@ -244,7 +244,7 @@ private subroutine dbcsr_fill_wm_from_matrix(wm, matrix, size_used, limits)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~293"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~287"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -366,8 +366,7 @@ private subroutine dbcsr_fill_wm_from_matrix(wm, matrix, size_used, limits)
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>        <span class="kd">::</span> <span class="n">limits</span>
          <span class="c">!! only fills blocks within this range</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_fill_wm_from_matrix&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_fill_wm_from_matrix&#39;</span>
 
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">blk</span><span class="p">,</span> <span class="n">blk_p</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">ithread</span><span class="p">,</span> <span class="p">&amp;</span>
                                                             <span class="n">nthreads</span><span class="p">,</span> <span class="n">nwms</span><span class="p">,</span> <span class="n">nze</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">wblk_p</span><span class="p">,</span> <span class="p">&amp;</span>

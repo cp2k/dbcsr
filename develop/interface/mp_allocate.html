@@ -187,13 +187,13 @@
       
       <a class="list-group-item" href="../interface/mp_allocate.html#moduleprocedure-mp_allocate_l">mp_allocate_l</a>
       
-      <a class="list-group-item" href="../interface/mp_allocate.html#moduleprocedure-mp_allocate_r">mp_allocate_r</a>
-      
       <a class="list-group-item" href="../interface/mp_allocate.html#moduleprocedure-mp_allocate_d">mp_allocate_d</a>
       
-      <a class="list-group-item" href="../interface/mp_allocate.html#moduleprocedure-mp_allocate_c">mp_allocate_c</a>
+      <a class="list-group-item" href="../interface/mp_allocate.html#moduleprocedure-mp_allocate_r">mp_allocate_r</a>
       
       <a class="list-group-item" href="../interface/mp_allocate.html#moduleprocedure-mp_allocate_z">mp_allocate_z</a>
+      
+      <a class="list-group-item" href="../interface/mp_allocate.html#moduleprocedure-mp_allocate_c">mp_allocate_c</a>
       
     </div>
   </div>
@@ -246,13 +246,13 @@
       
       <a class="list-group-item" href="../interface/mp_allocate.html#moduleprocedure-mp_allocate_l">mp_allocate_l</a>
       
-      <a class="list-group-item" href="../interface/mp_allocate.html#moduleprocedure-mp_allocate_r">mp_allocate_r</a>
-      
       <a class="list-group-item" href="../interface/mp_allocate.html#moduleprocedure-mp_allocate_d">mp_allocate_d</a>
       
-      <a class="list-group-item" href="../interface/mp_allocate.html#moduleprocedure-mp_allocate_c">mp_allocate_c</a>
+      <a class="list-group-item" href="../interface/mp_allocate.html#moduleprocedure-mp_allocate_r">mp_allocate_r</a>
       
       <a class="list-group-item" href="../interface/mp_allocate.html#moduleprocedure-mp_allocate_z">mp_allocate_z</a>
+      
+      <a class="list-group-item" href="../interface/mp_allocate.html#moduleprocedure-mp_allocate_c">mp_allocate_c</a>
       
     </div>
   </div>
@@ -451,95 +451,6 @@ private subroutine <a href='../proc/mp_allocate_l.html'>mp_allocate_l</a>(DATA, 
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_allocate_r"></span><h3>
-private subroutine <a href='../proc/mp_allocate_r.html'>mp_allocate_r</a>(DATA, len, stat)
-    
-    
-   
-</h3></div>
-  <div class="panel-body">
-       
-    
-
-
-
-
-
-
-
-<p>Allocates special parallel memory</p>
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td></td>
-  <td></td>
-  
-  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
-  <td><strong>DATA</strong></td><td><p>pointer to integer array to allocate</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>len</strong></td><td><p>number of integers to allocate</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(out),</td>
-  <td>optional</td>
-  
-  <td></td><td>::</td>
-  <td><strong>stat</strong></td><td><p>allocation status result</p></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-  </div>
-  </div>
-
-   
-    
-  <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-mp_allocate_d"></span><h3>
 private subroutine <a href='../proc/mp_allocate_d.html'>mp_allocate_d</a>(DATA, len, stat)
     
@@ -629,8 +540,8 @@ private subroutine <a href='../proc/mp_allocate_d.html'>mp_allocate_d</a>(DATA, 
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_allocate_c"></span><h3>
-private subroutine <a href='../proc/mp_allocate_c.html'>mp_allocate_c</a>(DATA, len, stat)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_allocate_r"></span><h3>
+private subroutine <a href='../proc/mp_allocate_r.html'>mp_allocate_r</a>(DATA, len, stat)
     
     
    
@@ -666,7 +577,7 @@ private subroutine <a href='../proc/mp_allocate_c.html'>mp_allocate_c</a>(DATA, 
   
 <tr>
   
-  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
   <td></td>
   <td></td>
   
@@ -756,6 +667,95 @@ private subroutine <a href='../proc/mp_allocate_z.html'>mp_allocate_z</a>(DATA, 
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
+  <td><strong>DATA</strong></td><td><p>pointer to integer array to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>len</strong></td><td><p>number of integers to allocate</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>stat</strong></td><td><p>allocation status result</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+   
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_allocate_c"></span><h3>
+private subroutine <a href='../proc/mp_allocate_c.html'>mp_allocate_c</a>(DATA, len, stat)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocates special parallel memory</p>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
   <td></td>
   <td></td>
   

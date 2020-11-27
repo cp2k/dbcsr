@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">34 statements</a>
+    title=" 0.1% of total for procedures.">33 statements</a>
      </li> 
      
      
@@ -399,9 +399,6 @@ public subroutine dbcsr_memtype_setup(memtype, acc_hostalloc, acc_devalloc, mpi,
       <span class="k">TYPE</span><span class="p">(</span><span class="n">acc_stream_type</span><span class="p">),</span> <span class="k">OPTIONAL</span>                    <span class="kd">::</span> <span class="n">acc_stream</span>
       <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">),</span> <span class="k">OPTIONAL</span>                            <span class="kd">::</span> <span class="n">oversize_factor</span>
       <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">has_pool</span>
-
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_memtype_setup&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 
       <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">is_ok</span><span class="p">,</span> <span class="n">my_has_pool</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">)</span>                           <span class="kd">::</span> <span class="n">aim</span>

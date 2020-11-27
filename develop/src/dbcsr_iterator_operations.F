@@ -145,8 +145,7 @@ CONTAINS
          !! Whether returned pointers need to be contiguous; default is FALSE.
          !! User promises not to change returned data; default is FALSE
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_iterator_start', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_iterator_start'
 
       INTEGER                                            :: error_handle
       TYPE(dbcsr_distribution_obj)                       :: dist
@@ -270,8 +269,7 @@ CONTAINS
       TYPE(dbcsr_iterator), INTENT(INOUT)                :: iterator
          !! the iterator
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_iterator_stop', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_iterator_stop'
 
       INTEGER                                            :: error_handle
 
@@ -313,15 +311,11 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN)                  :: blk_p
          !! block pointers, used to check validity
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'find_first_valid_block', &
-                                     routineP = moduleN//':'//routineN
-
 !   ---------------------------------------------------------------------------
 !IF (pos .LT. 1) pos = 1
 
       DO WHILE (pos .LE. maxpos)
          IF (blk_p(pos) .EQ. 0) THEN
-            !WRITE(*,*)routineN//" Skipping deleted block."
             pos = pos + 1
          ELSE
             EXIT
@@ -342,9 +336,6 @@ CONTAINS
          !! maxmimum row
       INTEGER, DIMENSION(:), INTENT(IN)                  :: row_p
          !! row pointers
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'find_proper_row', &
-                                     routineP = moduleN//':'//routineN
 
 !   ---------------------------------------------------------------------------
 
@@ -387,9 +378,6 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: tid
          !! my thread number
       INTEGER, DIMENSION(1:*), INTENT(IN), OPTIONAL      :: local2global
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'find_proper_position', &
-                                     routineP = moduleN//':'//routineN
 
       LOGICAL                                            :: local, row_inrange, row_ok
 
@@ -579,8 +567,7 @@ CONTAINS
       INTEGER, INTENT(in)                                :: row
          !! seek to this row
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_iterator_seek', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_iterator_seek'
 
       INTEGER                                            :: error_handle
 
@@ -622,8 +609,7 @@ CONTAINS
          !! logical row offset of block
          !! logical column offset of block
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_block_index', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_block_index'
 
       INTEGER                                            :: bp, error_handle
 
@@ -675,8 +661,7 @@ CONTAINS
          !! logical row offset of block
          !! logical column offset of block
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_area_block', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_area_block'
 
       INTEGER                                            :: blk_p, block_col_size, block_row_size, &
                                                             bp, csize, error_handle, nze, rsize
@@ -736,8 +721,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp"
 
 # 45 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp"
-# 733 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F" 2
-# 734 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
+# 718 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F" 2
+# 719 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
    SUBROUTINE iterator_next_1d_block_d (iterator, row, column, block, &
                                                     transposed, block_number, row_size, col_size, row_offset, col_offset)
      !! Gets the next data block, single/double precision real/complex
@@ -757,9 +742,6 @@ CONTAINS
                                                   row_offset, col_offset
         !! logical row size of block
         !! logical column size of block
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_1d_block_d', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                  :: blk_p, bp, csize, nze, rsize
 
@@ -816,8 +798,7 @@ CONTAINS
         !! logical row size of block
         !! logical column size of block
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_2d_block_d', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_2d_block_d'
 
       INTEGER                                  :: blk_p, bp, csize, nze, rsize, &
                                                   block_row_size, block_col_size
@@ -861,7 +842,7 @@ CONTAINS
       ENDIF
       IF (careful_mod) CALL timestop(error_handle)
    END SUBROUTINE iterator_next_2d_block_d
-# 734 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
+# 719 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
    SUBROUTINE iterator_next_1d_block_s (iterator, row, column, block, &
                                                     transposed, block_number, row_size, col_size, row_offset, col_offset)
      !! Gets the next data block, single/double precision real/complex
@@ -881,9 +862,6 @@ CONTAINS
                                                   row_offset, col_offset
         !! logical row size of block
         !! logical column size of block
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_1d_block_s', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                  :: blk_p, bp, csize, nze, rsize
 
@@ -940,8 +918,7 @@ CONTAINS
         !! logical row size of block
         !! logical column size of block
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_2d_block_s', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_2d_block_s'
 
       INTEGER                                  :: blk_p, bp, csize, nze, rsize, &
                                                   block_row_size, block_col_size
@@ -985,7 +962,7 @@ CONTAINS
       ENDIF
       IF (careful_mod) CALL timestop(error_handle)
    END SUBROUTINE iterator_next_2d_block_s
-# 734 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
+# 719 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
    SUBROUTINE iterator_next_1d_block_z (iterator, row, column, block, &
                                                     transposed, block_number, row_size, col_size, row_offset, col_offset)
      !! Gets the next data block, single/double precision real/complex
@@ -1005,9 +982,6 @@ CONTAINS
                                                   row_offset, col_offset
         !! logical row size of block
         !! logical column size of block
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_1d_block_z', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                  :: blk_p, bp, csize, nze, rsize
 
@@ -1064,8 +1038,7 @@ CONTAINS
         !! logical row size of block
         !! logical column size of block
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_2d_block_z', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_2d_block_z'
 
       INTEGER                                  :: blk_p, bp, csize, nze, rsize, &
                                                   block_row_size, block_col_size
@@ -1109,7 +1082,7 @@ CONTAINS
       ENDIF
       IF (careful_mod) CALL timestop(error_handle)
    END SUBROUTINE iterator_next_2d_block_z
-# 734 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
+# 719 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
    SUBROUTINE iterator_next_1d_block_c (iterator, row, column, block, &
                                                     transposed, block_number, row_size, col_size, row_offset, col_offset)
      !! Gets the next data block, single/double precision real/complex
@@ -1129,9 +1102,6 @@ CONTAINS
                                                   row_offset, col_offset
         !! logical row size of block
         !! logical column size of block
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_1d_block_c', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                  :: blk_p, bp, csize, nze, rsize
 
@@ -1188,8 +1158,7 @@ CONTAINS
         !! logical row size of block
         !! logical column size of block
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_2d_block_c', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'iterator_next_2d_block_c'
 
       INTEGER                                  :: blk_p, bp, csize, nze, rsize, &
                                                   block_row_size, block_col_size
@@ -1233,6 +1202,6 @@ CONTAINS
       ENDIF
       IF (careful_mod) CALL timestop(error_handle)
    END SUBROUTINE iterator_next_2d_block_c
-# 858 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
+# 839 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
 
 END MODULE dbcsr_iterator_operations

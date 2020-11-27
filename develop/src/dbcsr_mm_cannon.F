@@ -150,8 +150,7 @@ CONTAINS
       TYPE(array_i1d_obj), INTENT(IN)                    :: k_vmap, m_map, n_map
       TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: alpha
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'make_m2s', routineP = moduleN//':'//routineN
-
+      CHARACTER(len=*), PARAMETER :: routineN = 'make_m2s'
       INTEGER                                            :: handle, i, im, j, jm
       INTEGER, DIMENSION(4)                              :: f_crop
       LOGICAL                                            :: do_scale, thread_redist
@@ -299,7 +298,7 @@ CONTAINS
       TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: scale_value
          !! scale with this value
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'make_images', routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'make_images'
       INTEGER, PARAMETER                                 :: metalen = 5
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
@@ -754,8 +753,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(IN)                       :: new_template
          !! template dense matrix for creating image matrices
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_images_dense', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_images_dense'
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
       INTEGER                                            :: handle, mat_col, mat_row, mat_vpcol, &
@@ -838,10 +836,9 @@ CONTAINS
       INTEGER(KIND=int_8), INTENT(OUT)                   :: flop
          !! effective flop
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'multiply_cannon', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'multiply_cannon'
       INTEGER, PARAMETER                                 :: idata = 1, ileft = 0, imeta = 2, &
-                                                            iright = 2, M_L = 2, M_P = 1, M_R = 3
+                                                            iright = 2
 
       INTEGER :: data_type, data_type_byte, grp, handle, handle1, handle2, handle3, i, ithread, &
                  left_col_image, left_col_mult, left_col_nimages, left_dst_icol, left_dst_irow, &
@@ -1758,8 +1755,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: index_size
       INTEGER, INTENT(IN), OPTIONAL                      :: data_size
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'setup_buffer_matrices', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'setup_buffer_matrices'
 
       INTEGER                                            :: col_image, handle, row_image
 
@@ -1802,8 +1798,7 @@ CONTAINS
       TYPE(dbcsr_2d_array_type), INTENT(INOUT)           :: buffer_set
       INTEGER, INTENT(IN)                                :: index_size, data_size
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'buffer_matrices_ensure_size', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'buffer_matrices_ensure_size'
 
       INTEGER                                            :: col_image, handle, row_image
 
@@ -1828,8 +1823,7 @@ CONTAINS
       TYPE(dbcsr_2d_array_type), INTENT(INOUT)           :: matrix_set
       INTEGER, INTENT(IN)                                :: n_rows, n_cols
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'setup_rec_index_2d', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'setup_rec_index_2d'
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
       INTEGER                                            :: handle, i_col, i_row, t_f, t_l, t_size
@@ -1924,8 +1918,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
 
 # 45 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
-# 1921 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F" 2
-# 1922 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 1915 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F" 2
+# 1916 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 
 ! **************************************************************************************************
    SUBROUTINE prepare_buffers_d (negate_real, negate_imaginary, &
@@ -2004,12 +1998,12 @@ CONTAINS
                   send_data_area%d%r_dp (sd_pos:myt_sdp(dst_p) - 1) = &
                      send_data_area%d%r_dp (sd_pos:myt_sdp(dst_p) - 1)*scale_neg_one%r_dp
                ELSEIF (negate_real) THEN
-# 2001 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 1995 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   send_data_area%d%r_dp (sd_pos:myt_sdp(dst_p) - 1) = &
                      -send_data_area%d%r_dp (sd_pos:myt_sdp(dst_p) - 1)
-# 2010 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 2004 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                ELSEIF (negate_imaginary) THEN
-# 2015 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 2009 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                ENDIF
             ELSE
                ! Copy the block
@@ -2029,7 +2023,7 @@ CONTAINS
          ENDDO
       ENDDO
    END SUBROUTINE prepare_buffers_d
-# 1922 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 1916 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 
 ! **************************************************************************************************
    SUBROUTINE prepare_buffers_s (negate_real, negate_imaginary, &
@@ -2108,12 +2102,12 @@ CONTAINS
                   send_data_area%d%r_sp (sd_pos:myt_sdp(dst_p) - 1) = &
                      send_data_area%d%r_sp (sd_pos:myt_sdp(dst_p) - 1)*scale_neg_one%r_sp
                ELSEIF (negate_real) THEN
-# 2001 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 1995 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   send_data_area%d%r_sp (sd_pos:myt_sdp(dst_p) - 1) = &
                      -send_data_area%d%r_sp (sd_pos:myt_sdp(dst_p) - 1)
-# 2010 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 2004 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                ELSEIF (negate_imaginary) THEN
-# 2015 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 2009 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                ENDIF
             ELSE
                ! Copy the block
@@ -2133,7 +2127,7 @@ CONTAINS
          ENDDO
       ENDDO
    END SUBROUTINE prepare_buffers_s
-# 1922 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 1916 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 
 ! **************************************************************************************************
    SUBROUTINE prepare_buffers_z (negate_real, negate_imaginary, &
@@ -2212,18 +2206,18 @@ CONTAINS
                   send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1) = &
                      send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1)*scale_neg_one%c_dp
                ELSEIF (negate_real) THEN
-# 2004 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 1998 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1) = &
                      CMPLX( &
                      -REAL(send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1), KIND=real_8), &
                      AIMAG(send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1)), &
                      KIND=real_8)
-# 2010 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 2004 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                ELSEIF (negate_imaginary) THEN
-# 2012 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 2006 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1) = &
                      CONJG(send_data_area%d%c_dp (sd_pos:myt_sdp(dst_p) - 1))
-# 2015 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 2009 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                ENDIF
             ELSE
                ! Copy the block
@@ -2243,7 +2237,7 @@ CONTAINS
          ENDDO
       ENDDO
    END SUBROUTINE prepare_buffers_z
-# 1922 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 1916 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 
 ! **************************************************************************************************
    SUBROUTINE prepare_buffers_c (negate_real, negate_imaginary, &
@@ -2322,18 +2316,18 @@ CONTAINS
                   send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1) = &
                      send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1)*scale_neg_one%c_sp
                ELSEIF (negate_real) THEN
-# 2004 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 1998 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1) = &
                      CMPLX( &
                      -REAL(send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1), KIND=real_4), &
                      AIMAG(send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1)), &
                      KIND=real_4)
-# 2010 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 2004 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                ELSEIF (negate_imaginary) THEN
-# 2012 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 2006 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                   send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1) = &
                      CONJG(send_data_area%d%c_sp (sd_pos:myt_sdp(dst_p) - 1))
-# 2015 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 2009 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
                ENDIF
             ELSE
                ! Copy the block
@@ -2353,6 +2347,6 @@ CONTAINS
          ENDDO
       ENDDO
    END SUBROUTINE prepare_buffers_c
-# 2035 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
+# 2029 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F"
 
 END MODULE dbcsr_mm_cannon

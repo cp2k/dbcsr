@@ -226,7 +226,7 @@ private subroutine dbcsr_add_anytype(matrix_a, matrix_b, alpha_scalar, beta_scal
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_a~41"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_a~40"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -241,7 +241,7 @@ private subroutine dbcsr_add_anytype(matrix_a, matrix_b, alpha_scalar, beta_scal
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_b~25"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_b~24"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -373,8 +373,7 @@ private subroutine dbcsr_add_anytype(matrix_a, matrix_b, alpha_scalar, beta_scal
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>      <span class="kd">::</span> <span class="n">alpha_scalar</span><span class="p">,</span> <span class="n">beta_scalar</span>
       <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>       <span class="kd">::</span> <span class="n">flop</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_add_anytype&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_add_anytype&#39;</span>
 
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">data_type_a</span><span class="p">,</span> <span class="n">data_type_b</span><span class="p">,</span> <span class="p">&amp;</span>
                                                             <span class="n">handle</span><span class="p">,</span> <span class="n">size_work</span><span class="p">,</span> <span class="n">iw</span>

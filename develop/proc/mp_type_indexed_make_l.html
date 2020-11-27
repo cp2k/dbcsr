@@ -194,7 +194,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-private function mp_type_indexed_make_l(count, lengths, displs) result(type_descriptor)
+public function mp_type_indexed_make_l(count, lengths, displs) result(type_descriptor)
     
     
    
@@ -223,7 +223,7 @@ private function mp_type_indexed_make_l(count, lengths, displs) result(type_desc
   
 <tr>
   
-  <td><span class="anchor" id="variable-count~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-count~3"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -238,7 +238,7 @@ private function mp_type_indexed_make_l(count, lengths, displs) result(type_desc
   
 <tr>
   
-  <td><span class="anchor" id="variable-lengths~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-lengths~2"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -253,7 +253,7 @@ private function mp_type_indexed_make_l(count, lengths, displs) result(type_desc
   
 <tr>
   
-  <td><span class="anchor" id="variable-displs~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-displs~4"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -344,8 +344,7 @@ private function mp_type_indexed_make_l(count, lengths, displs) result(type_desc
 <span class="nb">      </span><span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">count</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">TARGET</span>  <span class="kd">::</span> <span class="n">lengths</span><span class="p">,</span> <span class="n">displs</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">mp_type_descriptor_type</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">type_descriptor</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;mp_type_indexed_make_l&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;mp_type_indexed_make_l&#39;</span>
 
       <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">ierr</span><span class="p">,</span> <span class="n">handle</span>
 

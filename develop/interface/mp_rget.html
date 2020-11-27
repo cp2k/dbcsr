@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 0.0% of total for procedures.</p>Including implementation: 267 statements,  0.4% of total for procedures.">3 statements</a>
+    title="<p> 0.0% of total for procedures.</p>Including implementation: 267 statements,  0.5% of total for procedures.">3 statements</a>
      </li> 
      
      
@@ -187,13 +187,13 @@
       
       <a class="list-group-item" href="../interface/mp_rget.html#moduleprocedure-mp_rget_lv">mp_rget_lv</a>
       
-      <a class="list-group-item" href="../interface/mp_rget.html#moduleprocedure-mp_rget_rv">mp_rget_rv</a>
-      
       <a class="list-group-item" href="../interface/mp_rget.html#moduleprocedure-mp_rget_dv">mp_rget_dv</a>
       
-      <a class="list-group-item" href="../interface/mp_rget.html#moduleprocedure-mp_rget_cv">mp_rget_cv</a>
+      <a class="list-group-item" href="../interface/mp_rget.html#moduleprocedure-mp_rget_rv">mp_rget_rv</a>
       
       <a class="list-group-item" href="../interface/mp_rget.html#moduleprocedure-mp_rget_zv">mp_rget_zv</a>
+      
+      <a class="list-group-item" href="../interface/mp_rget.html#moduleprocedure-mp_rget_cv">mp_rget_cv</a>
       
     </div>
   </div>
@@ -246,13 +246,13 @@
       
       <a class="list-group-item" href="../interface/mp_rget.html#moduleprocedure-mp_rget_lv">mp_rget_lv</a>
       
-      <a class="list-group-item" href="../interface/mp_rget.html#moduleprocedure-mp_rget_rv">mp_rget_rv</a>
-      
       <a class="list-group-item" href="../interface/mp_rget.html#moduleprocedure-mp_rget_dv">mp_rget_dv</a>
       
-      <a class="list-group-item" href="../interface/mp_rget.html#moduleprocedure-mp_rget_cv">mp_rget_cv</a>
+      <a class="list-group-item" href="../interface/mp_rget.html#moduleprocedure-mp_rget_rv">mp_rget_rv</a>
       
       <a class="list-group-item" href="../interface/mp_rget.html#moduleprocedure-mp_rget_zv">mp_rget_zv</a>
+      
+      <a class="list-group-item" href="../interface/mp_rget.html#moduleprocedure-mp_rget_cv">mp_rget_cv</a>
       
     </div>
   </div>
@@ -633,186 +633,6 @@ private subroutine <a href='../proc/mp_rget_lv.html'>mp_rget_lv</a>(base, source
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_rget_rv"></span><h3>
-private subroutine <a href='../proc/mp_rget_rv.html'>mp_rget_rv</a>(base, source, win, win_data, myproc, disp, request, origin_datatype, target_datatype)
-    
-    
-   
-</h3></div>
-  <div class="panel-body">
-       
-    
-
-
-
-
-
-
-
-<p>Single-sided get function for vector data
- </p><a href="../proc/mp_rget_rv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td></td>
-  <td></td>
-  
-  <td>CONTIGUOUS, DIMENSION(:)</td><td>::</td>
-  <td><strong>base</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>source</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>win</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real(kind=real_4),</td>
-  <td></td>
-  <td></td>
-  
-  <td>CONTIGUOUS, DIMENSION(:)</td><td>::</td>
-  <td><strong>win_data</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in),</td>
-  <td>optional</td>
-  
-  <td></td><td>::</td>
-  <td><strong>myproc</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in),</td>
-  <td>optional</td>
-  
-  <td></td><td>::</td>
-  <td><strong>disp</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>request</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>type(<a href='../type/mp_type_descriptor_type.html'>mp_type_descriptor_type</a>),</td>
-  <td>intent(in),</td>
-  <td>optional</td>
-  
-  <td></td><td>::</td>
-  <td><strong>origin_datatype</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>type(<a href='../type/mp_type_descriptor_type.html'>mp_type_descriptor_type</a>),</td>
-  <td>intent(in),</td>
-  <td>optional</td>
-  
-  <td></td><td>::</td>
-  <td><strong>target_datatype</strong></td><td></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-  </div>
-  </div>
-
-   
-    
-  <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-mp_rget_dv"></span><h3>
 private subroutine <a href='../proc/mp_rget_dv.html'>mp_rget_dv</a>(base, source, win, win_data, myproc, disp, request, origin_datatype, target_datatype)
     
@@ -993,8 +813,8 @@ private subroutine <a href='../proc/mp_rget_dv.html'>mp_rget_dv</a>(base, source
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_rget_cv"></span><h3>
-private subroutine <a href='../proc/mp_rget_cv.html'>mp_rget_cv</a>(base, source, win, win_data, myproc, disp, request, origin_datatype, target_datatype)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_rget_rv"></span><h3>
+private subroutine <a href='../proc/mp_rget_rv.html'>mp_rget_rv</a>(base, source, win, win_data, myproc, disp, request, origin_datatype, target_datatype)
     
     
    
@@ -1010,7 +830,7 @@ private subroutine <a href='../proc/mp_rget_cv.html'>mp_rget_cv</a>(base, source
 
 
 <p>Single-sided get function for vector data
- </p><a href="../proc/mp_rget_cv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+ </p><a href="../proc/mp_rget_rv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -1031,7 +851,7 @@ private subroutine <a href='../proc/mp_rget_cv.html'>mp_rget_cv</a>(base, source
   
 <tr>
   
-  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
   <td></td>
   <td></td>
   
@@ -1076,7 +896,7 @@ private subroutine <a href='../proc/mp_rget_cv.html'>mp_rget_cv</a>(base, source
   
 <tr>
   
-  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
   <td></td>
   <td></td>
   
@@ -1257,6 +1077,186 @@ private subroutine <a href='../proc/mp_rget_zv.html'>mp_rget_zv</a>(base, source
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td></td>
+  <td></td>
+  
+  <td>CONTIGUOUS, DIMENSION(:)</td><td>::</td>
+  <td><strong>win_data</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>myproc</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>disp</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>request</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/mp_type_descriptor_type.html'>mp_type_descriptor_type</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>origin_datatype</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/mp_type_descriptor_type.html'>mp_type_descriptor_type</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>target_datatype</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+   
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_rget_cv"></span><h3>
+private subroutine <a href='../proc/mp_rget_cv.html'>mp_rget_cv</a>(base, source, win, win_data, myproc, disp, request, origin_datatype, target_datatype)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Single-sided get function for vector data
+ </p><a href="../proc/mp_rget_cv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td></td>
+  <td></td>
+  
+  <td>CONTIGUOUS, DIMENSION(:)</td><td>::</td>
+  <td><strong>base</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>source</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>win</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
   <td></td>
   <td></td>
   

@@ -97,8 +97,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN)                  :: old_row_p, old_col_i, old_blk_p
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'make_index_canonical', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'make_index_canonical'
 
       INTEGER                                            :: blk, col, nblks, row, stored_col, &
                                                             stored_row
@@ -160,8 +159,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN)                  :: old_row_p, old_col_i, old_blk_p
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'make_index_triangular', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'make_index_triangular'
 
       INTEGER                                            :: blk, col, nblks, row, stored_col, &
                                                             stored_row
@@ -218,8 +216,7 @@ CONTAINS
       INTEGER, DIMENSION(1:nrows + 1), INTENT(out)       :: row_p
       INTEGER, DIMENSION(1:nblks), INTENT(in)            :: row_i
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_dbcsr_index', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_dbcsr_index'
 
       INTEGER                                            :: blk, error_handle, row
 
@@ -467,9 +464,6 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: slot
          !! only repoint this index
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_repoint_index', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                            :: s
       LOGICAL                                            :: all
 
@@ -543,8 +537,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(INOUT)                    :: m
          !! Create index for this matrix
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_index_exist', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_index_exist'
 
       INTEGER                                            :: error_handle
 
@@ -655,8 +648,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
          !! Prune the index of this matrix.
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_index_prune_deleted', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_index_prune_deleted'
 
       INTEGER                                            :: error_handle, nblks_max, new_blk, nrows, &
                                                             old_blk, row
@@ -727,8 +719,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: old_blk_p
          !! old block pointer
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'transpose_index_local', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'transpose_index_local'
 
       INTEGER                                            :: error_handle, nblks, ncols_new, nrows_old
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: new_col_i
@@ -813,8 +804,7 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: make_tr
          !! Dense blocks are transposed
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'make_dense_index', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'make_dense_index'
 
       INTEGER                                            :: blk, c, col_l, mynblkcols, mynblkrows, &
                                                             nblks, nze, prev_row, row, row_l, &
@@ -886,9 +876,6 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN)                  :: local_row_offsets, local_col_offsets
       INTEGER, DIMENSION(dbcsr_meta_size), INTENT(INOUT) :: meta
          !! Metadata updates for new index
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'make_undense_index', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: col, lr, lrow, nblkcols_local, &
                                                             nblkrows_local, nblkrows_total, &
@@ -971,9 +958,6 @@ CONTAINS
       INTEGER, INTENT(OUT), OPTIONAL                     :: added_size, added_nblks
          !! counts number of sizes of added blocks
          !! actual number of new elements
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'merge_index_arrays', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: add_blk, bp, i, merge_from_whom, &
                                                             new_blk, old_blk
@@ -1108,8 +1092,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
          !! matrix for which to make canonical index
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_index_local_row', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_index_local_row'
 
       INTEGER                                            :: error_handle, lrow, nlocal_rows, &
                                                             ntotal_rows, prow
@@ -1175,8 +1158,7 @@ CONTAINS
       LOGICAL, INTENT(IN)                                :: thread_redist
          !! make a thread subdistribution
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_index_list', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_index_list'
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
       INTEGER                                            :: blk, error_handle, ithread, my_cnt, &
@@ -1329,8 +1311,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
          !! matrix for which to make canonical index
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_index_compact', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_index_compact'
 
       INTEGER                                            :: error_handle, new_size, size_blk_p, &
                                                             size_col_i, size_coo_l, size_row_p, &
@@ -1455,8 +1436,7 @@ CONTAINS
          !! matrix for which to make canonical index
       INTEGER, INTENT(OUT)                               :: checksum
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_index_checksum', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_index_checksum'
 
       INTEGER                                            :: error_handle
 
@@ -1474,9 +1454,6 @@ CONTAINS
    FUNCTION dbcsr_has_local_row_index(matrix) RESULT(local_indexing)
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
       LOGICAL                                            :: local_indexing
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_has_local_row_index', &
-                                     routineP = moduleN//':'//routineN
 
       local_indexing = matrix%local_indexing
    END FUNCTION dbcsr_has_local_row_index

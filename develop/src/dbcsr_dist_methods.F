@@ -151,8 +151,7 @@ CONTAINS
          POINTER, CONTIGUOUS                             :: local_rows, local_cols
       LOGICAL, OPTIONAL                                  :: reuse_arrays
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_distribution_new', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_distribution_new'
 
       INTEGER                                            :: handle, i, lcmv, mypcoor, npcols, &
                                                             nprows, seq
@@ -490,8 +489,6 @@ CONTAINS
          !! Add thread distribution to this distribution
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: row_sizes
          !! row block sizes
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'make_threads', routineP = moduleN//':'//routineN
 
       INTEGER                                            :: block_size, block_size0, cur_block, &
                                                             group_size, i, last_row, nlrows, &

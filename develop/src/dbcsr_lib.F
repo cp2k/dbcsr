@@ -230,7 +230,7 @@ CONTAINS
       !! Initialize the DBCSR library
       !! Prepares the DBCSR library for use.
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_init_lib_low', routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_init_lib_low'
 
       INTEGER                                            :: error_handle
 
@@ -265,8 +265,7 @@ CONTAINS
 #if defined(__LIBXSMM)
       USE libxsmm, ONLY: libxsmm_finalize
 #endif
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_finalize_lib', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_finalize_lib'
 
       INTEGER                                            :: error_handle
 

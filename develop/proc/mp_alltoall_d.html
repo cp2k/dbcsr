@@ -262,7 +262,7 @@ private subroutine mp_alltoall_d(sb, rb, count, group)
   
 <tr>
   
-  <td><span class="anchor" id="variable-count~15"></span>integer,</td>
+  <td><span class="anchor" id="variable-count~14"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -377,8 +377,7 @@ private subroutine mp_alltoall_d(sb, rb, count, group)
          <span class="c">!! number of elements to send/receive (product of the extents of the first two dimensions)</span>
          <span class="c">!! Message passing environment identifier</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;mp_alltoall_d&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;mp_alltoall_d&#39;</span>
 
       <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">handle</span><span class="p">,</span> <span class="n">ierr</span>
 <span class="cp">#if defined(__parallel)</span>

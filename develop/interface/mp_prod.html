@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 0.0% of total for procedures.</p>Including implementation: 83 statements,  0.1% of total for procedures.">3 statements</a>
+    title="<p> 0.0% of total for procedures.</p>Including implementation: 123 statements,  0.2% of total for procedures.">3 statements</a>
      </li> 
      
      
@@ -183,13 +183,17 @@
   <div id="modprocs-0" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../interface/mp_prod.html#moduleprocedure-mp_prod_r">mp_prod_r</a>
+      <a class="list-group-item" href="../interface/mp_prod.html#moduleprocedure-mp_prod_i">mp_prod_i</a>
+      
+      <a class="list-group-item" href="../interface/mp_prod.html#moduleprocedure-mp_prod_l">mp_prod_l</a>
       
       <a class="list-group-item" href="../interface/mp_prod.html#moduleprocedure-mp_prod_d">mp_prod_d</a>
       
-      <a class="list-group-item" href="../interface/mp_prod.html#moduleprocedure-mp_prod_c">mp_prod_c</a>
+      <a class="list-group-item" href="../interface/mp_prod.html#moduleprocedure-mp_prod_r">mp_prod_r</a>
       
       <a class="list-group-item" href="../interface/mp_prod.html#moduleprocedure-mp_prod_z">mp_prod_z</a>
+      
+      <a class="list-group-item" href="../interface/mp_prod.html#moduleprocedure-mp_prod_c">mp_prod_c</a>
       
     </div>
   </div>
@@ -238,13 +242,17 @@
   <div id="modprocs-1" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../interface/mp_prod.html#moduleprocedure-mp_prod_r">mp_prod_r</a>
+      <a class="list-group-item" href="../interface/mp_prod.html#moduleprocedure-mp_prod_i">mp_prod_i</a>
+      
+      <a class="list-group-item" href="../interface/mp_prod.html#moduleprocedure-mp_prod_l">mp_prod_l</a>
       
       <a class="list-group-item" href="../interface/mp_prod.html#moduleprocedure-mp_prod_d">mp_prod_d</a>
       
-      <a class="list-group-item" href="../interface/mp_prod.html#moduleprocedure-mp_prod_c">mp_prod_c</a>
+      <a class="list-group-item" href="../interface/mp_prod.html#moduleprocedure-mp_prod_r">mp_prod_r</a>
       
       <a class="list-group-item" href="../interface/mp_prod.html#moduleprocedure-mp_prod_z">mp_prod_z</a>
+      
+      <a class="list-group-item" href="../interface/mp_prod.html#moduleprocedure-mp_prod_c">mp_prod_c</a>
       
     </div>
   </div>
@@ -265,8 +273,8 @@
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_prod_r"></span><h3>
-private subroutine <a href='../proc/mp_prod_r.html'>mp_prod_r</a>(msg, gid)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_prod_i"></span><h3>
+private subroutine <a href='../proc/mp_prod_i.html'>mp_prod_i</a>(msg, gid)
     
     
    
@@ -282,7 +290,7 @@ private subroutine <a href='../proc/mp_prod_r.html'>mp_prod_r</a>(msg, gid)
 
 
 <p>Multiplies a set of numbers scattered across a number of processes,
- then replicates the result.</p><a href="../proc/mp_prod_r.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+ then replicates the result.</p><a href="../proc/mp_prod_i.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -303,7 +311,82 @@ private subroutine <a href='../proc/mp_prod_r.html'>mp_prod_r</a>(msg, gid)
   
 <tr>
   
-  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td><span class="anchor" ></span>integer(kind=int_4),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>msg</strong></td><td><p>a number to multiply (input) and result (output)</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>gid</strong></td><td><p>message passing environment identifier</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+   
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_prod_l"></span><h3>
+private subroutine <a href='../proc/mp_prod_l.html'>mp_prod_l</a>(msg, gid)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Multiplies a set of numbers scattered across a number of processes,
+ then replicates the result.</p><a href="../proc/mp_prod_l.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer(kind=int_8),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -415,8 +498,8 @@ private subroutine <a href='../proc/mp_prod_d.html'>mp_prod_d</a>(msg, gid)
    
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_prod_c"></span><h3>
-private subroutine <a href='../proc/mp_prod_c.html'>mp_prod_c</a>(msg, gid)
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_prod_r"></span><h3>
+private subroutine <a href='../proc/mp_prod_r.html'>mp_prod_r</a>(msg, gid)
     
     
    
@@ -432,7 +515,7 @@ private subroutine <a href='../proc/mp_prod_c.html'>mp_prod_c</a>(msg, gid)
 
 
 <p>Multiplies a set of numbers scattered across a number of processes,
- then replicates the result.</p><a href="../proc/mp_prod_c.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+ then replicates the result.</p><a href="../proc/mp_prod_r.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -453,7 +536,7 @@ private subroutine <a href='../proc/mp_prod_c.html'>mp_prod_c</a>(msg, gid)
   
 <tr>
   
-  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -529,6 +612,81 @@ private subroutine <a href='../proc/mp_prod_z.html'>mp_prod_z</a>(msg, gid)
 <tr>
   
   <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>msg</strong></td><td><p>a number to multiply (input) and result (output)</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>gid</strong></td><td><p>message passing environment identifier</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+   
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-mp_prod_c"></span><h3>
+private subroutine <a href='../proc/mp_prod_c.html'>mp_prod_c</a>(msg, gid)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Multiplies a set of numbers scattered across a number of processes,
+ then replicates the result.</p><a href="../proc/mp_prod_c.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
   <td>intent(inout)</td>
   <td></td>
   

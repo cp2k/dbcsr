@@ -225,7 +225,7 @@ private subroutine dbcsr_copy_submatrix(matrix_b, matrix_a, name, block_row_boun
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_b~34"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_b~33"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -240,7 +240,7 @@ private subroutine dbcsr_copy_submatrix(matrix_b, matrix_a, name, block_row_boun
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_a~51"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_a~50"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -395,8 +395,7 @@ private subroutine dbcsr_copy_submatrix(matrix_b, matrix_a, name, block_row_boun
       <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">shallow_data</span>
          <span class="c">!! shallow data copy</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_copy_submatrix&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_copy_submatrix&#39;</span>
 
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">blk_p</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">nblocks</span><span class="p">,</span> <span class="n">new_blk</span><span class="p">,</span> <span class="p">&amp;</span>
                                                             <span class="n">old_blk</span><span class="p">,</span> <span class="n">row</span>

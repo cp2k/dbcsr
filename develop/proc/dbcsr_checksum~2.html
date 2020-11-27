@@ -225,7 +225,7 @@ public function dbcsr_checksum(matrix, local, pos) result(checksum)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~152"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~148"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -353,8 +353,7 @@ public function dbcsr_checksum(matrix, local, pos) result(checksum)
       <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>                                      <span class="kd">::</span> <span class="n">checksum</span>
          <span class="c">!! calculated checksum</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_checksum&#39;</span><span class="p">,</span> <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
-
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_checksum&#39;</span>
       <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>        <span class="kd">::</span> <span class="n">c_sp</span>
       <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>        <span class="kd">::</span> <span class="n">c_dp</span>
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">bc</span><span class="p">,</span> <span class="n">blk</span><span class="p">,</span> <span class="n">blk_p</span><span class="p">,</span> <span class="n">br</span><span class="p">,</span> <span class="n">co</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">mn</span><span class="p">,</span> <span class="p">&amp;</span>

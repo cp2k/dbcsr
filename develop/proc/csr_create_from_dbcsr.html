@@ -381,8 +381,7 @@ public subroutine csr_create_from_dbcsr(dbcsr_mat, csr_mat, dist_format, csr_spa
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">numnodes</span>
          <span class="c">!! number of nodes to use for distributing CSR matrix (optional, default is number of nodes used for DBCSR matrix)</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;csr_create_from_dbcsr&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;csr_create_from_dbcsr&#39;</span>
 
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">dbcsr_numnodes</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">nblkcols_total</span><span class="p">,</span> <span class="p">&amp;</span>
                                                             <span class="n">nblkrows_total</span><span class="p">,</span> <span class="n">nblks_local</span><span class="p">,</span> <span class="n">num_p</span>

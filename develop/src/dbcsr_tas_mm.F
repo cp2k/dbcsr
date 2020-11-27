@@ -127,8 +127,7 @@ CONTAINS
                                                     move_a, move_b, do_batched, &
                                                     nodata_3
       TYPE(dbcsr_tas_split_info)                 :: info, info_a, info_b, info_c
-      CHARACTER(LEN=*), PARAMETER                :: routineN = 'dbcsr_tas_multiply', &
-                                                    routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER                :: routineN = 'dbcsr_tas_multiply'
       INTEGER(KIND=int_8)                        :: nze_a, nze_b, nze_c, nze_c_sum
       TYPE(dbcsr_type)                           :: matrix_a_mm, matrix_b_mm, matrix_c_mm
 
@@ -832,8 +831,7 @@ CONTAINS
       TYPE(dbcsr_tas_dist_arb)            :: new_row_dist, new_col_dist
       TYPE(dbcsr_tas_distribution_type)   :: dist
       LOGICAL                           :: nodata_prv
-      CHARACTER(LEN=*), PARAMETER       :: routineN = 'reshape_mm_small', &
-                                           routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER       :: routineN = 'reshape_mm_small'
       INTEGER                           :: handle
 
       CALL timeset(routineN, handle)
@@ -915,8 +913,7 @@ CONTAINS
 
       INTEGER(KIND=int_8), DIMENSION(2)          :: dims1, dims2, dims_ref
       INTEGER(KIND=int_8)                        :: d1, d2
-      CHARACTER(LEN=*), PARAMETER                :: routineN = 'reshape_mm_compatible', &
-                                                    routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER                :: routineN = 'reshape_mm_compatible'
       INTEGER                                    :: handle, mp_comm, numnodes, unit_nr_prv, &
                                                     nsplit_prv, ref, split_rc_ref
       INTEGER, DIMENSION(2)                      :: pcoord, pdims
@@ -1144,8 +1141,7 @@ CONTAINS
       LOGICAL                                    :: nodata_prv
       CLASS(dbcsr_tas_distribution), ALLOCATABLE :: rdist, cdist
       CLASS(dbcsr_tas_rowcol_data), ALLOCATABLE  :: rbsize, cbsize
-      CHARACTER(LEN=*), PARAMETER                :: routineN = 'change_split', &
-                                                    routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER                :: routineN = 'change_split'
 
       NULLIFY (matrix_out)
 
@@ -1292,8 +1288,7 @@ CONTAINS
                                                     numnodes, handle
       INTEGER, DIMENSION(2)                      :: pcoord, pdims
       LOGICAL                                    :: nodata_prv, transposed
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'reshape_mm_template', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'reshape_mm_template'
 
       CALL timeset(routineN, handle)
 
@@ -1369,8 +1364,7 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL :: retain_sparsity
       INTEGER(int_8), INTENT(OUT), OPTIONAL :: nze
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_result_index', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_result_index'
       LOGICAL :: retain_sparsity_prv
       INTEGER :: bn, row_size, col_size, handle, iblk, mp_comm, nblk
       INTEGER(int_8) :: row, col
@@ -1480,19 +1474,19 @@ CONTAINS
       CHARACTER(len=default_string_length)       :: name
       INTEGER                                    :: data_type
 
-# 1480 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1474 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
       REAL(kind=real_8), DIMENSION(:, :), POINTER        :: block_get_r_dp
       REAL(kind=real_8), DIMENSION(:, :), POINTER        :: block_put_r_dp
-# 1480 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1474 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
       REAL(kind=real_4), DIMENSION(:, :), POINTER        :: block_get_r_sp
       REAL(kind=real_4), DIMENSION(:, :), POINTER        :: block_put_r_sp
-# 1480 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1474 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
       COMPLEX(kind=real_8), DIMENSION(:, :), POINTER        :: block_get_c_dp
       COMPLEX(kind=real_8), DIMENSION(:, :), POINTER        :: block_put_c_dp
-# 1480 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1474 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
       COMPLEX(kind=real_4), DIMENSION(:, :), POINTER        :: block_get_c_sp
       COMPLEX(kind=real_4), DIMENSION(:, :), POINTER        :: block_put_c_sp
-# 1483 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1477 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
       LOGICAL                                    :: tr, nodata_prv, found
 
       DBCSR_ASSERT(matrix_in%valid)
@@ -1521,35 +1515,35 @@ CONTAINS
 
          DO WHILE (dbcsr_tas_iterator_blocks_left(iter))
 
-# 1512 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1506 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
             IF (data_type == dbcsr_type_real_8) THEN
                CALL dbcsr_tas_iterator_next_block(iter, row, column, block_get_r_dp, tr)
                CALL dbcsr_tas_get_block_p(matrix_out, row, column, block_put_r_dp, tr, found)
                DBCSR_ASSERT(found)
                block_put_r_dp (1, 1) = SQRT(SUM(block_get_r_dp**2)) ! norm2 works only for real
             ENDIF
-# 1512 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1506 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
             IF (data_type == dbcsr_type_real_4) THEN
                CALL dbcsr_tas_iterator_next_block(iter, row, column, block_get_r_sp, tr)
                CALL dbcsr_tas_get_block_p(matrix_out, row, column, block_put_r_sp, tr, found)
                DBCSR_ASSERT(found)
                block_put_r_sp (1, 1) = SQRT(SUM(block_get_r_sp**2)) ! norm2 works only for real
             ENDIF
-# 1512 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1506 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
             IF (data_type == dbcsr_type_complex_8) THEN
                CALL dbcsr_tas_iterator_next_block(iter, row, column, block_get_c_dp, tr)
                CALL dbcsr_tas_get_block_p(matrix_out, row, column, block_put_c_dp, tr, found)
                DBCSR_ASSERT(found)
                block_put_c_dp (1, 1) = SQRT(SUM(block_get_c_dp**2)) ! norm2 works only for real
             ENDIF
-# 1512 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1506 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
             IF (data_type == dbcsr_type_complex_4) THEN
                CALL dbcsr_tas_iterator_next_block(iter, row, column, block_get_c_sp, tr)
                CALL dbcsr_tas_get_block_p(matrix_out, row, column, block_put_c_sp, tr, found)
                DBCSR_ASSERT(found)
                block_put_c_sp (1, 1) = SQRT(SUM(block_get_c_sp**2)) ! norm2 works only for real
             ENDIF
-# 1519 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
+# 1513 "/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_mm.F"
          ENDDO
          CALL dbcsr_tas_iterator_stop(iter)
       ENDIF
@@ -1577,8 +1571,7 @@ CONTAINS
       TYPE(dbcsr_mp_obj)                         :: mp_obj
       CHARACTER(len=default_string_length)       :: name
       LOGICAL                                    :: nodata_prv, optimize_pgrid_prv
-      CHARACTER(LEN=*), PARAMETER                :: routineN = 'convert_to_new_pgrid', &
-                                                    routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER                :: routineN = 'convert_to_new_pgrid'
 
       NULLIFY (row_dist, col_dist, rbsize, rcsize)
 

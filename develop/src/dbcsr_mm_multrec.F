@@ -133,8 +133,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: m_sizes, n_sizes
       INTEGER, OPTIONAL                                  :: nlayers
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_multrec_init', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_multrec_init'
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
       INTEGER                                            :: c_nblkcols_local, c_nblkrows_local, &
@@ -275,9 +274,6 @@ CONTAINS
          !! norms of right-matrix blocks
       INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: k_sizes
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_multrec_multiply', &
-                                     routineP = moduleN//':'//routineN
-
 !$    INTEGER                                            :: ithread
       INTEGER                                            :: t_a_f, t_a_l, t_b_f, t_b_l
       INTEGER, DIMENSION(:), POINTER                     :: k_locals
@@ -345,8 +341,7 @@ CONTAINS
       TYPE(dbcsr_mm_multrec_type), INTENT(inout)         :: this
       INTEGER, DIMENSION(:), INTENT(INOUT), OPTIONAL     :: meta_buffer
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_multrec_finalize', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_multrec_finalize'
 
       INTEGER                                            :: handle, ithread, lb_meta, &
                                                             nblocks, nthreads, ub_meta
@@ -398,8 +393,7 @@ CONTAINS
       !! Applying in-place filtering on the workspace
       TYPE(dbcsr_mm_multrec_type), INTENT(inout)         :: this
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'multrec_filtering', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'multrec_filtering'
 
       INTEGER                                            :: handle
 
@@ -458,8 +452,7 @@ CONTAINS
       INTEGER(KIND=int_8), INTENT(INOUT)                 :: flop
       INTEGER, DIMENSION(:), INTENT(IN)                  :: g2l_map_rows, g2l_map_cols
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_multrec_red3D', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_multrec_red3D'
 
       INTEGER                                            :: handle
 
@@ -505,7 +498,6 @@ CONTAINS
       INTEGER, DIMENSION(3, 1:bf), INTENT(IN)            :: b_index
       INTEGER, INTENT(IN)                                :: d
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'sparse_multrec', routineP = moduleN//':'//routineN
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
       INTEGER                                            :: acut, bcut, cut, K, M, N, s1
@@ -704,8 +696,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
 
 # 45 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
-# 701 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F" 2
-# 702 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 693 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F" 2
+# 694 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
    SUBROUTINE multrec_filtering_d (filter_eps, nblks, rowi, coli, blkp, &
                                                rbs, cbs, nze, DATA)
@@ -731,10 +723,10 @@ CONTAINS
 
       REAL(kind=real_8)                          :: filter_eps_opt
 
-# 728 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 720 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
       ! Avoid square root
       filter_eps_opt = filter_eps**2
-# 733 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 725 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
       lastblk = 0
       nze = 0
@@ -760,7 +752,7 @@ CONTAINS
       nblks = lastblk
 
    END SUBROUTINE multrec_filtering_d
-# 702 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 694 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
    SUBROUTINE multrec_filtering_s (filter_eps, nblks, rowi, coli, blkp, &
                                                rbs, cbs, nze, DATA)
@@ -786,10 +778,10 @@ CONTAINS
 
       REAL(kind=real_8)                          :: filter_eps_opt
 
-# 728 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 720 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
       ! Avoid square root
       filter_eps_opt = filter_eps**2
-# 733 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 725 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
       lastblk = 0
       nze = 0
@@ -815,7 +807,7 @@ CONTAINS
       nblks = lastblk
 
    END SUBROUTINE multrec_filtering_s
-# 702 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 694 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
    SUBROUTINE multrec_filtering_z (filter_eps, nblks, rowi, coli, blkp, &
                                                rbs, cbs, nze, DATA)
@@ -841,9 +833,9 @@ CONTAINS
 
       REAL(kind=real_8)                          :: filter_eps_opt
 
-# 731 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 723 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
       filter_eps_opt = filter_eps
-# 733 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 725 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
       lastblk = 0
       nze = 0
@@ -869,7 +861,7 @@ CONTAINS
       nblks = lastblk
 
    END SUBROUTINE multrec_filtering_z
-# 702 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 694 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
    SUBROUTINE multrec_filtering_c (filter_eps, nblks, rowi, coli, blkp, &
                                                rbs, cbs, nze, DATA)
@@ -895,9 +887,9 @@ CONTAINS
 
       REAL(kind=real_8)                          :: filter_eps_opt
 
-# 731 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 723 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
       filter_eps_opt = filter_eps
-# 733 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 725 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
       lastblk = 0
       nze = 0
@@ -923,6 +915,6 @@ CONTAINS
       nblks = lastblk
 
    END SUBROUTINE multrec_filtering_c
-# 759 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
+# 751 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_multrec.F"
 
 END MODULE dbcsr_mm_multrec

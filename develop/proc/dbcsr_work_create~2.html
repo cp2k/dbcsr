@@ -225,7 +225,7 @@ public subroutine dbcsr_work_create(matrix, nblks_guess, sizedata_guess, n, work
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~288"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~282"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -274,7 +274,7 @@ public subroutine dbcsr_work_create(matrix, nblks_guess, sizedata_guess, n, work
   
 <tr>
   
-  <td><span class="anchor" id="variable-n~56"></span>integer,</td>
+  <td><span class="anchor" id="variable-n~54"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -396,8 +396,7 @@ public subroutine dbcsr_work_create(matrix, nblks_guess, sizedata_guess, n, work
          <span class="c">!! use mutable work type, default is what was specified in create</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>     <span class="kd">::</span> <span class="n">memory_type</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_work_create&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_work_create&#39;</span>
 
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">handle</span><span class="p">,</span> <span class="n">iw</span><span class="p">,</span> <span class="n">nw</span><span class="p">,</span> <span class="n">ow</span>
       <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">wms_new</span><span class="p">,</span> <span class="n">wms_realloc</span>

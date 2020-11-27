@@ -226,7 +226,7 @@ private subroutine mp_isum_cv(msg, gid, request)
   
 <tr>
   
-  <td><span class="anchor" id="variable-msg~223"></span>complex(kind=real_4),</td>
+  <td><span class="anchor" id="variable-msg~207"></span>complex(kind=real_4),</td>
   <td>intent(inout),</td>
   <td></td>
   
@@ -241,7 +241,7 @@ private subroutine mp_isum_cv(msg, gid, request)
   
 <tr>
   
-  <td><span class="anchor" id="variable-gid~258"></span>integer,</td>
+  <td><span class="anchor" id="variable-gid~248"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -256,7 +256,7 @@ private subroutine mp_isum_cv(msg, gid, request)
   
 <tr>
   
-  <td><span class="anchor" id="variable-request~116"></span>integer,</td>
+  <td><span class="anchor" id="variable-request~111"></span>integer,</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -341,8 +341,7 @@ private subroutine mp_isum_cv(msg, gid, request)
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">gid</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">request</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;mp_isum_cv&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;mp_isum_cv&#39;</span>
 
       <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">handle</span><span class="p">,</span> <span class="n">ierr</span>
 <span class="cp">#if defined(__parallel)</span>

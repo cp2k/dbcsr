@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.2% of total for procedures.">119 statements</a>
+    title=" 0.2% of total for procedures.">118 statements</a>
      </li> 
      
      
@@ -223,7 +223,7 @@ private subroutine dbcsr_create_template(matrix, template, name, dist, matrix_ty
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~287"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~281"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -373,7 +373,7 @@ private subroutine dbcsr_create_template(matrix, template, name, dist, matrix_ty
   
 <tr>
   
-  <td><span class="anchor" id="variable-data_type~46"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type~44"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -636,9 +636,6 @@ private subroutine dbcsr_create_template(matrix, template, name, dist, matrix_ty
       <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>          <span class="kd">::</span> <span class="n">row_blk_offset</span><span class="p">,</span> <span class="n">col_blk_offset</span>
       <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">reuse_arrays</span><span class="p">,</span> <span class="n">mutable_work</span><span class="p">,</span> <span class="n">make_index</span>
       <span class="kt">CHARACTER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                    <span class="kd">::</span> <span class="n">replication_type</span>
-
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_create_template&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
-                                     <span class="n">routineP</span> <span class="o">=</span> <span class="n">moduleN</span><span class="o">//</span><span class="s1">&#39;:&#39;</span><span class="o">//</span><span class="n">routineN</span>
 
       <span class="kt">CHARACTER</span>                                          <span class="kd">::</span> <span class="n">new_matrix_type</span><span class="p">,</span> <span class="n">new_replication_type</span>
       <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">)</span>               <span class="kd">::</span> <span class="n">new_name</span>

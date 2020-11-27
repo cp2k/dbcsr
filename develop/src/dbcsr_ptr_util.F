@@ -108,8 +108,6 @@ CONTAINS
       TYPE(dbcsr_data_obj)                               :: narea2
          !! copy of new_area
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'pointer_view_a', routineP = moduleN//':'//routineN
-
       IF (area%d%data_type /= new_area%d%data_type) &
          DBCSR_ABORT("Incompatible data types.")
       IF (PRESENT(len)) THEN
@@ -148,8 +146,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
 
 # 45 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
-# 145 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F" 2
-# 146 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
+# 143 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F" 2
+# 144 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
    FUNCTION pointer_view_d (original, lb, ub) RESULT(view)
      !! Returns a pointer with different bounds.
 
@@ -337,8 +335,7 @@ CONTAINS
         !! length of elements to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
-      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_d', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_d'
       INTEGER                               :: error_handle
 !   ---------------------------------------------------------------------------
 
@@ -366,8 +363,7 @@ CONTAINS
         !! length of elements to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
-      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_d_2d', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_d_2d'
       INTEGER                               :: error_handle
 !   ---------------------------------------------------------------------------
 
@@ -395,8 +391,7 @@ CONTAINS
         !! memory to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
-      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_d', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_d'
       INTEGER                               :: error_handle
 !   ---------------------------------------------------------------------------
 
@@ -422,8 +417,7 @@ CONTAINS
         !! memory to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
-      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_d', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_d'
       INTEGER                               :: error_handle
 !   ---------------------------------------------------------------------------
 
@@ -456,7 +450,7 @@ CONTAINS
 
       r2p(1:d1, 1:d2) => r1p(1:d1*d2)
    END SUBROUTINE pointer_d_rank_remap2
-# 146 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
+# 144 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
    FUNCTION pointer_view_s (original, lb, ub) RESULT(view)
      !! Returns a pointer with different bounds.
 
@@ -644,8 +638,7 @@ CONTAINS
         !! length of elements to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
-      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_s', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_s'
       INTEGER                               :: error_handle
 !   ---------------------------------------------------------------------------
 
@@ -673,8 +666,7 @@ CONTAINS
         !! length of elements to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
-      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_s_2d', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_s_2d'
       INTEGER                               :: error_handle
 !   ---------------------------------------------------------------------------
 
@@ -702,8 +694,7 @@ CONTAINS
         !! memory to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
-      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_s', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_s'
       INTEGER                               :: error_handle
 !   ---------------------------------------------------------------------------
 
@@ -729,8 +720,7 @@ CONTAINS
         !! memory to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
-      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_s', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_s'
       INTEGER                               :: error_handle
 !   ---------------------------------------------------------------------------
 
@@ -763,7 +753,7 @@ CONTAINS
 
       r2p(1:d1, 1:d2) => r1p(1:d1*d2)
    END SUBROUTINE pointer_s_rank_remap2
-# 146 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
+# 144 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
    FUNCTION pointer_view_z (original, lb, ub) RESULT(view)
      !! Returns a pointer with different bounds.
 
@@ -951,8 +941,7 @@ CONTAINS
         !! length of elements to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
-      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_z', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_z'
       INTEGER                               :: error_handle
 !   ---------------------------------------------------------------------------
 
@@ -980,8 +969,7 @@ CONTAINS
         !! length of elements to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
-      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_z_2d', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_z_2d'
       INTEGER                               :: error_handle
 !   ---------------------------------------------------------------------------
 
@@ -1009,8 +997,7 @@ CONTAINS
         !! memory to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
-      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_z', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_z'
       INTEGER                               :: error_handle
 !   ---------------------------------------------------------------------------
 
@@ -1036,8 +1023,7 @@ CONTAINS
         !! memory to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
-      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_z', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_z'
       INTEGER                               :: error_handle
 !   ---------------------------------------------------------------------------
 
@@ -1070,7 +1056,7 @@ CONTAINS
 
       r2p(1:d1, 1:d2) => r1p(1:d1*d2)
    END SUBROUTINE pointer_z_rank_remap2
-# 146 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
+# 144 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
    FUNCTION pointer_view_c (original, lb, ub) RESULT(view)
      !! Returns a pointer with different bounds.
 
@@ -1258,8 +1244,7 @@ CONTAINS
         !! length of elements to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
-      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_c', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_c'
       INTEGER                               :: error_handle
 !   ---------------------------------------------------------------------------
 
@@ -1287,8 +1272,7 @@ CONTAINS
         !! length of elements to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
-      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_c_2d', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_c_2d'
       INTEGER                               :: error_handle
 !   ---------------------------------------------------------------------------
 
@@ -1316,8 +1300,7 @@ CONTAINS
         !! memory to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
-      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_c', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_c'
       INTEGER                               :: error_handle
 !   ---------------------------------------------------------------------------
 
@@ -1343,8 +1326,7 @@ CONTAINS
         !! memory to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
-      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_c', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_c'
       INTEGER                               :: error_handle
 !   ---------------------------------------------------------------------------
 
@@ -1377,7 +1359,7 @@ CONTAINS
 
       r2p(1:d1, 1:d2) => r1p(1:d1*d2)
    END SUBROUTINE pointer_c_rank_remap2
-# 146 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
+# 144 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
    FUNCTION pointer_view_i (original, lb, ub) RESULT(view)
      !! Returns a pointer with different bounds.
 
@@ -1565,8 +1547,7 @@ CONTAINS
         !! length of elements to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
-      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_i', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_i'
       INTEGER                               :: error_handle
 !   ---------------------------------------------------------------------------
 
@@ -1594,8 +1575,7 @@ CONTAINS
         !! length of elements to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
-      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_i_2d', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_i_2d'
       INTEGER                               :: error_handle
 !   ---------------------------------------------------------------------------
 
@@ -1623,8 +1603,7 @@ CONTAINS
         !! memory to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
-      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_i', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_i'
       INTEGER                               :: error_handle
 !   ---------------------------------------------------------------------------
 
@@ -1650,8 +1629,7 @@ CONTAINS
         !! memory to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
-      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_i', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_i'
       INTEGER                               :: error_handle
 !   ---------------------------------------------------------------------------
 
@@ -1684,7 +1662,7 @@ CONTAINS
 
       r2p(1:d1, 1:d2) => r1p(1:d1*d2)
    END SUBROUTINE pointer_i_rank_remap2
-# 146 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
+# 144 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
    FUNCTION pointer_view_l (original, lb, ub) RESULT(view)
      !! Returns a pointer with different bounds.
 
@@ -1872,8 +1850,7 @@ CONTAINS
         !! length of elements to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
-      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_l', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_l'
       INTEGER                               :: error_handle
 !   ---------------------------------------------------------------------------
 
@@ -1901,8 +1878,7 @@ CONTAINS
         !! length of elements to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
-      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_l_2d', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_l_2d'
       INTEGER                               :: error_handle
 !   ---------------------------------------------------------------------------
 
@@ -1930,8 +1906,7 @@ CONTAINS
         !! memory to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
-      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_l', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_l'
       INTEGER                               :: error_handle
 !   ---------------------------------------------------------------------------
 
@@ -1957,8 +1932,7 @@ CONTAINS
         !! memory to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
-      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_l', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_l'
       INTEGER                               :: error_handle
 !   ---------------------------------------------------------------------------
 
@@ -1991,6 +1965,6 @@ CONTAINS
 
       r2p(1:d1, 1:d2) => r1p(1:d1*d2)
    END SUBROUTINE pointer_l_rank_remap2
-# 453 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
+# 447 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
 
 END MODULE dbcsr_ptr_util

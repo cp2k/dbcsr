@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 2.8% of total for modules and submodules.">1794 statements</a>
+    title=" 2.8% of total for modules and submodules.">1729 statements</a>
      </li> 
      
      
@@ -233,8 +233,6 @@
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_permute_index">dbcsr_t_permute_index</a>
       
-      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_get_nonzero_index">dbcsr_t_get_nonzero_index</a>
-      
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_contract_index">dbcsr_t_contract_index</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_map_bounds_to_tensors">dbcsr_t_map_bounds_to_tensors</a>
@@ -248,10 +246,6 @@
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_change_pgrid">dbcsr_t_change_pgrid</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_change_pgrid_2d">dbcsr_t_change_pgrid_2d</a>
-      
-      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-pdims_realtoint">pdims_realtoint</a>
-      
-      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-nearest_divisor">nearest_divisor</a>
       
     </div>
   </div>
@@ -423,8 +417,6 @@
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_permute_index">dbcsr_t_permute_index</a>
       
-      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_get_nonzero_index">dbcsr_t_get_nonzero_index</a>
-      
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_contract_index">dbcsr_t_contract_index</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_map_bounds_to_tensors">dbcsr_t_map_bounds_to_tensors</a>
@@ -438,10 +430,6 @@
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_change_pgrid">dbcsr_t_change_pgrid</a>
       
       <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-dbcsr_t_change_pgrid_2d">dbcsr_t_change_pgrid_2d</a>
-      
-      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-pdims_realtoint">pdims_realtoint</a>
-      
-      <a class="list-group-item" href="../module/dbcsr_tensor.html#proc-nearest_divisor">nearest_divisor</a>
       
     </div>
   </div>
@@ -3411,110 +3399,6 @@ private subroutine <a href='../proc/dbcsr_t_permute_index.html'>dbcsr_t_permute_
     
     
   <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_get_nonzero_index"></span><h3>
-private subroutine <a href='../proc/dbcsr_t_get_nonzero_index.html'>dbcsr_t_get_nonzero_index</a>(tensor, dim, bounds, ind)
-    
-    
-   
-</h3></div>
-  <div class="panel-body">
-       
-    
-
-
-
-
-
-
-
-<p>Get all indices along one dimension that have at least one occupied block</p>
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>tensor</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>dim</strong></td><td><p>which dimension</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>DIMENSION(2, ndims_tensor(tensor))</td><td>::</td>
-  <td><strong>bounds</strong></td><td><p>bounds of (full) tensor index</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>logical,</td>
-  <td>intent(out),</td>
-  <td></td>
-  
-  <td>ALLOCATABLE, DIMENSION(:)</td><td>::</td>
-  <td><strong>ind</strong></td><td><p>indices with occupied blocks</p></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-  </div>
-  </div>
-
-    
-    
-  <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_contract_index"></span><h3>
 public subroutine <a href='../proc/dbcsr_t_contract_index.html'>dbcsr_t_contract_index</a>(alpha, tensor_1, tensor_2, beta, tensor_3, contract_1, notcontract_1, contract_2, notcontract_2, map_1, map_2, bounds_1, bounds_2, bounds_3, filter_eps, nblks_local, result_index)
     
@@ -4762,228 +4646,6 @@ private subroutine <a href='../proc/dbcsr_t_change_pgrid_2d.html'>dbcsr_t_change
   
   <td></td><td>::</td>
   <td><strong>unit_nr</strong></td><td></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-  </div>
-  </div>
-
-    
-    
-  <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-pdims_realtoint"></span><h3>
-private subroutine <a href='../proc/pdims_realtoint.html'>pdims_realtoint</a>(nproc, pdims_real, pdims_int, pdims_min, pdims_max)
-    
-    
-   
-</h3></div>
-  <div class="panel-body">
-       
-    
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>nproc</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>pdims_real</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(out),</td>
-  <td></td>
-  
-  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>pdims_int</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(out),</td>
-  <td></td>
-  
-  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>pdims_min</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(out),</td>
-  <td></td>
-  
-  <td>DIMENSION(2)</td><td>::</td>
-  <td><strong>pdims_max</strong></td><td></td>
-  
-</tr>
-
-</tbody>
-</table>
-
-      
-    
-    
-
-  </div>
-  </div>
-
-    
-    
-  <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="proc-nearest_divisor"></span><h3>
-private subroutine <a href='../proc/nearest_divisor.html'>nearest_divisor</a>(n, div_approx, div_min, div_max, div_near)
-    
-    
-   
-</h3></div>
-  <div class="panel-body">
-       
-    
-    
-    <h4>Arguments</h4>
-    
-      
-      
-<table class="table table-striped varlist">
-<thead><tr><th>Type</th>
-<th>Intent</th><th>Optional</th>
-<th>Attributes</th><th></th><th>Name</th><th></th></thead>
-
-
-
-<tbody>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer,</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>n</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>real(kind=real_8),</td>
-  <td>intent(in)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>div_approx</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>div_min</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>div_max</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" ></span>integer</td>
-  <td></td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>div_near</strong></td><td></td>
   
 </tr>
 
