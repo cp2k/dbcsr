@@ -343,8 +343,11 @@ MODULE dbcsr_mpiwrap
    $:gen_mp_iface('file_write_at_all', suffixes=['', 'v'], extra_suffixes=['ch'])
    $:gen_mp_iface('file_read_at_all', suffixes=['', 'v'], extra_suffixes=['ch'])
 
+
+#if defined(__parallel)
    $:gen_mp_iface('alloc_mem')
    $:gen_mp_iface('free_mem')
+#endif
 
 ! Type declarations
    TYPE mp_indexing_meta_type
@@ -711,12 +714,12 @@ CONTAINS
       CALL mp_perf_env_describe(perf_env, scr)
    END SUBROUTINE describe_mp_perf_env
 
+#if defined(__parallel)
    SUBROUTINE add_perf(perf_id, msg_size)
       !! adds the performance informations of one call
       INTEGER, INTENT(in)                      :: perf_id
       INTEGER, INTENT(in)                      :: msg_size
 
-#if defined(__parallel)
       TYPE(mp_perf_type), POINTER              :: mp_perf
 
       IF (stack_pointer < 1) return
@@ -725,12 +728,8 @@ CONTAINS
       mp_perf => mp_perf_stack(stack_pointer)%mp_perf_env%mp_perfs(perf_id)
       mp_perf%count = mp_perf%count + 1
       mp_perf%msg_size = mp_perf%msg_size + REAL(msg_size, dp)
-#else
-      MARK_USED(perf_id)
-      MARK_USED(msg_size)
-#endif
-
    END SUBROUTINE add_perf
+#endif
 
    SUBROUTINE mp_abort()
       !! globally stops all tasks
@@ -2113,16 +2112,13 @@ CONTAINS
       INTEGER, INTENT(OUT)                               :: resultlen
          !! Length (in printable characters) of the result returned in version (integer)
 
+#if defined(__parallel)
+#if __MPI_VERSION > 2
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_get_library_version'
 
       INTEGER                                            :: ierr
 
       ierr = 0
-
-      version = ''
-
-#if defined(__parallel)
-#if __MPI_VERSION > 2
       CALL mpi_get_library_version(version, resultlen, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_get_library_version @ "//routineN)
 #else
@@ -2131,7 +2127,7 @@ CONTAINS
       DBCSR_ABORT("mp_get_library_version requires MPI-3 standard")
 #endif
 #else
-      MARK_USED(version)
+      version = ''
       resultlen = 0
 #endif
    END SUBROUTINE mp_get_library_version
@@ -2323,9 +2319,9 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_ch'
 
-#if defined(__parallel)
       INTEGER                                    :: ierr
 
       CALL MPI_FILE_WRITE_AT(fh, offset, msg, LEN(msg), MPI_CHARACTER, MPI_STATUS_IGNORE, ierr)
@@ -2341,9 +2337,9 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_ch'
 
-#if defined(__parallel)
       INTEGER                                    :: ierr
 
       CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, LEN(msg), MPI_CHARACTER, MPI_STATUS_IGNORE, ierr)
@@ -2359,9 +2355,9 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_ch'
 
-#if defined(__parallel)
       INTEGER                                    :: ierr
 
       CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, LEN(msg), MPI_CHARACTER, MPI_STATUS_IGNORE, ierr)
@@ -2383,12 +2379,11 @@ CONTAINS
       INTEGER, INTENT(OUT)                               :: type_size
          !! size of the data type
 
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_type_size'
-
       INTEGER                                            :: ierr
 
       ierr = 0
-#if defined(__parallel)
       CALL MPI_TYPE_SIZE(type_descriptor%type_handle, type_size, ierr)
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_type_size @ "//routineN)
@@ -2498,16 +2493,15 @@ CONTAINS
       INTEGER, INTENT(out)                               :: request
       INTEGER, INTENT(in), OPTIONAL                      :: tag
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isend_custom'
-
-      INTEGER                                            :: ierr, my_tag
-
-      ierr = 0
-      my_tag = 0
+      INTEGER                                            :: ierr
 
 #if defined(__parallel)
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_isend_custom'
+      INTEGER                                            :: my_tag
+      my_tag = 0
       IF (PRESENT(tag)) my_tag = tag
 
+      ierr = 0
       CALL mpi_isend(MPI_BOTTOM, 1, msgin%type_handle, dest, my_tag, &
                      comm, request, ierr)
       IF (ierr /= 0) CALL mp_stop(ierr, "mpi_isend @ "//routineN)
@@ -2530,14 +2524,14 @@ CONTAINS
       INTEGER, INTENT(out)                               :: request
       INTEGER, INTENT(in), OPTIONAL                      :: tag
 
+      INTEGER                                            :: ierr
+
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_irecv_custom'
-
-      INTEGER                                            :: ierr, my_tag
-
+      INTEGER                                            :: my_tag
       ierr = 0
       my_tag = 0
 
-#if defined(__parallel)
       IF (PRESENT(tag)) my_tag = tag
 
       CALL mpi_irecv(MPI_BOTTOM, 1, msgout%type_handle, source, my_tag, &
@@ -5278,17 +5272,20 @@ CONTAINS
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
          !! file offset (position)
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_${nametype1}$v'
+      INTEGER                                    :: msg_len
 
-      INTEGER                                    :: ierr, msg_len
-
-      ierr = 0
       msg_len = SIZE(msg)
       IF (PRESENT(msglen)) msg_len = msglen
+
 #if defined(__parallel)
-      CALL MPI_FILE_WRITE_AT(fh, offset, msg, msg_len, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
-      IF (ierr .NE. 0) &
-         DBCSR_ABORT("mpi_file_write_at_${nametype1}$v @ "//routineN)
+      BLOCK
+         CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_${nametype1}$v'
+         INTEGER :: ierr
+         ierr = 0
+         CALL MPI_FILE_WRITE_AT(fh, offset, msg, msg_len, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
+         IF (ierr .NE. 0) &
+            DBCSR_ABORT("mpi_file_write_at_${nametype1}$v @ "//routineN)
+      END BLOCK
 #else
       WRITE (UNIT=fh, POS=offset + 1) msg(1:msg_len)
 #endif
@@ -5301,12 +5298,12 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_${nametype1}$'
 
       INTEGER                                    :: ierr
 
       ierr = 0
-#if defined(__parallel)
       CALL MPI_FILE_WRITE_AT(fh, offset, msg, 1, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_file_write_at_${nametype1}$ @ "//routineN)
@@ -5329,17 +5326,18 @@ CONTAINS
       INTEGER                                    :: msg_len
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_${nametype1}$v'
-
-      INTEGER                                    :: ierr
-
-      ierr = 0
       msg_len = SIZE(msg)
       IF (PRESENT(msglen)) msg_len = msglen
 #if defined(__parallel)
-      CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, msg_len, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
-      IF (ierr .NE. 0) &
-         DBCSR_ABORT("mpi_file_write_at_all_${nametype1}$v @ "//routineN)
+      BLOCK
+         CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_${nametype1}$v'
+         INTEGER                                    :: ierr
+         ierr = 0
+
+         CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, msg_len, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
+         IF (ierr .NE. 0) &
+            DBCSR_ABORT("mpi_file_write_at_all_${nametype1}$v @ "//routineN)
+      END BLOCK
 #else
       WRITE (UNIT=fh, POS=offset + 1) msg(1:msg_len)
 #endif
@@ -5352,12 +5350,12 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_write_at_all_${nametype1}$'
 
       INTEGER                                    :: ierr
 
       ierr = 0
-#if defined(__parallel)
       CALL MPI_FILE_WRITE_AT_ALL(fh, offset, msg, 1, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_file_write_at_all_${nametype1}$ @ "//routineN)
@@ -5381,17 +5379,20 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL              :: msglen
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_${nametype1}$v'
+      INTEGER                                    :: msg_len
 
-      INTEGER                                    :: ierr, msg_len
-
-      ierr = 0
       msg_len = SIZE(msg)
       IF (PRESENT(msglen)) msg_len = msglen
 #if defined(__parallel)
-      CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, msg_len, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
-      IF (ierr .NE. 0) &
-         DBCSR_ABORT("mpi_file_read_at_all_${nametype1}$v @ "//routineN)
+      BLOCK
+         CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_${nametype1}$v'
+         INTEGER                                    :: ierr
+         ierr = 0
+
+         CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, msg_len, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
+         IF (ierr .NE. 0) &
+            DBCSR_ABORT("mpi_file_read_at_all_${nametype1}$v @ "//routineN)
+      END BLOCK
 #else
       READ (UNIT=fh, POS=offset + 1) msg(1:msg_len)
 #endif
@@ -5404,12 +5405,12 @@ CONTAINS
       INTEGER, INTENT(IN)                        :: fh
       INTEGER(kind=file_offset), INTENT(IN)      :: offset
 
+#if defined(__parallel)
       CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_file_read_at_all_${nametype1}$'
 
       INTEGER                                    :: ierr
 
       ierr = 0
-#if defined(__parallel)
       CALL MPI_FILE_READ_AT_ALL(fh, offset, msg, 1, ${mpi_type1}$, MPI_STATUS_IGNORE, ierr)
       IF (ierr .NE. 0) &
          DBCSR_ABORT("mpi_file_read_at_all_${nametype1}$ @ "//routineN)
@@ -5451,6 +5452,7 @@ CONTAINS
       ENDIF
    END FUNCTION mp_type_make_${nametype1}$
 
+#if defined(__parallel)
    SUBROUTINE mp_alloc_mem_${nametype1}$ (DATA, len, stat)
       !! Allocates an array, using MPI_ALLOC_MEM ... this is hackish
       !! as the Fortran version returns an integer, which we take to be a C_PTR
@@ -5462,7 +5464,6 @@ CONTAINS
       INTEGER, INTENT(OUT), OPTIONAL           :: stat
          !! allocation status result
 
-#if defined(__parallel)
       INTEGER                                  :: size, ierr, length, &
                                                   mp_info, mp_res
       INTEGER(KIND=MPI_ADDRESS_KIND)           :: mp_size
@@ -5478,18 +5479,10 @@ CONTAINS
       CALL MPI_ALLOC_MEM(mp_size, mp_info, mp_baseptr, mp_res)
       CALL C_F_POINTER(mp_baseptr, DATA, (/length/))
       IF (PRESENT(stat)) stat = mp_res
-#else
-      INTEGER                                 :: length, mystat
-      length = MAX(len, 1)
-      IF (PRESENT(stat)) THEN
-         ALLOCATE (DATA(length), stat=mystat)
-         stat = mystat ! show to convention checker that stat is used
-      ELSE
-         ALLOCATE (DATA(length))
-      ENDIF
-#endif
    END SUBROUTINE mp_alloc_mem_${nametype1}$
+#endif
 
+#if defined(__parallel)
    SUBROUTINE mp_free_mem_${nametype1}$ (DATA, stat)
       !! Deallocates am array, ... this is hackish
       !! as the Fortran version takes an integer, which we hope to get by reference
@@ -5500,15 +5493,12 @@ CONTAINS
       INTEGER, INTENT(OUT), OPTIONAL           :: stat
          !! allocation status result
 
-#if defined(__parallel)
       INTEGER                                  :: mp_res
       CALL MPI_FREE_MEM(DATA, mp_res)
       IF (PRESENT(stat)) stat = mp_res
-#else
-      DEALLOCATE (DATA)
-      IF (PRESENT(stat)) stat = 0
-#endif
    END SUBROUTINE mp_free_mem_${nametype1}$
+#endif
+
 #:endfor
 
 END MODULE dbcsr_mpiwrap
