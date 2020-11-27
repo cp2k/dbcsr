@@ -12,9 +12,9 @@ MODULE dbcsr_timings
    !! Timing routines for accounting
    USE dbcsr_base_hooks, ONLY: timeset_hook, &
                                timestop_hook
-   USE dbcsr_cuda_profiling, ONLY: cuda_mem_info, &
-                                   cuda_nvtx_range_pop, &
+   USE dbcsr_cuda_profiling, ONLY: cuda_nvtx_range_pop, &
                                    cuda_nvtx_range_push
+   USE dbcsr_acc_devmem, ONLY: acc_devmem_info
    USE dbcsr_dict, ONLY: dict_destroy, &
                          dict_get, &
                          dict_i4tuple_callstat_item_type, &
@@ -227,11 +227,11 @@ CONTAINS
          WRITE (sformat, *) "(A,A,", MAX(1, 3*stack_size - 4), "X,I4,1X,I6,1X,A,A)"
          WRITE (mystring, sformat) timer_env%trace_str, ">>", stack_size + 1, &
             r_stat%total_calls, TRIM(r_stat%routineN), "       start"
-         CALL cuda_mem_info(gpumem_free, gpumem_total)
+         CALL acc_devmem_info(gpumem_free, gpumem_total)
          CALL m_memory(cpumem)
          WRITE (line, '(A,A,I0,A,A,I0,A)') TRIM(mystring), &
-            " Hostmem: ", (cpumem + 1024*1024 - 1)/(1024*1024), " MB", &
-            " GPUmem: ", (gpumem_total - gpumem_free)/(1024*1024), " MB"
+            " Hostmem: ", (cpumem + 1024**2 - 1)/1024**2, " MiB", &
+            " GPUmem: ", (gpumem_total - gpumem_free)/1024**2, " MiB"
          WRITE (timer_env%trace_unit, *) TRIM(line)
          CALL m_flush(timer_env%trace_unit)
       END IF
@@ -333,7 +333,7 @@ CONTAINS
          WRITE (sformat, *) "(A,A,", MAX(1, 3*stack_size - 4), "X,I4,1X,I6,1X,A,F12.3)"
          WRITE (mystring, sformat) timer_env%trace_str, "<<", stack_size + 1, &
             r_stat%total_calls, TRIM(r_stat%routineN), wt_elapsed
-         CALL cuda_mem_info(gpumem_free, gpumem_total)
+         CALL acc_devmem_info(gpumem_free, gpumem_total)
          CALL m_memory(cpumem)
          WRITE (line, '(A,A,I0,A,A,I0,A)') TRIM(mystring), &
             " Hostmem: ", (cpumem + 1024*1024 - 1)/(1024*1024), " MB", &
@@ -452,4 +452,3 @@ CONTAINS
    END FUNCTION routine_name2id
 
 END MODULE dbcsr_timings
-

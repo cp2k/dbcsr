@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for source files.">23 statements</a>
+    title=" 0.0% of total for source files.">18 statements</a>
      </li> 
      
      
@@ -282,7 +282,7 @@
 <a name="ln-24"></a>
 <a name="ln-25"></a><span class="k">   PRIVATE</span>
 <a name="ln-26"></a>
-<a name="ln-27"></a><span class="k">   PUBLIC</span>  <span class="kd">::</span> <span class="n">cuda_nvtx_init</span><span class="p">,</span> <span class="n">cuda_nvtx_range_push</span><span class="p">,</span> <span class="n">cuda_nvtx_range_pop</span><span class="p">,</span> <span class="n">cuda_mem_info</span>
+<a name="ln-27"></a><span class="k">   PUBLIC</span>  <span class="kd">::</span> <span class="n">cuda_nvtx_init</span><span class="p">,</span> <span class="n">cuda_nvtx_range_push</span><span class="p">,</span> <span class="n">cuda_nvtx_range_pop</span>
 <a name="ln-28"></a>
 <a name="ln-29"></a><span class="cp">#if defined( __CUDA_PROFILING )</span>
 <a name="ln-30"></a>
@@ -307,79 +307,53 @@
 <a name="ln-49"></a>   <span class="k">END INTERFACE</span>
 <a name="ln-50"></a>
 <a name="ln-51"></a><span class="k">   INTERFACE</span>
-<a name="ln-52"></a><span class="k">      FUNCTION </span><span class="n">cudaMemGetInfo_cu</span><span class="p">(</span><span class="n">free</span><span class="p">,</span> <span class="n">total</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-53"></a>         <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;cudaMemGetInfo&quot;</span><span class="p">)</span>
+<a name="ln-52"></a><span class="k">      SUBROUTINE </span><span class="n">cuda_nvtx_name_osthread_cu</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-53"></a>         <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;cuda_nvtx_name_osthread_cu&quot;</span><span class="p">)</span>
 <a name="ln-54"></a>         <span class="k">IMPORT</span>
-<a name="ln-55"></a><span class="k">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_SIZE_T</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>    <span class="kd">::</span> <span class="n">free</span><span class="p">,</span> <span class="n">total</span>
-<a name="ln-56"></a>         <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">istat</span>
-<a name="ln-57"></a>
-<a name="ln-58"></a>      <span class="k">END FUNCTION </span><span class="n">cudaMemGetInfo_cu</span>
-<a name="ln-59"></a>   <span class="k">END INTERFACE</span>
-<a name="ln-60"></a>
-<a name="ln-61"></a><span class="k">   INTERFACE</span>
-<a name="ln-62"></a><span class="k">      SUBROUTINE </span><span class="n">cuda_nvtx_name_osthread_cu</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-63"></a>         <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;cuda_nvtx_name_osthread_cu&quot;</span><span class="p">)</span>
-<a name="ln-64"></a>         <span class="k">IMPORT</span>
-<a name="ln-65"></a><span class="k">         </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_CHAR</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>     <span class="kd">::</span> <span class="n">name</span>
-<a name="ln-66"></a>
-<a name="ln-67"></a>      <span class="k">END SUBROUTINE </span><span class="n">cuda_nvtx_name_osthread_cu</span>
-<a name="ln-68"></a>   <span class="k">END INTERFACE</span>
-<a name="ln-69"></a>
-<a name="ln-70"></a><span class="cp">#endif</span>
-<a name="ln-71"></a>
-<a name="ln-72"></a><span class="k">CONTAINS</span>
-<a name="ln-73"></a>
-<a name="ln-74"></a><span class="k">   SUBROUTINE </span><span class="n">cuda_nvtx_init</span><span class="p">()</span>
-<a name="ln-75"></a><span class="cp">#if defined( __CUDA_PROFILING )</span>
-<a name="ln-76"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">)</span>     <span class="kd">::</span> <span class="n">threadname</span>
-<a name="ln-77"></a>      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">ithread</span>
-<a name="ln-78"></a>
-<a name="ln-79"></a><span class="c">!$OMP     PARALLEL DEFAULT (NONE), PRIVATE (ithread,threadname)</span>
-<a name="ln-80"></a>      <span class="n">ithread</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-81"></a><span class="c">!$    ithread = OMP_GET_THREAD_NUM()</span>
-<a name="ln-82"></a>      <span class="k">WRITE</span> <span class="p">(</span><span class="n">threadname</span><span class="p">,</span> <span class="s2">&quot;(I3,A,I2,A)&quot;</span><span class="p">)</span> <span class="n">ithread</span>
-<a name="ln-83"></a>      <span class="k">CALL </span><span class="n">cuda_nvtx_name_osthread_cu</span><span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">threadname</span><span class="p">)</span><span class="o">//</span><span class="nb">c_null_char</span><span class="p">)</span>
-<a name="ln-84"></a><span class="c">!$OMP     END PARALLEL</span>
-<a name="ln-85"></a><span class="cp">#endif</span>
-<a name="ln-86"></a>   <span class="k">END SUBROUTINE </span><span class="n">cuda_nvtx_init</span>
-<a name="ln-87"></a>
-<a name="ln-88"></a>   <span class="k">SUBROUTINE </span><span class="n">cuda_nvtx_range_push</span><span class="p">(</span><span class="n">routineN</span><span class="p">)</span>
-<a name="ln-89"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>             <span class="kd">::</span> <span class="n">routineN</span>
+<a name="ln-55"></a><span class="k">         </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_CHAR</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>     <span class="kd">::</span> <span class="n">name</span>
+<a name="ln-56"></a>
+<a name="ln-57"></a>      <span class="k">END SUBROUTINE </span><span class="n">cuda_nvtx_name_osthread_cu</span>
+<a name="ln-58"></a>   <span class="k">END INTERFACE</span>
+<a name="ln-59"></a>
+<a name="ln-60"></a><span class="cp">#endif</span>
+<a name="ln-61"></a>
+<a name="ln-62"></a><span class="k">CONTAINS</span>
+<a name="ln-63"></a>
+<a name="ln-64"></a><span class="k">   SUBROUTINE </span><span class="n">cuda_nvtx_init</span><span class="p">()</span>
+<a name="ln-65"></a><span class="cp">#if defined( __CUDA_PROFILING )</span>
+<a name="ln-66"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">)</span>     <span class="kd">::</span> <span class="n">threadname</span>
+<a name="ln-67"></a>      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">ithread</span>
+<a name="ln-68"></a>
+<a name="ln-69"></a><span class="c">!$OMP     PARALLEL DEFAULT (NONE), PRIVATE (ithread,threadname)</span>
+<a name="ln-70"></a>      <span class="n">ithread</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-71"></a><span class="c">!$    ithread = OMP_GET_THREAD_NUM()</span>
+<a name="ln-72"></a>      <span class="k">WRITE</span> <span class="p">(</span><span class="n">threadname</span><span class="p">,</span> <span class="s2">&quot;(I3,A,I2,A)&quot;</span><span class="p">)</span> <span class="n">ithread</span>
+<a name="ln-73"></a>      <span class="k">CALL </span><span class="n">cuda_nvtx_name_osthread_cu</span><span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">threadname</span><span class="p">)</span><span class="o">//</span><span class="nb">c_null_char</span><span class="p">)</span>
+<a name="ln-74"></a><span class="c">!$OMP     END PARALLEL</span>
+<a name="ln-75"></a><span class="cp">#endif</span>
+<a name="ln-76"></a>   <span class="k">END SUBROUTINE </span><span class="n">cuda_nvtx_init</span>
+<a name="ln-77"></a>
+<a name="ln-78"></a>   <span class="k">SUBROUTINE </span><span class="n">cuda_nvtx_range_push</span><span class="p">(</span><span class="n">routineN</span><span class="p">)</span>
+<a name="ln-79"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>             <span class="kd">::</span> <span class="n">routineN</span>
+<a name="ln-80"></a><span class="cp">#if defined( __CUDA_PROFILING )</span>
+<a name="ln-81"></a>      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">level</span>
+<a name="ln-82"></a>      <span class="n">level</span> <span class="o">=</span> <span class="n">cuda_nvtx_range_push_dc</span><span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">routineN</span><span class="p">)</span><span class="o">//</span><span class="nb">CHAR</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<a name="ln-83"></a><span class="cp">#else</span>
+<a name="ln-84"></a>      <span class="k">CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span> <span class="s2">&quot;cuda_nvtx_range_push: &quot;</span><span class="o">//</span> <span class="p">&amp;</span>
+<a name="ln-85"></a>                       <span class="s2">&quot;__CUDA_PROFILING not compiled in, but called with:&quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">routineN</span><span class="p">))</span>
+<a name="ln-86"></a><span class="cp">#endif</span>
+<a name="ln-87"></a>   <span class="k">END SUBROUTINE </span><span class="n">cuda_nvtx_range_push</span>
+<a name="ln-88"></a>
+<a name="ln-89"></a>   <span class="k">SUBROUTINE </span><span class="n">cuda_nvtx_range_pop</span><span class="p">()</span>
 <a name="ln-90"></a><span class="cp">#if defined( __CUDA_PROFILING )</span>
 <a name="ln-91"></a>      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">level</span>
-<a name="ln-92"></a>      <span class="n">level</span> <span class="o">=</span> <span class="n">cuda_nvtx_range_push_dc</span><span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">routineN</span><span class="p">)</span><span class="o">//</span><span class="nb">CHAR</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+<a name="ln-92"></a>      <span class="n">level</span> <span class="o">=</span> <span class="n">cuda_nvtx_range_pop_dc</span><span class="p">()</span>
 <a name="ln-93"></a><span class="cp">#else</span>
-<a name="ln-94"></a>      <span class="k">CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span> <span class="s2">&quot;cuda_nvtx_range_push: &quot;</span><span class="o">//</span> <span class="p">&amp;</span>
-<a name="ln-95"></a>                       <span class="s2">&quot;__CUDA_PROFILING not compiled in, but called with:&quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">routineN</span><span class="p">))</span>
-<a name="ln-96"></a><span class="cp">#endif</span>
-<a name="ln-97"></a>   <span class="k">END SUBROUTINE </span><span class="n">cuda_nvtx_range_push</span>
-<a name="ln-98"></a>
-<a name="ln-99"></a>   <span class="k">SUBROUTINE </span><span class="n">cuda_nvtx_range_pop</span><span class="p">()</span>
-<a name="ln-100"></a><span class="cp">#if defined( __CUDA_PROFILING )</span>
-<a name="ln-101"></a>      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">level</span>
-<a name="ln-102"></a>      <span class="n">level</span> <span class="o">=</span> <span class="n">cuda_nvtx_range_pop_dc</span><span class="p">()</span>
-<a name="ln-103"></a><span class="cp">#else</span>
-<a name="ln-104"></a>      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;cuda_nvtx_range_push: __CUDA_PROFILING not compiled in.&quot;</span><span class="p">)</span>
-<a name="ln-105"></a><span class="cp">#endif</span>
-<a name="ln-106"></a>   <span class="k">END SUBROUTINE </span><span class="n">cuda_nvtx_range_pop</span>
-<a name="ln-107"></a>
-<a name="ln-108"></a>   <span class="k">SUBROUTINE </span><span class="n">cuda_mem_info</span><span class="p">(</span><span class="n">free</span><span class="p">,</span> <span class="n">total</span><span class="p">)</span>
-<a name="ln-109"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>         <span class="kd">::</span> <span class="n">free</span><span class="p">,</span> <span class="n">total</span>
-<a name="ln-110"></a><span class="cp">#if defined( __CUDA_PROFILING )</span>
-<a name="ln-111"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">istat</span>
-<a name="ln-112"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_SIZE_T</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">free_c</span><span class="p">,</span> <span class="n">total_c</span>
-<a name="ln-113"></a>
-<a name="ln-114"></a>      <span class="n">istat</span> <span class="o">=</span> <span class="n">cudaMemGetInfo_cu</span><span class="p">(</span><span class="n">free_c</span><span class="p">,</span> <span class="n">total_c</span><span class="p">)</span>
-<a name="ln-115"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;cuda_mem_info: failed&quot;</span><span class="p">)</span>
-<a name="ln-116"></a>      <span class="n">free</span> <span class="o">=</span> <span class="n">free_c</span>
-<a name="ln-117"></a>      <span class="n">total</span> <span class="o">=</span> <span class="n">total_c</span>
-<a name="ln-118"></a><span class="cp">#else</span>
-<a name="ln-119"></a>      <span class="n">free</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-120"></a>      <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-121"></a><span class="cp">#endif</span>
-<a name="ln-122"></a>   <span class="k">END SUBROUTINE </span><span class="n">cuda_mem_info</span>
-<a name="ln-123"></a>
-<a name="ln-124"></a><span class="k">END MODULE </span><span class="n">dbcsr_cuda_profiling</span>
+<a name="ln-94"></a>      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;cuda_nvtx_range_push: __CUDA_PROFILING not compiled in.&quot;</span><span class="p">)</span>
+<a name="ln-95"></a><span class="cp">#endif</span>
+<a name="ln-96"></a>   <span class="k">END SUBROUTINE </span><span class="n">cuda_nvtx_range_pop</span>
+<a name="ln-97"></a>
+<a name="ln-98"></a><span class="k">END MODULE </span><span class="n">dbcsr_cuda_profiling</span>
 </pre></div>
 
     </section>

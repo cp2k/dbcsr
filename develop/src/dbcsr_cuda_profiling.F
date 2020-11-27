@@ -24,7 +24,7 @@ MODULE dbcsr_cuda_profiling
 
    PRIVATE
 
-   PUBLIC  :: cuda_nvtx_init, cuda_nvtx_range_push, cuda_nvtx_range_pop, cuda_mem_info
+   PUBLIC  :: cuda_nvtx_init, cuda_nvtx_range_push, cuda_nvtx_range_pop
 
 #if defined( __CUDA_PROFILING )
 
@@ -46,16 +46,6 @@ MODULE dbcsr_cuda_profiling
          INTEGER(KIND=C_INT)                      :: level
 
       END FUNCTION cuda_nvtx_range_pop_dc
-   END INTERFACE
-
-   INTERFACE
-      FUNCTION cudaMemGetInfo_cu(free, total) RESULT(istat) &
-         BIND(C, name="cudaMemGetInfo")
-         IMPORT
-         INTEGER(KIND=C_SIZE_T), INTENT(INOUT)    :: free, total
-         INTEGER(KIND=C_INT)                      :: istat
-
-      END FUNCTION cudaMemGetInfo_cu
    END INTERFACE
 
    INTERFACE
@@ -104,21 +94,5 @@ CONTAINS
       DBCSR_ABORT("cuda_nvtx_range_push: __CUDA_PROFILING not compiled in.")
 #endif
    END SUBROUTINE cuda_nvtx_range_pop
-
-   SUBROUTINE cuda_mem_info(free, total)
-      INTEGER(KIND=int_8), INTENT(OUT)         :: free, total
-#if defined( __CUDA_PROFILING )
-      INTEGER(KIND=C_INT)                      :: istat
-      INTEGER(KIND=C_SIZE_T)                   :: free_c, total_c
-
-      istat = cudaMemGetInfo_cu(free_c, total_c)
-      IF (istat /= 0) DBCSR_ABORT("cuda_mem_info: failed")
-      free = free_c
-      total = total_c
-#else
-      free = 0
-      total = 0
-#endif
-   END SUBROUTINE cuda_mem_info
 
 END MODULE dbcsr_cuda_profiling

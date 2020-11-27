@@ -10,7 +10,7 @@
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
-    <title>cuda_mem_info &ndash; DBCSR</title>
+    <title>acc_devmem_info &ndash; DBCSR</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -103,7 +103,7 @@
     
   
   <div class="row">
-    <h1>cuda_mem_info
+    <h1>acc_devmem_info
       <small>Subroutine</small>
     
     </h1>
@@ -126,19 +126,19 @@
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_cuda_profiling.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_acc_devmem.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_cuda_profiling.f.html'>dbcsr_cuda_profiling.F</a></li>
+     <li><a href='../sourcefile/dbcsr_acc_devmem.f.html'>dbcsr_acc_devmem.F</a></li>
     
-     <li><a href='../module/dbcsr_cuda_profiling.html'>dbcsr_cuda_profiling</a></li>
+     <li><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></li>
     
   
-     <li class="active">cuda_mem_info</li>
+     <li class="active">acc_devmem_info</li>
   </ol>
 </div>
 </div>
@@ -182,7 +182,7 @@
 <div class="panel panel-primary">
   <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
   <div class="list-group">
-    <a class="list-group-item" href="../proc/cuda_mem_info.html#src">cuda_mem_info</a>
+    <a class="list-group-item" href="../proc/acc_devmem_info.html#src">acc_devmem_info</a>
   </div>
 </div>
 
@@ -194,7 +194,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-public subroutine cuda_mem_info(free, total)
+public subroutine acc_devmem_info(free, total)
     
     
    
@@ -285,7 +285,7 @@ public subroutine cuda_mem_info(free, total)
 <div class="panel panel-primary">
   <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
   <div class="list-group">
-    <a class="list-group-item" href="../proc/cuda_mem_info.html#src">cuda_mem_info</a>
+    <a class="list-group-item" href="../proc/acc_devmem_info.html#src">acc_devmem_info</a>
   </div>
 </div>
 
@@ -314,21 +314,22 @@ public subroutine cuda_mem_info(free, total)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">cuda_mem_info</span><span class="p">(</span><span class="n">free</span><span class="p">,</span> <span class="n">total</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">acc_devmem_info</span><span class="p">(</span><span class="n">free</span><span class="p">,</span> <span class="n">total</span><span class="p">)</span>
       <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>         <span class="kd">::</span> <span class="n">free</span><span class="p">,</span> <span class="n">total</span>
-<span class="cp">#if defined( __CUDA_PROFILING )</span>
+<span class="cp">#if defined(__DBCSR_ACC)</span>
       <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">istat</span>
       <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_SIZE_T</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">free_c</span><span class="p">,</span> <span class="n">total_c</span>
 
-      <span class="n">istat</span> <span class="o">=</span> <span class="n">cudaMemGetInfo_cu</span><span class="p">(</span><span class="n">free_c</span><span class="p">,</span> <span class="n">total_c</span><span class="p">)</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;cuda_mem_info: failed&quot;</span><span class="p">)</span>
+      <span class="n">istat</span> <span class="o">=</span> <span class="n">acc_interface_dev_mem_info</span><span class="p">(</span><span class="n">free_c</span><span class="p">,</span> <span class="n">total_c</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_devmem_info: failed&quot;</span><span class="p">)</span>
       <span class="n">free</span> <span class="o">=</span> <span class="n">free_c</span>
       <span class="n">total</span> <span class="o">=</span> <span class="n">total_c</span>
 <span class="cp">#else</span>
       <span class="n">free</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="cp">#endif</span>
-   <span class="k">END SUBROUTINE </span><span class="n">cuda_mem_info</span>
+   <span class="k">END SUBROUTINE </span><span class="n">acc_devmem_info</span>
 </pre></div>
 
     </section>

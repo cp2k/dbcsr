@@ -338,7 +338,7 @@ public subroutine acc_devmem_allocate_bytes(this, size_in_bytes)
       <span class="k">IF</span> <span class="p">(</span><span class="n">size_in_bytes</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">istat</span> <span class="o">=</span> <span class="n">acc_interface_dev_mem_alloc</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">cptr</span><span class="p">,</span> <span class="nb">INT</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">size_in_bytes</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_SIZE_T</span><span class="p">))</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
-            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_devmem_allocate: failed.&quot;</span><span class="p">)</span>
+            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_devmem_allocate: failed&quot;</span><span class="p">)</span>
       <span class="k">END IF</span>
 <span class="cp">#endif</span>
    <span class="k">END SUBROUTINE </span><span class="n">acc_devmem_allocate_bytes</span>
