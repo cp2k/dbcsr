@@ -155,7 +155,7 @@
 <p>We test against GNU and Intel compilers on Linux systems, GNU compiler on MacOS systems. See a list of supported compilers <a href="./3-supported-compilers.html">here</a>.</p>
 <h2>Get DBCSR</h2>
 <p>Download either a <a href="https://github.com/cp2k/dbcsr/releases">release tarball</a> or clone the latest version from Git using:</p>
-<div class="codehilite"><pre><span></span><code>    git clone --recursive https://github.com/cp2k/dbcsr.git
+<div class="codehilite"><pre><span></span><code>git clone --recursive https://github.com/cp2k/dbcsr.git
 </code></pre></div>
 
 <h2>Build</h2>
@@ -166,25 +166,26 @@
 * OpenMP+MPI
 The 4 variants can be combined with the accelerator support.</p>
 <p>Run inside the <code>dbcsr</code> directory:</p>
-<div class="codehilite"><pre><span></span><code>    mkdir build
-    <span class="nb">cd</span> build
-    cmake ..
-    make
+<div class="codehilite"><pre><span></span><code>mkdir build
+<span class="nb">cd</span> build
+cmake ..
+make
 </code></pre></div>
 
 <p>The configuration flags for the CMake command are (default first):</p>
-<div class="codehilite"><pre><span></span><code><span class="err">    -DUSE_MPI=&lt;ON|OFF&gt;</span>
-<span class="err">    -DUSE_OPENMP=&lt;ON|OFF&gt;</span>
-<span class="err">    -DUSE_SMM=&lt;blas|libxsmm&gt;</span>
-<span class="err">    -DUSE_CUDA=&lt;OFF|ON&gt;</span>
-<span class="err">    -DUSE_HIP=&lt;OFF|ON&gt;</span>
-<span class="err">    -DWITH_C_API=&lt;ON|OFF&gt;</span>
-<span class="err">    -DWITH_EXAMPLES=&lt;ON|OFF&gt;</span>
-<span class="err">    -DWITH_GPU=&lt;P100|K20X|K40|K80|V100|Mi50&gt;</span>
-<span class="err">    -DCMAKE_BUILD_TYPE=&lt;Release|Debug|Coverage&gt;</span>
-<span class="err">    -DBUILD_TESTING=&lt;ON|OFF&gt;</span>
-<span class="err">    -DTEST_MPI_RANKS=&lt;auto,N&gt;</span>
-<span class="err">    -DTEST_OMP_THREADS=&lt;2,N&gt;</span>
+<div class="codehilite"><pre><span></span><code><span class="err">-DUSE_MPI=&lt;ON|OFF&gt;</span>
+<span class="err">-DUSE_OPENMP=&lt;ON|OFF&gt;</span>
+<span class="err">-DUSE_SMM=&lt;blas|libxsmm&gt;</span>
+<span class="err">-DUSE_CUDA=&lt;OFF|ON&gt;</span>
+<span class="err">-DUSE_HIP=&lt;OFF|ON&gt;</span>
+<span class="err">-DWITH_C_API=&lt;ON|OFF&gt;</span>
+<span class="err">-DWITH_EXAMPLES=&lt;ON|OFF&gt;</span>
+<span class="err">-DWITH_GPU=&lt;P100|K20X|K40|K80|V100|Mi50&gt;</span>
+<span class="err">-DWITH_CUDA_PROFILING=&lt;OFF|ON&gt;</span>
+<span class="err">-DCMAKE_BUILD_TYPE=&lt;Release|Debug|Coverage&gt;</span>
+<span class="err">-DBUILD_TESTING=&lt;ON|OFF&gt;</span>
+<span class="err">-DTEST_MPI_RANKS=&lt;auto,N&gt;</span>
+<span class="err">-DTEST_OMP_THREADS=&lt;2,N&gt;</span>
 </code></pre></div>
 
 <p>When providing a custom build of <code>libxsmm</code>, make sure that its library directory is added to the <code>PKG_CONFIG_PATH</code> variable prior
