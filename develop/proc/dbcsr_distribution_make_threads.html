@@ -331,6 +331,7 @@ public subroutine dbcsr_distribution_make_threads(dist, row_sizes)
 
       <span class="n">dist_p</span> <span class="o">=&gt;</span> <span class="n">dist</span>
 <span class="c">!$    IF (.NOT. OMP_IN_PARALLEL()) THEN</span>
+<span class="c">! GCC 10.2 refused to build with DEFAULT(NONE) SHARED(dist_p, row_sizes) here:</span>
 <span class="c">!$OMP        PARALLEL DEFAULT(SHARED)</span>
 <span class="c">!$       CALL make_threads(dist_p, row_sizes=row_sizes)</span>
 <span class="c">!$OMP        END PARALLEL</span>
