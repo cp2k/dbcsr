@@ -41,6 +41,7 @@ MODULE dbcsr_acc_devmem
    PUBLIC :: acc_devmem_ensure_size_bytes
    PUBLIC :: acc_devmem_cptr
    PUBLIC :: acc_devmem_set_cptr
+   PUBLIC :: acc_devmem_info
 
    INTERFACE acc_devmem_dev2host
       MODULE PROCEDURE dev2host_i4_1D
@@ -79,7 +80,7 @@ MODULE dbcsr_acc_devmem
    INTERFACE
       FUNCTION acc_interface_dev_mem_info(free, avail) RESULT(istat) BIND(C, name="acc_dev_mem_info")
          IMPORT
-         INTEGER(KIND=C_INT), INTENT(OUT)         :: free, avail
+         INTEGER(KIND=C_SIZE_T), INTENT(OUT)      :: free, avail
          INTEGER(KIND=C_INT)                      :: istat
 
       END FUNCTION acc_interface_dev_mem_info
@@ -327,6 +328,23 @@ CONTAINS
 #endif
    END SUBROUTINE acc_devmem_set_cptr
 
+   SUBROUTINE acc_devmem_info(free, total)
+      INTEGER(KIND=int_8), INTENT(OUT)         :: free, total
+#if defined(__DBCSR_ACC)
+      INTEGER(KIND=C_INT)                      :: istat
+      INTEGER(KIND=C_SIZE_T)                   :: free_c, total_c
+
+      istat = acc_interface_dev_mem_info(free_c, total_c)
+      IF (istat /= 0) &
+         DBCSR_ABORT("acc_devmem_info: failed")
+      free = free_c
+      total = total_c
+#else
+      free = 0
+      total = 0
+#endif
+   END SUBROUTINE acc_devmem_info
+
    SUBROUTINE acc_devmem_allocate_bytes(this, size_in_bytes)
       !! Allocates a given devmem.
 
@@ -349,7 +367,7 @@ CONTAINS
       IF (size_in_bytes > 0) THEN
          istat = acc_interface_dev_mem_alloc(this%cptr, INT(this%size_in_bytes, KIND=C_SIZE_T))
          IF (istat /= 0) &
-            DBCSR_ABORT("acc_devmem_allocate: failed.")
+            DBCSR_ABORT("acc_devmem_allocate: failed")
       END IF
 #endif
    END SUBROUTINE acc_devmem_allocate_bytes
