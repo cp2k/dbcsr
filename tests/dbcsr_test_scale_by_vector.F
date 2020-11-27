@@ -239,7 +239,8 @@ CONTAINS
       CALL dbcsr_data_get_sizes(mdata, sz, valid)
 
       IF (.NOT. valid) &
-         DBCSR_ABORT("densification failed?!")
+         CALL dbcsr_abort(__LOCATION__, &
+                          "densification failed?!")
 
       SELECT CASE (matrix%data_type)
       CASE (dbcsr_type_real_4)
