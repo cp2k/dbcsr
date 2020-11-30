@@ -354,8 +354,6 @@ CONTAINS
       MARK_USED(size_in_bytes)
       DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
-      CHARACTER(len=*), PARAMETER :: routineN = 'acc_devmem_allocate'
-
       INTEGER                                  :: istat
 
       IF (this%size_in_bytes >= 0) &
@@ -378,8 +376,6 @@ CONTAINS
       MARK_USED(this)
       DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
-      CHARACTER(len=*), PARAMETER :: routineN = 'acc_devmem_deallocate'
-
       INTEGER                                  :: istat
 
       IF (this%size_in_bytes < 0) &
@@ -412,8 +408,6 @@ CONTAINS
       MARK_USED(stream)
       DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
-      CHARACTER(len=*), PARAMETER :: routineN = 'acc_devmem_setzero'
-
       INTEGER                                  :: istat
       INTEGER(KIND=C_SIZE_T)                   :: length, offset
       TYPE(C_PTR)                              :: stream_cptr
@@ -449,8 +443,6 @@ CONTAINS
       TYPE(acc_stream_type), INTENT(IN)                  :: stream
          !! stream used for memory transfer
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'host2dev_raw'
-
       INTEGER                                            :: istat
       TYPE(C_PTR)                                        :: stream_cptr
 
@@ -475,8 +467,6 @@ CONTAINS
       TYPE(C_PTR)                                        :: hostmem_cptr
       INTEGER, INTENT(IN)                                :: n_bytes
       TYPE(acc_stream_type), INTENT(IN)                  :: stream
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dev2host_raw'
 
       INTEGER                                            :: istat
       TYPE(C_PTR)                                        :: stream_cptr
