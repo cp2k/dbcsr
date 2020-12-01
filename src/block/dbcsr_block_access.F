@@ -993,7 +993,7 @@ CONTAINS
                   CALL ${nametype1}$axpy(nze, ${one1[n]}$, block(1:nze), 1, &
                                          block_1d, 1)
                ENDIF
-               my_flop = my_flop + nze*2
+               my_flop = my_flop + INT(nze, int_8)*2
             ELSE
                IF (PRESENT(scale)) THEN
                   CALL ${nametype1}$copy(nze, scale*block(1:nze), 1, &

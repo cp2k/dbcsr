@@ -5042,7 +5042,7 @@ CONTAINS
 
 #if defined(__parallel)
 
-      len = SIZE(base)*${bytes1}$
+      len = SIZE(base, kind=mpi_address_kind)*INT(${bytes1}$, kind=mpi_address_kind)
       IF (len > 0) THEN
          CALL mpi_win_create(base(1), len, ${bytes1}$, MPI_INFO_NULL, comm, win, ierr)
       ELSE

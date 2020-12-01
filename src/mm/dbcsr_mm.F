@@ -641,7 +641,7 @@ CONTAINS
       ! update statistics (we count marketing flops per MPI rank)
       dbcsr_mpi_statistics%last_mpi_ranks_used = numnodes
       marketing_flops = marketing_flops + &
-                        (2.0*(l_row - f_row + 1.0)*(l_col - f_col + 1.0)/numnodes)*(l_k - f_k + 1.0)
+                        REAL(2*(l_row - f_row + 1)*(l_col - f_col + 1))/REAL(numnodes)*REAL(l_k - f_k + 1)
       !
       ! Now optimize the default submatrix selection values away
       IF (f_row .EQ. 1) f_row = 0

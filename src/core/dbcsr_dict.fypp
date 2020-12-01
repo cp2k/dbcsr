@@ -57,8 +57,8 @@ END FUNCTION hash_str
 #:def hash_i4tuple()
 FUNCTION hash_i4tuple(key) RESULT(hash)
    INTEGER(kind=int_4), dimension(2), INTENT(IN) :: key
-   INTEGER(kind=int_4)                           :: hash
-   hash = SUM(key)
+   INTEGER(kind=int_8)                           :: hash
+   hash = SUM(INT(key, KIND=int_8))
 END FUNCTION hash_i4tuple
 #:enddef
 
