@@ -246,7 +246,6 @@ int libsmm_acc_process_blas(const int *param_stack, int stack_size, ACC_DRV(stre
                                param_stack[7 * stack_entry + 5] - 1,
                                a_data, b_data, c_data,
                                1.f, 1.f, &stream);
-        ACC_API_CALL(StreamSynchronize, (stream));
     }
     ACC_API_CALL(StreamSynchronize, (stream));
 
