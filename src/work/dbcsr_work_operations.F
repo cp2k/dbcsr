@@ -1148,8 +1148,8 @@ CONTAINS
 !$OMP     MASTER
       IF (.NOT. ASSOCIATED(matrix%wms)) THEN
          CALL dbcsr_work_create(matrix, &
-                                INT(matrix%nblks*default_resize_factor/nwms), &
-                                INT(matrix%nze*default_resize_factor/nwms), &
+                                INT(REAL(matrix%nblks, real_8)*default_resize_factor/REAL(nwms, real_8)), &
+                                INT(REAL(matrix%nze, real_8)*default_resize_factor/REAL(nwms, real_8)), &
                                 n=nwms, work_mutable=.FALSE.)
       ENDIF
 !$OMP     END MASTER

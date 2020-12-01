@@ -371,17 +371,17 @@ CONTAINS
       my_proc = dbcsr_mp_mynode(dbcsr_distribution_mp(new_dist))
       !
       IF (sparsity .GT. 1) THEN
-         my_sparsity = sparsity/100.0
+         my_sparsity = sparsity/100.0_dp
       ELSE
          my_sparsity = sparsity
       ENDIF
       CALL dbcsr_work_create(matrix, &
                              nblks_guess=INT(REAL(dbcsr_nblkrows_total(matrix), KIND=dp) &
                                              *REAL(dbcsr_nblkcols_total(matrix), KIND=dp) &
-                                             *(1.0_dp - sparsity)*1.1_dp/numproc), &
+                                             *(1.0_dp - sparsity)*1.1_dp/REAL(numproc, KIND=dp)), &
                              sizedata_guess=INT(REAL(dbcsr_nfullrows_total(matrix), KIND=dp) &
                                                 *REAL(dbcsr_nfullcols_total(matrix), KIND=dp) &
-                                                *(1.0_dp - sparsity)*1.1_dp/numproc), &
+                                                *(1.0_dp - sparsity)*1.1_dp/REAL(numproc, KIND=dp)), &
                              work_mutable=.TRUE.)
 
       max_nze = dbcsr_max_row_size(matrix)*dbcsr_max_col_size(matrix)
@@ -409,7 +409,7 @@ CONTAINS
          ele = ele + increment
          IF (ele >= nmax) EXIT
          counter = counter + 1
-         row = INT(ele/ncol) + 1
+         row = INT(ele/INT(ncol, int_8)) + 1
          col = INT(MOD(ele, INT(ncol, KIND=KIND(ele)))) + 1
 
          ! build the upper matrix if some symmetry, and only deal with the local blocks.

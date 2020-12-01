@@ -342,13 +342,13 @@ CONTAINS
 
             SELECT CASE (dbcsr_get_data_type(matrix_right))
             CASE (dbcsr_type_real_4)
-               res = ALL(ABS(mdata_right%d%r2_sp - mdata_left%d%r2_sp) < 1.0D-5)
+               res = ALL(REAL(ABS(mdata_right%d%r2_sp - mdata_left%d%r2_sp), real_8) < 1.0E-5_real_8)
             CASE (dbcsr_type_real_8)
-               res = ALL(ABS(mdata_right%d%r2_dp - mdata_left%d%r2_dp) < 1.0D-5)
+               res = ALL(ABS(mdata_right%d%r2_dp - mdata_left%d%r2_dp) < 1.0E-5_real_8)
             CASE (dbcsr_type_complex_4)
-               res = ALL(ABS(mdata_right%d%c2_sp - mdata_left%d%c2_sp) < 1.0D-5)
+               res = ALL(REAL(ABS(mdata_right%d%c2_sp - mdata_left%d%c2_sp), real_8) < 1.0E-5_real_8)
             CASE (dbcsr_type_complex_8)
-               res = ALL(ABS(mdata_right%d%c2_dp - mdata_left%d%c2_dp) < 1.0D-5)
+               res = ALL(ABS(mdata_right%d%c2_dp - mdata_left%d%c2_dp) < 1.0E-5_real_8)
             END SELECT
 
             CALL dbcsr_data_release(mdata_left)
@@ -357,7 +357,7 @@ CONTAINS
       ELSE
          !
          ! Calculate checksums and set result
-         res = ABS(dbcsr_checksum(matrix_right, pos=.TRUE.) - dbcsr_checksum(matrix_left_transposed, pos=.TRUE.)) < 1.0D-5
+         res = ABS(dbcsr_checksum(matrix_right, pos=.TRUE.) - dbcsr_checksum(matrix_left_transposed, pos=.TRUE.)) < 1.0E-5_real_8
       END IF
 
       CALL dbcsr_release(matrix_left)

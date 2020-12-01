@@ -127,7 +127,7 @@
 #if defined(__STATM_RESIDENT)
         mem_local = m2
 #endif
-        mem_local = mem_local*getpagesize()
+        mem_local = mem_local*INT(getpagesize(), int_8)
      ENDIF
 #endif
 
@@ -367,4 +367,3 @@
      ENDIF
      arg = TRIM(tmp)
   END SUBROUTINE m_getarg
-

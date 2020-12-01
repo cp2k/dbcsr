@@ -442,12 +442,12 @@ CONTAINS
       !
       IF (dbcsr_cfg%avg_elements_images .GT. 0) THEN
          num_images_1d = num_images_1d* &
-                         CEILING((REAL(matrix_dense_size_1d, KIND=dp)/num_images_1d)/ &
+                         CEILING((REAL(matrix_dense_size_1d, KIND=dp)/REAL(num_images_1d, KIND=dp))/ &
                                  SQRT(REAL(dbcsr_cfg%avg_elements_images, KIND=dp)))
       ENDIF
       ! limiting # clusters to be close to # atoms
       IF (num_images_1d .GT. nblocks .AND. nblocks .GT. 0) THEN
-         num_images_1d = CEILING(REAL(nblocks, KIND=dp)/lcmv)*lcmv
+         num_images_1d = CEILING(REAL(nblocks, KIND=dp)/REAL(lcmv, KIND=dp))*lcmv
       ENDIF
    END FUNCTION dbcsr_distribution_get_num_images_1d
 
@@ -562,9 +562,9 @@ CONTAINS
                   END IF
                END DO
 
-               soft_thr = load_fraction + nthreads - 1
-               block_size0 = INT(load_fraction*(group_size/soft_thr))
-               block_size = INT(group_size/soft_thr)
+               soft_thr = load_fraction + REAL(nthreads) - 1.0
+               block_size0 = INT(load_fraction*(REAL(group_size)/soft_thr))
+               block_size = INT(REAL(group_size)/soft_thr)
 
                !blocks for master thread
                IF (block_size0 > 0) &

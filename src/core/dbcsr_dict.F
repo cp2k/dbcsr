@@ -182,7 +182,7 @@ $:fct
       TYPE(private_item_type_${keytype}$_${valuetype}$), POINTER  :: item, new_item
       INTEGER(KIND=int_8)                                   :: idx
 
-      idx = MOD(hash, INT(size(dict%buckets), KIND=int_8)) + 1
+      idx = MOD(hash, SIZE(dict%buckets, KIND=int_8)) + 1
 
       ! if already in dict just update its value
       item => dict%buckets(idx)%p
@@ -199,7 +199,7 @@ $:fct
       ! check load-factor
       IF (4*dict%size > 3*size(dict%buckets)) THEN ! load-factor > 75%
          call change_capacity_${keytype}$_${valuetype}$ (dict, 2*size(dict%buckets)) !double capacity
-         idx = MOD(hash, INT(size(dict%buckets), KIND=int_8)) + 1
+         idx = MOD(hash, SIZE(dict%buckets, KIND=int_8)) + 1
       END IF
 
       ! create a new item
@@ -272,7 +272,7 @@ $:fct
          DBCSR_ABORT("dict_${keytype}$_${valuetype}$_get: dictionary is not initialized.")
 
       hash = hash_${keytype}$ (key)
-      idx = MOD(hash, INT(size(dict%buckets), KIND=int_8)) + 1
+      idx = MOD(hash, SIZE(dict%buckets, KIND=int_8)) + 1
 
       item => dict%buckets(idx)%p
       do while (ASSOCIATED(item))
@@ -319,7 +319,7 @@ $:fct
       IF (dict%size == 0) RETURN
 
       hash = hash_${keytype}$ (key)
-      idx = MOD(hash, INT(size(dict%buckets), KIND=int_8)) + 1
+      idx = MOD(hash, SIZE(dict%buckets, KIND=int_8)) + 1
 
       item => dict%buckets(idx)%p
       do while (ASSOCIATED(item))

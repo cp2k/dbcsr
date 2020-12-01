@@ -493,11 +493,11 @@ CONTAINS
          ENDIF
       ENDIF
       DO r = LBOUND(matrix, 1), UBOUND(matrix, 1)
-         bit_bucket = matrix(r)
+         bit_bucket = REAL(matrix(r), KIND=real_8)
       ENDDO
       bit_bucket = 0.0_dp
       DO r = LBOUND(matrix, 1), UBOUND(matrix, 1)
-         bit_bucket = bit_bucket + matrix(r)
+         bit_bucket = bit_bucket + REAL(matrix(r), KIND=real_8)
       ENDDO
       IF (m .GT. 10000) m = 0
       IF (n .GT. 10000) n = 0
@@ -661,7 +661,7 @@ CONTAINS
                 subh2_disps(numnodes), subh2_offsets(numnodes), &
                 subh3_disps(numnodes), subh3_offsets(numnodes), &
                 bdata_disps(numnodes), bdata_offsets(numnodes))
-      subh2_disps(:) = (/((i - 1)*2, i=1, numnodes)/)
+      subh2_disps(:) = INT([((i - 1)*2, i=1, numnodes)], KIND=file_offset)
       subh3_disps = BOF
       bdata_disps = BOF
       linfo_sizes = BOF
@@ -693,14 +693,15 @@ CONTAINS
          CALL mp_file_write_at(thefile, BOF, version)
          matrix_name_v_1_0 = matrix_name
          CALL mp_file_write_at(thefile, BOF + version_len*mpi_character_size, matrix_name_v_1_0)
-         CALL mp_file_write_at(thefile, BOF + (version_len + default_string_length)*mpi_character_size, matrix_type)
+         CALL mp_file_write_at(thefile, BOF + INT((version_len + default_string_length)*mpi_character_size, KIND=file_offset), &
+                               matrix_type)
          CALL mp_file_write_at(thefile, BOF + char_count*mpi_character_size, &
                                (/size_of_pgrid, data_type, &
                                  nblkrows_total, nblkcols_total, &
                                  row_blk_size, col_blk_size/))
       END IF
 ! write sub-header2
-      subh2_disps(:) = subh2_disps(:) + ginfo_size
+      subh2_disps(:) = subh2_disps(:) + INT(ginfo_size, KIND=file_offset)
       subh2_offsets(:) = BOF + (subh2_disps - char_count)*mpi_integer_size + &
                          char_count*mpi_character_size
       CALL mp_file_write_at_all(thefile, subh2_offsets(mynode + 1), (/nblks, data_area_size/))
@@ -711,7 +712,7 @@ CONTAINS
 ! write block data
       mp_type = dbcsr_mp_type_from_anytype(data_area)
       CALL mp_type_size(mp_type, type_size)
-      bdata_offsets(:) = BOF + (/((bdata_disps(i) - bdata_disps(1))*type_size, i=1, numnodes)/) + &
+      bdata_offsets(:) = BOF + [((bdata_disps(i) - bdata_disps(1))*INT(type_size, KIND=file_offset), i=1, numnodes)] + &
                          (bdata_disps(1) - char_count)*mpi_integer_size + &
                          char_count*mpi_character_size
       SELECT CASE (data_type)
@@ -850,10 +851,10 @@ CONTAINS
       subh2_start = (4 + globalinfo_size)*mpi_integer_size + char_count*mpi_character_size
       subh3_start = subh2_start + 2*size_of_pgrid*mpi_integer_size
 
-! compute the offsets in sub-header2 and read 2 integers nblocks, data_area_size
+      ! compute the offsets in sub-header2 and read 2 integers nblocks, data_area_size
       ! number of data chunks from sub-header 2 and 3 to be read by every node rounded up
       ! to the next integer to make it even for all the nodes in the specified mpi group
-      share_size = CEILING(REAL(size_of_pgrid, KIND=dp)/group_list_size)
+      share_size = CEILING(REAL(size_of_pgrid, KIND=dp)/REAL(group_list_size, KIND=dp))
 
       ALLOCATE (subh2_offsets(share_size))
       subh2_offsets = BOF
@@ -868,7 +869,7 @@ CONTAINS
       DO i = 1, share_size
          CALL mp_file_read_at_all(thefile, subh2_offsets(i), values, msglen=2)
          nblocks = values(1)
-         data_area_size = values(2)
+         data_area_size = INT(values(2), KIND=file_offset)
          IF (subh2_offsets(i) .EQ. 0) EXIT
          val_data(1, i) = nblocks
          IF (data_area_size >= HUGE(val_data(2, i))) &
@@ -906,7 +907,7 @@ CONTAINS
 
       sum_nblks = INT(nblks, kind=file_offset)
       CALL mp_sum(sum_nblks, group_id)
-      subh3_length = size_of_pgrid*INT(1 + nblkrows_total, KIND=file_offset) + 2*sum_nblks
+      subh3_length = INT(size_of_pgrid, KIND=file_offset)*INT(1 + nblkrows_total, KIND=file_offset) + 2*sum_nblks
 
       linfo_length = nblkrows_total + 1 + 2*MAXVAL(val_data(1, :))
 
@@ -966,7 +967,7 @@ CONTAINS
       CASE (dbcsr_type_complex_8)
          type_size = 2*real_8_size
       END SELECT
-      bdata_offsets(:) = bdata_start + bdata_disps*type_size
+      bdata_offsets(:) = bdata_start + bdata_disps*INT(type_size, KIND=file_offset)
 
       SELECT CASE (data_type)
       CASE (dbcsr_type_real_4)

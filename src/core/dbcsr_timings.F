@@ -229,8 +229,8 @@ CONTAINS
          CALL acc_devmem_info(gpumem_free, gpumem_total)
          CALL m_memory(cpumem)
          WRITE (line, '(A,A,I0,A,A,I0,A)') TRIM(mystring), &
-            " Hostmem: ", (cpumem + 1024**2 - 1)/1024**2, " MiB", &
-            " GPUmem: ", (gpumem_total - gpumem_free)/1024**2, " MiB"
+            " Hostmem: ", (cpumem + 1024_int_8**2 - 1_int_8)/(1024_int_8**2), " MiB", &
+            " GPUmem: ", (gpumem_total - gpumem_free)/(1024_int_8**2), " MiB"
          WRITE (timer_env%trace_unit, *) TRIM(line)
          CALL m_flush(timer_env%trace_unit)
       END IF
@@ -335,8 +335,8 @@ CONTAINS
          CALL acc_devmem_info(gpumem_free, gpumem_total)
          CALL m_memory(cpumem)
          WRITE (line, '(A,A,I0,A,A,I0,A)') TRIM(mystring), &
-            " Hostmem: ", (cpumem + 1024*1024 - 1)/(1024*1024), " MB", &
-            " GPUmem: ", (gpumem_total - gpumem_free)/(1024*1024), " MB"
+            " Hostmem: ", (cpumem + 1024_int_8**2 - 1)/(1024_int_8**2), " MiB", &
+            " GPUmem: ", (gpumem_total - gpumem_free)/(1024_int_8**2), " MiB"
          WRITE (timer_env%trace_unit, *) TRIM(line)
          CALL m_flush(timer_env%trace_unit)
       ENDIF

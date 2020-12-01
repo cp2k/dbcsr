@@ -99,7 +99,7 @@ CONTAINS
       map%map_nd(map1_2d) = (/(i, i=1, SIZE(map1_2d))/)
       map%map_nd(map2_2d) = (/(i + SIZE(map1_2d), i=1, SIZE(map2_2d))/)
 
-      map%dims_2d = [PRODUCT(INT(map%dims1_2d, KIND=int_8)), PRODUCT(INT(map%dims2_2d, KIND=int_8))]
+      map%dims_2d = [PRODUCT(INT(map%dims1_2d, int_8)), PRODUCT(INT(map%dims2_2d, int_8))]
 
    END SUBROUTINE create_nd_to_2d_mapping
 
@@ -212,9 +212,9 @@ CONTAINS
          !! flat index
       INTEGER                                            :: i_dim
 
-      ind_out = ind_in(SIZE(dims))
+      ind_out = INT(ind_in(SIZE(dims)), int_8)
       DO i_dim = SIZE(dims) - 1, 1, -1
-         ind_out = (ind_out - 1)*dims(i_dim) + ind_in(i_dim)
+         ind_out = (ind_out - 1)*INT(dims(i_dim), int_8) + INT(ind_in(i_dim), int_8)
       ENDDO
 
    END FUNCTION
@@ -252,7 +252,7 @@ CONTAINS
       tmp = ind_in
       DO i_dim = 1, SIZE(dims)
          ind_out(i_dim) = INT(MOD(tmp - 1, INT(dims(i_dim), int_8)) + 1)
-         tmp = (tmp - 1)/dims(i_dim) + 1
+         tmp = (tmp - 1)/INT(dims(i_dim), int_8) + 1
       END DO
 
    END FUNCTION

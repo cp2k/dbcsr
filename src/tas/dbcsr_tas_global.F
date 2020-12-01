@@ -184,7 +184,7 @@ CONTAINS
       INTEGER :: igroup
       INTEGER :: rowcol_local
 
-      igroup = INT((rowcol - 1_int_8)/t%nmrowcol_local)
+      igroup = INT((rowcol - 1_int_8)/INT(t%nmrowcol_local, KIND=int_8))
       rowcol_local = INT(MOD(rowcol - 1_int_8, INT(t%nmrowcol_local, KIND=int_8))) + 1
       blk_size_repl = t%blk_size_vec(rowcol_local)
 
@@ -206,8 +206,8 @@ CONTAINS
 
       ALLOCATE (new_dbcsr_tas_blk_size_arb%blk_size_vec(SIZE(blk_size_vec)))
       new_dbcsr_tas_blk_size_arb%blk_size_vec(:) = blk_size_vec(:)
-      new_dbcsr_tas_blk_size_arb%nmrowcol = SIZE(blk_size_vec)
-      new_dbcsr_tas_blk_size_arb%nfullrowcol = SUM(blk_size_vec)
+      new_dbcsr_tas_blk_size_arb%nmrowcol = SIZE(blk_size_vec, KIND=int_8)
+      new_dbcsr_tas_blk_size_arb%nfullrowcol = SUM(INT(blk_size_vec, KIND=int_8))
    END FUNCTION
 
    FUNCTION new_dbcsr_tas_blk_size_repl(blk_size_vec, n_repl)
@@ -245,7 +245,7 @@ CONTAINS
       INTEGER :: rowcol_local
       INTEGER :: igroup
 
-      igroup = INT((rowcol - 1_int_8)/t%nmrowcol_local)
+      igroup = INT((rowcol - 1_int_8)/INT(t%nmrowcol_local, KIND=int_8))
       rowcol_local = INT(MOD(rowcol - 1_int_8, INT(t%nmrowcol_local, KIND=int_8))) + 1
 
       repl_dist = t%dist_vec(rowcol_local) + igroup*t%dist_size
@@ -272,7 +272,7 @@ CONTAINS
 
          IF (cond) THEN
             count = count + 1
-            rowcols_tmp(count) = rowcol
+            rowcols_tmp(count) = INT(rowcol, KIND=int_8)
          ENDIF
       ENDDO
 
@@ -406,7 +406,7 @@ CONTAINS
          bins_avail(:) = PACK((/(i, i=1, nbin)/), MASK=bin_mask)
 
          CALL dlarnv(1, iseed, 1, rand)
-         i_select = FLOOR(rand*n_avail) + 1
+         i_select = FLOOR(rand*REAL(n_avail, KIND=dp)) + 1
          ibin = bins_avail(i_select)
          DEALLOCATE (bins_avail)
 

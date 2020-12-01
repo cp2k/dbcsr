@@ -84,11 +84,11 @@
 
 ! if too small, make a copy and rehash in a larger table
 
-     IF (hash_table%nele*inv_hash_table_fill > hash_table%nmax) THEN
+     IF (REAL(hash_table%nele, sp)*inv_hash_table_fill > REAL(hash_table%nmax, sp)) THEN
         ALLOCATE (tmp_hash(LBOUND(hash_table%table, 1):UBOUND(hash_table%table, 1)))
         tmp_hash(:) = hash_table%table
         CALL hash_table_release(hash_table)
-        CALL hash_table_create(hash_table, INT((UBOUND(tmp_hash, 1) + 8)*hash_table_expand))
+        CALL hash_table_create(hash_table, INT(REAL(UBOUND(tmp_hash, 1) + 8, sp)*hash_table_expand))
         DO i = LBOUND(tmp_hash, 1), UBOUND(tmp_hash, 1)
            IF (tmp_hash(i)%c .NE. 0) THEN
               CALL hash_table_add(hash_table, tmp_hash(i)%c, tmp_hash(i)%p)

@@ -548,11 +548,11 @@ CONTAINS
       CASE (rowsplit)
          ASSOCIATE (rows => dist%local_rowcols)
             IF (PRESENT(row)) row = rows(row_group)
-            IF (PRESENT(column)) column = column_group
+            IF (PRESENT(column)) column = INT(column_group, int_8)
          END ASSOCIATE
       CASE (colsplit)
          ASSOCIATE (cols => dist%local_rowcols)
-            IF (PRESENT(row)) row = row_group
+            IF (PRESENT(row)) row = INT(row_group, int_8)
             IF (PRESENT(column)) column = cols(column_group)
          END ASSOCIATE
       END SELECT

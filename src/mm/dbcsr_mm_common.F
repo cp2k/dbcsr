@@ -490,7 +490,7 @@ CONTAINS
               INT(dbcsr_nfullcols_local(product_matrix), KIND=int_8)
       size8 = MAX(1_int_8, size8)
 !     factor = 7.0 ! Old guess
-      factor = 2.4 ! New guess
+      factor = 2.4_real_8 ! New guess
       fill_guess = factor*MAX(left_fill, right_fill)
       fill_guess = MIN(1.0_real_8, MAX(0.0_real_8, fill_guess))
       IF (nthreads .GT. 1) THEN

@@ -643,9 +643,9 @@ CONTAINS
       CASE (dbcsr_type_real_8_2d)
          area%d%r2_dp(lb(1):ub(1), lb(2):ub(2)) = 0.0_real_8
       CASE (dbcsr_type_complex_4_2d)
-         area%d%c2_sp(lb(1):ub(1), lb(2):ub(2)) = 0.0_real_4
+         area%d%c2_sp(lb(1):ub(1), lb(2):ub(2)) = (0.0_real_4, 0.0_real_4)
       CASE (dbcsr_type_complex_8_2d)
-         area%d%c2_dp(lb(1):ub(1), lb(2):ub(2)) = 0.0_real_8
+         area%d%c2_dp(lb(1):ub(1), lb(2):ub(2)) = (0.0_real_8, 0.0_real_8)
       CASE default
          DBCSR_ABORT("Invalid data type.")
       END SELECT

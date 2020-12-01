@@ -657,7 +657,7 @@ CONTAINS
          ! Pre-size work arrays of matrix_a to avoid continuous reallocation.
          ! Overestimate for symmetric matrix and multiple threads!
          local_matrix_size = INT(dbcsr_nfullrows_local(matrix_a), KIND=int_8)* &
-                             dbcsr_nfullcols_local(matrix_a)
+                             INT(dbcsr_nfullcols_local(matrix_a), KIND=int_8)
          size_work = MAX(0, INT(MIN(local_matrix_size - INT(dbcsr_get_nze(matrix_a), KIND=int_8), &
                                     INT(dbcsr_get_nze(matrix_b), KIND=int_8)), KIND=int_4))
          my_flop = 0
@@ -1050,11 +1050,11 @@ CONTAINS
                      CALL dbcsr_put_block(matrix_c, row, col, c_data%d%r_dp(1:nze), transposed=tr_a, &
                                           summation=.FALSE.)
                   CASE (dbcsr_type_complex_4)
-                     c_data%d%c_sp(1:nze) = a_data%d%c_sp(1:nze)*REAL(assumed_b_value, KIND=sp)
+                     c_data%d%c_sp(1:nze) = a_data%d%c_sp(1:nze)*CMPLX(assumed_b_value, KIND=sp)
                      CALL dbcsr_put_block(matrix_c, row, col, c_data%d%c_sp(1:nze), transposed=tr_a, &
                                           summation=.FALSE.)
                   CASE (dbcsr_type_complex_8)
-                     c_data%d%c_dp(1:nze) = a_data%d%c_dp(1:nze)*assumed_b_value
+                     c_data%d%c_dp(1:nze) = a_data%d%c_dp(1:nze)*CMPLX(assumed_b_value, KIND=dp)
                      CALL dbcsr_put_block(matrix_c, row, col, c_data%d%c_dp(1:nze), transposed=tr_a, &
                                           summation=.FALSE.)
                   END SELECT
@@ -1979,7 +1979,7 @@ CONTAINS
                CASE (dbcsr_filter_frobenius)
                   !
                   ! Frobenius based
-                  nrm_d = SCNRM2(SIZE(data_c), data_c(1), 1)
+                  nrm_d = REAL(SCNRM2(SIZE(data_c), data_c, 1), KIND=dp)
                   IF (nrm_d .LT. my_absolute*eps%r_dp) &
                      CALL dbcsr_remove_block(matrix, row, col, blk_nze, blk)
                CASE DEFAULT
@@ -1995,7 +1995,7 @@ CONTAINS
                CASE (dbcsr_filter_frobenius)
                   !
                   ! Frobenius based
-                  nrm_d = DZNRM2(SIZE(data_z), data_z(1), 1)
+                  nrm_d = DZNRM2(SIZE(data_z), data_z, 1)
                   IF (nrm_d .LT. my_absolute*eps%r_dp) &
                      CALL dbcsr_remove_block(matrix, row, col, blk_nze, blk)
                CASE DEFAULT
@@ -2207,9 +2207,9 @@ CONTAINS
                                            row_offset=row_offset, col_offset=col_offset)
             DO j = 1, SIZE(data_r, 2)
             DO i = 1, SIZE(data_r, 1)
-               buff_d(row_offset + i - 1) = buff_d(row_offset + i - 1) + ABS(data_r(i, j))
+               buff_d(row_offset + i - 1) = buff_d(row_offset + i - 1) + REAL(ABS(data_r(i, j)), KIND=real_8)
                IF (any_sym .AND. row .NE. col) &
-                  buff_d(col_offset + j - 1) = buff_d(col_offset + j - 1) + ABS(data_r(i, j))
+                  buff_d(col_offset + j - 1) = buff_d(col_offset + j - 1) + REAL(ABS(data_r(i, j)), KIND=real_8)
             ENDDO
             ENDDO
          CASE (dbcsr_type_real_8)
@@ -2227,7 +2227,7 @@ CONTAINS
                                            row_offset=row_offset, col_offset=col_offset)
             DO j = 1, SIZE(data_c, 2)
             DO i = 1, SIZE(data_c, 1)
-               buff_d(row_offset + i - 1) = buff_d(row_offset + i - 1) + ABS(data_c(i, j))
+               buff_d(row_offset + i - 1) = buff_d(row_offset + i - 1) + REAL(ABS(data_c(i, j)), KIND=real_8)
                IF (any_sym .AND. row .NE. col) &
                   DBCSR_ABORT("Only nonsymmetric matrix so far")
                !     buff_d(col_offset+j-1) = buff_d(col_offset+j-1) + ABS(data_c(i,j))
@@ -2524,7 +2524,7 @@ CONTAINS
       INTEGER(KIND=int_8)                                :: nze_global
       INTEGER, DIMENSION(:), POINTER                     :: row_blk_size
 
-      nze_global = matrix%nze
+      nze_global = INT(matrix%nze, KIND=int_8)
       CALL mp_sum(nze_global, dbcsr_mp_group(dbcsr_distribution_mp(matrix%dist)))
 
       nfullrows = dbcsr_nfullrows_total(matrix)
@@ -2656,7 +2656,7 @@ CONTAINS
       col_dist => dbcsr_distribution_col_dist(dist)
       !
       ! let's go
-      trace = REAL(0.0, ${kind1}$)
+      trace = ${zero1[n]}$
       DO a_row = 1, matrix_a%nblkrows_total
          a_row_size = row_blk_size(a_row)
          DO a_blk = matrix_a%row_p(a_row) + 1, matrix_a%row_p(a_row + 1)
@@ -2714,13 +2714,13 @@ CONTAINS
           .OR. matrix_b%replication_type .NE. dbcsr_repl_none) &
          DBCSR_ABORT("Trace of product of replicated matrices not yet possible.")
 
-      sym_fac = REAL(1.0, ${kind1}$)
+      sym_fac = ${one1[n]}$
       matrix_a_type = dbcsr_get_matrix_type(matrix_a)
       matrix_b_type = dbcsr_get_matrix_type(matrix_b)
       matrix_a_symm = matrix_a_type == dbcsr_type_symmetric .OR. matrix_a_type == dbcsr_type_antisymmetric
       matrix_b_symm = matrix_b_type == dbcsr_type_symmetric .OR. matrix_b_type == dbcsr_type_antisymmetric
 
-      IF (matrix_a_symm .AND. matrix_b_symm) sym_fac = REAL(2.0, ${kind1}$)
+      IF (matrix_a_symm .AND. matrix_b_symm) sym_fac = ${two1[n]}$
 
       ! tracing a symmetric with a general matrix is not implemented, as it would require communication of blocks
       IF (matrix_a_symm .NEQV. matrix_b_symm) &
@@ -2735,7 +2735,7 @@ CONTAINS
       CALL dbcsr_get_data(matrix_b%data_area, b_data)
 
       ! let's go
-      trace = REAL(0.0, ${kind1}$)
+      trace = ${zero1[n]}$
       IF (matrix_a%nblkrows_total .NE. matrix_b%nblkrows_total) &
          DBCSR_ABORT("this combination of transpose is NYI")
       DO row = 1, matrix_a%nblkrows_total
@@ -2766,7 +2766,7 @@ CONTAINS
                   a_end = a_beg + nze - 1
                   b_beg = ABS(matrix_b%blk_p(b_blk))
                   b_end = b_beg + nze - 1
-                  fac = REAL(1.0, ${kind1}$)
+                  fac = ${one1[n]}$
                   IF (row .NE. a_col) fac = sym_fac
 
                   trace = trace + fac*SUM(a_data(a_beg:a_end)*b_data(b_beg:b_end))

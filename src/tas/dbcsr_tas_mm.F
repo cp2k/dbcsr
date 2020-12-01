@@ -273,7 +273,7 @@ CONTAINS
             WRITE (unit_nr_prv, "(T2,A)") &
                "MM PARAMETERS"
             WRITE (unit_nr_prv, "(T4,A,T68,I13)") "Est. number of matrix elements per CPU of result matrix:", &
-               (nze_c + numproc - 1)/numproc
+               (nze_c + INT(numproc, KIND=int_8) - 1)/INT(numproc, KIND=int_8)
 
             WRITE (unit_nr_prv, "(T4,A,T68,I13)") "Est. optimal split factor:", nsplit
          ENDIF
@@ -511,7 +511,7 @@ CONTAINS
          CALL dbcsr_release(matrix_a_mm)
          CALL dbcsr_release(matrix_b_mm)
 
-         nze_c = dbcsr_get_nze(matrix_c_mm)
+         nze_c = INT(dbcsr_get_nze(matrix_c_mm), KIND=int_8)
 
          IF (.NOT. new_c) THEN
             CALL redistribute_and_sum(matrix_c_mm, matrix_c_rs%matrix, local_copy=.NOT. opt_pgrid, alpha=beta)
@@ -590,7 +590,7 @@ CONTAINS
          CALL dbcsr_release(matrix_a_mm)
          CALL dbcsr_release(matrix_b_mm)
 
-         nze_c = dbcsr_get_nze(matrix_c_mm)
+         nze_c = INT(dbcsr_get_nze(matrix_c_mm), KIND=int_8)
 
          CALL redistribute_and_sum(matrix_c_mm, matrix_c_rep%matrix, local_copy=.NOT. opt_pgrid, alpha=beta)
          nze_c_sum = dbcsr_tas_get_nze_total(matrix_c_rep)
@@ -616,7 +616,7 @@ CONTAINS
 
          ! set upper limit on memory consumption for replicated matrix and complete batched mm
          ! if limit is exceeded
-         IF (nze_c_sum > default_nsplit_accept_ratio*MAX(nze_a, nze_b)) THEN
+         IF (REAL(nze_c_sum, KIND=real_8) > default_nsplit_accept_ratio*REAL(MAX(nze_a, nze_b), KIND=real_8)) THEN
             CALL dbcsr_tas_batched_mm_complete(matrix_c)
          ENDIF
 
@@ -689,7 +689,7 @@ CONTAINS
          CALL dbcsr_release(matrix_a_mm)
          CALL dbcsr_release(matrix_b_mm)
 
-         nze_c = dbcsr_get_nze(matrix_c_mm)
+         nze_c = INT(dbcsr_get_nze(matrix_c_mm), KIND=int_8)
 
          IF (.NOT. new_c) THEN
             CALL redistribute_and_sum(matrix_c_mm, matrix_c_rs%matrix, local_copy=.NOT. opt_pgrid, alpha=beta)
@@ -729,7 +729,7 @@ CONTAINS
             WRITE (unit_nr_prv, "(T2,A)") &
                "MM PARAMETERS"
             WRITE (unit_nr_prv, "(T4,A,T68,I13)") "Number of matrix elements per CPU of result matrix:", &
-               (nze_c + numproc - 1)/numproc
+               (nze_c + INT(numproc, KIND=int_8) - 1)/INT(numproc, KIND=int_8)
 
             WRITE (unit_nr_prv, "(T4,A,T68,I13)") "Optimal split factor:", nsplit_opt
          ENDIF
@@ -758,7 +758,7 @@ CONTAINS
 
       IF (PRESENT(flop)) THEN
          CALL mp_sum(flop, mp_comm)
-         flop = (flop + numproc - 1)/numproc
+         flop = (flop + INT(numproc, KIND=int_8) - 1)/INT(numproc, KIND=int_8)
       ENDIF
 
       IF (PRESENT(optimize_dist)) THEN

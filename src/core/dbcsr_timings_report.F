@@ -141,9 +141,9 @@ CONTAINS
             local_routine_id = dict_get(timer_env%routine_names, routineN)
             collected(local_routine_id) = 1
             r_stat => list_get(timer_env%routine_stats, local_routine_id)
-            r_report%max_total_calls = r_stat%total_calls
-            r_report%sum_total_calls = r_stat%total_calls
-            r_report%sum_stackdepth = r_stat%stackdepth_accu
+            r_report%max_total_calls = INT(r_stat%total_calls, int_8)
+            r_report%sum_total_calls = INT(r_stat%total_calls, int_8)
+            r_report%sum_stackdepth = INT(r_stat%stackdepth_accu, int_8)
             SELECT CASE (cost_type)
             CASE (cost_type_energy)
                r_report%max_icost = r_stat%incl_energy_accu
@@ -279,9 +279,9 @@ CONTAINS
                   ADJUSTL(r_report_j%routineN(1:31)), &
                   r_report_j%max_total_calls, &
                   asd, &
-                  r_report_j%sum_ecost/mp_env%mp%numnodes, &
+                  r_report_j%sum_ecost/REAL(mp_env%mp%numnodes, dp), &
                   r_report_j%max_ecost, &
-                  r_report_j%sum_icost/mp_env%mp%numnodes, &
+                  r_report_j%sum_icost/REAL(mp_env%mp%numnodes, dp), &
                   r_report_j%max_icost, &
                   r_report_j%max_erank
             ELSE
@@ -289,9 +289,9 @@ CONTAINS
                   ADJUSTL(r_report_j%routineN(1:31)), &
                   r_report_j%max_total_calls, &
                   asd, &
-                  r_report_j%sum_ecost/mp_env%mp%numnodes, &
+                  r_report_j%sum_ecost/REAL(mp_env%mp%numnodes, dp), &
                   r_report_j%max_ecost, &
-                  r_report_j%sum_icost/mp_env%mp%numnodes, &
+                  r_report_j%sum_icost/REAL(mp_env%mp%numnodes, dp), &
                   r_report_j%max_icost
             ENDIF
          END IF
@@ -350,4 +350,3 @@ CONTAINS
 
    END SUBROUTINE timings_report_callgraph
 END MODULE dbcsr_timings_report
-

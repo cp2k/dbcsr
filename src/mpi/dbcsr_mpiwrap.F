@@ -5111,7 +5111,7 @@ CONTAINS
          ENDIF
          IF (do_local_copy) THEN
 !$OMP           PARALLEL WORKSHARE DEFAULT(none) SHARED(base,win_data,disp_aint,len)
-            base(:) = win_data(disp_aint + 1:disp_aint + len)
+            base(:) = win_data(disp_aint + 1:disp_aint + INT(len, mpi_address_kind))
 !$OMP           END PARALLEL WORKSHARE
             request = mp_request_null
             ierr = 0
@@ -5470,7 +5470,7 @@ CONTAINS
 
       length = MAX(len, 1)
       CALL MPI_TYPE_SIZE(${mpi_type1}$, size, ierr)
-      mp_size = INT(length, KIND=MPI_ADDRESS_KIND)*size
+      mp_size = INT(length, kind=mpi_address_kind)*INT(size, kind=mpi_address_kind)
       IF (mp_size .GT. mp_max_memory_size) THEN
          DBCSR_ABORT("MPI cannot allocate more than 2 GiByte")
       ENDIF

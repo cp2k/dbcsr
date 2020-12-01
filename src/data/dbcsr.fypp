@@ -26,6 +26,7 @@
 
 #:set one1 = ['1.0_real_8', '1.0_real_4', 'CMPLX(1.0, 0.0, real_8)', 'CMPLX(1.0, 0.0, real_4)']
 #:set zero1 = ['0.0_real_8', '0.0_real_4', 'CMPLX(0.0, 0.0, real_8)', 'CMPLX(0.0, 0.0, real_4)']
+#:set two1 = ['2.0_real_8', '2.0_real_4', 'CMPLX(2.0, 0.0, real_8)', 'CMPLX(2.0, 0.0, real_4)']
 
 #:set kind2 = ['real_8','real_8','real_8','real_8']
 

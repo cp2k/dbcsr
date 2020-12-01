@@ -77,7 +77,7 @@ MODULE dbcsr_data_types
       LOGICAL                           :: acc_devalloc = .FALSE.
       TYPE(acc_stream_type)             :: acc_stream = acc_stream_type()
       TYPE(dbcsr_mempool_type), POINTER :: pool => Null()
-      REAL(KIND=dp)                     :: oversize_factor = 1.0
+      REAL(KIND=dp)                     :: oversize_factor = 1.0_dp
    END TYPE dbcsr_memtype_type
 
    !providing pool=Null() explicitly to circumvent bug in ifort 12.1

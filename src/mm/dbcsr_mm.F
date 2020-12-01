@@ -227,7 +227,7 @@ CONTAINS
       total_marketing_flops = marketing_flops
       CALL mp_sum(total_marketing_flops, group)
 
-      total_nexchanged = dbcsr_mpi_statistics%nexchanged
+      total_nexchanged = INT(dbcsr_mpi_statistics%nexchanged, KIND=int_8)
       CALL mp_sum(total_nexchanged, group)
 
       total_recv_data(:) = dbcsr_mpi_statistics%data_size(:, 1)
@@ -889,7 +889,7 @@ CONTAINS
          numnodes = dbcsr_mp_numnodes(dbcsr_distribution_mp(dbcsr_distribution(matrix_c)))
          CALL mp_sum(my_flop, comm)
          IF (PRESENT(flop)) THEN
-            flop = (my_flop + numnodes - 1)/numnodes
+            flop = (my_flop + INT(numnodes, KIND=int_8) - 1)/INT(numnodes, KIND=int_8)
          ENDIF
          CALL timestop(handle2)
       ELSEIF (dbcsr_cfg%use_mpi_rma) THEN
@@ -967,8 +967,8 @@ CONTAINS
       !  - GPU-acceleration is enabled
       !  - multiple OpenMP threads are used
       IF (INT(matrix_c%nblks, KIND=int_8) > &
-          INT(SIZE(array_data(matrix_c%row_blk_size)), KIND=int_8)* &
-          INT(SIZE(array_data(matrix_c%col_blk_size)), KIND=int_8)) &
+          SIZE(array_data(matrix_c%row_blk_size), KIND=int_8)* &
+          SIZE(array_data(matrix_c%col_blk_size), KIND=int_8)) &
          DBCSR_ABORT("Bug: Matrix contains too many blocks")
       output_unit = default_output_unit
       num_multiplications = num_multiplications + 1

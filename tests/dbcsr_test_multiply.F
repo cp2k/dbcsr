@@ -644,10 +644,10 @@ CONTAINS
          IF (istat /= 0) &
             DBCSR_ABORT("allocation problem")
          eps = REAL(slamch('eps'), real_8)
-         a_norm = slange(norm, a_m, a_n, dense_a%d%r2_sp(a_row, a_col), lda, work_sp)
-         b_norm = slange(norm, b_m, b_n, dense_b%d%r2_sp(b_row, b_col), ldb, work_sp)
-         c_norm_in = slange(norm, c_row_size, c_col_size, dense_c%d%r2_sp(1, 1), ldc, work_sp)
-         c_norm_dbcsr = slange(norm, c_row_size, c_col_size, dense_c_dbcsr%d%r2_sp(1, 1), ldc, work_sp)
+         a_norm = REAL(slange(norm, a_m, a_n, dense_a%d%r2_sp(a_row, a_col), lda, work_sp), real_8)
+         b_norm = REAL(slange(norm, b_m, b_n, dense_b%d%r2_sp(b_row, b_col), ldb, work_sp), real_8)
+         c_norm_in = REAL(slange(norm, c_row_size, c_col_size, dense_c%d%r2_sp(1, 1), ldc, work_sp), real_8)
+         c_norm_dbcsr = REAL(slange(norm, c_row_size, c_col_size, dense_c_dbcsr%d%r2_sp(1, 1), ldc, work_sp), real_8)
          !
 
          IF (.FALSE.) THEN
@@ -689,7 +689,7 @@ CONTAINS
             END DO
          END IF
          !
-         c_norm_out = slange(norm, m, n, dense_c%d%r2_sp(c_row, c_col), ldc, work_sp)
+         c_norm_out = REAL(slange(norm, m, n, dense_c%d%r2_sp(c_row, c_col), ldc, work_sp), real_8)
          !
          ! take the difference dense/sparse
          dense_c%d%r2_sp = dense_c%d%r2_sp - dense_c_dbcsr%d%r2_sp
@@ -726,10 +726,10 @@ CONTAINS
          IF (istat /= 0) &
             DBCSR_ABORT("allocation problem")
          eps = REAL(slamch('eps'), real_8)
-         a_norm = clange(norm, a_m, a_n, dense_a%d%c2_sp(a_row, a_col), lda, work_sp)
-         b_norm = clange(norm, b_m, b_n, dense_b%d%c2_sp(b_row, b_col), ldb, work_sp)
-         c_norm_in = clange(norm, c_row_size, c_col_size, dense_c%d%c2_sp(1, 1), ldc, work_sp)
-         c_norm_dbcsr = clange(norm, c_row_size, c_col_size, dense_c_dbcsr%d%c2_sp(1, 1), ldc, work_sp)
+         a_norm = REAL(clange(norm, a_m, a_n, dense_a%d%c2_sp(a_row, a_col), lda, work_sp), real_8)
+         b_norm = REAL(clange(norm, b_m, b_n, dense_b%d%c2_sp(b_row, b_col), ldb, work_sp), real_8)
+         c_norm_in = REAL(clange(norm, c_row_size, c_col_size, dense_c%d%c2_sp(1, 1), ldc, work_sp), real_8)
+         c_norm_dbcsr = REAL(clange(norm, c_row_size, c_col_size, dense_c_dbcsr%d%c2_sp(1, 1), ldc, work_sp), real_8)
          !
          CALL cgemm(transa, transb, m, n, k, alpha%c_sp, dense_a%d%c2_sp(a_row, a_col), lda, &
                     dense_b%d%c2_sp(b_row, b_col), ldb, beta%c_sp, dense_c%d%c2_sp(c_row, c_col), ldc)
@@ -737,13 +737,13 @@ CONTAINS
          ! impose the sparsity if needed
          IF (retain_sparsity) CALL dbcsr_impose_sparsity(matrix_c, dense_c)
          !
-         c_norm_out = clange(norm, m, n, dense_c%d%c2_sp(c_row, c_col), ldc, work_sp)
+         c_norm_out = REAL(clange(norm, m, n, dense_c%d%c2_sp(c_row, c_col), ldc, work_sp), real_8)
          !
          ! take the difference dense/sparse
          dense_c%d%c2_sp = dense_c%d%c2_sp - dense_c_dbcsr%d%c2_sp
          !
          ! compute the residual
-         residual = clange(norm, c_row_size, c_col_size, dense_c%d%c2_sp(1, 1), ldc, work_sp)
+         residual = REAL(clange(norm, c_row_size, c_col_size, dense_c%d%c2_sp(1, 1), ldc, work_sp), real_8)
          DEALLOCATE (work_sp)
       CASE default
          DBCSR_ABORT("Incorrect or 1-D data type")
@@ -775,7 +775,7 @@ CONTAINS
                ', c_norm_dbcsr ', c_norm_dbcsr
             WRITE (io_unit, '(A)') ' Checking the norm of the difference against reference GEMM '
             WRITE (io_unit, '(A,E12.5)') ' -- ||C_dbcsr-C_dense||_oo/((||A||_oo+||B||_oo+||C||_oo).N.eps)=', &
-               residual/((a_norm + b_norm + c_norm_in)*n*eps)
+               residual/((a_norm + b_norm + c_norm_in)*REAL(n, real_8)*eps)
          END IF
 
       END IF

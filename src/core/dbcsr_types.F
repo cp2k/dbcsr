@@ -525,7 +525,7 @@ MODULE dbcsr_types
    INTEGER, PARAMETER          :: dbcsr_num_slots = dbcsr_meta_size + 11 ! previous + 1
 
    INTEGER(KIND=int_8), DIMENSION(6), PARAMETER :: dbcsr_mpi_size_limits = &
-                                                   (/2**7, 2**13, 2**15, 2**17, 2**22, 2**24/)
+                                                   INT([2**7, 2**13, 2**15, 2**17, 2**22, 2**24], KIND=int_8)
       !! MPI message size limits (in bytes): 128, 8192, 32KB, 128KB, 4MB, 16MB
 
    TYPE dbcsr_work_type_p

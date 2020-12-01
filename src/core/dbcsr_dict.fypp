@@ -44,7 +44,7 @@ FUNCTION hash_str(key) RESULT(hash)
 
     hash=0_int_8
     DO i=1,LEN(key)
-       hash=IAND(hash+ICHAR(key(i:i))                ,b32)
+       hash=IAND(hash+ICHAR(key(i:i), KIND=int_8)    ,b32)
        hash=IAND(     hash+IAND(ISHFT(hash,10),b32)  ,b32)
        hash=IAND(IEOR(hash,IAND(ISHFT(hash,-6),b32)) ,b32)
     ENDDO

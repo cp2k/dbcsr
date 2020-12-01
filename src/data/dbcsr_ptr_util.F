@@ -227,8 +227,8 @@ CONTAINS
       IF (lb_orig .GT. lb_new) THEN
          IF (PRESENT(factor)) THEN
             size_increase = lb_orig - lb_new
-            size_increase = MAX(NINT(size_increase*factor), &
-                                NINT(old_size*(factor - 1)), 0)
+            size_increase = MAX(NINT(REAL(size_increase, KIND=dp)*factor), &
+                                NINT(REAL(old_size, KIND=dp)*(factor - 1_dp)), 0)
             lb_new = MIN(lb_orig, lb_new - size_increase)
          ELSE
             lb_new = lb_orig
@@ -237,8 +237,8 @@ CONTAINS
       IF (ub_orig .LT. ub) THEN
          IF (PRESENT(factor)) THEN
             size_increase = ub - ub_orig
-            size_increase = MAX(NINT(size_increase*factor), &
-                                NINT(old_size*(factor - 1)), 0)
+            size_increase = MAX(NINT(REAL(size_increase, dp)*factor), &
+                                NINT(REAL(old_size, dp)*(factor - 1_dp)), 0)
             ub_new = MAX(ub_orig, ub + size_increase)
          ELSE
             ub_new = ub

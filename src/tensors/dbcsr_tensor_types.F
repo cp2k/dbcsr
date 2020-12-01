@@ -489,7 +489,7 @@ CONTAINS
 
       ! sort dimensions such that problematic grid dimensions (those who should be corrected) come first
       ALLOCATE (sort_key(SIZE(tensor_dims)))
-      sort_key(:) = REAL(tensor_dims, real_8)/dims
+      sort_key(:) = REAL(tensor_dims, real_8)/REAL(dims, real_8)
 
       CALL allocate_any(tensor_dims_sorted, source=tensor_dims)
       ALLOCATE (sort_indices(SIZE(sort_key)))
@@ -1540,8 +1540,7 @@ CONTAINS
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor
       INTEGER(int_8) :: ndims_matrix_row
 
-      ndims_matrix_row = ndims_mapping_row(tensor%nd_index_blk)
-
+      ndims_matrix_row = INT(ndims_mapping_row(tensor%nd_index_blk), int_8)
    END FUNCTION
 
    PURE FUNCTION ndims_matrix_column(tensor)
@@ -1549,7 +1548,7 @@ CONTAINS
       TYPE(dbcsr_t_type), INTENT(IN) :: tensor
       INTEGER(int_8) :: ndims_matrix_column
 
-      ndims_matrix_column = ndims_mapping_column(tensor%nd_index_blk)
+      ndims_matrix_column = INT(ndims_mapping_column(tensor%nd_index_blk), int_8)
    END FUNCTION
 
    PURE FUNCTION dbcsr_t_max_nblks_local(tensor) RESULT(blk_count)

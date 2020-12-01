@@ -151,9 +151,11 @@ CONTAINS
             "DISTRIBUTION OF "//TRIM(tensor%name)
          WRITE (unit_nr_prv, "(T15,A,T68,I13)") "Number of non-zero blocks:", nblock_sum
          WRITE (unit_nr_prv, "(T15,A,T75,F6.2)") "Percentage of non-zero blocks:", occupation
-         WRITE (unit_nr_prv, "(T15,A,T68,I13)") "Average number of blocks per CPU:", (nblock_sum + nproc - 1)/nproc
+         WRITE (unit_nr_prv, "(T15,A,T68,I13)") "Average number of blocks per CPU:", &
+            (nblock_sum + INT(nproc, int_8) - 1)/INT(nproc, int_8)
          WRITE (unit_nr_prv, "(T15,A,T68,I13)") "Maximum number of blocks per CPU:", nblock_max
-         WRITE (unit_nr_prv, "(T15,A,T68,I13)") "Average number of matrix elements per CPU:", (nelement_sum + nproc - 1)/nproc
+         WRITE (unit_nr_prv, "(T15,A,T68,I13)") "Average number of matrix elements per CPU:", &
+            (nelement_sum + INT(nproc, int_8) - 1)/INT(nproc, int_8)
          WRITE (unit_nr_prv, "(T15,A,T68,I13)") "Maximum number of matrix elements per CPU:", nelement_max
       ENDIF
 

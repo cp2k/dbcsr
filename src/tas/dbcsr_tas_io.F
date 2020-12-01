@@ -137,8 +137,8 @@ CONTAINS
       CALL mp_max(tmp, mp_comm)
       nblock_p_max = tmp(1); nelement_p_max = tmp(2)
 
-      nblock_s = nblock
-      nelement_s = nelement
+      nblock_s = INT(nblock, KIND=int_8)
+      nelement_s = INT(nelement, KIND=int_8)
 
       CALL mp_sum(nblock_s, mp_comm_group)
       CALL mp_sum(nelement_s, mp_comm_group)
@@ -159,13 +159,17 @@ CONTAINS
             "DISTRIBUTION OF "//TRIM(name)
          WRITE (unit_nr_prv, "(T15,A,T68,I13)") "Number of non-zero blocks:", nblock_p_sum
          WRITE (unit_nr_prv, "(T15,A,T75,F6.2)") "Percentage of non-zero blocks:", occupation
-         WRITE (unit_nr_prv, "(T15,A,T68,I13)") "Average number of blocks per group:", (nblock_p_sum + ngroup - 1)/ngroup
+         WRITE (unit_nr_prv, "(T15,A,T68,I13)") "Average number of blocks per group:", &
+            (nblock_p_sum + INT(ngroup, KIND=int_8) - 1)/INT(ngroup, KIND=int_8)
          WRITE (unit_nr_prv, "(T15,A,T68,I13)") "Maximum number of blocks per group:", nblock_s_max
-         WRITE (unit_nr_prv, "(T15,A,T68,I13)") "Average number of matrix elements per group:", (nelement_p_sum + ngroup - 1)/ngroup
+         WRITE (unit_nr_prv, "(T15,A,T68,I13)") "Average number of matrix elements per group:", &
+            (nelement_p_sum + INT(ngroup, KIND=int_8) - 1)/INT(ngroup, KIND=int_8)
          WRITE (unit_nr_prv, "(T15,A,T68,I13)") "Maximum number of matrix elements per group:", nelement_s_max
-         WRITE (unit_nr_prv, "(T15,A,T68,I13)") "Average number of blocks per CPU:", (nblock_p_sum + nproc - 1)/nproc
+         WRITE (unit_nr_prv, "(T15,A,T68,I13)") "Average number of blocks per CPU:", &
+            (nblock_p_sum + INT(nproc, KIND=int_8) - 1)/INT(nproc, KIND=int_8)
          WRITE (unit_nr_prv, "(T15,A,T68,I13)") "Maximum number of blocks per CPU:", nblock_p_max
-         WRITE (unit_nr_prv, "(T15,A,T68,I13)") "Average number of matrix elements per CPU:", (nelement_p_sum + nproc - 1)/nproc
+         WRITE (unit_nr_prv, "(T15,A,T68,I13)") "Average number of matrix elements per CPU:", &
+            (nelement_p_sum + INT(nproc, KIND=int_8) - 1)/INT(nproc, KIND=int_8)
          WRITE (unit_nr_prv, "(T15,A,T68,I13)") "Maximum number of matrix elements per CPU:", nelement_p_max
          IF (PRESENT(full_info)) THEN
             IF (full_info) THEN
@@ -243,4 +247,3 @@ CONTAINS
    END FUNCTION
 
 END MODULE
-

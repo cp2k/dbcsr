@@ -507,10 +507,10 @@ CONTAINS
          CALL mp_cart_rank(info%mp_comm, pcoord, processors(igroup + 1))
          SELECT CASE (info%split_rowcol)
          CASE (rowsplit)
-            row_s = row_s + dbcsr_tas_nblkrows_local(matrix)
+            row_s = row_s + INT(dbcsr_tas_nblkrows_local(matrix), KIND=int_8)
             pcoord(1) = matrix%dist%row_dist%dist(row_s)
          CASE (colsplit)
-            col_s = col_s + dbcsr_tas_nblkcols_local(matrix)
+            col_s = col_s + INT(dbcsr_tas_nblkcols_local(matrix), KIND=int_8)
             pcoord(2) = matrix%dist%col_dist%dist(col_s)
          END SELECT
       ENDDO
@@ -633,8 +633,8 @@ CONTAINS
       CALL dbcsr_get_info(matrix_dbcsr, distribution=dbcsr_dist, name=name, data_type=data_type, &
                           row_blk_size=row_blk_size, col_blk_size=col_blk_size)
 
-      nbrows = dbcsr_nblkrows_total(matrix_dbcsr)
-      nbcols = dbcsr_nblkcols_total(matrix_dbcsr)
+      nbrows = INT(dbcsr_nblkrows_total(matrix_dbcsr), KIND=int_8)
+      nbcols = INT(dbcsr_nblkcols_total(matrix_dbcsr), KIND=int_8)
 
       row_dist_obj = dbcsr_tas_dist_arb(dbcsr_distribution_row_dist(dbcsr_dist), pdims(1), nbrows)
       col_dist_obj = dbcsr_tas_dist_arb(dbcsr_distribution_col_dist(dbcsr_dist), pdims(2), nbcols)
@@ -900,7 +900,7 @@ CONTAINS
       TYPE(dbcsr_tas_split_info)       :: info
 
       info = dbcsr_tas_info(matrix)
-      num_blocks = dbcsr_tas_get_num_blocks(matrix)
+      num_blocks = INT(dbcsr_tas_get_num_blocks(matrix), KIND=int_8)
       CALL mp_sum(num_blocks, info%mp_comm)
 
    END FUNCTION
@@ -920,7 +920,7 @@ CONTAINS
       INTEGER(KIND=int_8)              :: dbcsr_tas_get_nze_total
       TYPE(dbcsr_tas_split_info)       :: info
 
-      dbcsr_tas_get_nze_total = dbcsr_tas_get_nze(matrix)
+      dbcsr_tas_get_nze_total = INT(dbcsr_tas_get_nze(matrix), KIND=int_8)
       info = dbcsr_tas_info(matrix)
       CALL mp_sum(dbcsr_tas_get_nze_total, info%mp_comm)
    END FUNCTION
