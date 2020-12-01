@@ -566,6 +566,7 @@ CONTAINS
       CALL acc_event_record(stackbuf%ready, stream=upload_stream)
 
       CALL acc_stream_wait_event(stackbuf%stream, stackbuf%ready)
+      CALL acc_stream_wait_event(c_area%memory_type%acc_stream, stackbuf%ready)
 
       CALL dbcsr_acc_do_mm_stack(params, stackbuf%devmem, stack_size, c_area%data_type, &
                                  a_data=a_area%acc_devmem, &
