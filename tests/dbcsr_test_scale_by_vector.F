@@ -154,8 +154,10 @@ CONTAINS
 
             !
             ! Prepare test parameters
+            success = test_scale_by_vector(mp_env, npdims, matrix, vector_data, do_exact_comparison)
+
             IF (io_unit > 0) THEN
-               IF (test_scale_by_vector(mp_env, npdims, matrix, vector_data, do_exact_comparison)) THEN
+               IF (success) THEN
                   WRITE (io_unit, *) REPEAT("*", 70)
                   WRITE (io_unit, *) " -- TESTING dbcsr_scale_by_vector (", &
                      dbcsr_get_data_type(matrix), &
@@ -171,7 +173,6 @@ CONTAINS
                      do_exact_comparison, &
                      ") ............... FAILED !"
                   WRITE (io_unit, *) REPEAT("*", 70)
-                  success = .FALSE.
                END IF
             END IF
 
