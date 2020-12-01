@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.5% of total for source files.">320 statements</a>
+    title=" 0.5% of total for source files.">321 statements</a>
      </li> 
      
      
@@ -825,29 +825,31 @@
 <a name="ln-567"></a>      <span class="k">CALL </span><span class="n">acc_event_record</span><span class="p">(</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">ready</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="n">upload_stream</span><span class="p">)</span>
 <a name="ln-568"></a>
 <a name="ln-569"></a>      <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">stream</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">ready</span><span class="p">)</span>
-<a name="ln-570"></a>
-<a name="ln-571"></a>      <span class="k">CALL </span><span class="n">dbcsr_acc_do_mm_stack</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">devmem</span><span class="p">,</span> <span class="n">stack_size</span><span class="p">,</span> <span class="n">c_area</span><span class="p">%</span><span class="n">data_type</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-572"></a>                                 <span class="n">a_data</span><span class="o">=</span><span class="n">a_area</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-573"></a>                                 <span class="n">b_data</span><span class="o">=</span><span class="n">b_area</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-574"></a>                                 <span class="n">c_data</span><span class="o">=</span><span class="n">c_area</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-575"></a>                                 <span class="n">m_max</span><span class="o">=</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">max_m</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-576"></a>                                 <span class="n">n_max</span><span class="o">=</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">max_n</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-577"></a>                                 <span class="n">k_max</span><span class="o">=</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">max_k</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-578"></a>                                 <span class="n">def_mnk</span><span class="o">=</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">defined_mnk</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-579"></a>                                 <span class="n">stream</span><span class="o">=</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">stream</span><span class="p">,</span> <span class="p">&amp;</span>
-<a name="ln-580"></a>                                 <span class="n">success</span><span class="o">=</span><span class="n">success</span><span class="p">)</span>
-<a name="ln-581"></a>
-<a name="ln-582"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">success</span><span class="p">)</span> <span class="k">THEN</span>
-<a name="ln-583"></a><span class="k">         CALL </span><span class="n">acc_event_record</span><span class="p">(</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">calculated</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">stream</span><span class="p">)</span>
-<a name="ln-584"></a>         <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">a_area</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">calculated</span><span class="p">)</span>
-<a name="ln-585"></a>         <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">b_area</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">calculated</span><span class="p">)</span>
-<a name="ln-586"></a>         <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">c_area</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">calculated</span><span class="p">)</span>
-<a name="ln-587"></a>      <span class="n">ENDIF</span>
-<a name="ln-588"></a>
-<a name="ln-589"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
-<a name="ln-590"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_mm_accdrv_process</span>
-<a name="ln-591"></a>
-<a name="ln-592"></a><span class="k">END MODULE </span><span class="n">dbcsr_mm_accdrv</span>
+<a name="ln-570"></a>      <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">c_area</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">ready</span><span class="p">)</span>
+<a name="ln-571"></a>
+<a name="ln-572"></a>      <span class="k">CALL </span><span class="n">dbcsr_acc_do_mm_stack</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">devmem</span><span class="p">,</span> <span class="n">stack_size</span><span class="p">,</span> <span class="n">c_area</span><span class="p">%</span><span class="n">data_type</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-573"></a>                                 <span class="n">a_data</span><span class="o">=</span><span class="n">a_area</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-574"></a>                                 <span class="n">b_data</span><span class="o">=</span><span class="n">b_area</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-575"></a>                                 <span class="n">c_data</span><span class="o">=</span><span class="n">c_area</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-576"></a>                                 <span class="n">m_max</span><span class="o">=</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">max_m</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-577"></a>                                 <span class="n">n_max</span><span class="o">=</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">max_n</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-578"></a>                                 <span class="n">k_max</span><span class="o">=</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">max_k</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-579"></a>                                 <span class="n">def_mnk</span><span class="o">=</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">defined_mnk</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-580"></a>                                 <span class="n">stack_stream</span><span class="o">=</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">stream</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-581"></a>                                 <span class="n">c_stream</span><span class="o">=</span><span class="n">c_area</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-582"></a>                                 <span class="n">success</span><span class="o">=</span><span class="n">success</span><span class="p">)</span>
+<a name="ln-583"></a>
+<a name="ln-584"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">success</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-585"></a><span class="k">         CALL </span><span class="n">acc_event_record</span><span class="p">(</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">calculated</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">stream</span><span class="p">)</span>
+<a name="ln-586"></a>         <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">a_area</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">calculated</span><span class="p">)</span>
+<a name="ln-587"></a>         <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">b_area</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">calculated</span><span class="p">)</span>
+<a name="ln-588"></a>         <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">c_area</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">calculated</span><span class="p">)</span>
+<a name="ln-589"></a>      <span class="n">ENDIF</span>
+<a name="ln-590"></a>
+<a name="ln-591"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
+<a name="ln-592"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_mm_accdrv_process</span>
+<a name="ln-593"></a>
+<a name="ln-594"></a><span class="k">END MODULE </span><span class="n">dbcsr_mm_accdrv</span>
 </pre></div>
 
     </section>

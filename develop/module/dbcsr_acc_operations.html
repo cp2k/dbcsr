@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.2% of total for modules and submodules.">143 statements</a>
+    title=" 0.2% of total for modules and submodules.">148 statements</a>
      </li> 
      
      
@@ -360,7 +360,7 @@
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_acc_do_mm_stack"></span><h3>
-public subroutine <a href='../proc/dbcsr_acc_do_mm_stack.html'>dbcsr_acc_do_mm_stack</a>(param_stack_host, param_stack_dev, stack_size, datatype, a_data, b_data, c_data, m_max, n_max, k_max, def_mnk, stream, success)
+public subroutine <a href='../proc/dbcsr_acc_do_mm_stack.html'>dbcsr_acc_do_mm_stack</a>(param_stack_host, param_stack_dev, stack_size, datatype, a_data, b_data, c_data, m_max, n_max, k_max, def_mnk, stack_stream, c_stream, success)
     
     
    
@@ -566,7 +566,22 @@ public subroutine <a href='../proc/dbcsr_acc_do_mm_stack.html'>dbcsr_acc_do_mm_s
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>stream</strong></td><td></td>
+  <td><strong>stack_stream</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>c_stream</strong></td><td></td>
   
 </tr>
 

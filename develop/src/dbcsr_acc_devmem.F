@@ -355,8 +355,6 @@ CONTAINS
       MARK_USED(size_in_bytes)
       DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
-      CHARACTER(len=*), PARAMETER :: routineN = 'acc_devmem_allocate'
-
       INTEGER                                  :: istat
 
       IF (this%size_in_bytes >= 0) &
@@ -379,8 +377,6 @@ CONTAINS
       MARK_USED(this)
       DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
-      CHARACTER(len=*), PARAMETER :: routineN = 'acc_devmem_deallocate'
-
       INTEGER                                  :: istat
 
       IF (this%size_in_bytes < 0) &
@@ -413,8 +409,6 @@ CONTAINS
       MARK_USED(stream)
       DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
-      CHARACTER(len=*), PARAMETER :: routineN = 'acc_devmem_setzero'
-
       INTEGER                                  :: istat
       INTEGER(KIND=C_SIZE_T)                   :: length, offset
       TYPE(C_PTR)                              :: stream_cptr
@@ -450,8 +444,6 @@ CONTAINS
       TYPE(acc_stream_type), INTENT(IN)                  :: stream
          !! stream used for memory transfer
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'host2dev_raw'
-
       INTEGER                                            :: istat
       TYPE(C_PTR)                                        :: stream_cptr
 
@@ -477,8 +469,6 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: n_bytes
       TYPE(acc_stream_type), INTENT(IN)                  :: stream
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dev2host_raw'
-
       INTEGER                                            :: istat
       TYPE(C_PTR)                                        :: stream_cptr
 
@@ -498,9 +488,9 @@ CONTAINS
    END SUBROUTINE dev2host_raw
 #endif
 
-# 506 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 496 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
-# 508 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 498 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
    SUBROUTINE host2dev_i4_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
@@ -553,7 +543,7 @@ CONTAINS
 #endif
    END SUBROUTINE dev2host_i4_1D
 
-# 508 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 498 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
    SUBROUTINE host2dev_i8_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
@@ -606,7 +596,7 @@ CONTAINS
 #endif
    END SUBROUTINE dev2host_i8_1D
 
-# 508 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 498 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
    SUBROUTINE host2dev_r4_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
@@ -659,7 +649,7 @@ CONTAINS
 #endif
    END SUBROUTINE dev2host_r4_1D
 
-# 508 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 498 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
    SUBROUTINE host2dev_r8_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
@@ -712,7 +702,7 @@ CONTAINS
 #endif
    END SUBROUTINE dev2host_r8_1D
 
-# 508 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 498 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
    SUBROUTINE host2dev_c4_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
@@ -765,7 +755,7 @@ CONTAINS
 #endif
    END SUBROUTINE dev2host_c4_1D
 
-# 508 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 498 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
    SUBROUTINE host2dev_c8_1D(this, hostmem, stream)
       !! Transfers 1D fortran-array from host to GPU devmem.
@@ -818,6 +808,6 @@ CONTAINS
 #endif
    END SUBROUTINE dev2host_c8_1D
 
-# 561 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
+# 551 "/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_devmem.F"
 
 END MODULE dbcsr_acc_devmem

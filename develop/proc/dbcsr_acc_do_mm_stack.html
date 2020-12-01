@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">78 statements</a>
+    title=" 0.1% of total for procedures.">83 statements</a>
      </li> 
      
      
@@ -194,7 +194,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-public subroutine dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack_size, datatype, a_data, b_data, c_data, m_max, n_max, k_max, def_mnk, stream, success)
+public subroutine dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack_size, datatype, a_data, b_data, c_data, m_max, n_max, k_max, def_mnk, stack_stream, c_stream, success)
     
     
    
@@ -390,12 +390,27 @@ public subroutine dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack
   
 <tr>
   
-  <td><span class="anchor" id="variable-stream~48"></span>type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),</td>
+  <td><span class="anchor" id="variable-stack_stream"></span>type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>stream</strong></td><td></td>
+  <td><strong>stack_stream</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-c_stream"></span>type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>c_stream</strong></td><td></td>
   
 </tr>
 
@@ -483,7 +498,8 @@ public subroutine dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_acc_do_mm_stack</span><span class="p">(</span><span class="n">param_stack_host</span><span class="p">,</span> <span class="n">param_stack_dev</span><span class="p">,</span> <span class="n">stack_size</span><span class="p">,</span> <span class="n">datatype</span><span class="p">,</span> <span class="p">&amp;</span>
       <span class="c">!! Launch an accelerated kernel for processing a stack.</span>
-                                    <span class="n">a_data</span><span class="p">,</span> <span class="n">b_data</span><span class="p">,</span> <span class="n">c_data</span><span class="p">,</span> <span class="n">m_max</span><span class="p">,</span> <span class="n">n_max</span><span class="p">,</span> <span class="n">k_max</span><span class="p">,</span> <span class="n">def_mnk</span><span class="p">,</span> <span class="n">stream</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span>
+                                    <span class="n">a_data</span><span class="p">,</span> <span class="n">b_data</span><span class="p">,</span> <span class="n">c_data</span><span class="p">,</span> <span class="n">m_max</span><span class="p">,</span> <span class="n">n_max</span><span class="p">,</span> <span class="n">k_max</span><span class="p">,</span> <span class="n">def_mnk</span><span class="p">,</span> <span class="p">&amp;</span>
+                                    <span class="n">stack_stream</span><span class="p">,</span> <span class="n">c_stream</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">TARGET</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">param_stack_host</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">acc_devmem_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>            <span class="kd">::</span> <span class="n">param_stack_dev</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                          <span class="kd">::</span> <span class="n">stack_size</span>
@@ -492,7 +508,7 @@ public subroutine dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack
       <span class="k">TYPE</span><span class="p">(</span><span class="n">acc_devmem_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>         <span class="kd">::</span> <span class="n">c_data</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                          <span class="kd">::</span> <span class="n">m_max</span><span class="p">,</span> <span class="n">n_max</span><span class="p">,</span> <span class="n">k_max</span>
       <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                          <span class="kd">::</span> <span class="n">def_mnk</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">acc_stream_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>            <span class="kd">::</span> <span class="n">stream</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">acc_stream_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>            <span class="kd">::</span> <span class="n">stack_stream</span><span class="p">,</span> <span class="n">c_stream</span>
       <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">success</span>
 
 <span class="cp">#if ! defined (__DBCSR_ACC)</span>
@@ -507,7 +523,8 @@ public subroutine dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">n_max</span><span class="p">)</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">k_max</span><span class="p">)</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">def_mnk</span><span class="p">)</span>
-      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">stack_stream</span><span class="p">)</span>
+      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">c_stream</span><span class="p">)</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">success</span><span class="p">)</span>
       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in.&quot;</span><span class="p">)</span>
 <span class="cp">#else</span>
@@ -539,7 +556,7 @@ public subroutine dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack
                                     <span class="nb">INT</span><span class="p">(</span><span class="n">n_max</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
                                     <span class="nb">INT</span><span class="p">(</span><span class="n">k_max</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
                                     <span class="nb">INT</span><span class="p">(</span><span class="n">max_kernel_dim</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
-                                    <span class="n">mnk</span><span class="p">,</span> <span class="n">acc_stream_cptr</span><span class="p">(</span><span class="n">stream</span><span class="p">))</span>
+                                    <span class="n">mnk</span><span class="p">,</span> <span class="n">acc_stream_cptr</span><span class="p">(</span><span class="n">stack_stream</span><span class="p">),</span> <span class="n">acc_stream_cptr</span><span class="p">(</span><span class="n">c_stream</span><span class="p">))</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="o">==</span> <span class="mi">100</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;failed due to accGetLastError().&quot;</span><span class="p">)</span>
       <span class="n">success</span> <span class="o">=</span> <span class="p">(</span><span class="n">istat</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="c">! false if no suitable kernel was found</span>
 

@@ -310,8 +310,6 @@ public subroutine acc_devmem_deallocate(this)
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">this</span><span class="p">)</span>
       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in.&quot;</span><span class="p">)</span>
 <span class="cp">#else</span>
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;acc_devmem_deallocate&#39;</span>
-
       <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">istat</span>
 
       <span class="k">IF</span> <span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">size_in_bytes</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
