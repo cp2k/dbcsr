@@ -1401,7 +1401,7 @@ CONTAINS
          CALL dbcsr_tas_iterator_next_block(iter, row, col, bn)
          row_size = matrix_c%row_blk_size%data(row)
          col_size = matrix_c%col_blk_size%data(col)
-         IF (PRESENT(nze)) nze = nze + row_size*col_size
+         IF (PRESENT(nze)) nze = nze + INT(row_size*col_size, KIND=int_8)
          IF (PRESENT(blk_ind)) blk_ind(iblk, :) = [row, col]
       ENDDO
       CALL dbcsr_tas_iterator_stop(iter)

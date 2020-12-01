@@ -1570,7 +1570,7 @@ CONTAINS
       !CALL mp_environ(nproc, myproc, tensor%pgrid%mp_comm_2d)
       nproc = tensor%pgrid%nproc
 
-      blk_count = INT(blk_count_total/nproc*max_load_imbalance)
+      blk_count = INT(blk_count_total/INT(nproc*max_load_imbalance, int_8))
 
    END FUNCTION
 

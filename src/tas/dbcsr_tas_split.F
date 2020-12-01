@@ -379,9 +379,9 @@ CONTAINS
       IF (relative) THEN
          dims_opt = 0
          CALL mp_dims_create(PRODUCT(dims), dims_opt)
-         accept_pgrid_dims = (MAXVAL(REAL(dims, real_8))/MAXVAL(dims_opt) .LT. default_pdims_accept_ratio)
+         accept_pgrid_dims = REAL(MAXVAL(dims), real_8)/REAL(MAXVAL(dims_opt), real_8) .LT. default_pdims_accept_ratio
       ELSE
-         accept_pgrid_dims = (MAXVAL(REAL(dims, real_8))/MINVAL(dims) .LT. default_pdims_accept_ratio**2)
+         accept_pgrid_dims = REAL(MAXVAL(dims), real_8)/REAL(MINVAL(dims), real_8) .LT. default_pdims_accept_ratio**2
       ENDIF
    END FUNCTION
 

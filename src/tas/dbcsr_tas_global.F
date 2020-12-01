@@ -218,8 +218,8 @@ CONTAINS
       new_dbcsr_tas_blk_size_repl%nmrowcol_local = SIZE(blk_size_vec)
       ALLOCATE (new_dbcsr_tas_blk_size_repl%blk_size_vec(new_dbcsr_tas_blk_size_repl%nmrowcol_local))
       new_dbcsr_tas_blk_size_repl%blk_size_vec(:) = blk_size_vec(:)
-      new_dbcsr_tas_blk_size_repl%nmrowcol = new_dbcsr_tas_blk_size_repl%nmrowcol_local*n_repl
-      new_dbcsr_tas_blk_size_repl%nfullrowcol = SUM(blk_size_vec)*n_repl
+      new_dbcsr_tas_blk_size_repl%nmrowcol = INT(new_dbcsr_tas_blk_size_repl%nmrowcol_local, KIND=int_8)*INT(n_repl, KIND=int_8)
+      new_dbcsr_tas_blk_size_repl%nfullrowcol = SUM(INT(blk_size_vec, KIND=int_8))*INT(n_repl, KIND=int_8)
    END FUNCTION
 
    FUNCTION new_dbcsr_tas_blk_size_one(nrowcol)
@@ -277,7 +277,7 @@ CONTAINS
       ENDDO
 
       ALLOCATE (repl_rowcols(count))
-      repl_rowcols(:) = rowcols_tmp(1:count) + igroup*t%nmrowcol_local
+      repl_rowcols(:) = rowcols_tmp(1:count) + INT(igroup*t%nmrowcol_local, KIND=int_8)
 
    END FUNCTION
 
@@ -427,7 +427,7 @@ CONTAINS
       new_dbcsr_tas_dist_repl%dist_vec(:) = MOD(dist_vec(:), dist_size)
       new_dbcsr_tas_dist_repl%nprowcol = nprowcol
       new_dbcsr_tas_dist_repl%nmrowcol_local = nmrowcol
-      new_dbcsr_tas_dist_repl%nmrowcol = nmrowcol*n_repl
+      new_dbcsr_tas_dist_repl%nmrowcol = INT(nmrowcol, KIND=int_8)*INT(n_repl, KIND=int_8)
    END FUNCTION
 
    FUNCTION cyclic_dist(t, rowcol)
