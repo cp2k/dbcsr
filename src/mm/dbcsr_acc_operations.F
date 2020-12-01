@@ -40,7 +40,7 @@ MODULE dbcsr_acc_operations
       FUNCTION libsmm_acc_process_cu(param_stack_host, param_stack_dev, stack_size, nparams, &
                                      data_type, a_data, b_data, c_data, m_max, &
                                      n_max, k_max, max_kernel_dim, def_mnk, &
-                                     stream_ptr) &
+                                     stack_stream_ptr, c_stream_ptr) &
          RESULT(istat) &
          BIND(C, name="libsmm_acc_process")
          IMPORT
@@ -50,7 +50,7 @@ MODULE dbcsr_acc_operations
          TYPE(C_PTR), INTENT(IN), VALUE           :: a_data, b_data, c_data
          INTEGER(KIND=C_INT), INTENT(IN), VALUE   :: m_max, n_max, k_max
          INTEGER(KIND=C_INT), INTENT(IN), VALUE   :: max_kernel_dim, def_mnk
-         TYPE(C_PTR), VALUE                       :: stream_ptr
+         TYPE(C_PTR), VALUE                       :: stack_stream_ptr, c_stream_ptr
          INTEGER(KIND=C_INT)                      :: istat
 
       END FUNCTION libsmm_acc_process_cu
@@ -78,7 +78,8 @@ CONTAINS
 
    SUBROUTINE dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack_size, datatype, &
       !! Launch an accelerated kernel for processing a stack.
-                                    a_data, b_data, c_data, m_max, n_max, k_max, def_mnk, stream, success)
+                                    a_data, b_data, c_data, m_max, n_max, k_max, def_mnk, &
+                                    stack_stream, c_stream, success)
       INTEGER, DIMENSION(:, :), TARGET, INTENT(IN) :: param_stack_host
       TYPE(acc_devmem_type), INTENT(IN)            :: param_stack_dev
       INTEGER, INTENT(IN)                          :: stack_size
@@ -87,7 +88,7 @@ CONTAINS
       TYPE(acc_devmem_type), INTENT(INOUT)         :: c_data
       INTEGER, INTENT(IN)                          :: m_max, n_max, k_max
       LOGICAL, INTENT(IN)                          :: def_mnk
-      TYPE(acc_stream_type), INTENT(IN)            :: stream
+      TYPE(acc_stream_type), INTENT(IN)            :: stack_stream, c_stream
       LOGICAL, INTENT(INOUT)                       :: success
 
 #if ! defined (__DBCSR_ACC)
@@ -102,7 +103,8 @@ CONTAINS
       MARK_USED(n_max)
       MARK_USED(k_max)
       MARK_USED(def_mnk)
-      MARK_USED(stream)
+      MARK_USED(stack_stream)
+      MARK_USED(c_stream)
       MARK_USED(success)
       DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
@@ -134,7 +136,7 @@ CONTAINS
                                     INT(n_max, KIND=C_INT), &
                                     INT(k_max, KIND=C_INT), &
                                     INT(max_kernel_dim, KIND=C_INT), &
-                                    mnk, acc_stream_cptr(stream))
+                                    mnk, acc_stream_cptr(stack_stream), acc_stream_cptr(c_stream))
       IF (istat == 100) DBCSR_ABORT("failed due to accGetLastError().")
       success = (istat == 0) ! false if no suitable kernel was found
 

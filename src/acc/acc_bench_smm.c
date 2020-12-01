@@ -116,7 +116,7 @@ int main(int argc, char* argv[])
   /* warmup execution and prebuild JIT kernels */
   for (r = 0; r < warmup; ++r) {
     CHECK(libsmm_acc_process(stack_hst, stack_dev, stack_size, 3/*nparams*/, DBCSR_TYPE(ELEM_TYPE),
-      amat_dev, bmat_dev, cmat_dev, m, n, k, MAX_KERNEL_DIM, 1/*homogeneous*/, stream), &result);
+      amat_dev, bmat_dev, cmat_dev, m, n, k, MAX_KERNEL_DIM, 1/*homogeneous*/, stream, stream), &result);
   }
 #if defined(USE_LIBXSMM)
   CHECK(acc_stream_sync(stream), &result);
@@ -125,7 +125,7 @@ int main(int argc, char* argv[])
   for (r = 0; r < nrepeat; ++r) {
     /* GPU-kernel is limited to C += Ai * Bi^T (i.e., NT, for NN, all Bi must be transposed upfront) */
     CHECK(libsmm_acc_process(stack_hst, stack_dev, stack_size, 3/*nparams*/, DBCSR_TYPE(ELEM_TYPE),
-      amat_dev, bmat_dev, cmat_dev, m, n, k, MAX_KERNEL_DIM, 1/*homogeneous*/, stream), &result);
+      amat_dev, bmat_dev, cmat_dev, m, n, k, MAX_KERNEL_DIM, 1/*homogeneous*/, stream, stream), &result);
   }
 #if defined(USE_LIBXSMM)
   CHECK(acc_stream_sync(stream), &result);
