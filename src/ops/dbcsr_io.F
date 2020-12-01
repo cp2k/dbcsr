@@ -676,16 +676,16 @@ CONTAINS
       sendbuf = linfo_size
       CALL mp_allgather(sendbuf, linfo_sizes, mp_group)
       CALL cumsum_l(INT(linfo_sizes, kind=file_offset), subh3_disps)
-      subh3_disps(:) = CSHIFT(subh3_disps, shift=-1) + ginfo_size + 2*numnodes
-      subh3_disps(1) = ginfo_size + 2*numnodes
+      subh3_disps(:) = CSHIFT(subh3_disps, shift=-1) + INT(ginfo_size + 2*numnodes, KIND=file_offset)
+      subh3_disps(1) = INT(ginfo_size + 2*numnodes, KIND=file_offset)
 
       data_area_size = dbcsr_data_get_size_referenced(matrix%data_area)
       sendbuf = data_area_size
       CALL mp_allgather(sendbuf, da_sizes, mp_group)
       CALL cumsum_l(INT(da_sizes, kind=file_offset), bdata_disps)
       bdata_disps(:) = CSHIFT(bdata_disps, shift=-1) + SUM(INT(linfo_sizes, KIND=file_offset)) + &
-                       ginfo_size + numnodes*2
-      bdata_disps(1) = SUM(INT(linfo_sizes, KIND=file_offset)) + ginfo_size + numnodes*2
+                       INT(ginfo_size + numnodes*2, KIND=file_offset)
+      bdata_disps(1) = SUM(INT(linfo_sizes, KIND=file_offset)) + INT(ginfo_size + numnodes*2, KIND=file_offset)
 
       CALL mp_file_open(mp_group, thefile, filepath, file_amode_create + file_amode_wronly)
 
@@ -833,7 +833,8 @@ CONTAINS
       CALL mp_file_read_at_all(thefile, BOF + version_len*mpi_character_size, matrix_name_v_1_0)
       matrix_name = matrix_name_v_1_0
 
-      CALL mp_file_read_at_all(thefile, BOF + (version_len + default_string_length)*mpi_character_size, matrix_type)
+      CALL mp_file_read_at_all(thefile, BOF + INT((version_len + default_string_length)*mpi_character_size, KIND=file_offset), &
+                               matrix_type)
 ! read 4 integer values form sub-header1
       CALL mp_file_read_at_all(thefile, BOF + char_count*mpi_character_size, values)
       size_of_pgrid = values(1)
@@ -847,9 +848,9 @@ CONTAINS
       row_blk_size => ginfo_vec(1:nblkrows_total)
       col_blk_size => ginfo_vec(nblkrows_total + 1:globalinfo_size)
 
-! compute the offsets where sub-header2 and sub-header3 start
-      subh2_start = (4 + globalinfo_size)*mpi_integer_size + char_count*mpi_character_size
-      subh3_start = subh2_start + 2*size_of_pgrid*mpi_integer_size
+      ! compute the offsets where sub-header2 and sub-header3 start
+      subh2_start = INT((4 + globalinfo_size)*mpi_integer_size + char_count*mpi_character_size, KIND=file_offset)
+      subh3_start = subh2_start + INT(2*size_of_pgrid*mpi_integer_size, KIND=file_offset)
 
       ! compute the offsets in sub-header2 and read 2 integers nblocks, data_area_size
       ! number of data chunks from sub-header 2 and 3 to be read by every node rounded up
@@ -859,7 +860,7 @@ CONTAINS
       ALLOCATE (subh2_offsets(share_size))
       subh2_offsets = BOF
       DO i = 1, share_size
-         offset = subh2_start + mpi_integer_size*2*(worker_id + (i - 1)*group_list_size)
+         offset = subh2_start + mpi_integer_size*2*INT(worker_id + (i - 1)*group_list_size, KIND=file_offset)
          IF (offset .GE. subh3_start) EXIT
          subh2_offsets(i) = offset
       END DO

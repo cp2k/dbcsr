@@ -1891,9 +1891,8 @@ CONTAINS
       INTEGER                                            :: blk, blk_nze, col, col_size, handle, &
                                                             my_method, row, row_size, data_type
       LOGICAL                                            :: gt0, my_filter_diag, tr
-      REAL(KIND=real_4)                                  :: nrm_s
       REAL(KIND=real_4), DIMENSION(:), POINTER           :: data_s
-      REAL(KIND=real_8)                                  :: my_absolute, nrm_d
+      REAL(KIND=real_8)                                  :: my_absolute, nrm_d, nrm_s
       REAL(KIND=real_8), DIMENSION(:), POINTER           :: data_d
       TYPE(dbcsr_iterator)                               :: iter
 
@@ -1947,8 +1946,8 @@ CONTAINS
                CASE (dbcsr_filter_frobenius)
                   !
                   ! Frobenius based
-                  nrm_s = norm2(data_s)
-                  IF (nrm_s .LT. my_absolute*eps%r_sp) &
+                  nrm_s = REAL(norm2(data_s), KIND=dp)
+                  IF (nrm_s .LT. my_absolute*REAL(eps%r_sp, KIND=dp)) &
                      CALL dbcsr_remove_block(matrix, row, col, blk_nze, blk)
                CASE DEFAULT
                   DBCSR_ABORT("Only Frobenius based filtering")
@@ -2337,7 +2336,7 @@ CONTAINS
             CALL dbcsr_iterator_next_block(iter, row, col, data_r, tr, blk)
             fac = 1.0_dp
             IF (any_sym .AND. row .NE. col) fac = 2.0_dp
-            norm = norm + fac*SUM(data_r**2)
+            norm = norm + fac*REAL(SUM(data_r**2), KIND=real_8)
          CASE (dbcsr_type_real_8)
             CALL dbcsr_iterator_next_block(iter, row, col, data_d, tr, blk)
             fac = 1.0_dp
@@ -2535,7 +2534,8 @@ CONTAINS
       IF (nfullrows .NE. 0 .AND. nfullcols .NE. 0) THEN
          IF (dbcsr_has_symmetry(matrix)) THEN
             IF (2*nze_global .EQ. &
-                (INT(nfullrows, KIND=int_8)*INT(nfullrows + 1, KIND=int_8) + SUM(row_blk_size*(row_blk_size - 1)))) THEN
+                (INT(nfullrows, KIND=int_8)*INT(nfullrows + 1, KIND=int_8) + &
+                 SUM(INT(row_blk_size, KIND=int_8)*INT(row_blk_size - 1, KIND=int_8)))) THEN
                occupation = 1.0_real_8
             ELSE
                occupation = 2.0_real_8*REAL(nze_global, real_8)/ &
@@ -3075,7 +3075,7 @@ CONTAINS
          lb_row_blk(2) = blk + 1
          ! get index of a-block lb_a whether found (from matrix_a) or not (from workspace array)
          IF (found) THEN
-            my_flop = my_flop + nze*2
+            my_flop = my_flop + INT(nze, int_8)*2
             lb_a = ABS(matrix_a%blk_p(blk))
          ELSE
             lb_a = matrix_a%wms(iw)%datasize + 1
