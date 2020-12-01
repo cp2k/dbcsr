@@ -132,6 +132,7 @@ foreach (
   ${dbcsr_unittest1_SRCS}
   ${dbcsr_unittest2_SRCS}
   ${dbcsr_unittest3_SRCS}
+  ${dbcsr_unittest4_SRCS}
   ${dbcsr_tensor_unittest_SRCS}
   ${dbcsr_tas_unittest_SRCS}
   ${dbcsr_test_csr_conversions_SRCS})
