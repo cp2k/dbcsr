@@ -299,15 +299,15 @@ int libsmm_acc_process_d(const int* param_stack, int stack_size, ACC_DRV(stream)
 
 
 //===========================================================================
-int libsmm_acc_process (const int* param_stack_host, const int *param_stack_dev, int stack_size, int nparams, libsmm_acc_data_t datatype, const void *a_data, const void *b_data, void *c_data, int m, int n, int k, int max_kernel_dim, int def_mnk, void *stream){
+int libsmm_acc_process (const int* param_stack_host, const int *param_stack_dev, int stack_size, int nparams, libsmm_acc_data_t datatype, const void *a_data, const void *b_data, void *c_data, int m, int n, int k, int max_kernel_dim, int def_mnk, void *stack_stream, void *c_stream){
     if(def_mnk!=1)
         return -1; // inhomogeneous stacks not supported
     if(datatype==dbcsr_type_real_8) {
       if(m>max_kernel_dim || n>max_kernel_dim || k>max_kernel_dim)
         // maximum size over any dimension
-        return (libsmm_acc_process_blas ((const int *) param_stack_host, stack_size, *((ACC_DRV(stream) *) stream), m, n, k, max_kernel_dim, (const double *) a_data, (const double *) b_data, (double *) c_data));
+        return (libsmm_acc_process_blas ((const int *) param_stack_host, stack_size, *((ACC_DRV(stream) *) c_stream), m, n, k, max_kernel_dim, (const double *) a_data, (const double *) b_data, (double *) c_data));
       else
-        return (libsmm_acc_process_d ((const int *) param_stack_dev, stack_size, *((ACC_DRV(stream) *) stream), m, n, k, (const double *) a_data, (const double *) b_data, (double *) c_data));
+        return (libsmm_acc_process_d ((const int *) param_stack_dev, stack_size, *((ACC_DRV(stream) *) stack_stream), m, n, k, (const double *) a_data, (const double *) b_data, (double *) c_data));
     }
     return -1; // datatype not supported
 }

@@ -575,7 +575,8 @@ CONTAINS
                                  n_max=stack_descr%max_n, &
                                  k_max=stack_descr%max_k, &
                                  def_mnk=stack_descr%defined_mnk, &
-                                 stream=stackbuf%stream, &
+                                 stack_stream=stackbuf%stream, &
+                                 c_stream=c_area%memory_type%acc_stream, &
                                  success=success)
 
       IF (success) THEN
@@ -589,4 +590,3 @@ CONTAINS
    END SUBROUTINE dbcsr_mm_accdrv_process
 
 END MODULE dbcsr_mm_accdrv
-
