@@ -11,7 +11,6 @@
 
 #include "acc.h"
 
-#define DBCSR_CONCATENATE(A, B) A##B
 #define DBCSR_TYPE(T) DBCSR_CONCATENATE(DBCSR_TYPE_, T)
 #define DBCSR_TYPE_double dbcsr_type_real_8
 #define DBCSR_TYPE_float dbcsr_type_real_4
