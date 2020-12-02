@@ -34,8 +34,7 @@ extern "C" int acc_init(){
   ACC_DRV_CALL(DevicePrimaryCtxRetain, (&ctx, acc_device));
 
   // Initialize libsmm_acc, DBCSR's GPU backend
-  libsmm_acc_init();
-  return 0;
+  return libsmm_acc_init();
 }
 
 /****************************************************************************/

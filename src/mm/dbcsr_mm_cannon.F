@@ -149,8 +149,7 @@ CONTAINS
       TYPE(array_i1d_obj), INTENT(IN)                    :: k_vmap, m_map, n_map
       TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: alpha
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'make_m2s', routineP = moduleN//':'//routineN
-
+      CHARACTER(len=*), PARAMETER :: routineN = 'make_m2s'
       INTEGER                                            :: handle, i, im, j, jm
       INTEGER, DIMENSION(4)                              :: f_crop
       LOGICAL                                            :: do_scale, thread_redist
@@ -298,7 +297,7 @@ CONTAINS
       TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: scale_value
          !! scale with this value
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'make_images', routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'make_images'
       INTEGER, PARAMETER                                 :: metalen = 5
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
@@ -753,8 +752,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(IN)                       :: new_template
          !! template dense matrix for creating image matrices
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_images_dense', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_images_dense'
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
       INTEGER                                            :: handle, mat_col, mat_row, mat_vpcol, &
@@ -837,10 +835,9 @@ CONTAINS
       INTEGER(KIND=int_8), INTENT(OUT)                   :: flop
          !! effective flop
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'multiply_cannon', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'multiply_cannon'
       INTEGER, PARAMETER                                 :: idata = 1, ileft = 0, imeta = 2, &
-                                                            iright = 2, M_L = 2, M_P = 1, M_R = 3
+                                                            iright = 2
 
       INTEGER :: data_type, data_type_byte, grp, handle, handle1, handle2, handle3, i, ithread, &
                  left_col_image, left_col_mult, left_col_nimages, left_dst_icol, left_dst_irow, &
@@ -1757,8 +1754,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: index_size
       INTEGER, INTENT(IN), OPTIONAL                      :: data_size
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'setup_buffer_matrices', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'setup_buffer_matrices'
 
       INTEGER                                            :: col_image, handle, row_image
 
@@ -1801,8 +1797,7 @@ CONTAINS
       TYPE(dbcsr_2d_array_type), INTENT(INOUT)           :: buffer_set
       INTEGER, INTENT(IN)                                :: index_size, data_size
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'buffer_matrices_ensure_size', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'buffer_matrices_ensure_size'
 
       INTEGER                                            :: col_image, handle, row_image
 
@@ -1827,8 +1822,7 @@ CONTAINS
       TYPE(dbcsr_2d_array_type), INTENT(INOUT)           :: matrix_set
       INTEGER, INTENT(IN)                                :: n_rows, n_cols
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'setup_rec_index_2d', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'setup_rec_index_2d'
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
       INTEGER                                            :: handle, i_col, i_row, t_f, t_l, t_size

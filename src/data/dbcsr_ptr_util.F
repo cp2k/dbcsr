@@ -107,8 +107,6 @@ CONTAINS
       TYPE(dbcsr_data_obj)                               :: narea2
          !! copy of new_area
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'pointer_view_a', routineP = moduleN//':'//routineN
-
       IF (area%d%data_type /= new_area%d%data_type) &
          DBCSR_ABORT("Incompatible data types.")
       IF (PRESENT(len)) THEN
@@ -330,8 +328,7 @@ CONTAINS
         !! length of elements to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
-      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_${nametype1}$'
       INTEGER                               :: error_handle
 !   ---------------------------------------------------------------------------
 
@@ -359,8 +356,7 @@ CONTAINS
         !! length of elements to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
-      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_${nametype1}$_2d', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'mem_alloc_${nametype1}$_2d'
       INTEGER                               :: error_handle
 !   ---------------------------------------------------------------------------
 
@@ -388,8 +384,7 @@ CONTAINS
         !! memory to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
-      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_${nametype1}$'
       INTEGER                               :: error_handle
 !   ---------------------------------------------------------------------------
 
@@ -415,8 +410,7 @@ CONTAINS
         !! memory to allocate
       TYPE(dbcsr_memtype_type), INTENT(IN)  :: mem_type
         !! memory type
-      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'mem_dealloc_${nametype1}$'
       INTEGER                               :: error_handle
 !   ---------------------------------------------------------------------------
 

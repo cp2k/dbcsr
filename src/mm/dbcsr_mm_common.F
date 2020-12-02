@@ -257,8 +257,6 @@ CONTAINS
       INTEGER, INTENT(OUT)                               :: nlow
       INTEGER, INTENT(IN)                                :: mi, half
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'rec_split', routineP = moduleN//':'//routineN
-
       INTEGER                                            :: el, half_m, p_high, p_low
 
       half_m = mi + half - 1
@@ -284,8 +282,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: max_size
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS         :: enum, rev_enum
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'enumerate_blk_sizes', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'enumerate_blk_sizes'
 
       INTEGER                                            :: handle, i, n
 
@@ -327,8 +324,7 @@ CONTAINS
                                                                 col_blk_sizes2enum, enum2col_blk_sizes
       LOGICAL, INTENT(IN), OPTIONAL                      :: noresize
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'acc_transpose_blocks', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'acc_transpose_blocks'
 
       INTEGER                                            :: blk_p, handle, handle1, i, m, mi, &
                                                             mi_max, n, nblks, ni, ni_max, offset, x, &
@@ -513,8 +509,7 @@ CONTAINS
          !! Block norms
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS, INTENT(IN) :: row_blk_sizes, col_blk_sizes
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'calculate_norms', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'calculate_norms'
 
       INTEGER                                            :: data_type, handle, nblks
 

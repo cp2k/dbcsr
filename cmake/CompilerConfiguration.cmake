@@ -1,11 +1,11 @@
 if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
-  set(CMAKE_Fortran_FLAGS          "-ffree-form -std=f2008ts -fimplicit-none -Werror=aliasing -Werror=ampersand -Werror=c-binding-type -Werror=intrinsic-shadow -Werror=intrinsics-std -Werror=line-truncation -Werror=tabs -Werror=target-lifetime -Werror=underflow -Werror=unused-but-set-parameter -Werror=unused-but-set-variable -Werror=unused-variable -Werror=unused-dummy-argument -Werror=conversion -Werror=zerotrip -Werror=uninitialized -Wno-maybe-uninitialized")
+  set(CMAKE_Fortran_FLAGS          "-ffree-form -std=f2008ts -fimplicit-none -Werror=aliasing -Werror=ampersand -Werror=c-binding-type -Werror=intrinsic-shadow -Werror=intrinsics-std -Werror=line-truncation -Werror=tabs -Werror=target-lifetime -Werror=underflow -Werror=unused-but-set-parameter -Werror=unused-but-set-variable -Werror=unused-variable -Werror=unused-dummy-argument -Werror=conversion -Werror=zerotrip -Werror=uninitialized -Wno-maybe-uninitialized -Werror=unused-parameter")
   if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 10)
     set(CMAKE_Fortran_FLAGS "${CMAKE_Fortran_FLAGS} -Werror=argument-mismatch")  # gcc 10+ has this automatically
   endif ()
   set(CMAKE_Fortran_FLAGS_RELEASE  "-O3 -g -funroll-loops")
   set(CMAKE_Fortran_FLAGS_COVERAGE "-O0 -g --coverage -fno-omit-frame-pointer -fcheck=all -ffpe-trap=invalid,zero,overflow -fbacktrace -finit-real=snan -finit-integer=-42 -finit-derived -Werror=realloc-lhs -finline-matmul-limit=0 -Werror")
-  set(CMAKE_Fortran_FLAGS_DEBUG    "-O2 -ggdb -fno-omit-frame-pointer -fcheck=all -ffpe-trap=invalid,zero,overflow -fbacktrace -finit-real=snan -finit-integer=-42 -finit-derived -Werror=realloc-lhs -finline-matmul-limit=0 -fsanitize=undefined -fsanitize=address -fsanitize-recover=all -Warray-temporaries")
+  set(CMAKE_Fortran_FLAGS_DEBUG    "-O2 -ggdb -fno-omit-frame-pointer -fcheck=all -ffpe-trap=invalid,zero,overflow -fbacktrace -finit-real=snan -finit-integer=-42 -finit-derived -finline-matmul-limit=0 -fsanitize=undefined -fsanitize=address -fsanitize-recover=all -Wall -Wextra -Werror -Werror=realloc-lhs -Wno-error=array-temporaries -Wno-error=compare-reals -Wno-error=function-elimination -Wno-error=surprising")
   if ((NOT (USE_MPI)) OR (NOT ("${MPI_Fortran_LIBRARY_VERSION_STRING}" MATCHES "Open MPI")))
     set(CMAKE_Fortran_FLAGS_COVERAGE "${CMAKE_Fortran_FLAGS_COVERAGE} -fsanitize=leak")
     set(CMAKE_Fortran_FLAGS_DEBUG "${CMAKE_Fortran_FLAGS_DEBUG} -fsanitize=leak")

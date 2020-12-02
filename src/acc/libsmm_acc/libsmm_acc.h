@@ -18,16 +18,11 @@
 
 #include "../acc_libsmm.h"
 #include "parameters_utils.h"
+#include "libsmm_acc_init.h"
 
 #include <cstdio>
 #include <unordered_map>
 #include <vector>
-
-extern "C" void dbcsr_timeset(const char** routineN, int* routineN_len, int* handle);
-void timeset(std::string routine_name, int& handle);
-
-extern "C" void dbcsr_timestop(int* handle);
-void timestop(int handle);
 
 enum libsmm_acc_algo {
     largeDB1 = 1,
@@ -48,7 +43,12 @@ typedef std::unordered_map<Triplet, kernel_launcher>::iterator kernel_map_iterat
 
 static std::unordered_map<Triplet, kernel_launcher> kernel_handles;
 
-int libsmm_acc_process_d(const int *param_stack, int stack_size,
+int libsmm_acc_process_blas(const int *param_stack_host, int stack_size,
+                            ACC_DRV(stream) stream, int m, int n, int k,
+                            const double * a_data, const double * b_data, double * c_data,
+                            ACC_BLAS(Handle_t) *handle);
+
+int libsmm_acc_process_d(const int *param_stack_dev, int stack_size,
                          ACC_DRV(stream) stream, int m, int n, int k,
                          const double * a_data, const double * b_data, double * c_data);
 

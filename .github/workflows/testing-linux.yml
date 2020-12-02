@@ -7,6 +7,9 @@ on:
   pull_request:
 
 jobs:
+  ##################################################################################
+  # Run pre-commit
+  ##################################################################################
   pre-commit:
     runs-on: ubuntu-latest
     container:
@@ -17,6 +20,9 @@ jobs:
       run:
         pre-commit run --all-files || ( git status --short ; git diff ; exit 1 )
 
+  ##################################################################################
+  # Build and test on linux, no accelerator
+  ##################################################################################
   build-and-test:
     runs-on: ubuntu-latest
     container:
@@ -34,13 +40,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-
-    - name: Checkout submodules
-      shell: bash
-      run: |
-        auth_header="$(git config --local --get http.https://github.com/.extraheader)"
-        git submodule sync --recursive
-        git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
+      with:
+        submodules: true
 
     - name: Configure
       run: |
@@ -72,7 +73,38 @@ jobs:
       uses: codecov/codecov-action@v1
       with:
         file: build/coverage.info
-        yml: .codecov.yml
+        flags: unittests,${{ matrix.use_mpi == 'MPI=ON' && 'with-mpi' || 'without-mpi' }},${{ matrix.use_openmp == 'OPENMP=ON' && 'with-openmp' || 'without-openmp' }},${{ matrix.use_smm == 'SMM=blas' && 'with-blas' || 'with-libxsmm' }}
+        name: dbcsr-unittests-${{ matrix.use_mpi }}-${{ matrix.use_openmp }}-${{ matrix.use_smm }}-cpu-only
         fail_ci_if_error: true
+
+  ##################################################################################
+  # Build on ROCm
+  ##################################################################################
+  build-on-rocm:
+    runs-on: ubuntu-latest
+    container:
+      image: shoshijak/build-env-rocm:1.0
+
+    strategy:
+      matrix:
+        use_openmp: [OPENMP=ON, OPENMP=OFF]
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+
+    - name: Configure
+      run: |
+        mkdir -p build
+        cd build
+        cmake -G Ninja \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DUSE_${{ matrix.use_openmp }} \
+          -DUSE_HIP=ON \
+          -DWITH_GPU=Mi50 \
+          ..
+    - name: Build
+      run: cmake --build build -- --verbose
 
 #  vim: set ts=2 sw=2 tw=0 :

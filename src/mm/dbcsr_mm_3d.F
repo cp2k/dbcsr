@@ -242,8 +242,7 @@ CONTAINS
       LOGICAL, INTENT(IN)                                :: otf_filtering
       TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: scale_value
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'make_buffers', routineP = moduleN//':'//routineN
-
+      CHARACTER(len=*), PARAMETER :: routineN = 'make_buffers'
       INTEGER :: blk, blk_p, bp, col, col_img, col_size, data_type, dst_proc, f_col_f, f_row_f, &
                  grp, handle, handle2, irequests, it, ithread, l_col_l, l_row_l, mynode, myt, &
                  nblkcols_local, nblkrows_local, ncols_images, nimages, nprocs, nprocs_total, &
@@ -1149,8 +1148,7 @@ CONTAINS
          !! effective flop
       LOGICAL, INTENT(IN)                                :: keep_product_data
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'multiply_3D', routineP = moduleN//':'//routineN
-
+      CHARACTER(len=*), PARAMETER :: routineN = 'multiply_3D'
       INTEGER :: blk, data_type, data_type_byte, final_step_k, grp_left, grp_right, handle, &
                  handle1, handle2, icol3D, icol3D_send, ileft_buffer_calc, ileft_buffer_comm, &
                  iright_buffer_calc, iright_buffer_comm, irow3D, irow3D_send, istep_k_ordered, ithread, &
@@ -2246,8 +2244,7 @@ CONTAINS
       LOGICAL, DIMENSION(:), INTENT(INOUT)               :: do_win_create
       INTEGER, INTENT(INOUT)                             :: request
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'win_setup', routineP = moduleN//':'//routineN
-
+      CHARACTER(len=*), PARAMETER :: routineN = 'win_setup'
       INTEGER                                            :: handle, handle1
 
       CALL timeset(routineN, handle)
@@ -2457,8 +2454,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: size_index
       LOGICAL, INTENT(IN)                                :: has_threads
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'setup_rec_index_images', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'setup_rec_index_images'
 
       INTEGER                                            :: handle, in, nblkcols_local, &
                                                             nblkrows_local, t_f, t_l, t_size
@@ -2654,8 +2650,6 @@ CONTAINS
       LOGICAL, INTENT(IN)                                :: do_merge_rows
       INTEGER, DIMENSION(:), INTENT(IN)                  :: global_indices
       INTEGER, INTENT(IN), OPTIONAL                      :: nthreads
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'make_meta', routineP = moduleN//':'//routineN
 
       INTEGER                                            :: size_index
 

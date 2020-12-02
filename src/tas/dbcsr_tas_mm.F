@@ -123,8 +123,7 @@ CONTAINS
                                                     move_a, move_b, do_batched, &
                                                     nodata_3
       TYPE(dbcsr_tas_split_info)                 :: info, info_a, info_b, info_c
-      CHARACTER(LEN=*), PARAMETER                :: routineN = 'dbcsr_tas_multiply', &
-                                                    routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER                :: routineN = 'dbcsr_tas_multiply'
       INTEGER(KIND=int_8)                        :: nze_a, nze_b, nze_c, nze_c_sum
       TYPE(dbcsr_type)                           :: matrix_a_mm, matrix_b_mm, matrix_c_mm
 
@@ -828,8 +827,7 @@ CONTAINS
       TYPE(dbcsr_tas_dist_arb)            :: new_row_dist, new_col_dist
       TYPE(dbcsr_tas_distribution_type)   :: dist
       LOGICAL                           :: nodata_prv
-      CHARACTER(LEN=*), PARAMETER       :: routineN = 'reshape_mm_small', &
-                                           routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER       :: routineN = 'reshape_mm_small'
       INTEGER                           :: handle
 
       CALL timeset(routineN, handle)
@@ -911,8 +909,7 @@ CONTAINS
 
       INTEGER(KIND=int_8), DIMENSION(2)          :: dims1, dims2, dims_ref
       INTEGER(KIND=int_8)                        :: d1, d2
-      CHARACTER(LEN=*), PARAMETER                :: routineN = 'reshape_mm_compatible', &
-                                                    routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER                :: routineN = 'reshape_mm_compatible'
       INTEGER                                    :: handle, mp_comm, numnodes, unit_nr_prv, &
                                                     nsplit_prv, ref, split_rc_ref
       INTEGER, DIMENSION(2)                      :: pcoord, pdims
@@ -980,8 +977,9 @@ CONTAINS
       IF ((.NOT. optimize_dist_prv) .AND. dist_compatible(matrix1_in, matrix2_in, split_rc_1, split_rc_2)) THEN
          CALL change_split(matrix1_in, matrix1_out, nsplit_prv, split_rc_1, new1, &
                            move_data=move_data_1, nodata=nodata1, opt_nsplit=opt_nsplit)
+         CALL dbcsr_tas_get_split_info(dbcsr_tas_info(matrix1_out), nsplit=nsplit_prv)
          CALL change_split(matrix2_in, matrix2_out, nsplit_prv, split_rc_2, new2, &
-                           move_data=move_data_2, nodata=nodata2, opt_nsplit=opt_nsplit)
+                           move_data=move_data_2, nodata=nodata2, opt_nsplit=.FALSE.)
          IF (unit_nr_prv > 0) THEN
             WRITE (unit_nr_prv, "(T2,A,1X,A,1X,A,1X,A)") "No redistribution of", TRIM(matrix1_in%matrix%name), &
                "and", TRIM(matrix2_in%matrix%name)
@@ -1139,8 +1137,7 @@ CONTAINS
       LOGICAL                                    :: nodata_prv
       CLASS(dbcsr_tas_distribution), ALLOCATABLE :: rdist, cdist
       CLASS(dbcsr_tas_rowcol_data), ALLOCATABLE  :: rbsize, cbsize
-      CHARACTER(LEN=*), PARAMETER                :: routineN = 'change_split', &
-                                                    routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER                :: routineN = 'change_split'
 
       NULLIFY (matrix_out)
 
@@ -1155,7 +1152,7 @@ CONTAINS
             is_new = .FALSE.
             RETURN
          ELSE
-            nsplit_prv = 1
+            DBCSR_ABORT("should not happen")
          ENDIF
       ELSE
          nsplit_prv = nsplit
@@ -1211,10 +1208,11 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL              :: unit_nr
       LOGICAL                                    :: dist_compatible
 
-      INTEGER                                    :: res, same_local_rowcols, split_check
+      INTEGER                                    :: same_local_rowcols, split_check_a, split_check_b
       TYPE(dbcsr_tas_split_info)                 :: info_a, info_b
       INTEGER                                    :: unit_nr_prv, numproc
       INTEGER, DIMENSION(2)                      :: pdims_a, pdims_b, pcoord_a, pcoord_b
+      INTEGER(int_8), DIMENSION(:), ALLOCATABLE         :: local_rowcols_a, local_rowcols_b
 
       unit_nr_prv = prep_output_unit(unit_nr)
 
@@ -1222,53 +1220,50 @@ CONTAINS
 
       info_a = dbcsr_tas_info(mat_a)
       info_b = dbcsr_tas_info(mat_b)
-      CALL dbcsr_tas_get_split_info(info_a, split_rowcol=split_check)
-      IF (split_check /= split_rc_a) RETURN
-      CALL dbcsr_tas_get_split_info(info_b, split_rowcol=split_check)
-      IF (split_check /= split_rc_b) RETURN
+      CALL dbcsr_tas_get_split_info(info_a, split_rowcol=split_check_a)
+      CALL dbcsr_tas_get_split_info(info_b, split_rowcol=split_check_b)
+      IF (split_check_b /= split_rc_b .OR. split_check_a /= split_rc_a .OR. split_rc_a /= split_rc_b) THEN
+         IF (unit_nr_prv > 0) THEN
+            WRITE (unit_nr_prv, *) "matrix layout a not compatible", split_check_a, split_rc_a
+            WRITE (unit_nr_prv, *) "matrix layout b not compatible", split_check_b, split_rc_b
+         ENDIF
+         RETURN
+      ENDIF
 
-      ! check if communicators are equivalent (global process grid and subgrids)
+      ! check if communicators are equivalent
       ! Note: mpi_comm_compare is not sufficient since this does not compare associated Cartesian grids.
-      ! It's sufficient to check dimensions of global grid and rank order of subgrids.
+      ! It's sufficient to check dimensions of global grid, subgrids will be determined later on (change_split)
       CALL mp_environ(numproc, pdims_a, pcoord_a, info_a%mp_comm)
       CALL mp_environ(numproc, pdims_b, pcoord_b, info_b%mp_comm)
       IF (.NOT. array_eq(pdims_a, pdims_b)) THEN
-         RETURN
-      ENDIF
-
-      CALL mp_comm_compare(info_a%mp_comm_group, info_b%mp_comm_group, res)
-      IF (res .GT. 1) THEN
-         RETURN
-      ENDIF
-
-      IF (unit_nr_prv > 0) THEN
-         WRITE (unit_nr_prv, *) "mp comm compatible"
-      ENDIF
-
-      IF (mat_a%dist%info%split_rowcol == mat_b%dist%info%split_rowcol) THEN
-
          IF (unit_nr_prv > 0) THEN
-            WRITE (unit_nr_prv, *) "split compatible"
+            WRITE (unit_nr_prv, *) "mp dims not compatible:", pdims_a, "|", pdims_b
          ENDIF
-
-         same_local_rowcols = MERGE(1, 0, array_eq(mat_a%dist%local_rowcols, mat_b%dist%local_rowcols))
-         CALL mp_sum(same_local_rowcols, info_a%mp_comm)
-
-         IF (same_local_rowcols == numproc) THEN
-            IF (unit_nr_prv > 0) THEN
-               WRITE (unit_nr_prv, *) "local rowcols compatible"
-            ENDIF
-            dist_compatible = .TRUE.
-         ELSE
-            IF (unit_nr_prv > 0) THEN
-               WRITE (unit_nr_prv, *) "local rowcols A", mat_a%dist%local_rowcols
-               WRITE (unit_nr_prv, *) "local rowcols B", mat_b%dist%local_rowcols
-            ENDIF
-         ENDIF
+         RETURN
       ENDIF
 
-      IF (unit_nr_prv > 0) THEN
-         WRITE (unit_nr_prv, *) "is compatible?", dist_compatible
+      ! check that distribution is the same by comparing local rows / columns for each matrix
+      SELECT CASE (split_rc_a)
+      CASE (rowsplit)
+         CALL dbcsr_tas_get_info(mat_a, local_rows=local_rowcols_a)
+         CALL dbcsr_tas_get_info(mat_b, local_rows=local_rowcols_b)
+      CASE (colsplit)
+         CALL dbcsr_tas_get_info(mat_a, local_cols=local_rowcols_a)
+         CALL dbcsr_tas_get_info(mat_b, local_cols=local_rowcols_b)
+      END SELECT
+
+      same_local_rowcols = MERGE(1, 0, array_eq(local_rowcols_a, local_rowcols_b))
+
+      CALL mp_sum(same_local_rowcols, info_a%mp_comm)
+
+      IF (same_local_rowcols == numproc) THEN
+         dist_compatible = .TRUE.
+      ELSE
+         IF (unit_nr_prv > 0) THEN
+            WRITE (unit_nr_prv, *) "local rowcols not compatible"
+            WRITE (unit_nr_prv, *) "local rowcols A", local_rowcols_a
+            WRITE (unit_nr_prv, *) "local rowcols B", local_rowcols_b
+         ENDIF
       ENDIF
 
    END FUNCTION
@@ -1289,8 +1284,7 @@ CONTAINS
                                                     numnodes, handle
       INTEGER, DIMENSION(2)                      :: pcoord, pdims
       LOGICAL                                    :: nodata_prv, transposed
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'reshape_mm_template', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'reshape_mm_template'
 
       CALL timeset(routineN, handle)
 
@@ -1366,8 +1360,7 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL :: retain_sparsity
       INTEGER(int_8), INTENT(OUT), OPTIONAL :: nze
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_result_index', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_result_index'
       LOGICAL :: retain_sparsity_prv
       INTEGER :: bn, row_size, col_size, handle, iblk, mp_comm, nblk
       INTEGER(int_8) :: row, col
@@ -1544,8 +1537,7 @@ CONTAINS
       TYPE(dbcsr_mp_obj)                         :: mp_obj
       CHARACTER(len=default_string_length)       :: name
       LOGICAL                                    :: nodata_prv, optimize_pgrid_prv
-      CHARACTER(LEN=*), PARAMETER                :: routineN = 'convert_to_new_pgrid', &
-                                                    routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER                :: routineN = 'convert_to_new_pgrid'
 
       NULLIFY (row_dist, col_dist, rbsize, rcsize)
 

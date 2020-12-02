@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Check that a static archive contains only the objects specified in the PACKAGES files.
@@ -6,7 +6,6 @@ Check that a static archive contains only the objects specified in the PACKAGES 
 
 # author: Ole Schuett
 
-from __future__ import print_function
 
 import subprocess
 import os

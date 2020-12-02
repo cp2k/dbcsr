@@ -110,8 +110,7 @@ CONTAINS
          !! dense matrix Take into account the symmetry of the sparse matrix. The dense matrix need to be valid. The operation is
          !! done locally.
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_impose_sparsity', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_impose_sparsity'
 
       CHARACTER                                          :: symm
       INTEGER                                            :: blk, col, col_offset, col_size, &
@@ -222,8 +221,7 @@ CONTAINS
          !! dense matrix Take into account the symmetry of the sparse matrix. The dense matrix need to be valid. The operation is
          !! done locally.
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_to_dense_local', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_to_dense_local'
 
       CHARACTER                                          :: symm
       INTEGER                                            :: col, col_offset, col_size, data_type, &
@@ -331,8 +329,7 @@ CONTAINS
       CHARACTER, INTENT(in), OPTIONAL                    :: symmetry
       TYPE(dbcsr_distribution_obj), INTENT(IN), OPTIONAL :: dist
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_random_matrix', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_random_matrix'
 
       CHARACTER                                          :: my_symmetry
       INTEGER                                            :: col, error_handle, max_nze, &
@@ -473,9 +470,6 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(out), POINTER        :: block_sizes
       INTEGER, INTENT(in)                                :: size_sum
       INTEGER, DIMENSION(:), INTENT(in)                  :: size_mix
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_random_block_sizes', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: block_size, current_sum, nblocks, &
                                                             nsize_mix, selector

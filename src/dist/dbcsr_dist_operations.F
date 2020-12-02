@@ -374,9 +374,6 @@ CONTAINS
          !! multiplicity
          !! number of images in the new distribution
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'rebin_distribution', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                            :: bin, i, old_nbins, virtual_bin
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: bin_multiplier
 
@@ -403,26 +400,6 @@ CONTAINS
          ENDIF
       ENDDO
    END SUBROUTINE rebin_distribution
-
-   PURE SUBROUTINE evenly_bin(array, nbins)
-      !! Evenly distributes elements into bins
-
-      INTEGER, DIMENSION(:), INTENT(OUT)                 :: array
-         !! elements to bin
-      INTEGER, INTENT(IN)                                :: nbins
-         !! number of bins into which elements are distributed
-
-      INTEGER                                            :: bin, first, last, maxbinsize
-
-!   ---------------------------------------------------------------------------
-
-      maxbinsize = CEILING(REAL(SIZE(array), KIND=dp)/REAL(nbins, KIND=dp))
-      DO bin = 1, nbins
-         first = 1 + (bin - 1)*maxbinsize
-         last = MIN(1 + (bin)*maxbinsize - 1, SIZE(array))
-         array(first:last) = bin - 1
-      ENDDO
-   END SUBROUTINE evenly_bin
 
    SUBROUTINE dbcsr_reblocking_targets(ints, numints, n_src_dsts, &
                                        src_sizes, dst_sizes)
@@ -461,9 +438,6 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN)                  :: src_sizes, dst_sizes
          !! sizes of source blocks
          !! sizes of target blocks
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_reblocking_targets', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: common_extent, current_dst, current_int, &
                                                             current_src, dst_off, n_dst, n_src, &
@@ -597,8 +571,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: local_prow
          !! find local elements for this local row
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_local_rows', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_local_rows'
 
       INTEGER                                            :: el, error_handle, nprows, prow
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: nle
@@ -645,8 +618,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: local_pcol
          !! find local elements for this local column
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_local_cols', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_local_cols'
 
       INTEGER                                            :: el, error_handle, npcols, pcol
       INTEGER, ALLOCATABLE, DIMENSION(:)                 :: nle
@@ -741,8 +713,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: element_sizes
          !! sizes of elements
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_dist_bin', routineP = moduleN//':'//routineN
-
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_dist_bin'
       INTEGER                                            :: bin, bin_cnt, error_handle, i
       LOGICAL                                            :: found
       REAL(kind=sp)                                      :: rn

@@ -152,8 +152,7 @@ CONTAINS
       INTEGER                                        :: handle, unit_nr_prv
       INTEGER, DIMENSION(:), ALLOCATABLE             :: map1_in_1, map1_in_2, map2_in_1, map2_in_2
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_copy', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_copy'
       LOGICAL                                        :: dist_compatible_tas, dist_compatible_tensor, &
                                                         summation_prv, new_in_1, new_in_2, &
                                                         new_in_3, new_out_1, block_compatible, &
@@ -288,7 +287,7 @@ CONTAINS
       TYPE(block_nd) :: blk_data
       LOGICAL :: found
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_copy_nocomm', routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_copy_nocomm'
       INTEGER :: handle
 
       CALL timeset(routineN, handle)
@@ -331,8 +330,7 @@ CONTAINS
       LOGICAL                                            :: tr
 
       INTEGER                                            :: handle
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_copy_matrix_to_tensor', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_copy_matrix_to_tensor'
 
       CALL timeset(routineN, handle)
       DBCSR_ASSERT(tensor_out%valid)
@@ -383,8 +381,7 @@ CONTAINS
       INTEGER                                :: blk, handle
       INTEGER, DIMENSION(2)                  :: ind_2d
       REAL(KIND=real_8), DIMENSION(:, :), ALLOCATABLE :: block
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_copy_tensor_to_matrix', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_copy_tensor_to_matrix'
       LOGICAL :: found
 
       CALL timeset(routineN, handle)
@@ -514,9 +511,6 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                  :: log_verbose
          !! verbose logging (for testing only)
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_contract', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                     :: handle
 
       CALL mp_sync(tensor_1%pgrid%mp_comm_2d)
@@ -611,8 +605,7 @@ CONTAINS
       INTEGER                                        :: occ_1, occ_2
       INTEGER, DIMENSION(:), ALLOCATABLE             :: dims1, dims2, dims3
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_contract', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_contract'
       CHARACTER(LEN=1), DIMENSION(:), ALLOCATABLE    :: indchar1, indchar2, indchar3, indchar1_mod, &
                                                         indchar2_mod, indchar3_mod
       CHARACTER(LEN=1), DIMENSION(15) :: alph = &
@@ -1627,8 +1620,7 @@ CONTAINS
       TYPE(dbcsr_t_distribution_type)        :: dist
       INTEGER                                :: comm_2d_prv, handle, i
       INTEGER, DIMENSION(ndims_tensor(tensor_in)) :: pdims, myploc
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_remap', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_remap'
       LOGICAL                               :: nodata_prv
       TYPE(dbcsr_t_pgrid_type)              :: comm_nd
 
@@ -1720,8 +1712,7 @@ CONTAINS
          INTENT(OUT), OPTIONAL                        :: order
          !! permutation resulting from alignment
       INTEGER, DIMENSION(ndims_tensor(tensor_in))     :: order_prv
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_align_index', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_align_index'
       INTEGER                                         :: handle
 
       CALL timeset(routineN, handle)
@@ -1743,8 +1734,7 @@ CONTAINS
          INTENT(IN)                                   :: order
 
       TYPE(nd_to_2d_mapping)                          :: nd_index_blk_rs, nd_index_rs
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_permute_index', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_permute_index'
       INTEGER                                         :: handle
       INTEGER                                         :: ndims
 
@@ -1786,40 +1776,6 @@ CONTAINS
       ENDIF
 
       CALL timestop(handle)
-   END SUBROUTINE
-
-   SUBROUTINE dbcsr_t_get_nonzero_index(tensor, dim, bounds, ind)
-      !! Get all indices along one dimension that have at least one occupied block
-
-      TYPE(dbcsr_t_type), INTENT(IN) :: tensor
-      INTEGER, INTENT(IN) :: dim
-         !! which dimension
-      INTEGER, INTENT(IN), DIMENSION(2, ndims_tensor(tensor)) :: bounds
-         !! bounds of (full) tensor index
-      LOGICAL, ALLOCATABLE, DIMENSION(:), INTENT(OUT) :: ind
-         !! indices with occupied blocks
-      INTEGER, DIMENSION(ndims_tensor(tensor)) :: bdims, blk_index, blk_size, blk_offset
-      INTEGER :: bdim, blk, idim
-      TYPE(dbcsr_t_iterator_type)                     :: iter
-
-      CALL blk_dims_tensor(tensor, bdims)
-      bdim = bdims(dim)
-      ALLOCATE (ind(bdim))
-      ind = .FALSE.
-
-      CALL dbcsr_t_iterator_start(iter, tensor)
-
-      blk_loop: DO WHILE (dbcsr_t_iterator_blocks_left(iter))
-         CALL dbcsr_t_iterator_next_block(iter, blk_index, blk, blk_size=blk_size, blk_offset=blk_offset)
-         DO idim = 1, ndims_tensor(tensor)
-            IF (bounds(1, idim) > blk_offset(idim) - 1 + blk_size(idim)) CYCLE blk_loop
-            IF (bounds(2, idim) < blk_offset(idim)) CYCLE blk_loop
-         ENDDO
-
-         ind(blk_index(dim)) = .TRUE.
-      ENDDO blk_loop
-
-      CALL dbcsr_t_iterator_stop(iter)
    END SUBROUTINE
 
    SUBROUTINE dbcsr_t_contract_index(alpha, tensor_1, tensor_2, beta, tensor_3, &
@@ -2273,57 +2229,6 @@ CONTAINS
          CALL dbcsr_t_change_pgrid(tensor, pgrid, nodata=nodata, pgrid_changed=pgrid_changed, unit_nr=unit_nr)
       ENDIF
       CALL dbcsr_t_pgrid_destroy(pgrid)
-
-   END SUBROUTINE
-
-   SUBROUTINE pdims_realtoint(nproc, pdims_real, pdims_int, pdims_min, pdims_max)
-      INTEGER, INTENT(IN) :: nproc
-      REAL(real_8), DIMENSION(2), INTENT(IN) :: pdims_real
-      INTEGER, DIMENSION(2), INTENT(OUT) :: pdims_int, pdims_min, pdims_max
-      INTEGER, DIMENSION(2) :: ind
-
-      IF (pdims_real(1) > pdims_real(2)) THEN
-         ind = [2, 1]
-      ELSE
-         ind = [1, 2]
-      ENDIF
-
-      CALL nearest_divisor(nproc, pdims_real(ind(1)), pdims_min(1), pdims_max(1), pdims_int(1))
-      pdims_int(2) = nproc/pdims_int(1)
-      DBCSR_ASSERT(pdims_int(1)*pdims_int(2) == nproc)
-      pdims_min(2) = nproc/pdims_min(1)
-      DBCSR_ASSERT(pdims_min(1)*pdims_min(2) == nproc)
-      pdims_max(2) = nproc/pdims_max(1)
-      DBCSR_ASSERT(pdims_max(1)*pdims_max(2) == nproc)
-
-      pdims_int(ind) = pdims_int
-      pdims_min(ind) = pdims_min
-      pdims_max(ind) = pdims_max
-   END SUBROUTINE
-
-   SUBROUTINE nearest_divisor(n, div_approx, div_min, div_max, div_near)
-      INTEGER, INTENT(IN) :: n
-      REAL(real_8), INTENT(IN) :: div_approx
-      INTEGER :: div_min, div_max, div_near
-
-      div_min = FLOOR(div_approx)
-      div_min = MAX(1, div_min)
-      div_max = div_min + 1
-      div_max = MIN(n, div_max)
-
-      DO WHILE (MOD(n, div_min) .NE. 0)
-         div_min = div_min - 1
-      ENDDO
-
-      DO WHILE (MOD(n, div_max) .NE. 0)
-         div_max = div_max + 1
-      ENDDO
-
-      IF (div_approx/REAL(div_min, real_8) < REAL(div_max, real_8)/div_approx) THEN
-         div_near = div_min
-      ELSE
-         div_near = div_max
-      ENDIF
 
    END SUBROUTINE
 

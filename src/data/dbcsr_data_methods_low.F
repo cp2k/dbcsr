@@ -115,17 +115,6 @@ CONTAINS
       data_type = area%d%data_type
    END FUNCTION dbcsr_data_get_type
 
-   PURE FUNCTION dbcsr_data_unique(area) RESULT(unique)
-      !! Returns if there is a single reference of the data
-
-      TYPE(dbcsr_data_obj), INTENT(IN)                   :: area
-         !! data area
-      LOGICAL                                            :: unique
-         !! true if reference is 1
-
-      unique = area%d%refcount .EQ. 1
-   END FUNCTION dbcsr_data_unique
-
    FUNCTION dbcsr_data_get_memory_type(area) RESULT(memory_type)
       TYPE(dbcsr_data_obj), INTENT(IN)                   :: area
       TYPE(dbcsr_memtype_type)                           :: memory_type
@@ -150,8 +139,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN), CONTIGUOUS      :: sizes
          !! sizes to allocate to
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'internal_data_allocate', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'internal_data_allocate'
 
       INTEGER                                            :: error_handle
 
@@ -213,8 +201,7 @@ CONTAINS
       TYPE(dbcsr_data_area_type), INTENT(INOUT)          :: area
          !! internal structure holding array pointers
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'internal_data_deallocate', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'internal_data_deallocate'
 
       INTEGER                                            :: handle
 
@@ -276,11 +263,6 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
          !! data area
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_clear_pointer', &
-                                     routineP = moduleN//':'//routineN
-
-!   ---------------------------------------------------------------------------
-
       IF (.NOT. ASSOCIATED(area%d)) THEN
          RETURN
       ENDIF
@@ -321,11 +303,6 @@ CONTAINS
       LOGICAL                                            :: valid
          !! whether the data area is valid
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_valid', &
-                                     routineP = moduleN//':'//routineN
-
-!   ---------------------------------------------------------------------------
-
       valid = ASSOCIATED(area%d)
    END FUNCTION dbcsr_data_valid
 
@@ -337,8 +314,7 @@ CONTAINS
       LOGICAL                                            :: valid
          !! whether the data pointer exists
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_exists', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_exists'
 
       INTEGER                                            :: error_handle
 
@@ -388,11 +364,6 @@ CONTAINS
       TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
          !! data area
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_hold', &
-                                     routineP = moduleN//':'//routineN
-
-!   ---------------------------------------------------------------------------
-
       IF (careful_mod) THEN
          IF (.NOT. ASSOCIATED(area%d)) &
             DBCSR_ABORT("Can't hold an empty data area.")
@@ -420,9 +391,6 @@ CONTAINS
          !! data area to point to
       INTEGER, INTENT(IN), OPTIONAL                      :: source_lb
          !! point to this offset in pointee
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'set_data_area_area', &
-                                     routineP = moduleN//':'//routineN
 
       COMPLEX(KIND=real_4), DIMENSION(:), POINTER        :: c_sp
       COMPLEX(KIND=real_8), DIMENSION(:), POINTER        :: c_dp
@@ -525,9 +493,6 @@ CONTAINS
       INTEGER                                            :: data_size
          !! size of data
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_get_size', &
-                                     routineP = moduleN//':'//routineN
-
       data_size = 0
       IF (ASSOCIATED(area%d)) THEN
          SELECT CASE (area%d%data_type)
@@ -579,8 +544,7 @@ CONTAINS
          !! lower bounds
          !! upper bounds
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_verify_bounds', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_verify_bounds'
 
       INTEGER                                            :: data_type, handle
 
@@ -646,8 +610,7 @@ CONTAINS
          !! data area
       INTEGER, DIMENSION(:), INTENT(in)                  :: lb, ub
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_zero', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_zero'
 
       INTEGER                                            :: error_handle
 
@@ -705,8 +668,7 @@ CONTAINS
       LOGICAL, INTENT(OUT)                               :: valid
          !! whether the data is actually allocated
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_get_sizes_any', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_get_sizes_any'
 
       INTEGER                                            :: handle
 
@@ -770,8 +732,7 @@ CONTAINS
       LOGICAL, INTENT(OUT)                               :: valid
          !! whether the data is actually allocated
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_get_sizes_2', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_get_sizes_2'
 
       INTEGER                                            :: handle
       INTEGER, DIMENSION(2)                              :: s
@@ -805,8 +766,7 @@ CONTAINS
       LOGICAL, INTENT(OUT)                               :: valid
          !! whether the data is actually allocated
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_get_sizes_1', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_get_sizes_1'
 
       INTEGER                                            :: handle
       INTEGER, DIMENSION(1)                              :: s
@@ -847,27 +807,6 @@ CONTAINS
          one%c_dp = CMPLX(1.0, 0.0, real_8)
       END SELECT
    END FUNCTION dbcsr_scalar_one
-
-   ELEMENTAL FUNCTION dbcsr_scalar_i(data_type) RESULT(i)
-      !! Returns an encapsulated scalar "sqrt(-1)"
-
-      INTEGER, INTENT(IN)                                :: data_type
-         !! use the data type
-      TYPE(dbcsr_scalar_type)                            :: i
-         !! encapsulated value of i
-
-      i = dbcsr_scalar_zero(data_type)
-      SELECT CASE (data_type)
-      CASE (dbcsr_type_real_4)
-         i%r_sp = 0.0_real_4
-      CASE (dbcsr_type_real_8)
-         i%r_dp = 0.0_real_8
-      CASE (dbcsr_type_complex_4)
-         i%c_sp = CMPLX(0.0, 1.0, real_4)
-      CASE (dbcsr_type_complex_8)
-         i%c_dp = CMPLX(0.0, 1.0, real_8)
-      END SELECT
-   END FUNCTION dbcsr_scalar_i
 
    ELEMENTAL FUNCTION dbcsr_scalar_zero(data_type) RESULT(zero)
       !! Returns an encapsulated scalar "0"
@@ -933,26 +872,6 @@ CONTAINS
          negated = dbcsr_scalar_zero(s%data_type)
       END SELECT
    END FUNCTION dbcsr_scalar_negative
-
-   ELEMENTAL FUNCTION dbcsr_scalar_add(s1, s2) RESULT(s_sum)
-      !! Returns an encapsulated scalar as a negation of the given
-      TYPE(dbcsr_scalar_type), INTENT(IN)                :: s1, s2
-      TYPE(dbcsr_scalar_type)                            :: s_sum
-
-      s_sum = dbcsr_scalar_zero(s1%data_type)
-      SELECT CASE (s1%data_type)
-      CASE (dbcsr_type_real_4)
-         s_sum%r_sp = s1%r_sp + s2%r_sp
-      CASE (dbcsr_type_real_8)
-         s_sum%r_dp = s1%r_dp + s2%r_dp
-      CASE (dbcsr_type_complex_4)
-         s_sum%c_sp = s1%c_sp + s2%c_sp
-      CASE (dbcsr_type_complex_8)
-         s_sum%c_dp = s1%c_dp + s2%c_dp
-      CASE default
-         s_sum = dbcsr_scalar_zero(s1%data_type)
-      END SELECT
-   END FUNCTION dbcsr_scalar_add
 
    ELEMENTAL FUNCTION dbcsr_scalar_multiply(s1, s2) RESULT(s_product)
       TYPE(dbcsr_scalar_type), INTENT(IN)                :: s1, s2
@@ -1137,10 +1056,6 @@ CONTAINS
       ${type1}$, DIMENSION(:), POINTER, CONTIGUOUS :: p
         !! source data pointer
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'set_data_p_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
-
-!   ---------------------------------------------------------------------------
       IF (area%d%data_type /= ${dkind1}$) &
          DBCSR_ABORT("set_data_p_${nametype1}$: data-area has wrong type")
 
@@ -1158,11 +1073,6 @@ CONTAINS
         !! target data area
       ${type1}$, DIMENSION(:, :), POINTER         :: p
         !! source data pointer
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'set_data_p_2d_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
-
-!   ---------------------------------------------------------------------------
 
       IF (area%d%data_type /= ${dkind1}$_2d) &
          DBCSR_ABORT("set_data_p_2d_${nametype1}$: data-area has wrong type")
@@ -1187,9 +1097,6 @@ CONTAINS
         !! upper bound for pointer
       ${type1}$, DIMENSION(:), POINTER :: DATA
         !! pointer to data
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_data_c_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                        :: l, u
 
@@ -1238,9 +1145,6 @@ CONTAINS
         !! lower bound for pointer
         !! upper bound for pointer
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_data_p_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                        :: l, u
 !   ---------------------------------------------------------------------------
 
@@ -1281,9 +1185,6 @@ CONTAINS
       INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL :: lb, ub
         !! lower bound for pointer
         !! upper bound for pointer
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_data_p_2d_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER, DIMENSION(2)          :: l, u
 !   ---------------------------------------------------------------------------
@@ -1326,9 +1227,6 @@ CONTAINS
         !! lower bound for pointer
         !! upper bound for pointer
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'get_data_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                        :: l, u
 !   ---------------------------------------------------------------------------
 
@@ -1365,9 +1263,6 @@ CONTAINS
       INTEGER, DIMENSION(2), INTENT(IN), OPTIONAL :: lb, ub
         !! lower bound for pointer
         !! upper bound for pointer
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'get_data_2d_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER, DIMENSION(2)          :: l, u
 !   ---------------------------------------------------------------------------
@@ -1407,11 +1302,6 @@ CONTAINS
       TYPE(dbcsr_scalar_type)   :: encapsulated_scalar
         !! encapsulated scalar
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_scalar_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
-
-!   ---------------------------------------------------------------------------
-
       encapsulated_scalar = dbcsr_scalar_zero(${dkind1}$)
       encapsulated_scalar%${base1}$_${prec1}$ = scalar
    END FUNCTION dbcsr_scalar_${nametype1}$
@@ -1423,11 +1313,6 @@ CONTAINS
         !! encapsulated scalar
       ${type1}$, INTENT(OUT)                :: value
         !! value of the scalar
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_scalar_get_value_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
-
-!   ---------------------------------------------------------------------------
 
       value = encapsulated_scalar%${base1}$_${prec1}$
    END SUBROUTINE dbcsr_scalar_get_value_${nametype1}$

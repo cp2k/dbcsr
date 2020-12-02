@@ -9,11 +9,15 @@ repos:
   hooks:
   - id: black
 - repo: https://gitlab.com/pycqa/flake8
-  rev: 3.7.9
+  rev: 3.8.4
   hooks:
   - id: flake8
+    exclude: >-
+      (?x)^(
+        .cp2k/.*|
+      )$
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v2.5.0
+  rev: v3.2.0
   hooks:
   - id: check-ast
   - id: check-yaml
@@ -21,6 +25,14 @@ repos:
   rev: v0.3.6
   hooks:
   - id: fprettify
+- repo: https://github.com/cheshirekow/cmake-format-precommit
+  rev: v0.6.13
+  hooks:
+  - id: cmake-format
+    exclude: >-
+      (?x)^(
+        cmake/(CheckFortranSourceRuns|CompilerConfiguration|Find(BLAS|LAPACK)|GetGitRevisionDescription).cmake|
+      )$
 - repo: local
   hooks:
   - id: check-header
@@ -28,7 +40,12 @@ repos:
     entry: ./.pre-commit/check_header.py --verbose
     language: script
     types: [text]
-    exclude: '^(tools|.cp2k)/'
+    exclude: >-
+      (?x)^(
+        tools/.*|
+        .cp2k/.*|
+        .cmake-format.py|
+      )$
   - id: check-doxygen-tags
     name: no doxygen tags present
     entry: '^\s*!>'

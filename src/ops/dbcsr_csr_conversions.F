@@ -176,8 +176,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: data_type
          !! data type of the CSR matrix (default real double prec.)
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_create_new', routineP = moduleN//':'//routineN
-
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_create_new'
       INTEGER                                            :: handle
 
       CALL timeset(routineN, handle)
@@ -241,8 +240,7 @@ CONTAINS
       TYPE(csr_type), INTENT(IN)                         :: matrix_a
          !! Source CSR matrix
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_create_template', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_create_template'
 
       INTEGER                                            :: handle
       TYPE(csr_mapping_data)                             :: map
@@ -296,59 +294,6 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE csr_create_template
 
-   SUBROUTINE csr_copy(matrix_b, matrix_a)
-      !! Copy a CSR matrix.
-
-      TYPE(csr_type), INTENT(OUT)                        :: matrix_b
-         !! Target CSR matrix
-      TYPE(csr_type), INTENT(IN)                         :: matrix_a
-         !! Source CSR matrix
-
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_copy', routineP = moduleN//':'//routineN
-
-      INTEGER                                            :: handle
-
-      CALL timeset(routineN, handle)
-
-      IF (.NOT. matrix_a%valid) &
-         DBCSR_ABORT("Source CSR matrix must be created.")
-      IF (.NOT. matrix_a%has_indices) &
-         DBCSR_ABORT("Source CSR matrix must have indices.")
-
-      IF (.NOT. matrix_b%valid) THEN
-         CALL csr_create(matrix_b, matrix_a)
-      ENDIF
-
-      IF (matrix_b%nzval_local%data_type /= matrix_a%nzval_local%data_type) &
-         DBCSR_ABORT("Matrices don't have the same datatype.")
-
-      IF (matrix_b%nze_local /= matrix_a%nze_local) &
-         DBCSR_ABORT("Matrices don't have the same number of local non-zero elements.")
-
-      IF (matrix_b%nrows_local /= matrix_a%nrows_local) &
-         DBCSR_ABORT("Matrices don't have the same number of local rows.")
-
-      IF (.NOT. matrix_b%has_indices) THEN
-         matrix_b%rowptr_local = matrix_a%rowptr_local
-         matrix_b%nzerow_local = matrix_a%nzerow_local
-         matrix_b%colind_local = matrix_a%colind_local
-      ENDIF
-
-      SELECT CASE (matrix_a%nzval_local%data_type)
-      CASE (dbcsr_type_real_4)
-         matrix_b%nzval_local%r_sp = matrix_a%nzval_local%r_sp
-      CASE (dbcsr_type_real_8)
-         matrix_b%nzval_local%r_dp = matrix_a%nzval_local%r_dp
-      CASE (dbcsr_type_complex_4)
-         matrix_b%nzval_local%c_sp = matrix_a%nzval_local%c_sp
-      CASE (dbcsr_type_complex_8)
-         matrix_b%nzval_local%c_dp = matrix_a%nzval_local%c_dp
-      END SELECT
-
-      CALL timestop(handle)
-
-   END SUBROUTINE csr_copy
-
    SUBROUTINE csr_create_nzerow(csr_mat, nzerow)
       !! create a vector containing the number of non-zero elements in each
       !! row of a CSR matrix
@@ -358,8 +303,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(INOUT), POINTER      :: nzerow
          !! number of non-zero elements in each row
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_create_nzerow', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_create_nzerow'
 
       INTEGER                                            :: handle, k
 
@@ -379,8 +323,7 @@ CONTAINS
       !! destroy a CSR matrix
       TYPE(csr_type), INTENT(INOUT)                      :: csr_mat
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_destroy', routineP = moduleN//':'//routineN
-
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_destroy'
       INTEGER                                            :: handle
       TYPE(csr_mapping_data)                             :: map
 
@@ -440,8 +383,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(IN)                       :: csr_sparsity_brd
          !! BRD matrix representing sparsity pattern of CSR matrix
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_create_from_brd', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_create_from_brd'
 
       INTEGER                                            :: data_type, handle, mp_group, &
                                                             nfullcols_total, nfullrows, &
@@ -503,8 +445,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(IN)                       :: csr_sparsity_brd
          !! sparsity of CSR matrix represented in BRD format
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_get_dbcsr_mapping', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_get_dbcsr_mapping'
 
       INTEGER :: blk, blkcol, blkrow, col_blk_size, csr_ind, data_type, dbcsr_ind, el_sum, &
                  fullcol_sum_blkrow, handle, l, m, n, nblkrows_total, nze, prev_blk, prev_blkrow, &
@@ -630,8 +571,7 @@ CONTAINS
       TYPE(csr_type), INTENT(IN)                         :: csr_mat
          !! CSR matrix
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'convert_csr_to_brd', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'convert_csr_to_brd'
 
       INTEGER                                            :: data_type, handle, ind, k, nze
 
@@ -679,8 +619,7 @@ CONTAINS
       TYPE(csr_type), INTENT(INOUT)                      :: csr_mat
          !! CSR matrix
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'convert_brd_to_csr', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'convert_brd_to_csr'
 
       INTEGER :: blk, blkcol, blkrow, col_blk_offset, col_blk_size, csr_ind, data_type, dbcsr_ind, &
                  el_sum, handle, ind_blk_data, k, local_row_ind, m, n, nblkrows_total, node_row_offset, &
@@ -833,8 +772,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: numnodes
          !! number of nodes to use for distributing CSR matrix (optional, default is number of nodes used for DBCSR matrix)
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_create_from_dbcsr', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_create_from_dbcsr'
 
       INTEGER                                            :: dbcsr_numnodes, handle, nblkcols_total, &
                                                             nblkrows_total, nblks_local, num_p
@@ -962,8 +900,7 @@ CONTAINS
       TYPE(csr_type), INTENT(IN)                         :: csr_mat
       TYPE(dbcsr_type), INTENT(IN)                       :: dbcsr_mat
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_assert_consistency_with_dbcsr', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_assert_consistency_with_dbcsr'
 
       INTEGER                                            :: handle
       TYPE(csr_mapping_data)                             :: map
@@ -1007,8 +944,7 @@ CONTAINS
       TYPE(csr_type), INTENT(INOUT)                      :: csr_mat
          !! correctly allocated CSR matrix
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'convert_dbcsr_to_csr', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'convert_dbcsr_to_csr'
 
       INTEGER                                            :: handle
       TYPE(dbcsr_type)                                   :: dbcsr_mat_nosym
@@ -1049,8 +985,7 @@ CONTAINS
       TYPE(csr_type), INTENT(INOUT)                      :: csr_mat
          !! CSR matrix to convert
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'convert_csr_to_dbcsr', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'convert_csr_to_dbcsr'
 
       INTEGER                                            :: handle
       TYPE(dbcsr_type)                                   :: dbcsr_mat_nosym
@@ -1156,8 +1091,7 @@ CONTAINS
          !! threshold on the absolute value of the elements to be printed
       LOGICAL, INTENT(IN), OPTIONAL                      :: binary
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_write', routineP = moduleN//':'//routineN
-
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_write'
       CHARACTER(LEN=default_string_length)               :: data_format
       COMPLEX(KIND=real_4), ALLOCATABLE, DIMENSION(:)    :: nzval_to_master_c_sp
       COMPLEX(KIND=real_8), ALLOCATABLE, DIMENSION(:)    :: nzval_to_master_c_dp
@@ -1349,8 +1283,7 @@ CONTAINS
       TYPE(csr_type), INTENT(IN)                         :: csr_mat
       INTEGER, INTENT(IN)                                :: unit_nr
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_print_sparsity', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'csr_print_sparsity'
 
       INTEGER                                            :: handle, mynode, numnodes
       INTEGER(KIND=int_8)                                :: dbcsr_nze_total
@@ -1399,8 +1332,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: numnodes
          !! number of nodes to use for block row distribution
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_create_brd', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_create_brd'
 
       CHARACTER                                          :: matrix_type
       CHARACTER(LEN=default_string_length)               :: matrix_name

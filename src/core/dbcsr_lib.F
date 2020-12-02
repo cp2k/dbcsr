@@ -13,10 +13,7 @@ MODULE dbcsr_lib
    USE dbcsr_acc_device, ONLY: dbcsr_acc_get_ndevices, dbcsr_acc_set_active_device
    USE dbcsr_config, ONLY: get_accdrv_active_device_id, &
                            set_accdrv_active_device_id, &
-                           reset_accdrv_active_device_id, &
-                           cublas_handles
-   USE dbcsr_cublas, ONLY: cublas_handle_destroy, &
-                           cublas_handle_init
+                           reset_accdrv_active_device_id
    USE dbcsr_kinds, ONLY: int_1_size, &
                           int_2_size, &
                           int_4_size, &
@@ -232,9 +229,9 @@ CONTAINS
       !! Initialize the DBCSR library
       !! Prepares the DBCSR library for use.
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_init_lib_low', routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_init_lib_low'
 
-      INTEGER                                            :: error_handle, ithread, nthreads
+      INTEGER                                            :: error_handle
 
       CALL timeset(routineN, error_handle)
       !
@@ -251,18 +248,8 @@ CONTAINS
          CALL add_mp_perf_env()
       ENDIF
 
-!$OMP     PARALLEL DEFAULT(NONE) PRIVATE(ithread) SHARED(nthreads, cublas_handles)
+!$OMP     PARALLEL DEFAULT(NONE)
       CALL dbcsr_multiply_lib_init()
-!$OMP MASTER
-      nthreads = 1
-!$    nthreads = omp_get_num_threads()
-      ALLOCATE (cublas_handles(nthreads))
-!$OMP END MASTER
-!$OMP BARRIER
-      ithread = 0
-!$    ithread = omp_get_thread_num()
-      ! init cublas. Internal check for cublas existing
-      CALL cublas_handle_init(cublas_handles(ithread + 1))
 !$OMP     END PARALLEL
 
       is_initialized = .TRUE.
@@ -277,23 +264,15 @@ CONTAINS
 #if defined(__LIBXSMM)
       USE libxsmm, ONLY: libxsmm_finalize
 #endif
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_finalize_lib', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_finalize_lib'
 
-      INTEGER                                            :: error_handle, ithread
+      INTEGER                                            :: error_handle
 
       IF (.NOT. is_initialized) RETURN
       CALL timeset(routineN, error_handle)
 
-!$OMP     PARALLEL DEFAULT(NONE) PRIVATE(ithread) SHARED(ext_io_unit, default_group, cublas_handles)
+!$OMP     PARALLEL DEFAULT(NONE) SHARED(ext_io_unit, default_group)
       CALL dbcsr_multiply_lib_finalize()
-      ithread = 0
-!$    ithread = omp_get_thread_num()
-      CALL cublas_handle_destroy(cublas_handles(ithread + 1))
-!$OMP BARRIER
-!$OMP MASTER
-      DEALLOCATE (cublas_handles)
-!$OMP END MASTER
 !$OMP     END PARALLEL
 
       is_initialized = .FALSE.

@@ -135,8 +135,7 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: redistribute
          !! redistributes the matrix; default is .TRUE. unless shallow or transpose_distribution are set.
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_new_transposed', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_new_transposed'
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
       INTEGER                                            :: handle, stat
@@ -287,9 +286,6 @@ CONTAINS
       TYPE(dbcsr_distribution_obj), INTENT(IN), &
          OPTIONAL                                        :: use_distribution
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_transposed', &
-                                     routineP = moduleN//':'//routineN
-
       LOGICAL                                            :: myshallow_data_copy, &
                                                             mytranspose_distribution
       TYPE(dbcsr_distribution_obj)                           :: myuse_distribution
@@ -319,8 +315,7 @@ CONTAINS
          !! desymmetrized matrix
       LOGICAL, INTENT(IN), OPTIONAL                      :: untransposed_data
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_desymmetrize_deep', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_desymmetrize_deep'
       INTEGER, PARAMETER                                 :: idata = 2, imeta = 1, metalen = 3
 
       INTEGER :: blk, blk_l, blk_p, blk_ps, blks, col, col_size, dst_p, handle, mp_group, &
@@ -558,8 +553,7 @@ CONTAINS
       LOGICAL, INTENT(in), OPTIONAL                      :: fast
          !! change just the index, don't touch the data
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_distribute', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_distribute'
 
       COMPLEX(KIND=dp), DIMENSION(:), POINTER, CONTIGUOUS :: c_dp
       COMPLEX(KIND=sp), DIMENSION(:), POINTER, CONTIGUOUS :: c_sp
@@ -676,8 +670,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
          !! DBCSR matrix
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_untransposed_blocks', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_untransposed_blocks'
 
       INTEGER                                            :: blk, col, col_size, handle, row, row_size
       INTEGER, DIMENSION(:), POINTER                     :: cbs, rbs
@@ -740,8 +733,7 @@ CONTAINS
       TYPE(array_i1d_obj), INTENT(IN)                    :: dense_row_sizes, dense_col_sizes, &
                                                             row_map, col_map
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_dense', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_dense'
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
       INTEGER                                            :: handle
@@ -814,8 +806,7 @@ CONTAINS
          !! Make rows dense
          !! Make columns dense
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_dense_low', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_dense_low'
 
       INTEGER :: dense_nblkcols_local, dense_nblkcols_total, dense_nblkrows_local, &
                  dense_nblkrows_total, dense_nlocal_blocks, error_handle, nfullcols, nfullrows, &
@@ -961,8 +952,7 @@ CONTAINS
          !! mapping from non-dense rows
          !! mapping from non-dense columns
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_undense', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_make_undense'
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
       INTEGER                                            :: handle, nblkcols_local, nblkcols_total, &
@@ -1110,8 +1100,7 @@ CONTAINS
          !! make columns dense, default is yes
          !! make the dense blocks transposed
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'make_dense_data', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'make_dense_data'
 
       INTEGER :: blk_col, blk_col_size, blk_row, blk_row_size, dense_col, dense_row, error_handle, &
                  target_col_offset, target_cs, target_offset, target_row_offset, target_rs, tco, tro
@@ -1218,9 +1207,6 @@ CONTAINS
          !! mapping from undense to dense rows
          !! mapping from undense to dense rows
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'make_undense_data', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER :: blk_col, blk_col_size, blk_row, blk_row_size, dense_col, dense_col_offset, &
                  dense_cs, dense_offset, dense_row, dense_row_offset, dense_rs, sco, sro
       LOGICAL                                            :: tr
@@ -1308,8 +1294,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: restrict_source
          !! Send only from this node (ignores blocks on other nodes)
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_replicate', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_replicate'
       INTEGER, PARAMETER                                 :: metalen = 3
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
@@ -1570,8 +1555,7 @@ CONTAINS
          !! retains the sparsity of the redist matrix
          !! sum blocks with identical row and col from different processes
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_complete_redistribute', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_complete_redistribute'
       INTEGER, PARAMETER                                 :: metalen = 7
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
@@ -1970,8 +1954,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(INOUT)                    :: redist
          !! redistributed matrix, which should already be created
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_redistribute', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_redistribute'
       INTEGER, PARAMETER                                 :: metalen = 2
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
@@ -2211,8 +2194,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(INOUT)           :: new_matrix
          !! redistributed matrix
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_datablock_redistribute', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_datablock_redistribute'
       INTEGER, PARAMETER                       :: metalen = 2
 
       COMPLEX(kind=dp), DIMENSION(:), POINTER, CONTIGUOUS :: c_dp

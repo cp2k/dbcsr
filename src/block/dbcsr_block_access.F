@@ -144,8 +144,7 @@ CONTAINS
       INTEGER, INTENT(IN), OPTIONAL                      :: block_number
          !! the block number, if it is known
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_remove_block', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_remove_block'
 
       INTEGER                                            :: b, c, error_handle, r
       LOGICAL                                            :: found, tr
@@ -202,8 +201,7 @@ CONTAINS
          !! logical row size of block
          !! logical column size of block
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_block_p_area', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_block_p_area'
 
       INTEGER                                            :: blk, csize, error_handle, iw, offset, &
                                                             rsize, stored_col, stored_row
@@ -291,8 +289,7 @@ CONTAINS
       INTEGER(KIND=int_8), INTENT(INOUT), OPTIONAL       :: flop
       TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: scale
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_put_block_area', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_put_block_area'
 
       INTEGER                                            :: data_type_m, error_handle
       LOGICAL                                            :: do_scale
@@ -398,8 +395,7 @@ CONTAINS
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
          !! Matrix into which blocks should be added.
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_reserve_all_blocks', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_reserve_all_blocks'
 
       INTEGER                                            :: blk_count, col, col_local, col_s, &
                                                             error_handle, myrank, rank, row, &
@@ -457,9 +453,6 @@ CONTAINS
 
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
          !! Matrix into which blocks should be added.
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_reserve_diag_blocks', &
-                                     routineP = moduleN//':'//routineN
 
       INTEGER                                            :: blk_count, col, col_s, myrank, rank, &
                                                             row, row_s
@@ -520,8 +513,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN), OPTIONAL        :: blk_pointers
          !! block pointers to use for new blocks
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_reserve_blocks', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_reserve_blocks'
 
       INTEGER :: blk, blk_p, data_size_new, data_size_old, handle, nblkrows, nblks_actual_added, &
                  nblks_added, nblks_new, nblks_old, new_data_sizes, nze
@@ -651,9 +643,6 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: base_offset
          !! The block pointer
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_set_block_pointer_any', &
-                                     routineP = moduleN//':'//routineN
-
 !   ---------------------------------------------------------------------------
 
       IF (main_tr) THEN
@@ -687,8 +676,7 @@ CONTAINS
         !! logical row size of block
         !! logical column size of block
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_2d_block_p_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_2d_block_p_${nametype1}$'
 
       ${type1}$, DIMENSION(:), POINTER         :: block_1d
       INTEGER                                  :: rsize, csize, &
@@ -770,9 +758,6 @@ CONTAINS
         !! logical row size of block
         !! logical column size of block
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_get_block_p_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
-
       INTEGER                                  :: blk, csize, &
                                                   nze, offset, &
                                                   rsize, stored_row, &
@@ -825,9 +810,6 @@ CONTAINS
         !! the block holds transposed data
       LOGICAL, INTENT(OUT), OPTIONAL           :: existed
         !! block already existed
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_reserve_block2d_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
 
       TYPE(btree_data_${nametype1}$p2d)          :: data_block, data_block2
       INTEGER                                  :: col_size, row_size, &
@@ -928,9 +910,6 @@ CONTAINS
 
       ${type1}$, DIMENSION(:), POINTER           :: block_1d
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_put_block2d_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
-
       NULLIFY (block_1d)
 
       block_1d(1:SIZE(block)) => block
@@ -957,9 +936,6 @@ CONTAINS
       INTEGER(KIND=int_8), INTENT(INOUT), OPTIONAL :: flop
       ${type1}$, INTENT(IN), OPTIONAL            :: scale
         !! scale the OBblock being added
-
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_put_block_${nametype1}$', &
-                                     routineP = moduleN//':'//routineN
 
       TYPE(btree_data_${nametype1}$p2d)          :: data_block, data_block2
       INTEGER                                  :: blk, col_size, &
@@ -1119,8 +1095,7 @@ CONTAINS
         !! The block pointer
 
       CHARACTER(len=*), PARAMETER :: &
-         routineN = 'dbcsr_set_block_pointer_2d_${nametype1}$', &
-         routineP = moduleN//':'//routineN
+         routineN = 'dbcsr_set_block_pointer_2d_${nametype1}$'
 
       INTEGER                                  :: error_handler
       ${type1}$, DIMENSION(:), POINTER           :: lin_blk_p

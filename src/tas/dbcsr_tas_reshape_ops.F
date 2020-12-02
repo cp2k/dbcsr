@@ -102,8 +102,7 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: move_data
          !! memory optimization: move data to matrix_out such that matrix_in is empty on return
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_reshape', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_reshape'
 
       INTEGER                                            :: handle, handle2, iproc, mp_comm, mynode, nblock, &
                                                             ndata, numnodes, bcount, nblk
@@ -307,8 +306,7 @@ CONTAINS
 
       TYPE(dbcsr_data_obj) :: block
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_replicate', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_replicate'
 
       INTEGER :: handle, handle2
 
@@ -482,8 +480,7 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: move_data
          !! memory optimization: move data to matrix_out such that matrix_in is empty on return
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_merge', routineP = moduleN//':'//routineN
-
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_merge'
       INTEGER                                            :: data_type, handle, handle2, iproc, mp_comm, &
                                                             mynode, nblock, ndata, numnodes, nblk, bcount
       INTEGER(KIND=int_8), ALLOCATABLE, DIMENSION(:, :)  :: index_recv
@@ -627,8 +624,7 @@ CONTAINS
          DIMENSION(:, :), INTENT(OUT)                    :: index
 
       INTEGER, DIMENSION(2)                              :: indx_shape
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'block_buffer_get_index', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'block_buffer_get_index'
       INTEGER :: handle
 
       CALL timeset(routineN, handle)
@@ -637,13 +633,6 @@ CONTAINS
       ALLOCATE (INDEX(indx_shape(1), indx_shape(2)))
       INDEX(:, :) = buffer%indx(1:indx_shape(1), 1:indx_shape(2))
       CALL timestop(handle)
-   END SUBROUTINE
-
-   SUBROUTINE block_buffer_iterator_reset(buffer)
-      !! Reset buffer block iterator
-      TYPE(block_buffer_type), INTENT(INOUT)             :: buffer
-
-      buffer%endpos = 0
    END SUBROUTINE
 
    PURE FUNCTION block_buffer_blocks_left(buffer)
@@ -722,9 +711,6 @@ CONTAINS
 #:for dparam, dtype, dsuffix in dtype_float_list
       ${dtype}$, DIMENSION(:, :), POINTER :: data_${dsuffix}$
 #:endfor
-
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'block_buffer_get_next_area_block', &
-                                     routineP = moduleN//':'//routineN
 
       IF (PRESENT(block)) THEN
          CALL dbcsr_data_get_sizes(block, sizes, valid)
@@ -852,8 +838,7 @@ CONTAINS
       INTEGER                                :: iproc, mynode, numnodes, rec_counter, &
                                                 send_counter
       INTEGER                                   :: handle
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_communicate_buffer', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_tas_communicate_buffer'
 
       CALL timeset(routineN, handle)
       CALL mp_environ(numnodes, mynode, mp_comm)

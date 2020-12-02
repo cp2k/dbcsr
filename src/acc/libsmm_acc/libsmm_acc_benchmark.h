@@ -16,14 +16,16 @@
 # include "../hip/acc_hip.h"
 #endif
 
+#include "../acc_libsmm.h"
+
 #define MAX_BLOCK_DIM 80
 
-typedef int (*KernelLauncher)(const int *param_stack, int stack_size, ACC_DRV(stream) stream,
-                              int m_max, int n_max, int k_max,
-                              const double *a_data, const double *b_data, double *c_data);
+typedef int (*KernelLauncher)(const int *param_stack_dev, int stack_size,
+                              ACC_DRV(stream) stream, int m, int n, int k,
+                              const double * a_data, const double * b_data, double * c_data);
 
-typedef int (*TransposeLauncher)(const int *param_stack, int offset, int nblks,
-                                 double *buffer, int m, int n, ACC_DRV(stream) stream);
+typedef int (*TransposeLauncher)(const int *param_stack, int offset, int nblks, double *buffer,
+                                 int m, int n, ACC_DRV(stream) stream);
 
 enum benchmark_mode {test, tune, timing};
 

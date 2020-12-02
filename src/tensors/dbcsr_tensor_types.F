@@ -405,8 +405,7 @@ CONTAINS
       INTEGER, DIMENSION(SIZE(map2_2d)) :: dims2_nd_prv
       INTEGER, DIMENSION(SIZE(map1_2d) + SIZE(map2_2d)) :: dims_nd_prv
       INTEGER                                           :: handle
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_nd_mp_comm', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_nd_mp_comm'
       TYPE(dbcsr_t_pgrid_type)                          :: dbcsr_t_nd_mp_comm
 
       CALL timeset(routineN, handle)
@@ -607,8 +606,7 @@ CONTAINS
       LOGICAL                                         :: need_pgrid_remap
       INTEGER, DIMENSION(ndims_mapping_row(pgrid%nd_index_grid)) :: map1_2d_check
       INTEGER, DIMENSION(ndims_mapping_column(pgrid%nd_index_grid)) :: map2_2d_check
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_distribution_new', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_distribution_new'
 
       CALL timeset(routineN, handle)
       ndims = SIZE(map1_2d) + SIZE(map2_2d)
@@ -685,8 +683,7 @@ CONTAINS
       !! Destroy tensor distribution
       TYPE(dbcsr_t_distribution_type), INTENT(INOUT) :: dist
       INTEGER                                   :: handle
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_distribution_destroy', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_distribution_destroy'
       LOGICAL :: abort
 
       CALL timeset(routineN, handle)
@@ -766,8 +763,7 @@ CONTAINS
       TYPE(array_list)                                  :: blk_size, blks_local
       TYPE(nd_to_2d_mapping)                            :: map
       INTEGER                                   :: handle
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_create_new', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_create_new'
       INTEGER, DIMENSION(:), ALLOCATABLE              :: ${varlist("blks_local")}$
       INTEGER, DIMENSION(:), ALLOCATABLE              :: ${varlist("dist")}$
       INTEGER                                         :: iblk_count, iblk
@@ -885,8 +881,7 @@ CONTAINS
          OPTIONAL                            :: map1_2d, map2_2d
       INTEGER, INTENT(IN), OPTIONAL          :: data_type
       INTEGER                                :: handle
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_create_template', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_create_template'
       INTEGER, DIMENSION(:), ALLOCATABLE     :: ${varlist("bsize")}$
       INTEGER, DIMENSION(:), ALLOCATABLE     :: map1_2d_prv, map2_2d_prv
       CHARACTER(len=default_string_length)   :: name_prv
@@ -979,8 +974,7 @@ CONTAINS
       INTEGER, DIMENSION(:), POINTER              :: row_blk_size, col_blk_size
       INTEGER, DIMENSION(:), POINTER              :: col_dist, row_dist
       INTEGER                                   :: handle
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_create_matrix', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_create_matrix'
       TYPE(dbcsr_t_pgrid_type)                  :: comm_nd
       INTEGER, DIMENSION(2)                     :: pdims_2d
 
@@ -1029,8 +1023,7 @@ CONTAINS
       !! Destroy a tensor
       TYPE(dbcsr_t_type), INTENT(INOUT) :: tensor
       INTEGER                                   :: handle
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_destroy', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_destroy'
       LOGICAL :: abort
 
       CALL timeset(routineN, handle)
@@ -1206,8 +1199,7 @@ CONTAINS
       INTEGER, DIMENSION(2) :: pdims_2d, pos
       TYPE(dbcsr_tas_split_info) :: info
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_pgrid_create', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_pgrid_create'
 
       CALL timeset(routineN, handle)
 

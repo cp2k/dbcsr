@@ -17,7 +17,7 @@ import argparse
 import pandas as pd
 
 sys.path.append("../")
-from kernels.cusmm_predict import (
+from kernels.cusmm_predict import (  # noqa: E402
     to_string,
     kernel_algorithm,
     parameter_types,
@@ -87,13 +87,13 @@ def read_log_file(log_folder, m, n, k):
         with open(os.path.join(log_folder, log_file), "r") as f:
             log_file_content = f.read().splitlines()
 
-        for l in log_file_content:
+        for line in log_file_content:
 
-            if "OK" in l:  # this line contains autotuning data
+            if "OK" in line:  # this line contains autotuning data
 
                 # Parse the line
-                match = autotuning_line.match(l)
-                assert match is not None, "Found null match: " + l
+                match = autotuning_line.match(line)
+                assert match is not None, "Found null match: " + line
 
                 # Get algorithm, parameters, and performance
                 data.append(

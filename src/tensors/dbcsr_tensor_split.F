@@ -94,8 +94,7 @@ CONTAINS
       ${dtype}$, DIMENSION(${shape_colon(n=ndim)}$), ALLOCATABLE :: block_${dsuffix}$_${ndim}$d
 #:endfor
 #:endfor
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_split_blocks_generic', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_split_blocks_generic'
 
       CALL timeset(routineN, handle)
 
@@ -297,9 +296,6 @@ CONTAINS
       INTEGER :: idim, i, isplit_sum, blk_remainder, nsplit, isplit
       INTEGER, DIMENSION(:), ALLOCATABLE :: blk_size_d, blk_size_split_d
 
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_split_blocks', &
-                                     routineP = moduleN//':'//routineN
-
       DO idim = 1, ndims_tensor(tensor_in)
          CALL get_ith_array(tensor_in%blk_sizes, idim, blk_size_d)
 
@@ -362,8 +358,7 @@ CONTAINS
 
       INTEGER, DIMENSION(${maxdim}$)                  :: inblock_offset
       INTEGER                                            :: handle
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_split_copyback', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'dbcsr_t_split_copyback'
 #:for dparam, dtype, dsuffix in dtype_float_list
 #:for ndim in ndims
       ${dtype}$, DIMENSION(${shape_colon(n=ndim)}$), ALLOCATABLE :: block_${dsuffix}$_${ndim}$d
@@ -696,4 +691,3 @@ CONTAINS
    END SUBROUTINE
 
 END MODULE
-

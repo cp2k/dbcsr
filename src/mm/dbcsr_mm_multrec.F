@@ -132,8 +132,7 @@ CONTAINS
       INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: m_sizes, n_sizes
       INTEGER, OPTIONAL                                  :: nlayers
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_multrec_init', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_multrec_init'
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
       INTEGER                                            :: c_nblkcols_local, c_nblkrows_local, &
@@ -274,9 +273,6 @@ CONTAINS
          !! norms of right-matrix blocks
       INTEGER, DIMENSION(:), INTENT(IN), POINTER         :: k_sizes
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_multrec_multiply', &
-                                     routineP = moduleN//':'//routineN
-
 !$    INTEGER                                            :: ithread
       INTEGER                                            :: t_a_f, t_a_l, t_b_f, t_b_l
       INTEGER, DIMENSION(:), POINTER                     :: k_locals
@@ -344,8 +340,7 @@ CONTAINS
       TYPE(dbcsr_mm_multrec_type), INTENT(inout)         :: this
       INTEGER, DIMENSION(:), INTENT(INOUT), OPTIONAL     :: meta_buffer
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_multrec_finalize', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_multrec_finalize'
 
       INTEGER                                            :: handle, ithread, lb_meta, &
                                                             nblocks, nthreads, ub_meta
@@ -397,8 +392,7 @@ CONTAINS
       !! Applying in-place filtering on the workspace
       TYPE(dbcsr_mm_multrec_type), INTENT(inout)         :: this
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'multrec_filtering', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'multrec_filtering'
 
       INTEGER                                            :: handle
 
@@ -457,8 +451,7 @@ CONTAINS
       INTEGER(KIND=int_8), INTENT(INOUT)                 :: flop
       INTEGER, DIMENSION(:), INTENT(IN)                  :: g2l_map_rows, g2l_map_cols
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_multrec_red3D', &
-                                     routineP = moduleN//':'//routineN
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_mm_multrec_red3D'
 
       INTEGER                                            :: handle
 
@@ -504,7 +497,6 @@ CONTAINS
       INTEGER, DIMENSION(3, 1:bf), INTENT(IN)            :: b_index
       INTEGER, INTENT(IN)                                :: d
 
-      CHARACTER(len=*), PARAMETER :: routineN = 'sparse_multrec', routineP = moduleN//':'//routineN
       LOGICAL, PARAMETER                                 :: dbg = .FALSE.
 
       INTEGER                                            :: acut, bcut, cut, K, M, N, s1
