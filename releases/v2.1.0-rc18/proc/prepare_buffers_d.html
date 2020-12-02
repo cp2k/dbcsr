@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="">
+    
+    <meta name="author" content="DBCSR Authors" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>prepare_buffers_d &ndash; DBCSR</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-rc18</small></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Guide</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+          </ul>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>prepare_buffers_d
+      <small>Subroutine</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.1% of total for procedures.">73 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_mm_cannon.F"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/dbcsr_mm_cannon.f.html'>dbcsr_mm_cannon.F</a></li>
+    
+     <li><a href='../module/dbcsr_mm_cannon.html'>dbcsr_mm_cannon</a></li>
+    
+  
+     <li class="active">prepare_buffers_d</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/prepare_buffers_d.html#src">prepare_buffers_d</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <h2>
+private subroutine prepare_buffers_d(negate_real, negate_imaginary, iter, row, col, blk, blk_p, bp, row_size, col_size, nze, nsymmetries, symmetry_i, stored_row, stored_col, tr_row_size, tr_col_size, tr, row_img, col_img, nrow_images, ncol_images, row_img_dist, col_img_dist, predist_type_fwd, blacs2mpi, target_imgdist, prow, pcol, rowi, coli, row_dist, col_dist, dst_p, sm_pos, myt_smp, metalen, sd_pos, myt_sdp, send_meta, sd_disp, data_area, send_data_area, scale_neg_one, scale_value)
+    
+    
+   
+</h2>
+    
+  
+
+
+    
+    <p>Prepare buffers for multiplications</p>
+    
+
+    <h3>Arguments</h3>
+    
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-negate_real~2"></span>logical,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>negate_real</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-negate_imaginary~2"></span>logical,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>negate_imaginary</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-iter~6"></span>type(<a href='../type/dbcsr_iterator.html'>dbcsr_iterator</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>iter</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-row~72"></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>row</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-col~43"></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>col</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-blk~7"></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>blk</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-blk_p~6"></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>blk_p</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-bp"></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>bp</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-row_size~46"></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>row_size</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-col_size~45"></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>col_size</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nze~7"></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nze</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nsymmetries"></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nsymmetries</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-symmetry_i"></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>symmetry_i</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-stored_row"></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>stored_row</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-stored_col"></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>stored_col</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-tr_row_size"></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>tr_row_size</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-tr_col_size"></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>tr_col_size</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-tr~15"></span>logical,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>tr</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-row_img"></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>row_img</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-col_img"></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>col_img</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nrow_images"></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nrow_images</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-ncol_images"></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ncol_images</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-row_img_dist"></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), CONTIGUOUS, POINTER</td><td>::</td>
+  <td><strong>row_img_dist</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-col_img_dist"></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), CONTIGUOUS, POINTER</td><td>::</td>
+  <td><strong>col_img_dist</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-predist_type_fwd"></span>character,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>predist_type_fwd</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-blacs2mpi"></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:, :), CONTIGUOUS, POINTER</td><td>::</td>
+  <td><strong>blacs2mpi</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-target_imgdist~2"></span>type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>target_imgdist</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-prow~2"></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>prow</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-pcol~2"></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>pcol</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-rowi"></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>rowi</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-coli"></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>coli</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-row_dist~5"></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), CONTIGUOUS, POINTER</td><td>::</td>
+  <td><strong>row_dist</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-col_dist~5"></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), CONTIGUOUS, POINTER</td><td>::</td>
+  <td><strong>col_dist</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dst_p"></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>dst_p</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-sm_pos"></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>sm_pos</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-myt_smp"></span>integer,</td>
+  <td>intent(inout),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
+  <td><strong>myt_smp</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-metalen"></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>metalen</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-sd_pos"></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>sd_pos</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-myt_sdp"></span>integer,</td>
+  <td>intent(inout),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
+  <td><strong>myt_sdp</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-send_meta"></span>integer,</td>
+  <td>intent(inout),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
+  <td><strong>send_meta</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-sd_disp"></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
+  <td><strong>sd_disp</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-data_area~7"></span>real(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), CONTIGUOUS</td><td>::</td>
+  <td><strong>data_area</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-send_data_area"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>send_data_area</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-scale_neg_one"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>scale_neg_one</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-scale_value~3"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>scale_value</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+    
+    
+    
+    
+     
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/prepare_buffers_d.html#src">prepare_buffers_d</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+
+    
+    
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">prepare_buffers_d</span> <span class="p">(</span><span class="n">negate_real</span><span class="p">,</span> <span class="n">negate_imaginary</span><span class="p">,</span> <span class="p">&amp;</span>
+                                             <span class="n">iter</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">blk</span><span class="p">,</span> <span class="n">blk_p</span><span class="p">,</span> <span class="n">bp</span><span class="p">,</span> <span class="p">&amp;</span>
+                                             <span class="n">row_size</span><span class="p">,</span> <span class="n">col_size</span><span class="p">,</span> <span class="n">nze</span><span class="p">,</span> <span class="n">nsymmetries</span><span class="p">,</span> <span class="n">symmetry_i</span><span class="p">,</span> <span class="p">&amp;</span>
+                                             <span class="n">stored_row</span><span class="p">,</span> <span class="n">stored_col</span><span class="p">,</span> <span class="n">tr_row_size</span><span class="p">,</span> <span class="n">tr_col_size</span><span class="p">,</span> <span class="n">tr</span><span class="p">,</span> <span class="p">&amp;</span>
+                                             <span class="n">row_img</span><span class="p">,</span> <span class="n">col_img</span><span class="p">,</span> <span class="n">nrow_images</span><span class="p">,</span> <span class="n">ncol_images</span><span class="p">,</span> <span class="p">&amp;</span>
+                                             <span class="n">row_img_dist</span><span class="p">,</span> <span class="n">col_img_dist</span><span class="p">,</span> <span class="n">predist_type_fwd</span><span class="p">,</span> <span class="n">blacs2mpi</span><span class="p">,</span> <span class="p">&amp;</span>
+                                             <span class="n">target_imgdist</span><span class="p">,</span> <span class="n">prow</span><span class="p">,</span> <span class="n">pcol</span><span class="p">,</span> <span class="n">rowi</span><span class="p">,</span> <span class="n">coli</span><span class="p">,</span> <span class="p">&amp;</span>
+                                             <span class="n">row_dist</span><span class="p">,</span> <span class="n">col_dist</span><span class="p">,</span> <span class="n">dst_p</span><span class="p">,</span> <span class="n">sm_pos</span><span class="p">,</span> <span class="n">myt_smp</span><span class="p">,</span> <span class="n">metalen</span><span class="p">,</span> <span class="p">&amp;</span>
+                                             <span class="n">sd_pos</span><span class="p">,</span> <span class="n">myt_sdp</span><span class="p">,</span> <span class="n">send_meta</span><span class="p">,</span> <span class="n">sd_disp</span><span class="p">,</span> <span class="p">&amp;</span>
+                                             <span class="n">data_area</span><span class="p">,</span> <span class="n">send_data_area</span><span class="p">,</span> <span class="n">scale_neg_one</span><span class="p">,</span> <span class="n">scale_value</span><span class="p">)</span>
+     <span class="c">!! Prepare buffers for multiplications</span>
+      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                     <span class="kd">::</span> <span class="n">negate_real</span><span class="p">,</span> <span class="n">negate_imaginary</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_iterator</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                     <span class="kd">::</span> <span class="n">iter</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                                  <span class="kd">::</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">blk</span><span class="p">,</span> <span class="n">blk_p</span><span class="p">,</span> <span class="n">row_size</span><span class="p">,</span> <span class="n">col_size</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                                 <span class="n">nze</span><span class="p">,</span> <span class="n">bp</span><span class="p">,</span> <span class="n">symmetry_i</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                                 <span class="n">stored_row</span><span class="p">,</span> <span class="n">stored_col</span><span class="p">,</span> <span class="n">tr_row_size</span><span class="p">,</span> <span class="n">tr_col_size</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                                 <span class="n">row_img</span><span class="p">,</span> <span class="n">col_img</span><span class="p">,</span> <span class="n">prow</span><span class="p">,</span> <span class="n">pcol</span><span class="p">,</span> <span class="n">rowi</span><span class="p">,</span> <span class="n">coli</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                                 <span class="n">dst_p</span><span class="p">,</span> <span class="n">sm_pos</span><span class="p">,</span> <span class="n">sd_pos</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                     <span class="kd">::</span> <span class="n">nsymmetries</span><span class="p">,</span> <span class="n">nrow_images</span><span class="p">,</span> <span class="n">ncol_images</span><span class="p">,</span> <span class="n">metalen</span>
+      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                                  <span class="kd">::</span> <span class="n">tr</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">POINTER</span>  <span class="kd">::</span> <span class="n">row_img_dist</span><span class="p">,</span> <span class="n">col_img_dist</span><span class="p">,</span> <span class="n">row_dist</span><span class="p">,</span> <span class="n">col_dist</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>          <span class="kd">::</span> <span class="n">sd_disp</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>       <span class="kd">::</span> <span class="n">myt_smp</span><span class="p">,</span> <span class="n">myt_sdp</span><span class="p">,</span> <span class="n">send_meta</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_imagedistribution_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>           <span class="kd">::</span> <span class="n">target_imgdist</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">CONTIGUOUS</span><span class="p">,</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">blacs2mpi</span>
+      <span class="kt">CHARACTER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                   <span class="kd">::</span> <span class="n">predist_type_fwd</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">CONTIGUOUS</span>         <span class="kd">::</span> <span class="n">data_area</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                     <span class="kd">::</span> <span class="n">send_data_area</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                     <span class="kd">::</span> <span class="n">scale_neg_one</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>           <span class="kd">::</span> <span class="n">scale_value</span>
+
+      <span class="k">DO WHILE</span> <span class="p">(</span><span class="n">dbcsr_iterator_blocks_left</span><span class="p">(</span><span class="n">iter</span><span class="p">))</span>
+         <span class="k">CALL </span><span class="n">dbcsr_iterator_next_block</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">blk</span><span class="p">,</span> <span class="n">blk_p</span><span class="o">=</span><span class="n">blk_p</span><span class="p">,</span> <span class="p">&amp;</span>
+                                        <span class="n">row_size</span><span class="o">=</span><span class="n">row_size</span><span class="p">,</span> <span class="n">col_size</span><span class="o">=</span><span class="n">col_size</span><span class="p">)</span>
+         <span class="n">nze</span> <span class="o">=</span> <span class="n">row_size</span><span class="o">*</span><span class="n">col_size</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">nze</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CYCLE</span>
+<span class="k">         </span><span class="n">bp</span> <span class="o">=</span> <span class="nb">ABS</span><span class="p">(</span><span class="n">blk_p</span><span class="p">)</span>
+         <span class="k">DO </span><span class="n">symmetry_i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nsymmetries</span>
+            <span class="k">IF</span> <span class="p">(</span><span class="n">symmetry_i</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">               </span><span class="n">stored_row</span> <span class="o">=</span> <span class="n">row</span><span class="p">;</span> <span class="n">stored_col</span> <span class="o">=</span> <span class="n">col</span><span class="p">;</span> <span class="n">tr</span> <span class="o">=</span> <span class="n">blk_p</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="mi">0</span>
+               <span class="n">tr_row_size</span> <span class="o">=</span> <span class="n">col_size</span><span class="p">;</span> <span class="n">tr_col_size</span> <span class="o">=</span> <span class="n">row_size</span>
+            <span class="k">ELSE</span>
+<span class="k">               IF</span> <span class="p">(</span><span class="n">row</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">col</span><span class="p">)</span> <span class="k">CYCLE</span>
+<span class="k">               </span><span class="n">stored_row</span> <span class="o">=</span> <span class="n">col</span><span class="p">;</span> <span class="n">stored_col</span> <span class="o">=</span> <span class="n">row</span><span class="p">;</span> <span class="n">tr</span> <span class="o">=</span> <span class="n">blk_p</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span>
+               <span class="n">tr_row_size</span> <span class="o">=</span> <span class="n">row_size</span><span class="p">;</span> <span class="n">tr_col_size</span> <span class="o">=</span> <span class="n">col_size</span>
+            <span class="n">ENDIF</span>
+            <span class="c">! Where do we send this block?</span>
+            <span class="n">row_img</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">IF</span> <span class="p">(</span><span class="n">nrow_images</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="n">row_img</span> <span class="o">=</span> <span class="n">row_img_dist</span><span class="p">(</span><span class="n">stored_row</span><span class="p">)</span>
+            <span class="n">col_img</span> <span class="o">=</span> <span class="mi">1</span>
+            <span class="k">IF</span> <span class="p">(</span><span class="n">ncol_images</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="n">col_img</span> <span class="o">=</span> <span class="n">col_img_dist</span><span class="p">(</span><span class="n">stored_col</span><span class="p">)</span>
+            <span class="k">CALL </span><span class="n">image_calculator</span><span class="p">(</span><span class="n">target_imgdist</span><span class="p">,</span> <span class="p">&amp;</span>
+                                  <span class="n">prow</span><span class="o">=</span><span class="n">prow</span><span class="p">,</span> <span class="n">rowi</span><span class="o">=</span><span class="n">rowi</span><span class="p">,</span> <span class="p">&amp;</span>
+                                  <span class="n">pcol</span><span class="o">=</span><span class="n">pcol</span><span class="p">,</span> <span class="n">coli</span><span class="o">=</span><span class="n">coli</span><span class="p">,</span> <span class="p">&amp;</span>
+                                  <span class="n">myprow</span><span class="o">=</span><span class="n">row_dist</span><span class="p">(</span><span class="n">stored_row</span><span class="p">),</span> <span class="n">myrowi</span><span class="o">=</span><span class="n">row_img</span><span class="p">,</span> <span class="p">&amp;</span>
+                                  <span class="n">mypcol</span><span class="o">=</span><span class="n">col_dist</span><span class="p">(</span><span class="n">stored_col</span><span class="p">),</span> <span class="n">mycoli</span><span class="o">=</span><span class="n">col_img</span><span class="p">,</span> <span class="p">&amp;</span>
+                                  <span class="n">shifting</span><span class="o">=</span><span class="n">predist_type_fwd</span><span class="p">)</span>
+            <span class="n">dst_p</span> <span class="o">=</span> <span class="n">blacs2mpi</span><span class="p">(</span><span class="n">prow</span><span class="p">,</span> <span class="n">pcol</span><span class="p">)</span>
+            <span class="n">sm_pos</span> <span class="o">=</span> <span class="n">myt_smp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span>
+            <span class="n">myt_smp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">=</span> <span class="n">myt_smp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">+</span> <span class="n">metalen</span>
+            <span class="n">sd_pos</span> <span class="o">=</span> <span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span>
+            <span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">=</span> <span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">+</span> <span class="n">nze</span>
+            <span class="k">IF</span> <span class="p">(</span><span class="n">tr</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">               IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">scale_value</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">                  CALL </span><span class="n">dbcsr_block_transpose</span><span class="p">(</span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span> <span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="p">&amp;</span>
+                                             <span class="n">data_area</span><span class="p">(</span><span class="n">bp</span><span class="p">:</span><span class="n">bp</span> <span class="o">+</span> <span class="n">nze</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">scale_value</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span> <span class="p">&amp;</span>
+                                             <span class="n">tr_row_size</span><span class="p">,</span> <span class="n">tr_col_size</span><span class="p">)</span>
+               <span class="k">ELSE</span>
+<span class="k">                  CALL </span><span class="n">dbcsr_block_transpose</span><span class="p">(</span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span> <span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="p">&amp;</span>
+                                             <span class="n">data_area</span><span class="p">(</span><span class="n">bp</span><span class="p">:</span><span class="n">bp</span> <span class="o">+</span> <span class="n">nze</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="p">&amp;</span>
+                                             <span class="n">tr_row_size</span><span class="p">,</span> <span class="n">tr_col_size</span><span class="p">)</span>
+               <span class="n">ENDIF</span>
+               <span class="k">IF</span> <span class="p">(</span><span class="n">negate_real</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">negate_imaginary</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">                  </span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span> <span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
+                     <span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span> <span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">scale_neg_one</span><span class="p">%</span><span class="n">r_dp</span>
+               <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">negate_real</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="cp"># 1995 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F&quot;</span>
+                  <span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span> <span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
+                     <span class="o">-</span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span> <span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<span class="cp"># 2004 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F&quot;</span>
+               <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">negate_imaginary</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="cp"># 2009 &quot;/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_cannon.F&quot;</span>
+               <span class="n">ENDIF</span>
+            <span class="k">ELSE</span>
+               <span class="c">! Copy the block</span>
+               <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">scale_value</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">                  </span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span> <span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
+                     <span class="n">data_area</span><span class="p">(</span><span class="n">bp</span><span class="p">:</span><span class="n">bp</span> <span class="o">+</span> <span class="n">nze</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">scale_value</span><span class="p">%</span><span class="n">r_dp</span>
+               <span class="k">ELSE</span>
+<span class="k">                  </span><span class="n">send_data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span> <span class="p">(</span><span class="n">sd_pos</span><span class="p">:</span><span class="n">myt_sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">data_area</span><span class="p">(</span><span class="n">bp</span><span class="p">:</span><span class="n">bp</span> <span class="o">+</span> <span class="n">nze</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+               <span class="n">ENDIF</span>
+            <span class="k">END IF</span>
+
+<span class="k">            </span><span class="n">send_meta</span><span class="p">(</span><span class="n">sm_pos</span><span class="p">)</span> <span class="o">=</span> <span class="n">stored_row</span>
+            <span class="n">send_meta</span><span class="p">(</span><span class="n">sm_pos</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">stored_col</span>
+            <span class="n">send_meta</span><span class="p">(</span><span class="n">sm_pos</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">sd_pos</span> <span class="o">-</span> <span class="n">sd_disp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="n">send_meta</span><span class="p">(</span><span class="n">sm_pos</span> <span class="o">+</span> <span class="mi">3</span><span class="p">)</span> <span class="o">=</span> <span class="n">rowi</span>
+            <span class="n">send_meta</span><span class="p">(</span><span class="n">sm_pos</span> <span class="o">+</span> <span class="mi">4</span><span class="p">)</span> <span class="o">=</span> <span class="n">coli</span>
+         <span class="n">ENDDO</span>
+      <span class="n">ENDDO</span>
+   <span class="k">END SUBROUTINE </span><span class="n">prepare_buffers_d</span>
+</pre></div>
+
+    </section>
+    <br>
+    
+    
+    </div>
+  </div>
+
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
+                                          </p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> DBCSR was developed by DBCSR Authors</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    
+  </body>
+</html>
