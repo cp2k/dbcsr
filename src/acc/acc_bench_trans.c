@@ -75,7 +75,7 @@ int main(int argc, char* argv[])
 #endif
   int *stack_hst = NULL, *stack_dev = NULL;
   ELEM_TYPE *mat_hst = NULL, *mat_dev = NULL;
-  int result = EXIT_SUCCESS, r, i, mm = m, nn = n;
+  int result = EXIT_SUCCESS, ndevices = 0, r, i, mm = m, nn = n;
   void *stream = NULL;
 #if defined(USE_LIBXSMM)
   libxsmm_timer_tickint start;
@@ -84,6 +84,20 @@ int main(int argc, char* argv[])
   assert(m <= (mn / n) && 0 == (mn % n));
   printf("%s%s%i %i %i %i\n", 0 < argc ? argv[0] : "", 0 < argc ? " " : "", nrepeat, stack_size, m, n);
   CHECK(acc_init(), &result);
+  CHECK(acc_get_ndevices(&ndevices), &result);
+  if (0 < ndevices) {
+#if defined(_DEBUG)
+    fprintf(stderr, "number of devices found: %i\n", ndevices);
+#endif
+  }
+  else {
+#if defined(_DEBUG)
+    fprintf(stderr, "Error: no device found!\n");
+#endif
+    CHECK(acc_finalize(), NULL);
+    return result;
+  }
+  printf("element type: %s\n", DBCSR_STRINGIFY(ELEM_TYPE));
 #if defined(PRIORITY)
   CHECK(acc_stream_priority_range(&priomin, &priomax), &result);
   CHECK(acc_stream_create(&stream, "stream", (priomin + priomax) / 2), &result);
@@ -154,24 +168,23 @@ int main(int argc, char* argv[])
     printf("host: %.1f ms %.1f GB/s\n", 1000.0 * duration / nodd,
       (sizeof(ELEM_TYPE) * mn + sizeof(int))
         * stack_size / (duration * (1ULL << 30) / nodd));
-    /* transfer result from device back to host for validation */
+    /* transfer result from device to host for validation */
     CHECK(acc_memcpy_d2h(mat_dev, mat_hst,
       sizeof(ELEM_TYPE) * mn * stack_size, stream), &result);
     CHECK(acc_stream_sync(stream), &result);
     if (EXIT_SUCCESS == result) {
       unsigned int nerrors = 0;
-      int j;
       for (i = 0; i < stack_size; ++i) {
         ELEM_TYPE gold[MAX_KERNEL_DIM*MAX_KERNEL_DIM];
         const ELEM_TYPE *const test = mat_hst + mn * i;
         init(i/*seed*/, gold, m, n);
         libxsmm_itrans(gold, sizeof(ELEM_TYPE), m, n, m, n);
-        for (j = 0; j < (m * n); ++j) {
-          if (gold[j] != test[j]) {
+        for (r = 0; r < (m * n); ++r) {
+          if (gold[r] != test[r]) {
             ++nerrors;
 # if defined(_DEBUG)
             print(stderr, "gold = ", gold, n, m);
-            print(stderr, "this = ", test, n, m);
+            print(stderr, "test = ", test, n, m);
             init(i/*seed*/, gold, m, n);
             print(stderr, "orig = ", gold, m, n);
             fprintf(stderr, "\n");
@@ -190,6 +203,7 @@ int main(int argc, char* argv[])
   CHECK(acc_dev_mem_deallocate(stack_dev), NULL);
   CHECK(acc_dev_mem_deallocate(mat_dev), NULL);
   CHECK(acc_stream_destroy(stream), NULL);
+  CHECK(acc_finalize(), NULL);
   if (EXIT_SUCCESS != result) {
     fprintf(stderr, "FAILED\n");
   }
