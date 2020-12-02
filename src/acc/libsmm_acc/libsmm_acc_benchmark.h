@@ -18,7 +18,8 @@
 
 #include "../acc_libsmm.h"
 
-#define MAX_BLOCK_DIM 80
+/* Above ACC_BLAS_BLOCK_DIM, batches are transposed using hip/cublas, rather than libsmm_acc's custom kernel */
+#define ACC_BLAS_BLOCK_DIM 80
 
 typedef int (*KernelLauncher)(const int *param_stack_dev, int stack_size,
                               ACC_DRV(stream) stream, int m, int n, int k,

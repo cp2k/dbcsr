@@ -18,7 +18,6 @@ MODULE dbcsr_acc_operations
    USE dbcsr_acc_stream, ONLY: acc_stream_cptr, &
                                acc_stream_type, &
                                acc_stream_synchronize
-   USE dbcsr_config, ONLY: max_kernel_dim
    USE dbcsr_mm_types, ONLY: dbcsr_ps_width
    USE dbcsr_kinds, ONLY: real_8, dp
    USE dbcsr_types, ONLY: dbcsr_type_real_8
@@ -39,7 +38,7 @@ MODULE dbcsr_acc_operations
    INTERFACE
       FUNCTION libsmm_acc_process_cu(param_stack_host, param_stack_dev, stack_size, nparams, &
                                      data_type, a_data, b_data, c_data, m_max, &
-                                     n_max, k_max, max_kernel_dim, def_mnk, &
+                                     n_max, k_max, def_mnk, &
                                      stack_stream_ptr, c_stream_ptr) &
          RESULT(istat) &
          BIND(C, name="libsmm_acc_process")
@@ -49,7 +48,7 @@ MODULE dbcsr_acc_operations
          INTEGER(KIND=C_INT), INTENT(IN), VALUE   :: stack_size, nparams, data_type
          TYPE(C_PTR), INTENT(IN), VALUE           :: a_data, b_data, c_data
          INTEGER(KIND=C_INT), INTENT(IN), VALUE   :: m_max, n_max, k_max
-         INTEGER(KIND=C_INT), INTENT(IN), VALUE   :: max_kernel_dim, def_mnk
+         INTEGER(KIND=C_INT), INTENT(IN), VALUE   :: def_mnk
          TYPE(C_PTR), VALUE                       :: stack_stream_ptr, c_stream_ptr
          INTEGER(KIND=C_INT)                      :: istat
 
@@ -57,16 +56,16 @@ MODULE dbcsr_acc_operations
    END INTERFACE
 
    INTERFACE
-      FUNCTION libsmm_acc_transpose_cu(trs_stack, offset, nblks, buffer, &
-                                       data_type, m, n, max_kernel_dim, stream_ptr) &
+      FUNCTION libsmm_acc_transpose_cu(trs_stack_host, trs_stack_dev, offset, nblks, buffer, &
+                                       data_type, m, n, stream_ptr) &
          RESULT(istat) &
          BIND(C, name="libsmm_acc_transpose")
          IMPORT
-         TYPE(C_PTR), INTENT(IN), VALUE           :: trs_stack
+         TYPE(C_PTR), INTENT(IN), VALUE           :: trs_stack_host
+         TYPE(C_PTR), INTENT(IN), VALUE           :: trs_stack_dev
          INTEGER(KIND=C_INT), INTENT(IN), VALUE   :: offset, nblks
          TYPE(C_PTR), INTENT(IN), VALUE           :: buffer
          INTEGER(KIND=C_INT), INTENT(IN), VALUE   :: data_type, m, n
-         INTEGER(KIND=C_INT), INTENT(IN), VALUE   :: max_kernel_dim
          TYPE(C_PTR), VALUE                       :: stream_ptr
          INTEGER(KIND=C_INT)                      :: istat
 
@@ -113,7 +112,7 @@ CONTAINS
 
       INTEGER                                  :: error_handle, istat
       INTEGER(KIND=C_INT)                      :: mnk
-      INTEGER, DIMENSION(:, :), POINTER         :: param_stack_host_ptr
+      INTEGER, DIMENSION(:, :), POINTER        :: param_stack_host_ptr
 
       param_stack_host_ptr => param_stack_host(:, :)
 
@@ -135,8 +134,9 @@ CONTAINS
                                     INT(m_max, KIND=C_INT), &
                                     INT(n_max, KIND=C_INT), &
                                     INT(k_max, KIND=C_INT), &
-                                    INT(max_kernel_dim, KIND=C_INT), &
-                                    mnk, acc_stream_cptr(stack_stream), acc_stream_cptr(c_stream))
+                                    mnk, &
+                                    acc_stream_cptr(stack_stream), &
+                                    acc_stream_cptr(c_stream))
       IF (istat == 100) DBCSR_ABORT("failed due to accGetLastError().")
       success = (istat == 0) ! false if no suitable kernel was found
 
@@ -144,9 +144,10 @@ CONTAINS
 #endif
    END SUBROUTINE dbcsr_acc_do_mm_stack
 
-   SUBROUTINE dbcsr_acc_transpose(trs_stack, offset, nblks, datatype, buffer, m, n, stream)
+   SUBROUTINE dbcsr_acc_transpose(trs_stack_host, trs_stack_dev, offset, nblks, datatype, buffer, m, n, stream)
       !! Launch an accelerated transpose kernel
-      TYPE(acc_devmem_type), INTENT(IN)        :: trs_stack
+      INTEGER, DIMENSION(:), TARGET, INTENT(IN):: trs_stack_host
+      TYPE(acc_devmem_type), INTENT(IN)        :: trs_stack_dev
       INTEGER, INTENT(IN)                      :: offset
       INTEGER, INTENT(IN)                      :: nblks
       INTEGER, INTENT(IN)                      :: datatype
@@ -155,7 +156,8 @@ CONTAINS
       TYPE(acc_stream_type), INTENT(IN)        :: stream
 
 #if ! defined (__DBCSR_ACC)
-      MARK_USED(trs_stack)
+      MARK_USED(trs_stack_host)
+      MARK_USED(trs_stack_dev)
       MARK_USED(offset)
       MARK_USED(nblks)
       MARK_USED(datatype)
@@ -174,18 +176,15 @@ CONTAINS
       istat = 0
 
       ! Call batched in-place transpose in libsmm_acc
-      IF (m .LE. max_kernel_dim .AND. &
-          n .LE. max_kernel_dim) THEN
-         istat = libsmm_acc_transpose_cu(acc_devmem_cptr(trs_stack), &
-                                         INT(offset, KIND=C_INT), &
-                                         INT(nblks, KIND=C_INT), &
-                                         acc_devmem_cptr(buffer), &
-                                         INT(datatype, KIND=C_INT), &
-                                         INT(m, KIND=C_INT), &
-                                         INT(n, KIND=C_INT), &
-                                         INT(max_kernel_dim, KIND=C_INT), &
-                                         acc_stream_cptr(stream))
-      ENDIF
+      istat = libsmm_acc_transpose_cu(C_LOC(trs_stack_host), &
+                                      acc_devmem_cptr(trs_stack_dev), &
+                                      INT(offset, KIND=C_INT), &
+                                      INT(nblks, KIND=C_INT), &
+                                      acc_devmem_cptr(buffer), &
+                                      INT(datatype, KIND=C_INT), &
+                                      INT(m, KIND=C_INT), &
+                                      INT(n, KIND=C_INT), &
+                                      acc_stream_cptr(stream))
 
       IF (istat /= 0) DBCSR_ABORT("something went wrong.")
       IF (careful_mod) CALL timestop(error_handle)

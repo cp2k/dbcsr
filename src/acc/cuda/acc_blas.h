@@ -32,4 +32,8 @@ int acc_blas_dgemm(ACC_BLAS(Handle_t) *handle, char transa, char transb,
                    const double *a_data, const double *b_data, double *c_data,
                    double alpha, double beta, ACC(Stream_t) *stream);
 
+/****************************************************************************/
+int acc_blas_transpose(ACC_BLAS(Handle_t) *handle, int m, int n, int offset,
+                       double *data, ACC(Stream_t) *stream);
+
 #endif /* ACC_BLAS_H */

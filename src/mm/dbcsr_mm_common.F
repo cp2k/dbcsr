@@ -441,7 +441,8 @@ CONTAINS
                m = enum2row_blk_sizes(mi)
                n = enum2col_blk_sizes(ni)
                CALL dbcsr_acc_transpose( &
-                  trs_stack=trs_stackbuf%d%acc_devmem, &
+                  trs_stack_host=trs_stackbuf%d%i4, &
+                  trs_stack_dev=trs_stackbuf%d%acc_devmem, &
                   offset=offsets(mi, ni), &
                   nblks=counters(mi, ni), &
                   datatype=matrix%data_type, &

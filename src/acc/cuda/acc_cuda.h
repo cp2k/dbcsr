@@ -65,24 +65,24 @@
   do {                                                            \
     cublasStatus_t result = ACC_BLAS(func) args;                  \
     if (result != CUBLAS_STATUS_SUCCESS) {                        \
-      const char* error_name = "CUBLAS_ERRROR";                   \
+      printf("\nCUBLAS ERROR: %s failed with error ", #func);     \
       if (result == CUBLAS_STATUS_NOT_INITIALIZED){               \
-        error_name = "CUBLAS_STATUS_NOT_INITIALIZED";             \
+        printf("%s\n", "CUBLAS_STATUS_NOT_INITIALIZED");          \
       } else if (result == CUBLAS_STATUS_ALLOC_FAILED){           \
-        error_name = "CUBLAS_STATUS_ALLOC_FAILED";                \
+        printf("%s\n", "CUBLAS_STATUS_ALLOC_FAILED");             \
       } else if (result == CUBLAS_STATUS_INVALID_VALUE){          \
-        error_name = "CUBLAS_STATUS_INVALID_VALUE";               \
+        printf("%s\n", "CUBLAS_STATUS_INVALID_VALUE");            \
       } else if (result == CUBLAS_STATUS_ARCH_MISMATCH){          \
-        error_name = "CUBLAS_STATUS_ARCH_MISMATCH";               \
+        printf("%s\n", "CUBLAS_STATUS_ARCH_MISMATCH");            \
       } else if (result == CUBLAS_STATUS_MAPPING_ERROR){          \
-        error_name = "CUBLAS_STATUS_MAPPING_ERROR";               \
+        printf("%s\n", "CUBLAS_STATUS_MAPPING_ERROR");            \
       } else if (result == CUBLAS_STATUS_EXECUTION_FAILED){       \
-        error_name = "CUBLAS_STATUS_EXECUTION_FAILED";            \
+        printf("%s\n", "CUBLAS_STATUS_EXECUTION_FAILED");         \
       } else if (result == CUBLAS_STATUS_INTERNAL_ERROR){         \
-        error_name = "CUBLAS_STATUS_INTERNAL_ERROR";              \
+        printf("%s\n", "CUBLAS_STATUS_INTERNAL_ERROR");           \
+      } else {                                                    \
+        printf("%s\n", "CUBLAS_ERRROR");                          \
       }                                                           \
-      printf("\nCUBLAS ERROR: %s failed with error %s\n",         \
-             #func, error_name);                                  \
       exit(1);                                                    \
     }                                                             \
   } while(0)
