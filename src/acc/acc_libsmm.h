@@ -11,7 +11,6 @@
 
 #include "acc.h"
 
-#define DBCSR_CONCATENATE(A, B) A##B
 #define DBCSR_TYPE(T) DBCSR_CONCATENATE(DBCSR_TYPE_, T)
 #define DBCSR_TYPE_double dbcsr_type_real_8
 #define DBCSR_TYPE_float dbcsr_type_real_4
@@ -29,6 +28,7 @@ typedef enum libsmm_acc_data_t {
 } libsmm_acc_data_t;
 
 int libsmm_acc_init(void);
+int libsmm_acc_finalize(void);
 acc_bool_t libsmm_acc_is_thread_safe(void);
 
 int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,

@@ -11,6 +11,12 @@
 
 #include <stddef.h>
 
+#define DBCSR_STRINGIFY_AUX(SYMBOL) #SYMBOL
+#define DBCSR_STRINGIFY(SYMBOL) DBCSR_STRINGIFY_AUX(SYMBOL)
+#define DBCSR_CONCATENATE2(A, B) A##B
+#define DBCSR_CONCATENATE(A, B) DBCSR_CONCATENATE2(A, B)
+
+
 #if defined(__cplusplus)
 extern "C" {
 #endif

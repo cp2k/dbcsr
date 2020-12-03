@@ -154,7 +154,7 @@ CONTAINS
 
             !
             ! Prepare test parameters
-            success = test_scale_by_vector(mp_env, npdims, matrix, vector_data, do_exact_comparison)
+            success = test_scale_by_vector(mp_env, npdims, matrix, vector_data, do_exact_comparison) .AND. success
 
             IF (io_unit > 0) THEN
                IF (success) THEN
