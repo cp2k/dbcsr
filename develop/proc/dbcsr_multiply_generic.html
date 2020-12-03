@@ -121,7 +121,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.6% of total for procedures.">351 statements</a>
+    title=" 0.6% of total for procedures.">361 statements</a>
      </li> 
      
      
@@ -662,11 +662,12 @@ public subroutine dbcsr_multiply_generic(transa, transb, alpha, matrix_a, matrix
                  <span class="n">output_unit</span>
       <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">my_flop</span>
       <span class="kt">LOGICAL</span> <span class="kd">::</span> <span class="n">ab_dense</span><span class="p">,</span> <span class="n">keep_product_data</span><span class="p">,</span> <span class="n">keep_sparsity</span><span class="p">,</span> <span class="n">product_reindex</span><span class="p">,</span> <span class="n">release_tdist</span><span class="p">,</span> <span class="p">&amp;</span>
-                 <span class="n">transpose_left</span><span class="p">,</span> <span class="n">transpose_right</span><span class="p">,</span> <span class="n">use_dense_mult</span><span class="p">,</span> <span class="n">use_mempools</span>
+                 <span class="n">transpose_left</span><span class="p">,</span> <span class="n">transpose_right</span><span class="p">,</span> <span class="n">use_dense_mult</span><span class="p">,</span> <span class="n">use_mempools</span><span class="p">,</span> <span class="n">thread_dist_force</span>
       <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>                                      <span class="kd">::</span> <span class="n">cs</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">array_i1d_obj</span><span class="p">)</span> <span class="kd">::</span> <span class="n">dense_col_sizes</span><span class="p">,</span> <span class="n">dense_k_sizes</span><span class="p">,</span> <span class="n">dense_row_sizes</span><span class="p">,</span> <span class="n">k_vmap</span><span class="p">,</span> <span class="n">m_map</span><span class="p">,</span> <span class="p">&amp;</span>
                              <span class="n">n_map</span><span class="p">,</span> <span class="n">old_product_col_blk_offsets</span><span class="p">,</span> <span class="n">old_product_col_blk_sizes</span><span class="p">,</span> <span class="p">&amp;</span>
-                             <span class="n">old_product_row_blk_offsets</span><span class="p">,</span> <span class="n">old_product_row_blk_sizes</span>
+                             <span class="n">old_product_row_blk_offsets</span><span class="p">,</span> <span class="n">old_product_row_blk_sizes</span><span class="p">,</span> <span class="p">&amp;</span>
+                             <span class="n">matrix_c_thread_dist</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_2d_array_type</span><span class="p">),</span> <span class="k">POINTER</span>                 <span class="kd">::</span> <span class="n">m2s_left</span><span class="p">,</span> <span class="n">m2s_right</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">dense_product_distribution</span><span class="p">,</span> <span class="p">&amp;</span>
                                                             <span class="n">old_product_distribution</span>
@@ -970,11 +971,20 @@ public subroutine dbcsr_multiply_generic(transa, transb, alpha, matrix_a, matrix
       <span class="c">!</span>
       <span class="c">! The thread distribution must reflect the current (possibly</span>
       <span class="c">! dense) distribution</span>
+      <span class="n">thread_dist_force</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
       <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_distribution_has_threads</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">%</span><span class="n">dist</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">release_tdist</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
          <span class="k">CALL </span><span class="n">dbcsr_distribution_make_threads</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">%</span><span class="n">dist</span><span class="p">)</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">release_tdist</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+         <span class="c">! Make sure matrix_c thread dist == matrix_left thread dist</span>
+         <span class="c">! This is currently a workaround</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_distribution_has_threads</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">%</span><span class="n">dist</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">            </span><span class="n">matrix_c_thread_dist</span> <span class="o">=</span> <span class="n">matrix_c</span><span class="p">%</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">thread_dist</span>
+            <span class="n">matrix_c</span><span class="p">%</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">thread_dist</span> <span class="o">=</span> <span class="n">matrix_left</span><span class="p">%</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">thread_dist</span>
+            <span class="k">CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">%</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">thread_dist</span><span class="p">)</span>
+            <span class="n">thread_dist_force</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+         <span class="n">ENDIF</span>
       <span class="n">ENDIF</span>
       <span class="c">!</span>
       <span class="c">! Compute number of images (rows and columns)</span>
@@ -1164,11 +1174,15 @@ public subroutine dbcsr_multiply_generic(transa, transb, alpha, matrix_a, matrix
 <span class="k">         CALL </span><span class="n">mp_isync</span><span class="p">(</span><span class="n">comm</span><span class="p">,</span> <span class="n">request_sync_mult</span><span class="p">)</span>
       <span class="n">ENDIF</span>
       <span class="c">!</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">transpose_left</span><span class="p">)</span> <span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">)</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">transpose_right</span><span class="p">)</span> <span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">release_tdist</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">dbcsr_distribution_no_threads</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">dist</span><span class="p">)</span>
+      <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">thread_dist_force</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="c">! Restore matrix_c thread-dist</span>
+         <span class="n">matrix_c</span><span class="p">%</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">thread_dist</span> <span class="o">=</span> <span class="n">matrix_c_thread_dist</span>
+         <span class="k">CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">%</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">thread_dist</span><span class="p">)</span>
       <span class="n">ENDIF</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">transpose_left</span><span class="p">)</span> <span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">transpose_right</span><span class="p">)</span> <span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">)</span>
       <span class="c">!</span>
       <span class="k">CALL </span><span class="n">dbcsr_release_locals</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">)</span>
       <span class="c">! The index of the product matrix is reset to the CP2K form if it</span>
