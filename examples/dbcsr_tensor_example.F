@@ -265,7 +265,7 @@ program dbcsr_tensor_example
          ! block is reserved only if this estimate is larger than the filter_eps parameter
          min_exp = block_minabsdiff(row_offset(row), col_offset(col), row_blk_size(row), col_blk_size(col))
          blk_size = row_blk_size(row)*col_blk_size(col)
-         if (blk_size*exp(-0.5*gamma*real(min_exp**2)) < filter_eps) cycle
+         if (real(blk_size, real64)*exp(-0.5_real64*gamma*real(min_exp**2, real64)) < filter_eps) cycle
 
          ind = ind + 1
 
@@ -300,7 +300,7 @@ program dbcsr_tensor_example
             n = n_arr + blk_offset_2d(1) - 1
             o = o_arr + blk_offset_2d(2) - 1
             ! calculate matrix element
-            blk_values_2d(n_arr, o_arr) = exp(-0.5*gamma*real((n - o)**2))
+            blk_values_2d(n_arr, o_arr) = exp(-0.5_real64*gamma*real((n - o)**2, real64))
          enddo
       enddo
    enddo
@@ -398,7 +398,9 @@ program dbcsr_tensor_example
 
             blk_size = blk_size_i(i)*blk_size_j(j)*blk_size_k(k)
 
-            if (blk_size*exp(-1./3*alpha*real(min_exp_ij**2 + min_exp_ik**2 + min_exp_jk**2)) < filter_eps) cycle
+            if (real(blk_size, real64)* &
+                exp(-1.0_real64/3.0_real64*alpha*real(min_exp_ij**2 + min_exp_ik**2 + min_exp_jk**2, real64)) < filter_eps) &
+               cycle
 
             ind = ind + 1
 
@@ -436,7 +438,8 @@ program dbcsr_tensor_example
                i = i_arr + blk_offset_3d(1) - 1
                j = j_arr + blk_offset_3d(2) - 1
                k = k_arr + blk_offset_3d(3) - 1
-               blk_values_3d(i_arr, j_arr, k_arr) = exp(-1./3*alpha*real((i - j)**2 + (i - k)**2 + (j - k)**2))
+               blk_values_3d(i_arr, j_arr, k_arr) = &
+                  exp(-1.0_real64/3.0_real64*alpha*real((i - j)**2 + (i - k)**2 + (j - k)**2, real64))
             enddo
          enddo
       enddo
@@ -492,7 +495,9 @@ program dbcsr_tensor_example
 
             blk_size = blk_size_i(i)*blk_size_l(l)*blk_size_n(n)
 
-            if (blk_size*exp(-1./3*beta*real(min_exp_il**2 + min_exp_in**2 + min_exp_ln**2)) < filter_eps) cycle
+            if (real(blk_size, real64)* &
+                exp(-1.0_real64/3.0_real64*beta*real(min_exp_il**2 + min_exp_in**2 + min_exp_ln**2, real64)) < filter_eps) &
+               cycle
 
             ind = ind + 1
 
@@ -528,7 +533,8 @@ program dbcsr_tensor_example
                i = i_arr + blk_offset_3d(1) - 1
                l = l_arr + blk_offset_3d(2) - 1
                n = n_arr + blk_offset_3d(3) - 1
-               blk_values_3d(i_arr, l_arr, n_arr) = exp(-1./3*beta*real((i - l)**2 + (i - n)**2 + (l - n)**2))
+               blk_values_3d(i_arr, l_arr, n_arr) = &
+                  exp(-1.0_real64/3.0_real64*beta*real((i - l)**2 + (i - n)**2 + (l - n)**2, real64))
             enddo
          enddo
       enddo
@@ -695,7 +701,7 @@ program dbcsr_tensor_example
       flop_rate = real(nflop_sum, real64)/(1.0e09_real64*time)
 
       if (io_unit > 0) then
-         write (io_unit, "(a,t73,es8.2)") "performance: total number of flops:", real(nflop_sum*numnodes)
+         write (io_unit, "(a,t73,es8.2)") "performance: total number of flops:", real(nflop_sum*int(numnodes, int64))
          write (io_unit, "(a,t66,f15.2)") "performance: total execution time:", time
          write (io_unit, "(a,t66,f15.2)") "performance: contraction flop rate (gflops / mpi rank):", flop_rate
       endif
@@ -831,7 +837,7 @@ program dbcsr_tensor_example
       flop_rate = real(nflop_sum, real64)/(1.0e09_real64*time)
 
       if (io_unit > 0) then
-         write (io_unit, "(a,t73,es8.2)") "performance (batched): total number of flops:", real(nflop_sum*numnodes)
+         write (io_unit, "(a,t73,es8.2)") "performance (batched): total number of flops:", real(nflop_sum*int(numnodes, int64))
          write (io_unit, "(a,t66,f15.2)") "performance (batched): total execution time:", time
          write (io_unit, "(a,t66,f15.2)") "performance (batched): contraction flop rate (gflops / mpi rank):", flop_rate
       endif
@@ -892,7 +898,7 @@ contains
          nblk = 0
          do while (blk_sum < total_size)
             call random_number(rand)
-            bsize = int(rand*max_bsize + 1)
+            bsize = int(rand*real(max_bsize) + 1.0)
             if (blk_sum + bsize > total_size) bsize = total_size - blk_sum
             blk_sum = blk_sum + bsize
             nblk = nblk + 1

@@ -158,7 +158,7 @@ CONTAINS
 
       chksum_check = atol(args(i + 1))
       chksum_threshold = ator(args(i + 2))
-      IF (chksum_check .AND. chksum_threshold .LE. 0.0) &
+      IF (chksum_check .AND. chksum_threshold .LE. 0.0_real_8) &
          CALL dbcsr_abort(__LOCATION__, &
                           "Checksum threshold must be positive!")
       chksum_ref = ator(args(i + 3))
@@ -228,7 +228,8 @@ CONTAINS
       CHARACTER                                          :: a_symm, b_symm, c_symm, transa, transb
       INTEGER                                            :: handle, mynode, numnodes, numthreads
       INTEGER, DIMENSION(:), POINTER, CONTIGUOUS :: col_dist_a, col_dist_b, col_dist_c, my_sizes_k, &
-                                               my_sizes_m, my_sizes_n, row_dist_a, row_dist_b, row_dist_c, sizes_k, sizes_m, sizes_n
+                                                    my_sizes_m, my_sizes_n, row_dist_a, row_dist_b, row_dist_c, &
+                                                    sizes_k, sizes_m, sizes_n
       LOGICAL                                            :: do_complex
       LOGICAL, DIMENSION(2)                              :: trs
       TYPE(dbcsr_distribution_obj)                       :: dist_a, dist_b, dist_c
@@ -655,7 +656,7 @@ CONTAINS
          WRITE (io_unit, '(T4,A,E26.15)') 'checksum(C_out) POS = ', chksum_c_out_pos
          IF (chksum_check) THEN
             chksum_err = .FALSE.
-            rel_diff = ABS(chksum_c_out/MAX(chksum_ref, chksum_threshold) - 1.)
+            rel_diff = ABS(chksum_c_out/MAX(chksum_ref, chksum_threshold) - 1.0_real_8)
             IF (rel_diff .GT. chksum_threshold) THEN
                WRITE (io_unit, '(T4,A,E26.15,A,E26.15,A,E26.15)') "Wrong checksum(C_out), ref = ", &
                   chksum_ref, &
@@ -663,7 +664,7 @@ CONTAINS
                   "  threshold = ", chksum_threshold
                chksum_err = .TRUE.
             ENDIF
-            rel_diff = ABS(chksum_c_out_pos/MAX(chksum_ref_pos, chksum_threshold) - 1.)
+            rel_diff = ABS(chksum_c_out_pos/MAX(chksum_ref_pos, chksum_threshold) - 1.0_real_8)
             IF (rel_diff .GT. chksum_threshold) THEN
                WRITE (io_unit, '(T4,A,E26.15,A,E26.15,A,E26.15)') "Wrong checksum(C_out) POS, ref = ", &
                   chksum_ref_pos, &

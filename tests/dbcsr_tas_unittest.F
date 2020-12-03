@@ -40,10 +40,10 @@ PROGRAM dbcsr_tas_unittest
    INTEGER, DIMENSION(m)          :: bsize_m
    INTEGER, DIMENSION(n)          :: bsize_n
    INTEGER, DIMENSION(k)          :: bsize_k
-   REAL(KIND=real_8), PARAMETER   :: sparsity = 0.1
+   REAL(KIND=real_8), PARAMETER   :: sparsity = 0.1_real_8
    INTEGER                        :: mp_comm, numnodes, mynode, io_unit
    INTEGER                        :: mp_comm_A, mp_comm_At, mp_comm_B, mp_comm_Bt, mp_comm_C, mp_comm_Ct
-   REAL(KIND=real_8), PARAMETER   :: filter_eps = 1.0E-08
+   REAL(KIND=real_8), PARAMETER   :: filter_eps = 1.0E-08_real_8
 
    CALL mp_world_init(mp_comm)
 

@@ -482,7 +482,7 @@ CONTAINS
 #:endfor
             arr_ind(:) = [${varlist("i", nmax=ndim)}$]
             tens_ind(:) = arr_ind(:) + blk_offset(:) - 1
-            blk_${ndim}$ (${arrlist("arr_ind", nmax=ndim)}$) = combine_tensor_index(tens_ind, tensor_size)
+            blk_${ndim}$ (${arrlist("arr_ind", nmax=ndim)}$) = REAL(combine_tensor_index(tens_ind, tensor_size), real_8)
 #:for idim in range(ndim,0,-1)
          ENDDO
 #:endfor

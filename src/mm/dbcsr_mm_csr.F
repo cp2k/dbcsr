@@ -335,7 +335,7 @@ CONTAINS
                ENDIF
 
                mapped_col_size = col_size_maps(n_size)
-               ws = stack_map(mapped_col_size, mapped_k_size, mapped_row_size)
+               ws = INT(stack_map(mapped_col_size, mapped_k_size, mapped_row_size), KIND=int_4)
                stacks_fillcount(ws) = stacks_fillcount(ws) + 1
                s_dp = stacks_fillcount(ws)
 
@@ -514,7 +514,7 @@ CONTAINS
          DO k_map = 1, SIZE(this%stack_map, 2)
             map_loop: DO n_map = 1, SIZE(this%stack_map, 1)
                DO istack = 1, nstacks - 1
-                  IF (this%stack_map(m_map, k_map, n_map) == flop_index(istack)) THEN
+                  IF (INT(this%stack_map(m_map, k_map, n_map), kind=int_4) == flop_index(istack)) THEN
                      this%stack_map(m_map, k_map, n_map) = INT(istack, kind=int_1)
                      CYCLE map_loop
                   END IF
@@ -678,7 +678,7 @@ CONTAINS
             lb = this%product_wm%blk_p(c_blk_id)
             CALL block_add(this%product_wm%data_area, data_buffer, &
                            lb, lb_data, nze)
-            flop = flop + nze
+            flop = flop + INT(nze, KIND=int_8)
          ELSE
             lb = this%product_wm%datasize + 1
             this%product_wm%lastblk = this%product_wm%lastblk + 1

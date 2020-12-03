@@ -329,11 +329,11 @@ CONTAINS
       ENDIF
 
       ! Submitting the stack for processing -------------------------------------
-      flop_per_entry = INT(2, KIND=int_8)*stack_descr%max_m*stack_descr%max_n*stack_descr%max_k
-      total_flop = stack_fillcount*flop_per_entry
+      flop_per_entry = 2_int_8*INT(stack_descr%max_m, int_8)*INT(stack_descr%max_n, int_8)*INT(stack_descr%max_k, int_8)
+      total_flop = INT(stack_fillcount, int_8)*flop_per_entry
 
       IF (has_acc .AND. &
-          flop_per_entry > dbcsr_cfg%accdrv_min_flop_process .AND. &
+          flop_per_entry > INT(dbcsr_cfg%accdrv_min_flop_process, int_8) .AND. &
           (.NOT. this%avoid_accdrv) .AND. &
           (stack_descr%defined_mnk .OR. dbcsr_cfg%accdrv_do_inhomogenous)) THEN
          CALL dbcsr_mm_accdrv_process( &
@@ -417,17 +417,17 @@ CONTAINS
       IF (PRESENT(stacksize_smm)) my_stacksize_smm = stacksize_smm
       IF (PRESENT(stacksize_acc)) my_stacksize_acc = stacksize_acc
 
-      my_nstacks_cpu = MERGE(1, 0, my_stacksize_cpu > 0)
-      my_nstacks_smm = MERGE(1, 0, my_stacksize_smm > 0)
-      my_nstacks_acc = MERGE(1, 0, my_stacksize_acc > 0)
+      my_nstacks_cpu = MERGE(1_int_8, 0_int_8, my_stacksize_cpu > 0)
+      my_nstacks_smm = MERGE(1_int_8, 0_int_8, my_stacksize_smm > 0)
+      my_nstacks_acc = MERGE(1_int_8, 0_int_8, my_stacksize_acc > 0)
       IF (PRESENT(nstacks_cpu)) my_nstacks_cpu = nstacks_cpu
       IF (PRESENT(nstacks_smm)) my_nstacks_smm = nstacks_smm
       IF (PRESENT(nstacks_acc)) my_nstacks_acc = nstacks_acc
 
       DO i = 1, SIZE(stats%num_mnk_stacks, 1)
-         IF (stats%num_mnk_stacks(i, 1) == m .AND. &
-             stats%num_mnk_stacks(i, 2) == n .AND. &
-             stats%num_mnk_stacks(i, 3) == k) THEN
+         IF (stats%num_mnk_stacks(i, 1) == INT(m, int_8) .AND. &
+             stats%num_mnk_stacks(i, 2) == INT(n, int_8) .AND. &
+             stats%num_mnk_stacks(i, 3) == INT(k, int_8)) THEN
             stats%num_mnk_stacks(i, 4) = stats%num_mnk_stacks(i, 4) + my_stacksize_cpu
             stats%num_mnk_stacks(i, 5) = stats%num_mnk_stacks(i, 5) + my_stacksize_smm
             stats%num_mnk_stacks(i, 6) = stats%num_mnk_stacks(i, 6) + my_stacksize_acc
@@ -445,9 +445,9 @@ CONTAINS
       DEALLOCATE (stats%num_mnk_stacks)
       ALLOCATE (stats%num_mnk_stacks(s + 1, 9))
       stats%num_mnk_stacks(1:s, :) = tmp(:, :)
-      stats%num_mnk_stacks(s + 1, 1) = m
-      stats%num_mnk_stacks(s + 1, 2) = n
-      stats%num_mnk_stacks(s + 1, 3) = k
+      stats%num_mnk_stacks(s + 1, 1) = INT(m, int_8)
+      stats%num_mnk_stacks(s + 1, 2) = INT(n, int_8)
+      stats%num_mnk_stacks(s + 1, 3) = INT(k, int_8)
       stats%num_mnk_stacks(s + 1, 4) = my_stacksize_cpu
       stats%num_mnk_stacks(s + 1, 5) = my_stacksize_smm
       stats%num_mnk_stacks(s + 1, 6) = my_stacksize_acc
@@ -543,7 +543,7 @@ CONTAINS
 
          CALL stats_add(report, m=mnk(1), n=mnk(2), k=mnk(3), stacksize_cpu=0_int_8, stacksize_acc=0_int_8)
          DO i = 1, SIZE(report%num_mnk_stacks, 1)
-            IF (ALL(report%num_mnk_stacks(i, 1:3) == mnk)) THEN
+            IF (ALL(report%num_mnk_stacks(i, 1:3) == INT(mnk, int_8))) THEN
                IF (i <= SIZE(mnk_collected)) mnk_collected(i) = 1
                CALL mp_sum(report%num_mnk_stacks(i, 4:9), group)
             END IF

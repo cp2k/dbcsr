@@ -1003,8 +1003,8 @@ CONTAINS
             CALL mp_environ(split_opt_avg%mp_comm_group, 2, pdims_sub_opt, pcoord_2d, periods_2d)
             CALL mp_environ(split%mp_comm_group, 2, pdims_sub, pcoord_2d, periods_2d)
 
-            pdim_ratio = MAXVAL(REAL(pdims_sub, real_8))/MINVAL(pdims_sub)
-            pdim_ratio_opt = MAXVAL(REAL(pdims_sub_opt, real_8))/MINVAL(pdims_sub_opt)
+            pdim_ratio = MAXVAL(REAL(pdims_sub, real_8))/MINVAL(REAL(pdims_sub, real_8))
+            pdim_ratio_opt = MAXVAL(REAL(pdims_sub_opt, real_8))/MINVAL(REAL(pdims_sub_opt, real_8))
             IF (pdim_ratio/pdim_ratio_opt <= default_pdims_accept_ratio**2) THEN
                do_change_pgrid(1) = .FALSE.
                CALL dbcsr_tas_release_info(split_opt_avg)
@@ -1527,20 +1527,20 @@ CONTAINS
 
       SELECT CASE (split_opt%split_rowcol)
       CASE (rowsplit)
-         pdims_ratio = REAL(pdims(1), real_8)/pdims(2)
+         pdims_ratio = REAL(pdims(1), real_8)/REAL(pdims(2), real_8)
       CASE (colsplit)
-         pdims_ratio = REAL(pdims(2), real_8)/pdims(1)
+         pdims_ratio = REAL(pdims(2), real_8)/REAL(pdims(1), real_8)
       END SELECT
 
       do_change_pgrid(:) = .FALSE.
 
       ! check for process grid dimensions
       CALL mp_environ(split%mp_comm_group, 2, pdims_sub, coor, periods)
-      change_criterion = MAXVAL(REAL(pdims_sub, real_8))/MINVAL(pdims_sub)
+      change_criterion = MAXVAL(REAL(pdims_sub, real_8))/MINVAL(REAL(pdims_sub, real_8))
       IF (change_criterion > default_pdims_accept_ratio**2) do_change_pgrid(1) = .TRUE.
 
       ! check for split factor
-      change_criterion = MAX(REAL(nsplit, real_8)/storage%nsplit_avg, REAL(storage%nsplit_avg, real_8)/nsplit)
+      change_criterion = MAX(REAL(nsplit, real_8)/storage%nsplit_avg, REAL(storage%nsplit_avg, real_8)/REAL(nsplit, real_8))
       IF (change_criterion > default_nsplit_accept_ratio) do_change_pgrid(2) = .TRUE.
 
    END FUNCTION

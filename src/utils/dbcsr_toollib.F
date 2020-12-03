@@ -54,7 +54,7 @@ CONTAINS
 
 !tuple = IOR (ISHFT (most, 32), least)
 
-      tuple = most
+      tuple = INT(most, kind=int_8)
       tuple = IOR(ISHFT(tuple, 32), INT(least, int_8))
    END FUNCTION make_coordinate_tuple
 
@@ -186,7 +186,7 @@ CONTAINS
       hash = 0_int_8
       DO i = 1, SIZE(key)
          DO j = 0, 3
-            byte = IAND(ISHFT(key(i), -j*8), 255)
+            byte = INT(IAND(ISHFT(key(i), -j*8), 255), kind=int_8)
             hash = IAND(hash + byte, b32)
             hash = IAND(hash + IAND(ISHFT(hash, 10), b32), b32)
             hash = IAND(IEOR(hash, IAND(ISHFT(hash, -6), b32)), b32)

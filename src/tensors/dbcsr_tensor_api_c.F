@@ -1227,7 +1227,7 @@ CONTAINS
 
       CALL c_f_pointer(c_tensor, tensor)
 
-      max_blks = dbcsr_t_max_nblks_local(tensor)
+      max_blks = INT(dbcsr_t_max_nblks_local(tensor), KIND=int_8)
    END FUNCTION
 
 END MODULE

@@ -654,7 +654,7 @@ CONTAINS
 
       iostat = 0
       IF (i > 999999 .OR. i < -99999) THEN
-         tmp_r = i
+         tmp_r = REAL(i, dp)
          WRITE (t_res, fmt='(es6.1)', iostat=iostat) tmp_r
       ELSE
          WRITE (t_res, fmt='(i6)', iostat=iostat) i

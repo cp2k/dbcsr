@@ -620,7 +620,7 @@ CONTAINS
       ELSE
          IF (m%nblkrows_total /= m%nblkcols_total) &
             DBCSR_ABORT('Symmetric matrix is not square')
-         n_full_blocks_total = INT(m%nblkrows_total, KIND=int_8)*(m%nblkrows_total + 1)/2
+         n_full_blocks_total = INT(m%nblkrows_total, KIND=int_8)*(INT(m%nblkrows_total, KIND=int_8) + 1_int_8)/2_int_8
       ENDIF
       n_have_blocks_local = m%nblks
 2045  FORMAT(I5, 1X, I5, 1X, I5, 1X, I5, 1X, I5, 1X, I5, 1X, I5, 1X, I5, 1X, I5, 1X, I5)

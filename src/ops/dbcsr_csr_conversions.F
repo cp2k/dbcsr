@@ -184,13 +184,14 @@ CONTAINS
       IF (nrows_total .LT. nrows_local) &
          DBCSR_ABORT("local number of rows must not exceed total number of rows")
 
-      IF (nze_total .LT. nze_local) CALL dbcsr_abort(__LOCATION__, "local number of non-zero "// &
-                                                     "elements must not exceed total number of non-zero elements")
+      IF (nze_total .LT. INT(nze_local, KIND=int_8)) &
+         CALL dbcsr_abort(__LOCATION__, "local number of non-zero elements "// &
+                          "must not exceed total number of non-zero elements")
 
       IF (INT(nrows_total, kind=int_8)*INT(ncols_total, kind=int_8) .LT. nze_total) &
          DBCSR_ABORT("Total number of non-zero elements must not exceed total matrix size")
 
-      IF (INT(nrows_local, kind=int_8)*INT(ncols_total, kind=int_8) .LT. nze_local) &
+      IF (INT(nrows_local, kind=int_8)*INT(ncols_total, kind=int_8) .LT. INT(nze_local, kind=int_8)) &
          DBCSR_ABORT("Local number of non-zero elements must not exceed local matrix size")
 
       csr_mat%ncols_total = ncols_total
@@ -411,7 +412,7 @@ CONTAINS
                           nfullcols_total=nfullcols_total)
 
       ! Sum up local number of non-zero elements to get total number
-      nze_total = nze_local
+      nze_total = INT(nze_local, KIND=int_8)
       CALL mp_sum(nze_total, mp_group)
 
       nfullrows = dbcsr_nfullrows_local(brd_mat)
@@ -588,9 +589,9 @@ CONTAINS
       CASE (dbcsr_type_real_8)
          brd_mat%data_area%d%r_dp(1:nze) = 0.0_dp
       CASE (dbcsr_type_complex_4)
-         brd_mat%data_area%d%c_sp(1:nze) = 0.0_sp
+         brd_mat%data_area%d%c_sp(1:nze) = (0.0_sp, 0.0_sp)
       CASE (dbcsr_type_complex_8)
-         brd_mat%data_area%d%c_dp(1:nze) = 0.0_dp
+         brd_mat%data_area%d%c_dp(1:nze) = (0.0_dp, 0.0_dp)
       END SELECT
 
       DO k = 1, csr_mat%nze_local
@@ -1218,7 +1219,7 @@ CONTAINS
                   IF ((.NOT. ut) .OR. (rowind .LE. colind_to_master(m))) THEN
                      SELECT CASE (csr_mat%nzval_local%data_type)
                      CASE (dbcsr_type_real_4)
-                        IF (ABS(nzval_to_master_r_sp(m)) .GE. thld) THEN
+                        IF (REAL(ABS(nzval_to_master_r_sp(m)), KIND=real_8) .GE. thld) THEN
                            IF (bin) THEN
                               WRITE (unit_nr) rowind, colind_to_master(m), nzval_to_master_r_sp(m)
                            ELSE
@@ -1236,7 +1237,7 @@ CONTAINS
                            END IF
                         END IF
                      CASE (dbcsr_type_complex_4)
-                        IF (ABS(nzval_to_master_c_sp(m)) .GE. thld) THEN
+                        IF (REAL(ABS(nzval_to_master_c_sp(m)), KIND=real_8) .GE. thld) THEN
                            IF (bin) THEN
                               WRITE (unit_nr) rowind, colind_to_master(m), nzval_to_master_c_sp(m)
                            ELSE
@@ -1299,7 +1300,7 @@ CONTAINS
                        /REAL(csr_mat%ncols_total, KIND=real_8)
 
       IF (csr_mat%has_mapping) THEN
-         dbcsr_nze_total = dbcsr_get_nze(csr_mat%dbcsr_mapping%brd_mat)
+         dbcsr_nze_total = INT(dbcsr_get_nze(csr_mat%dbcsr_mapping%brd_mat), KIND=int_8)
          CALL mp_sum(dbcsr_nze_total, csr_mat%mp_group)
          dbcsr_nze_percentage = 100.0_dp*(REAL(dbcsr_nze_total, KIND=real_8) &
                                           /REAL(csr_mat%nrows_total, KIND=real_8)) &
@@ -1376,9 +1377,9 @@ CONTAINS
 
          ! Calculate the number of rows a processor can hold
          IF (floor_dist) THEN
-            nfullrows_local = FLOOR(REAL(nfullrows_total, KIND=dp)/numnodes)
+            nfullrows_local = FLOOR(REAL(nfullrows_total, KIND=dp)/REAL(numnodes, KIND=real_8))
          ELSE
-            nfullrows_local = CEILING(REAL(nfullrows_total, KIND=dp)/numnodes)
+            nfullrows_local = CEILING(REAL(nfullrows_total, KIND=dp)/REAL(numnodes, KIND=real_8))
          ENDIF
 
          ! allocate maximum amount of memory possibly needed
@@ -1427,11 +1428,11 @@ CONTAINS
          IF (numnodes .GT. nblkrows_total) THEN
             rdist = (/(i, i=0, nblkrows_total - 1)/)
          ELSE
-            chunk_size = REAL(nblkrows_total, KIND=dp)/numnodes
+            chunk_size = REAL(nblkrows_total, KIND=dp)/REAL(numnodes, KIND=real_8)
             row_index = 0
             start_ind = 1
             DO i = 0, numnodes - 1
-               cs = NINT(i*chunk_size) - NINT((i - 1)*chunk_size)
+               cs = NINT(REAL(i, KIND=real_8)*chunk_size) - NINT(REAL(i - 1, KIND=real_8)*chunk_size)
                end_ind = MIN(start_ind - 1 + cs, nblkrows_total)
                rdist(start_ind:end_ind) = row_index
                start_ind = end_ind + 1

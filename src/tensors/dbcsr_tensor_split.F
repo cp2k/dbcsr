@@ -446,7 +446,11 @@ CONTAINS
 #:for ndim in ndims
             IF (ndims_tensor(tensor_out) == ${ndim}$) THEN
                CALL allocate_any(block_${dsuffix}$_${ndim}$d, blk_size)
+#:if dsuffix.startswith('r')
                block_${dsuffix}$_${ndim}$d = 0.0_${dprec}$
+#:else
+               block_${dsuffix}$_${ndim}$d = (0.0_${dprec}$, 0.0_${dprec}$)
+#:endif
 #:for idim in range(1,ndim+1)
                DO iblk_${idim}$ = first_split_${idim}$ (blk_index(${idim}$)), last_split_${idim}$ (blk_index(${idim}$))
 #:endfor
@@ -669,7 +673,11 @@ CONTAINS
                CALL dbcsr_t_get_block(tensor_in, blk_index, block_${dsuffix}$_${ndim}$d, found)
 
                CALL allocate_any(block_put_${dsuffix}$_${ndim}$d, blk_size)
+#:if dsuffix.startswith('r')
                block_put_${dsuffix}$_${ndim}$d = 0.0_${dprec}$
+#:else
+               block_put_${dsuffix}$_${ndim}$d = (0.0_${dprec}$, 0.0_${dprec}$)
+#:endif
                block_put_${dsuffix}$_${ndim}$d(${", ".join(["blk_bounds(1, "+str(idim)+"):blk_bounds(2,"+str(idim)+")" for idim in range(1, ndim+1)])}$) = &
                   block_${dsuffix}$_${ndim}$d(${", ".join(["blk_bounds(1, "+str(idim)+"):blk_bounds(2,"+str(idim)+")" for idim in range(1, ndim+1)])}$)
                CALL dbcsr_t_put_block(tensor_out, blk_index, blk_size, block_put_${dsuffix}$_${ndim}$d)

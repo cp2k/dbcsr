@@ -447,7 +447,7 @@ CONTAINS
                CALL mp_max(t1, group)
                CALL mp_sum(flop, group)
                t1 = MAX(t1, EPSILON(t1))
-               flops_all = REAL(flop, KIND=real_8)/t1/numnodes/(1024*1024)
+               flops_all = REAL(flop, KIND=real_8)/t1/REAL(numnodes, KIND=real_8)/1024**2
                IF (io_unit .GT. 0) THEN
                   WRITE (io_unit, '(A,I5,A,I5,A,F12.3,A,I9,A)') &
                      " loop ", loop_iter, " with ", numnodes, " MPI ranks: using ", t1, "s ", INT(flops_all), " Mflops/rank"

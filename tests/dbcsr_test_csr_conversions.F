@@ -85,10 +85,10 @@ PROGRAM dbcsr_test_csr_conversions
       CALL RANDOM_SEED(put=seed)
 
       CALL RANDOM_NUMBER(rn)
-      nblkrows_total = FLOOR(rn*(max_blks_total)) + 1
+      nblkrows_total = FLOOR(rn*REAL(max_blks_total)) + 1
 
       CALL RANDOM_NUMBER(rn)
-      nblkcols_total = FLOOR(rn*(max_blks_total)) + 1
+      nblkcols_total = FLOOR(rn*REAL(max_blks_total)) + 1
 
       ALLOCATE (rn_array(MAX(nblkcols_total, nblkrows_total)))
       ALLOCATE (col_blk_sizes(nblkcols_total))
@@ -97,18 +97,18 @@ PROGRAM dbcsr_test_csr_conversions
       ALLOCATE (col_dist(nblkcols_total))
 
       CALL RANDOM_NUMBER(rn_array)
-      col_blk_sizes = FLOOR(rn_array(1:nblkcols_total)*(max_blk_size)) + 1
+      col_blk_sizes = FLOOR(rn_array(1:nblkcols_total)*REAL(max_blk_size)) + 1
 
       CALL RANDOM_NUMBER(rn_array)
-      row_blk_sizes = FLOOR(rn_array(1:nblkrows_total)*(max_blk_size)) + 1
+      row_blk_sizes = FLOOR(rn_array(1:nblkrows_total)*REAL(max_blk_size)) + 1
 
       CALL RANDOM_NUMBER(rn)
-      sparsity = rn
+      sparsity = REAL(rn, real_8)
 
       CALL RANDOM_NUMBER(rn_array)
-      row_dist = FLOOR(rn_array(1:nblkrows_total)*npdims(1))
+      row_dist = FLOOR(rn_array(1:nblkrows_total)*REAL(npdims(1)))
       CALL RANDOM_NUMBER(rn_array)
-      col_dist = FLOOR(rn_array(1:nblkcols_total)*npdims(2))
+      col_dist = FLOOR(rn_array(1:nblkcols_total)*REAL(npdims(2)))
 
       CALL make_random_dbcsr_matrix(matrix_a, group, col_blk_sizes, row_blk_sizes, col_dist, row_dist, sparsity)
 

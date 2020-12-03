@@ -2322,7 +2322,7 @@ CONTAINS
             blk_size = row_size*col_size
             blkp = INT(blk_p(actual_blk), kind=int_8)
             start_ind = blkp + extra_darea_size(i)
-            end_ind = blkp + extra_darea_size(i) + blk_size - 1
+            end_ind = blkp + extra_darea_size(i) + INT(blk_size - 1, kind=int_8)
 
             SELECT CASE (data_type)
             CASE (dbcsr_type_real_4)

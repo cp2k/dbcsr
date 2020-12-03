@@ -182,7 +182,7 @@ CONTAINS
             DBCSR_ABORT("Must specify 2 sizes for 2-D data")
       ENDIF
 
-      sizes_oversized = INT(sizes_requested*my_memory_type%oversize_factor)
+      sizes_oversized = INT(REAL(sizes_requested, dp)*my_memory_type%oversize_factor)
       total_size_requested = PRODUCT(sizes_requested(1:d))
       total_size_oversized = PRODUCT(sizes_oversized(1:d))
 
