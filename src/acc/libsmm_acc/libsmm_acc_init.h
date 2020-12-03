@@ -24,6 +24,7 @@ void timestop(int handle);
 #endif
 
 extern "C" int libsmm_acc_init (void);
+extern "C" int libsmm_acc_finalize (void);
 
 int libsmm_acc_gpu_blas_init();
 

@@ -45,5 +45,5 @@ extern "C" int acc_finalize(){
   ACC_API_CALL(GetDevice, (&myDevice));
   ACC_DRV_CALL(DeviceGet, (&acc_device, myDevice));
   ACC_DRV_CALL(DevicePrimaryCtxRelease, (acc_device));
-  return 0;
+  return libsmm_acc_finalize();
 }

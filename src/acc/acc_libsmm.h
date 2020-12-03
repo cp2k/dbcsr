@@ -29,6 +29,7 @@ typedef enum libsmm_acc_data_t {
 } libsmm_acc_data_t;
 
 int libsmm_acc_init(void);
+int libsmm_acc_finalize(void);
 acc_bool_t libsmm_acc_is_thread_safe(void);
 
 int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
