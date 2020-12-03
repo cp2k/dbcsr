@@ -394,11 +394,12 @@ CONTAINS
                  output_unit
       INTEGER(KIND=int_8)                                :: my_flop
       LOGICAL :: ab_dense, keep_product_data, keep_sparsity, product_reindex, release_tdist, &
-                 transpose_left, transpose_right, use_dense_mult, use_mempools
+                 transpose_left, transpose_right, use_dense_mult, use_mempools, thread_dist_force
       REAL(KIND=dp)                                      :: cs
       TYPE(array_i1d_obj) :: dense_col_sizes, dense_k_sizes, dense_row_sizes, k_vmap, m_map, &
                              n_map, old_product_col_blk_offsets, old_product_col_blk_sizes, &
-                             old_product_row_blk_offsets, old_product_row_blk_sizes
+                             old_product_row_blk_offsets, old_product_row_blk_sizes, &
+                             matrix_c_thread_dist
       TYPE(dbcsr_2d_array_type), POINTER                 :: m2s_left, m2s_right
       TYPE(dbcsr_distribution_obj)                       :: dense_product_distribution, &
                                                             old_product_distribution
@@ -702,11 +703,20 @@ CONTAINS
       !
       ! The thread distribution must reflect the current (possibly
       ! dense) distribution
+      thread_dist_force = .FALSE.
       IF (.NOT. dbcsr_distribution_has_threads(matrix_c%dist)) THEN
          release_tdist = .TRUE.
          CALL dbcsr_distribution_make_threads(matrix_c%dist)
       ELSE
          release_tdist = .FALSE.
+         ! Make sure matrix_c thread dist == matrix_left thread dist
+         ! This is currently a workaround
+         IF (dbcsr_distribution_has_threads(matrix_left%dist)) THEN
+            matrix_c_thread_dist = matrix_c%dist%d%thread_dist
+            matrix_c%dist%d%thread_dist = matrix_left%dist%d%thread_dist
+            CALL array_hold(matrix_left%dist%d%thread_dist)
+            thread_dist_force = .TRUE.
+         ENDIF
       ENDIF
       !
       ! Compute number of images (rows and columns)
@@ -896,11 +906,15 @@ CONTAINS
          CALL mp_isync(comm, request_sync_mult)
       ENDIF
       !
-      IF (transpose_left) CALL dbcsr_release(matrix_left)
-      IF (transpose_right) CALL dbcsr_release(matrix_right)
       IF (release_tdist) THEN
          CALL dbcsr_distribution_no_threads(product_matrix%dist)
+      ELSEIF (thread_dist_force) THEN
+         ! Restore matrix_c thread-dist
+         matrix_c%dist%d%thread_dist = matrix_c_thread_dist
+         CALL array_release(matrix_left%dist%d%thread_dist)
       ENDIF
+      IF (transpose_left) CALL dbcsr_release(matrix_left)
+      IF (transpose_right) CALL dbcsr_release(matrix_right)
       !
       CALL dbcsr_release_locals(product_matrix)
       ! The index of the product matrix is reset to the CP2K form if it
