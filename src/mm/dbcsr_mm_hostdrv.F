@@ -463,8 +463,6 @@ CONTAINS
                          libxsmm_gemm => libxsmm_${nametype1}$gemm, &
                          LIBXSMM_PREFETCH_NONE, &
                          LIBXSMM_PREFETCH, &
-                         LIBXSMM_ROW_MAJOR, &
-                         LIBXSMM_COL_MAJOR, &
                          LIBXSMM_MAX_MNK, &
                          LIBXSMM_FLAGS
       INTEGER, PARAMETER :: LIBXSMM_DEFAULT_PREFETCH = LIBXSMM_PREFETCH
@@ -493,7 +491,6 @@ CONTAINS
         !! Flag to signal if an efficient kernel was used
 
 #if ${xsmm_supported[n]}$
-      DBCSR_ASSERT(LIBXSMM_COL_MAJOR /= 0 .AND. LIBXSMM_ROW_MAJOR == 0)
       processed = .FALSE.
       used_smm = .FALSE.
 
