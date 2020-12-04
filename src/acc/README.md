@@ -2,7 +2,14 @@
 
 ## Overview
 
-This folder contains the ISO_C_BINDING based Fortran code of DBCSR's [ACC-backend interface](https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc.h) and [LIBSMM/ACC-interface](https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_libsmm.h). Further, two stand-alone sample codes are given exercising both interfaces (benchmarks).
+This folder contains the ISO_C_BINDING based Fortran code of DBCSR's [ACC-backend interface](https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc.h) and [LIBSMM/ACC-interface](https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_libsmm.h). It also contains the CUDA (for Nvidia GPUs) and HIP (for AMD GPUs) accelerator backends.
+
+Further, two stand-alone sample codes are given exercising both interfaces (benchmarks).
+
+## CUDA and HIP backends
+
+The code for both the CUDA and HIP backends is unique, and can be found in the `cuda` directory.
+We switch from one backend to the other via macros (`__CUDA` and `__HIP`).
 
 ## Benchmarks
 
