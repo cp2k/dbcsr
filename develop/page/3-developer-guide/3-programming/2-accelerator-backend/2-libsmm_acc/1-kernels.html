@@ -73,6 +73,8 @@
             <li><a href="../../../../../lists/types.html">Derived Types</a></li>
         
         
+            <li><a href="../../../../../lists/programs.html">Programs</a></li>
+        
             </ul>
             </li>
 
@@ -92,6 +94,8 @@
                              
 <li class="visible-xs hidden-sm visible-lg"><a href="../../../../../lists/types.html">Derived Types</a></li>
 
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../../../../lists/programs.html">Programs</a></li>
 
           </ul>
         
@@ -136,10 +140,14 @@
     <div class="col-md-9 col-md-push-3" id='text'>
       <p><img alt="kernel parameters and memory" src="../../../../../media/images/libsmm_acc_parameters_and_memory.png" width="50%"></p>
 <h1>libsmm_acc/kernels</h1>
+<p><code>libsmm_acc</code>'s GPU kernels.</p>
 <h2>Directory Organization</h2>
 <ul>
 <li>
 <p><a href="autotuning_properties.json"><code>autotuning_properties.json</code></a> Properties of the autotuning procedure, read from <a href="../libsmm_acc_benchmark.cpp">DBCSR source code</a></p>
+</li>
+<li>
+<p><a href="gpu_properties.json"><code>gpu_properties.json</code></a> GPU card properties</p>
 </li>
 <li>
 <p><a href="smm_acc_common.h"><code>smm_acc_common.h</code></a> Functionalities common to kernel CUDA/HIP codes</p>
@@ -148,21 +156,31 @@
 <p><a href="smm_acc_dnt_base.py"><code>smm_acc_dnt_base.py</code></a> Kernel base class</p>
 </li>
 <li>
-<p><code>smm_acc_dnt_ALGORITHM.py</code> Kernel class</p>
+<p><code>smm_acc_dnt_ALGORITHM.py</code> Kernel class in python</p>
 </li>
 <li>
-<p><code>smm_acc_dnt_ALGORITHM.h</code> Kernel CUDA/HIP code</p>
+<p><code>smm_acc_dnt_ALGORITHM.h</code> Batched Multiply Kernel CUDA/HIP code</p>
 </li>
 <li>
 <p><a href="smm_acc_predict.py"><code>smm_acc_predict.py</code></a> Class and helper functions for parameter prediction procedure</p>
 </li>
 <li>
-<p><a href="smm_acc_transpose.h"><code>smm_acc_transpose.h</code></a> Transposition CUDA/HIP code</p>
-</li>
-<li>
-<p><a href="gpu_properties.json"><code>gpu_properties.json</code></a> GPU card properties</p>
+<p><a href="smm_acc_transpose.h"><code>smm_acc_transpose.h</code></a> Transpose CUDA/HIP code</p>
 </li>
 </ul>
+<h2>Batched Multiplication Kernels</h2>
+<p>All kernels have following signature:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">template</span> <span class="o">&lt;</span><span class="nb nb-Type">int</span> <span class="n">m</span><span class="p">,</span> <span class="nb nb-Type">int</span> <span class="n">n</span><span class="p">,</span> <span class="nb nb-Type">int</span> <span class="n">k</span><span class="p">,</span> <span class="nb nb-Type">int</span> <span class="n">M</span><span class="p">,</span> <span class="nb nb-Type">int</span> <span class="n">N</span><span class="p">,</span> <span class="nb nb-Type">int</span> <span class="n">w</span><span class="p">,</span> <span class="nb nb-Type">int</span> <span class="n">v</span><span class="p">,</span> <span class="nb nb-Type">int</span> <span class="n">threads</span><span class="p">,</span> <span class="nb nb-Type">int</span> <span class="n">grouping</span><span class="p">,</span> <span class="nb nb-Type">int</span> <span class="n">minblocks</span> <span class="o">&gt;</span>
+
+<span class="n">__global__</span> <span class="n">void</span>
+<span class="n">__launch_bounds__</span><span class="p">(</span><span class="n">threads</span><span class="p">,</span> <span class="n">minblocks</span><span class="p">)</span>
+<span class="n">smm_acc_dnt_ALGORITHM</span>
+<span class="p">(</span><span class="k">const</span> <span class="nb nb-Type">int</span> <span class="o">*</span><span class="n">__restrict__</span> <span class="n">param_stack</span><span class="p">,</span> <span class="k">const</span> <span class="nb nb-Type">int</span> <span class="n">stack_size</span><span class="p">,</span>
+<span class="k">const</span> <span class="n">double</span><span class="o">*</span> <span class="n">__restrict__</span> <span class="n">a_data</span><span class="p">,</span> <span class="k">const</span> <span class="n">double</span><span class="o">*</span> <span class="n">__restrict__</span> <span class="n">b_data</span><span class="p">,</span> <span class="n">double</span><span class="o">*</span> <span class="n">c_data</span><span class="p">);</span>
+</code></pre></div>
+
+<p>At kernel launch time, the A, B, and C matrices, as well as the product descriptors (the so-called stacks) are all located in global memory on the GPU. Each entry in the stack describes one matrix-matrix product: it contains three pointers to the blocks in the A, B, and C matrices. After the kernel has read a stack entry, it fetches the blocks in matrices A and B from global to shared memory, and updates the C matrix with the product of A and B.</p>
+<p><code>libsmm_acc</code> provides 5 different kernels for this operation (tiny, small, medium, largeDB1, largeDB2), which are optimized for different block sizes. Please refer to the documentation inside the respective <code>.h</code> files for more details.</p>
     </div>
     
     <div class="col-md-3 col-md-pull-9">
@@ -194,27 +212,27 @@
             <ul class="nav nav-stacked nav-pills">
               
             <li role="presentation">
-            <a href='../../../../../page/2-user-guide/1-installation/index.html'>Installation</a>
+            <a href='../../../../../page/2-user-guide/1-installation/index.html'>Install</a>
             
             <ul class="nav nav-stacked nav-pills">
               
             <li role="presentation">
-            <a href='../../../../../page/2-user-guide/1-installation/1-install.html'>Install</a>
+            <a href='../../../../../page/2-user-guide/1-installation/1-cmake-build-recipes.html'>CMake Build Recipes</a>
             
             </li>
             
             <li role="presentation">
-            <a href='../../../../../page/2-user-guide/1-installation/2-cmake-build-recipes.html'>CMake Build Recipes</a>
+            <a href='../../../../../page/2-user-guide/1-installation/2-supported-compilers.html'>Supported Compilers</a>
             
             </li>
             
             <li role="presentation">
-            <a href='../../../../../page/2-user-guide/1-installation/3-supported-compilers.html'>Supported Compilers</a>
+            <a href='../../../../../page/2-user-guide/1-installation/3-using-dbcsr-in-a-cmake-project.html'>Using DBCSR in a CMake project</a>
             
             </li>
             
             <li role="presentation">
-            <a href='../../../../../page/2-user-guide/1-installation/4-using-dbcsr-in-a-cmake-project.html'>Using DBCSR in a CMake project</a>
+            <a href='../../../../../page/2-user-guide/1-installation/4-docker.html'>Docker Images</a>
             
             </li>
             
@@ -223,7 +241,12 @@
             </li>
             
             <li role="presentation">
-            <a href='../../../../../page/2-user-guide/2-examples/index.html'>Examples</a>
+            <a href='../../../../../page/2-user-guide/2-tests/index.html'>Tests</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../../../page/2-user-guide/3-examples/index.html'>Examples</a>
             
             </li>
             
@@ -277,6 +300,11 @@
             </li>
             
             <li role="presentation">
+            <a href='../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/2-parameters.html'>Kernel Parameters</a>
+            
+            </li>
+            
+            <li role="presentation">
             <a href='../../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/3-tune.html'>Autotuning Framework</a>
             
             </li>
@@ -300,6 +328,11 @@
             </li>
             
             </ul>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../../../page/3-developer-guide/4-performance/index.html'>Performance</a>
             
             </li>
             

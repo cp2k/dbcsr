@@ -10,7 +10,7 @@
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../../../favicon.png">
 
-    <title>Using DBCSR in a CMake project &ndash; DBCSR</title>
+    <title>Performance &ndash; DBCSR</title>
 
     <link href="../../../css/bootstrap.min.css" rel="stylesheet">
     <link href="../../../css/pygments.css" rel="stylesheet">
@@ -73,6 +73,8 @@
             <li><a href="../../../lists/types.html">Derived Types</a></li>
         
         
+            <li><a href="../../../lists/programs.html">Programs</a></li>
+        
             </ul>
             </li>
 
@@ -93,6 +95,8 @@
 <li class="visible-xs hidden-sm visible-lg"><a href="../../../lists/types.html">Derived Types</a></li>
 
 
+<li class="visible-xs hidden-sm visible-lg"><a href="../../../lists/programs.html">Programs</a></li>
+
           </ul>
         
         </div><!--/.nav-collapse -->
@@ -102,7 +106,7 @@
     <div class="container">
     
   <div class="row">
-    <h1>Using DBCSR in a CMake project</h1>
+    <h1>Performance</h1>
     <div class="row">
     <div class="col-lg-12">
     <div class="well well-sm" style="min-height: 40px;">
@@ -117,11 +121,9 @@
       
          <li><a href='../../../page/index.html'>Guide</a></li>
       
-         <li><a href='../../../page/2-user-guide/index.html'>User Guide</a></li>
+         <li><a href='../../../page/3-developer-guide/index.html'>Developer Guide</a></li>
       
-         <li><a href='../../../page/2-user-guide/1-installation/index.html'>Installation</a></li>
-      
-         <li class="active">Using DBCSR in a CMake project</li>
+         <li class="active">Performance</li>
       </ol>
     </div>
     </div>
@@ -130,45 +132,7 @@
   
   <div class="row">
     <div class="col-md-9 col-md-push-3" id='text'>
-      <h1>Using DBCSR in a CMake project</h1>
-<p>We are providing CMake helper files to easily include DBCSR in any other CMake-based project.
-For this you have to build DBCSR using CMake as described above and then also install it.</p>
-<p>As a user being able to run commands as root, use:</p>
-<div class="codehilite"><pre><span></span><code>    sudo cmake --build . -- install  <span class="c1"># will install to /usr/local</span>
-</code></pre></div>
-
-<p>If you can not run commands as root, use <code>-DCMAKE_INSTALL_PREFIX=...</code> when calling CMake to set
-an alternative base installation path for DBCSR instead:</p>
-<div class="codehilite"><pre><span></span><code>    cmake -DCMAKE_INSTALL_PREFIX<span class="o">=</span>/my/custom/prefix ..
-    cmake --build . -- install
-</code></pre></div>
-
-<p>In your project's CMake you can then easily search for the DBCSR library:</p>
-<div class="codehilite"><pre><span></span><code><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">3.12</span><span class="p">)</span>
-
-<span class="nb">enable_language</span><span class="p">(</span><span class="s">Fortran</span> <span class="s">C</span> <span class="s">CXX</span><span class="p">)</span>  <span class="c"># only request the required language</span>
-
-<span class="nb">find_package</span><span class="p">(</span><span class="s">DBCSR</span> <span class="s">2.0.0</span> <span class="s">CONFIG</span> <span class="s">REQUIRED</span><span class="p">)</span>
-<span class="nb">find_package</span><span class="p">(</span><span class="s">MPI</span><span class="p">)</span>
-
-<span class="c"># for Fortran:</span>
-<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_Fortran_FLAGS</span> <span class="s2">&quot;-std=f2018&quot;</span><span class="p">)</span>  <span class="c"># your Fortran code likely needs to be F2018+ compatible as well</span>
-<span class="nb">add_executable</span><span class="p">(</span><span class="s">dbcsr_example_fortran</span> <span class="s">dbcsr_example.f90</span><span class="p">)</span>
-<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">dbcsr_example_fortran</span> <span class="s">DBCSR::dbcsr</span><span class="p">)</span>
-
-<span class="c"># for C:</span>
-<span class="nb">add_executable</span><span class="p">(</span><span class="s">dbcsr_example_c</span> <span class="s">dbcsr_example.c</span><span class="p">)</span>
-<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">dbcsr_example_c</span> <span class="s">DBCSR::dbcsr_c</span> <span class="s">MPI::MPI_C</span><span class="p">)</span>
-
-<span class="c"># for C++:</span>
-<span class="nb">add_executable</span><span class="p">(</span><span class="s">dbcsr_example_cpp</span> <span class="s">dbcsr_example.cpp</span><span class="p">)</span>
-<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">dbcsr_example_cpp</span> <span class="s">DBCSR::dbcsr_c</span> <span class="s">MPI::MPI_CXX</span><span class="p">)</span>
-</code></pre></div>
-
-<p>If you installed DBCSR into a custom prefix, you have to make sure that CMake
-is able to find the DBCSR CMake configuration:</p>
-<div class="codehilite"><pre><span></span><code>    <span class="nv">DBCSR_DIR</span><span class="o">=</span>/my/custom/prefix cmake ..
-</code></pre></div>
+      
     </div>
     
     <div class="col-md-3 col-md-pull-9">
@@ -200,27 +164,27 @@ is able to find the DBCSR CMake configuration:</p>
             <ul class="nav nav-stacked nav-pills">
               
             <li role="presentation">
-            <a href='../../../page/2-user-guide/1-installation/index.html'>Installation</a>
+            <a href='../../../page/2-user-guide/1-installation/index.html'>Install</a>
             
             <ul class="nav nav-stacked nav-pills">
               
             <li role="presentation">
-            <a href='../../../page/2-user-guide/1-installation/1-install.html'>Install</a>
+            <a href='../../../page/2-user-guide/1-installation/1-cmake-build-recipes.html'>CMake Build Recipes</a>
             
             </li>
             
             <li role="presentation">
-            <a href='../../../page/2-user-guide/1-installation/2-cmake-build-recipes.html'>CMake Build Recipes</a>
+            <a href='../../../page/2-user-guide/1-installation/2-supported-compilers.html'>Supported Compilers</a>
             
             </li>
             
             <li role="presentation">
-            <a href='../../../page/2-user-guide/1-installation/3-supported-compilers.html'>Supported Compilers</a>
+            <a href='../../../page/2-user-guide/1-installation/3-using-dbcsr-in-a-cmake-project.html'>Using DBCSR in a CMake project</a>
             
             </li>
             
-            <li role="presentation" class="disabled">
-            <a href='../../../page/2-user-guide/1-installation/4-using-dbcsr-in-a-cmake-project.html'>Using DBCSR in a CMake project</a>
+            <li role="presentation">
+            <a href='../../../page/2-user-guide/1-installation/4-docker.html'>Docker Images</a>
             
             </li>
             
@@ -229,7 +193,12 @@ is able to find the DBCSR CMake configuration:</p>
             </li>
             
             <li role="presentation">
-            <a href='../../../page/2-user-guide/2-examples/index.html'>Examples</a>
+            <a href='../../../page/2-user-guide/2-tests/index.html'>Tests</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../page/2-user-guide/3-examples/index.html'>Examples</a>
             
             </li>
             
@@ -283,6 +252,11 @@ is able to find the DBCSR CMake configuration:</p>
             </li>
             
             <li role="presentation">
+            <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/2-parameters.html'>Kernel Parameters</a>
+            
+            </li>
+            
+            <li role="presentation">
             <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/3-tune.html'>Autotuning Framework</a>
             
             </li>
@@ -306,6 +280,11 @@ is able to find the DBCSR CMake configuration:</p>
             </li>
             
             </ul>
+            
+            </li>
+            
+            <li role="presentation" class="disabled">
+            <a href='../../../page/3-developer-guide/4-performance/index.html'>Performance</a>
             
             </li>
             

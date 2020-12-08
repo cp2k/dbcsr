@@ -73,6 +73,8 @@
             <li><a href="../../../lists/types.html">Derived Types</a></li>
         
         
+            <li><a href="../../../lists/programs.html">Programs</a></li>
+        
             </ul>
             </li>
 
@@ -92,6 +94,8 @@
                              
 <li class="visible-xs hidden-sm visible-lg"><a href="../../../lists/types.html">Derived Types</a></li>
 
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../../lists/programs.html">Programs</a></li>
 
           </ul>
         
@@ -129,17 +133,22 @@
   <div class="row">
     <div class="col-md-9 col-md-push-3" id='text'>
       <h1>Documentation</h1>
-<h2>Build the Documentation</h2>
-<p>To build the Documentation you need <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>.</p>
+<h2>Build</h2>
+<p>To build the documentation you need <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>.</p>
 <p>Afterwards use the <code>doc</code> target for the CMake generated Makefile:</p>
 <div class="codehilite"><pre><span></span><code>    mkdir build
     <span class="nb">cd</span> build
-    cmake ..  <span class="c1"># will look for the `ford` binary</span>
+    cmake .. <span class="c1"># will look for the `ford` binary</span>
     make doc
 </code></pre></div>
 
+<p>Note that in order to generate the documentation with examples (recommended), the following options should be activated in cmake (these are the options' default values)</p>
+<div class="codehilite"><pre><span></span><code>    cmake -DUSE_MPI<span class="o">=</span>ON -DWITH_EXAMPLES<span class="o">=</span>ON .. <span class="c1"># these options are default and recommended.</span>
+                                             <span class="c1"># If set off, the examples&#39; documentation is not generated.</span>
+</code></pre></div>
+
 <p>The documentation (HTML format) will be located in <code>doc/</code>. To view it, open <code>doc/index.html</code> in a browser.</p>
-<h2>Add Pages to the Documentation</h2>
+<h2>Add Pages</h2>
 <p>To add pages to the documentation, write Markdown files and add them to the desired location in <code>dbcsr/docs/guide</code>. Note that subfolders of <code>guide</code> will only be added to the documentation pages if they contain a file <code>index.md</code>. For more information on writing pages, see <a href="https://github.com/Fortran-FOSS-Programmers/ford/wiki/Writing-Pages">Ford's documentation</a>.</p>
     </div>
     
@@ -172,27 +181,27 @@
             <ul class="nav nav-stacked nav-pills">
               
             <li role="presentation">
-            <a href='../../../page/2-user-guide/1-installation/index.html'>Installation</a>
+            <a href='../../../page/2-user-guide/1-installation/index.html'>Install</a>
             
             <ul class="nav nav-stacked nav-pills">
               
             <li role="presentation">
-            <a href='../../../page/2-user-guide/1-installation/1-install.html'>Install</a>
+            <a href='../../../page/2-user-guide/1-installation/1-cmake-build-recipes.html'>CMake Build Recipes</a>
             
             </li>
             
             <li role="presentation">
-            <a href='../../../page/2-user-guide/1-installation/2-cmake-build-recipes.html'>CMake Build Recipes</a>
+            <a href='../../../page/2-user-guide/1-installation/2-supported-compilers.html'>Supported Compilers</a>
             
             </li>
             
             <li role="presentation">
-            <a href='../../../page/2-user-guide/1-installation/3-supported-compilers.html'>Supported Compilers</a>
+            <a href='../../../page/2-user-guide/1-installation/3-using-dbcsr-in-a-cmake-project.html'>Using DBCSR in a CMake project</a>
             
             </li>
             
             <li role="presentation">
-            <a href='../../../page/2-user-guide/1-installation/4-using-dbcsr-in-a-cmake-project.html'>Using DBCSR in a CMake project</a>
+            <a href='../../../page/2-user-guide/1-installation/4-docker.html'>Docker Images</a>
             
             </li>
             
@@ -201,7 +210,12 @@
             </li>
             
             <li role="presentation">
-            <a href='../../../page/2-user-guide/2-examples/index.html'>Examples</a>
+            <a href='../../../page/2-user-guide/2-tests/index.html'>Tests</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../page/2-user-guide/3-examples/index.html'>Examples</a>
             
             </li>
             
@@ -255,6 +269,11 @@
             </li>
             
             <li role="presentation">
+            <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/2-parameters.html'>Kernel Parameters</a>
+            
+            </li>
+            
+            <li role="presentation">
             <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/3-tune.html'>Autotuning Framework</a>
             
             </li>
@@ -278,6 +297,11 @@
             </li>
             
             </ul>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../page/3-developer-guide/4-performance/index.html'>Performance</a>
             
             </li>
             

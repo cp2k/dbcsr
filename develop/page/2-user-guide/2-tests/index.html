@@ -10,7 +10,7 @@
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../../../favicon.png">
 
-    <title>Examples &ndash; DBCSR</title>
+    <title>Tests &ndash; DBCSR</title>
 
     <link href="../../../css/bootstrap.min.css" rel="stylesheet">
     <link href="../../../css/pygments.css" rel="stylesheet">
@@ -73,6 +73,8 @@
             <li><a href="../../../lists/types.html">Derived Types</a></li>
         
         
+            <li><a href="../../../lists/programs.html">Programs</a></li>
+        
             </ul>
             </li>
 
@@ -93,6 +95,8 @@
 <li class="visible-xs hidden-sm visible-lg"><a href="../../../lists/types.html">Derived Types</a></li>
 
 
+<li class="visible-xs hidden-sm visible-lg"><a href="../../../lists/programs.html">Programs</a></li>
+
           </ul>
         
         </div><!--/.nav-collapse -->
@@ -102,7 +106,7 @@
     <div class="container">
     
   <div class="row">
-    <h1>Examples</h1>
+    <h1>Tests</h1>
     <div class="row">
     <div class="col-lg-12">
     <div class="well well-sm" style="min-height: 40px;">
@@ -119,7 +123,7 @@
       
          <li><a href='../../../page/2-user-guide/index.html'>User Guide</a></li>
       
-         <li class="active">Examples</li>
+         <li class="active">Tests</li>
       </ol>
     </div>
     </div>
@@ -128,13 +132,56 @@
   
   <div class="row">
     <div class="col-md-9 col-md-push-3" id='text'>
-      <h1>DBCSR Examples</h1>
-<p>These examples require to be executed with MPI.
-Furthermore, MPI_THREAD_FUNNELED mode is required
-if you are using threading.
-Make sure you compile DBCSR accordingly.</p>
-<p>1) Compile and install DBCSR, following the procedure described in the DBCSR
-   installation guide, and using <code>-DWITH_EXAMPLES=ON</code>.</p>
+      <h1>Tests</h1>
+<h2>Correctness tests</h2>
+<ul>
+<li><a href="../../../program/dbcsr_unittest_1.html">dbcsr_unittest_1</a> (fortran) : test matrix operations: add, multiply and multiply-ghost</li>
+<li><a href="../../../program/dbcsr_unittest_2.html">dbcsr_unittest_2</a> (fortran) : test matrix-multiply with large blocks (block size=100) and rectangular matrices (block size=5)</li>
+<li><a href="../../../program/dbcsr_test_csr_conversions.html">dbcsr_test_csr_conversions</a> (fortran) : test DBCSR to CSR conversion with random matrices</li>
+<li><a href="../../../program/dbcsr_tas_unittest.html">dbcsr_tas_unittest</a> (fortran) : unit test for tall-and-skinny matrices</li>
+<li><a href="../../../program/dbcsr_tensor_unittest.html">dbcsr_tensor_unittest</a> (fortran) : unit test for tensor functionalities</li>
+<li><a href="../../../../tests/dbcsr_tensor_test.cpp">dbcsr_tensor_test</a> (c++) : test the tensor contraction (13|2)x(54|21)=(3|45) 31 and other functions</li>
+</ul>
+<h3>GPU-backend correctness tests:</h3>
+<ul>
+<li><a href="../../../program/dbcsr_unittest_3.html">dbcsr_unittest_3</a> (fortran) : test matrix-multiply with various block sizes that are run by the libsmm_acc GPU backend if DBCSR is compiled with GPU support</li>
+<li><a href="../../../../tests/libsmm_acc_unittest_multiply.cpp">libsmm_acc_unittest_multiply</a> (c++) : tests all libsmm_acc transpose kernels</li>
+<li><a href="../../../../tests/libsmm_acc_unittest_transpose.cpp">libsmm_acc_unittest_transpose</a> (c++) : tests all libsmm_acc batch-multiplication kernels</li>
+</ul>
+<h2>Performance tests</h2>
+<p>DBCSR performance tests:</p>
+<ul>
+<li><a href="../../../program/dbcsr_performance_driver.html">dbcsr_performance_driver</a> (fortran) : performance tester for matrix operations. The input matrices can be described in an input file in order to test different configurations. See below.</li>
+</ul>
+<h3>GPU backend performance tests:</h3>
+<ul>
+<li><a href="../../../../tests/libsmm_acc_timer_multiply.cpp">libsmm_acc_timer_multiply</a> (c++) : time all libsmm_acc batch-multiplication kernels</li>
+</ul>
+<h2>Running Tests</h2>
+<p>To run all the tests, use:</p>
+<div class="codehilite"><pre><span></span><code>make <span class="nb">test</span>
+</code></pre></div>
+
+<p>Or run individual tests from the <code>build</code> directory, as follows:</p>
+<div class="codehilite"><pre><span></span><code>srun -N <span class="m">1</span> --ntasks-per-core <span class="m">2</span> --ntasks-per-node <span class="m">12</span> --cpus-per-task <span class="m">2</span> ./tests/dbcsr_unittest_1
+</code></pre></div>
+
+<p>Note that the tests of libsmm_acc (the GPU-backend) do not use MPI since libsmm_acc only operates on-node.</p>
+<p>Note that if you are using OpenMP builds, then you have to set the environment variable <code>OMP_NESTED=false</code>.</p>
+<h3>Input Files for Performance Driver</h3>
+<p>The test suite comes with a performance driver (<a href="../../../program/dbcsr_performance_driver.html">dbcsr_performance_driver</a>), which evaluates the performance of matrix-matrix multiplication in DBCSR.</p>
+<p>Input matrices can be specified in an input file, passed to the executable as standard input, for example:</p>
+<p>a) To test pure MPI performance test using [n] nodes:</p>
+<div class="codehilite"><pre><span></span><code>mpirun -np <span class="o">[</span>n<span class="o">]</span> ./build/tests/dbcsr_perf tests/input.perf <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span> <span class="p">|</span> tee perf.log
+</code></pre></div>
+
+<p>b) To test hybrid MPI/OpenMP performance test using [n] nodes, each spanning [t] threads:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">export</span> <span class="nv">OMP_NUM_THREADS</span><span class="o">=[</span>t<span class="o">]</span><span class="p">;</span> mpirun -np <span class="o">[</span>n<span class="o">]</span> ./build/tests/dbcsr_perf tests/input.perf <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span> <span class="p">|</span> tee perf.log
+</code></pre></div>
+
+<h3>How to Write Input Files</h3>
+<p>Examples of input files can be found in <code>tests/inputs</code> for different sizes of matrices and different block sizes.</p>
+<p>You can also write custom input files: for more information, follow the template in <code>tests/input.perf</code>.</p>
     </div>
     
     <div class="col-md-3 col-md-pull-9">
@@ -166,27 +213,27 @@ Make sure you compile DBCSR accordingly.</p>
             <ul class="nav nav-stacked nav-pills">
               
             <li role="presentation">
-            <a href='../../../page/2-user-guide/1-installation/index.html'>Installation</a>
+            <a href='../../../page/2-user-guide/1-installation/index.html'>Install</a>
             
             <ul class="nav nav-stacked nav-pills">
               
             <li role="presentation">
-            <a href='../../../page/2-user-guide/1-installation/1-install.html'>Install</a>
+            <a href='../../../page/2-user-guide/1-installation/1-cmake-build-recipes.html'>CMake Build Recipes</a>
             
             </li>
             
             <li role="presentation">
-            <a href='../../../page/2-user-guide/1-installation/2-cmake-build-recipes.html'>CMake Build Recipes</a>
+            <a href='../../../page/2-user-guide/1-installation/2-supported-compilers.html'>Supported Compilers</a>
             
             </li>
             
             <li role="presentation">
-            <a href='../../../page/2-user-guide/1-installation/3-supported-compilers.html'>Supported Compilers</a>
+            <a href='../../../page/2-user-guide/1-installation/3-using-dbcsr-in-a-cmake-project.html'>Using DBCSR in a CMake project</a>
             
             </li>
             
             <li role="presentation">
-            <a href='../../../page/2-user-guide/1-installation/4-using-dbcsr-in-a-cmake-project.html'>Using DBCSR in a CMake project</a>
+            <a href='../../../page/2-user-guide/1-installation/4-docker.html'>Docker Images</a>
             
             </li>
             
@@ -195,7 +242,12 @@ Make sure you compile DBCSR accordingly.</p>
             </li>
             
             <li role="presentation" class="disabled">
-            <a href='../../../page/2-user-guide/2-examples/index.html'>Examples</a>
+            <a href='../../../page/2-user-guide/2-tests/index.html'>Tests</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../page/2-user-guide/3-examples/index.html'>Examples</a>
             
             </li>
             
@@ -249,6 +301,11 @@ Make sure you compile DBCSR accordingly.</p>
             </li>
             
             <li role="presentation">
+            <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/2-parameters.html'>Kernel Parameters</a>
+            
+            </li>
+            
+            <li role="presentation">
             <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/3-tune.html'>Autotuning Framework</a>
             
             </li>
@@ -272,6 +329,11 @@ Make sure you compile DBCSR accordingly.</p>
             </li>
             
             </ul>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../page/3-developer-guide/4-performance/index.html'>Performance</a>
             
             </li>
             

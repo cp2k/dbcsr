@@ -73,6 +73,8 @@
             <li><a href="../../../../lists/types.html">Derived Types</a></li>
         
         
+            <li><a href="../../../../lists/programs.html">Programs</a></li>
+        
             </ul>
             </li>
 
@@ -92,6 +94,8 @@
                              
 <li class="visible-xs hidden-sm visible-lg"><a href="../../../../lists/types.html">Derived Types</a></li>
 
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../../../lists/programs.html">Programs</a></li>
 
           </ul>
         
@@ -137,7 +141,25 @@
   
   <div class="row">
     <div class="col-md-9 col-md-push-3" id='text'>
-      
+      <h1>ACCelerator Interfaces</h1>
+<h2>Overview</h2>
+<p>This folder contains the ISO_C_BINDING based Fortran code of DBCSR's <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc.h">ACC-backend interface</a> and <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_libsmm.h">LIBSMM/ACC-interface</a>. It also contains the CUDA (for Nvidia GPUs) and HIP (for AMD GPUs) accelerator backends.</p>
+<p>Further, two stand-alone sample codes are given exercising both interfaces (benchmarks).</p>
+<h2>CUDA and HIP backends</h2>
+<p>The code for both the CUDA and HIP backends is unique, and can be found in the <code>cuda</code> directory.
+We switch from one backend to the other via macros (<code>__CUDA</code> and <code>__HIP</code>).</p>
+<h2>Benchmarks</h2>
+<p>Two stand-alone drivers (only depending on above mentioned interfaces) can be built locally and in a rather self-contained fashion, i.e., no DBCSR library is needed (except for runtime libraries such as OpenCL, and LIBXSMM for some auxiliary functionality). For LIBXSMM, a folder <code>libxsmm</code> parallel to DBCSR's root directory (<code>dbcsr</code>) is expected to be present and prebuilt (<code>make</code> in LIBXSMM's root directory is enough). To build the driver code, change into the respective backend folder (<code>cuda</code> or <code>opencl</code>), and invoke <code>make</code> (<code>DBG=0|1|2</code>, and a few other key-value pairs are optional). When building the code is completed, change back into the parent folder and invoke either <code>acc_bench_trans</code> or <code>acc_bench_smm</code>.</p>
+<p>The drivers support a few command line options (<em>nrepeat</em>, <em>stack_size</em>, <em>m</em>, <em>n</em>, ...); running the tranpose benchmark may look like:</p>
+<div class="codehilite"><pre><span></span><code>$ <span class="nv">OMP_PROC_BIND</span><span class="o">=</span>TRUE ./acc_bench_trans <span class="m">5</span> <span class="m">30000</span> <span class="m">23</span> <span class="m">23</span>
+./acc_bench_trans <span class="m">5</span> <span class="m">30000</span> <span class="m">23</span> <span class="m">23</span>
+copy-in: <span class="m">16</span>.8 ms <span class="m">7</span>.4 GB/s
+device: <span class="m">8</span>.7 ms <span class="m">14</span>.2 GB/s
+host: <span class="m">8</span>.5 ms <span class="m">14</span>.5 GB/s
+errors: <span class="m">0</span>
+</code></pre></div>
+
+<p>For timing, comparison (host code), and validation, LIBXSMM is expected. The drivers exercise the respective backend as chosen to build the code.</p>
     </div>
     
     <div class="col-md-3 col-md-pull-9">
@@ -169,27 +191,27 @@
             <ul class="nav nav-stacked nav-pills">
               
             <li role="presentation">
-            <a href='../../../../page/2-user-guide/1-installation/index.html'>Installation</a>
+            <a href='../../../../page/2-user-guide/1-installation/index.html'>Install</a>
             
             <ul class="nav nav-stacked nav-pills">
               
             <li role="presentation">
-            <a href='../../../../page/2-user-guide/1-installation/1-install.html'>Install</a>
+            <a href='../../../../page/2-user-guide/1-installation/1-cmake-build-recipes.html'>CMake Build Recipes</a>
             
             </li>
             
             <li role="presentation">
-            <a href='../../../../page/2-user-guide/1-installation/2-cmake-build-recipes.html'>CMake Build Recipes</a>
+            <a href='../../../../page/2-user-guide/1-installation/2-supported-compilers.html'>Supported Compilers</a>
             
             </li>
             
             <li role="presentation">
-            <a href='../../../../page/2-user-guide/1-installation/3-supported-compilers.html'>Supported Compilers</a>
+            <a href='../../../../page/2-user-guide/1-installation/3-using-dbcsr-in-a-cmake-project.html'>Using DBCSR in a CMake project</a>
             
             </li>
             
             <li role="presentation">
-            <a href='../../../../page/2-user-guide/1-installation/4-using-dbcsr-in-a-cmake-project.html'>Using DBCSR in a CMake project</a>
+            <a href='../../../../page/2-user-guide/1-installation/4-docker.html'>Docker Images</a>
             
             </li>
             
@@ -198,7 +220,12 @@
             </li>
             
             <li role="presentation">
-            <a href='../../../../page/2-user-guide/2-examples/index.html'>Examples</a>
+            <a href='../../../../page/2-user-guide/2-tests/index.html'>Tests</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../../page/2-user-guide/3-examples/index.html'>Examples</a>
             
             </li>
             
@@ -252,6 +279,11 @@
             </li>
             
             <li role="presentation">
+            <a href='../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/2-parameters.html'>Kernel Parameters</a>
+            
+            </li>
+            
+            <li role="presentation">
             <a href='../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/3-tune.html'>Autotuning Framework</a>
             
             </li>
@@ -275,6 +307,11 @@
             </li>
             
             </ul>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../../page/3-developer-guide/4-performance/index.html'>Performance</a>
             
             </li>
             
