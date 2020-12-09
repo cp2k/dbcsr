@@ -1,6 +1,7 @@
 MAJOR = 2
 MINOR = 1
-PATCH = 0-rc19
+PATCH = 0
 # A specific DATE (YYYY-MM-DD) fixes an official release, otherwise
 # it is considered Development version.
-DATE  =
+DATE  = 2020-12-09
+
