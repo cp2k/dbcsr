@@ -1,3 +1,5 @@
+title: Just-In-Time Compilation
+
 # Just-In-Time (JIT) Compilation in libsmm_acc
 
 DBCSR's GPU backend, libsmm_acc, uses heavily templated cuda/hip kernels for its batched multiplication and transpose.
