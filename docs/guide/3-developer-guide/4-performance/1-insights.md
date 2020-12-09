@@ -1,3 +1,5 @@
+title: Insights
+
 # Insights into Performance
 
 ## Read Timing & Statistics Reports
