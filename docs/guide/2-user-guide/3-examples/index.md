@@ -4,10 +4,10 @@ title: Examples
 
 - [[dbcsr_example_1(program)]] : how to create a dbcsr matrix (fortran)
 - [[dbcsr_example_2(program)]] : how to set a dbcsr matrix (fortran)
-- dbcsr_example_3: how to multiply two dbcsr matrices (in fortran: [[dbcsr_example_3(program)]]) and in c++: [dbcsr_example_3](../../../../examples/dbcsr_example_3.cpp))
+- dbcsr_example_3: how to multiply two dbcsr matrices (in fortran: [[dbcsr_example_3(program)]]) and in c++: [dbcsr_example_3](https://github.com/cp2k/dbcsr/blob/develop/examples/dbcsr_example_3.cpp))
 - [[dbcsr_tensor_example_1(program)]] : how to create a dbcsr matrix (fortran)
     - the example can be run with different parameters, controlling block size, sparsity, verbosity and more
-- [dbcsr_tensor_example_2](../../../../examples/dbcsr_tensor_example_2.cpp): tensor contraction example (cpp)
+- [dbcsr_tensor_example_2](https://github.com/cp2k/dbcsr/blob/develop/examples/dbcsr_tensor_example_2.cpp): tensor contraction example (cpp)
     - tensor1 x tensor2 = tensor3, (13|2)x(54|21)=(3|45)
 
 ## Build
