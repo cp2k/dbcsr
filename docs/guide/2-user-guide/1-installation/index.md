@@ -79,7 +79,7 @@ export PKG_CONFIG_PATH="${PKG_CONFIG_PATH}:${HOME}/libxsmm/lib"
 
 ### CMake Build Recipes
 
-For build recipes on different platforms, make sure to also read the [CMake Build Recipes](./2-cmake-build-recipes.html).
+For build recipes on different platforms, make sure to also read the [CMake Build Recipes](./1-cmake-build-recipes.html).
 
 ### Using Python in a virtual environment
 
