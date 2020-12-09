@@ -1,3 +1,5 @@
+# =================================================================================================
+# BUILD DISTRIBUTION
 set(ARCHIVE_NAME "${CMAKE_PROJECT_NAME}-${dbcsr_VERSION}")
 add_custom_target(
   dist
@@ -9,22 +11,8 @@ add_custom_target(
           "${CMAKE_BINARY_DIR}/dist/${ARCHIVE_NAME}.tar.gz"
   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR})
 
-find_program(
-  FORD_EXE ford
-  DOC "path to the ford executable (required to generate the documentation)")
-
-# Copy the FORD project-file into the build directory
-set(FORD_PROJECT_FILE "${CMAKE_BINARY_DIR}/DBCSR.md")
-configure_file(DBCSR.md "${FORD_PROJECT_FILE}")
-
-add_custom_target(
-  doc
-  COMMENT "Generating API documentation"
-  COMMAND "${FORD_EXE}" "${FORD_PROJECT_FILE}"
-  VERBATIM)
-add_dependencies(doc fypp) # only depend on the fypp step to avoid building
-                           # everything just for the docs
-
+# =================================================================================================
+# LCOV - COVERAGE REPORTS GENERATION
 find_program(
   LCOV_EXE lcov
   DOC "path to the lcov executable (required to generate coverage reports)")

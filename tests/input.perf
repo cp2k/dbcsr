@@ -1,7 +1,10 @@
-# npcols MPI grid, 0 leaves MPI to find the best grid.
-# Note that the total number of processors must be divisible per npcols
+# Template Input File for DBCSR Performance Driver
+# -----------------------------------------------------------------------
+# npcols MPI grid
+# - 0 leaves MPI to find the best grid.
+# - Note that the total number of processors must be divisible per npcols
 0
-# Use MPI-RMA
+# use MPI-RMA
 F
 # operation
 dbcsr_multiply
@@ -9,7 +12,7 @@ dbcsr_multiply
 1000
 1000
 1000
-# sparsity (A, B, C)
+# sparsity (matrix A, matrix B, matrix C)
 0.0d0
 0.0d0
 0.0d0
@@ -21,22 +24,31 @@ N
 N
 N
 # data type
+# - 3: double
+# - other types, see "Type definitions" in dbcsr/src/data/dbcsr_data_types.F
 3
 # alpha (real, imag)
 1.0d0
 0.0d0
 # beta (real, imag)
 1.0d0
-0.0d0          
-# limits (0 means full size)
-# row
+0.0d0
+# limits
+# - 0 means full size
+# - row
+# -- limRowL (First full row of limiting submatrix)
 0
+# -- limRowU
 0
-# col
+# - col
+# -- limColL (First full col of limiting submatrix)
 0
+# -- limColU
 0
-# k
+# - k
+# -- limKL first full col of imiting inner product)
 0
+# -- limKU
 0
 # retain sparsity (T/F)
 F
@@ -47,8 +59,17 @@ F
 1
 1
 # the m blocks (multiplicity, block size, ...)
+# - this configuration, eg, will generate blocks of
+# - size 5 in the m-dimension
 1
 5
+# - this configuration would generate a block of
+# - size 5 followed by 2 blocks of size 3 in the m-dimension,
+# - followed by a block of size 5, etc. until size M is reached
+# - 1
+# - 5
+# - 2
+# - 3
 # the n blocks (multiplicity, block size, ...)
 1
 5

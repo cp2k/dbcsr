@@ -8,8 +8,8 @@
 !--------------------------------------------------------------------------------------------------!
 
 PROGRAM dbcsr_example_2
-   !! DBCSR example 2
-   !! This example shows how to set a dbcsr matrix
+   !! DBCSR example 2:
+   !! This example shows how to set a DBCSR matrix
 
    USE mpi
    USE dbcsr_api, ONLY: &
@@ -49,7 +49,7 @@ PROGRAM dbcsr_example_2
 !$ ENDIF
 
    !
-   ! setup the mp environment
+   ! setup the mpi environment
    CALL mpi_comm_size(MPI_COMM_WORLD, numnodes, ierr)
    IF (ierr /= 0) STOP "Error in MPI_Comm_size"
    npdims(:) = 0
@@ -64,7 +64,7 @@ PROGRAM dbcsr_example_2
 
    !***************************************************************************************
    !
-   ! initialize libdbcsr
+   ! initialize the DBCSR library
    CALL dbcsr_init_lib(MPI_COMM_WORLD)
 
    !
@@ -84,11 +84,11 @@ PROGRAM dbcsr_example_2
    CALL random_dist(col_dist, nblkcols_total, npdims(2))
 
    !
-   ! set the dbcsr distribution object
+   ! set the DBCSR distribution object
    CALL dbcsr_distribution_new(dist, group=group, row_dist=row_dist, col_dist=col_dist, reuse_arrays=.TRUE.)
 
    !
-   ! create the dbcsr matrix, i.e. a double precision non symmetric matrix
+   ! create the DBCSR matrix, i.e. a double precision non symmetric matrix
    ! with nblkrows_total x nblkcols_total blocks and
    ! sizes "sum(row_blk_sizes)" x "sum(col_blk_sizes)", distributed as
    ! specified by the dist object
@@ -139,7 +139,7 @@ PROGRAM dbcsr_example_2
    DEALLOCATE (values)
 
    !
-   ! finalize the dbcsr matrix
+   ! finalize the DBCSR matrix
    CALL dbcsr_finalize(matrix_a)
 
    !
@@ -160,8 +160,9 @@ PROGRAM dbcsr_example_2
    CALL mpi_comm_free(group, ierr)
    IF (ierr /= 0) STOP "Error in MPI_Comm_free"
 
-   ! finalize libdbcsr
+   ! finalize the DBCSR library
    CALL dbcsr_finalize_lib()
+
    !
    ! finalize mpi
    CALL mpi_finalize(ierr)
