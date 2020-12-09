@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="">
+    
+    <meta name="author" content="DBCSR Authors" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>dbcsr_acc_device.F &ndash; DBCSR</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0</small></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Guide</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            <li><a href="../lists/programs.html">Programs</a></li>
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
+
+          </ul>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>dbcsr_acc_device.F
+    <small>Source File</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 0.0% of total for source files.">24 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_acc_device.F"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+  
+     <li class="active">dbcsr_acc_device.F</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#mods-0">Modules</a></h3></div>
+  <div id="mods-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_acc_device.html">dbcsr_acc_device</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/dbcsr_acc_device.f.html#src">dbcsr_acc_device.F</a>
+  </div>
+</div>
+
+
+
+</div>
+
+    </div>
+    <div class="col-md-9" id='text'>
+      
+      <br>
+    
+      
+      
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#mods-1">Modules</a></h3></div>
+  <div id="mods-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_acc_device.html">dbcsr_acc_device</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../sourcefile/dbcsr_acc_device.f.html#src">dbcsr_acc_device.F</a>
+  </div>
+</div>
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    <section>
+      <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="hl"><pre><span></span><a name="ln-1"></a><span class="cp"># 1 &quot;/__w/dbcsr/dbcsr/src/acc/dbcsr_acc_device.F&quot; 1</span>
+<a name="ln-2"></a><span class="c">!--------------------------------------------------------------------------------------------------!</span>
+<a name="ln-3"></a><span class="c">! Copyright (C) by the DBCSR developers group - All rights reserved                                !</span>
+<a name="ln-4"></a><span class="c">! This file is part of the DBCSR library.                                                          !</span>
+<a name="ln-5"></a><span class="c">!                                                                                                  !</span>
+<a name="ln-6"></a><span class="c">! For information on the license, see the LICENSE file.                                            !</span>
+<a name="ln-7"></a><span class="c">! For further information please visit https://dbcsr.cp2k.org                                      !</span>
+<a name="ln-8"></a><span class="c">! SPDX-License-Identifier: GPL-2.0+                                                                !</span>
+<a name="ln-9"></a><span class="c">!--------------------------------------------------------------------------------------------------!</span>
+<a name="ln-10"></a>
+<a name="ln-11"></a><span class="k">MODULE </span><span class="n">dbcsr_acc_device</span>
+<a name="ln-12"></a><span class="cp">#if defined (__DBCSR_ACC)</span>
+<a name="ln-13"></a>   <span class="k">USE </span><span class="nb">ISO_C_BINDING</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="kt">C_INT</span>
+<a name="ln-14"></a><span class="cp">#endif</span>
+<a name="ln-15"></a><span class="cp">#include &quot;base/dbcsr_base_uses.f90&quot;</span>
+<a name="ln-16"></a>
+<a name="ln-17"></a>   <span class="k">IMPLICIT NONE</span>
+<a name="ln-18"></a>
+<a name="ln-19"></a><span class="k">   PUBLIC</span> <span class="kd">::</span> <span class="n">dbcsr_acc_get_ndevices</span><span class="p">,</span> <span class="n">dbcsr_acc_set_active_device</span><span class="p">,</span> <span class="n">dbcsr_acc_clear_errors</span>
+<a name="ln-20"></a>
+<a name="ln-21"></a>   <span class="k">PRIVATE</span>
+<a name="ln-22"></a>
+<a name="ln-23"></a><span class="k">   </span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span><span class="p">,</span> <span class="k">PRIVATE</span> <span class="kd">::</span> <span class="n">moduleN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_acc_device&#39;</span>
+<a name="ln-24"></a>
+<a name="ln-25"></a><span class="cp">#if defined (__DBCSR_ACC)</span>
+<a name="ln-26"></a>   <span class="k">INTERFACE</span>
+<a name="ln-27"></a><span class="k">      FUNCTION </span><span class="n">acc_get_ndevices_cu</span><span class="p">(</span><span class="n">n_devices</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-28"></a>         <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;acc_get_ndevices&quot;</span><span class="p">)</span>
+<a name="ln-29"></a>         <span class="k">IMPORT</span>
+<a name="ln-30"></a><span class="k">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>         <span class="kd">::</span> <span class="n">n_devices</span>
+<a name="ln-31"></a>         <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">istat</span>
+<a name="ln-32"></a>
+<a name="ln-33"></a>      <span class="k">END FUNCTION </span><span class="n">acc_get_ndevices_cu</span>
+<a name="ln-34"></a>
+<a name="ln-35"></a>      <span class="k">FUNCTION </span><span class="n">acc_set_active_device_cu</span><span class="p">(</span><span class="n">device_id</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-36"></a>         <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;acc_set_active_device&quot;</span><span class="p">)</span>
+<a name="ln-37"></a>         <span class="k">IMPORT</span>
+<a name="ln-38"></a><span class="k">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">VALUE</span>   <span class="kd">::</span> <span class="n">device_id</span>
+<a name="ln-39"></a>         <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">istat</span>
+<a name="ln-40"></a>
+<a name="ln-41"></a>      <span class="k">END FUNCTION </span><span class="n">acc_set_active_device_cu</span>
+<a name="ln-42"></a>
+<a name="ln-43"></a>      <span class="k">SUBROUTINE </span><span class="n">acc_clear_errors_cu</span><span class="p">()</span> <span class="p">&amp;</span>
+<a name="ln-44"></a>         <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">NAME</span><span class="o">=</span><span class="s2">&quot;acc_clear_errors&quot;</span><span class="p">)</span>
+<a name="ln-45"></a>      <span class="k">END SUBROUTINE </span><span class="n">acc_clear_errors_cu</span>
+<a name="ln-46"></a>   <span class="k">END INTERFACE</span>
+<a name="ln-47"></a>
+<a name="ln-48"></a><span class="cp">#endif</span>
+<a name="ln-49"></a>
+<a name="ln-50"></a><span class="k">CONTAINS</span>
+<a name="ln-51"></a>
+<a name="ln-52"></a><span class="k">   FUNCTION </span><span class="n">dbcsr_acc_get_ndevices</span><span class="p">()</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<a name="ln-53"></a>      <span class="c">!! Get number of accelerator devices</span>
+<a name="ln-54"></a>
+<a name="ln-55"></a>      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">n</span>
+<a name="ln-56"></a>         <span class="c">!! number of accelerator devices</span>
+<a name="ln-57"></a>
+<a name="ln-58"></a><span class="cp">#if defined (__DBCSR_ACC)</span>
+<a name="ln-59"></a>      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">istat</span>
+<a name="ln-60"></a><span class="cp">#endif</span>
+<a name="ln-61"></a>
+<a name="ln-62"></a>      <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-63"></a><span class="cp">#if defined (__DBCSR_ACC)</span>
+<a name="ln-64"></a>      <span class="n">istat</span> <span class="o">=</span> <span class="n">acc_get_ndevices_cu</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<a name="ln-65"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-66"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;dbcsr_acc_get_ndevices: failed&quot;</span><span class="p">)</span>
+<a name="ln-67"></a><span class="cp">#endif</span>
+<a name="ln-68"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_acc_get_ndevices</span>
+<a name="ln-69"></a>
+<a name="ln-70"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_acc_set_active_device</span><span class="p">(</span><span class="n">device_id</span><span class="p">)</span>
+<a name="ln-71"></a>      <span class="c">!! Set active accelerator device</span>
+<a name="ln-72"></a>
+<a name="ln-73"></a>      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">device_id</span>
+<a name="ln-74"></a>
+<a name="ln-75"></a><span class="cp">#if defined (__DBCSR_ACC)</span>
+<a name="ln-76"></a>      <span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">istat</span>
+<a name="ln-77"></a>
+<a name="ln-78"></a><span class="c">!$OMP PARALLEL DEFAULT(NONE) PRIVATE(istat) SHARED(device_id)</span>
+<a name="ln-79"></a>      <span class="n">istat</span> <span class="o">=</span> <span class="n">acc_set_active_device_cu</span><span class="p">(</span><span class="n">device_id</span><span class="p">)</span>
+<a name="ln-80"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-81"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_set_active_device: failed&quot;</span><span class="p">)</span>
+<a name="ln-82"></a><span class="c">!$OMP END PARALLEL</span>
+<a name="ln-83"></a>
+<a name="ln-84"></a><span class="cp">#else</span>
+<a name="ln-85"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">device_id</span><span class="p">)</span>
+<a name="ln-86"></a>      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in&quot;</span><span class="p">)</span>
+<a name="ln-87"></a><span class="cp">#endif</span>
+<a name="ln-88"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_acc_set_active_device</span>
+<a name="ln-89"></a>
+<a name="ln-90"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_acc_clear_errors</span><span class="p">()</span>
+<a name="ln-91"></a>      <span class="c">!! Clear GPU errors</span>
+<a name="ln-92"></a><span class="cp">#if defined (__DBCSR_ACC)</span>
+<a name="ln-93"></a>      <span class="k">CALL </span><span class="n">acc_clear_errors_cu</span><span class="p">()</span>
+<a name="ln-94"></a><span class="cp">#else</span>
+<a name="ln-95"></a>      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in&quot;</span><span class="p">)</span>
+<a name="ln-96"></a><span class="cp">#endif</span>
+<a name="ln-97"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_acc_clear_errors</span>
+<a name="ln-98"></a>
+<a name="ln-99"></a><span class="k">END MODULE </span><span class="n">dbcsr_acc_device</span>
+</pre></div>
+
+    </section>
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
+                                          </p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> DBCSR was developed by DBCSR Authors</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    
+  </body>
+</html>

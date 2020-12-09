@@ -1,0 +1,7775 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="">
+    
+    <meta name="author" content="DBCSR Authors" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>dbcsr_allocate_wrap &ndash; DBCSR</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0</small></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Guide</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            <li><a href="../lists/programs.html">Programs</a></li>
+        
+            </ul>
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
+
+          </ul>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>dbcsr_allocate_wrap 
+    <small>Module</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title=" 1.9% of total for modules and submodules.">1165 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_allocate_wrap.F"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/dbcsr_allocate_wrap.f.html'>dbcsr_allocate_wrap.F</a></li>
+    
+  
+     <li class="active">dbcsr_allocate_wrap</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#inters-0">Interfaces</a></h3></div>
+  <div id="inters-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#interface-allocate_any">allocate_any</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-0">Subroutines</a></h3></div>
+  <div class="list-group">
+    <div id="subs-0" class="panel-collapse collapse">
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_1d_r_dp">allocate_1d_r_dp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_2d_r_dp">allocate_2d_r_dp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_3d_r_dp">allocate_3d_r_dp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_4d_r_dp">allocate_4d_r_dp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_5d_r_dp">allocate_5d_r_dp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_6d_r_dp">allocate_6d_r_dp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_7d_r_dp">allocate_7d_r_dp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_1d_r_sp">allocate_1d_r_sp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_2d_r_sp">allocate_2d_r_sp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_3d_r_sp">allocate_3d_r_sp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_4d_r_sp">allocate_4d_r_sp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_5d_r_sp">allocate_5d_r_sp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_6d_r_sp">allocate_6d_r_sp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_7d_r_sp">allocate_7d_r_sp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_1d_c_dp">allocate_1d_c_dp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_2d_c_dp">allocate_2d_c_dp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_3d_c_dp">allocate_3d_c_dp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_4d_c_dp">allocate_4d_c_dp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_5d_c_dp">allocate_5d_c_dp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_6d_c_dp">allocate_6d_c_dp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_7d_c_dp">allocate_7d_c_dp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_1d_c_sp">allocate_1d_c_sp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_2d_c_sp">allocate_2d_c_sp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_3d_c_sp">allocate_3d_c_sp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_4d_c_sp">allocate_4d_c_sp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_5d_c_sp">allocate_5d_c_sp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_6d_c_sp">allocate_6d_c_sp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_7d_c_sp">allocate_7d_c_sp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_1d_i">allocate_1d_i</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_2d_i">allocate_2d_i</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_3d_i">allocate_3d_i</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_4d_i">allocate_4d_i</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_5d_i">allocate_5d_i</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_6d_i">allocate_6d_i</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_7d_i">allocate_7d_i</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    <p>Wrapper for allocating, copying and reshaping arrays.
+ </p><div class="alert alert-success" role="alert"><h4>Todo</h4><p>: with fortran 2008 support, this should be replaced by plain ALLOCATE</p></div><div class="alert alert-info" role="alert"><h4>Note</h4><p>in particular ALLOCATE(..., SOURCE=...) does not work in gcc 5.4.0, see also
+ https://gcc.gnu.org/bugzilla/show_bug.cgi?id=44672</p></div>
+      <br>
+    
+  
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Uses</h3>
+      </div>
+      <ul class="list-group">
+      
+      <li class="list-group-item">
+  <ul class="list-inline">
+    
+    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+    
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    
+  </ul>
+      </li>
+      
+      
+      
+      </ul>
+    </div>
+    
+
+    
+    
+
+    <br>
+
+    <section class="visible-xs visible-sm hidden-md">
+      
+<h3>Contents</h3>
+ 
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#inters-1">Interfaces</a></h3></div>
+  <div id="inters-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#interface-allocate_any">allocate_any</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-1">Subroutines</a></h3></div>
+  <div class="list-group">
+    <div id="subs-1" class="panel-collapse collapse">
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_1d_r_dp">allocate_1d_r_dp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_2d_r_dp">allocate_2d_r_dp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_3d_r_dp">allocate_3d_r_dp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_4d_r_dp">allocate_4d_r_dp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_5d_r_dp">allocate_5d_r_dp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_6d_r_dp">allocate_6d_r_dp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_7d_r_dp">allocate_7d_r_dp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_1d_r_sp">allocate_1d_r_sp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_2d_r_sp">allocate_2d_r_sp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_3d_r_sp">allocate_3d_r_sp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_4d_r_sp">allocate_4d_r_sp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_5d_r_sp">allocate_5d_r_sp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_6d_r_sp">allocate_6d_r_sp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_7d_r_sp">allocate_7d_r_sp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_1d_c_dp">allocate_1d_c_dp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_2d_c_dp">allocate_2d_c_dp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_3d_c_dp">allocate_3d_c_dp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_4d_c_dp">allocate_4d_c_dp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_5d_c_dp">allocate_5d_c_dp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_6d_c_dp">allocate_6d_c_dp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_7d_c_dp">allocate_7d_c_dp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_1d_c_sp">allocate_1d_c_sp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_2d_c_sp">allocate_2d_c_sp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_3d_c_sp">allocate_3d_c_sp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_4d_c_sp">allocate_4d_c_sp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_5d_c_sp">allocate_5d_c_sp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_6d_c_sp">allocate_6d_c_sp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_7d_c_sp">allocate_7d_c_sp</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_1d_i">allocate_1d_i</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_2d_i">allocate_2d_i</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_3d_i">allocate_3d_i</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_4d_i">allocate_4d_i</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_5d_i">allocate_5d_i</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_6d_i">allocate_6d_i</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_allocate_wrap.html#proc-allocate_7d_i">allocate_7d_i</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+    </section>
+    <br class="visible-xs visible-sm hidden-md">
+
+    
+
+    
+    
+    
+    
+    
+    <section>
+   <h2>Interfaces</h2>
+   
+     
+<div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="interface-allocate_any"></span><h3>public interface <a href='../interface/allocate_any.html'>allocate_any</a>
+    
+  </h3></div>
+  
+  <ul class="list-group">
+  
+  
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_1d_r_dp.html'>allocate_1d_r_dp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_1d_r_dp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(1)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(1)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_2d_r_dp.html'>allocate_2d_r_dp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_2d_r_dp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_3d_r_dp.html'>allocate_3d_r_dp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_3d_r_dp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(3)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(3)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_4d_r_dp.html'>allocate_4d_r_dp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_4d_r_dp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(4)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(4)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_5d_r_dp.html'>allocate_5d_r_dp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_5d_r_dp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(5)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(5)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_6d_r_dp.html'>allocate_6d_r_dp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_6d_r_dp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(6)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(6)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_7d_r_dp.html'>allocate_7d_r_dp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_7d_r_dp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(7)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(7)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_1d_r_sp.html'>allocate_1d_r_sp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_1d_r_sp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(1)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(1)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_2d_r_sp.html'>allocate_2d_r_sp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_2d_r_sp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_3d_r_sp.html'>allocate_3d_r_sp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_3d_r_sp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(3)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(3)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_4d_r_sp.html'>allocate_4d_r_sp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_4d_r_sp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(4)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(4)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_5d_r_sp.html'>allocate_5d_r_sp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_5d_r_sp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(5)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(5)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_6d_r_sp.html'>allocate_6d_r_sp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_6d_r_sp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(6)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(6)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_7d_r_sp.html'>allocate_7d_r_sp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_7d_r_sp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(7)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(7)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_1d_c_dp.html'>allocate_1d_c_dp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_1d_c_dp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(1)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(1)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_2d_c_dp.html'>allocate_2d_c_dp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_2d_c_dp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_3d_c_dp.html'>allocate_3d_c_dp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_3d_c_dp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(3)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(3)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_4d_c_dp.html'>allocate_4d_c_dp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_4d_c_dp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(4)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(4)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_5d_c_dp.html'>allocate_5d_c_dp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_5d_c_dp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(5)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(5)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_6d_c_dp.html'>allocate_6d_c_dp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_6d_c_dp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(6)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(6)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_7d_c_dp.html'>allocate_7d_c_dp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_7d_c_dp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(7)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(7)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_1d_c_sp.html'>allocate_1d_c_sp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_1d_c_sp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(1)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(1)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_2d_c_sp.html'>allocate_2d_c_sp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_2d_c_sp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_3d_c_sp.html'>allocate_3d_c_sp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_3d_c_sp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(3)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(3)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_4d_c_sp.html'>allocate_4d_c_sp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_4d_c_sp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(4)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(4)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_5d_c_sp.html'>allocate_5d_c_sp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_5d_c_sp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(5)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(5)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_6d_c_sp.html'>allocate_6d_c_sp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_6d_c_sp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(6)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(6)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_7d_c_sp.html'>allocate_7d_c_sp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_7d_c_sp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(7)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(7)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_1d_i.html'>allocate_1d_i</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_1d_i.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(1)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(1)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_2d_i.html'>allocate_2d_i</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_2d_i.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_3d_i.html'>allocate_3d_i</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_3d_i.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(3)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(3)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_4d_i.html'>allocate_4d_i</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_4d_i.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(4)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(4)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_5d_i.html'>allocate_5d_i</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_5d_i.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(5)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(5)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_6d_i.html'>allocate_6d_i</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_6d_i.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(6)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(6)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+    <li class="list-group-item">
+    
+    
+    <h3>
+private subroutine <a href='../proc/allocate_7d_i.html'>allocate_7d_i</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3>
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_7d_i.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(7)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(7)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+    </li>
+  
+  
+  </ul>
+</div>
+
+    
+    </section>
+  <br>
+    
+
+    
+    
+    
+    
+    
+
+    
+    <section>
+    <h2>Subroutines</h2>
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_1d_r_dp"></span><h3>
+private subroutine <a href='../proc/allocate_1d_r_dp.html'>allocate_1d_r_dp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_1d_r_dp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(1)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(1)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_2d_r_dp"></span><h3>
+private subroutine <a href='../proc/allocate_2d_r_dp.html'>allocate_2d_r_dp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_2d_r_dp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_3d_r_dp"></span><h3>
+private subroutine <a href='../proc/allocate_3d_r_dp.html'>allocate_3d_r_dp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_3d_r_dp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(3)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(3)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_4d_r_dp"></span><h3>
+private subroutine <a href='../proc/allocate_4d_r_dp.html'>allocate_4d_r_dp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_4d_r_dp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(4)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(4)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_5d_r_dp"></span><h3>
+private subroutine <a href='../proc/allocate_5d_r_dp.html'>allocate_5d_r_dp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_5d_r_dp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(5)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(5)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_6d_r_dp"></span><h3>
+private subroutine <a href='../proc/allocate_6d_r_dp.html'>allocate_6d_r_dp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_6d_r_dp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(6)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(6)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_7d_r_dp"></span><h3>
+private subroutine <a href='../proc/allocate_7d_r_dp.html'>allocate_7d_r_dp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_7d_r_dp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(7)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(7)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_1d_r_sp"></span><h3>
+private subroutine <a href='../proc/allocate_1d_r_sp.html'>allocate_1d_r_sp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_1d_r_sp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(1)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(1)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_2d_r_sp"></span><h3>
+private subroutine <a href='../proc/allocate_2d_r_sp.html'>allocate_2d_r_sp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_2d_r_sp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_3d_r_sp"></span><h3>
+private subroutine <a href='../proc/allocate_3d_r_sp.html'>allocate_3d_r_sp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_3d_r_sp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(3)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(3)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_4d_r_sp"></span><h3>
+private subroutine <a href='../proc/allocate_4d_r_sp.html'>allocate_4d_r_sp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_4d_r_sp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(4)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(4)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_5d_r_sp"></span><h3>
+private subroutine <a href='../proc/allocate_5d_r_sp.html'>allocate_5d_r_sp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_5d_r_sp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(5)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(5)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_6d_r_sp"></span><h3>
+private subroutine <a href='../proc/allocate_6d_r_sp.html'>allocate_6d_r_sp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_6d_r_sp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(6)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(6)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_7d_r_sp"></span><h3>
+private subroutine <a href='../proc/allocate_7d_r_sp.html'>allocate_7d_r_sp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_7d_r_sp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(7)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>real(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(7)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_1d_c_dp"></span><h3>
+private subroutine <a href='../proc/allocate_1d_c_dp.html'>allocate_1d_c_dp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_1d_c_dp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(1)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(1)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_2d_c_dp"></span><h3>
+private subroutine <a href='../proc/allocate_2d_c_dp.html'>allocate_2d_c_dp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_2d_c_dp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_3d_c_dp"></span><h3>
+private subroutine <a href='../proc/allocate_3d_c_dp.html'>allocate_3d_c_dp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_3d_c_dp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(3)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(3)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_4d_c_dp"></span><h3>
+private subroutine <a href='../proc/allocate_4d_c_dp.html'>allocate_4d_c_dp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_4d_c_dp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(4)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(4)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_5d_c_dp"></span><h3>
+private subroutine <a href='../proc/allocate_5d_c_dp.html'>allocate_5d_c_dp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_5d_c_dp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(5)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(5)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_6d_c_dp"></span><h3>
+private subroutine <a href='../proc/allocate_6d_c_dp.html'>allocate_6d_c_dp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_6d_c_dp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(6)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(6)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_7d_c_dp"></span><h3>
+private subroutine <a href='../proc/allocate_7d_c_dp.html'>allocate_7d_c_dp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_7d_c_dp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(7)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_8),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(7)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_1d_c_sp"></span><h3>
+private subroutine <a href='../proc/allocate_1d_c_sp.html'>allocate_1d_c_sp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_1d_c_sp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(1)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(1)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_2d_c_sp"></span><h3>
+private subroutine <a href='../proc/allocate_2d_c_sp.html'>allocate_2d_c_sp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_2d_c_sp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_3d_c_sp"></span><h3>
+private subroutine <a href='../proc/allocate_3d_c_sp.html'>allocate_3d_c_sp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_3d_c_sp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(3)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(3)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_4d_c_sp"></span><h3>
+private subroutine <a href='../proc/allocate_4d_c_sp.html'>allocate_4d_c_sp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_4d_c_sp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(4)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(4)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_5d_c_sp"></span><h3>
+private subroutine <a href='../proc/allocate_5d_c_sp.html'>allocate_5d_c_sp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_5d_c_sp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(5)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(5)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_6d_c_sp"></span><h3>
+private subroutine <a href='../proc/allocate_6d_c_sp.html'>allocate_6d_c_sp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_6d_c_sp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(6)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(6)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_7d_c_sp"></span><h3>
+private subroutine <a href='../proc/allocate_7d_c_sp.html'>allocate_7d_c_sp</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_7d_c_sp.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(7)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>complex(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(7)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_1d_i"></span><h3>
+private subroutine <a href='../proc/allocate_1d_i.html'>allocate_1d_i</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_1d_i.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(1)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(1)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_2d_i"></span><h3>
+private subroutine <a href='../proc/allocate_2d_i.html'>allocate_2d_i</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_2d_i.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_3d_i"></span><h3>
+private subroutine <a href='../proc/allocate_3d_i.html'>allocate_3d_i</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_3d_i.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(3)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(3)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_4d_i"></span><h3>
+private subroutine <a href='../proc/allocate_4d_i.html'>allocate_4d_i</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_4d_i.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(4)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(4)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_5d_i"></span><h3>
+private subroutine <a href='../proc/allocate_5d_i.html'>allocate_5d_i</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_5d_i.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(5)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(5)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_6d_i"></span><h3>
+private subroutine <a href='../proc/allocate_6d_i.html'>allocate_6d_i</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_6d_i.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(6)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(6)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-allocate_7d_i"></span><h3>
+private subroutine <a href='../proc/allocate_7d_i.html'>allocate_7d_i</a>(array, shape_spec, source, order)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+
+
+
+
+
+
+
+<p>Allocate array according to shape_spec. Possibly assign array from source.
+ </p><a href="../proc/allocate_7d_i.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>DIMENSION(:,:,:,:,:,:,:), ALLOCATABLE</td><td>::</td>
+  <td><strong>array</strong></td><td><p>target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(7)</td><td>::</td>
+  <td><strong>shape_spec</strong></td><td><p>shape of array to be allocated. If shape is not specified, it is derived from source.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(:,:,:,:,:,:,:)</td><td>::</td>
+  <td><strong>source</strong></td><td><p>source array to be copied to target array, must have same rank as target array.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td>DIMENSION(7)</td><td>::</td>
+  <td><strong>order</strong></td><td><p>in which order to copy source to array (same convention as RESHAPE intrinsic).</p></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    </section>    
+    <br>
+    
+    
+    
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
+                                          </p></div>
+        <div class="col-xs-6 col-md-4 col-md-push-4">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            
+          </p>
+        </div>
+        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> DBCSR was developed by DBCSR Authors</p></div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    
+  </body>
+</html>
