@@ -10,7 +10,7 @@
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../../../favicon.png">
 
-    <title>Examples &ndash; DBCSR</title>
+    <title>Insights &ndash; DBCSR</title>
 
     <link href="../../../css/bootstrap.min.css" rel="stylesheet">
     <link href="../../../css/pygments.css" rel="stylesheet">
@@ -106,7 +106,7 @@
     <div class="container">
     
   <div class="row">
-    <h1>Examples</h1>
+    <h1>Insights</h1>
     <div class="row">
     <div class="col-lg-12">
     <div class="well well-sm" style="min-height: 40px;">
@@ -121,9 +121,11 @@
       
          <li><a href='../../../page/index.html'>Guide</a></li>
       
-         <li><a href='../../../page/2-user-guide/index.html'>User Guide</a></li>
+         <li><a href='../../../page/3-developer-guide/index.html'>Developer Guide</a></li>
       
-         <li class="active">Examples</li>
+         <li><a href='../../../page/3-developer-guide/4-performance/index.html'>Performance</a></li>
+      
+         <li class="active">Insights</li>
       </ol>
     </div>
     </div>
@@ -132,36 +134,110 @@
   
   <div class="row">
     <div class="col-md-9 col-md-push-3" id='text'>
-      <h1>Examples</h1>
-<ul>
-<li><a href="../../../program/dbcsr_example_1.html">dbcsr_example_1</a> : how to create a dbcsr matrix (fortran)</li>
-<li><a href="../../../program/dbcsr_example_2.html">dbcsr_example_2</a> : how to set a dbcsr matrix (fortran)</li>
-<li>dbcsr_example_3: how to multiply two dbcsr matrices (in fortran: <a href="../../../program/dbcsr_example_3.html">dbcsr_example_3</a>) and in c++: <a href="https://github.com/cp2k/dbcsr/blob/develop/examples/dbcsr_example_3.cpp">dbcsr_example_3</a>)</li>
-<li><a href="../../../program/dbcsr_tensor_example_1.html">dbcsr_tensor_example_1</a> : how to create a dbcsr matrix (fortran)<ul>
-<li>the example can be run with different parameters, controlling block size, sparsity, verbosity and more</li>
-</ul>
-</li>
-<li><a href="https://github.com/cp2k/dbcsr/blob/develop/examples/dbcsr_tensor_example_2.cpp">dbcsr_tensor_example_2</a>: tensor contraction example (cpp)<ul>
-<li>tensor1 x tensor2 = tensor3, (13|2)x(54|21)=(3|45)</li>
-</ul>
-</li>
-</ul>
-<h2>Build</h2>
-<p>Compile the DBCSR library, using <code>-DUSE_MPI=ON -DWITH_EXAMPLES=ON</code>.</p>
-<p>The examples require MPI. Furthermore, if you are using threading, MPI_THREAD_FUNNELED mode is required.</p>
-<h2>Run</h2>
-<p>You can run the examples, for instance from the <code>build</code> directory, as follows:</p>
-<div class="codehilite"><pre><span></span><code>srun -N <span class="m">1</span> --ntasks-per-core <span class="m">2</span> --ntasks-per-node <span class="m">12</span> --cpus-per-task <span class="m">2</span> ./examples/dbcsr_example_1
+      <h1>Insights into Performance</h1>
+<h2>Read Timing &amp; Statistics Reports</h2>
+<p>At the end of an output file, a report of DBCSR's statistics and timings can be found.</p>
+<h3>Statistics</h3>
+<p>The STATISTICS section of the output file provides some information on matrix-matrix multiplications that were run and their performance characteristics.</p>
+<p>Example:</p>
+<div class="codehilite"><pre><span></span><code>-------------------------------------------------------------------------------
+<span class="m">-</span>                                                                             -
+<span class="m">-</span>                                DBCSR STATISTICS                             -
+<span class="gh">-                                                                             -</span>
+<span class="gh">-------------------------------------------------------------------------------</span>
+COUNTER                                    TOTAL       BLAS       SMM       ACC
+flops    23 x    23 x    23         687272462200       0.0%      0.0%    100.0%
+flops inhomo. stacks                           0       0.0%      0.0%      0.0%
+flops total                       687.272462E+09       0.0%      0.0%    100.0%
+flops max/rank                    687.272462E+09       0.0%      0.0%    100.0%
+matmuls inhomo. stacks                         0       0.0%      0.0%      0.0%
+matmuls total                           28243300       0.0%      0.0%    100.0%
+number of processed stacks                  1600       0.0%      0.0%    100.0%
+average stack size                                     0.0       0.0   17652.1
+<span class="gh">marketing flops                     1.076458E+12</span>
+<span class="gh">-------------------------------------------------------------------------------</span>
+# multiplications                             50
+max memory usage/rank              16.650822E+09
+# max total images/rank                        1
+# max 3D layers                                1
+# MPI messages exchanged                       0
+MPI messages size (bytes):
+ total size                         0.000000E+00
+ min size                           0.000000E+00
+ max size                           0.000000E+00
+ average size                       0.000000E+00
+MPI breakdown and total messages size (bytes):
+            size &lt;=      128                   0                        0
+      128 &lt; size &lt;=     8192                   0                        0
+     8192 &lt; size &lt;=    32768                   0                        0
+    32768 &lt; size &lt;=   131072                   0                        0
+   131072 &lt; size &lt;=  4194304                   0                        0
+  4194304 &lt; size &lt;= 16777216                   0                        0
+ 16777216 &lt; size                               0                        0
+-------------------------------------------------------------------------------
 </code></pre></div>
 
-<h3>Run tensor examples</h3>
-<p>How to run (this example and DBCSR for tensors in general):</p>
+<h4>How to Read the Columns</h4>
 <ul>
-<li>best performance is obtained by running with mpi and one openmp thread per rank.</li>
-<li>ideally number of mpi ranks should be composed of small prime factors (e.g. powers of 2).</li>
-<li>for sparse data &amp; heterogeneous block sizes, DBCSR should be run on CPUs with libxsmm backend.</li>
-<li>for dense data best performance is obtained by choosing homogeneous block sizes of 64 and by compiling with GPU support.</li>
+<li><code>TOTAL</code>: total flops</li>
+<li><code>BLAS</code>: percentage of flops run on BLAS (this could be CUBLAS or HIPBLAS)</li>
+<li><code>SMM</code>: percentage of flops run on SMM (libsmm or libxsmm, CPU)</li>
+<li><code>ACC</code>: percentage of flops run on ACC (libsmm_acc, DBCSR's GPU-accelerated backend)</li>
 </ul>
+<h4>How to Read the Rows (Counters)</h4>
+<p>Every time "matrix-matrix multiplication" is mentionned in this paragraph, it refers <em>not</em> to the sparse multiplication of large matrices, but the multiplication of small dense blocks that the large sparse matrix was decomposed into.</p>
+<ul>
+<li><code>flops    23 x    23 x    23</code>: indicates that batched matrix-matrix multiplication kernels with matrix dimensions (m, n, k) = (23, 23, 23) was run, and provides info on its flops. If several batched matrix-matrix multiplications of different matrix dimensions (m, n, k) were run, they would appear as subsequent separate rows.</li>
+<li><code>flops inhomo. stacks</code>: flops of so-called "inhomogeneous stacks". These are stacks of batched-matrix-matrix multiplications where not all multiplications contained have the same matrix dimensions (m, n, k).</li>
+<li><code>flops total</code>: total flops for all stacks of matrix-matrix multiplication.</li>
+<li><code>flops max/rank</code>: flops of the MPI rank with the most flops.</li>
+<li><code>matmuls inhomo. stacks</code>: number of matrix-matrix multiplications run in inhomogeneous stacks.</li>
+<li><code>matmuls total</code>: number of matrix-matrix multiplications run in total.</li>
+<li><code>number of processed stacks</code>: number of stacks of batched matrix-matrix multiplication.</li>
+<li><code>average stack size</code>: average over all stacks of the stack size (i.e. the number of matrix-matrix multiplications that a stack contains).</li>
+</ul>
+<h3>Timings</h3>
+<p>Example of the statistics section of the output file:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">-------------------------------------------------------------------------------</span><span class="c"></span>
+<span class="nb">-</span><span class="c">                                                                             </span><span class="nb">-</span><span class="c"></span>
+<span class="nb">-</span><span class="c">                                T I M I N G                                  </span><span class="nb">-</span><span class="c"></span>
+<span class="nb">-</span><span class="c">                                                                             </span><span class="nb">-</span><span class="c"></span>
+<span class="nb">-------------------------------------------------------------------------------</span><span class="c"></span>
+<span class="c">SUBROUTINE                       CALLS  ASD         SELF TIME        TOTAL TIME MAXRANK</span>
+<span class="c">                               MAXIMUM       AVERAGE  MAXIMUM  AVERAGE  MAXIMUM</span>
+<span class="c">dbcsr_performance_driver             1  1</span><span class="nt">.</span><span class="c">0    0</span><span class="nt">.</span><span class="c">000    0</span><span class="nt">.</span><span class="c">000  102</span><span class="nt">.</span><span class="c">563  102</span><span class="nt">.</span><span class="c">563       0</span>
+<span class="c">dbcsr_perf_multiply_low              1  2</span><span class="nt">.</span><span class="c">0    0</span><span class="nt">.</span><span class="c">002    0</span><span class="nt">.</span><span class="c">002  102</span><span class="nt">.</span><span class="c">563  102</span><span class="nt">.</span><span class="c">563       0</span>
+<span class="c">perf_multiply                        1  3</span><span class="nt">.</span><span class="c">0    0</span><span class="nt">.</span><span class="c">003    0</span><span class="nt">.</span><span class="c">003  102</span><span class="nt">.</span><span class="c">077  102</span><span class="nt">.</span><span class="c">077       0</span>
+<span class="k">[</span><span class="nt">...</span><span class="k">]</span><span class="c"></span>
+<span class="nb">-------------------------------------------------------------------------------</span><span class="c"></span>
+</code></pre></div>
+
+<p>The columns describe:</p>
+<ul>
+<li><code>SUBROUTINE</code>: the name of the fortran subroutine (or c++ function) timed.</li>
+<li><code>CALLS</code>: number of times the subroutine was called.</li>
+<li><code>ASD</code>: average stack depth: the average number of entries on the call stack when this subroutine is called.</li>
+<li><code>SELF TIME</code>: how much time is spent in the subroutine, or in non-timed subroutines called by this subroutine.<ul>
+<li><code>AVERAGE</code>: the self time averaged over all MPI ranks,</li>
+<li><code>MAXIMUM</code>: the self time maximum over all MPI ranks,</li>
+<li><code>AVERAGE</code> and <code>MAXIMUM</code> can be used to locate load-imbalance or synchronization points.</li>
+</ul>
+</li>
+<li><code>TOTAL TIME</code>: how much time is spent in the subroutine, including the time spent in timed subroutines.<ul>
+<li><code>AVERAGE</code>: averaged over all MPI ranks</li>
+<li><code>MAXIMUM</code>: maximum over all MPI ranks</li>
+<li><code>AVERAGE</code> and <code>MAXIMUM</code> can be used to locate load-imbalance or synchronization points.</li>
+</ul>
+</li>
+<li><code>MAXRANKS</code>: </li>
+</ul>
+<h4>Time spent in Just-In-Time (JIT) Compilation</h4>
+<p>For performance debugging and in order to check how much time a program spends doing JIT, look for the functions <code>jit_kernel_multiply</code> and <code>jit_kernel_transpose</code>.</p>
+<h4>How to Time a Function</h4>
+<p>By default, the most important subroutines are timed in DBCSR.</p>
+<p>If you want to time a subroutine or function that is not timed already, call <code>timeset</code> with a routine name and a handle at the beginning of the function, and <code>timestop</code> with the same handle at the end of the function.</p>
+<p>For examples, just <code>grep</code> for <code>timeset</code> and <code>timestop</code> in the codebase.</p>
+<p>This can be done both in fortran code and in the c++ code.</p>
     </div>
     
     <div class="col-md-3 col-md-pull-9">
@@ -226,7 +302,7 @@
             
             </li>
             
-            <li role="presentation" class="disabled">
+            <li role="presentation">
             <a href='../../../page/2-user-guide/3-examples/index.html'>Examples</a>
             
             </li>
@@ -317,7 +393,7 @@
             
             <ul class="nav nav-stacked nav-pills">
               
-            <li role="presentation">
+            <li role="presentation" class="disabled">
             <a href='../../../page/3-developer-guide/4-performance/1-insights.html'>Insights</a>
             
             </li>
