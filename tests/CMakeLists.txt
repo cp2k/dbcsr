@@ -15,7 +15,7 @@ endif ()
 
 # =================================== DBCSR PERF TESTS
 set(DBCSR_PERF_SRCS dbcsr_performance_driver.F dbcsr_performance_multiply.F)
-if (USE_HIP)
+if (USE_ACCEL MATCHES "hip")
   hip_add_executable(dbcsr_perf ${DBCSR_PERF_SRCS})
 else ()
   add_executable(dbcsr_perf ${DBCSR_PERF_SRCS})
@@ -66,9 +66,7 @@ set(DBCSR_TESTS_FTN
     dbcsr_tas_unittest
     dbcsr_test_csr_conversions)
 
-if (USE_OPENCL
-    OR USE_CUDA
-    OR USE_HIP)
+if (NOT USE_ACCEL STREQUAL "")
   set(DBCSR_TESTS_C dbcsr_acc_test_c)
 endif ()
 
@@ -113,7 +111,7 @@ target_link_libraries(dbcsr_unittest_common PUBLIC dbcsr)
 
 # Compile Fortran tests
 foreach (dbcsr_test ${DBCSR_TESTS_FTN})
-  if (USE_HIP)
+  if (USE_ACCEL MATCHES "hip")
     hip_add_executable(${dbcsr_test} ${${dbcsr_test}_SRCS})
   else ()
     add_executable(${dbcsr_test} ${${dbcsr_test}_SRCS})
@@ -226,7 +224,7 @@ add_custom_command(
 add_custom_target(generate_libsmm_acc_timer_multiply_test_cpp
                   DEPENDS libsmm_acc_timer_multiply.cpp)
 
-if (USE_CUDA OR USE_HIP)
+if (USE_ACCEL MATCHES "cuda|hip")
 
   # All libsmm_acc tests
   set(LIBSMM_ACC_TESTS_SRCS
@@ -239,7 +237,7 @@ if (USE_CUDA OR USE_HIP)
                              libsmm_acc_unittest_transpose)
 
   # Add executables for all libsmm_acc tests
-  if (USE_CUDA)
+  if (USE_ACCEL MATCHES "cuda")
 
     foreach (libsmm_acc_test ${LIBSMM_ACC_TESTS_SRCS})
 
@@ -259,7 +257,7 @@ if (USE_CUDA OR USE_HIP)
 
     endforeach ()
 
-  else () # i.e. USE_HIP
+  elseif (USE_ACCEL MATCHES "hip")
 
     foreach (libsmm_acc_test ${LIBSMM_ACC_TESTS_SRCS})
       set_source_files_properties(${libsmm_acc_test}

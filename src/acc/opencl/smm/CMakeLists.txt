@@ -9,7 +9,7 @@ set(SMM_ACC_KERNELS kernels/multiply.cl kernels/transpose.cl
                     kernels/transpose_inplace.cl)
 list(TRANSFORM SMM_ACC_KERNELS PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/)
 
-if (USE_OPENCL)
+if (USE_ACCEL MATCHES "opencl")
   add_custom_command(
     COMMAND ${SMM_ACC_KERNEL_SCRIPT} ${SMM_ACC_KERNELS}
             ${LIBSMM_ACC_HEADER_KERNELS}

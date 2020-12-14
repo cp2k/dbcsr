@@ -36,7 +36,7 @@ add_custom_command(
   OUTPUT smm_acc_kernels.h
   COMMENT "libsmm_acc: generating kernels")
 
-if (USE_CUDA)
+if (USE_ACCEL MATCHES "cuda")
 
   add_library(libsmm_acc OBJECT ${LIBSMM_ACC_FILES})
   target_compile_definitions(libsmm_acc PRIVATE __CUDA)
@@ -44,7 +44,7 @@ if (USE_CUDA)
   target_compile_definitions(
     libsmm_acc PRIVATE $<$<BOOL:${WITH_CUDA_PROFILING}>:__CUDA_PROFILING>)
 
-else () # i.e. USE_HIP
+elseif (USE_ACCEL MATCHES "hip")
 
   set_source_files_properties(${LIBSMM_ACC_SRC_FILES}
                               PROPERTIES HIP_SOURCE_PROPERTY_FORMAT 1)

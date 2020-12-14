@@ -206,9 +206,9 @@ endif ()
 # =================================================================================================
 # DBCSR LIBRARY's OPENCL BACKEND
 
-if (USE_OPENCL)
+if (USE_ACCEL MATCHES "opencl")
   target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC)
-  target_link_libraries(dbcsr PUBLIC ${OpenCL_LIBRARY})
+  target_link_libraries(dbcsr PRIVATE ${OpenCL_LIBRARY})
 
   # OpenCL backend
   set(DBCSR_ACC_SRCS ${DBCSR_OPENCL_SRCS})
@@ -259,7 +259,7 @@ function (CUDA_CONVERT_FLAGS EXISTING_TARGET)
   )
 endfunction ()
 
-if (USE_CUDA)
+if (USE_ACCEL MATCHES "cuda")
   if (${CMAKE_VERSION} VERSION_LESS 3.16)
     # workaround for CUDA support with CMake <3.16, see also see
     # https://gitlab.kitware.com/cmake/cmake/issues/17929 and
@@ -315,7 +315,7 @@ endif ()
 # =================================================================================================
 # DBCSR LIBRARY's HIP BACKEND
 
-if (USE_HIP)
+if (USE_ACCEL MATCHES "hip")
   if (USE_OPENMP)
     set(HIP_HIPCC_FLAGS "${HIP_HIPCC_FLAGS} ${OpenMP_CXX_FLAGS}")
   endif ()
@@ -418,7 +418,7 @@ write_basic_package_version_file(
   "${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfigVersion.cmake"
   VERSION "${dbcsr_VERSION}"
   COMPATIBILITY SameMajorVersion)
-if (USE_HIP)
+if (USE_ACCEL MATCHES "hip")
   install(
     EXPORT libsmm_accTargets
     NAMESPACE "${config_namespace}"
