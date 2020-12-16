@@ -103,6 +103,11 @@
 #if !defined(ACC_OPENCL_VERBOSE) && 0
 # define ACC_OPENCL_VERBOSE
 #endif
+#if !defined(ACC_OPENCL_SVM) && 1
+# if defined(CL_VERSION_2_0)
+#   define ACC_OPENCL_SVM
+# endif
+#endif
 
 #if defined(CL_VERSION_2_0)
 # define ACC_OPENCL_COMMAND_QUEUE_PROPERTIES cl_queue_properties
@@ -196,8 +201,15 @@
 extern "C" {
 #endif
 
-/** Runtime setting (OpenCL vendor); async memops may crash for some OpenCL implementations */
-extern cl_bool acc_opencl_synchronous_memops;
+/** Settings depending on OpenCL vendor or standard level (discovered/setup in acc_init). */
+typedef struct acc_opencl_options_t {
+  /** Asynchronous memory operations may crash for some OpenCL implementations. */
+  cl_bool async_memops;
+  cl_bool svm_interop;
+} acc_opencl_options_t;
+
+extern acc_opencl_options_t acc_opencl_options;
+
 /* non-zero if library is initialized, zero devices is signaled by nagative value */
 extern int acc_opencl_ndevices;
 /* allow a context per each OpenMP thread */
@@ -206,6 +218,21 @@ extern cl_context acc_opencl_context;
 # pragma omp threadprivate(acc_opencl_context)
 #endif
 
+typedef struct acc_opencl_info_hostptr_t {
+  cl_mem buffer;
+  void* mapped;
+} acc_opencl_info_hostptr_t;
+
+/** Information about host-memory pointer (acc_host_mem_allocate). */
+acc_opencl_info_hostptr_t* acc_opencl_info_hostptr(void* memory);
+/** Get host-pointer associated with device-memory (acc_dev_mem_allocate). */
+void* acc_opencl_get_hostptr(cl_mem memory);
+/** Information about amount of device memory. */
+int acc_opencl_info_devmem(cl_device_id device,
+  size_t* mem_free, size_t* mem_total);
+
+/** Return the pointer to the 1st match of "b" in "a", or NULL (no match). */
+const char* acc_opencl_stristr(const char* a, const char* b);
 /** Get active device (can be thread/queue-specific). */
 int acc_opencl_device(void* stream, cl_device_id* device);
 /** Confirm the vendor of the given device. */
@@ -218,9 +245,6 @@ int acc_opencl_device_ext(cl_device_id device,
   const char *const extnames[], int num_exts);
 /** Internal flavor of acc_set_active_device; yields cl_device_id. */
 int acc_opencl_set_active_device(int device_id, cl_device_id* device);
-/** Return memory information. */
-int acc_opencl_devmeminfo(cl_device_id device,
-  size_t* mem_free, size_t* mem_total);
 
 /** Get directory path to load source files from. */
 const char* acc_opencl_source_path(const char* fileext);

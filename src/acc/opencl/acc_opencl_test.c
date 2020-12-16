@@ -69,6 +69,8 @@ int main(int argc, char* argv[])
 #endif
     fclose(file);
   }
+  if (EXIT_SUCCESS == result && NULL != acc_opencl_stristr("ends with b", "Begins with b")) result = EXIT_FAILURE;
+  if (EXIT_SUCCESS == result && NULL == acc_opencl_stristr("in between of", "BeTwEEn")) result = EXIT_FAILURE;
   return result;
 }
 

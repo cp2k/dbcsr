@@ -37,7 +37,7 @@
 extern "C" {
 #endif
 
-cl_bool acc_opencl_synchronous_memops;
+acc_opencl_options_t acc_opencl_options;
 int acc_opencl_ndevices;
 cl_device_id acc_opencl_devices[ACC_OPENCL_DEVICES_MAXCOUNT];
 cl_context acc_opencl_context;
@@ -52,8 +52,6 @@ void acc_opencl_notify(const char* errinfo, const void* private_info, size_t cb,
 #endif
 
 
-/** Returns the pointer to the 1st match of "b" in "a", or NULL. */
-const char* acc_opencl_stristr(const char* /*a*/, const char* /*b*/);
 const char* acc_opencl_stristr(const char* a, const char* b)
 {
   const char* result = NULL;
@@ -71,7 +69,10 @@ const char* acc_opencl_stristr(const char* a, const char* b)
             break;
           }
         }
-        if ('\0' == *c) break;
+        if ('\0' != *c) {
+          result = NULL;
+        }
+        else break;
       }
     } while ('\0' != *a);
   }
@@ -97,8 +98,8 @@ int acc_opencl_order_devices(const void* dev_a, const void* dev_b)
     if (CL_DEVICE_TYPE_GPU & type_a) {
       if (CL_DEVICE_TYPE_GPU & type_b) {
         size_t size_a, size_b;
-        ACC_OPENCL_EXPECT(EXIT_SUCCESS, acc_opencl_devmeminfo(*a, NULL, &size_a));
-        ACC_OPENCL_EXPECT(EXIT_SUCCESS, acc_opencl_devmeminfo(*b, NULL, &size_b));
+        ACC_OPENCL_EXPECT(EXIT_SUCCESS, acc_opencl_info_devmem(*a, NULL, &size_a));
+        ACC_OPENCL_EXPECT(EXIT_SUCCESS, acc_opencl_info_devmem(*b, NULL, &size_b));
         return (size_a < size_b ? 1 : (size_a != size_b ? -1 : (a < b ? -1 : 1)));
       }
       else return -1;
@@ -108,8 +109,8 @@ int acc_opencl_order_devices(const void* dev_a, const void* dev_b)
       if (CL_DEVICE_TYPE_ACCELERATOR & type_a) {
         if (CL_DEVICE_TYPE_ACCELERATOR & type_b) {
           size_t size_a, size_b;
-          ACC_OPENCL_EXPECT(EXIT_SUCCESS, acc_opencl_devmeminfo(*a, NULL, &size_a));
-          ACC_OPENCL_EXPECT(EXIT_SUCCESS, acc_opencl_devmeminfo(*b, NULL, &size_b));
+          ACC_OPENCL_EXPECT(EXIT_SUCCESS, acc_opencl_info_devmem(*a, NULL, &size_a));
+          ACC_OPENCL_EXPECT(EXIT_SUCCESS, acc_opencl_info_devmem(*b, NULL, &size_b));
           return (size_a < size_b ? 1 : (size_a != size_b ? -1 : (a < b ? -1 : 1)));
         }
         else return -1;
@@ -117,8 +118,8 @@ int acc_opencl_order_devices(const void* dev_a, const void* dev_b)
       else if (CL_DEVICE_TYPE_ACCELERATOR & type_b) return 1;
       else {
         size_t size_a, size_b;
-        ACC_OPENCL_EXPECT(EXIT_SUCCESS, acc_opencl_devmeminfo(*a, NULL, &size_a));
-        ACC_OPENCL_EXPECT(EXIT_SUCCESS, acc_opencl_devmeminfo(*b, NULL, &size_b));
+        ACC_OPENCL_EXPECT(EXIT_SUCCESS, acc_opencl_info_devmem(*a, NULL, &size_a));
+        ACC_OPENCL_EXPECT(EXIT_SUCCESS, acc_opencl_info_devmem(*b, NULL, &size_b));
         return (size_a < size_b ? 1 : (size_a != size_b ? -1 : (a < b ? -1 : 1)));
       }
     }
@@ -216,11 +217,8 @@ int acc_init(void)
         if (EXIT_SUCCESS == result) {
           cl_device_id active_device;
           result = acc_opencl_set_active_device(device_id, &active_device);
-#if (defined(_OPENMP) && defined(ACC_OPENCL_THREADLOCAL_CONTEXT)) || defined(ACC_OPENCL_MEM_ASYNC)
-          if (EXIT_SUCCESS == result)
-#endif
-          {
 #if defined(_OPENMP) && defined(ACC_OPENCL_THREADLOCAL_CONTEXT)
+          if (EXIT_SUCCESS == result) {
             const cl_context context = acc_opencl_context;
 #           pragma omp parallel
             if (context != acc_opencl_context) {
@@ -232,14 +230,25 @@ int acc_init(void)
                 acc_opencl_context = NULL;
               }
             }
+          }
 #endif
 #if defined(ACC_OPENCL_MEM_ASYNC)
-            acc_opencl_synchronous_memops = (EXIT_SUCCESS == acc_opencl_device_vendor(
-              active_device, "nvidia") ? CL_TRUE : CL_FALSE);
-#else
-            acc_opencl_synchronous_memops = CL_TRUE;
-#endif
+          if (EXIT_SUCCESS == result) {
+            const int confirmation = acc_opencl_device_vendor(active_device, "nvidia");
+            acc_opencl_options.async_memops = (EXIT_SUCCESS != confirmation);
           }
+          else
+#endif
+          acc_opencl_options.async_memops = CL_FALSE;
+#if defined(ACC_OPENCL_SVM)
+          if (EXIT_SUCCESS == result) {
+            int level_major = 0;
+            acc_opencl_options.svm_interop = (EXIT_SUCCESS == acc_opencl_device_level(
+              active_device, &level_major, NULL/*level_minor*/) && 2 <= level_major);
+          }
+          else
+#endif
+          acc_opencl_options.svm_interop = CL_FALSE;
         }
       }
       else { /* mark as initialized */
