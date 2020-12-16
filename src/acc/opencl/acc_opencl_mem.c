@@ -77,10 +77,12 @@ int acc_host_mem_allocate(void** host_mem, size_t nbytes, void* stream)
   const int alignment = acc_opencl_memalignment(nbytes);
   const size_t size_meminfo = sizeof(acc_opencl_info_hostptr_t);
   const size_t size = nbytes + alignment + size_meminfo - 1;
-  const cl_mem buffer = (acc_opencl_options.svm_interop
-    ? clCreateBuffer(acc_opencl_context, CL_MEM_USE_HOST_PTR, size, clSVMAlloc(
-        acc_opencl_context, CL_MEM_READ_WRITE, size, sizeof(void*)/*minimal alignment*/), &result)
-    : clCreateBuffer(acc_opencl_context, CL_MEM_ALLOC_HOST_PTR, size, NULL/*host_ptr*/, &result));
+  const cl_mem buffer = (
+#if defined(ACC_OPENCL_SVM)
+    acc_opencl_options.svm_interop ? clCreateBuffer(acc_opencl_context, CL_MEM_USE_HOST_PTR, size,
+      clSVMAlloc(acc_opencl_context, CL_MEM_READ_WRITE, size, sizeof(void*)/*minimal alignment*/), &result) :
+#endif
+    clCreateBuffer(acc_opencl_context, CL_MEM_ALLOC_HOST_PTR, size, NULL/*host_ptr*/, &result));
   assert(NULL != host_mem && NULL != stream);
   if (NULL != buffer) {
     const cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
@@ -142,9 +144,9 @@ int acc_host_mem_deallocate(void* host_mem, void* stream)
         0, NULL, NULL), "unmap host memory", result);
       ACC_OPENCL_CHECK(clReleaseMemObject(info.buffer),
         "release host memory buffer", result);
-      if (acc_opencl_options.svm_interop) {
-        clSVMFree(acc_opencl_context, info.mapped);
-      }
+#if defined(ACC_OPENCL_SVM)
+      if (acc_opencl_options.svm_interop) clSVMFree(acc_opencl_context, info.mapped);
+#endif
     }
   }
   ACC_OPENCL_RETURN(result);
@@ -154,10 +156,12 @@ int acc_host_mem_deallocate(void* host_mem, void* stream)
 int acc_dev_mem_allocate(void** dev_mem, size_t nbytes)
 {
   cl_int result;
-  const cl_mem buffer = (acc_opencl_options.svm_interop
-    ? clCreateBuffer(acc_opencl_context, CL_MEM_USE_HOST_PTR, nbytes, clSVMAlloc(
-        acc_opencl_context, CL_MEM_READ_WRITE, nbytes, 0/*default alignment*/), &result)
-    : clCreateBuffer(acc_opencl_context, CL_MEM_READ_WRITE, nbytes, NULL/*host_ptr*/, &result));
+  const cl_mem buffer = (
+#if defined(ACC_OPENCL_SVM)
+    acc_opencl_options.svm_interop ? clCreateBuffer(acc_opencl_context, CL_MEM_USE_HOST_PTR, nbytes,
+      clSVMAlloc(acc_opencl_context, CL_MEM_READ_WRITE, nbytes, 0/*default alignment*/), &result) :
+#endif
+    clCreateBuffer(acc_opencl_context, CL_MEM_READ_WRITE, nbytes, NULL/*host_ptr*/, &result));
   assert(NULL != dev_mem);
   if (NULL != buffer) {
 #if defined(ACC_OPENCL_MEM_NOALLOC)
@@ -170,10 +174,14 @@ int acc_dev_mem_allocate(void** dev_mem, size_t nbytes)
       result = EXIT_SUCCESS;
     }
     else {
+#if defined(ACC_OPENCL_SVM)
       void *const ptr = (acc_opencl_options.svm_interop
         ? acc_opencl_get_hostptr(buffer) : NULL);
+#endif
       clReleaseMemObject(buffer);
+#if defined(ACC_OPENCL_SVM)
       /*if (NULL != ptr)*/ clSVMFree(acc_opencl_context, ptr);
+#endif
       result = EXIT_FAILURE;
     }
 #endif
@@ -192,8 +200,10 @@ int acc_dev_mem_deallocate(void* dev_mem)
   int result = EXIT_SUCCESS;
   if (NULL != dev_mem) {
     const cl_mem buffer = *ACC_OPENCL_MEM(dev_mem);
+#if defined(ACC_OPENCL_SVM)
     void *const ptr = (acc_opencl_options.svm_interop
       ? acc_opencl_get_hostptr(buffer) : NULL);
+#endif
     ACC_OPENCL_CHECK(clReleaseMemObject(buffer),
       "release device memory buffer", result);
 #if defined(ACC_OPENCL_MEM_NOALLOC)
@@ -201,7 +211,9 @@ int acc_dev_mem_deallocate(void* dev_mem)
 #else
     free(dev_mem);
 #endif
+#if defined(ACC_OPENCL_SVM)
     /*if (NULL != ptr)*/ clSVMFree(acc_opencl_context, ptr);
+#endif
   }
   ACC_OPENCL_RETURN(result);
 }
