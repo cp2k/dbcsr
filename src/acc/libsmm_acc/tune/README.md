@@ -10,6 +10,12 @@ Python version required: `python 3.6`
 
 If you are about to autotune parameters for a new GPU (i.e. a GPU for which there are no auto-tuned parameters yet), please first follow [the instructions for a new GPU](../README.md#adding-support-for-a-new-gpu-card).
 
+Install all python packages required (if you do not want this project's requirements to interfere with your other Python projects, consider doing so in a [virtual environment](https://docs.python.org/3/tutorial/venv.html)), using
+
+```bash
+pip install -r requirements.txt
+```
+
 ---
 
 ### Auto-tuning procedure
