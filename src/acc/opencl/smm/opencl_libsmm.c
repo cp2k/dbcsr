@@ -135,7 +135,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
     key.m = m; key.n = n; key.type = datatype; /* initialize key */
     config = (config_t*)OPENCL_LIBSMM_DISPATCH(&key, sizeof(key));
     if (NULL == config) {
-      char build_options[ACC_OPENCL_BUFFER_MAXSIZE], fname[32];
+      char build_options[ACC_OPENCL_BUFFERSIZE], fname[32];
       const char *const env_options = getenv("OPENCL_LIBSMM_TRANS_BUILDOPTS");
       int nchar = ACC_OPENCL_SNPRINTF(fname, sizeof(fname), "xtrans%ix%i", m, n);
       const char* typename = "";
@@ -165,37 +165,12 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
           : ('0' != *env_inplace));
 #endif
         config_t new_config;
-        FILE* file = NULL;
-#if defined(OPENCL_LIBSMM_SRCLOAD)
-        const char *const paths[] = {
-          "../../exts/dbcsr/src/acc/opencl/smm/kernel",
-          "opencl/smm/kernels"
-        };
-        file = acc_opencl_source_open(
-          inplace ? ("transpose_inplace." ACC_OPENCL_SRCEXT) : ("transpose." ACC_OPENCL_SRCEXT),
-          paths, sizeof(paths) / sizeof(*paths));
-        if (NULL != file) {
-          char* lines[128];
-          const int nlines = acc_opencl_source(file, lines,
-            NULL/*extensions*/, sizeof(lines) / sizeof(*lines),
-            /* whether to cleanup the loaded source code or not */
-# if defined(NDEBUG)
-            1);
-# else
-            0);
-# endif
-          fclose(file);
-          result = acc_opencl_kernel((const char**)lines, nlines, build_options, fname, &new_config.kernel);
-          if (0 < nlines) free(lines[0]);
-        }
-#endif
 #if defined(OPENCL_SOURCE_TRANSPOSE) && defined(OPENCL_SOURCE_TRANSPOSE_INPLACE)
-        if (EXIT_SUCCESS == result && NULL == file) {
-          const char *const transpose_inp[] = { OPENCL_SOURCE_TRANSPOSE_INPLACE };
-          const char *const transpose_oop[] = { OPENCL_SOURCE_TRANSPOSE };
-          result = acc_opencl_kernel(inplace ? transpose_inp : transpose_oop, 1/*nlines*/,
-            build_options, fname, &new_config.kernel);
-        }
+        result = acc_opencl_kernel(
+          inplace ? OPENCL_SOURCE_TRANSPOSE_INPLACE : OPENCL_SOURCE_TRANSPOSE,
+          build_options, fname, &new_config.kernel);
+#else
+        result = EXIT_FAILURE;
 #endif
         if (EXIT_SUCCESS == result) {
           int max_wgsize;
@@ -353,7 +328,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
     key.m = m_max; key.n = n_max; key.k = k_max; key.type = datatype; /* initialize key */
     config = (config_t*)OPENCL_LIBSMM_DISPATCH(&key, sizeof(key));
     if (NULL == config) {
-      char build_options[ACC_OPENCL_BUFFER_MAXSIZE], fname[48];
+      char build_options[ACC_OPENCL_BUFFERSIZE], fname[48];
       int nchar = ACC_OPENCL_SNPRINTF(fname, sizeof(fname), "xmm%ix%ix%i", m_max, n_max, k_max);
       const char* extensions = NULL;
       if (0 < nchar && (int)sizeof(fname) > nchar) {
@@ -404,34 +379,10 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
       }
       if (EXIT_SUCCESS == result) {
         config_t new_config;
-        FILE* file = NULL;
-#if defined(OPENCL_LIBSMM_SRCLOAD)
-        const char *const paths[] = {
-          "../../exts/dbcsr/src/acc/opencl/smm/kernel",
-          "opencl/smm/kernels"
-        };
-        file = acc_opencl_source_open("multiply." ACC_OPENCL_SRCEXT, paths, sizeof(paths) / sizeof(*paths));
-        if (NULL != file) {
-          char* lines[128];
-          const int nlines = acc_opencl_source(file, lines,
-            extensions, sizeof(lines) / sizeof(*lines),
-            /* whether to cleanup the loaded source code or not */
-# if defined(NDEBUG)
-            1);
-# else
-            0);
-# endif
-          fclose(file);
-          result = acc_opencl_kernel((const char**)lines, nlines, build_options, fname, &new_config.kernel);
-          if (0 < nlines) free(lines[0]);
-        }
-#endif
 #if defined(OPENCL_SOURCE_MULTIPLY)
-        if (EXIT_SUCCESS == result && NULL == file) {
-          const char *const lines[] = { OPENCL_SOURCE_MULTIPLY };
-          result = acc_opencl_kernel(lines, 1/*nlines*/,
-            build_options, fname, &new_config.kernel);
-        }
+        result = acc_opencl_kernel(OPENCL_SOURCE_MULTIPLY, build_options, fname, &new_config.kernel);
+#else
+        result = EXIT_FAILURE;
 #endif
         if (EXIT_SUCCESS == result) {
           int max_wgsize;

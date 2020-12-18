@@ -43,22 +43,11 @@
 #if !defined(ACC_OPENCL_MAXALIGN_NBYTES)
 # define ACC_OPENCL_MAXALIGN_NBYTES (2 << 20/*2MB*/)
 #endif
-#if !defined(ACC_OPENCL_MAXLINELEN)
-# define ACC_OPENCL_MAXLINELEN 128
-#endif
-#if !defined(ACC_OPENCL_BUFFER_MAXSIZE)
-# define ACC_OPENCL_BUFFER_MAXSIZE (64 * ACC_OPENCL_MAXLINELEN)
+#if !defined(ACC_OPENCL_BUFFERSIZE)
+# define ACC_OPENCL_BUFFERSIZE (8 << 10/*8KB*/)
 #endif
 #if !defined(ACC_OPENCL_DEVICES_MAXCOUNT)
 # define ACC_OPENCL_DEVICES_MAXCOUNT 32
-#endif
-#if defined(_WIN32)
-# define ACC_OPENCL_PATHSEP "\\"
-#else
-# define ACC_OPENCL_PATHSEP "/"
-#endif
-#if !defined(ACC_OPENCL_SRCEXT)
-# define ACC_OPENCL_SRCEXT "cl"
 #endif
 
 /* can depend on OpenCL implementation */
@@ -90,9 +79,6 @@
 #endif
 #if !defined(ACC_OPENCL_STREAM_SYNCFLUSH) && 0
 # define ACC_OPENCL_STREAM_FINISH
-#endif
-#if !defined(ACC_OPENCL_STREAM_OOOEXEC) && 0
-# define ACC_OPENCL_STREAM_OOOEXEC
 #endif
 #if !defined(ACC_OPENCL_EVENT_BARRIER) && 0
 # define ACC_OPENCL_EVENT_BARRIER
@@ -230,7 +216,6 @@ void* acc_opencl_get_hostptr(cl_mem memory);
 /** Information about amount of device memory. */
 int acc_opencl_info_devmem(cl_device_id device,
   size_t* mem_free, size_t* mem_total);
-
 /** Return the pointer to the 1st match of "b" in "a", or NULL (no match). */
 const char* acc_opencl_stristr(const char* a, const char* b);
 /** Get active device (can be thread/queue-specific). */
@@ -245,23 +230,10 @@ int acc_opencl_device_ext(cl_device_id device,
   const char *const extnames[], int num_exts);
 /** Internal flavor of acc_set_active_device; yields cl_device_id. */
 int acc_opencl_set_active_device(int device_id, cl_device_id* device);
-
-/** Get directory path to load source files from. */
-const char* acc_opencl_source_path(const char* fileext);
-/** Opens filename (read-only) in source path (if not NULL) or dirpath otherwise. */
-FILE* acc_opencl_source_open(const char* filename,
-  const char *const dirpaths[], int ndirpaths);
-/**
- * Reads source file or lines[0] (if source is NULL), and builds an array of strings
- * with line-wise content (lines). Returns the number of processed lines, and when
- * non-zero, lines[0] shall be released by the caller (free). Optionally applies
- * extensions (if not NULL).
- */
-int acc_opencl_source(FILE* source, char* lines[], const char* extensions, int max_nlines, int cleanup);
 /** Get preferred multiple of the size of the workgroup (kernel-specific). */
 int acc_opencl_wgsize(cl_kernel kernel, int* preferred_multiple, int* max_value);
 /** Build kernel function with given name from source using given build_options. */
-int acc_opencl_kernel(const char *const source[], int nlines, const char* build_options,
+int acc_opencl_kernel(const char* source, const char* build_options,
   const char* kernel_name, cl_kernel* kernel);
 /** Create command queue (stream). */
 int acc_opencl_stream_create(cl_command_queue* stream_p, const char* name,

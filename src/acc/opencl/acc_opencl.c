@@ -69,7 +69,7 @@ const char* acc_opencl_stristr(const char* a, const char* b)
             break;
           }
         }
-        if ('\0' != *c) {
+        if ('\0' != c[0] && '\0' != c[1]) {
           result = NULL;
         }
         else break;
@@ -138,7 +138,7 @@ int acc_init(void)
     const char *const disable = getenv("ACC_OPENCL_DISABLE");
     if (NULL == disable || '0' == *disable) {
       cl_platform_id platforms[ACC_OPENCL_DEVICES_MAXCOUNT];
-      char buffer[ACC_OPENCL_BUFFER_MAXSIZE];
+      char buffer[ACC_OPENCL_BUFFERSIZE];
       const char *const env_device_vendor = getenv("ACC_OPENCL_VENDOR");
       const char *const env_device_type = getenv("ACC_OPENCL_DEVTYPE");
       const char *const env_device_id = getenv("ACC_OPENCL_DEVICE");
@@ -178,7 +178,7 @@ int acc_init(void)
           for (i = 0; i < (cl_uint)acc_opencl_ndevices;) {
             buffer[0] = '\0';
             if (CL_SUCCESS == clGetDeviceInfo(acc_opencl_devices[i],
-              CL_DEVICE_VENDOR, ACC_OPENCL_BUFFER_MAXSIZE, buffer, NULL))
+              CL_DEVICE_VENDOR, ACC_OPENCL_BUFFERSIZE, buffer, NULL))
             {
               if (NULL == acc_opencl_stristr(buffer, env_device_vendor)) {
                 --acc_opencl_ndevices;
@@ -234,17 +234,23 @@ int acc_init(void)
 #endif
 #if defined(ACC_OPENCL_MEM_ASYNC)
           if (EXIT_SUCCESS == result) {
-            const int confirmation = acc_opencl_device_vendor(active_device, "nvidia");
-            acc_opencl_options.async_memops = (EXIT_SUCCESS != confirmation);
+            const char *const env = getenv("ACC_OPENCL_ASYNC_MEMOPS");
+            if (NULL == env) {
+              const int confirmation = acc_opencl_device_vendor(active_device, "nvidia");
+              acc_opencl_options.async_memops = (EXIT_SUCCESS != confirmation);
+            }
+            else acc_opencl_options.async_memops = (0 != atoi(env));
           }
           else
 #endif
           acc_opencl_options.async_memops = CL_FALSE;
 #if defined(ACC_OPENCL_SVM)
           if (EXIT_SUCCESS == result) {
+            const char *const env = getenv("ACC_OPENCL_SVM");
             int level_major = 0;
-            acc_opencl_options.svm_interop = (EXIT_SUCCESS == acc_opencl_device_level(
-              active_device, &level_major, NULL/*level_minor*/) && 2 <= level_major);
+            acc_opencl_options.svm_interop = (NULL == env || 0 != atoi(env)) &&
+              (EXIT_SUCCESS == acc_opencl_device_level(active_device,
+                &level_major, NULL/*level_minor*/) && 2 <= level_major);
           }
           else
 #endif
@@ -364,12 +370,12 @@ int acc_opencl_device(void* stream, cl_device_id* device)
 
 int acc_opencl_device_vendor(cl_device_id device, const char* vendor)
 {
-  char buffer[ACC_OPENCL_BUFFER_MAXSIZE];
+  char buffer[ACC_OPENCL_BUFFERSIZE];
   int result = EXIT_SUCCESS;
   assert(NULL != device && NULL != vendor);
   buffer[0] = '\0';
   ACC_OPENCL_CHECK(clGetDeviceInfo(device,
-    CL_DEVICE_VENDOR, ACC_OPENCL_BUFFER_MAXSIZE, buffer, NULL),
+    CL_DEVICE_VENDOR, ACC_OPENCL_BUFFERSIZE, buffer, NULL),
     "retrieve device vendor", result);
   if (EXIT_SUCCESS == result) {
     return (NULL != acc_opencl_stristr(buffer, vendor)
@@ -382,11 +388,11 @@ int acc_opencl_device_vendor(cl_device_id device, const char* vendor)
 
 int acc_opencl_device_level(cl_device_id device, int* level_major, int* level_minor)
 {
-  char buffer[ACC_OPENCL_BUFFER_MAXSIZE];
+  char buffer[ACC_OPENCL_BUFFERSIZE];
   int result = EXIT_SUCCESS;
   assert(NULL != device && (NULL != level_major || NULL != level_minor));
   ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_VERSION,
-    ACC_OPENCL_BUFFER_MAXSIZE, buffer, NULL),
+    ACC_OPENCL_BUFFERSIZE, buffer, NULL),
     "retrieve device level", result);
   if (EXIT_SUCCESS == result) {
     unsigned int level[2];
@@ -406,10 +412,10 @@ int acc_opencl_device_level(cl_device_id device, int* level_major, int* level_mi
 int acc_opencl_device_ext(cl_device_id device, const char *const extnames[], int num_exts)
 {
   int result = ((NULL != extnames && 0 < num_exts) ? EXIT_SUCCESS : EXIT_FAILURE);
-  char extensions[ACC_OPENCL_BUFFER_MAXSIZE], buffer[ACC_OPENCL_BUFFER_MAXSIZE];
+  char extensions[ACC_OPENCL_BUFFERSIZE], buffer[ACC_OPENCL_BUFFERSIZE];
   assert(NULL != device);
   ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_EXTENSIONS,
-    ACC_OPENCL_BUFFER_MAXSIZE, extensions, NULL),
+    ACC_OPENCL_BUFFERSIZE, extensions, NULL),
     "retrieve device extensions", result);
   if (EXIT_SUCCESS == result) {
     do {
@@ -418,7 +424,7 @@ int acc_opencl_device_ext(cl_device_id device, const char *const extnames[], int
         return EXIT_FAILURE;
       }
       else {
-        char *const exts = strncpy(buffer, extnames[num_exts], ACC_OPENCL_BUFFER_MAXSIZE - 1);
+        char *const exts = strncpy(buffer, extnames[num_exts], ACC_OPENCL_BUFFERSIZE - 1);
         const char* ext = strtok(exts, ACC_OPENCL_DELIMS);
         for (; NULL != ext; ext = strtok(NULL, ACC_OPENCL_DELIMS)) {
           if (NULL == strstr(extensions, ext)) {
@@ -483,193 +489,6 @@ int acc_set_active_device(int device_id)
 }
 
 
-int acc_opencl_source_exists(const char* /*path*/, const char* /*fileext*/);
-int acc_opencl_source_exists(const char* path, const char* fileext)
-{
-  int result;
-  const char *const ext = (NULL != fileext ? fileext : "*." ACC_OPENCL_SRCEXT);
-  if (NULL != path && '\0' != *path) {
-    char filepath[ACC_OPENCL_BUFFER_MAXSIZE];
-#if defined(_WIN32)
-    const int nchar = ACC_OPENCL_SNPRINTF(filepath, ACC_OPENCL_BUFFER_MAXSIZE, "%s" ACC_OPENCL_PATHSEP "%s", path, ext);
-    if (0 < nchar && ACC_OPENCL_BUFFER_MAXSIZE > nchar) {
-      WIN32_FIND_DATA data;
-      HANDLE handle = FindFirstFile(filepath, &data);
-      if (INVALID_HANDLE_VALUE != handle) {
-        result = EXIT_SUCCESS;
-        FindClose(handle);
-      }
-      else {
-        result = EXIT_FAILURE;
-      }
-    }
-#else
-    glob_t globbuf;
-    const int nchar = ACC_OPENCL_SNPRINTF(filepath, ACC_OPENCL_BUFFER_MAXSIZE, "%s" ACC_OPENCL_PATHSEP "%s", path, ext);
-    if (0 < nchar && ACC_OPENCL_BUFFER_MAXSIZE > nchar) {
-      result = glob(filepath, 0/*flags*/, NULL, &globbuf);
-      globfree(&globbuf);
-    }
-#endif
-    else {
-      result = EXIT_FAILURE;
-    }
-  }
-  else {
-    result = EXIT_FAILURE;
-  }
-  return result;
-}
-
-
-const char* acc_opencl_source_path(const char* fileext)
-{
-  const char *const ext = NULL != fileext ? fileext : ACC_OPENCL_SRCEXT;
-  char pattern[ACC_OPENCL_BUFFER_MAXSIZE];
-  const int nchar = ACC_OPENCL_SNPRINTF(pattern, ACC_OPENCL_BUFFER_MAXSIZE, "*.%s", ext);
-  const char* result = NULL;
-  if (0 < nchar && ACC_OPENCL_BUFFER_MAXSIZE > nchar) {
-    if (EXIT_SUCCESS == acc_opencl_source_exists(getenv("ACC_OPENCL_SOURCE_PATH"), pattern)) {
-      result = getenv("ACC_OPENCL_SOURCE_PATH");
-    }
-    else if (EXIT_SUCCESS == acc_opencl_source_exists(getenv("CP2K_DATA_DIR"), pattern)) {
-      result = getenv("CP2K_DATA_DIR");
-    }
-  }
-  return result;
-}
-
-
-FILE* acc_opencl_source_open(const char* filename, const char *const dirpaths[], int ndirpaths)
-{
-  char filepath[ACC_OPENCL_BUFFER_MAXSIZE];
-  FILE* result = NULL;
-  int i;
-  assert(NULL != filename && (0 >= ndirpaths || NULL != dirpaths));
-  for (i = 0; i < ndirpaths; ++i) {
-    if (NULL != dirpaths[i]) {
-      const int nchar = ACC_OPENCL_SNPRINTF(filepath, ACC_OPENCL_BUFFER_MAXSIZE, "%s" ACC_OPENCL_PATHSEP "%s", dirpaths[i], filename);
-      result = ((0 < nchar && ACC_OPENCL_BUFFER_MAXSIZE > nchar) ? fopen(filepath, "r") : NULL);
-      if (NULL != result) break;
-    }
-  }
-  if (NULL == result) {
-    const char *const dotext = strrchr(filename, '.');
-    const char *const path = acc_opencl_source_path(NULL != dotext ? (dotext + 1) : NULL);
-    if (NULL != path) {
-      const int nchar = ACC_OPENCL_SNPRINTF(filepath, ACC_OPENCL_BUFFER_MAXSIZE, "%s" ACC_OPENCL_PATHSEP "%s", path, filename);
-      result = ((0 < nchar && ACC_OPENCL_BUFFER_MAXSIZE > nchar) ? fopen(filepath, "r") : NULL);
-    }
-  }
-  return result;
-}
-
-
-int acc_opencl_source(FILE* source, char* lines[], const char* extensions, int max_nlines, int cleanup)
-{
-  int nlines = 0;
-  if  ((NULL != lines && 0 < max_nlines)
-    && (NULL != source || NULL != lines[0]))
-  {
-    char* input = (NULL != source ? ((char*)malloc(max_nlines * ACC_OPENCL_MAXLINELEN)) : lines[0]);
-    if (NULL != input) {
-      int cleanup_begin = cleanup;
-      char buffer[ACC_OPENCL_BUFFER_MAXSIZE], *const begin = input, *const exts = (NULL != extensions
-        ? strncpy(buffer, extensions, ACC_OPENCL_BUFFER_MAXSIZE - 1) : NULL);
-      if (NULL != exts) {
-        const char* ext = strtok(exts, ACC_OPENCL_DELIMS);
-        for(;;) {
-          const int nchar = ACC_OPENCL_SNPRINTF(input, ACC_OPENCL_BUFFER_MAXSIZE,
-            "#pragma OPENCL EXTENSION %s: enable\n", ext);
-          if (nlines < max_nlines && 0 < nchar && ACC_OPENCL_BUFFER_MAXSIZE > nchar) {
-#if defined(ACC_OPENCL_EXTLINE)
-            if (begin == input) lines[nlines++] = input;
-            input += nchar;
-#else
-            lines[nlines++] = input;
-            input += nchar + 1;
-#endif
-          }
-          else {
-            max_nlines = nlines = 0;
-            break;
-          }
-          ext = strtok(NULL, ACC_OPENCL_DELIMS);
-          if (NULL == ext) {
-            *input++ = '\0';
-            break;
-          }
-        }
-      }
-      while (NULL != input && (NULL == source
-        || NULL != fgets(input, ACC_OPENCL_MAXLINELEN, source)))
-      {
-        char* end = strchr(input, '\n');
-        int inc = 1;
-        if (nlines < max_nlines) {
-          lines[nlines] = input;
-        }
-        else {
-          max_nlines = nlines = 0;
-          break;
-        }
-        if (NULL != source) {
-          input += ACC_OPENCL_MAXLINELEN;
-          if (NULL != end) *end = '\0';
-        }
-        else if (NULL != end) {
-          input = end + 1;
-          *end = '\0';
-        }
-        else input = NULL;
-        if (0 != cleanup) {
-          char *const line = lines[nlines] + strspn(lines[nlines], " \t"), *start = NULL;
-          size_t len = strlen(line);
-          if (0 == len) inc = 0;
-          else if (2 <= len) {
-            if ('/' == line[0] && '/' == line[1]) inc = 0;
-            else {
-              start = strstr(line, "/*");
-              end = strstr(line, "*/");
-              if (NULL != end) { /* closing comment */
-                if ('\0' == end[2+strspn(end + 2, " \t")]) {
-                  if (NULL == start) {
-                    --cleanup_begin;
-                    inc = 0;
-                  }
-                  else if (start == line) {
-                    inc = 0;
-                  }
-                  else {
-                    start[0] = start[1] = '\0';
-                  }
-                }
-              }
-              else if (NULL != start) { /* opening comment */
-                ++cleanup_begin;
-                if (start != line) {
-                  start[0] = start[1] = '\0';
-                }
-              }
-            }
-          }
-          if (cleanup < cleanup_begin && (NULL == start || start == line)) inc = 0;
-          if (0 == inc && 0 == nlines && NULL != source) input = begin;
-        }
-        nlines += inc;
-      }
-    }
-  }
-  if (0 < max_nlines && NULL != lines) {
-    lines[nlines] = NULL; /* terminator */
-  }
-  else if (0 == nlines && NULL != source) {
-    free(lines[0]);
-  }
-  return nlines;
-}
-
-
 int acc_opencl_wgsize(cl_kernel kernel, int* preferred_multiple, int* max_value)
 {
   cl_device_id active_id = NULL;
@@ -698,15 +517,15 @@ int acc_opencl_wgsize(cl_kernel kernel, int* preferred_multiple, int* max_value)
 }
 
 
-int acc_opencl_kernel(const char *const source[], int nlines, const char* build_options,
+int acc_opencl_kernel(const char* source, const char* build_options,
   const char* kernel_name, cl_kernel* kernel)
 {
-  char buffer[ACC_OPENCL_BUFFER_MAXSIZE] = "\0";
+  char buffer[ACC_OPENCL_BUFFERSIZE] = "\0";
   cl_int result;
   assert(NULL != kernel);
-  if (NULL != acc_opencl_context && 0 < nlines) {
+  if (NULL != acc_opencl_context) {
     const cl_program program = clCreateProgramWithSource(
-      acc_opencl_context, nlines, (const char**)source, NULL, &result);
+      acc_opencl_context, 1/*nlines*/, &source, NULL, &result);
     if (NULL != program) {
       cl_device_id active_id = NULL;
       assert(CL_SUCCESS == result);
@@ -719,20 +538,12 @@ int acc_opencl_kernel(const char *const source[], int nlines, const char* build_
           *kernel = clCreateKernel(program, kernel_name, &result);
           if (CL_SUCCESS == result) assert(NULL != *kernel);
           else {
-#if defined(ACC_OPENCL_VERBOSE) && defined(_DEBUG)
-            int i = 1;
-            ACC_OPENCL_DEBUG_PRINTF("\n%s\n", source[0]);
-            while (i < nlines) {
-              ACC_OPENCL_DEBUG_PRINTF("%s\n", source[i]);
-              ++i;
-            }
-#endif
             ACC_OPENCL_ERROR("create kernel", result);
           }
         }
         else {
           clGetProgramBuildInfo(program, active_id, CL_PROGRAM_BUILD_LOG,
-            ACC_OPENCL_BUFFER_MAXSIZE, buffer, NULL); /* ignore retval */
+            ACC_OPENCL_BUFFERSIZE, buffer, NULL); /* ignore retval */
           *kernel = NULL;
         }
       }

@@ -95,7 +95,7 @@ all: ../dbcsr_acc.a ../dbcsr_acc_smm.a bench test
 bench: ../acc_bench_smm ../acc_bench_trans
 
 .PHONY: test
-test: ../dbcsr_acc_test acc_opencl_test
+test: ../dbcsr_acc_test
 
 smm/opencl_kernels.h: acc_opencl.sh $(KERNEL)
 	./acc_opencl.sh $(KERNEL) $@
@@ -124,9 +124,6 @@ dbcsr_acc_test.o: ../../../tests/dbcsr_acc_test.c Makefile
 ../dbcsr_acc_test: dbcsr_acc_test.o ../dbcsr_acc.a
 	$(CC) $^ $(LDFLAGS) -o $@
 
-acc_opencl_test: acc_opencl_test.o ../dbcsr_acc.a
-	$(CC) $^ $(LDFLAGS) -o $@
-
 .PHONY: clean
 clean:
 	@rm -f $(OBJACC) $(OBJSMM)
@@ -137,4 +134,4 @@ clean:
 realclean: clean
 	@rm -f ../dbcsr_acc.a ../dbcsr_acc_smm.a
 	@rm -f ../acc_bench_smm ../acc_bench_trans
-	@rm -f ../dbcsr_acc_test acc_opencl_test
+	@rm -f ../dbcsr_acc_test

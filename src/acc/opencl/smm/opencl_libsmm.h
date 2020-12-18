@@ -21,9 +21,6 @@
 #if !defined(OPENCL_LIBSMM_TRANS_INPLACE) && 0
 # define OPENCL_LIBSMM_TRANS_INPLACE
 #endif
-#if !defined(OPENCL_LIBSMM_SRCLOAD) && 0
-# define OPENCL_LIBSMM_SRCLOAD
-#endif
 #if !defined(OPENCL_LIBSMM_DEBUG) && 0
 # define OPENCL_LIBSMM_DEBUG
 #endif
