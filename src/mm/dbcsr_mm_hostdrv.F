@@ -450,7 +450,8 @@ CONTAINS
    END SUBROUTINE xsmm_process_mm_batch_${nametype1}$
 #endif
 
-#if defined(__LIBXSMM)
+#if defined(__LIBXSMM) && TO_VERSION(1, 10) >= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
+
    SUBROUTINE xsmm_process_mm_stack_${nametype1}$ (stack_descr, params, &
                                                    stack_size, a_data, b_data, c_data, used_smm)
      !! Processes MM stack and issues libxsmm calls

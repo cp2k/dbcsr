@@ -839,7 +839,9 @@ CONTAINS
       INTEGER, OPTIONAL, INTENT(OUT)                     :: numtask, taskid
       INTEGER, INTENT(IN)                                :: groupid
          !! mpi communicator
-
+#if defined(__parallel)
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_environ_l'
+#endif
       INTEGER                                            :: ierr
 
       ierr = 0
@@ -870,6 +872,7 @@ CONTAINS
 
       INTEGER                                  :: ierr
 #if defined(__parallel)
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_environ_c'
       LOGICAL, DIMENSION(2)                    :: periods
 #endif
 
@@ -894,7 +897,9 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: comm, ndims
       INTEGER, INTENT(OUT)                               :: dims(ndims), task_coor(ndims)
       LOGICAL, INTENT(out)                               :: periods(ndims)
-
+#if defined(__parallel)
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_environ_c2'
+#endif
       INTEGER                                            :: ierr
 
       ierr = 0
@@ -969,7 +974,9 @@ CONTAINS
 
       INTEGER, INTENT(IN)                                :: comm, rank
       INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(OUT)     :: coords
-
+#if defined(__parallel)
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_cart_coords'
+#endif
       INTEGER                                            :: ierr, m
 
       ierr = 0
@@ -1180,7 +1187,9 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: group
       INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: pos
       INTEGER, INTENT(OUT)                               :: rank
-
+#if defined(__parallel)
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_cart_rank'
+#endif
       INTEGER                                            :: ierr
 
       ierr = 0
@@ -1381,6 +1390,7 @@ CONTAINS
 
       INTEGER                                  :: ierr
 #if defined(__parallel)
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_testany_1'
       INTEGER                                  :: completed_l, count
       LOGICAL                                  :: flag_l
 #endif
@@ -1410,6 +1420,7 @@ CONTAINS
 
       INTEGER                                  :: ierr
 #if defined(__parallel)
+      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_testany_2'
       INTEGER                                  :: completed_l, count
       LOGICAL                                  :: flag_l
 #endif
