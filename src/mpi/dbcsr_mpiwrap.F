@@ -839,9 +839,7 @@ CONTAINS
       INTEGER, OPTIONAL, INTENT(OUT)                     :: numtask, taskid
       INTEGER, INTENT(IN)                                :: groupid
          !! mpi communicator
-#if defined(__parallel)
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_environ_l'
-#endif
+
       INTEGER                                            :: ierr
 
       ierr = 0
@@ -851,12 +849,12 @@ CONTAINS
 #if defined(__parallel)
       IF (PRESENT(taskid)) THEN
          CALL mpi_comm_rank(groupid, taskid, ierr)
-         IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_rank @ "//routineN)
+         IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_rank @ mp_environ_l")
       ENDIF
 
       IF (PRESENT(numtask)) THEN
          CALL mpi_comm_size(groupid, numtask, ierr)
-         IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_size @ "//routineN)
+         IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_size @ mp_environ_l")
       ENDIF
 #else
       MARK_USED(groupid)
@@ -872,7 +870,6 @@ CONTAINS
 
       INTEGER                                  :: ierr
 #if defined(__parallel)
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_environ_c'
       LOGICAL, DIMENSION(2)                    :: periods
 #endif
 
@@ -882,10 +879,10 @@ CONTAINS
       dims = 1
 #if defined(__parallel)
       CALL mpi_comm_size(groupid, numtask, ierr)
-      IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_size @ "//routineN)
+      IF (ierr /= 0) CALL mp_stop(ierr, "mpi_comm_size @ mp_environ_c")
 
       CALL mpi_cart_get(groupid, 2, dims, periods, task_coor, ierr)
-      IF (ierr /= 0) CALL mp_stop(ierr, "mpi_cart_get @ "//routineN)
+      IF (ierr /= 0) CALL mp_stop(ierr, "mpi_cart_get @ mp_environ_c")
 #else
       MARK_USED(groupid)
 #endif
@@ -897,9 +894,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: comm, ndims
       INTEGER, INTENT(OUT)                               :: dims(ndims), task_coor(ndims)
       LOGICAL, INTENT(out)                               :: periods(ndims)
-#if defined(__parallel)
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_environ_c2'
-#endif
+
       INTEGER                                            :: ierr
 
       ierr = 0
@@ -909,7 +904,7 @@ CONTAINS
       periods = .FALSE.
 #if defined(__parallel)
       CALL mpi_cart_get(comm, ndims, dims, periods, task_coor, ierr)
-      IF (ierr /= 0) CALL mp_stop(ierr, "mpi_cart_get @ "//routineN)
+      IF (ierr /= 0) CALL mp_stop(ierr, "mpi_cart_get @ mp_environ_c")
 #else
       MARK_USED(comm)
 #endif
@@ -974,9 +969,7 @@ CONTAINS
 
       INTEGER, INTENT(IN)                                :: comm, rank
       INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(OUT)     :: coords
-#if defined(__parallel)
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_cart_coords'
-#endif
+
       INTEGER                                            :: ierr, m
 
       ierr = 0
@@ -984,7 +977,7 @@ CONTAINS
       m = SIZE(coords)
 #if defined(__parallel)
       CALL mpi_cart_coords(comm, rank, m, coords, ierr)
-      IF (ierr /= 0) CALL mp_stop(ierr, "mpi_cart_coords @ "//routineN)
+      IF (ierr /= 0) CALL mp_stop(ierr, "mpi_cart_coords @ mp_cart_coords")
 #else
       coords = 0
       MARK_USED(rank)
@@ -1187,16 +1180,14 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: group
       INTEGER, DIMENSION(:), CONTIGUOUS, INTENT(IN)      :: pos
       INTEGER, INTENT(OUT)                               :: rank
-#if defined(__parallel)
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_cart_rank'
-#endif
+
       INTEGER                                            :: ierr
 
       ierr = 0
 
 #if defined(__parallel)
       CALL mpi_cart_rank(group, pos, rank, ierr)
-      IF (ierr /= 0) CALL mp_stop(ierr, "mpi_cart_rank @ "//routineN)
+      IF (ierr /= 0) CALL mp_stop(ierr, "mpi_cart_rank @ mp_cart_rank")
 #else
       rank = 0
       MARK_USED(group)
@@ -1390,7 +1381,6 @@ CONTAINS
 
       INTEGER                                  :: ierr
 #if defined(__parallel)
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_testany_1'
       INTEGER                                  :: completed_l, count
       LOGICAL                                  :: flag_l
 #endif
@@ -1401,7 +1391,7 @@ CONTAINS
       count = SIZE(requests)
 
       CALL mpi_testany_internal(count, requests, completed_l, flag_l, MPI_STATUS_IGNORE, ierr)
-      IF (ierr /= 0) CALL mp_stop(ierr, routineN//" @ mp_testany")
+      IF (ierr /= 0) CALL mp_stop(ierr, "mpi_testany_1 @ mp_testany")
 
       IF (PRESENT(completed)) completed = completed_l
       IF (PRESENT(flag)) flag = flag_l
@@ -1420,7 +1410,6 @@ CONTAINS
 
       INTEGER                                  :: ierr
 #if defined(__parallel)
-      CHARACTER(LEN=*), PARAMETER :: routineN = 'mp_testany_2'
       INTEGER                                  :: completed_l, count
       LOGICAL                                  :: flag_l
 #endif
@@ -1431,7 +1420,7 @@ CONTAINS
       count = SIZE(requests)
 
       CALL mpi_testany_internal(count, requests, completed_l, flag_l, MPI_STATUS_IGNORE, ierr)
-      IF (ierr /= 0) CALL mp_stop(ierr, routineN//" @ mp_testany")
+      IF (ierr /= 0) CALL mp_stop(ierr, "mpi_testany_2 @ mp_testany")
 
       IF (PRESENT(completed)) completed = completed_l
       IF (PRESENT(flag)) flag = flag_l
