@@ -322,7 +322,7 @@ public subroutine mp_wait(request)
 
 <span class="cp">#if defined(__parallel)</span>
       <span class="k">CALL </span><span class="n">mpi_wait</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">MPI_STATUS_IGNORE</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_wait @ mp_wait&quot;</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_wait @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
 <span class="cp">#else</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>
 <span class="cp">#endif</span>

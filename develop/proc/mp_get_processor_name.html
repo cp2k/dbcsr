@@ -245,8 +245,8 @@ public subroutine mp_get_processor_name(procname, resultlen)
 <tr>
   
   <td><span class="anchor" id="variable-resultlen~2"></span>integer,</td>
-  <td>intent(out)</td>
-  <td></td>
+  <td>intent(out),</td>
+  <td>optional</td>
   
   <td></td><td>::</td>
   <td><strong>resultlen</strong></td><td><p>Length (in characters) of procname (INTEGER)</p></td>
@@ -325,17 +325,19 @@ public subroutine mp_get_processor_name(procname, resultlen)
 
       <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">procname</span>
          <span class="c">!! Name of processor, declared as CHARACTER(LEN=mp_max_processor_name)</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">resultlen</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">OPTIONAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                     <span class="kd">::</span> <span class="n">resultlen</span>
          <span class="c">!! Length (in characters) of procname (INTEGER)</span>
 
 <span class="cp">#if defined(__parallel)</span>
-      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">ierr</span>
+      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">namelen</span><span class="p">,</span> <span class="n">ierr</span>
 
-      <span class="k">CALL </span><span class="n">mpi_get_processor_name</span><span class="p">(</span><span class="n">procname</span><span class="p">,</span> <span class="n">resultlen</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+      <span class="k">CALL </span><span class="n">mpi_get_processor_name</span><span class="p">(</span><span class="n">procname</span><span class="p">,</span> <span class="n">namelen</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">resultlen</span><span class="p">))</span> <span class="n">resultlen</span> <span class="o">=</span> <span class="n">namelen</span>
+      <span class="k">ELSE</span>
 <span class="cp">#endif</span>
          <span class="k">CALL </span><span class="n">m_hostnm</span><span class="p">(</span><span class="n">procname</span><span class="p">)</span>
-         <span class="n">resultlen</span> <span class="o">=</span> <span class="nb">LEN_TRIM</span><span class="p">(</span><span class="n">procname</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">resultlen</span><span class="p">))</span> <span class="n">resultlen</span> <span class="o">=</span> <span class="nb">LEN_TRIM</span><span class="p">(</span><span class="n">procname</span><span class="p">)</span>
 <span class="cp">#if defined(__parallel)</span>
       <span class="n">ENDIF</span>
 <span class="cp">#endif</span>

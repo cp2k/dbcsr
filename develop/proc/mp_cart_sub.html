@@ -349,7 +349,7 @@ public subroutine mp_cart_sub(comm, rdim, sub_comm)
       <span class="n">sub_comm</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="cp">#if defined(__parallel)</span>
       <span class="k">CALL </span><span class="n">mpi_cart_sub</span><span class="p">(</span><span class="n">comm</span><span class="p">,</span> <span class="n">rdim</span><span class="p">,</span> <span class="n">sub_comm</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_cart_sub @ mp_cart_sub&quot;</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_cart_sub @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
       <span class="n">debug_comm_count</span> <span class="o">=</span> <span class="n">debug_comm_count</span> <span class="o">+</span> <span class="mi">1</span>
 <span class="cp">#else</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">comm</span><span class="p">)</span>

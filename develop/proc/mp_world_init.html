@@ -351,7 +351,7 @@ public subroutine mp_world_init(mp_comm)
 <span class="cp">#else</span>
       <span class="k">CALL </span><span class="n">mpi_errhandler_set</span><span class="p">(</span><span class="n">MPI_COMM_WORLD</span><span class="p">,</span> <span class="n">MPI_ERRORS_RETURN</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
 <span class="cp">#endif</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_errhandler_set @ mp_world_init&quot;</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_comm_set_errhandler @ mp_world_init&quot;</span><span class="p">)</span>
       <span class="n">mp_comm</span> <span class="o">=</span> <span class="n">MPI_COMM_WORLD</span>
       <span class="n">debug_comm_count</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="cp">#else</span>

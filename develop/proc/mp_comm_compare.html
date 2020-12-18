@@ -257,7 +257,7 @@ public subroutine mp_comm_compare(comm1, comm2, res)
   
 <tr>
   
-  <td><span class="anchor" id="variable-res~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-res~5"></span>integer,</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -349,7 +349,7 @@ public subroutine mp_comm_compare(comm1, comm2, res)
       <span class="n">res</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="cp">#if defined(__parallel)</span>
       <span class="k">CALL </span><span class="n">mpi_comm_compare</span><span class="p">(</span><span class="n">comm1</span><span class="p">,</span> <span class="n">comm2</span><span class="p">,</span> <span class="n">iout</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_comm_compare @ mp_comm_compare&quot;</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_comm_compare @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
       <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">iout</span><span class="p">)</span>
       <span class="k">CASE</span> <span class="p">(</span><span class="n">MPI_IDENT</span><span class="p">)</span>
          <span class="n">res</span> <span class="o">=</span> <span class="mi">0</span>

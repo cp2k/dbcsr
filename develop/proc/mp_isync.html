@@ -337,7 +337,7 @@ public subroutine mp_isync(group, request)
 <span class="cp">#if defined(__parallel)</span>
 <span class="cp">#if __MPI_VERSION &gt; 2</span>
       <span class="k">CALL </span><span class="n">mpi_ibarrier</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_ibarrier @ mp_isync&quot;</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_ibarrier @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
 <span class="cp">#else</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">request</span><span class="p">)</span>

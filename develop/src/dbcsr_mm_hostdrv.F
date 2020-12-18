@@ -457,7 +457,8 @@ CONTAINS
    END SUBROUTINE xsmm_process_mm_batch_d
 #endif
 
-#if defined(__LIBXSMM)
+#if defined(__LIBXSMM) && TO_VERSION(1, 10) >= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
+
    SUBROUTINE xsmm_process_mm_stack_d (stack_descr, params, &
                                                    stack_size, a_data, b_data, c_data, used_smm)
      !! Processes MM stack and issues libxsmm calls
@@ -470,8 +471,6 @@ CONTAINS
                          libxsmm_gemm => libxsmm_dgemm, &
                          LIBXSMM_PREFETCH_NONE, &
                          LIBXSMM_PREFETCH, &
-                         LIBXSMM_ROW_MAJOR, &
-                         LIBXSMM_COL_MAJOR, &
                          LIBXSMM_MAX_MNK, &
                          LIBXSMM_FLAGS
       INTEGER, PARAMETER :: LIBXSMM_DEFAULT_PREFETCH = LIBXSMM_PREFETCH
@@ -500,7 +499,6 @@ CONTAINS
         !! Flag to signal if an efficient kernel was used
 
 #if 1
-      DBCSR_ASSERT(LIBXSMM_COL_MAJOR /= 0 .AND. LIBXSMM_ROW_MAJOR == 0)
       processed = .FALSE.
       used_smm = .FALSE.
 
@@ -791,7 +789,8 @@ CONTAINS
    END SUBROUTINE xsmm_process_mm_batch_s
 #endif
 
-#if defined(__LIBXSMM)
+#if defined(__LIBXSMM) && TO_VERSION(1, 10) >= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
+
    SUBROUTINE xsmm_process_mm_stack_s (stack_descr, params, &
                                                    stack_size, a_data, b_data, c_data, used_smm)
      !! Processes MM stack and issues libxsmm calls
@@ -804,8 +803,6 @@ CONTAINS
                          libxsmm_gemm => libxsmm_sgemm, &
                          LIBXSMM_PREFETCH_NONE, &
                          LIBXSMM_PREFETCH, &
-                         LIBXSMM_ROW_MAJOR, &
-                         LIBXSMM_COL_MAJOR, &
                          LIBXSMM_MAX_MNK, &
                          LIBXSMM_FLAGS
       INTEGER, PARAMETER :: LIBXSMM_DEFAULT_PREFETCH = LIBXSMM_PREFETCH
@@ -834,7 +831,6 @@ CONTAINS
         !! Flag to signal if an efficient kernel was used
 
 #if 1
-      DBCSR_ASSERT(LIBXSMM_COL_MAJOR /= 0 .AND. LIBXSMM_ROW_MAJOR == 0)
       processed = .FALSE.
       used_smm = .FALSE.
 
@@ -1125,7 +1121,8 @@ CONTAINS
    END SUBROUTINE xsmm_process_mm_batch_z
 #endif
 
-#if defined(__LIBXSMM)
+#if defined(__LIBXSMM) && TO_VERSION(1, 10) >= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
+
    SUBROUTINE xsmm_process_mm_stack_z (stack_descr, params, &
                                                    stack_size, a_data, b_data, c_data, used_smm)
      !! Processes MM stack and issues libxsmm calls
@@ -1138,8 +1135,6 @@ CONTAINS
                          libxsmm_gemm => libxsmm_zgemm, &
                          LIBXSMM_PREFETCH_NONE, &
                          LIBXSMM_PREFETCH, &
-                         LIBXSMM_ROW_MAJOR, &
-                         LIBXSMM_COL_MAJOR, &
                          LIBXSMM_MAX_MNK, &
                          LIBXSMM_FLAGS
       INTEGER, PARAMETER :: LIBXSMM_DEFAULT_PREFETCH = LIBXSMM_PREFETCH
@@ -1168,7 +1163,6 @@ CONTAINS
         !! Flag to signal if an efficient kernel was used
 
 #if 0
-      DBCSR_ASSERT(LIBXSMM_COL_MAJOR /= 0 .AND. LIBXSMM_ROW_MAJOR == 0)
       processed = .FALSE.
       used_smm = .FALSE.
 
@@ -1459,7 +1453,8 @@ CONTAINS
    END SUBROUTINE xsmm_process_mm_batch_c
 #endif
 
-#if defined(__LIBXSMM)
+#if defined(__LIBXSMM) && TO_VERSION(1, 10) >= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
+
    SUBROUTINE xsmm_process_mm_stack_c (stack_descr, params, &
                                                    stack_size, a_data, b_data, c_data, used_smm)
      !! Processes MM stack and issues libxsmm calls
@@ -1472,8 +1467,6 @@ CONTAINS
                          libxsmm_gemm => libxsmm_cgemm, &
                          LIBXSMM_PREFETCH_NONE, &
                          LIBXSMM_PREFETCH, &
-                         LIBXSMM_ROW_MAJOR, &
-                         LIBXSMM_COL_MAJOR, &
                          LIBXSMM_MAX_MNK, &
                          LIBXSMM_FLAGS
       INTEGER, PARAMETER :: LIBXSMM_DEFAULT_PREFETCH = LIBXSMM_PREFETCH
@@ -1502,7 +1495,6 @@ CONTAINS
         !! Flag to signal if an efficient kernel was used
 
 #if 0
-      DBCSR_ASSERT(LIBXSMM_COL_MAJOR /= 0 .AND. LIBXSMM_ROW_MAJOR == 0)
       processed = .FALSE.
       used_smm = .FALSE.
 
@@ -1604,6 +1596,6 @@ CONTAINS
       COMPLEX(kind=real_4), INTENT(IN)                      :: A(M, K)
       C(:, :) = C(:, :) + MATMUL(A, B)
    END SUBROUTINE internal_mm_c_nn
-# 599 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
+# 597 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_hostdrv.F"
 
 END MODULE dbcsr_mm_hostdrv

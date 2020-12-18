@@ -229,7 +229,7 @@ public subroutine mp_probe(source, comm, tag)
   
 <tr>
   
-  <td><span class="anchor" id="variable-source~3"></span>integer</td>
+  <td><span class="anchor" id="variable-source~2"></span>integer</td>
   <td></td>
   <td></td>
   
@@ -365,13 +365,13 @@ public subroutine mp_probe(source, comm, tag)
 <span class="cp">#if defined(__parallel)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">source</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">mp_any_source</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">mpi_probe</span><span class="p">(</span><span class="n">mp_any_source</span><span class="p">,</span> <span class="n">mp_any_tag</span><span class="p">,</span> <span class="n">comm</span><span class="p">,</span> <span class="n">status_single</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_probe @ mp_probe&quot;</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_probe @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
          <span class="n">source</span> <span class="o">=</span> <span class="n">status_single</span><span class="p">(</span><span class="n">MPI_SOURCE</span><span class="p">)</span>
          <span class="n">tag</span> <span class="o">=</span> <span class="n">status_single</span><span class="p">(</span><span class="n">MPI_TAG</span><span class="p">)</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">flag</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
          <span class="k">CALL </span><span class="n">mpi_iprobe</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">mp_any_tag</span><span class="p">,</span> <span class="n">comm</span><span class="p">,</span> <span class="n">flag</span><span class="p">,</span> <span class="n">status_single</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_iprobe @ mp_probe&quot;</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_iprobe @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">flag</span> <span class="p">.</span><span class="n">EQV</span><span class="p">.</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">source</span> <span class="o">=</span> <span class="n">mp_any_source</span>
             <span class="n">tag</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="c">!status_single(MPI_TAG) ! in case of flag==false status is undefined</span>
