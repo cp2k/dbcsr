@@ -33,9 +33,6 @@ from kernels.smm_acc_predict import (  # noqa: E402
 # ===============================================================================
 def main(params, njobs, baseline, paths_to_models, chunk_size):
     """
-    This script is part of the workflow for predictive modelling of optimal libsmm_acc parameters.
-    For more details, see predict.md
-
     Update parameter file with new optimal parameter predictions given newly trained decision trees
     """
     # ===============================================================================

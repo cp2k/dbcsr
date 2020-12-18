@@ -118,7 +118,7 @@ if __name__ == "__main__":
         file "parameters.json".
 
         This script is part of the workflow for autotuning optimal libsmm_acc parameters.
-        For more details, see README.md#autotuning-procedure.
+        For more details, see README.md.
         """,
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
