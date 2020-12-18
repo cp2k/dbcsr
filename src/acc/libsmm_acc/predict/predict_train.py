@@ -50,9 +50,8 @@ def main(
     run_intermediate_evaluation,
 ):
     """
-    This script is part of the workflow for predictive modelling of optimal libsmm_acc parameters.
-    For more details, see predict.md
-
+    Train a Machine Learning model on autotuning data to predict a kernel's performance given
+    its template parameters
     """
     # ===============================================================================
     # Create folder to store results of this training and start a log
@@ -1597,7 +1596,9 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(
         description="""
-        Train predictive model on autotuning data
+        Train a Machine Learning model on autotuning data to predict a kernel's performance given
+        its template parameters
+
 
         This script is part of the workflow for predictive modelling of optimal libsmm_acc parameters.
         For more details, see README.md.

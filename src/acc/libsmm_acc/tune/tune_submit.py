@@ -68,12 +68,12 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="""
         Submit autotuning jobs: Each tune-directory contains a job file. Since there might be many tune-directories, the
-        convenience script submit.py can be used. It will go through all the tune_*-directories and check if it has
+        convenience script tune_submit.py can be used. It will go through all the tune_*-directories and check if it has
         already been submitted or run. For this the script calls squeue in the background and it searches for
         slurm-*.out files.
 
         This script is part of the workflow for autotuning optimal libsmm_acc parameters.
-        For more details, see README.md#autotuning-procedure.
+        For more details, see README.md.
         """,
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )

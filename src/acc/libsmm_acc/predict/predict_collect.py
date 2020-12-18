@@ -27,9 +27,6 @@ from kernels.cusmm_predict import (  # noqa: E402
 # ===============================================================================
 def main(tunedir):
     """
-    This script is part of the workflow for predictive modelling of optimal libsmm_acc parameters.
-    For more details, see predict.md
-
     Once autotuning of new kernels has been run,
     - collect the parameter information and performance from log files,
     - dump them to CSV files for data analysis and training of a predictive model

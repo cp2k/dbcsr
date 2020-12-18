@@ -455,7 +455,7 @@ if __name__ == "__main__":
         containing the code, Makefile and jobfiles for the autotuning of a given (m, n, k)-triplet.
 
         This script is part of the workflow for autotuning optimal libsmm_acc parameters.
-        For more details, see README.md#autotuning-procedure.
+        For more details, see README.md.
         """,
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
@@ -479,7 +479,7 @@ if __name__ == "__main__":
         "--compiler",
         metavar="compiler",
         default="nvcc",
-        help="Compiler to use for compiling kernel code (Opions: nvcc, hipcc)",
+        help="Compiler to use for compiling kernel code (Options: nvcc, hipcc)",
     )
     parser.add_argument(
         "-c",
