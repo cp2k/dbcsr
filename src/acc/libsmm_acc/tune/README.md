@@ -23,7 +23,7 @@ pip install -r requirements.txt
 #### 1. Go to the `libsmm_acc/tune` directory
 
 ```bash
-$ cd dbcsr/src/acc/libsmm_acc/libsmm_acc/tune
+$ cd dbcsr/src/acc/libsmm_acc/tune
 ```
 
 The `parameters.h` file (a C++ header file generated from the JSON record of multiplication kernels and their optimal parameters) is needed for the auto-tuning procedure. One can copy it over from a build directory for example, as follows:
