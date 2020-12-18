@@ -71,8 +71,23 @@ The `tune_setup.py` script generates job files. You have to adapt the script to 
 
 #### 3. Run the script `tune_setup.py`
 
-Specify which GPU you are auto-tuning for by passing the appropriate `parameters_GPU.json` file as an argument with `-p`.
+##### Script arguments
+
+Specify which GPU you are auto-tuning for by passing the appropriate `parameters_GPU.json` file as an argument with `-p/--params`.
+
+Specify which compiler to use for compiling kernel code by passing `nvcc` or `hipcc` as an argument with `-b/--compiler`.
+
+More arguments can be set, run
+```bash
+$ ./tune_setup.py --help
+```
+for more information.
+
+##### Script positional arguments (block sizes to autotune)
+
 In addition, the script takes as arguments the block sizes you want to add to `libsmm_acc`. You can specify these as a list of integers or provide the parameter file of a different GPU from which to read the block sizes to autotune.
+
+##### Examples
 
 For example, if the system you want to autotune for contains blocks of size 5 and 8, run:
 
@@ -106,6 +121,8 @@ Found 125344 parameter sets for 8x8x8
 Found 173764 parameter sets for 9x9x9
 ...
 ```
+
+##### Output
 
 The script will create a directory for each combination of the block sizes:
 
