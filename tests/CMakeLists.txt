@@ -169,7 +169,11 @@ if (WITH_C_API)
   endforeach ()
 
   foreach (dbcsr_test_c ${DBCSR_TESTS_C})
-    add_executable(${dbcsr_test_c} ${${dbcsr_test_c}_SRCS})
+    if (USE_ACCEL MATCHES "hip")
+      hip_add_executable(${dbcsr_test_c} ${${dbcsr_test_c}_SRCS})
+    else ()
+      add_executable(${dbcsr_test_c} ${${dbcsr_test_c}_SRCS})
+    endif ()
     target_link_libraries(${dbcsr_test_c} dbcsr_c)
     # register unittest executable with CMake
     if (USE_MPI)
