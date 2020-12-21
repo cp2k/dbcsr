@@ -65,6 +65,7 @@ else () # i.e. USE_HIP
   # static library, we have to link
   add_library(dbcsr_timings OBJECT ${DBCSR_TIMING_SRCS_FTN})
   target_include_directories(dbcsr_timings PRIVATE "${CMAKE_SOURCE_DIR}/src")
+  target_compile_definitions(dbcsr_timings PRIVATE __DBCSR_ACC)
   target_sources(libsmm_acc PRIVATE $<TARGET_OBJECTS:dbcsr_timings>)
 
   # Workaround issue in hip_add_library: explicitely write dependency between
