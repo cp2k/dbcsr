@@ -144,10 +144,14 @@
 <h3>Requirements</h3>
 <p>Python version required: <code>python 3.6</code></p>
 <p>If you are about to autotune parameters for a new GPU (i.e. a GPU for which there are no auto-tuned parameters yet), please first follow <a href="../README.md#adding-support-for-a-new-gpu-card">the instructions for a new GPU</a>.</p>
+<p>Install all python packages required (if you do not want this project's requirements to interfere with your other Python projects, consider doing so in a <a href="https://docs.python.org/3/tutorial/venv.html">virtual environment</a>), using</p>
+<div class="codehilite"><pre><span></span><code>pip install -r requirements.txt
+</code></pre></div>
+
 <hr>
 <h3>Auto-tuning procedure</h3>
 <h4>1. Go to the <code>libsmm_acc/tune</code> directory</h4>
-<div class="codehilite"><pre><span></span><code>$ <span class="nb">cd</span> dbcsr/src/acc/libsmm_acc/libsmm_acc/tune
+<div class="codehilite"><pre><span></span><code>$ <span class="nb">cd</span> dbcsr/src/acc/libsmm_acc/tune
 </code></pre></div>
 
 <p>The <code>parameters.h</code> file (a C++ header file generated from the JSON record of multiplication kernels and their optimal parameters) is needed for the auto-tuning procedure. One can copy it over from a build directory for example, as follows:</p>
@@ -190,8 +194,17 @@
 </code></pre></div>
 
 <h4>3. Run the script <code>tune_setup.py</code></h4>
-<p>Specify which GPU you are auto-tuning for by passing the appropriate <code>parameters_GPU.json</code> file as an argument with <code>-p</code>.
-In addition, the script takes as arguments the block sizes you want to add to <code>libsmm_acc</code>. You can specify these as a list of integers or provide the parameter file of a different GPU from which to read the block sizes to autotune.</p>
+<h5>Script arguments</h5>
+<p>Specify which GPU you are auto-tuning for by passing the appropriate <code>parameters_GPU.json</code> file as an argument with <code>-p/--params</code>.</p>
+<p>Specify which compiler to use for compiling kernel code by passing <code>nvcc</code> or <code>hipcc</code> as an argument with <code>-b/--compiler</code>.</p>
+<p>More arguments can be set, run</p>
+<div class="codehilite"><pre><span></span><code>$ ./tune_setup.py --help
+</code></pre></div>
+
+<p>for more information.</p>
+<h5>Script positional arguments (block sizes to autotune)</h5>
+<p>In addition, the script takes as arguments the block sizes you want to add to <code>libsmm_acc</code>. You can specify these as a list of integers or provide the parameter file of a different GPU from which to read the block sizes to autotune.</p>
+<h5>Examples</h5>
 <p>For example, if the system you want to autotune for contains blocks of size 5 and 8, run:</p>
 <div class="codehilite"><pre><span></span><code>$ ./tune_setup.py <span class="m">5</span> <span class="m">8</span> -p ../parameters/parameters_P100.json
 Reading parameters from parameters_P100.json
@@ -221,6 +234,7 @@ Found <span class="m">173764</span> parameter sets <span class="k">for</span> 9x
 ...
 </code></pre></div>
 
+<h5>Output</h5>
 <p>The script will create a directory for each combination of the block sizes:</p>
 <div class="codehilite"><pre><span></span><code>$ ls -d tune_*
 tune_5x5x5  tune_5x5x8  tune_5x8x5  tune_5x8x8  tune_8x5x5  tune_8x5x8  tune_8x8x5  tune_8x8x8
