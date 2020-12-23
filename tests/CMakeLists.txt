@@ -67,7 +67,10 @@ set(DBCSR_TESTS_FTN
     dbcsr_test_csr_conversions)
 
 if (NOT USE_ACCEL STREQUAL "")
+# TODO: enable dbcsr_acc_test for HIP
+if (NOT USE_ACCEL MATCHES "hip")
   set(DBCSR_TESTS_C dbcsr_acc_test_c)
+endif ()
 endif ()
 
 if (NOT (CMAKE_Fortran_COMPILER_ID STREQUAL "Cray"))
@@ -174,7 +177,6 @@ if (WITH_C_API)
     else ()
       add_executable(${dbcsr_test_c} ${${dbcsr_test_c}_SRCS})
     endif ()
-    target_link_libraries(${dbcsr_test_c} libsmm_acc)
     target_link_libraries(${dbcsr_test_c} dbcsr_c)
     # register unittest executable with CMake
     if (USE_MPI)
