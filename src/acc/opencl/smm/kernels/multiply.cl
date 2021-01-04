@@ -32,15 +32,15 @@ inline void atomic_add_global_xchg(global volatile T* dst, T inc)
 
 
 __attribute__((reqd_work_group_size(SN, 1, 1)))
-kernel void FN(CONSTANT const int *restrict param_stack,
-  CONSTANT const T *restrict amat, CONSTANT const T *restrict bmat,
+kernel void FN(GLOBAL const int *restrict param_stack,
+  GLOBAL const T *restrict amat, GLOBAL const T *restrict bmat,
   global T *restrict cmat)
 {
   const int gid = get_group_id(0);
-  CONSTANT const int *const restrict param_base = param_stack + gid * 3;
+  GLOBAL const int *const restrict param_base = param_stack + gid * 3;
   /* indexes given by param_stack are one-based */
   const int ai = param_base[0] - 1, bi = param_base[1] - 1, ci = param_base[2] - 1;
-  CONSTANT const T *const restrict awg = amat + ai, *const restrict bwg = bmat + bi;
+  GLOBAL const T *const restrict awg = amat + ai, *const restrict bwg = bmat + bi;
   global T *const restrict cwg = cmat + ci;
   local T a[SM*SK];
   T b[SK];

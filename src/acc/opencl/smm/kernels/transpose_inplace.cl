@@ -7,7 +7,7 @@
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
 
-kernel void FN(CONSTANT const int *restrict trs_stack, int trs_offset, global T *restrict matrix)
+kernel void FN(GLOBAL const int *restrict trs_stack, int trs_offset, global T *restrict matrix)
 {
   /* offset in the transpose-stack that this block ID should handle */
   const int offset = trs_stack[trs_offset+get_group_id(0)];

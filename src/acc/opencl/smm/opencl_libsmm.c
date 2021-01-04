@@ -170,9 +170,9 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
             default: ;
           }
           nchar = ACC_OPENCL_SNPRINTF(build_options, sizeof(build_options), "%s"
-            " -DCONSTANT=%s -DSM=%i -DSN=%i -DFN=%s -DT=%s",
+            " -DGLOBAL=%s -DSM=%i -DSN=%i -DFN=%s -DT=%s",
             (NULL == env_options || '\0' == *env_options) ? "" : env_options,
-            EXIT_SUCCESS == opencl_libsmm_use_cmem(active_device) ? "constant" : "",
+            EXIT_SUCCESS != opencl_libsmm_use_cmem(active_device) ? "global" : "constant",
             m, n, fname, typename);
           if ('\0' != *typename && 0 < nchar && (int)sizeof(build_options) > nchar) {
             const char *const env_inplace = getenv("OPENCL_LIBSMM_TRANS_INPLACE");
@@ -394,11 +394,11 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
           if (NULL != typename && '\0' != *typename) {
             const char *const build_setup =
               "%s -cl-fast-relaxed-math -cl-no-signed-zeros -cl-denorms-are-zero"
-              " -DCONSTANT=%s -DSM=%i -DSN=%i -DSK=%i -DFN=%s -DT=%s"
+              " -DGLOBAL=%s -DSM=%i -DSN=%i -DSK=%i -DFN=%s -DT=%s"
               " -DTA=\"%s\" -DCMPXCHG=%s -DXCHG=%s -DATOMIC_ADD_GLOBAL=atomic_add_global_%s";
             nchar = ACC_OPENCL_SNPRINTF(build_options, sizeof(build_options), build_setup,
               (NULL == env_options || '\0' == *env_options) ? "" : env_options,
-              EXIT_SUCCESS == opencl_libsmm_use_cmem(active_device) ? "constant" : "",
+              EXIT_SUCCESS != opencl_libsmm_use_cmem(active_device) ? "global" : "constant",
               m_max, n_max, k_max, fname, typename, atomic_type, atomic_cmpxchg, atomic_xchg, atomics);
             if (0 < nchar && (int)sizeof(build_options) > nchar) {
               config_t new_config;
