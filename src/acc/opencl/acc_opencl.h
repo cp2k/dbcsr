@@ -89,7 +89,7 @@
 #if !defined(ACC_OPENCL_VERBOSE) && 0
 # define ACC_OPENCL_VERBOSE
 #endif
-#if !defined(ACC_OPENCL_SVM) && 1
+#if !defined(ACC_OPENCL_SVM) && 0
 # if defined(CL_VERSION_2_0)
 #   define ACC_OPENCL_SVM
 # endif

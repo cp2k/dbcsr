@@ -27,11 +27,30 @@
 #if !defined(OPENCL_LIBSMM_SYNC) && 0
 # define OPENCL_LIBSMM_SYNC
 #endif
+#if !defined(OPENCL_LIBSMM_CMEM) && 1
+# define OPENCL_LIBSMM_CMEM
+#endif
 #if !defined(OPENCL_LIBSMM_F32) /*&& !defined(__DBCSR_ACC)*/
 # define OPENCL_LIBSMM_F32
 #endif
 #if !defined(OPENCL_LIBSMM_F64) && 1
 # define OPENCL_LIBSMM_F64
+#endif
+
+#if defined(__cplusplus)
+extern "C" {
+#endif
+
+/** If buffers are hinted for non-concurrent writes aka "OpenCL constant". */
+int opencl_libsmm_use_cmem(cl_device_id device);
+
+#if defined(OPENCL_LIBSMM_DEBUG) && defined(_DEBUG)
+void opencl_libsmm_print_matrix(FILE* ostream, const char* label,
+  libsmm_acc_data_t type, const void* mat, int m, int n);
+#endif
+
+#if defined(__cplusplus)
+}
 #endif
 
 #endif /*OPENCL_LIBSMM_H*/
