@@ -20,8 +20,11 @@
 #if !defined(ELEM_TYPE)
 # define ELEM_TYPE double
 #endif
-#if !defined(EPSILON)
+#if !defined(EPSILON) && 0
 # define EPSILON 1E-3
+#endif
+#if !defined(TRANSPOSE)
+# define TRANSPOSE
 #endif
 #if !defined(MAX_KERNEL_DIM)
 # define MAX_KERNEL_DIM 80
@@ -81,7 +84,10 @@ int main(int argc, char* argv[])
   void *stream = NULL;
 #if defined(USE_LIBXSMM)
   libxsmm_timer_tickint start;
-  double duration, transpose;
+# if defined(TRANSPOSE)
+  double transpose;
+# endif
+  double duration;
 #endif
   assert(m <= (mn / n) && 0 == (mn % n) && k <= (mk / k) && 0 == (mk % k) && n <= (kn / n) && 0 == (kn % n));
   printf("%s%s%i %i %i %i %i %i %i %i\n", 0 < argc ? argv[0] : "", 0 < argc ? " " : "",
@@ -138,6 +144,7 @@ int main(int argc, char* argv[])
     (sizeof(ELEM_TYPE) * (mk + kn) + sizeof(int) * 3)
       * stack_size / (duration * (1ULL << 30)));
 #endif
+#if defined(TRANSPOSE)
   /* warmup execution and prebuild transpose-kernel */
   for (r = 0; r < warmup / 2; ++r) {
     CHECK(libsmm_acc_transpose(trans_dev, 0/*offset*/, nb, bmat_dev,
@@ -145,16 +152,17 @@ int main(int argc, char* argv[])
     CHECK(libsmm_acc_transpose(trans_dev, 0/*offset*/, nb, bmat_dev,
       DBCSR_TYPE(ELEM_TYPE), n, k, MAX_KERNEL_DIM, stream), &result);
   }
-#if defined(USE_LIBXSMM)
+# if defined(USE_LIBXSMM)
   CHECK(acc_stream_sync(stream), &result);
   start = libxsmm_timer_tick();
-#endif
+# endif
   /* to perform NN-SMMs on the device, all B-matrices are transposed upfront (SMM-kernel is limited to NT) */
   CHECK(libsmm_acc_transpose(trans_dev, 0/*offset*/, nb, bmat_dev,
     DBCSR_TYPE(ELEM_TYPE), k, n, MAX_KERNEL_DIM, stream), &result);
-#if defined(USE_LIBXSMM)
+# if defined(USE_LIBXSMM)
   CHECK(acc_stream_sync(stream), &result);
   transpose = libxsmm_timer_duration(start, libxsmm_timer_tick());
+# endif
 #endif
   /* warmup execution and prebuild SMM-kernel */
   for (r = 0; r < warmup; ++r) {
@@ -176,10 +184,15 @@ int main(int argc, char* argv[])
   duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
   if (EXIT_SUCCESS == result) {
     ELEM_TYPE *const gold_hst = (ELEM_TYPE*)libxsmm_malloc(sizeof(ELEM_TYPE) * mn * nc);
-    const char transa = 'N', transb = 'N';
     const ELEM_TYPE alpha = 1, beta = 1;
+    const char transa = 'N';
+# if !defined(TRANSPOSE)
+    const char transb = 'T';
+# else
+    const char transb = 'N';
     printf("transpose: %.1f ms %.1f GFLOPS/s\n", 1000.0 * (duration + transpose) / nrepeat,
       ((size_t)2 * m * n * k) * stack_size / ((duration + transpose) * (1ULL << 30) / nrepeat));
+# endif
     printf("device: %.1f ms %.1f GFLOPS/s\n", 1000.0 * duration / nrepeat,
       ((size_t)2 * m * n * k) * stack_size / (duration * (1ULL << 30) / nrepeat));
     memset(gold_hst, 0, sizeof(ELEM_TYPE) * mn * nc);
@@ -233,7 +246,9 @@ int main(int argc, char* argv[])
         }
       }
       printf("max.error: rel=%g\n", relerror);
+# if defined(EPSILON) && (0 < EPSILON)
       if (EPSILON < relerror) result = EXIT_FAILURE;
+# endif
     }
     libxsmm_free(gold_hst);
   }
