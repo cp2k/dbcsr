@@ -14,11 +14,21 @@ kernel void FN(GLOBAL const int *restrict trs_stack, int trs_offset, global T *r
   /* matrix according to the index (transpose-stack) */
   global T *const restrict mat = matrix + offset;
 
-  const int size = get_local_size(0);
   const int index = get_local_id(0);
-  switch (size) {
-    case SM: {
-      const int m = index;
+#if (SWG == SM)
+  const int m = index;
+  for (int n = 0; n < m; ++n) {
+    const int i = SM * n + m;
+    const int j = SN * m + n;
+    const T tmp = mat[i];
+    mat[i] = mat[j];
+    mat[j] = tmp;
+  }
+#else
+  if (index < SM) {
+    const int msize = (SM + SWG - 1) / SWG;
+    const int m0 = index * msize, m1 = min(m0 + msize, SM);
+    for (int m = m0; m < m1; ++m) {
       for (int n = 0; n < m; ++n) {
         const int i = SM * n + m;
         const int j = SN * m + n;
@@ -26,19 +36,7 @@ kernel void FN(GLOBAL const int *restrict trs_stack, int trs_offset, global T *r
         mat[i] = mat[j];
         mat[j] = tmp;
       }
-    } break;
-    default: if (index < SM) {
-      const int msize = ((SM - 1) + size) / size;
-      const int m0 = index * msize, m1 = min(m0 + msize, SM);
-      for (int m = m0; m < m1; ++m) {
-        for (int n = 0; n < m; ++n) {
-          const int i = SM * n + m;
-          const int j = SN * m + n;
-          const T tmp = mat[i];
-          mat[i] = mat[j];
-          mat[j] = tmp;
-        }
-      }
     }
   }
+#endif
 }

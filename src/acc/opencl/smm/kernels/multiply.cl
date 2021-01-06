@@ -58,7 +58,7 @@ kernel void FN(GLOBAL const int *restrict param_stack,
   barrier(CLK_LOCAL_MEM_FENCE);
   for (int m = 0; m < SM; ++m) {
     T r = 0;
-    for (int k = 0; k < SK; ++k) r += a[SK*m+k] * b[k];
+    for (int k = 0; k < SK; ++k) r = FMA(a[SK*m+k], b[k], r);
     ATOMIC_ADD_GLOBAL(&cwg[SM*n+m], r);
   }
 }

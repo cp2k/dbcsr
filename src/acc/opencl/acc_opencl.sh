@@ -24,8 +24,10 @@ if [ "${BASENAME}" ] && [ "${SED}" ] && [ "${RM}" ]; then
           echo "#define ${MNAME} ${VNAME}" >>${OFILE}
           echo "const char ${VNAME}[] =" >>${OFILE}
           echo "  \"#pragma OPENCL EXTENSION all: enable\\n\"" >>${OFILE}
-          if [ "${CPP}" ]; then # attempt using cpp
-            ${CPP} -P ${IFILE}
+          if [ "${CPP}" ] && \
+             [ "$(${CPP} -P -fpreprocessed ${IFILE} 2>/dev/null >/dev/null && echo OK)" ];
+          then
+            ${CPP} -P -fpreprocessed ${IFILE}
           else # fallback to sed
             ${SED} -r ':a;s%(.*)/\*.*\*/%\1%;ta;/\/\*/!b;N;ba' ${IFILE}
           fi | \
