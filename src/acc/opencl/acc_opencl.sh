@@ -25,9 +25,9 @@ if [ "${BASENAME}" ] && [ "${SED}" ] && [ "${RM}" ]; then
           echo "const char ${VNAME}[] =" >>${OFILE}
           echo "  \"#pragma OPENCL EXTENSION all: enable\\n\"" >>${OFILE}
           if [ "${CPP}" ] && \
-             [ "$(${CPP} -P -fpreprocessed ${IFILE} 2>/dev/null >/dev/null && echo OK)" ];
+             [ "$(${CPP} -dD -P -fpreprocessed ${IFILE} 2>/dev/null >/dev/null && echo OK)" ];
           then
-            ${CPP} -P -fpreprocessed ${IFILE}
+            ${CPP} -dD -P -fpreprocessed ${IFILE}
           else # fallback to sed
             ${SED} -r ':a;s%(.*)/\*.*\*/%\1%;ta;/\/\*/!b;N;ba' ${IFILE}
           fi | \

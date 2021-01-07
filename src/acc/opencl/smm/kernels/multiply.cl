@@ -7,6 +7,9 @@
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
 
+#define NBN ((SN + BN - 1) / BN)
+
+
 __attribute__((always_inline))
 inline void atomic_add_global_cmpxchg(global volatile T* dst, T inc)
 {
@@ -31,34 +34,91 @@ inline void atomic_add_global_xchg(global volatile T* dst, T inc)
 }
 
 
-__attribute__((reqd_work_group_size(SN, 1, 1)))
 kernel void FN(GLOBAL const int *restrict param_stack,
   GLOBAL const T *restrict amat, GLOBAL const T *restrict bmat,
   global T *restrict cmat)
 {
-  const int gid = get_group_id(0);
-  GLOBAL const int *const restrict param_base = param_stack + gid * 3;
+  const int gid = get_group_id(0), idx = get_local_id(0);
+  GLOBAL const int *const restrict params = param_stack + gid * 3;
   /* indexes given by param_stack are one-based */
-  const int ai = param_base[0] - 1, bi = param_base[1] - 1, ci = param_base[2] - 1;
-  GLOBAL const T *const restrict awg = amat + ai, *const restrict bwg = bmat + bi;
+  const int ai = params[0] - 1, bi = params[1] - 1, ci = params[2] - 1;
   global T *const restrict cwg = cmat + ci;
   local T a[SM*SK];
-  T b[SK];
 
-  const int n = get_local_id(0);
-  /* assume SN == get_local_size(0) */
-  const int msize = (SM + SN - 1) / SN;
-  const int m0 = n * msize, m1 = min(m0 + msize, SM);
-  /* split work among WG (a[m,k] does not depend on WG-index) */
-  for (int m = m0; m < m1; ++m) { /* transpose A-matrix */
-    for (int k = 0; k < SK; ++k) a[SK*m+k] = awg[SM*k+m];
+#if (1 != BM) || (SN != BN)
+  const int im = idx / NBN;
+  const int m0 = im * BM, m1 = min(m0 + BM, SM);
+  const int n0 = (idx - im * NBN) * BN;
+  const int n1 = min(n0 + BN, SN);
+  local T b[SK*SN];
+# if (1 < BS)
+  T c[BM*BN] = { 0 };
+# endif
+#else
+  const int m0 = idx * BM, m1 = min(m0 + BM, SM);
+  const int n = idx;
+  T b[SK];
+# if (1 < BS)
+  T c[SM] = { 0 }
+# endif
+#endif
+
+  { /* transpose A-matrix into local buffer */
+    GLOBAL const T *const restrict awg = amat + ai;
+    for (int m = m0; m < m1; ++m) {
+      for (int k = 0; k < SK; ++k) a[SK*m+k] = awg[SM*k+m];
+    }
   }
-  /* gather/transpose B-matrix (strided load) */
-  for (int k = 0; k < SK; ++k) b[k] = bwg[SN*k+n];
-  barrier(CLK_LOCAL_MEM_FENCE);
-  for (int m = 0; m < SM; ++m) {
-    T r = 0;
-    for (int k = 0; k < SK; ++k) r = FMA(a[SK*m+k], b[k], r);
-    ATOMIC_ADD_GLOBAL(&cwg[SM*n+m], r);
+
+  { /* copy B-matrix into local buffer */
+    GLOBAL const T *const restrict bwg = bmat + bi;
+    for (int k = 0; k < SK; ++k) {
+#if (1 != BM) || (SN != BN)
+      for (int n = n0; n < n1; ++n) b[SN*k+n] = bwg[SN*k+n];
+#else
+      b[k] = bwg[SN*k+n];
+#endif
+    }
   }
+
+  { /* calculate private result-tile */
+    barrier(CLK_LOCAL_MEM_FENCE);
+#if (1 != BM) || (SN != BN)
+    for (int m = m0; m < m1; ++m) for (int n = n0; n < n1; ++n) {
+# if (1 < BS)
+      T *const restrict r = c + BN * (m-m0) + n-n0;
+      for (int k = 0; k < SK; ++k) *r = FMA(a[SK*m+k], b[SN*k+n], *r);
+# else
+      T r = 0;
+      for (int k = 0; k < SK; ++k) r = FMA(a[SK*m+k], b[SN*k+n], r);
+      ATOMIC_ADD_GLOBAL(&cwg[SM*n+m], r);
+# endif
+    }
+#else
+    for (int m = 0; m < SM; ++m) {
+# if (1 < BS)
+      T *const restrict r = c + m;
+      for (int k = 0; k < SK; ++k) *r = FMA(a[SK*m+k], b[k], *r);
+# else
+      T r = 0;
+      for (int k = 0; k < SK; ++k) r = FMA(a[SK*m+k], b[k], r);
+      ATOMIC_ADD_GLOBAL(&cwg[SM*n+m], r);
+# endif
+    }
+#endif
+  }
+
+#if (1 < BS)
+  { /* copy private tile to global memory */
+# if (1 != BM) || (SN != BN)
+    for (int m = m0; m < m1; ++m) for (int n = n0; n < n1; ++n) {
+      ATOMIC_ADD_GLOBAL(&cwg[SM*n+m], c[BN*(m-m0)+n-n0]);
+    }
+# else
+    for (int m = 0; m < SM; ++m) {
+      ATOMIC_ADD_GLOBAL(&cwg[SM*n+m], c[m]);
+    }
+# endif
+  }
+#endif
 }

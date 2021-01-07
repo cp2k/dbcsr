@@ -203,7 +203,8 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
 #endif
               if (EXIT_SUCCESS == result) {
                 int max_wgsize;
-                result = acc_opencl_wgsize(new_config.kernel, NULL/*preferred_multiple*/, &max_wgsize);
+                result = acc_opencl_wgsize(active_device, new_config.kernel,
+                  &max_wgsize, NULL/*preferred_multiple*/);
                 if (EXIT_SUCCESS == result) {
                   assert(0 < max_wgsize);
                   if (wgsize <= max_wgsize) {
@@ -393,40 +394,64 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
             default: ;
           }
           if (NULL != typename) {
-            const char *const env_options = getenv("OPENCL_LIBSMM_SMM_BUILDOPTS");
-            const char *const env_blockm = getenv("OPENCL_LIBSMM_SMM_BLOCK_M");
-            const char *const env_blockn = getenv("OPENCL_LIBSMM_SMM_BLOCK_N");
-            const int bm = LIBXSMM_MIN((NULL == env_blockm || '\0' == *env_blockm)
-              ? 4/*TODO*/ : atoi(env_blockm), m_max);
-            const int bn = LIBXSMM_MIN((NULL == env_blockn || '\0' == *env_blockn)
-              ? 4/*TODO*/ : atoi(env_blockn), n_max);
-            const char *const build_setup =
-              "%s -cl-fast-relaxed-math -cl-no-signed-zeros -cl-denorms-are-zero"
-              " -DGLOBAL=%s -DFN=%s -DSM=%i -DSN=%i -DSK=%i -DBM=%i -DBN=%i"
-              " -DT=%s -DTA=\"%s\" -DFMA=fma -DCMPXCHG=%s -DXCHG=%s"
-              " -D\"ATOMIC_ADD_GLOBAL(A,B)=%s\"";
-            const char *const env_atomics = getenv("OPENCL_LIBSMM_SMM_ATOMICS");
-            const char *atomics = NULL;
-            if (NULL == env_atomics || '0' != *env_atomics) {
-              if ((NULL == env_atomics && EXIT_SUCCESS != acc_opencl_device_vendor(active_device, "nvidia"))
-                || NULL != acc_opencl_stristr(env_atomics, "cmpxchg"))
-              {
-                atomics = "atomic_add_global_cmpxchg(A,B)";
+            int max_wgsize, bm, bn, nbm, nbn, wgsize;
+            result = acc_opencl_wgsize(active_device, NULL/*device-specific*/,
+              &max_wgsize, NULL/*preferred_multiple*/);
+            if (EXIT_SUCCESS == result) {
+              const char *const env_blockm = getenv("OPENCL_LIBSMM_SMM_BLOCK_M");
+              const char *const env_blockn = getenv("OPENCL_LIBSMM_SMM_BLOCK_N");
+              const int blockm = ((NULL == env_blockm || '\0' == *env_blockm)
+                ? 1/*TODO*/ : atoi(env_blockm));
+              const int blockn = ((NULL == env_blockn || '\0' == *env_blockn)
+                ? n_max/*TODO*/ : atoi(env_blockn));
+              bm = LIBXSMM_CLMP(blockm, 1, m_max);
+              bn = LIBXSMM_CLMP(blockn, 1, n_max);
+              nbm = (m_max + bm - 1) / bm;
+              nbn = (n_max + bn - 1) / bn;
+              wgsize = nbm * nbn;
+              assert(0 < wgsize && 0 < max_wgsize);
+              while (max_wgsize < wgsize && (bm < m_max || bn < n_max)) {
+                if (bn < n_max) ++bn; else if (bm < m_max) ++bm;
+                nbm = (m_max + bm - 1) / bm;
+                nbn = (n_max + bn - 1) / bn;
+                wgsize = nbm * nbn;
+              }
+              if (wgsize <= max_wgsize) {
+                const char *const env_options = getenv("OPENCL_LIBSMM_SMM_BUILDOPTS");
+                const char *const build_setup =
+                  "%s -cl-fast-relaxed-math -cl-no-signed-zeros -cl-denorms-are-zero"
+                  " -DGLOBAL=%s -DFN=%s -DSM=%i -DSN=%i -DSK=%i -DBM=%i -DBN=%i -DBS=1"
+                  " -DT=%s -DTA=\"%s\" -DFMA=fma -DCMPXCHG=%s -DXCHG=%s"
+                  " -D\"ATOMIC_ADD_GLOBAL(A,B)=%s\"";
+                const char *const env_atomics = getenv("OPENCL_LIBSMM_SMM_ATOMICS");
+                const char *atomics = NULL;
+                if (NULL == env_atomics || '0' != *env_atomics) {
+                  if ((NULL == env_atomics && EXIT_SUCCESS != acc_opencl_device_vendor(active_device, "nvidia"))
+                    || NULL != acc_opencl_stristr(env_atomics, "cmpxchg"))
+                  {
+                    atomics = "atomic_add_global_cmpxchg(A,B)";
+                  }
+                  else {
+                    atomics = "atomic_add_global_xchg(A,B)";
+                  }
+                }
+                else {
+                  atomics = "*(A)+=(B)";
+                }
+                assert(0 < bm && 0 < bn && NULL != atomics);
+                nchar = ACC_OPENCL_SNPRINTF(build_options, sizeof(build_options), build_setup,
+                  (NULL == env_options || '\0' == *env_options) ? "" : env_options,
+                  EXIT_SUCCESS != opencl_libsmm_use_cmem(active_device) ? "global" : "constant",
+                  fname, m_max, n_max, k_max, bm, bn, typename,
+                  atomic_type, atomic_cmpxchg, atomic_xchg, atomics);
+                if (0 >= nchar || (int)sizeof(build_options) <= nchar) result = EXIT_FAILURE;
               }
               else {
-                atomics = "atomic_add_global_xchg(A,B)";
+                result = EXIT_FAILURE;
+                ACC_OPENCL_ERROR("matrix-size causes too large WG-size", result);
               }
             }
-            else {
-              atomics = "*(A)+=(B)";
-            }
-            assert(NULL != atomics);
-            nchar = ACC_OPENCL_SNPRINTF(build_options, sizeof(build_options), build_setup,
-              (NULL == env_options || '\0' == *env_options) ? "" : env_options,
-              EXIT_SUCCESS != opencl_libsmm_use_cmem(active_device) ? "global" : "constant",
-              fname, m_max, n_max, k_max, bm, bn, typename,
-              atomic_type, atomic_cmpxchg, atomic_xchg, atomics);
-            if (0 < nchar && (int)sizeof(build_options) > nchar) {
+            if (EXIT_SUCCESS == result) {
               config_t new_config;
 #if defined(OPENCL_SOURCE_MULTIPLY)
               result = acc_opencl_kernel(OPENCL_SOURCE_MULTIPLY, build_options, fname, &new_config.kernel);
@@ -434,21 +459,24 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               result = EXIT_FAILURE;
 #endif
               if (EXIT_SUCCESS == result) {
-                int max_wgsize;
-                result = acc_opencl_wgsize(new_config.kernel, NULL/*preferred_multiple*/, &max_wgsize);
+                result = acc_opencl_wgsize(active_device, new_config.kernel,
+                  &max_wgsize, NULL/*preferred_multiple*/);
                 if (EXIT_SUCCESS == result) {
-                  assert(0 < max_wgsize);
-                  if (n_max <= max_wgsize) {
-                    new_config.wgsize = (size_t)n_max;
+                  nbm = (m_max + bm - 1) / bm;
+                  nbn = (n_max + bn - 1) / bn;
+                  wgsize = nbm * nbn;
+                  assert(0 < wgsize && 0 < max_wgsize);
+                  if (wgsize <= max_wgsize) {
+                    new_config.wgsize = (size_t)wgsize;
                     config = (config_t*)OPENCL_LIBSMM_REGISTER(&key, sizeof(key),
                       sizeof(new_config), &new_config);
                   }
-                  else result = EXIT_FAILURE;
+                  else {
+                    result = EXIT_FAILURE;
+                    ACC_OPENCL_ERROR("tile-size causes too large WG-size", result);
+                  }
                 }
               }
-            }
-            else {
-              result = EXIT_FAILURE;
             }
           }
           else {

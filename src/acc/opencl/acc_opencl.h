@@ -230,8 +230,9 @@ int acc_opencl_device_ext(cl_device_id device,
   const char *const extnames[], int num_exts);
 /** Internal flavor of acc_set_active_device; yields cl_device_id. */
 int acc_opencl_set_active_device(int device_id, cl_device_id* device);
-/** Get preferred multiple of the size of the workgroup (kernel-specific). */
-int acc_opencl_wgsize(cl_kernel kernel, int* preferred_multiple, int* max_value);
+/** Get preferred multiple and max. size of workgroup (kernel- or device-specific). */
+int acc_opencl_wgsize(cl_device_id device, cl_kernel kernel,
+  int* max_value, int* preferred_multiple);
 /** Build kernel function with given name from source using given build_options. */
 int acc_opencl_kernel(const char* source, const char* build_options,
   const char* kernel_name, cl_kernel* kernel);
