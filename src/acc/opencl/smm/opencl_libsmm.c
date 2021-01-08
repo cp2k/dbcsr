@@ -59,6 +59,7 @@ int opencl_libsmm_use_cmem(cl_device_id device)
     sizeof(cl_ulong), &size_maxcmem, NULL), "retrieve maximum size of constant buffer", result);
   return (EXIT_SUCCESS == result ? (size_maxalloc <= size_maxcmem ? EXIT_SUCCESS : EXIT_FAILURE) : result);
 #else
+  ACC_OPENCL_UNUSED(device);
   return EXIT_FAILURE;
 #endif
 }
@@ -353,6 +354,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
     typedef struct config_t {
       cl_kernel kernel;
       size_t wgsize;
+      int batchsize;
     } config_t;
     struct { int m, n, k; libsmm_acc_data_t type; } key;
     config_t *config;
@@ -394,35 +396,39 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
             default: ;
           }
           if (NULL != typename) {
-            int max_wgsize, bm, bn, nbm, nbn, wgsize;
+            int max_wgsize, wgsize, bs, bm, bn, nbm, nbn;
             result = acc_opencl_wgsize(active_device, NULL/*device-specific*/,
               &max_wgsize, NULL/*preferred_multiple*/);
             if (EXIT_SUCCESS == result) {
+              const char *const env_batchsize = getenv("OPENCL_LIBSMM_SMM_BATCHSIZE");
               const char *const env_blockm = getenv("OPENCL_LIBSMM_SMM_BLOCK_M");
               const char *const env_blockn = getenv("OPENCL_LIBSMM_SMM_BLOCK_N");
+              /* TODO: load parameters from file (auto-tuned) */
+              const int batchsize = ((NULL == env_batchsize || '\0' == *env_batchsize)
+                ? 1/*TODO*/ : atoi(env_batchsize));
               const int blockm = ((NULL == env_blockm || '\0' == *env_blockm)
                 ? 1/*TODO*/ : atoi(env_blockm));
               const int blockn = ((NULL == env_blockn || '\0' == *env_blockn)
                 ? n_max/*TODO*/ : atoi(env_blockn));
               bm = LIBXSMM_CLMP(blockm, 1, m_max);
               bn = LIBXSMM_CLMP(blockn, 1, n_max);
+              bs = LIBXSMM_MAX(batchsize, 1);
               nbm = (m_max + bm - 1) / bm;
               nbn = (n_max + bn - 1) / bn;
               wgsize = nbm * nbn;
-              assert(0 < wgsize && 0 < max_wgsize);
+              assert(1 <= bs && 0 < wgsize && 0 < max_wgsize);
+              /* limit WG-size to device's maximum WG-size */
               while (max_wgsize < wgsize && (bm < m_max || bn < n_max)) {
-                if (bn < n_max) ++bn; else if (bm < m_max) ++bm;
-                nbm = (m_max + bm - 1) / bm;
-                nbn = (n_max + bn - 1) / bn;
+                if (bn < n_max) {
+                  ++bn; nbn = (n_max + bn - 1) / bn;
+                }
+                else if (bm < m_max) {
+                  ++bm; nbm = (m_max + bm - 1) / bm;
+                }
                 wgsize = nbm * nbn;
               }
-              if (wgsize <= max_wgsize) {
+              if (wgsize <= max_wgsize) { /* SMMs can be potentially handled by device */
                 const char *const env_options = getenv("OPENCL_LIBSMM_SMM_BUILDOPTS");
-                const char *const build_setup =
-                  "%s -cl-fast-relaxed-math -cl-no-signed-zeros -cl-denorms-are-zero"
-                  " -DGLOBAL=%s -DFN=%s -DSM=%i -DSN=%i -DSK=%i -DBM=%i -DBN=%i -DBS=1"
-                  " -DT=%s -DTA=\"%s\" -DFMA=fma -DCMPXCHG=%s -DXCHG=%s"
-                  " -D\"ATOMIC_ADD_GLOBAL(A,B)=%s\"";
                 const char *const env_atomics = getenv("OPENCL_LIBSMM_SMM_ATOMICS");
                 const char *atomics = NULL;
                 if (NULL == env_atomics || '0' != *env_atomics) {
@@ -438,11 +444,15 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 else {
                   atomics = "*(A)+=(B)";
                 }
-                assert(0 < bm && 0 < bn && NULL != atomics);
-                nchar = ACC_OPENCL_SNPRINTF(build_options, sizeof(build_options), build_setup,
+                assert(1 <= bs && 0 < bm && 0 < bn && NULL != atomics);
+                nchar = ACC_OPENCL_SNPRINTF(build_options, sizeof(build_options),
+                  "%s -cl-fast-relaxed-math -cl-no-signed-zeros -cl-denorms-are-zero"
+                  " -DGLOBAL=%s -DFN=%s -DSM=%i -DSN=%i -DSK=%i -DBM=%i -DBN=%i -DBS=%i"
+                  " -DT=%s -DTA=\"%s\" -DFMA=fma -DCMPXCHG=%s -DXCHG=%s"
+                  " -D\"ATOMIC_ADD_GLOBAL(A,B)=%s\"",
                   (NULL == env_options || '\0' == *env_options) ? "" : env_options,
                   EXIT_SUCCESS != opencl_libsmm_use_cmem(active_device) ? "global" : "constant",
-                  fname, m_max, n_max, k_max, bm, bn, typename,
+                  fname, m_max, n_max, k_max, bm, bn, bs, typename,
                   atomic_type, atomic_cmpxchg, atomic_xchg, atomics);
                 if (0 >= nchar || (int)sizeof(build_options) <= nchar) result = EXIT_FAILURE;
               }
@@ -462,12 +472,11 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 result = acc_opencl_wgsize(active_device, new_config.kernel,
                   &max_wgsize, NULL/*preferred_multiple*/);
                 if (EXIT_SUCCESS == result) {
-                  nbm = (m_max + bm - 1) / bm;
-                  nbn = (n_max + bn - 1) / bn;
-                  wgsize = nbm * nbn;
                   assert(0 < wgsize && 0 < max_wgsize);
+                  /* check planned WG-size against kernel-specific WG-size */
                   if (wgsize <= max_wgsize) {
                     new_config.wgsize = (size_t)wgsize;
+                    new_config.batchsize = bs;
                     config = (config_t*)OPENCL_LIBSMM_REGISTER(&key, sizeof(key),
                       sizeof(new_config), &new_config);
                   }
@@ -489,9 +498,13 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
         result = EXIT_FAILURE;
       }
     }
-    assert((NULL != config && NULL != config->kernel && 0 < config->wgsize) || EXIT_SUCCESS != result);
+    assert(EXIT_SUCCESS != result || /* otherwise config must be valid */
+      (NULL != config && NULL != config->kernel
+        && 1 <= config->batchsize
+        && 0 < config->wgsize));
     if (EXIT_SUCCESS == result) {
-      const size_t work_size = config->wgsize * stack_size;
+      /* adjust overall stacksize according to intra-kernel batchsize */
+      const size_t work_size = ((stack_size + config->batchsize - 1) / config->batchsize) * config->wgsize;
 #if defined(OPENCL_LIBSMM_DEBUG_SMM)
       char *ainp = NULL, *binp = NULL, *cinp = NULL, *test = NULL, *gold = NULL, *btrn = NULL;
       const libxsmm_gemm_precision precision = (dbcsr_type_real_8 == datatype
@@ -537,14 +550,18 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
         const unsigned int hash = libxsmm_hash(&config->kernel, sizeof(cl_kernel), 25071975/*seed*/);
         volatile int *const lock = opencl_libsmm_lock_smm + LIBXSMM_MOD2(hash, OPENCL_LIBSMM_NLOCKS_SMM);
         LIBXSMM_ATOMIC_ACQUIRE(lock, LIBXSMM_SYNC_NPAUSE, LIBXSMM_ATOMIC_RELAXED);
-        ACC_OPENCL_CHECK(clSetKernelArg(config->kernel, 0, sizeof(cl_mem), ACC_OPENCL_MEM(dev_param_stack)),
-          "set batch-list argument of SMM-kernel", result);
+        ACC_OPENCL_CHECK(clSetKernelArg(config->kernel, 0, sizeof(cl_mem), ACC_OPENCL_MEM(dev_c_data)),
+          "set C-matrix argument of SMM-kernel", result);
         ACC_OPENCL_CHECK(clSetKernelArg(config->kernel, 1, sizeof(cl_mem), ACC_OPENCL_MEM(dev_a_data)),
           "set A-matrix argument of SMM-kernel", result);
         ACC_OPENCL_CHECK(clSetKernelArg(config->kernel, 2, sizeof(cl_mem), ACC_OPENCL_MEM(dev_b_data)),
           "set B-matrix argument of SMM-kernel", result);
-        ACC_OPENCL_CHECK(clSetKernelArg(config->kernel, 3, sizeof(cl_mem), ACC_OPENCL_MEM(dev_c_data)),
-          "set C-matrix argument of SMM-kernel", result);
+        ACC_OPENCL_CHECK(clSetKernelArg(config->kernel, 3, sizeof(cl_mem), ACC_OPENCL_MEM(dev_param_stack)),
+          "set batch-list argument of SMM-kernel", result);
+        if (1 < config->batchsize) {
+          ACC_OPENCL_CHECK(clSetKernelArg(config->kernel, 4, sizeof(int), &stack_size),
+            "set stacksize argument of SMM-kernel", result);
+        }
         ACC_OPENCL_CHECK(clEnqueueNDRangeKernel(*ACC_OPENCL_STREAM(stream),
           config->kernel, 1/*work_dim*/, NULL, &work_size, &config->wgsize, 0, NULL, NULL),
           "launch SMM-kernel", result);

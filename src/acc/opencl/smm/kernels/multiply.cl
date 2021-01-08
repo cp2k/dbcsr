@@ -7,6 +7,7 @@
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
 
+/* number of N-blocks */
 #define NBN ((SN + BN - 1) / BN)
 
 
@@ -34,91 +35,137 @@ inline void atomic_add_global_xchg(global volatile T* dst, T inc)
 }
 
 
-kernel void FN(GLOBAL const int *restrict param_stack,
+kernel void FN(global T *restrict cmat,
   GLOBAL const T *restrict amat, GLOBAL const T *restrict bmat,
-  global T *restrict cmat)
+#if (1 < BS)
+  GLOBAL const int *restrict param_stack, int stack_size)
+#else
+  GLOBAL const int *restrict param_stack)
+#endif
 {
   const int gid = get_group_id(0), idx = get_local_id(0);
-  GLOBAL const int *const restrict params = param_stack + gid * 3;
+  GLOBAL const int *const restrict params = param_stack + gid * (3 * BS);
   /* indexes given by param_stack are one-based */
-  const int ai = params[0] - 1, bi = params[1] - 1, ci = params[2] - 1;
-  global T *const restrict cwg = cmat + ci;
-  local T a[SM*SK];
+  int a0 = params[0] - 1, b0 = params[1] - 1, c0 = params[2] - 1;
+  global T *restrict cwg = cmat + c0;
 
+  local T a[SM*SK];
 #if (1 != BM) || (SN != BN)
-  const int im = idx / NBN;
-  const int m0 = im * BM, m1 = min(m0 + BM, SM);
-  const int n0 = (idx - im * NBN) * BN;
-  const int n1 = min(n0 + BN, SN);
   local T b[SK*SN];
 # if (1 < BS)
   T c[BM*BN] = { 0 };
 # endif
 #else
-  const int m0 = idx * BM, m1 = min(m0 + BM, SM);
-  const int n = idx;
   T b[SK];
 # if (1 < BS)
-  T c[SM] = { 0 }
+  T c[SM] = { 0 };
 # endif
 #endif
 
-  { /* transpose A-matrix into local buffer */
-    GLOBAL const T *const restrict awg = amat + ai;
-    for (int m = m0; m < m1; ++m) {
-      for (int k = 0; k < SK; ++k) a[SK*m+k] = awg[SM*k+m];
-    }
-  }
-
-  { /* copy B-matrix into local buffer */
-    GLOBAL const T *const restrict bwg = bmat + bi;
-    for (int k = 0; k < SK; ++k) {
+  /* intra-kernel mini-batch of SMMs */
+#if (1 < BS)
+  const int batchsize = min(BS, stack_size - BS * gid);
+  for (int i = 0; i < batchsize; ++i)
+#endif
+  {
 #if (1 != BM) || (SN != BN)
-      for (int n = n0; n < n1; ++n) b[SN*k+n] = bwg[SN*k+n];
+    const int im = idx / NBN;
+    const int m0 = im * BM, m1 = min(m0 + BM, SM);
+    const int n0 = (idx - im * NBN) * BN;
+    const int n1 = min(n0 + BN, SN);
 #else
-      b[k] = bwg[SN*k+n];
+    const int m0 = idx * BM, m1 = min(m0 + BM, SM);
+    const int n = idx;
 #endif
+#if (1 < BS)
+    int a1, b1, c1;
+    if (i < (batchsize - 1)) {
+      a1 = params[3*i+3] - 1;
+      b1 = params[3*i+4] - 1;
+      c1 = params[3*i+5] - 1;
     }
-  }
-
-  { /* calculate private result-tile */
-    barrier(CLK_LOCAL_MEM_FENCE);
-#if (1 != BM) || (SN != BN)
-    for (int m = m0; m < m1; ++m) for (int n = n0; n < n1; ++n) {
-# if (1 < BS)
-      T *const restrict r = c + BN * (m-m0) + n-n0;
-      for (int k = 0; k < SK; ++k) *r = FMA(a[SK*m+k], b[SN*k+n], *r);
-# else
-      T r = 0;
-      for (int k = 0; k < SK; ++k) r = FMA(a[SK*m+k], b[SN*k+n], r);
-      ATOMIC_ADD_GLOBAL(&cwg[SM*n+m], r);
-# endif
-    }
-#else
-    for (int m = 0; m < SM; ++m) {
-# if (1 < BS)
-      T *const restrict r = c + m;
-      for (int k = 0; k < SK; ++k) *r = FMA(a[SK*m+k], b[k], *r);
-# else
-      T r = 0;
-      for (int k = 0; k < SK; ++k) r = FMA(a[SK*m+k], b[k], r);
-      ATOMIC_ADD_GLOBAL(&cwg[SM*n+m], r);
-# endif
+    else {
+      a1 = b1 = c1 = -1;
     }
 #endif
-  }
 
 #if (1 < BS)
-  { /* copy private tile to global memory */
-# if (1 != BM) || (SN != BN)
-    for (int m = m0; m < m1; ++m) for (int n = n0; n < n1; ++n) {
-      ATOMIC_ADD_GLOBAL(&cwg[SM*n+m], c[BN*(m-m0)+n-n0]);
-    }
-# else
-    for (int m = 0; m < SM; ++m) {
-      ATOMIC_ADD_GLOBAL(&cwg[SM*n+m], c[m]);
-    }
-# endif
-  }
+    if (a0 != a1 || 0 == i)
 #endif
+    { /* transpose A-matrix into local buffer */
+      GLOBAL const T *const restrict awg = amat + a0;
+      for (int m = m0; m < m1; ++m) {
+        for (int k = 0; k < SK; ++k) a[SK*m+k] = awg[SM*k+m];
+      }
+#if (1 < BS)
+      /* next iteration */
+      a0 = a1;
+#endif
+    }
+
+#if (1 < BS)
+    if (b0 != b1 || 0 == i)
+#endif
+    { /* copy B-matrix into local buffer */
+      GLOBAL const T *const restrict bwg = bmat + b0;
+      for (int k = 0; k < SK; ++k) {
+#if (1 != BM) || (SN != BN)
+        for (int n = n0; n < n1; ++n) b[SN*k+n] = bwg[SN*k+n];
+#else
+        b[k] = bwg[SN*k+n];
+#endif
+      }
+#if (1 < BS)
+      /* next iteration */
+      b0 = b1;
+#endif
+    }
+
+    { /* calculate private result-tile */
+      barrier(CLK_LOCAL_MEM_FENCE);
+#if (1 != BM) || (SN != BN)
+      for (int m = m0; m < m1; ++m) for (int n = n0; n < n1; ++n) {
+# if (1 < BS)
+        T *const restrict r = c + BN * (m-m0) + n-n0;
+        for (int k = 0; k < SK; ++k) *r = FMA(a[SK*m+k], b[SN*k+n], *r);
+# else
+        T r = 0;
+        for (int k = 0; k < SK; ++k) r = FMA(a[SK*m+k], b[SN*k+n], r);
+        ATOMIC_ADD_GLOBAL(&cwg[SM*n+m], r);
+# endif
+      }
+#else
+      for (int m = 0; m < SM; ++m) {
+# if (1 < BS)
+        T *const restrict r = c + m;
+        for (int k = 0; k < SK; ++k) *r = FMA(a[SK*m+k], b[k], *r);
+# else
+        T r = 0;
+        for (int k = 0; k < SK; ++k) r = FMA(a[SK*m+k], b[k], r);
+        ATOMIC_ADD_GLOBAL(&cwg[SM*n+m], r);
+# endif
+      }
+#endif
+    }
+
+#if (1 < BS)
+    if (c0 != c1) { /* copy private tile to global memory */
+# if (1 != BM) || (SN != BN)
+      for (int m = m0; m < m1; ++m) for (int n = n0; n < n1; ++n) {
+        T *const restrict r = c + BN * (m-m0) + n-n0;
+        ATOMIC_ADD_GLOBAL(&cwg[SM*n+m], *r);
+        *r = 0; /* reset */
+      }
+# else
+      for (int m = 0; m < SM; ++m) {
+        ATOMIC_ADD_GLOBAL(&cwg[SM*n+m], c[m]);
+        c[m] = 0; /* reset */
+      }
+# endif
+      /* next iteration */
+      cwg = cmat + c1;
+      c0 = c1;
+    }
+#endif
+  }
 }
