@@ -16,38 +16,14 @@ MODULE dbcsr_string_utilities
 
    PRIVATE
 
-   PUBLIC :: ascii_to_string, &
-             compress, &
-             integer_to_string, &
-             is_whitespace, &
-             remove_word, &
-             str_comp, &
-             string_to_ascii, &
-             uppercase, &
-             xstring
+   PUBLIC :: compress, &
+             stringify, &
+             uppercase
 
+   INTERFACE stringify
+      MODULE PROCEDURE integer_to_string
+   END INTERFACE
 CONTAINS
-
-   SUBROUTINE ascii_to_string(nascii, string)
-      !! Convert a sequence of integer numbers (ASCII code) to a string.
-      !! Blanks are inserted for invalid ASCII code numbers.
-
-      INTEGER, DIMENSION(:), INTENT(IN)                  :: nascii
-      CHARACTER(LEN=*), INTENT(OUT)                      :: string
-
-      INTEGER                                            :: i
-
-      string = ""
-
-      DO i = 1, MIN(LEN(string), SIZE(nascii))
-         IF ((nascii(i) >= 0) .AND. (nascii(i) <= 127)) THEN
-            string(i:i) = CHAR(nascii(i))
-         ELSE
-            string(i:i) = " "
-         END IF
-      END DO
-
-   END SUBROUTINE ascii_to_string
 
    SUBROUTINE compress(string, full)
       !! Eliminate multiple space characters in a string.
@@ -88,52 +64,19 @@ CONTAINS
 
    END SUBROUTINE compress
 
-   SUBROUTINE integer_to_string(inumber, string)
+   FUNCTION integer_to_string(inumber) RESULT(string)
       !! Converts an integer number to a string.
       !! The WRITE statement will return an error message, if the number of
       !! digits of the integer number is larger the than the length of the
       !! supplied string.
 
       INTEGER, INTENT(IN)                                :: inumber
-      CHARACTER(LEN=*), INTENT(OUT)                      :: string
+      CHARACTER(:), ALLOCATABLE                          :: string
+      CHARACTER(RANGE(inumber) + 2)                      :: tmp
 
-      WRITE (UNIT=string, FMT='(I0)') inumber
-   END SUBROUTINE integer_to_string
-
-   SUBROUTINE string_to_ascii(string, nascii)
-      !! Convert a string to sequence of integer numbers.
-
-      CHARACTER(LEN=*), INTENT(IN)                       :: string
-      INTEGER, DIMENSION(:), INTENT(OUT)                 :: nascii
-
-      INTEGER                                            :: i
-
-      nascii(:) = 0
-
-      DO i = 1, MIN(LEN(string), SIZE(nascii))
-         nascii(i) = ICHAR(string(i:i))
-      END DO
-
-   END SUBROUTINE string_to_ascii
-
-   SUBROUTINE remove_word(string)
-      !! remove a word from a string (words are separated by white spaces)
-      CHARACTER(LEN=*), INTENT(INOUT)                    :: string
-
-      INTEGER                                            :: i
-
-      i = 1
-      ! possibly clean white spaces
-      DO WHILE (string(i:i) == " ")
-         i = i + 1
-      END DO
-      ! now remove the word
-      DO WHILE (string(i:i) /= " ")
-         i = i + 1
-      END DO
-      string = string(i:)
-
-   END SUBROUTINE remove_word
+      WRITE (UNIT=tmp, FMT='(I0)') inumber
+      string = TRIM(tmp)
+   END FUNCTION integer_to_string
 
    SUBROUTINE uppercase(string)
       !! Convert all lower case characters in a string to upper case.
@@ -149,45 +92,4 @@ CONTAINS
       END DO
 
    END SUBROUTINE uppercase
-
-   SUBROUTINE xstring(string, ia, ib)
-
-      CHARACTER(LEN=*), INTENT(IN)                       :: string
-      INTEGER, INTENT(OUT)                               :: ia, ib
-
-      ia = 1
-      ib = LEN_TRIM(string)
-      IF (ib > 0) THEN
-         DO WHILE (string(ia:ia) == ' ')
-            ia = ia + 1
-         END DO
-      END IF
-
-   END SUBROUTINE xstring
-
-   FUNCTION str_comp(str1, str2) RESULT(equal)
-
-      CHARACTER(LEN=*), INTENT(IN)                       :: str1, str2
-      LOGICAL                                            :: equal
-
-      INTEGER                                            :: i1, i2, j1, j2
-
-      i1 = 0
-      i2 = 0
-      j1 = 0
-      j2 = 0
-      CALL xstring(str1, i1, i2)
-      CALL xstring(str2, j1, j2)
-      equal = (str1(i1:i2) == str2(j1:j2))
-   END FUNCTION str_comp
-
-   FUNCTION is_whitespace(testchar) RESULT(resval)
-      !! returns .true. if the character passed is a whitespace char.
-      CHARACTER(LEN=1), INTENT(IN)                       :: testchar
-      LOGICAL                                            :: resval
-
-      resval = .FALSE.
-      IF (ANY(default_blank_character == testchar)) resval = .TRUE.
-   END FUNCTION is_whitespace
-
 END MODULE dbcsr_string_utilities
