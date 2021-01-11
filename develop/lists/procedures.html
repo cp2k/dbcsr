@@ -406,9 +406,6 @@ All Procedures &ndash; DBCSR
 			 
 			   <tr><td><a href='../proc/array_sublist.html'>array_sublist</a></td><td><a href='../module/dbcsr_array_list_methods.html'>dbcsr_array_list_methods</a></td><td>Function</td><td><p>extract a subset of arrays</p></td></tr>
 			 
-			   <tr><td><a href='../proc/ascii_to_string.html'>ascii_to_string</a></td><td><a href='../module/dbcsr_string_utilities.html'>dbcsr_string_utilities</a></td><td>Subroutine</td><td><p>Convert a sequence of integer numbers (ASCII code) to a string.
- Blanks are inserted for invalid ASCII code numbers.</p></td></tr>
-			 
 			   <tr><td><a href='../proc/assign_preconnection.html'>assign_preconnection</a></td><td><a href='../module/dbcsr_files.html'>dbcsr_files</a></td><td>Subroutine</td><td><p>Add an entry to the list of preconnected units</p></td></tr>
 			 
 			   <tr><td><a href='../proc/atoi.html'>atoi</a></td><td><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></td><td>Function</td><td></td></tr>
@@ -3660,7 +3657,7 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/index_unique.html'>index_unique</a></td><td><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></td><td>Subroutine</td><td><p>Get all unique elements in index_in</p></td></tr>
 			 
-			   <tr><td><a href='../proc/integer_to_string.html'>integer_to_string</a></td><td><a href='../module/dbcsr_string_utilities.html'>dbcsr_string_utilities</a></td><td>Subroutine</td><td><p>Converts an integer number to a string.
+			   <tr><td><a href='../proc/integer_to_string.html'>integer_to_string</a></td><td><a href='../module/dbcsr_string_utilities.html'>dbcsr_string_utilities</a></td><td>Function</td><td><p>Converts an integer number to a string.
  The WRITE statement will return an error message, if the number of
  digits of the integer number is larger the than the length of the
  supplied string.</p></td></tr>
@@ -3688,8 +3685,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			   <tr><td><a href='../proc/invert_transpose_flag.html'>invert_transpose_flag</a></td><td><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></td><td>Subroutine</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/invert_transpose_flag~2.html'>invert_transpose_flag</a></td><td><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></td><td>Subroutine</td><td></td></tr>
-			 
-			   <tr><td><a href='../proc/is_whitespace.html'>is_whitespace</a></td><td><a href='../module/dbcsr_string_utilities.html'>dbcsr_string_utilities</a></td><td>Function</td><td><p>returns .true. if the character passed is a whitespace char.</p></td></tr>
 			 
 			   <tr><td><a href='../proc/iswap.html'>iswap</a></td><td><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></td><td>Subroutine</td><td><p>Swaps two integers</p></td></tr>
 			 
@@ -5627,8 +5622,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/remap_local2global.html'>remap_local2global</a></td><td><a href='../module/dbcsr_mm_multrec.html'>dbcsr_mm_multrec</a></td><td>Subroutine</td><td><p>Packs a globally-indexed array into a locally-indexed array.</p></td></tr>
 			 
-			   <tr><td><a href='../proc/remove_word.html'>remove_word</a></td><td><a href='../module/dbcsr_string_utilities.html'>dbcsr_string_utilities</a></td><td>Subroutine</td><td><p>remove a word from a string (words are separated by white spaces)</p></td></tr>
-			 
 			   <tr><td><a href='../proc/reorder_arrays.html'>reorder_arrays</a></td><td><a href='../module/dbcsr_array_list_methods.html'>dbcsr_array_list_methods</a></td><td>Subroutine</td><td><p>reorder array list.</p></td></tr>
 			 
 			   <tr><td><a href='../proc/repl_dist.html'>repl_dist</a></td><td><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></td><td>Function</td><td></td></tr>
@@ -5756,11 +5749,9 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/stats_print_report.html'>stats_print_report</a></td><td><a href='../module/dbcsr_mm_sched.html'>dbcsr_mm_sched</a></td><td>Subroutine</td><td><p>Prints collected statistics</p></td></tr>
 			 
-			   <tr><td><a href='../proc/str_comp.html'>str_comp</a></td><td><a href='../module/dbcsr_string_utilities.html'>dbcsr_string_utilities</a></td><td>Function</td><td></td></tr>
-			 
 			   <tr><td><a href='../proc/stream_array_force_size.html'>stream_array_force_size</a></td><td><a href='../module/dbcsr_mm_accdrv.html'>dbcsr_mm_accdrv</a></td><td>Subroutine</td><td><p>Helper routine</p></td></tr>
 			 
-			   <tr><td><a href='../proc/string_to_ascii.html'>string_to_ascii</a></td><td><a href='../module/dbcsr_string_utilities.html'>dbcsr_string_utilities</a></td><td>Subroutine</td><td><p>Convert a string to sequence of integer numbers.</p></td></tr>
+			   <tr><td><a href='../interface/stringify.html'>stringify</a></td><td><a href='../module/dbcsr_string_utilities.html'>dbcsr_string_utilities</a></td><td>Interface</td><td></td></tr>
 			 
 			   <tr><td><a href='../proc/sum_of_arrays.html'>sum_of_arrays</a></td><td><a href='../module/dbcsr_array_list_methods.html'>dbcsr_array_list_methods</a></td><td>Function</td><td><p>sum of all elements for each array stored in list</p></td></tr>
 			 
@@ -5853,8 +5844,6 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
 			 
 			   <tr><td><a href='../proc/write_matrix_dense.html'>write_matrix_dense</a></td><td><a href='../module/dbcsr_test_scale_by_vector.html'>dbcsr_test_scale_by_vector</a></td><td>Subroutine</td><td></td></tr>
 			 
-			   <tr><td><a href='../proc/xstring.html'>xstring</a></td><td><a href='../module/dbcsr_string_utilities.html'>dbcsr_string_utilities</a></td><td>Subroutine</td><td></td></tr>
-			 
 			 </tbody></table>
              
         </div>
@@ -5865,7 +5854,7 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p></td>
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2021 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">

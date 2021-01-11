@@ -542,7 +542,10 @@ public subroutine dbcsr_iterator_start(iterator, matrix, shared, dynamic, dynami
       <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">iterator</span><span class="p">%</span><span class="n">dynamic</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_distribution_has_threads</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span> <span class="p">&amp;</span>
          <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Thread distribution must be defined for non-dynamic iterator.&quot;</span><span class="p">)</span>
 <span class="c">!$    IF (omp_in_parallel() .AND. omp_get_num_threads() /= dbcsr_distribution_num_threads(dist)) &amp;</span>
-<span class="c">!$       DBCSR_ABORT(&quot;Number of threads has changed!&quot;)</span>
+<span class="c">!$       CALL dbcsr_abort(__LOCATION__, &amp;</span>
+<span class="c">!$                        &quot;Number of threads has changed from &quot;// &amp;</span>
+<span class="c">!$                        stringify(dbcsr_distribution_num_threads(dist))// &amp;</span>
+<span class="c">!$                        &quot; to &quot;//stringify(omp_get_num_threads())//&quot;!&quot;)</span>
       <span class="c">!Synchronize the positions</span>
       <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">common_pos</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">dynamic</span><span class="p">)</span> <span class="k">THEN</span>
@@ -642,7 +645,7 @@ public subroutine dbcsr_iterator_start(iterator, matrix, shared, dynamic, dynami
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2020 
+        <div class="col-xs-6 col-md-4"><p>&copy; 2021 
                                           </p></div>
         <div class="col-xs-6 col-md-4 col-md-push-4">
           <p class="text-right">

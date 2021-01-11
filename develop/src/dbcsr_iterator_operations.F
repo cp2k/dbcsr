@@ -21,6 +21,7 @@ MODULE dbcsr_iterator_operations
                                  dbcsr_distribution_thread_dist
    USE dbcsr_methods, ONLY: dbcsr_distribution
    USE dbcsr_ptr_util, ONLY: pointer_rank_remap2
+   USE dbcsr_string_utilities, ONLY: stringify
    USE dbcsr_toollib, ONLY: swap
    USE dbcsr_types, ONLY: dbcsr_data_obj, &
                           dbcsr_distribution_obj, &
@@ -177,7 +178,10 @@ CONTAINS
       IF (.NOT. iterator%dynamic .AND. .NOT. dbcsr_distribution_has_threads(dist)) &
          DBCSR_ABORT("Thread distribution must be defined for non-dynamic iterator.")
 !$    IF (omp_in_parallel() .AND. omp_get_num_threads() /= dbcsr_distribution_num_threads(dist)) &
-!$       DBCSR_ABORT("Number of threads has changed!")
+!$       CALL dbcsr_abort(__LOCATION__, &
+!$                        "Number of threads has changed from "// &
+!$                        stringify(dbcsr_distribution_num_threads(dist))// &
+!$                        " to "//stringify(omp_get_num_threads())//"!")
       !Synchronize the positions
       NULLIFY (iterator%common_pos)
       IF (iterator%dynamic) THEN
@@ -721,8 +725,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp"
 
 # 45 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp"
-# 718 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F" 2
-# 719 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
+# 722 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F" 2
+# 723 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
    SUBROUTINE iterator_next_1d_block_d (iterator, row, column, block, &
                                                     transposed, block_number, row_size, col_size, row_offset, col_offset)
      !! Gets the next data block, single/double precision real/complex
@@ -842,7 +846,7 @@ CONTAINS
       ENDIF
       IF (careful_mod) CALL timestop(error_handle)
    END SUBROUTINE iterator_next_2d_block_d
-# 719 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
+# 723 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
    SUBROUTINE iterator_next_1d_block_s (iterator, row, column, block, &
                                                     transposed, block_number, row_size, col_size, row_offset, col_offset)
      !! Gets the next data block, single/double precision real/complex
@@ -962,7 +966,7 @@ CONTAINS
       ENDIF
       IF (careful_mod) CALL timestop(error_handle)
    END SUBROUTINE iterator_next_2d_block_s
-# 719 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
+# 723 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
    SUBROUTINE iterator_next_1d_block_z (iterator, row, column, block, &
                                                     transposed, block_number, row_size, col_size, row_offset, col_offset)
      !! Gets the next data block, single/double precision real/complex
@@ -1082,7 +1086,7 @@ CONTAINS
       ENDIF
       IF (careful_mod) CALL timestop(error_handle)
    END SUBROUTINE iterator_next_2d_block_z
-# 719 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
+# 723 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
    SUBROUTINE iterator_next_1d_block_c (iterator, row, column, block, &
                                                     transposed, block_number, row_size, col_size, row_offset, col_offset)
      !! Gets the next data block, single/double precision real/complex
@@ -1202,6 +1206,6 @@ CONTAINS
       ENDIF
       IF (careful_mod) CALL timestop(error_handle)
    END SUBROUTINE iterator_next_2d_block_c
-# 839 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
+# 843 "/__w/dbcsr/dbcsr/src/block/dbcsr_iterator_operations.F"
 
 END MODULE dbcsr_iterator_operations
