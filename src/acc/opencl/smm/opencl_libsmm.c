@@ -427,6 +427,9 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 }
                 wgsize = nbm * nbn;
               }
+              if (1 == bm && n_max == bn && wgsize < n_max) {
+                wgsize = n_max;
+              }
               if (wgsize <= max_wgsize) { /* SMMs can be potentially handled by device */
                 const char *const env_options = getenv("OPENCL_LIBSMM_SMM_BUILDOPTS");
                 const char *const env_atomics = getenv("OPENCL_LIBSMM_SMM_ATOMICS");
