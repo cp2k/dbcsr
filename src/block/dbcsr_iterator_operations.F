@@ -20,6 +20,7 @@ MODULE dbcsr_iterator_operations
                                  dbcsr_distribution_thread_dist
    USE dbcsr_methods, ONLY: dbcsr_distribution
    USE dbcsr_ptr_util, ONLY: pointer_rank_remap2
+   USE dbcsr_string_utilities, ONLY: stringify
    USE dbcsr_toollib, ONLY: swap
    USE dbcsr_types, ONLY: dbcsr_data_obj, &
                           dbcsr_distribution_obj, &
@@ -176,7 +177,10 @@ CONTAINS
       IF (.NOT. iterator%dynamic .AND. .NOT. dbcsr_distribution_has_threads(dist)) &
          DBCSR_ABORT("Thread distribution must be defined for non-dynamic iterator.")
 !$    IF (omp_in_parallel() .AND. omp_get_num_threads() /= dbcsr_distribution_num_threads(dist)) &
-!$       DBCSR_ABORT("Number of threads has changed!")
+!$       CALL dbcsr_abort(__LOCATION__, &
+!$                        "Number of threads has changed from "// &
+!$                        stringify(dbcsr_distribution_num_threads(dist))// &
+!$                        " to "//stringify(omp_get_num_threads())//"!")
       !Synchronize the positions
       NULLIFY (iterator%common_pos)
       IF (iterator%dynamic) THEN
