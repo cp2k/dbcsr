@@ -283,20 +283,7 @@ if (USE_ACCEL MATCHES "hip")
                   "Please choose from: ${SUPPORTED_HIP_ARCHITECTURES}")
   endif ()
 
-  # Set path to HIP installation, include HIP cmake utilities
-  if (NOT DEFINED HIP_PATH)
-    if (NOT DEFINED ENV{HIP_PATH})
-      set(HIP_PATH
-          "/opt/rocm/hip"
-          CACHE PATH "Path to HIP installation")
-    else ()
-      set(HIP_PATH
-          $ENV{HIP_PATH}
-          CACHE PATH "Path to HIP installation")
-    endif ()
-  endif ()
-  set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${HIP_PATH}/cmake")
-
+  # ROCm is typically installed in /opt/rocm, so provide that prefix as a
   if (NOT DEFINED ROCM_PATH)
     if (NOT DEFINED ENV{ROCM_PATH})
       set(ROCM_PATH
@@ -310,30 +297,19 @@ if (USE_ACCEL MATCHES "hip")
   endif ()
 
   # Find HIP package
-  find_package(HIP)
-  if (HIP_FOUND)
-    message(STATUS "Found HIP: " ${HIP_VERSION})
-  else ()
-    message(
-      FATAL_ERROR
-        "Could not find HIP. Ensure that HIP is either installed in /opt/rocm/hip or the variable HIP_PATH is set to point to the right location."
-    )
-  endif ()
+  find_package(HIP MODULE REQUIRED)
+  message(STATUS "Found HIP: " ${HIP_VERSION})
+  message(STATUS "HIP platform: " ${HIP_PLATFORM})
 
-  # Find hiprtc library (adds support for JIT-ing in HIP)
-  find_library(ROCM_HIPRTC_LIB amdhip64 HINTS ${HIP_PATH}/lib)
-  if (NOT ROCM_HIPRTC_LIB)
-    message(
-      FATAL_ERROR "HIPRTC (HIP library for just-in-time compilation) not found")
-  endif ()
-  set(ENV{HIP_PATH} /opt/rocm/hip) # workaround bug in hiprtc.cpp
+  # We want to use clang's OpenMP
+  add_library(HIP_OpenMP INTERFACE)
+  target_compile_options(HIP_OpenMP INTERFACE "-fopenmp")
 
-  # Set platform to compile for (NVIDIA-nvcc or ROCm-hcc) as well as
-  # corresponding architecture and flags adapted from:
-  # https://github.com/ROCmSoftwarePlatform/hipDNN/blob/master/CMakeLists.txt
-  execute_process(COMMAND ${HIP_PATH}/bin/hipconfig -P
-                  OUTPUT_VARIABLE HIP_PLATFORM)
-  message(STATUS "Compiling for platform: " ${HIP_PLATFORM})
+  # hip::amdhip64 target (adds support for JIT-ing in HIP)
+  find_package(hip REQUIRED HINTS ${ROCM_PATH})
+
+  # todo:
+  # set(ENV{HIP_PATH} /opt/rocm/hip) # workaround bug in hiprtc.cpp
 
   # set appropriate compilation flags depending on platform
   set(ACC_ARCH_NUMBER ${GPU_ARCH_NUMBER_${WITH_GPU}})
@@ -348,21 +324,9 @@ if (USE_ACCEL MATCHES "hip")
   message(STATUS "GPU target architecture: " ${WITH_GPU})
   message(STATUS "GPU architecture number: " ${ACC_ARCH_NUMBER})
   message(STATUS "HIPCC flags: " ${HIP_HIPCC_FLAGS})
-  if (USE_OPENMP)
-    set(HIP_OpenMP_FLAGS "-L${ROCM_PATH}/llvm/lib -lomp")
-    message(STATUS "HIP OpenMP linking flags: ${HIP_OpenMP_FLAGS}")
-  endif ()
 
   # =================================== BLAS on GPU backend
-  find_library(HIPBLAS hipblas HINTS ${HIP_PATH}/../lib) # /opt/rocm/lib
-  if (NOT HIPBLAS)
-    message(
-      FATAL_ERROR
-        "hipBLAS library not found but support required for DBCSR's HIP backend"
-    )
-  else ()
-    message(STATUS "Found hipBLAS: ${HIPBLAS}")
-  endif ()
+  find_package(hipblas REQUIRED HINTS ${ROCM_PATH})
 endif ()
 
 # =================================================================================================

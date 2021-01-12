@@ -323,7 +323,7 @@ if (USE_ACCEL MATCHES "hip")
   # add libsmm_acc which has its own CMakeLists.txt due to code generation
   add_subdirectory(acc/libsmm_acc)
   target_link_libraries(dbcsr PUBLIC libsmm_acc)
-  target_link_libraries(dbcsr PUBLIC ${ROCM_HIPRTC_LIB})
+  target_link_libraries(dbcsr PUBLIC hip::amdhip64)
 
   # Complete list of GPU-support sources
   set(DBCSR_ACC_SRCS ${DBCSR_HIP_SRCS})
@@ -332,11 +332,10 @@ if (USE_ACCEL MATCHES "hip")
   set_source_files_properties(${DBCSR_ACC_SRCS}
                               PROPERTIES HIP_SOURCE_PROPERTY_FORMAT 1)
   hip_add_library(acc STATIC ${DBCSR_ACC_SRCS})
-  target_include_directories(acc PRIVATE ${HIP_PATH}/../include)
   target_compile_definitions(acc PRIVATE ARCH_NUMBER=${ACC_ARCH_NUMBER})
   target_compile_definitions(acc PRIVATE __HIP)
   target_compile_options(acc PRIVATE "-fPIC")
-  target_link_libraries(acc PUBLIC ${HIPBLAS})
+  target_link_libraries(acc PUBLIC roc::hipblas)
   target_link_libraries(dbcsr PUBLIC acc)
   install(
     TARGETS acc

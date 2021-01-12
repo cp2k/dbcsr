@@ -53,12 +53,12 @@ elseif (USE_ACCEL MATCHES "hip")
   hip_add_library(libsmm_acc STATIC ${LIBSMM_ACC_FILES})
   target_include_directories(libsmm_acc PRIVATE ${HIP_PATH}/../include)
   target_link_libraries(libsmm_acc INTERFACE "stdc++")
-  target_link_libraries(libsmm_acc PUBLIC ${HIPBLAS})
+  target_link_libraries(libsmm_acc PUBLIC roc::hipblas)
   if (USE_OPENMP)
     # since HIP is based on clang, not GCC, doing:
     # target_link_libraries(libsmm_acc PUBLIC OpenMP::OpenMP_CXX) does not work
     # - it links to GNU's OpenMP (libgomp.so) and not clang's libomp.so
-    target_link_libraries(libsmm_acc PUBLIC ${HIP_OpenMP_FLAGS})
+    target_link_libraries(libsmm_acc PUBLIC HIP_OpenMP)
   endif ()
 
   # libsmm_acc calls timing functions - since we're compiling libsmm_acc as a
