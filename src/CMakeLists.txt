@@ -199,7 +199,7 @@ endif ()
 # =================================================================================================
 # Link OpenMP runtime library even if DBCSR main code is not built with OpenMP
 
-if (OpenMP_FOUND)
+if (USE_OPENMP)
   target_link_libraries(dbcsr PRIVATE OpenMP::OpenMP_Fortran)
 endif ()
 
@@ -316,10 +316,6 @@ endif ()
 # DBCSR LIBRARY's HIP BACKEND
 
 if (USE_ACCEL MATCHES "hip")
-  if (USE_OPENMP)
-    set(HIP_HIPCC_FLAGS "${HIP_HIPCC_FLAGS} ${OpenMP_CXX_FLAGS}")
-  endif ()
-
   # add libsmm_acc which has its own CMakeLists.txt due to code generation
   add_subdirectory(acc/libsmm_acc)
   target_link_libraries(dbcsr PUBLIC libsmm_acc)
@@ -334,7 +330,7 @@ if (USE_ACCEL MATCHES "hip")
   hip_add_library(acc STATIC ${DBCSR_ACC_SRCS})
   target_compile_definitions(acc PRIVATE ARCH_NUMBER=${ACC_ARCH_NUMBER})
   target_compile_definitions(acc PRIVATE __HIP)
-  target_compile_options(acc PRIVATE "-fPIC")
+  set_property(TARGET acc PROPERTY POSITION_INDEPENDENT_CODE ON)
   target_link_libraries(acc PUBLIC roc::hipblas)
   target_link_libraries(dbcsr PUBLIC acc)
   install(

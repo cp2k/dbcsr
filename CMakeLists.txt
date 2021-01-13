@@ -301,10 +301,6 @@ if (USE_ACCEL MATCHES "hip")
   message(STATUS "Found HIP: " ${HIP_VERSION})
   message(STATUS "HIP platform: " ${HIP_PLATFORM})
 
-  # We want to use clang's OpenMP
-  add_library(HIP_OpenMP INTERFACE)
-  target_compile_options(HIP_OpenMP INTERFACE "-fopenmp")
-
   # hip::amdhip64 target (adds support for JIT-ing in HIP)
   find_package(hip REQUIRED HINTS ${ROCM_PATH})
 

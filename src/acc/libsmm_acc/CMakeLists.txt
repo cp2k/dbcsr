@@ -48,18 +48,17 @@ elseif (USE_ACCEL MATCHES "hip")
 
   set_source_files_properties(${LIBSMM_ACC_SRC_FILES}
                               PROPERTIES HIP_SOURCE_PROPERTY_FORMAT 1)
-  # hip_add_library does not support OBJECT libraries. For this reason, we are
-  # forced to use a static library
-  hip_add_library(libsmm_acc STATIC ${LIBSMM_ACC_FILES})
-  target_include_directories(libsmm_acc PRIVATE ${HIP_PATH}/../include)
+
+  set(HIP_HCC_FLAGS ${HIP_HCC_FLAGS} -fno-gpu-rdc)
+  hip_add_library(libsmm_acc SHARED ${LIBSMM_ACC_FILES})
   target_link_libraries(libsmm_acc INTERFACE "stdc++")
   target_link_libraries(libsmm_acc PUBLIC roc::hipblas)
+
   if (USE_OPENMP)
-    # since HIP is based on clang, not GCC, doing:
-    # target_link_libraries(libsmm_acc PUBLIC OpenMP::OpenMP_CXX) does not work
-    # - it links to GNU's OpenMP (libgomp.so) and not clang's libomp.so
-    target_link_libraries(libsmm_acc PUBLIC HIP_OpenMP)
-  endif ()
+    target_link_libraries(libsmm_acc PUBLIC OpenMP::OpenMP_CXX)
+  endif()
+
+  set_property(TARGET libsmm_acc PROPERTY POSITION_INDEPENDENT_CODE ON)
 
   # libsmm_acc calls timing functions - since we're compiling libsmm_acc as a
   # static library, we have to link
@@ -67,8 +66,9 @@ elseif (USE_ACCEL MATCHES "hip")
   target_include_directories(dbcsr_timings PRIVATE "${CMAKE_SOURCE_DIR}/src")
   target_compile_definitions(dbcsr_timings PRIVATE __DBCSR_ACC)
   target_sources(libsmm_acc PRIVATE $<TARGET_OBJECTS:dbcsr_timings>)
+  set_target_properties(dbcsr_timings PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
-  # Workaround issue in hip_add_library: explicitely write dependency between
+  # Workaround issue in hip_add_library: explicitly write dependency between
   # the generation of header files and the compilation of the libsmm_acc files
   add_custom_target(generate_smm_acc_kernels_h DEPENDS smm_acc_kernels.h)
   add_dependencies(libsmm_acc generate_smm_acc_kernels_h)
@@ -82,15 +82,6 @@ elseif (USE_ACCEL MATCHES "hip")
     ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
   target_compile_definitions(libsmm_acc PRIVATE __HIP)
   target_compile_definitions(libsmm_acc PRIVATE ARCH_NUMBER=${ACC_ARCH_NUMBER})
-
-endif ()
-
-if (OpenMP_FOUND)
-  # with CMake 3.12+ the following can be replaced by:
-  # target_link_libraries(libcusmm PRIVATE OpenMP::OpenMP_CXX)
-  target_compile_options(
-    libsmm_acc
-    PRIVATE $<TARGET_PROPERTY:OpenMP::OpenMP_CXX,INTERFACE_COMPILE_OPTIONS>)
 endif ()
 
 target_include_directories(libsmm_acc PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
