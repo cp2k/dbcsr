@@ -103,6 +103,7 @@ jobs:
           -DUSE_${{ matrix.use_openmp }} \
           -DUSE_ACCEL=hip \
           -DWITH_GPU=Mi50 \
+          -DCMAKE_PREFIX_PATH=/opt/rocm \
           ..
     - name: Build
       run: cmake --build build -- --verbose
