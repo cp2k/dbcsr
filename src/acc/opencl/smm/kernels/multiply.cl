@@ -164,6 +164,7 @@ kernel void FN(global T *restrict cmat,
       cwg = cmat + c1;
       c0 = c1;
     }
+    barrier(CLK_LOCAL_MEM_FENCE);
 #endif
   }
 }
