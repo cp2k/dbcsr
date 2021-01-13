@@ -296,9 +296,23 @@ if (USE_ACCEL MATCHES "hip")
     endif ()
   endif ()
 
-  # Find HIP package
+  # Find HIP module. Temporarily add HIP_PATH to the CMAKE_MODULE_PATH to find
+  # the module. Note that a module search mode does not consider CMAKE_PREFIX_PATH
+  if (NOT DEFINED HIP_PATH)
+    if (NOT DEFINED ENV{HIP_PATH})
+      set(HIP_PATH
+          "/opt/rocm/hip"
+          CACHE PATH "Path to HIP installation")
+    else ()
+      set(HIP_PATH
+          $ENV{HIP_PATH}
+          CACHE PATH "Path to HIP installation")
+    endif ()
+  endif ()
+  set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${HIP_PATH}/cmake")
   find_package(HIP MODULE REQUIRED)
-  message(STATUS "Found HIP: " ${HIP_VERSION})
+  list(REMOVE_ITEM CMAKE_MODULE_PATH "${HIP_PATH}/cmake")
+
   message(STATUS "HIP platform: " ${HIP_PLATFORM})
 
   # hip::amdhip64 target (adds support for JIT-ing in HIP)
