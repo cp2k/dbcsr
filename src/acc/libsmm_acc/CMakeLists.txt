@@ -56,7 +56,7 @@ elseif (USE_ACCEL MATCHES "hip")
 
   if (USE_OPENMP)
     target_link_libraries(libsmm_acc PUBLIC OpenMP::OpenMP_CXX)
-  endif()
+  endif ()
 
   set_property(TARGET libsmm_acc PROPERTY POSITION_INDEPENDENT_CODE ON)
 
@@ -68,8 +68,8 @@ elseif (USE_ACCEL MATCHES "hip")
   target_sources(libsmm_acc PRIVATE $<TARGET_OBJECTS:dbcsr_timings>)
   set_target_properties(dbcsr_timings PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
-  # Workaround issue in hip_add_library: explicitly write dependency between
-  # the generation of header files and the compilation of the libsmm_acc files
+  # Workaround issue in hip_add_library: explicitly write dependency between the
+  # generation of header files and the compilation of the libsmm_acc files
   add_custom_target(generate_smm_acc_kernels_h DEPENDS smm_acc_kernels.h)
   add_dependencies(libsmm_acc generate_smm_acc_kernels_h)
   add_custom_target(generate_parameters_h DEPENDS parameters.h)

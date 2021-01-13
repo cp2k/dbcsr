@@ -297,7 +297,8 @@ if (USE_ACCEL MATCHES "hip")
   endif ()
 
   # Find HIP module. Temporarily add HIP_PATH to the CMAKE_MODULE_PATH to find
-  # the module. Note that a module search mode does not consider CMAKE_PREFIX_PATH
+  # the module. Note that a module search mode does not consider
+  # CMAKE_PREFIX_PATH
   if (NOT DEFINED HIP_PATH)
     if (NOT DEFINED ENV{HIP_PATH})
       set(HIP_PATH
@@ -318,8 +319,7 @@ if (USE_ACCEL MATCHES "hip")
   # hip::amdhip64 target (adds support for JIT-ing in HIP)
   find_package(hip CONFIG REQUIRED HINTS ${ROCM_PATH})
 
-  # todo:
-  # set(ENV{HIP_PATH} /opt/rocm/hip) # workaround bug in hiprtc.cpp
+  # todo: set(ENV{HIP_PATH} /opt/rocm/hip) # workaround bug in hiprtc.cpp
 
   # set appropriate compilation flags depending on platform
   set(ACC_ARCH_NUMBER ${GPU_ARCH_NUMBER_${WITH_GPU}})
