@@ -66,7 +66,7 @@ int opencl_libsmm_use_cmem(cl_device_id device)
 
 
 #if defined(OPENCL_LIBSMM_DEBUG) && defined(_DEBUG)
-static void opencl_libsmm_print_matrix(FILE* ostream, const char* label, libsmm_acc_data_t type, const void* mat, int m, int n)
+void opencl_libsmm_print_matrix(FILE* ostream, const char* label, libsmm_acc_data_t type, const void* mat, int m, int n)
 {
   int i, j;
   const char *const s = (NULL != label ? label : "");
@@ -407,9 +407,9 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               const int batchsize = ((NULL == env_batchsize || '\0' == *env_batchsize)
                 ? 1/*TODO*/ : atoi(env_batchsize));
               const int blockm = ((NULL == env_blockm || '\0' == *env_blockm)
-                ? 1/*TODO*/ : atoi(env_blockm));
+                ? m_max/*TODO*/ : atoi(env_blockm));
               const int blockn = ((NULL == env_blockn || '\0' == *env_blockn)
-                ? n_max/*TODO*/ : atoi(env_blockn));
+                ? 1/*TODO*/ : atoi(env_blockn));
               bm = LIBXSMM_CLMP(blockm, 1, m_max);
               bn = LIBXSMM_CLMP(blockn, 1, n_max);
               bs = LIBXSMM_MAX(batchsize, 1);
@@ -426,9 +426,6 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                   ++bm; nbm = (m_max + bm - 1) / bm;
                 }
                 wgsize = nbm * nbn;
-              }
-              if (1 == bm && n_max == bn && wgsize < n_max) {
-                wgsize = n_max;
               }
               if (wgsize <= max_wgsize) { /* SMMs can be potentially handled by device */
                 const char *const env_options = getenv("OPENCL_LIBSMM_SMM_BUILDOPTS");
@@ -601,7 +598,12 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
           libxsmm_matdiff(&diff, (libxsmm_datatype)precision, m_max, n_max,
             gold + ic, test + ic, &m_max/*ldref*/, &m_max/*ldtst*/);
           if (tolerance < diff.normf_rel) {
-            fprintf(stderr, " => ERROR\n");
+# if  LIBXSMM_VERSION3(1, 16, 1) <= LIBXSMM_VERSION3(LIBXSMM_VERSION_MAJOR, \
+      LIBXSMM_VERSION_MINOR, LIBXSMM_VERSION_UPDATE) && 1014 <= LIBXSMM_VERSION_PATCH
+            fprintf(stderr, " => ERROR diff=%g (%g != %g)\n", diff.linf_abs, diff.v_ref, diff.v_tst);
+# else
+            fprintf(stderr, " => ERROR diff=%g\n", diff.linf_abs);
+# endif
 # if defined(_DEBUG)
             opencl_libsmm_print_matrix(stderr, "gold = ", datatype, gold + ic, m_max, n_max);
             opencl_libsmm_print_matrix(stderr, "test = ", datatype, test + ic, m_max, n_max);

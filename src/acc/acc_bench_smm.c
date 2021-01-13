@@ -245,7 +245,7 @@ int main(int argc, char* argv[])
           }
         }
       }
-      printf("max.error: rel=%g\n", relerror);
+      printf("max.error: abs=%g rel=%g\n", abserror, relerror);
 # if defined(EPSILON) && (0 < EPSILON)
       if (EPSILON < relerror) result = EXIT_FAILURE;
 # endif

@@ -7,8 +7,12 @@
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
 
+/* number of M-blocks */
+#define NBM ((SM + BM - 1) / BM)
 /* number of N-blocks */
 #define NBN ((SN + BN - 1) / BN)
+/* size of workgroup (WG) */
+#define SWG (NBM * NBN)
 
 
 __attribute__((always_inline))
@@ -50,7 +54,7 @@ kernel void FN(global T *restrict cmat,
   global T *restrict cwg = cmat + c0;
 
   local T a[SM][SK];
-#if (1 != BM) || (SN != BN)
+#if (SWG != SN)
   local T b[SK][SN];
 # if (1 < BS)
   T c[BM][BN] = { 0 };
@@ -68,13 +72,14 @@ kernel void FN(global T *restrict cmat,
   for (int i = 0; i < batchsize; ++i)
 #endif
   {
-#if (1 != BM) || (SN != BN)
+#if (SWG != SN)
     const int im = idx / NBN;
     const int m0 = im * BM, m1 = min(m0 + BM, SM);
     const int n0 = (idx - im * NBN) * BN;
     const int n1 = min(n0 + BN, SN);
 #else
-    const int m0 = idx * BM, m1 = min(m0 + BM, SM);
+    const int bm = (SM + SWG - 1) / SWG;
+    const int m0 = idx * bm, m1 = min(m0 + bm, SM);
     const int n = idx;
 #endif
 
@@ -103,7 +108,7 @@ kernel void FN(global T *restrict cmat,
     { /* copy B-matrix into local or private buffer */
       GLOBAL const T *const restrict bwg = bmat + b0;
       for (int k = 0; k < SK; ++k) {
-#if (1 != BM) || (SN != BN)
+#if (SWG != SN)
         for (int n = n0; n < n1; ++n) b[k][n] = bwg[SN*k+n];
 #else
         b[k] = bwg[SN*k+n];
@@ -116,7 +121,7 @@ kernel void FN(global T *restrict cmat,
 
     { /* calculate private result-tile */
       barrier(CLK_LOCAL_MEM_FENCE);
-#if (1 != BM) || (SN != BN)
+#if (SWG != SN)
       for (int m = m0; m < m1; ++m) for (int n = n0; n < n1; ++n) {
 # if (1 < BS)
         T *const restrict r = &c[m-m0][n-n0];
@@ -143,7 +148,7 @@ kernel void FN(global T *restrict cmat,
 
 #if (1 < BS)
     if (c0 != c1) { /* copy private tile to global memory */
-# if (1 != BM) || (SN != BN)
+# if (SWG != SN)
       for (int m = m0; m < m1; ++m) for (int n = n0; n < n1; ++n) {
         T *const restrict r = &c[m-m0][n-n0];
         ATOMIC_ADD_GLOBAL(&cwg[SM*n+m], *r);
