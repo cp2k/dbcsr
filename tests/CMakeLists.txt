@@ -267,13 +267,13 @@ if (USE_ACCEL MATCHES "cuda|hip")
   elseif (USE_ACCEL MATCHES "hip")
 
     foreach (libsmm_acc_test ${LIBSMM_ACC_TESTS_SRCS})
-      set_source_files_properties(${libsmm_acc_test}
-                                  PROPERTIES HIP_SOURCE_PROPERTY_FORMAT 1)
 
       get_filename_component(libsmm_acc_test_name ${libsmm_acc_test} NAME_WE)
 
       hip_add_executable(${libsmm_acc_test_name} ${libsmm_acc_test})
       target_link_options(${libsmm_acc_test_name} PRIVATE ${HIP_ARCH_FLAGS})
+      target_compile_definitions(${libsmm_acc_test_name}
+                                 PRIVATE __HIP_PLATFORM_HCC__)
 
       target_link_libraries(${libsmm_acc_test_name} dbcsr)
       target_compile_definitions(${libsmm_acc_test_name} PRIVATE __HIP)

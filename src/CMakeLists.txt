@@ -325,11 +325,10 @@ if (USE_ACCEL MATCHES "hip")
   set(DBCSR_ACC_SRCS ${DBCSR_HIP_SRCS})
 
   # Compile the rest of the HIP source files into a static library
-  set_source_files_properties(${DBCSR_ACC_SRCS}
-                              PROPERTIES HIP_SOURCE_PROPERTY_FORMAT 1)
-  hip_add_library(acc STATIC ${DBCSR_ACC_SRCS})
+  hip_add_library(acc SHARED ${DBCSR_ACC_SRCS})
   target_compile_definitions(acc PRIVATE ARCH_NUMBER=${ACC_ARCH_NUMBER})
   target_compile_definitions(acc PRIVATE __HIP)
+  target_compile_definitions(acc PRIVATE __HIP_PLATFORM_HCC__)
   target_link_libraries(acc PUBLIC roc::hipblas)
   target_link_libraries(dbcsr PUBLIC acc)
   install(
