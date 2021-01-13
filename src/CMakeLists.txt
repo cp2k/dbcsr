@@ -330,7 +330,6 @@ if (USE_ACCEL MATCHES "hip")
   hip_add_library(acc STATIC ${DBCSR_ACC_SRCS})
   target_compile_definitions(acc PRIVATE ARCH_NUMBER=${ACC_ARCH_NUMBER})
   target_compile_definitions(acc PRIVATE __HIP)
-  set_property(TARGET acc PROPERTY POSITION_INDEPENDENT_CODE ON)
   target_link_libraries(acc PUBLIC roc::hipblas)
   target_link_libraries(dbcsr PUBLIC acc)
   install(

@@ -58,10 +58,7 @@ elseif (USE_ACCEL MATCHES "hip")
     target_link_libraries(libsmm_acc PUBLIC OpenMP::OpenMP_CXX)
   endif ()
 
-  set_property(TARGET libsmm_acc PROPERTY POSITION_INDEPENDENT_CODE ON)
-
-  # libsmm_acc calls timing functions - since we're compiling libsmm_acc as a
-  # static library, we have to link
+  # libsmm_acc calls timing functions
   add_library(dbcsr_timings OBJECT ${DBCSR_TIMING_SRCS_FTN})
   target_include_directories(dbcsr_timings PRIVATE "${CMAKE_SOURCE_DIR}/src")
   target_compile_definitions(dbcsr_timings PRIVATE __DBCSR_ACC)
