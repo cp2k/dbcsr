@@ -302,7 +302,7 @@ if (USE_ACCEL MATCHES "hip")
   message(STATUS "HIP platform: " ${HIP_PLATFORM})
 
   # hip::amdhip64 target (adds support for JIT-ing in HIP)
-  find_package(hip REQUIRED HINTS ${ROCM_PATH})
+  find_package(hip CONFIG REQUIRED HINTS ${ROCM_PATH})
 
   # todo:
   # set(ENV{HIP_PATH} /opt/rocm/hip) # workaround bug in hiprtc.cpp
@@ -322,7 +322,7 @@ if (USE_ACCEL MATCHES "hip")
   message(STATUS "HIPCC flags: " ${HIP_HIPCC_FLAGS})
 
   # =================================== BLAS on GPU backend
-  find_package(hipblas REQUIRED HINTS ${ROCM_PATH})
+  find_package(hipblas CONFIG REQUIRED HINTS ${ROCM_PATH})
 endif ()
 
 # =================================================================================================
