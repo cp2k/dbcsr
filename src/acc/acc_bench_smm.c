@@ -20,9 +20,6 @@
 #if !defined(ELEM_TYPE)
 # define ELEM_TYPE double
 #endif
-#if !defined(EPSILON) && 0
-# define EPSILON 1E-3
-#endif
 #if !defined(TRANSPOSE)
 # define TRANSPOSE
 #endif
@@ -246,9 +243,6 @@ int main(int argc, char* argv[])
         }
       }
       printf("max.error: abs=%g rel=%g\n", abserror, relerror);
-# if defined(EPSILON) && (0 < EPSILON)
-      if (EPSILON < relerror) result = EXIT_FAILURE;
-# endif
     }
     libxsmm_free(gold_hst);
   }
