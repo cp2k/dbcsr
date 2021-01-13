@@ -57,7 +57,7 @@ kernel void FN(global T *restrict cmat,
 #if (SWG != SN)
   local T b[SK][SN];
 # if (1 < BS)
-  T c[BM][BN] = { 0 };
+  T c[BM][BN] = {{ 0 }};
 # endif
 #else
   T b[SK];
