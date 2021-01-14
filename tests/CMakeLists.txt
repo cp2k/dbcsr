@@ -272,10 +272,7 @@ if (USE_ACCEL MATCHES "cuda|hip")
 
       hip_add_executable(${libsmm_acc_test_name} ${libsmm_acc_test})
       target_link_options(${libsmm_acc_test_name} PRIVATE ${HIP_ARCH_FLAGS})
-      target_compile_definitions(${libsmm_acc_test_name}
-                                 PRIVATE __HIP_PLATFORM_HCC__)
-
-      target_link_libraries(${libsmm_acc_test_name} dbcsr)
+      target_link_libraries(${libsmm_acc_test_name} dbcsr hip::host)
       target_compile_definitions(${libsmm_acc_test_name} PRIVATE __HIP)
 
     endforeach ()

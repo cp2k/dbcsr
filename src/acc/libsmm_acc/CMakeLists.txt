@@ -48,9 +48,8 @@ elseif (USE_ACCEL MATCHES "hip")
 
   set(HIP_HCC_FLAGS ${HIP_HCC_FLAGS} -fno-gpu-rdc)
   hip_add_library(libsmm_acc SHARED ${LIBSMM_ACC_FILES})
-  target_compile_definitions(libsmm_acc PRIVATE __HIP_PLATFORM_HCC__)
   target_link_libraries(libsmm_acc INTERFACE "stdc++")
-  target_link_libraries(libsmm_acc PUBLIC roc::hipblas)
+  target_link_libraries(libsmm_acc PUBLIC roc::hipblas hip::host)
 
   if (USE_OPENMP)
     target_link_libraries(libsmm_acc PUBLIC OpenMP::OpenMP_CXX)
