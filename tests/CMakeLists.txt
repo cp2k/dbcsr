@@ -15,11 +15,7 @@ endif ()
 
 # =================================== DBCSR PERF TESTS
 set(DBCSR_PERF_SRCS dbcsr_performance_driver.F dbcsr_performance_multiply.F)
-if (USE_ACCEL MATCHES "hip")
-  hip_add_executable(dbcsr_perf ${DBCSR_PERF_SRCS})
-else ()
-  add_executable(dbcsr_perf ${DBCSR_PERF_SRCS})
-endif ()
+add_executable(dbcsr_perf ${DBCSR_PERF_SRCS})
 target_link_libraries(dbcsr_perf dbcsr)
 set_target_properties(dbcsr_perf PROPERTIES LINKER_LANGUAGE Fortran)
 if (OpenMP_FOUND)
@@ -114,11 +110,7 @@ target_link_libraries(dbcsr_unittest_common PUBLIC dbcsr)
 
 # Compile Fortran tests
 foreach (dbcsr_test ${DBCSR_TESTS_FTN})
-  if (USE_ACCEL MATCHES "hip")
-    hip_add_executable(${dbcsr_test} ${${dbcsr_test}_SRCS})
-  else ()
-    add_executable(${dbcsr_test} ${${dbcsr_test}_SRCS})
-  endif ()
+  add_executable(${dbcsr_test} ${${dbcsr_test}_SRCS})
   target_link_libraries(${dbcsr_test} dbcsr_unittest_common)
   set_target_properties(${dbcsr_test} PROPERTIES LINKER_LANGUAGE Fortran)
   # register unittest executable with CMake
@@ -270,7 +262,7 @@ if (USE_ACCEL MATCHES "cuda|hip")
 
       get_filename_component(libsmm_acc_test_name ${libsmm_acc_test} NAME_WE)
 
-      hip_add_executable(${libsmm_acc_test_name} ${libsmm_acc_test})
+      add_executable(${libsmm_acc_test_name} ${libsmm_acc_test})
       target_link_options(${libsmm_acc_test_name} PRIVATE ${HIP_ARCH_FLAGS})
       target_link_libraries(${libsmm_acc_test_name} dbcsr hip::host)
       target_compile_definitions(${libsmm_acc_test_name} PRIVATE __HIP)

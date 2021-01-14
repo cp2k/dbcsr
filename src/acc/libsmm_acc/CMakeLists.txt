@@ -47,7 +47,7 @@ if (USE_ACCEL MATCHES "cuda")
 elseif (USE_ACCEL MATCHES "hip")
 
   set(HIP_HCC_FLAGS ${HIP_HCC_FLAGS} -fno-gpu-rdc)
-  hip_add_library(libsmm_acc SHARED ${LIBSMM_ACC_FILES})
+  add_library(libsmm_acc SHARED ${LIBSMM_ACC_FILES})
   target_link_libraries(libsmm_acc INTERFACE "stdc++")
   target_link_libraries(libsmm_acc PUBLIC roc::hipblas hip::host)
 

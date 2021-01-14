@@ -110,7 +110,7 @@ set(DBCSR_OPENCL_SRCS
     acc/opencl/acc_opencl_mem.c acc/opencl/acc_opencl_stream.c)
 
 set(DBCSR_CUDA_SRCS
-    acc/cuda/acc_cublas.cu
+    acc/cuda/acc_cublas.cpp
     acc/cuda/acc_cuda.cpp
     acc/cuda/acc_dev.cpp
     acc/cuda/acc_error.cpp
@@ -118,11 +118,11 @@ set(DBCSR_CUDA_SRCS
     acc/cuda/acc_init.cpp
     acc/cuda/acc_mem.cpp
     acc/cuda/acc_stream.cpp
-    acc/cuda/dbcsr_cuda_nvtx_cu.cu)
+    acc/cuda/dbcsr_cuda_nvtx_cu.cpp)
 
 set(DBCSR_HIP_SRCS
     acc/hip/acc_hip.cpp
-    acc/cuda/acc_cublas.cu
+    acc/cuda/acc_cublas.cpp
     acc/cuda/acc_dev.cpp
     acc/cuda/acc_error.cpp
     acc/cuda/acc_event.cpp
@@ -325,7 +325,7 @@ if (USE_ACCEL MATCHES "hip")
   set(DBCSR_ACC_SRCS ${DBCSR_HIP_SRCS})
 
   # Compile the rest of the HIP source files into a static library
-  hip_add_library(acc SHARED ${DBCSR_ACC_SRCS})
+  add_library(acc SHARED ${DBCSR_ACC_SRCS})
   target_compile_definitions(acc PRIVATE ARCH_NUMBER=${ACC_ARCH_NUMBER})
   target_compile_definitions(acc PRIVATE __HIP)
   target_link_libraries(acc PUBLIC roc::hipblas hip::host)
