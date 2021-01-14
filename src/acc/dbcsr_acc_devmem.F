@@ -76,7 +76,7 @@ MODULE dbcsr_acc_devmem
 #if  defined (__DBCSR_ACC)
 
    INTERFACE
-      FUNCTION acc_interface_dev_mem_info(free, avail) RESULT(istat) BIND(C, name="acc_dev_mem_info")
+      FUNCTION acc_interface_dev_mem_info(free, avail) RESULT(istat) BIND(C, name="c_dbcsr_acc_dev_mem_info")
          IMPORT
          INTEGER(KIND=C_SIZE_T), INTENT(OUT)      :: free, avail
          INTEGER(KIND=C_INT)                      :: istat
@@ -85,7 +85,7 @@ MODULE dbcsr_acc_devmem
    END INTERFACE
 
    INTERFACE
-      FUNCTION acc_interface_dev_mem_alloc(mem, n) RESULT(istat) BIND(C, name="acc_dev_mem_allocate")
+      FUNCTION acc_interface_dev_mem_alloc(mem, n) RESULT(istat) BIND(C, name="c_dbcsr_acc_dev_mem_allocate")
          IMPORT
          TYPE(C_PTR)                              :: mem
          INTEGER(KIND=C_SIZE_T), INTENT(IN), &
@@ -96,7 +96,7 @@ MODULE dbcsr_acc_devmem
    END INTERFACE
 
    INTERFACE
-      FUNCTION acc_interface_dev_mem_dealloc(mem) RESULT(istat) BIND(C, name="acc_dev_mem_deallocate")
+      FUNCTION acc_interface_dev_mem_dealloc(mem) RESULT(istat) BIND(C, name="c_dbcsr_acc_dev_mem_deallocate")
          IMPORT
          TYPE(C_PTR), VALUE                       :: mem
          INTEGER(KIND=C_INT)                      :: istat
@@ -105,7 +105,7 @@ MODULE dbcsr_acc_devmem
    END INTERFACE
 
    INTERFACE
-      FUNCTION acc_interface_dev_mem_set_ptr(mem, other, lb) RESULT(istat) BIND(C, name="acc_dev_mem_set_ptr")
+      FUNCTION acc_interface_dev_mem_set_ptr(mem, other, lb) RESULT(istat) BIND(C, name="c_dbcsr_acc_dev_mem_set_ptr")
          IMPORT
          TYPE(C_PTR)                              :: mem
          TYPE(C_PTR), VALUE                       :: other
@@ -117,7 +117,7 @@ MODULE dbcsr_acc_devmem
    END INTERFACE
 
    INTERFACE
-      FUNCTION acc_interface_memzero(this, offset, length, stream_ptr) RESULT(istat) BIND(C, name="acc_memset_zero")
+      FUNCTION acc_interface_memzero(this, offset, length, stream_ptr) RESULT(istat) BIND(C, name="c_dbcsr_acc_memset_zero")
          IMPORT
          TYPE(C_PTR), INTENT(IN), VALUE           :: this
          INTEGER(KIND=C_SIZE_T), INTENT(IN), &
@@ -130,7 +130,7 @@ MODULE dbcsr_acc_devmem
 
    INTERFACE
       FUNCTION acc_interface_memcpy_h2d(host, dev, count, stream_ptr) RESULT(istat) &
-         BIND(C, name="acc_memcpy_h2d")
+         BIND(C, name="c_dbcsr_acc_memcpy_h2d")
          IMPORT
          TYPE(C_PTR), INTENT(IN), VALUE           :: host
          TYPE(C_PTR), VALUE                       :: dev
@@ -144,7 +144,7 @@ MODULE dbcsr_acc_devmem
 
    INTERFACE
       FUNCTION acc_interface_memcpy_d2h(dev, host, count, stream_ptr) RESULT(istat) &
-         BIND(C, name="acc_memcpy_d2h")
+         BIND(C, name="c_dbcsr_acc_memcpy_d2h")
          IMPORT
          TYPE(C_PTR), INTENT(IN), VALUE           :: dev
          TYPE(C_PTR), VALUE                       :: host
@@ -158,7 +158,7 @@ MODULE dbcsr_acc_devmem
 
    INTERFACE
       FUNCTION acc_interface_memcpy_d2d(dev_src, dev_dst, count, stream_ptr) RESULT(istat) &
-         BIND(C, name="acc_memcpy_d2d")
+         BIND(C, name="c_dbcsr_acc_memcpy_d2d")
          IMPORT
          TYPE(C_PTR), INTENT(IN), VALUE           :: dev_src
          TYPE(C_PTR), VALUE                       :: dev_dst

@@ -90,10 +90,8 @@ int main(int argc, char* argv[])
 #endif
   assert(m <= (mn / n) && 0 == (mn % n));
   printf("%s%s%i %i %i %i\n", 0 < argc ? argv[0] : "", 0 < argc ? " " : "", nrepeat, stack_size, m, n);
-  CHECK(acc_init(), &result);
-  /* note: libsmm_acc_init() may imply acc_init() */
-  CHECK(libsmm_acc_init(), &result);
-  CHECK(acc_get_ndevices(&ndevices), &result);
+  CHECK(c_dbcsr_acc_init(), &result);
+  CHECK(c_dbcsr_acc_get_ndevices(&ndevices), &result);
   if (0 < ndevices) {
 #if defined(_DEBUG)
     fprintf(stderr, "number of devices found: %i\n", ndevices);
@@ -103,22 +101,19 @@ int main(int argc, char* argv[])
 #if defined(_DEBUG)
     fprintf(stderr, "Error: no device found!\n");
 #endif
-#if !defined(__CUDA)
-    CHECK(libsmm_acc_finalize(), NULL);
-#endif
-    CHECK(acc_finalize(), NULL);
+    CHECK(c_dbcsr_acc_finalize(), NULL);
     return result;
   }
   printf("typename (id=%i): %s\n", DBCSR_TYPE(ELEM_TYPE), DBCSR_STRINGIFY(ELEM_TYPE));
 #if defined(PRIORITY)
-  CHECK(acc_stream_priority_range(&priomin, &priomax), &result);
-  CHECK(acc_stream_create(&stream, "stream", (priomin + priomax) / 2), &result);
+  CHECK(c_dbcsr_acc_stream_priority_range(&priomin, &priomax), &result);
+  CHECK(c_dbcsr_acc_stream_create(&stream, "stream", (priomin + priomax) / 2), &result);
 #else
-  CHECK(acc_stream_create(&stream, "stream", -1/*default priority*/), &result);
+  CHECK(c_dbcsr_acc_stream_create(&stream, "stream", -1/*default priority*/), &result);
 #endif
-  CHECK(acc_host_mem_allocate((void**)&mat_hst, sizeof(ELEM_TYPE) * mn * offset_stack_size, stream), &result);
-  CHECK(acc_host_mem_allocate((void**)&stack_hst, sizeof(int) * offset_stack_size, stream), &result);
-  CHECK(acc_stream_sync(stream), &result); /* ensure host-data is allocated */
+  CHECK(c_dbcsr_acc_host_mem_allocate((void**)&mat_hst, sizeof(ELEM_TYPE) * mn * offset_stack_size, stream), &result);
+  CHECK(c_dbcsr_acc_host_mem_allocate((void**)&stack_hst, sizeof(int) * offset_stack_size, stream), &result);
+  CHECK(c_dbcsr_acc_stream_sync(stream), &result); /* ensure host-data is allocated */
   for (i = 0; i < offset_stack_size; ++i) { /* initialize matrices */
     init(i/*seed*/, &mat_hst[i*mn], m, n);
   }
@@ -130,16 +125,16 @@ int main(int argc, char* argv[])
 #endif
     stack_hst[i] = j;
   }
-  CHECK(acc_dev_mem_allocate((void**)&mat_dev, sizeof(ELEM_TYPE) * mn * offset_stack_size), &result);
-  CHECK(acc_dev_mem_allocate((void**)&stack_dev, sizeof(int) * offset_stack_size), &result);
+  CHECK(c_dbcsr_acc_dev_mem_allocate((void**)&mat_dev, sizeof(ELEM_TYPE) * mn * offset_stack_size), &result);
+  CHECK(c_dbcsr_acc_dev_mem_allocate((void**)&stack_dev, sizeof(int) * offset_stack_size), &result);
 #if defined(USE_LIBXSMM)
-  CHECK(acc_stream_sync(stream), &result);
+  CHECK(c_dbcsr_acc_stream_sync(stream), &result);
   start = libxsmm_timer_tick();
 #endif
-  CHECK(acc_memcpy_h2d(mat_hst, mat_dev, sizeof(ELEM_TYPE) * mn * offset_stack_size, stream), &result);
-  CHECK(acc_memcpy_h2d(stack_hst, stack_dev, sizeof(int) * offset_stack_size, stream), &result);
+  CHECK(c_dbcsr_acc_memcpy_h2d(mat_hst, mat_dev, sizeof(ELEM_TYPE) * mn * offset_stack_size, stream), &result);
+  CHECK(c_dbcsr_acc_memcpy_h2d(stack_hst, stack_dev, sizeof(int) * offset_stack_size, stream), &result);
 #if defined(USE_LIBXSMM)
-  CHECK(acc_stream_sync(stream), &result);
+  CHECK(c_dbcsr_acc_stream_sync(stream), &result);
   duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
   printf("copy-in: %.1f ms %.1f GB/s\n", 1000.0 * duration,
     (sizeof(ELEM_TYPE) * mn + sizeof(int))
@@ -153,7 +148,7 @@ int main(int argc, char* argv[])
       DBCSR_TYPE(ELEM_TYPE), n, m, MAX_KERNEL_DIM, stream), &result);
   }
 #if defined(USE_LIBXSMM)
-  CHECK(acc_stream_sync(stream), &result);
+  CHECK(c_dbcsr_acc_stream_sync(stream), &result);
   start = libxsmm_timer_tick();
 #endif
   for (r = 0; r < nodd; ++r) {
@@ -162,7 +157,7 @@ int main(int argc, char* argv[])
     swap(&mm, &nn);
   }
 #if defined(USE_LIBXSMM)
-  CHECK(acc_stream_sync(stream), &result);
+  CHECK(c_dbcsr_acc_stream_sync(stream), &result);
   duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
   if (EXIT_SUCCESS == result) {
     assert(0 < nodd && (nodd & 1/*odd*/));
@@ -181,9 +176,9 @@ int main(int argc, char* argv[])
       (sizeof(ELEM_TYPE) * mn + sizeof(int))
         * offset_stack_size / (duration * (1ULL << 30) / nodd));
     /* transfer result from device to host for validation */
-    CHECK(acc_memcpy_d2h(mat_dev, mat_hst,
+    CHECK(c_dbcsr_acc_memcpy_d2h(mat_dev, mat_hst,
       sizeof(ELEM_TYPE) * mn * offset_stack_size, stream), &result);
-    CHECK(acc_stream_sync(stream), &result);
+    CHECK(c_dbcsr_acc_stream_sync(stream), &result);
     if (EXIT_SUCCESS == result) {
       unsigned int nerrors = 0;
       for (i = offset; i < offset_stack_size; ++i) {
@@ -210,15 +205,12 @@ int main(int argc, char* argv[])
     }
   }
 #endif
-  CHECK(acc_host_mem_deallocate(stack_hst, stream), NULL);
-  CHECK(acc_host_mem_deallocate(mat_hst, stream), NULL);
-  CHECK(acc_dev_mem_deallocate(stack_dev), NULL);
-  CHECK(acc_dev_mem_deallocate(mat_dev), NULL);
-  CHECK(acc_stream_destroy(stream), NULL);
-#if !defined(__CUDA)
-  CHECK(libsmm_acc_finalize(), NULL);
-#endif
-  CHECK(acc_finalize(), NULL);
+  CHECK(c_dbcsr_acc_host_mem_deallocate(stack_hst, stream), NULL);
+  CHECK(c_dbcsr_acc_host_mem_deallocate(mat_hst, stream), NULL);
+  CHECK(c_dbcsr_acc_dev_mem_deallocate(stack_dev), NULL);
+  CHECK(c_dbcsr_acc_dev_mem_deallocate(mat_dev), NULL);
+  CHECK(c_dbcsr_acc_stream_destroy(stream), NULL);
+  CHECK(c_dbcsr_acc_finalize(), NULL);
   if (EXIT_SUCCESS != result) {
     fprintf(stderr, "FAILED\n");
   }

@@ -16,10 +16,10 @@
 #include <string>
 
 #if !defined(NO_DBCSR_TIMESET)
-extern "C" void dbcsr_timeset(const char** routineN, int* routineN_len, int* handle);
+extern "C" void c_dbcsr_timeset(const char** routineN, int* routineN_len, int* handle);
 void timeset(const std::string& routine_name, int& handle);
 
-extern "C" void dbcsr_timestop(int* handle);
+extern "C" void c_dbcsr_timestop(int* handle);
 void timestop(int handle);
 #endif
 

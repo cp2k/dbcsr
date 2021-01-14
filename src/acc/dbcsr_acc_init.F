@@ -25,14 +25,14 @@ MODULE dbcsr_acc_init
 #if defined (__DBCSR_ACC)
 
    INTERFACE
-      FUNCTION acc_interface_drv_init() RESULT(istat) BIND(C, name="acc_init")
+      FUNCTION acc_interface_drv_init() RESULT(istat) BIND(C, name="c_dbcsr_acc_init")
          IMPORT
          INTEGER(KIND=C_INT)                      :: istat
       END FUNCTION acc_interface_drv_init
    END INTERFACE
 
    INTERFACE
-      FUNCTION acc_interface_drv_finalize() RESULT(istat) BIND(C, name="acc_finalize")
+      FUNCTION acc_interface_drv_finalize() RESULT(istat) BIND(C, name="c_dbcsr_acc_finalize")
          IMPORT
          INTEGER(KIND=C_INT)                      :: istat
       END FUNCTION acc_interface_drv_finalize

@@ -39,7 +39,7 @@ MODULE dbcsr_acc_stream
 #if defined (__DBCSR_ACC)
 
    INTERFACE
-      FUNCTION acc_interface_stream_create(stream_ptr, name, priority) RESULT(istat) BIND(C, name="acc_stream_create")
+      FUNCTION acc_interface_stream_create(stream_ptr, name, priority) RESULT(istat) BIND(C, name="c_dbcsr_acc_stream_create")
          IMPORT
          TYPE(C_PTR)                              :: stream_ptr
          CHARACTER(KIND=C_CHAR), DIMENSION(*)     :: name
@@ -50,7 +50,7 @@ MODULE dbcsr_acc_stream
    END INTERFACE
 
    INTERFACE
-      FUNCTION acc_interface_stream_priority_range(least, greatest) RESULT(istat) BIND(C, name="acc_stream_priority_range")
+      FUNCTION acc_interface_stream_priority_range(least, greatest) RESULT(istat) BIND(C, name="c_dbcsr_acc_stream_priority_range")
          IMPORT
          INTEGER(KIND=C_INT)                      :: least, greatest, istat
 
@@ -58,7 +58,7 @@ MODULE dbcsr_acc_stream
    END INTERFACE
 
    INTERFACE
-      FUNCTION acc_interface_stream_destroy(stream_ptr) RESULT(istat) BIND(C, name="acc_stream_destroy")
+      FUNCTION acc_interface_stream_destroy(stream_ptr) RESULT(istat) BIND(C, name="c_dbcsr_acc_stream_destroy")
          IMPORT
          TYPE(C_PTR), VALUE                       :: stream_ptr
          INTEGER(KIND=C_INT)                      :: istat
@@ -67,7 +67,7 @@ MODULE dbcsr_acc_stream
    END INTERFACE
 
    INTERFACE
-      FUNCTION acc_interface_stream_sync(stream_ptr) RESULT(istat) BIND(C, name="acc_stream_sync")
+      FUNCTION acc_interface_stream_sync(stream_ptr) RESULT(istat) BIND(C, name="c_dbcsr_acc_stream_sync")
          IMPORT
          TYPE(C_PTR), VALUE                       :: stream_ptr
          INTEGER(KIND=C_INT)                      :: istat

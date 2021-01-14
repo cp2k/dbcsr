@@ -23,14 +23,14 @@
 static const int verbose_print = 1;
 
 /****************************************************************************/
-extern "C" int acc_get_ndevices(int *n_devices){
+extern "C" int c_dbcsr_acc_get_ndevices(int *n_devices){
   ACC_API_CALL(GetDeviceCount, (n_devices));
   return 0;
 }
 
 
 /****************************************************************************/
-extern "C" int acc_set_active_device(int device_id){
+extern "C" int c_dbcsr_acc_set_active_device(int device_id){
   int myDevice, runtimeVersion;
 
   ACC_API_CALL(RuntimeGetVersion, (&runtimeVersion));
