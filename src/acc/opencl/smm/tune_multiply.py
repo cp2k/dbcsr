@@ -94,7 +94,7 @@ class SmmTuner(MeasurementInterface):
 
     def save_final_config(self, configuration):
         """called at the end of tuning"""
-        filename = ("tune_multiply-" + self.elemtype +
+        filename = ("tune_multiply-" + self.elemtype + "-" +
                     str(self.args.m) + "x" + str(self.args.n) + "x" + str(self.args.k) +
                     time.strftime("-%Y%m%d-%H%M%S") + ".json")
         print("Optimal block size written to " + filename + ": ", configuration.data)
