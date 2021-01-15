@@ -32,15 +32,15 @@ class SmmTuner(MeasurementInterface):
         self.exepath = "../.."
         self.exename = "acc_bench_smm"
         run_result = self.call_program(self.exepath + "/" + self.exename + " 1 1 1")
-        if (0 == run_result["returncode"]):
+        if 0 == run_result["returncode"]:
             match = re.search("element type:\\s+(\\w+)", str(run_result["stdout"]))
-        if (match is not None):
+        if match is not None:
             self.elemtype = match.group(1)
         else:
             sys.tracebacklimit = 0
-            raise RuntimeError("Execution failed for \"" +
-                               self.exepath + "/" +
-                               self.exename + "\"!")
+            raise RuntimeError(
+                'Execution failed for "' + self.exepath + "/" + self.exename + '"!'
+            )
         # sanitize input arguments
         self.args.m = max(self.args.m, 1)
         self.args.n = [max(self.args.n, 1), self.args.m][0 == self.args.n]
@@ -57,9 +57,7 @@ class SmmTuner(MeasurementInterface):
         return manipulator
 
     def seed_configurations(self):
-        return [{"BS": self.args.bs,
-                 "BM": self.args.bm,
-                 "BN": self.args.bn}]
+        return [{"BS": self.args.bs, "BM": self.args.bm, "BN": self.args.bn}]
 
     def objective(self):
         return opentuner.search.objective.MaximizeAccuracyMinimizeSize()
@@ -71,62 +69,115 @@ class SmmTuner(MeasurementInterface):
         """
         cfg = desired_result.configuration.data
         run_cmd = (
-            "OMP_PROC_BIND=TRUE CHECK=" + str(self.args.check) +
-            " OPENCL_LIBSMM_SMM_BATCHSIZE=" + str(cfg["BS"]) +
-            " OPENCL_LIBSMM_SMM_BLOCK_M=" + str(cfg["BM"]) +
-            " OPENCL_LIBSMM_SMM_BLOCK_N=" + str(cfg["BN"]) +
-            " " + self.exepath + "/" + self.exename + " 0 0" +
-            " " + str(self.args.m) +
-            " " + str(self.args.n) +
-            " " + str(max(self.args.k, 1)))
+            "OMP_PROC_BIND=TRUE CHECK="
+            + str(self.args.check)
+            + " OPENCL_LIBSMM_SMM_BATCHSIZE="
+            + str(cfg["BS"])
+            + " OPENCL_LIBSMM_SMM_BLOCK_M="
+            + str(cfg["BM"])
+            + " OPENCL_LIBSMM_SMM_BLOCK_N="
+            + str(cfg["BN"])
+            + " "
+            + self.exepath
+            + "/"
+            + self.exename
+            + " 0 0"
+            + " "
+            + str(self.args.m)
+            + " "
+            + str(self.args.n)
+            + " "
+            + str(max(self.args.k, 1))
+        )
         run_result = self.call_program(run_cmd)
-        if (0 == run_result["returncode"]):
+        if 0 == run_result["returncode"]:
             match = re.search(
                 "device:\\s+([0-9]+(\\.[0-9]*)*) ms\\s+([0-9]+(\\.[0-9]*)*)",
-                str(run_result["stdout"]))
-            assert(match is not None)
+                str(run_result["stdout"]),
+            )
+            assert match is not None
             mseconds = float(match.group(1))
             gflops = float(match.group(3))
-            kernelreq = round((100.0 * cfg["BM"] * cfg["BN"])
-                              / (self.args.m * self.args.n))
+            kernelreq = round(
+                (100.0 * cfg["BM"] * cfg["BN"]) / (self.args.m * self.args.n)
+            )
             # gflops are reported as "accuracy" (console output)
             return Result(time=mseconds, accuracy=gflops, size=kernelreq)
 
     def save_final_config(self, configuration):
         """called at the end of tuning"""
-        filename = ("tune_multiply-" + self.elemtype + "-" +
-                    str(self.args.m) + "x" + str(self.args.n) + "x" + str(self.args.k) +
-                    time.strftime("-%Y%m%d-%H%M%S") + ".json")
+        filename = (
+            "tune_multiply-"
+            + self.elemtype
+            + "-"
+            + str(self.args.m)
+            + "x"
+            + str(self.args.n)
+            + "x"
+            + str(self.args.k)
+            + time.strftime("-%Y%m%d-%H%M%S")
+            + ".json"
+        )
         print("Optimal block size written to " + filename + ": ", configuration.data)
         # self.manipulator().save_to_file(configuration.data, filename)
-        with open(filename, 'w') as fd:
+        with open(filename, "w") as fd:
             json.dump(configuration.data, fd)
 
 
 if __name__ == "__main__":
     argparser = opentuner.default_argparser()
     argparser.add_argument(
-        "m", type=int, default=23, nargs='?',
-        help="Shape of SMM-kernel (M)")
+        "m", type=int, default=23, nargs="?", help="Shape of SMM-kernel (M)"
+    )
     argparser.add_argument(
-        "n", type=int, default=0, nargs='?',
-        help="Shape of SMM-kernel (N)")
+        "n", type=int, default=0, nargs="?", help="Shape of SMM-kernel (N)"
+    )
     argparser.add_argument(
-        "k", type=int, default=0, nargs='?',
-        help="Shape of SMM-kernel (K)")
+        "k", type=int, default=0, nargs="?", help="Shape of SMM-kernel (K)"
+    )
     argparser.add_argument(
-        "-bm", "--initial-bm", type=int, default=0, nargs='?',
-        dest="bm", help="Initial block/tile size (BM)")
+        "-bm",
+        "--initial-bm",
+        type=int,
+        default=0,
+        nargs="?",
+        dest="bm",
+        help="Initial block/tile size (BM)",
+    )
     argparser.add_argument(
-        "-bn", "--initial-bn", type=int, default=0, nargs='?',
-        dest="bn", help="Initial block/tile size (BN)")
+        "-bn",
+        "--initial-bn",
+        type=int,
+        default=0,
+        nargs="?",
+        dest="bn",
+        help="Initial block/tile size (BN)",
+    )
     argparser.add_argument(
-        "-bs", "--initial-bs", type=int, default=1, nargs='?',
-        dest="bs", help="Initial (mini-)batch size (BS)")
+        "-bs",
+        "--initial-bs",
+        type=int,
+        default=1,
+        nargs="?",
+        dest="bs",
+        help="Initial (mini-)batch size (BS)",
+    )
     argparser.add_argument(
-        "-mb", "--max-bs", type=int, default=128, nargs='?',
-        dest="mb", help="Maximum (mini-)batch size (BS)")
+        "-mb",
+        "--max-bs",
+        type=int,
+        default=128,
+        nargs="?",
+        dest="mb",
+        help="Maximum (mini-)batch size (BS)",
+    )
     argparser.add_argument(
-        "-v", "--check", type=float, default=0, nargs='?',
-        dest="check", help="Validate kernel (epsilon)")
+        "-v",
+        "--check",
+        type=float,
+        default=0,
+        nargs="?",
+        dest="check",
+        help="Validate kernel (epsilon)",
+    )
     SmmTuner.main(argparser.parse_args())
