@@ -266,8 +266,6 @@ if (USE_ACCEL MATCHES "cuda")
 
 endif ()
 
-# inspired from
-# https://github.com/ROCm-Developer-Tools/HIP/tree/master/samples/2_Cookbook/12_cmake_hip_add_executable
 if (USE_ACCEL MATCHES "hip")
   # Make sure the GPU required is supported
   list(FIND SUPPORTED_HIP_ARCHITECTURES ${WITH_GPU} GPU_SUPPORTED)
@@ -295,17 +293,8 @@ if (USE_ACCEL MATCHES "hip")
 
   # set appropriate compilation flags depending on platform
   set(ACC_ARCH_NUMBER ${GPU_ARCH_NUMBER_${WITH_GPU}})
-  set(HIP_HIPCC_FLAGS "${HIP_HIPCC_FLAGS} -D__HIP -O3")
-  if (${HIP_PLATFORM} STREQUAL "nvcc")
-    set(HIP_HIPCC_FLAGS
-        "${HIP_HIPCC_FLAGS} -std=c++11 -arch=sm_${ACC_ARCH_NUMBER} --cudart static"
-    )
-  else ()
-    set(HIP_HIPCC_FLAGS "${HIP_HIPCC_FLAGS} -fPIC")
-  endif ()
   message(STATUS "GPU target architecture: " ${WITH_GPU})
   message(STATUS "GPU architecture number: " ${ACC_ARCH_NUMBER})
-  message(STATUS "HIPCC flags: " ${HIP_HIPCC_FLAGS})
 
   # =================================== BLAS on GPU backend
   find_package(hipblas CONFIG REQUIRED HINTS ${ROCM_PATH})

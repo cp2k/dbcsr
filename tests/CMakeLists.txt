@@ -263,9 +263,11 @@ if (USE_ACCEL MATCHES "cuda|hip")
       get_filename_component(libsmm_acc_test_name ${libsmm_acc_test} NAME_WE)
 
       add_executable(${libsmm_acc_test_name} ${libsmm_acc_test})
-      target_link_options(${libsmm_acc_test_name} PRIVATE ${HIP_ARCH_FLAGS})
       target_link_libraries(${libsmm_acc_test_name} dbcsr hip::host)
       target_compile_definitions(${libsmm_acc_test_name} PRIVATE __HIP)
+      if (OpenMP_FOUND)
+        target_link_libraries(${libsmm_acc_test_name} OpenMP::OpenMP_CXX)
+      endif ()
 
     endforeach ()
 
@@ -280,9 +282,6 @@ if (USE_ACCEL MATCHES "cuda|hip")
 
       get_filename_component(libsmm_acc_test_name ${libsmm_acc_test} NAME_WE)
       target_compile_definitions(${libsmm_acc_test_name} PRIVATE __HIP)
-      target_include_directories(${libsmm_acc_test_name}
-                                 PRIVATE ${HIP_PATH}/../include)
-
       target_link_libraries(${libsmm_acc_test_name} dbcsr)
 
     endforeach ()
