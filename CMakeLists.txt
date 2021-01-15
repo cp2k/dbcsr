@@ -183,24 +183,18 @@ endif ()
 
 # =================================== SMM (Small Matrix-Matrix multiplication)
 if (USE_SMM MATCHES "blas")
-  message("-- Using BLAS for Small Matrix Multiplication")
+  message(STATUS "Using BLAS for Small Matrix Multiplication")
 elseif (USE_SMM MATCHES "libxsmm")
-  if (LIBXSMM_FOUND)
-    message("-- Using LIBXSMM for Small Matrix Multiplication")
-  else ()
-    message(
-      FATAL_ERROR
-        "LIBXSMM is not found but requested (USE_SMM). "
-        "Please install PkgConfig, build LIBXSMM, and "
-        "set PKG_CONFIG_PATH=/path/to/libxsmm/lib")
-  endif ()
+  # rely on pkg-config in order to link against libxsmm
+  pkg_check_modules(deps REQUIRED IMPORTED_TARGET GLOBAL libxsmmf)
+  message(STATUS "Using libxsmm for Small Matrix Multiplication")
 else ()
   message(FATAL_ERROR "Unknown SMM library specified")
 endif ()
 
 # =================================== GPU backends
 if (USE_ACCEL MATCHES "opencl")
-  if (NOT LIBXSMM_FOUND)
+  if (NOT USE_SMM)
     message(
       FATAL_ERROR
         "LIBXSMM is not found but required for "
