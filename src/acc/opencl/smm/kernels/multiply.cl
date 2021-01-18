@@ -54,13 +54,13 @@ kernel void FN(global T *restrict cmat,
   global T *restrict cwg = cmat + c0;
 
   local T a[SM][SK];
+  T am[SK], bn[SK];
 #if (SWG != SN)
   local T b[SK][SN];
 # if (1 < BS)
   T c[BM][BN] = {{ 0 }};
 # endif
 #else
-  T b[SK];
 # if (1 < BS)
   T c[SM] = { 0 };
 # endif
@@ -111,7 +111,7 @@ kernel void FN(global T *restrict cmat,
 #if (SWG != SN)
         for (int n = n0; n < n1; ++n) b[k][n] = bwg[SN*k+n];
 #else
-        b[k] = bwg[SN*k+n];
+        bn[k] = bwg[SN*k+n];
 #endif
       }
 #if (1 < BS)
@@ -122,24 +122,27 @@ kernel void FN(global T *restrict cmat,
     { /* calculate private result-tile */
       barrier(CLK_LOCAL_MEM_FENCE);
 #if (SWG != SN)
-      for (int m = m0; m < m1; ++m) for (int n = n0; n < n1; ++n) {
+      for (int m = m0; m < m1; ++m) {
+        for (int k = 0; k < SK; ++k) am[k] = a[m][k];
+        for (int n = n0; n < n1; ++n) {
+          T r = 0;
+          for (int k = 0; k < SK; ++k) bn[k] = b[k][n];
+          for (int k = 0; k < SK; ++k) r = FMA(am[k], bn[k], r);
 # if (1 < BS)
-        T *const restrict r = &c[m-m0][n-n0];
-        for (int k = 0; k < SK; ++k) *r = FMA(a[m][k], b[k][n], *r);
+          c[m-m0][n-n0] += r;
 # else
-        T r = 0;
-        for (int k = 0; k < SK; ++k) r = FMA(a[m][k], b[k][n], r);
-        ATOMIC_ADD_GLOBAL(&cwg[SM*n+m], r);
+          ATOMIC_ADD_GLOBAL(&cwg[SM*n+m], r);
 # endif
+        }
       }
 #else
       for (int m = 0; m < SM; ++m) {
-# if (1 < BS)
-        T *const restrict r = c + m;
-        for (int k = 0; k < SK; ++k) *r = FMA(a[m][k], b[k], *r);
-# else
         T r = 0;
-        for (int k = 0; k < SK; ++k) r = FMA(a[m][k], b[k], r);
+        for (int k = 0; k < SK; ++k) am[k] = a[m][k];
+        for (int k = 0; k < SK; ++k) r = FMA(am[k], bn[k], r);
+# if (1 < BS)
+        c[m] += r;
+# else
         ATOMIC_ADD_GLOBAL(&cwg[SM*n+m], r);
 # endif
       }
