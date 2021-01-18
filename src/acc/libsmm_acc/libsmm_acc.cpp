@@ -142,7 +142,7 @@ inline void jit_kernel(ACC_DRV(function)& kern_func, libsmm_acc_algo algo, int t
 
     // Create JIT program
     ACC_RTC(Program) kernel_program;
-    ACC_RTC_CALL(CreateProgram, (&kernel_program, kernel_code.c_str(), "smm_acc_kernel.cpp", 0, NULL, NULL));
+    ACC_RTC_CALL(CreateProgram, (&kernel_program, kernel_code.c_str(), "smm_acc_kernel.cu", 0, NULL, NULL));
 
     // Add lowered name
     ACC_RTC_CALL(AddNameExpression, (kernel_program, kernel_name.c_str()));
@@ -353,7 +353,7 @@ void jit_transpose_handle(ACC_DRV(function)& kern_func, int m, int n){
     // Create nvrtcProgram
     ACC_RTC(Program) kernel_program;
     std::string transpose_code = smm_acc_common + smm_acc_transpose;
-    ACC_RTC_CALL(CreateProgram, (&kernel_program, transpose_code.c_str(), "transpose_kernel.cpp", 0, NULL, NULL));
+    ACC_RTC_CALL(CreateProgram, (&kernel_program, transpose_code.c_str(), "transpose_kernel.cu", 0, NULL, NULL));
 
     // Add lowered name
     std::string kernel_name = "transpose_d<" + std::to_string(m) + ", " + std::to_string(n) + ">";
