@@ -7,6 +7,12 @@
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
 
+// work around an issue where -D flags are not propagated in hiprtcCompileProgram (tested on 3.9.0)
+#if defined(__HIP_ROCclr__)
+#if !defined(__HIP)
+#define __HIP
+#endif
+#endif
 #if defined(__HIP) && !defined(__HIP_PLATFORM_NVCC__)
 # include <hip/hip_runtime.h>
 #endif
