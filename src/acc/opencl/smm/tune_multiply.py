@@ -18,6 +18,7 @@ from opentuner import MeasurementInterface
 from opentuner import IntegerParameter
 from opentuner import Result
 import json
+import glob
 import sys
 import re
 
@@ -40,7 +41,7 @@ class SmmTuner(MeasurementInterface):
         else:
             sys.tracebacklimit = 0
             raise RuntimeError(
-                'Setup failed for "' + self.exepath + "/" + self.exename + '"!'
+                "Setup failed for " + self.exepath + "/" + self.exename + "!"
             )
         # sanitize input arguments
         self.args.m = max(self.args.m, 1)
@@ -114,7 +115,7 @@ class SmmTuner(MeasurementInterface):
     def save_final_config(self, configuration):
         """called at the end of tuning"""
         if 0 < self.gflops:
-            filename = (
+            ofilename = (
                 "tune_multiply-"
                 + self.elemtype
                 + "-"
@@ -128,12 +129,75 @@ class SmmTuner(MeasurementInterface):
                 + "gflops.json"
             )
             print(
-                "Optimal block size written to " + filename + ": ", configuration.data
+                "Result achieving "
+                + str(self.gflops)
+                + " GFLOPS/s ("
+                + self.elemtype
+                + ") was written to "
+                + ofilename
             )
-            # self.manipulator().save_to_file(configuration.data, filename)
-            with open(filename, "w") as fd:
-                json.dump(configuration.data, fd)
-                fd.write("\n")  # append newline at EOF
+            # extend result for easier reuse later
+            configuration.data["GFLOPS"] = self.gflops
+            configuration.data["TYPE"] = self.elemtype
+            configuration.data["M"] = self.args.m
+            configuration.data["N"] = self.args.n
+            configuration.data["K"] = self.args.k
+            # self.manipulator().save_to_file(configuration.data, ofilename)
+            with open(ofilename, "w") as ofile:
+                json.dump(configuration.data, ofile)
+                ofile.write("\n")  # append newline at EOF
+            # merge all JSONs into a single CSV file
+            filenames = glob.glob("*.json")
+            ofilename = "tune_multiply.csv"
+            merged = dict()
+            for ifilename in filenames:
+                with open(ifilename, "r") as ifile:
+                    data = json.load(ifile)
+                    try:
+                        key = (data["TYPE"], data["M"], data["N"], data["K"])
+                        value = (
+                            data["GFLOPS"],
+                            data["BS"],
+                            data["BM"],
+                            data["BN"],
+                            ifilename,
+                        )
+                        if key not in merged:
+                            merged[key] = value
+                        else:
+                            if merged[key][0] < value[0]:
+                                ifilename = merged[key][-1]
+                                merged[key] = value
+                            print(
+                                "Superfluous "
+                                + ifilename
+                                + " ignored when merging CSV file"
+                            )
+                    except KeyError:
+                        print(
+                            "Malformed " + ifilename + " ignored when merging CSV file"
+                        )
+                        pass
+            if bool(merged):
+                with open(ofilename, "w") as ofile:
+                    ofile.write(  # CSV header line
+                        self.args.csvsep.join(
+                            ["TYPE", "M", "N", "K", "GFLOPS", "BS", "BM", "BN"]
+                        )
+                        + "\n"
+                    )
+                    for key, value in merged.items():  # CSV data lines
+                        strkey = self.args.csvsep.join([str(k) for k in key])
+                        strval = self.args.csvsep.join([str(v) for v in value[:-1]])
+                        ofile.write(strkey + self.args.csvsep + strval + "\n")
+                print(
+                    "Merged "
+                    + str(len(merged))
+                    + " of "
+                    + str(len(filenames))
+                    + " JSONs into "
+                    + ofilename
+                )
 
 
 if __name__ == "__main__":
@@ -182,6 +246,15 @@ if __name__ == "__main__":
         nargs="?",
         dest="mb",
         help="Maximum (mini-)batch size (BS)",
+    )
+    argparser.add_argument(
+        "-s",
+        "--csv-separator",
+        type=(lambda c: c if isinstance(c, str) and 1 == len(c) else False),
+        default=";",
+        nargs="?",
+        dest="csvsep",
+        help="Separator used in CSV-file",
     )
     argparser.add_argument(
         "-v",
