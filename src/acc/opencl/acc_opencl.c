@@ -129,7 +129,8 @@ int acc_opencl_order_devices(const void* dev_a, const void* dev_b)
 
 int acc_init(void)
 {
-#if defined(_OPENMP) && defined(ACC_OPENCL_THREADLOCAL_CONTEXT)
+#if defined(_OPENMP)
+  /* initialization/finalization is not meant to be thread-safe */
   int result = (0 == omp_in_parallel() ? EXIT_SUCCESS : EXIT_FAILURE);
 #else
   int result = EXIT_SUCCESS;
@@ -265,10 +266,10 @@ int acc_init(void)
       acc_opencl_ndevices = -1;
     }
 #if defined(__DBCSR_ACC)
-    /* DBCSR may call acc_init() as well as libsmm_acc_init() since both interface are used.
-     * libsmm_acc_init may privately call acc_init (as it depends on the ACC interface).
-     * The implementation of acc_init() should be safe against "over initialization".
-     * However, DBCSR only calls acc_init() and expects an implicit libsmm_acc_init().
+    /* DBCSR shall call acc_init as well as libsmm_acc_init (since both interfaces are used).
+     * Also, libsmm_acc_init may privately call acc_init (as it depends on the ACC interface).
+     * The implementation of acc_init should hence be safe against "over initialization".
+     * However, DBCSR only calls acc_init (and expects an implicit libsmm_acc_init).
      */
     if (EXIT_SUCCESS == result) {
       result = libsmm_acc_init();
@@ -281,7 +282,8 @@ int acc_init(void)
 
 int acc_finalize(void)
 {
-#if defined(_OPENMP) && defined(ACC_OPENCL_THREADLOCAL_CONTEXT)
+#if defined(_OPENMP)
+  /* initialization/finalization is not meant to be thread-safe */
   int result = (0 == omp_in_parallel() ? EXIT_SUCCESS : EXIT_FAILURE);
 #else
   int result = EXIT_SUCCESS;

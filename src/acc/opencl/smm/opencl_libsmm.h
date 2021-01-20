@@ -21,6 +21,9 @@
 #if !defined(OPENCL_LIBSMM_TRANS_INPLACE) && 0
 # define OPENCL_LIBSMM_TRANS_INPLACE
 #endif
+#if !defined(OPENCL_LIBSMM_PARAMS_DELIMS)
+# define OPENCL_LIBSMM_PARAMS_DELIMS ";, \t|/"
+#endif
 #if !defined(OPENCL_LIBSMM_DEBUG) && 0
 # define OPENCL_LIBSMM_DEBUG
 #endif
@@ -41,8 +44,38 @@
 extern "C" {
 #endif
 
+/** Type for querying transpose kernel/configuration. */
+typedef struct opencl_libsmm_transkey_t {
+  libsmm_acc_data_t type;
+  int m, n;
+} opencl_libsmm_transkey_t;
+
+/** Type for transpose kernel/configuration. */
+typedef struct opencl_libsmm_trans_t {
+  cl_kernel kernel;
+  size_t wgsize;
+} opencl_libsmm_trans_t;
+
+/** Type for querying SMM-kernel/configuration. */
+typedef struct opencl_libsmm_smmkey_t {
+  libsmm_acc_data_t type;
+  int m, n, k;
+} opencl_libsmm_smmkey_t;
+
+/** Type for SMM-kernel/configuration. */
+typedef struct opencl_libsmm_smm_t {
+  cl_kernel kernel;
+  size_t wgsize;
+  /* tuned parameters for SMM-kernels */
+  int bs, bm, bn;
+} opencl_libsmm_smm_t;
+
 /** If buffers are hinted for non-concurrent writes aka "OpenCL constant". */
 int opencl_libsmm_use_cmem(cl_device_id device);
+
+/* Tokenize parambuf and initialize key/value pair. */
+int opencl_libsmm_read_params(char* parambuf,
+  opencl_libsmm_smmkey_t* key, opencl_libsmm_smm_t* value);
 
 #if defined(OPENCL_LIBSMM_DEBUG) && defined(_DEBUG)
 void opencl_libsmm_print_matrix(FILE* ostream, const char* label,

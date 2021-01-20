@@ -106,6 +106,8 @@ int main(int argc, char* argv[])
   printf("%s%s%i %i %i %i %i %i %i %i\n", 0 < argc ? argv[0] : "", 0 < argc ? " " : "",
     nrepeat, stack_size, m, n, k, nc, na, nb);
   CHECK(acc_init(), &result);
+  /* libsmm_acc_init() should imply acc_init() */
+  CHECK(libsmm_acc_init(), &result);
   CHECK(acc_get_ndevices(&ndevices), &result);
   if (0 < ndevices) {
 #if defined(_DEBUG)
@@ -119,7 +121,7 @@ int main(int argc, char* argv[])
     CHECK(acc_finalize(), NULL);
     return result;
   }
-  printf("element type: %s\n", DBCSR_STRINGIFY(ELEM_TYPE));
+  printf("typename (id=%i): %s\n", DBCSR_TYPE(ELEM_TYPE), DBCSR_STRINGIFY(ELEM_TYPE));
   CHECK(acc_stream_create(&stream, "stream", -1/*default priority*/), &result);
   CHECK(acc_host_mem_allocate((void**)&amat_hst, sizeof(ELEM_TYPE) * mk * na, stream), &result);
   CHECK(acc_host_mem_allocate((void**)&bmat_hst, sizeof(ELEM_TYPE) * kn * nb, stream), &result);

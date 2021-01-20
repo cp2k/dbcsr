@@ -11,8 +11,11 @@ list(TRANSFORM SMM_ACC_KERNELS PREPEND ${CMAKE_CURRENT_SOURCE_DIR}/)
 
 if (USE_ACCEL MATCHES "opencl")
   add_custom_command(
-    COMMAND ${SMM_ACC_KERNEL_SCRIPT} ${SMM_ACC_KERNELS}
-            ${LIBSMM_ACC_HEADER_KERNELS}
+    COMMAND
+      ${SMM_ACC_KERNEL_SCRIPT} ${SMM_ACC_KERNELS}
+      # parameter file is optional (does not need to exist)
+      ${CMAKE_CURRENT_SOURCE_DIR}/tune_multiply.csv ${LIBSMM_ACC_HEADER_KERNELS}
+    # param file is missing here (manual/clean rebuild needed)
     DEPENDS ${SMM_ACC_KERNEL_SCRIPT} ${SMM_ACC_KERNELS}
     OUTPUT ${LIBSMM_ACC_HEADER_KERNELS}
     COMMENT "libsmm_acc: generating kernels")

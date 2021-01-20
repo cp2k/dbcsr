@@ -98,7 +98,7 @@ bench: ../acc_bench_smm ../acc_bench_trans
 test: ../dbcsr_acc_test
 
 smm/opencl_kernels.h: acc_opencl.sh $(KERNEL)
-	./acc_opencl.sh $(KERNEL) $@
+	./acc_opencl.sh $(KERNEL) smm/tune_multiply.csv $@
 
 ../dbcsr_acc.a: $(OBJACC)
 	$(AR) -rs $@ $^

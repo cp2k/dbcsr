@@ -33,11 +33,14 @@ class SmmTuner(MeasurementInterface):
         self.exename = "acc_bench_smm"
         run_result = self.call_program(self.exepath + "/" + self.exename + " 1 1 1")
         if 0 == run_result["returncode"]:
-            match = re.search("element type:\\s+(\\w+)", str(run_result["stdout"]))
+            match = re.search(
+                "typename \\(id=([0-9]+)\\):\\s+(\\w+)", str(run_result["stdout"])
+            )
         else:
             match = None
-        if (match is not None) and match.group(1):
-            self.elemtype = match.group(1)
+        if (match is not None) and match.group(1) and match.group(2):
+            self.typename = match.group(2)
+            self.typeid = match.group(1)
         else:
             sys.tracebacklimit = 0
             raise RuntimeError(
@@ -117,7 +120,7 @@ class SmmTuner(MeasurementInterface):
         if 0 < self.gflops:
             ofilename = (
                 "tune_multiply-"
-                + self.elemtype
+                + self.typename
                 + "-"
                 + str(self.args.m)
                 + "x"
@@ -132,13 +135,13 @@ class SmmTuner(MeasurementInterface):
                 "Result achieving "
                 + str(self.gflops)
                 + " GFLOPS/s ("
-                + self.elemtype
+                + self.typename
                 + ") was written to "
                 + ofilename
             )
             # extend result for easier reuse later
             configuration.data["GFLOPS"] = self.gflops
-            configuration.data["TYPE"] = self.elemtype
+            configuration.data["TYPEID"] = self.typeid
             configuration.data["M"] = self.args.m
             configuration.data["N"] = self.args.n
             configuration.data["K"] = self.args.k
@@ -147,57 +150,59 @@ class SmmTuner(MeasurementInterface):
                 json.dump(configuration.data, ofile)
                 ofile.write("\n")  # append newline at EOF
             # merge all JSONs into a single CSV file
-            filenames = glob.glob("*.json")
-            ofilename = "tune_multiply.csv"
-            merged = dict()
-            for ifilename in filenames:
-                with open(ifilename, "r") as ifile:
-                    data = json.load(ifile)
-                    try:
-                        key = (data["TYPE"], data["M"], data["N"], data["K"])
-                        value = (
-                            data["GFLOPS"],
-                            data["BS"],
-                            data["BM"],
-                            data["BN"],
-                            ifilename,
-                        )
-                        if key not in merged:
-                            merged[key] = value
-                        else:
-                            if merged[key][0] < value[0]:
-                                ifilename = merged[key][-1]
+            if self.args.csvfile:
+                filenames = glob.glob("*.json")
+                merged = dict()
+                for ifilename in filenames:
+                    with open(ifilename, "r") as ifile:
+                        data = json.load(ifile)
+                        try:
+                            key = (data["TYPEID"], data["M"], data["N"], data["K"])
+                            value = (
+                                data["GFLOPS"],
+                                data["BS"],
+                                data["BM"],
+                                data["BN"],
+                                ifilename,
+                            )
+                            if key not in merged:
                                 merged[key] = value
+                            else:
+                                if merged[key][0] < value[0]:
+                                    ifilename = merged[key][-1]
+                                    merged[key] = value
+                                print(
+                                    "Superfluous "
+                                    + ifilename
+                                    + " ignored when merging CSV file"
+                                )
+                        except KeyError:
                             print(
-                                "Superfluous "
+                                "Malformed "
                                 + ifilename
                                 + " ignored when merging CSV file"
                             )
-                    except KeyError:
-                        print(
-                            "Malformed " + ifilename + " ignored when merging CSV file"
+                            pass
+                if bool(merged):
+                    with open(self.args.csvfile, "w") as ofile:
+                        ofile.write(  # CSV header line
+                            self.args.csvsep.join(
+                                ["TYPEID", "M", "N", "K", "GFLOPS", "BS", "BM", "BN"]
+                            )
+                            + "\n"
                         )
-                        pass
-            if bool(merged):
-                with open(ofilename, "w") as ofile:
-                    ofile.write(  # CSV header line
-                        self.args.csvsep.join(
-                            ["TYPE", "M", "N", "K", "GFLOPS", "BS", "BM", "BN"]
-                        )
-                        + "\n"
+                        for key, value in merged.items():  # CSV data lines
+                            strkey = self.args.csvsep.join([str(k) for k in key])
+                            strval = self.args.csvsep.join([str(v) for v in value[:-1]])
+                            ofile.write(strkey + self.args.csvsep + strval + "\n")
+                    print(
+                        "Merged "
+                        + str(len(merged))
+                        + " of "
+                        + str(len(filenames))
+                        + " JSONs into "
+                        + self.args.csvfile
                     )
-                    for key, value in merged.items():  # CSV data lines
-                        strkey = self.args.csvsep.join([str(k) for k in key])
-                        strval = self.args.csvsep.join([str(v) for v in value[:-1]])
-                        ofile.write(strkey + self.args.csvsep + strval + "\n")
-                print(
-                    "Merged "
-                    + str(len(merged))
-                    + " of "
-                    + str(len(filenames))
-                    + " JSONs into "
-                    + ofilename
-                )
 
 
 if __name__ == "__main__":
@@ -255,6 +260,15 @@ if __name__ == "__main__":
         nargs="?",
         dest="csvsep",
         help="Separator used in CSV-file",
+    )
+    argparser.add_argument(
+        "-c",
+        "--csv-filename",
+        type=str,
+        default="tune_multiply.csv",
+        nargs="?",
+        dest="csvfile",
+        help="Generate CSV-file",
     )
     argparser.add_argument(
         "-v",
