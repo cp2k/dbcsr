@@ -18,6 +18,17 @@ module load daint-gpu cudatoolkit CMake/3.14.5
 module unload cray-libsci_acc
 module list
 
+# Make LIBXSMM available
+git clone https://github.com/hfp/libxsmm.git
+cd libxsmm
+git checkout 283207ab1cef052232e9a9c761bc6edfab9df290
+make -j
+export PKG_CONFIG_PATH=${HOME}/libxsmm/lib
+cd ..
+
+# help CMake to find the OpenCL implementation
+export NVSDKCOMPUTE_ROOT=${CUDATOOLKIT_HOME}
+
 set -o xtrace  # do not set earlier to avoid noise from module
 
 umask 0002  # make sure group members can access the data
@@ -28,7 +39,7 @@ cd "${SCRATCH}/${BUILD_TAG}.ocl"
 cmake \
     -DCMAKE_SYSTEM_NAME=CrayLinuxEnvironment \
     -DCMAKE_CROSSCOMPILING_EMULATOR="" \
-    -DUSE_ACCEL=opencl \
+    -DUSE_ACCEL=opencl -DUSE_SMM=libxsmm \
     -DOpenCL_LIBRARY=${CUDATOOLKIT_HOME}/lib64/libOpenCL.so \
     -DBLAS_FOUND=ON -DBLAS_LIBRARIES="-lsci_gnu_mpi_mp" \
     -DLAPACK_FOUND=ON -DLAPACK_LIBRARIES="-lsci_gnu_mpi_mp" \
