@@ -47,6 +47,7 @@
 extern "C" {
 #endif
 
+int opencl_libsmm_initialized;
 volatile int opencl_libsmm_lock_trans[OPENCL_LIBSMM_NLOCKS_TRANS];
 volatile int opencl_libsmm_lock_smm[OPENCL_LIBSMM_NLOCKS_SMM];
 
@@ -127,67 +128,70 @@ int opencl_libsmm_read_params(char* parambuf,
 int libsmm_acc_init(void)
 {
 #if defined(_OPENMP)
-  /* initialization/finalization is not meant to be thread-safe */
+    /* initialization/finalization is not meant to be thread-safe */
   int result = (0 == omp_in_parallel() ? EXIT_SUCCESS : EXIT_FAILURE);
 #else
   int result = EXIT_SUCCESS;
 #endif
+  /* multiple calls to libsmm_acc_init are not considered as an error */
+  if (1 == LIBXSMM_ATOMIC_ADD_FETCH(&opencl_libsmm_initialized, 1, LIBXSMM_ATOMIC_RELAXED)) {
 #if !defined(__DBCSR_ACC)
-  /* DBCSR shall call acc_init as well as libsmm_acc_init (since both interfaces are used).
-   * Also, libsmm_acc_init may privately call acc_init (as it depends on the ACC interface).
-   * The implementation of acc_init should hence be safe against "over initialization".
-   * However, DBCSR only calls acc_init (and expects an implicit libsmm_acc_init).
-   */
-  if (EXIT_SUCCESS == result) {
-    result = acc_init();
-  }
+    /* DBCSR shall call acc_init as well as libsmm_acc_init (since both interfaces are used).
+     * Also, libsmm_acc_init may privately call acc_init (as it depends on the ACC interface).
+     * The implementation of acc_init should hence be safe against "over initialization".
+     * However, DBCSR only calls acc_init (and expects an implicit libsmm_acc_init).
+     */
+    if (EXIT_SUCCESS == result) {
+      result = acc_init();
+    }
 #endif
-  if (EXIT_SUCCESS == result) {
-    char buffer[ACC_OPENCL_BUFFERSIZE];
-    const char *const env_params = getenv("OPENCL_LIBSMM_SMM_PARAMS");
-    opencl_libsmm_smm_t config;
-    opencl_libsmm_smmkey_t key;
-    /* zeroing config once (tuned parameters are setup below) */
-    LIBXSMM_MEMZERO127(&config);
-    /* potentially heterogeneous key-data */
-    LIBXSMM_MEMZERO127(&key);
-    if (NULL == env_params || '0' != *env_params) {
-      if (NULL != env_params && '\0' != *env_params) {
-        FILE *const file = fopen(env_params, "r");
-        /* consume first line and skip CSV header line */
-        if (NULL == file || NULL == fgets(buffer, ACC_OPENCL_BUFFERSIZE, file)) {
-          result = EXIT_FAILURE;
-        }
-        while (EXIT_SUCCESS == result &&
-          NULL != fgets(buffer, ACC_OPENCL_BUFFERSIZE, file))
-        {
-          result = opencl_libsmm_read_params(buffer, &key, &config);
-          if (EXIT_SUCCESS == result &&
-            NULL == OPENCL_LIBSMM_REGISTER(&key, sizeof(key), sizeof(config), &config))
-          {
+    if (EXIT_SUCCESS == result) {
+      char buffer[ACC_OPENCL_BUFFERSIZE];
+      const char *const env_params = getenv("OPENCL_LIBSMM_SMM_PARAMS");
+      opencl_libsmm_smm_t config;
+      opencl_libsmm_smmkey_t key;
+      /* zeroing config once (tuned parameters are setup below) */
+      LIBXSMM_MEMZERO127(&config);
+      /* potentially heterogeneous key-data */
+      LIBXSMM_MEMZERO127(&key);
+      if (NULL == env_params || '0' != *env_params) {
+        if (NULL != env_params && '\0' != *env_params) {
+          FILE *const file = fopen(env_params, "r");
+          /* consume first line and skip CSV header line */
+          if (NULL == file || NULL == fgets(buffer, ACC_OPENCL_BUFFERSIZE, file)) {
             result = EXIT_FAILURE;
           }
-        }
-      }
-#if defined(OPENCL_LIBSMM_PARAMS_SMM)
-      else {
-        const char* line = OPENCL_LIBSMM_PARAMS_SMM, *next;
-        do {
-          next = strchr(line, '\n');
-          if (NULL != next && next < (line + ACC_OPENCL_BUFFERSIZE)) {
-            const int len = next - line;
-            memcpy(buffer, line, len); buffer[len] = '\0';
+          while (EXIT_SUCCESS == result &&
+            NULL != fgets(buffer, ACC_OPENCL_BUFFERSIZE, file))
+          {
             result = opencl_libsmm_read_params(buffer, &key, &config);
             if (EXIT_SUCCESS == result &&
               NULL == OPENCL_LIBSMM_REGISTER(&key, sizeof(key), sizeof(config), &config))
             {
-              result = EXIT_FAILURE; break;
+              result = EXIT_FAILURE;
             }
-            line = ++next;
           }
-        } while (NULL != next);
-      }
+        }
+#if defined(OPENCL_LIBSMM_PARAMS_SMM)
+        else {
+          const char* line = OPENCL_LIBSMM_PARAMS_SMM, *next;
+          do {
+            next = strchr(line, '\n');
+            if (NULL != next && next < (line + ACC_OPENCL_BUFFERSIZE)) {
+              const int len = next - line;
+              memcpy(buffer, line, len); buffer[len] = '\0';
+              result = opencl_libsmm_read_params(buffer, &key, &config);
+              if (EXIT_SUCCESS == result &&
+                NULL == OPENCL_LIBSMM_REGISTER(&key, sizeof(key), sizeof(config), &config))
+              {
+                result = EXIT_FAILURE; break;
+              }
+              line = ++next;
+            }
+          } while (NULL != next);
+        }
 #endif
+      }
     }
   }
   ACC_OPENCL_RETURN(result);
@@ -196,13 +200,22 @@ int libsmm_acc_init(void)
 
 int libsmm_acc_finalize(void)
 {
-#if defined(_OPENMP)
+  /* Routine libsmm_acc_init is called in master thread inside of parallel region
+   * However, libsmm_acc_finalize is indirectly called (acc_finalize) inside of a
+   * parallel region (not just the master thread).
+   */
+#if defined(_OPENMP) && /*WORKAROUND*/!defined(__DBCSR_ACC)
   /* initialization/finalization is not meant to be thread-safe */
   int result = (0 == omp_in_parallel() ? EXIT_SUCCESS : EXIT_FAILURE);
 #else
   int result = EXIT_SUCCESS;
 #endif
-  /* acc_finalize() is not called since it can be used independently */
+#if 0
+  /* multiple calls to libsmm_acc_finalize are not considered as an error */
+  if (0 == LIBXSMM_ATOMIC_SUB_FETCH(&opencl_libsmm_initialized, 1, LIBXSMM_ATOMIC_RELAXED)) {
+  }
+#endif
+  /* acc_finalize is not called since it can be used independently */
   return result;
 }
 
