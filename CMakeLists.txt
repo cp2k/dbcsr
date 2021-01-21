@@ -93,7 +93,7 @@ set_property(CACHE USE_SMM PROPERTY STRINGS blas libxsmm)
 set(USE_ACCEL
     ""
     CACHE STRING "Build with acceleration support (default: none)")
-set_property(CACHE USE_ACCEL PROPERTY STRINGS opencl cuda hip)
+set_property(CACHE USE_ACCEL PROPERTY STRINGS "" opencl cuda hip)
 
 set(SUPPORTED_CUDA_ARCHITECTURES K20X K40 K80 P100 V100)
 set(SUPPORTED_HIP_ARCHITECTURES Mi50)
