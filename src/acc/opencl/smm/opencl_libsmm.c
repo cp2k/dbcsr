@@ -265,7 +265,17 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
         result = acc_opencl_device(stream, &active_device);
         if (EXIT_SUCCESS == result) {
           const char *const env_options = getenv("OPENCL_LIBSMM_TRANS_BUILDOPTS");
-          const char *const env_wgsize = getenv("OPENCL_LIBSMM_TRANS_WGSIZE");
+          const char *const env_inplace = getenv("OPENCL_LIBSMM_TRANS_INPLACE");
+          const char *const env_blockm = getenv("OPENCL_LIBSMM_TRANS_BLOCK_M");
+          const int inplace = ((m == n) && ((NULL == env_inplace || '\0' == *env_inplace)
+#if defined(OPENCL_LIBSMM_TRANS_INPLACE)
+            ? 1 : ('0' != *env_inplace)));
+#else
+            ? 0 : ('0' != *env_inplace)));
+#endif
+          const int blockm = ((NULL == env_blockm || '\0' == *env_blockm)
+            ? m/*TODO*/ : atoi(env_blockm));
+          const int bm = LIBXSMM_CLMP(blockm, 1, m);
           const char* typename = "";
           int wgsize;
           switch (datatype) {
@@ -279,50 +289,33 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
             } break;
             default: ;
           }
-          if (NULL == env_wgsize || '\0' == *env_wgsize) {
-            wgsize = m;
-          }
-          else {
-            wgsize = atoi(env_wgsize);
-            wgsize = ((m <= wgsize || 0 == (m % wgsize)) ? wgsize : m);
-          }
+          wgsize = ((m == bm || 0 == (m % bm)) ? bm : m);
           nchar = ACC_OPENCL_SNPRINTF(build_options, sizeof(build_options), "%s"
-            " -DGLOBAL=%s -DFN=%s -DSM=%i -DSN=%i -DSWG=%i -DT=%s",
+            " -DGLOBAL=%s -DINPLACE=%i -DFN=%s -DSM=%i -DSN=%i -DSWG=%i -DT=%s",
             (NULL == env_options || '\0' == *env_options) ? "" : env_options,
             EXIT_SUCCESS != opencl_libsmm_use_cmem(active_device) ? "global" : "constant",
-            fname, m, n, wgsize, typename);
+            inplace, fname, m, n, wgsize, typename);
           if ('\0' != *typename && 0 < nchar && (int)sizeof(build_options) > nchar) {
-            const char *const env_inplace = getenv("OPENCL_LIBSMM_TRANS_INPLACE");
-#if defined(OPENCL_LIBSMM_TRANS_INPLACE)
-            const int inplace = (m == n);
+            opencl_libsmm_trans_t new_config;
+#if defined(OPENCL_LIBSMM_SOURCE_TRANSPOSE)
+            result = acc_opencl_kernel(OPENCL_LIBSMM_SOURCE_TRANSPOSE,
+              build_options, fname, &new_config.kernel);
 #else
-            const int inplace = (m == n) && ((NULL == env_inplace || '\0' == *env_inplace)
-              ? (EXIT_SUCCESS == acc_opencl_device_vendor(active_device, "intel"))
-              : ('0' != *env_inplace));
+            ACC_OPENCL_UNUSED(inplace);
+            result = EXIT_FAILURE;
 #endif
             if (EXIT_SUCCESS == result) {
-              opencl_libsmm_trans_t new_config;
-#if defined(OPENCL_LIBSMM_SOURCE_TRANSPOSE) && defined(OPENCL_LIBSMM_SOURCE_TRANSPOSE_INPLACE)
-              result = acc_opencl_kernel(
-                inplace ? OPENCL_LIBSMM_SOURCE_TRANSPOSE_INPLACE : OPENCL_LIBSMM_SOURCE_TRANSPOSE,
-                build_options, fname, &new_config.kernel);
-#else
-              ACC_OPENCL_UNUSED(inplace);
-              result = EXIT_FAILURE;
-#endif
+              int max_wgsize;
+              result = acc_opencl_wgsize(active_device, new_config.kernel,
+                &max_wgsize, NULL/*preferred_multiple*/);
               if (EXIT_SUCCESS == result) {
-                int max_wgsize;
-                result = acc_opencl_wgsize(active_device, new_config.kernel,
-                  &max_wgsize, NULL/*preferred_multiple*/);
-                if (EXIT_SUCCESS == result) {
-                  assert(0 < max_wgsize);
-                  if (wgsize <= max_wgsize) {
-                    new_config.wgsize = (size_t)wgsize;
-                    config = (opencl_libsmm_trans_t*)OPENCL_LIBSMM_REGISTER(&key, sizeof(key),
-                      sizeof(new_config), &new_config);
-                  }
-                  else result = EXIT_FAILURE;
+                assert(0 < max_wgsize);
+                if (wgsize <= max_wgsize) {
+                  new_config.wgsize = (size_t)wgsize;
+                  config = (opencl_libsmm_trans_t*)OPENCL_LIBSMM_REGISTER(&key, sizeof(key),
+                    sizeof(new_config), &new_config);
                 }
+                else result = EXIT_FAILURE;
               }
             }
           }
@@ -567,7 +560,8 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
             if (EXIT_SUCCESS == result) {
               opencl_libsmm_smm_t new_config;
 #if defined(OPENCL_LIBSMM_SOURCE_MULTIPLY)
-              result = acc_opencl_kernel(OPENCL_LIBSMM_SOURCE_MULTIPLY, build_options, fname, &new_config.kernel);
+              result = acc_opencl_kernel(OPENCL_LIBSMM_SOURCE_MULTIPLY,
+                build_options, fname, &new_config.kernel);
 #else
               result = EXIT_FAILURE;
 #endif

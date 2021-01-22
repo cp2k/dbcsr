@@ -52,12 +52,17 @@ static void swap(int* m, int* n) { int tmp = *m; *m = *n; *n = tmp; }
 
 int main(int argc, char* argv[])
 {
-  const int nrepeat = (1 < argc ? atoi(argv[1]) : 5);
+  const int inr = (1 < argc ? atoi(argv[1]) : 0);
+  const int iss = (2 < argc ? atoi(argv[2]) : 0);
+  const int ism = (3 < argc ? atoi(argv[3]) : 0);
+  const int isn = (4 < argc ? atoi(argv[4]) : 0);
+  const int iof = (5 < argc ? atoi(argv[5]) : 0);
+  const int nrepeat = (0 < inr ? inr : 5);
   const int nodd = (0 < nrepeat ? ((nrepeat & 1/*odd*/) ? nrepeat : (nrepeat - 1)) : 1);
-  const int stack_size = (2 < argc ? atoi(argv[2]) : 30000);
-  const int m = (3 < argc ? atoi(argv[3]) : 23);
-  const int n = (4 < argc ? atoi(argv[4]) : m);
-  const int offset = (5 < argc ? atoi(argv[5]) : 0);
+  const int stack_size = (0 < iss ? iss : 30000);
+  const int m = (0 < ism ? ism : 23);
+  const int n = (0 < isn ? isn : m);
+  const int offset = (0 < iof ? iof : 0);
   const int offset_stack_size = offset + stack_size;
 #if defined(ALIGNMENT) && (0 < ALIGNMENT)
   const int mn = (int)ROUNDUP2(sizeof(ELEM_TYPE) * m, ALIGNMENT) * n / sizeof(ELEM_TYPE);
