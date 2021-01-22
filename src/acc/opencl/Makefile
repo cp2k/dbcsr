@@ -85,6 +85,13 @@ endif
 ifeq (Darwin,$(UNAME))
   LDFLAGS += -framework OpenCL
 else
+  ifneq (,$(CUDATOOLKIT_HOME))
+    CFLAGS += -I$(CUDATOOLKIT_HOME)/include
+    LDFLAGS += -L$(CUDATOOLKIT_HOME)/lib64
+  else ifneq (,$(NVSDKCOMPUTE_ROOT))
+    CFLAGS += -I$(NVSDKCOMPUTE_ROOT)/include
+    LDFLAGS += -L$(NVSDKCOMPUTE_ROOT)/lib64
+  endif
   LDFLAGS += -lOpenCL
 endif
 
