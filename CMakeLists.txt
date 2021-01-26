@@ -186,12 +186,13 @@ if (USE_SMM MATCHES "blas")
   message("-- Using BLAS for Small Matrix Multiplication")
 elseif (USE_SMM MATCHES "libxsmm")
   if (LIBXSMM_FOUND)
-    message("-- Using libxsmm for Small Matrix Multiplication")
+    message("-- Using LIBXSMM for Small Matrix Multiplication")
   else ()
     message(
       FATAL_ERROR
         "LIBXSMM is not found but requested (USE_SMM). "
-        "Please install libxsmm and set PKG_CONFIG_PATH=/path/to/libxsmm/lib")
+        "Please install PkgConfig, build LIBXSMM, and "
+        "set PKG_CONFIG_PATH=/path/to/libxsmm/lib")
   endif ()
 else ()
   message(FATAL_ERROR "Unknown SMM library specified")
@@ -202,8 +203,10 @@ if (USE_ACCEL MATCHES "opencl")
   if (NOT LIBXSMM_FOUND)
     message(
       FATAL_ERROR
-        "LIBXSMM is not found but it is required for the ACC/OpenCL backend. "
-        "Please install libxsmm and set PKG_CONFIG_PATH=/path/to/libxsmm/lib")
+        "LIBXSMM is not found but required for "
+        "LIBSMM based on the ACC/OpenCL backend. "
+        "Please install PkgConfig, LIBXSMM, and "
+        "set PKG_CONFIG_PATH=/path/to/libxsmm/lib")
   endif ()
 
   find_package(OpenCL REQUIRED)
@@ -230,9 +233,8 @@ if (USE_ACCEL MATCHES "cuda")
   list(FIND SUPPORTED_CUDA_ARCHITECTURES ${WITH_GPU} GPU_SUPPORTED)
   if (GPU_SUPPORTED EQUAL -1)
     message(
-      FATAL_ERROR
-        "GPU architecture requested (${WITH_GPU}) is not supported. Please choose from: ${SUPPORTED_CUDA_ARCHITECTURES}"
-    )
+      FATAL_ERROR "GPU architecture requested (${WITH_GPU}) is not supported. "
+                  "Please choose from: ${SUPPORTED_CUDA_ARCHITECTURES}")
   endif ()
 
   # assume that the backend compiler for nvcc understands the -std=c++11
@@ -277,9 +279,8 @@ if (USE_ACCEL MATCHES "hip")
   list(FIND SUPPORTED_HIP_ARCHITECTURES ${WITH_GPU} GPU_SUPPORTED)
   if (GPU_SUPPORTED EQUAL -1)
     message(
-      FATAL_ERROR
-        "GPU architecture requested (${WITH_GPU}) is not supported. Please choose from: ${SUPPORTED_HIP_ARCHITECTURES}"
-    )
+      FATAL_ERROR "GPU architecture requested (${WITH_GPU}) is not supported. "
+                  "Please choose from: ${SUPPORTED_HIP_ARCHITECTURES}")
   endif ()
 
   # Set path to HIP installation, include HIP cmake utilities
