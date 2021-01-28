@@ -229,8 +229,6 @@ if (USE_ACCEL)
             $<$<BOOL:${USE_ACCEL:hip}>:roc::hipblas>
             $<$<BOOL:${USE_ACCEL:hip}>:hip::host>
             $<$<BOOL:${USE_OPENMP}>:OpenMP::OpenMP_CXX>)
-
-  target_link_libraries(dbcsr PRIVATE libsmm_acc)
 endif ()
 
 # =================================================================================================

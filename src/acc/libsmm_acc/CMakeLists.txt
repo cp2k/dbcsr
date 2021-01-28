@@ -24,7 +24,10 @@ add_custom_target(
   BYPRODUCTS smm_acc_kernels.h
   COMMENT "libsmm_acc: generating kernels")
 
+add_dependencies(dbcsr smm_acc_kernels parameters)
+target_include_directories(dbcsr PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
+                                         ${CMAKE_CURRENT_SOURCE_DIR})
+
 add_library(libsmm_acc INTERFACE)
-add_dependencies(libsmm_acc smm_acc_kernels parameters)
 target_include_directories(libsmm_acc INTERFACE ${CMAKE_CURRENT_BINARY_DIR}
                                                 ${CMAKE_CURRENT_SOURCE_DIR})

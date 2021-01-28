@@ -236,8 +236,8 @@ if (USE_ACCEL MATCHES "cuda|hip")
     target_compile_definitions(
       ${libsmm_acc_test_name} PRIVATE $<$<BOOL:${USE_ACCEL:hip}>:__HIP>
                                       $<$<BOOL:${USE_ACCEL:cuda}>:__CUDA>)
-    target_link_libraries(${libsmm_acc_test_name} libsmm_acc dbcsr
-                          $<$<BOOL:${USE_ACCEL:hip}>:hip::host>)
+    target_link_libraries(${libsmm_acc_test_name} dbcsr
+                          $<$<BOOL:${USE_ACCEL:hip}>:hip::host> libsmm_acc)
     add_test(NAME ${libsmm_acc_test} COMMAND ${libsmm_acc_test})
   endforeach ()
 
