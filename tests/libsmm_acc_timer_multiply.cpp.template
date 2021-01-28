@@ -12,9 +12,8 @@
 #include <vector>
 #include <array>
 #include <algorithm>
-#include "../src/acc/libsmm_acc/libsmm_acc_benchmark.h"
-#include "../src/acc/libsmm_acc/libsmm_acc.h"
-#include "../src/acc/libsmm_acc/parameters.h"
+#include "libsmm_acc_benchmark.h"
+#include "libsmm_acc.h"
 
 std::vector<Triplet> combinations(std::vector<int> to_combine){
 

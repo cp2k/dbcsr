@@ -196,8 +196,8 @@ file(RELATIVE_PATH CURRENT_BINARY_DIR_RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/..
      ${CMAKE_CURRENT_BINARY_DIR})
 
 # libsmm_acc_unittest_multiply
-add_custom_command(
-  OUTPUT libsmm_acc_unittest_multiply.cpp
+add_custom_target(
+  generate_libsmm_acc_unittest_multiply_test_cpp
   COMMAND
     ${Python_EXECUTABLE}
     ${CMAKE_CURRENT_SOURCE_DIR}/generate_libsmm_acc_unittest_multiply.py
@@ -205,13 +205,12 @@ add_custom_command(
     ${CURRENT_BINARY_DIR_RELATIVE} --gpu_version=${WITH_GPU}
   DEPENDS libsmm_acc_unittest_multiply.cpp.template
           generate_libsmm_acc_unittest_multiply.py
+  BYPRODUCTS libsmm_acc_unittest_multiply.cpp
   COMMENT "Generate tests/libsmm_acc_unittest_multiply.cpp")
-add_custom_target(generate_libsmm_acc_unittest_multiply_test_cpp
-                  DEPENDS libsmm_acc_unittest_multiply.cpp)
 
 # libsmm_acc_timer_multiply
-add_custom_command(
-  OUTPUT libsmm_acc_timer_multiply.cpp
+add_custom_target(
+  generate_libsmm_acc_timer_multiply_test_cpp
   COMMAND
     ${Python_EXECUTABLE}
     ${CMAKE_CURRENT_SOURCE_DIR}/generate_libsmm_acc_timer_multiply.py --base_dir
@@ -219,9 +218,8 @@ add_custom_command(
     --gpu_version=${WITH_GPU}
   DEPENDS libsmm_acc_timer_multiply.cpp.template
           generate_libsmm_acc_timer_multiply.py
+  BYPRODUCTS libsmm_acc_timer_multiply.cpp
   COMMENT "Generate tests/libsmm_acc_unittest_transpose.cpp")
-add_custom_target(generate_libsmm_acc_timer_multiply_test_cpp
-                  DEPENDS libsmm_acc_timer_multiply.cpp)
 
 if (USE_ACCEL MATCHES "cuda|hip")
 
@@ -231,65 +229,16 @@ if (USE_ACCEL MATCHES "cuda|hip")
       ${CMAKE_CURRENT_BINARY_DIR}/libsmm_acc_timer_multiply.cpp
       libsmm_acc_unittest_transpose.cpp)
 
-  # Tests that need no additional arguments to be run
-  set(LIBSMM_ACC_NOARG_TESTS libsmm_acc_unittest_multiply
-                             libsmm_acc_unittest_transpose)
-
   # Add executables for all libsmm_acc tests
-  if (USE_ACCEL MATCHES "cuda")
-
-    foreach (libsmm_acc_test ${LIBSMM_ACC_TESTS_SRCS})
-
-      get_filename_component(libsmm_acc_test_name ${libsmm_acc_test} NAME_WE)
-
-      add_executable(${libsmm_acc_test_name} ${libsmm_acc_test})
-      target_compile_definitions(${libsmm_acc_test_name} PRIVATE __CUDA)
-      target_include_directories(
-        ${libsmm_acc_test_name}
-        PRIVATE ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
-
-      target_link_libraries(${libsmm_acc_test_name} dbcsr)
-
-      if (OpenMP_FOUND)
-        target_link_libraries(${libsmm_acc_test_name} OpenMP::OpenMP_CXX)
-      endif ()
-
-    endforeach ()
-
-  elseif (USE_ACCEL MATCHES "hip")
-
-    foreach (libsmm_acc_test ${LIBSMM_ACC_TESTS_SRCS})
-
-      get_filename_component(libsmm_acc_test_name ${libsmm_acc_test} NAME_WE)
-
-      add_executable(${libsmm_acc_test_name} ${libsmm_acc_test})
-      target_link_libraries(${libsmm_acc_test_name} dbcsr hip::host)
-      target_compile_definitions(${libsmm_acc_test_name} PRIVATE __HIP)
-      if (OpenMP_FOUND)
-        target_link_libraries(${libsmm_acc_test_name} OpenMP::OpenMP_CXX)
-      endif ()
-
-    endforeach ()
-
-    # Workaround issue in hip_add_library: explicitely write dependency between
-    # the test executable and the generated test c++ source file
-    add_dependencies(libsmm_acc_unittest_multiply
-                     generate_libsmm_acc_unittest_multiply_test_cpp)
-    add_dependencies(libsmm_acc_timer_multiply
-                     generate_libsmm_acc_timer_multiply_test_cpp)
-
-    foreach (libsmm_acc_test ${LIBSMM_ACC_TESTS_SRCS})
-
-      get_filename_component(libsmm_acc_test_name ${libsmm_acc_test} NAME_WE)
-      target_compile_definitions(${libsmm_acc_test_name} PRIVATE __HIP)
-      target_link_libraries(${libsmm_acc_test_name} dbcsr)
-
-    endforeach ()
-
-  endif ()
-
-  # Add tests that do not need additional arguments
-  foreach (libsmm_acc_test ${LIBSMM_ACC_NOARG_TESTS})
+  foreach (libsmm_acc_test ${LIBSMM_ACC_TESTS_SRCS})
+    get_filename_component(libsmm_acc_test_name ${libsmm_acc_test} NAME_WE)
+    add_executable(${libsmm_acc_test_name} ${libsmm_acc_test})
+    target_compile_definitions(
+      ${libsmm_acc_test_name} PRIVATE $<$<BOOL:${USE_ACCEL:hip}>:__HIP>
+                                      $<$<BOOL:${USE_ACCEL:cuda}>:__CUDA>)
+    target_link_libraries(
+      ${libsmm_acc_test_name} $<$<BOOL:${USE_OPENMP}>:OpenMP::OpenMP_CXX>
+      libsmm_acc dbcsr $<$<BOOL:${USE_ACCEL:hip}>:hip::host>)
     add_test(NAME ${libsmm_acc_test} COMMAND ${libsmm_acc_test})
   endforeach ()
 

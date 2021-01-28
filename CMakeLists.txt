@@ -152,8 +152,6 @@ endif ()
 # =================================== MPI
 if (USE_MPI)
   get_property(REQUIRED_MPI_COMPONENTS GLOBAL PROPERTY ENABLED_LANGUAGES)
-  list(REMOVE_ITEM REQUIRED_MPI_COMPONENTS CUDA) # CUDA does not have an MPI
-                                                 # component
   if (NOT CMAKE_CROSSCOMPILING) # when cross compiling, assume the users know
                                 # what they are doing
     set(MPI_DETERMINE_LIBRARY_VERSION TRUE)
@@ -218,8 +216,9 @@ if (USE_ACCEL MATCHES "cuda|hip")
 endif ()
 
 if (USE_ACCEL MATCHES "cuda")
-  enable_language(CUDA)
-  if (CMAKE_CUDA_COMPILER_VERSION LESS 5.5)
+  find_package(CUDAToolkit REQUIRED)
+
+  if (CUDAToolkit_VERSION LESS 5.5)
     message(FATAL_ERROR "CUDA version >= 5.5 is required.")
   endif ()
 
@@ -231,39 +230,12 @@ if (USE_ACCEL MATCHES "cuda")
                   "Please choose from: ${SUPPORTED_CUDA_ARCHITECTURES}")
   endif ()
 
-  # assume that the backend compiler for nvcc understands the -std=c++11
-  set(CMAKE_CUDA_STANDARD 11)
-  set(CMAKE_CUDA_STANDARD_REQUIRED ON)
-
   # set cuda architecture number and compilation flags
   set(ACC_ARCH_NUMBER ${GPU_ARCH_NUMBER_${WITH_GPU}})
-  # TODO: use CMAKE_CUDA_RUNTIME_LIBRARY with CMake 3.17+ and CUDA_ARCHITECTURES
-  # with CMake 3.18+
-  string(APPEND CMAKE_CUDA_FLAGS " -arch=sm_${ACC_ARCH_NUMBER} --cudart static")
-  add_compile_definitions($<$<COMPILE_LANGUAGE:CUDA>:__CUDA>)
+
   message(STATUS "GPU target architecture: " ${WITH_GPU})
   message(STATUS "GPU architecture number: " ${ACC_ARCH_NUMBER})
   message(STATUS "GPU profiling enabled: " ${WITH_CUDA_PROFILING})
-
-  # =================================== BLAS on GPU backend
-  find_library(CUBLAS cublas HINT ${CMAKE_CUDA_IMPLICIT_LINK_DIRECTORIES})
-  if (NOT CUBLAS)
-    message(
-      FATAL_ERROR
-        "cuBLAS library not found but support required for DBCSR's CUDA backend"
-    )
-  else ()
-    message(STATUS "Found cuBLAS: ${CUBLAS}")
-  endif ()
-  if (WITH_CUDA_PROFILING)
-    find_library(
-      CUDA_NVTOOLSEXT nvToolsExt
-      PATHS ${CMAKE_CUDA_IMPLICIT_LINK_DIRECTORIES}
-      DOC "Building with CUDA profiling requires the nvToolsExt CUDA library"
-          REQUIRED)
-    message(STATUS "Found nvToolsExt: ${CUDA_NVTOOLSEXT}")
-  endif ()
-
 endif ()
 
 if (USE_ACCEL MATCHES "hip")
