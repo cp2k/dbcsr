@@ -28,7 +28,7 @@ For multiplying matrices:
 * `OPENCL_LIBSMM_SMM_BLOCK_M`: non-negative integer number (less/equal than the M-extent) denoting the blocksize in M-direction.
 * `OPENCL_LIBSMM_SMM_BLOCK_N`: non-negative integer number (less/equal than the N-extent) denoting the blocksize in N-direction.
 
-Please note: some of the above runtime settings may be non-smooth in the sense of enabling a distinct code-path depending on a specific value, e.g., `OPENCL_LIBSMM_SMM_BATCHSIZE=1`.
+**NOTE**: above runtime settings may be non-smooth in the sense of enabling a distinct code-path depending on a specific value, e.g., `OPENCL_LIBSMM_SMM_BATCHSIZE=1`.
 
 ## Auto Tuning
 
@@ -56,7 +56,17 @@ The OpenTuner script supports several command line arguments (`tune_multiply.py 
 
 **NOTE**: If multiple different kernels are tuned using `tune_multiply.py`, it is advisible to delete the `opentuner.db` directory prior to a new kernel otherwise auto-tuning is potentially (mis-)guided by information which was collected for a different kernel (`tune_multiply.sh` does this automatically).
 
-The script finally writes a JSON-file with the filename like `tune_multiply-float-12x12x12-60gflops.json` encoding the benchmark (multiply), the precision (float), the kernel (12x12x12), and the achieved performance (60gflops). Tuninig starts from an internal default that is supposed to match LIBSMM's internal default parameter setting. However, tuning can be (re-)started with specific parameters (e.g., `-bs 64`, `-bm 13`, `-bn 1` for `OPENCL_LIBSMM_SMM_BATCHSIZE`, `OPENCL_LIBSMM_SMM_BLOCK_M`, and `OPENCL_LIBSMM_SMM_BLOCK_N` respectively).
+The OpenTuner script implements multiple objectives ("cost"), primarily "accuracy" (maximized) and a secondary objective "size" (minimized). The former represents the achieved performance (GFLOPS/s) while the latter represents an artificial kernel requirement (just to prefer one parameter set over another in case of similar performance). The console output looks like:
+
+```
+[    15s]    INFO opentuner.search.plugin.DisplayPlugin: tests=8, best {'BS': 32, 'BM': 6, 'BN': 1}, cost accuracy=28.80000000, size=1.0, found by UniformGreedyMutation
+[    27s]    INFO opentuner.search.plugin.DisplayPlugin: tests=19, best {'BS': 48, 'BM': 8, 'BN': 1}, cost accuracy=32.20000000, size=1.0, found by UniformGreedyMutation
+[    40s]    INFO opentuner.search.plugin.DisplayPlugin: tests=31, best {'BS': 48, 'BM': 8, 'BN': 1}, cost accuracy=32.20000000, size=1.0, found by UniformGreedyMutation
+[    54s]    INFO opentuner.search.plugin.DisplayPlugin: tests=43, best {'BS': 48, 'BM': 8, 'BN': 1}, cost accuracy=32.20000000, size=1.0, found by UniformGreedyMutation
+[    67s]    INFO opentuner.search.plugin.DisplayPlugin: tests=53, best {'BS': 48, 'BM': 8, 'BN': 1}, cost accuracy=32.20000000, size=1.0, found by UniformGreedyMutation
+```
+
+The script finally writes a JSON-file with a filename like `tune_multiply-float-12x12x12-60gflops.json` which is encoding the benchmark (multiply), the precision (float), the kernel (12x12x12), and the achieved performance (60gflops). Tuninig starts from an internal default that is supposed to match LIBSMM's internal default parameters. However, tuning can be (re-)started with specific parameters (e.g., `-bs 64`, `-bm 13`, `-bn 1` for `OPENCL_LIBSMM_SMM_BATCHSIZE`, `OPENCL_LIBSMM_SMM_BLOCK_M`, and `OPENCL_LIBSMM_SMM_BLOCK_N` respectively).
 
 ## Optimized Kernels
 
