@@ -69,9 +69,9 @@ if [ "${SED}" ] && [ "${LS}" ] && [ "${RM}" ] && [ "${WC}" ]; then
   echo "       triplet-spec, e.g.,"
   echo "         23, 5 32 13 24 26, 4 9"
   echo
-  for SPECS in $(echo "${TRIPLETS}" | ${SED} -e "s/[[:space:]][[:space:]]*/_/g" -e "s/,/ /g"); do
-    SPEC=$(echo "${SPECS}" | ${SED} -e "s/^_//g" -e "s/_$//g" -e "s/_/,/g")
-    MNKS="${MNKS} $(eval printf "%s" "{${SPEC}}_{${SPEC}}_{${SPEC}}\" \"" | ${SED} -e "s/{//g" -e "s/}//g")"
+  for SPECS in $(echo "${TRIPLETS}" | ${SED} -e "s/[[:space:]][[:space:]]*/x/g" -e "s/,/ /g"); do
+    SPEC=$(echo "${SPECS}" | ${SED} -e "s/^x//g" -e "s/x$//g" -e "s/x/,/g")
+    MNKS="${MNKS} $(eval printf "%s" "{${SPEC}}x{${SPEC}}x{${SPEC}}\" \"" | ${SED} -e "s/{//g" -e "s/}//g")"
   done
   NTRIPLETS=$(echo "${MNKS}" | wc -w)
   PARTSIZE=$(((NTRIPLETS+NPARTS-1)/NPARTS))
@@ -103,7 +103,7 @@ if [ "${SED}" ] && [ "${LS}" ] && [ "${RM}" ] && [ "${WC}" ]; then
   N=0
   for MNK in ${MNKS}; do
     if [ "0" != "$((PARTOFFS<=N))" ]; then
-      TRIPLET=$(echo "${MNK}" | ${SED} "s/_/ /g")
+      TRIPLET=$(echo "${MNK}" | ${SED} "s/x/ /g")
       echo
       echo "Started auto-tuning ${MNK}-kernel..."
       # avoid mixing database of previous results into new session
