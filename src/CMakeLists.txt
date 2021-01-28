@@ -204,9 +204,6 @@ if (MPI_FOUND)
   target_link_libraries(dbcsr PUBLIC MPI::MPI_Fortran)
 endif ()
 
-# =================================================================================================
-# Link OpenMP runtime library even if DBCSR main code is not built with OpenMP
-
 target_link_libraries(dbcsr
                       PRIVATE $<$<BOOL:${USE_OPENMP}>:OpenMP::OpenMP_Fortran>)
 
