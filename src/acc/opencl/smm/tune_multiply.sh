@@ -105,7 +105,7 @@ if [ "${SED}" ] && [ "${LS}" ] && [ "${RM}" ] && [ "${WC}" ]; then
     if [ "0" != "$((PARTOFFS<=N))" ]; then
       TRIPLET=$(echo "${MNK}" | ${SED} "s/_/ /g")
       echo
-      echo "Started auto-tuning ${TRIPLET}-kernel..."
+      echo "Started auto-tuning ${MNK}-kernel..."
       # avoid mixing database of previous results into new session
       ${RM} -rf "${HERE}/opentuner.db"
       eval "${HERE}/tune_multiply.py ${TRIPLET} --no-dups ${LIMIT}"
