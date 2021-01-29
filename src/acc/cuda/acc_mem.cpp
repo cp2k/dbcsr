@@ -21,6 +21,9 @@
 
 static const int verbose_print = 0;
 
+// some api calls have changed, but we wrap them internally
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 
 /****************************************************************************/
 extern "C" int c_dbcsr_acc_dev_mem_allocate(void **dev_mem, size_t n){
@@ -146,3 +149,5 @@ extern "C" int c_dbcsr_acc_dev_mem_info(size_t* free, size_t* avail){
   ACC_API_CALL(MemGetInfo, (free, avail));
   return 0;
 }
+
+#pragma GCC diagnostic pop
