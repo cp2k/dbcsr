@@ -28,6 +28,8 @@ add_dependencies(dbcsr smm_acc_kernels parameters)
 target_include_directories(dbcsr PRIVATE ${CMAKE_CURRENT_BINARY_DIR}
                                          ${CMAKE_CURRENT_SOURCE_DIR})
 
+# Note: this library is only used in some of the tests, it's just to get include
+# paths to generated header files.
 add_library(libsmm_acc INTERFACE)
 target_include_directories(libsmm_acc INTERFACE ${CMAKE_CURRENT_BINARY_DIR}
                                                 ${CMAKE_CURRENT_SOURCE_DIR})

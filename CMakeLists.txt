@@ -247,7 +247,8 @@ if (USE_ACCEL MATCHES "hip")
                   "Please choose from: ${SUPPORTED_HIP_ARCHITECTURES}")
   endif ()
 
-  # ROCm is typically installed in /opt/rocm, so provide that prefix as a
+  # ROCm is typically installed in /opt/rocm; otherwise let the user set
+  # ROCM_PATH as an environment variable or define.
   if (NOT DEFINED ROCM_PATH)
     if (NOT DEFINED ENV{ROCM_PATH})
       set(ROCM_PATH
@@ -260,10 +261,10 @@ if (USE_ACCEL MATCHES "hip")
     endif ()
   endif ()
 
-  # hip::amdhip64 target (adds support for JIT-ing in HIP)
+  # Notice: this is not FindHIP.cmake for hip language support, but
+  # hip-config.cmake which contains targets like hip::host for jitting.
   find_package(hip CONFIG REQUIRED HINTS ${ROCM_PATH})
 
-  # set appropriate compilation flags depending on platform
   set(ACC_ARCH_NUMBER ${GPU_ARCH_NUMBER_${WITH_GPU}})
   message(STATUS "GPU target architecture: " ${WITH_GPU})
   message(STATUS "GPU architecture number: " ${ACC_ARCH_NUMBER})
