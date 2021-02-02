@@ -137,12 +137,12 @@ set(DBCSR_SRCS ${DBCSR_FORTRAN_SRCS})
 
 if (USE_ACCEL)
   set(DBCSR_SRCS ${DBCSR_SRCS} ${DBCSR_GENERIC_ACC_SRCS})
-  if (USE_ACCEL matches "cuda")
+  if (USE_ACCEL MATCHES "cuda")
     set(DBCSR_SRCS ${DBCSR_SRCS} ${DBCSR_CUDA_SRCS})
-  elseif (USE_ACCEL matches "hip")
+  elseif (USE_ACCEL MATCHES "hip")
     set(DBCSR_SRCS ${DBCSR_SRCS} ${DBCSR_HIP_SRCS})
-  elseif (USE_ACCEL matches "opencl")
-    set(DBCSR_SRCS ${DBCSR_SRCS} ${DBCSR_OPENCL_SRCS}
+  elseif (USE_ACCEL MATCHES "opencl")
+    set(DBCSR_SRCS ${DBCSR_SRCS} ${DBCSR_OPENCL_SRCS})
   endif ()
 endif ()
 
@@ -172,7 +172,7 @@ if (APPLE)
 endif ()
 
 # set -DNDEBUG for Release builds
-target_compile_definitions(dbcsr PRIVATE "$<$<CONFIG:Release>:NDEBUG>")
+target_compile_definitions(dbcsr PRIVATE $<$<CONFIG:Release>:NDEBUG>)
 
 target_link_libraries(dbcsr PRIVATE ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
 target_include_directories(
@@ -213,21 +213,21 @@ if (USE_ACCEL)
   target_compile_definitions(
     dbcsr
     PRIVATE __DBCSR_ACC
-            $<$<BOOL:${USE_ACCEL:cuda}>:__CUDA>
-            $<$<BOOL:${USE_ACCEL:opencl>:__OPENCL}
-            $<$<BOOL:${USE_ACCEL:cuda}>:ARCH_NUMBER=${ACC_ARCH_NUMBER}>
-            $<$<BOOL:${USE_ACCEL:hip}>:__HIP>
-            $<$<BOOL:${USE_ACCEL:hip}>:ARCH_NUMBER=${ACC_ARCH_NUMBER}>
+            $<$<STREQUAL:${USE_ACCEL},cuda>:__CUDA>
+            $<$<STREQUAL:${USE_ACCEL},opencl>:__OPENCL}>
+            $<$<STREQUAL:${USE_ACCEL},cuda>:ARCH_NUMBER=${ACC_ARCH_NUMBER}>
+            $<$<STREQUAL:${USE_ACCEL},hip>:__HIP>
+            $<$<STREQUAL:${USE_ACCEL},hip>:ARCH_NUMBER=${ACC_ARCH_NUMBER}>
             $<$<BOOL:${WITH_CUDA_PROFILING}>:__CUDA_PROFILING>)
 
   target_link_libraries(
     dbcsr
-    PRIVATE $<$<BOOL:${USE_ACCEL:cuda}>:CUDA::cudart>
-            $<$<BOOL:${USE_ACCEL:cuda}>:CUDA::cublas>
-            $<$<BOOL:${USE_ACCEL:cuda}>:CUDA::nvToolsExt>
-            $<$<BOOL:${USE_ACCEL:cuda}>:CUDA::nvrtc>
-            $<$<BOOL:${USE_ACCEL:hip}>:roc::hipblas>
-            $<$<BOOL:${USE_ACCEL:hip}>:hip::host>
+    PRIVATE $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::cudart>
+            $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::cublas>
+            $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::nvToolsExt>
+            $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::nvrtc>
+            $<$<STREQUAL:${USE_ACCEL},hip>:roc::hipblas>
+            $<$<STREQUAL:${USE_ACCEL},hip>:hip::host>
             $<$<BOOL:${USE_OPENMP}>:OpenMP::OpenMP_CXX>)
 endif ()
 

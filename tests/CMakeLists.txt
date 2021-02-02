@@ -234,10 +234,10 @@ if (USE_ACCEL MATCHES "cuda|hip")
     get_filename_component(libsmm_acc_test_name ${libsmm_acc_test} NAME_WE)
     add_executable(${libsmm_acc_test_name} ${libsmm_acc_test})
     target_compile_definitions(
-      ${libsmm_acc_test_name} PRIVATE $<$<BOOL:${USE_ACCEL:hip}>:__HIP>
-                                      $<$<BOOL:${USE_ACCEL:cuda}>:__CUDA>)
+      ${libsmm_acc_test_name} PRIVATE $<$<STREQUAL:${USE_ACCEL},hip>:__HIP>
+                                      $<$<STREQUAL:${USE_ACCEL},cuda>:__CUDA>)
     target_link_libraries(${libsmm_acc_test_name} dbcsr
-                          $<$<BOOL:${USE_ACCEL:hip}>:hip::host> libsmm_acc)
+                          $<$<STREQUAL:${USE_ACCEL},hip>:hip::host> libsmm_acc)
     add_test(NAME ${libsmm_acc_test} COMMAND ${libsmm_acc_test})
   endforeach ()
 
