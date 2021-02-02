@@ -272,15 +272,15 @@
 <a name="ln-10"></a>
 <a name="ln-11"></a><span class="k">MODULE </span><span class="n">dbcsr_data_methods</span>
 <a name="ln-12"></a>   <span class="c">!! DBCSR data methods</span>
-<a name="ln-13"></a>   <span class="k">USE </span><span class="n">dbcsr_acc_devmem</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">acc_devmem_allocate_bytes</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-13"></a>   <span class="k">USE </span><span class="n">dbcsr_acc_devmem</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">acc_devmem_allocate_bytes</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-14"></a>                               <span class="n">acc_devmem_allocated</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-15"></a>                               <span class="n">acc_devmem_dev2host</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-16"></a>                               <span class="n">acc_devmem_ensure_size_bytes</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-17"></a>                               <span class="n">acc_devmem_host2dev</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-18"></a>                               <span class="n">acc_devmem_setzero_bytes</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-19"></a>                               <span class="n">acc_devmem_size_in_bytes</span>
-<a name="ln-20"></a>   <span class="k">USE </span><span class="n">dbcsr_acc_event</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">acc_event_record</span>
-<a name="ln-21"></a>   <span class="k">USE </span><span class="n">dbcsr_data_methods_low</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-20"></a>   <span class="k">USE </span><span class="n">dbcsr_acc_event</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">acc_event_record</span>
+<a name="ln-21"></a>   <span class="k">USE </span><span class="n">dbcsr_data_methods_low</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-22"></a>      <span class="n">dbcsr_data_clear_pointer</span><span class="p">,</span> <span class="n">dbcsr_data_exists</span><span class="p">,</span> <span class="n">dbcsr_data_get_memory_type</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-23"></a>      <span class="n">dbcsr_data_get_size</span><span class="p">,</span> <span class="n">dbcsr_data_get_size_referenced</span><span class="p">,</span> <span class="n">dbcsr_data_get_sizes</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-24"></a>      <span class="n">dbcsr_data_get_type</span><span class="p">,</span> <span class="n">dbcsr_data_hold</span><span class="p">,</span> <span class="n">dbcsr_data_init</span><span class="p">,</span> <span class="n">dbcsr_data_set_pointer</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -290,18 +290,18 @@
 <a name="ln-28"></a>      <span class="n">dbcsr_scalar_get_type</span><span class="p">,</span> <span class="n">dbcsr_scalar_get_value</span><span class="p">,</span> <span class="n">dbcsr_scalar_negative</span><span class="p">,</span> <span class="n">dbcsr_scalar_one</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-29"></a>      <span class="n">dbcsr_scalar_set_type</span><span class="p">,</span> <span class="n">dbcsr_scalar_zero</span><span class="p">,</span> <span class="n">dbcsr_type_1d_to_2d</span><span class="p">,</span> <span class="n">dbcsr_type_2d_to_1d</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-30"></a>      <span class="n">dbcsr_type_is_2d</span><span class="p">,</span> <span class="n">internal_data_allocate</span><span class="p">,</span> <span class="n">internal_data_deallocate</span><span class="p">,</span> <span class="n">dbcsr_scalar_multiply</span>
-<a name="ln-31"></a>   <span class="k">USE </span><span class="n">dbcsr_data_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-31"></a>   <span class="k">USE </span><span class="n">dbcsr_data_types</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-32"></a>      <span class="n">dbcsr_data_obj</span><span class="p">,</span> <span class="n">dbcsr_datatype_sizeof</span><span class="p">,</span> <span class="n">dbcsr_memtype_default</span><span class="p">,</span> <span class="n">dbcsr_memtype_type</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-33"></a>      <span class="n">dbcsr_type_complex_4</span><span class="p">,</span> <span class="n">dbcsr_type_complex_8</span><span class="p">,</span> <span class="n">dbcsr_type_int_4</span><span class="p">,</span> <span class="n">dbcsr_type_int_8</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-34"></a>      <span class="n">dbcsr_type_real_4</span><span class="p">,</span> <span class="n">dbcsr_type_real_8</span>
-<a name="ln-35"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dp</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-35"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dp</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-36"></a>                          <span class="n">int_4</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-37"></a>                          <span class="n">int_8</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-38"></a>                          <span class="n">real_4</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-39"></a>                          <span class="n">real_8</span>
-<a name="ln-40"></a>   <span class="k">USE </span><span class="n">dbcsr_mem_methods</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_mempool_add</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-40"></a>   <span class="k">USE </span><span class="n">dbcsr_mem_methods</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_mempool_add</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-41"></a>                                <span class="n">dbcsr_mempool_get</span>
-<a name="ln-42"></a>   <span class="k">USE </span><span class="n">dbcsr_ptr_util</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">ensure_array_size</span>
+<a name="ln-42"></a>   <span class="k">USE </span><span class="n">dbcsr_ptr_util</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">ensure_array_size</span>
 <a name="ln-43"></a><span class="cp">#include &quot;base/dbcsr_base_uses.f90&quot;</span>
 <a name="ln-44"></a>
 <a name="ln-45"></a>   <span class="k">IMPLICIT NONE</span>

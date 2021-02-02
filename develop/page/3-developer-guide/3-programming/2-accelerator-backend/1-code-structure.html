@@ -137,15 +137,14 @@
   <div class="row">
     <div class="col-md-9 col-md-push-3" id='text'>
       <h1>GPU Backend Code Architecture</h1>
-<div class="codehilite"><pre><span></span><code><span class="n">dbcsr</span><span class="o">/</span>
-<span class="o">--</span> <span class="n">src</span><span class="o">/</span>
-<span class="o">----</span> <span class="n">acc</span><span class="o">/</span><span class="p">:</span> <span class="n">contains</span> <span class="n">all</span> <span class="n">code</span> <span class="n">related</span> <span class="n">to</span> <span class="n">accelerators</span>
-<span class="o">------</span> <span class="n">include</span><span class="o">/</span><span class="p">:</span> <span class="n">contains</span> <span class="n">interfaces</span> <span class="n">to</span> <span class="n">acc</span> <span class="ow">and</span> <span class="n">acc_libsmm</span>
-<span class="o">------</span> <span class="n">cuda</span><span class="o">/</span><span class="p">:</span> <span class="n">cuda</span> <span class="n">interface</span>
-<span class="o">------</span> <span class="n">hip</span><span class="o">/</span><span class="p">:</span> <span class="n">hip</span> <span class="n">interface</span>
-<span class="o">------</span> <span class="n">openmp</span><span class="o">/</span> <span class="p">(</span><span class="n">PR</span> <span class="c1">#260): openmp offloading interface</span>
-<span class="o">------</span> <span class="n">libsmm_acc</span><span class="o">/</span><span class="p">:</span> <span class="n">small</span> <span class="n">matrix</span><span class="o">-</span><span class="n">matrix</span> <span class="n">operations</span> <span class="n">implementation</span> <span class="n">on</span> <span class="n">GPU</span> <span class="p">(</span><span class="n">can</span> <span class="n">use</span> <span class="n">either</span> <span class="n">cuda</span> <span class="ow">or</span> <span class="n">hip</span> <span class="n">interface</span><span class="p">)</span>
-<span class="o">------</span> <span class="n">libsmm_omp</span><span class="o">/</span> <span class="p">(</span><span class="n">PR</span> <span class="c1">#260): small matrix-matrix operations implementation on GPU (uses necessarily the openmp interface)</span>
+<div class="codehilite"><pre><span></span><code><span class="err">dbcsr/</span>
+<span class="err">-- src/</span>
+<span class="err">---- acc/: contains interfaces to ACC and LIBSMM (top-level) as well as backends (subdirectories)</span>
+<span class="err">------ cuda/: CUDA backend</span>
+<span class="err">------ hip/: HIP backend</span>
+<span class="err">------ libsmm_acc/: small matrix-matrix operations on GPU (can use either cuda or hip interface)</span>
+<span class="err">------ opencl/: OpenCL backend</span>
+<span class="err">------ opencl/smm/: LIBSMM implementation based on OpenCL</span>
 </code></pre></div>
     </div>
     
@@ -256,7 +255,7 @@
             </li>
             
             <li role="presentation">
-            <a href='../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/index.html'>libsmm_acc</a>
+            <a href='../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/index.html'>LIBSMM (CUDA/HIP)</a>
             
             <ul class="nav nav-stacked nav-pills">
               
@@ -286,6 +285,16 @@
             </li>
             
             </ul>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../../page/3-developer-guide/3-programming/2-accelerator-backend/3-opencl-backend.html'>OpenCL Backend</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../../page/3-developer-guide/3-programming/2-accelerator-backend/4-opencl-libsmm.html'>OpenCL LIBSMM</a>
             
             </li>
             

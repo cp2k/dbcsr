@@ -273,9 +273,9 @@
 <a name="ln-11"></a><span class="k">MODULE </span><span class="n">dbcsr_acc_hostmem</span>
 <a name="ln-12"></a>   <span class="c">!! Accelerator support</span>
 <a name="ln-13"></a><span class="cp">#if defined (__DBCSR_ACC)</span>
-<a name="ln-14"></a>   <span class="k">USE </span><span class="nb">ISO_C_BINDING</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="kt">C_INT</span><span class="p">,</span> <span class="kt">C_SIZE_T</span><span class="p">,</span> <span class="kt">C_PTR</span><span class="p">,</span> <span class="nb">C_LOC</span><span class="p">,</span> <span class="nb">C_F_POINTER</span>
+<a name="ln-14"></a>   <span class="k">USE </span><span class="nb">ISO_C_BINDING</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="kt">C_INT</span><span class="p">,</span> <span class="kt">C_SIZE_T</span><span class="p">,</span> <span class="kt">C_PTR</span><span class="p">,</span> <span class="nb">C_LOC</span><span class="p">,</span> <span class="nb">C_F_POINTER</span>
 <a name="ln-15"></a><span class="cp">#endif</span>
-<a name="ln-16"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">int_4</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-16"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">int_4</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-17"></a>                          <span class="n">int_4_size</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-18"></a>                          <span class="n">int_8</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-19"></a>                          <span class="n">int_8_size</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -283,7 +283,7 @@
 <a name="ln-21"></a>                          <span class="n">real_4_size</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-22"></a>                          <span class="n">real_8</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-23"></a>                          <span class="n">real_8_size</span>
-<a name="ln-24"></a>   <span class="k">USE </span><span class="n">dbcsr_acc_stream</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">acc_stream_associated</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-24"></a>   <span class="k">USE </span><span class="n">dbcsr_acc_stream</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">acc_stream_associated</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-25"></a>                               <span class="n">acc_stream_cptr</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-26"></a>                               <span class="n">acc_stream_type</span>
 <a name="ln-27"></a><span class="cp">#include &quot;base/dbcsr_base_uses.f90&quot;</span>

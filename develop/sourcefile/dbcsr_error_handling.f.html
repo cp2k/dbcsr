@@ -272,16 +272,16 @@
 <a name="ln-10"></a>
 <a name="ln-11"></a><span class="k">MODULE </span><span class="n">dbcsr_error_handling</span>
 <a name="ln-12"></a>   <span class="c">!! Module that contains the routines for error handling</span>
-<a name="ln-13"></a>   <span class="k">USE </span><span class="n">dbcsr_base_hooks</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_abort_hook</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-13"></a>   <span class="k">USE </span><span class="n">dbcsr_base_hooks</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_abort_hook</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-14"></a>                               <span class="n">dbcsr_warn_hook</span>
-<a name="ln-15"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dp</span>
-<a name="ln-16"></a>   <span class="k">USE </span><span class="n">dbcsr_log_handling</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_logger_get_default_io_unit</span>
-<a name="ln-17"></a>   <span class="k">USE </span><span class="n">dbcsr_machine</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">default_output_unit</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-15"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dp</span>
+<a name="ln-16"></a>   <span class="k">USE </span><span class="n">dbcsr_log_handling</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_logger_get_default_io_unit</span>
+<a name="ln-17"></a>   <span class="k">USE </span><span class="n">dbcsr_machine</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">default_output_unit</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-18"></a>                            <span class="n">m_flush</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-19"></a>                            <span class="n">m_walltime</span>
-<a name="ln-20"></a>   <span class="k">USE </span><span class="n">dbcsr_mpiwrap</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">mp_abort</span>
-<a name="ln-21"></a>   <span class="k">USE </span><span class="n">dbcsr_print_messages</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">print_message</span>
-<a name="ln-22"></a>   <span class="k">USE </span><span class="n">dbcsr_timings</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">print_stack</span>
+<a name="ln-20"></a>   <span class="k">USE </span><span class="n">dbcsr_mpiwrap</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">mp_abort</span>
+<a name="ln-21"></a>   <span class="k">USE </span><span class="n">dbcsr_print_messages</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">print_message</span>
+<a name="ln-22"></a>   <span class="k">USE </span><span class="n">dbcsr_timings</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">print_stack</span>
 <a name="ln-23"></a>
 <a name="ln-24"></a><span class="c">!$ USE OMP_LIB, ONLY: omp_get_thread_num</span>
 <a name="ln-25"></a>

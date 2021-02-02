@@ -297,22 +297,22 @@
 <a name="ln-35"></a>   <span class="c">!! @see dbcsr_error_handling</span>
 <a name="ln-36"></a>   <span class="c">!! @version 12.2001</span>
 <a name="ln-37"></a>
-<a name="ln-38"></a>   <span class="k">USE </span><span class="n">dbcsr_files</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">close_file</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-38"></a>   <span class="k">USE </span><span class="n">dbcsr_files</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">close_file</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-39"></a>                          <span class="n">open_file</span>
-<a name="ln-40"></a>   <span class="k">USE </span><span class="n">dbcsr_iter_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_iteration_info_create</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-40"></a>   <span class="k">USE </span><span class="n">dbcsr_iter_types</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_iteration_info_create</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-41"></a>                               <span class="n">dbcsr_iteration_info_release</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-42"></a>                               <span class="n">dbcsr_iteration_info_retain</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-43"></a>                               <span class="n">dbcsr_iteration_info_type</span>
-<a name="ln-44"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">default_path_length</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-44"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">default_path_length</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-45"></a>                          <span class="n">default_string_length</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-46"></a>                          <span class="n">dp</span>
-<a name="ln-47"></a>   <span class="k">USE </span><span class="n">dbcsr_machine</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">default_output_unit</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-47"></a>   <span class="k">USE </span><span class="n">dbcsr_machine</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">default_output_unit</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-48"></a>                            <span class="n">m_getpid</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-49"></a>                            <span class="n">m_hostnm</span>
-<a name="ln-50"></a>   <span class="k">USE </span><span class="n">dbcsr_methods</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_mp_release</span>
-<a name="ln-51"></a>   <span class="k">USE </span><span class="n">dbcsr_string_utilities</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">compress</span>
-<a name="ln-52"></a>   <span class="k">USE </span><span class="n">dbcsr_timings</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">print_stack</span>
-<a name="ln-53"></a>   <span class="k">USE </span><span class="n">dbcsr_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_mp_obj</span>
+<a name="ln-50"></a>   <span class="k">USE </span><span class="n">dbcsr_methods</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_mp_release</span>
+<a name="ln-51"></a>   <span class="k">USE </span><span class="n">dbcsr_string_utilities</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">compress</span>
+<a name="ln-52"></a>   <span class="k">USE </span><span class="n">dbcsr_timings</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">print_stack</span>
+<a name="ln-53"></a>   <span class="k">USE </span><span class="n">dbcsr_types</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_mp_obj</span>
 <a name="ln-54"></a><span class="cp">#include &quot;base/dbcsr_base_uses.f90&quot;</span>
 <a name="ln-55"></a>
 <a name="ln-56"></a>   <span class="k">IMPLICIT NONE</span>

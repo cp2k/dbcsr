@@ -703,23 +703,23 @@ subroutine <a href='../proc/dbcsr_test_read_args.html'>dbcsr_test_read_args</a>(
     <h2 id="src">Source Code</h2>
     <div class="highlight"><pre><span></span><span class="k">PROGRAM </span><span class="n">dbcsr_performance_driver</span>
    <span class="c">!! Performance tester for DBCSR operations</span>
-   <span class="k">USE </span><span class="n">dbcsr_config</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_set_config</span><span class="p">,</span> <span class="n">dbcsr_print_config</span>
-   <span class="k">USE </span><span class="n">dbcsr_files</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">open_file</span>
-   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">default_string_length</span>
-   <span class="k">USE </span><span class="n">dbcsr_lib</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_finalize_lib</span><span class="p">,</span> <span class="p">&amp;</span>
+   <span class="k">USE </span><span class="n">dbcsr_config</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_set_config</span><span class="p">,</span> <span class="n">dbcsr_print_config</span>
+   <span class="k">USE </span><span class="n">dbcsr_files</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">open_file</span>
+   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">default_string_length</span>
+   <span class="k">USE </span><span class="n">dbcsr_lib</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_finalize_lib</span><span class="p">,</span> <span class="p">&amp;</span>
                         <span class="n">dbcsr_init_lib</span><span class="p">,</span> <span class="p">&amp;</span>
                         <span class="n">dbcsr_print_statistics</span>
-   <span class="k">USE </span><span class="n">dbcsr_machine</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">default_output_unit</span><span class="p">,</span> <span class="p">&amp;</span>
+   <span class="k">USE </span><span class="n">dbcsr_machine</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">default_output_unit</span><span class="p">,</span> <span class="p">&amp;</span>
                             <span class="n">m_getarg</span><span class="p">,</span> <span class="p">&amp;</span>
                             <span class="n">m_iargc</span>
-   <span class="k">USE </span><span class="n">dbcsr_mp_methods</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_mp_new</span><span class="p">,</span> <span class="p">&amp;</span>
+   <span class="k">USE </span><span class="n">dbcsr_mp_methods</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_mp_new</span><span class="p">,</span> <span class="p">&amp;</span>
                                <span class="n">dbcsr_mp_release</span>
-   <span class="k">USE </span><span class="n">dbcsr_mpiwrap</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+   <span class="k">USE </span><span class="n">dbcsr_mpiwrap</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
       <span class="n">mp_bcast</span><span class="p">,</span> <span class="n">mp_cart_create</span><span class="p">,</span> <span class="n">mp_cart_rank</span><span class="p">,</span> <span class="n">mp_comm_free</span><span class="p">,</span> <span class="n">mp_environ</span><span class="p">,</span> <span class="p">&amp;</span>
       <span class="n">mp_world_finalize</span><span class="p">,</span> <span class="n">mp_world_init</span>
-   <span class="k">USE </span><span class="n">dbcsr_performance_multiply</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_perf_multiply</span>
-   <span class="k">USE </span><span class="n">dbcsr_toollib</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">atoi</span><span class="p">,</span> <span class="n">atol</span>
-   <span class="k">USE </span><span class="n">dbcsr_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_mp_obj</span>
+   <span class="k">USE </span><span class="n">dbcsr_performance_multiply</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_perf_multiply</span>
+   <span class="k">USE </span><span class="n">dbcsr_toollib</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">atoi</span><span class="p">,</span> <span class="n">atol</span>
+   <span class="k">USE </span><span class="n">dbcsr_types</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_mp_obj</span>
 <span class="cp">#include &quot;base/dbcsr_base_uses.f90&quot;</span>
 
 <span class="c">!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads</span>

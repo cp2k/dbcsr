@@ -230,7 +230,7 @@ private subroutine block_partial_copy_1d2d_c(dst, dst_rs, dst_cs, dst_tr, src, s
   
 <tr>
   
-  <td><span class="anchor" id="variable-dst~25"></span>complex(kind=real_4),</td>
+  <td><span class="anchor" id="variable-dst~38"></span>complex(kind=real_4),</td>
   <td>intent(inout),</td>
   <td></td>
   
@@ -290,7 +290,7 @@ private subroutine block_partial_copy_1d2d_c(dst, dst_rs, dst_cs, dst_tr, src, s
   
 <tr>
   
-  <td><span class="anchor" id="variable-src~22"></span>complex(kind=real_4),</td>
+  <td><span class="anchor" id="variable-src~30"></span>complex(kind=real_4),</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -380,7 +380,7 @@ private subroutine block_partial_copy_1d2d_c(dst, dst_rs, dst_cs, dst_tr, src, s
   
 <tr>
   
-  <td><span class="anchor" id="variable-nrow~15"></span>integer,</td>
+  <td><span class="anchor" id="variable-nrow~16"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -395,7 +395,7 @@ private subroutine block_partial_copy_1d2d_c(dst, dst_rs, dst_cs, dst_tr, src, s
   
 <tr>
   
-  <td><span class="anchor" id="variable-ncol~15"></span>integer,</td>
+  <td><span class="anchor" id="variable-ncol~16"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -494,7 +494,7 @@ private subroutine block_partial_copy_1d2d_c(dst, dst_rs, dst_cs, dst_tr, src, s
      <span class="c">!! @note see block_partial_copy_a</span>
 
 <span class="cp">#if defined(__LIBXSMM_BLOCKOPS)</span>
-      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
+      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
 <span class="cp">#else</span>
       <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">col</span><span class="p">,</span> <span class="n">row</span>
 <span class="cp">#endif</span>

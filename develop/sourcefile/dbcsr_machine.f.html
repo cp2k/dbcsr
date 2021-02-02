@@ -271,12 +271,12 @@
 <a name="ln-9"></a><span class="c">!--------------------------------------------------------------------------------------------------!</span>
 <a name="ln-10"></a>
 <a name="ln-11"></a><span class="k">MODULE </span><span class="n">dbcsr_machine</span>
-<a name="ln-12"></a>   <span class="k">USE </span><span class="n">ISO_FORTRAN_ENV</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">input_unit</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-12"></a>   <span class="k">USE </span><span class="n">ISO_FORTRAN_ENV</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">input_unit</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-13"></a>                              <span class="n">output_unit</span>
-<a name="ln-14"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">default_string_length</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-14"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">default_string_length</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-15"></a>                          <span class="n">dp</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-16"></a>                          <span class="n">int_8</span>
-<a name="ln-17"></a>   <span class="k">USE </span><span class="n">dbcsr_machine_internal</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-17"></a>   <span class="k">USE </span><span class="n">dbcsr_machine_internal</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-18"></a>      <span class="n">m_abort</span><span class="p">,</span> <span class="n">m_chdir</span><span class="p">,</span> <span class="n">m_flush_internal</span> <span class="o">=&gt;</span> <span class="n">m_flush</span><span class="p">,</span> <span class="n">m_getarg</span><span class="p">,</span> <span class="n">m_getcwd</span><span class="p">,</span> <span class="n">m_getlog</span><span class="p">,</span> <span class="n">m_getpid</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-19"></a>      <span class="n">m_hostnm</span><span class="p">,</span> <span class="n">m_iargc</span><span class="p">,</span> <span class="n">m_memory</span><span class="p">,</span> <span class="n">m_memory_details</span><span class="p">,</span> <span class="n">m_memory_max</span><span class="p">,</span> <span class="n">m_mov</span><span class="p">,</span> <span class="n">m_procrun</span>
 <a name="ln-20"></a>
@@ -322,7 +322,7 @@
 <a name="ln-60"></a>      <span class="c">!! might still roll, if not called multiple times per count_max/count_rate</span>
 <a name="ln-61"></a>
 <a name="ln-62"></a><span class="cp">#if defined(__LIBXSMM)</span>
-<a name="ln-63"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_timer_tick</span><span class="p">,</span> <span class="n">libxsmm_timer_duration</span>
+<a name="ln-63"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_timer_tick</span><span class="p">,</span> <span class="n">libxsmm_timer_duration</span>
 <a name="ln-64"></a><span class="cp">#endif</span>
 <a name="ln-65"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>                                      <span class="kd">::</span> <span class="n">wt</span>
 <a name="ln-66"></a>

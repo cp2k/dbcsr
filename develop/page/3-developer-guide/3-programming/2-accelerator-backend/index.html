@@ -119,7 +119,11 @@
         
         <li><a href='../../../../page/3-developer-guide/3-programming/2-accelerator-backend/1-code-structure.html'>Code Structure</a></li>
         
-        <li><a href='../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/index.html'>libsmm_acc</a></li>
+        <li><a href='../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/index.html'>LIBSMM (CUDA/HIP)</a></li>
+        
+        <li><a href='../../../../page/3-developer-guide/3-programming/2-accelerator-backend/3-opencl-backend.html'>OpenCL Backend</a></li>
+        
+        <li><a href='../../../../page/3-developer-guide/3-programming/2-accelerator-backend/4-opencl-libsmm.html'>OpenCL LIBSMM</a></li>
         
         
 -->
@@ -143,23 +147,40 @@
     <div class="col-md-9 col-md-push-3" id='text'>
       <h1>ACCelerator Interfaces</h1>
 <h2>Overview</h2>
-<p>This folder contains the ISO_C_BINDING based Fortran code of DBCSR's <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc.h">ACC-backend interface</a> and <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_libsmm.h">LIBSMM/ACC-interface</a>. It also contains the CUDA (for Nvidia GPUs) and HIP (for AMD GPUs) accelerator backends.</p>
+<p>This folder contains the ISO_C_BINDING based Fortran code of DBCSR's <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc.h">ACC-backend interface</a> and <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_libsmm.h">LIBSMM/ACC-interface</a>. It also contains the CUDA (for Nvidia GPUs), the HIP (for AMD GPUs), and the OpenCL accelerator backends.</p>
 <p>Further, two stand-alone sample codes are given exercising both interfaces (benchmarks).</p>
 <h2>CUDA and HIP backends</h2>
-<p>The code for both the CUDA and HIP backends is unique, and can be found in the <code>cuda</code> directory.
-We switch from one backend to the other via macros (<code>__CUDA</code> and <code>__HIP</code>).</p>
+<p>The code for both the CUDA and HIP backends is unified, and can be found in the <code>cuda</code> directory.
+At compile-time either one or the other backend is chosen per macro (<code>__CUDA</code> or <code>__HIP</code>).</p>
+<h2>OpenCL backend</h2>
+<p>The code for both the OpenCL backends is enabled with a build-time macro (<code>__OPENCL</code>).</p>
 <h2>Benchmarks</h2>
-<p>Two stand-alone drivers (only depending on above mentioned interfaces) can be built locally and in a rather self-contained fashion, i.e., no DBCSR library is needed (except for runtime libraries such as OpenCL, and LIBXSMM for some auxiliary functionality). For LIBXSMM, a folder <code>libxsmm</code> parallel to DBCSR's root directory (<code>dbcsr</code>) is expected to be present and prebuilt (<code>make</code> in LIBXSMM's root directory is enough). To build the driver code, change into the respective backend folder (<code>cuda</code> or <code>opencl</code>), and invoke <code>make</code> (<code>DBG=0|1|2</code>, and a few other key-value pairs are optional). When building the code is completed, change back into the parent folder and invoke either <code>acc_bench_trans</code> or <code>acc_bench_smm</code>.</p>
-<p>The drivers support a few command line options (<em>nrepeat</em>, <em>stack_size</em>, <em>m</em>, <em>n</em>, ...); running the tranpose benchmark may look like:</p>
+<p>Two stand-alone drivers (only depending on above mentioned interfaces) can be built locally and in a rather self-contained fashion, i.e., no DBCSR library is needed (except runtime libraries such as CUDA, HIP, OpenCL/LIBXSMM). For OpenCL, a folder <code>libxsmm</code> parallel to DBCSR's root directory (<code>dbcsr</code>) is expected to be present and prebuilt (<code>make</code> in LIBXSMM's root directory is enough). To build the driver code, change into the respective backend folder (<code>cuda</code> or <code>opencl</code>), and invoke <code>make</code> (<code>DBG=0|1|2</code>, and a few other key-value pairs are optional). When building the code is completed, change back into the parent folder and invoke either <code>acc_bench_trans</code> or <code>acc_bench_smm</code>.</p>
+<p>The drivers support a few command line options (<em>nrepeat</em>, <em>stack_size</em>, <em>m</em>, <em>n</em>, ...). Command line arguments are positional but allow <code>0</code> as placeholder to access the default value (<code>acc_bench_smm 0 0 5 13 5</code> performs the default number of repetitions with the default stacksize when running the 5x13x5-kernel). For example, running the tranpose benchmark may look like:</p>
 <div class="codehilite"><pre><span></span><code>$ <span class="nv">OMP_PROC_BIND</span><span class="o">=</span>TRUE ./acc_bench_trans <span class="m">5</span> <span class="m">30000</span> <span class="m">23</span> <span class="m">23</span>
 ./acc_bench_trans <span class="m">5</span> <span class="m">30000</span> <span class="m">23</span> <span class="m">23</span>
-copy-in: <span class="m">16</span>.8 ms <span class="m">7</span>.4 GB/s
+typename <span class="o">(</span><span class="nv">id</span><span class="o">=</span><span class="m">3</span><span class="o">)</span>: double
+copy-in: <span class="m">17</span>.2 ms <span class="m">7</span>.2 GB/s
 device: <span class="m">8</span>.7 ms <span class="m">14</span>.2 GB/s
-host: <span class="m">8</span>.5 ms <span class="m">14</span>.5 GB/s
+host: <span class="m">8</span>.4 ms <span class="m">14</span>.6 GB/s
 errors: <span class="m">0</span>
 </code></pre></div>
 
-<p>For timing, comparison (host code), and validation, LIBXSMM is expected. The drivers exercise the respective backend as chosen to build the code.</p>
+<p>For timing, comparison (host code), and validation, LIBXSMM is required. The drivers exercise the respective backend. For example with the CUDA backend:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">cd</span> cuda
+make <span class="nv">DBG</span><span class="o">=</span><span class="m">0</span> <span class="nv">WITH_GPU</span><span class="o">=</span>P100
+<span class="nb">cd</span> ..
+</code></pre></div>
+
+<p>For the OpenCL backend:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">cd</span> opencl
+make <span class="nv">DBG</span><span class="o">=</span><span class="m">0</span>
+<span class="nb">cd</span> ..
+</code></pre></div>
+
+<p>In either of the above cases, <code>acc_bench_trans</code> and <code>acc_bench_smm</code> are built using the respective backends.
+Both driver codes can be instantiated for at least double- and single-precision using a build-time macro (<code>ELEM_TYPE</code>).
+Several build-time settings can be made on the build-line (<code>-D</code>) or inside of the source files (<code>acc_bench_trans.c</code> or <code>acc_bench_smm.c</code>).</p>
     </div>
     
     <div class="col-md-3 col-md-pull-9">
@@ -269,7 +290,7 @@ errors: <span class="m">0</span>
             </li>
             
             <li role="presentation">
-            <a href='../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/index.html'>libsmm_acc</a>
+            <a href='../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/index.html'>LIBSMM (CUDA/HIP)</a>
             
             <ul class="nav nav-stacked nav-pills">
               
@@ -299,6 +320,16 @@ errors: <span class="m">0</span>
             </li>
             
             </ul>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../../page/3-developer-guide/3-programming/2-accelerator-backend/3-opencl-backend.html'>OpenCL Backend</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../../page/3-developer-guide/3-programming/2-accelerator-backend/4-opencl-libsmm.html'>OpenCL LIBSMM</a>
             
             </li>
             

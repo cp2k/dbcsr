@@ -299,7 +299,7 @@ public function m_walltime() result(wt)
       <span class="c">!! might still roll, if not called multiple times per count_max/count_rate</span>
 
 <span class="cp">#if defined(__LIBXSMM)</span>
-      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_timer_tick</span><span class="p">,</span> <span class="n">libxsmm_timer_duration</span>
+      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_timer_tick</span><span class="p">,</span> <span class="n">libxsmm_timer_duration</span>
 <span class="cp">#endif</span>
       <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>                                      <span class="kd">::</span> <span class="n">wt</span>
 

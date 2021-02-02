@@ -230,7 +230,7 @@ private subroutine block_partial_copy_z(dst, dst_rs, dst_cs, dst_tr, src, src_rs
   
 <tr>
   
-  <td><span class="anchor" id="variable-dst~19"></span>complex(kind=real_8),</td>
+  <td><span class="anchor" id="variable-dst~32"></span>complex(kind=real_8),</td>
   <td>intent(inout),</td>
   <td></td>
   
@@ -290,7 +290,7 @@ private subroutine block_partial_copy_z(dst, dst_rs, dst_cs, dst_tr, src, src_rs
   
 <tr>
   
-  <td><span class="anchor" id="variable-src~16"></span>complex(kind=real_8),</td>
+  <td><span class="anchor" id="variable-src~24"></span>complex(kind=real_8),</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -410,7 +410,7 @@ private subroutine block_partial_copy_z(dst, dst_rs, dst_cs, dst_tr, src, src_rs
   
 <tr>
   
-  <td><span class="anchor" id="variable-nrow~10"></span>integer,</td>
+  <td><span class="anchor" id="variable-nrow~11"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -425,7 +425,7 @@ private subroutine block_partial_copy_z(dst, dst_rs, dst_cs, dst_tr, src, src_rs
   
 <tr>
   
-  <td><span class="anchor" id="variable-ncol~10"></span>integer,</td>
+  <td><span class="anchor" id="variable-ncol~11"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -539,7 +539,7 @@ private subroutine block_partial_copy_z(dst, dst_rs, dst_cs, dst_tr, src, src_rs
      <span class="c">!! @note see block_partial_copy_a</span>
 
 <span class="cp">#if defined(__LIBXSMM_BLOCKOPS)</span>
-      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
+      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
 <span class="cp">#endif</span>
       <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="p">&amp;</span>
          <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                         <span class="kd">::</span> <span class="n">dst</span>

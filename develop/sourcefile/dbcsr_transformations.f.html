@@ -272,38 +272,38 @@
 <a name="ln-10"></a>
 <a name="ln-11"></a><span class="k">MODULE </span><span class="n">dbcsr_transformations</span>
 <a name="ln-12"></a>   <span class="c">!! DBCSR transformations</span>
-<a name="ln-13"></a>   <span class="k">USE </span><span class="n">dbcsr_array_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">array_data</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-13"></a>   <span class="k">USE </span><span class="n">dbcsr_array_types</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">array_data</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-14"></a>                                <span class="n">array_hold</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-15"></a>                                <span class="n">array_i1d_obj</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-16"></a>                                <span class="n">array_release</span>
-<a name="ln-17"></a>   <span class="k">USE </span><span class="n">dbcsr_block_access</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_get_block_p</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-17"></a>   <span class="k">USE </span><span class="n">dbcsr_block_access</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_get_block_p</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-18"></a>                                 <span class="n">dbcsr_put_block</span>
-<a name="ln-19"></a>   <span class="k">USE </span><span class="n">dbcsr_block_operations</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_block_conjg</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-19"></a>   <span class="k">USE </span><span class="n">dbcsr_block_operations</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_block_conjg</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-20"></a>                                     <span class="n">dbcsr_block_partial_copy</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-21"></a>                                     <span class="n">dbcsr_block_real_neg</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-22"></a>                                     <span class="n">dbcsr_block_transpose</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-23"></a>                                     <span class="n">dbcsr_data_clear</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-24"></a>                                     <span class="n">dbcsr_data_copy</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-25"></a>                                     <span class="n">dbcsr_data_set</span>
-<a name="ln-26"></a>   <span class="k">USE </span><span class="n">dbcsr_data_methods</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-26"></a>   <span class="k">USE </span><span class="n">dbcsr_data_methods</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-27"></a>      <span class="n">dbcsr_data_clear_pointer</span><span class="p">,</span> <span class="n">dbcsr_data_ensure_size</span><span class="p">,</span> <span class="n">dbcsr_data_get_memory_type</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-28"></a>      <span class="n">dbcsr_data_get_size</span><span class="p">,</span> <span class="n">dbcsr_data_get_size_referenced</span><span class="p">,</span> <span class="n">dbcsr_data_get_type</span><span class="p">,</span> <span class="n">dbcsr_data_hold</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-29"></a>      <span class="n">dbcsr_data_init</span><span class="p">,</span> <span class="n">dbcsr_data_new</span><span class="p">,</span> <span class="n">dbcsr_data_release</span><span class="p">,</span> <span class="n">dbcsr_data_set_pointer</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-30"></a>      <span class="n">dbcsr_data_set_size_referenced</span><span class="p">,</span> <span class="n">dbcsr_get_data</span><span class="p">,</span> <span class="n">dbcsr_type_1d_to_2d</span>
-<a name="ln-31"></a>   <span class="k">USE </span><span class="n">dbcsr_data_operations</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_copy_sort_data</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-31"></a>   <span class="k">USE </span><span class="n">dbcsr_data_operations</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_copy_sort_data</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-32"></a>                                    <span class="n">dbcsr_switch_data_area</span>
-<a name="ln-33"></a>   <span class="k">USE </span><span class="n">dbcsr_dist_methods</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-33"></a>   <span class="k">USE </span><span class="n">dbcsr_dist_methods</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-34"></a>      <span class="n">dbcsr_distribution_col_dist</span><span class="p">,</span> <span class="n">dbcsr_distribution_hold</span><span class="p">,</span> <span class="n">dbcsr_distribution_local_cols</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-35"></a>      <span class="n">dbcsr_distribution_local_rows</span><span class="p">,</span> <span class="n">dbcsr_distribution_mp</span><span class="p">,</span> <span class="n">dbcsr_distribution_ncols</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-36"></a>      <span class="n">dbcsr_distribution_nlocal_cols</span><span class="p">,</span> <span class="n">dbcsr_distribution_nlocal_rows</span><span class="p">,</span> <span class="n">dbcsr_distribution_nrows</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-37"></a>      <span class="n">dbcsr_distribution_release</span><span class="p">,</span> <span class="n">dbcsr_distribution_row_dist</span>
-<a name="ln-38"></a>   <span class="k">USE </span><span class="n">dbcsr_dist_operations</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_get_local_cols</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-38"></a>   <span class="k">USE </span><span class="n">dbcsr_dist_operations</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_get_local_cols</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-39"></a>                                    <span class="n">dbcsr_get_local_rows</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-40"></a>                                    <span class="n">dbcsr_get_stored_coordinates</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-41"></a>                                    <span class="n">dbcsr_reblocking_targets</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-42"></a>                                    <span class="n">dbcsr_transpose_dims</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-43"></a>                                    <span class="n">dbcsr_transpose_distribution</span>
-<a name="ln-44"></a>   <span class="k">USE </span><span class="n">dbcsr_dist_util</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">convert_sizes_to_offsets</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-44"></a>   <span class="k">USE </span><span class="n">dbcsr_dist_util</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">convert_sizes_to_offsets</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-45"></a>                              <span class="n">dbcsr_checksum</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-46"></a>                              <span class="n">dbcsr_pack_meta</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-47"></a>                              <span class="n">dbcsr_unpack_meta</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -311,45 +311,45 @@
 <a name="ln-49"></a>                              <span class="n">get_internal_offsets</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-50"></a>                              <span class="n">global_offsets_to_local</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-51"></a>                              <span class="n">nfull_elements</span>
-<a name="ln-52"></a>   <span class="k">USE </span><span class="n">dbcsr_index_operations</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_addto_index_array</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-52"></a>   <span class="k">USE </span><span class="n">dbcsr_index_operations</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_addto_index_array</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-53"></a>                                     <span class="n">dbcsr_clearfrom_index_array</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-54"></a>                                     <span class="n">dbcsr_repoint_index</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-55"></a>                                     <span class="n">make_dense_index</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-56"></a>                                     <span class="n">make_undense_index</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-57"></a>                                     <span class="n">transpose_index_local</span>
-<a name="ln-58"></a>   <span class="k">USE </span><span class="n">dbcsr_iterator_operations</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_iterator_blocks_left</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-58"></a>   <span class="k">USE </span><span class="n">dbcsr_iterator_operations</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_iterator_blocks_left</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-59"></a>                                        <span class="n">dbcsr_iterator_next_block</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-60"></a>                                        <span class="n">dbcsr_iterator_start</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-61"></a>                                        <span class="n">dbcsr_iterator_stop</span>
-<a name="ln-62"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dp</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-62"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dp</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-63"></a>                          <span class="n">int_8</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-64"></a>                          <span class="n">sp</span>
-<a name="ln-65"></a>   <span class="k">USE </span><span class="n">dbcsr_methods</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-65"></a>   <span class="k">USE </span><span class="n">dbcsr_methods</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-66"></a>      <span class="n">dbcsr_col_block_sizes</span><span class="p">,</span> <span class="n">dbcsr_distribution</span><span class="p">,</span> <span class="n">dbcsr_get_data_type</span><span class="p">,</span> <span class="n">dbcsr_get_matrix_type</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-67"></a>      <span class="n">dbcsr_has_symmetry</span><span class="p">,</span> <span class="n">dbcsr_nblkcols_total</span><span class="p">,</span> <span class="n">dbcsr_nblkrows_total</span><span class="p">,</span> <span class="n">dbcsr_nfullcols_total</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-68"></a>      <span class="n">dbcsr_nfullrows_total</span><span class="p">,</span> <span class="n">dbcsr_release</span><span class="p">,</span> <span class="n">dbcsr_row_block_sizes</span><span class="p">,</span> <span class="n">dbcsr_valid_index</span>
-<a name="ln-69"></a>   <span class="k">USE </span><span class="n">dbcsr_mp_methods</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-69"></a>   <span class="k">USE </span><span class="n">dbcsr_mp_methods</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-70"></a>      <span class="n">dbcsr_mp_grid_remove</span><span class="p">,</span> <span class="n">dbcsr_mp_grid_setup</span><span class="p">,</span> <span class="n">dbcsr_mp_group</span><span class="p">,</span> <span class="n">dbcsr_mp_has_subgroups</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-71"></a>      <span class="n">dbcsr_mp_my_col_group</span><span class="p">,</span> <span class="n">dbcsr_mp_my_row_group</span><span class="p">,</span> <span class="n">dbcsr_mp_mynode</span><span class="p">,</span> <span class="n">dbcsr_mp_mypcol</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-72"></a>      <span class="n">dbcsr_mp_myprow</span><span class="p">,</span> <span class="n">dbcsr_mp_npcols</span><span class="p">,</span> <span class="n">dbcsr_mp_nprows</span><span class="p">,</span> <span class="n">dbcsr_mp_numnodes</span><span class="p">,</span> <span class="n">dbcsr_mp_pgrid</span>
-<a name="ln-73"></a>   <span class="k">USE </span><span class="n">dbcsr_mp_operations</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_allgatherv</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-73"></a>   <span class="k">USE </span><span class="n">dbcsr_mp_operations</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_allgatherv</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-74"></a>                                  <span class="n">hybrid_alltoall_any</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-75"></a>                                  <span class="n">hybrid_alltoall_c1</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-76"></a>                                  <span class="n">hybrid_alltoall_d1</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-77"></a>                                  <span class="n">hybrid_alltoall_i1</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-78"></a>                                  <span class="n">hybrid_alltoall_s1</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-79"></a>                                  <span class="n">hybrid_alltoall_z1</span>
-<a name="ln-80"></a>   <span class="k">USE </span><span class="n">dbcsr_mpiwrap</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">mp_allgather</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-80"></a>   <span class="k">USE </span><span class="n">dbcsr_mpiwrap</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">mp_allgather</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-81"></a>                            <span class="n">mp_alltoall</span>
-<a name="ln-82"></a>   <span class="k">USE </span><span class="n">dbcsr_operations</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_set</span>
-<a name="ln-83"></a>   <span class="k">USE </span><span class="n">dbcsr_ptr_util</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">pointer_view</span>
-<a name="ln-84"></a>   <span class="k">USE </span><span class="n">dbcsr_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-82"></a>   <span class="k">USE </span><span class="n">dbcsr_operations</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_set</span>
+<a name="ln-83"></a>   <span class="k">USE </span><span class="n">dbcsr_ptr_util</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">pointer_view</span>
+<a name="ln-84"></a>   <span class="k">USE </span><span class="n">dbcsr_types</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-85"></a>      <span class="n">dbcsr_data_obj</span><span class="p">,</span> <span class="n">dbcsr_distribution_obj</span><span class="p">,</span> <span class="n">dbcsr_iterator</span><span class="p">,</span> <span class="n">dbcsr_meta_size</span><span class="p">,</span> <span class="n">dbcsr_mp_obj</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-86"></a>      <span class="n">dbcsr_repl_col</span><span class="p">,</span> <span class="n">dbcsr_repl_full</span><span class="p">,</span> <span class="n">dbcsr_repl_none</span><span class="p">,</span> <span class="n">dbcsr_repl_row</span><span class="p">,</span> <span class="n">dbcsr_slot_blk_p</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-87"></a>      <span class="n">dbcsr_slot_col_i</span><span class="p">,</span> <span class="n">dbcsr_slot_home_pcol</span><span class="p">,</span> <span class="n">dbcsr_slot_home_prow</span><span class="p">,</span> <span class="n">dbcsr_slot_nblks</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-88"></a>      <span class="n">dbcsr_slot_nze</span><span class="p">,</span> <span class="n">dbcsr_slot_row_p</span><span class="p">,</span> <span class="n">dbcsr_type</span><span class="p">,</span> <span class="n">dbcsr_type_complex_4</span><span class="p">,</span> <span class="n">dbcsr_type_complex_8</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-89"></a>      <span class="n">dbcsr_type_no_symmetry</span><span class="p">,</span> <span class="n">dbcsr_type_real_4</span><span class="p">,</span> <span class="n">dbcsr_type_real_8</span>
-<a name="ln-90"></a>   <span class="k">USE </span><span class="n">dbcsr_work_operations</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_create</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-90"></a>   <span class="k">USE </span><span class="n">dbcsr_work_operations</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_create</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-91"></a>                                    <span class="n">dbcsr_finalize</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-92"></a>                                    <span class="n">dbcsr_work_create</span>
 <a name="ln-93"></a><span class="cp">#include &quot;base/dbcsr_base_uses.f90&quot;</span>

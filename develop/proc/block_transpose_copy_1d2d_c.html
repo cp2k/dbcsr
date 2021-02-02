@@ -259,7 +259,7 @@ private subroutine block_transpose_copy_1d2d_c(extent_out, extent_in, rows, colu
   
 <tr>
   
-  <td><span class="anchor" id="variable-rows~32"></span>integer,</td>
+  <td><span class="anchor" id="variable-rows~40"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -357,7 +357,7 @@ private subroutine block_transpose_copy_1d2d_c(extent_out, extent_in, rows, colu
      <span class="c">!! Copy and transpose block.</span>
 
 <span class="cp">#if defined(__LIBXSMM_TRANS)</span>
-      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span><span class="p">,</span> <span class="n">libxsmm_ptr2</span>
+      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span><span class="p">,</span> <span class="n">libxsmm_ptr2</span>
 <span class="cp">#endif</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">rows</span><span class="p">,</span> <span class="n">columns</span>
         <span class="c">!! input matrix size</span>

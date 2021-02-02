@@ -273,21 +273,21 @@
 <a name="ln-11"></a><span class="k">MODULE </span><span class="n">dbcsr_block_operations</span>
 <a name="ln-12"></a>   <span class="c">!! Routines for basic block transformations.</span>
 <a name="ln-13"></a>
-<a name="ln-14"></a>   <span class="k">USE </span><span class="n">dbcsr_acc_devmem</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">acc_devmem_allocated</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-14"></a>   <span class="k">USE </span><span class="n">dbcsr_acc_devmem</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">acc_devmem_allocated</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-15"></a>                               <span class="n">acc_devmem_setzero_bytes</span>
-<a name="ln-16"></a>   <span class="k">USE </span><span class="n">dbcsr_data_methods_low</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_data_exists</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-16"></a>   <span class="k">USE </span><span class="n">dbcsr_data_methods_low</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_data_exists</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-17"></a>                                     <span class="n">dbcsr_data_get_size</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-18"></a>                                     <span class="n">dbcsr_data_get_size_referenced</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-19"></a>                                     <span class="n">dbcsr_data_get_type</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-20"></a>                                     <span class="n">dbcsr_data_verify_bounds</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-21"></a>                                     <span class="n">dbcsr_type_2d_to_1d</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-22"></a>                                     <span class="n">dbcsr_type_is_2d</span>
-<a name="ln-23"></a>   <span class="k">USE </span><span class="n">dbcsr_ptr_util</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">memory_copy</span>
-<a name="ln-24"></a>   <span class="k">USE </span><span class="n">dbcsr_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-23"></a>   <span class="k">USE </span><span class="n">dbcsr_ptr_util</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">memory_copy</span>
+<a name="ln-24"></a>   <span class="k">USE </span><span class="n">dbcsr_types</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-25"></a>      <span class="n">dbcsr_data_obj</span><span class="p">,</span> <span class="n">dbcsr_datatype_sizeof</span><span class="p">,</span> <span class="n">dbcsr_scalar_type</span><span class="p">,</span> <span class="n">dbcsr_type_complex_4</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-26"></a>      <span class="n">dbcsr_type_complex_4_2d</span><span class="p">,</span> <span class="n">dbcsr_type_complex_8</span><span class="p">,</span> <span class="n">dbcsr_type_complex_8_2d</span><span class="p">,</span> <span class="n">dbcsr_type_real_4</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-27"></a>      <span class="n">dbcsr_type_real_4_2d</span><span class="p">,</span> <span class="n">dbcsr_type_real_8</span><span class="p">,</span> <span class="n">dbcsr_type_real_8_2d</span>
-<a name="ln-28"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dp</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-28"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dp</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-29"></a>                          <span class="n">real_4</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-30"></a>                          <span class="n">real_8</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-31"></a>                          <span class="n">sp</span>
@@ -1724,7 +1724,7 @@
 <a name="ln-1462"></a>     <span class="c">!! @note see block_partial_copy_a</span>
 <a name="ln-1463"></a>
 <a name="ln-1464"></a><span class="cp">#if defined(__LIBXSMM_BLOCKOPS)</span>
-<a name="ln-1465"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
+<a name="ln-1465"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
 <a name="ln-1466"></a><span class="cp">#endif</span>
 <a name="ln-1467"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="p">&amp;</span>
 <a name="ln-1468"></a>         <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                         <span class="kd">::</span> <span class="n">dst</span>
@@ -1798,7 +1798,7 @@
 <a name="ln-1536"></a>     <span class="c">!! @note see block_partial_copy_a</span>
 <a name="ln-1537"></a>
 <a name="ln-1538"></a><span class="cp">#if defined(__LIBXSMM_BLOCKOPS)</span>
-<a name="ln-1539"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
+<a name="ln-1539"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
 <a name="ln-1540"></a><span class="cp">#else</span>
 <a name="ln-1541"></a>      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">col</span><span class="p">,</span> <span class="n">row</span>
 <a name="ln-1542"></a><span class="cp">#endif</span>
@@ -1888,7 +1888,7 @@
 <a name="ln-1626"></a>     <span class="c">!! @note see block_partial_copy_a</span>
 <a name="ln-1627"></a>
 <a name="ln-1628"></a><span class="cp">#if defined(__LIBXSMM_BLOCKOPS)</span>
-<a name="ln-1629"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
+<a name="ln-1629"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
 <a name="ln-1630"></a><span class="cp">#endif</span>
 <a name="ln-1631"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="p">&amp;</span>
 <a name="ln-1632"></a>         <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                         <span class="kd">::</span> <span class="n">dst</span>
@@ -1944,7 +1944,7 @@
 <a name="ln-1682"></a>     <span class="c">!! @note see block_partial_copy_a</span>
 <a name="ln-1683"></a>
 <a name="ln-1684"></a><span class="cp">#if defined(__LIBXSMM_BLOCKOPS)</span>
-<a name="ln-1685"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
+<a name="ln-1685"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
 <a name="ln-1686"></a><span class="cp">#else</span>
 <a name="ln-1687"></a>      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">col</span><span class="p">,</span> <span class="n">row</span>
 <a name="ln-1688"></a><span class="cp">#endif</span>
@@ -2049,7 +2049,7 @@
 <a name="ln-1787"></a>     <span class="c">!! Copy and transpose block.</span>
 <a name="ln-1788"></a>
 <a name="ln-1789"></a><span class="cp">#if defined(__LIBXSMM_TRANS)</span>
-<a name="ln-1790"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span>
+<a name="ln-1790"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span>
 <a name="ln-1791"></a><span class="cp">#endif</span>
 <a name="ln-1792"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">TARGET</span> <span class="kd">::</span> <span class="n">extent_out</span>
 <a name="ln-1793"></a>        <span class="c">!! output matrix in the form of a 1-d array</span>
@@ -2124,7 +2124,7 @@
 <a name="ln-1862"></a>     <span class="c">!! Copy and transpose block.</span>
 <a name="ln-1863"></a>
 <a name="ln-1864"></a><span class="cp">#if defined(__LIBXSMM_TRANS)</span>
-<a name="ln-1865"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span><span class="p">,</span> <span class="n">libxsmm_ptr2</span>
+<a name="ln-1865"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span><span class="p">,</span> <span class="n">libxsmm_ptr2</span>
 <a name="ln-1866"></a><span class="cp">#endif</span>
 <a name="ln-1867"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">rows</span><span class="p">,</span> <span class="n">columns</span>
 <a name="ln-1868"></a>        <span class="c">!! input matrix size</span>
@@ -2166,7 +2166,7 @@
 <a name="ln-1904"></a>     <span class="c">!! Copy and transpose block.</span>
 <a name="ln-1905"></a>
 <a name="ln-1906"></a><span class="cp">#if defined(__LIBXSMM_TRANS)</span>
-<a name="ln-1907"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span><span class="p">,</span> <span class="n">libxsmm_ptr2</span>
+<a name="ln-1907"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span><span class="p">,</span> <span class="n">libxsmm_ptr2</span>
 <a name="ln-1908"></a><span class="cp">#endif</span>
 <a name="ln-1909"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">rows</span><span class="p">,</span> <span class="n">columns</span>
 <a name="ln-1910"></a>        <span class="c">!! input matrix size</span>
@@ -2191,7 +2191,7 @@
 <a name="ln-1929"></a>     <span class="c">!! In-place block transpose.</span>
 <a name="ln-1930"></a>
 <a name="ln-1931"></a><span class="cp">#if defined(__LIBXSMM_TRANS) &amp;&amp; 0</span>
-<a name="ln-1932"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_itrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span>
+<a name="ln-1932"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_itrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span>
 <a name="ln-1933"></a><span class="cp">#endif</span>
 <a name="ln-1934"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">rows</span><span class="p">,</span> <span class="n">columns</span>
 <a name="ln-1935"></a>        <span class="c">!! input matrix size</span>
@@ -2273,7 +2273,7 @@
 <a name="ln-2011"></a>     <span class="c">!! @note see block_partial_copy_a</span>
 <a name="ln-2012"></a>
 <a name="ln-2013"></a><span class="cp">#if defined(__LIBXSMM_BLOCKOPS)</span>
-<a name="ln-2014"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
+<a name="ln-2014"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
 <a name="ln-2015"></a><span class="cp">#endif</span>
 <a name="ln-2016"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="p">&amp;</span>
 <a name="ln-2017"></a>         <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                         <span class="kd">::</span> <span class="n">dst</span>
@@ -2347,7 +2347,7 @@
 <a name="ln-2085"></a>     <span class="c">!! @note see block_partial_copy_a</span>
 <a name="ln-2086"></a>
 <a name="ln-2087"></a><span class="cp">#if defined(__LIBXSMM_BLOCKOPS)</span>
-<a name="ln-2088"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
+<a name="ln-2088"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
 <a name="ln-2089"></a><span class="cp">#else</span>
 <a name="ln-2090"></a>      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">col</span><span class="p">,</span> <span class="n">row</span>
 <a name="ln-2091"></a><span class="cp">#endif</span>
@@ -2437,7 +2437,7 @@
 <a name="ln-2175"></a>     <span class="c">!! @note see block_partial_copy_a</span>
 <a name="ln-2176"></a>
 <a name="ln-2177"></a><span class="cp">#if defined(__LIBXSMM_BLOCKOPS)</span>
-<a name="ln-2178"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
+<a name="ln-2178"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
 <a name="ln-2179"></a><span class="cp">#endif</span>
 <a name="ln-2180"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="p">&amp;</span>
 <a name="ln-2181"></a>         <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                         <span class="kd">::</span> <span class="n">dst</span>
@@ -2493,7 +2493,7 @@
 <a name="ln-2231"></a>     <span class="c">!! @note see block_partial_copy_a</span>
 <a name="ln-2232"></a>
 <a name="ln-2233"></a><span class="cp">#if defined(__LIBXSMM_BLOCKOPS)</span>
-<a name="ln-2234"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
+<a name="ln-2234"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
 <a name="ln-2235"></a><span class="cp">#else</span>
 <a name="ln-2236"></a>      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">col</span><span class="p">,</span> <span class="n">row</span>
 <a name="ln-2237"></a><span class="cp">#endif</span>
@@ -2598,7 +2598,7 @@
 <a name="ln-2336"></a>     <span class="c">!! Copy and transpose block.</span>
 <a name="ln-2337"></a>
 <a name="ln-2338"></a><span class="cp">#if defined(__LIBXSMM_TRANS)</span>
-<a name="ln-2339"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span>
+<a name="ln-2339"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span>
 <a name="ln-2340"></a><span class="cp">#endif</span>
 <a name="ln-2341"></a>      <span class="kt">REAL</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">TARGET</span> <span class="kd">::</span> <span class="n">extent_out</span>
 <a name="ln-2342"></a>        <span class="c">!! output matrix in the form of a 1-d array</span>
@@ -2673,7 +2673,7 @@
 <a name="ln-2411"></a>     <span class="c">!! Copy and transpose block.</span>
 <a name="ln-2412"></a>
 <a name="ln-2413"></a><span class="cp">#if defined(__LIBXSMM_TRANS)</span>
-<a name="ln-2414"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span><span class="p">,</span> <span class="n">libxsmm_ptr2</span>
+<a name="ln-2414"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span><span class="p">,</span> <span class="n">libxsmm_ptr2</span>
 <a name="ln-2415"></a><span class="cp">#endif</span>
 <a name="ln-2416"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">rows</span><span class="p">,</span> <span class="n">columns</span>
 <a name="ln-2417"></a>        <span class="c">!! input matrix size</span>
@@ -2715,7 +2715,7 @@
 <a name="ln-2453"></a>     <span class="c">!! Copy and transpose block.</span>
 <a name="ln-2454"></a>
 <a name="ln-2455"></a><span class="cp">#if defined(__LIBXSMM_TRANS)</span>
-<a name="ln-2456"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span><span class="p">,</span> <span class="n">libxsmm_ptr2</span>
+<a name="ln-2456"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span><span class="p">,</span> <span class="n">libxsmm_ptr2</span>
 <a name="ln-2457"></a><span class="cp">#endif</span>
 <a name="ln-2458"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">rows</span><span class="p">,</span> <span class="n">columns</span>
 <a name="ln-2459"></a>        <span class="c">!! input matrix size</span>
@@ -2740,7 +2740,7 @@
 <a name="ln-2478"></a>     <span class="c">!! In-place block transpose.</span>
 <a name="ln-2479"></a>
 <a name="ln-2480"></a><span class="cp">#if defined(__LIBXSMM_TRANS) &amp;&amp; 0</span>
-<a name="ln-2481"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_itrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span>
+<a name="ln-2481"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_itrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span>
 <a name="ln-2482"></a><span class="cp">#endif</span>
 <a name="ln-2483"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">rows</span><span class="p">,</span> <span class="n">columns</span>
 <a name="ln-2484"></a>        <span class="c">!! input matrix size</span>
@@ -2822,7 +2822,7 @@
 <a name="ln-2560"></a>     <span class="c">!! @note see block_partial_copy_a</span>
 <a name="ln-2561"></a>
 <a name="ln-2562"></a><span class="cp">#if defined(__LIBXSMM_BLOCKOPS)</span>
-<a name="ln-2563"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
+<a name="ln-2563"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
 <a name="ln-2564"></a><span class="cp">#endif</span>
 <a name="ln-2565"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="p">&amp;</span>
 <a name="ln-2566"></a>         <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                         <span class="kd">::</span> <span class="n">dst</span>
@@ -2896,7 +2896,7 @@
 <a name="ln-2634"></a>     <span class="c">!! @note see block_partial_copy_a</span>
 <a name="ln-2635"></a>
 <a name="ln-2636"></a><span class="cp">#if defined(__LIBXSMM_BLOCKOPS)</span>
-<a name="ln-2637"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
+<a name="ln-2637"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
 <a name="ln-2638"></a><span class="cp">#else</span>
 <a name="ln-2639"></a>      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">col</span><span class="p">,</span> <span class="n">row</span>
 <a name="ln-2640"></a><span class="cp">#endif</span>
@@ -2986,7 +2986,7 @@
 <a name="ln-2724"></a>     <span class="c">!! @note see block_partial_copy_a</span>
 <a name="ln-2725"></a>
 <a name="ln-2726"></a><span class="cp">#if defined(__LIBXSMM_BLOCKOPS)</span>
-<a name="ln-2727"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
+<a name="ln-2727"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
 <a name="ln-2728"></a><span class="cp">#endif</span>
 <a name="ln-2729"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="p">&amp;</span>
 <a name="ln-2730"></a>         <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                         <span class="kd">::</span> <span class="n">dst</span>
@@ -3042,7 +3042,7 @@
 <a name="ln-2780"></a>     <span class="c">!! @note see block_partial_copy_a</span>
 <a name="ln-2781"></a>
 <a name="ln-2782"></a><span class="cp">#if defined(__LIBXSMM_BLOCKOPS)</span>
-<a name="ln-2783"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
+<a name="ln-2783"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
 <a name="ln-2784"></a><span class="cp">#else</span>
 <a name="ln-2785"></a>      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">col</span><span class="p">,</span> <span class="n">row</span>
 <a name="ln-2786"></a><span class="cp">#endif</span>
@@ -3147,7 +3147,7 @@
 <a name="ln-2885"></a>     <span class="c">!! Copy and transpose block.</span>
 <a name="ln-2886"></a>
 <a name="ln-2887"></a><span class="cp">#if defined(__LIBXSMM_TRANS)</span>
-<a name="ln-2888"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span>
+<a name="ln-2888"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span>
 <a name="ln-2889"></a><span class="cp">#endif</span>
 <a name="ln-2890"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">TARGET</span> <span class="kd">::</span> <span class="n">extent_out</span>
 <a name="ln-2891"></a>        <span class="c">!! output matrix in the form of a 1-d array</span>
@@ -3222,7 +3222,7 @@
 <a name="ln-2960"></a>     <span class="c">!! Copy and transpose block.</span>
 <a name="ln-2961"></a>
 <a name="ln-2962"></a><span class="cp">#if defined(__LIBXSMM_TRANS)</span>
-<a name="ln-2963"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span><span class="p">,</span> <span class="n">libxsmm_ptr2</span>
+<a name="ln-2963"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span><span class="p">,</span> <span class="n">libxsmm_ptr2</span>
 <a name="ln-2964"></a><span class="cp">#endif</span>
 <a name="ln-2965"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">rows</span><span class="p">,</span> <span class="n">columns</span>
 <a name="ln-2966"></a>        <span class="c">!! input matrix size</span>
@@ -3264,7 +3264,7 @@
 <a name="ln-3002"></a>     <span class="c">!! Copy and transpose block.</span>
 <a name="ln-3003"></a>
 <a name="ln-3004"></a><span class="cp">#if defined(__LIBXSMM_TRANS)</span>
-<a name="ln-3005"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span><span class="p">,</span> <span class="n">libxsmm_ptr2</span>
+<a name="ln-3005"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span><span class="p">,</span> <span class="n">libxsmm_ptr2</span>
 <a name="ln-3006"></a><span class="cp">#endif</span>
 <a name="ln-3007"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">rows</span><span class="p">,</span> <span class="n">columns</span>
 <a name="ln-3008"></a>        <span class="c">!! input matrix size</span>
@@ -3289,7 +3289,7 @@
 <a name="ln-3027"></a>     <span class="c">!! In-place block transpose.</span>
 <a name="ln-3028"></a>
 <a name="ln-3029"></a><span class="cp">#if defined(__LIBXSMM_TRANS) &amp;&amp; 0</span>
-<a name="ln-3030"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_itrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span>
+<a name="ln-3030"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_itrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span>
 <a name="ln-3031"></a><span class="cp">#endif</span>
 <a name="ln-3032"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">rows</span><span class="p">,</span> <span class="n">columns</span>
 <a name="ln-3033"></a>        <span class="c">!! input matrix size</span>
@@ -3371,7 +3371,7 @@
 <a name="ln-3109"></a>     <span class="c">!! @note see block_partial_copy_a</span>
 <a name="ln-3110"></a>
 <a name="ln-3111"></a><span class="cp">#if defined(__LIBXSMM_BLOCKOPS)</span>
-<a name="ln-3112"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
+<a name="ln-3112"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
 <a name="ln-3113"></a><span class="cp">#endif</span>
 <a name="ln-3114"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="p">&amp;</span>
 <a name="ln-3115"></a>         <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                         <span class="kd">::</span> <span class="n">dst</span>
@@ -3445,7 +3445,7 @@
 <a name="ln-3183"></a>     <span class="c">!! @note see block_partial_copy_a</span>
 <a name="ln-3184"></a>
 <a name="ln-3185"></a><span class="cp">#if defined(__LIBXSMM_BLOCKOPS)</span>
-<a name="ln-3186"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
+<a name="ln-3186"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
 <a name="ln-3187"></a><span class="cp">#else</span>
 <a name="ln-3188"></a>      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">col</span><span class="p">,</span> <span class="n">row</span>
 <a name="ln-3189"></a><span class="cp">#endif</span>
@@ -3535,7 +3535,7 @@
 <a name="ln-3273"></a>     <span class="c">!! @note see block_partial_copy_a</span>
 <a name="ln-3274"></a>
 <a name="ln-3275"></a><span class="cp">#if defined(__LIBXSMM_BLOCKOPS)</span>
-<a name="ln-3276"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
+<a name="ln-3276"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
 <a name="ln-3277"></a><span class="cp">#endif</span>
 <a name="ln-3278"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="p">&amp;</span>
 <a name="ln-3279"></a>         <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                         <span class="kd">::</span> <span class="n">dst</span>
@@ -3591,7 +3591,7 @@
 <a name="ln-3329"></a>     <span class="c">!! @note see block_partial_copy_a</span>
 <a name="ln-3330"></a>
 <a name="ln-3331"></a><span class="cp">#if defined(__LIBXSMM_BLOCKOPS)</span>
-<a name="ln-3332"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
+<a name="ln-3332"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_matcopy</span><span class="p">,</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr0</span>
 <a name="ln-3333"></a><span class="cp">#else</span>
 <a name="ln-3334"></a>      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">col</span><span class="p">,</span> <span class="n">row</span>
 <a name="ln-3335"></a><span class="cp">#endif</span>
@@ -3696,7 +3696,7 @@
 <a name="ln-3434"></a>     <span class="c">!! Copy and transpose block.</span>
 <a name="ln-3435"></a>
 <a name="ln-3436"></a><span class="cp">#if defined(__LIBXSMM_TRANS)</span>
-<a name="ln-3437"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span>
+<a name="ln-3437"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span>
 <a name="ln-3438"></a><span class="cp">#endif</span>
 <a name="ln-3439"></a>      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">TARGET</span> <span class="kd">::</span> <span class="n">extent_out</span>
 <a name="ln-3440"></a>        <span class="c">!! output matrix in the form of a 1-d array</span>
@@ -3771,7 +3771,7 @@
 <a name="ln-3509"></a>     <span class="c">!! Copy and transpose block.</span>
 <a name="ln-3510"></a>
 <a name="ln-3511"></a><span class="cp">#if defined(__LIBXSMM_TRANS)</span>
-<a name="ln-3512"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span><span class="p">,</span> <span class="n">libxsmm_ptr2</span>
+<a name="ln-3512"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span><span class="p">,</span> <span class="n">libxsmm_ptr2</span>
 <a name="ln-3513"></a><span class="cp">#endif</span>
 <a name="ln-3514"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">rows</span><span class="p">,</span> <span class="n">columns</span>
 <a name="ln-3515"></a>        <span class="c">!! input matrix size</span>
@@ -3813,7 +3813,7 @@
 <a name="ln-3551"></a>     <span class="c">!! Copy and transpose block.</span>
 <a name="ln-3552"></a>
 <a name="ln-3553"></a><span class="cp">#if defined(__LIBXSMM_TRANS)</span>
-<a name="ln-3554"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span><span class="p">,</span> <span class="n">libxsmm_ptr2</span>
+<a name="ln-3554"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_otrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span><span class="p">,</span> <span class="n">libxsmm_ptr2</span>
 <a name="ln-3555"></a><span class="cp">#endif</span>
 <a name="ln-3556"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">rows</span><span class="p">,</span> <span class="n">columns</span>
 <a name="ln-3557"></a>        <span class="c">!! input matrix size</span>
@@ -3838,7 +3838,7 @@
 <a name="ln-3576"></a>     <span class="c">!! In-place block transpose.</span>
 <a name="ln-3577"></a>
 <a name="ln-3578"></a><span class="cp">#if defined(__LIBXSMM_TRANS) &amp;&amp; 0</span>
-<a name="ln-3579"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_itrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span>
+<a name="ln-3579"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_itrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span>
 <a name="ln-3580"></a><span class="cp">#endif</span>
 <a name="ln-3581"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">rows</span><span class="p">,</span> <span class="n">columns</span>
 <a name="ln-3582"></a>        <span class="c">!! input matrix size</span>

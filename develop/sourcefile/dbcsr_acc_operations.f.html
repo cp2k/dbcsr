@@ -272,19 +272,19 @@
 <a name="ln-10"></a>
 <a name="ln-11"></a><span class="k">MODULE </span><span class="n">dbcsr_acc_operations</span>
 <a name="ln-12"></a>   <span class="c">!! Accelerator support for DBCSR</span>
-<a name="ln-13"></a>   <span class="k">USE </span><span class="nb">ISO_C_BINDING</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="kt">C_INT</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-13"></a>   <span class="k">USE </span><span class="nb">ISO_C_BINDING</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="kt">C_INT</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-14"></a>                            <span class="kt">C_PTR</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-15"></a>                            <span class="kt">C_CHAR</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-16"></a>                            <span class="nb">C_LOC</span>
-<a name="ln-17"></a><span class="nb">   </span><span class="k">USE </span><span class="n">dbcsr_acc_devmem</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">acc_devmem_cptr</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-17"></a><span class="nb">   </span><span class="k">USE </span><span class="n">dbcsr_acc_devmem</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">acc_devmem_cptr</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-18"></a>                               <span class="n">acc_devmem_type</span>
-<a name="ln-19"></a>   <span class="k">USE </span><span class="n">dbcsr_acc_stream</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">acc_stream_cptr</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-19"></a>   <span class="k">USE </span><span class="n">dbcsr_acc_stream</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">acc_stream_cptr</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-20"></a>                               <span class="n">acc_stream_type</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-21"></a>                               <span class="n">acc_stream_synchronize</span>
-<a name="ln-22"></a>   <span class="k">USE </span><span class="n">dbcsr_config</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">max_kernel_dim</span>
-<a name="ln-23"></a>   <span class="k">USE </span><span class="n">dbcsr_mm_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_ps_width</span>
-<a name="ln-24"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">real_8</span><span class="p">,</span> <span class="n">dp</span>
-<a name="ln-25"></a>   <span class="k">USE </span><span class="n">dbcsr_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_type_real_8</span>
+<a name="ln-22"></a>   <span class="k">USE </span><span class="n">dbcsr_config</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">max_kernel_dim</span>
+<a name="ln-23"></a>   <span class="k">USE </span><span class="n">dbcsr_mm_types</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_ps_width</span>
+<a name="ln-24"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">real_8</span><span class="p">,</span> <span class="n">dp</span>
+<a name="ln-25"></a>   <span class="k">USE </span><span class="n">dbcsr_types</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_type_real_8</span>
 <a name="ln-26"></a>
 <a name="ln-27"></a><span class="c">!$ USE OMP_LIB, ONLY: omp_get_thread_num, omp_get_num_threads</span>
 <a name="ln-28"></a>

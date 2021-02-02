@@ -272,10 +272,10 @@
 <a name="ln-10"></a>
 <a name="ln-11"></a><span class="k">MODULE </span><span class="n">dbcsr_data_types</span>
 <a name="ln-12"></a>   <span class="c">!! Types related to DBCSR data area</span>
-<a name="ln-13"></a>   <span class="k">USE </span><span class="n">dbcsr_acc_devmem</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">acc_devmem_type</span>
-<a name="ln-14"></a>   <span class="k">USE </span><span class="n">dbcsr_acc_event</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">acc_event_type</span>
-<a name="ln-15"></a>   <span class="k">USE </span><span class="n">dbcsr_acc_stream</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">acc_stream_type</span>
-<a name="ln-16"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-13"></a>   <span class="k">USE </span><span class="n">dbcsr_acc_devmem</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">acc_devmem_type</span>
+<a name="ln-14"></a>   <span class="k">USE </span><span class="n">dbcsr_acc_event</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">acc_event_type</span>
+<a name="ln-15"></a>   <span class="k">USE </span><span class="n">dbcsr_acc_stream</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">acc_stream_type</span>
+<a name="ln-16"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-17"></a>      <span class="n">dp</span><span class="p">,</span> <span class="n">int_4</span><span class="p">,</span> <span class="n">int_4_size</span><span class="p">,</span> <span class="n">int_8</span><span class="p">,</span> <span class="n">int_8_size</span><span class="p">,</span> <span class="n">real_4</span><span class="p">,</span> <span class="n">real_4_size</span><span class="p">,</span> <span class="n">real_8</span><span class="p">,</span> <span class="n">real_8_size</span>
 <a name="ln-18"></a>
 <a name="ln-19"></a><span class="c">!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads, omp_lock_kind</span>

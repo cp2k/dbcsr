@@ -280,37 +280,37 @@
 <a name="ln-18"></a>   <span class="c">!! dbcsr_mm_methods.</span>
 <a name="ln-19"></a>   <span class="c">!! - 2013-01    extensive refactoring (Ole Schuett)</span>
 <a name="ln-20"></a>
-<a name="ln-21"></a>   <span class="k">USE </span><span class="n">dbcsr_block_operations</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_data_clear</span>
-<a name="ln-22"></a>   <span class="k">USE </span><span class="n">dbcsr_config</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_cfg</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-21"></a>   <span class="k">USE </span><span class="n">dbcsr_block_operations</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_data_clear</span>
+<a name="ln-22"></a>   <span class="k">USE </span><span class="n">dbcsr_config</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_cfg</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-23"></a>                           <span class="n">default_resize_factor</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-24"></a>                           <span class="n">has_acc</span>
-<a name="ln-25"></a>   <span class="k">USE </span><span class="n">dbcsr_data_methods</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_data_ensure_size</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-25"></a>   <span class="k">USE </span><span class="n">dbcsr_data_methods</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_data_ensure_size</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-26"></a>                                 <span class="n">dbcsr_data_get_size</span>
-<a name="ln-27"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">int_4</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-27"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">int_4</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-28"></a>                          <span class="n">int_8</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-29"></a>                          <span class="n">real_8</span>
-<a name="ln-30"></a>   <span class="k">USE </span><span class="n">dbcsr_mm_accdrv</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-30"></a>   <span class="k">USE </span><span class="n">dbcsr_mm_accdrv</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-31"></a>      <span class="n">dbcsr_mm_accdrv_barrier</span><span class="p">,</span> <span class="n">dbcsr_mm_accdrv_dev2host_init</span><span class="p">,</span> <span class="n">dbcsr_mm_accdrv_finalize</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-32"></a>      <span class="n">dbcsr_mm_accdrv_init</span><span class="p">,</span> <span class="n">dbcsr_mm_accdrv_lib_finalize</span><span class="p">,</span> <span class="n">dbcsr_mm_accdrv_lib_init</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-33"></a>      <span class="n">dbcsr_mm_accdrv_phaseout</span><span class="p">,</span> <span class="n">dbcsr_mm_accdrv_process</span><span class="p">,</span> <span class="n">dbcsr_mm_accdrv_type</span>
-<a name="ln-34"></a>   <span class="k">USE </span><span class="n">dbcsr_mm_hostdrv</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_mm_hostdrv_init</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-34"></a>   <span class="k">USE </span><span class="n">dbcsr_mm_hostdrv</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_mm_hostdrv_init</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-35"></a>                               <span class="n">dbcsr_mm_hostdrv_lib_finalize</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-36"></a>                               <span class="n">dbcsr_mm_hostdrv_lib_init</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-37"></a>                               <span class="n">dbcsr_mm_hostdrv_process</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-38"></a>                               <span class="n">dbcsr_mm_hostdrv_type</span>
-<a name="ln-39"></a>   <span class="k">USE </span><span class="n">dbcsr_mm_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">p_a_first</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-39"></a>   <span class="k">USE </span><span class="n">dbcsr_mm_types</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">p_a_first</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-40"></a>                             <span class="n">p_b_first</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-41"></a>                             <span class="n">p_c_first</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-42"></a>                             <span class="n">p_k</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-43"></a>                             <span class="n">p_m</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-44"></a>                             <span class="n">p_n</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-45"></a>                             <span class="n">stack_descriptor_type</span>
-<a name="ln-46"></a>   <span class="k">USE </span><span class="n">dbcsr_mpiwrap</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">mp_bcast</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-46"></a>   <span class="k">USE </span><span class="n">dbcsr_mpiwrap</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">mp_bcast</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-47"></a>                            <span class="n">mp_environ</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-48"></a>                            <span class="n">mp_max</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-49"></a>                            <span class="n">mp_sum</span>
-<a name="ln-50"></a>   <span class="k">USE </span><span class="n">dbcsr_toollib</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">sort</span>
-<a name="ln-51"></a>   <span class="k">USE </span><span class="n">dbcsr_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_type</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-50"></a>   <span class="k">USE </span><span class="n">dbcsr_toollib</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">sort</span>
+<a name="ln-51"></a>   <span class="k">USE </span><span class="n">dbcsr_types</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_type</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-52"></a>                          <span class="n">dbcsr_work_type</span>
 <a name="ln-53"></a><span class="cp">#include &quot;base/dbcsr_base_uses.f90&quot;</span>
 <a name="ln-54"></a>

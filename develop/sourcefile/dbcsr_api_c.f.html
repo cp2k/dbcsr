@@ -272,10 +272,10 @@
 <a name="ln-10"></a>
 <a name="ln-11"></a><span class="k">MODULE </span><span class="n">dbcsr_api_c</span>
 <a name="ln-12"></a>
-<a name="ln-13"></a>   <span class="k">USE</span><span class="p">,</span> <span class="k">INTRINSIC</span> <span class="kd">::</span> <span class="nb">ISO_C_BINDING</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="nb">c_loc</span><span class="p">,</span> <span class="kt">c_ptr</span><span class="p">,</span> <span class="kt">c_double</span><span class="p">,</span> <span class="nb">C_NULL_CHAR</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-13"></a>   <span class="k">USE</span><span class="p">,</span> <span class="k">INTRINSIC</span> <span class="kd">::</span> <span class="nb">ISO_C_BINDING</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="nb">c_loc</span><span class="p">,</span> <span class="kt">c_ptr</span><span class="p">,</span> <span class="kt">c_double</span><span class="p">,</span> <span class="nb">C_NULL_CHAR</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-14"></a>                                                                             <span class="nb">c_f_pointer</span><span class="p">,</span> <span class="kt">c_int</span><span class="p">,</span> <span class="kt">c_char</span><span class="p">,</span> <span class="nb">c_null_ptr</span><span class="p">,</span> <span class="kt">c_bool</span>
 <a name="ln-15"></a><span class="kt">   </span><span class="k">USE </span><span class="n">dbcsr_api</span>
-<a name="ln-16"></a>   <span class="k">USE </span><span class="n">dbcsr_machine</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">default_output_unit</span>
+<a name="ln-16"></a>   <span class="k">USE </span><span class="n">dbcsr_machine</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">default_output_unit</span>
 <a name="ln-17"></a>
 <a name="ln-18"></a>   <span class="k">IMPLICIT NONE</span>
 <a name="ln-19"></a><span class="k">   PRIVATE</span>
@@ -283,7 +283,7 @@
 <a name="ln-21"></a><span class="k">CONTAINS</span>
 <a name="ln-22"></a>
 <a name="ln-23"></a><span class="k">   SUBROUTINE </span><span class="n">c_f_string</span><span class="p">(</span><span class="n">c_str</span><span class="p">,</span> <span class="n">str</span><span class="p">)</span>
-<a name="ln-24"></a>      <span class="k">USE</span><span class="p">,</span> <span class="k">INTRINSIC</span> <span class="kd">::</span> <span class="nb">iso_c_binding</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="kt">c_ptr</span><span class="p">,</span> <span class="nb">c_f_pointer</span><span class="p">,</span> <span class="kt">c_char</span>
+<a name="ln-24"></a>      <span class="k">USE</span><span class="p">,</span> <span class="k">INTRINSIC</span> <span class="kd">::</span> <span class="nb">iso_c_binding</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="kt">c_ptr</span><span class="p">,</span> <span class="nb">c_f_pointer</span><span class="p">,</span> <span class="kt">c_char</span>
 <a name="ln-25"></a><span class="kt">      </span><span class="k">TYPE</span><span class="p">(</span><span class="kt">c_ptr</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="kd">::</span> <span class="n">c_str</span>
 <a name="ln-26"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="kt">c_char</span><span class="p">),</span> <span class="k">POINTER</span> <span class="kd">::</span> <span class="n">arr</span><span class="p">(:)</span>
 <a name="ln-27"></a>      <span class="kt">CHARACTER</span><span class="p">(:,</span> <span class="nb">kind</span><span class="o">=</span><span class="kt">c_char</span><span class="p">),</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">out</span><span class="p">)</span> <span class="kd">::</span> <span class="n">str</span>
@@ -291,7 +291,7 @@
 <a name="ln-29"></a>      <span class="k">INTERFACE</span>
 <a name="ln-30"></a>         <span class="c">! steal std c library function rather than writing our own.</span>
 <a name="ln-31"></a>         <span class="k">FUNCTION </span><span class="n">strlen</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">bind</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;strlen&#39;</span><span class="p">)</span>
-<a name="ln-32"></a>            <span class="k">USE</span><span class="p">,</span> <span class="k">INTRINSIC</span> <span class="kd">::</span> <span class="nb">iso_c_binding</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="kt">c_ptr</span><span class="p">,</span> <span class="kt">c_size_t</span>
+<a name="ln-32"></a>            <span class="k">USE</span><span class="p">,</span> <span class="k">INTRINSIC</span> <span class="kd">::</span> <span class="nb">iso_c_binding</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="kt">c_ptr</span><span class="p">,</span> <span class="kt">c_size_t</span>
 <a name="ln-33"></a><span class="kt">            </span><span class="k">IMPLICIT NONE</span>
 <a name="ln-34"></a>            <span class="c">!----</span>
 <a name="ln-35"></a>            <span class="k">TYPE</span><span class="p">(</span><span class="kt">c_ptr</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">value</span> <span class="kd">::</span> <span class="n">s</span>

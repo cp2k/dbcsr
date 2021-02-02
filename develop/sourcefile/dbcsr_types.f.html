@@ -272,18 +272,18 @@
 <a name="ln-10"></a>
 <a name="ln-11"></a><span class="k">MODULE </span><span class="n">dbcsr_types</span>
 <a name="ln-12"></a>   <span class="c">!! DBCSR data types</span>
-<a name="ln-13"></a>   <span class="k">USE </span><span class="n">dbcsr_array_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">array_i1d_obj</span>
-<a name="ln-14"></a>   <span class="k">USE </span><span class="n">dbcsr_btree</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">btree_i8_cp2d</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-13"></a>   <span class="k">USE </span><span class="n">dbcsr_array_types</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">array_i1d_obj</span>
+<a name="ln-14"></a>   <span class="k">USE </span><span class="n">dbcsr_btree</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">btree_i8_cp2d</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-15"></a>                          <span class="n">btree_i8_dp2d</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-16"></a>                          <span class="n">btree_i8_sp2d</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-17"></a>                          <span class="n">btree_i8_zp2d</span>
-<a name="ln-18"></a>   <span class="k">USE </span><span class="n">dbcsr_data_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-18"></a>   <span class="k">USE </span><span class="n">dbcsr_data_types</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-19"></a>      <span class="n">dbcsr_data_area_type</span><span class="p">,</span> <span class="n">dbcsr_data_obj</span><span class="p">,</span> <span class="n">dbcsr_datatype_sizeof</span><span class="p">,</span> <span class="n">dbcsr_memtype_default</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-20"></a>      <span class="n">dbcsr_memtype_type</span><span class="p">,</span> <span class="n">dbcsr_scalar_type</span><span class="p">,</span> <span class="n">dbcsr_type_complex_4</span><span class="p">,</span> <span class="n">dbcsr_type_complex_4_2d</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-21"></a>      <span class="n">dbcsr_type_complex_8</span><span class="p">,</span> <span class="n">dbcsr_type_complex_8_2d</span><span class="p">,</span> <span class="n">dbcsr_type_complex_default</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-22"></a>      <span class="n">dbcsr_type_int_4</span><span class="p">,</span> <span class="n">dbcsr_type_real_4</span><span class="p">,</span> <span class="n">dbcsr_type_real_4_2d</span><span class="p">,</span> <span class="n">dbcsr_type_real_8</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-23"></a>      <span class="n">dbcsr_type_real_8_2d</span><span class="p">,</span> <span class="n">dbcsr_type_real_default</span>
-<a name="ln-24"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">default_string_length</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-24"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">default_string_length</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-25"></a>                          <span class="n">int_8</span>
 <a name="ln-26"></a>
 <a name="ln-27"></a><span class="c">!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads</span>

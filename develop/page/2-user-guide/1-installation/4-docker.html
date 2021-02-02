@@ -148,17 +148,17 @@
 <li>pre-commit</li>
 </ul>
 <h3>Using the image</h3>
-<div class="codehilite"><pre><span></span><code><span class="gp">$</span> <span class="nb">cd</span> dbcsr
-<span class="gp">$</span> docker run --rm -it -v <span class="nv">$PWD</span>:/app --workdir /app --user <span class="k">$(</span>id -u<span class="k">)</span>:<span class="k">$(</span>id -g<span class="k">)</span> dbcsr/build-env-ubuntu-20.04 /bin/bash
-<span class="gp">$</span> mkdir build <span class="o">&amp;&amp;</span> <span class="nb">cd</span> build/
-<span class="gp">$</span> cmake -G Ninja ..
-<span class="gp">$</span> cmake --build .
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span><span class="nb">cd</span> dbcsr
+<span class="gp">$ </span>docker run --rm -it -v <span class="nv">$PWD</span>:/app --workdir /app --user <span class="k">$(</span>id -u<span class="k">)</span>:<span class="k">$(</span>id -g<span class="k">)</span> dbcsr/build-env-ubuntu-20.04 /bin/bash
+<span class="gp">$ </span>mkdir build <span class="o">&amp;&amp;</span> <span class="nb">cd</span> build/
+<span class="gp">$ </span>cmake -G Ninja ..
+<span class="gp">$ </span>cmake --build .
 </code></pre></div>
 
 <h3>Building the image</h3>
 <p>If you need to rebuild the image, use:</p>
-<div class="codehilite"><pre><span></span><code><span class="gp">$</span> <span class="nb">cd</span> dbcsr/tools/docker
-<span class="gp">$</span> docker build -t dbcsr/build-env-ubuntu-20.04 -f Dockerfile.build-env-ubuntu .
+<div class="codehilite"><pre><span></span><code><span class="gp">$ </span><span class="nb">cd</span> dbcsr/tools/docker
+<span class="gp">$ </span>docker build -t dbcsr/build-env-ubuntu-20.04 -f Dockerfile.build-env-ubuntu .
 </code></pre></div>
 
 <h2>ROCm Build Environment</h2>
@@ -282,7 +282,7 @@
             </li>
             
             <li role="presentation">
-            <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/index.html'>libsmm_acc</a>
+            <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/index.html'>LIBSMM (CUDA/HIP)</a>
             
             <ul class="nav nav-stacked nav-pills">
               
@@ -312,6 +312,16 @@
             </li>
             
             </ul>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/3-opencl-backend.html'>OpenCL Backend</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/4-opencl-libsmm.html'>OpenCL LIBSMM</a>
             
             </li>
             

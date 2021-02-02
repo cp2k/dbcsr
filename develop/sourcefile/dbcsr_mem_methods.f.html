@@ -273,17 +273,17 @@
 <a name="ln-11"></a><span class="k">MODULE </span><span class="n">dbcsr_mem_methods</span>
 <a name="ln-12"></a>   <span class="c">!! DBCSR Memory Pool to avoid slow allocations of accelerator memory</span>
 <a name="ln-13"></a>
-<a name="ln-14"></a>   <span class="k">USE </span><span class="n">dbcsr_acc_stream</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">acc_stream_associated</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-14"></a>   <span class="k">USE </span><span class="n">dbcsr_acc_stream</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">acc_stream_associated</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-15"></a>                               <span class="n">acc_stream_equal</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-16"></a>                               <span class="n">acc_stream_type</span>
-<a name="ln-17"></a>   <span class="k">USE </span><span class="n">dbcsr_data_methods_low</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_data_exists</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-17"></a>   <span class="k">USE </span><span class="n">dbcsr_data_methods_low</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_data_exists</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-18"></a>                                     <span class="n">dbcsr_data_get_size</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-19"></a>                                     <span class="n">internal_data_deallocate</span>
-<a name="ln-20"></a>   <span class="k">USE </span><span class="n">dbcsr_data_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_data_obj</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-20"></a>   <span class="k">USE </span><span class="n">dbcsr_data_types</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_data_obj</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-21"></a>                               <span class="n">dbcsr_mempool_entry_type</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-22"></a>                               <span class="n">dbcsr_mempool_type</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-23"></a>                               <span class="n">dbcsr_memtype_type</span>
-<a name="ln-24"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dp</span>
+<a name="ln-24"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dp</span>
 <a name="ln-25"></a>
 <a name="ln-26"></a><span class="c">!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads, &amp;</span>
 <a name="ln-27"></a><span class="c">!$                    omp_set_lock, omp_unset_lock, omp_init_lock, omp_lock_kind, omp_destroy_lock</span>

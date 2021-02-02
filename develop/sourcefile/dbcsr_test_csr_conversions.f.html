@@ -271,7 +271,7 @@
 <a name="ln-9"></a>
 <a name="ln-10"></a><span class="k">PROGRAM </span><span class="n">dbcsr_test_csr_conversions</span>
 <a name="ln-11"></a>   <span class="c">!! Testing DBCSR to CSR conversion with random matrices</span>
-<a name="ln-12"></a>   <span class="k">USE </span><span class="n">dbcsr_api</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-12"></a>   <span class="k">USE </span><span class="n">dbcsr_api</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-13"></a>      <span class="n">dbcsr_convert_csr_to_dbcsr</span><span class="p">,</span> <span class="n">dbcsr_convert_dbcsr_to_csr</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-14"></a>      <span class="n">dbcsr_csr_create_from_dbcsr</span><span class="p">,</span> <span class="n">dbcsr_csr_destroy</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-15"></a>      <span class="n">dbcsr_csr_eqrow_ceil_dist</span><span class="p">,</span> <span class="n">dbcsr_csr_type</span><span class="p">,</span> <span class="n">dbcsr_add</span><span class="p">,</span> <span class="n">dbcsr_copy</span><span class="p">,</span> <span class="n">dbcsr_create</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -280,10 +280,10 @@
 <a name="ln-18"></a>      <span class="n">dbcsr_init_lib</span><span class="p">,</span> <span class="n">dbcsr_nblkcols_total</span><span class="p">,</span> <span class="n">dbcsr_nblkrows_total</span><span class="p">,</span> <span class="n">dbcsr_norm</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-19"></a>      <span class="n">dbcsr_norm_maxabsnorm</span><span class="p">,</span> <span class="n">dbcsr_put_block</span><span class="p">,</span> <span class="n">dbcsr_release</span><span class="p">,</span> <span class="n">dbcsr_to_csr_filter</span><span class="p">,</span> <span class="n">dbcsr_type</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-20"></a>      <span class="n">dbcsr_type_no_symmetry</span><span class="p">,</span> <span class="n">dbcsr_type_real_8</span><span class="p">,</span> <span class="n">dbcsr_print_statistics</span>
-<a name="ln-21"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dp</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-21"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dp</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-22"></a>                          <span class="n">real_8</span>
-<a name="ln-23"></a>   <span class="k">USE </span><span class="n">dbcsr_machine</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">default_output_unit</span>
-<a name="ln-24"></a>   <span class="k">USE </span><span class="n">dbcsr_mpiwrap</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">mp_bcast</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-23"></a>   <span class="k">USE </span><span class="n">dbcsr_machine</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">default_output_unit</span>
+<a name="ln-24"></a>   <span class="k">USE </span><span class="n">dbcsr_mpiwrap</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">mp_bcast</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-25"></a>                            <span class="n">mp_cart_create</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-26"></a>                            <span class="n">mp_comm_free</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-27"></a>                            <span class="n">mp_environ</span><span class="p">,</span> <span class="p">&amp;</span>

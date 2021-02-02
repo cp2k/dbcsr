@@ -272,16 +272,16 @@
 <a name="ln-10"></a>
 <a name="ln-11"></a><span class="k">MODULE </span><span class="n">dbcsr_methods</span>
 <a name="ln-12"></a>   <span class="c">!! Base methods on DBCSR data structures</span>
-<a name="ln-13"></a>   <span class="k">USE </span><span class="n">dbcsr_array_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">array_data</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-13"></a>   <span class="k">USE </span><span class="n">dbcsr_array_types</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">array_data</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-14"></a>                                <span class="n">array_release</span>
-<a name="ln-15"></a>   <span class="k">USE </span><span class="n">dbcsr_btree</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">btree_delete</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-15"></a>   <span class="k">USE </span><span class="n">dbcsr_btree</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">btree_delete</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-16"></a>                          <span class="n">btree_new</span>
-<a name="ln-17"></a>   <span class="k">USE </span><span class="n">dbcsr_data_methods</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_data_get_size</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-17"></a>   <span class="k">USE </span><span class="n">dbcsr_data_methods</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_data_get_size</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-18"></a>                                 <span class="n">dbcsr_data_release</span>
-<a name="ln-19"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">default_string_length</span>
-<a name="ln-20"></a>   <span class="k">USE </span><span class="n">dbcsr_mpiwrap</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">mp_comm_free</span>
-<a name="ln-21"></a>   <span class="k">USE </span><span class="n">dbcsr_ptr_util</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">memory_deallocate</span>
-<a name="ln-22"></a>   <span class="k">USE </span><span class="n">dbcsr_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-19"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">default_string_length</span>
+<a name="ln-20"></a>   <span class="k">USE </span><span class="n">dbcsr_mpiwrap</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">mp_comm_free</span>
+<a name="ln-21"></a>   <span class="k">USE </span><span class="n">dbcsr_ptr_util</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">memory_deallocate</span>
+<a name="ln-22"></a>   <span class="k">USE </span><span class="n">dbcsr_types</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-23"></a>      <span class="n">dbcsr_1d_array_type</span><span class="p">,</span> <span class="n">dbcsr_2d_array_type</span><span class="p">,</span> <span class="n">dbcsr_data_obj</span><span class="p">,</span> <span class="n">dbcsr_distribution_obj</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-24"></a>      <span class="n">dbcsr_imagedistribution_obj</span><span class="p">,</span> <span class="n">dbcsr_imagedistribution_type</span><span class="p">,</span> <span class="n">dbcsr_memtype_type</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-25"></a>      <span class="n">dbcsr_mp_obj</span><span class="p">,</span> <span class="n">dbcsr_mutable_obj</span><span class="p">,</span> <span class="n">dbcsr_type</span><span class="p">,</span> <span class="n">dbcsr_type_antihermitian</span><span class="p">,</span> <span class="p">&amp;</span>

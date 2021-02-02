@@ -244,7 +244,7 @@ private subroutine block_transpose_inplace_s(extent, rows, columns)
   
 <tr>
   
-  <td><span class="anchor" id="variable-rows~17"></span>integer,</td>
+  <td><span class="anchor" id="variable-rows~25"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -341,7 +341,7 @@ private subroutine block_transpose_inplace_s(extent, rows, columns)
      <span class="c">!! In-place block transpose.</span>
 
 <span class="cp">#if defined(__LIBXSMM_TRANS) &amp;&amp; 0</span>
-      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_itrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span>
+      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_itrans</span><span class="p">,</span> <span class="n">libxsmm_ptr1</span>
 <span class="cp">#endif</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">rows</span><span class="p">,</span> <span class="n">columns</span>
         <span class="c">!! input matrix size</span>

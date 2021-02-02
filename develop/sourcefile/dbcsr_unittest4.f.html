@@ -272,23 +272,23 @@
 <a name="ln-10"></a><span class="k">PROGRAM </span><span class="n">dbcsr_unittest</span>
 <a name="ln-11"></a>   <span class="c">!! Tests for DBCSR operations</span>
 <a name="ln-12"></a>
-<a name="ln-13"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dp</span>
-<a name="ln-14"></a>   <span class="k">USE </span><span class="n">dbcsr_lib</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_finalize_lib</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-13"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dp</span>
+<a name="ln-14"></a>   <span class="k">USE </span><span class="n">dbcsr_lib</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_finalize_lib</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-15"></a>                        <span class="n">dbcsr_init_lib</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-16"></a>                        <span class="n">dbcsr_print_statistics</span>
-<a name="ln-17"></a>   <span class="k">USE </span><span class="n">dbcsr_machine</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">default_output_unit</span>
-<a name="ln-18"></a>   <span class="k">USE </span><span class="n">dbcsr_mp_methods</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_mp_new</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-17"></a>   <span class="k">USE </span><span class="n">dbcsr_machine</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">default_output_unit</span>
+<a name="ln-18"></a>   <span class="k">USE </span><span class="n">dbcsr_mp_methods</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_mp_new</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-19"></a>                               <span class="n">dbcsr_mp_release</span>
-<a name="ln-20"></a>   <span class="k">USE </span><span class="n">dbcsr_mpiwrap</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">mp_cart_create</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-20"></a>   <span class="k">USE </span><span class="n">dbcsr_mpiwrap</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">mp_cart_create</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-21"></a>                            <span class="n">mp_cart_rank</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-22"></a>                            <span class="n">mp_comm_free</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-23"></a>                            <span class="n">mp_environ</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-24"></a>                            <span class="n">mp_world_finalize</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-25"></a>                            <span class="n">mp_world_init</span>
-<a name="ln-26"></a>   <span class="k">USE </span><span class="n">dbcsr_test_add</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_test_adds</span>
-<a name="ln-27"></a>   <span class="k">USE </span><span class="n">dbcsr_test_methods</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_reset_randmat_seed</span>
-<a name="ln-28"></a>   <span class="k">USE </span><span class="n">dbcsr_test_scale_by_vector</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_test_scale_by_vectors</span>
-<a name="ln-29"></a>   <span class="k">USE </span><span class="n">dbcsr_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_mp_obj</span>
+<a name="ln-26"></a>   <span class="k">USE </span><span class="n">dbcsr_test_add</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_test_adds</span>
+<a name="ln-27"></a>   <span class="k">USE </span><span class="n">dbcsr_test_methods</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_reset_randmat_seed</span>
+<a name="ln-28"></a>   <span class="k">USE </span><span class="n">dbcsr_test_scale_by_vector</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_test_scale_by_vectors</span>
+<a name="ln-29"></a>   <span class="k">USE </span><span class="n">dbcsr_types</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_mp_obj</span>
 <a name="ln-30"></a><span class="cp">#include &quot;base/dbcsr_base_uses.f90&quot;</span>
 <a name="ln-31"></a>
 <a name="ln-32"></a>   <span class="k">IMPLICIT NONE</span>
@@ -370,7 +370,7 @@
 <a name="ln-108"></a>   <span class="c">!</span>
 <a name="ln-109"></a>   <span class="c">! finalize libdbcsr errors</span>
 <a name="ln-110"></a>   <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">success</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-111"></a>      <span class="n">ERROR</span> <span class="k">STOP</span> <span class="s2">&quot;one or more tests failed&quot;</span>
+<a name="ln-111"></a>      <span class="k">ERROR STOP</span> <span class="s2">&quot;one or more tests failed&quot;</span>
 <a name="ln-112"></a><span class="k">END PROGRAM </span><span class="n">dbcsr_unittest</span>
 </pre></div>
 

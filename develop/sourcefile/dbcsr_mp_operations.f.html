@@ -273,23 +273,23 @@
 <a name="ln-11"></a><span class="k">MODULE </span><span class="n">dbcsr_mp_operations</span>
 <a name="ln-12"></a>   <span class="c">!! Wrappers to message passing calls.</span>
 <a name="ln-13"></a>
-<a name="ln-14"></a>   <span class="k">USE </span><span class="n">dbcsr_config</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">has_MPI</span>
-<a name="ln-15"></a>   <span class="k">USE </span><span class="n">dbcsr_data_methods</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_data_get_type</span>
-<a name="ln-16"></a>   <span class="k">USE </span><span class="n">dbcsr_mp_methods</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-14"></a>   <span class="k">USE </span><span class="n">dbcsr_config</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">has_MPI</span>
+<a name="ln-15"></a>   <span class="k">USE </span><span class="n">dbcsr_data_methods</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_data_get_type</span>
+<a name="ln-16"></a>   <span class="k">USE </span><span class="n">dbcsr_mp_methods</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-17"></a>      <span class="n">dbcsr_mp_get_process</span><span class="p">,</span> <span class="n">dbcsr_mp_grid_setup</span><span class="p">,</span> <span class="n">dbcsr_mp_group</span><span class="p">,</span> <span class="n">dbcsr_mp_has_subgroups</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-18"></a>      <span class="n">dbcsr_mp_my_col_group</span><span class="p">,</span> <span class="n">dbcsr_mp_my_row_group</span><span class="p">,</span> <span class="n">dbcsr_mp_mynode</span><span class="p">,</span> <span class="n">dbcsr_mp_mypcol</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-19"></a>      <span class="n">dbcsr_mp_myprow</span><span class="p">,</span> <span class="n">dbcsr_mp_npcols</span><span class="p">,</span> <span class="n">dbcsr_mp_nprows</span><span class="p">,</span> <span class="n">dbcsr_mp_numnodes</span><span class="p">,</span> <span class="n">dbcsr_mp_pgrid</span>
-<a name="ln-20"></a>   <span class="k">USE </span><span class="n">dbcsr_ptr_util</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">memory_copy</span>
-<a name="ln-21"></a>   <span class="k">USE </span><span class="n">dbcsr_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_data_obj</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-20"></a>   <span class="k">USE </span><span class="n">dbcsr_ptr_util</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">memory_copy</span>
+<a name="ln-21"></a>   <span class="k">USE </span><span class="n">dbcsr_types</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_data_obj</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-22"></a>                          <span class="n">dbcsr_mp_obj</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-23"></a>                          <span class="n">dbcsr_type_complex_4</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-24"></a>                          <span class="n">dbcsr_type_complex_8</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-25"></a>                          <span class="n">dbcsr_type_int_4</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-26"></a>                          <span class="n">dbcsr_type_real_4</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-27"></a>                          <span class="n">dbcsr_type_real_8</span>
-<a name="ln-28"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">real_4</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-28"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">real_4</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-29"></a>                          <span class="n">real_8</span>
-<a name="ln-30"></a>   <span class="k">USE </span><span class="n">dbcsr_mpiwrap</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-30"></a>   <span class="k">USE </span><span class="n">dbcsr_mpiwrap</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-31"></a>      <span class="n">mp_allgather</span><span class="p">,</span> <span class="n">mp_alltoall</span><span class="p">,</span> <span class="n">mp_gatherv</span><span class="p">,</span> <span class="n">mp_ibcast</span><span class="p">,</span> <span class="n">mp_irecv</span><span class="p">,</span> <span class="n">mp_iscatter</span><span class="p">,</span> <span class="n">mp_isend</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-32"></a>      <span class="n">mp_isendrecv</span><span class="p">,</span> <span class="n">mp_rget</span><span class="p">,</span> <span class="n">mp_sendrecv</span><span class="p">,</span> <span class="n">mp_type_descriptor_type</span><span class="p">,</span> <span class="n">mp_type_indexed_make_c</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-33"></a>      <span class="n">mp_type_indexed_make_d</span><span class="p">,</span> <span class="n">mp_type_indexed_make_r</span><span class="p">,</span> <span class="n">mp_type_indexed_make_z</span><span class="p">,</span> <span class="n">mp_type_make</span><span class="p">,</span> <span class="p">&amp;</span>

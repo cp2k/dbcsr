@@ -328,7 +328,7 @@ private subroutine tree_to_linear_c(wm)
      <span class="c">!! Converts mutable data to linear (array) type.</span>
 
       <span class="k">USE </span><span class="n">dbcsr_btree</span><span class="p">,</span> <span class="p">&amp;</span>
-         <span class="n">ONLY</span><span class="p">:</span> <span class="n">btree_2d_data_c</span> <span class="o">=&gt;</span> <span class="n">btree_data_cp2d</span><span class="p">,</span> <span class="p">&amp;</span>
+         <span class="k">ONLY</span><span class="p">:</span> <span class="n">btree_2d_data_c</span> <span class="o">=&gt;</span> <span class="n">btree_data_cp2d</span><span class="p">,</span> <span class="p">&amp;</span>
                <span class="n">btree_destroy_c</span> <span class="o">=&gt;</span> <span class="n">btree_delete</span><span class="p">,</span> <span class="p">&amp;</span>
                <span class="n">btree_size_c</span> <span class="o">=&gt;</span> <span class="n">btree_get_entries</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_work_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>     <span class="kd">::</span> <span class="n">wm</span>

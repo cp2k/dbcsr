@@ -273,26 +273,26 @@
 <a name="ln-11"></a><span class="k">MODULE </span><span class="n">dbcsr_mm_dist_operations</span>
 <a name="ln-12"></a>   <span class="c">!! DBCSR operations on distributions related to matrix multiplication</span>
 <a name="ln-13"></a>
-<a name="ln-14"></a>   <span class="k">USE </span><span class="n">dbcsr_array_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-14"></a>   <span class="k">USE </span><span class="n">dbcsr_array_types</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-15"></a>      <span class="n">array_data</span><span class="p">,</span> <span class="n">array_equality</span><span class="p">,</span> <span class="n">array_exists</span><span class="p">,</span> <span class="n">array_hold</span><span class="p">,</span> <span class="n">array_i1d_obj</span><span class="p">,</span> <span class="n">array_new</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-16"></a>      <span class="n">array_nullify</span><span class="p">,</span> <span class="n">array_release</span><span class="p">,</span> <span class="n">array_size</span>
-<a name="ln-17"></a>   <span class="k">USE </span><span class="n">dbcsr_dist_methods</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-17"></a>   <span class="k">USE </span><span class="n">dbcsr_dist_methods</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-18"></a>      <span class="n">dbcsr_distribution_col_dist</span><span class="p">,</span> <span class="n">dbcsr_distribution_has_threads</span><span class="p">,</span> <span class="n">dbcsr_distribution_hold</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-19"></a>      <span class="n">dbcsr_distribution_make_threads</span><span class="p">,</span> <span class="n">dbcsr_distribution_mp</span><span class="p">,</span> <span class="n">dbcsr_distribution_ncols</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-20"></a>      <span class="n">dbcsr_distribution_new</span><span class="p">,</span> <span class="n">dbcsr_distribution_no_threads</span><span class="p">,</span> <span class="n">dbcsr_distribution_nrows</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-21"></a>      <span class="n">dbcsr_distribution_release</span><span class="p">,</span> <span class="n">dbcsr_distribution_row_dist</span><span class="p">,</span> <span class="n">dbcsr_distribution_thread_dist</span>
-<a name="ln-22"></a>   <span class="k">USE </span><span class="n">dbcsr_dist_operations</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_get_local_cols</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-22"></a>   <span class="k">USE </span><span class="n">dbcsr_dist_operations</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_get_local_cols</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-23"></a>                                    <span class="n">dbcsr_get_local_rows</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-24"></a>                                    <span class="n">find_all_local_elements</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-25"></a>                                    <span class="n">rebin_distribution</span>
-<a name="ln-26"></a>   <span class="k">USE </span><span class="n">dbcsr_methods</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_distribution</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-26"></a>   <span class="k">USE </span><span class="n">dbcsr_methods</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_distribution</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-27"></a>                            <span class="n">dbcsr_release_locals</span>
-<a name="ln-28"></a>   <span class="k">USE </span><span class="n">dbcsr_mp_methods</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_mp_mypcol</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-28"></a>   <span class="k">USE </span><span class="n">dbcsr_mp_methods</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_mp_mypcol</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-29"></a>                               <span class="n">dbcsr_mp_myprow</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-30"></a>                               <span class="n">dbcsr_mp_npcols</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-31"></a>                               <span class="n">dbcsr_mp_nprows</span>
-<a name="ln-32"></a>   <span class="k">USE </span><span class="n">dbcsr_toollib</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">gcd</span>
-<a name="ln-33"></a>   <span class="k">USE </span><span class="n">dbcsr_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-32"></a>   <span class="k">USE </span><span class="n">dbcsr_toollib</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">gcd</span>
+<a name="ln-33"></a>   <span class="k">USE </span><span class="n">dbcsr_types</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-34"></a>      <span class="n">dbcsr_distribution_obj</span><span class="p">,</span> <span class="n">dbcsr_imagedistribution_obj</span><span class="p">,</span> <span class="n">dbcsr_mp_obj</span><span class="p">,</span> <span class="n">dbcsr_slot_home_pcol</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-35"></a>      <span class="n">dbcsr_slot_home_prow</span><span class="p">,</span> <span class="n">dbcsr_slot_home_vpcol</span><span class="p">,</span> <span class="n">dbcsr_slot_home_vprow</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-36"></a>      <span class="n">dbcsr_slot_nblkcols_local</span><span class="p">,</span> <span class="n">dbcsr_slot_nblkrows_local</span><span class="p">,</span> <span class="n">dbcsr_type</span>

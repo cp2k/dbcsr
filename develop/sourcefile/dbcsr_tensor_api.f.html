@@ -278,16 +278,16 @@
 <a name="ln-16"></a>   <span class="c">!! possibly grouped in to standard and expert api.</span>
 <a name="ln-17"></a>   <span class="c">!! Currently, this is work in progress.</span>
 <a name="ln-18"></a>
-<a name="ln-19"></a>   <span class="k">USE </span><span class="n">dbcsr_tensor</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-19"></a>   <span class="k">USE </span><span class="n">dbcsr_tensor</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-20"></a>      <span class="n">dbcsr_t_contract</span><span class="p">,</span> <span class="n">dbcsr_t_get_block</span><span class="p">,</span> <span class="n">dbcsr_t_get_stored_coordinates</span><span class="p">,</span> <span class="n">dbcsr_t_put_block</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-21"></a>      <span class="n">dbcsr_t_reserve_blocks</span><span class="p">,</span> <span class="n">dbcsr_t_copy_matrix_to_tensor</span><span class="p">,</span> <span class="n">dbcsr_t_copy</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-22"></a>      <span class="n">dbcsr_t_copy_tensor_to_matrix</span><span class="p">,</span> <span class="n">dbcsr_t_batched_contract_init</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-23"></a>      <span class="n">dbcsr_t_batched_contract_finalize</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-24"></a>      <span class="n">dbcsr_t_contract_index</span>
-<a name="ln-25"></a>   <span class="k">USE </span><span class="n">dbcsr_tensor_block</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-25"></a>   <span class="k">USE </span><span class="n">dbcsr_tensor_block</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-26"></a>      <span class="n">dbcsr_t_iterator_blocks_left</span><span class="p">,</span> <span class="n">dbcsr_t_iterator_next_block</span><span class="p">,</span> <span class="n">dbcsr_t_iterator_start</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-27"></a>      <span class="n">dbcsr_t_iterator_stop</span><span class="p">,</span> <span class="n">dbcsr_t_iterator_type</span><span class="p">,</span> <span class="n">dbcsr_t_reserved_block_indices</span>
-<a name="ln-28"></a>   <span class="k">USE </span><span class="n">dbcsr_tensor_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-28"></a>   <span class="k">USE </span><span class="n">dbcsr_tensor_types</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-29"></a>      <span class="n">dbcsr_t_create</span><span class="p">,</span> <span class="n">dbcsr_t_destroy</span><span class="p">,</span> <span class="n">dbcsr_t_distribution_destroy</span><span class="p">,</span> <span class="n">dbcsr_t_distribution_new</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-30"></a>      <span class="n">dbcsr_t_distribution_type</span><span class="p">,</span> <span class="n">dbcsr_t_nd_mp_comm</span><span class="p">,</span> <span class="n">dbcsr_t_nd_mp_free</span><span class="p">,</span> <span class="n">dbcsr_t_type</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-31"></a>      <span class="n">dbcsr_t_pgrid_type</span><span class="p">,</span> <span class="n">dbcsr_t_pgrid_create</span><span class="p">,</span> <span class="n">dbcsr_t_pgrid_create_expert</span><span class="p">,</span> <span class="n">dbcsr_t_pgrid_destroy</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -299,13 +299,13 @@
 <a name="ln-37"></a>      <span class="n">dbcsr_t_dims</span> <span class="o">=&gt;</span> <span class="n">dims_tensor</span><span class="p">,</span> <span class="n">dbcsr_t_ndims_matrix_row</span> <span class="o">=&gt;</span> <span class="n">ndims_matrix_row</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-38"></a>      <span class="n">dbcsr_t_ndims_matrix_column</span> <span class="o">=&gt;</span> <span class="n">ndims_matrix_column</span><span class="p">,</span> <span class="n">dbcsr_t_blk_size</span><span class="p">,</span> <span class="n">dbcsr_t_nblks_local</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-39"></a>      <span class="n">dbcsr_t_nblks_total</span><span class="p">,</span> <span class="n">dbcsr_t_max_nblks_local</span><span class="p">,</span> <span class="n">dbcsr_t_default_distvec</span>
-<a name="ln-40"></a>   <span class="k">USE </span><span class="n">dbcsr_tensor_test</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-40"></a>   <span class="k">USE </span><span class="n">dbcsr_tensor_test</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-41"></a>      <span class="n">dbcsr_t_contract_test</span><span class="p">,</span> <span class="n">dbcsr_t_checksum</span>
-<a name="ln-42"></a>   <span class="k">USE </span><span class="n">dbcsr_tensor_split</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-42"></a>   <span class="k">USE </span><span class="n">dbcsr_tensor_split</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-43"></a>      <span class="n">dbcsr_t_split_blocks</span>
-<a name="ln-44"></a>   <span class="k">USE </span><span class="n">dbcsr_tensor_index</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-44"></a>   <span class="k">USE </span><span class="n">dbcsr_tensor_index</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-45"></a>      <span class="n">dbcsr_t_get_mapping_info</span>
-<a name="ln-46"></a>   <span class="k">USE </span><span class="n">dbcsr_tensor_io</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-46"></a>   <span class="k">USE </span><span class="n">dbcsr_tensor_io</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-47"></a>      <span class="n">dbcsr_t_write_tensor_info</span><span class="p">,</span> <span class="n">dbcsr_t_write_split_info</span><span class="p">,</span> <span class="n">dbcsr_t_write_blocks</span><span class="p">,</span> <span class="n">dbcsr_t_write_tensor_dist</span>
 <a name="ln-48"></a>
 <a name="ln-49"></a>   <span class="k">IMPLICIT NONE</span>

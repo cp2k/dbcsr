@@ -273,54 +273,54 @@
 <a name="ln-11"></a><span class="k">MODULE </span><span class="n">dbcsr_lib</span>
 <a name="ln-12"></a>
 <a name="ln-13"></a>   <span class="c">!! Routines that affect the DBCSR library as a whole</span>
-<a name="ln-14"></a>   <span class="k">USE </span><span class="n">dbcsr_acc_device</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_acc_get_ndevices</span><span class="p">,</span> <span class="n">dbcsr_acc_set_active_device</span>
-<a name="ln-15"></a>   <span class="k">USE </span><span class="n">dbcsr_config</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">get_accdrv_active_device_id</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-14"></a>   <span class="k">USE </span><span class="n">dbcsr_acc_device</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_acc_get_ndevices</span><span class="p">,</span> <span class="n">dbcsr_acc_set_active_device</span>
+<a name="ln-15"></a>   <span class="k">USE </span><span class="n">dbcsr_config</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">get_accdrv_active_device_id</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-16"></a>                           <span class="n">set_accdrv_active_device_id</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-17"></a>                           <span class="n">reset_accdrv_active_device_id</span>
-<a name="ln-18"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">int_1_size</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-18"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">int_1_size</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-19"></a>                          <span class="n">int_2_size</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-20"></a>                          <span class="n">int_4_size</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-21"></a>                          <span class="n">int_8_size</span><span class="p">,</span> <span class="n">dp</span>
-<a name="ln-22"></a>   <span class="k">USE </span><span class="n">dbcsr_machine</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">default_output_unit</span>
-<a name="ln-23"></a>   <span class="k">USE </span><span class="n">dbcsr_mpiwrap</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">add_mp_perf_env</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-22"></a>   <span class="k">USE </span><span class="n">dbcsr_machine</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">default_output_unit</span>
+<a name="ln-23"></a>   <span class="k">USE </span><span class="n">dbcsr_mpiwrap</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">add_mp_perf_env</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-24"></a>                            <span class="n">describe_mp_perf_env</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-25"></a>                            <span class="n">has_mp_perf_env</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-26"></a>                            <span class="n">mp_environ</span><span class="p">,</span> <span class="n">mp_cart_rank</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-27"></a>                            <span class="n">rm_mp_perf_env</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-28"></a>                            <span class="n">mp_comm_free</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-29"></a>                            <span class="n">mp_get_comm_count</span>
-<a name="ln-30"></a>   <span class="k">USE </span><span class="n">dbcsr_mm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_multiply_clear_mempools</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-30"></a>   <span class="k">USE </span><span class="n">dbcsr_mm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_multiply_clear_mempools</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-31"></a>                       <span class="n">dbcsr_multiply_lib_finalize</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-32"></a>                       <span class="n">dbcsr_multiply_lib_init</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-33"></a>                       <span class="n">dbcsr_multiply_print_statistics</span>
-<a name="ln-34"></a>   <span class="k">USE </span><span class="n">dbcsr_timings</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">add_timer_env</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-34"></a>   <span class="k">USE </span><span class="n">dbcsr_timings</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">add_timer_env</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-35"></a>                            <span class="n">rm_timer_env</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-36"></a>                            <span class="n">timings_register_hooks</span>
-<a name="ln-37"></a>   <span class="k">USE </span><span class="n">dbcsr_timings_report</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">cost_type_time</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-37"></a>   <span class="k">USE </span><span class="n">dbcsr_timings_report</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">cost_type_time</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-38"></a>                                   <span class="n">timings_report_callgraph</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-39"></a>                                   <span class="n">timings_report_print</span>
-<a name="ln-40"></a>   <span class="k">USE </span><span class="n">dbcsr_log_handling</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_add_default_logger</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-40"></a>   <span class="k">USE </span><span class="n">dbcsr_log_handling</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_add_default_logger</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-41"></a>                                 <span class="n">dbcsr_logger_create</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-42"></a>                                 <span class="n">dbcsr_logger_release</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-43"></a>                                 <span class="n">dbcsr_logger_type</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-44"></a>                                 <span class="n">dbcsr_rm_default_logger</span>
-<a name="ln-45"></a>   <span class="k">USE </span><span class="n">dbcsr_base_hooks</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">timeset_hook</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-45"></a>   <span class="k">USE </span><span class="n">dbcsr_base_hooks</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">timeset_hook</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-46"></a>                               <span class="n">timestop_hook</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-47"></a>                               <span class="n">dbcsr_abort_hook</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-48"></a>                               <span class="n">dbcsr_warn_hook</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-49"></a>                               <span class="n">dbcsr_abort_interface</span><span class="p">,</span> <span class="n">dbcsr_warn_interface</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-50"></a>                               <span class="n">timeset_interface</span><span class="p">,</span> <span class="n">timestop_interface</span>
-<a name="ln-51"></a>   <span class="k">use </span><span class="n">dbcsr_types</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">dbcsr_mp_obj</span>
-<a name="ln-52"></a>   <span class="k">use </span><span class="n">dbcsr_mp_methods</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">dbcsr_mp_new</span><span class="p">,</span> <span class="n">dbcsr_mp_release</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-51"></a>   <span class="k">use </span><span class="n">dbcsr_types</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">dbcsr_mp_obj</span>
+<a name="ln-52"></a>   <span class="k">use </span><span class="n">dbcsr_mp_methods</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">dbcsr_mp_new</span><span class="p">,</span> <span class="n">dbcsr_mp_release</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-53"></a>                               <span class="n">dbcsr_mp_make_env</span>
-<a name="ln-54"></a>   <span class="k">use </span><span class="n">dbcsr_error_handling</span><span class="p">,</span> <span class="n">only</span><span class="p">:</span> <span class="n">dbcsr_error_handling_setup</span>
+<a name="ln-54"></a>   <span class="k">use </span><span class="n">dbcsr_error_handling</span><span class="p">,</span> <span class="k">only</span><span class="p">:</span> <span class="n">dbcsr_error_handling_setup</span>
 <a name="ln-55"></a>
 <a name="ln-56"></a><span class="cp">#include &quot;base/dbcsr_base_uses.f90&quot;</span>
 <a name="ln-57"></a>
 <a name="ln-58"></a><span class="c">!$ USE OMP_LIB, ONLY: omp_get_thread_num, omp_get_num_threads</span>
 <a name="ln-59"></a>
 <a name="ln-60"></a><span class="cp">#if defined (__DBCSR_ACC)</span>
-<a name="ln-61"></a>   <span class="k">USE </span><span class="nb">ISO_C_BINDING</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="kt">C_INT</span>
+<a name="ln-61"></a>   <span class="k">USE </span><span class="nb">ISO_C_BINDING</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="kt">C_INT</span>
 <a name="ln-62"></a><span class="cp">#endif</span>
 <a name="ln-63"></a>
 <a name="ln-64"></a>   <span class="k">IMPLICIT NONE</span>
@@ -429,7 +429,7 @@
 <a name="ln-167"></a>      <span class="c">!! Prepares the DBCSR library for use.</span>
 <a name="ln-168"></a>
 <a name="ln-169"></a><span class="cp">#if defined(__LIBXSMM)</span>
-<a name="ln-170"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_init</span>
+<a name="ln-170"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_init</span>
 <a name="ln-171"></a><span class="cp">#endif</span>
 <a name="ln-172"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">mp_comm</span>
 <a name="ln-173"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span> <span class="kd">::</span> <span class="n">io_unit</span><span class="p">,</span> <span class="n">accdrv_active_device_id</span>
@@ -525,7 +525,7 @@
 <a name="ln-263"></a>      <span class="c">!! Cleans up after the DBCSR library.  Used to deallocate persistent objects.</span>
 <a name="ln-264"></a>
 <a name="ln-265"></a><span class="cp">#if defined(__LIBXSMM)</span>
-<a name="ln-266"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_finalize</span>
+<a name="ln-266"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_finalize</span>
 <a name="ln-267"></a><span class="cp">#endif</span>
 <a name="ln-268"></a>      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_finalize_lib&#39;</span>
 <a name="ln-269"></a>

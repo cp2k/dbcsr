@@ -272,32 +272,32 @@
 <a name="ln-10"></a>
 <a name="ln-11"></a><span class="k">MODULE </span><span class="n">dbcsr_timings</span>
 <a name="ln-12"></a>   <span class="c">!! Timing routines for accounting</span>
-<a name="ln-13"></a>   <span class="k">USE </span><span class="n">dbcsr_base_hooks</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">timeset_hook</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-13"></a>   <span class="k">USE </span><span class="n">dbcsr_base_hooks</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">timeset_hook</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-14"></a>                               <span class="n">timestop_hook</span>
-<a name="ln-15"></a>   <span class="k">USE </span><span class="n">dbcsr_cuda_profiling</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">cuda_nvtx_range_pop</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-15"></a>   <span class="k">USE </span><span class="n">dbcsr_cuda_profiling</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">cuda_nvtx_range_pop</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-16"></a>                                   <span class="n">cuda_nvtx_range_push</span>
-<a name="ln-17"></a>   <span class="k">USE </span><span class="n">dbcsr_acc_devmem</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">acc_devmem_info</span>
-<a name="ln-18"></a>   <span class="k">USE </span><span class="n">dbcsr_dict</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dict_destroy</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-17"></a>   <span class="k">USE </span><span class="n">dbcsr_acc_devmem</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">acc_devmem_info</span>
+<a name="ln-18"></a>   <span class="k">USE </span><span class="n">dbcsr_dict</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dict_destroy</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-19"></a>                         <span class="n">dict_get</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-20"></a>                         <span class="n">dict_i4tuple_callstat_item_type</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-21"></a>                         <span class="n">dict_init</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-22"></a>                         <span class="n">dict_items</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-23"></a>                         <span class="n">dict_set</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-24"></a>                         <span class="n">dict_size</span>
-<a name="ln-25"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">default_string_length</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-25"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">default_string_length</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-26"></a>                          <span class="n">dp</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-27"></a>                          <span class="n">int_8</span>
-<a name="ln-28"></a>   <span class="k">USE </span><span class="n">dbcsr_list</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+<a name="ln-28"></a>   <span class="k">USE </span><span class="n">dbcsr_list</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
 <a name="ln-29"></a>      <span class="n">list_destroy</span><span class="p">,</span> <span class="n">list_get</span><span class="p">,</span> <span class="n">list_init</span><span class="p">,</span> <span class="n">list_isready</span><span class="p">,</span> <span class="n">list_peek</span><span class="p">,</span> <span class="n">list_pop</span><span class="p">,</span> <span class="n">list_push</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-30"></a>      <span class="n">list_size</span><span class="p">,</span> <span class="n">list_timerenv_type</span>
-<a name="ln-31"></a>   <span class="k">USE </span><span class="n">dbcsr_machine</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">m_energy</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-31"></a>   <span class="k">USE </span><span class="n">dbcsr_machine</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">m_energy</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-32"></a>                            <span class="n">m_flush</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-33"></a>                            <span class="n">m_memory</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-34"></a>                            <span class="n">m_walltime</span>
-<a name="ln-35"></a>   <span class="k">USE </span><span class="n">dbcsr_timings_base_type</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">call_stat_type</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-35"></a>   <span class="k">USE </span><span class="n">dbcsr_timings_base_type</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">call_stat_type</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-36"></a>                                      <span class="n">callstack_entry_type</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-37"></a>                                      <span class="n">routine_stat_type</span>
-<a name="ln-38"></a>   <span class="k">USE </span><span class="n">dbcsr_timings_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">timer_env_type</span>
+<a name="ln-38"></a>   <span class="k">USE </span><span class="n">dbcsr_timings_types</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">timer_env_type</span>
 <a name="ln-39"></a><span class="cp">#include &quot;base/dbcsr_base_uses.f90&quot;</span>
 <a name="ln-40"></a>
 <a name="ln-41"></a>   <span class="k">IMPLICIT NONE</span>

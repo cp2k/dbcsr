@@ -230,7 +230,7 @@ private subroutine dbcsr_init_lib_pre(mp_comm, io_unit, accdrv_active_device_id)
   
 <tr>
   
-  <td><span class="anchor" id="variable-mp_comm~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-mp_comm~4"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -245,7 +245,7 @@ private subroutine dbcsr_init_lib_pre(mp_comm, io_unit, accdrv_active_device_id)
   
 <tr>
   
-  <td><span class="anchor" id="variable-io_unit~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-io_unit~7"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -341,7 +341,7 @@ private subroutine dbcsr_init_lib_pre(mp_comm, io_unit, accdrv_active_device_id)
       <span class="c">!! Prepares the DBCSR library for use.</span>
 
 <span class="cp">#if defined(__LIBXSMM)</span>
-      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_init</span>
+      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_init</span>
 <span class="cp">#endif</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>  <span class="kd">::</span> <span class="n">mp_comm</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span> <span class="kd">::</span> <span class="n">io_unit</span><span class="p">,</span> <span class="n">accdrv_active_device_id</span>

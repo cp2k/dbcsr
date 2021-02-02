@@ -272,14 +272,14 @@
 <a name="ln-10"></a>
 <a name="ln-11"></a><span class="k">MODULE </span><span class="n">dbcsr_mm_hostdrv</span>
 <a name="ln-12"></a>   <span class="c">!! Stacks of small matrix multiplications</span>
-<a name="ln-13"></a>   <span class="k">USE </span><span class="n">dbcsr_config</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_cfg</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-13"></a>   <span class="k">USE </span><span class="n">dbcsr_config</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_cfg</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-14"></a>                           <span class="n">has_acc</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-15"></a>                           <span class="n">mm_driver_blas</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-16"></a>                           <span class="n">mm_driver_matmul</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-17"></a>                           <span class="n">mm_driver_smm</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-18"></a>                           <span class="n">mm_driver_xsmm</span>
-<a name="ln-19"></a>   <span class="k">USE </span><span class="n">dbcsr_data_methods</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_data_get_size</span>
-<a name="ln-20"></a>   <span class="k">USE </span><span class="n">dbcsr_mm_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_ps_width</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-19"></a>   <span class="k">USE </span><span class="n">dbcsr_data_methods</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_data_get_size</span>
+<a name="ln-20"></a>   <span class="k">USE </span><span class="n">dbcsr_mm_types</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_ps_width</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-21"></a>                             <span class="n">p_a_first</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-22"></a>                             <span class="n">p_b_first</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-23"></a>                             <span class="n">p_c_first</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -287,14 +287,14 @@
 <a name="ln-25"></a>                             <span class="n">p_m</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-26"></a>                             <span class="n">p_n</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-27"></a>                             <span class="n">stack_descriptor_type</span>
-<a name="ln-28"></a>   <span class="k">USE </span><span class="n">dbcsr_types</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dbcsr_data_obj</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-28"></a>   <span class="k">USE </span><span class="n">dbcsr_types</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_data_obj</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-29"></a>                          <span class="n">dbcsr_type</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-30"></a>                          <span class="n">dbcsr_type_complex_4</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-31"></a>                          <span class="n">dbcsr_type_complex_8</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-32"></a>                          <span class="n">dbcsr_type_real_4</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-33"></a>                          <span class="n">dbcsr_type_real_8</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-34"></a>                          <span class="n">dbcsr_work_type</span>
-<a name="ln-35"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">dp</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-35"></a>   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dp</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-36"></a>                          <span class="n">int_8</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-37"></a>                          <span class="n">real_4</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-38"></a>                          <span class="n">real_8</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -662,7 +662,7 @@
 <a name="ln-400"></a><span class="cp">#define DBCSR_LIBXSMM_GEMM_BATCH libxsmm_gemm_batch</span>
 <a name="ln-401"></a><span class="cp">#endif</span>
 <a name="ln-402"></a>      <span class="c">! Caution: This dependency is ignored by makedep.py, because libxsmm.F is kinda empty.</span>
-<a name="ln-403"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">LIBXSMM_GEMM_PRECISION</span> <span class="o">=&gt;</span> <span class="n">LIBXSMM_GEMM_PRECISION_F64</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-403"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">LIBXSMM_GEMM_PRECISION</span> <span class="o">=&gt;</span> <span class="n">LIBXSMM_GEMM_PRECISION_F64</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-404"></a>                         <span class="n">libxsmm_gemm</span> <span class="o">=&gt;</span> <span class="n">libxsmm_dgemm</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-405"></a>                         <span class="n">libxsmm_gemm_batch</span> <span class="o">=&gt;</span> <span class="n">DBCSR_LIBXSMM_GEMM_BATCH</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-406"></a>                         <span class="n">libxsmm_ptr0</span>
@@ -726,7 +726,7 @@
 <a name="ln-464"></a>     <span class="c">!! Processes MM stack and issues libxsmm calls</span>
 <a name="ln-465"></a><span class="cp">#if 1</span>
 <a name="ln-466"></a>      <span class="c">! Caution: This dependency is ignored by makedep.py, because libxsmm.F is kinda empty.</span>
-<a name="ln-467"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_function</span> <span class="o">=&gt;</span> <span class="n">libxsmm_dmmfunction</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-467"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_function</span> <span class="o">=&gt;</span> <span class="n">libxsmm_dmmfunction</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-468"></a>                         <span class="n">libxsmm_dispatch</span> <span class="o">=&gt;</span> <span class="n">libxsmm_dmmdispatch</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-469"></a>                         <span class="n">libxsmm_available</span> <span class="o">=&gt;</span> <span class="n">libxsmm_dmmavailable</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-470"></a>                         <span class="n">libxsmm_call</span> <span class="o">=&gt;</span> <span class="n">libxsmm_dmmcall</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -994,7 +994,7 @@
 <a name="ln-732"></a><span class="cp">#define DBCSR_LIBXSMM_GEMM_BATCH libxsmm_gemm_batch</span>
 <a name="ln-733"></a><span class="cp">#endif</span>
 <a name="ln-734"></a>      <span class="c">! Caution: This dependency is ignored by makedep.py, because libxsmm.F is kinda empty.</span>
-<a name="ln-735"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">LIBXSMM_GEMM_PRECISION</span> <span class="o">=&gt;</span> <span class="n">LIBXSMM_GEMM_PRECISION_F32</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-735"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">LIBXSMM_GEMM_PRECISION</span> <span class="o">=&gt;</span> <span class="n">LIBXSMM_GEMM_PRECISION_F32</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-736"></a>                         <span class="n">libxsmm_gemm</span> <span class="o">=&gt;</span> <span class="n">libxsmm_sgemm</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-737"></a>                         <span class="n">libxsmm_gemm_batch</span> <span class="o">=&gt;</span> <span class="n">DBCSR_LIBXSMM_GEMM_BATCH</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-738"></a>                         <span class="n">libxsmm_ptr0</span>
@@ -1058,7 +1058,7 @@
 <a name="ln-796"></a>     <span class="c">!! Processes MM stack and issues libxsmm calls</span>
 <a name="ln-797"></a><span class="cp">#if 1</span>
 <a name="ln-798"></a>      <span class="c">! Caution: This dependency is ignored by makedep.py, because libxsmm.F is kinda empty.</span>
-<a name="ln-799"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_function</span> <span class="o">=&gt;</span> <span class="n">libxsmm_smmfunction</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-799"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_function</span> <span class="o">=&gt;</span> <span class="n">libxsmm_smmfunction</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-800"></a>                         <span class="n">libxsmm_dispatch</span> <span class="o">=&gt;</span> <span class="n">libxsmm_smmdispatch</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-801"></a>                         <span class="n">libxsmm_available</span> <span class="o">=&gt;</span> <span class="n">libxsmm_smmavailable</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-802"></a>                         <span class="n">libxsmm_call</span> <span class="o">=&gt;</span> <span class="n">libxsmm_smmcall</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -1326,7 +1326,7 @@
 <a name="ln-1064"></a><span class="cp">#define DBCSR_LIBXSMM_GEMM_BATCH libxsmm_gemm_batch</span>
 <a name="ln-1065"></a><span class="cp">#endif</span>
 <a name="ln-1066"></a>      <span class="c">! Caution: This dependency is ignored by makedep.py, because libxsmm.F is kinda empty.</span>
-<a name="ln-1067"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">LIBXSMM_GEMM_PRECISION</span> <span class="o">=&gt;</span> <span class="n">LIBXSMM_GEMM_PRECISION_F64</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-1067"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">LIBXSMM_GEMM_PRECISION</span> <span class="o">=&gt;</span> <span class="n">LIBXSMM_GEMM_PRECISION_F64</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-1068"></a>                         <span class="n">libxsmm_gemm</span> <span class="o">=&gt;</span> <span class="n">libxsmm_zgemm</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-1069"></a>                         <span class="n">libxsmm_gemm_batch</span> <span class="o">=&gt;</span> <span class="n">DBCSR_LIBXSMM_GEMM_BATCH</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-1070"></a>                         <span class="n">libxsmm_ptr0</span>
@@ -1390,7 +1390,7 @@
 <a name="ln-1128"></a>     <span class="c">!! Processes MM stack and issues libxsmm calls</span>
 <a name="ln-1129"></a><span class="cp">#if 0</span>
 <a name="ln-1130"></a>      <span class="c">! Caution: This dependency is ignored by makedep.py, because libxsmm.F is kinda empty.</span>
-<a name="ln-1131"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_function</span> <span class="o">=&gt;</span> <span class="n">libxsmm_zmmfunction</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-1131"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_function</span> <span class="o">=&gt;</span> <span class="n">libxsmm_zmmfunction</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-1132"></a>                         <span class="n">libxsmm_dispatch</span> <span class="o">=&gt;</span> <span class="n">libxsmm_zmmdispatch</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-1133"></a>                         <span class="n">libxsmm_available</span> <span class="o">=&gt;</span> <span class="n">libxsmm_zmmavailable</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-1134"></a>                         <span class="n">libxsmm_call</span> <span class="o">=&gt;</span> <span class="n">libxsmm_zmmcall</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -1658,7 +1658,7 @@
 <a name="ln-1396"></a><span class="cp">#define DBCSR_LIBXSMM_GEMM_BATCH libxsmm_gemm_batch</span>
 <a name="ln-1397"></a><span class="cp">#endif</span>
 <a name="ln-1398"></a>      <span class="c">! Caution: This dependency is ignored by makedep.py, because libxsmm.F is kinda empty.</span>
-<a name="ln-1399"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">LIBXSMM_GEMM_PRECISION</span> <span class="o">=&gt;</span> <span class="n">LIBXSMM_GEMM_PRECISION_F32</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-1399"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">LIBXSMM_GEMM_PRECISION</span> <span class="o">=&gt;</span> <span class="n">LIBXSMM_GEMM_PRECISION_F32</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-1400"></a>                         <span class="n">libxsmm_gemm</span> <span class="o">=&gt;</span> <span class="n">libxsmm_cgemm</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-1401"></a>                         <span class="n">libxsmm_gemm_batch</span> <span class="o">=&gt;</span> <span class="n">DBCSR_LIBXSMM_GEMM_BATCH</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-1402"></a>                         <span class="n">libxsmm_ptr0</span>
@@ -1722,7 +1722,7 @@
 <a name="ln-1460"></a>     <span class="c">!! Processes MM stack and issues libxsmm calls</span>
 <a name="ln-1461"></a><span class="cp">#if 0</span>
 <a name="ln-1462"></a>      <span class="c">! Caution: This dependency is ignored by makedep.py, because libxsmm.F is kinda empty.</span>
-<a name="ln-1463"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="n">libxsmm_function</span> <span class="o">=&gt;</span> <span class="n">libxsmm_cmmfunction</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-1463"></a>      <span class="k">USE </span><span class="n">libxsmm</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">libxsmm_function</span> <span class="o">=&gt;</span> <span class="n">libxsmm_cmmfunction</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-1464"></a>                         <span class="n">libxsmm_dispatch</span> <span class="o">=&gt;</span> <span class="n">libxsmm_cmmdispatch</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-1465"></a>                         <span class="n">libxsmm_available</span> <span class="o">=&gt;</span> <span class="n">libxsmm_cmmavailable</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-1466"></a>                         <span class="n">libxsmm_call</span> <span class="o">=&gt;</span> <span class="n">libxsmm_cmmcall</span><span class="p">,</span> <span class="p">&amp;</span>

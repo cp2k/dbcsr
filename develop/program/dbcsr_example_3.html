@@ -902,7 +902,7 @@ subroutine <a href='../proc/random_dist~3.html'>random_dist</a>(dist_array, dist
    <span class="c">!! This example shows how to multiply two dbcsr matrices</span>
 
    <span class="k">USE </span><span class="n">mpi</span>
-   <span class="k">USE </span><span class="n">dbcsr_api</span><span class="p">,</span> <span class="n">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
+   <span class="k">USE </span><span class="n">dbcsr_api</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
       <span class="n">dbcsr_create</span><span class="p">,</span> <span class="n">dbcsr_distribution_get</span><span class="p">,</span> <span class="n">dbcsr_distribution_new</span><span class="p">,</span> <span class="n">dbcsr_distribution_release</span><span class="p">,</span> <span class="p">&amp;</span>
       <span class="n">dbcsr_distribution_type</span><span class="p">,</span> <span class="n">dbcsr_finalize</span><span class="p">,</span> <span class="n">dbcsr_finalize_lib</span><span class="p">,</span> <span class="n">dbcsr_get_stored_coordinates</span><span class="p">,</span> <span class="p">&amp;</span>
       <span class="n">dbcsr_init_lib</span><span class="p">,</span> <span class="n">dbcsr_multiply</span><span class="p">,</span> <span class="n">dbcsr_nblkcols_total</span><span class="p">,</span> <span class="n">dbcsr_nblkrows_total</span><span class="p">,</span> <span class="n">dbcsr_print</span><span class="p">,</span> <span class="p">&amp;</span>
