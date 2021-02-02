@@ -51,10 +51,7 @@ Assumed square matrix with 20x20 matrix with 5x5 blocks and a 2x2 processor grid
 | `NDEBUG`       | Assertions are stripped ("compiled out"), `NDEBUG` is the ANSI-conforming symbol name (not `__NDEBUG`). Regular release builds may carry assertions for safety | Fortran, C, C++ |
 | `__CRAY_PM_ACCEL_ENERGY` or `__CRAY_PM_ENERGY` | Switch on collectin energy profiling on Cray systems | Fortran |
 | `__DBCSR_ACC` | Enable Accelerator compilation | Fortran, C, C++ |
+| `__OPENCL`  | Enable OpenCL acceleration | C |
 | `__CUDA_PROFILING`  | To turn on Nvidia Tools Extensions. It requires to link `-lnvToolsExt` | Fortran, C, C++ |
 | `__CUDA` | Enable CUDA acceleration | C, C++ |
 | `__HIP`  | Enable HIP acceleration | C, C++ |
-
-
-
-

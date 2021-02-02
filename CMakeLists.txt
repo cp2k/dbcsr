@@ -90,15 +90,10 @@ set(USE_SMM
           "Small Matrix Multiplication implementation to use (default: blas)")
 set_property(CACHE USE_SMM PROPERTY STRINGS blas libxsmm)
 
-option(USE_CUDA "Build with CUDA support" OFF)
-option(USE_HIP "Build with HIP support" OFF)
-# USE_CUDA and USE_HIP are mutually exclusive options: we either compile with
-# nvcc OR with hipcc
-if (USE_CUDA AND USE_HIP)
-  message(
-    FATAL_ERROR
-      "USE_CUDA and USE_HIP options are mutually exclusive. Please choose one.")
-endif ()
+set(USE_ACCEL
+    ""
+    CACHE STRING "Build with acceleration support (default: none)")
+set_property(CACHE USE_ACCEL PROPERTY STRINGS "" opencl cuda hip)
 
 set(SUPPORTED_CUDA_ARCHITECTURES K20X K40 K80 P100 V100)
 set(SUPPORTED_HIP_ARCHITECTURES Mi50)
@@ -117,21 +112,27 @@ enable_language(Fortran)
 
 if (WITH_C_API AND WITH_EXAMPLES)
   enable_language(CXX)
+  enable_language(C)
 endif ()
 
-# we're always using at least C++11
+# always use at least C++11
 set(CMAKE_CXX_STANDARD 11)
 
 # =================================================================================================
 # PACKAGE DISCOVERY (compiler configuration can impact package discovery)
+find_package(PkgConfig)
 
-# =================================== OpenMP and OpenMP/offload backend
+# =================================== OpenMP
 if (USE_OPENMP)
   find_package(OpenMP REQUIRED)
 endif ()
 
+# =================================== LIBXSMM (rely on pkg-config)
+if ((USE_SMM MATCHES "libxsmm") OR (USE_ACCEL MATCHES "opencl"))
+  pkg_check_modules(LIBXSMM IMPORTED_TARGET GLOBAL libxsmmf)
+endif ()
+
 # =================================== BLAS & LAPACK, PkgConfig
-find_package(PkgConfig)
 find_package(LAPACK REQUIRED) # needed for some of the integrated test routines,
                               # also calls find_package(BLAS)
 
@@ -141,8 +142,7 @@ find_package(LAPACK REQUIRED) # needed for some of the integrated test routines,
 # environment for a python interpreter before searching elsewhere in the system.
 # In CMake <3.15, the system is searched before the virtual environment.
 if (NOT Python_EXECUTABLE)
-  # If the python interpreter isn't specified as a command line option, look for
-  # it:
+  # If the python interpreter is not specified (command line), try finding it:
   find_package(
     Python
     COMPONENTS Interpreter
@@ -185,15 +185,35 @@ endif ()
 if (USE_SMM MATCHES "blas")
   message("-- Using BLAS for Small Matrix Multiplication")
 elseif (USE_SMM MATCHES "libxsmm")
-  # rely on pkg-config in order to link against libxsmm
-  pkg_check_modules(deps REQUIRED IMPORTED_TARGET GLOBAL libxsmmf)
-  message("-- Using libxsmm for Small Matrix Multiplication")
+  if (LIBXSMM_FOUND)
+    message("-- Using LIBXSMM for Small Matrix Multiplication")
+  else ()
+    message(
+      FATAL_ERROR
+        "LIBXSMM is not found but requested (USE_SMM). "
+        "Please install PkgConfig, build LIBXSMM, and "
+        "set PKG_CONFIG_PATH=/path/to/libxsmm/lib")
+  endif ()
 else ()
   message(FATAL_ERROR "Unknown SMM library specified")
 endif ()
 
-# =================================== GPU backend
-if (USE_CUDA OR USE_HIP)
+# =================================== GPU backends
+if (USE_ACCEL MATCHES "opencl")
+  if (NOT LIBXSMM_FOUND)
+    message(
+      FATAL_ERROR
+        "LIBXSMM is not found but required for "
+        "LIBSMM based on the ACC/OpenCL backend. "
+        "Please install PkgConfig, LIBXSMM, and "
+        "set PKG_CONFIG_PATH=/path/to/libxsmm/lib")
+  endif ()
+
+  find_package(OpenCL REQUIRED)
+  enable_language(C)
+endif ()
+
+if (USE_ACCEL MATCHES "cuda|hip")
   enable_language(CXX)
   set(GPU_ARCH_NUMBER_K20X 35)
   set(GPU_ARCH_NUMBER_K40 35)
@@ -203,8 +223,7 @@ if (USE_CUDA OR USE_HIP)
   set(GPU_ARCH_NUMBER_Mi50 gfx906)
 endif ()
 
-if (USE_CUDA)
-
+if (USE_ACCEL MATCHES "cuda")
   enable_language(CUDA)
   if (CMAKE_CUDA_COMPILER_VERSION LESS 5.5)
     message(FATAL_ERROR "CUDA version >= 5.5 is required.")
@@ -214,9 +233,8 @@ if (USE_CUDA)
   list(FIND SUPPORTED_CUDA_ARCHITECTURES ${WITH_GPU} GPU_SUPPORTED)
   if (GPU_SUPPORTED EQUAL -1)
     message(
-      FATAL_ERROR
-        "GPU architecture requested (${WITH_GPU}) is not supported. Please choose from: ${SUPPORTED_CUDA_ARCHITECTURES}"
-    )
+      FATAL_ERROR "GPU architecture requested (${WITH_GPU}) is not supported. "
+                  "Please choose from: ${SUPPORTED_CUDA_ARCHITECTURES}")
   endif ()
 
   # assume that the backend compiler for nvcc understands the -std=c++11
@@ -243,7 +261,6 @@ if (USE_CUDA)
   else ()
     message(STATUS "Found cuBLAS: ${CUBLAS}")
   endif ()
-
   if (WITH_CUDA_PROFILING)
     find_library(
       CUDA_NVTOOLSEXT nvToolsExt
@@ -257,15 +274,13 @@ endif ()
 
 # inspired from
 # https://github.com/ROCm-Developer-Tools/HIP/tree/master/samples/2_Cookbook/12_cmake_hip_add_executable
-if (USE_HIP)
-
+if (USE_ACCEL MATCHES "hip")
   # Make sure the GPU required is supported
   list(FIND SUPPORTED_HIP_ARCHITECTURES ${WITH_GPU} GPU_SUPPORTED)
   if (GPU_SUPPORTED EQUAL -1)
     message(
-      FATAL_ERROR
-        "GPU architecture requested (${WITH_GPU}) is not supported. Please choose from: ${SUPPORTED_HIP_ARCHITECTURES}"
-    )
+      FATAL_ERROR "GPU architecture requested (${WITH_GPU}) is not supported. "
+                  "Please choose from: ${SUPPORTED_HIP_ARCHITECTURES}")
   endif ()
 
   # Set path to HIP installation, include HIP cmake utilities

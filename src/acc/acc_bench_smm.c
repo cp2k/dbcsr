@@ -11,6 +11,7 @@
 #include <string.h>
 #include <assert.h>
 #include <stdio.h>
+#include <math.h>
 
 #if defined(__LIBXSMM)
 # include <libxsmm.h>
@@ -20,14 +21,17 @@
 #if !defined(ELEM_TYPE)
 # define ELEM_TYPE double
 #endif
-#if !defined(EPSILON)
-# define EPSILON 1E-3
-#endif
 #if !defined(MAX_KERNEL_DIM)
 # define MAX_KERNEL_DIM 80
 #endif
 #if !defined(ALIGNMENT)
 # define ALIGNMENT 64
+#endif
+#if !defined(TRANSPOSE)
+# define TRANSPOSE 1
+#endif
+#if !defined(VALIDATE)
+# define VALIDATE 1
 #endif
 #if !defined(WARMUP)
 # define WARMUP 2
@@ -40,11 +44,11 @@
   EXIT_SUCCESS != (NULL != ((const void*)(RPTR)) ? (*((int*)(RPTR)) = (EXPR)) : (EXPR))) assert(0)
 
 
-#if defined(_DEBUG) && defined(USE_LIBXSMM)
+#if defined(_DEBUG) && defined(USE_LIBXSMM) && defined(VALIDATE) && (0 != VALIDATE)
 static void print(FILE* ostream, const char* label, const ELEM_TYPE* mat, int m, int n);
 #endif
 
-static void init(int seed, ELEM_TYPE* dst, int m, int n);
+static void init(int seed, ELEM_TYPE* dst, int m, int n, double scale);
 /* for comparison, adopt artificial stack-setup from other DBCSR/ACC benchmarks */
 static void init_stack(int* stack, int stack_size,
   int mn, int mk, int kn, int nc, int na, int nb);
@@ -52,14 +56,22 @@ static void init_stack(int* stack, int stack_size,
 
 int main(int argc, char* argv[])
 {
-  const int nrepeat = (1 < argc ? atoi(argv[1]) : 5);
-  const int stack_size = (2 < argc ? atoi(argv[2]) : 30000);
-  const int m = (3 < argc ? atoi(argv[3]) : 23);
-  const int n = (4 < argc ? atoi(argv[4]) : m);
-  const int k = (5 < argc ? atoi(argv[5]) : m);
-  const int nc = (6 < argc ? MIN(atoi(argv[6]), stack_size) : MAX(stack_size / 16, 1));
-  const int na = (7 < argc ? atoi(argv[7]) : (10 * nc));
-  const int nb = (8 < argc ? atoi(argv[8]) : (10 * nc));
+  const int inr = (1 < argc ? atoi(argv[1]) : 0);
+  const int iss = (2 < argc ? atoi(argv[2]) : 0);
+  const int ism = (3 < argc ? atoi(argv[3]) : 0);
+  const int isn = (4 < argc ? atoi(argv[4]) : 0);
+  const int isk = (5 < argc ? atoi(argv[5]) : 0);
+  const int inc = (6 < argc ? atoi(argv[6]) : 0);
+  const int ina = (7 < argc ? atoi(argv[7]) : 0);
+  const int inb = (8 < argc ? atoi(argv[8]) : 0);
+  const int nrepeat = (0 < inr ? inr : 3);
+  const int stack_size = (0 < iss ? iss : 30000);
+  const int m = (0 < ism ? ism : 23);
+  const int n = (0 < isn ? isn : m);
+  const int k = (0 < isk ? isk : m);
+  const int nc = (0 < inc ? MIN(inc, stack_size) : MAX(stack_size / 16, 1));
+  const int na = (0 < ina ? ina : (10 * nc));
+  const int nb = (0 < inb ? inb : (10 * nc));
 #if defined(ALIGNMENT) && (0 < ALIGNMENT)
   const int ma = (int)ROUNDUP2(sizeof(ELEM_TYPE) * m, ALIGNMENT);
   const int ka = (int)ROUNDUP2(sizeof(ELEM_TYPE) * k, ALIGNMENT);
@@ -74,6 +86,10 @@ int main(int argc, char* argv[])
 #else
   const int warmup = 0;
 #endif
+#if defined(VALIDATE) && (0 != VALIDATE)
+  const char *const env_check = getenv("CHECK");
+  const double check = (NULL == env_check ? -1 : fabs(atof(env_check)));
+#endif
   int *stack_hst = NULL, *stack_dev = NULL, *trans_hst = NULL, *trans_dev = NULL;
   ELEM_TYPE *amat_hst = NULL, *bmat_hst = NULL, *cmat_hst = NULL;
   ELEM_TYPE *amat_dev = NULL, *bmat_dev = NULL, *cmat_dev = NULL;
@@ -81,12 +97,17 @@ int main(int argc, char* argv[])
   void *stream = NULL;
 #if defined(USE_LIBXSMM)
   libxsmm_timer_tickint start;
-  double duration, transpose;
+# if defined(TRANSPOSE) && (0 != TRANSPOSE) && defined(VALIDATE) && (0 != VALIDATE)
+  double transpose;
+# endif
+  double duration;
 #endif
   assert(m <= (mn / n) && 0 == (mn % n) && k <= (mk / k) && 0 == (mk % k) && n <= (kn / n) && 0 == (kn % n));
   printf("%s%s%i %i %i %i %i %i %i %i\n", 0 < argc ? argv[0] : "", 0 < argc ? " " : "",
     nrepeat, stack_size, m, n, k, nc, na, nb);
   CHECK(acc_init(), &result);
+  /* note: libsmm_acc_init() may imply acc_init() */
+  CHECK(libsmm_acc_init(), &result);
   CHECK(acc_get_ndevices(&ndevices), &result);
   if (0 < ndevices) {
 #if defined(_DEBUG)
@@ -97,10 +118,13 @@ int main(int argc, char* argv[])
 #if defined(_DEBUG)
     fprintf(stderr, "Error: no device found!\n");
 #endif
+#if !defined(__CUDA)
+    CHECK(libsmm_acc_finalize(), NULL);
+#endif
     CHECK(acc_finalize(), NULL);
     return result;
   }
-  printf("element type: %s\n", DBCSR_STRINGIFY(ELEM_TYPE));
+  printf("typename (id=%i): %s\n", DBCSR_TYPE(ELEM_TYPE), DBCSR_STRINGIFY(ELEM_TYPE));
   CHECK(acc_stream_create(&stream, "stream", -1/*default priority*/), &result);
   CHECK(acc_host_mem_allocate((void**)&amat_hst, sizeof(ELEM_TYPE) * mk * na, stream), &result);
   CHECK(acc_host_mem_allocate((void**)&bmat_hst, sizeof(ELEM_TYPE) * kn * nb, stream), &result);
@@ -110,10 +134,10 @@ int main(int argc, char* argv[])
   CHECK(acc_stream_sync(stream), &result); /* ensure host-data is allocated */
   /* initialize matrices */
   for (i = 0; i < na; ++i) {
-    init(i/*seed*/ + 42, &amat_hst[i*mk], m, k);
+    init(i/*seed*/ + 42, &amat_hst[i*mk], m, k, 1.0 / (nc * na));
   }
   for (i = 0; i < nb; ++i) {
-    init(i/*seed*/ + 24, &bmat_hst[i*kn], k, n);
+    init(i/*seed*/ + 24, &bmat_hst[i*kn], k, n, 1.0 / (nc * nb));
     trans_hst[i] = i * kn;
   }
   init_stack(stack_hst, stack_size, mn, mk, kn, nc, na, nb);
@@ -138,6 +162,7 @@ int main(int argc, char* argv[])
     (sizeof(ELEM_TYPE) * (mk + kn) + sizeof(int) * 3)
       * stack_size / (duration * (1ULL << 30)));
 #endif
+#if defined(TRANSPOSE) && (0 != TRANSPOSE) && defined(VALIDATE) && (0 != VALIDATE)
   /* warmup execution and prebuild transpose-kernel */
   for (r = 0; r < warmup / 2; ++r) {
     CHECK(libsmm_acc_transpose(trans_dev, 0/*offset*/, nb, bmat_dev,
@@ -145,16 +170,17 @@ int main(int argc, char* argv[])
     CHECK(libsmm_acc_transpose(trans_dev, 0/*offset*/, nb, bmat_dev,
       DBCSR_TYPE(ELEM_TYPE), n, k, MAX_KERNEL_DIM, stream), &result);
   }
-#if defined(USE_LIBXSMM)
+# if defined(USE_LIBXSMM)
   CHECK(acc_stream_sync(stream), &result);
   start = libxsmm_timer_tick();
-#endif
+# endif
   /* to perform NN-SMMs on the device, all B-matrices are transposed upfront (SMM-kernel is limited to NT) */
   CHECK(libsmm_acc_transpose(trans_dev, 0/*offset*/, nb, bmat_dev,
     DBCSR_TYPE(ELEM_TYPE), k, n, MAX_KERNEL_DIM, stream), &result);
-#if defined(USE_LIBXSMM)
+# if defined(USE_LIBXSMM)
   CHECK(acc_stream_sync(stream), &result);
   transpose = libxsmm_timer_duration(start, libxsmm_timer_tick());
+# endif
 #endif
   /* warmup execution and prebuild SMM-kernel */
   for (r = 0; r < warmup; ++r) {
@@ -174,12 +200,18 @@ int main(int argc, char* argv[])
 #if defined(USE_LIBXSMM)
   CHECK(acc_stream_sync(stream), &result);
   duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
-  if (EXIT_SUCCESS == result) {
+# if defined(VALIDATE) && (0 != VALIDATE)
+  if (0 != check && EXIT_SUCCESS == result) {
     ELEM_TYPE *const gold_hst = (ELEM_TYPE*)libxsmm_malloc(sizeof(ELEM_TYPE) * mn * nc);
-    const char transa = 'N', transb = 'N';
     const ELEM_TYPE alpha = 1, beta = 1;
+    const char transa = 'N';
+#   if !defined(TRANSPOSE) || (0 == TRANSPOSE)
+    const char transb = 'T';
+#   else
+    const char transb = 'N';
     printf("transpose: %.1f ms %.1f GFLOPS/s\n", 1000.0 * (duration + transpose) / nrepeat,
       ((size_t)2 * m * n * k) * stack_size / ((duration + transpose) * (1ULL << 30) / nrepeat));
+#   endif
     printf("device: %.1f ms %.1f GFLOPS/s\n", 1000.0 * duration / nrepeat,
       ((size_t)2 * m * n * k) * stack_size / (duration * (1ULL << 30) / nrepeat));
     memset(gold_hst, 0, sizeof(ELEM_TYPE) * mn * nc);
@@ -221,21 +253,27 @@ int main(int argc, char* argv[])
           }
         }
         if (0 < diff) {
-# if defined(_DEBUG)
+#   if defined(_DEBUG)
           print(stderr, "gold = ", gold, m, n);
           print(stderr, "test = ", test, m, n);
           fprintf(stderr, "diff = %g (%g != %g)\n", diff, a, b);
-# endif
+#   endif
           if (abserror < diff) {
             relerror = fabs(0 != a ? (diff / a) : (diff / b));
             abserror = diff;
           }
         }
       }
-      printf("max.error: rel=%g\n", relerror);
-      if (EPSILON < relerror) result = EXIT_FAILURE;
+      printf("max.error: abs=%g rel=%g\n", abserror, relerror);
+      if (0 < check && check < relerror) result = EXIT_FAILURE;
     }
     libxsmm_free(gold_hst);
+  }
+  else
+# endif
+  if (EXIT_SUCCESS == result) {
+    printf("device: %.1f ms %.1f GFLOPS/s\n", 1000.0 * duration / nrepeat,
+      ((size_t)2 * m * n * k) * stack_size / (duration * (1ULL << 30) / nrepeat));
   }
 #endif
   CHECK(acc_host_mem_deallocate(stack_hst, stream), NULL);
@@ -249,6 +287,9 @@ int main(int argc, char* argv[])
   CHECK(acc_dev_mem_deallocate(bmat_dev), NULL);
   CHECK(acc_dev_mem_deallocate(cmat_dev), NULL);
   CHECK(acc_stream_destroy(stream), NULL);
+#if !defined(__CUDA)
+  CHECK(libsmm_acc_finalize(), NULL);
+#endif
   CHECK(acc_finalize(), NULL);
   if (EXIT_SUCCESS != result) {
     fprintf(stderr, "FAILED\n");
@@ -257,12 +298,13 @@ int main(int argc, char* argv[])
 }
 
 
-static void init(int seed, ELEM_TYPE* dst, int m, int n) {
+static void init(int seed, ELEM_TYPE* dst, int m, int n, double scale) {
+  const double seed1 = scale * seed + scale;
   int i, j;
   for (i = 0; i < n; ++i) {
     for (j = 0; j < m; ++j) {
       const int k = i * m + j;
-      dst[k] = (ELEM_TYPE)((seed + 1) * (k + 1));
+      dst[k] = (ELEM_TYPE)(seed1 * (k + 1));
     }
   }
 }
@@ -291,7 +333,7 @@ static void init_stack(int* stack, int stack_size,
 }
 
 
-#if defined(_DEBUG) && defined(USE_LIBXSMM)
+#if defined(_DEBUG) && defined(USE_LIBXSMM) && defined(VALIDATE) && (0 != VALIDATE)
 static void print(FILE* ostream, const char* label, const ELEM_TYPE* mat, int m, int n)
 {
   int i, j;

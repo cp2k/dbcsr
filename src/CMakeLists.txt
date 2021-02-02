@@ -105,6 +105,10 @@ add_fypp_sources(
   utils/dbcsr_toollib.F
   work/dbcsr_work_operations.F)
 
+set(DBCSR_OPENCL_SRCS
+    acc/opencl/acc_opencl.c acc/opencl/acc_opencl_event.c
+    acc/opencl/acc_opencl_mem.c acc/opencl/acc_opencl_stream.c)
+
 set(DBCSR_CUDA_SRCS
     acc/cuda/acc_cublas.cu
     acc/cuda/acc_cuda.cpp
@@ -141,13 +145,9 @@ add_library(dbcsr ${DBCSR_SRCS})
 set_target_properties(dbcsr PROPERTIES VERSION ${dbcsr_VERSION}
                                        SOVERSION ${dbcsr_APIVERSION})
 
-if (TARGET PkgConfig::deps)
-  target_link_libraries(dbcsr PRIVATE PkgConfig::deps)
-endif ()
-
-if (USE_SMM MATCHES "libxsmm")
-  # linker/include flags are managed by pkg-config (above)
+if (LIBXSMM_FOUND)
   target_compile_definitions(dbcsr PRIVATE __LIBXSMM)
+  target_link_libraries(dbcsr PRIVATE PkgConfig::LIBXSMM)
 endif ()
 
 if (BLAS_LIBRARIES MATCHES "mkl_")
@@ -204,6 +204,25 @@ if (OpenMP_FOUND)
 endif ()
 
 # =================================================================================================
+# DBCSR LIBRARY's OPENCL BACKEND
+
+if (USE_ACCEL MATCHES "opencl")
+  target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC)
+  target_link_libraries(dbcsr PRIVATE ${OpenCL_LIBRARY})
+
+  # OpenCL backend
+  set(DBCSR_ACC_SRCS ${DBCSR_OPENCL_SRCS})
+  add_library(acc OBJECT ${DBCSR_ACC_SRCS})
+  target_compile_definitions(acc PRIVATE __OPENCL)
+  # account for DBCSR not calling libsmm_acc_init() (DBCSR only calls acc_init)
+  target_compile_definitions(acc PRIVATE __DBCSR_ACC)
+  target_include_directories(acc PRIVATE ${OpenCL_INCLUDE_DIRS})
+  target_sources(dbcsr PRIVATE $<TARGET_OBJECTS:acc>)
+  add_subdirectory(acc/opencl/smm)
+  target_sources(dbcsr PRIVATE $<TARGET_OBJECTS:libsmm_acc>)
+endif ()
+
+# =================================================================================================
 # DBCSR LIBRARY's CUDA BACKEND
 
 # adapted from
@@ -240,7 +259,7 @@ function (CUDA_CONVERT_FLAGS EXISTING_TARGET)
   )
 endfunction ()
 
-if (USE_CUDA)
+if (USE_ACCEL MATCHES "cuda")
   if (${CMAKE_VERSION} VERSION_LESS 3.16)
     # workaround for CUDA support with CMake <3.16, see also see
     # https://gitlab.kitware.com/cmake/cmake/issues/17929 and
@@ -296,8 +315,7 @@ endif ()
 # =================================================================================================
 # DBCSR LIBRARY's HIP BACKEND
 
-if (USE_HIP)
-
+if (USE_ACCEL MATCHES "hip")
   if (USE_OPENMP)
     set(HIP_HIPCC_FLAGS "${HIP_HIPCC_FLAGS} ${OpenMP_CXX_FLAGS}")
   endif ()
@@ -335,7 +353,6 @@ if (USE_HIP)
 
   target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC)
   target_compile_definitions(dbcsr PRIVATE __HIP)
-
 endif ()
 
 # =================================================================================================
@@ -401,7 +418,7 @@ write_basic_package_version_file(
   "${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfigVersion.cmake"
   VERSION "${dbcsr_VERSION}"
   COMPATIBILITY SameMajorVersion)
-if (USE_HIP)
+if (USE_ACCEL MATCHES "hip")
   install(
     EXPORT libsmm_accTargets
     NAMESPACE "${config_namespace}"

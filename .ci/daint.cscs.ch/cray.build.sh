@@ -30,7 +30,7 @@ cd "${SCRATCH}/${BUILD_TAG}.cray"
 
 cmake \
     -DCMAKE_SYSTEM_NAME=CrayLinuxEnvironment \
-    -DUSE_CUDA=ON \
+    -DUSE_ACCEL=cuda \
     -DWITH_GPU=P100 \
     -DBLAS_FOUND=ON -DBLAS_LIBRARIES="-lsci_cray_mpi_mp" \
     -DLAPACK_FOUND=ON -DLAPACK_LIBRARIES="-lsci_cray_mpi_mp" \

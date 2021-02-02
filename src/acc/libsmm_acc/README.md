@@ -1,4 +1,4 @@
-# libsmm_acc: GPU Accelerated Small Matrix Multiplications
+# GPU Accelerated Small Matrix Multiplications
 
 `libsmm_acc` is a **lib**rary for **s**mall **m**atrix-**m**atrix multiplication on a GPU-**acc**elerator. Stacks of matrix-matrix multiplication indices are passed from DBCSR to `libsmm_acc` which performs the multiplications on the GPU.
 

@@ -101,7 +101,7 @@ jobs:
         cmake -G Ninja \
           -DCMAKE_BUILD_TYPE=Release \
           -DUSE_${{ matrix.use_openmp }} \
-          -DUSE_HIP=ON \
+          -DUSE_ACCEL=hip \
           -DWITH_GPU=Mi50 \
           ..
     - name: Build

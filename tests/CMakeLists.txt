@@ -15,7 +15,7 @@ endif ()
 
 # =================================== DBCSR PERF TESTS
 set(DBCSR_PERF_SRCS dbcsr_performance_driver.F dbcsr_performance_multiply.F)
-if (USE_HIP)
+if (USE_ACCEL MATCHES "hip")
   hip_add_executable(dbcsr_perf ${DBCSR_PERF_SRCS})
 else ()
   add_executable(dbcsr_perf ${DBCSR_PERF_SRCS})
@@ -66,6 +66,13 @@ set(DBCSR_TESTS_FTN
     dbcsr_tas_unittest
     dbcsr_test_csr_conversions)
 
+if (NOT USE_ACCEL STREQUAL "")
+  # TODO: enable dbcsr_acc_test for HIP
+  if (NOT USE_ACCEL MATCHES "hip")
+    set(DBCSR_TESTS_C dbcsr_acc_test_c)
+  endif ()
+endif ()
+
 if (NOT (CMAKE_Fortran_COMPILER_ID STREQUAL "Cray"))
   set(DBCSR_TESTS_SRCS_CPP dbcsr_tensor_test.cpp)
 endif ()
@@ -79,6 +86,7 @@ set(dbcsr_tensor_unittest_SRCS dbcsr_tensor_unittest.F)
 set(dbcsr_tas_unittest_SRCS dbcsr_tas_unittest.F)
 set(dbcsr_test_csr_conversions_SRCS dbcsr_test_csr_conversions.F)
 set(dbcsr_tensor_test_cpp_SRCS dbcsr_tensor_test.cpp)
+set(dbcsr_acc_test_c_SRCS dbcsr_acc_test.c)
 
 # Make a list of the source files of fortran tests
 set(DBCSR_TESTS_SRCS_FTN)
@@ -106,7 +114,7 @@ target_link_libraries(dbcsr_unittest_common PUBLIC dbcsr)
 
 # Compile Fortran tests
 foreach (dbcsr_test ${DBCSR_TESTS_FTN})
-  if (USE_HIP)
+  if (USE_ACCEL MATCHES "hip")
     hip_add_executable(${dbcsr_test} ${${dbcsr_test}_SRCS})
   else ()
     add_executable(${dbcsr_test} ${${dbcsr_test}_SRCS})
@@ -162,6 +170,30 @@ if (WITH_C_API)
                                           OMP_NUM_THREADS=${TEST_OMP_THREADS})
     endif ()
   endforeach ()
+
+  foreach (dbcsr_test_c ${DBCSR_TESTS_C})
+    if (USE_ACCEL MATCHES "hip")
+      hip_add_executable(${dbcsr_test_c} ${${dbcsr_test_c}_SRCS})
+    else ()
+      add_executable(${dbcsr_test_c} ${${dbcsr_test_c}_SRCS})
+    endif ()
+    target_link_libraries(${dbcsr_test_c} dbcsr_c)
+    # register unittest executable with CMake
+    if (USE_MPI)
+      separate_arguments(MPIEXEC_PREFLAGS)
+      add_test(
+        NAME ${dbcsr_test_c}
+        COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${num_ranks}
+                ${MPIEXEC_PREFLAGS} ./${dbcsr_test_c} ${MPIEXEC_POSTFLAGS})
+    else ()
+      add_test(NAME ${dbcsr_test_c} COMMAND ./${dbcsr_test_c})
+    endif ()
+    if (OpenMP_FOUND)
+      set_tests_properties(
+        ${dbcsr_test_c} PROPERTIES ENVIRONMENT
+                                   OMP_NUM_THREADS=${TEST_OMP_THREADS})
+    endif ()
+  endforeach ()
 endif ()
 
 # =================================== GPU BACKEND TESTS (CUDA / HIP)
@@ -199,7 +231,7 @@ add_custom_command(
 add_custom_target(generate_libsmm_acc_timer_multiply_test_cpp
                   DEPENDS libsmm_acc_timer_multiply.cpp)
 
-if (USE_CUDA OR USE_HIP)
+if (USE_ACCEL MATCHES "cuda|hip")
 
   # All libsmm_acc tests
   set(LIBSMM_ACC_TESTS_SRCS
@@ -212,7 +244,7 @@ if (USE_CUDA OR USE_HIP)
                              libsmm_acc_unittest_transpose)
 
   # Add executables for all libsmm_acc tests
-  if (USE_CUDA)
+  if (USE_ACCEL MATCHES "cuda")
 
     foreach (libsmm_acc_test ${LIBSMM_ACC_TESTS_SRCS})
 
@@ -232,7 +264,7 @@ if (USE_CUDA OR USE_HIP)
 
     endforeach ()
 
-  else () # i.e. USE_HIP
+  elseif (USE_ACCEL MATCHES "hip")
 
     foreach (libsmm_acc_test ${LIBSMM_ACC_TESTS_SRCS})
       set_source_files_properties(${libsmm_acc_test}

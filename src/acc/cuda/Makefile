@@ -14,9 +14,9 @@ INCALL := $(INCACC) $(INCSMM)
 
 LIBXSMMROOT ?= $(wildcard ../../../../libxsmm)
 NVCC ?= $(shell which nvcc 2>/dev/null)
-CUDA_PATH ?= $(if $(NVCC),$(abspath $(dir $($(NVCC)))/..))
+CUDA_PATH ?= $(if $(NVCC),$(abspath $(dir $(NVCC))/..))
 UNAME := $(shell uname)
-WITH_GPU ?= V100
+WITH_GPU ?= P100
 INTEL ?= 0
 DEV ?= 0
 
@@ -99,6 +99,12 @@ ifneq (,$(LIBXSMMROOT))
   CFLAGS += -pthread -D__LIBXSMM -I$(LIBXSMMROOT)/include
 endif
 
+ifneq (,$(CUDA_PATH))
+  CFLAGS += -I$(CUDA_PATH)/include
+  LDFLAGS += -L$(CUDA_PATH)/lib64/stubs
+  LDFLAGS += -L$(CUDA_PATH)/lib64
+endif
+
 ifneq (0,$(DEV))
   CXXFLAGS := -std=c++11 $(CFLAGS)
   CFLAGS := -std=c89 $(CFLAGS)
@@ -106,7 +112,7 @@ else
   CXXFLAGS := $(CFLAGS)
 endif
 
-LDFLAGS += -L$(CUDA_PATH)/lib64 -lcudart -lcublas -lnvrtc -lcuda
+LDFLAGS += -lcudart -lcublas -lnvrtc -lcuda
 CFLAGS += -Wno-variadic-macros -Wno-long-long
 
 .PHONY: all

@@ -31,7 +31,7 @@ cd "${SCRATCH}/${BUILD_TAG}.intel"
 
 cmake \
     -DCMAKE_SYSTEM_NAME=CrayLinuxEnvironment \
-    -DUSE_CUDA=ON \
+    -DUSE_ACCEL=cuda \
     -DWITH_GPU=P100 \
     -DBLAS_FOUND=ON -DBLAS_LIBRARIES="-lsci_intel_mpi_mp" \
     -DLAPACK_FOUND=ON -DLAPACK_LIBRARIES="-lsci_intel_mpi_mp" \
