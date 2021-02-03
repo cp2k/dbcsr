@@ -13,7 +13,7 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-module load daint-gpu cudatoolkit CMake/3.14.5
+module load daint-gpu cudatoolkit CMake/3.18.4
 module unload cray-libsci_acc
 module list
 
