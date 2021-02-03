@@ -203,7 +203,11 @@ if (MPI_FOUND)
   target_link_libraries(dbcsr PUBLIC MPI::MPI_Fortran)
 endif ()
 
-target_link_libraries(dbcsr PRIVATE $<$<BOOL:${USE_OPENMP}>:OpenMP::OpenMP>)
+target_link_libraries(
+  dbcsr
+  PRIVATE $<$<BOOL:${USE_OPENMP}>:OpenMP::OpenMP_C>
+          $<$<BOOL:${USE_OPENMP}>:OpenMP::OpenMP_CXX>
+          $<$<BOOL:${USE_OPENMP}>:OpenMP::OpenMP_Fortran>)
 
 # todo, make this a bit better with opencl.
 if (USE_ACCEL MATCHES "cuda|hip")

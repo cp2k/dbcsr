@@ -18,9 +18,8 @@ set(DBCSR_PERF_SRCS dbcsr_performance_driver.F dbcsr_performance_multiply.F)
 add_executable(dbcsr_perf ${DBCSR_PERF_SRCS})
 target_link_libraries(dbcsr_perf dbcsr)
 set_target_properties(dbcsr_perf PROPERTIES LINKER_LANGUAGE Fortran)
-if (OpenMP_FOUND)
-  target_link_libraries(dbcsr_perf OpenMP::OpenMP_Fortran)
-endif ()
+target_link_libraries(dbcsr_perf
+                      $<$<BOOL:${USE_OPENMP}>:OpenMP::OpenMP_Fortran>)
 
 file(
   GLOB DBCSR_PERF_TESTS
