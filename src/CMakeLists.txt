@@ -220,7 +220,7 @@ if (USE_ACCEL)
     dbcsr
     PRIVATE __DBCSR_ACC
             $<$<STREQUAL:${USE_ACCEL},cuda>:__CUDA>
-            $<$<STREQUAL:${USE_ACCEL},opencl>:__OPENCL}>
+            $<$<STREQUAL:${USE_ACCEL},opencl>:__OPENCL>
             $<$<STREQUAL:${USE_ACCEL},cuda>:ARCH_NUMBER=${ACC_ARCH_NUMBER}>
             $<$<STREQUAL:${USE_ACCEL},hip>:__HIP>
             $<$<STREQUAL:${USE_ACCEL},hip>:ARCH_NUMBER=${ACC_ARCH_NUMBER}>
