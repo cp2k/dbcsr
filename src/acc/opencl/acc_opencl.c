@@ -52,7 +52,7 @@ void acc_opencl_notify(const char* errinfo, const void* private_info, size_t cb,
 #endif
 
 
-const char* acc_opencl_stristr(const char* a, const char* b)
+const char* c_dbcsr_acc_opencl_stristr(const char* a, const char* b)
 {
   const char* result = NULL;
   if (NULL != a && NULL != b && '\0' != *a && '\0' != *b) {
@@ -81,8 +81,8 @@ const char* acc_opencl_stristr(const char* a, const char* b)
 
 
 /* comparator used with qsort; stabilized by tail condition (a < b ? -1 : 1) */
-int acc_opencl_order_devices(const void* /*dev_a*/, const void* /*dev_b*/);
-int acc_opencl_order_devices(const void* dev_a, const void* dev_b)
+int c_dbcsr_acc_opencl_order_devices(const void* /*dev_a*/, const void* /*dev_b*/);
+int c_dbcsr_acc_opencl_order_devices(const void* dev_a, const void* dev_b)
 {
   const cl_device_id *const a = (const cl_device_id*)dev_a;
   const cl_device_id *const b = (const cl_device_id*)dev_b;
@@ -98,8 +98,8 @@ int acc_opencl_order_devices(const void* dev_a, const void* dev_b)
     if (CL_DEVICE_TYPE_GPU & type_a) {
       if (CL_DEVICE_TYPE_GPU & type_b) {
         size_t size_a, size_b;
-        ACC_OPENCL_EXPECT(EXIT_SUCCESS, acc_opencl_info_devmem(*a, NULL, &size_a));
-        ACC_OPENCL_EXPECT(EXIT_SUCCESS, acc_opencl_info_devmem(*b, NULL, &size_b));
+        ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*a, NULL, &size_a));
+        ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*b, NULL, &size_b));
         return (size_a < size_b ? 1 : (size_a != size_b ? -1 : (a < b ? -1 : 1)));
       }
       else return -1;
@@ -109,8 +109,8 @@ int acc_opencl_order_devices(const void* dev_a, const void* dev_b)
       if (CL_DEVICE_TYPE_ACCELERATOR & type_a) {
         if (CL_DEVICE_TYPE_ACCELERATOR & type_b) {
           size_t size_a, size_b;
-          ACC_OPENCL_EXPECT(EXIT_SUCCESS, acc_opencl_info_devmem(*a, NULL, &size_a));
-          ACC_OPENCL_EXPECT(EXIT_SUCCESS, acc_opencl_info_devmem(*b, NULL, &size_b));
+          ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*a, NULL, &size_a));
+          ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*b, NULL, &size_b));
           return (size_a < size_b ? 1 : (size_a != size_b ? -1 : (a < b ? -1 : 1)));
         }
         else return -1;
@@ -118,8 +118,8 @@ int acc_opencl_order_devices(const void* dev_a, const void* dev_b)
       else if (CL_DEVICE_TYPE_ACCELERATOR & type_b) return 1;
       else {
         size_t size_a, size_b;
-        ACC_OPENCL_EXPECT(EXIT_SUCCESS, acc_opencl_info_devmem(*a, NULL, &size_a));
-        ACC_OPENCL_EXPECT(EXIT_SUCCESS, acc_opencl_info_devmem(*b, NULL, &size_b));
+        ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*a, NULL, &size_a));
+        ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*b, NULL, &size_b));
         return (size_a < size_b ? 1 : (size_a != size_b ? -1 : (a < b ? -1 : 1)));
       }
     }
@@ -127,7 +127,7 @@ int acc_opencl_order_devices(const void* dev_a, const void* dev_b)
 }
 
 
-int acc_init(void)
+int c_dbcsr_acc_init(void)
 {
 #if defined(_OPENMP)
   /* initialization/finalization is not meant to be thread-safe */
@@ -152,8 +152,8 @@ int acc_init(void)
         nplatforms <= ACC_OPENCL_DEVICES_MAXCOUNT ? nplatforms : ACC_OPENCL_DEVICES_MAXCOUNT,
         platforms, 0), "retrieve platform ids", result);
       if (NULL != env_device_type && '\0' != *env_device_type) {
-        if (NULL != acc_opencl_stristr(env_device_type, "gpu")) type = CL_DEVICE_TYPE_GPU;
-        else if (NULL != acc_opencl_stristr(env_device_type, "cpu")) type = CL_DEVICE_TYPE_CPU;
+        if (NULL != c_dbcsr_acc_opencl_stristr(env_device_type, "gpu")) type = CL_DEVICE_TYPE_GPU;
+        else if (NULL != c_dbcsr_acc_opencl_stristr(env_device_type, "cpu")) type = CL_DEVICE_TYPE_CPU;
         else type = CL_DEVICE_TYPE_ACCELERATOR;
       }
       acc_opencl_ndevices = 0;
@@ -181,7 +181,7 @@ int acc_init(void)
             if (CL_SUCCESS == clGetDeviceInfo(acc_opencl_devices[i],
               CL_DEVICE_VENDOR, ACC_OPENCL_BUFFERSIZE, buffer, NULL))
             {
-              if (NULL == acc_opencl_stristr(buffer, env_device_vendor)) {
+              if (NULL == c_dbcsr_acc_opencl_stristr(buffer, env_device_vendor)) {
                 --acc_opencl_ndevices;
                 if (i < (cl_uint)acc_opencl_ndevices) { /* keep relative order of IDs */
                   memmove(acc_opencl_devices + i, acc_opencl_devices + i + 1,
@@ -201,7 +201,7 @@ int acc_init(void)
         if (EXIT_SUCCESS == result && 1 < acc_opencl_ndevices) {
           /* reorder devices according to acc_opencl_order_devices */
           qsort(acc_opencl_devices, acc_opencl_ndevices,
-            sizeof(cl_device_id), acc_opencl_order_devices);
+            sizeof(cl_device_id), c_dbcsr_acc_opencl_order_devices);
           /* preselect default device */
           if (NULL == env_device_id || '\0' == *env_device_id) {
             for (i = 0; i < (cl_uint)acc_opencl_ndevices; ++i) {
@@ -217,7 +217,7 @@ int acc_init(void)
         }
         if (EXIT_SUCCESS == result) {
           cl_device_id active_device;
-          result = acc_opencl_set_active_device(device_id, &active_device);
+          result = c_dbcsr_acc_opencl_set_active_device(device_id, &active_device);
 #if defined(_OPENMP) && defined(ACC_OPENCL_THREADLOCAL_CONTEXT)
           if (EXIT_SUCCESS == result) {
             const cl_context context = acc_opencl_context;
@@ -237,7 +237,7 @@ int acc_init(void)
           if (EXIT_SUCCESS == result) {
             const char *const env = getenv("ACC_OPENCL_ASYNC_MEMOPS");
             if (NULL == env) {
-              const int confirmation = acc_opencl_device_vendor(active_device, "nvidia");
+              const int confirmation = c_dbcsr_acc_opencl_device_vendor(active_device, "nvidia");
               acc_opencl_options.async_memops = (EXIT_SUCCESS != confirmation);
             }
             else acc_opencl_options.async_memops = (0 != atoi(env));
@@ -280,7 +280,7 @@ int acc_init(void)
 }
 
 
-int acc_finalize(void)
+int c_dbcsr_acc_finalize(void)
 {
 #if defined(_OPENMP)
   /* initialization/finalization is not meant to be thread-safe */
@@ -317,18 +317,18 @@ int acc_finalize(void)
 }
 
 
-void acc_clear_errors(void)
+void c_dbcsr_acc_clear_errors(void)
 {
 }
 
 
-int acc_get_ndevices(int* ndevices)
+int c_dbcsr_acc_get_ndevices(int* ndevices)
 {
   int result;
 
 #if defined(__DBCSR_ACC)
   /* DBCSR calls acc_get_ndevices before calling acc_init(). */
-  result = acc_init();
+  result = c_dbcsr_acc_init();
   if (EXIT_SUCCESS == result)
 #endif
   {
@@ -344,7 +344,7 @@ int acc_get_ndevices(int* ndevices)
 }
 
 
-int acc_opencl_device(void* stream, cl_device_id* device)
+int c_dbcsr_acc_opencl_device(void* stream, cl_device_id* device)
 {
   int result = EXIT_SUCCESS;
   assert(NULL != device);
@@ -370,7 +370,7 @@ int acc_opencl_device(void* stream, cl_device_id* device)
 }
 
 
-int acc_opencl_device_vendor(cl_device_id device, const char* vendor)
+int c_dbcsr_acc_opencl_device_vendor(cl_device_id device, const char* vendor)
 {
   char buffer[ACC_OPENCL_BUFFERSIZE];
   int result = EXIT_SUCCESS;
@@ -380,7 +380,7 @@ int acc_opencl_device_vendor(cl_device_id device, const char* vendor)
     CL_DEVICE_VENDOR, ACC_OPENCL_BUFFERSIZE, buffer, NULL),
     "retrieve device vendor", result);
   if (EXIT_SUCCESS == result) {
-    return (NULL != acc_opencl_stristr(buffer, vendor)
+    return (NULL != c_dbcsr_acc_opencl_stristr(buffer, vendor)
       ? EXIT_SUCCESS
       : EXIT_FAILURE);
   }
@@ -388,7 +388,7 @@ int acc_opencl_device_vendor(cl_device_id device, const char* vendor)
 }
 
 
-int acc_opencl_device_level(cl_device_id device, int* level_major, int* level_minor)
+int c_dbcsr_acc_opencl_device_level(cl_device_id device, int* level_major, int* level_minor)
 {
   char buffer[ACC_OPENCL_BUFFERSIZE];
   int result = EXIT_SUCCESS;
@@ -411,7 +411,7 @@ int acc_opencl_device_level(cl_device_id device, int* level_major, int* level_mi
 }
 
 
-int acc_opencl_device_ext(cl_device_id device, const char *const extnames[], int num_exts)
+int c_dbcsr_acc_opencl_device_ext(cl_device_id device, const char *const extnames[], int num_exts)
 {
   int result = ((NULL != extnames && 0 < num_exts) ? EXIT_SUCCESS : EXIT_FAILURE);
   char extensions[ACC_OPENCL_BUFFERSIZE], buffer[ACC_OPENCL_BUFFERSIZE];
@@ -440,7 +440,7 @@ int acc_opencl_device_ext(cl_device_id device, const char *const extnames[], int
 }
 
 
-int acc_opencl_set_active_device(int device_id, cl_device_id* device)
+int c_dbcsr_acc_opencl_set_active_device(int device_id, cl_device_id* device)
 {
   cl_int result = (((0 <= device_id && device_id < acc_opencl_ndevices) ||
     /* allow successful completion if no device was found */
@@ -448,7 +448,7 @@ int acc_opencl_set_active_device(int device_id, cl_device_id* device)
   if (0 < acc_opencl_ndevices) {
     const cl_device_id active_id = acc_opencl_devices[device_id];
     cl_device_id current_id = NULL;
-    if (EXIT_SUCCESS == result) result = acc_opencl_device(NULL/*stream*/, &current_id);
+    if (EXIT_SUCCESS == result) result = c_dbcsr_acc_opencl_device(NULL/*stream*/, &current_id);
     if (EXIT_SUCCESS == result && active_id != current_id) {
       if (NULL != acc_opencl_context) {
         ACC_OPENCL_CHECK(clReleaseContext(acc_opencl_context),
@@ -485,13 +485,13 @@ int acc_opencl_set_active_device(int device_id, cl_device_id* device)
 }
 
 
-int acc_set_active_device(int device_id)
+int c_dbcsr_acc_set_active_device(int device_id)
 {
-  ACC_OPENCL_RETURN(acc_opencl_set_active_device(device_id, NULL/*device*/));
+  ACC_OPENCL_RETURN(c_dbcsr_acc_opencl_set_active_device(device_id, NULL/*device*/));
 }
 
 
-int acc_opencl_wgsize(cl_device_id device, cl_kernel kernel,
+int c_dbcsr_acc_opencl_wgsize(cl_device_id device, cl_kernel kernel,
   int* max_value, int* preferred_multiple)
 {
   int result = (NULL != device && (NULL != preferred_multiple
@@ -543,7 +543,7 @@ int acc_opencl_wgsize(cl_device_id device, cl_kernel kernel,
 }
 
 
-int acc_opencl_kernel(const char* source, const char* build_options,
+int c_dbcsr_acc_opencl_kernel(const char* source, const char* build_options,
   const char* kernel_name, cl_kernel* kernel)
 {
   char buffer[ACC_OPENCL_BUFFERSIZE] = "\0";
@@ -555,7 +555,7 @@ int acc_opencl_kernel(const char* source, const char* build_options,
     if (NULL != program) {
       cl_device_id active_id = NULL;
       assert(CL_SUCCESS == result);
-      result = acc_opencl_device(NULL/*stream*/, &active_id);
+      result = c_dbcsr_acc_opencl_device(NULL/*stream*/, &active_id);
       if (EXIT_SUCCESS == result) {
         result = clBuildProgram(program,
         1/*num_devices*/, &active_id, build_options,

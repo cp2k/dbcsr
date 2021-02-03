@@ -204,40 +204,40 @@ extern cl_context acc_opencl_context;
 # pragma omp threadprivate(acc_opencl_context)
 #endif
 
-typedef struct acc_opencl_info_hostptr_t {
+typedef struct c_dbcsr_acc_opencl_info_hostptr_t {
   cl_mem buffer;
   void* mapped;
-} acc_opencl_info_hostptr_t;
+} c_dbcsr_acc_opencl_info_hostptr_t;
 
 /** Information about host-memory pointer (acc_host_mem_allocate). */
-acc_opencl_info_hostptr_t* acc_opencl_info_hostptr(void* memory);
+c_dbcsr_acc_opencl_info_hostptr_t* c_dbcsr_acc_opencl_info_hostptr(void* memory);
 /** Get host-pointer associated with device-memory (acc_dev_mem_allocate). */
-void* acc_opencl_get_hostptr(cl_mem memory);
+void* c_dbcsr_acc_opencl_get_hostptr(cl_mem memory);
 /** Information about amount of device memory. */
-int acc_opencl_info_devmem(cl_device_id device,
+int c_dbcsr_acc_opencl_info_devmem(cl_device_id device,
   size_t* mem_free, size_t* mem_total);
 /** Return the pointer to the 1st match of "b" in "a", or NULL (no match). */
-const char* acc_opencl_stristr(const char* a, const char* b);
+const char* c_dbcsr_acc_opencl_stristr(const char* a, const char* b);
 /** Get active device (can be thread/queue-specific). */
-int acc_opencl_device(void* stream, cl_device_id* device);
+int c_dbcsr_acc_opencl_device(void* stream, cl_device_id* device);
 /** Confirm the vendor of the given device. */
-int acc_opencl_device_vendor(cl_device_id device, const char* vendor);
+int c_dbcsr_acc_opencl_device_vendor(cl_device_id device, const char* vendor);
 /** Return the OpenCL support level for the given device. */
-int acc_opencl_device_level(cl_device_id device,
+int c_dbcsr_acc_opencl_device_level(cl_device_id device,
   int* level_major, int* level_minor);
 /** Check if given device supports the extensions. */
-int acc_opencl_device_ext(cl_device_id device,
+int c_dbcsr_acc_opencl_device_ext(cl_device_id device,
   const char *const extnames[], int num_exts);
 /** Internal flavor of acc_set_active_device; yields cl_device_id. */
-int acc_opencl_set_active_device(int device_id, cl_device_id* device);
+int c_dbcsr_acc_opencl_set_active_device(int device_id, cl_device_id* device);
 /** Get preferred multiple and max. size of workgroup (kernel- or device-specific). */
-int acc_opencl_wgsize(cl_device_id device, cl_kernel kernel,
+int c_dbcsr_acc_opencl_wgsize(cl_device_id device, cl_kernel kernel,
   int* max_value, int* preferred_multiple);
 /** Build kernel function with given name from source using given build_options. */
-int acc_opencl_kernel(const char* source, const char* build_options,
+int c_dbcsr_acc_opencl_kernel(const char* source, const char* build_options,
   const char* kernel_name, cl_kernel* kernel);
 /** Create command queue (stream). */
-int acc_opencl_stream_create(cl_command_queue* stream_p, const char* name,
+int c_dbcsr_acc_opencl_stream_create(cl_command_queue* stream_p, const char* name,
   const ACC_OPENCL_COMMAND_QUEUE_PROPERTIES* properties);
 
 #if defined(__cplusplus)
