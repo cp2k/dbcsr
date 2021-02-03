@@ -544,7 +544,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 nchar = ACC_OPENCL_SNPRINTF(build_options, sizeof(build_options),
                   "%s -cl-fast-relaxed-math -cl-no-signed-zeros -cl-denorms-are-zero"
                   " -DGLOBAL=%s -DFN=%s -DSM=%i -DSN=%i -DSK=%i -DBM=%i -DBN=%i -DBS=%i"
-                  " -DT=%s -DTA=\"%s\" -DFMA=fma -DCMPXCHG=%s -DXCHG=%s"
+                  " -DT=%s -DTA=%s -DFMA=fma -DCMPXCHG=%s -DXCHG=%s"
                   " -D\"ATOMIC_ADD_GLOBAL(A,B)=%s\"",
                   (NULL == env_options || '\0' == *env_options) ? "" : env_options,
                   EXIT_SUCCESS != opencl_libsmm_use_cmem(active_device) ? "global" : "constant",
