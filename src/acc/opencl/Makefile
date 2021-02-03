@@ -127,7 +127,7 @@ acc_bench_trans.o: ../acc_bench_trans.c Makefile
 	$(CC) $^ $(LDFLAGS) -o $@
 
 dbcsr_acc_test.o: ../../../tests/dbcsr_acc_test.c Makefile
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -I../.. -c $< -o $@
 ../dbcsr_acc_test: dbcsr_acc_test.o ../dbcsr_acc.a
 	$(CC) $^ $(LDFLAGS) -o $@
 
