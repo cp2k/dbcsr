@@ -62,11 +62,8 @@ set(DBCSR_TESTS_FTN
     dbcsr_tas_unittest
     dbcsr_test_csr_conversions)
 
-if (NOT USE_ACCEL STREQUAL "")
-  # TODO: enable dbcsr_acc_test for HIP
-  if (NOT USE_ACCEL MATCHES "hip")
-    set(DBCSR_TESTS_C dbcsr_acc_test_c)
-  endif ()
+if (USE_ACCEL)
+  set(DBCSR_TESTS_C dbcsr_acc_test_c)
 endif ()
 
 if (NOT (CMAKE_Fortran_COMPILER_ID STREQUAL "Cray"))
@@ -164,12 +161,8 @@ if (WITH_C_API)
   endforeach ()
 
   foreach (dbcsr_test_c ${DBCSR_TESTS_C})
-    if (USE_ACCEL MATCHES "hip")
-      hip_add_executable(${dbcsr_test_c} ${${dbcsr_test_c}_SRCS})
-    else ()
-      add_executable(${dbcsr_test_c} ${${dbcsr_test_c}_SRCS})
-    endif ()
-    target_link_libraries(${dbcsr_test_c} dbcsr_c)
+    add_executable(${dbcsr_test_c} ${${dbcsr_test_c}_SRCS})
+    target_link_libraries(${dbcsr_test_c} dbcsr_c dbcsr)
     # register unittest executable with CMake
     if (USE_MPI)
       separate_arguments(MPIEXEC_PREFLAGS)

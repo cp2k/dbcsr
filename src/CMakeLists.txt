@@ -105,7 +105,7 @@ add_fypp_sources(
   utils/dbcsr_toollib.F
   work/dbcsr_work_operations.F)
 
-set(DBCSR_GENERIC_ACC_SRCS
+set(DBCSR_HIP_AND_CUDA_SRCS
     acc/libsmm_acc/libsmm_acc_benchmark.cpp
     acc/libsmm_acc/libsmm_acc_init.cpp
     acc/libsmm_acc/libsmm_acc.cpp
@@ -117,13 +117,15 @@ set(DBCSR_GENERIC_ACC_SRCS
     acc/cuda/acc_mem.cpp
     acc/cuda/acc_stream.cpp)
 
-set(DBCSR_CUDA_SRCS acc/cuda/acc_cuda.cpp acc/cuda/dbcsr_cuda_nvtx_cu.cpp)
+set(DBCSR_CUDA_SRCS ${DBCSR_HIP_AND_CUDA_SRCS} acc/cuda/acc_cuda.cpp
+                    acc/cuda/dbcsr_cuda_nvtx_cu.cpp)
 
-set(DBCSR_HIP_SRCS acc/hip/acc_hip.cpp)
+set(DBCSR_HIP_SRCS ${DBCSR_HIP_AND_CUDA_SRCS} acc/hip/acc_hip.cpp)
 
 set(DBCSR_OPENCL_SRCS
-    acc/opencl/acc_opencl.c acc/opencl/acc_opencl_event.c
-    acc/opencl/acc_opencl_mem.c acc/opencl/acc_opencl_stream.c)
+    acc/opencl/smm/opencl_libsmm.c acc/opencl/acc_opencl.c
+    acc/opencl/acc_opencl_event.c acc/opencl/acc_opencl_mem.c
+    acc/opencl/acc_opencl_stream.c)
 
 # set the __SHORT_FILE__ per file for dbcsr sources
 foreach (dbcsr_src ${DBCSR_FORTRAN_SRCS})
@@ -135,15 +137,12 @@ endforeach ()
 
 set(DBCSR_SRCS ${DBCSR_FORTRAN_SRCS})
 
-if (USE_ACCEL)
-  set(DBCSR_SRCS ${DBCSR_SRCS} ${DBCSR_GENERIC_ACC_SRCS})
-  if (USE_ACCEL MATCHES "cuda")
-    set(DBCSR_SRCS ${DBCSR_SRCS} ${DBCSR_CUDA_SRCS})
-  elseif (USE_ACCEL MATCHES "hip")
-    set(DBCSR_SRCS ${DBCSR_SRCS} ${DBCSR_HIP_SRCS})
-  elseif (USE_ACCEL MATCHES "opencl")
-    set(DBCSR_SRCS ${DBCSR_SRCS} ${DBCSR_OPENCL_SRCS})
-  endif ()
+if (USE_ACCEL MATCHES "cuda")
+  set(DBCSR_SRCS ${DBCSR_SRCS} ${DBCSR_CUDA_SRCS})
+elseif (USE_ACCEL MATCHES "hip")
+  set(DBCSR_SRCS ${DBCSR_SRCS} ${DBCSR_HIP_SRCS})
+elseif (USE_ACCEL MATCHES "opencl")
+  set(DBCSR_SRCS ${DBCSR_SRCS} ${DBCSR_OPENCL_SRCS})
 endif ()
 
 # =================================================================================================
@@ -207,9 +206,16 @@ endif ()
 target_link_libraries(dbcsr
                       PRIVATE $<$<BOOL:${USE_OPENMP}>:OpenMP::OpenMP_Fortran>)
 
-if (USE_ACCEL)
+# todo, make this a bit better with opencl.
+if (USE_ACCEL MATCHES "cuda|hip")
   add_subdirectory(acc/libsmm_acc)
+endif ()
 
+if (USE_ACCEL MATCHES "opencl")
+  add_subdirectory(acc/opencl/smm)
+endif ()
+
+if (USE_ACCEL)
   target_compile_definitions(
     dbcsr
     PRIVATE __DBCSR_ACC
@@ -228,6 +234,7 @@ if (USE_ACCEL)
             $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::nvrtc>
             $<$<STREQUAL:${USE_ACCEL},hip>:roc::hipblas>
             $<$<STREQUAL:${USE_ACCEL},hip>:hip::host>
+            $<$<STREQUAL:${USE_ACCEL},opencl>:OpenCL::OpenCL>
             $<$<BOOL:${USE_OPENMP}>:OpenMP::OpenMP_CXX>)
 endif ()
 
