@@ -24,7 +24,7 @@ if [ ! -d "${HOME}/libxsmm" ]; then
   git clone https://github.com/hfp/libxsmm.git
 fi
 cd "${HOME}/libxsmm"
-git checkout 02d6ab213a35d5fc2f6454c3b465598b0c086c17
+git checkout 05cab50ec6f11a86c15c0ed511c5a9066c613dfb
 make -j
 cd ..
 
