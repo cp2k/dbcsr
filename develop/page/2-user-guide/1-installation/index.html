@@ -224,8 +224,11 @@ to running <code>cmake</code>. For example, if LIBXSMM was checked out using Git
 <h3>C/C++ Interface</h3>
 <p>If MPI support is enabled (the default), the C API is automatically built.</p>
 <h3>Workaround issue in HIP</h3>
-<p>HIP is a relatively new language, and some issues still need to be ironed out. As a workaround to an <a href="https://github.com/ROCm-Developer-Tools/HIP/pull/1543">issue</a> in HIP's JIT infrastructure, please set the following if you've built HIP from source:</p>
-<div class="codehilite"><pre><span></span><code><span class="nb">export</span> <span class="nv">HIP_PATH</span><span class="o">=</span>/opt/rocm/hip
+<p>For custom installs of HIP 3.9.0 and above, some paths have to be configured to ensure the JIT compiler can locate the HIP runtime and compiler tools</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">export</span> <span class="nv">ROCM_PATH</span><span class="o">=</span>/path/to/hip-3.9.0
+<span class="nb">export</span> <span class="nv">HIP_PATH</span><span class="o">=</span><span class="nv">$ROCM_PATH</span>
+<span class="nb">export</span> <span class="nv">LLVM_PATH</span><span class="o">=</span>/path/to/llvm-amdgpu-3.9.0
+<span class="nb">export</span> <span class="nv">HIP_DEVICE_LIB_PATH</span><span class="o">=</span>/path/to/rocm-device-libs-3.9.0/amdgcn/bitcode
 </code></pre></div>
 
 <p>before running on an AMD GPU.</p>

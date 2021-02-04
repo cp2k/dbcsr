@@ -303,7 +303,7 @@ private subroutine dbcsr_timestop_F(handle) bind(C, name="0")
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_timestop_F</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;dbcsr_timestop&quot;</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_timestop_F</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;c_dbcsr_timestop&quot;</span><span class="p">)</span>
 
       <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">handle</span>
 

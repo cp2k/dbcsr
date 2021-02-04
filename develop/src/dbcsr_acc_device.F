@@ -25,7 +25,7 @@ MODULE dbcsr_acc_device
 #if defined (__DBCSR_ACC)
    INTERFACE
       FUNCTION acc_get_ndevices_cu(n_devices) RESULT(istat) &
-         BIND(C, name="acc_get_ndevices")
+         BIND(C, name="c_dbcsr_acc_get_ndevices")
          IMPORT
          INTEGER(KIND=C_INT), INTENT(OUT)         :: n_devices
          INTEGER(KIND=C_INT)                      :: istat
@@ -33,7 +33,7 @@ MODULE dbcsr_acc_device
       END FUNCTION acc_get_ndevices_cu
 
       FUNCTION acc_set_active_device_cu(device_id) RESULT(istat) &
-         BIND(C, name="acc_set_active_device")
+         BIND(C, name="c_dbcsr_acc_set_active_device")
          IMPORT
          INTEGER(KIND=C_INT), INTENT(IN), VALUE   :: device_id
          INTEGER(KIND=C_INT)                      :: istat
@@ -41,7 +41,7 @@ MODULE dbcsr_acc_device
       END FUNCTION acc_set_active_device_cu
 
       SUBROUTINE acc_clear_errors_cu() &
-         BIND(C, NAME="acc_clear_errors")
+         BIND(C, name="c_dbcsr_acc_clear_errors")
       END SUBROUTINE acc_clear_errors_cu
    END INTERFACE
 
@@ -78,7 +78,7 @@ CONTAINS
 !$OMP PARALLEL DEFAULT(NONE) PRIVATE(istat) SHARED(device_id)
       istat = acc_set_active_device_cu(device_id)
       IF (istat /= 0) &
-         DBCSR_ABORT("acc_set_active_device: failed")
+         DBCSR_ABORT("dbcsr_acc_set_active_device: failed")
 !$OMP END PARALLEL
 
 #else

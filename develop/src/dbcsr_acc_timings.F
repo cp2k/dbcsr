@@ -21,7 +21,7 @@ MODULE dbcsr_acc_timings
 
 CONTAINS
 
-   SUBROUTINE dbcsr_timeset_F(routineN, routineN_len, handle) BIND(C, name="dbcsr_timeset")
+   SUBROUTINE dbcsr_timeset_F(routineN, routineN_len, handle) BIND(C, name="c_dbcsr_timeset")
 
       TYPE(C_PTR), INTENT(IN)      :: routineN
       INTEGER(KIND=C_INT), INTENT(IN)        :: routineN_len
@@ -48,7 +48,7 @@ CONTAINS
 
    END SUBROUTINE dbcsr_timeset_F
 
-   SUBROUTINE dbcsr_timestop_F(handle) BIND(C, name="dbcsr_timestop")
+   SUBROUTINE dbcsr_timestop_F(handle) BIND(C, name="c_dbcsr_timestop")
 
       INTEGER(KIND=C_INT), INTENT(IN)        :: handle
 

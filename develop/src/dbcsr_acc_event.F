@@ -40,7 +40,7 @@ MODULE dbcsr_acc_event
 #if defined (__DBCSR_ACC)
 
    INTERFACE
-      FUNCTION acc_interface_event_create(event_ptr) RESULT(istat) BIND(C, name="acc_event_create")
+      FUNCTION acc_interface_event_create(event_ptr) RESULT(istat) BIND(C, name="c_dbcsr_acc_event_create")
          IMPORT
          TYPE(C_PTR)                              :: event_ptr
          INTEGER(KIND=C_INT)                      :: istat
@@ -49,7 +49,7 @@ MODULE dbcsr_acc_event
    END INTERFACE
 
    INTERFACE
-      FUNCTION acc_interface_event_destroy(event_ptr) RESULT(istat) BIND(C, name="acc_event_destroy")
+      FUNCTION acc_interface_event_destroy(event_ptr) RESULT(istat) BIND(C, name="c_dbcsr_acc_event_destroy")
          IMPORT
          TYPE(C_PTR), VALUE                       :: event_ptr
          INTEGER(KIND=C_INT)                      :: istat
@@ -58,7 +58,7 @@ MODULE dbcsr_acc_event
    END INTERFACE
 
    INTERFACE
-      FUNCTION acc_interface_event_query(event_ptr, has_occurred) RESULT(istat) BIND(C, name="acc_event_query")
+      FUNCTION acc_interface_event_query(event_ptr, has_occurred) RESULT(istat) BIND(C, name="c_dbcsr_acc_event_query")
          IMPORT
          TYPE(C_PTR), VALUE                       :: event_ptr
          INTEGER(KIND=C_INT)                      :: has_occurred, istat
@@ -67,7 +67,7 @@ MODULE dbcsr_acc_event
    END INTERFACE
 
    INTERFACE
-      FUNCTION acc_interface_event_record(event_ptr, stream_ptr) RESULT(istat) BIND(C, name="acc_event_record")
+      FUNCTION acc_interface_event_record(event_ptr, stream_ptr) RESULT(istat) BIND(C, name="c_dbcsr_acc_event_record")
          IMPORT
          TYPE(C_PTR), VALUE                       :: event_ptr, stream_ptr
          INTEGER(KIND=C_INT)                      :: istat
@@ -76,7 +76,7 @@ MODULE dbcsr_acc_event
    END INTERFACE
 
    INTERFACE
-      FUNCTION acc_interface_stream_wait_event(stream_ptr, event_ptr) RESULT(istat) BIND(C, name="acc_stream_wait_event")
+      FUNCTION acc_interface_stream_wait_event(stream_ptr, event_ptr) RESULT(istat) BIND(C, name="c_dbcsr_acc_stream_wait_event")
          IMPORT
          TYPE(C_PTR), VALUE                       :: stream_ptr, event_ptr
          INTEGER(KIND=C_INT)                      :: istat
@@ -85,7 +85,7 @@ MODULE dbcsr_acc_event
    END INTERFACE
 
    INTERFACE
-      FUNCTION acc_interface_event_synchronize(event_ptr) RESULT(istat) BIND(C, name="acc_event_synchronize")
+      FUNCTION acc_interface_event_synchronize(event_ptr) RESULT(istat) BIND(C, name="c_dbcsr_acc_event_synchronize")
          IMPORT
          TYPE(C_PTR), VALUE                       :: event_ptr
          INTEGER(KIND=C_INT)                      :: istat

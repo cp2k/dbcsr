@@ -283,7 +283,7 @@
 <a name="ln-21"></a>
 <a name="ln-22"></a><span class="k">CONTAINS</span>
 <a name="ln-23"></a>
-<a name="ln-24"></a><span class="k">   SUBROUTINE </span><span class="n">dbcsr_timeset_F</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">routineN_len</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;dbcsr_timeset&quot;</span><span class="p">)</span>
+<a name="ln-24"></a><span class="k">   SUBROUTINE </span><span class="n">dbcsr_timeset_F</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">routineN_len</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;c_dbcsr_timeset&quot;</span><span class="p">)</span>
 <a name="ln-25"></a>
 <a name="ln-26"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="kt">C_PTR</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>      <span class="kd">::</span> <span class="n">routineN</span>
 <a name="ln-27"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">routineN_len</span>
@@ -310,7 +310,7 @@
 <a name="ln-48"></a>
 <a name="ln-49"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_timeset_F</span>
 <a name="ln-50"></a>
-<a name="ln-51"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_timestop_F</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;dbcsr_timestop&quot;</span><span class="p">)</span>
+<a name="ln-51"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_timestop_F</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;c_dbcsr_timestop&quot;</span><span class="p">)</span>
 <a name="ln-52"></a>
 <a name="ln-53"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">handle</span>
 <a name="ln-54"></a>

@@ -288,14 +288,14 @@
 <a name="ln-26"></a><span class="cp">#if defined (__DBCSR_ACC)</span>
 <a name="ln-27"></a>
 <a name="ln-28"></a>   <span class="k">INTERFACE</span>
-<a name="ln-29"></a><span class="k">      FUNCTION </span><span class="n">acc_interface_drv_init</span><span class="p">()</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;acc_init&quot;</span><span class="p">)</span>
+<a name="ln-29"></a><span class="k">      FUNCTION </span><span class="n">acc_interface_drv_init</span><span class="p">()</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;c_dbcsr_acc_init&quot;</span><span class="p">)</span>
 <a name="ln-30"></a>         <span class="k">IMPORT</span>
 <a name="ln-31"></a><span class="k">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">istat</span>
 <a name="ln-32"></a>      <span class="k">END FUNCTION </span><span class="n">acc_interface_drv_init</span>
 <a name="ln-33"></a>   <span class="k">END INTERFACE</span>
 <a name="ln-34"></a>
 <a name="ln-35"></a><span class="k">   INTERFACE</span>
-<a name="ln-36"></a><span class="k">      FUNCTION </span><span class="n">acc_interface_drv_finalize</span><span class="p">()</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;acc_finalize&quot;</span><span class="p">)</span>
+<a name="ln-36"></a><span class="k">      FUNCTION </span><span class="n">acc_interface_drv_finalize</span><span class="p">()</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;c_dbcsr_acc_finalize&quot;</span><span class="p">)</span>
 <a name="ln-37"></a>         <span class="k">IMPORT</span>
 <a name="ln-38"></a><span class="k">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">istat</span>
 <a name="ln-39"></a>      <span class="k">END FUNCTION </span><span class="n">acc_interface_drv_finalize</span>

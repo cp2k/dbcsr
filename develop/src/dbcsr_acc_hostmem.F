@@ -57,7 +57,7 @@ MODULE dbcsr_acc_hostmem
 #if defined (__DBCSR_ACC)
 
    INTERFACE
-      FUNCTION acc_interface_host_mem_alloc(mem, n, stream_ptr) RESULT(istat) BIND(C, name="acc_host_mem_allocate")
+      FUNCTION acc_interface_host_mem_alloc(mem, n, stream_ptr) RESULT(istat) BIND(C, name="c_dbcsr_acc_host_mem_allocate")
          IMPORT
          TYPE(C_PTR)                              :: mem
          INTEGER(KIND=C_SIZE_T), INTENT(IN), &
@@ -69,7 +69,7 @@ MODULE dbcsr_acc_hostmem
    END INTERFACE
 
    INTERFACE
-      FUNCTION acc_interface_host_mem_dealloc(mem, stream_ptr) RESULT(istat) bind(C, name="acc_host_mem_deallocate")
+      FUNCTION acc_interface_host_mem_dealloc(mem, stream_ptr) RESULT(istat) BIND(C, name="c_dbcsr_acc_host_mem_deallocate")
          IMPORT
          TYPE(C_PTR), VALUE                       :: mem, stream_ptr
          INTEGER(KIND=C_INT)                      :: istat

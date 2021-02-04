@@ -287,7 +287,7 @@
 <a name="ln-25"></a><span class="cp">#if defined (__DBCSR_ACC)</span>
 <a name="ln-26"></a>   <span class="k">INTERFACE</span>
 <a name="ln-27"></a><span class="k">      FUNCTION </span><span class="n">acc_get_ndevices_cu</span><span class="p">(</span><span class="n">n_devices</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-28"></a>         <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;acc_get_ndevices&quot;</span><span class="p">)</span>
+<a name="ln-28"></a>         <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;c_dbcsr_acc_get_ndevices&quot;</span><span class="p">)</span>
 <a name="ln-29"></a>         <span class="k">IMPORT</span>
 <a name="ln-30"></a><span class="k">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>         <span class="kd">::</span> <span class="n">n_devices</span>
 <a name="ln-31"></a>         <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">istat</span>
@@ -295,7 +295,7 @@
 <a name="ln-33"></a>      <span class="k">END FUNCTION </span><span class="n">acc_get_ndevices_cu</span>
 <a name="ln-34"></a>
 <a name="ln-35"></a>      <span class="k">FUNCTION </span><span class="n">acc_set_active_device_cu</span><span class="p">(</span><span class="n">device_id</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">istat</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-36"></a>         <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;acc_set_active_device&quot;</span><span class="p">)</span>
+<a name="ln-36"></a>         <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;c_dbcsr_acc_set_active_device&quot;</span><span class="p">)</span>
 <a name="ln-37"></a>         <span class="k">IMPORT</span>
 <a name="ln-38"></a><span class="k">         </span><span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">VALUE</span>   <span class="kd">::</span> <span class="n">device_id</span>
 <a name="ln-39"></a>         <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">istat</span>
@@ -303,7 +303,7 @@
 <a name="ln-41"></a>      <span class="k">END FUNCTION </span><span class="n">acc_set_active_device_cu</span>
 <a name="ln-42"></a>
 <a name="ln-43"></a>      <span class="k">SUBROUTINE </span><span class="n">acc_clear_errors_cu</span><span class="p">()</span> <span class="p">&amp;</span>
-<a name="ln-44"></a>         <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">NAME</span><span class="o">=</span><span class="s2">&quot;acc_clear_errors&quot;</span><span class="p">)</span>
+<a name="ln-44"></a>         <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;c_dbcsr_acc_clear_errors&quot;</span><span class="p">)</span>
 <a name="ln-45"></a>      <span class="k">END SUBROUTINE </span><span class="n">acc_clear_errors_cu</span>
 <a name="ln-46"></a>   <span class="k">END INTERFACE</span>
 <a name="ln-47"></a>
@@ -340,7 +340,7 @@
 <a name="ln-78"></a><span class="c">!$OMP PARALLEL DEFAULT(NONE) PRIVATE(istat) SHARED(device_id)</span>
 <a name="ln-79"></a>      <span class="n">istat</span> <span class="o">=</span> <span class="n">acc_set_active_device_cu</span><span class="p">(</span><span class="n">device_id</span><span class="p">)</span>
 <a name="ln-80"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
-<a name="ln-81"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;acc_set_active_device: failed&quot;</span><span class="p">)</span>
+<a name="ln-81"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;dbcsr_acc_set_active_device: failed&quot;</span><span class="p">)</span>
 <a name="ln-82"></a><span class="c">!$OMP END PARALLEL</span>
 <a name="ln-83"></a>
 <a name="ln-84"></a><span class="cp">#else</span>
