@@ -1,6 +1,6 @@
 INCACC := $(wildcard *.h*) ../acc.h
 SRCACC := $(wildcard *.cpp)
-OBJACC := $(SRCACC:.cpp=.o) acc_cublas.o
+OBJACC := $(SRCACC:.cpp=.o)
 
 GPUSMM := $(wildcard ../libsmm_acc/kernels/*.h*)
 INCSMM := $(wildcard ../libsmm_acc/*.h*) ../acc_libsmm.h \
@@ -130,10 +130,7 @@ test: ../dbcsr_acc_test
 ../libsmm_acc/smm_acc_kernels.h: $(GPUSMM) Makefile ../libsmm_acc/generate_kernels.py ../libsmm_acc/parameters/parameters_$(WITH_GPU).json
 	@cd ../libsmm_acc && $(PYTHON) ../libsmm_acc/generate_kernels.py ../libsmm_acc/kernels
 
-acc_cublas.o: acc_cublas.cu Makefile
-	$(NVCC) $(addprefix -Xcompiler $(NULL),$(CXXFLAGS)) -c $< -o $@
-
-../dbcsr_acc.a: $(OBJACC) acc_cublas.o ../libsmm_acc/libsmm_acc_init.o
+../dbcsr_acc.a: $(OBJACC) ../libsmm_acc/libsmm_acc_init.o
 	$(AR) -rs $@ $^
 
 ../dbcsr_acc_smm.a: $(OBJSMM)
@@ -153,7 +150,7 @@ acc_bench_trans.o: ../acc_bench_trans.c Makefile
 	$(CXX) $^ $(LDFLAGS) -o $@
 
 dbcsr_acc_test.o: ../../../tests/dbcsr_acc_test.c Makefile
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -I../.. -c $< -o $@
 ../dbcsr_acc_test: dbcsr_acc_test.o ../dbcsr_acc_smm.a ../dbcsr_acc.a
 	$(CXX) $^ $(LDFLAGS) -o $@
 
