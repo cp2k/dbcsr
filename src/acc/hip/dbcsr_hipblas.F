@@ -36,7 +36,7 @@ MODULE dbcsr_hipblas
    INTERFACE
       FUNCTION hipblas_create_hip(handle) &
          RESULT(istat) &
-         BIND(C, name="hipblas_create")
+         BIND(C, name="hipblasCreate")
          IMPORT
          TYPE(C_PTR), INTENT(IN)                   :: handle
          INTEGER(KIND=C_INT)                       :: istat
@@ -44,7 +44,7 @@ MODULE dbcsr_hipblas
 
       FUNCTION hipblas_destroy_hip(handle) &
          RESULT(istat) &
-         BIND(C, name="hipblas_destroy")
+         BIND(C, name="hipblasDestroy")
          IMPORT
          TYPE(C_PTR), INTENT(IN), VALUE            :: handle
          INTEGER(KIND=C_INT)                       :: istat
@@ -54,7 +54,7 @@ MODULE dbcsr_hipblas
                                  m, n, k, a_offset, b_offset, c_offset, &
                                  a_data, b_data, c_data, alpha, beta, stream) &
          RESULT(istat) &
-         BIND(C, name="hipblas_dgemm")
+         BIND(C, name="hipblasDgemm")
          IMPORT
          TYPE(C_PTR), INTENT(IN), VALUE            :: handle
          CHARACTER(KIND=C_CHAR), INTENT(IN), VALUE :: transa, transb

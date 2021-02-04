@@ -27,6 +27,6 @@ int acc_error_check (ACC(Error_t) error){
   return 0;
 }
 
-extern "C" void acc_clear_errors () {
+extern "C" void c_dbcsr_acc_clear_errors () {
   ACC(GetLastError)();
 }

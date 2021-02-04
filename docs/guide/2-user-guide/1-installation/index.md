@@ -96,10 +96,13 @@ If MPI support is enabled (the default), the C API is automatically built.
 
 ### Workaround issue in HIP
 
-HIP is a relatively new language, and some issues still need to be ironed out. As a workaround to an [issue](https://github.com/ROCm-Developer-Tools/HIP/pull/1543) in HIP's JIT infrastructure, please set the following if you've built HIP from source:
+For custom installs of HIP 3.9.0 and above, some paths have to be configured to ensure the JIT compiler can locate the HIP runtime and compiler tools
 
 ```bash
-export HIP_PATH=/opt/rocm/hip
+export ROCM_PATH=/path/to/hip-3.9.0
+export HIP_PATH=$ROCM_PATH
+export LLVM_PATH=/path/to/llvm-amdgpu-3.9.0
+export HIP_DEVICE_LIB_PATH=/path/to/rocm-device-libs-3.9.0/amdgcn/bitcode
 ```
 
 before running on an AMD GPU.

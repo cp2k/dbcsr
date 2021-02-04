@@ -22,7 +22,7 @@
 static const int verbose_print = 0;
 
 /****************************************************************************/
-extern "C" int acc_event_create(void** event_p){
+extern "C" int c_dbcsr_acc_event_create(void** event_p){
   *event_p = malloc(sizeof(ACC(Event_t)));
   ACC(Event_t)* acc_event = (ACC(Event_t)*) *event_p;
 
@@ -35,7 +35,7 @@ extern "C" int acc_event_create(void** event_p){
 
 
 /****************************************************************************/
-extern "C" int acc_event_destroy(void* event){
+extern "C" int c_dbcsr_acc_event_destroy(void* event){
     ACC(Event_t)* acc_event = (ACC(Event_t*)) event;
 
     if(verbose_print) printf("EventDestroy, called\n");
@@ -49,7 +49,7 @@ extern "C" int acc_event_destroy(void* event){
 
 
 /****************************************************************************/
-extern "C" int acc_event_record(void* event, void* stream){
+extern "C" int c_dbcsr_acc_event_record(void* event, void* stream){
     ACC(Event_t)* acc_event = (ACC(Event_t)*) event;
     ACC(Stream_t)* acc_stream = (ACC(Stream_t)*) stream;
 
@@ -60,8 +60,8 @@ extern "C" int acc_event_record(void* event, void* stream){
 
 
 /****************************************************************************/
-extern "C" int acc_event_query(void* event, int* has_occurred){
-    if(verbose_print) printf("acc_event_query called\n");
+extern "C" int c_dbcsr_acc_event_query(void* event, int* has_occurred){
+    if(verbose_print) printf("dbcsr_acc_event_query called\n");
 
     ACC(Event_t)* acc_event = (ACC(Event_t)*) event;
     ACC(Error_t) cErr = ACC(EventQuery)(*acc_event);
@@ -80,8 +80,8 @@ extern "C" int acc_event_query(void* event, int* has_occurred){
 
 
 /****************************************************************************/
-extern "C" int acc_stream_wait_event(void* stream, void* event){
-    if(verbose_print) printf("acc_stream_wait_event called\n");
+extern "C" int c_dbcsr_acc_stream_wait_event(void* stream, void* event){
+    if(verbose_print) printf("c_dbcsr_acc_stream_wait_event called\n");
 
     ACC(Event_t)* acc_event = (ACC(Event_t)*) event;
     ACC(Stream_t)* acc_stream = (ACC(Stream_t)*) stream;
@@ -93,7 +93,7 @@ extern "C" int acc_stream_wait_event(void* stream, void* event){
 
 
 /****************************************************************************/
-extern "C" int acc_event_synchronize(void* event){
+extern "C" int c_dbcsr_acc_event_synchronize(void* event){
     if(verbose_print) printf("EventSynchronize called\n");
     ACC(Event_t)* acc_event = (ACC(Event_t)*) event;
     ACC_API_CALL(EventSynchronize, (*acc_event));

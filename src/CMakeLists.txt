@@ -7,7 +7,7 @@ include(CMakePackageConfigHelpers)
 # =================================================================================================
 # SOURCE FILE LISTS
 add_fypp_sources(
-  DBCSR_SRCS
+  DBCSR_FORTRAN_SRCS
   dbcsr_api.F
   acc/cuda/dbcsr_cuda_profiling.F
   acc/dbcsr_acc_device.F
@@ -105,24 +105,11 @@ add_fypp_sources(
   utils/dbcsr_toollib.F
   work/dbcsr_work_operations.F)
 
-set(DBCSR_OPENCL_SRCS
-    acc/opencl/acc_opencl.c acc/opencl/acc_opencl_event.c
-    acc/opencl/acc_opencl_mem.c acc/opencl/acc_opencl_stream.c)
-
-set(DBCSR_CUDA_SRCS
-    acc/cuda/acc_cublas.cu
-    acc/cuda/acc_cuda.cpp
-    acc/cuda/acc_dev.cpp
-    acc/cuda/acc_error.cpp
-    acc/cuda/acc_event.cpp
-    acc/cuda/acc_init.cpp
-    acc/cuda/acc_mem.cpp
-    acc/cuda/acc_stream.cpp
-    acc/cuda/dbcsr_cuda_nvtx_cu.cu)
-
-set(DBCSR_HIP_SRCS
-    acc/hip/acc_hip.cpp
-    acc/cuda/acc_cublas.cu
+set(DBCSR_HIP_AND_CUDA_SRCS
+    acc/libsmm_acc/libsmm_acc_benchmark.cpp
+    acc/libsmm_acc/libsmm_acc_init.cpp
+    acc/libsmm_acc/libsmm_acc.cpp
+    acc/cuda/acc_cublas.cpp
     acc/cuda/acc_dev.cpp
     acc/cuda/acc_error.cpp
     acc/cuda/acc_event.cpp
@@ -130,13 +117,33 @@ set(DBCSR_HIP_SRCS
     acc/cuda/acc_mem.cpp
     acc/cuda/acc_stream.cpp)
 
+set(DBCSR_CUDA_SRCS ${DBCSR_HIP_AND_CUDA_SRCS} acc/cuda/acc_cuda.cpp
+                    acc/cuda/dbcsr_cuda_nvtx_cu.cpp)
+
+set(DBCSR_HIP_SRCS ${DBCSR_HIP_AND_CUDA_SRCS} acc/hip/acc_hip.cpp)
+
+set(DBCSR_OPENCL_SRCS
+    acc/opencl/smm/opencl_libsmm.c acc/opencl/acc_opencl.c
+    acc/opencl/acc_opencl_event.c acc/opencl/acc_opencl_mem.c
+    acc/opencl/acc_opencl_stream.c)
+
 # set the __SHORT_FILE__ per file for dbcsr sources
-foreach (dbcsr_src ${DBCSR_SRCS})
+foreach (dbcsr_src ${DBCSR_FORTRAN_SRCS})
   # add_fypp_sources returns a path in the current binary dir
   get_filename_component(short_file "${dbcsr_src}" NAME)
   set_source_files_properties(
     ${dbcsr_src} PROPERTIES COMPILE_DEFINITIONS __SHORT_FILE__="${short_file}")
 endforeach ()
+
+set(DBCSR_SRCS ${DBCSR_FORTRAN_SRCS})
+
+if (USE_ACCEL MATCHES "cuda")
+  set(DBCSR_SRCS ${DBCSR_SRCS} ${DBCSR_CUDA_SRCS})
+elseif (USE_ACCEL MATCHES "hip")
+  set(DBCSR_SRCS ${DBCSR_SRCS} ${DBCSR_HIP_SRCS})
+elseif (USE_ACCEL MATCHES "opencl")
+  set(DBCSR_SRCS ${DBCSR_SRCS} ${DBCSR_OPENCL_SRCS})
+endif ()
 
 # =================================================================================================
 # DBCSR LIBRARY
@@ -145,7 +152,7 @@ add_library(dbcsr ${DBCSR_SRCS})
 set_target_properties(dbcsr PROPERTIES VERSION ${dbcsr_VERSION}
                                        SOVERSION ${dbcsr_APIVERSION})
 
-if (LIBXSMM_FOUND)
+if (USE_SMM MATCHES "libxsmm")
   target_compile_definitions(dbcsr PRIVATE __LIBXSMM)
   target_link_libraries(dbcsr PRIVATE PkgConfig::LIBXSMM)
 endif ()
@@ -164,7 +171,7 @@ if (APPLE)
 endif ()
 
 # set -DNDEBUG for Release builds
-target_compile_definitions(dbcsr PRIVATE "$<$<CONFIG:Release>:NDEBUG>")
+target_compile_definitions(dbcsr PRIVATE $<$<CONFIG:Release>:NDEBUG>)
 
 target_link_libraries(dbcsr PRIVATE ${BLAS_LIBRARIES} ${LAPACK_LIBRARIES})
 target_include_directories(
@@ -196,163 +203,41 @@ if (MPI_FOUND)
   target_link_libraries(dbcsr PUBLIC MPI::MPI_Fortran)
 endif ()
 
-# =================================================================================================
-# Link OpenMP runtime library even if DBCSR main code is not built with OpenMP
+target_link_libraries(
+  dbcsr
+  PRIVATE $<$<BOOL:${USE_OPENMP}>:OpenMP::OpenMP_C>
+          $<$<BOOL:${USE_OPENMP}>:OpenMP::OpenMP_CXX>
+          $<$<BOOL:${USE_OPENMP}>:OpenMP::OpenMP_Fortran>)
 
-if (OpenMP_FOUND)
-  target_link_libraries(dbcsr PRIVATE OpenMP::OpenMP_Fortran)
+# todo, make this a bit better with opencl.
+if (USE_ACCEL MATCHES "cuda|hip")
+  add_subdirectory(acc/libsmm_acc)
 endif ()
-
-# =================================================================================================
-# DBCSR LIBRARY's OPENCL BACKEND
 
 if (USE_ACCEL MATCHES "opencl")
-  target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC)
-  target_link_libraries(dbcsr PRIVATE ${OpenCL_LIBRARY})
-
-  # OpenCL backend
-  set(DBCSR_ACC_SRCS ${DBCSR_OPENCL_SRCS})
-  add_library(acc OBJECT ${DBCSR_ACC_SRCS})
-  target_compile_definitions(acc PRIVATE __OPENCL)
-  # account for DBCSR not calling libsmm_acc_init() (DBCSR only calls acc_init)
-  target_compile_definitions(acc PRIVATE __DBCSR_ACC)
-  target_include_directories(acc PRIVATE ${OpenCL_INCLUDE_DIRS})
-  target_sources(dbcsr PRIVATE $<TARGET_OBJECTS:acc>)
   add_subdirectory(acc/opencl/smm)
-  target_sources(dbcsr PRIVATE $<TARGET_OBJECTS:libsmm_acc>)
 endif ()
 
-# =================================================================================================
-# DBCSR LIBRARY's CUDA BACKEND
-
-# adapted from
-# https://cliutils.gitlab.io/modern-cmake/chapters/packages/CUDA.html: replaces
-# in the Fortran and CXX targets the interface compile options by a more
-# differentiated version for Fortran, CXX and CUDA, where the CXX and CUDA
-# options are taken from the CXX target
-function (CUDA_CONVERT_FLAGS EXISTING_TARGET)
-  get_property(
-    old_fflags
-    TARGET ${EXISTING_TARGET}_Fortran
-    PROPERTY INTERFACE_COMPILE_OPTIONS)
-  get_property(
-    old_cxxflags
-    TARGET ${EXISTING_TARGET}_CXX
-    PROPERTY INTERFACE_COMPILE_OPTIONS)
-
-  string(REPLACE ";" "," CUDA_flags "${old_cxxflags}")
-  if (NOT "${CUDA_flags}" STREQUAL "")
-    set(CUDA_flags "-Xcompiler=${CUDA_flags}")
-  endif ()
-
-  set_property(
-    TARGET ${EXISTING_TARGET}_Fortran
-    PROPERTY
-      INTERFACE_COMPILE_OPTIONS
-      "$<$<BUILD_INTERFACE:$<COMPILE_LANGUAGE:Fortran>>:${old_fflags}>$<$<BUILD_INTERFACE:$<COMPILE_LANGUAGE:CXX>>:${old_cxxflags}>$<$<BUILD_INTERFACE:$<COMPILE_LANGUAGE:CUDA>>:${CUDA_flags}>"
-  )
-  set_property(
-    TARGET ${EXISTING_TARGET}_CXX
-    PROPERTY
-      INTERFACE_COMPILE_OPTIONS
-      "$<$<BUILD_INTERFACE:$<COMPILE_LANGUAGE:Fortran>>:${old_fflags}>$<$<BUILD_INTERFACE:$<COMPILE_LANGUAGE:CXX>>:${old_cxxflags}>$<$<BUILD_INTERFACE:$<COMPILE_LANGUAGE:CUDA>>:${CUDA_flags}>"
-  )
-endfunction ()
-
-if (USE_ACCEL MATCHES "cuda")
-  if (${CMAKE_VERSION} VERSION_LESS 3.16)
-    # workaround for CUDA support with CMake <3.16, see also see
-    # https://gitlab.kitware.com/cmake/cmake/issues/17929 and
-    # https://cliutils.gitlab.io/modern-cmake/chapters/packages/CUDA.html
-    if (OpenMP_FOUND)
-      cuda_convert_flags(OpenMP::OpenMP)
-    endif ()
-    if (MPI_FOUND)
-      cuda_convert_flags(MPI::MPI)
-    endif ()
-  endif ()
-
-  target_link_libraries(dbcsr PUBLIC cuda)
-
-  # add libsmm_acc which has its own CMakeLists.txt due to code generation
-  add_subdirectory(acc/libsmm_acc)
-  target_sources(dbcsr PRIVATE $<TARGET_OBJECTS:libsmm_acc>)
-  target_link_libraries(dbcsr PRIVATE nvrtc)
-
-  # Complete list of GPU-support sources
-  set(DBCSR_ACC_SRCS ${DBCSR_CUDA_SRCS})
-
-  # Make an object library
-  add_library(acc OBJECT ${DBCSR_ACC_SRCS})
-  target_compile_definitions(acc PRIVATE __CUDA)
+if (USE_ACCEL)
   target_compile_definitions(
-    acc PRIVATE $<$<BOOL:${WITH_CUDA_PROFILING}>:__CUDA_PROFILING>)
-  target_include_directories(acc
-                             PRIVATE ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
-  target_sources(dbcsr PRIVATE $<TARGET_OBJECTS:acc>)
-  target_compile_definitions(acc PRIVATE __DBCSR_ACC)
-  target_link_libraries(acc PRIVATE ${CUBLAS} ${CUDA_NVTOOLSEXT})
+    dbcsr
+    PRIVATE __DBCSR_ACC
+            $<$<STREQUAL:${USE_ACCEL},cuda>:__CUDA>
+            $<$<STREQUAL:${USE_ACCEL},opencl>:__OPENCL>
+            $<$<STREQUAL:${USE_ACCEL},cuda>:ARCH_NUMBER=${ACC_ARCH_NUMBER}>
+            $<$<STREQUAL:${USE_ACCEL},hip>:__HIP>
+            $<$<STREQUAL:${USE_ACCEL},hip>:ARCH_NUMBER=${ACC_ARCH_NUMBER}>
+            $<$<BOOL:${WITH_CUDA_PROFILING}>:__CUDA_PROFILING>)
 
-  # tests need some of the libsmm_acc headers and for CMake <3.12 compatibility,
-  # we can't set it on the the object library itself
-  target_include_directories(
-    dbcsr PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/acc/libsmm_acc>)
-
-  target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC)
-  target_link_libraries(dbcsr PRIVATE ${CUBLAS} ${CUDA_NVTOOLSEXT})
-  target_compile_definitions(dbcsr PRIVATE __CUDA)
-  # __CUDA_PROFILING also affects core/ parts like the timings
-  target_compile_definitions(
-    dbcsr PRIVATE $<$<BOOL:${WITH_CUDA_PROFILING}>:__CUDA_PROFILING>)
-
-  if (APPLE)
-    # Help the static cuda runtime find the driver (libcuda.dyllib) at runtime.
-    set_property(TARGET dbcsr PROPERTY BUILD_RPATH
-                                       ${CMAKE_CUDA_IMPLICIT_LINK_DIRECTORIES})
-  endif ()
-endif ()
-
-# =================================================================================================
-# DBCSR LIBRARY's HIP BACKEND
-
-if (USE_ACCEL MATCHES "hip")
-  if (USE_OPENMP)
-    set(HIP_HIPCC_FLAGS "${HIP_HIPCC_FLAGS} ${OpenMP_CXX_FLAGS}")
-  endif ()
-
-  # add libsmm_acc which has its own CMakeLists.txt due to code generation
-  add_subdirectory(acc/libsmm_acc)
-  target_link_libraries(dbcsr PUBLIC libsmm_acc)
-  target_link_libraries(dbcsr PUBLIC ${ROCM_HIPRTC_LIB})
-
-  # Complete list of GPU-support sources
-  set(DBCSR_ACC_SRCS ${DBCSR_HIP_SRCS})
-
-  # Compile the rest of the HIP source files into a static library
-  set_source_files_properties(${DBCSR_ACC_SRCS}
-                              PROPERTIES HIP_SOURCE_PROPERTY_FORMAT 1)
-  hip_add_library(acc STATIC ${DBCSR_ACC_SRCS})
-  target_include_directories(acc PRIVATE ${HIP_PATH}/../include)
-  target_compile_definitions(acc PRIVATE ARCH_NUMBER=${ACC_ARCH_NUMBER})
-  target_compile_definitions(acc PRIVATE __HIP)
-  target_compile_options(acc PRIVATE "-fPIC")
-  target_link_libraries(acc PUBLIC ${HIPBLAS})
-  target_link_libraries(dbcsr PUBLIC acc)
-  install(
-    TARGETS acc
-    EXPORT accTargets
-    LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
-    ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}")
-
-  # tests need some of the libsmm_acc headers and for CMake <3.12 compatibility,
-  # we can't set it on the the object library itself
-  target_include_directories(
-    dbcsr PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/acc>)
-  target_include_directories(
-    dbcsr PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/acc/libsmm_acc>)
-
-  target_compile_definitions(dbcsr PRIVATE __DBCSR_ACC)
-  target_compile_definitions(dbcsr PRIVATE __HIP)
+  target_link_libraries(
+    dbcsr
+    PRIVATE $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::cudart>
+            $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::cublas>
+            $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::nvToolsExt>
+            $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::nvrtc>
+            $<$<STREQUAL:${USE_ACCEL},hip>:roc::hipblas>
+            $<$<STREQUAL:${USE_ACCEL},hip>:hip::host>
+            $<$<STREQUAL:${USE_ACCEL},opencl>:OpenCL::OpenCL>)
 endif ()
 
 # =================================================================================================
@@ -418,16 +303,6 @@ write_basic_package_version_file(
   "${CMAKE_CURRENT_BINARY_DIR}/DBCSRConfigVersion.cmake"
   VERSION "${dbcsr_VERSION}"
   COMPATIBILITY SameMajorVersion)
-if (USE_ACCEL MATCHES "hip")
-  install(
-    EXPORT libsmm_accTargets
-    NAMESPACE "${config_namespace}"
-    DESTINATION "${config_install_dir}")
-  install(
-    EXPORT accTargets
-    NAMESPACE "${config_namespace}"
-    DESTINATION "${config_install_dir}")
-endif ()
 install(
   EXPORT DBCSRTargets
   NAMESPACE "${config_namespace}"

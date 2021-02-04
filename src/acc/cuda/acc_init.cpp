@@ -23,7 +23,7 @@
 #endif
 
 /****************************************************************************/
-extern "C" int acc_init(){
+extern "C" int c_dbcsr_acc_init(){
   int myDevice;
   // Driver boilerplate
   ACC_DRV_CALL(Init, (0));
@@ -38,7 +38,7 @@ extern "C" int acc_init(){
 }
 
 /****************************************************************************/
-extern "C" int acc_finalize(){
+extern "C" int c_dbcsr_acc_finalize(){
   int myDevice;
   // Release driver resources
   ACC_DRV(device) acc_device;

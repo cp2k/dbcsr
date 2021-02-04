@@ -41,7 +41,7 @@ Please open an issue at https://github.com/cp2k/dbcsr/issues with the reported c
 endif ()
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-  set(CMAKE_CXX_FLAGS_RELEASE      "-O3 -g -funroll-loops -Wall -Werror")
+  set(CMAKE_CXX_FLAGS_RELEASE      "-O3 -g -funroll-loops -Wall")
   set(CMAKE_CXX_FLAGS_COVERAGE     "-O0 -g --coverage -Wall -Werror")
   set(CMAKE_CXX_FLAGS_DEBUG        "-O2 -ggdb -Wall -Werror -fsanitize=undefined -fsanitize=address -fsanitize-recover=all")
   if ((NOT (USE_MPI)) OR (NOT ("${MPI_Fortran_LIBRARY_VERSION_STRING}" MATCHES "Open MPI")))

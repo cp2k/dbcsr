@@ -36,14 +36,14 @@
 extern "C" {
 #endif
 
-int acc_opencl_stream_create(cl_command_queue* stream_p, const char* name,
+int c_dbcsr_acc_opencl_stream_create(cl_command_queue* stream_p, const char* name,
   const ACC_OPENCL_COMMAND_QUEUE_PROPERTIES* properties)
 {
   cl_int result = EXIT_SUCCESS;
   assert(NULL != stream_p);
   if (NULL != acc_opencl_context) {
     cl_device_id device_id = NULL;
-    result = acc_opencl_device(NULL/*stream*/, &device_id);
+    result = c_dbcsr_acc_opencl_device(NULL/*stream*/, &device_id);
     if (EXIT_SUCCESS == result) {
       *stream_p = ACC_OPENCL_CREATE_COMMAND_QUEUE(acc_opencl_context, device_id, properties, &result);
     }
@@ -55,7 +55,7 @@ int acc_opencl_stream_create(cl_command_queue* stream_p, const char* name,
 }
 
 
-int acc_stream_create(void** stream_p, const char* name, int priority)
+int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority)
 {
   cl_int result = EXIT_SUCCESS;
   if (NULL != acc_opencl_context) {
@@ -70,7 +70,7 @@ int acc_stream_create(void** stream_p, const char* name, int priority)
       };
       properties[1] = (CL_QUEUE_PRIORITY_HIGH_KHR <= priority && CL_QUEUE_PRIORITY_LOW_KHR >= priority)
         ? priority : ((CL_QUEUE_PRIORITY_HIGH_KHR + CL_QUEUE_PRIORITY_LOW_KHR) / 2);
-      result = acc_opencl_stream_create(&queue, name, properties);
+      result = c_dbcsr_acc_opencl_stream_create(&queue, name, properties);
     }
     else
 #endif
@@ -78,7 +78,7 @@ int acc_stream_create(void** stream_p, const char* name, int priority)
       ACC_OPENCL_COMMAND_QUEUE_PROPERTIES properties[] = {
         0 /* terminator */
       };
-      result = acc_opencl_stream_create(&queue, name, properties);
+      result = c_dbcsr_acc_opencl_stream_create(&queue, name, properties);
     }
     assert(NULL != stream_p);
     if (EXIT_SUCCESS == result) {
@@ -105,7 +105,7 @@ int acc_stream_create(void** stream_p, const char* name, int priority)
 }
 
 
-int acc_stream_destroy(void* stream)
+int c_dbcsr_acc_stream_destroy(void* stream)
 {
   int result = EXIT_SUCCESS;
   if (NULL != stream) {
@@ -121,7 +121,7 @@ int acc_stream_destroy(void* stream)
 }
 
 
-int acc_stream_priority_range(int* least, int* greatest)
+int c_dbcsr_acc_stream_priority_range(int* least, int* greatest)
 {
   int result = ((NULL != least || NULL != greatest) ? EXIT_SUCCESS : EXIT_FAILURE);
   if (NULL != acc_opencl_context) {
@@ -130,7 +130,7 @@ int acc_stream_priority_range(int* least, int* greatest)
     cl_platform_id platform = NULL;
     cl_device_id active_id = NULL;
     assert(0 < acc_opencl_ndevices);
-    if (EXIT_SUCCESS == result) result = acc_opencl_device(NULL/*stream*/, &active_id);
+    if (EXIT_SUCCESS == result) result = c_dbcsr_acc_opencl_device(NULL/*stream*/, &active_id);
     ACC_OPENCL_CHECK(clGetDeviceInfo(active_id, CL_DEVICE_PLATFORM,
       sizeof(cl_platform_id), &platform, NULL),
       "retrieve platform associated with active device", result);
@@ -161,12 +161,12 @@ int acc_stream_priority_range(int* least, int* greatest)
 }
 
 
-int acc_stream_sync(void* stream)
+int c_dbcsr_acc_stream_sync(void* stream)
 { /* Blocks the host-thread. */
   int result = EXIT_SUCCESS;
   assert(NULL != stream);
 #if defined(ACC_OPENCL_VERBOSE) && defined(_DEBUG)
-  fprintf(stderr, "acc_stream_sync(%p)\n", stream);
+  fprintf(stderr, "c_dbcsr_acc_stream_sync(%p)\n", stream);
 #endif
   ACC_OPENCL_CHECK(clFinish(*ACC_OPENCL_STREAM(stream)),
     "synchronize stream", result);
@@ -174,12 +174,12 @@ int acc_stream_sync(void* stream)
 }
 
 
-int acc_stream_wait_event(void* stream, void* event)
+int c_dbcsr_acc_stream_wait_event(void* stream, void* event)
 { /* Wait for an event (device-side). */
   int result = EXIT_SUCCESS;
   assert(NULL != stream && NULL != event);
 #if defined(ACC_OPENCL_VERBOSE) && defined(_DEBUG)
-  fprintf(stderr, "acc_stream_wait_event(%p, %p)\n", stream, event);
+  fprintf(stderr, "c_dbcsr_acc_stream_wait_event(%p, %p)\n", stream, event);
 #endif
 #if defined(ACC_OPENCL_STREAM_SYNCFLUSH)
   ACC_OPENCL_CHECK(clFlush(*ACC_OPENCL_STREAM(stream)), "flush stream", result);
