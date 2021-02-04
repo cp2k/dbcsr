@@ -211,7 +211,7 @@ add_custom_target(
   DEPENDS libsmm_acc_timer_multiply.cpp.template
           generate_libsmm_acc_timer_multiply.py
   BYPRODUCTS libsmm_acc_timer_multiply.cpp
-  COMMENT "Generate tests/libsmm_acc_unittest_transpose.cpp")
+  COMMENT "Generate tests/generate_libsmm_acc_timer_multiply.cpp")
 
 if (USE_ACCEL MATCHES "cuda|hip")
 
