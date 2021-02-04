@@ -107,7 +107,7 @@ int c_dbcsr_acc_event_query(void* event, acc_bool_t* has_occurred)
   }
   assert(NULL != has_occurred);
   *has_occurred = (CL_COMPLETE == status || 0 > status);
-#if defined(ACC_OPENCL_VERBOSE) && defined(_DEBUG)
+#if defined(ACC_OPENCL_DEBUG) && defined(_DEBUG)
   fprintf(stderr, "c_dbcsr_acc_event_query(%p, %i)\n", event, *has_occurred);
 #endif
   ACC_OPENCL_RETURN(result);
@@ -118,7 +118,7 @@ int c_dbcsr_acc_event_synchronize(void* event)
 { /* Waits on the host-side. */
   int result = EXIT_SUCCESS;
   assert(NULL != event);
-#if defined(ACC_OPENCL_VERBOSE) && defined(_DEBUG)
+#if defined(ACC_OPENCL_DEBUG) && defined(_DEBUG)
   fprintf(stderr, "c_dbcsr_acc_event_synchronize(%p)\n", event);
 #endif
   ACC_OPENCL_CHECK(clWaitForEvents(1, ACC_OPENCL_EVENT(event)),

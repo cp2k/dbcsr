@@ -86,8 +86,8 @@
 #if !defined(ACC_OPENCL_MEM_ASYNC) && 1
 # define ACC_OPENCL_MEM_ASYNC
 #endif
-#if !defined(ACC_OPENCL_VERBOSE) && 0
-# define ACC_OPENCL_VERBOSE
+#if !defined(ACC_OPENCL_DEBUG) && 0
+# define ACC_OPENCL_DEBUG
 #endif
 #if !defined(ACC_OPENCL_SVM) && 0
 # if defined(CL_VERSION_2_0)
@@ -189,9 +189,12 @@ extern "C" {
 
 /** Settings depending on OpenCL vendor or standard level (discovered/setup in acc_init). */
 typedef struct acc_opencl_options_t {
-  /** Asynchronous memory operations may crash for some OpenCL implementations. */
+  /** Asynchronous memory operations (may crash for some OpenCL implementations). */
   cl_bool async_memops;
+  /** Runtime SVM support (needs ACC_OPENCL_SVM at compile-time). */
   cl_bool svm_interop;
+  /** Runtime verbosity (output on stderr). */
+  cl_int verbosity;
 } acc_opencl_options_t;
 
 extern acc_opencl_options_t acc_opencl_options;

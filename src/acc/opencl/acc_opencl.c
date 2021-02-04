@@ -131,7 +131,11 @@ int c_dbcsr_acc_init(void)
 {
 #if defined(_OPENMP)
   /* initialization/finalization is not meant to be thread-safe */
-  int result = (0 == omp_in_parallel() ? EXIT_SUCCESS : EXIT_FAILURE);
+  int result = ((0 == omp_in_parallel()
+# if /*WORKAROUND*/defined(__DBCSR_ACC)
+    || 0/*master*/ == omp_get_thread_num()
+# endif
+    ) ? EXIT_SUCCESS : EXIT_FAILURE);
 #else
   int result = EXIT_SUCCESS;
 #endif
@@ -177,7 +181,6 @@ int c_dbcsr_acc_init(void)
       if (device_id < acc_opencl_ndevices) {
         if (NULL != env_device_vendor && '\0' != *env_device_vendor) {
           for (i = 0; i < (cl_uint)acc_opencl_ndevices;) {
-            buffer[0] = '\0';
             if (CL_SUCCESS == clGetDeviceInfo(acc_opencl_devices[i],
               CL_DEVICE_VENDOR, ACC_OPENCL_BUFFERSIZE, buffer, NULL))
             {
@@ -216,7 +219,9 @@ int c_dbcsr_acc_init(void)
           }
         }
         if (EXIT_SUCCESS == result) {
+          const char *const env_verbose = getenv("ACC_OPENCL_VERBOSE");
           cl_device_id active_device;
+          acc_opencl_options.verbosity = (NULL == env_verbose ? 0 : atoi(env_verbose));
           result = c_dbcsr_acc_opencl_set_active_device(device_id, &active_device);
 #if defined(_OPENMP) && defined(ACC_OPENCL_THREADLOCAL_CONTEXT)
           if (EXIT_SUCCESS == result) {
@@ -284,7 +289,11 @@ int c_dbcsr_acc_finalize(void)
 {
 #if defined(_OPENMP)
   /* initialization/finalization is not meant to be thread-safe */
-  int result = (0 == omp_in_parallel() ? EXIT_SUCCESS : EXIT_FAILURE);
+  int result = ((0 == omp_in_parallel()
+# if /*WORKAROUND*/defined(__DBCSR_ACC)
+    || 0/*master*/ == omp_get_thread_num()
+# endif
+    ) ? EXIT_SUCCESS : EXIT_FAILURE);
 #else
   int result = EXIT_SUCCESS;
 #endif
@@ -325,7 +334,6 @@ void c_dbcsr_acc_clear_errors(void)
 int c_dbcsr_acc_get_ndevices(int* ndevices)
 {
   int result;
-
 #if defined(__DBCSR_ACC)
   /* DBCSR calls acc_get_ndevices before calling acc_init(). */
   result = c_dbcsr_acc_init();
@@ -375,7 +383,6 @@ int c_dbcsr_acc_opencl_device_vendor(cl_device_id device, const char* vendor)
   char buffer[ACC_OPENCL_BUFFERSIZE];
   int result = EXIT_SUCCESS;
   assert(NULL != device && NULL != vendor);
-  buffer[0] = '\0';
   ACC_OPENCL_CHECK(clGetDeviceInfo(device,
     CL_DEVICE_VENDOR, ACC_OPENCL_BUFFERSIZE, buffer, NULL),
     "retrieve device vendor", result);
@@ -477,8 +484,20 @@ int c_dbcsr_acc_opencl_set_active_device(int device_id, cl_device_id* device)
         ACC_OPENCL_CHECK(result, "create context", result);
       }
     }
-    if (NULL != device) {
-      *device = (EXIT_SUCCESS == result ? active_id : NULL);
+    if (EXIT_SUCCESS == result) {
+      if (NULL != device) *device = active_id;
+      if (0 != acc_opencl_options.verbosity) {
+        char buffer[ACC_OPENCL_BUFFERSIZE];
+        if (CL_SUCCESS == clGetDeviceInfo(active_id,
+          CL_DEVICE_NAME, ACC_OPENCL_BUFFERSIZE, buffer, NULL))
+        {
+          fprintf(stderr, "INFO ACC/OpenCL: ndevices=%i device%i=\"%s\"\n",
+            acc_opencl_ndevices, device_id, buffer);
+        }
+      }
+    }
+    else {
+      if (NULL != device) *device = NULL;
     }
   }
   ACC_OPENCL_RETURN(result);
@@ -546,7 +565,7 @@ int c_dbcsr_acc_opencl_wgsize(cl_device_id device, cl_kernel kernel,
 int c_dbcsr_acc_opencl_kernel(const char* source, const char* build_options,
   const char* kernel_name, cl_kernel* kernel)
 {
-  char buffer[ACC_OPENCL_BUFFERSIZE] = "\0";
+  char buffer[ACC_OPENCL_BUFFERSIZE] = "";
   cl_int result;
   assert(NULL != kernel);
   if (NULL != acc_opencl_context) {

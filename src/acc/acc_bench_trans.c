@@ -91,6 +91,8 @@ int main(int argc, char* argv[])
   assert(m <= (mn / n) && 0 == (mn % n));
   printf("%s%s%i %i %i %i\n", 0 < argc ? argv[0] : "", 0 < argc ? " " : "", nrepeat, stack_size, m, n);
   CHECK(c_dbcsr_acc_init(), &result);
+  /* note: libsmm_acc_init() may imply acc_init() */
+  CHECK(libsmm_acc_init(), &result);
   CHECK(c_dbcsr_acc_get_ndevices(&ndevices), &result);
   if (0 < ndevices) {
 #if defined(_DEBUG)
@@ -98,8 +100,9 @@ int main(int argc, char* argv[])
 #endif
   }
   else {
-#if defined(_DEBUG)
-    fprintf(stderr, "Error: no device found!\n");
+    fprintf(stderr, "No ACC-device found!\n");
+#if !defined(__CUDA)
+    CHECK(libsmm_acc_finalize(), NULL);
 #endif
     CHECK(c_dbcsr_acc_finalize(), NULL);
     return result;
@@ -210,6 +213,9 @@ int main(int argc, char* argv[])
   CHECK(c_dbcsr_acc_dev_mem_deallocate(stack_dev), NULL);
   CHECK(c_dbcsr_acc_dev_mem_deallocate(mat_dev), NULL);
   CHECK(c_dbcsr_acc_stream_destroy(stream), NULL);
+#if !defined(__CUDA)
+  CHECK(libsmm_acc_finalize(), NULL);
+#endif
   CHECK(c_dbcsr_acc_finalize(), NULL);
   if (EXIT_SUCCESS != result) {
     fprintf(stderr, "FAILED\n");

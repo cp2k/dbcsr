@@ -106,6 +106,8 @@ int main(int argc, char* argv[])
   printf("%s%s%i %i %i %i %i %i %i %i\n", 0 < argc ? argv[0] : "", 0 < argc ? " " : "",
     nrepeat, stack_size, m, n, k, nc, na, nb);
   CHECK(c_dbcsr_acc_init(), &result);
+  /* note: libsmm_acc_init() may imply acc_init() */
+  CHECK(libsmm_acc_init(), &result);
   CHECK(c_dbcsr_acc_get_ndevices(&ndevices), &result);
   if (0 < ndevices) {
 #if defined(_DEBUG)
@@ -113,8 +115,9 @@ int main(int argc, char* argv[])
 #endif
   }
   else {
-#if defined(_DEBUG)
-    fprintf(stderr, "Error: no device found!\n");
+    fprintf(stderr, "No ACC-device found!\n");
+#if !defined(__CUDA)
+    CHECK(libsmm_acc_finalize(), NULL);
 #endif
     CHECK(c_dbcsr_acc_finalize(), NULL);
     return result;
@@ -165,14 +168,14 @@ int main(int argc, char* argv[])
     CHECK(libsmm_acc_transpose(trans_dev, 0/*offset*/, nb, bmat_dev,
       DBCSR_TYPE(ELEM_TYPE), n, k, MAX_KERNEL_DIM, stream), &result);
   }
-#if defined(USE_LIBXSMM)
+# if defined(USE_LIBXSMM)
   CHECK(c_dbcsr_acc_stream_sync(stream), &result);
   start = libxsmm_timer_tick();
-#endif
+# endif
   /* to perform NN-SMMs on the device, all B-matrices are transposed upfront (SMM-kernel is limited to NT) */
   CHECK(libsmm_acc_transpose(trans_dev, 0/*offset*/, nb, bmat_dev,
     DBCSR_TYPE(ELEM_TYPE), k, n, MAX_KERNEL_DIM, stream), &result);
-#if defined(USE_LIBXSMM)
+# if defined(USE_LIBXSMM)
   CHECK(c_dbcsr_acc_stream_sync(stream), &result);
   transpose = libxsmm_timer_duration(start, libxsmm_timer_tick());
 # endif
@@ -282,6 +285,9 @@ int main(int argc, char* argv[])
   CHECK(c_dbcsr_acc_dev_mem_deallocate(bmat_dev), NULL);
   CHECK(c_dbcsr_acc_dev_mem_deallocate(cmat_dev), NULL);
   CHECK(c_dbcsr_acc_stream_destroy(stream), NULL);
+#if !defined(__CUDA)
+  CHECK(libsmm_acc_finalize(), NULL);
+#endif
   CHECK(c_dbcsr_acc_finalize(), NULL);
   if (EXIT_SUCCESS != result) {
     fprintf(stderr, "FAILED\n");
