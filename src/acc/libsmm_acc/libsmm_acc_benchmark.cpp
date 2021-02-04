@@ -350,9 +350,12 @@ int libsmm_acc_benchmark(libsmm_acc_benchmark_t* h,
            best_gflops = gflops;
            best_kernel = ikern;
        }
-    } else {
+    }
+#if !defined(NDEBUG)
+    else {
        printf("%sOK %s\n", msg_prefix, descr);
     }
+#endif
  }
 
  if(h->mode == tune){
@@ -427,10 +430,12 @@ int libsmm_acc_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
  if(sumGPU != sumCPU){
      printf("%sERROR %s checksum_diff: %g\n", msg_prefix, descr, sumGPU-sumCPU);
      error_counter++;
- } else {
+ }
+#if !defined(NDEBUG)
+ else {
      printf("%sOK %s\n", msg_prefix, descr);
  }
-
+#endif
  return error_counter;
 
 }
