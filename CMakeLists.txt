@@ -118,18 +118,28 @@ endif ()
 # always use at least C++11
 set(CMAKE_CXX_STANDARD 11)
 
-# =================================================================================================
-# PACKAGE DISCOVERY (compiler configuration can impact package discovery)
-find_package(PkgConfig)
-
 # =================================== OpenMP
 if (USE_OPENMP)
   find_package(OpenMP REQUIRED)
 endif ()
 
+if ((USE_ACCEL MATCHES "opencl") AND (NOT USE_SMM MATCHES "libxsmm"))
+  message(FATAL_ERROR "OpenCL requires USE_SMM=libxsmm")
+endif ()
+
+# =================================== SMM (Small Matrix-Matrix multiplication)
+if (USE_SMM MATCHES "blas")
+  message(STATUS "Using BLAS for Small Matrix Multiplication")
+elseif (USE_SMM MATCHES "libxsmm")
+  message(STATUS "Using libxsmm for Small Matrix Multiplication")
+else ()
+  message(FATAL_ERROR "Unknown SMM library specified")
+endif ()
+
 # =================================== LIBXSMM (rely on pkg-config)
-if ((USE_SMM MATCHES "libxsmm") OR (USE_ACCEL MATCHES "opencl"))
-  pkg_check_modules(LIBXSMM IMPORTED_TARGET GLOBAL libxsmmf)
+if (USE_SMM MATCHES "libxsmm")
+  find_package(PkgConfig REQUIRED)
+  pkg_check_modules(LIBXSMM REQUIRED IMPORTED_TARGET GLOBAL libxsmmf)
 endif ()
 
 # =================================== BLAS & LAPACK, PkgConfig
@@ -179,28 +189,8 @@ Intel MPI compiler wrappers. Check the INSTALL.md for more information.")
   endif ()
 endif ()
 
-# =================================== SMM (Small Matrix-Matrix multiplication)
-if (USE_SMM MATCHES "blas")
-  message(STATUS "Using BLAS for Small Matrix Multiplication")
-elseif (USE_SMM MATCHES "libxsmm")
-  # rely on pkg-config in order to link against libxsmm
-  pkg_check_modules(deps REQUIRED IMPORTED_TARGET GLOBAL libxsmmf)
-  message(STATUS "Using libxsmm for Small Matrix Multiplication")
-else ()
-  message(FATAL_ERROR "Unknown SMM library specified")
-endif ()
-
 # =================================== GPU backends
 if (USE_ACCEL MATCHES "opencl")
-  if (NOT USE_SMM)
-    message(
-      FATAL_ERROR
-        "LIBXSMM is not found but required for "
-        "LIBSMM based on the ACC/OpenCL backend. "
-        "Please install PkgConfig, LIBXSMM, and "
-        "set PKG_CONFIG_PATH=/path/to/libxsmm/lib")
-  endif ()
-
   find_package(OpenCL REQUIRED)
   enable_language(C)
 endif ()
