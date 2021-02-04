@@ -230,10 +230,12 @@ if (USE_ACCEL MATCHES "cuda|hip")
                                       $<$<STREQUAL:${USE_ACCEL},cuda>:__CUDA>)
     target_link_libraries(${libsmm_acc_test_name} dbcsr
                           $<$<STREQUAL:${USE_ACCEL},hip>:hip::host> libsmm_acc)
-    add_test(NAME ${libsmm_acc_test_name} COMMAND ${libsmm_acc_test_name})
   endforeach ()
 
-  # Add tests needing additional arguments:
+  add_test(NAME libsmm_acc_unittest_multiply
+           COMMAND libsmm_acc_unittest_multiply)
+  add_test(NAME libsmm_acc_unittest_transpose
+           COMMAND libsmm_acc_unittest_transpose)
   add_test(NAME libsmm_acc_timer_multiply-autotuned
            COMMAND libsmm_acc_timer_multiply autotuned)
   add_test(NAME libsmm_acc_timer_multiply-predicted
