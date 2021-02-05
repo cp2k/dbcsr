@@ -1,13 +1,12 @@
 #!/bin/bash -l
 
 #SBATCH --export=ALL
-#SBATCH --exclusive
 #SBATCH --constraint="gpu"
 #SBATCH --partition="cscsci"
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=4
 #SBATCH --cpus-per-task=3
-#SBATCH --ntasks-per-core=1 # 1=no HT, 2=HT
+#SBATCH --hint=nomultithread
 
 set -o errexit
 set -o nounset
