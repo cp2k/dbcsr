@@ -481,23 +481,24 @@ int c_dbcsr_acc_opencl_set_active_device(int device_id, cl_device_id* device)
           acc_opencl_context = clCreateContext(0 != properties[0] ? properties : NULL,
             1/*num_devices*/, &active_id, notify, NULL/* user_data*/, &result);
         }
-        ACC_OPENCL_CHECK(result, "create context", result);
-      }
-    }
-    if (EXIT_SUCCESS == result) {
-      if (NULL != device) *device = active_id;
-      if (0 != acc_opencl_options.verbosity) {
-        char buffer[ACC_OPENCL_BUFFERSIZE];
-        if (CL_SUCCESS == clGetDeviceInfo(active_id,
-          CL_DEVICE_NAME, ACC_OPENCL_BUFFERSIZE, buffer, NULL))
-        {
-          fprintf(stderr, "INFO ACC/OpenCL: ndevices=%i device%i=\"%s\"\n",
-            acc_opencl_ndevices, device_id, buffer);
+        if (EXIT_SUCCESS == result) {
+          if (0 != acc_opencl_options.verbosity) {
+            char buffer[ACC_OPENCL_BUFFERSIZE];
+            if (CL_SUCCESS == clGetDeviceInfo(active_id,
+              CL_DEVICE_NAME, ACC_OPENCL_BUFFERSIZE, buffer, NULL))
+            {
+              fprintf(stderr, "INFO ACC/OpenCL: ndevices=%i device%i=\"%s\"\n",
+                acc_opencl_ndevices, device_id, buffer);
+            }
+          }
+        }
+        else {
+          ACC_OPENCL_ERROR("create context", result);
         }
       }
     }
-    else {
-      if (NULL != device) *device = NULL;
+    if (NULL != device) {
+      *device = (EXIT_SUCCESS == result ? active_id : NULL);
     }
   }
   ACC_OPENCL_RETURN(result);
