@@ -383,8 +383,8 @@ int c_dbcsr_acc_opencl_device_vendor(cl_device_id device, const char* vendor)
   char buffer[ACC_OPENCL_BUFFERSIZE];
   int result = EXIT_SUCCESS;
   assert(NULL != device && NULL != vendor);
-  ACC_OPENCL_CHECK(clGetDeviceInfo(device,
-    CL_DEVICE_VENDOR, ACC_OPENCL_BUFFERSIZE, buffer, NULL),
+  ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_VENDOR,
+    ACC_OPENCL_BUFFERSIZE, buffer, NULL),
     "retrieve device vendor", result);
   if (EXIT_SUCCESS == result) {
     return (NULL != c_dbcsr_acc_opencl_stristr(buffer, vendor)
@@ -458,8 +458,8 @@ int c_dbcsr_acc_opencl_set_active_device(int device_id, cl_device_id* device)
     if (EXIT_SUCCESS == result) result = c_dbcsr_acc_opencl_device(NULL/*stream*/, &current_id);
     if (active_id != current_id) {
       cl_platform_id platform = NULL;
-      ACC_OPENCL_CHECK(clGetDeviceInfo(active_id,
-        CL_DEVICE_PLATFORM, sizeof(cl_platform_id), &platform, NULL),
+      ACC_OPENCL_CHECK(clGetDeviceInfo(active_id, CL_DEVICE_PLATFORM,
+        sizeof(cl_platform_id), &platform, NULL),
         "query device platform", result);
       if (NULL != c_dbcsr_acc_opencl_context) {
         ACC_OPENCL_CHECK(clReleaseContext(c_dbcsr_acc_opencl_context),
@@ -490,8 +490,8 @@ int c_dbcsr_acc_opencl_set_active_device(int device_id, cl_device_id* device)
         if (EXIT_SUCCESS == result) {
           if (0 != c_dbcsr_acc_opencl_options.verbosity) {
             char buffer[ACC_OPENCL_BUFFERSIZE];
-            if (CL_SUCCESS == clGetDeviceInfo(active_id,
-              CL_DEVICE_NAME, ACC_OPENCL_BUFFERSIZE, buffer, NULL))
+            if (CL_SUCCESS == clGetDeviceInfo(active_id, CL_DEVICE_NAME,
+              ACC_OPENCL_BUFFERSIZE, buffer, NULL))
             {
               fprintf(stderr, "INFO ACC/OpenCL: ndevices=%i device%i=\"%s\"\n",
                 c_dbcsr_acc_opencl_ndevices, device_id, buffer);
@@ -546,7 +546,8 @@ int c_dbcsr_acc_opencl_wgsize(cl_device_id device, cl_kernel kernel,
     if (NULL != max_value) {
       size_t value = 0;
       ACC_OPENCL_CHECK(clGetDeviceInfo(device,
-        CL_DEVICE_MAX_WORK_GROUP_SIZE, sizeof(size_t), &value, NULL),
+        CL_DEVICE_MAX_WORK_GROUP_SIZE,
+        sizeof(size_t), &value, NULL),
         "query maximum WG-size of device", result);
       assert(value <= INT_MAX);
       *max_value = (int)value;
