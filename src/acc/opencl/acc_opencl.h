@@ -71,7 +71,7 @@
 # define ACC_OPENCL_EVENT(A) ((cl_event*)(A))
 #endif
 
-#if !defined(ACC_OPENCL_THREADLOCAL_CONTEXT) && 0
+#if !defined(ACC_OPENCL_THREADLOCAL_CONTEXT) && /*WORKAROUND*/!defined(__DBCSR_ACC)
 # define ACC_OPENCL_THREADLOCAL_CONTEXT
 #endif
 #if !defined(ACC_OPENCL_STREAM_PRIORITIES) && 1
