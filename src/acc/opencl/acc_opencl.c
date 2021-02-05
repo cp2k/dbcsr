@@ -456,22 +456,28 @@ int c_dbcsr_acc_opencl_set_active_device(int device_id, cl_device_id* device)
     const cl_device_id active_id = c_dbcsr_acc_opencl_devices[device_id];
     cl_device_id current_id = NULL;
     if (EXIT_SUCCESS == result) result = c_dbcsr_acc_opencl_device(NULL/*stream*/, &current_id);
-    if (EXIT_SUCCESS == result && active_id != current_id) {
+    if (active_id != current_id) {
+      cl_platform_id platform = NULL;
+      ACC_OPENCL_CHECK(clGetDeviceInfo(active_id,
+        CL_DEVICE_PLATFORM, sizeof(cl_platform_id), &platform, NULL),
+        "query device platform", result);
       if (NULL != c_dbcsr_acc_opencl_context) {
         ACC_OPENCL_CHECK(clReleaseContext(c_dbcsr_acc_opencl_context),
           "release context", result);
       }
       if (EXIT_SUCCESS == result) {
-        cl_context_properties properties[] = {
-          /* insert other properties in front of below property */
-          CL_CONTEXT_INTEROP_USER_SYNC, CL_FALSE, /* TODO */
-          0 /* end of properties */
-        };
 #if defined(NDEBUG)
         void (*const notify)(const char*, const void*, size_t, void*) = NULL;
 #else
         void (*const notify)(const char*, const void*, size_t, void*) = c_dbcsr_acc_opencl_notify;
 #endif
+        cl_context_properties properties[] = {
+          CL_CONTEXT_PLATFORM, 0/*placeholder*/,
+          /* insert other properties in front of below property */
+          CL_CONTEXT_INTEROP_USER_SYNC, CL_FALSE, /* TODO */
+          0 /* end of properties */
+        };
+        properties[1] = (long)platform;
         c_dbcsr_acc_opencl_context = clCreateContext(properties,
           1/*num_devices*/, &active_id, notify, NULL/* user_data*/, &result);
         if (CL_INVALID_VALUE == result) { /* retry */
