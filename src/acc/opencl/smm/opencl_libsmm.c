@@ -323,7 +323,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
                   new_config.wgsize = (size_t)wgsize;
                   config = (opencl_libsmm_trans_t*)OPENCL_LIBSMM_REGISTER(&key, sizeof(key),
                     sizeof(new_config), &new_config);
-                  if (1 < acc_opencl_options.verbosity || 0 > acc_opencl_options.verbosity) {
+                  if (1 < c_dbcsr_acc_opencl_options.verbosity || 0 > c_dbcsr_acc_opencl_options.verbosity) {
                     const double duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
                     fprintf(stderr, "INFO ACC/OpenCL: %ix%i transpose-kernel generated in %.1f ms\n",
                       m, n, 1000.0 * duration);
@@ -596,7 +596,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                       config->wgsize = (size_t)wgsize;
                       config->bs = bs; config->bm = bm; config->bn = bn;
                       config->kernel = new_config.kernel;
-                      if (1 < acc_opencl_options.verbosity || 0 > acc_opencl_options.verbosity) {
+                      if (1 < c_dbcsr_acc_opencl_options.verbosity || 0 > c_dbcsr_acc_opencl_options.verbosity) {
                         const double duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
                         fprintf(stderr, "INFO ACC/OpenCL: %ix%ix%i %sSMM-kernel generated in %.1f ms\n",
                           m_max, n_max, k_max, default_params ? "" : "tuned ", 1000.0 * duration);

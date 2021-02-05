@@ -188,23 +188,23 @@ extern "C" {
 #endif
 
 /** Settings depending on OpenCL vendor or standard level (discovered/setup in acc_init). */
-typedef struct acc_opencl_options_t {
+typedef struct c_dbcsr_acc_opencl_options_t {
   /** Asynchronous memory operations (may crash for some OpenCL implementations). */
   cl_bool async_memops;
   /** Runtime SVM support (needs ACC_OPENCL_SVM at compile-time). */
   cl_bool svm_interop;
   /** Runtime verbosity (output on stderr). */
   cl_int verbosity;
-} acc_opencl_options_t;
+} c_dbcsr_acc_opencl_options_t;
 
-extern acc_opencl_options_t acc_opencl_options;
+extern c_dbcsr_acc_opencl_options_t c_dbcsr_acc_opencl_options;
 
 /* non-zero if library is initialized, zero devices is signaled by nagative value */
-extern int acc_opencl_ndevices;
+extern int c_dbcsr_acc_opencl_ndevices;
 /* allow a context per each OpenMP thread */
-extern cl_context acc_opencl_context;
+extern cl_context c_dbcsr_acc_opencl_context;
 #if defined(_OPENMP) && defined(ACC_OPENCL_THREADLOCAL_CONTEXT)
-# pragma omp threadprivate(acc_opencl_context)
+# pragma omp threadprivate(c_dbcsr_acc_opencl_context)
 #endif
 
 typedef struct c_dbcsr_acc_opencl_info_hostptr_t {
