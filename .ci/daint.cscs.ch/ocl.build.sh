@@ -4,6 +4,8 @@
 #SBATCH --constraint="mc"
 #SBATCH --partition="cscsci"
 #SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --hint=nomultithread
 
 set -o errexit
 set -o nounset
