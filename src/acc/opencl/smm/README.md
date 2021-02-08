@@ -14,7 +14,16 @@ The `OPENCL_LIBSMM_DEBUG` compile-time setting enables side-by-side validation o
 
 ### Runtime Settings
 
-Runtime settings are made by the means of environment variables (implemented in `opencl_libsmm.c`). There are two categories (for the two major functions) like matrix transpose (`OPENCL_LIBSMM_TRANS_*`) and matrix multiplication (`OPENCL_LIBSMM_SMM_*`). For tranposing matrices:
+Runtime settings are made by the means of environment variables (implemented in `opencl_libsmm.c`). There are two categories (for the two major functions) like matrix transpose (`OPENCL_LIBSMM_TRANS_*`) and matrix multiplication (`OPENCL_LIBSMM_SMM_*`). Common settings are (see OpenCL backend documentation for more details):
+
+* `ACC_OPENCL_VENDOR`: character string matching the vendor of the OpenCL device in an case-insensitive fashion, e.g., "intel".
+* `ACC_OPENCL_DEVTYPE`: character string matching the device-kind like "cpu", "gpu", or another kind if neither CPU or GPU.
+* `ACC_OPENCL_DEVICE`: non-negative integer number to select a device from the (internally enumerated) list of devices.
+* `ACC_OPENCL_VERBOSE`: verbosity level (integer).
+    * `ACC_OPENCL_VERBOSE=1`: outputs (stderr) the number of devices found and the name of the selected device.
+    * `ACC_OPENCL_VERBOSE=2`: outputs (stderr) the duration needed to generate a requested kernel.
+
+For tranposing matrices:
 
 * `OPENCL_LIBSMM_TRANS_BUILDOPTS`: character string with build options (compile and link) supplied to the OpenCL runtime compiler.
 * `OPENCL_LIBSMM_TRANS_INPLACE`: Boolean value (zero or non-zero integer) for inplace matrix transpose not relying on local memory.
@@ -28,13 +37,17 @@ For multiplying matrices:
 * `OPENCL_LIBSMM_SMM_BLOCK_M`: non-negative integer number (less/equal than the M-extent) denoting the blocksize in M-direction.
 * `OPENCL_LIBSMM_SMM_BLOCK_N`: non-negative integer number (less/equal than the N-extent) denoting the blocksize in N-direction.
 
-**NOTE**: above runtime settings may be non-smooth in the sense of enabling a distinct code-path depending on a specific value, e.g., `OPENCL_LIBSMM_SMM_BATCHSIZE=1`.
+**NOTE**: LIBSMM's tunable runtime settings may be non-smooth in the sense of enabling a distinct code-path depending on a specific value, e.g., `OPENCL_LIBSMM_SMM_BATCHSIZE=1` vs. `OPENCL_LIBSMM_SMM_BATCHSIZE=2`.
 
 ## Auto Tuning
 
 Auto tuning code for performance is a practical way to find the "best" setting for parameterized code (e.g., GPU kernels). Introducing effective parameters is a prerequisite, and exploring the (potentially) high-dimensional parameter space in an efficient way is an art. It is desirable to have reasonable defaults even without auto-tuning the parameters. It would be even better to avoid auto-tuning if best performance was possible right away, i.e., if auto-tuning is not able to find better settings.
 
-For the OpenCL based LIBSMM, `OPENCL_LIBSMM_SMM_BATCHSIZE`, `OPENCL_LIBSMM_SMM_BLOCK_M`, and `OPENCL_LIBSMM_SMM_BLOCK_N` are explored using [OpenTuner](http://opentuner.org/). The script [tune_multiply.py](https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.py) leverages for instance the [acc_bench_smm](index.html) benchmark by parsing console output (timing, data type, etc.). This way, the tuning is implemented without being intermingled with subject being tuned. To build the benchmarks:
+For the OpenCL based LIBSMM, `OPENCL_LIBSMM_SMM_BATCHSIZE`, `OPENCL_LIBSMM_SMM_BLOCK_M`, and `OPENCL_LIBSMM_SMM_BLOCK_N` are explored using [OpenTuner](http://opentuner.org/). The script [tune_multiply.py](https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.py) leverages the `acc_bench_smm` benchmark by parsing console output (timing, data type, etc.). This way, the tuning is implemented without being intermingled with the subject being tuned.
+
+**NOTE**: To toggle between tuning single-precision (SP) and double-precision (DP), the `ELEM_TYPE` in [acc_bench_smm.c](https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_bench_smm.c#L22) can be edited. Auto-tuned parameters for SP and DP can both be embedded into the final application and are picked up correctly at runtime.
+
+To build the benchmarks:
 
 ```bash
 cd src/acc/opencl
@@ -66,7 +79,7 @@ The OpenTuner script implements multiple objectives ("cost"), primarily "accurac
 [    67s]    INFO opentuner.search.plugin.DisplayPlugin: tests=53, best {'BS': 48, 'BM': 8, 'BN': 1}, cost accuracy=32.20000000, size=1.0, found by UniformGreedyMutation
 ```
 
-The script finally writes a JSON-file with a filename like `tune_multiply-float-12x12x12-60gflops.json` which is encoding the benchmark (multiply), the precision (float), the kernel (12x12x12), and the achieved performance (60gflops). Tuninig starts from an internal default that is supposed to match LIBSMM's internal default parameters. However, tuning can be (re-)started with specific parameters (e.g., `-bs 64`, `-bm 13`, `-bn 1` for `OPENCL_LIBSMM_SMM_BATCHSIZE`, `OPENCL_LIBSMM_SMM_BLOCK_M`, and `OPENCL_LIBSMM_SMM_BLOCK_N` respectively).
+The script finally writes a JSON-file with a filename like `tune_multiply-float-12x12x12-60gflops.json` which is encoding the benchmark (multiply), the precision (float), the kernel (12x12x12), and the achieved performance (60gflops). The script handles SIGINT (like Ctrl-C), and output is still written despite of not terminating normally (can abused to tune interactively). Tuninig starts from an internal default that is supposed to match LIBSMM's internal default parameters. However, tuning can be (re-)started with specific parameters (e.g., `-bs 64`, `-bm 13`, `-bn 1` for `OPENCL_LIBSMM_SMM_BATCHSIZE`, `OPENCL_LIBSMM_SMM_BLOCK_M`, and `OPENCL_LIBSMM_SMM_BLOCK_N` respectively).
 
 ## Optimized Kernels
 
@@ -114,4 +127,4 @@ cd src/acc/opencl/smm
 ./tune_multiply.sh 300  8 1  4 10 15, 6 7 8, 23
 ```
 
-The script `tune_multiply.sh` is tuning 1444 kernels by default (`./acc_bench_smm 300 8 1` taking approximately 15 hours per part).
+The script `tune_multiply.sh` is tuning 1444 kernels by default (`./acc_bench_smm 300 8 1` taking approximately 15 hours per part). If the process is interrupted earlier (per SIGINT or Ctrl-C), the execution terminates for all requested kernels (triplet specification) unless an environment variable `CONTINUE=1` is set (proceeds to the next kernel).

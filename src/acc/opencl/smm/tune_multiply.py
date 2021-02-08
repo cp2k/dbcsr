@@ -17,6 +17,7 @@ from opentuner import ConfigurationManipulator
 from opentuner import MeasurementInterface
 from opentuner import IntegerParameter
 from opentuner import Result
+from signal import signal, SIGINT
 import json
 import glob
 import sys
@@ -60,29 +61,34 @@ class SmmTuner(MeasurementInterface):
         manipulator.add_parameter(IntegerParameter("BS", 1, self.args.mb))
         manipulator.add_parameter(IntegerParameter("BM", 1, self.args.m))
         manipulator.add_parameter(IntegerParameter("BN", 1, self.args.n))
+        # register signal handler (CTRL-C)
+        signal(SIGINT, self.handle_sigint)
         return manipulator
 
     def seed_configurations(self):
         return [{"BS": self.args.bs, "BM": self.args.bm, "BN": self.args.bn}]
 
     def objective(self):
-        return opentuner.search.objective.MaximizeAccuracyMinimizeSize()
+        if not self.args.primary:
+            return opentuner.search.objective.MaximizeAccuracyMinimizeSize()
+        else:
+            return opentuner.search.objective.MaximizeAccuracy()
 
     def run(self, desired_result, input, limit):
         """
         Compile and run a given configuration then
         return performance
         """
-        cfg = desired_result.configuration.data
+        config = desired_result.configuration.data
         run_cmd = (
             "OMP_PROC_BIND=TRUE CHECK="
             + str(self.args.check)
             + " OPENCL_LIBSMM_SMM_BATCHSIZE="
-            + str(cfg["BS"])
+            + str(config["BS"])
             + " OPENCL_LIBSMM_SMM_BLOCK_M="
-            + str(cfg["BM"])
+            + str(config["BM"])
             + " OPENCL_LIBSMM_SMM_BLOCK_N="
-            + str(cfg["BN"])
+            + str(config["BN"])
             + " "
             + self.exepath
             + "/"
@@ -106,9 +112,12 @@ class SmmTuner(MeasurementInterface):
         if (match is not None) and match.group(1) and match.group(3):
             mseconds = float(match.group(1))
             gflops = float(match.group(3))
-            self.gflops = max(self.gflops, gflops)
+            if self.gflops < gflops:
+                # keep best configuration in case of an early exit
+                self.config = desired_result.configuration
+                self.gflops = gflops
             kernelreq = round(
-                (100.0 * cfg["BM"] * cfg["BN"]) / (self.args.m * self.args.n)
+                (100.0 * config["BM"] * config["BN"]) / (self.args.m * self.args.n)
             )
             # gflops are reported as "accuracy" (console output)
             return Result(time=mseconds, accuracy=gflops, size=kernelreq)
@@ -140,14 +149,15 @@ class SmmTuner(MeasurementInterface):
                 + ofilename
             )
             # extend result for easier reuse later
-            configuration.data["GFLOPS"] = self.gflops
-            configuration.data["TYPEID"] = self.typeid
-            configuration.data["M"] = self.args.m
-            configuration.data["N"] = self.args.n
-            configuration.data["K"] = self.args.k
-            # self.manipulator().save_to_file(configuration.data, ofilename)
+            config = configuration.data
+            config["GFLOPS"] = self.gflops
+            config["TYPEID"] = self.typeid
+            config["M"] = self.args.m
+            config["N"] = self.args.n
+            config["K"] = self.args.k
+            # self.manipulator().save_to_file(config, ofilename)
             with open(ofilename, "w") as ofile:
-                json.dump(configuration.data, ofile)
+                json.dump(config, ofile)
                 ofile.write("\n")  # append newline at EOF
             # merge all JSONs into a single CSV file
             if self.args.csvfile:
@@ -172,7 +182,7 @@ class SmmTuner(MeasurementInterface):
                                     ifilename = merged[key][-1]
                                     merged[key] = value
                                 print(
-                                    "Superfluous "
+                                    "Worse result "
                                     + ifilename
                                     + " ignored when merging CSV file"
                                 )
@@ -203,6 +213,20 @@ class SmmTuner(MeasurementInterface):
                         + " JSONs into "
                         + self.args.csvfile
                     )
+
+    def handle_sigint(self, signum, frame):
+        """handles SIGINT or CTRL-C"""
+        print(
+            "\nWARNING: tuning "
+            + str(self.args.m)
+            + "x"
+            + str(self.args.n)
+            + "x"
+            + str(self.args.k)
+            + "-kernel was interrupted."
+        )
+        self.save_final_config(self.config)
+        exit(1)
 
 
 if __name__ == "__main__":
@@ -278,5 +302,13 @@ if __name__ == "__main__":
         nargs="?",
         dest="check",
         help="Validate kernel (epsilon)",
+    )
+    argparser.add_argument(
+        "-p",
+        "--primary-objective",
+        action="store_true",
+        default=False,
+        dest="primary",
+        help="Primary objective only",
     )
     SmmTuner.main(argparser.parse_args())

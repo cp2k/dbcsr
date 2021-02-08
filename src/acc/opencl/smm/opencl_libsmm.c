@@ -128,8 +128,12 @@ int opencl_libsmm_read_params(char* parambuf,
 int libsmm_acc_init(void)
 {
 #if defined(_OPENMP)
-    /* initialization/finalization is not meant to be thread-safe */
-  int result = (0 == omp_in_parallel() ? EXIT_SUCCESS : EXIT_FAILURE);
+  /* initialization/finalization is not meant to be thread-safe */
+  int result = ((0 == omp_in_parallel()
+# if /*WORKAROUND*/defined(__DBCSR_ACC)
+    || 0/*master*/ == omp_get_thread_num()
+# endif
+    ) ? EXIT_SUCCESS : EXIT_FAILURE);
 #else
   int result = EXIT_SUCCESS;
 #endif
@@ -204,9 +208,13 @@ int libsmm_acc_finalize(void)
    * However, libsmm_acc_finalize is indirectly called (acc_finalize) inside of a
    * parallel region (not just the master thread).
    */
-#if defined(_OPENMP) && /*WORKAROUND*/!defined(__DBCSR_ACC)
+#if defined(_OPENMP)
   /* initialization/finalization is not meant to be thread-safe */
-  int result = (0 == omp_in_parallel() ? EXIT_SUCCESS : EXIT_FAILURE);
+  int result = ((0 == omp_in_parallel()
+# if /*WORKAROUND*/defined(__DBCSR_ACC)
+    || 0/*master*/ == omp_get_thread_num()
+# endif
+    ) ? EXIT_SUCCESS : EXIT_FAILURE);
 #else
   int result = EXIT_SUCCESS;
 #endif
@@ -252,6 +260,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
     ) &&
     0 < stack_size && 1 < mn && m <= max_kernel_dim && n <= max_kernel_dim)
   {
+    const libxsmm_timer_tickint start = libxsmm_timer_tick();
     opencl_libsmm_trans_t* config;
     opencl_libsmm_transkey_t key;
     LIBXSMM_MEMZERO127(&key); /* potentially heterogeneous key-data */
@@ -314,6 +323,11 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
                   new_config.wgsize = (size_t)wgsize;
                   config = (opencl_libsmm_trans_t*)OPENCL_LIBSMM_REGISTER(&key, sizeof(key),
                     sizeof(new_config), &new_config);
+                  if (1 < c_dbcsr_acc_opencl_options.verbosity || 0 > c_dbcsr_acc_opencl_options.verbosity) {
+                    const double duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
+                    fprintf(stderr, "INFO ACC/OpenCL: %ix%i transpose-kernel generated in %.1f ms\n",
+                      m, n, 1000.0 * duration);
+                  }
                 }
                 else result = EXIT_FAILURE;
               }
@@ -452,6 +466,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
     0 < n_max && n_max <= max_kernel_dim &&
     0 < k_max && k_max <= max_kernel_dim)
   {
+    const libxsmm_timer_tickint start = libxsmm_timer_tick();
     opencl_libsmm_smm_t* config;
     opencl_libsmm_smmkey_t key;
     LIBXSMM_MEMZERO127(&key); /* potentially heterogeneous key-data */
@@ -572,7 +587,8 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                   assert(0 < wgsize && 0 < max_wgsize);
                   /* check planned WG-size against kernel-specific WG-size */
                   if (wgsize <= max_wgsize) {
-                    if (NULL == config) {
+                    const int default_params = (NULL == config ? 1 : 0);
+                    if (default_params) {
                       config = (opencl_libsmm_smm_t*)OPENCL_LIBSMM_REGISTER(
                         &key, sizeof(key), sizeof(new_config), &new_config);
                     }
@@ -580,6 +596,11 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                       config->wgsize = (size_t)wgsize;
                       config->bs = bs; config->bm = bm; config->bn = bn;
                       config->kernel = new_config.kernel;
+                      if (1 < c_dbcsr_acc_opencl_options.verbosity || 0 > c_dbcsr_acc_opencl_options.verbosity) {
+                        const double duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
+                        fprintf(stderr, "INFO ACC/OpenCL: %ix%ix%i %sSMM-kernel generated in %.1f ms\n",
+                          m_max, n_max, k_max, default_params ? "" : "tuned ", 1000.0 * duration);
+                      }
                     }
                     else { /* failed to register config */
                       result = EXIT_FAILURE;

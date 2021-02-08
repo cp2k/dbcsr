@@ -8,7 +8,7 @@ The OpenCL backend implements the [ACC interface](https://github.com/cp2k/dbcsr/
 
 ### Compile-time Settings
 
-Compile-time settings are (implicitly) documented and can be adjusted by editing [acc_opencl.h](https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/acc_opencl.h) (adjusting the build-line as per `-D` is possible as well but less convenient). For example, `ACC_OPENCL_STREAM_PRIORITIES` is enabled by default (and further confirmed at runtime/build-time) but can be disabled, or `ACC_OPENCL_VERBOSE` (which is disabled by default) can be enabled for debug purpose. More sensitive/private compile-time settings may be available within particular translation units like in `acc_opencl_mem.c`.
+Compile-time settings are (implicitly) documented and can be adjusted by editing [acc_opencl.h](https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/acc_opencl.h) (adjusting the build-line as per `-D` is possible as well but less convenient). For example, `ACC_OPENCL_STREAM_PRIORITIES` is enabled by default (and further confirmed at runtime/build-time) but can be disabled, or `ACC_OPENCL_DEBUG` (which is disabled by default) can be enabled for debug purpose. More sensitive/private compile-time settings may be available within particular translation units like in `acc_opencl_mem.c`.
 
 An application of compile-time settings (and perhaps a valuable contribution) might be to call a GPU library in OpenCL-based LIBSMM. In such case, Shared Virtual Memory support (SVM) in OpenCL comes handy and can be enabled per `ACC_OPENCL_SVM`. The latter allows then to simply take the raw pointer out of an `cl_mem` object, and pass it into such library/function (which in turn can work across language borders, etc.).
 
@@ -19,6 +19,9 @@ Runtime settings are made by the means of environment variables (implemented in 
 * `ACC_OPENCL_VENDOR`: character string matching the vendor of the OpenCL device in an case-insensitive fashion, e.g., "intel".
 * `ACC_OPENCL_DEVTYPE`: character string matching the device-kind like "cpu", "gpu", or another kind if neither CPU or GPU.
 * `ACC_OPENCL_DEVICE`: non-negative integer number to select a device from the (internally enumerated) list of devices.
+* `ACC_OPENCL_VERBOSE`: verbosity level (integer).
+    * `ACC_OPENCL_VERBOSE=1`: outputs (stderr) the number of devices found and the name of the selected device.
+    * `ACC_OPENCL_VERBOSE=2`: outputs (stderr) the duration needed to generate a requested kernel.
 
 The OpenCL backend enumerates and orders devices primarily by device-kind (GPU, CPU, and others in that order) and by memory capacity (secondary criterion). Device IDs are zero-based as per ACC interface (and less than what is permitted/returned by `acc_get_ndevices`).
 

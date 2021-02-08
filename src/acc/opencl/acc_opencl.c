@@ -37,14 +37,14 @@
 extern "C" {
 #endif
 
-acc_opencl_options_t acc_opencl_options;
-int acc_opencl_ndevices;
-cl_device_id acc_opencl_devices[ACC_OPENCL_DEVICES_MAXCOUNT];
-cl_context acc_opencl_context;
+c_dbcsr_acc_opencl_options_t c_dbcsr_acc_opencl_options;
+int c_dbcsr_acc_opencl_ndevices;
+cl_device_id c_dbcsr_acc_opencl_devices[ACC_OPENCL_DEVICES_MAXCOUNT];
+cl_context c_dbcsr_acc_opencl_context;
 
 #if !defined(NDEBUG)
-void acc_opencl_notify(const char* /*errinfo*/, const void* /*private_info*/, size_t /*cb*/, void* /*user_data*/);
-void acc_opencl_notify(const char* errinfo, const void* private_info, size_t cb, void* user_data)
+void c_dbcsr_acc_opencl_notify(const char* /*errinfo*/, const void* /*private_info*/, size_t /*cb*/, void* /*user_data*/);
+void c_dbcsr_acc_opencl_notify(const char* errinfo, const void* private_info, size_t cb, void* user_data)
 {
   ACC_OPENCL_UNUSED(private_info); ACC_OPENCL_UNUSED(cb); ACC_OPENCL_UNUSED(user_data);
   fprintf(stderr, "ERROR ACC/OpenCL: %s\n", errinfo);
@@ -131,11 +131,15 @@ int c_dbcsr_acc_init(void)
 {
 #if defined(_OPENMP)
   /* initialization/finalization is not meant to be thread-safe */
-  int result = (0 == omp_in_parallel() ? EXIT_SUCCESS : EXIT_FAILURE);
+  int result = ((0 == omp_in_parallel()
+# if /*WORKAROUND*/defined(__DBCSR_ACC)
+    || 0/*master*/ == omp_get_thread_num()
+# endif
+    ) ? EXIT_SUCCESS : EXIT_FAILURE);
 #else
   int result = EXIT_SUCCESS;
 #endif
-  if (0 == acc_opencl_ndevices) { /* avoid to initialize multiple times */
+  if (0 == c_dbcsr_acc_opencl_ndevices) { /* avoid to initialize multiple times */
     const char *const disable = getenv("ACC_OPENCL_DISABLE");
     if (NULL == disable || '0' == *disable) {
       cl_platform_id platforms[ACC_OPENCL_DEVICES_MAXCOUNT];
@@ -156,36 +160,35 @@ int c_dbcsr_acc_init(void)
         else if (NULL != c_dbcsr_acc_opencl_stristr(env_device_type, "cpu")) type = CL_DEVICE_TYPE_CPU;
         else type = CL_DEVICE_TYPE_ACCELERATOR;
       }
-      acc_opencl_ndevices = 0;
+      c_dbcsr_acc_opencl_ndevices = 0;
       for (i = 0; i < nplatforms; ++i) {
         if (EXIT_SUCCESS == result
           && CL_SUCCESS == clGetDeviceIDs(platforms[i], type, 0, NULL, &ndevices))
         {
-          const int n = (acc_opencl_ndevices + ndevices) < ACC_OPENCL_DEVICES_MAXCOUNT
-            ? (int)ndevices : (ACC_OPENCL_DEVICES_MAXCOUNT - acc_opencl_ndevices);
+          const int n = (c_dbcsr_acc_opencl_ndevices + ndevices) < ACC_OPENCL_DEVICES_MAXCOUNT
+            ? (int)ndevices : (ACC_OPENCL_DEVICES_MAXCOUNT - c_dbcsr_acc_opencl_ndevices);
           if (CL_SUCCESS == clGetDeviceIDs(platforms[i], type,
-            n, acc_opencl_devices + acc_opencl_ndevices, NULL))
+            n, c_dbcsr_acc_opencl_devices + c_dbcsr_acc_opencl_ndevices, NULL))
           {
-            acc_opencl_ndevices += n;
+            c_dbcsr_acc_opencl_ndevices += n;
           }
           else {
             ACC_OPENCL_ERROR("retrieve device ids", result);
           }
         }
       }
-      assert(NULL == acc_opencl_context);
-      if (device_id < acc_opencl_ndevices) {
+      assert(NULL == c_dbcsr_acc_opencl_context);
+      if (device_id < c_dbcsr_acc_opencl_ndevices) {
         if (NULL != env_device_vendor && '\0' != *env_device_vendor) {
-          for (i = 0; i < (cl_uint)acc_opencl_ndevices;) {
-            buffer[0] = '\0';
-            if (CL_SUCCESS == clGetDeviceInfo(acc_opencl_devices[i],
+          for (i = 0; i < (cl_uint)c_dbcsr_acc_opencl_ndevices;) {
+            if (CL_SUCCESS == clGetDeviceInfo(c_dbcsr_acc_opencl_devices[i],
               CL_DEVICE_VENDOR, ACC_OPENCL_BUFFERSIZE, buffer, NULL))
             {
               if (NULL == c_dbcsr_acc_opencl_stristr(buffer, env_device_vendor)) {
-                --acc_opencl_ndevices;
-                if (i < (cl_uint)acc_opencl_ndevices) { /* keep relative order of IDs */
-                  memmove(acc_opencl_devices + i, acc_opencl_devices + i + 1,
-                    sizeof(cl_device_id) * (acc_opencl_ndevices - i));
+                --c_dbcsr_acc_opencl_ndevices;
+                if (i < (cl_uint)c_dbcsr_acc_opencl_ndevices) { /* keep relative order of IDs */
+                  memmove(c_dbcsr_acc_opencl_devices + i, c_dbcsr_acc_opencl_devices + i + 1,
+                    sizeof(cl_device_id) * (c_dbcsr_acc_opencl_ndevices - i));
                 }
               }
               else ++i;
@@ -197,15 +200,15 @@ int c_dbcsr_acc_init(void)
           }
         }
       }
-      if (device_id < acc_opencl_ndevices) {
-        if (EXIT_SUCCESS == result && 1 < acc_opencl_ndevices) {
-          /* reorder devices according to acc_opencl_order_devices */
-          qsort(acc_opencl_devices, acc_opencl_ndevices,
+      if (device_id < c_dbcsr_acc_opencl_ndevices) {
+        if (EXIT_SUCCESS == result && 1 < c_dbcsr_acc_opencl_ndevices) {
+          /* reorder devices according to c_dbcsr_acc_opencl_order_devices */
+          qsort(c_dbcsr_acc_opencl_devices, c_dbcsr_acc_opencl_ndevices,
             sizeof(cl_device_id), c_dbcsr_acc_opencl_order_devices);
           /* preselect default device */
           if (NULL == env_device_id || '\0' == *env_device_id) {
-            for (i = 0; i < (cl_uint)acc_opencl_ndevices; ++i) {
-              ACC_OPENCL_CHECK(clGetDeviceInfo(acc_opencl_devices[i],
+            for (i = 0; i < (cl_uint)c_dbcsr_acc_opencl_ndevices; ++i) {
+              ACC_OPENCL_CHECK(clGetDeviceInfo(c_dbcsr_acc_opencl_devices[i],
                 CL_DEVICE_TYPE, sizeof(cl_device_type), &type, NULL),
                 "retrieve device type", result);
               if (CL_DEVICE_TYPE_DEFAULT & type) {
@@ -216,19 +219,21 @@ int c_dbcsr_acc_init(void)
           }
         }
         if (EXIT_SUCCESS == result) {
+          const char *const env_verbose = getenv("ACC_OPENCL_VERBOSE");
           cl_device_id active_device;
+          c_dbcsr_acc_opencl_options.verbosity = (NULL == env_verbose ? 0 : atoi(env_verbose));
           result = c_dbcsr_acc_opencl_set_active_device(device_id, &active_device);
 #if defined(_OPENMP) && defined(ACC_OPENCL_THREADLOCAL_CONTEXT)
           if (EXIT_SUCCESS == result) {
-            const cl_context context = acc_opencl_context;
+            const cl_context context = c_dbcsr_acc_opencl_context;
 #           pragma omp parallel
-            if (context != acc_opencl_context) {
+            if (context != c_dbcsr_acc_opencl_context) {
               if (CL_SUCCESS == clRetainContext(context)) {
-                acc_opencl_context = context;
+                c_dbcsr_acc_opencl_context = context;
               }
               else {
                 ACC_OPENCL_ERROR("retain context", result);
-                acc_opencl_context = NULL;
+                c_dbcsr_acc_opencl_context = NULL;
               }
             }
           }
@@ -238,32 +243,32 @@ int c_dbcsr_acc_init(void)
             const char *const env = getenv("ACC_OPENCL_ASYNC_MEMOPS");
             if (NULL == env) {
               const int confirmation = c_dbcsr_acc_opencl_device_vendor(active_device, "nvidia");
-              acc_opencl_options.async_memops = (EXIT_SUCCESS != confirmation);
+              c_dbcsr_acc_opencl_options.async_memops = (EXIT_SUCCESS != confirmation);
             }
-            else acc_opencl_options.async_memops = (0 != atoi(env));
+            else c_dbcsr_acc_opencl_options.async_memops = (0 != atoi(env));
           }
           else
 #endif
-          acc_opencl_options.async_memops = CL_FALSE;
+          c_dbcsr_acc_opencl_options.async_memops = CL_FALSE;
 #if defined(ACC_OPENCL_SVM)
           if (EXIT_SUCCESS == result) {
             const char *const env = getenv("ACC_OPENCL_SVM");
             int level_major = 0;
-            acc_opencl_options.svm_interop = (NULL == env || 0 != atoi(env)) &&
-              (EXIT_SUCCESS == acc_opencl_device_level(active_device,
+            c_dbcsr_acc_opencl_options.svm_interop = (NULL == env || 0 != atoi(env)) &&
+              (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_level(active_device,
                 &level_major, NULL/*level_minor*/) && 2 <= level_major);
           }
           else
 #endif
-          acc_opencl_options.svm_interop = CL_FALSE;
+          c_dbcsr_acc_opencl_options.svm_interop = CL_FALSE;
         }
       }
       else { /* mark as initialized */
-        acc_opencl_ndevices = -1;
+        c_dbcsr_acc_opencl_ndevices = -1;
       }
     }
     else { /* mark as initialized */
-      acc_opencl_ndevices = -1;
+      c_dbcsr_acc_opencl_ndevices = -1;
     }
 #if defined(__DBCSR_ACC)
     /* DBCSR shall call acc_init as well as libsmm_acc_init (since both interfaces are used).
@@ -284,24 +289,28 @@ int c_dbcsr_acc_finalize(void)
 {
 #if defined(_OPENMP)
   /* initialization/finalization is not meant to be thread-safe */
-  int result = (0 == omp_in_parallel() ? EXIT_SUCCESS : EXIT_FAILURE);
+  int result = ((0 == omp_in_parallel()
+# if /*WORKAROUND*/defined(__DBCSR_ACC)
+    || 0/*master*/ == omp_get_thread_num()
+# endif
+    ) ? EXIT_SUCCESS : EXIT_FAILURE);
 #else
   int result = EXIT_SUCCESS;
 #endif
-  if (NULL != acc_opencl_context) {
-    const cl_context context = acc_opencl_context;
-    assert(0 < acc_opencl_ndevices);
+  if (NULL != c_dbcsr_acc_opencl_context) {
+    const cl_context context = c_dbcsr_acc_opencl_context;
+    assert(0 < c_dbcsr_acc_opencl_ndevices);
 #if defined(_OPENMP) && defined(ACC_OPENCL_THREADLOCAL_CONTEXT)
 #   pragma omp parallel
-    if (context != acc_opencl_context) {
-      ACC_OPENCL_CHECK(clReleaseContext(acc_opencl_context),
+    if (context != c_dbcsr_acc_opencl_context) {
+      ACC_OPENCL_CHECK(clReleaseContext(c_dbcsr_acc_opencl_context),
         "release context", result);
-      acc_opencl_context = NULL;
+      c_dbcsr_acc_opencl_context = NULL;
     }
 #endif
     ACC_OPENCL_CHECK(clReleaseContext(context),
       "release context", result);
-    acc_opencl_context = NULL;
+    c_dbcsr_acc_opencl_context = NULL;
 #if defined(__DBCSR_ACC)
     /* DBCSR may call acc_init() as well as libsmm_acc_init() since both interface are used.
      * libsmm_acc_init may privately call acc_init (as it depends on the ACC interface).
@@ -325,15 +334,14 @@ void c_dbcsr_acc_clear_errors(void)
 int c_dbcsr_acc_get_ndevices(int* ndevices)
 {
   int result;
-
 #if defined(__DBCSR_ACC)
   /* DBCSR calls acc_get_ndevices before calling acc_init(). */
   result = c_dbcsr_acc_init();
   if (EXIT_SUCCESS == result)
 #endif
   {
-    if (NULL != ndevices && 0 != acc_opencl_ndevices) {
-      *ndevices = (0 < acc_opencl_ndevices ? acc_opencl_ndevices : 0);
+    if (NULL != ndevices && 0 != c_dbcsr_acc_opencl_ndevices) {
+      *ndevices = (0 < c_dbcsr_acc_opencl_ndevices ? c_dbcsr_acc_opencl_ndevices : 0);
       result = EXIT_SUCCESS;
     }
     else {
@@ -352,13 +360,13 @@ int c_dbcsr_acc_opencl_device(void* stream, cl_device_id* device)
     ACC_OPENCL_CHECK(clGetCommandQueueInfo(*ACC_OPENCL_STREAM(stream), CL_QUEUE_DEVICE,
       sizeof(cl_device_id), device, NULL), "retrieve device from queue", result);
   }
-  else if (NULL != acc_opencl_context) {
+  else if (NULL != c_dbcsr_acc_opencl_context) {
 #if !defined(NDEBUG)
     size_t n = sizeof(cl_device_id);
-    ACC_OPENCL_CHECK(clGetContextInfo(acc_opencl_context, CL_CONTEXT_DEVICES,
+    ACC_OPENCL_CHECK(clGetContextInfo(c_dbcsr_acc_opencl_context, CL_CONTEXT_DEVICES,
       sizeof(cl_device_id), device, &n), "retrieve id of active device", result);
 #else
-    ACC_OPENCL_CHECK(clGetContextInfo(acc_opencl_context, CL_CONTEXT_DEVICES,
+    ACC_OPENCL_CHECK(clGetContextInfo(c_dbcsr_acc_opencl_context, CL_CONTEXT_DEVICES,
       sizeof(cl_device_id), device, NULL), "retrieve id of active device", result);
 #endif
     assert(EXIT_SUCCESS != result || sizeof(cl_device_id) == n/*single-device context*/);
@@ -375,9 +383,8 @@ int c_dbcsr_acc_opencl_device_vendor(cl_device_id device, const char* vendor)
   char buffer[ACC_OPENCL_BUFFERSIZE];
   int result = EXIT_SUCCESS;
   assert(NULL != device && NULL != vendor);
-  buffer[0] = '\0';
-  ACC_OPENCL_CHECK(clGetDeviceInfo(device,
-    CL_DEVICE_VENDOR, ACC_OPENCL_BUFFERSIZE, buffer, NULL),
+  ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_VENDOR,
+    ACC_OPENCL_BUFFERSIZE, buffer, NULL),
     "retrieve device vendor", result);
   if (EXIT_SUCCESS == result) {
     return (NULL != c_dbcsr_acc_opencl_stristr(buffer, vendor)
@@ -442,39 +449,65 @@ int c_dbcsr_acc_opencl_device_ext(cl_device_id device, const char *const extname
 
 int c_dbcsr_acc_opencl_set_active_device(int device_id, cl_device_id* device)
 {
-  cl_int result = (((0 <= device_id && device_id < acc_opencl_ndevices) ||
+  cl_int result = (((0 <= device_id && device_id < c_dbcsr_acc_opencl_ndevices) ||
     /* allow successful completion if no device was found */
-    0 > acc_opencl_ndevices) ? EXIT_SUCCESS : EXIT_FAILURE);
-  if (0 < acc_opencl_ndevices) {
-    const cl_device_id active_id = acc_opencl_devices[device_id];
+    0 > c_dbcsr_acc_opencl_ndevices) ? EXIT_SUCCESS : EXIT_FAILURE);
+  if (0 < c_dbcsr_acc_opencl_ndevices) {
+    const cl_device_id active_id = c_dbcsr_acc_opencl_devices[device_id];
     cl_device_id current_id = NULL;
     if (EXIT_SUCCESS == result) result = c_dbcsr_acc_opencl_device(NULL/*stream*/, &current_id);
-    if (EXIT_SUCCESS == result && active_id != current_id) {
-      if (NULL != acc_opencl_context) {
-        ACC_OPENCL_CHECK(clReleaseContext(acc_opencl_context),
+    if (active_id != current_id) {
+      cl_platform_id platform = NULL;
+      ACC_OPENCL_CHECK(clGetDeviceInfo(active_id, CL_DEVICE_PLATFORM,
+        sizeof(cl_platform_id), &platform, NULL),
+        "query device platform", result);
+      if (NULL != c_dbcsr_acc_opencl_context) {
+        ACC_OPENCL_CHECK(clReleaseContext(c_dbcsr_acc_opencl_context),
           "release context", result);
       }
       if (EXIT_SUCCESS == result) {
+#if defined(NDEBUG)
+        void (*const notify)(const char*, const void*, size_t, void*) = NULL;
+#else
+        void (*const notify)(const char*, const void*, size_t, void*) = c_dbcsr_acc_opencl_notify;
+#endif
         cl_context_properties properties[] = {
+          CL_CONTEXT_PLATFORM, 0/*placeholder*/,
           /* insert other properties in front of below property */
           CL_CONTEXT_INTEROP_USER_SYNC, CL_FALSE, /* TODO */
           0 /* end of properties */
         };
-#if defined(NDEBUG)
-        void (*const notify)(const char*, const void*, size_t, void*) = NULL;
-#else
-        void (*const notify)(const char*, const void*, size_t, void*) = acc_opencl_notify;
-#endif
-        acc_opencl_context = clCreateContext(properties,
+        properties[1] = (long)platform;
+        c_dbcsr_acc_opencl_context = clCreateContext(properties,
           1/*num_devices*/, &active_id, notify, NULL/* user_data*/, &result);
         if (CL_INVALID_VALUE == result) { /* retry */
           const size_t n = sizeof(properties) / sizeof(*properties);
           assert(3 <= n);
           properties[n-3] = 0;
-          acc_opencl_context = clCreateContext(0 != properties[0] ? properties : NULL,
+          c_dbcsr_acc_opencl_context = clCreateContext(0 != properties[0] ? properties : NULL,
             1/*num_devices*/, &active_id, notify, NULL/* user_data*/, &result);
         }
-        ACC_OPENCL_CHECK(result, "create context", result);
+        if (EXIT_SUCCESS == result) {
+          if (0 != c_dbcsr_acc_opencl_options.verbosity) {
+            char buffer[ACC_OPENCL_BUFFERSIZE];
+            if (CL_SUCCESS == clGetDeviceInfo(active_id, CL_DEVICE_NAME,
+              ACC_OPENCL_BUFFERSIZE, buffer, NULL))
+            {
+              fprintf(stderr, "INFO ACC/OpenCL: ndevices=%i device%i=\"%s\"\n",
+                c_dbcsr_acc_opencl_ndevices, device_id, buffer);
+            }
+          }
+        }
+        else {
+          if (CL_INVALID_DEVICE == result) {
+            if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(active_id, "nvidia")) {
+              fprintf(stderr,
+                "WARNING ACC/OpenCL: if MPI-ranks target the same device in exclusive mode,\n"
+                "                    SMI must enable sharing the device.\n");
+            }
+          }
+          ACC_OPENCL_ERROR("create context", result);
+        }
       }
     }
     if (NULL != device) {
@@ -520,7 +553,8 @@ int c_dbcsr_acc_opencl_wgsize(cl_device_id device, cl_kernel kernel,
     if (NULL != max_value) {
       size_t value = 0;
       ACC_OPENCL_CHECK(clGetDeviceInfo(device,
-        CL_DEVICE_MAX_WORK_GROUP_SIZE, sizeof(size_t), &value, NULL),
+        CL_DEVICE_MAX_WORK_GROUP_SIZE,
+        sizeof(size_t), &value, NULL),
         "query maximum WG-size of device", result);
       assert(value <= INT_MAX);
       *max_value = (int)value;
@@ -546,12 +580,12 @@ int c_dbcsr_acc_opencl_wgsize(cl_device_id device, cl_kernel kernel,
 int c_dbcsr_acc_opencl_kernel(const char* source, const char* build_options,
   const char* kernel_name, cl_kernel* kernel)
 {
-  char buffer[ACC_OPENCL_BUFFERSIZE] = "\0";
+  char buffer[ACC_OPENCL_BUFFERSIZE] = "";
   cl_int result;
   assert(NULL != kernel);
-  if (NULL != acc_opencl_context) {
+  if (NULL != c_dbcsr_acc_opencl_context) {
     const cl_program program = clCreateProgramWithSource(
-      acc_opencl_context, 1/*nlines*/, &source, NULL, &result);
+      c_dbcsr_acc_opencl_context, 1/*nlines*/, &source, NULL, &result);
     if (NULL != program) {
       cl_device_id active_id = NULL;
       assert(CL_SUCCESS == result);

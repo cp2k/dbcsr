@@ -66,11 +66,11 @@ pipeline {
                                 run_batch("0:15:00", "ocl", "build")
                             }
                         }
-//                        stage('test') {
-//                            steps {
-//                                run_batch("1:00:00", "ocl", "test")
-//                            }
-//                        }
+                        stage('test') {
+                            steps {
+                                run_batch("1:00:00", "ocl", "test")
+                            }
+                        }
                     }
                 }
                 stage("Intel") {

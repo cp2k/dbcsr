@@ -4,8 +4,8 @@
 #SBATCH --constraint="mc"
 #SBATCH --partition="cscsci"
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=4
-#SBATCH --cpus-per-task=3
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=12
 #SBATCH --hint=nomultithread
 
 set -o errexit
@@ -23,7 +23,8 @@ if [ ! -d "${HOME}/libxsmm" ]; then
   git clone https://github.com/hfp/libxsmm.git
 fi
 cd "${HOME}/libxsmm"
-git checkout 02d6ab213a35d5fc2f6454c3b465598b0c086c17
+git fetch
+git checkout 05cab50ec6f11a86c15c0ed511c5a9066c613dfb
 make -j
 cd ..
 
