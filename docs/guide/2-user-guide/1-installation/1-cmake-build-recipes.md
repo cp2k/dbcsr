@@ -158,8 +158,8 @@ selected BLAS/LAPACK library accordingly (e.g. drop the `_mpi`, or `_mp`).
 
 ### CCE and libsci-cray
 
-Verified on CSCS' Piz Daint with CCE 9.0.2 and cray-libsci 19.06.1,
-using CMake 3.14.5.
+Verified on CSCS' Piz Daint with CCE 10.0.2 and cray-libsci 20.06.1,
+using CMake 3.18.4.
 
 1. Make sure that the `PrgEnv-cray` module is loaded:
 
@@ -180,8 +180,8 @@ using CMake 3.14.5.
 
 ### Intel Compiler and libsci-cray
 
-Verified on CSCS' Piz Daint with Intel 19.01 and cray-libsci 19.06.1,
-using CMake 3.14.5.
+Verified on CSCS' Piz Daint with Intel 19.1 and cray-libsci 20.06.1,
+using CMake 3.18.4.
 
 1. Make sure that the `PrgEnv-intel` module is loaded:
 
@@ -202,8 +202,8 @@ using CMake 3.14.5.
 
 ### GNU Compiler and libsci-cray
 
-Verified on CSCS' Piz Daint with GNU 8.3.0 and cray-libsci 19.06.1,
-using CMake 3.14.5.
+Verified on CSCS' Piz Daint with GNU 8.3.0 and cray-libsci 20.06.1,
+using CMake 3.18.4.
 
 1. Make sure that the `PrgEnv-gnu` module is loaded:
 

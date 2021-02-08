@@ -6,7 +6,7 @@ title: Install
 
 You need:
 
-* [CMake](https://cmake.org/) (3.12+)
+* [CMake](https://cmake.org/) (3.17+)
 * GNU make or Ninja
 * Fortran compiler which supports at least Fortran 2008 (including the TS 29113 when using the C-bindings)
 * BLAS+LAPACK implementation (reference, OpenBLAS and MKL have been tested. Note: DBCSR linked to OpenBLAS 0.3.6 gives wrong results on Power9 architectures.)
@@ -86,9 +86,17 @@ export PKG_CONFIG_PATH="${PKG_CONFIG_PATH}:${HOME}/libxsmm/lib"
 
 For build recipes on different platforms, make sure to also read the [CMake Build Recipes](./1-cmake-build-recipes.html).
 
-### Using Python in a virtual environment
+### Building with spack
 
-If Python is desired from a virtual environment and the CMake version below v3.15, then the python interpreter shall be specified manually using `cmake -DPython_EXECUTABLE=/path/to/python`.
+DBCSR and its dependencies can be built with the [spack package manager](https://github.com/spack/spack):
+
+```
+spack install dbcsr +openmp +mpi +cuda cuda_arch=70
+spack install dbcsr +openmp +mpi +rocm amdgpu_target=gfx906
+spack install dbcsr +openmp +mpi +opencl ^cuda
+```
+
+See `spack info dbcsr` for all supported variants.
 
 ### C/C++ Interface
 
