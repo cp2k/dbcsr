@@ -60,7 +60,7 @@ make
 
  The configuration flags for the CMake command are (default first):
 
-```
+```bash
 -DUSE_MPI=<ON|OFF>
 -DUSE_OPENMP=<ON|OFF>
 -DUSE_SMM=<blas|libxsmm>
@@ -90,7 +90,7 @@ For build recipes on different platforms, make sure to also read the [CMake Buil
 
 DBCSR and its dependencies can be built with the [spack package manager](https://github.com/spack/spack):
 
-```
+```bash
 spack install dbcsr +openmp +mpi +cuda cuda_arch=70
 spack install dbcsr +openmp +mpi +rocm amdgpu_target=gfx906
 spack install dbcsr +openmp +mpi +opencl ^cuda
