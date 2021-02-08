@@ -499,6 +499,13 @@ int c_dbcsr_acc_opencl_set_active_device(int device_id, cl_device_id* device)
           }
         }
         else {
+          if (CL_INVALID_DEVICE == result) {
+            if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(active_id, "nvidia")) {
+              fprintf(stderr,
+                "WARNING ACC/OpenCL: if MPI-ranks target the same device in exclusive mode,\n"
+                "                    SMI must enable sharing the device.\n");
+            }
+          }
           ACC_OPENCL_ERROR("create context", result);
         }
       }
