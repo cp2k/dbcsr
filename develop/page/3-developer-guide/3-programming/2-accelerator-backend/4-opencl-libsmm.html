@@ -144,7 +144,18 @@
 <p>Compile-time settings are (implicitly) documented and can be adjusted by editing <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/opencl_libsmm.h">opencl_libsmm.h</a> (adjusting the build-line as per <code>-D</code> is possible as well but less convenient). For example, <code>OPENCL_LIBSMM_F32</code> is enabled by default but can be disabled, or <code>OPENCL_LIBSMM_DEBUG</code> (which is disabled by default) can be enabled for debug purpose.</p>
 <p>The <code>OPENCL_LIBSMM_DEBUG</code> compile-time setting enables side-by-side validation of matrix transpose and multiply operations on GPU against a built-in CPU implementation. For example, running DBCSR's unit tests with this setting produces useful console output that allows to pin-point the exact call arguments causing a validation error.</p>
 <h3>Runtime Settings</h3>
-<p>Runtime settings are made by the means of environment variables (implemented in <code>opencl_libsmm.c</code>). There are two categories (for the two major functions) like matrix transpose (<code>OPENCL_LIBSMM_TRANS_*</code>) and matrix multiplication (<code>OPENCL_LIBSMM_SMM_*</code>). For tranposing matrices:</p>
+<p>Runtime settings are made by the means of environment variables (implemented in <code>opencl_libsmm.c</code>). There are two categories (for the two major functions) like matrix transpose (<code>OPENCL_LIBSMM_TRANS_*</code>) and matrix multiplication (<code>OPENCL_LIBSMM_SMM_*</code>). Common settings are (see OpenCL backend documentation for more details):</p>
+<ul>
+<li><code>ACC_OPENCL_VENDOR</code>: character string matching the vendor of the OpenCL device in an case-insensitive fashion, e.g., "intel".</li>
+<li><code>ACC_OPENCL_DEVTYPE</code>: character string matching the device-kind like "cpu", "gpu", or another kind if neither CPU or GPU.</li>
+<li><code>ACC_OPENCL_DEVICE</code>: non-negative integer number to select a device from the (internally enumerated) list of devices.</li>
+<li><code>ACC_OPENCL_VERBOSE</code>: verbosity level (integer).<ul>
+<li><code>ACC_OPENCL_VERBOSE=1</code>: outputs (stderr) the number of devices found and the name of the selected device.</li>
+<li><code>ACC_OPENCL_VERBOSE=2</code>: outputs (stderr) the duration needed to generate a requested kernel.</li>
+</ul>
+</li>
+</ul>
+<p>For tranposing matrices:</p>
 <ul>
 <li><code>OPENCL_LIBSMM_TRANS_BUILDOPTS</code>: character string with build options (compile and link) supplied to the OpenCL runtime compiler.</li>
 <li><code>OPENCL_LIBSMM_TRANS_INPLACE</code>: Boolean value (zero or non-zero integer) for inplace matrix transpose not relying on local memory.</li>
@@ -158,10 +169,12 @@
 <li><code>OPENCL_LIBSMM_SMM_BLOCK_M</code>: non-negative integer number (less/equal than the M-extent) denoting the blocksize in M-direction.</li>
 <li><code>OPENCL_LIBSMM_SMM_BLOCK_N</code>: non-negative integer number (less/equal than the N-extent) denoting the blocksize in N-direction.</li>
 </ul>
-<p><strong>NOTE</strong>: above runtime settings may be non-smooth in the sense of enabling a distinct code-path depending on a specific value, e.g., <code>OPENCL_LIBSMM_SMM_BATCHSIZE=1</code>.</p>
+<p><strong>NOTE</strong>: LIBSMM's tunable runtime settings may be non-smooth in the sense of enabling a distinct code-path depending on a specific value, e.g., <code>OPENCL_LIBSMM_SMM_BATCHSIZE=1</code> vs. <code>OPENCL_LIBSMM_SMM_BATCHSIZE=2</code>.</p>
 <h2>Auto Tuning</h2>
 <p>Auto tuning code for performance is a practical way to find the "best" setting for parameterized code (e.g., GPU kernels). Introducing effective parameters is a prerequisite, and exploring the (potentially) high-dimensional parameter space in an efficient way is an art. It is desirable to have reasonable defaults even without auto-tuning the parameters. It would be even better to avoid auto-tuning if best performance was possible right away, i.e., if auto-tuning is not able to find better settings.</p>
-<p>For the OpenCL based LIBSMM, <code>OPENCL_LIBSMM_SMM_BATCHSIZE</code>, <code>OPENCL_LIBSMM_SMM_BLOCK_M</code>, and <code>OPENCL_LIBSMM_SMM_BLOCK_N</code> are explored using <a href="http://opentuner.org/">OpenTuner</a>. The script <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.py">tune_multiply.py</a> leverages for instance the <a href="index.html">acc_bench_smm</a> benchmark by parsing console output (timing, data type, etc.). This way, the tuning is implemented without being intermingled with subject being tuned. To build the benchmarks:</p>
+<p>For the OpenCL based LIBSMM, <code>OPENCL_LIBSMM_SMM_BATCHSIZE</code>, <code>OPENCL_LIBSMM_SMM_BLOCK_M</code>, and <code>OPENCL_LIBSMM_SMM_BLOCK_N</code> are explored using <a href="http://opentuner.org/">OpenTuner</a>. The script <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.py">tune_multiply.py</a> leverages the <code>acc_bench_smm</code> benchmark by parsing console output (timing, data type, etc.). This way, the tuning is implemented without being intermingled with the subject being tuned.</p>
+<p><strong>NOTE</strong>: To toggle between tuning single-precision (SP) and double-precision (DP), the <code>ELEM_TYPE</code> in <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_bench_smm.c#L22">acc_bench_smm.c</a> can be edited. Auto-tuned parameters for SP and DP can both be embedded into the final application and are picked up correctly at runtime.</p>
+<p>To build the benchmarks:</p>
 <div class="codehilite"><pre><span></span><code><span class="nb">cd</span> src/acc/opencl
 make <span class="nv">DBG</span><span class="o">=</span><span class="m">0</span>
 </code></pre></div>
@@ -184,7 +197,7 @@ pip install -r requirements.txt
 <span class="err">[    67s]    INFO opentuner.search.plugin.DisplayPlugin: tests=53, best {&#39;BS&#39;: 48, &#39;BM&#39;: 8, &#39;BN&#39;: 1}, cost accuracy=32.20000000, size=1.0, found by UniformGreedyMutation</span>
 </code></pre></div>
 
-<p>The script finally writes a JSON-file with a filename like <code>tune_multiply-float-12x12x12-60gflops.json</code> which is encoding the benchmark (multiply), the precision (float), the kernel (12x12x12), and the achieved performance (60gflops). Tuninig starts from an internal default that is supposed to match LIBSMM's internal default parameters. However, tuning can be (re-)started with specific parameters (e.g., <code>-bs 64</code>, <code>-bm 13</code>, <code>-bn 1</code> for <code>OPENCL_LIBSMM_SMM_BATCHSIZE</code>, <code>OPENCL_LIBSMM_SMM_BLOCK_M</code>, and <code>OPENCL_LIBSMM_SMM_BLOCK_N</code> respectively).</p>
+<p>The script finally writes a JSON-file with a filename like <code>tune_multiply-float-12x12x12-60gflops.json</code> which is encoding the benchmark (multiply), the precision (float), the kernel (12x12x12), and the achieved performance (60gflops). The script handles SIGINT (like Ctrl-C), and output is still written despite of not terminating normally (can abused to tune interactively). Tuninig starts from an internal default that is supposed to match LIBSMM's internal default parameters. However, tuning can be (re-)started with specific parameters (e.g., <code>-bs 64</code>, <code>-bm 13</code>, <code>-bn 1</code> for <code>OPENCL_LIBSMM_SMM_BATCHSIZE</code>, <code>OPENCL_LIBSMM_SMM_BLOCK_M</code>, and <code>OPENCL_LIBSMM_SMM_BLOCK_N</code> respectively).</p>
 <h2>Optimized Kernels</h2>
 <p>JSON-files in the above mentioned smm-directory are automatically summarized into a CSV-file (can be disabled). Parameters achieved with single-precision (SP) and double-precision (DP) can be safely combined. However, care must be taken to not summarize unrelated results like for different devices or after (major) kernel changes. The CSV-file contains a header-row with column names, and the content is automatically incorporated into LIBSMM by the next clean (re-)build.</p>
 <div class="codehilite"><pre><span></span><code><span class="nb">cd</span> src/acc/opencl
@@ -217,7 +230,7 @@ make <span class="nv">DBG</span><span class="o">=</span><span class="m">0</span>
 ./tune_multiply.sh <span class="m">300</span>  <span class="m">8</span> <span class="m">1</span>  <span class="m">4</span> <span class="m">10</span> <span class="m">15</span>, <span class="m">6</span> <span class="m">7</span> <span class="m">8</span>, <span class="m">23</span>
 </code></pre></div>
 
-<p>The script <code>tune_multiply.sh</code> is tuning 1444 kernels by default (<code>./acc_bench_smm 300 8 1</code> taking approximately 15 hours per part).</p>
+<p>The script <code>tune_multiply.sh</code> is tuning 1444 kernels by default (<code>./acc_bench_smm 300 8 1</code> taking approximately 15 hours per part). If the process is interrupted earlier (per SIGINT or Ctrl-C), the execution terminates for all requested kernels (triplet specification) unless an environment variable <code>CONTINUE=1</code> is set (proceeds to the next kernel).</p>
     </div>
     
     <div class="col-md-3 col-md-pull-9">
