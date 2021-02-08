@@ -147,7 +147,7 @@
 <h2>Prerequisites</h2>
 <p>You need:</p>
 <ul>
-<li><a href="https://cmake.org/">CMake</a> (3.12+)</li>
+<li><a href="https://cmake.org/">CMake</a> (3.17+)</li>
 <li>GNU make or Ninja</li>
 <li>Fortran compiler which supports at least Fortran 2008 (including the TS 29113 when using the C-bindings)</li>
 <li>BLAS+LAPACK implementation (reference, OpenBLAS and MKL have been tested. Note: DBCSR linked to OpenBLAS 0.3.6 gives wrong results on Power9 architectures.)</li>
@@ -219,8 +219,14 @@ to running <code>cmake</code>. For example, if LIBXSMM was checked out using Git
 
 <h3>CMake Build Recipes</h3>
 <p>For build recipes on different platforms, make sure to also read the <a href="./1-cmake-build-recipes.html">CMake Build Recipes</a>.</p>
-<h3>Using Python in a virtual environment</h3>
-<p>If Python is desired from a virtual environment and the CMake version below v3.15, then the python interpreter shall be specified manually using <code>cmake -DPython_EXECUTABLE=/path/to/python</code>.</p>
+<h3>Building with spack</h3>
+<p>DBCSR and its dependencies can be built with the <a href="https://github.com/spack/spack">spack package manager</a>:</p>
+<div class="codehilite"><pre><span></span><code><span class="err">spack install dbcsr +openmp +mpi +cuda cuda_arch=70</span>
+<span class="err">spack install dbcsr +openmp +mpi +rocm amdgpu_target=gfx906</span>
+<span class="err">spack install dbcsr +openmp +mpi +opencl ^cuda</span>
+</code></pre></div>
+
+<p>See <code>spack info dbcsr</code> for all supported variants.</p>
 <h3>C/C++ Interface</h3>
 <p>If MPI support is enabled (the default), the C API is automatically built.</p>
 <h3>Workaround issue in HIP</h3>
