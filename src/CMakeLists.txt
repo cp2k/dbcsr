@@ -233,8 +233,8 @@ if (USE_ACCEL)
     dbcsr
     PRIVATE $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::cudart>
             $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::cublas>
-            $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::nvToolsExt>
             $<$<STREQUAL:${USE_ACCEL},cuda>:CUDA::nvrtc>
+            $<$<BOOL:${WITH_CUDA_PROFILING}>:CUDA::nvToolsExt>
             $<$<STREQUAL:${USE_ACCEL},hip>:roc::hipblas>
             $<$<STREQUAL:${USE_ACCEL},hip>:hip::host>
             $<$<STREQUAL:${USE_ACCEL},opencl>:OpenCL::OpenCL>)
