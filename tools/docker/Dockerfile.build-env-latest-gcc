@@ -21,8 +21,8 @@ ENV LANG en_US.utf8
 RUN ln -sf python3 /usr/bin/python
 
 # Debian is at CMake 3.13 and Ninja 1.8
-ARG cmake_version=3.17.0
-ARG ninja_version=1.10.0
+ARG cmake_version=3.17.5
+ARG ninja_version=1.10.2
 
 RUN set -ex ; \
     curl -LsS https://github.com/Kitware/CMake/releases/download/v${cmake_version}/cmake-${cmake_version}-Linux-x86_64.tar.gz | tar --strip-components=1 -xz -C /usr/local ; \

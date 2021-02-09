@@ -39,7 +39,7 @@ ENV LANG en_US.utf8
 RUN ln -s python3 /usr/bin/python
 
 ARG libxsmm_version=1.16.1
-ARG cmake_version=3.17.0
+ARG cmake_version=3.17.5
 
 RUN set -ex && \
     pip3 install \
