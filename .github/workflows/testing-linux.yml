@@ -84,7 +84,7 @@ jobs:
   build-on-rocm:
     runs-on: ubuntu-latest
     container:
-      image: shoshijak/build-env-rocm:1.0
+      image: dbcsr/build-env-rocm-ubuntu-20.04:latest
 
     strategy:
       matrix:
