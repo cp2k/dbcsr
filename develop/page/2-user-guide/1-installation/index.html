@@ -198,18 +198,18 @@ make
 </code></pre></div>
 
 <p>The configuration flags for the CMake command are (default first):</p>
-<div class="codehilite"><pre><span></span><code><span class="err">-DUSE_MPI=&lt;ON|OFF&gt;</span>
-<span class="err">-DUSE_OPENMP=&lt;ON|OFF&gt;</span>
-<span class="err">-DUSE_SMM=&lt;blas|libxsmm&gt;</span>
-<span class="err">-DUSE_ACCEL=&lt;opencl|cuda|hip&gt;</span>
-<span class="err">-DWITH_CUDA_PROFILING=&lt;OFF|ON&gt;</span>
-<span class="err">-DWITH_C_API=&lt;ON|OFF&gt;</span>
-<span class="err">-DWITH_EXAMPLES=&lt;ON|OFF&gt;</span>
-<span class="err">-DWITH_GPU=&lt;P100|K20X|K40|K80|V100|Mi50&gt;</span>
-<span class="err">-DCMAKE_BUILD_TYPE=&lt;Release|Debug|Coverage&gt;</span>
-<span class="err">-DBUILD_TESTING=&lt;ON|OFF&gt;</span>
-<span class="err">-DTEST_MPI_RANKS=&lt;auto,N&gt;</span>
-<span class="err">-DTEST_OMP_THREADS=&lt;2,N&gt;</span>
+<div class="codehilite"><pre><span></span><code>-DUSE_MPI<span class="o">=</span>&lt;ON<span class="p">|</span>OFF&gt;
+-DUSE_OPENMP<span class="o">=</span>&lt;ON<span class="p">|</span>OFF&gt;
+-DUSE_SMM<span class="o">=</span>&lt;blas<span class="p">|</span>libxsmm&gt;
+-DUSE_ACCEL<span class="o">=</span>&lt;opencl<span class="p">|</span>cuda<span class="p">|</span>hip&gt;
+-DWITH_CUDA_PROFILING<span class="o">=</span>&lt;OFF<span class="p">|</span>ON&gt;
+-DWITH_C_API<span class="o">=</span>&lt;ON<span class="p">|</span>OFF&gt;
+-DWITH_EXAMPLES<span class="o">=</span>&lt;ON<span class="p">|</span>OFF&gt;
+-DWITH_GPU<span class="o">=</span>&lt;P100<span class="p">|</span>K20X<span class="p">|</span>K40<span class="p">|</span>K80<span class="p">|</span>V100<span class="p">|</span>Mi50&gt;
+-DCMAKE_BUILD_TYPE<span class="o">=</span>&lt;Release<span class="p">|</span>Debug<span class="p">|</span>Coverage&gt;
+-DBUILD_TESTING<span class="o">=</span>&lt;ON<span class="p">|</span>OFF&gt;
+-DTEST_MPI_RANKS<span class="o">=</span>&lt;auto,N&gt;
+-DTEST_OMP_THREADS<span class="o">=</span>&lt;<span class="m">2</span>,N&gt;
 </code></pre></div>
 
 <p>When providing a build of LIBXSMM, make sure the <code>lib</code> directory is added to the <code>PKG_CONFIG_PATH</code> variable prior
@@ -221,9 +221,9 @@ to running <code>cmake</code>. For example, if LIBXSMM was checked out using Git
 <p>For build recipes on different platforms, make sure to also read the <a href="./1-cmake-build-recipes.html">CMake Build Recipes</a>.</p>
 <h3>Building with spack</h3>
 <p>DBCSR and its dependencies can be built with the <a href="https://github.com/spack/spack">spack package manager</a>:</p>
-<div class="codehilite"><pre><span></span><code><span class="err">spack install dbcsr +openmp +mpi +cuda cuda_arch=70</span>
-<span class="err">spack install dbcsr +openmp +mpi +rocm amdgpu_target=gfx906</span>
-<span class="err">spack install dbcsr +openmp +mpi +opencl ^cuda</span>
+<div class="codehilite"><pre><span></span><code>spack install dbcsr +openmp +mpi +cuda <span class="nv">cuda_arch</span><span class="o">=</span><span class="m">70</span>
+spack install dbcsr +openmp +mpi +rocm <span class="nv">amdgpu_target</span><span class="o">=</span>gfx906
+spack install dbcsr +openmp +mpi +opencl ^cuda
 </code></pre></div>
 
 <p>See <code>spack info dbcsr</code> for all supported variants.</p>
