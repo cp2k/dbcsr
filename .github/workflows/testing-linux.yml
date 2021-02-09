@@ -41,7 +41,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
-        fetch-depth: 2
+        fetch-depth: 0
         submodules: true
 
     - name: Configure
@@ -93,6 +93,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       with:
+        fetch-depth: 0
         submodules: true
 
     - name: Configure
