@@ -99,7 +99,7 @@ class SmmTuner(MeasurementInterface):
             + " "
             + str(self.args.n)
             + " "
-            + str(max(self.args.k, 1))
+            + str(self.args.k)
         )
         run_result = self.call_program(run_cmd)
         if 0 == run_result["returncode"]:

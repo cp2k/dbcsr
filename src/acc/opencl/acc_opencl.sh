@@ -32,14 +32,18 @@ if [ "${BASENAME}" ] && [ "${SED}" ] && [ "${RM}" ]; then
     NFILES_CSV=0
     for IFILE in "$@"; do
       if [ "${IFILE}" != "${OFILE}" ]; then
+        if [ "0" != "$((0<(NFILES_OCL+NFILES_CSV)))" ]; then
+          echo >>"${OFILE}"
+        fi
         if [ "${IFILE##*.}" = "cl" ]; then
           if [ -e "${IFILE}" ]; then
             BNAME=$(${BASENAME} "${IFILE}" .cl)
+            UNAME=$(echo "${BNAME}" | tr '[:lower:]' '[:upper:]')
+            SNAME=OPENCL_LIBSMM_STRING_${UNAME}
             VNAME=opencl_libsmm_source_${BNAME}
-            MNAME=$(echo "${VNAME}" | tr '[:lower:]' '[:upper:]')
+            MNAME=OPENCL_LIBSMM_SOURCE_${UNAME}
             echo "#define ${MNAME} ${VNAME}" >>"${OFILE}"
-            echo "const char ${VNAME}[] =" >>"${OFILE}"
-            printf '  \"#pragma OPENCL EXTENSION all: enable\\n\"\n' >>"${OFILE}"
+            echo "#define ${SNAME} \\" >>"${OFILE}"
             if [ "${CPP}" ] && \
                [ "$(${CPP} -dD -P -fpreprocessed "${IFILE}" 2>/dev/null >/dev/null && echo "OK")" ];
             then
@@ -49,9 +53,10 @@ if [ "${BASENAME}" ] && [ "${SED}" ] && [ "${RM}" ]; then
             fi | \
             ${SED} \
               -e '/^[[:space:]]*$/d' -e 's/[[:space:]]*$//' \
-              -e 's/\\/\\\\/g' -e 's/"/\\"/g' -e 's/^/  "/' -e 's/$/\\n"/' \
+              -e 's/\\/\\\\/g' -e 's/"/\\"/g' -e 's/^/  "/' -e 's/$/\\n" \\/' \
               >>"${OFILE}"
-            echo ";" >>"${OFILE}"
+            echo "  \"\"" >>"${OFILE}"
+            echo "const char ${VNAME}[] = ${SNAME};" >>"${OFILE}"
             NFILES_OCL=$((NFILES_OCL+1))
           else
             >&2 echo "ERROR: ${IFILE} does not exist!"
@@ -61,12 +66,14 @@ if [ "${BASENAME}" ] && [ "${SED}" ] && [ "${RM}" ]; then
         elif [ "${IFILE##*.}" = "csv" ]; then
           # non-existence does not trigger an error
           if [ -e "${IFILE}" ]; then
+            SNAME=OPENCL_LIBSMM_STRING_PARAMS_SMM
             VNAME=opencl_libsmm_params_smm
             MNAME=$(echo "${VNAME}" | tr '[:lower:]' '[:upper:]')
             echo "#define ${MNAME} ${VNAME}" >>"${OFILE}"
-            echo "const char ${VNAME}[] =" >>"${OFILE}"
-            ${SED} 's/^/  "/;s/$/\\n"/;1d' "${IFILE}" >>"${OFILE}"
-            echo ";" >>"${OFILE}"
+            echo "#define ${SNAME} \\" >>"${OFILE}"
+            ${SED} 's/^/  "/;s/$/\\n" \\/;1d' "${IFILE}" >>"${OFILE}"
+            echo "  \"\"" >>"${OFILE}"
+            echo "const char ${VNAME}[] = ${SNAME};" >>"${OFILE}"
             NFILES_CSV=$((NFILES_CSV+1))
           fi
         else
