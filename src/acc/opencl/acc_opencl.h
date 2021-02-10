@@ -47,7 +47,7 @@
 # define ACC_OPENCL_BUFFERSIZE (8 << 10/*8KB*/)
 #endif
 #if !defined(ACC_OPENCL_DEVICES_MAXCOUNT)
-# define ACC_OPENCL_DEVICES_MAXCOUNT 32
+# define ACC_OPENCL_DEVICES_MAXCOUNT 256
 #endif
 
 /* can depend on OpenCL implementation */
