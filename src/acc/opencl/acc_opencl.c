@@ -151,7 +151,7 @@ int c_dbcsr_acc_init(void)
       const char *const env_device_type = getenv("ACC_OPENCL_DEVTYPE");
       const char *const env_device_id = getenv("ACC_OPENCL_DEVICE");
       int device_id = (NULL == env_device_id ? 0 : atoi(env_device_id));
-      cl_uint nplatforms = 0, ndevices = 0, i;
+      cl_uint nplatforms = 0, i;
       cl_device_type type = CL_DEVICE_TYPE_ALL;
       ACC_OPENCL_CHECK(clGetPlatformIDs(0, NULL, &nplatforms),
         "query number of platforms", result);
@@ -165,37 +165,38 @@ int c_dbcsr_acc_init(void)
       }
       c_dbcsr_acc_opencl_ndevices = 0;
       for (i = 0; i < nplatforms; ++i) {
-        ACC_OPENCL_CHECK(clGetDeviceIDs(platforms[i], type, 0, NULL, &ndevices),
-          "query number of devices", result);
-        ACC_OPENCL_CHECK(clGetDeviceIDs(platforms[i], type, ndevices, devices, NULL),
-          "retrieve device ids", result);
-        if (EXIT_SUCCESS == result) {
-          const cl_device_partition_property properties[] = {
-            CL_DEVICE_PARTITION_BY_AFFINITY_DOMAIN, CL_DEVICE_AFFINITY_DOMAIN_NUMA, /*terminator*/0
-          };
-          cl_uint j = 0, n;
-          for (; j < ndevices; ++j) {
-            if ( (NULL == env_device_split || '0' == *env_device_split)
-              || (c_dbcsr_acc_opencl_ndevices + 1) == ACC_OPENCL_DEVICES_MAXCOUNT
-              || (CL_SUCCESS != clCreateSubDevices(devices[j], properties, 0, NULL, &n)))
-            {
-              c_dbcsr_acc_opencl_devices[c_dbcsr_acc_opencl_ndevices] = devices[j];
-              ++c_dbcsr_acc_opencl_ndevices;
-            }
-            else { /* create subdevices */
-              if (ACC_OPENCL_DEVICES_MAXCOUNT < (c_dbcsr_acc_opencl_ndevices + n)) {
-                n = ACC_OPENCL_DEVICES_MAXCOUNT - (cl_uint)c_dbcsr_acc_opencl_ndevices;
+        cl_uint ndevices;
+        if (CL_SUCCESS == clGetDeviceIDs(platforms[i], type, 0, NULL, &ndevices) && 0 < ndevices) {
+          ACC_OPENCL_CHECK(clGetDeviceIDs(platforms[i], type, ndevices, devices, NULL),
+            "retrieve device ids", result);
+          if (EXIT_SUCCESS == result) {
+            const cl_device_partition_property properties[] = {
+              CL_DEVICE_PARTITION_BY_AFFINITY_DOMAIN, CL_DEVICE_AFFINITY_DOMAIN_NUMA, /*terminator*/0
+            };
+            cl_uint j = 0, n;
+            for (; j < ndevices; ++j) {
+              if ( (NULL == env_device_split || '0' == *env_device_split)
+                || (c_dbcsr_acc_opencl_ndevices + 1) == ACC_OPENCL_DEVICES_MAXCOUNT
+                || (CL_SUCCESS != clCreateSubDevices(devices[j], properties, 0, NULL, &n)))
+              {
+                c_dbcsr_acc_opencl_devices[c_dbcsr_acc_opencl_ndevices] = devices[j];
+                ++c_dbcsr_acc_opencl_ndevices;
               }
-              ACC_OPENCL_CHECK(clCreateSubDevices(devices[j], properties, n,
-                c_dbcsr_acc_opencl_devices + c_dbcsr_acc_opencl_ndevices, NULL),
-                "split device into subdevices", result);
-              if (EXIT_SUCCESS == result) {
-                c_dbcsr_acc_opencl_ndevices += n;
+              else { /* create subdevices */
+                if (ACC_OPENCL_DEVICES_MAXCOUNT < (c_dbcsr_acc_opencl_ndevices + n)) {
+                  n = ACC_OPENCL_DEVICES_MAXCOUNT - (cl_uint)c_dbcsr_acc_opencl_ndevices;
+                }
+                ACC_OPENCL_CHECK(clCreateSubDevices(devices[j], properties, n,
+                  c_dbcsr_acc_opencl_devices + c_dbcsr_acc_opencl_ndevices, NULL),
+                  "split device into subdevices", result);
+                if (EXIT_SUCCESS == result) {
+                  c_dbcsr_acc_opencl_ndevices += n;
+                }
+                else break;
               }
-              else break;
             }
-          }
-        } /*else break;*/
+          } /*else break;*/
+        }
       }
       assert(NULL == c_dbcsr_acc_opencl_context);
       if (device_id < c_dbcsr_acc_opencl_ndevices) {
