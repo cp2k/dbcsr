@@ -82,8 +82,8 @@ const char* c_dbcsr_acc_opencl_stristr(const char* a, const char* b)
 
 /**
  * Comparator used with qsort; stabilized by tail condition (a < b ? -1 : 1).
- * Brings GPUs in front and further order by memory capacity.
- * TODO: order by compute capacity.
+ * Brings GPUs with local memory in front, followed by (potentially) integrated GPUs,
+ * and further orders by memory capacity.
  */
 int c_dbcsr_acc_opencl_order_devices(const void* /*dev_a*/, const void* /*dev_b*/);
 int c_dbcsr_acc_opencl_order_devices(const void* dev_a, const void* dev_b)
@@ -101,10 +101,14 @@ int c_dbcsr_acc_opencl_order_devices(const void* dev_a, const void* dev_b)
   else {
     if (CL_DEVICE_TYPE_GPU & type_a) {
       if (CL_DEVICE_TYPE_GPU & type_b) {
-        size_t size_a, size_b;
-        ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*a, NULL, &size_a));
-        ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*b, NULL, &size_b));
-        return (size_a < size_b ? 1 : (size_a != size_b ? -1 : (a < b ? -1 : 1)));
+        size_t size_a, size_b, local_a, local_b;
+        ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*a, NULL, &size_a, &local_a));
+        ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*b, NULL, &size_b, &local_b));
+        if ((0 == local_a && 0 == local_b) || (0 != local_a && 0 != local_b)) {
+          return (size_a < size_b ? 1 : (size_a != size_b ? -1 : (a < b ? -1 : 1)));
+        }
+        else if (0 != local_b) return 1;
+        else return -1;
       }
       else return -1;
     }
@@ -113,8 +117,8 @@ int c_dbcsr_acc_opencl_order_devices(const void* dev_a, const void* dev_b)
       if (CL_DEVICE_TYPE_ACCELERATOR & type_a) {
         if (CL_DEVICE_TYPE_ACCELERATOR & type_b) {
           size_t size_a, size_b;
-          ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*a, NULL, &size_a));
-          ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*b, NULL, &size_b));
+          ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*a, NULL, &size_a, NULL));
+          ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*b, NULL, &size_b, NULL));
           return (size_a < size_b ? 1 : (size_a != size_b ? -1 : (a < b ? -1 : 1)));
         }
         else return -1;
@@ -122,8 +126,8 @@ int c_dbcsr_acc_opencl_order_devices(const void* dev_a, const void* dev_b)
       else if (CL_DEVICE_TYPE_ACCELERATOR & type_b) return 1;
       else {
         size_t size_a, size_b;
-        ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*a, NULL, &size_a));
-        ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*b, NULL, &size_b));
+        ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*a, NULL, &size_a, NULL));
+        ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*b, NULL, &size_b, NULL));
         return (size_a < size_b ? 1 : (size_a != size_b ? -1 : (a < b ? -1 : 1)));
       }
     }
@@ -174,18 +178,23 @@ int c_dbcsr_acc_init(void)
           ACC_OPENCL_CHECK(clGetDeviceIDs(platforms[i], type, ndevices, devices, NULL),
             "retrieve device ids", result);
           if (EXIT_SUCCESS == result) {
+#if defined(CL_VERSION_1_2)
             const cl_device_partition_property properties[] = {
               CL_DEVICE_PARTITION_BY_AFFINITY_DOMAIN, CL_DEVICE_AFFINITY_DOMAIN_NUMA, /*terminator*/0
             };
+#endif
             cl_uint j = 0, n;
             for (; j < ndevices; ++j) {
+#if defined(CL_VERSION_1_2)
               if ( (NULL == env_device_split || '0' == *env_device_split)
                 || (c_dbcsr_acc_opencl_ndevices + 1) == ACC_OPENCL_DEVICES_MAXCOUNT
                 || (CL_SUCCESS != clCreateSubDevices(devices[j], properties, 0, NULL, &n)))
+#endif
               {
                 c_dbcsr_acc_opencl_devices[c_dbcsr_acc_opencl_ndevices] = devices[j];
                 ++c_dbcsr_acc_opencl_ndevices;
               }
+#if defined(CL_VERSION_1_2)
               else { /* create subdevices */
                 if (ACC_OPENCL_DEVICES_MAXCOUNT < (c_dbcsr_acc_opencl_ndevices + n)) {
                   n = ACC_OPENCL_DEVICES_MAXCOUNT - (cl_uint)c_dbcsr_acc_opencl_ndevices;
@@ -198,6 +207,7 @@ int c_dbcsr_acc_init(void)
                 }
                 else break;
               }
+#endif
             }
           } /*else break;*/
         }
@@ -227,6 +237,7 @@ int c_dbcsr_acc_init(void)
       }
       if (device_id < c_dbcsr_acc_opencl_ndevices) {
         if (EXIT_SUCCESS == result && 1 < c_dbcsr_acc_opencl_ndevices) {
+          char tmp[ACC_OPENCL_BUFFERSIZE] = "";
           cl_device_type itype;
           /* reorder devices according to c_dbcsr_acc_opencl_order_devices */
           qsort(c_dbcsr_acc_opencl_devices, c_dbcsr_acc_opencl_ndevices,
@@ -245,11 +256,16 @@ int c_dbcsr_acc_init(void)
                 device_id = (int)i;
                 break;
               }
-              /* TODO: further judge for homegeneous set of GPUs (e.g., prune iGPU) */
+              /* prune number of devices to capture GPUs only */
               else if (CL_DEVICE_TYPE_ALL == type && CL_DEVICE_TYPE_GPU == itype) {
-                /* prune number of devices to capture GPUs only */
-                c_dbcsr_acc_opencl_ndevices = i + 1;
-                break;
+                result = clGetDeviceInfo(c_dbcsr_acc_opencl_devices[i],
+                    CL_DEVICE_NAME, ACC_OPENCL_BUFFERSIZE, buffer, NULL);
+                if (CL_SUCCESS == result /* prune for homogeneous set of GPUs */
+                  && 0 != strncmp(buffer, tmp, ACC_OPENCL_BUFFERSIZE))
+                {
+                  c_dbcsr_acc_opencl_ndevices = i + 1;
+                  strncpy(tmp, buffer, ACC_OPENCL_BUFFERSIZE);
+                }
               }
             }
             else break;
