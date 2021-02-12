@@ -257,7 +257,7 @@ int c_dbcsr_acc_init(void)
                 break;
               }
               /* prune number of devices to capture GPUs only */
-              else if (CL_DEVICE_TYPE_ALL == type && CL_DEVICE_TYPE_GPU == itype) {
+              else if (CL_DEVICE_TYPE_ALL == type && CL_DEVICE_TYPE_GPU == itype && device_id <= (int)i) {
                 result = clGetDeviceInfo(c_dbcsr_acc_opencl_devices[i],
                     CL_DEVICE_NAME, ACC_OPENCL_BUFFERSIZE, buffer, NULL);
                 if (CL_SUCCESS == result /* prune for homogeneous set of GPUs */
