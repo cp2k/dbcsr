@@ -66,10 +66,10 @@ if (USE_ACCEL)
 endif ()
 
 if (NOT (CMAKE_Fortran_COMPILER_ID STREQUAL "Cray"))
-set(DBCSR_TESTS_SRCS_CPP
-     dbcsr_test.cpp
-     dbcsr_tensor_test.cpp
-     )
+    set(DBCSR_TESTS_SRCS_CPP
+       dbcsr_test.cpp
+       dbcsr_tensor_test.cpp
+    )
 endif ()
 
 # For each test, set a variable testname_SRCS defining the sources of that test
