@@ -88,9 +88,9 @@ int main(int argc, char* argv[])
     auto row_dist_2 = random_dist(nrows_2, dims[0]);
     auto col_dist_2 = random_dist(ncols_2, dims[1]);
 
-    dbcsr_dist_t dist1 = nullptr;
-    dbcsr_dist_t dist2 = nullptr;
-    dbcsr_dist_t dist3 = nullptr;
+    dbcsr_distribution dist1 = nullptr;
+    dbcsr_distribution dist2 = nullptr;
+    dbcsr_distribution dist3 = nullptr;
 
 	//create distributions
     c_dbcsr_distribution_new(&dist1, group,
@@ -147,9 +147,9 @@ int main(int argc, char* argv[])
         
     };
     
-    dbcsr_matrix_t matrix_a = nullptr;
-    dbcsr_matrix_t matrix_b = nullptr;
-    dbcsr_matrix_t matrix_c = nullptr;
+    dbcsr_matrix matrix_a = nullptr;
+    dbcsr_matrix matrix_b = nullptr;
+    dbcsr_matrix matrix_c = nullptr;
         
     c_dbcsr_create_new(&matrix_a, "matrix a", dist1, dbcsr_type_no_symmetry, 
                                row_blk_sizes_1.data(), row_blk_sizes_1.size(), 
