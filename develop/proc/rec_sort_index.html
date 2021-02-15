@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -232,7 +232,7 @@ public subroutine rec_sort_index(mi, mf, ni, nf, nele, a, d)
   
 <tr>
   
-  <td><span class="anchor" id="variable-mi~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-mi"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -247,7 +247,7 @@ public subroutine rec_sort_index(mi, mf, ni, nf, nele, a, d)
   
 <tr>
   
-  <td><span class="anchor" id="variable-mf~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-mf"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -262,7 +262,7 @@ public subroutine rec_sort_index(mi, mf, ni, nf, nele, a, d)
   
 <tr>
   
-  <td><span class="anchor" id="variable-ni~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-ni"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -277,7 +277,7 @@ public subroutine rec_sort_index(mi, mf, ni, nf, nele, a, d)
   
 <tr>
   
-  <td><span class="anchor" id="variable-nf~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-nf"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -307,7 +307,7 @@ public subroutine rec_sort_index(mi, mf, ni, nf, nele, a, d)
   
 <tr>
   
-  <td><span class="anchor" id="variable-a~10"></span>integer,</td>
+  <td><span class="anchor" id="variable-a"></span>integer,</td>
   <td>intent(inout),</td>
   <td></td>
   
@@ -322,7 +322,7 @@ public subroutine rec_sort_index(mi, mf, ni, nf, nele, a, d)
   
 <tr>
   
-  <td><span class="anchor" id="variable-d~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-d~3"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -419,13 +419,13 @@ public subroutine rec_sort_index(mi, mf, ni, nf, nele, a, d)
       <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot; rs&quot;</span><span class="p">,</span> <span class="n">mi</span><span class="p">,</span> <span class="n">mf</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">ni</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="s2">&quot;=&gt;&quot;</span><span class="p">,</span> <span class="n">nele</span><span class="p">,</span> <span class="n">d</span>
          <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="s1">&#39;(3(1X,I7))&#39;</span><span class="p">)</span> <span class="n">a</span><span class="p">(:,</span> <span class="mi">1</span><span class="p">:</span><span class="n">nele</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">THEN</span>
+      <span class="k">ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="n">d</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">20</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="n">d</span><span class="o">*</span><span class="mi">1000</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
-      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">tmp</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">nele</span><span class="p">))</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
+<span class="k">      ALLOCATE</span> <span class="p">(</span><span class="n">tmp</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">nele</span><span class="p">))</span>
       <span class="n">M</span> <span class="o">=</span> <span class="n">mf</span> <span class="o">-</span> <span class="n">mi</span> <span class="o">+</span> <span class="mi">1</span>
       <span class="n">N</span> <span class="o">=</span> <span class="n">nf</span> <span class="o">-</span> <span class="n">ni</span> <span class="o">+</span> <span class="mi">1</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">M</span> <span class="o">&gt;</span> <span class="n">N</span><span class="p">)</span> <span class="k">THEN</span>
@@ -435,23 +435,23 @@ public subroutine rec_sort_index(mi, mf, ni, nf, nele, a, d)
          <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">nlow</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">rec_sort_index</span><span class="p">(</span><span class="n">mi</span><span class="p">,</span> <span class="n">mi</span> <span class="o">+</span> <span class="n">half</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ni</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">nlow</span><span class="p">,</span> <span class="n">a</span><span class="p">(:,</span> <span class="mi">1</span><span class="p">:</span><span class="n">nlow</span><span class="p">),</span> <span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">nele</span> <span class="o">-</span> <span class="n">nlow</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">nele</span> <span class="o">-</span> <span class="n">nlow</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">rec_sort_index</span><span class="p">(</span><span class="n">mi</span> <span class="o">+</span> <span class="n">half</span><span class="p">,</span> <span class="n">mf</span><span class="p">,</span> <span class="n">ni</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">nele</span> <span class="o">-</span> <span class="n">nlow</span><span class="p">,</span> <span class="n">a</span><span class="p">(:,</span> <span class="n">nlow</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">nele</span><span class="p">),</span> <span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="k">ELSE</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ELSE</span>
 <span class="k">         </span><span class="n">half</span> <span class="o">=</span> <span class="n">N</span><span class="o">/</span><span class="mi">2</span>
          <span class="k">CALL </span><span class="n">rec_split</span><span class="p">(</span><span class="n">nele</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">tmp</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">nlow</span><span class="p">,</span> <span class="n">ni</span><span class="p">,</span> <span class="n">half</span><span class="p">)</span>
          <span class="n">a</span> <span class="o">=</span> <span class="n">tmp</span>
          <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">nlow</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">rec_sort_index</span><span class="p">(</span><span class="n">mi</span><span class="p">,</span> <span class="n">mf</span><span class="p">,</span> <span class="n">ni</span><span class="p">,</span> <span class="n">ni</span> <span class="o">+</span> <span class="n">half</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nlow</span><span class="p">,</span> <span class="n">a</span><span class="p">(:,</span> <span class="mi">1</span><span class="p">:</span><span class="n">nlow</span><span class="p">),</span> <span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">nele</span> <span class="o">-</span> <span class="n">nlow</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">nele</span> <span class="o">-</span> <span class="n">nlow</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">rec_sort_index</span><span class="p">(</span><span class="n">mi</span><span class="p">,</span> <span class="n">mf</span><span class="p">,</span> <span class="n">ni</span> <span class="o">+</span> <span class="n">half</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">nele</span> <span class="o">-</span> <span class="n">nlow</span><span class="p">,</span> <span class="n">a</span><span class="p">(:,</span> <span class="n">nlow</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">nele</span><span class="p">),</span> <span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
-   <span class="k">END SUBROUTINE </span><span class="n">rec_sort_index</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
+<span class="k">   END SUBROUTINE </span><span class="n">rec_sort_index</span>
 </pre></div>
 
     </section>

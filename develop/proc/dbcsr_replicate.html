@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -233,7 +233,7 @@ private subroutine dbcsr_replicate(matrix, replicate_rows, replicate_columns, re
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~154"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~181"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -413,8 +413,8 @@ private subroutine dbcsr_replicate(matrix, replicate_rows, replicate_columns, re
 <span class="k">         </span><span class="n">rep_type</span> <span class="o">=</span> <span class="n">dbcsr_repl_none</span>
          <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">replicate_rows</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">replicate_columns</span><span class="p">)</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Some replication must be specified&quot;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="n">data_type</span> <span class="o">=</span> <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">data_type</span> <span class="o">=</span> <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
       <span class="n">row_blk_size</span> <span class="o">=&gt;</span> <span class="n">array_data</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">row_blk_size</span><span class="p">)</span>
       <span class="n">col_blk_size</span> <span class="o">=&gt;</span> <span class="n">array_data</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">col_blk_size</span><span class="p">)</span>
       <span class="n">target_dist</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">dist</span>
@@ -431,13 +431,13 @@ private subroutine dbcsr_replicate(matrix, replicate_rows, replicate_columns, re
       <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="nb">MAXVAL</span><span class="p">(</span><span class="n">row_dist</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">blacs2mpi</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s1">&#39;Range of row distribution not equal to processor rows&#39;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">MAXVAL</span><span class="p">(</span><span class="n">col_dist</span><span class="p">)</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">blacs2mpi</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="p">&amp;</span>
+      <span class="k">ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="nb">MAXVAL</span><span class="p">(</span><span class="n">col_dist</span><span class="p">)</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">blacs2mpi</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="p">&amp;</span>
          <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s1">&#39;Col distribution references unexistent processor cols&#39;</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="nb">MAXVAL</span><span class="p">(</span><span class="n">col_dist</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">blacs2mpi</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s1">&#39;Range of col distribution not equal to processor cols&#39;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">! Define the number of nodes with which I will communicate. Also</span>
       <span class="c">! setup row and column communicators.</span>
       <span class="n">had_subcomms</span> <span class="o">=</span> <span class="n">dbcsr_mp_has_subgroups</span><span class="p">(</span><span class="n">mp_obj</span><span class="p">)</span>
@@ -470,7 +470,7 @@ private subroutine dbcsr_replicate(matrix, replicate_rows, replicate_columns, re
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">rest_src</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
          <span class="n">i_am_restricted</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">!</span>
       <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">recv_count</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">numnodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
       <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">rd_disp</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">numnodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
@@ -495,10 +495,10 @@ private subroutine dbcsr_replicate(matrix, replicate_rows, replicate_columns, re
             <span class="n">nze</span> <span class="o">=</span> <span class="n">row_size</span><span class="o">*</span><span class="n">col_size</span>
             <span class="n">send_count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">send_count</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
             <span class="n">send_count</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">send_count</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">nze</span>
-         <span class="n">ENDDO</span>
-         <span class="n">send_count</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">dbcsr_data_get_size_referenced</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
+         <span class="k">ENDDO</span>
+<span class="k">         </span><span class="n">send_count</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">dbcsr_data_get_size_referenced</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
       <span class="c">! Exchange how much data others have.</span>
       <span class="k">CALL </span><span class="n">mp_allgather</span><span class="p">(</span><span class="n">send_count</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">),</span> <span class="n">recv_count</span><span class="p">,</span> <span class="n">mp_group</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">recv_data</span><span class="p">)</span>
@@ -512,8 +512,8 @@ private subroutine dbcsr_replicate(matrix, replicate_rows, replicate_columns, re
       <span class="k">ELSE</span>
 <span class="k">         CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="n">send_data</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">)</span>
          <span class="n">send_data</span> <span class="o">=</span> <span class="n">pointer_view</span><span class="p">(</span><span class="n">send_data</span><span class="p">,</span> <span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">send_count</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
-      <span class="n">ENDIF</span>
-      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">recv_meta</span><span class="p">(</span><span class="n">metalen</span><span class="o">*</span><span class="n">nblks</span><span class="p">))</span>
+      <span class="k">ENDIF</span>
+<span class="k">      ALLOCATE</span> <span class="p">(</span><span class="n">recv_meta</span><span class="p">(</span><span class="n">metalen</span><span class="o">*</span><span class="n">nblks</span><span class="p">))</span>
       <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">send_meta</span><span class="p">(</span><span class="n">metalen</span><span class="o">*</span><span class="n">send_count</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span>
       <span class="n">recv_meta</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="c">! Fill in the meta data structures and copy the data.</span>
@@ -524,8 +524,8 @@ private subroutine dbcsr_replicate(matrix, replicate_rows, replicate_columns, re
                           <span class="o">+</span> <span class="n">metalen</span><span class="o">*</span><span class="n">recv_count</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dst_p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
          <span class="n">rd_disp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">=</span> <span class="n">rd_disp</span><span class="p">(</span><span class="n">dst_p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
                           <span class="o">+</span> <span class="n">recv_count</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dst_p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-      <span class="n">ENDDO</span>
-      <span class="k">CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">data_block</span><span class="p">)</span>
+      <span class="k">ENDDO</span>
+<span class="k">      CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">data_block</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="n">data_block</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_iterator_start</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span> <span class="n">matrix</span><span class="p">)</span>
       <span class="n">smp</span> <span class="o">=</span> <span class="mi">1</span>
@@ -537,9 +537,9 @@ private subroutine dbcsr_replicate(matrix, replicate_rows, replicate_columns, re
             <span class="n">send_meta</span><span class="p">(</span><span class="n">smp</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">col</span>
             <span class="n">send_meta</span><span class="p">(</span><span class="n">smp</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">blk_p</span>
             <span class="n">smp</span> <span class="o">=</span> <span class="n">smp</span> <span class="o">+</span> <span class="n">metalen</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
+         <span class="k">ENDDO</span>
+<span class="k">      ENDIF</span>
+<span class="k">      CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_data_clear_pointer</span><span class="p">(</span><span class="n">data_block</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">data_block</span><span class="p">)</span>
       <span class="c">! Exchange the data and metadata structures.</span>
@@ -553,8 +553,8 @@ private subroutine dbcsr_replicate(matrix, replicate_rows, replicate_columns, re
       <span class="c">! cleared and not deallocated.</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">send_count</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">dbcsr_data_clear_pointer</span><span class="p">(</span><span class="n">send_data</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">send_data</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">send_data</span><span class="p">)</span>
       <span class="c">!</span>
       <span class="c">! Now fill in the data.</span>
       <span class="k">CALL </span><span class="n">dbcsr_work_create</span><span class="p">(</span><span class="n">replicated</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -584,9 +584,9 @@ private subroutine dbcsr_replicate(matrix, replicate_rows, replicate_columns, re
                   <span class="o">*</span><span class="n">col_blk_size</span><span class="p">(</span><span class="n">stored_col</span><span class="p">)</span>
             <span class="n">blk_ps</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="n">blk_ps</span><span class="p">,</span> <span class="nb">ABS</span><span class="p">(</span><span class="n">stored_blk_p</span><span class="p">)</span> <span class="o">+</span> <span class="n">nze</span> <span class="o">+</span> <span class="n">offset</span><span class="p">)</span>
             <span class="n">blks</span> <span class="o">=</span> <span class="n">blks</span> <span class="o">+</span> <span class="mi">1</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDDO</span>
-      <span class="k">CALL </span><span class="n">dbcsr_data_set_size_referenced</span><span class="p">(</span><span class="n">replicated</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">data_area</span><span class="p">,</span> <span class="n">blk_ps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+         <span class="k">ENDDO</span>
+<span class="k">      ENDDO</span>
+<span class="k">      CALL </span><span class="n">dbcsr_data_set_size_referenced</span><span class="p">(</span><span class="n">replicated</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">data_area</span><span class="p">,</span> <span class="n">blk_ps</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
       <span class="c">!</span>
       <span class="n">replicated</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">lastblk</span> <span class="o">=</span> <span class="n">blks</span> <span class="o">-</span> <span class="mi">1</span>
       <span class="n">replicated</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">datasize</span> <span class="o">=</span> <span class="n">blk_ps</span> <span class="o">-</span> <span class="mi">1</span>
@@ -596,8 +596,8 @@ private subroutine dbcsr_replicate(matrix, replicate_rows, replicate_columns, re
       <span class="k">IF</span> <span class="p">(</span><span class="n">had_subcomms</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
           <span class="p">(</span><span class="n">rep_type</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">dbcsr_repl_row</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">rep_type</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">dbcsr_repl_col</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">dbcsr_mp_grid_remove</span><span class="p">(</span><span class="n">mp_obj</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">recv_count</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      DEALLOCATE</span> <span class="p">(</span><span class="n">recv_count</span><span class="p">)</span>
       <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">rd_disp</span><span class="p">)</span>
       <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">rm_disp</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">recv_data</span><span class="p">)</span>

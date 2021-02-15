@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -301,7 +301,7 @@ private subroutine dbcsr_init_lib_low()
 
       <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">has_mp_perf_env</span><span class="p">())</span> <span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">add_mp_perf_env</span><span class="p">()</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
 <span class="c">!$OMP     PARALLEL DEFAULT(NONE)</span>
       <span class="k">CALL </span><span class="n">dbcsr_multiply_lib_init</span><span class="p">()</span>

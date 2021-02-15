@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -485,23 +485,23 @@
 <a name="ln-223"></a><span class="k">               </span><span class="n">nthreads</span> <span class="o">=</span> <span class="mi">1</span>
 <a name="ln-224"></a><span class="c">!$             nthreads = OMP_GET_MAX_THREADS()</span>
 <a name="ln-225"></a>               <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span> <span class="o">-</span> <span class="p">(</span><span class="mi">30</span><span class="o">*</span><span class="n">nthreads</span><span class="p">)</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span>
-<a name="ln-226"></a>            <span class="n">ENDIF</span>
-<a name="ln-227"></a>         <span class="n">ENDIF</span>
-<a name="ln-228"></a>      <span class="n">ENDIF</span>
+<a name="ln-226"></a>            <span class="k">ENDIF</span>
+<a name="ln-227"></a><span class="k">         ENDIF</span>
+<a name="ln-228"></a><span class="k">      ENDIF</span>
 <a name="ln-229"></a>
-<a name="ln-230"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nstacks</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-230"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nstacks</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-231"></a><span class="k">         </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nm_stacks</span> <span class="o">=</span> <span class="n">nstacks</span>
 <a name="ln-232"></a>         <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nn_stacks</span> <span class="o">=</span> <span class="n">nstacks</span>
 <a name="ln-233"></a>         <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nk_stacks</span> <span class="o">=</span> <span class="n">nstacks</span>
-<a name="ln-234"></a>      <span class="n">ENDIF</span>
+<a name="ln-234"></a>      <span class="k">ENDIF</span>
 <a name="ln-235"></a>
-<a name="ln-236"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mm_stack_size</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-236"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mm_stack_size</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-237"></a><span class="k">         </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_stack_size</span> <span class="o">=</span> <span class="n">mm_stack_size</span>
 <a name="ln-238"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">mm_stack_size</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-239"></a>            <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_stack_size</span> <span class="o">=</span> <span class="n">mm_stack_default_size</span>
-<a name="ln-240"></a>      <span class="n">ENDIF</span>
+<a name="ln-240"></a>      <span class="k">ENDIF</span>
 <a name="ln-241"></a>
-<a name="ln-242"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-242"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-243"></a><span class="k">         IF</span> <span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">mm_name_auto</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-244"></a><span class="k">            </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_driver</span> <span class="o">=</span> <span class="n">mm_default_driver</span>
 <a name="ln-245"></a>         <span class="k">ELSE IF</span> <span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">mm_name_blas</span><span class="p">)</span> <span class="k">THEN</span>
@@ -516,10 +516,10 @@
 <a name="ln-254"></a>            <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_driver</span> <span class="o">=</span> <span class="n">mm_driver_xsmm</span>
 <a name="ln-255"></a>         <span class="k">ELSE</span>
 <a name="ln-256"></a><span class="k">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Unknown MM driver: &quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">))</span>
-<a name="ln-257"></a>         <span class="n">ENDIF</span>
-<a name="ln-258"></a>      <span class="n">ENDIF</span>
+<a name="ln-257"></a>         <span class="k">ENDIF</span>
+<a name="ln-258"></a><span class="k">      ENDIF</span>
 <a name="ln-259"></a>
-<a name="ln-260"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_set_config</span>
+<a name="ln-260"></a><span class="k">   END SUBROUTINE </span><span class="n">dbcsr_set_config</span>
 <a name="ln-261"></a>
 <a name="ln-262"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_get_default_config</span><span class="p">(</span> <span class="p">&amp;</span>
 <a name="ln-263"></a>      <span class="n">use_mpi_allocator</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -632,8 +632,8 @@
 <a name="ln-370"></a>      <span class="k">ELSE</span>
 <a name="ln-371"></a><span class="k">         WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T72,A)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-372"></a>            <span class="s2">&quot;DBCSR| Maximum elements for images&quot;</span><span class="p">,</span> <span class="s2">&quot;UNLIMITED&quot;</span>
-<a name="ln-373"></a>      <span class="n">ENDIF</span>
-<a name="ln-374"></a>      <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-373"></a>      <span class="k">ENDIF</span>
+<a name="ln-374"></a><span class="k">      WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-375"></a>         <span class="s2">&quot;DBCSR| Multiplicative factor virtual images&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_mult_images</span>
 <a name="ln-376"></a>
 <a name="ln-377"></a>      <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
@@ -649,9 +649,9 @@
 <a name="ln-387"></a>            <span class="s2">&quot;DBCSR| Multiplication size n stacks&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nn_stacks</span>
 <a name="ln-388"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-389"></a>            <span class="s2">&quot;DBCSR| Multiplication size k stacks&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nk_stacks</span>
-<a name="ln-390"></a>      <span class="n">ENDIF</span>
+<a name="ln-390"></a>      <span class="k">ENDIF</span>
 <a name="ln-391"></a>
-<a name="ln-392"></a>      <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-392"></a><span class="k">      WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-393"></a>         <span class="s2">&quot;DBCSR| Use memory pool for CPU allocation&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mempools_cpu</span>
 <a name="ln-394"></a>
 <a name="ln-395"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">has_mpi</span><span class="p">)</span> <span class="k">THEN</span>
@@ -661,8 +661,8 @@
 <a name="ln-399"></a>         <span class="k">ELSE</span>
 <a name="ln-400"></a><span class="k">            WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-401"></a>               <span class="s2">&quot;DBCSR| Number of 3D layers&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_layers_3D</span>
-<a name="ln-402"></a>         <span class="n">ENDIF</span>
-<a name="ln-403"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-402"></a>         <span class="k">ENDIF</span>
+<a name="ln-403"></a><span class="k">         WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-404"></a>            <span class="s2">&quot;DBCSR| Use MPI memory allocation&quot;</span><span class="p">,</span> <span class="n">dbcsr_data_allocation</span><span class="p">%</span><span class="n">use_mpi_allocator</span>
 <a name="ln-405"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-406"></a>            <span class="s2">&quot;DBCSR| Use RMA algorithm&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span>
@@ -679,9 +679,9 @@
 <a name="ln-417"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-418"></a>               <span class="s2">&quot;DBCSR| MPI: Number of nodes&quot;</span><span class="p">,</span> <span class="n">numnodes</span>
 <a name="ln-419"></a>         <span class="k">END BLOCK</span>
-<a name="ln-420"></a><span class="k">      </span><span class="n">ENDIF</span>
+<a name="ln-420"></a><span class="k">      ENDIF</span>
 <a name="ln-421"></a>
-<a name="ln-422"></a>      <span class="k">BLOCK</span>
+<a name="ln-422"></a><span class="k">      BLOCK</span>
 <a name="ln-423"></a><span class="k">         </span><span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">numthreads</span><span class="p">,</span> <span class="n">numthreads_max</span>
 <a name="ln-424"></a>         <span class="n">numthreads</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
 <a name="ln-425"></a>         <span class="n">numthreads_max</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>

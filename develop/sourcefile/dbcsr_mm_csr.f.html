@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -508,7 +508,7 @@
 <a name="ln-246"></a>      <span class="k">ELSE</span>
 <a name="ln-247"></a><span class="k">         </span><span class="n">n_a_norms</span> <span class="o">=</span> <span class="mi">0</span>
 <a name="ln-248"></a>         <span class="n">n_b_norms</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-249"></a>      <span class="n">ENDIF</span>
+<a name="ln-249"></a>      <span class="k">ENDIF</span>
 <a name="ln-250"></a>
 <a name="ln-251"></a>      <span class="c">!</span>
 <a name="ln-252"></a>      <span class="c">! Build the indices</span>
@@ -534,12 +534,12 @@
 <a name="ln-272"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-273"></a><span class="k">                  WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="s1">&#39;(1X,A,3(1X,I7),1X,A,1X,I16)&#39;</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; trying B&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-274"></a>                     <span class="n">a_row_l</span><span class="p">,</span> <span class="n">b_blk_info</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">b_blk</span><span class="p">),</span> <span class="n">a_col_l</span><span class="p">,</span> <span class="s2">&quot;at&quot;</span><span class="p">,</span> <span class="n">b_blk_info</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">b_blk</span><span class="p">)</span>
-<a name="ln-275"></a>               <span class="n">ENDIF</span>
-<a name="ln-276"></a>               <span class="n">b_norm</span> <span class="o">=</span> <span class="n">right_norms</span><span class="p">(</span><span class="n">b_blk</span><span class="p">)</span>
+<a name="ln-275"></a>               <span class="k">ENDIF</span>
+<a name="ln-276"></a><span class="k">               </span><span class="n">b_norm</span> <span class="o">=</span> <span class="n">right_norms</span><span class="p">(</span><span class="n">b_blk</span><span class="p">)</span>
 <a name="ln-277"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">a_norm</span><span class="o">*</span><span class="n">b_norm</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">a_row_eps</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-278"></a><span class="k">                  CYCLE</span>
-<a name="ln-279"></a><span class="k">               </span><span class="n">ENDIF</span>
-<a name="ln-280"></a>               <span class="n">b_col_l</span> <span class="o">=</span> <span class="n">b_blk_info</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">b_blk</span><span class="p">)</span>
+<a name="ln-279"></a><span class="k">               ENDIF</span>
+<a name="ln-280"></a><span class="k">               </span><span class="n">b_col_l</span> <span class="o">=</span> <span class="n">b_blk_info</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">b_blk</span><span class="p">)</span>
 <a name="ln-281"></a>               <span class="c">! Don&#39;t calculate symmetric blocks.</span>
 <a name="ln-282"></a>               <span class="n">symmetric_product</span><span class="p">:</span> <span class="k">IF</span> <span class="p">(</span><span class="n">c_has_symmetry</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-283"></a><span class="k">                  </span><span class="n">c_row_logical</span> <span class="o">=</span> <span class="n">c_local_rows</span><span class="p">(</span><span class="n">a_row_l</span><span class="p">)</span>
@@ -549,17 +549,17 @@
 <a name="ln-287"></a><span class="k">                     IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-288"></a><span class="k">                        WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot;Skipping symmetric block!&quot;</span><span class="p">,</span> <span class="n">c_row_logical</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-289"></a>                           <span class="n">c_col_logical</span>
-<a name="ln-290"></a>                     <span class="n">ENDIF</span>
-<a name="ln-291"></a>                     <span class="k">CYCLE</span>
-<a name="ln-292"></a><span class="k">                  </span><span class="n">ENDIF</span>
-<a name="ln-293"></a>               <span class="n">ENDIF</span> <span class="n">symmetric_product</span>
+<a name="ln-290"></a>                     <span class="k">ENDIF</span>
+<a name="ln-291"></a><span class="k">                     CYCLE</span>
+<a name="ln-292"></a><span class="k">                  ENDIF</span>
+<a name="ln-293"></a><span class="k">               ENDIF </span><span class="n">symmetric_product</span>
 <a name="ln-294"></a>
 <a name="ln-295"></a>               <span class="n">c_blk_id</span> <span class="o">=</span> <span class="n">hash_table_get</span><span class="p">(</span><span class="n">c_hashes</span><span class="p">(</span><span class="n">a_row_l</span><span class="p">),</span> <span class="n">b_col_l</span><span class="p">)</span>
 <a name="ln-296"></a>               <span class="k">IF</span> <span class="p">(.</span><span class="n">FALSE</span><span class="p">.)</span> <span class="k">THEN</span>
 <a name="ln-297"></a><span class="k">                  WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="s1">&#39;(1X,A,3(1X,I7),1X,A,1X,I16)&#39;</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; coor&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-298"></a>                     <span class="n">a_row_l</span><span class="p">,</span> <span class="n">a_col_l</span><span class="p">,</span> <span class="n">b_col_l</span><span class="p">,</span> <span class="s2">&quot;c blk&quot;</span><span class="p">,</span> <span class="n">c_blk_id</span>
-<a name="ln-299"></a>               <span class="n">ENDIF</span>
-<a name="ln-300"></a>               <span class="n">block_exists</span> <span class="o">=</span> <span class="n">c_blk_id</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span>
+<a name="ln-299"></a>               <span class="k">ENDIF</span>
+<a name="ln-300"></a><span class="k">               </span><span class="n">block_exists</span> <span class="o">=</span> <span class="n">c_blk_id</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span>
 <a name="ln-301"></a>
 <a name="ln-302"></a>               <span class="n">n_size</span> <span class="o">=</span> <span class="n">n_sizes</span><span class="p">(</span><span class="n">b_col_l</span><span class="p">)</span>
 <a name="ln-303"></a>               <span class="n">c_nze</span> <span class="o">=</span> <span class="n">m_size</span><span class="o">*</span><span class="n">n_size</span>
@@ -584,7 +584,7 @@
 <a name="ln-322"></a>                  <span class="n">c_row_i</span><span class="p">(</span><span class="n">lastblk</span><span class="p">)</span> <span class="o">=</span> <span class="n">a_row_l</span>
 <a name="ln-323"></a>                  <span class="n">c_col_i</span><span class="p">(</span><span class="n">lastblk</span><span class="p">)</span> <span class="o">=</span> <span class="n">b_col_l</span>
 <a name="ln-324"></a>                  <span class="n">c_blk_p</span><span class="p">(</span><span class="n">lastblk</span><span class="p">)</span> <span class="o">=</span> <span class="n">offset</span>
-<a name="ln-325"></a>               <span class="n">ENDIF</span>
+<a name="ln-325"></a>               <span class="k">ENDIF</span>
 <a name="ln-326"></a>
 <a name="ln-327"></a>               <span class="c">! TODO: this is only called with careful_mod</span>
 <a name="ln-328"></a>               <span class="c">! We should not call certain MM routines (netlib BLAS)</span>
@@ -594,10 +594,10 @@
 <a name="ln-332"></a><span class="k">                  IF</span> <span class="p">(</span><span class="n">c_nze</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">k_size</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-333"></a><span class="k">                     </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Can not call MM with LDx=0.&quot;</span><span class="p">)</span>
 <a name="ln-334"></a>                     <span class="k">CYCLE</span>
-<a name="ln-335"></a><span class="k">                  </span><span class="n">ENDIF</span>
-<a name="ln-336"></a>               <span class="n">ENDIF</span>
+<a name="ln-335"></a><span class="k">                  ENDIF</span>
+<a name="ln-336"></a><span class="k">               ENDIF</span>
 <a name="ln-337"></a>
-<a name="ln-338"></a>               <span class="n">mapped_col_size</span> <span class="o">=</span> <span class="n">col_size_maps</span><span class="p">(</span><span class="n">n_size</span><span class="p">)</span>
+<a name="ln-338"></a><span class="k">               </span><span class="n">mapped_col_size</span> <span class="o">=</span> <span class="n">col_size_maps</span><span class="p">(</span><span class="n">n_size</span><span class="p">)</span>
 <a name="ln-339"></a>               <span class="n">ws</span> <span class="o">=</span> <span class="n">stack_map</span><span class="p">(</span><span class="n">mapped_col_size</span><span class="p">,</span> <span class="n">mapped_k_size</span><span class="p">,</span> <span class="n">mapped_row_size</span><span class="p">)</span>
 <a name="ln-340"></a>               <span class="n">stacks_fillcount</span><span class="p">(</span><span class="n">ws</span><span class="p">)</span> <span class="o">=</span> <span class="n">stacks_fillcount</span><span class="p">(</span><span class="n">ws</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-341"></a>               <span class="n">s_dp</span> <span class="o">=</span> <span class="n">stacks_fillcount</span><span class="p">(</span><span class="n">ws</span><span class="p">)</span>
@@ -615,9 +615,9 @@
 <a name="ln-353"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">stacks_fillcount</span><span class="p">(</span><span class="n">ws</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">stacks_data</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-354"></a>                  <span class="k">CALL </span><span class="n">flush_stacks</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">left</span><span class="o">=</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="n">right</span><span class="p">)</span>
 <a name="ln-355"></a>
-<a name="ln-356"></a>            <span class="n">ENDDO</span> <span class="n">b_blk_cycle</span> <span class="c">! b</span>
-<a name="ln-357"></a>         <span class="n">ENDDO</span> <span class="n">a_blk_cycle</span> <span class="c">! a_col</span>
-<a name="ln-358"></a>      <span class="n">ENDDO</span> <span class="n">a_row_cycle</span> <span class="c">! a_row</span>
+<a name="ln-356"></a>            <span class="k">ENDDO </span><span class="n">b_blk_cycle</span> <span class="c">! b</span>
+<a name="ln-357"></a>         <span class="k">ENDDO </span><span class="n">a_blk_cycle</span> <span class="c">! a_col</span>
+<a name="ln-358"></a>      <span class="k">ENDDO </span><span class="n">a_row_cycle</span> <span class="c">! a_row</span>
 <a name="ln-359"></a>
 <a name="ln-360"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_mm_csr_multiply_low</span>
 <a name="ln-361"></a>
@@ -657,7 +657,7 @@
 <a name="ln-395"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Matrices must have local indexing.&quot;</span><span class="p">)</span>
 <a name="ln-396"></a>         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">left</span><span class="p">%</span><span class="n">local_indexing</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-397"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Matrices must have local indexing.&quot;</span><span class="p">)</span>
-<a name="ln-398"></a>      <span class="n">ENDIF</span>
+<a name="ln-398"></a>      <span class="k">ENDIF</span>
 <a name="ln-399"></a>      <span class="c">! Setup the hash tables if needed</span>
 <a name="ln-400"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">c_hashes</span><span class="p">(</span><span class="nb">product</span><span class="p">%</span><span class="n">nblkrows_local</span><span class="p">))</span>
 <a name="ln-401"></a>      <span class="k">CALL </span><span class="n">fill_hash_tables</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">c_hashes</span><span class="p">,</span> <span class="nb">product</span><span class="p">,</span> <span class="n">block_estimate</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -706,20 +706,20 @@
 <a name="ln-444"></a><span class="k">            </span><span class="n">m_size</span> <span class="o">=</span> <span class="n">most_common_m</span><span class="p">(</span><span class="n">m_map</span><span class="p">)</span>
 <a name="ln-445"></a>         <span class="k">ELSE</span>
 <a name="ln-446"></a><span class="k">            </span><span class="n">m_size</span> <span class="o">=</span> <span class="mi">777</span>
-<a name="ln-447"></a>         <span class="n">ENDIF</span>
-<a name="ln-448"></a>         <span class="k">DO </span><span class="n">k_map</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nk_stacks</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-447"></a>         <span class="k">ENDIF</span>
+<a name="ln-448"></a><span class="k">         DO </span><span class="n">k_map</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nk_stacks</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-449"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">k_map</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nk_stacks</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-450"></a><span class="k">               </span><span class="n">k_size</span> <span class="o">=</span> <span class="n">most_common_k</span><span class="p">(</span><span class="n">k_map</span><span class="p">)</span>
 <a name="ln-451"></a>            <span class="k">ELSE</span>
 <a name="ln-452"></a><span class="k">               </span><span class="n">k_size</span> <span class="o">=</span> <span class="mi">888</span>
-<a name="ln-453"></a>            <span class="n">ENDIF</span>
-<a name="ln-454"></a>            <span class="k">DO </span><span class="n">n_map</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nn_stacks</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-453"></a>            <span class="k">ENDIF</span>
+<a name="ln-454"></a><span class="k">            DO </span><span class="n">n_map</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nn_stacks</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-455"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">n_map</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nn_stacks</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-456"></a><span class="k">                  </span><span class="n">n_size</span> <span class="o">=</span> <span class="n">most_common_n</span><span class="p">(</span><span class="n">n_map</span><span class="p">)</span>
 <a name="ln-457"></a>               <span class="k">ELSE</span>
 <a name="ln-458"></a><span class="k">                  </span><span class="n">n_size</span> <span class="o">=</span> <span class="mi">999</span>
-<a name="ln-459"></a>               <span class="n">ENDIF</span>
-<a name="ln-460"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">m_map</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nm_stacks</span> <span class="p">&amp;</span>
+<a name="ln-459"></a>               <span class="k">ENDIF</span>
+<a name="ln-460"></a><span class="k">               IF</span> <span class="p">(</span><span class="n">m_map</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nm_stacks</span> <span class="p">&amp;</span>
 <a name="ln-461"></a>                   <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">k_map</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nk_stacks</span> <span class="p">&amp;</span>
 <a name="ln-462"></a>                   <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">n_map</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nn_stacks</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-463"></a>                  <span class="c">! This is the case when m, n, and k are all defined.</span>
@@ -749,10 +749,10 @@
 <a name="ln-487"></a>                  <span class="n">this</span><span class="p">%</span><span class="n">stacks_descr</span><span class="p">(</span><span class="n">ps_g</span><span class="p">)%</span><span class="n">max_k</span> <span class="o">=</span> <span class="n">this</span><span class="p">%</span><span class="n">max_k</span>
 <a name="ln-488"></a>                  <span class="n">this</span><span class="p">%</span><span class="n">stacks_descr</span><span class="p">(</span><span class="n">ps_g</span><span class="p">)%</span><span class="n">defined_mnk</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <a name="ln-489"></a>               <span class="k">END IF</span>
-<a name="ln-490"></a><span class="k">            </span><span class="n">ENDDO</span>
-<a name="ln-491"></a>         <span class="n">ENDDO</span>
-<a name="ln-492"></a>      <span class="n">ENDDO</span>
-<a name="ln-493"></a>      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">most_common_m</span><span class="p">)</span>
+<a name="ln-490"></a><span class="k">            ENDDO</span>
+<a name="ln-491"></a><span class="k">         ENDDO</span>
+<a name="ln-492"></a><span class="k">      ENDDO</span>
+<a name="ln-493"></a><span class="k">      DEALLOCATE</span> <span class="p">(</span><span class="n">most_common_m</span><span class="p">)</span>
 <a name="ln-494"></a>      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">most_common_n</span><span class="p">)</span>
 <a name="ln-495"></a>      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">most_common_k</span><span class="p">)</span>
 <a name="ln-496"></a>
@@ -765,15 +765,15 @@
 <a name="ln-503"></a>         <span class="n">flop_list</span><span class="p">(</span><span class="n">istack</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">this</span><span class="p">%</span><span class="n">stacks_descr</span><span class="p">(</span><span class="n">istack</span><span class="p">)%</span><span class="n">m</span> <span class="p">&amp;</span>
 <a name="ln-504"></a>                             <span class="o">*</span><span class="n">this</span><span class="p">%</span><span class="n">stacks_descr</span><span class="p">(</span><span class="n">istack</span><span class="p">)%</span><span class="n">n</span> <span class="p">&amp;</span>
 <a name="ln-505"></a>                             <span class="o">*</span><span class="n">this</span><span class="p">%</span><span class="n">stacks_descr</span><span class="p">(</span><span class="n">istack</span><span class="p">)%</span><span class="n">k</span>
-<a name="ln-506"></a>      <span class="n">ENDDO</span>
+<a name="ln-506"></a>      <span class="k">ENDDO</span>
 <a name="ln-507"></a>
-<a name="ln-508"></a>      <span class="k">CALL </span><span class="n">sort</span><span class="p">(</span><span class="n">flop_list</span><span class="p">,</span> <span class="n">nstacks</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">flop_index</span><span class="p">)</span>
+<a name="ln-508"></a><span class="k">      CALL </span><span class="n">sort</span><span class="p">(</span><span class="n">flop_list</span><span class="p">,</span> <span class="n">nstacks</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">flop_index</span><span class="p">)</span>
 <a name="ln-509"></a>      <span class="n">tmp_descr</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">this</span><span class="p">%</span><span class="n">stacks_descr</span>
 <a name="ln-510"></a>      <span class="k">DO </span><span class="n">istack</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nstacks</span> <span class="o">-</span> <span class="mi">1</span>
 <a name="ln-511"></a>         <span class="n">this</span><span class="p">%</span><span class="n">stacks_descr</span><span class="p">(</span><span class="n">istack</span><span class="p">)</span> <span class="o">=</span> <span class="n">tmp_descr</span><span class="p">(</span><span class="n">flop_index</span><span class="p">(</span><span class="n">istack</span><span class="p">))</span>
-<a name="ln-512"></a>      <span class="n">ENDDO</span>
+<a name="ln-512"></a>      <span class="k">ENDDO</span>
 <a name="ln-513"></a>
-<a name="ln-514"></a>      <span class="k">DO </span><span class="n">m_map</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">stack_map</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<a name="ln-514"></a><span class="k">      DO </span><span class="n">m_map</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">stack_map</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <a name="ln-515"></a>         <span class="k">DO </span><span class="n">k_map</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">stack_map</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <a name="ln-516"></a>            <span class="n">map_loop</span><span class="p">:</span> <span class="k">DO </span><span class="n">n_map</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">stack_map</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <a name="ln-517"></a>               <span class="k">DO </span><span class="n">istack</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nstacks</span> <span class="o">-</span> <span class="mi">1</span>
@@ -781,11 +781,11 @@
 <a name="ln-519"></a><span class="k">                     </span><span class="n">this</span><span class="p">%</span><span class="n">stack_map</span><span class="p">(</span><span class="n">m_map</span><span class="p">,</span> <span class="n">k_map</span><span class="p">,</span> <span class="n">n_map</span><span class="p">)</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">istack</span><span class="p">,</span> <span class="nb">kind</span><span class="o">=</span><span class="n">int_1</span><span class="p">)</span>
 <a name="ln-520"></a>                     <span class="k">CYCLE </span><span class="n">map_loop</span>
 <a name="ln-521"></a>                  <span class="k">END IF</span>
-<a name="ln-522"></a><span class="k">               </span><span class="n">ENDDO</span>
-<a name="ln-523"></a>            <span class="n">ENDDO</span> <span class="n">map_loop</span>
-<a name="ln-524"></a>         <span class="n">ENDDO</span>
-<a name="ln-525"></a>      <span class="n">ENDDO</span>
-<a name="ln-526"></a>      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">flop_list</span><span class="p">,</span> <span class="n">flop_index</span><span class="p">,</span> <span class="n">tmp_descr</span><span class="p">)</span>
+<a name="ln-522"></a><span class="k">               ENDDO</span>
+<a name="ln-523"></a><span class="k">            ENDDO </span><span class="n">map_loop</span>
+<a name="ln-524"></a>         <span class="k">ENDDO</span>
+<a name="ln-525"></a><span class="k">      ENDDO</span>
+<a name="ln-526"></a><span class="k">      DEALLOCATE</span> <span class="p">(</span><span class="n">flop_list</span><span class="p">,</span> <span class="n">flop_index</span><span class="p">,</span> <span class="n">tmp_descr</span><span class="p">)</span>
 <a name="ln-527"></a>
 <a name="ln-528"></a>      <span class="n">this</span><span class="p">%</span><span class="n">product_wm</span> <span class="o">=&gt;</span> <span class="nb">product</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">ithread</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 <a name="ln-529"></a>      <span class="k">CALL </span><span class="n">dbcsr_mm_sched_init</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">sched</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -821,7 +821,7 @@
 <a name="ln-559"></a>         <span class="c">! create the hash table row with a reasonable initial size</span>
 <a name="ln-560"></a>         <span class="k">CALL </span><span class="n">hash_table_create</span><span class="p">(</span><span class="n">hashes</span><span class="p">(</span><span class="n">row</span><span class="p">),</span> <span class="p">&amp;</span>
 <a name="ln-561"></a>                                <span class="nb">MAX</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">block_estimate</span><span class="p">)</span><span class="o">/</span><span class="nb">MAX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_rows</span><span class="p">)))</span>
-<a name="ln-562"></a>      <span class="n">ENDDO</span>
+<a name="ln-562"></a>      <span class="k">ENDDO</span>
 <a name="ln-563"></a>      <span class="c">! We avoid using the iterator because we will use the existing</span>
 <a name="ln-564"></a>      <span class="c">! work matrix instead of the BCSR index.</span>
 <a name="ln-565"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">imat</span><span class="p">)%</span><span class="n">lastblk</span>
@@ -830,8 +830,8 @@
 <a name="ln-568"></a>         <span class="n">row</span> <span class="o">=</span> <span class="n">row_map</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
 <a name="ln-569"></a>         <span class="n">col</span> <span class="o">=</span> <span class="n">col_map</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
 <a name="ln-570"></a>         <span class="k">CALL </span><span class="n">hash_table_add</span><span class="p">(</span><span class="n">hashes</span><span class="p">(</span><span class="n">row</span><span class="p">),</span> <span class="n">col</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-<a name="ln-571"></a>      <span class="n">ENDDO</span>
-<a name="ln-572"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<a name="ln-571"></a>      <span class="k">ENDDO</span>
+<a name="ln-572"></a><span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
 <a name="ln-573"></a>   <span class="k">END SUBROUTINE </span><span class="n">fill_hash_tables</span>
 <a name="ln-574"></a>
 <a name="ln-575"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_mm_csr_phaseout</span><span class="p">(</span><span class="n">this</span><span class="p">)</span>
@@ -852,8 +852,8 @@
 <a name="ln-590"></a>      <span class="c">! Clear hash tables</span>
 <a name="ln-591"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">c_hashes</span><span class="p">)</span>
 <a name="ln-592"></a>         <span class="k">CALL </span><span class="n">hash_table_release</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">c_hashes</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-<a name="ln-593"></a>      <span class="n">ENDDO</span>
-<a name="ln-594"></a>      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">c_hashes</span><span class="p">)</span>
+<a name="ln-593"></a>      <span class="k">ENDDO</span>
+<a name="ln-594"></a><span class="k">      DEALLOCATE</span> <span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">c_hashes</span><span class="p">)</span>
 <a name="ln-595"></a>      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">stacks_descr</span><span class="p">)</span>
 <a name="ln-596"></a>      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">stack_map</span><span class="p">)</span>
 <a name="ln-597"></a>      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">m_size_maps</span><span class="p">)</span>
@@ -903,9 +903,9 @@
 <a name="ln-641"></a><span class="k">         DO </span><span class="n">iblock</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">original_lastblk</span>
 <a name="ln-642"></a>            <span class="n">row_i</span><span class="p">(</span><span class="n">iblock</span><span class="p">)</span> <span class="o">=</span> <span class="n">g2l_map_rows</span><span class="p">(</span><span class="n">row_i</span><span class="p">(</span><span class="n">iblock</span><span class="p">))</span>
 <a name="ln-643"></a>            <span class="n">col_i</span><span class="p">(</span><span class="n">iblock</span><span class="p">)</span> <span class="o">=</span> <span class="n">g2l_map_cols</span><span class="p">(</span><span class="n">col_i</span><span class="p">(</span><span class="n">iblock</span><span class="p">))</span>
-<a name="ln-644"></a>         <span class="n">ENDDO</span>
-<a name="ln-645"></a>      <span class="n">ENDIF</span>
-<a name="ln-646"></a>      <span class="n">lb_meta</span> <span class="o">=</span> <span class="n">ub_meta</span>
+<a name="ln-644"></a>         <span class="k">ENDDO</span>
+<a name="ln-645"></a><span class="k">      ENDIF</span>
+<a name="ln-646"></a><span class="k">      </span><span class="n">lb_meta</span> <span class="o">=</span> <span class="n">ub_meta</span>
 <a name="ln-647"></a>      <span class="n">ub_meta</span> <span class="o">=</span> <span class="n">lb_meta</span> <span class="o">+</span> <span class="n">nblocks</span>
 <a name="ln-648"></a>      <span class="n">blk_p</span> <span class="o">=&gt;</span> <span class="n">meta_buffer</span><span class="p">(</span><span class="n">lb_meta</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">ub_meta</span><span class="p">)</span>
 <a name="ln-649"></a>      <span class="c">!</span>
@@ -920,7 +920,7 @@
 <a name="ln-658"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">block_exists</span><span class="p">)</span> <span class="k">CYCLE</span>
 <a name="ln-659"></a><span class="k">         </span><span class="n">nblks_max</span> <span class="o">=</span> <span class="n">nblks_max</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-660"></a>         <span class="n">nze_max</span> <span class="o">=</span> <span class="n">nze_max</span> <span class="o">+</span> <span class="n">nze</span>
-<a name="ln-661"></a>      <span class="n">ENDDO</span>
+<a name="ln-661"></a>      <span class="k">ENDDO</span>
 <a name="ln-662"></a>      <span class="c">! Resize buffers</span>
 <a name="ln-663"></a>      <span class="k">CALL </span><span class="n">dbcsr_data_ensure_size</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">product_wm</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-664"></a>                                  <span class="n">nze_max</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="n">default_resize_factor</span><span class="p">,</span> <span class="n">nocopy</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span> <span class="p">&amp;</span>
@@ -954,9 +954,9 @@
 <a name="ln-692"></a>            <span class="c">!</span>
 <a name="ln-693"></a>            <span class="k">CALL </span><span class="n">dbcsr_block_copy_aa</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">product_wm</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span> <span class="n">data_buffer</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-694"></a>                                     <span class="n">m_sizes</span><span class="p">(</span><span class="n">row_i</span><span class="p">(</span><span class="n">iblock</span><span class="p">)),</span> <span class="n">n_sizes</span><span class="p">(</span><span class="n">col_i</span><span class="p">(</span><span class="n">iblock</span><span class="p">)),</span> <span class="n">lb</span><span class="p">,</span> <span class="n">lb_data</span><span class="p">)</span>
-<a name="ln-695"></a>         <span class="n">ENDIF</span>
-<a name="ln-696"></a>      <span class="n">ENDDO</span>
-<a name="ln-697"></a>      <span class="k">CALL </span><span class="n">dbcsr_mm_sched_set_orig_datasize</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">sched</span><span class="p">,</span> <span class="n">this</span><span class="p">%</span><span class="n">product_wm</span><span class="p">%</span><span class="n">datasize</span><span class="p">)</span>
+<a name="ln-695"></a>         <span class="k">ENDIF</span>
+<a name="ln-696"></a><span class="k">      ENDDO</span>
+<a name="ln-697"></a><span class="k">      CALL </span><span class="n">dbcsr_mm_sched_set_orig_datasize</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">sched</span><span class="p">,</span> <span class="n">this</span><span class="p">%</span><span class="n">product_wm</span><span class="p">%</span><span class="n">datasize</span><span class="p">)</span>
 <a name="ln-698"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_mm_csr_red3D</span>
 <a name="ln-699"></a>
 <a name="ln-700"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_mm_csr_purge_stacks</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
@@ -981,9 +981,9 @@
 <a name="ln-719"></a>      <span class="n">min_fill</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">stacks_data</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">3</span><span class="o">/</span><span class="mi">4</span> <span class="c">!TODO: play with this</span>
 <a name="ln-720"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">purge</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-721"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">purge</span><span class="p">)</span> <span class="n">min_fill</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-722"></a>      <span class="n">ENDIF</span>
+<a name="ln-722"></a>      <span class="k">ENDIF</span>
 <a name="ln-723"></a>
-<a name="ln-724"></a>      <span class="k">CALL </span><span class="n">dbcsr_mm_sched_begin_burst</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">sched</span><span class="p">)</span>
+<a name="ln-724"></a><span class="k">      CALL </span><span class="n">dbcsr_mm_sched_begin_burst</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">sched</span><span class="p">)</span>
 <a name="ln-725"></a>
 <a name="ln-726"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n_stacks</span>
 <a name="ln-727"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">stacks_fillcount</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">min_fill</span><span class="p">)</span> <span class="k">THEN</span>
@@ -998,8 +998,8 @@
 <a name="ln-736"></a>                                        <span class="n">stack_descr</span><span class="o">=</span><span class="n">stack_descr</span><span class="p">)</span>
 <a name="ln-737"></a>
 <a name="ln-738"></a>            <span class="n">stack_fillcount</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-739"></a>         <span class="n">ENDIF</span>
-<a name="ln-740"></a>      <span class="k">END DO</span>
+<a name="ln-739"></a>         <span class="k">ENDIF</span>
+<a name="ln-740"></a><span class="k">      END DO</span>
 <a name="ln-741"></a>
 <a name="ln-742"></a><span class="k">      CALL </span><span class="n">dbcsr_mm_sched_end_burst</span><span class="p">()</span>
 <a name="ln-743"></a>   <span class="k">END SUBROUTINE </span><span class="n">flush_stacks</span>
@@ -1026,20 +1026,20 @@
 <a name="ln-764"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-765"></a><span class="k">         WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="s1">&#39;(I7,1X,5(A,2(1X,I7)))&#39;</span><span class="p">)</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;bci&quot;</span><span class="p">,</span> <span class="n">mi</span><span class="p">,</span> <span class="n">mf</span><span class="p">,</span> <span class="s2">&quot;;&quot;</span><span class="p">,</span> <span class="n">ai</span><span class="p">,</span> <span class="n">af</span>
 <a name="ln-766"></a>         <span class="c">!write(*,&#39;(3(I7))&#39;)list_index(:,ai:af)</span>
-<a name="ln-767"></a>      <span class="n">ENDIF</span>
+<a name="ln-767"></a>      <span class="k">ENDIF</span>
 <a name="ln-768"></a>
-<a name="ln-769"></a>      <span class="n">counts</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-769"></a><span class="k">      </span><span class="n">counts</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
 <a name="ln-770"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="n">ai</span><span class="p">,</span> <span class="n">af</span>
 <a name="ln-771"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">careful</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-772"></a><span class="k">            IF</span> <span class="p">(</span><span class="n">list_index</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">mi</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of range&quot;</span><span class="p">)</span>
 <a name="ln-773"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">list_index</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">mf</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of range&quot;</span><span class="p">)</span>
-<a name="ln-774"></a>         <span class="n">ENDIF</span>
-<a name="ln-775"></a>         <span class="n">counts</span><span class="p">(</span><span class="n">list_index</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span> <span class="o">=</span> <span class="n">counts</span><span class="p">(</span><span class="n">list_index</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-776"></a>      <span class="n">ENDDO</span>
-<a name="ln-777"></a>      <span class="n">row_p</span><span class="p">(</span><span class="n">mi</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-774"></a>         <span class="k">ENDIF</span>
+<a name="ln-775"></a><span class="k">         </span><span class="n">counts</span><span class="p">(</span><span class="n">list_index</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span> <span class="o">=</span> <span class="n">counts</span><span class="p">(</span><span class="n">list_index</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-776"></a>      <span class="k">ENDDO</span>
+<a name="ln-777"></a><span class="k">      </span><span class="n">row_p</span><span class="p">(</span><span class="n">mi</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>
 <a name="ln-778"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="n">mi</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mf</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-779"></a>         <span class="n">row_p</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">row_p</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">counts</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-<a name="ln-780"></a>      <span class="n">ENDDO</span>
+<a name="ln-780"></a>      <span class="k">ENDDO</span>
 <a name="ln-781"></a>      <span class="c">! Adds every block to its corresponding row.</span>
 <a name="ln-782"></a>      <span class="n">counts</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
 <a name="ln-783"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="n">ai</span><span class="p">,</span> <span class="n">af</span>
@@ -1048,17 +1048,17 @@
 <a name="ln-786"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">careful</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-787"></a><span class="k">            IF</span> <span class="p">(</span><span class="n">row_p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">+</span> <span class="n">counts</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">af</span> <span class="o">-</span> <span class="n">ai</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of range&quot;</span><span class="p">)</span>
 <a name="ln-788"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">row_p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">+</span> <span class="n">counts</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of range&quot;</span><span class="p">)</span>
-<a name="ln-789"></a>         <span class="n">ENDIF</span>
-<a name="ln-790"></a>         <span class="n">blk_info</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">row_p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">+</span> <span class="n">counts</span><span class="p">(</span><span class="n">row</span><span class="p">))</span> <span class="o">=</span> <span class="n">list_index</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+<a name="ln-789"></a>         <span class="k">ENDIF</span>
+<a name="ln-790"></a><span class="k">         </span><span class="n">blk_info</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">row_p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">+</span> <span class="n">counts</span><span class="p">(</span><span class="n">row</span><span class="p">))</span> <span class="o">=</span> <span class="n">list_index</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
 <a name="ln-791"></a>         <span class="n">blk_info</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">row_p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">+</span> <span class="n">counts</span><span class="p">(</span><span class="n">row</span><span class="p">))</span> <span class="o">=</span> <span class="n">list_index</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
 <a name="ln-792"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">nnorms</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-793"></a><span class="k">            </span><span class="n">csr_norms</span><span class="p">(</span><span class="n">row_p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">+</span> <span class="n">counts</span><span class="p">(</span><span class="n">row</span><span class="p">))</span> <span class="o">=</span> <span class="n">list_norms</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a name="ln-794"></a>         <span class="n">ENDIF</span>
-<a name="ln-795"></a>      <span class="n">ENDDO</span>
-<a name="ln-796"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">nnorms</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-794"></a>         <span class="k">ENDIF</span>
+<a name="ln-795"></a><span class="k">      ENDDO</span>
+<a name="ln-796"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">nnorms</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-797"></a><span class="k">         </span><span class="n">csr_norms</span><span class="p">(:)</span> <span class="o">=</span> <span class="mf">0.0_sp</span>
-<a name="ln-798"></a>      <span class="n">ENDIF</span>
-<a name="ln-799"></a>   <span class="k">END SUBROUTINE </span><span class="n">build_csr_index</span>
+<a name="ln-798"></a>      <span class="k">ENDIF</span>
+<a name="ln-799"></a><span class="k">   END SUBROUTINE </span><span class="n">build_csr_index</span>
 <a name="ln-800"></a>
 <a name="ln-801"></a>   <span class="k">ELEMENTAL FUNCTION </span><span class="n">my_checker_tr</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">column</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="nb">transpose</span><span class="p">)</span>
 <a name="ln-802"></a>      <span class="c">!! Determines whether a transpose must be applied</span>

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -334,7 +334,7 @@ public subroutine dbcsr_make_dists_dense(product_dist, left_rdist, right_rdist, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-m_map~2"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td><span class="anchor" id="variable-m_map"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -349,7 +349,7 @@ public subroutine dbcsr_make_dists_dense(product_dist, left_rdist, right_rdist, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-k_vmap~2"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td><span class="anchor" id="variable-k_vmap"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -364,7 +364,7 @@ public subroutine dbcsr_make_dists_dense(product_dist, left_rdist, right_rdist, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-n_map~2"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
+  <td><span class="anchor" id="variable-n_map"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -519,8 +519,8 @@ public subroutine dbcsr_make_dists_dense(product_dist, left_rdist, right_rdist, 
          <span class="c">! Resets the thread distribution to be in-order.</span>
          <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">m_nbins</span>
             <span class="n">tdist</span><span class="p">((</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">nthreads</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:(</span><span class="n">i</span><span class="p">)</span><span class="o">*</span><span class="n">nthreads</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="o">/</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">nthreads</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="p">)</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDIF</span>
+         <span class="k">ENDDO</span>
+<span class="k">      ENDIF</span>
       <span class="c">!</span>
       <span class="k">CALL </span><span class="n">dbcsr_make_1dist_dense</span><span class="p">(</span><span class="n">k_nbins</span><span class="p">,</span> <span class="n">old_k_vdist</span><span class="p">,</span> <span class="n">new_k_vdist</span><span class="p">,</span> <span class="n">k_vmap</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">v_to_p_i_dist_o</span><span class="p">(</span><span class="n">new_k_vdist</span><span class="p">,</span> <span class="p">&amp;</span>

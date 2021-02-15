@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -330,10 +330,10 @@
 <a name="ln-68"></a>         <span class="k">DO </span><span class="n">pcol</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">npdims</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
 <a name="ln-69"></a>            <span class="n">coord</span> <span class="o">=</span> <span class="p">(</span><span class="o">/</span><span class="n">prow</span><span class="p">,</span> <span class="n">pcol</span><span class="o">/</span><span class="p">)</span>
 <a name="ln-70"></a>            <span class="k">CALL </span><span class="n">mp_cart_rank</span><span class="p">(</span><span class="n">mp_comm</span><span class="p">,</span> <span class="n">coord</span><span class="p">,</span> <span class="n">pgrid</span><span class="p">(</span><span class="n">prow</span><span class="p">,</span> <span class="n">pcol</span><span class="p">))</span>
-<a name="ln-71"></a>         <span class="n">ENDDO</span>
-<a name="ln-72"></a>      <span class="n">ENDDO</span>
+<a name="ln-71"></a>         <span class="k">ENDDO</span>
+<a name="ln-72"></a><span class="k">      ENDDO</span>
 <a name="ln-73"></a>
-<a name="ln-74"></a>      <span class="n">DBCSR_ASSERT</span><span class="p">(</span><span class="n">mynode</span> <span class="o">==</span> <span class="n">pgrid</span><span class="p">(</span><span class="n">mycoord</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">mycoord</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
+<a name="ln-74"></a><span class="k">      </span><span class="n">DBCSR_ASSERT</span><span class="p">(</span><span class="n">mynode</span> <span class="o">==</span> <span class="n">pgrid</span><span class="p">(</span><span class="n">mycoord</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">mycoord</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
 <a name="ln-75"></a>
 <a name="ln-76"></a>      <span class="k">CALL </span><span class="n">dbcsr_mp_new</span><span class="p">(</span><span class="n">dbcsr_mp_environ</span><span class="p">,</span> <span class="n">mp_comm</span><span class="p">,</span> <span class="n">pgrid</span><span class="p">,</span> <span class="n">mynode</span><span class="p">,</span> <span class="n">numnodes</span><span class="p">,</span> <span class="n">mycoord</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">mycoord</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 <a name="ln-77"></a>   <span class="k">END FUNCTION</span>
@@ -381,10 +381,10 @@
 <a name="ln-119"></a><span class="k">            </span><span class="nb">count</span> <span class="o">=</span> <span class="nb">count</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-120"></a>            <span class="n">index_tmp</span><span class="p">(</span><span class="nb">count</span><span class="p">,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">index_sorted</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="p">:)</span>
 <a name="ln-121"></a>            <span class="n">prev_index</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">index_sorted</span><span class="p">(</span><span class="n">blk</span><span class="p">,</span> <span class="p">:)</span>
-<a name="ln-122"></a>         <span class="n">ENDIF</span>
-<a name="ln-123"></a>      <span class="n">ENDDO</span>
+<a name="ln-122"></a>         <span class="k">ENDIF</span>
+<a name="ln-123"></a><span class="k">      ENDDO</span>
 <a name="ln-124"></a>
-<a name="ln-125"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">index_out</span><span class="p">(</span><span class="nb">count</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<a name="ln-125"></a><span class="k">      ALLOCATE</span> <span class="p">(</span><span class="n">index_out</span><span class="p">(</span><span class="nb">count</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 <a name="ln-126"></a>      <span class="n">index_out</span><span class="p">(:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">index_tmp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">count</span><span class="p">,</span> <span class="p">:)</span>
 <a name="ln-127"></a>   <span class="k">END SUBROUTINE</span>
 <a name="ln-128"></a>
@@ -395,8 +395,8 @@
 <a name="ln-133"></a><span class="k">         </span><span class="n">trans_flag</span> <span class="o">=</span> <span class="n">dbcsr_no_transpose</span>
 <a name="ln-134"></a>      <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">trans_flag</span> <span class="o">==</span> <span class="n">dbcsr_no_transpose</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-135"></a><span class="k">         </span><span class="n">trans_flag</span> <span class="o">=</span> <span class="n">dbcsr_transpose</span>
-<a name="ln-136"></a>      <span class="n">ENDIF</span>
-<a name="ln-137"></a>   <span class="k">END SUBROUTINE</span>
+<a name="ln-136"></a>      <span class="k">ENDIF</span>
+<a name="ln-137"></a><span class="k">   END SUBROUTINE</span>
 <a name="ln-138"></a>
 <a name="ln-139"></a><span class="k">   </span><span class="n">PURE_ARRAY_EQ</span> <span class="k">FUNCTION </span><span class="n">array_eq_i</span><span class="p">(</span><span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span><span class="p">)</span>
 <a name="ln-140"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">arr1</span><span class="p">,</span> <span class="n">arr2</span>

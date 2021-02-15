@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -244,7 +244,7 @@ public subroutine csr_write(csr_mat, unit_nr, upper_triangle, threshold, binary)
   
 <tr>
   
-  <td><span class="anchor" id="variable-unit_nr~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-unit_nr~29"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -396,21 +396,21 @@ public subroutine csr_write(csr_mat, unit_nr, upper_triangle, threshold, binary)
 <span class="k">         </span><span class="n">ut</span> <span class="o">=</span> <span class="n">upper_triangle</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">ut</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">threshold</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">threshold</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">thld</span> <span class="o">=</span> <span class="n">threshold</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">thld</span> <span class="o">=</span> <span class="mf">0.0_dp</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">binary</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">binary</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">bin</span> <span class="o">=</span> <span class="n">binary</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">bin</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
-      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">csr_mat</span><span class="p">%</span><span class="n">valid</span><span class="p">)</span> <span class="p">&amp;</span>
+<span class="k">      IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">csr_mat</span><span class="p">%</span><span class="n">valid</span><span class="p">)</span> <span class="p">&amp;</span>
          <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;can not write invalid CSR matrix&quot;</span><span class="p">)</span>
 
       <span class="n">tag1</span> <span class="o">=</span> <span class="mi">0</span>
@@ -447,9 +447,9 @@ public subroutine csr_write(csr_mat, unit_nr, upper_triangle, threshold, binary)
                <span class="n">data_format</span> <span class="o">=</span> <span class="s2">&quot;(2(I8),2(E23.14E3))&quot;</span>
                <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">nzval_to_master_c_dp</span><span class="p">(</span><span class="n">sizes_nzelocal</span><span class="p">(</span><span class="n">ii</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span>
             <span class="k">END SELECT</span>
-<span class="k">         </span><span class="n">ENDIF</span>
+<span class="k">         ENDIF</span>
 
-         <span class="k">IF</span> <span class="p">(</span><span class="n">mynode</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span> <span class="c">! receive at node 0</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">mynode</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span> <span class="c">! receive at node 0</span>
             <span class="k">IF</span> <span class="p">(</span><span class="n">ii</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span> <span class="c">! data from node 0, no need for mpi routines</span>
                <span class="n">colind_to_master</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">csr_mat</span><span class="p">%</span><span class="n">colind_local</span><span class="p">(:)</span>
                <span class="n">nzerow_to_master</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">csr_mat</span><span class="p">%</span><span class="n">nzerow_local</span><span class="p">(:)</span>
@@ -476,10 +476,10 @@ public subroutine csr_write(csr_mat, unit_nr, upper_triangle, threshold, binary)
                <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
                   <span class="k">CALL </span><span class="n">mp_recv</span><span class="p">(</span><span class="n">nzval_to_master_c_dp</span><span class="p">,</span> <span class="n">ii</span><span class="p">,</span> <span class="n">tag3</span><span class="p">,</span> <span class="n">csr_mat</span><span class="p">%</span><span class="n">mp_group</span><span class="p">)</span>
                <span class="k">END SELECT</span>
-<span class="k">            </span><span class="n">ENDIF</span>
-         <span class="n">ENDIF</span>
+<span class="k">            ENDIF</span>
+<span class="k">         ENDIF</span>
 
-         <span class="k">IF</span> <span class="p">((</span><span class="n">mynode</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">ii</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">(</span><span class="n">ii</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">))</span> <span class="k">THEN</span> <span class="c">! send from nodes with rank &gt; 0</span>
+<span class="k">         IF</span> <span class="p">((</span><span class="n">mynode</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">ii</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">(</span><span class="n">ii</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">))</span> <span class="k">THEN</span> <span class="c">! send from nodes with rank &gt; 0</span>
             <span class="k">CALL </span><span class="n">mp_send</span><span class="p">(</span><span class="n">csr_mat</span><span class="p">%</span><span class="n">colind_local</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tag1</span><span class="p">,</span> <span class="n">csr_mat</span><span class="p">%</span><span class="n">mp_group</span><span class="p">)</span>
             <span class="k">CALL </span><span class="n">mp_send</span><span class="p">(</span><span class="n">csr_mat</span><span class="p">%</span><span class="n">nzerow_local</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tag2</span><span class="p">,</span> <span class="n">csr_mat</span><span class="p">%</span><span class="n">mp_group</span><span class="p">)</span>
             <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">csr_mat</span><span class="p">%</span><span class="n">nzval_local</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span>
@@ -492,9 +492,9 @@ public subroutine csr_write(csr_mat, unit_nr, upper_triangle, threshold, binary)
             <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
                <span class="k">CALL </span><span class="n">mp_send</span><span class="p">(</span><span class="n">csr_mat</span><span class="p">%</span><span class="n">nzval_local</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tag3</span><span class="p">,</span> <span class="n">csr_mat</span><span class="p">%</span><span class="n">mp_group</span><span class="p">)</span>
             <span class="k">END SELECT</span>
-<span class="k">         </span><span class="n">ENDIF</span>
+<span class="k">         ENDIF</span>
 
-         <span class="k">IF</span> <span class="p">(</span><span class="n">mynode</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span> <span class="c">! write data received at node 0</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">mynode</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span> <span class="c">! write data received at node 0</span>
             <span class="c">!WRITE(unit_nr,&quot;(A27)&quot;) &quot;#row ind, col ind, value&quot;</span>
             <span class="n">m</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">DO </span><span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">sizes_numrowlocal</span><span class="p">(</span><span class="n">ii</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
@@ -540,11 +540,11 @@ public subroutine csr_write(csr_mat, unit_nr, upper_triangle, threshold, binary)
                            <span class="k">END IF</span>
 <span class="k">                        END IF</span>
 <span class="k">                     END SELECT</span>
-<span class="k">                  </span><span class="n">ENDIF</span>
-               <span class="n">ENDDO</span>
-            <span class="n">ENDDO</span>
+<span class="k">                  ENDIF</span>
+<span class="k">               ENDDO</span>
+<span class="k">            ENDDO</span>
 
-            <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">colind_to_master</span><span class="p">)</span>
+<span class="k">            DEALLOCATE</span> <span class="p">(</span><span class="n">colind_to_master</span><span class="p">)</span>
             <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">nzerow_to_master</span><span class="p">)</span>
 
             <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">csr_mat</span><span class="p">%</span><span class="n">nzval_local</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span>
@@ -557,10 +557,10 @@ public subroutine csr_write(csr_mat, unit_nr, upper_triangle, threshold, binary)
             <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
                <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">nzval_to_master_c_dp</span><span class="p">)</span>
             <span class="k">END SELECT</span>
-<span class="k">         </span><span class="n">ENDIF</span>
-      <span class="n">ENDDO</span>
+<span class="k">         ENDIF</span>
+<span class="k">      ENDDO</span>
 
-      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
 
    <span class="k">END SUBROUTINE </span><span class="n">csr_write</span>
 </pre></div>

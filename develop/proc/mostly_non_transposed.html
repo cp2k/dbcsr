@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -230,7 +230,7 @@ private pure function mostly_non_transposed(blk_p)
   
 <tr>
   
-  <td><span class="anchor" id="variable-blk_p~19"></span>integer,</td>
+  <td><span class="anchor" id="variable-blk_p~12"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -330,23 +330,23 @@ private pure function mostly_non_transposed(blk_p)
       <span class="k">IF</span> <span class="p">(</span><span class="n">n</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">mostly_non_transposed</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
          <span class="k">RETURN</span>
-<span class="k">      </span><span class="n">ENDIF</span>
-      <span class="n">str</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">      ENDIF</span>
+<span class="k">      </span><span class="n">str</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="n">sntr</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="k">CALL </span><span class="n">check_range</span><span class="p">(</span><span class="n">blk_p</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">allcheck_cutoff</span><span class="p">,</span> <span class="n">sntr</span><span class="p">,</span> <span class="n">str</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">n</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">4</span><span class="o">*</span><span class="n">allcheck_cutoff</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">check_range</span><span class="p">(</span><span class="n">blk_p</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="n">allcheck_cutoff</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="p">(</span><span class="n">n</span> <span class="o">+</span> <span class="n">allcheck_cutoff</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="p">&amp;</span>
                           <span class="n">sntr</span><span class="p">,</span> <span class="n">str</span><span class="p">)</span>
          <span class="k">CALL </span><span class="n">check_range</span><span class="p">(</span><span class="n">blk_p</span><span class="p">,</span> <span class="n">n</span> <span class="o">-</span> <span class="n">allcheck_cutoff</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">sntr</span><span class="p">,</span> <span class="n">str</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">str</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+      <span class="k">ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="n">str</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">mostly_non_transposed</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
          <span class="k">RETURN</span>
 <span class="k">      ELSE</span>
          <span class="c">! Bias towards .TRUE.</span>
          <span class="n">mostly_non_transposed</span> <span class="o">=</span> <span class="p">((</span><span class="mi">2</span><span class="o">*</span><span class="n">str</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">str</span> <span class="o">+</span> <span class="n">sntr</span><span class="p">))</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span>
-      <span class="n">ENDIF</span>
-      <span class="k">RETURN</span>
+      <span class="k">ENDIF</span>
+<span class="k">      RETURN</span>
 <span class="k">   CONTAINS</span>
 <span class="k">      PURE SUBROUTINE </span><span class="n">check_range</span><span class="p">(</span><span class="n">blk_p</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">,</span> <span class="n">sntr</span><span class="p">,</span> <span class="n">str</span><span class="p">)</span>
          <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">blk_p</span>

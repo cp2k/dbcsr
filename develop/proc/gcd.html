@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -227,7 +227,7 @@ public elemental function gcd(a, b)
   
 <tr>
   
-  <td><span class="anchor" id="variable-a"></span>integer,</td>
+  <td><span class="anchor" id="variable-a~5"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -341,19 +341,19 @@ public elemental function gcd(a, b)
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">s</span> <span class="o">=</span> <span class="n">ab</span>
          <span class="n">l</span> <span class="o">=</span> <span class="n">aa</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">s</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+      <span class="k">ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="n">s</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         DO</span>
 <span class="k">            </span><span class="n">rem</span> <span class="o">=</span> <span class="nb">MOD</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
             <span class="k">IF</span> <span class="p">(</span><span class="n">rem</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">EXIT</span>
 <span class="k">            </span><span class="n">l</span> <span class="o">=</span> <span class="n">s</span>
             <span class="n">s</span> <span class="o">=</span> <span class="n">rem</span>
-         <span class="n">ENDDO</span>
-         <span class="n">GCD</span> <span class="o">=</span> <span class="n">s</span>
+         <span class="k">ENDDO</span>
+<span class="k">         </span><span class="n">GCD</span> <span class="o">=</span> <span class="n">s</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">GCD</span> <span class="o">=</span> <span class="n">l</span>
-      <span class="n">ENDIF</span>
-   <span class="k">END FUNCTION </span><span class="n">gcd</span>
+      <span class="k">ENDIF</span>
+<span class="k">   END FUNCTION </span><span class="n">gcd</span>
 </pre></div>
 
     </section>

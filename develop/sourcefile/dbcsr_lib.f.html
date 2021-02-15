@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -375,8 +375,8 @@
 <a name="ln-113"></a>         <span class="c">! Update ext_io_unit</span>
 <a name="ln-114"></a>         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">io_unit</span><span class="p">))</span> <span class="n">ext_io_unit</span> <span class="o">=</span> <span class="n">io_unit</span>
 <a name="ln-115"></a>         <span class="k">RETURN</span>
-<a name="ln-116"></a><span class="k">      </span><span class="n">ENDIF</span>
-<a name="ln-117"></a>      <span class="k">CALL </span><span class="n">dbcsr_init_lib_pre</span><span class="p">(</span><span class="n">mp_comm</span><span class="p">,</span> <span class="n">io_unit</span><span class="p">,</span> <span class="n">accdrv_active_device_id</span><span class="p">)</span>
+<a name="ln-116"></a><span class="k">      ENDIF</span>
+<a name="ln-117"></a><span class="k">      CALL </span><span class="n">dbcsr_init_lib_pre</span><span class="p">(</span><span class="n">mp_comm</span><span class="p">,</span> <span class="n">io_unit</span><span class="p">,</span> <span class="n">accdrv_active_device_id</span><span class="p">)</span>
 <a name="ln-118"></a>      <span class="c">!</span>
 <a name="ln-119"></a>      <span class="c">! Declare loggers</span>
 <a name="ln-120"></a>      <span class="k">CALL </span><span class="n">dbcsr_logger_create</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">mp_env</span><span class="o">=</span><span class="n">mp_env</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -411,8 +411,8 @@
 <a name="ln-149"></a>         <span class="c">! Update ext_io_unit</span>
 <a name="ln-150"></a>         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">io_unit</span><span class="p">))</span> <span class="n">ext_io_unit</span> <span class="o">=</span> <span class="n">io_unit</span>
 <a name="ln-151"></a>         <span class="k">RETURN</span>
-<a name="ln-152"></a><span class="k">      </span><span class="n">ENDIF</span>
-<a name="ln-153"></a>      <span class="k">CALL </span><span class="n">dbcsr_init_lib_pre</span><span class="p">(</span><span class="n">mp_comm</span><span class="p">,</span> <span class="n">io_unit</span><span class="p">,</span> <span class="n">accdrv_active_device_id</span><span class="p">)</span>
+<a name="ln-152"></a><span class="k">      ENDIF</span>
+<a name="ln-153"></a><span class="k">      CALL </span><span class="n">dbcsr_init_lib_pre</span><span class="p">(</span><span class="n">mp_comm</span><span class="p">,</span> <span class="n">io_unit</span><span class="p">,</span> <span class="n">accdrv_active_device_id</span><span class="p">)</span>
 <a name="ln-154"></a>      <span class="c">! abort/warn hooks</span>
 <a name="ln-155"></a>      <span class="n">dbcsr_abort_hook</span> <span class="o">=&gt;</span> <span class="n">in_abort_hook</span>
 <a name="ln-156"></a>      <span class="n">dbcsr_warn_hook</span> <span class="o">=&gt;</span> <span class="n">in_warn_hook</span>
@@ -447,14 +447,14 @@
 <a name="ln-185"></a>      <span class="k">ELSE</span>
 <a name="ln-186"></a><span class="k">         </span><span class="n">ext_io_unit</span> <span class="o">=</span> <span class="mi">0</span>
 <a name="ln-187"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">mynode</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="n">ext_io_unit</span> <span class="o">=</span> <span class="n">default_output_unit</span>
-<a name="ln-188"></a>      <span class="n">ENDIF</span>
+<a name="ln-188"></a>      <span class="k">ENDIF</span>
 <a name="ln-189"></a>
 <a name="ln-190"></a>      <span class="c">! if MPI was not initialized in DBCSR, then need to check for the number of communicators</span>
 <a name="ln-191"></a>      <span class="c">! when we finalize DBCSR</span>
 <a name="ln-192"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">mp_get_comm_count</span><span class="p">()</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-193"></a><span class="k">         </span><span class="n">check_comm_count</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-<a name="ln-194"></a>      <span class="n">ENDIF</span>
-<a name="ln-195"></a>      <span class="k">CALL </span><span class="n">dbcsr_mp_make_env</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span> <span class="n">default_group</span><span class="p">,</span> <span class="n">mp_comm</span><span class="p">)</span>
+<a name="ln-194"></a>      <span class="k">ENDIF</span>
+<a name="ln-195"></a><span class="k">      CALL </span><span class="n">dbcsr_mp_make_env</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span> <span class="n">default_group</span><span class="p">,</span> <span class="n">mp_comm</span><span class="p">)</span>
 <a name="ln-196"></a>
 <a name="ln-197"></a><span class="cp">#if defined(__LIBXSMM)</span>
 <a name="ln-198"></a>      <span class="k">CALL </span><span class="n">libxsmm_init</span><span class="p">()</span>
@@ -466,7 +466,7 @@
 <a name="ln-204"></a>      <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">dbcsr_acc_get_ndevices</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-205"></a>         <span class="c">! Use round-robin assignment per rank</span>
 <a name="ln-206"></a>         <span class="k">CALL </span><span class="n">set_accdrv_active_device_id</span><span class="p">(</span><span class="nb">MOD</span><span class="p">(</span><span class="n">mynode</span><span class="p">,</span> <span class="n">dbcsr_acc_get_ndevices</span><span class="p">()))</span>
-<a name="ln-207"></a>      <span class="n">ENDIF</span>
+<a name="ln-207"></a>      <span class="k">ENDIF</span>
 <a name="ln-208"></a><span class="cp">#if defined(__DBCSR_ACC)</span>
 <a name="ln-209"></a>      <span class="k">CALL </span><span class="n">dbcsr_acc_set_active_device</span><span class="p">(</span><span class="n">get_accdrv_active_device_id</span><span class="p">())</span>
 <a name="ln-210"></a>
@@ -482,8 +482,8 @@
 <a name="ln-220"></a>         <span class="k">ELSE</span>
 <a name="ln-221"></a><span class="k">            CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-222"></a>                             <span class="s2">&quot;DBCSR compiled w/o threading support while libsmm_acc is compiled w/ threading support.&quot;</span><span class="p">)</span>
-<a name="ln-223"></a>         <span class="n">ENDIF</span>
-<a name="ln-224"></a>      <span class="n">ENDIF</span>
+<a name="ln-223"></a>         <span class="k">ENDIF</span>
+<a name="ln-224"></a><span class="k">      ENDIF</span>
 <a name="ln-225"></a>
 <a name="ln-226"></a><span class="cp">#endif</span>
 <a name="ln-227"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_init_lib_pre</span>
@@ -509,7 +509,7 @@
 <a name="ln-247"></a>
 <a name="ln-248"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">has_mp_perf_env</span><span class="p">())</span> <span class="k">THEN</span>
 <a name="ln-249"></a><span class="k">         CALL </span><span class="n">add_mp_perf_env</span><span class="p">()</span>
-<a name="ln-250"></a>      <span class="n">ENDIF</span>
+<a name="ln-250"></a>      <span class="k">ENDIF</span>
 <a name="ln-251"></a>
 <a name="ln-252"></a><span class="c">!$OMP     PARALLEL DEFAULT(NONE)</span>
 <a name="ln-253"></a>      <span class="k">CALL </span><span class="n">dbcsr_multiply_lib_init</span><span class="p">()</span>
@@ -546,8 +546,8 @@
 <a name="ln-284"></a>         <span class="k">CALL </span><span class="n">rm_mp_perf_env</span><span class="p">()</span>
 <a name="ln-285"></a>         <span class="k">CALL </span><span class="n">rm_timer_env</span><span class="p">()</span>
 <a name="ln-286"></a>         <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">logger</span><span class="p">)</span>
-<a name="ln-287"></a>      <span class="n">ENDIF</span>
-<a name="ln-288"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">timeset_hook</span><span class="p">)</span>
+<a name="ln-287"></a>      <span class="k">ENDIF</span>
+<a name="ln-288"></a><span class="k">      NULLIFY</span> <span class="p">(</span><span class="n">timeset_hook</span><span class="p">)</span>
 <a name="ln-289"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">timestop_hook</span><span class="p">)</span>
 <a name="ln-290"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">dbcsr_abort_hook</span><span class="p">)</span>
 <a name="ln-291"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">dbcsr_warn_hook</span><span class="p">)</span>
@@ -562,9 +562,9 @@
 <a name="ln-300"></a>      <span class="c">! Check the number of communicators</span>
 <a name="ln-301"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">check_comm_count</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">mp_get_comm_count</span><span class="p">()</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-302"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Number of DBCSR sub-communicators is not zero!&quot;</span><span class="p">)</span>
-<a name="ln-303"></a>      <span class="n">ENDIF</span>
+<a name="ln-303"></a>      <span class="k">ENDIF</span>
 <a name="ln-304"></a>
-<a name="ln-305"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_finalize_lib</span>
+<a name="ln-305"></a><span class="k">   END SUBROUTINE </span><span class="n">dbcsr_finalize_lib</span>
 <a name="ln-306"></a>
 <a name="ln-307"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_print_statistics</span><span class="p">(</span><span class="n">print_timers</span><span class="p">,</span> <span class="n">callgraph_filename</span><span class="p">)</span>
 <a name="ln-308"></a>      <span class="c">!! Show the whole DBCSR statistics</span>
@@ -596,15 +596,15 @@
 <a name="ln-334"></a>      <span class="c">! Dump callgraph</span>
 <a name="ln-335"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">callgraph_filename</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-336"></a><span class="k">         CALL </span><span class="n">timings_report_callgraph</span><span class="p">(</span><span class="n">callgraph_filename</span><span class="p">)</span>
-<a name="ln-337"></a>      <span class="n">ENDIF</span>
-<a name="ln-338"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_print_statistics</span>
+<a name="ln-337"></a>      <span class="k">ENDIF</span>
+<a name="ln-338"></a><span class="k">   END SUBROUTINE </span><span class="n">dbcsr_print_statistics</span>
 <a name="ln-339"></a>
 <a name="ln-340"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_print_timers</span><span class="p">()</span>
 <a name="ln-341"></a>      <span class="c">!! Print timers</span>
 <a name="ln-342"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-343"></a><span class="k">         CALL </span><span class="n">timings_report_print</span><span class="p">(</span><span class="n">ext_io_unit</span><span class="p">,</span> <span class="mf">0.0_dp</span><span class="p">,</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span> <span class="n">cost_type_time</span><span class="p">,</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="n">mp_env</span><span class="p">)</span>
-<a name="ln-344"></a>      <span class="n">ENDIF</span>
-<a name="ln-345"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_print_timers</span>
+<a name="ln-344"></a>      <span class="k">ENDIF</span>
+<a name="ln-345"></a><span class="k">   END SUBROUTINE </span><span class="n">dbcsr_print_timers</span>
 <a name="ln-346"></a>
 <a name="ln-347"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_clear_mempools</span><span class="p">()</span>
 <a name="ln-348"></a>      <span class="c">!! Deallocate memory contained in mempools</span>

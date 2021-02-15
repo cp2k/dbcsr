@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -227,7 +227,7 @@ private subroutine setup_rec_index_images(meta_buffer, img_nblks_rows, img_nblks
   
 <tr>
   
-  <td><span class="anchor" id="variable-meta_buffer~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-meta_buffer~3"></span>integer,</td>
   <td>intent(inout),</td>
   <td></td>
   
@@ -413,7 +413,7 @@ private subroutine setup_rec_index_images(meta_buffer, img_nblks_rows, img_nblks
 <span class="k">         </span><span class="n">nblkrows_local</span> <span class="o">=</span> <span class="n">img_nblks_rows</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">nblkcols_local</span> <span class="o">=</span> <span class="n">img_nblks_cols</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">!</span>
       <span class="k">DO </span><span class="n">in</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">refs_size</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">refs_size</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CYCLE</span>
@@ -423,8 +423,8 @@ private subroutine setup_rec_index_images(meta_buffer, img_nblks_rows, img_nblks
 <span class="k">            </span><span class="n">nblkcols_local</span> <span class="o">=</span> <span class="n">img_nblks_cols</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>
          <span class="k">ELSE</span>
 <span class="k">            </span><span class="n">nblkrows_local</span> <span class="o">=</span> <span class="n">img_nblks_rows</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="n">t_f</span> <span class="o">=</span> <span class="mi">1</span>
+         <span class="k">ENDIF</span>
+<span class="k">         </span><span class="n">t_f</span> <span class="o">=</span> <span class="mi">1</span>
          <span class="n">t_l</span> <span class="o">=</span> <span class="n">t_size</span>
 <span class="c">!$OMP    PARALLEL IF (has_threads) DEFAULT (NONE) &amp;</span>
 <span class="c">!$OMP    PRIVATE (ithread) &amp;</span>
@@ -444,10 +444,10 @@ private subroutine setup_rec_index_images(meta_buffer, img_nblks_rows, img_nblks
                                 <span class="n">meta_buffer</span><span class="p">(</span><span class="n">refs_displ</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="o">+</span> <span class="n">size_index</span> <span class="o">+</span> <span class="n">t_f</span><span class="o">*</span><span class="mi">3</span> <span class="o">-</span> <span class="mi">2</span><span class="p">:</span> <span class="p">&amp;</span>
                                             <span class="n">refs_displ</span><span class="p">(</span><span class="n">in</span><span class="p">)</span> <span class="o">+</span> <span class="n">size_index</span> <span class="o">+</span> <span class="n">t_l</span><span class="o">*</span><span class="mi">3</span><span class="p">),</span> <span class="p">&amp;</span>
                                 <span class="mi">0</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
+         <span class="k">ENDIF</span>
 <span class="c">!$OMP    END PARALLEL</span>
-      <span class="n">ENDDO</span>
-      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+      <span class="k">ENDDO</span>
+<span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">setup_rec_index_images</span>
 </pre></div>
 

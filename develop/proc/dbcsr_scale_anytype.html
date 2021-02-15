@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -232,7 +232,7 @@ private subroutine dbcsr_scale_anytype(matrix_a, alpha_scalar, limits)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_a~33"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_a~43"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -374,8 +374,8 @@ private subroutine dbcsr_scale_anytype(matrix_a, alpha_scalar, limits)
 <span class="k">         </span><span class="n">has_limits</span> <span class="o">=</span> <span class="nb">ANY</span><span class="p">(</span><span class="n">limits</span><span class="p">(:)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">has_limits</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-      <span class="n">ENDIF</span>
-      <span class="n">my_limits</span><span class="p">(</span><span class="n">first_row_i</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">my_limits</span><span class="p">(</span><span class="n">first_row_i</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
       <span class="n">my_limits</span><span class="p">(</span><span class="n">last_row_i</span><span class="p">)</span> <span class="o">=</span> <span class="n">dbcsr_nfullrows_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span>
       <span class="n">my_limits</span><span class="p">(</span><span class="n">first_col_i</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
       <span class="n">my_limits</span><span class="p">(</span><span class="n">last_col_i</span><span class="p">)</span> <span class="o">=</span> <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span>
@@ -384,23 +384,23 @@ private subroutine dbcsr_scale_anytype(matrix_a, alpha_scalar, limits)
 <span class="k">            IF</span> <span class="p">(</span><span class="n">debug_mod</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">(</span><span class="n">limits</span><span class="p">(</span><span class="n">last_col_i</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">limits</span><span class="p">(</span><span class="n">last_col_i</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)))</span> <span class="p">&amp;</span>
                <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Specified last column is out of bounds.&quot;</span><span class="p">)</span>
             <span class="n">my_limits</span><span class="p">(</span><span class="n">last_col_i</span><span class="p">)</span> <span class="o">=</span> <span class="n">limits</span><span class="p">(</span><span class="n">last_col_i</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">limits</span><span class="p">(</span><span class="n">first_col_i</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">limits</span><span class="p">(</span><span class="n">first_col_i</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">debug_mod</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">(</span><span class="n">limits</span><span class="p">(</span><span class="n">first_col_i</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">limits</span><span class="p">(</span><span class="n">first_col_i</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)))</span> <span class="p">&amp;</span>
                <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Specified first column is out of bounds.&quot;</span><span class="p">)</span>
             <span class="n">my_limits</span><span class="p">(</span><span class="n">first_col_i</span><span class="p">)</span> <span class="o">=</span> <span class="n">limits</span><span class="p">(</span><span class="n">first_col_i</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">limits</span><span class="p">(</span><span class="n">last_row_i</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">limits</span><span class="p">(</span><span class="n">last_row_i</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">debug_mod</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">(</span><span class="n">limits</span><span class="p">(</span><span class="n">last_row_i</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">limits</span><span class="p">(</span><span class="n">last_row_i</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">dbcsr_nfullrows_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)))</span> <span class="p">&amp;</span>
                <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Specified last row is out of bounds.&quot;</span><span class="p">)</span>
             <span class="n">my_limits</span><span class="p">(</span><span class="n">last_row_i</span><span class="p">)</span> <span class="o">=</span> <span class="n">limits</span><span class="p">(</span><span class="n">last_row_i</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">limits</span><span class="p">(</span><span class="n">first_row_i</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">limits</span><span class="p">(</span><span class="n">first_row_i</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">debug_mod</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">(</span><span class="n">limits</span><span class="p">(</span><span class="n">first_row_i</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">limits</span><span class="p">(</span><span class="n">first_row_i</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">dbcsr_nfullrows_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)))</span> <span class="p">&amp;</span>
                <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Specified first row is out of bounds.&quot;</span><span class="p">)</span>
             <span class="n">my_limits</span><span class="p">(</span><span class="n">first_row_i</span><span class="p">)</span> <span class="o">=</span> <span class="n">limits</span><span class="p">(</span><span class="n">first_row_i</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
       <span class="c">!</span>
       <span class="c">! quick return if possible</span>
       <span class="n">one</span> <span class="o">=</span> <span class="n">dbcsr_scalar_one</span><span class="p">(</span><span class="n">dbcsr_scalar_get_type</span><span class="p">(</span><span class="n">alpha_scalar</span><span class="p">))</span>
@@ -434,18 +434,18 @@ private subroutine dbcsr_scale_anytype(matrix_a, alpha_scalar, limits)
                <span class="k">IF</span> <span class="p">(</span><span class="n">tr</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">                  CALL </span><span class="n">swap</span><span class="p">(</span><span class="n">scale_row_size</span><span class="p">,</span> <span class="n">scale_col_size</span><span class="p">)</span>
                   <span class="k">CALL </span><span class="n">swap</span><span class="p">(</span><span class="n">scale_row_offset</span><span class="p">,</span> <span class="n">scale_col_offset</span><span class="p">)</span>
-               <span class="n">ENDIF</span>
-               <span class="k">CALL </span><span class="n">dbcsr_block_scale</span><span class="p">(</span><span class="n">data_any</span><span class="p">,</span> <span class="nb">scale</span><span class="o">=</span><span class="n">alpha_scalar</span><span class="p">,</span> <span class="p">&amp;</span>
+               <span class="k">ENDIF</span>
+<span class="k">               CALL </span><span class="n">dbcsr_block_scale</span><span class="p">(</span><span class="n">data_any</span><span class="p">,</span> <span class="nb">scale</span><span class="o">=</span><span class="n">alpha_scalar</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">row_size</span><span class="o">=</span><span class="n">scale_row_size</span><span class="p">,</span> <span class="n">col_size</span><span class="o">=</span><span class="n">scale_col_size</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">lb</span><span class="o">=</span><span class="n">scale_row_offset</span><span class="p">,</span> <span class="n">lb2</span><span class="o">=</span><span class="n">scale_col_offset</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
-         <span class="n">ENDDO</span> <span class="n">iterations</span>
+            <span class="k">ENDIF</span>
+<span class="k">         ENDDO </span><span class="n">iterations</span>
          <span class="k">CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
          <span class="k">CALL </span><span class="n">dbcsr_data_clear_pointer</span><span class="p">(</span><span class="n">data_any</span><span class="p">)</span>
          <span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">data_any</span><span class="p">)</span>
 <span class="c">!$OMP        END PARALLEL</span>
-      <span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_scale_anytype</span>
 </pre></div>
 

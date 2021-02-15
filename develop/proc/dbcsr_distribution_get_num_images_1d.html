@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -246,7 +246,7 @@ public function dbcsr_distribution_get_num_images_1d(matrix_dense_size_1d, nbloc
   
 <tr>
   
-  <td><span class="anchor" id="variable-nblocks"></span>integer,</td>
+  <td><span class="anchor" id="variable-nblocks~2"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -263,7 +263,7 @@ public function dbcsr_distribution_get_num_images_1d(matrix_dense_size_1d, nbloc
   
 <tr>
   
-  <td><span class="anchor" id="variable-nprows~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-nprows~3"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -280,7 +280,7 @@ public function dbcsr_distribution_get_num_images_1d(matrix_dense_size_1d, nbloc
   
 <tr>
   
-  <td><span class="anchor" id="variable-npcols~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-npcols~2"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -386,19 +386,19 @@ public function dbcsr_distribution_get_num_images_1d(matrix_dense_size_1d, nbloc
       <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_mult_images</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">num_images_1d</span> <span class="o">=</span> <span class="n">num_images_1d</span><span class="o">*</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_mult_images</span>
          <span class="k">RETURN</span>
-<span class="k">      </span><span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">matrix_dense_size_1d</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">RETURN</span>
+<span class="k">      ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="n">matrix_dense_size_1d</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">RETURN</span>
       <span class="c">!</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">avg_elements_images</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">num_images_1d</span> <span class="o">=</span> <span class="n">num_images_1d</span><span class="o">*</span> <span class="p">&amp;</span>
                          <span class="nb">CEILING</span><span class="p">((</span><span class="kt">REAL</span><span class="p">(</span><span class="n">matrix_dense_size_1d</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="o">/</span><span class="n">num_images_1d</span><span class="p">)</span><span class="o">/</span> <span class="p">&amp;</span>
                                  <span class="nb">SQRT</span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">avg_elements_images</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)))</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">! limiting # clusters to be close to # atoms</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">num_images_1d</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">nblocks</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">nblocks</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">num_images_1d</span> <span class="o">=</span> <span class="nb">CEILING</span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">nblocks</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="o">/</span><span class="n">lcmv</span><span class="p">)</span><span class="o">*</span><span class="n">lcmv</span>
-      <span class="n">ENDIF</span>
-   <span class="k">END FUNCTION </span><span class="n">dbcsr_distribution_get_num_images_1d</span>
+      <span class="k">ENDIF</span>
+<span class="k">   END FUNCTION </span><span class="n">dbcsr_distribution_get_num_images_1d</span>
 </pre></div>
 
     </section>

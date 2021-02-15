@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -238,7 +238,7 @@ public subroutine dbcsr_reserve_blocks(matrix, rows, columns, blk_pointers)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~245"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~265"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -253,7 +253,7 @@ public subroutine dbcsr_reserve_blocks(matrix, rows, columns, blk_pointers)
   
 <tr>
   
-  <td><span class="anchor" id="variable-rows~46"></span>integer,</td>
+  <td><span class="anchor" id="variable-rows~47"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -269,7 +269,7 @@ public subroutine dbcsr_reserve_blocks(matrix, rows, columns, blk_pointers)
   
 <tr>
   
-  <td><span class="anchor" id="variable-columns~33"></span>integer,</td>
+  <td><span class="anchor" id="variable-columns~34"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -405,7 +405,7 @@ public subroutine dbcsr_reserve_blocks(matrix, rows, columns, blk_pointers)
       <span class="k">ELSE</span>
          <span class="c">! Get current data size</span>
          <span class="n">data_size_old</span> <span class="o">=</span> <span class="n">dbcsr_data_get_size_referenced</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">! Ensures that the rows and columns are sorted.</span>
       <span class="n">nblks_added</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
       <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">add_rows</span><span class="p">(</span><span class="n">nblks_added</span><span class="p">))</span>
@@ -419,8 +419,8 @@ public subroutine dbcsr_reserve_blocks(matrix, rows, columns, blk_pointers)
                                  <span class="n">blk_p</span><span class="o">=</span><span class="n">add_blkp</span><span class="p">)</span>
       <span class="k">ELSE</span>
 <span class="k">         CALL </span><span class="n">dbcsr_sort_indices</span><span class="p">(</span><span class="n">nblks_added</span><span class="p">,</span> <span class="n">add_rows</span><span class="p">,</span> <span class="n">add_cols</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="n">nblks_old</span> <span class="o">=</span> <span class="n">dbcsr_get_num_blocks</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">nblks_old</span> <span class="o">=</span> <span class="n">dbcsr_get_num_blocks</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
       <span class="n">nblkrows</span> <span class="o">=</span> <span class="n">dbcsr_nblkrows_total</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">nblkrows</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
          <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Can not add blocks to matrix with no rows.&quot;</span><span class="p">)</span>
@@ -437,14 +437,14 @@ public subroutine dbcsr_reserve_blocks(matrix, rows, columns, blk_pointers)
       <span class="k">DO </span><span class="n">blk</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nblks_added</span>
          <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">blk_pointers</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">blk_p</span> <span class="o">=</span> <span class="n">add_blkp</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="n">added_blk_info</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="o">/</span><span class="n">add_rows</span><span class="p">(</span><span class="n">blk</span><span class="p">),</span> <span class="n">add_cols</span><span class="p">(</span><span class="n">blk</span><span class="p">),</span> <span class="n">blk_p</span><span class="o">/</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">         </span><span class="n">added_blk_info</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="n">blk</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="o">/</span><span class="n">add_rows</span><span class="p">(</span><span class="n">blk</span><span class="p">),</span> <span class="n">add_cols</span><span class="p">(</span><span class="n">blk</span><span class="p">),</span> <span class="n">blk_p</span><span class="o">/</span><span class="p">)</span>
          <span class="n">nze</span> <span class="o">=</span> <span class="n">dbcsr_blk_row_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">add_rows</span><span class="p">(</span><span class="n">blk</span><span class="p">))</span> <span class="p">&amp;</span>
                <span class="o">*</span><span class="n">dbcsr_blk_column_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">add_cols</span><span class="p">(</span><span class="n">blk</span><span class="p">))</span>
          <span class="n">added_sizes</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="o">=</span> <span class="n">nze</span>
          <span class="n">blk_p</span> <span class="o">=</span> <span class="n">blk_p</span> <span class="o">+</span> <span class="n">nze</span>
-      <span class="n">ENDDO</span>
-      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">add_rows</span><span class="p">)</span>
+      <span class="k">ENDDO</span>
+<span class="k">      DEALLOCATE</span> <span class="p">(</span><span class="n">add_rows</span><span class="p">)</span>
       <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">add_cols</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">blk_pointers</span><span class="p">))</span> <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">add_blkp</span><span class="p">)</span>
       <span class="c">!</span>
@@ -464,8 +464,8 @@ public subroutine dbcsr_reserve_blocks(matrix, rows, columns, blk_pointers)
                                  <span class="n">added_blk_info</span><span class="p">,</span> <span class="n">nblks_added</span><span class="p">,</span> <span class="n">added_nblks</span><span class="o">=</span><span class="n">nblks_actual_added</span><span class="p">,</span> <span class="p">&amp;</span>
                                  <span class="n">added_sizes</span><span class="o">=</span><span class="n">added_sizes</span><span class="p">,</span> <span class="n">added_size_offset</span><span class="o">=</span><span class="n">data_size_old</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="p">&amp;</span>
                                  <span class="n">added_size</span><span class="o">=</span><span class="n">data_size_new</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="n">nblks_new</span> <span class="o">=</span> <span class="n">nblks_actual_added</span> <span class="o">+</span> <span class="n">nblks_old</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">nblks_new</span> <span class="o">=</span> <span class="n">nblks_actual_added</span> <span class="o">+</span> <span class="n">nblks_old</span>
       <span class="c">! Free some memory</span>
       <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">added_blk_info</span><span class="p">)</span>
       <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">added_sizes</span><span class="p">)</span>
@@ -493,9 +493,9 @@ public subroutine dbcsr_reserve_blocks(matrix, rows, columns, blk_pointers)
             <span class="c">! Zero the new data blocks.</span>
             <span class="k">CALL </span><span class="n">dbcsr_data_clear</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span> <span class="p">&amp;</span>
                                   <span class="n">lb</span><span class="o">=</span><span class="n">data_size_old</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="n">matrix</span><span class="p">%</span><span class="n">nze</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
+<span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_reserve_blocks</span>
 </pre></div>
 

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ private subroutine dbcsr_filter_anytype(matrix, eps, method, use_absolute, filte
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~120"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~198"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -244,7 +244,7 @@ private subroutine dbcsr_filter_anytype(matrix, eps, method, use_absolute, filte
   
 <tr>
   
-  <td><span class="anchor" id="variable-eps~6"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-eps~15"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -259,7 +259,7 @@ private subroutine dbcsr_filter_anytype(matrix, eps, method, use_absolute, filte
   
 <tr>
   
-  <td><span class="anchor" id="variable-method~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-method~10"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -274,7 +274,7 @@ private subroutine dbcsr_filter_anytype(matrix, eps, method, use_absolute, filte
   
 <tr>
   
-  <td><span class="anchor" id="variable-use_absolute~2"></span>logical,</td>
+  <td><span class="anchor" id="variable-use_absolute~10"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -499,15 +499,15 @@ private subroutine dbcsr_filter_anytype(matrix, eps, method, use_absolute, filte
 <span class="k">            CASE </span><span class="n">DEFAULT</span>
                <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Wrong data type&quot;</span><span class="p">)</span>
             <span class="k">END SELECT</span>
-<span class="k">         </span><span class="n">ENDDO</span>
-         <span class="k">CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
+<span class="k">         ENDDO</span>
+<span class="k">         CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
          <span class="k">CALL </span><span class="n">dbcsr_finalize</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">reshuffle</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
 <span class="c">!$OMP        END PARALLEL</span>
 
          <span class="k">CALL </span><span class="n">dbcsr_index_compact</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
 
-      <span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_filter_anytype</span>
 </pre></div>
 

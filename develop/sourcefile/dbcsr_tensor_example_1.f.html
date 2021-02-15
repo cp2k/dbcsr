@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -543,8 +543,8 @@
 <a name="ln-281"></a>         <span class="n">blk_ind_1</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="o">=</span> <span class="n">row</span>
 <a name="ln-282"></a>         <span class="n">blk_ind_2</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="o">=</span> <span class="n">col</span>
 <a name="ln-283"></a>
-<a name="ln-284"></a>      <span class="n">enddo</span>
-<a name="ln-285"></a>   <span class="n">enddo</span>
+<a name="ln-284"></a>      <span class="k">enddo</span>
+<a name="ln-285"></a><span class="k">   enddo</span>
 <a name="ln-286"></a>
 <a name="ln-287"></a>   <span class="c">! reserve blocks</span>
 <a name="ln-288"></a>   <span class="k">call </span><span class="n">dbcsr_reserve_blocks</span><span class="p">(</span><span class="n">c_matrix</span><span class="p">,</span> <span class="n">blk_ind_1</span><span class="p">,</span> <span class="n">blk_ind_2</span><span class="p">)</span>
@@ -563,10 +563,10 @@
 <a name="ln-301"></a>            <span class="n">o</span> <span class="o">=</span> <span class="n">o_arr</span> <span class="o">+</span> <span class="n">blk_offset_2d</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
 <a name="ln-302"></a>            <span class="c">! calculate matrix element</span>
 <a name="ln-303"></a>            <span class="n">blk_values_2d</span><span class="p">(</span><span class="n">n_arr</span><span class="p">,</span> <span class="n">o_arr</span><span class="p">)</span> <span class="o">=</span> <span class="nb">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="o">*</span><span class="nb">gamma</span><span class="o">*</span><span class="kt">real</span><span class="p">((</span><span class="n">n</span> <span class="o">-</span> <span class="n">o</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
-<a name="ln-304"></a>         <span class="n">enddo</span>
-<a name="ln-305"></a>      <span class="n">enddo</span>
-<a name="ln-306"></a>   <span class="n">enddo</span>
-<a name="ln-307"></a>   <span class="k">call </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter_matrix</span><span class="p">)</span>
+<a name="ln-304"></a>         <span class="k">enddo</span>
+<a name="ln-305"></a><span class="k">      enddo</span>
+<a name="ln-306"></a><span class="k">   enddo</span>
+<a name="ln-307"></a><span class="k">   call </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter_matrix</span><span class="p">)</span>
 <a name="ln-308"></a>
 <a name="ln-309"></a>   <span class="c">! finalize the DBCSR matrix</span>
 <a name="ln-310"></a>   <span class="k">call </span><span class="n">dbcsr_finalize</span><span class="p">(</span><span class="n">c_matrix</span><span class="p">)</span>
@@ -679,11 +679,11 @@
 <a name="ln-417"></a>            <span class="n">blk_ind_1</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="o">=</span> <span class="n">i</span>
 <a name="ln-418"></a>            <span class="n">blk_ind_2</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="o">=</span> <span class="n">j</span>
 <a name="ln-419"></a>            <span class="n">blk_ind_3</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="o">=</span> <span class="n">k</span>
-<a name="ln-420"></a>         <span class="n">enddo</span>
-<a name="ln-421"></a>      <span class="n">enddo</span>
-<a name="ln-422"></a>   <span class="n">enddo</span>
+<a name="ln-420"></a>         <span class="k">enddo</span>
+<a name="ln-421"></a><span class="k">      enddo</span>
+<a name="ln-422"></a><span class="k">   enddo</span>
 <a name="ln-423"></a>
-<a name="ln-424"></a>   <span class="k">call </span><span class="n">dbcsr_t_reserve_blocks</span><span class="p">(</span><span class="n">a_ijk</span><span class="p">,</span> <span class="n">blk_ind_1</span><span class="p">,</span> <span class="n">blk_ind_2</span><span class="p">,</span> <span class="n">blk_ind_3</span><span class="p">)</span>
+<a name="ln-424"></a><span class="k">   call </span><span class="n">dbcsr_t_reserve_blocks</span><span class="p">(</span><span class="n">a_ijk</span><span class="p">,</span> <span class="n">blk_ind_1</span><span class="p">,</span> <span class="n">blk_ind_2</span><span class="p">,</span> <span class="n">blk_ind_3</span><span class="p">)</span>
 <a name="ln-425"></a>   <span class="k">deallocate</span> <span class="p">(</span><span class="n">blk_ind_1</span><span class="p">,</span> <span class="n">blk_ind_2</span><span class="p">,</span> <span class="n">blk_ind_3</span><span class="p">)</span>
 <a name="ln-426"></a>
 <a name="ln-427"></a>   <span class="k">call </span><span class="n">dbcsr_t_iterator_start</span><span class="p">(</span><span class="n">iter_tensor</span><span class="p">,</span> <span class="n">a_ijk</span><span class="p">)</span>
@@ -699,13 +699,13 @@
 <a name="ln-437"></a>               <span class="n">j</span> <span class="o">=</span> <span class="n">j_arr</span> <span class="o">+</span> <span class="n">blk_offset_3d</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
 <a name="ln-438"></a>               <span class="n">k</span> <span class="o">=</span> <span class="n">k_arr</span> <span class="o">+</span> <span class="n">blk_offset_3d</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
 <a name="ln-439"></a>               <span class="n">blk_values_3d</span><span class="p">(</span><span class="n">i_arr</span><span class="p">,</span> <span class="n">j_arr</span><span class="p">,</span> <span class="n">k_arr</span><span class="p">)</span> <span class="o">=</span> <span class="nb">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">1.</span><span class="o">/</span><span class="mi">3</span><span class="o">*</span><span class="n">alpha</span><span class="o">*</span><span class="kt">real</span><span class="p">((</span><span class="n">i</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">k</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">j</span> <span class="o">-</span> <span class="n">k</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
-<a name="ln-440"></a>            <span class="n">enddo</span>
-<a name="ln-441"></a>         <span class="n">enddo</span>
-<a name="ln-442"></a>      <span class="n">enddo</span>
-<a name="ln-443"></a>      <span class="k">call </span><span class="n">dbcsr_t_put_block</span><span class="p">(</span><span class="n">a_ijk</span><span class="p">,</span> <span class="n">blk_ind_3d</span><span class="p">,</span> <span class="n">blk_size_3d</span><span class="p">,</span> <span class="n">blk_values_3d</span><span class="p">)</span>
+<a name="ln-440"></a>            <span class="k">enddo</span>
+<a name="ln-441"></a><span class="k">         enddo</span>
+<a name="ln-442"></a><span class="k">      enddo</span>
+<a name="ln-443"></a><span class="k">      call </span><span class="n">dbcsr_t_put_block</span><span class="p">(</span><span class="n">a_ijk</span><span class="p">,</span> <span class="n">blk_ind_3d</span><span class="p">,</span> <span class="n">blk_size_3d</span><span class="p">,</span> <span class="n">blk_values_3d</span><span class="p">)</span>
 <a name="ln-444"></a>      <span class="k">deallocate</span> <span class="p">(</span><span class="n">blk_values_3d</span><span class="p">)</span>
-<a name="ln-445"></a>   <span class="n">enddo</span>
-<a name="ln-446"></a>   <span class="k">call </span><span class="n">dbcsr_t_iterator_stop</span><span class="p">(</span><span class="n">iter_tensor</span><span class="p">)</span>
+<a name="ln-445"></a>   <span class="k">enddo</span>
+<a name="ln-446"></a><span class="k">   call </span><span class="n">dbcsr_t_iterator_stop</span><span class="p">(</span><span class="n">iter_tensor</span><span class="p">)</span>
 <a name="ln-447"></a>
 <a name="ln-448"></a>   <span class="k">call </span><span class="n">dbcsr_t_filter</span><span class="p">(</span><span class="n">a_ijk</span><span class="p">,</span> <span class="n">filter_eps</span><span class="p">)</span>
 <a name="ln-449"></a>
@@ -773,11 +773,11 @@
 <a name="ln-511"></a>            <span class="n">blk_ind_1</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="o">=</span> <span class="n">i</span>
 <a name="ln-512"></a>            <span class="n">blk_ind_2</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="o">=</span> <span class="n">l</span>
 <a name="ln-513"></a>            <span class="n">blk_ind_3</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="o">=</span> <span class="n">n</span>
-<a name="ln-514"></a>         <span class="n">enddo</span>
-<a name="ln-515"></a>      <span class="n">enddo</span>
-<a name="ln-516"></a>   <span class="n">enddo</span>
+<a name="ln-514"></a>         <span class="k">enddo</span>
+<a name="ln-515"></a><span class="k">      enddo</span>
+<a name="ln-516"></a><span class="k">   enddo</span>
 <a name="ln-517"></a>
-<a name="ln-518"></a>   <span class="k">call </span><span class="n">dbcsr_t_reserve_blocks</span><span class="p">(</span><span class="n">b_iln</span><span class="p">,</span> <span class="n">blk_ind_1</span><span class="p">,</span> <span class="n">blk_ind_2</span><span class="p">,</span> <span class="n">blk_ind_3</span><span class="p">)</span>
+<a name="ln-518"></a><span class="k">   call </span><span class="n">dbcsr_t_reserve_blocks</span><span class="p">(</span><span class="n">b_iln</span><span class="p">,</span> <span class="n">blk_ind_1</span><span class="p">,</span> <span class="n">blk_ind_2</span><span class="p">,</span> <span class="n">blk_ind_3</span><span class="p">)</span>
 <a name="ln-519"></a>   <span class="k">deallocate</span> <span class="p">(</span><span class="n">blk_ind_1</span><span class="p">,</span> <span class="n">blk_ind_2</span><span class="p">,</span> <span class="n">blk_ind_3</span><span class="p">)</span>
 <a name="ln-520"></a>
 <a name="ln-521"></a>   <span class="k">call </span><span class="n">dbcsr_t_iterator_start</span><span class="p">(</span><span class="n">iter_tensor</span><span class="p">,</span> <span class="n">b_iln</span><span class="p">)</span>
@@ -791,13 +791,13 @@
 <a name="ln-529"></a>               <span class="n">l</span> <span class="o">=</span> <span class="n">l_arr</span> <span class="o">+</span> <span class="n">blk_offset_3d</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
 <a name="ln-530"></a>               <span class="n">n</span> <span class="o">=</span> <span class="n">n_arr</span> <span class="o">+</span> <span class="n">blk_offset_3d</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
 <a name="ln-531"></a>               <span class="n">blk_values_3d</span><span class="p">(</span><span class="n">i_arr</span><span class="p">,</span> <span class="n">l_arr</span><span class="p">,</span> <span class="n">n_arr</span><span class="p">)</span> <span class="o">=</span> <span class="nb">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">1.</span><span class="o">/</span><span class="mi">3</span><span class="o">*</span><span class="n">beta</span><span class="o">*</span><span class="kt">real</span><span class="p">((</span><span class="n">i</span> <span class="o">-</span> <span class="n">l</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="n">n</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">l</span> <span class="o">-</span> <span class="n">n</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
-<a name="ln-532"></a>            <span class="n">enddo</span>
-<a name="ln-533"></a>         <span class="n">enddo</span>
-<a name="ln-534"></a>      <span class="n">enddo</span>
-<a name="ln-535"></a>      <span class="k">call </span><span class="n">dbcsr_t_put_block</span><span class="p">(</span><span class="n">b_iln</span><span class="p">,</span> <span class="n">blk_ind_3d</span><span class="p">,</span> <span class="n">blk_size_3d</span><span class="p">,</span> <span class="n">blk_values_3d</span><span class="p">)</span>
+<a name="ln-532"></a>            <span class="k">enddo</span>
+<a name="ln-533"></a><span class="k">         enddo</span>
+<a name="ln-534"></a><span class="k">      enddo</span>
+<a name="ln-535"></a><span class="k">      call </span><span class="n">dbcsr_t_put_block</span><span class="p">(</span><span class="n">b_iln</span><span class="p">,</span> <span class="n">blk_ind_3d</span><span class="p">,</span> <span class="n">blk_size_3d</span><span class="p">,</span> <span class="n">blk_values_3d</span><span class="p">)</span>
 <a name="ln-536"></a>      <span class="k">deallocate</span> <span class="p">(</span><span class="n">blk_values_3d</span><span class="p">)</span>
-<a name="ln-537"></a>   <span class="n">enddo</span>
-<a name="ln-538"></a>   <span class="k">call </span><span class="n">dbcsr_t_iterator_stop</span><span class="p">(</span><span class="n">iter_tensor</span><span class="p">)</span>
+<a name="ln-537"></a>   <span class="k">enddo</span>
+<a name="ln-538"></a><span class="k">   call </span><span class="n">dbcsr_t_iterator_stop</span><span class="p">(</span><span class="n">iter_tensor</span><span class="p">)</span>
 <a name="ln-539"></a>
 <a name="ln-540"></a>   <span class="k">call </span><span class="n">dbcsr_t_filter</span><span class="p">(</span><span class="n">b_iln</span><span class="p">,</span> <span class="n">filter_eps</span><span class="p">)</span>
 <a name="ln-541"></a>
@@ -960,11 +960,11 @@
 <a name="ln-698"></a><span class="k">         write</span> <span class="p">(</span><span class="n">io_unit</span><span class="p">,</span> <span class="s2">&quot;(a,t73,es8.2)&quot;</span><span class="p">)</span> <span class="s2">&quot;performance: total number of flops:&quot;</span><span class="p">,</span> <span class="kt">real</span><span class="p">(</span><span class="n">nflop_sum</span><span class="o">*</span><span class="n">numnodes</span><span class="p">)</span>
 <a name="ln-699"></a>         <span class="k">write</span> <span class="p">(</span><span class="n">io_unit</span><span class="p">,</span> <span class="s2">&quot;(a,t66,f15.2)&quot;</span><span class="p">)</span> <span class="s2">&quot;performance: total execution time:&quot;</span><span class="p">,</span> <span class="nb">time</span>
 <a name="ln-700"></a><span class="nb">         </span><span class="k">write</span> <span class="p">(</span><span class="n">io_unit</span><span class="p">,</span> <span class="s2">&quot;(a,t66,f15.2)&quot;</span><span class="p">)</span> <span class="s2">&quot;performance: contraction flop rate (gflops / mpi rank):&quot;</span><span class="p">,</span> <span class="n">flop_rate</span>
-<a name="ln-701"></a>      <span class="n">endif</span>
+<a name="ln-701"></a>      <span class="k">endif</span>
 <a name="ln-702"></a>
-<a name="ln-703"></a>   <span class="n">endif</span>
+<a name="ln-703"></a><span class="k">   endif</span>
 <a name="ln-704"></a>
-<a name="ln-705"></a>   <span class="k">if</span> <span class="p">(</span><span class="n">contract_batched</span><span class="p">)</span> <span class="k">then</span>
+<a name="ln-705"></a><span class="k">   if</span> <span class="p">(</span><span class="n">contract_batched</span><span class="p">)</span> <span class="k">then</span>
 <a name="ln-706"></a>
 <a name="ln-707"></a><span class="c">! ------ batched contraction ------</span>
 <a name="ln-708"></a><span class="c">! reduce memory by contracting over batches (such that intermediate tensors are never fully held in memory)</span>
@@ -1046,11 +1046,11 @@
 <a name="ln-784"></a>                  <span class="c">! free memory</span>
 <a name="ln-785"></a>                  <span class="k">call </span><span class="n">dbcsr_t_clear</span><span class="p">(</span><span class="n">d_ijlm</span><span class="p">)</span>
 <a name="ln-786"></a>
-<a name="ln-787"></a>               <span class="n">enddo</span>
+<a name="ln-787"></a>               <span class="k">enddo</span>
 <a name="ln-788"></a>
 <a name="ln-789"></a>               <span class="c">! complete batched contraction of a</span>
 <a name="ln-790"></a>               <span class="k">call </span><span class="n">dbcsr_t_batched_contract_finalize</span><span class="p">(</span><span class="n">a_ijk</span><span class="p">)</span>
-<a name="ln-791"></a>            <span class="n">enddo</span>
+<a name="ln-791"></a>            <span class="k">enddo</span>
 <a name="ln-792"></a>
 <a name="ln-793"></a><span class="c">! ------ c(n,o) = c(n,o) + e(j,m,n) x f(j,m,o) ------</span>
 <a name="ln-794"></a>
@@ -1074,8 +1074,8 @@
 <a name="ln-812"></a>
 <a name="ln-813"></a>            <span class="c">! free memory</span>
 <a name="ln-814"></a>            <span class="k">call </span><span class="n">dbcsr_t_clear</span><span class="p">(</span><span class="n">e_jmn</span><span class="p">)</span>
-<a name="ln-815"></a>         <span class="n">enddo</span>
-<a name="ln-816"></a>      <span class="n">enddo</span>
+<a name="ln-815"></a>         <span class="k">enddo</span>
+<a name="ln-816"></a><span class="k">      enddo</span>
 <a name="ln-817"></a>
 <a name="ln-818"></a>      <span class="c">! complete batched contraction of c</span>
 <a name="ln-819"></a>      <span class="k">call </span><span class="n">dbcsr_t_batched_contract_finalize</span><span class="p">(</span><span class="n">c_no</span><span class="p">)</span>
@@ -1096,12 +1096,12 @@
 <a name="ln-834"></a><span class="k">         write</span> <span class="p">(</span><span class="n">io_unit</span><span class="p">,</span> <span class="s2">&quot;(a,t73,es8.2)&quot;</span><span class="p">)</span> <span class="s2">&quot;performance (batched): total number of flops:&quot;</span><span class="p">,</span> <span class="kt">real</span><span class="p">(</span><span class="n">nflop_sum</span><span class="o">*</span><span class="n">numnodes</span><span class="p">)</span>
 <a name="ln-835"></a>         <span class="k">write</span> <span class="p">(</span><span class="n">io_unit</span><span class="p">,</span> <span class="s2">&quot;(a,t66,f15.2)&quot;</span><span class="p">)</span> <span class="s2">&quot;performance (batched): total execution time:&quot;</span><span class="p">,</span> <span class="nb">time</span>
 <a name="ln-836"></a><span class="nb">         </span><span class="k">write</span> <span class="p">(</span><span class="n">io_unit</span><span class="p">,</span> <span class="s2">&quot;(a,t66,f15.2)&quot;</span><span class="p">)</span> <span class="s2">&quot;performance (batched): contraction flop rate (gflops / mpi rank):&quot;</span><span class="p">,</span> <span class="n">flop_rate</span>
-<a name="ln-837"></a>      <span class="n">endif</span>
+<a name="ln-837"></a>      <span class="k">endif</span>
 <a name="ln-838"></a>
-<a name="ln-839"></a>      <span class="k">deallocate</span> <span class="p">(</span><span class="n">start_batch_i</span><span class="p">,</span> <span class="n">start_batch_j</span><span class="p">,</span> <span class="n">start_batch_l</span><span class="p">,</span> <span class="n">start_batch_m</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-839"></a><span class="k">      deallocate</span> <span class="p">(</span><span class="n">start_batch_i</span><span class="p">,</span> <span class="n">start_batch_j</span><span class="p">,</span> <span class="n">start_batch_l</span><span class="p">,</span> <span class="n">start_batch_m</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-840"></a>                  <span class="n">end_batch_i</span><span class="p">,</span> <span class="n">end_batch_j</span><span class="p">,</span> <span class="n">end_batch_l</span><span class="p">,</span> <span class="n">end_batch_m</span><span class="p">)</span>
 <a name="ln-841"></a>
-<a name="ln-842"></a>   <span class="n">endif</span>
+<a name="ln-842"></a>   <span class="k">endif</span>
 <a name="ln-843"></a>
 <a name="ln-844"></a><span class="c">! ------ copy tensor c to matrix c ------</span>
 <a name="ln-845"></a>   <span class="k">call </span><span class="n">dbcsr_t_copy_tensor_to_matrix</span><span class="p">(</span><span class="n">c_no</span><span class="p">,</span> <span class="n">c_matrix</span><span class="p">)</span>
@@ -1162,9 +1162,9 @@
 <a name="ln-900"></a>            <span class="k">allocate</span> <span class="p">(</span><span class="n">blk_sizes</span><span class="p">(</span><span class="n">nblk</span><span class="p">))</span>
 <a name="ln-901"></a>            <span class="n">blk_sizes</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nblk</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">;</span> <span class="k">deallocate</span> <span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
 <a name="ln-902"></a>            <span class="n">blk_sizes</span><span class="p">(</span><span class="n">nblk</span><span class="p">)</span> <span class="o">=</span> <span class="n">bsize</span>
-<a name="ln-903"></a>         <span class="n">enddo</span>
-<a name="ln-904"></a>      <span class="n">endif</span>
-<a name="ln-905"></a>      <span class="k">call </span><span class="n">mpi_bcast</span><span class="p">(</span><span class="n">nblk</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mpi_integer</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">mpi_comm_world</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
+<a name="ln-903"></a>         <span class="k">enddo</span>
+<a name="ln-904"></a><span class="k">      endif</span>
+<a name="ln-905"></a><span class="k">      call </span><span class="n">mpi_bcast</span><span class="p">(</span><span class="n">nblk</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mpi_integer</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">mpi_comm_world</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
 <a name="ln-906"></a>      <span class="k">if</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">stop</span> <span class="s2">&quot;error in mpi_bcast&quot;</span>
 <a name="ln-907"></a>      <span class="k">if</span> <span class="p">(</span><span class="n">mynode</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">allocate</span> <span class="p">(</span><span class="n">blk_sizes</span><span class="p">(</span><span class="n">nblk</span><span class="p">))</span>
 <a name="ln-908"></a>      <span class="k">call </span><span class="n">mpi_bcast</span><span class="p">(</span><span class="n">blk_sizes</span><span class="p">,</span> <span class="n">nblk</span><span class="p">,</span> <span class="n">mpi_integer</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">mpi_comm_world</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
@@ -1188,9 +1188,9 @@
 <a name="ln-926"></a><span class="k">         </span><span class="n">block_minabsdiff</span> <span class="o">=</span> <span class="n">limits_1</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">limits_2</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <a name="ln-927"></a>      <span class="k">else</span>
 <a name="ln-928"></a><span class="k">         </span><span class="n">block_minabsdiff</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-929"></a>      <span class="n">endif</span>
+<a name="ln-929"></a>      <span class="k">endif</span>
 <a name="ln-930"></a>
-<a name="ln-931"></a>   <span class="k">end function</span>
+<a name="ln-931"></a><span class="k">   end function</span>
 <a name="ln-932"></a>
 <a name="ln-933"></a><span class="k">   subroutine </span><span class="n">create_batches</span><span class="p">(</span><span class="n">blk_sizes</span><span class="p">,</span> <span class="n">nbatch</span><span class="p">,</span> <span class="n">start_batch</span><span class="p">,</span> <span class="n">end_batch</span><span class="p">)</span>
 <a name="ln-934"></a>      <span class="c">! create tensor batches: split index at block boundaries such that each batch contains approximately</span>
@@ -1216,10 +1216,10 @@
 <a name="ln-954"></a>            <span class="n">end_batch</span><span class="p">(</span><span class="n">ibatch</span><span class="p">)</span> <span class="o">=</span> <span class="n">blk_sum</span>
 <a name="ln-955"></a>            <span class="n">start_batch</span><span class="p">(</span><span class="n">ibatch</span><span class="p">)</span> <span class="o">=</span> <span class="n">end_batch</span><span class="p">(</span><span class="n">ibatch</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-956"></a>            <span class="n">batch_sum</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">batch_sum</span> <span class="o">+</span> <span class="n">nel_batch</span><span class="p">,</span> <span class="n">nel</span><span class="p">)</span>
-<a name="ln-957"></a>         <span class="n">endif</span>
-<a name="ln-958"></a>      <span class="n">enddo</span>
+<a name="ln-957"></a>         <span class="k">endif</span>
+<a name="ln-958"></a><span class="k">      enddo</span>
 <a name="ln-959"></a>
-<a name="ln-960"></a>      <span class="k">call </span><span class="nb">move_alloc</span><span class="p">(</span><span class="n">end_batch</span><span class="p">,</span> <span class="n">tmp</span><span class="p">)</span>
+<a name="ln-960"></a><span class="k">      call </span><span class="nb">move_alloc</span><span class="p">(</span><span class="n">end_batch</span><span class="p">,</span> <span class="n">tmp</span><span class="p">)</span>
 <a name="ln-961"></a>      <span class="k">allocate</span> <span class="p">(</span><span class="n">end_batch</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nbatch</span><span class="p">))</span>
 <a name="ln-962"></a>      <span class="n">end_batch</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">(</span><span class="mi">1</span><span class="p">:)</span>
 <a name="ln-963"></a>

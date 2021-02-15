@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -319,7 +319,7 @@ private subroutine make_images(ism, ums, target_imgdist, desymmetrize, predistri
   
 <tr>
   
-  <td><span class="anchor" id="variable-scale_value~3"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-scale_value~2"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -456,9 +456,9 @@ private subroutine make_images(ism, ums, target_imgdist, desymmetrize, predistri
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">desymmetrize</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="n">desymmetrize</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">sm</span><span class="p">%</span><span class="n">symmetry</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">nsymmetries</span> <span class="o">=</span> <span class="mi">2</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
-      <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">predistribute</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
+<span class="k">      SELECT CASE</span> <span class="p">(</span><span class="n">predistribute</span><span class="p">)</span>
       <span class="k">CASE</span> <span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">,</span> <span class="s1">&#39;l&#39;</span><span class="p">)</span>
          <span class="n">predist_type</span> <span class="o">=</span> <span class="s1">&#39;L&#39;</span>
          <span class="n">predist_type_fwd</span> <span class="o">=</span> <span class="s1">&#39;l&#39;</span>
@@ -484,20 +484,20 @@ private subroutine make_images(ism, ums, target_imgdist, desymmetrize, predistri
       <span class="k">IF</span> <span class="p">(</span><span class="n">sm</span><span class="p">%</span><span class="n">symmetry</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">row_dist</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">col_dist</span><span class="p">))</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s1">&#39;Unequal row and column distributions for symmetric matrix.&#39;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="n">nrow_images</span> <span class="o">=</span> <span class="n">target_imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">row_decimation</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">nrow_images</span> <span class="o">=</span> <span class="n">target_imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">row_decimation</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">nrow_images</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">row_img_dist</span> <span class="o">=&gt;</span> <span class="n">array_data</span><span class="p">(</span><span class="n">target_imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">row_image</span><span class="p">)</span>
       <span class="k">ELSE</span>
 <span class="k">         NULLIFY</span> <span class="p">(</span><span class="n">row_img_dist</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="n">ncol_images</span> <span class="o">=</span> <span class="n">target_imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">col_decimation</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">ncol_images</span> <span class="o">=</span> <span class="n">target_imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">col_decimation</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">ncol_images</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">col_img_dist</span> <span class="o">=&gt;</span> <span class="n">array_data</span><span class="p">(</span><span class="n">target_imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">col_image</span><span class="p">)</span>
       <span class="k">ELSE</span>
 <span class="k">         NULLIFY</span> <span class="p">(</span><span class="n">col_img_dist</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="n">mp_obj</span> <span class="o">=</span> <span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">target_dist</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">mp_obj</span> <span class="o">=</span> <span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">target_dist</span><span class="p">)</span>
       <span class="n">blacs2mpi</span> <span class="o">=&gt;</span> <span class="n">dbcsr_mp_pgrid</span><span class="p">(</span><span class="n">mp_obj</span><span class="p">)</span>
       <span class="n">numproc</span> <span class="o">=</span> <span class="n">dbcsr_mp_numnodes</span><span class="p">(</span><span class="n">mp_obj</span><span class="p">)</span>
       <span class="n">mp_group</span> <span class="o">=</span> <span class="n">dbcsr_mp_group</span><span class="p">(</span><span class="n">mp_obj</span><span class="p">)</span>
@@ -506,13 +506,13 @@ private subroutine make_images(ism, ums, target_imgdist, desymmetrize, predistri
       <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="n">dbcsr_distribution_max_row_dist</span><span class="p">(</span><span class="n">old_dist</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">blacs2mpi</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s1">&#39;Range of row distribution not equal to processor rows&#39;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_distribution_max_col_dist</span><span class="p">(</span><span class="n">old_dist</span><span class="p">)</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">blacs2mpi</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="p">&amp;</span>
+      <span class="k">ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="n">dbcsr_distribution_max_col_dist</span><span class="p">(</span><span class="n">old_dist</span><span class="p">)</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">blacs2mpi</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="p">&amp;</span>
          <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s1">&#39;Col distribution references unexistent processor cols&#39;</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="n">dbcsr_distribution_max_col_dist</span><span class="p">(</span><span class="n">old_dist</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">blacs2mpi</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s1">&#39;Range of col distribution not equal to processor cols&#39;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
       <span class="c">! Check threads configuration</span>
 <span class="c">!$    IF (.NOT. dbcsr_distribution_has_threads(old_dist)) &amp;</span>
@@ -553,10 +553,10 @@ private subroutine make_images(ism, ums, target_imgdist, desymmetrize, predistri
                               <span class="n">index_memory_type</span><span class="o">=</span><span class="n">memtype_mpi_buffer</span><span class="p">)</span>
             <span class="n">ums</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">row_img</span><span class="p">,</span> <span class="n">col_img</span><span class="p">)%</span><span class="n">negate_real</span> <span class="o">=</span> <span class="n">sm</span><span class="p">%</span><span class="n">negate_real</span>
             <span class="n">ums</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">row_img</span><span class="p">,</span> <span class="n">col_img</span><span class="p">)%</span><span class="n">negate_imaginary</span> <span class="o">=</span> <span class="n">sm</span><span class="p">%</span><span class="n">negate_imaginary</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDDO</span>
+         <span class="k">ENDDO</span>
+<span class="k">      ENDDO</span>
 
-      <span class="n">nthreads</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">      </span><span class="n">nthreads</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="c">!$OMP PARALLEL DEFAULT (NONE) &amp;</span>
 <span class="c">!$OMP PRIVATE (ithread, symmetry_i, row_img, col_img, &amp;</span>
 <span class="c">!$OMP          myt_send_count, myt_total_send_count, &amp;</span>
@@ -600,7 +600,7 @@ private subroutine make_images(ism, ums, target_imgdist, desymmetrize, predistri
             <span class="k">ELSE</span>
 <span class="k">               IF</span> <span class="p">(</span><span class="n">row</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">col</span><span class="p">)</span> <span class="k">CYCLE</span>
 <span class="k">               </span><span class="n">stored_row</span> <span class="o">=</span> <span class="n">col</span><span class="p">;</span> <span class="n">stored_col</span> <span class="o">=</span> <span class="n">row</span>
-            <span class="n">ENDIF</span>
+            <span class="k">ENDIF</span>
             <span class="c">! Where do we send this block?</span>
             <span class="n">row_img</span> <span class="o">=</span> <span class="mi">1</span>
             <span class="k">IF</span> <span class="p">(</span><span class="n">nrow_images</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="n">row_img</span> <span class="o">=</span> <span class="n">row_img_dist</span><span class="p">(</span><span class="n">stored_row</span><span class="p">)</span>
@@ -644,7 +644,7 @@ private subroutine make_images(ism, ums, target_imgdist, desymmetrize, predistri
       <span class="k">DO </span><span class="n">dst_p</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">numproc</span> <span class="o">-</span> <span class="mi">1</span>
          <span class="n">total_recv_count</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dst_p</span><span class="p">)</span> <span class="o">=</span> <span class="nb">SUM</span><span class="p">(</span><span class="n">recv_count</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="n">dst_p</span><span class="p">))</span>
          <span class="n">total_recv_count</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dst_p</span><span class="p">)</span> <span class="o">=</span> <span class="nb">SUM</span><span class="p">(</span><span class="n">recv_count</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="n">dst_p</span><span class="p">))</span>
-      <span class="n">ENDDO</span>
+      <span class="k">ENDDO</span>
 <span class="c">!$OMP MASTER</span>
       <span class="c">! Allocate data structures needed for data exchange.</span>
       <span class="k">CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">recv_data_area</span><span class="p">)</span>
@@ -670,13 +670,13 @@ private subroutine make_images(ism, ums, target_imgdist, desymmetrize, predistri
                           <span class="o">+</span> <span class="n">metalen</span><span class="o">*</span><span class="n">total_recv_count</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dst_p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
          <span class="n">rd_disp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">=</span> <span class="n">rd_disp</span><span class="p">(</span><span class="n">dst_p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
                           <span class="o">+</span> <span class="n">total_recv_count</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dst_p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-      <span class="n">ENDDO</span>
-      <span class="n">myt_smp</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">sm_disp</span><span class="p">(:)</span>
+      <span class="k">ENDDO</span>
+<span class="k">      </span><span class="n">myt_smp</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">sm_disp</span><span class="p">(:)</span>
       <span class="n">myt_sdp</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">sd_disp</span><span class="p">(:)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">nthreads</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">all_total_send_offset</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">myt_smp</span><span class="p">(:)</span> <span class="o">+</span> <span class="n">metalen</span><span class="o">*</span><span class="n">myt_total_send_count</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="p">:)</span>
          <span class="n">all_total_send_offset</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">myt_sdp</span><span class="p">(:)</span> <span class="o">+</span> <span class="n">myt_total_send_count</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="p">:)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 <span class="c">!$OMP END MASTER</span>
 <span class="c">!$OMP BARRIER</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">ithread</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
@@ -699,9 +699,9 @@ private subroutine make_images(ism, ums, target_imgdist, desymmetrize, predistri
                <span class="k">CALL </span><span class="n">dbcsr_data_hold</span><span class="p">(</span><span class="n">received_data_area</span><span class="p">)</span>
                <span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">ums</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">row_img</span><span class="p">,</span> <span class="n">col_img</span><span class="p">)%</span><span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">data_area</span><span class="p">)</span>
                <span class="n">ums</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">row_img</span><span class="p">,</span> <span class="n">col_img</span><span class="p">)%</span><span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">data_area</span> <span class="o">=</span> <span class="n">received_data_area</span>
-            <span class="n">ENDDO</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDIF</span>
+            <span class="k">ENDDO</span>
+<span class="k">         ENDDO</span>
+<span class="k">      ENDIF</span>
 <span class="c">!$OMP BARRIER</span>
       <span class="c">! Add timing call to the packing of the send buffers</span>
       <span class="c">!</span>
@@ -802,8 +802,8 @@ private subroutine make_images(ism, ums, target_imgdist, desymmetrize, predistri
             <span class="n">ums</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">row_img</span><span class="p">,</span> <span class="n">col_img</span><span class="p">)%</span><span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">col_i</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="o">=</span> <span class="n">stored_col</span>
             <span class="n">ums</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">row_img</span><span class="p">,</span> <span class="n">col_img</span><span class="p">)%</span><span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
                <span class="nb">SIGN</span><span class="p">(</span><span class="n">rd_disp</span><span class="p">(</span><span class="n">src_p</span><span class="p">)</span> <span class="o">+</span> <span class="nb">ABS</span><span class="p">(</span><span class="n">stored_blk_p</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">stored_blk_p</span><span class="p">)</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDDO</span>
+         <span class="k">ENDDO</span>
+<span class="k">      ENDDO</span>
 
       <span class="c">! Finalize the actual imaged matrices from the work matrices</span>
       <span class="c">!</span>
@@ -819,7 +819,7 @@ private subroutine make_images(ism, ums, target_imgdist, desymmetrize, predistri
 <span class="k">               CALL </span><span class="n">dbcsr_special_finalize</span><span class="p">(</span><span class="n">ums</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">row_img</span><span class="p">,</span> <span class="n">col_img</span><span class="p">),</span> <span class="n">reshuffle</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
             <span class="k">ELSE</span>
 <span class="k">               CALL </span><span class="n">dbcsr_special_finalize</span><span class="p">(</span><span class="n">ums</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">row_img</span><span class="p">,</span> <span class="n">col_img</span><span class="p">),</span> <span class="n">reshuffle</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
-            <span class="n">ENDIF</span>
+            <span class="k">ENDIF</span>
 
             <span class="c">! Save the home process and image row and column</span>
             <span class="k">CALL </span><span class="n">image_calculator</span><span class="p">(</span><span class="n">target_imgdist</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -831,8 +831,8 @@ private subroutine make_images(ism, ums, target_imgdist, desymmetrize, predistri
                                   <span class="n">vpcol</span><span class="o">=</span><span class="n">ums</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">row_img</span><span class="p">,</span> <span class="n">col_img</span><span class="p">)%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_home_vpcol</span><span class="p">),</span> <span class="p">&amp;</span>
                                   <span class="n">myrowi</span><span class="o">=</span><span class="n">row_img</span><span class="p">,</span> <span class="n">mycoli</span><span class="o">=</span><span class="n">col_img</span><span class="p">,</span> <span class="p">&amp;</span>
                                   <span class="n">shifting</span><span class="o">=</span><span class="n">predist_type</span><span class="p">)</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDDO</span>
+         <span class="k">ENDDO</span>
+<span class="k">      ENDDO</span>
 
       <span class="c">! Deallocate shared temporary buffers</span>
       <span class="c">!</span>

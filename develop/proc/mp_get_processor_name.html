@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -339,7 +339,7 @@ public subroutine mp_get_processor_name(procname, resultlen)
          <span class="k">CALL </span><span class="n">m_hostnm</span><span class="p">(</span><span class="n">procname</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">resultlen</span><span class="p">))</span> <span class="n">resultlen</span> <span class="o">=</span> <span class="nb">LEN_TRIM</span><span class="p">(</span><span class="n">procname</span><span class="p">)</span>
 <span class="cp">#if defined(__parallel)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 <span class="cp">#endif</span>
    <span class="k">END SUBROUTINE </span><span class="n">mp_get_processor_name</span>
 </pre></div>

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ private subroutine dbcsr_trace_d(matrix_a, trace)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_a~50"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_a~60"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -365,8 +365,8 @@ private subroutine dbcsr_trace_d(matrix_a, trace)
             <span class="k">IF</span> <span class="p">(</span><span class="n">matrix_a</span><span class="p">%</span><span class="n">replication_type</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">dbcsr_repl_full</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">               IF</span> <span class="p">(</span><span class="n">mynode</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">checker_square_proc</span><span class="p">(</span><span class="n">a_row</span><span class="p">,</span> <span class="n">a_col</span><span class="p">,</span> <span class="n">pgrid</span><span class="p">,</span> <span class="n">row_dist</span><span class="p">,</span> <span class="n">col_dist</span><span class="p">))</span> <span class="p">&amp;</span>
                   <span class="k">CYCLE</span>
-<span class="k">            </span><span class="n">ENDIF</span>
-            <span class="n">a_col_size</span> <span class="o">=</span> <span class="n">col_blk_size</span><span class="p">(</span><span class="n">a_col</span><span class="p">)</span>
+<span class="k">            ENDIF</span>
+<span class="k">            </span><span class="n">a_col_size</span> <span class="o">=</span> <span class="n">col_blk_size</span><span class="p">(</span><span class="n">a_col</span><span class="p">)</span>
             <span class="k">IF</span> <span class="p">(</span><span class="n">a_row_size</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">a_col_size</span><span class="p">)</span> <span class="p">&amp;</span>
                <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;is that a square matrix?&quot;</span><span class="p">)</span>
             <span class="n">a_nze</span> <span class="o">=</span> <span class="n">a_row_size</span><span class="o">**</span><span class="mi">2</span>
@@ -377,9 +377,9 @@ private subroutine dbcsr_trace_d(matrix_a, trace)
             <span class="c">! let&#39;s trace the block</span>
             <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">a_row_size</span>
                <span class="n">trace</span> <span class="o">=</span> <span class="n">trace</span> <span class="o">+</span> <span class="n">a_data</span><span class="p">((</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">a_row_size</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
-            <span class="n">ENDDO</span>
-         <span class="n">ENDDO</span> <span class="c">! a_col</span>
-      <span class="n">ENDDO</span> <span class="c">! a_row</span>
+            <span class="k">ENDDO</span>
+<span class="k">         ENDDO</span> <span class="c">! a_col</span>
+      <span class="k">ENDDO</span> <span class="c">! a_row</span>
       <span class="c">!</span>
       <span class="c">! summe</span>
       <span class="k">CALL </span><span class="n">mp_sum</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">dbcsr_mp_group</span><span class="p">(</span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">%</span><span class="n">dist</span><span class="p">)))</span>

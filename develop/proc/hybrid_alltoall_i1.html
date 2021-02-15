@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -325,7 +325,7 @@ public subroutine hybrid_alltoall_i1(sb, scount, sdispl, rb, rcount, rdispl, mp_
   
 <tr>
   
-  <td><span class="anchor" id="variable-mp_env~30"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
+  <td><span class="anchor" id="variable-mp_env~7"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -491,8 +491,8 @@ public subroutine hybrid_alltoall_i1(sb, scount, sdispl, rb, rcount, rdispl, mp_
       <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_mp_has_subgroups</span><span class="p">(</span><span class="n">mp_env</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">mpe</span> <span class="o">=</span> <span class="n">mp_env</span>
          <span class="k">CALL </span><span class="n">dbcsr_mp_grid_setup</span><span class="p">(</span><span class="n">mpe</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="n">most_collective</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">most_collective</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
       <span class="n">remainder_collective</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
       <span class="n">no_h</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">most_ptp</span><span class="p">))</span> <span class="n">most_collective</span> <span class="o">=</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">most_ptp</span>
@@ -519,15 +519,15 @@ public subroutine hybrid_alltoall_i1(sb, scount, sdispl, rb, rcount, rdispl, mp_
          <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">new_sdispl</span><span class="p">(</span><span class="n">numnodes</span><span class="p">),</span> <span class="n">new_rdispl</span><span class="p">(</span><span class="n">numnodes</span><span class="p">))</span>
          <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">remainder_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">remainder_point_to_point</span><span class="p">()</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">most_collective</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">most_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">most_point_to_point</span><span class="p">()</span>
          <span class="k">ELSE</span>
 <span class="k">            CALL </span><span class="n">most_alltoall</span><span class="p">()</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">remainder_collective</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">remainder_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">remainder_alltoall</span><span class="p">()</span>
-         <span class="n">ENDIF</span>
+         <span class="k">ENDIF</span>
          <span class="c">! Wait for all issued sends and receives.</span>
          <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">most_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">mp_waitall</span><span class="p">(</span><span class="n">row_sr</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">nrow_sr</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
@@ -538,12 +538,12 @@ public subroutine hybrid_alltoall_i1(sb, scount, sdispl, rb, rcount, rdispl, mp_
 <span class="k">         IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">remainder_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">mp_waitall</span><span class="p">(</span><span class="n">all_sr</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nall_sr</span><span class="p">))</span>
             <span class="k">CALL </span><span class="n">mp_waitall</span><span class="p">(</span><span class="n">all_rr</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nall_rr</span><span class="p">))</span>
-         <span class="n">ENDIF</span>
-      <span class="k">ELSE</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ELSE</span>
 <span class="k">         CALL </span><span class="n">mp_alltoall</span><span class="p">(</span><span class="n">sb</span><span class="p">,</span> <span class="n">scount</span><span class="p">,</span> <span class="n">sdispl</span><span class="p">,</span> <span class="p">&amp;</span>
                           <span class="n">rb</span><span class="p">,</span> <span class="n">rcount</span><span class="p">,</span> <span class="n">rdispl</span><span class="p">,</span> <span class="p">&amp;</span>
                           <span class="n">all_group</span><span class="p">)</span>
-      <span class="n">ENDIF</span> <span class="n">subgrouped</span>
+      <span class="k">ENDIF </span><span class="n">subgrouped</span>
    <span class="k">CONTAINS</span>
 <span class="k">      SUBROUTINE </span><span class="n">most_alltoall</span><span class="p">()</span>
          <span class="k">DO </span><span class="n">pcol</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">npcols</span> <span class="o">-</span> <span class="mi">1</span>
@@ -578,7 +578,7 @@ public subroutine hybrid_alltoall_i1(sb, scount, sdispl, rb, rcount, rdispl, mp_
             <span class="k">IF</span> <span class="p">(</span><span class="n">send_cnt</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">               CALL </span><span class="n">mp_isend</span><span class="p">(</span><span class="n">send_data_p</span><span class="p">,</span> <span class="n">pcol</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">row_sr</span><span class="p">(</span><span class="n">nrow_sr</span><span class="p">),</span> <span class="n">tag</span><span class="p">)</span>
                <span class="n">nrow_sr</span> <span class="o">=</span> <span class="n">nrow_sr</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="n">ENDIF</span>
+            <span class="k">ENDIF</span>
             <span class="c">!</span>
             <span class="n">pcol</span> <span class="o">=</span> <span class="nb">MODULO</span><span class="p">(</span><span class="n">mypcol</span> <span class="o">-</span> <span class="n">i</span><span class="p">,</span> <span class="n">npcols</span><span class="p">)</span>
             <span class="n">src</span> <span class="o">=</span> <span class="n">dbcsr_mp_get_process</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span> <span class="n">myprow</span><span class="p">,</span> <span class="n">pcol</span><span class="p">)</span>
@@ -588,8 +588,8 @@ public subroutine hybrid_alltoall_i1(sb, scount, sdispl, rb, rcount, rdispl, mp_
             <span class="k">IF</span> <span class="p">(</span><span class="n">recv_cnt</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">               CALL </span><span class="n">mp_irecv</span><span class="p">(</span><span class="n">recv_data_p</span><span class="p">,</span> <span class="n">pcol</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">row_rr</span><span class="p">(</span><span class="n">nrow_rr</span><span class="p">),</span> <span class="n">tag</span><span class="p">)</span>
                <span class="n">nrow_rr</span> <span class="o">=</span> <span class="n">nrow_rr</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="n">ENDIF</span>
-         <span class="n">ENDDO</span>
+            <span class="k">ENDIF</span>
+<span class="k">         ENDDO</span>
          <span class="c">! go through my pcol and exchange</span>
          <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nprows</span> <span class="o">-</span> <span class="mi">1</span>
             <span class="n">prow</span> <span class="o">=</span> <span class="nb">MOD</span><span class="p">(</span><span class="n">myprow</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">nprows</span><span class="p">)</span>
@@ -602,7 +602,7 @@ public subroutine hybrid_alltoall_i1(sb, scount, sdispl, rb, rcount, rdispl, mp_
                <span class="n">tag</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">myprow</span> <span class="o">+</span> <span class="mi">1</span>
                <span class="k">CALL </span><span class="n">mp_isend</span><span class="p">(</span><span class="n">send_data_p</span><span class="p">,</span> <span class="n">prow</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">col_sr</span><span class="p">(</span><span class="n">ncol_sr</span><span class="p">),</span> <span class="n">tag</span><span class="p">)</span>
                <span class="n">ncol_sr</span> <span class="o">=</span> <span class="n">ncol_sr</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="n">ENDIF</span>
+            <span class="k">ENDIF</span>
             <span class="c">!</span>
             <span class="n">prow</span> <span class="o">=</span> <span class="nb">MODULO</span><span class="p">(</span><span class="n">myprow</span> <span class="o">-</span> <span class="n">i</span><span class="p">,</span> <span class="n">nprows</span><span class="p">)</span>
             <span class="n">src</span> <span class="o">=</span> <span class="n">dbcsr_mp_get_process</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span> <span class="n">prow</span><span class="p">,</span> <span class="n">mypcol</span><span class="p">)</span>
@@ -612,9 +612,9 @@ public subroutine hybrid_alltoall_i1(sb, scount, sdispl, rb, rcount, rdispl, mp_
                <span class="n">tag</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">prow</span> <span class="o">+</span> <span class="mi">1</span>
                <span class="k">CALL </span><span class="n">mp_irecv</span><span class="p">(</span><span class="n">recv_data_p</span><span class="p">,</span> <span class="n">prow</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">col_rr</span><span class="p">(</span><span class="n">ncol_rr</span><span class="p">),</span> <span class="n">tag</span><span class="p">)</span>
                <span class="n">ncol_rr</span> <span class="o">=</span> <span class="n">ncol_rr</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="n">ENDIF</span>
-         <span class="n">ENDDO</span>
-      <span class="k">END SUBROUTINE </span><span class="n">most_point_to_point</span>
+            <span class="k">ENDIF</span>
+<span class="k">         ENDDO</span>
+<span class="k">      END SUBROUTINE </span><span class="n">most_point_to_point</span>
       <span class="k">SUBROUTINE </span><span class="n">remainder_alltoall</span><span class="p">()</span>
          <span class="n">new_scount</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">scount</span><span class="p">(:)</span>
          <span class="n">new_rcount</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">rcount</span><span class="p">(:)</span>
@@ -645,7 +645,7 @@ public subroutine hybrid_alltoall_i1(sb, scount, sdispl, rb, rcount, rdispl, mp_
                   <span class="n">send_data_p</span> <span class="o">=&gt;</span> <span class="n">sb</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">sdispl</span><span class="p">(</span><span class="n">dst</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span><span class="mi">1</span> <span class="o">+</span> <span class="n">sdispl</span><span class="p">(</span><span class="n">dst</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">send_cnt</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
                   <span class="k">CALL </span><span class="n">mp_isend</span><span class="p">(</span><span class="n">send_data_p</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="n">all_group</span><span class="p">,</span> <span class="n">all_sr</span><span class="p">(</span><span class="n">nall_sr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">tag</span><span class="p">)</span>
                   <span class="n">nall_sr</span> <span class="o">=</span> <span class="n">nall_sr</span> <span class="o">+</span> <span class="mi">1</span>
-               <span class="n">ENDIF</span>
+               <span class="k">ENDIF</span>
                <span class="c">!</span>
                <span class="n">src</span> <span class="o">=</span> <span class="n">dbcsr_mp_get_process</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span> <span class="n">prow</span><span class="p">,</span> <span class="n">pcol</span><span class="p">)</span>
                <span class="n">recv_cnt</span> <span class="o">=</span> <span class="n">rcount</span><span class="p">(</span><span class="n">src</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
@@ -654,10 +654,10 @@ public subroutine hybrid_alltoall_i1(sb, scount, sdispl, rb, rcount, rdispl, mp_
                   <span class="n">tag</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">src</span> <span class="o">+</span> <span class="mi">2</span>
                   <span class="k">CALL </span><span class="n">mp_irecv</span><span class="p">(</span><span class="n">recv_data_p</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">all_group</span><span class="p">,</span> <span class="n">all_rr</span><span class="p">(</span><span class="n">nall_rr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">tag</span><span class="p">)</span>
                   <span class="n">nall_rr</span> <span class="o">=</span> <span class="n">nall_rr</span> <span class="o">+</span> <span class="mi">1</span>
-               <span class="n">ENDIF</span>
-            <span class="n">ENDDO</span>
-         <span class="n">ENDDO</span>
-      <span class="k">END SUBROUTINE </span><span class="n">remainder_point_to_point</span>
+               <span class="k">ENDIF</span>
+<span class="k">            ENDDO</span>
+<span class="k">         ENDDO</span>
+<span class="k">      END SUBROUTINE </span><span class="n">remainder_point_to_point</span>
    <span class="k">END SUBROUTINE </span><span class="n">hybrid_alltoall_i1</span>
 </pre></div>
 

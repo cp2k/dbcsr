@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -468,16 +468,16 @@ public subroutine rebin_distribution(new_bins, images, source_bins, nbins, multi
          <span class="k">ELSE</span>
             <span class="c">! Fill remainder with a cyclic distribution</span>
             <span class="n">bin</span> <span class="o">=</span> <span class="nb">MOD</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">old_nbins</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="n">virtual_bin</span> <span class="o">=</span> <span class="n">bin</span><span class="o">*</span><span class="n">multiplicity</span> <span class="o">+</span> <span class="n">bin_multiplier</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">         </span><span class="n">virtual_bin</span> <span class="o">=</span> <span class="n">bin</span><span class="o">*</span><span class="n">multiplicity</span> <span class="o">+</span> <span class="n">bin_multiplier</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span>
          <span class="n">new_bins</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">virtual_bin</span><span class="o">/</span><span class="n">nimages</span>
          <span class="k">images</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="nb">MOD</span><span class="p">(</span><span class="n">virtual_bin</span><span class="p">,</span> <span class="n">nimages</span><span class="p">)</span>
          <span class="n">bin_multiplier</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span> <span class="o">=</span> <span class="n">bin_multiplier</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">bin_multiplier</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span> <span class="p">.</span><span class="n">GE</span><span class="p">.</span> <span class="n">multiplicity</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">bin_multiplier</span><span class="p">(</span><span class="n">bin</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDDO</span>
-   <span class="k">END SUBROUTINE </span><span class="n">rebin_distribution</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDDO</span>
+<span class="k">   END SUBROUTINE </span><span class="n">rebin_distribution</span>
 </pre></div>
 
     </section>

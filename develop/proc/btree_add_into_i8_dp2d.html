@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -257,7 +257,7 @@ private subroutine btree_add_into_i8_dp2d(tree, node, key, value, before, subtre
   
 <tr>
   
-  <td><span class="anchor" id="variable-key~32"></span>integer(kind=keyt),</td>
+  <td><span class="anchor" id="variable-key~24"></span>integer(kind=keyt),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -272,7 +272,7 @@ private subroutine btree_add_into_i8_dp2d(tree, node, key, value, before, subtre
   
 <tr>
   
-  <td><span class="anchor" id="variable-value~55"></span>type(<a href='../type/btree_data_dp2d.html'>btree_data_dp2d</a>),</td>
+  <td><span class="anchor" id="variable-value~27"></span>type(<a href='../type/btree_data_dp2d.html'>btree_data_dp2d</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -287,7 +287,7 @@ private subroutine btree_add_into_i8_dp2d(tree, node, key, value, before, subtre
   
 <tr>
   
-  <td><span class="anchor" id="variable-before~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-before~5"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -398,15 +398,15 @@ private subroutine btree_add_into_i8_dp2d(tree, node, key, value, before, subtre
          <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">subtree</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">root</span><span class="p">%</span><span class="n">subtrees</span><span class="p">(</span><span class="mi">2</span><span class="p">)%</span><span class="n">node</span> <span class="o">=&gt;</span> <span class="n">subtree</span>
             <span class="n">subtree</span><span class="p">%</span><span class="n">parent</span> <span class="o">=&gt;</span> <span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">root</span>
-         <span class="n">ENDIF</span>
-         <span class="k">RETURN</span>
-<span class="k">      </span><span class="n">ENDIF</span>
+         <span class="k">ENDIF</span>
+<span class="k">         RETURN</span>
+<span class="k">      ENDIF</span>
       <span class="c">! Where the insertion takes place.</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">before</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">ge_pos</span> <span class="o">=</span> <span class="n">before</span>
       <span class="k">ELSE</span>
 <span class="k">         CALL </span><span class="n">btree_node_find_gt_pos_i8_dp2d</span> <span class="p">(</span><span class="n">node</span><span class="p">%</span><span class="n">keys</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">ge_pos</span><span class="p">,</span> <span class="n">node</span><span class="p">%</span><span class="n">filled</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">! Addition is easy if the node has enough space.</span>
       <span class="n">leaf</span> <span class="o">=</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">node</span><span class="p">%</span><span class="n">subtrees</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">node</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">node</span><span class="p">%</span><span class="n">filled</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">max_fill</span><span class="p">)</span> <span class="k">THEN</span>
@@ -414,8 +414,8 @@ private subroutine btree_add_into_i8_dp2d(tree, node, key, value, before, subtre
 <span class="k">            CALL </span><span class="n">btree_simple_insertion_i8_dp2d</span> <span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="k">value</span><span class="p">,</span> <span class="n">ge_pos</span><span class="p">,</span> <span class="n">subtree</span><span class="p">)</span>
          <span class="k">ELSE</span>
 <span class="k">            CALL </span><span class="n">btree_simple_insertion_i8_dp2d</span> <span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="k">value</span><span class="p">,</span> <span class="n">ge_pos</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">RETURN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         RETURN</span>
 <span class="k">      ELSE</span>
 <span class="k">         </span><span class="n">split_pos</span> <span class="o">=</span> <span class="nb">ISHFT</span><span class="p">(</span><span class="n">tree</span><span class="p">%</span><span class="n">b</span><span class="p">%</span><span class="n">max_fill</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
          <span class="c">! I assert that split_pos &lt;= SIZE(node%keys)</span>
@@ -429,15 +429,15 @@ private subroutine btree_add_into_i8_dp2d(tree, node, key, value, before, subtre
 <span class="k">            ELSE</span>
 <span class="k">               </span><span class="n">upgrade_key</span> <span class="o">=</span> <span class="n">node</span><span class="p">%</span><span class="n">keys</span><span class="p">(</span><span class="n">split_pos</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
                <span class="n">upgrade_value</span> <span class="o">=</span> <span class="n">node</span><span class="p">%</span><span class="n">values</span><span class="p">(</span><span class="n">split_pos</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
-            <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">subtree</span><span class="p">))</span> <span class="k">THEN</span>
+            <span class="k">ENDIF</span>
+<span class="k">            IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">subtree</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">               CALL </span><span class="n">btree_left_insertion_i8_dp2d</span> <span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">new_node</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="k">value</span><span class="p">,</span> <span class="p">&amp;</span>
                                                        <span class="n">ge_pos</span><span class="p">,</span> <span class="n">split_pos</span><span class="p">,</span> <span class="n">subtree</span><span class="p">)</span>
                <span class="c">!CALL btree_adopt_subtrees_i8_dp2d (new_node)</span>
             <span class="k">ELSE</span>
 <span class="k">               CALL </span><span class="n">btree_left_insertion_i8_dp2d</span> <span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">new_node</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="k">value</span><span class="p">,</span> <span class="p">&amp;</span>
                                                        <span class="n">ge_pos</span><span class="p">,</span> <span class="n">split_pos</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
+            <span class="k">ENDIF</span>
             <span class="c">!</span>
          <span class="k">ELSE</span>
 <span class="k">            </span><span class="n">upgrade_key</span> <span class="o">=</span> <span class="n">node</span><span class="p">%</span><span class="n">keys</span><span class="p">(</span><span class="n">split_pos</span><span class="p">)</span>
@@ -449,21 +449,21 @@ private subroutine btree_add_into_i8_dp2d(tree, node, key, value, before, subtre
             <span class="k">ELSE</span>
 <span class="k">               CALL </span><span class="n">btree_right_insertion_i8_dp2d</span> <span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">new_node</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="k">value</span><span class="p">,</span> <span class="p">&amp;</span>
                                                         <span class="n">ge_pos</span><span class="p">,</span> <span class="n">split_pos</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
+            <span class="k">ENDIF</span>
             <span class="c">!</span>
-         <span class="n">ENDIF</span>
+         <span class="k">ENDIF</span>
          <span class="c">!</span>
          <span class="n">new_node</span><span class="p">%</span><span class="n">parent</span> <span class="o">=&gt;</span> <span class="n">node</span><span class="p">%</span><span class="n">parent</span>
          <span class="c">!</span>
          <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">leaf</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">btree_adopt_subtrees_i8_dp2d</span> <span class="p">(</span><span class="n">new_node</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
+         <span class="k">ENDIF</span>
          <span class="c">!</span>
          <span class="k">CALL </span><span class="n">btree_add_into_i8_dp2d</span> <span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">node</span><span class="p">%</span><span class="n">parent</span><span class="p">,</span> <span class="n">upgrade_key</span><span class="p">,</span> <span class="n">upgrade_value</span><span class="p">,</span> <span class="p">&amp;</span>
                                            <span class="n">subtree</span><span class="o">=</span><span class="n">new_node</span><span class="p">)</span>
          <span class="c">!</span>
-      <span class="n">ENDIF</span>
-   <span class="k">END SUBROUTINE </span><span class="n">btree_add_into_i8_dp2d</span>
+      <span class="k">ENDIF</span>
+<span class="k">   END SUBROUTINE </span><span class="n">btree_add_into_i8_dp2d</span>
 </pre></div>
 
     </section>

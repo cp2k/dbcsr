@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -230,7 +230,7 @@ private subroutine mp_rget_rv(base, source, win, win_data, myproc, disp, request
   
 <tr>
   
-  <td><span class="anchor" id="variable-base~9"></span>real(kind=real_4),</td>
+  <td><span class="anchor" id="variable-base~12"></span>real(kind=real_4),</td>
   <td></td>
   <td></td>
   
@@ -245,7 +245,7 @@ private subroutine mp_rget_rv(base, source, win, win_data, myproc, disp, request
   
 <tr>
   
-  <td><span class="anchor" id="variable-source~66"></span>integer,</td>
+  <td><span class="anchor" id="variable-source~100"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -460,25 +460,25 @@ private subroutine mp_rget_rv(base, source, win, win_data, myproc, disp, request
       <span class="n">disp_aint</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">disp</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">disp_aint</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">disp</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">mpi_address_kind</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="n">handle_origin_datatype</span> <span class="o">=</span> <span class="n">MPI_REAL</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">handle_origin_datatype</span> <span class="o">=</span> <span class="n">MPI_REAL</span>
       <span class="n">origin_len</span> <span class="o">=</span> <span class="nb">len</span>
 <span class="nb">      </span><span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">origin_datatype</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">handle_origin_datatype</span> <span class="o">=</span> <span class="n">origin_datatype</span><span class="p">%</span><span class="n">type_handle</span>
          <span class="n">origin_len</span> <span class="o">=</span> <span class="mi">1</span>
-      <span class="n">ENDIF</span>
-      <span class="n">handle_target_datatype</span> <span class="o">=</span> <span class="n">MPI_REAL</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">handle_target_datatype</span> <span class="o">=</span> <span class="n">MPI_REAL</span>
       <span class="n">target_len</span> <span class="o">=</span> <span class="nb">len</span>
 <span class="nb">      </span><span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">target_datatype</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">handle_target_datatype</span> <span class="o">=</span> <span class="n">target_datatype</span><span class="p">%</span><span class="n">type_handle</span>
          <span class="n">target_len</span> <span class="o">=</span> <span class="mi">1</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+      <span class="k">ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="nb">len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">do_local_copy</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
          <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">myproc</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">origin_datatype</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">target_datatype</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">myproc</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">source</span><span class="p">)</span> <span class="n">do_local_copy</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">do_local_copy</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">do_local_copy</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="c">!$OMP           PARALLEL WORKSHARE DEFAULT(none) SHARED(base,win_data,disp_aint,len)</span>
             <span class="n">base</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">win_data</span><span class="p">(</span><span class="n">disp_aint</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">disp_aint</span> <span class="o">+</span> <span class="nb">len</span><span class="p">)</span>
 <span class="c">!$OMP           END PARALLEL WORKSHARE</span>
@@ -487,11 +487,11 @@ private subroutine mp_rget_rv(base, source, win, win_data, myproc, disp, request
          <span class="k">ELSE</span>
 <span class="k">            CALL </span><span class="n">mpi_rget</span><span class="p">(</span><span class="n">base</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">origin_len</span><span class="p">,</span> <span class="n">handle_origin_datatype</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">disp_aint</span><span class="p">,</span> <span class="p">&amp;</span>
                           <span class="n">target_len</span><span class="p">,</span> <span class="n">handle_target_datatype</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="k">ELSE</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ELSE</span>
 <span class="k">         </span><span class="n">request</span> <span class="o">=</span> <span class="n">mp_request_null</span>
          <span class="n">ierr</span> <span class="o">=</span> <span class="mi">0</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 <span class="cp">#else</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">win</span><span class="p">)</span>
@@ -520,7 +520,7 @@ private subroutine mp_rget_rv(base, source, win, win_data, myproc, disp, request
 <span class="k">         </span><span class="n">base</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">win_data</span><span class="p">(</span><span class="n">disp</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">disp</span> <span class="o">+</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">base</span><span class="p">))</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">base</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">win_data</span><span class="p">(:</span><span class="n">SIZE</span><span class="p">(</span><span class="n">base</span><span class="p">))</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
 <span class="cp">#endif</span>
       <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>

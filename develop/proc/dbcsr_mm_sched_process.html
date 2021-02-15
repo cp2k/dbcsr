@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -231,7 +231,7 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p>
   
 <tr>
   
-  <td><span class="anchor" id="variable-this~26"></span>type(<a href='../type/dbcsr_mm_sched_type.html'>dbcsr_mm_sched_type</a>),</td>
+  <td><span class="anchor" id="variable-this~22"></span>type(<a href='../type/dbcsr_mm_sched_type.html'>dbcsr_mm_sched_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -246,7 +246,7 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p>
   
 <tr>
   
-  <td><span class="anchor" id="variable-left~10"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-left~8"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -261,7 +261,7 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p>
   
 <tr>
   
-  <td><span class="anchor" id="variable-right~10"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-right~8"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -306,7 +306,7 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p>
   
 <tr>
   
-  <td><span class="anchor" id="variable-stack_descr"></span>type(<a href='../type/stack_descriptor_type.html'>stack_descriptor_type</a>),</td>
+  <td><span class="anchor" id="variable-stack_descr~2"></span>type(<a href='../type/stack_descriptor_type.html'>stack_descriptor_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -423,9 +423,9 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p>
                <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;product data out of range&quot;</span><span class="p">)</span>
             <span class="k">END IF</span>
 <span class="k">         END DO</span>
-<span class="k">      </span><span class="n">ENDIF</span>
+<span class="k">      ENDIF</span>
 
-      <span class="k">IF</span> <span class="p">(.</span><span class="n">FALSE</span><span class="p">.)</span> <span class="k">THEN</span>
+<span class="k">      IF</span> <span class="p">(.</span><span class="n">FALSE</span><span class="p">.)</span> <span class="k">THEN</span>
          <span class="c">! Check if homogeneous stacks are indeed homogeneous</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">defined_mnk</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            DO </span><span class="n">sp</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">stack_fillcount</span>
@@ -436,8 +436,8 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p>
                <span class="k">IF</span> <span class="p">(</span><span class="n">stack_data</span><span class="p">(</span><span class="n">p_k</span><span class="p">,</span> <span class="n">sp</span><span class="p">)</span> <span class="o">/=</span> <span class="n">stack_descr</span><span class="p">%</span><span class="n">k</span><span class="p">)</span> <span class="p">&amp;</span>
                   <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;homogeneous stacks check failed&quot;</span><span class="p">)</span>
             <span class="k">END DO</span>
-<span class="k">         </span><span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
+<span class="k">         ENDIF</span>
+<span class="k">      ENDIF</span>
 
       <span class="c">! Submitting the stack for processing -------------------------------------</span>
       <span class="n">flop_per_entry</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="o">*</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">max_m</span><span class="o">*</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">max_n</span><span class="o">*</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">max_k</span>
@@ -465,8 +465,8 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p>
             <span class="k">RETURN</span>
 <span class="k">         ELSE</span>
 <span class="k">            </span><span class="n">this</span><span class="p">%</span><span class="n">avoid_accdrv</span> <span class="o">=</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_avoid_after_busy</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
 
       <span class="c">!WRITE (*,*) &quot;dbcsr_mm_sched_process: running hostdrv_process, stack_fillcount:&quot;, stack_fillcount</span>
 
@@ -494,9 +494,9 @@ This is useful to check stack parameters, BUT it works only for kind=dp</p>
          <span class="k">CALL </span><span class="n">stats_add</span><span class="p">(</span><span class="n">mystats</span><span class="p">,</span> <span class="p">&amp;</span>
                         <span class="n">m</span><span class="o">=</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">k</span><span class="p">,</span> <span class="p">&amp;</span>
                         <span class="n">stacksize_cpu</span><span class="o">=</span><span class="nb">INT</span><span class="p">(</span><span class="n">stack_fillcount</span><span class="p">,</span> <span class="nb">kind</span><span class="o">=</span><span class="n">int_8</span><span class="p">))</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
-   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_mm_sched_process</span>
+<span class="k">   END SUBROUTINE </span><span class="n">dbcsr_mm_sched_process</span>
 </pre></div>
 
     </section>

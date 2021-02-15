@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -230,7 +230,7 @@ private subroutine dbcsr_init_lib_pre(mp_comm, io_unit, accdrv_active_device_id)
   
 <tr>
   
-  <td><span class="anchor" id="variable-mp_comm~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-mp_comm~23"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -245,7 +245,7 @@ private subroutine dbcsr_init_lib_pre(mp_comm, io_unit, accdrv_active_device_id)
   
 <tr>
   
-  <td><span class="anchor" id="variable-io_unit~7"></span>integer,</td>
+  <td><span class="anchor" id="variable-io_unit~8"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -359,14 +359,14 @@ private subroutine dbcsr_init_lib_pre(mp_comm, io_unit, accdrv_active_device_id)
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">ext_io_unit</span> <span class="o">=</span> <span class="mi">0</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">mynode</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="n">ext_io_unit</span> <span class="o">=</span> <span class="n">default_output_unit</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
       <span class="c">! if MPI was not initialized in DBCSR, then need to check for the number of communicators</span>
       <span class="c">! when we finalize DBCSR</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">mp_get_comm_count</span><span class="p">()</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">check_comm_count</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-      <span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">dbcsr_mp_make_env</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span> <span class="n">default_group</span><span class="p">,</span> <span class="n">mp_comm</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      CALL </span><span class="n">dbcsr_mp_make_env</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span> <span class="n">default_group</span><span class="p">,</span> <span class="n">mp_comm</span><span class="p">)</span>
 
 <span class="cp">#if defined(__LIBXSMM)</span>
       <span class="k">CALL </span><span class="n">libxsmm_init</span><span class="p">()</span>
@@ -378,7 +378,7 @@ private subroutine dbcsr_init_lib_pre(mp_comm, io_unit, accdrv_active_device_id)
       <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">dbcsr_acc_get_ndevices</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
          <span class="c">! Use round-robin assignment per rank</span>
          <span class="k">CALL </span><span class="n">set_accdrv_active_device_id</span><span class="p">(</span><span class="nb">MOD</span><span class="p">(</span><span class="n">mynode</span><span class="p">,</span> <span class="n">dbcsr_acc_get_ndevices</span><span class="p">()))</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 <span class="cp">#if defined(__DBCSR_ACC)</span>
       <span class="k">CALL </span><span class="n">dbcsr_acc_set_active_device</span><span class="p">(</span><span class="n">get_accdrv_active_device_id</span><span class="p">())</span>
 
@@ -394,8 +394,8 @@ private subroutine dbcsr_init_lib_pre(mp_comm, io_unit, accdrv_active_device_id)
          <span class="k">ELSE</span>
 <span class="k">            CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span> <span class="p">&amp;</span>
                              <span class="s2">&quot;DBCSR compiled w/o threading support while libsmm_acc is compiled w/ threading support.&quot;</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
 
 <span class="cp">#endif</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_init_lib_pre</span>

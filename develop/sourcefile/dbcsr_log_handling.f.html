@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -425,9 +425,9 @@
 <a name="ln-163"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">stack_pointer</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&gt;</span> <span class="n">max_stack_pointer</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-164"></a><span class="k">         CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span> <span class="n">routineP</span><span class="o">//</span> <span class="p">&amp;</span>
 <a name="ln-165"></a>                          <span class="s2">&quot;too many default loggers, increase max_stack_pointer in &quot;</span><span class="o">//</span><span class="n">moduleN</span><span class="p">)</span>
-<a name="ln-166"></a>      <span class="n">ENDIF</span>
+<a name="ln-166"></a>      <span class="k">ENDIF</span>
 <a name="ln-167"></a>
-<a name="ln-168"></a>      <span class="n">stack_pointer</span> <span class="o">=</span> <span class="n">stack_pointer</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-168"></a><span class="k">      </span><span class="n">stack_pointer</span> <span class="o">=</span> <span class="n">stack_pointer</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-169"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">default_logger_stack</span><span class="p">(</span><span class="n">stack_pointer</span><span class="p">)%</span><span class="n">dbcsr_default_logger</span><span class="p">)</span>
 <a name="ln-170"></a>
 <a name="ln-171"></a>      <span class="n">default_logger_stack</span><span class="p">(</span><span class="n">stack_pointer</span><span class="p">)%</span><span class="n">dbcsr_default_logger</span> <span class="o">=&gt;</span> <span class="n">logger</span>
@@ -443,9 +443,9 @@
 <a name="ln-181"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">stack_pointer</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-182"></a><span class="k">         CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span> <span class="n">moduleN</span><span class="o">//</span><span class="s2">&quot;:dbcsr_rm_default_logger&quot;</span><span class="o">//</span> <span class="p">&amp;</span>
 <a name="ln-183"></a>                          <span class="s2">&quot;can not destroy default logger &quot;</span><span class="o">//</span><span class="n">moduleN</span><span class="p">)</span>
-<a name="ln-184"></a>      <span class="n">ENDIF</span>
+<a name="ln-184"></a>      <span class="k">ENDIF</span>
 <a name="ln-185"></a>
-<a name="ln-186"></a>      <span class="k">CALL </span><span class="n">dbcsr_logger_release</span><span class="p">(</span><span class="n">default_logger_stack</span><span class="p">(</span><span class="n">stack_pointer</span><span class="p">)%</span><span class="n">dbcsr_default_logger</span><span class="p">)</span>
+<a name="ln-186"></a><span class="k">      CALL </span><span class="n">dbcsr_logger_release</span><span class="p">(</span><span class="n">default_logger_stack</span><span class="p">(</span><span class="n">stack_pointer</span><span class="p">)%</span><span class="n">dbcsr_default_logger</span><span class="p">)</span>
 <a name="ln-187"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">default_logger_stack</span><span class="p">(</span><span class="n">stack_pointer</span><span class="p">)%</span><span class="n">dbcsr_default_logger</span><span class="p">)</span>
 <a name="ln-188"></a>      <span class="n">stack_pointer</span> <span class="o">=</span> <span class="n">stack_pointer</span> <span class="o">-</span> <span class="mi">1</span>
 <a name="ln-189"></a>
@@ -601,9 +601,9 @@
 <a name="ln-339"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mynode</span> <span class="o">==</span> <span class="n">logger</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">source</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-340"></a><span class="k">            </span><span class="n">logger</span><span class="p">%</span><span class="n">default_local_unit_nr</span> <span class="o">=</span> <span class="n">logger</span><span class="p">%</span><span class="n">default_global_unit_nr</span>
 <a name="ln-341"></a>            <span class="n">logger</span><span class="p">%</span><span class="n">close_local_unit_on_dealloc</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a name="ln-342"></a>         <span class="n">ENDIF</span>
-<a name="ln-343"></a>      <span class="n">ENDIF</span>
-<a name="ln-344"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">iter_info</span><span class="p">))</span> <span class="n">logger</span><span class="p">%</span><span class="n">iter_info</span> <span class="o">=&gt;</span> <span class="n">iter_info</span>
+<a name="ln-342"></a>         <span class="k">ENDIF</span>
+<a name="ln-343"></a><span class="k">      ENDIF</span>
+<a name="ln-344"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">iter_info</span><span class="p">))</span> <span class="n">logger</span><span class="p">%</span><span class="n">iter_info</span> <span class="o">=&gt;</span> <span class="n">iter_info</span>
 <a name="ln-345"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">iter_info</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-346"></a><span class="k">         CALL </span><span class="n">dbcsr_iteration_info_retain</span><span class="p">(</span><span class="n">logger</span><span class="p">%</span><span class="n">iter_info</span><span class="p">)</span>
 <a name="ln-347"></a>      <span class="k">ELSE</span>
@@ -717,9 +717,9 @@
 <a name="ln-455"></a>         <span class="k">RETURN</span>
 <a name="ln-456"></a><span class="k">      ELSE</span>
 <a name="ln-457"></a><span class="k">         </span><span class="n">local_logger</span> <span class="o">=&gt;</span> <span class="n">dbcsr_get_default_logger</span><span class="p">()</span>
-<a name="ln-458"></a>      <span class="n">ENDIF</span>
+<a name="ln-458"></a>      <span class="k">ENDIF</span>
 <a name="ln-459"></a>
-<a name="ln-460"></a>      <span class="n">res</span> <span class="o">=</span> <span class="n">dbcsr_logger_get_default_unit_nr</span><span class="p">(</span><span class="n">local_logger</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span> <span class="n">skip_not_ionode</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+<a name="ln-460"></a><span class="k">      </span><span class="n">res</span> <span class="o">=</span> <span class="n">dbcsr_logger_get_default_unit_nr</span><span class="p">(</span><span class="n">local_logger</span><span class="p">,</span> <span class="n">local</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span> <span class="n">skip_not_ionode</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
 <a name="ln-461"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_logger_get_default_io_unit</span>
 <a name="ln-462"></a>
 <a name="ln-463"></a><span class="c">! *************************** dbcsr_logger_type settings ***************************</span>
@@ -767,8 +767,8 @@
 <a name="ln-505"></a><span class="k">         </span><span class="n">lggr</span> <span class="o">=&gt;</span> <span class="n">logger</span>
 <a name="ln-506"></a>      <span class="k">ELSE</span>
 <a name="ln-507"></a><span class="k">         NULLIFY</span> <span class="p">(</span><span class="n">lggr</span><span class="p">)</span>
-<a name="ln-508"></a>      <span class="n">ENDIF</span>
-<a name="ln-509"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">lggr</span><span class="p">))</span> <span class="n">lggr</span> <span class="o">=&gt;</span> <span class="n">dbcsr_get_default_logger</span><span class="p">()</span>
+<a name="ln-508"></a>      <span class="k">ENDIF</span>
+<a name="ln-509"></a><span class="k">      IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">lggr</span><span class="p">))</span> <span class="n">lggr</span> <span class="o">=&gt;</span> <span class="n">dbcsr_get_default_logger</span><span class="p">()</span>
 <a name="ln-510"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">lggr</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-511"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; logger%ref_count&lt;1&quot;</span><span class="p">)</span>
 <a name="ln-512"></a>

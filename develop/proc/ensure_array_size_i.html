@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ private subroutine ensure_array_size_i(array, array_resize, lb, ub, factor, noco
   
 <tr>
   
-  <td><span class="anchor" id="variable-array~16"></span>integer(kind=int_4),</td>
+  <td><span class="anchor" id="variable-array~6"></span>integer(kind=int_4),</td>
   <td></td>
   <td></td>
   
@@ -259,7 +259,7 @@ private subroutine ensure_array_size_i(array, array_resize, lb, ub, factor, noco
   
 <tr>
   
-  <td><span class="anchor" id="variable-lb~43"></span>integer,</td>
+  <td><span class="anchor" id="variable-lb~41"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -274,7 +274,7 @@ private subroutine ensure_array_size_i(array, array_resize, lb, ub, factor, noco
   
 <tr>
   
-  <td><span class="anchor" id="variable-ub~42"></span>integer,</td>
+  <td><span class="anchor" id="variable-ub~41"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -320,7 +320,7 @@ private subroutine ensure_array_size_i(array, array_resize, lb, ub, factor, noco
   
 <tr>
   
-  <td><span class="anchor" id="variable-memory_type~12"></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td><span class="anchor" id="variable-memory_type~8"></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -452,13 +452,13 @@ private subroutine ensure_array_size_i(array, array_resize, lb, ub, factor, noco
 <span class="k">         </span><span class="n">docopy</span> <span class="o">=</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">nocopy</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">docopy</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">memory_type</span><span class="p">))</span> <span class="k">THEN</span>
+      <span class="k">ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">memory_type</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">mem_type</span> <span class="o">=</span> <span class="n">memory_type</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">mem_type</span> <span class="o">=</span> <span class="n">dbcsr_memtype_default</span>
-      <span class="n">ENDIF</span>
-      <span class="n">lb_new</span> <span class="o">=</span> <span class="mi">1</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">lb_new</span> <span class="o">=</span> <span class="mi">1</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">lb</span><span class="p">))</span> <span class="n">lb_new</span> <span class="o">=</span> <span class="n">lb</span>
       <span class="n">pad</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">zero_pad</span><span class="p">))</span> <span class="n">pad</span> <span class="o">=</span> <span class="n">zero_pad</span>
@@ -470,15 +470,15 @@ private subroutine ensure_array_size_i(array, array_resize, lb, ub, factor, noco
          <span class="k">IF</span> <span class="p">(</span><span class="n">pad</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">ub</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mem_zero_i</span> <span class="p">(</span><span class="k">array</span><span class="p">,</span> <span class="n">ub</span><span class="p">)</span>
          <span class="c">!CALL timestop(error_handler)</span>
          <span class="k">RETURN</span>
-<span class="k">      </span><span class="n">ENDIF</span>
-      <span class="n">lb_orig</span> <span class="o">=</span> <span class="nb">LBOUND</span><span class="p">(</span><span class="k">array</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">      ENDIF</span>
+<span class="k">      </span><span class="n">lb_orig</span> <span class="o">=</span> <span class="nb">LBOUND</span><span class="p">(</span><span class="k">array</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
       <span class="n">ub_orig</span> <span class="o">=</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="k">array</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
       <span class="n">old_size</span> <span class="o">=</span> <span class="n">ub_orig</span> <span class="o">-</span> <span class="n">lb_orig</span> <span class="o">+</span> <span class="mi">1</span>
       <span class="c">! The existing array is big enough.</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">lb_orig</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">lb_new</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">ub_orig</span> <span class="p">.</span><span class="n">GE</span><span class="p">.</span> <span class="n">ub</span><span class="p">)</span> <span class="k">THEN</span>
          <span class="c">!CALL timestop(error_handler)</span>
          <span class="k">RETURN</span>
-<span class="k">      </span><span class="n">ENDIF</span>
+<span class="k">      ENDIF</span>
       <span class="c">! A reallocation must be performed</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineP</span><span class="o">//</span><span class="s1">&#39; Current bounds are&#39;</span><span class="p">,</span> <span class="n">lb_orig</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">ub_orig</span><span class="p">,</span> <span class="p">&amp;</span>
          <span class="s1">&#39;; special?&#39;</span> <span class="c">!,mem_type</span>
@@ -491,9 +491,9 @@ private subroutine ensure_array_size_i(array, array_resize, lb, ub, factor, noco
             <span class="n">lb_new</span> <span class="o">=</span> <span class="nb">MIN</span><span class="p">(</span><span class="n">lb_orig</span><span class="p">,</span> <span class="n">lb_new</span> <span class="o">-</span> <span class="n">size_increase</span><span class="p">)</span>
          <span class="k">ELSE</span>
 <span class="k">            </span><span class="n">lb_new</span> <span class="o">=</span> <span class="n">lb_orig</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">ub_orig</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">ub</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="n">ub_orig</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">ub</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">factor</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">size_increase</span> <span class="o">=</span> <span class="n">ub</span> <span class="o">-</span> <span class="n">ub_orig</span>
             <span class="n">size_increase</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="nb">NINT</span><span class="p">(</span><span class="n">size_increase</span><span class="o">*</span><span class="n">factor</span><span class="p">),</span> <span class="p">&amp;</span>
@@ -501,11 +501,11 @@ private subroutine ensure_array_size_i(array, array_resize, lb, ub, factor, noco
             <span class="n">ub_new</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="n">ub_orig</span><span class="p">,</span> <span class="n">ub</span> <span class="o">+</span> <span class="n">size_increase</span><span class="p">)</span>
          <span class="k">ELSE</span>
 <span class="k">            </span><span class="n">ub_new</span> <span class="o">=</span> <span class="n">ub</span>
-         <span class="n">ENDIF</span>
-      <span class="k">ELSE</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ELSE</span>
 <span class="k">         </span><span class="n">ub_new</span> <span class="o">=</span> <span class="n">ub</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineP</span><span class="o">//</span><span class="s1">&#39; Resizing to bounds&#39;</span><span class="p">,</span> <span class="n">lb_new</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">ub_new</span>
+      <span class="k">ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineP</span><span class="o">//</span><span class="s1">&#39; Resizing to bounds&#39;</span><span class="p">,</span> <span class="n">lb_new</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">ub_new</span>
       <span class="c">!</span>
       <span class="c">! Deallocates the old array if it&#39;s not needed to copy the old data.</span>
       <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">docopy</span><span class="p">)</span> <span class="k">THEN</span>
@@ -514,8 +514,8 @@ private subroutine ensure_array_size_i(array, array_resize, lb, ub, factor, noco
 <span class="k">            NULLIFY</span> <span class="p">(</span><span class="k">array</span><span class="p">)</span>
          <span class="k">ELSE</span>
 <span class="k">            CALL </span><span class="n">mem_dealloc_i</span> <span class="p">(</span><span class="k">array</span><span class="p">,</span> <span class="n">mem_type</span><span class="o">=</span><span class="n">mem_type</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
       <span class="c">!</span>
       <span class="c">! Allocates the new array</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">lb_new</span> <span class="o">/=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
@@ -530,24 +530,24 @@ private subroutine ensure_array_size_i(array, array_resize, lb, ub, factor, noco
             <span class="c">!newarray(lb_orig:ub_orig) = array(lb_orig:ub_orig)</span>
             <span class="k">CALL </span><span class="n">mem_copy_i</span> <span class="p">(</span><span class="n">newarray</span><span class="p">(</span><span class="n">lb_orig</span><span class="p">:</span><span class="n">ub_orig</span><span class="p">),</span> <span class="p">&amp;</span>
                                          <span class="k">array</span><span class="p">(</span><span class="n">lb_orig</span><span class="p">:</span><span class="n">ub_orig</span><span class="p">),</span> <span class="n">ub_orig</span> <span class="o">-</span> <span class="n">lb_orig</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">pad</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">pad</span><span class="p">)</span> <span class="k">THEN</span>
             <span class="c">!newarray(lb_new:lb_orig-1) = 0</span>
             <span class="k">CALL </span><span class="n">mem_zero_i</span> <span class="p">(</span><span class="n">newarray</span><span class="p">(</span><span class="n">lb_new</span><span class="p">:</span><span class="n">lb_orig</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="n">lb_orig</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">lb_new</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
             <span class="c">!newarray(ub_orig+1:ub_new) = 0</span>
             <span class="k">CALL </span><span class="n">mem_zero_i</span> <span class="p">(</span><span class="n">newarray</span><span class="p">(</span><span class="n">ub_orig</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">ub_new</span><span class="p">),</span> <span class="n">ub_new</span> <span class="o">-</span> <span class="p">(</span><span class="n">ub_orig</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">array_resize</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">array_resize</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">array_resize</span> <span class="o">=&gt;</span> <span class="k">array</span>
 <span class="k">            NULLIFY</span> <span class="p">(</span><span class="k">array</span><span class="p">)</span>
          <span class="k">ELSE</span>
 <span class="k">            CALL </span><span class="n">mem_dealloc_i</span> <span class="p">(</span><span class="k">array</span><span class="p">,</span> <span class="n">mem_type</span><span class="o">=</span><span class="n">mem_type</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">pad</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">ELSEIF</span> <span class="p">(</span><span class="n">pad</span><span class="p">)</span> <span class="k">THEN</span>
          <span class="c">!newarray(:) = 0</span>
          <span class="k">CALL </span><span class="n">mem_zero_i</span> <span class="p">(</span><span class="n">newarray</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">newarray</span><span class="p">))</span>
-      <span class="n">ENDIF</span>
-      <span class="k">array</span> <span class="o">=&gt;</span> <span class="n">newarray</span>
+      <span class="k">ENDIF</span>
+<span class="k">      array</span> <span class="o">=&gt;</span> <span class="n">newarray</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineP</span><span class="o">//</span><span class="s1">&#39; New array size&#39;</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="k">array</span><span class="p">)</span>
       <span class="c">!CALL timestop(error_handler)</span>
    <span class="k">END SUBROUTINE </span><span class="n">ensure_array_size_i</span>

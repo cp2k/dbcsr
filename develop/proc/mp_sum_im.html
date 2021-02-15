@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -351,8 +351,8 @@ private subroutine mp_sum_im(msg, gid)
 <span class="k">            CALL </span><span class="n">mpi_allreduce</span><span class="p">(</span><span class="n">MPI_IN_PLACE</span><span class="p">,</span> <span class="n">msg</span><span class="p">(</span><span class="nb">LBOUND</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">m1</span><span class="p">),</span> <span class="n">msglen</span><span class="p">,</span> <span class="n">MPI_INTEGER</span><span class="p">,</span> <span class="n">MPI_SUM</span><span class="p">,</span> <span class="n">gid</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
             <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_allreduce @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
          <span class="k">END IF</span>
-<span class="k">      </span><span class="n">ENDDO</span>
-      <span class="k">CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglensum</span><span class="o">*</span><span class="n">int_4_size</span><span class="p">)</span>
+<span class="k">      ENDDO</span>
+<span class="k">      CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglensum</span><span class="o">*</span><span class="n">int_4_size</span><span class="p">)</span>
 <span class="cp">#else</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">gid</span><span class="p">)</span>

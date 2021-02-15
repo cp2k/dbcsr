@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ private subroutine dbcsr_copy_into_existing_sym(matrix_b, matrix_a)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_b~26"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_b~36"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -244,7 +244,7 @@ private subroutine dbcsr_copy_into_existing_sym(matrix_b, matrix_a)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_a~44"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_a~54"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -371,8 +371,8 @@ private subroutine dbcsr_copy_into_existing_sym(matrix_b, matrix_a)
 <span class="k">            IF</span> <span class="p">(</span><span class="n">checker_tr</span><span class="p">(</span><span class="n">dst_row</span><span class="p">,</span> <span class="n">dst_col</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">               </span><span class="n">src_tr</span> <span class="o">=</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">src_tr</span>
                <span class="k">CALL </span><span class="n">swap</span><span class="p">(</span><span class="n">src_rs</span><span class="p">,</span> <span class="n">src_cs</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
-            <span class="k">CALL </span><span class="n">dbcsr_block_partial_copy</span><span class="p">(</span><span class="n">dst</span><span class="o">=</span><span class="n">dst_data</span><span class="p">,</span> <span class="n">dst_tr</span><span class="o">=</span><span class="n">dst_tr</span><span class="p">,</span> <span class="p">&amp;</span>
+            <span class="k">ENDIF</span>
+<span class="k">            CALL </span><span class="n">dbcsr_block_partial_copy</span><span class="p">(</span><span class="n">dst</span><span class="o">=</span><span class="n">dst_data</span><span class="p">,</span> <span class="n">dst_tr</span><span class="o">=</span><span class="n">dst_tr</span><span class="p">,</span> <span class="p">&amp;</span>
                                           <span class="n">dst_rs</span><span class="o">=</span><span class="n">row_size</span><span class="p">,</span> <span class="n">dst_cs</span><span class="o">=</span><span class="n">col_size</span><span class="p">,</span> <span class="p">&amp;</span>
                                           <span class="n">dst_r_lb</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dst_c_lb</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="p">&amp;</span>
                                           <span class="n">src</span><span class="o">=</span><span class="n">src_data</span><span class="p">,</span> <span class="n">src_tr</span><span class="o">=</span><span class="n">src_tr</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -381,12 +381,12 @@ private subroutine dbcsr_copy_into_existing_sym(matrix_b, matrix_a)
                                           <span class="n">nrow</span><span class="o">=</span><span class="n">row_size</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="n">col_size</span><span class="p">)</span>
             <span class="k">IF</span> <span class="p">(</span><span class="n">neg_real</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">checker_tr</span><span class="p">(</span><span class="n">dst_row</span><span class="p">,</span> <span class="n">dst_col</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">               CALL </span><span class="n">dbcsr_block_real_neg</span><span class="p">(</span><span class="n">dst_data</span><span class="p">,</span> <span class="n">row_size</span><span class="p">,</span> <span class="n">col_size</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
-            <span class="k">IF</span> <span class="p">(</span><span class="n">neg_imag</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">checker_tr</span><span class="p">(</span><span class="n">dst_row</span><span class="p">,</span> <span class="n">dst_col</span><span class="p">))</span> <span class="k">THEN</span>
+            <span class="k">ENDIF</span>
+<span class="k">            IF</span> <span class="p">(</span><span class="n">neg_imag</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">checker_tr</span><span class="p">(</span><span class="n">dst_row</span><span class="p">,</span> <span class="n">dst_col</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">               CALL </span><span class="n">dbcsr_block_conjg</span><span class="p">(</span><span class="n">dst_data</span><span class="p">,</span> <span class="n">row_size</span><span class="p">,</span> <span class="n">col_size</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
-         <span class="n">ENDIF</span>
-      <span class="k">END DO</span>
+            <span class="k">ENDIF</span>
+<span class="k">         ENDIF</span>
+<span class="k">      END DO</span>
 <span class="k">      CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">dst_iter</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_data_clear_pointer</span><span class="p">(</span><span class="n">src_data</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_data_clear_pointer</span><span class="p">(</span><span class="n">dst_data</span><span class="p">)</span>

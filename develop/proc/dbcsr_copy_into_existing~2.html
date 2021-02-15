@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ public subroutine dbcsr_copy_into_existing(matrix_b, matrix_a)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_b~25"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_b~35"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -244,7 +244,7 @@ public subroutine dbcsr_copy_into_existing(matrix_b, matrix_a)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_a~43"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_a~53"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -354,8 +354,8 @@ public subroutine dbcsr_copy_into_existing(matrix_b, matrix_a)
 <span class="k">         CALL </span><span class="n">dbcsr_copy_into_existing_sym</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">,</span> <span class="n">matrix_a</span><span class="p">)</span>
          <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
          <span class="k">RETURN</span>
-<span class="k">      </span><span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">src_data</span><span class="p">)</span>
+<span class="k">      ENDIF</span>
+<span class="k">      CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">src_data</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">dst_data</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="n">src_data</span><span class="p">,</span> <span class="n">data_type</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="n">dst_data</span><span class="p">,</span> <span class="n">data_type</span><span class="p">)</span>
@@ -370,8 +370,8 @@ public subroutine dbcsr_copy_into_existing(matrix_b, matrix_a)
                                         <span class="n">src_tr</span><span class="p">)</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">src_row</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">src_col</span> <span class="o">=</span> <span class="mi">0</span>
-      <span class="n">ENDIF</span>
-      <span class="k">DO WHILE</span> <span class="p">(</span><span class="n">dbcsr_iterator_blocks_left</span><span class="p">(</span><span class="n">dst_iter</span><span class="p">))</span>
+      <span class="k">ENDIF</span>
+<span class="k">      DO WHILE</span> <span class="p">(</span><span class="n">dbcsr_iterator_blocks_left</span><span class="p">(</span><span class="n">dst_iter</span><span class="p">))</span>
          <span class="k">CALL </span><span class="n">dbcsr_iterator_next_block</span><span class="p">(</span><span class="n">dst_iter</span><span class="p">,</span> <span class="n">dst_row</span><span class="p">,</span> <span class="n">dst_col</span><span class="p">,</span> <span class="n">dst_data</span><span class="p">,</span> <span class="p">&amp;</span>
                                         <span class="n">dst_tr</span><span class="p">,</span> <span class="n">row_size</span><span class="o">=</span><span class="n">row_size</span><span class="p">,</span> <span class="n">col_size</span><span class="o">=</span><span class="n">col_size</span><span class="p">)</span>
          <span class="c">! Now find the source position that is greater or equal to the</span>
@@ -381,8 +381,8 @@ public subroutine dbcsr_copy_into_existing(matrix_b, matrix_a)
             <span class="k">CALL </span><span class="n">dbcsr_iterator_next_block</span><span class="p">(</span><span class="n">src_iter</span><span class="p">,</span> <span class="n">src_row</span><span class="p">,</span> <span class="n">src_col</span><span class="p">,</span> <span class="p">&amp;</span>
                                            <span class="n">src_data</span><span class="p">,</span> <span class="n">src_tr</span><span class="p">,</span> <span class="n">row_size</span><span class="o">=</span><span class="n">src_rs</span><span class="p">,</span> <span class="n">col_size</span><span class="o">=</span><span class="n">src_cs</span><span class="p">)</span>
             <span class="n">rel</span> <span class="o">=</span> <span class="n">pos_relation</span><span class="p">(</span><span class="n">dst_row</span><span class="p">,</span> <span class="n">dst_col</span><span class="p">,</span> <span class="n">src_row</span><span class="p">,</span> <span class="n">src_col</span><span class="p">)</span>
-         <span class="n">ENDDO</span>
-         <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">rel</span><span class="p">)</span>
+         <span class="k">ENDDO</span>
+<span class="k">         SELECT CASE</span> <span class="p">(</span><span class="n">rel</span><span class="p">)</span>
          <span class="k">CASE</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
             <span class="c">! Target lags source or ran out of source</span>
             <span class="k">CALL </span><span class="n">dbcsr_data_clear</span><span class="p">(</span><span class="n">dst_data</span><span class="p">)</span>
@@ -402,12 +402,12 @@ public subroutine dbcsr_copy_into_existing(matrix_b, matrix_a)
                                              <span class="n">nrow</span><span class="o">=</span><span class="n">row_size</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="n">col_size</span><span class="p">)</span>
                <span class="k">IF</span> <span class="p">(</span><span class="n">neg_real</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">                  CALL </span><span class="n">dbcsr_block_real_neg</span><span class="p">(</span><span class="n">dst_data</span><span class="p">,</span> <span class="n">row_size</span><span class="p">,</span> <span class="n">col_size</span><span class="p">)</span>
-               <span class="n">ENDIF</span>
-               <span class="k">IF</span> <span class="p">(</span><span class="n">neg_imag</span><span class="p">)</span> <span class="k">THEN</span>
+               <span class="k">ENDIF</span>
+<span class="k">               IF</span> <span class="p">(</span><span class="n">neg_imag</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">                  CALL </span><span class="n">dbcsr_block_conjg</span><span class="p">(</span><span class="n">dst_data</span><span class="p">,</span> <span class="n">row_size</span><span class="p">,</span> <span class="n">col_size</span><span class="p">)</span>
-               <span class="n">ENDIF</span>
-            <span class="n">ENDIF</span>
-         <span class="k">CASE </span><span class="n">default</span>
+               <span class="k">ENDIF</span>
+<span class="k">            ENDIF</span>
+<span class="k">         CASE </span><span class="n">default</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Trouble syncing iterators&quot;</span><span class="p">)</span>
          <span class="k">END SELECT</span>
 <span class="k">      END DO</span>

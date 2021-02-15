@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -293,7 +293,7 @@ public subroutine csr_create_from_dbcsr(dbcsr_mat, csr_mat, dist_format, csr_spa
   
 <tr>
   
-  <td><span class="anchor" id="variable-numnodes~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-numnodes~8"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -415,25 +415,25 @@ public subroutine csr_create_from_dbcsr(dbcsr_mat, csr_mat, dist_format, csr_spa
 <span class="k">         CALL </span><span class="n">dbcsr_desymmetrize_deep</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">,</span> <span class="n">dbcsr_mat_nosym</span><span class="p">,</span> <span class="n">untransposed_data</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
       <span class="k">ELSE</span>
 <span class="k">         CALL </span><span class="n">dbcsr_copy</span><span class="p">(</span><span class="n">dbcsr_mat_nosym</span><span class="p">,</span> <span class="n">dbcsr_mat</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">csr_sparsity</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">csr_sparsity</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="n">dbcsr_has_symmetry</span><span class="p">(</span><span class="n">csr_sparsity</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">dbcsr_desymmetrize_deep</span><span class="p">(</span><span class="n">csr_sparsity</span><span class="p">,</span> <span class="n">csr_sparsity_nosym</span><span class="p">,</span> <span class="p">&amp;</span>
                                          <span class="n">untransposed_data</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
          <span class="k">ELSE</span>
 <span class="k">            CALL </span><span class="n">dbcsr_copy</span><span class="p">(</span><span class="n">csr_sparsity_nosym</span><span class="p">,</span> <span class="n">csr_sparsity</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="k">ELSE</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ELSE</span>
 <span class="k">         CALL </span><span class="n">dbcsr_create</span><span class="p">(</span><span class="n">csr_sparsity_nosym</span><span class="p">,</span> <span class="p">&amp;</span>
                            <span class="n">template</span><span class="o">=</span><span class="n">dbcsr_mat_nosym</span><span class="p">,</span> <span class="p">&amp;</span>
                            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;CSR sparsity matrix&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
                            <span class="n">data_type</span><span class="o">=</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
          <span class="k">CALL </span><span class="n">dbcsr_copy</span><span class="p">(</span><span class="n">csr_sparsity_nosym</span><span class="p">,</span> <span class="n">dbcsr_mat_nosym</span><span class="p">)</span>
          <span class="k">CALL </span><span class="n">dbcsr_set</span><span class="p">(</span><span class="n">csr_sparsity_nosym</span><span class="p">,</span> <span class="mf">1.0_dp</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
-      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_has_same_block_structure</span><span class="p">(</span><span class="n">dbcsr_mat_nosym</span><span class="p">,</span> <span class="n">csr_sparsity_nosym</span><span class="p">))</span> <span class="p">&amp;</span>
+<span class="k">      IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_has_same_block_structure</span><span class="p">(</span><span class="n">dbcsr_mat_nosym</span><span class="p">,</span> <span class="n">csr_sparsity_nosym</span><span class="p">))</span> <span class="p">&amp;</span>
          <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;csr_sparsity and dbcsr_mat have different sparsity pattern&quot;</span><span class="p">)</span>
 
       <span class="n">dbcsr_numnodes</span> <span class="o">=</span> <span class="n">dbcsr_mp_numnodes</span><span class="p">(</span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">dbcsr_distribution</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">)))</span>
@@ -445,9 +445,9 @@ public subroutine csr_create_from_dbcsr(dbcsr_mat, csr_mat, dist_format, csr_spa
          <span class="n">num_p</span> <span class="o">=</span> <span class="n">numnodes</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">num_p</span> <span class="o">=</span> <span class="n">dbcsr_numnodes</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
-      <span class="k">CALL </span><span class="n">dbcsr_create_brd</span><span class="p">(</span><span class="n">dbcsr_mat_nosym</span><span class="p">,</span> <span class="n">brd_mat</span><span class="p">,</span> <span class="n">equal_dist</span><span class="p">,</span> <span class="n">floor_dist</span><span class="p">,</span> <span class="p">&amp;</span>
+<span class="k">      CALL </span><span class="n">dbcsr_create_brd</span><span class="p">(</span><span class="n">dbcsr_mat_nosym</span><span class="p">,</span> <span class="n">brd_mat</span><span class="p">,</span> <span class="n">equal_dist</span><span class="p">,</span> <span class="n">floor_dist</span><span class="p">,</span> <span class="p">&amp;</span>
                             <span class="n">num_p</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_create_brd</span><span class="p">(</span><span class="n">csr_sparsity_nosym</span><span class="p">,</span> <span class="n">csr_sparsity_brd</span><span class="p">,</span> <span class="n">equal_dist</span><span class="p">,</span> <span class="n">floor_dist</span><span class="p">,</span> <span class="p">&amp;</span>
                             <span class="n">num_p</span><span class="p">)</span>

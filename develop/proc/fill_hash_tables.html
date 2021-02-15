@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -244,7 +244,7 @@ private subroutine fill_hash_tables(hashes, matrix, block_estimate, row_map, col
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~222"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~158"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -259,7 +259,7 @@ private subroutine fill_hash_tables(hashes, matrix, block_estimate, row_map, col
   
 <tr>
   
-  <td><span class="anchor" id="variable-block_estimate~3"></span>integer</td>
+  <td><span class="anchor" id="variable-block_estimate~2"></span>integer</td>
   <td></td>
   <td></td>
   
@@ -274,7 +274,7 @@ private subroutine fill_hash_tables(hashes, matrix, block_estimate, row_map, col
   
 <tr>
   
-  <td><span class="anchor" id="variable-row_map~7"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_map~2"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -289,7 +289,7 @@ private subroutine fill_hash_tables(hashes, matrix, block_estimate, row_map, col
   
 <tr>
   
-  <td><span class="anchor" id="variable-col_map~7"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_map~2"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -390,7 +390,7 @@ private subroutine fill_hash_tables(hashes, matrix, block_estimate, row_map, col
          <span class="c">! create the hash table row with a reasonable initial size</span>
          <span class="k">CALL </span><span class="n">hash_table_create</span><span class="p">(</span><span class="n">hashes</span><span class="p">(</span><span class="n">row</span><span class="p">),</span> <span class="p">&amp;</span>
                                 <span class="nb">MAX</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="o">*</span><span class="n">block_estimate</span><span class="p">)</span><span class="o">/</span><span class="nb">MAX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_rows</span><span class="p">)))</span>
-      <span class="n">ENDDO</span>
+      <span class="k">ENDDO</span>
       <span class="c">! We avoid using the iterator because we will use the existing</span>
       <span class="c">! work matrix instead of the BCSR index.</span>
       <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">imat</span><span class="p">)%</span><span class="n">lastblk</span>
@@ -399,8 +399,8 @@ private subroutine fill_hash_tables(hashes, matrix, block_estimate, row_map, col
          <span class="n">row</span> <span class="o">=</span> <span class="n">row_map</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
          <span class="n">col</span> <span class="o">=</span> <span class="n">col_map</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
          <span class="k">CALL </span><span class="n">hash_table_add</span><span class="p">(</span><span class="n">hashes</span><span class="p">(</span><span class="n">row</span><span class="p">),</span> <span class="n">col</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-      <span class="n">ENDDO</span>
-      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+      <span class="k">ENDDO</span>
+<span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">fill_hash_tables</span>
 </pre></div>
 

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -391,8 +391,8 @@
 <a name="ln-129"></a><span class="k">            </span><span class="n">local_routine_id</span> <span class="o">=</span> <span class="nb">MINLOC</span><span class="p">(</span><span class="n">collected</span><span class="p">,</span> <span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <a name="ln-130"></a>            <span class="n">r_stat</span> <span class="o">=&gt;</span> <span class="n">list_get</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_stats</span><span class="p">,</span> <span class="n">local_routine_id</span><span class="p">)</span>
 <a name="ln-131"></a>            <span class="n">routineN</span> <span class="o">=</span> <span class="n">r_stat</span><span class="p">%</span><span class="n">routineN</span>
-<a name="ln-132"></a>         <span class="n">ENDIF</span>
-<a name="ln-133"></a>         <span class="k">CALL </span><span class="n">mp_bcast</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">sending_rank</span><span class="p">,</span> <span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mp_group</span><span class="p">)</span>
+<a name="ln-132"></a>         <span class="k">ENDIF</span>
+<a name="ln-133"></a><span class="k">         CALL </span><span class="n">mp_bcast</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">sending_rank</span><span class="p">,</span> <span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mp_group</span><span class="p">)</span>
 <a name="ln-134"></a>
 <a name="ln-135"></a>         <span class="c">! Create new report for routineN</span>
 <a name="ln-136"></a>         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">r_report</span><span class="p">)</span>
@@ -443,9 +443,9 @@
 <a name="ln-181"></a>         <span class="n">r_report</span><span class="p">%</span><span class="n">max_erank</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">dbuf</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 <a name="ln-182"></a>
 <a name="ln-183"></a>         <span class="k">CALL </span><span class="n">mp_sum</span><span class="p">(</span><span class="n">r_report</span><span class="p">%</span><span class="n">sum_ecost</span><span class="p">,</span> <span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mp_group</span><span class="p">)</span>
-<a name="ln-184"></a>      <span class="n">ENDDO</span>
+<a name="ln-184"></a>      <span class="k">ENDDO</span>
 <a name="ln-185"></a>
-<a name="ln-186"></a>   <span class="k">END SUBROUTINE </span><span class="n">collect_reports_from_ranks</span>
+<a name="ln-186"></a><span class="k">   END SUBROUTINE </span><span class="n">collect_reports_from_ranks</span>
 <a name="ln-187"></a>
 <a name="ln-188"></a>   <span class="k">SUBROUTINE </span><span class="n">print_reports</span><span class="p">(</span><span class="n">reports</span><span class="p">,</span> <span class="n">iw</span><span class="p">,</span> <span class="n">threshold</span><span class="p">,</span> <span class="n">sort_by_exclusiv_cost</span><span class="p">,</span> <span class="n">cost_type</span><span class="p">,</span> <span class="n">report_maxloc</span><span class="p">,</span> <span class="n">mp_env</span><span class="p">)</span>
 <a name="ln-189"></a>      <span class="c">!! Print the collected reports</span>
@@ -493,9 +493,9 @@
 <a name="ln-231"></a>      <span class="k">ELSE</span>
 <a name="ln-232"></a><span class="k">         WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">iw</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(T2,A,T35,A,T41,A,T45,2A18)&quot;</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-233"></a>            <span class="s2">&quot;SUBROUTINE&quot;</span><span class="p">,</span> <span class="s2">&quot;CALLS&quot;</span><span class="p">,</span> <span class="s2">&quot; ASD&quot;</span><span class="p">,</span> <span class="s2">&quot;SELF &quot;</span><span class="o">//</span><span class="n">label</span><span class="p">,</span> <span class="s2">&quot;TOTAL &quot;</span><span class="o">//</span><span class="n">label</span>
-<a name="ln-234"></a>      <span class="n">ENDIF</span>
+<a name="ln-234"></a>      <span class="k">ENDIF</span>
 <a name="ln-235"></a>
-<a name="ln-236"></a>      <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">iw</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(T33,A)&quot;</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-236"></a><span class="k">      WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">iw</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(T33,A)&quot;</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-237"></a>         <span class="s2">&quot;MAXIMUM       AVERAGE  MAXIMUM  AVERAGE  MAXIMUM&quot;</span>
 <a name="ln-238"></a>
 <a name="ln-239"></a>      <span class="c">! sort statistics</span>
@@ -508,8 +508,8 @@
 <a name="ln-246"></a>         <span class="k">ELSE</span>
 <a name="ln-247"></a><span class="k">            </span><span class="n">max_costs</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">r_report_i</span><span class="p">%</span><span class="n">max_icost</span>
 <a name="ln-248"></a>         <span class="k">END IF</span>
-<a name="ln-249"></a><span class="k">      </span><span class="n">ENDDO</span>
-<a name="ln-250"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">indices</span><span class="p">(</span><span class="n">num_routines</span><span class="p">))</span>
+<a name="ln-249"></a><span class="k">      ENDDO</span>
+<a name="ln-250"></a><span class="k">      ALLOCATE</span> <span class="p">(</span><span class="n">indices</span><span class="p">(</span><span class="n">num_routines</span><span class="p">))</span>
 <a name="ln-251"></a>      <span class="k">CALL </span><span class="n">sort</span><span class="p">(</span><span class="n">max_costs</span><span class="p">,</span> <span class="n">num_routines</span><span class="p">,</span> <span class="n">indices</span><span class="p">)</span>
 <a name="ln-252"></a>
 <a name="ln-253"></a>      <span class="n">maxcost</span> <span class="o">=</span> <span class="nb">MAXVAL</span><span class="p">(</span><span class="n">max_costs</span><span class="p">)</span>
@@ -527,7 +527,7 @@
 <a name="ln-265"></a>      <span class="k">ELSE</span>
 <a name="ln-266"></a><span class="k">         WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">fmt</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(A,I0,A)&quot;</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-267"></a>            <span class="s2">&quot;(T2,A30,1X,I7,1X,F4.1,4(1X,F8.&quot;</span><span class="p">,</span> <span class="n">decimals</span><span class="p">,</span> <span class="s2">&quot;))&quot;</span>
-<a name="ln-268"></a>      <span class="n">ENDIF</span>
+<a name="ln-268"></a>      <span class="k">ENDIF</span>
 <a name="ln-269"></a>
 <a name="ln-270"></a>      <span class="c">!write output</span>
 <a name="ln-271"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="n">num_routines</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span>
@@ -556,8 +556,8 @@
 <a name="ln-294"></a>                  <span class="n">r_report_j</span><span class="p">%</span><span class="n">max_ecost</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-295"></a>                  <span class="n">r_report_j</span><span class="p">%</span><span class="n">sum_icost</span><span class="o">/</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">numnodes</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-296"></a>                  <span class="n">r_report_j</span><span class="p">%</span><span class="n">max_icost</span>
-<a name="ln-297"></a>            <span class="n">ENDIF</span>
-<a name="ln-298"></a>         <span class="k">END IF</span>
+<a name="ln-297"></a>            <span class="k">ENDIF</span>
+<a name="ln-298"></a><span class="k">         END IF</span>
 <a name="ln-299"></a><span class="k">      END DO</span>
 <a name="ln-300"></a><span class="k">      WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">iw</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(T2,A,/)&quot;</span><span class="p">)</span> <span class="nb">REPEAT</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="mi">79</span><span class="p">)</span>
 <a name="ln-301"></a>

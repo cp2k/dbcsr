@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -233,7 +233,7 @@ public subroutine dbcsr_new_transposed(transposed, normal, shallow_data_copy, tr
   
 <tr>
   
-  <td><span class="anchor" id="variable-transposed~14"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-transposed~38"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -489,8 +489,8 @@ public subroutine dbcsr_new_transposed(transposed, normal, shallow_data_copy, tr
 <span class="k">            CALL </span><span class="n">dbcsr_transpose_distribution</span><span class="p">(</span><span class="n">new_dist</span><span class="p">,</span> <span class="n">normal</span><span class="p">%</span><span class="n">dist</span><span class="p">)</span>
          <span class="k">ELSE</span>
 <span class="k">            CALL </span><span class="n">dbcsr_transpose_dims</span><span class="p">(</span><span class="n">new_dist</span><span class="p">,</span> <span class="n">normal</span><span class="p">%</span><span class="n">dist</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
       <span class="c">! Create the transposed matrix</span>
       <span class="k">CALL </span><span class="n">dbcsr_create</span><span class="p">(</span><span class="n">transposed</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;transposed &quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">normal</span><span class="p">%</span><span class="n">name</span><span class="p">),</span> <span class="p">&amp;</span>
                         <span class="n">template</span><span class="o">=</span><span class="n">normal</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -510,8 +510,8 @@ public subroutine dbcsr_new_transposed(transposed, normal, shallow_data_copy, tr
       <span class="k">ELSE</span>
 <span class="k">         CALL </span><span class="n">dbcsr_addto_index_array</span><span class="p">(</span><span class="n">transposed</span><span class="p">,</span> <span class="n">dbcsr_slot_row_p</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">reservation</span><span class="o">=</span><span class="n">normal</span><span class="p">%</span><span class="n">nblkrows_total</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="n">transposed</span><span class="p">%</span><span class="n">nblks</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">dbcsr_addto_index_array</span><span class="p">(</span><span class="n">transposed</span><span class="p">,</span> <span class="n">dbcsr_slot_col_i</span><span class="p">,</span> <span class="p">&amp;</span>
+      <span class="k">ENDIF</span>
+<span class="k">      CALL </span><span class="n">dbcsr_addto_index_array</span><span class="p">(</span><span class="n">transposed</span><span class="p">,</span> <span class="n">dbcsr_slot_col_i</span><span class="p">,</span> <span class="p">&amp;</span>
                                    <span class="n">reservation</span><span class="o">=</span><span class="n">normal</span><span class="p">%</span><span class="n">nblks</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_addto_index_array</span><span class="p">(</span><span class="n">transposed</span><span class="p">,</span> <span class="n">dbcsr_slot_blk_p</span><span class="p">,</span> <span class="p">&amp;</span>
                                    <span class="n">reservation</span><span class="o">=</span><span class="n">normal</span><span class="p">%</span><span class="n">nblks</span><span class="p">)</span>
@@ -520,7 +520,7 @@ public subroutine dbcsr_new_transposed(transposed, normal, shallow_data_copy, tr
 <span class="k">         CALL </span><span class="n">dbcsr_data_ensure_size</span><span class="p">(</span><span class="n">transposed</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span> <span class="p">&amp;</span>
                                      <span class="n">dbcsr_data_get_size_referenced</span><span class="p">(</span><span class="n">normal</span><span class="p">%</span><span class="n">data_area</span><span class="p">),</span> <span class="p">&amp;</span>
                                      <span class="n">nocopy</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">!</span>
       <span class="n">transposed</span><span class="p">%</span><span class="n">nblks</span> <span class="o">=</span> <span class="n">normal</span><span class="p">%</span><span class="n">nblks</span>
       <span class="n">transposed</span><span class="p">%</span><span class="n">nze</span> <span class="o">=</span> <span class="n">normal</span><span class="p">%</span><span class="n">nze</span>
@@ -539,13 +539,13 @@ public subroutine dbcsr_new_transposed(transposed, normal, shallow_data_copy, tr
             <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s1">&#39;new . row_p&#39;</span><span class="p">,</span> <span class="n">transposed</span><span class="p">%</span><span class="n">row_p</span>
             <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s1">&#39;new . col_i&#39;</span><span class="p">,</span> <span class="n">transposed</span><span class="p">%</span><span class="n">col_i</span>
             <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s1">&#39;new . blk_p&#39;</span><span class="p">,</span> <span class="n">blk_p</span><span class="c">!transposed%blk_p</span>
-         <span class="n">ENDIF</span>
-      <span class="k">ELSE</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ELSE</span>
 <span class="k">         </span><span class="n">transposed</span><span class="p">%</span><span class="n">row_p</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">normal</span><span class="p">%</span><span class="n">row_p</span><span class="p">(:)</span>
          <span class="n">transposed</span><span class="p">%</span><span class="n">col_i</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">normal</span><span class="p">%</span><span class="n">col_i</span><span class="p">(:)</span>
          <span class="n">blk_p</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">normal</span><span class="p">%</span><span class="n">blk_p</span><span class="p">(:)</span>
          <span class="c">!transposed%transpose = .TRUE.</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">! Copy the data</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">shallow</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">dbcsr_switch_data_area</span><span class="p">(</span><span class="n">transposed</span><span class="p">,</span> <span class="n">normal</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span>
@@ -558,8 +558,8 @@ public subroutine dbcsr_new_transposed(transposed, normal, shallow_data_copy, tr
                                    <span class="n">transposed</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span> <span class="n">normal</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span> <span class="p">&amp;</span>
                                    <span class="n">mark_transposed</span><span class="o">=</span><span class="p">.</span><span class="nb">not</span><span class="p">.</span> <span class="n">tr_blocks</span><span class="p">,</span> <span class="p">&amp;</span>
                                    <span class="n">transpose_blocks</span><span class="o">=</span><span class="n">tr_blocks</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="n">transposed</span><span class="p">%</span><span class="n">valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">transposed</span><span class="p">%</span><span class="n">valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
       <span class="c">!CALL dbcsr_copy_sort_data (transposed%blk_p, blk_p, transposed%row_p,&amp;</span>
       <span class="c">!     transposed%col_i, array_data (transposed%row_blk_size),&amp;</span>
       <span class="c">!     array_data (transposed%col_blk_size),&amp;</span>
@@ -572,7 +572,7 @@ public subroutine dbcsr_new_transposed(transposed, normal, shallow_data_copy, tr
          <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="mi">1315</span><span class="p">)</span> <span class="n">transposed</span><span class="p">%</span><span class="n">row_p</span>
          <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="mi">1315</span><span class="p">)</span> <span class="n">transposed</span><span class="p">%</span><span class="n">col_i</span>
          <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="mi">1315</span><span class="p">)</span> <span class="n">transposed</span><span class="p">%</span><span class="n">blk_p</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">!</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">tr_index</span><span class="p">)</span> <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">blk_p</span><span class="p">)</span>
       <span class="c">!</span>
@@ -580,15 +580,15 @@ public subroutine dbcsr_new_transposed(transposed, normal, shallow_data_copy, tr
 <span class="k">         </span><span class="n">redist</span> <span class="o">=</span> <span class="n">redistribute</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">redist</span> <span class="o">=</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">tr_dist</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">shallow</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">redist</span><span class="p">)</span> <span class="k">THEN</span>
+      <span class="k">ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="n">redist</span><span class="p">)</span> <span class="k">THEN</span>
          <span class="c">!write (*,*)routineN//&quot; redistributing&quot;</span>
          <span class="k">CALL </span><span class="n">dbcsr_create</span><span class="p">(</span><span class="n">t2</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="n">transposed</span><span class="p">)</span>
          <span class="k">CALL </span><span class="n">dbcsr_redistribute</span><span class="p">(</span><span class="n">transposed</span><span class="p">,</span> <span class="n">t2</span><span class="p">)</span>
          <span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">transposed</span><span class="p">)</span>
          <span class="n">transposed</span> <span class="o">=</span> <span class="n">t2</span>
-      <span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_new_transposed</span>
 </pre></div>
 

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -233,7 +233,7 @@ private subroutine dbcsr_fill_wm_from_matrix(wm, matrix, size_used, limits)
   
 <tr>
   
-  <td><span class="anchor" id="variable-wm~3"></span>type(<a href='../type/dbcsr_work_type.html'>dbcsr_work_type</a>),</td>
+  <td><span class="anchor" id="variable-wm~2"></span>type(<a href='../type/dbcsr_work_type.html'>dbcsr_work_type</a>),</td>
   <td>intent(inout),</td>
   <td></td>
   
@@ -248,7 +248,7 @@ private subroutine dbcsr_fill_wm_from_matrix(wm, matrix, size_used, limits)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~213"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~244"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -400,13 +400,13 @@ private subroutine dbcsr_fill_wm_from_matrix(wm, matrix, size_used, limits)
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">wm_first</span> <span class="o">=</span> <span class="mi">1</span>
          <span class="n">wm_last</span> <span class="o">=</span> <span class="n">nwms</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">! Prepares the work matrices to accept the main data.</span>
 <span class="c">!$OMP     MASTER</span>
       <span class="n">mutable</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
       <span class="k">DO </span><span class="n">which_wm</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nwms</span>
          <span class="n">mutable</span> <span class="o">=</span> <span class="n">mutable</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">dbcsr_wm_use_mutable</span><span class="p">(</span><span class="n">wm</span><span class="p">(</span><span class="n">which_wm</span><span class="p">))</span>
-      <span class="n">ENDDO</span>
+      <span class="k">ENDDO</span>
 <span class="c">!$OMP     END MASTER</span>
 <span class="c">!$OMP     BARRIER</span>
       <span class="k">DO </span><span class="n">which_wm</span> <span class="o">=</span> <span class="n">wm_first</span><span class="p">,</span> <span class="n">wm_last</span>
@@ -415,14 +415,14 @@ private subroutine dbcsr_fill_wm_from_matrix(wm, matrix, size_used, limits)
          <span class="k">IF</span> <span class="p">(</span><span class="n">mutable</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_mutable_instantiated</span><span class="p">(</span><span class="n">wm</span><span class="p">(</span><span class="n">which_wm</span><span class="p">)%</span><span class="n">mutable</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">               CALL </span><span class="n">dbcsr_mutable_new</span><span class="p">(</span><span class="n">wm</span><span class="p">(</span><span class="n">which_wm</span><span class="p">)%</span><span class="n">mutable</span><span class="p">,</span> <span class="n">matrix</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
-         <span class="k">ELSE</span>
+            <span class="k">ENDIF</span>
+<span class="k">         ELSE</span>
             <span class="c">! We don&#39;t know how much data we&#39;ll get so we have to be generous.</span>
             <span class="k">CALL </span><span class="n">dbcsr_data_ensure_size</span><span class="p">(</span><span class="n">wm</span><span class="p">(</span><span class="n">which_wm</span><span class="p">)%</span><span class="n">data_area</span><span class="p">,</span> <span class="p">&amp;</span>
                                         <span class="n">size_used</span><span class="o">/</span><span class="n">nwms</span><span class="p">)</span>
             <span class="k">CALL </span><span class="n">dbcsr_data_set_size_referenced</span><span class="p">(</span><span class="n">wm</span><span class="p">(</span><span class="n">which_wm</span><span class="p">)%</span><span class="n">data_area</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDDO</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDDO</span>
       <span class="c">! Now copy the data</span>
       <span class="k">CALL </span><span class="n">dbcsr_iterator_start</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span> <span class="n">matrix</span><span class="p">,</span> <span class="n">shared</span><span class="o">=</span><span class="n">mt</span><span class="p">,</span> <span class="p">&amp;</span>
                                 <span class="n">contiguous_pointers</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span> <span class="n">read_only</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
@@ -431,8 +431,8 @@ private subroutine dbcsr_fill_wm_from_matrix(wm, matrix, size_used, limits)
                                         <span class="n">transposed</span><span class="o">=</span><span class="n">tr</span><span class="p">,</span> <span class="n">block_number</span><span class="o">=</span><span class="n">blk</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">limit</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">within_limits</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">limits</span><span class="p">))</span> <span class="k">CYCLE</span>
-<span class="k">         </span><span class="n">ENDIF</span>
-         <span class="n">blk_p</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
+<span class="k">         ENDIF</span>
+<span class="k">         </span><span class="n">blk_p</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
          <span class="n">which_wm</span> <span class="o">=</span> <span class="n">ithread</span> <span class="o">+</span> <span class="mi">1</span>
          <span class="n">wblk_p</span> <span class="o">=</span> <span class="nb">SIGN</span><span class="p">(</span><span class="n">wm</span><span class="p">(</span><span class="n">which_wm</span><span class="p">)%</span><span class="n">datasize</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">blk_p</span><span class="p">)</span>
          <span class="n">nze</span> <span class="o">=</span> <span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">data_block</span><span class="p">)</span>
@@ -449,16 +449,16 @@ private subroutine dbcsr_fill_wm_from_matrix(wm, matrix, size_used, limits)
                                    <span class="n">lb</span><span class="o">=</span><span class="nb">ABS</span><span class="p">(</span><span class="n">wblk_p</span><span class="p">),</span> <span class="p">&amp;</span>
                                    <span class="n">data_size</span><span class="o">=</span><span class="n">nze</span><span class="p">,</span> <span class="p">&amp;</span>
                                    <span class="n">src</span><span class="o">=</span><span class="n">data_block</span><span class="p">,</span> <span class="n">source_lb</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
-         <span class="k">ELSE</span>
+            <span class="k">ENDIF</span>
+<span class="k">         ELSE</span>
             <span class="c">! The data gets copied all at once so the block pointers</span>
             <span class="c">! should remain the same as they were.</span>
             <span class="k">CALL </span><span class="n">add_work_coordinate</span><span class="p">(</span><span class="n">wm</span><span class="p">(</span><span class="n">which_wm</span><span class="p">),</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">blk_p</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">mutable</span><span class="p">)</span> <span class="p">&amp;</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">mutable</span><span class="p">)</span> <span class="p">&amp;</span>
             <span class="n">wm</span><span class="p">(</span><span class="n">which_wm</span><span class="p">)%</span><span class="n">datasize</span> <span class="o">=</span> <span class="n">wm</span><span class="p">(</span><span class="n">which_wm</span><span class="p">)%</span><span class="n">datasize</span> <span class="o">+</span> <span class="n">nze</span>
-      <span class="n">ENDDO</span>
-      <span class="k">CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
+      <span class="k">ENDDO</span>
+<span class="k">      CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_data_clear_pointer</span><span class="p">(</span><span class="n">data_block</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">data_block</span><span class="p">)</span>
       <span class="c">! Copy all blocks at once</span>
@@ -468,9 +468,9 @@ private subroutine dbcsr_fill_wm_from_matrix(wm, matrix, size_used, limits)
                                         <span class="n">dbcsr_data_get_size_referenced</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">))</span>
             <span class="k">CALL </span><span class="n">dbcsr_data_copyall</span><span class="p">(</span><span class="n">wm</span><span class="p">(</span><span class="n">which_wm</span><span class="p">)%</span><span class="n">data_area</span><span class="p">,</span> <span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span>
             <span class="n">wm</span><span class="p">(</span><span class="n">which_wm</span><span class="p">)%</span><span class="n">datasize</span> <span class="o">=</span> <span class="n">size_used</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+         <span class="k">ENDDO</span>
+<span class="k">      ENDIF</span>
+<span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_fill_wm_from_matrix</span>
 </pre></div>
 

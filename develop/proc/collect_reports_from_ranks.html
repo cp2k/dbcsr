@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -259,7 +259,7 @@ private subroutine collect_reports_from_ranks(reports, cost_type, mp_env)
   
 <tr>
   
-  <td><span class="anchor" id="variable-mp_env~7"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
+  <td><span class="anchor" id="variable-mp_env~33"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -386,8 +386,8 @@ private subroutine collect_reports_from_ranks(reports, cost_type, mp_env)
 <span class="k">            </span><span class="n">local_routine_id</span> <span class="o">=</span> <span class="nb">MINLOC</span><span class="p">(</span><span class="n">collected</span><span class="p">,</span> <span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
             <span class="n">r_stat</span> <span class="o">=&gt;</span> <span class="n">list_get</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">routine_stats</span><span class="p">,</span> <span class="n">local_routine_id</span><span class="p">)</span>
             <span class="n">routineN</span> <span class="o">=</span> <span class="n">r_stat</span><span class="p">%</span><span class="n">routineN</span>
-         <span class="n">ENDIF</span>
-         <span class="k">CALL </span><span class="n">mp_bcast</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">sending_rank</span><span class="p">,</span> <span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mp_group</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">         CALL </span><span class="n">mp_bcast</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">sending_rank</span><span class="p">,</span> <span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mp_group</span><span class="p">)</span>
 
          <span class="c">! Create new report for routineN</span>
          <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">r_report</span><span class="p">)</span>
@@ -438,9 +438,9 @@ private subroutine collect_reports_from_ranks(reports, cost_type, mp_env)
          <span class="n">r_report</span><span class="p">%</span><span class="n">max_erank</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">dbuf</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 
          <span class="k">CALL </span><span class="n">mp_sum</span><span class="p">(</span><span class="n">r_report</span><span class="p">%</span><span class="n">sum_ecost</span><span class="p">,</span> <span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mp_group</span><span class="p">)</span>
-      <span class="n">ENDDO</span>
+      <span class="k">ENDDO</span>
 
-   <span class="k">END SUBROUTINE </span><span class="n">collect_reports_from_ranks</span>
+<span class="k">   END SUBROUTINE </span><span class="n">collect_reports_from_ranks</span>
 </pre></div>
 
     </section>

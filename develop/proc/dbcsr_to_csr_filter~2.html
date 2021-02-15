@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -260,7 +260,7 @@ public subroutine dbcsr_to_csr_filter(dbcsr_mat, csr_sparsity, eps)
   
 <tr>
   
-  <td><span class="anchor" id="variable-eps~11"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-eps~20"></span>real(kind=real_8),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -386,13 +386,13 @@ public subroutine dbcsr_to_csr_filter(dbcsr_mat, csr_sparsity, eps)
             <span class="k">WHERE</span> <span class="p">(</span><span class="n">block_abs</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">eps</span><span class="p">)</span> <span class="n">csr_sparsity_blk</span> <span class="o">=</span> <span class="mf">0.0_dp</span>
             <span class="k">CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">csr_sparsity</span><span class="p">,</span> <span class="n">blkrow</span><span class="p">,</span> <span class="n">blkcol</span><span class="p">,</span> <span class="n">csr_sparsity_blk</span><span class="p">,</span> <span class="n">transposed</span><span class="o">=</span><span class="n">tr</span><span class="p">)</span>
             <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">csr_sparsity_blk</span><span class="p">,</span> <span class="n">block_abs</span><span class="p">)</span>
-         <span class="n">ENDDO</span>
-         <span class="k">CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
+         <span class="k">ENDDO</span>
+<span class="k">         CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
          <span class="k">CALL </span><span class="n">dbcsr_data_clear_pointer</span><span class="p">(</span><span class="k">block</span><span class="p">)</span>
          <span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="k">block</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
-   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_to_csr_filter</span>
+<span class="k">   END SUBROUTINE </span><span class="n">dbcsr_to_csr_filter</span>
 </pre></div>
 
     </section>

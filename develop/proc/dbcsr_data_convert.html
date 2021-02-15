@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -379,8 +379,8 @@ public subroutine dbcsr_data_convert(target_area, source_area, drop_real, multip
          <span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">&quot;Attempt to copy unheld data&quot;</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">source_area</span><span class="p">%</span><span class="n">d</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         RETURN</span>
-<span class="k">      </span><span class="n">ENDIF</span>
-      <span class="n">keep_real</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<span class="k">      ENDIF</span>
+<span class="k">      </span><span class="n">keep_real</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">drop_real</span><span class="p">))</span> <span class="n">keep_real</span> <span class="o">=</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">drop_real</span>
       <span class="n">noimult</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">multiply_by_i</span><span class="p">))</span> <span class="n">noimult</span> <span class="o">=</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">multiply_by_i</span>
@@ -404,15 +404,15 @@ public subroutine dbcsr_data_convert(target_area, source_area, drop_real, multip
 <span class="k">                  </span><span class="n">t_data_z</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="nb">CMPLX</span><span class="p">(</span><span class="n">s_data_d</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>
                <span class="k">ELSE</span>
 <span class="k">                  </span><span class="n">t_data_z</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="nb">CMPLX</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">s_data_d</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>
-               <span class="n">ENDIF</span>
-            <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
+               <span class="k">ENDIF</span>
+<span class="k">            CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
                <span class="k">CALL </span><span class="n">dbcsr_get_data</span><span class="p">(</span><span class="n">target_area</span><span class="p">,</span> <span class="n">t_data_c</span><span class="p">)</span>
                <span class="k">IF</span> <span class="p">(</span><span class="n">noimult</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">                  </span><span class="n">t_data_c</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="nb">CMPLX</span><span class="p">(</span><span class="n">s_data_d</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span>
                <span class="k">ELSE</span>
 <span class="k">                  </span><span class="n">t_data_c</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="nb">CMPLX</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">s_data_d</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span>
-               <span class="n">ENDIF</span>
-            <span class="k">CASE </span><span class="n">default</span>
+               <span class="k">ENDIF</span>
+<span class="k">            CASE </span><span class="n">default</span>
                <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type&quot;</span><span class="p">)</span>
             <span class="k">END SELECT</span>
 <span class="k">         CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
@@ -430,15 +430,15 @@ public subroutine dbcsr_data_convert(target_area, source_area, drop_real, multip
 <span class="k">                  </span><span class="n">t_data_z</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="nb">CMPLX</span><span class="p">(</span><span class="n">s_data_r</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>
                <span class="k">ELSE</span>
 <span class="k">                  </span><span class="n">t_data_z</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="nb">CMPLX</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">s_data_r</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>
-               <span class="n">ENDIF</span>
-            <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
+               <span class="k">ENDIF</span>
+<span class="k">            CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
                <span class="k">CALL </span><span class="n">dbcsr_get_data</span><span class="p">(</span><span class="n">target_area</span><span class="p">,</span> <span class="n">t_data_c</span><span class="p">)</span>
                <span class="k">IF</span> <span class="p">(</span><span class="n">noimult</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">                  </span><span class="n">t_data_c</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="nb">CMPLX</span><span class="p">(</span><span class="n">s_data_r</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span>
                <span class="k">ELSE</span>
 <span class="k">                  </span><span class="n">t_data_c</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="nb">CMPLX</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">s_data_r</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span>
-               <span class="n">ENDIF</span>
-            <span class="k">CASE </span><span class="n">default</span>
+               <span class="k">ENDIF</span>
+<span class="k">            CASE </span><span class="n">default</span>
                <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type&quot;</span><span class="p">)</span>
             <span class="k">END SELECT</span>
 <span class="k">         CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
@@ -450,15 +450,15 @@ public subroutine dbcsr_data_convert(target_area, source_area, drop_real, multip
 <span class="k">                  </span><span class="n">t_data_d</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">(</span><span class="n">s_data_z</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>
                <span class="k">ELSE</span>
 <span class="k">                  </span><span class="n">t_data_d</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="nb">AIMAG</span><span class="p">(</span><span class="n">s_data_z</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">))</span>
-               <span class="n">ENDIF</span>
-            <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
+               <span class="k">ENDIF</span>
+<span class="k">            CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
                <span class="k">CALL </span><span class="n">dbcsr_get_data</span><span class="p">(</span><span class="n">target_area</span><span class="p">,</span> <span class="n">t_data_r</span><span class="p">)</span>
                <span class="k">IF</span> <span class="p">(</span><span class="n">keep_real</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">                  </span><span class="n">t_data_r</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">(</span><span class="n">s_data_z</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span>
                <span class="k">ELSE</span>
 <span class="k">                  </span><span class="n">t_data_r</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">(</span><span class="nb">AIMAG</span><span class="p">(</span><span class="n">s_data_z</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span>
-               <span class="n">ENDIF</span>
-            <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
+               <span class="k">ENDIF</span>
+<span class="k">            CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
                <span class="k">CALL </span><span class="n">dbcsr_get_data</span><span class="p">(</span><span class="n">target_area</span><span class="p">,</span> <span class="n">t_data_z</span><span class="p">)</span>
                <span class="n">t_data_z</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="n">s_data_z</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span>
             <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
@@ -476,15 +476,15 @@ public subroutine dbcsr_data_convert(target_area, source_area, drop_real, multip
 <span class="k">                  </span><span class="n">t_data_d</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">(</span><span class="n">s_data_c</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>
                <span class="k">ELSE</span>
 <span class="k">                  </span><span class="n">t_data_d</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">(</span><span class="nb">AIMAG</span><span class="p">(</span><span class="n">s_data_c</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>
-               <span class="n">ENDIF</span>
-            <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
+               <span class="k">ENDIF</span>
+<span class="k">            CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
                <span class="k">CALL </span><span class="n">dbcsr_get_data</span><span class="p">(</span><span class="n">target_area</span><span class="p">,</span> <span class="n">t_data_r</span><span class="p">)</span>
                <span class="k">IF</span> <span class="p">(</span><span class="n">keep_real</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">                  </span><span class="n">t_data_r</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">(</span><span class="n">s_data_c</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span>
                <span class="k">ELSE</span>
 <span class="k">                  </span><span class="n">t_data_r</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="nb">AIMAG</span><span class="p">(</span><span class="n">s_data_c</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">))</span>
-               <span class="n">ENDIF</span>
-            <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
+               <span class="k">ENDIF</span>
+<span class="k">            CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
                <span class="k">CALL </span><span class="n">dbcsr_get_data</span><span class="p">(</span><span class="n">target_area</span><span class="p">,</span> <span class="n">t_data_z</span><span class="p">)</span>
                <span class="n">t_data_z</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="nb">CMPLX</span><span class="p">(</span><span class="n">s_data_c</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>
             <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
@@ -496,8 +496,8 @@ public subroutine dbcsr_data_convert(target_area, source_area, drop_real, multip
 <span class="k">         CASE </span><span class="n">default</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type&quot;</span><span class="p">)</span>
          <span class="k">END SELECT</span>
-<span class="k">      </span><span class="n">ENDIF</span>
-   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_data_convert</span>
+<span class="k">      ENDIF</span>
+<span class="k">   END SUBROUTINE </span><span class="n">dbcsr_data_convert</span>
 </pre></div>
 
     </section>

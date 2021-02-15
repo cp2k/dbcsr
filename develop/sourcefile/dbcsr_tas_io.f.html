@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -341,27 +341,27 @@
 <a name="ln-79"></a>               <span class="k">WRITE</span> <span class="p">(</span><span class="n">unit_nr_prv</span><span class="p">,</span> <span class="s1">&#39;(/T8,A)&#39;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span> <span class="s1">&#39;Row:&#39;</span>
 <a name="ln-80"></a>               <span class="k">DO </span><span class="n">iblk</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">row_blk_size</span><span class="p">%</span><span class="n">nmrowcol</span>
 <a name="ln-81"></a>                  <span class="k">WRITE</span> <span class="p">(</span><span class="n">unit_nr_prv</span><span class="p">,</span> <span class="s1">&#39;(I4,1X)&#39;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span> <span class="n">row_blk_size</span><span class="p">%</span><span class="k">data</span><span class="p">(</span><span class="n">iblk</span><span class="p">)</span>
-<a name="ln-82"></a>               <span class="n">ENDDO</span>
-<a name="ln-83"></a>               <span class="k">WRITE</span> <span class="p">(</span><span class="n">unit_nr_prv</span><span class="p">,</span> <span class="s1">&#39;(/T8,A)&#39;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span> <span class="s1">&#39;Column:&#39;</span>
+<a name="ln-82"></a>               <span class="k">ENDDO</span>
+<a name="ln-83"></a><span class="k">               WRITE</span> <span class="p">(</span><span class="n">unit_nr_prv</span><span class="p">,</span> <span class="s1">&#39;(/T8,A)&#39;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span> <span class="s1">&#39;Column:&#39;</span>
 <a name="ln-84"></a>               <span class="k">DO </span><span class="n">iblk</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">col_blk_size</span><span class="p">%</span><span class="n">nmrowcol</span>
 <a name="ln-85"></a>                  <span class="k">WRITE</span> <span class="p">(</span><span class="n">unit_nr_prv</span><span class="p">,</span> <span class="s1">&#39;(I4,1X)&#39;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span> <span class="n">col_blk_size</span><span class="p">%</span><span class="k">data</span><span class="p">(</span><span class="n">iblk</span><span class="p">)</span>
-<a name="ln-86"></a>               <span class="n">ENDDO</span>
-<a name="ln-87"></a>               <span class="k">WRITE</span> <span class="p">(</span><span class="n">unit_nr_prv</span><span class="p">,</span> <span class="s1">&#39;(/T4,A)&#39;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span> <span class="s2">&quot;Block distribution:&quot;</span>
+<a name="ln-86"></a>               <span class="k">ENDDO</span>
+<a name="ln-87"></a><span class="k">               WRITE</span> <span class="p">(</span><span class="n">unit_nr_prv</span><span class="p">,</span> <span class="s1">&#39;(/T4,A)&#39;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span> <span class="s2">&quot;Block distribution:&quot;</span>
 <a name="ln-88"></a>               <span class="k">WRITE</span> <span class="p">(</span><span class="n">unit_nr_prv</span><span class="p">,</span> <span class="s1">&#39;(/T8,A)&#39;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span> <span class="s1">&#39;Row:&#39;</span>
 <a name="ln-89"></a>               <span class="k">DO </span><span class="n">iblk</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">proc_row_dist</span><span class="p">%</span><span class="n">nmrowcol</span>
 <a name="ln-90"></a>                  <span class="k">WRITE</span> <span class="p">(</span><span class="n">unit_nr_prv</span><span class="p">,</span> <span class="s1">&#39;(I4,1X)&#39;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span> <span class="n">proc_row_dist</span><span class="p">%</span><span class="n">dist</span><span class="p">(</span><span class="n">iblk</span><span class="p">)</span>
-<a name="ln-91"></a>               <span class="n">ENDDO</span>
-<a name="ln-92"></a>               <span class="k">WRITE</span> <span class="p">(</span><span class="n">unit_nr_prv</span><span class="p">,</span> <span class="s1">&#39;(/T8,A)&#39;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span> <span class="s1">&#39;Column:&#39;</span>
+<a name="ln-91"></a>               <span class="k">ENDDO</span>
+<a name="ln-92"></a><span class="k">               WRITE</span> <span class="p">(</span><span class="n">unit_nr_prv</span><span class="p">,</span> <span class="s1">&#39;(/T8,A)&#39;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span> <span class="s1">&#39;Column:&#39;</span>
 <a name="ln-93"></a>               <span class="k">DO </span><span class="n">iblk</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">proc_col_dist</span><span class="p">%</span><span class="n">nmrowcol</span>
 <a name="ln-94"></a>                  <span class="k">WRITE</span> <span class="p">(</span><span class="n">unit_nr_prv</span><span class="p">,</span> <span class="s1">&#39;(I4,1X)&#39;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span> <span class="n">proc_col_dist</span><span class="p">%</span><span class="n">dist</span><span class="p">(</span><span class="n">iblk</span><span class="p">)</span>
-<a name="ln-95"></a>               <span class="n">ENDDO</span>
+<a name="ln-95"></a>               <span class="k">ENDDO</span>
 <a name="ln-96"></a>
-<a name="ln-97"></a>            <span class="n">ENDIF</span>
-<a name="ln-98"></a>         <span class="n">ENDIF</span>
-<a name="ln-99"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">unit_nr_prv</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
-<a name="ln-100"></a>      <span class="n">ENDIF</span>
+<a name="ln-97"></a><span class="k">            ENDIF</span>
+<a name="ln-98"></a><span class="k">         ENDIF</span>
+<a name="ln-99"></a><span class="k">         WRITE</span> <span class="p">(</span><span class="n">unit_nr_prv</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
+<a name="ln-100"></a>      <span class="k">ENDIF</span>
 <a name="ln-101"></a>
-<a name="ln-102"></a>   <span class="k">END SUBROUTINE</span>
+<a name="ln-102"></a><span class="k">   END SUBROUTINE</span>
 <a name="ln-103"></a>
 <a name="ln-104"></a><span class="k">   SUBROUTINE </span><span class="n">dbcsr_tas_write_dist</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">unit_nr</span><span class="p">,</span> <span class="n">full_info</span><span class="p">)</span>
 <a name="ln-105"></a>      <span class="c">!! Write info on tall-and-skinny matrix distribution &amp; load balance</span>
@@ -436,17 +436,17 @@
 <a name="ln-174"></a>               <span class="k">WRITE</span> <span class="p">(</span><span class="n">unit_nr_prv</span><span class="p">,</span> <span class="s1">&#39;(T15)&#39;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span>
 <a name="ln-175"></a>               <span class="k">DO </span><span class="n">irow</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">rowdist</span><span class="p">)</span>
 <a name="ln-176"></a>                  <span class="k">WRITE</span> <span class="p">(</span><span class="n">unit_nr_prv</span><span class="p">,</span> <span class="s1">&#39;(I3, 1X)&#39;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span> <span class="n">rowdist</span><span class="p">(</span><span class="n">irow</span><span class="p">)</span>
-<a name="ln-177"></a>               <span class="n">ENDDO</span>
-<a name="ln-178"></a>               <span class="k">WRITE</span> <span class="p">(</span><span class="n">unit_nr_prv</span><span class="p">,</span> <span class="s2">&quot;(/T15,A)&quot;</span><span class="p">)</span> <span class="s2">&quot;Column distribution on subgroup:&quot;</span>
+<a name="ln-177"></a>               <span class="k">ENDDO</span>
+<a name="ln-178"></a><span class="k">               WRITE</span> <span class="p">(</span><span class="n">unit_nr_prv</span><span class="p">,</span> <span class="s2">&quot;(/T15,A)&quot;</span><span class="p">)</span> <span class="s2">&quot;Column distribution on subgroup:&quot;</span>
 <a name="ln-179"></a>               <span class="k">WRITE</span> <span class="p">(</span><span class="n">unit_nr_prv</span><span class="p">,</span> <span class="s1">&#39;(T15)&#39;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span>
 <a name="ln-180"></a>               <span class="k">DO </span><span class="n">icol</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">coldist</span><span class="p">)</span>
 <a name="ln-181"></a>                  <span class="k">WRITE</span> <span class="p">(</span><span class="n">unit_nr_prv</span><span class="p">,</span> <span class="s1">&#39;(I3, 1X)&#39;</span><span class="p">,</span> <span class="n">advance</span><span class="o">=</span><span class="s1">&#39;no&#39;</span><span class="p">)</span> <span class="n">coldist</span><span class="p">(</span><span class="n">icol</span><span class="p">)</span>
-<a name="ln-182"></a>               <span class="n">ENDDO</span>
-<a name="ln-183"></a>               <span class="k">WRITE</span> <span class="p">(</span><span class="n">unit_nr_prv</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
-<a name="ln-184"></a>            <span class="n">ENDIF</span>
-<a name="ln-185"></a>         <span class="n">ENDIF</span>
-<a name="ln-186"></a>      <span class="n">ENDIF</span>
-<a name="ln-187"></a>   <span class="k">END SUBROUTINE</span>
+<a name="ln-182"></a>               <span class="k">ENDDO</span>
+<a name="ln-183"></a><span class="k">               WRITE</span> <span class="p">(</span><span class="n">unit_nr_prv</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
+<a name="ln-184"></a>            <span class="k">ENDIF</span>
+<a name="ln-185"></a><span class="k">         ENDIF</span>
+<a name="ln-186"></a><span class="k">      ENDIF</span>
+<a name="ln-187"></a><span class="k">   END SUBROUTINE</span>
 <a name="ln-188"></a>
 <a name="ln-189"></a><span class="k">   SUBROUTINE </span><span class="n">dbcsr_tas_write_split_info</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">unit_nr</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
 <a name="ln-190"></a>      <span class="c">!! Print info on how matrix is split</span>
@@ -467,9 +467,9 @@
 <a name="ln-205"></a><span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">name_prv</span><span class="p">,</span> <span class="n">SOURCE</span><span class="o">=</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
 <a name="ln-206"></a>      <span class="k">ELSE</span>
 <a name="ln-207"></a><span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">name_prv</span><span class="p">,</span> <span class="n">SOURCE</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-<a name="ln-208"></a>      <span class="n">ENDIF</span>
+<a name="ln-208"></a>      <span class="k">ENDIF</span>
 <a name="ln-209"></a>
-<a name="ln-210"></a>      <span class="k">CALL </span><span class="n">dbcsr_tas_get_split_info</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">mp_comm</span><span class="p">,</span> <span class="n">nsplit</span><span class="p">,</span> <span class="n">igroup</span><span class="p">,</span> <span class="n">mp_comm_group</span><span class="p">,</span> <span class="n">split_rowcol</span><span class="p">,</span> <span class="n">pgrid_offset</span><span class="p">)</span>
+<a name="ln-210"></a><span class="k">      CALL </span><span class="n">dbcsr_tas_get_split_info</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">mp_comm</span><span class="p">,</span> <span class="n">nsplit</span><span class="p">,</span> <span class="n">igroup</span><span class="p">,</span> <span class="n">mp_comm_group</span><span class="p">,</span> <span class="n">split_rowcol</span><span class="p">,</span> <span class="n">pgrid_offset</span><span class="p">)</span>
 <a name="ln-211"></a>
 <a name="ln-212"></a>      <span class="k">CALL </span><span class="n">mp_environ</span><span class="p">(</span><span class="n">numnodes</span><span class="p">,</span> <span class="n">mynode</span><span class="p">,</span> <span class="n">mp_comm</span><span class="p">)</span>
 <a name="ln-213"></a>      <span class="k">CALL </span><span class="n">mp_environ</span><span class="p">(</span><span class="n">numnodes</span><span class="p">,</span> <span class="n">dims</span><span class="p">,</span> <span class="n">coord</span><span class="p">,</span> <span class="n">mp_comm</span><span class="p">)</span>
@@ -483,15 +483,15 @@
 <a name="ln-221"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="n">unit_nr_prv</span><span class="p">,</span> <span class="s2">&quot;(T4,A,I4,1X,A,I4)&quot;</span><span class="p">)</span> <span class="n">name_prv</span><span class="o">//</span><span class="s2">&quot;splitting columns by factor&quot;</span><span class="p">,</span> <span class="n">nsplit</span>
 <a name="ln-222"></a>         <span class="k">END SELECT</span>
 <a name="ln-223"></a><span class="k">         WRITE</span> <span class="p">(</span><span class="n">unit_nr_prv</span><span class="p">,</span> <span class="s2">&quot;(T4,A,I4,A1,I4)&quot;</span><span class="p">)</span> <span class="n">name_prv</span><span class="o">//</span><span class="s2">&quot;global grid sizes:&quot;</span><span class="p">,</span> <span class="n">dims</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">dims</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<a name="ln-224"></a>      <span class="n">ENDIF</span>
+<a name="ln-224"></a>      <span class="k">ENDIF</span>
 <a name="ln-225"></a>
-<a name="ln-226"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">unit_nr_prv</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-226"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">unit_nr_prv</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-227"></a><span class="k">         WRITE</span> <span class="p">(</span><span class="n">unit_nr_prv</span><span class="p">,</span> <span class="s2">&quot;(T4,A,I4,A1,I4)&quot;</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-228"></a>            <span class="n">name_prv</span><span class="o">//</span><span class="s2">&quot;grid sizes on subgroups:&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-229"></a>            <span class="n">groupdims</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">groupdims</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<a name="ln-230"></a>      <span class="n">ENDIF</span>
+<a name="ln-230"></a>      <span class="k">ENDIF</span>
 <a name="ln-231"></a>
-<a name="ln-232"></a>   <span class="k">END SUBROUTINE</span>
+<a name="ln-232"></a><span class="k">   END SUBROUTINE</span>
 <a name="ln-233"></a>
 <a name="ln-234"></a><span class="k">   FUNCTION </span><span class="n">prep_output_unit</span><span class="p">(</span><span class="n">unit_nr</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">unit_nr_out</span><span class="p">)</span>
 <a name="ln-235"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span> <span class="kd">::</span> <span class="n">unit_nr</span>
@@ -501,9 +501,9 @@
 <a name="ln-239"></a><span class="k">         </span><span class="n">unit_nr_out</span> <span class="o">=</span> <span class="n">unit_nr</span>
 <a name="ln-240"></a>      <span class="k">ELSE</span>
 <a name="ln-241"></a><span class="k">         </span><span class="n">unit_nr_out</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-242"></a>      <span class="n">ENDIF</span>
+<a name="ln-242"></a>      <span class="k">ENDIF</span>
 <a name="ln-243"></a>
-<a name="ln-244"></a>   <span class="k">END FUNCTION</span>
+<a name="ln-244"></a><span class="k">   END FUNCTION</span>
 <a name="ln-245"></a>
 <a name="ln-246"></a><span class="k">END MODULE</span>
 </pre></div>

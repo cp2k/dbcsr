@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -329,8 +329,8 @@
 <a name="ln-67"></a><span class="k">         </span><span class="n">previous_data_area</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span>
 <a name="ln-68"></a>      <span class="k">ELSE</span>
 <a name="ln-69"></a><span class="k">         CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span>
-<a name="ln-70"></a>      <span class="n">ENDIF</span>
-<a name="ln-71"></a>      <span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span> <span class="o">=</span> <span class="n">data_area</span>
+<a name="ln-70"></a>      <span class="k">ENDIF</span>
+<a name="ln-71"></a><span class="k">      </span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span> <span class="o">=</span> <span class="n">data_area</span>
 <a name="ln-72"></a>      <span class="k">CALL </span><span class="n">dbcsr_data_hold</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span>
 <a name="ln-73"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
 <a name="ln-74"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_switch_data_area</span>
@@ -370,26 +370,26 @@
 <a name="ln-108"></a><span class="c">!$OMP           PARALLEL DO DEFAULT(NONE) PRIVATE(I) SHARED(target_area,source_area,n)</span>
 <a name="ln-109"></a>            <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
 <a name="ln-110"></a>               <span class="n">target_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">source_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a name="ln-111"></a>            <span class="n">ENDDO</span>
-<a name="ln-112"></a>         <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
+<a name="ln-111"></a>            <span class="k">ENDDO</span>
+<a name="ln-112"></a><span class="k">         CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
 <a name="ln-113"></a><span class="c">!$OMP           PARALLEL DO DEFAULT(NONE) PRIVATE(I) SHARED(target_area,source_area,n)</span>
 <a name="ln-114"></a>            <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
 <a name="ln-115"></a>               <span class="n">target_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">source_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a name="ln-116"></a>            <span class="n">ENDDO</span>
-<a name="ln-117"></a>         <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
+<a name="ln-116"></a>            <span class="k">ENDDO</span>
+<a name="ln-117"></a><span class="k">         CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
 <a name="ln-118"></a><span class="c">!$OMP           PARALLEL DO DEFAULT(NONE) PRIVATE(I) SHARED(target_area,source_area,n)</span>
 <a name="ln-119"></a>            <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
 <a name="ln-120"></a>               <span class="n">target_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">source_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a name="ln-121"></a>            <span class="n">ENDDO</span>
-<a name="ln-122"></a>         <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
+<a name="ln-121"></a>            <span class="k">ENDDO</span>
+<a name="ln-122"></a><span class="k">         CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
 <a name="ln-123"></a><span class="c">!$OMP           PARALLEL DO DEFAULT(NONE) PRIVATE(I) SHARED(target_area,source_area,n)</span>
 <a name="ln-124"></a>            <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
 <a name="ln-125"></a>               <span class="n">target_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">source_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a name="ln-126"></a>            <span class="n">ENDDO</span>
-<a name="ln-127"></a>         <span class="k">CASE </span><span class="n">default</span>
+<a name="ln-126"></a>            <span class="k">ENDDO</span>
+<a name="ln-127"></a><span class="k">         CASE </span><span class="n">default</span>
 <a name="ln-128"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type&quot;</span><span class="p">)</span>
 <a name="ln-129"></a>         <span class="k">END SELECT</span>
-<a name="ln-130"></a><span class="k">      </span><span class="n">ENDIF</span>
+<a name="ln-130"></a><span class="k">      ENDIF</span>
 <a name="ln-131"></a><span class="c">!      CALL timestop(error_handle)</span>
 <a name="ln-132"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_data_copyall</span>
 <a name="ln-133"></a>
@@ -420,8 +420,8 @@
 <a name="ln-158"></a>         <span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">&quot;Attempt to copy unheld data&quot;</span><span class="p">)</span>
 <a name="ln-159"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">source_area</span><span class="p">%</span><span class="n">d</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-160"></a><span class="k">         RETURN</span>
-<a name="ln-161"></a><span class="k">      </span><span class="n">ENDIF</span>
-<a name="ln-162"></a>      <span class="n">keep_real</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<a name="ln-161"></a><span class="k">      ENDIF</span>
+<a name="ln-162"></a><span class="k">      </span><span class="n">keep_real</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
 <a name="ln-163"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">drop_real</span><span class="p">))</span> <span class="n">keep_real</span> <span class="o">=</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">drop_real</span>
 <a name="ln-164"></a>      <span class="n">noimult</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
 <a name="ln-165"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">multiply_by_i</span><span class="p">))</span> <span class="n">noimult</span> <span class="o">=</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">multiply_by_i</span>
@@ -445,15 +445,15 @@
 <a name="ln-183"></a><span class="k">                  </span><span class="n">t_data_z</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="nb">CMPLX</span><span class="p">(</span><span class="n">s_data_d</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>
 <a name="ln-184"></a>               <span class="k">ELSE</span>
 <a name="ln-185"></a><span class="k">                  </span><span class="n">t_data_z</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="nb">CMPLX</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">s_data_d</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>
-<a name="ln-186"></a>               <span class="n">ENDIF</span>
-<a name="ln-187"></a>            <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
+<a name="ln-186"></a>               <span class="k">ENDIF</span>
+<a name="ln-187"></a><span class="k">            CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
 <a name="ln-188"></a>               <span class="k">CALL </span><span class="n">dbcsr_get_data</span><span class="p">(</span><span class="n">target_area</span><span class="p">,</span> <span class="n">t_data_c</span><span class="p">)</span>
 <a name="ln-189"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">noimult</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-190"></a><span class="k">                  </span><span class="n">t_data_c</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="nb">CMPLX</span><span class="p">(</span><span class="n">s_data_d</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span>
 <a name="ln-191"></a>               <span class="k">ELSE</span>
 <a name="ln-192"></a><span class="k">                  </span><span class="n">t_data_c</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="nb">CMPLX</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">s_data_d</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span>
-<a name="ln-193"></a>               <span class="n">ENDIF</span>
-<a name="ln-194"></a>            <span class="k">CASE </span><span class="n">default</span>
+<a name="ln-193"></a>               <span class="k">ENDIF</span>
+<a name="ln-194"></a><span class="k">            CASE </span><span class="n">default</span>
 <a name="ln-195"></a>               <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type&quot;</span><span class="p">)</span>
 <a name="ln-196"></a>            <span class="k">END SELECT</span>
 <a name="ln-197"></a><span class="k">         CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
@@ -471,15 +471,15 @@
 <a name="ln-209"></a><span class="k">                  </span><span class="n">t_data_z</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="nb">CMPLX</span><span class="p">(</span><span class="n">s_data_r</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>
 <a name="ln-210"></a>               <span class="k">ELSE</span>
 <a name="ln-211"></a><span class="k">                  </span><span class="n">t_data_z</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="nb">CMPLX</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">s_data_r</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>
-<a name="ln-212"></a>               <span class="n">ENDIF</span>
-<a name="ln-213"></a>            <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
+<a name="ln-212"></a>               <span class="k">ENDIF</span>
+<a name="ln-213"></a><span class="k">            CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
 <a name="ln-214"></a>               <span class="k">CALL </span><span class="n">dbcsr_get_data</span><span class="p">(</span><span class="n">target_area</span><span class="p">,</span> <span class="n">t_data_c</span><span class="p">)</span>
 <a name="ln-215"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">noimult</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-216"></a><span class="k">                  </span><span class="n">t_data_c</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="nb">CMPLX</span><span class="p">(</span><span class="n">s_data_r</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span>
 <a name="ln-217"></a>               <span class="k">ELSE</span>
 <a name="ln-218"></a><span class="k">                  </span><span class="n">t_data_c</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="nb">CMPLX</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">s_data_r</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span>
-<a name="ln-219"></a>               <span class="n">ENDIF</span>
-<a name="ln-220"></a>            <span class="k">CASE </span><span class="n">default</span>
+<a name="ln-219"></a>               <span class="k">ENDIF</span>
+<a name="ln-220"></a><span class="k">            CASE </span><span class="n">default</span>
 <a name="ln-221"></a>               <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type&quot;</span><span class="p">)</span>
 <a name="ln-222"></a>            <span class="k">END SELECT</span>
 <a name="ln-223"></a><span class="k">         CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
@@ -491,15 +491,15 @@
 <a name="ln-229"></a><span class="k">                  </span><span class="n">t_data_d</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">(</span><span class="n">s_data_z</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>
 <a name="ln-230"></a>               <span class="k">ELSE</span>
 <a name="ln-231"></a><span class="k">                  </span><span class="n">t_data_d</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="nb">AIMAG</span><span class="p">(</span><span class="n">s_data_z</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">))</span>
-<a name="ln-232"></a>               <span class="n">ENDIF</span>
-<a name="ln-233"></a>            <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
+<a name="ln-232"></a>               <span class="k">ENDIF</span>
+<a name="ln-233"></a><span class="k">            CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
 <a name="ln-234"></a>               <span class="k">CALL </span><span class="n">dbcsr_get_data</span><span class="p">(</span><span class="n">target_area</span><span class="p">,</span> <span class="n">t_data_r</span><span class="p">)</span>
 <a name="ln-235"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">keep_real</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-236"></a><span class="k">                  </span><span class="n">t_data_r</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">(</span><span class="n">s_data_z</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span>
 <a name="ln-237"></a>               <span class="k">ELSE</span>
 <a name="ln-238"></a><span class="k">                  </span><span class="n">t_data_r</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">(</span><span class="nb">AIMAG</span><span class="p">(</span><span class="n">s_data_z</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span>
-<a name="ln-239"></a>               <span class="n">ENDIF</span>
-<a name="ln-240"></a>            <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
+<a name="ln-239"></a>               <span class="k">ENDIF</span>
+<a name="ln-240"></a><span class="k">            CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
 <a name="ln-241"></a>               <span class="k">CALL </span><span class="n">dbcsr_get_data</span><span class="p">(</span><span class="n">target_area</span><span class="p">,</span> <span class="n">t_data_z</span><span class="p">)</span>
 <a name="ln-242"></a>               <span class="n">t_data_z</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="n">s_data_z</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span>
 <a name="ln-243"></a>            <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
@@ -517,15 +517,15 @@
 <a name="ln-255"></a><span class="k">                  </span><span class="n">t_data_d</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">(</span><span class="n">s_data_c</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>
 <a name="ln-256"></a>               <span class="k">ELSE</span>
 <a name="ln-257"></a><span class="k">                  </span><span class="n">t_data_d</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">(</span><span class="nb">AIMAG</span><span class="p">(</span><span class="n">s_data_c</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>
-<a name="ln-258"></a>               <span class="n">ENDIF</span>
-<a name="ln-259"></a>            <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
+<a name="ln-258"></a>               <span class="k">ENDIF</span>
+<a name="ln-259"></a><span class="k">            CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
 <a name="ln-260"></a>               <span class="k">CALL </span><span class="n">dbcsr_get_data</span><span class="p">(</span><span class="n">target_area</span><span class="p">,</span> <span class="n">t_data_r</span><span class="p">)</span>
 <a name="ln-261"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">keep_real</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-262"></a><span class="k">                  </span><span class="n">t_data_r</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">(</span><span class="n">s_data_c</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">)</span>
 <a name="ln-263"></a>               <span class="k">ELSE</span>
 <a name="ln-264"></a><span class="k">                  </span><span class="n">t_data_r</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="nb">AIMAG</span><span class="p">(</span><span class="n">s_data_c</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">))</span>
-<a name="ln-265"></a>               <span class="n">ENDIF</span>
-<a name="ln-266"></a>            <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
+<a name="ln-265"></a>               <span class="k">ENDIF</span>
+<a name="ln-266"></a><span class="k">            CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
 <a name="ln-267"></a>               <span class="k">CALL </span><span class="n">dbcsr_get_data</span><span class="p">(</span><span class="n">target_area</span><span class="p">,</span> <span class="n">t_data_z</span><span class="p">)</span>
 <a name="ln-268"></a>               <span class="n">t_data_z</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="nb">CMPLX</span><span class="p">(</span><span class="n">s_data_c</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">n</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>
 <a name="ln-269"></a>            <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
@@ -537,8 +537,8 @@
 <a name="ln-275"></a><span class="k">         CASE </span><span class="n">default</span>
 <a name="ln-276"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type&quot;</span><span class="p">)</span>
 <a name="ln-277"></a>         <span class="k">END SELECT</span>
-<a name="ln-278"></a><span class="k">      </span><span class="n">ENDIF</span>
-<a name="ln-279"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_data_convert</span>
+<a name="ln-278"></a><span class="k">      ENDIF</span>
+<a name="ln-279"></a><span class="k">   END SUBROUTINE </span><span class="n">dbcsr_data_convert</span>
 <a name="ln-280"></a>
 <a name="ln-281"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_copy_sort_data</span><span class="p">(</span><span class="n">blk_p</span><span class="p">,</span> <span class="n">old_blk_p</span><span class="p">,</span> <span class="n">row_p</span><span class="p">,</span> <span class="n">col_i</span><span class="p">,</span> <span class="n">rbs</span><span class="p">,</span> <span class="n">cbs</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-282"></a>                                   <span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">mark_transposed</span><span class="p">,</span> <span class="n">transpose_blocks</span><span class="p">)</span>
@@ -590,8 +590,8 @@
 <a name="ln-328"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">blk</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-329"></a><span class="k">                  </span><span class="n">blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="o">=</span> <span class="n">SGN</span><span class="p">(</span><span class="nb">ABS</span><span class="p">(</span><span class="n">blk_p</span><span class="p">(</span><span class="n">blk</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="n">nze_prev</span><span class="p">,</span> <span class="n">old_blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">),</span> <span class="p">&amp;</span>
 <a name="ln-330"></a>                                   <span class="n">mark</span><span class="p">)</span>
-<a name="ln-331"></a>               <span class="n">ENDIF</span>
-<a name="ln-332"></a>               <span class="k">IF</span> <span class="p">(</span><span class="nb">ABS</span><span class="p">(</span><span class="n">blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">))</span> <span class="o">+</span> <span class="n">nze</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&gt;</span> <span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">dst</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-331"></a>               <span class="k">ENDIF</span>
+<a name="ln-332"></a><span class="k">               IF</span> <span class="p">(</span><span class="nb">ABS</span><span class="p">(</span><span class="n">blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">))</span> <span class="o">+</span> <span class="n">nze</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&gt;</span> <span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">dst</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-333"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s1">&#39;Destination data space is too small.&#39;</span><span class="p">)</span>
 <a name="ln-334"></a>               <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">trb</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-335"></a><span class="k">                  CALL </span><span class="n">dbcsr_data_copy</span><span class="p">(</span><span class="n">dst</span><span class="o">=</span><span class="n">dst</span><span class="p">,</span> <span class="n">dst_lb</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="nb">ABS</span><span class="p">(</span><span class="n">blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">))</span><span class="o">/</span><span class="p">),</span> <span class="p">&amp;</span>
@@ -604,11 +604,11 @@
 <a name="ln-342"></a><span class="k">                  CALL </span><span class="n">dbcsr_block_transpose</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-343"></a>                                             <span class="n">col_size</span><span class="p">,</span> <span class="n">row_size</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-344"></a>                                             <span class="n">lb</span><span class="o">=</span><span class="nb">ABS</span><span class="p">(</span><span class="n">blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)),</span> <span class="n">source_lb</span><span class="o">=</span><span class="nb">ABS</span><span class="p">(</span><span class="n">old_blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)))</span>
-<a name="ln-345"></a>               <span class="n">ENDIF</span>
-<a name="ln-346"></a>               <span class="n">nze_prev</span> <span class="o">=</span> <span class="n">nze</span>
-<a name="ln-347"></a>            <span class="n">ENDIF</span> <span class="c">! blk exists</span>
-<a name="ln-348"></a>         <span class="n">ENDDO</span> <span class="c">! blk</span>
-<a name="ln-349"></a>      <span class="n">ENDDO</span> <span class="c">! row</span>
+<a name="ln-345"></a>               <span class="k">ENDIF</span>
+<a name="ln-346"></a><span class="k">               </span><span class="n">nze_prev</span> <span class="o">=</span> <span class="n">nze</span>
+<a name="ln-347"></a>            <span class="k">ENDIF</span> <span class="c">! blk exists</span>
+<a name="ln-348"></a>         <span class="k">ENDDO</span> <span class="c">! blk</span>
+<a name="ln-349"></a>      <span class="k">ENDDO</span> <span class="c">! row</span>
 <a name="ln-350"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_copy_sort_data</span>
 <a name="ln-351"></a>
 <a name="ln-352"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_sort_data</span><span class="p">(</span><span class="n">blk_p</span><span class="p">,</span> <span class="n">old_blk_p</span><span class="p">,</span> <span class="n">sizes</span><span class="p">,</span> <span class="n">dsts</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -646,8 +646,8 @@
 <a name="ln-384"></a>         <span class="n">blk_p</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="nb">SIGN</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">old_blk_p</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 <a name="ln-385"></a>         <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">nblks</span>
 <a name="ln-386"></a>            <span class="n">blk_p</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="nb">SIGN</span><span class="p">(</span><span class="nb">ABS</span><span class="p">(</span><span class="n">blk_p</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span> <span class="o">+</span> <span class="n">sizes</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">old_blk_p</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-<a name="ln-387"></a>         <span class="n">ENDDO</span>
-<a name="ln-388"></a>         <span class="k">CALL </span><span class="n">dbcsr_data_set_size_referenced</span><span class="p">(</span><span class="n">dsts</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-387"></a>         <span class="k">ENDDO</span>
+<a name="ln-388"></a><span class="k">         CALL </span><span class="n">dbcsr_data_set_size_referenced</span><span class="p">(</span><span class="n">dsts</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-389"></a>                                             <span class="nb">ABS</span><span class="p">(</span><span class="n">blk_p</span><span class="p">(</span><span class="n">nblks</span><span class="p">))</span> <span class="o">+</span> <span class="n">sizes</span><span class="p">(</span><span class="n">nblks</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 <a name="ln-390"></a><span class="c">!$OMP        END MASTER</span>
 <a name="ln-391"></a><span class="c">!$OMP        BARRIER</span>
@@ -667,12 +667,12 @@
 <a name="ln-405"></a>                  <span class="c">!dst(ABS(blk_p(i)):ABS(blk_p(i))+sizes(i)-1) =&amp;</span>
 <a name="ln-406"></a>                  <span class="c">!     srcs(old_blk_d(i))%d&amp;</span>
 <a name="ln-407"></a>                  <span class="c">!     %r_dp(ABS(old_blk_p(i)):ABS(old_blk_p(i))+sizes(i)-1)</span>
-<a name="ln-408"></a>               <span class="n">ENDIF</span>
-<a name="ln-409"></a>            <span class="n">ENDIF</span>
-<a name="ln-410"></a>         <span class="n">ENDDO</span>
+<a name="ln-408"></a>               <span class="k">ENDIF</span>
+<a name="ln-409"></a><span class="k">            ENDIF</span>
+<a name="ln-410"></a><span class="k">         ENDDO</span>
 <a name="ln-411"></a><span class="c">!$OMP        END DO NOWAIT</span>
-<a name="ln-412"></a>      <span class="n">ENDIF</span>
-<a name="ln-413"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<a name="ln-412"></a>      <span class="k">ENDIF</span>
+<a name="ln-413"></a><span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
 <a name="ln-414"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_sort_data</span>
 <a name="ln-415"></a>
 <a name="ln-416"></a><span class="k">END MODULE </span><span class="n">dbcsr_data_operations</span>

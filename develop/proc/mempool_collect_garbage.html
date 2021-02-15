@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -329,8 +329,8 @@ private subroutine mempool_collect_garbage(pool)
          <span class="k">ELSE</span>
 <span class="k">            </span><span class="n">prev</span> <span class="o">=&gt;</span> <span class="n">cur</span>
             <span class="n">cur</span> <span class="o">=&gt;</span> <span class="n">cur</span><span class="p">%</span><span class="n">next</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDDO</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDDO</span>
 <span class="c">!$    CALL OMP_UNSET_LOCK(pool%lock)</span>
    <span class="k">END SUBROUTINE </span><span class="n">mempool_collect_garbage</span>
 </pre></div>

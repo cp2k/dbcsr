@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -969,8 +969,8 @@
 <a name="ln-707"></a>         <span class="c">! A bug, we&#39;re leaking or double-freeing communicators. Needs to be fixed where the leak happens.</span>
 <a name="ln-708"></a>         <span class="c">! Memory leak checking might be helpful to locate the culprit</span>
 <a name="ln-709"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;mp_world_finalize: assert failed: leaking communicators&quot;</span><span class="p">)</span>
-<a name="ln-710"></a>      <span class="n">ENDIF</span>
-<a name="ln-711"></a>      <span class="k">CALL </span><span class="n">mpi_finalize</span><span class="p">(</span><span class="n">ierr</span><span class="p">)</span>
+<a name="ln-710"></a>      <span class="k">ENDIF</span>
+<a name="ln-711"></a><span class="k">      CALL </span><span class="n">mpi_finalize</span><span class="p">(</span><span class="n">ierr</span><span class="p">)</span>
 <a name="ln-712"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_finalize @ mp_world_finalize&quot;</span><span class="p">)</span>
 <a name="ln-713"></a><span class="cp">#else</span>
 <a name="ln-714"></a>      <span class="k">CALL </span><span class="n">rm_mp_perf_env</span><span class="p">()</span>
@@ -993,8 +993,8 @@
 <a name="ln-731"></a>      <span class="n">stack_pointer</span> <span class="o">=</span> <span class="n">stack_pointer</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-732"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">stack_pointer</span> <span class="o">&gt;</span> <span class="n">max_stack_size</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-733"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;stack_pointer too large : mpiwrap @ add_mp_perf_env&quot;</span><span class="p">)</span>
-<a name="ln-734"></a>      <span class="n">ENDIF</span>
-<a name="ln-735"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">mp_perf_stack</span><span class="p">(</span><span class="n">stack_pointer</span><span class="p">)%</span><span class="n">mp_perf_env</span><span class="p">)</span>
+<a name="ln-734"></a>      <span class="k">ENDIF</span>
+<a name="ln-735"></a><span class="k">      NULLIFY</span> <span class="p">(</span><span class="n">mp_perf_stack</span><span class="p">(</span><span class="n">stack_pointer</span><span class="p">)%</span><span class="n">mp_perf_env</span><span class="p">)</span>
 <a name="ln-736"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">perf_env</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-737"></a><span class="k">         </span><span class="n">mp_perf_stack</span><span class="p">(</span><span class="n">stack_pointer</span><span class="p">)%</span><span class="n">mp_perf_env</span> <span class="o">=&gt;</span> <span class="n">perf_env</span>
 <a name="ln-738"></a>         <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">perf_env</span><span class="p">))</span> <span class="k">CALL </span><span class="n">mp_perf_env_retain</span><span class="p">(</span><span class="n">perf_env</span><span class="p">)</span>
@@ -1013,8 +1013,8 @@
 <a name="ln-751"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">perf_env</span><span class="p">,</span> <span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
 <a name="ln-752"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-753"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;allocation failed in mp_perf_env_create&quot;</span><span class="p">)</span>
-<a name="ln-754"></a>      <span class="n">ENDIF</span>
-<a name="ln-755"></a>      <span class="n">last_mp_perf_env_id</span> <span class="o">=</span> <span class="n">last_mp_perf_env_id</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-754"></a>      <span class="k">ENDIF</span>
+<a name="ln-755"></a><span class="k">      </span><span class="n">last_mp_perf_env_id</span> <span class="o">=</span> <span class="n">last_mp_perf_env_id</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-756"></a>      <span class="n">perf_env</span><span class="p">%</span><span class="n">id_nr</span> <span class="o">=</span> <span class="n">last_mp_perf_env_id</span>
 <a name="ln-757"></a>      <span class="n">perf_env</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">=</span> <span class="mi">1</span>
 <a name="ln-758"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">MAX_PERF</span>
@@ -1064,10 +1064,10 @@
 <a name="ln-802"></a>
 <a name="ln-803"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">perf_env</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-804"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;unassociated perf_env : mpiwrap @ mp_perf_env_describe&quot;</span><span class="p">)</span>
-<a name="ln-805"></a>      <span class="n">ENDIF</span>
-<a name="ln-806"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">perf_env</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-805"></a>      <span class="k">ENDIF</span>
+<a name="ln-806"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">perf_env</span><span class="p">%</span><span class="n">ref_count</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-807"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;invalid perf_env%ref_count : mpiwrap @ mp_perf_env_describe&quot;</span><span class="p">)</span>
-<a name="ln-808"></a>      <span class="n">ENDIF</span>
+<a name="ln-808"></a>      <span class="k">ENDIF</span>
 <a name="ln-809"></a><span class="cp">#if defined(__parallel)</span>
 <a name="ln-810"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">iw</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-811"></a><span class="k">         WRITE</span> <span class="p">(</span><span class="n">iw</span><span class="p">,</span> <span class="s1">&#39;( &quot; -&quot;, 77X, &quot;-&quot; )&#39;</span><span class="p">)</span>
@@ -1088,9 +1088,9 @@
 <a name="ln-826"></a>                     <span class="nb">ADJUSTL</span><span class="p">(</span><span class="n">perf_env</span><span class="p">%</span><span class="n">mp_perfs</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">name</span><span class="p">),</span> <span class="n">perf_env</span><span class="p">%</span><span class="n">mp_perfs</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="nb">count</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-827"></a>                     <span class="n">vol</span>
 <a name="ln-828"></a>               <span class="k">END IF</span>
-<a name="ln-829"></a><span class="k">            </span><span class="n">ENDIF</span>
+<a name="ln-829"></a><span class="k">            ENDIF</span>
 <a name="ln-830"></a>
-<a name="ln-831"></a>         <span class="k">END DO</span>
+<a name="ln-831"></a><span class="k">         END DO</span>
 <a name="ln-832"></a><span class="k">         WRITE</span> <span class="p">(</span><span class="n">iw</span><span class="p">,</span> <span class="s1">&#39;( 1X, 79(&quot;-&quot;))&#39;</span><span class="p">)</span>
 <a name="ln-833"></a>      <span class="k">END IF</span>
 <a name="ln-834"></a><span class="cp">#else</span>
@@ -1101,8 +1101,8 @@
 <a name="ln-839"></a>   <span class="k">SUBROUTINE </span><span class="n">rm_mp_perf_env</span><span class="p">()</span>
 <a name="ln-840"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">stack_pointer</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-841"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;no perf_env in the stack : mpiwrap @ rm_mp_perf_env&quot;</span><span class="p">)</span>
-<a name="ln-842"></a>      <span class="n">ENDIF</span>
-<a name="ln-843"></a>      <span class="k">CALL </span><span class="n">mp_perf_env_release</span><span class="p">(</span><span class="n">mp_perf_stack</span><span class="p">(</span><span class="n">stack_pointer</span><span class="p">)%</span><span class="n">mp_perf_env</span><span class="p">)</span>
+<a name="ln-842"></a>      <span class="k">ENDIF</span>
+<a name="ln-843"></a><span class="k">      CALL </span><span class="n">mp_perf_env_release</span><span class="p">(</span><span class="n">mp_perf_stack</span><span class="p">(</span><span class="n">stack_pointer</span><span class="p">)%</span><span class="n">mp_perf_env</span><span class="p">)</span>
 <a name="ln-844"></a>      <span class="n">stack_pointer</span> <span class="o">=</span> <span class="n">stack_pointer</span> <span class="o">-</span> <span class="mi">1</span>
 <a name="ln-845"></a>   <span class="k">END SUBROUTINE </span><span class="n">rm_mp_perf_env</span>
 <a name="ln-846"></a>
@@ -1120,8 +1120,8 @@
 <a name="ln-858"></a>
 <a name="ln-859"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">stack_pointer</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-860"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;no perf_env in the stack : mpiwrap @ get_mp_perf_env&quot;</span><span class="p">)</span>
-<a name="ln-861"></a>      <span class="n">ENDIF</span>
-<a name="ln-862"></a>      <span class="n">res</span> <span class="o">=&gt;</span> <span class="n">mp_perf_stack</span><span class="p">(</span><span class="n">stack_pointer</span><span class="p">)%</span><span class="n">mp_perf_env</span>
+<a name="ln-861"></a>      <span class="k">ENDIF</span>
+<a name="ln-862"></a><span class="k">      </span><span class="n">res</span> <span class="o">=&gt;</span> <span class="n">mp_perf_stack</span><span class="p">(</span><span class="n">stack_pointer</span><span class="p">)%</span><span class="n">mp_perf_env</span>
 <a name="ln-863"></a>   <span class="k">END FUNCTION </span><span class="n">get_mp_perf_env</span>
 <a name="ln-864"></a>
 <a name="ln-865"></a>   <span class="k">SUBROUTINE </span><span class="n">describe_mp_perf_env</span><span class="p">(</span><span class="n">scr</span><span class="p">)</span>
@@ -1271,12 +1271,12 @@
 <a name="ln-1009"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">taskid</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-1010"></a><span class="k">         CALL </span><span class="n">mpi_comm_rank</span><span class="p">(</span><span class="n">groupid</span><span class="p">,</span> <span class="n">taskid</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
 <a name="ln-1011"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_comm_rank @ mp_environ_l&quot;</span><span class="p">)</span>
-<a name="ln-1012"></a>      <span class="n">ENDIF</span>
+<a name="ln-1012"></a>      <span class="k">ENDIF</span>
 <a name="ln-1013"></a>
-<a name="ln-1014"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">numtask</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-1014"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">numtask</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-1015"></a><span class="k">         CALL </span><span class="n">mpi_comm_size</span><span class="p">(</span><span class="n">groupid</span><span class="p">,</span> <span class="n">numtask</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
 <a name="ln-1016"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_comm_size @ mp_environ_l&quot;</span><span class="p">)</span>
-<a name="ln-1017"></a>      <span class="n">ENDIF</span>
+<a name="ln-1017"></a>      <span class="k">ENDIF</span>
 <a name="ln-1018"></a><span class="cp">#else</span>
 <a name="ln-1019"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">groupid</span><span class="p">)</span>
 <a name="ln-1020"></a><span class="cp">#endif</span>
@@ -1943,35 +1943,35 @@
 <a name="ln-1681"></a>
 <a name="ln-1682"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">subgroup_min_size</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">n_subgroups</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-1683"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; missing arguments&quot;</span><span class="p">)</span>
-<a name="ln-1684"></a>      <span class="n">ENDIF</span>
-<a name="ln-1685"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">subgroup_min_size</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">n_subgroups</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-1684"></a>      <span class="k">ENDIF</span>
+<a name="ln-1685"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">subgroup_min_size</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">n_subgroups</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-1686"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; too many arguments&quot;</span><span class="p">)</span>
-<a name="ln-1687"></a>      <span class="n">ENDIF</span>
+<a name="ln-1687"></a>      <span class="k">ENDIF</span>
 <a name="ln-1688"></a>
-<a name="ln-1689"></a>      <span class="k">CALL </span><span class="n">mp_environ</span><span class="p">(</span><span class="n">nnodes</span><span class="p">,</span> <span class="n">mepos</span><span class="p">,</span> <span class="n">comm</span><span class="p">)</span>
+<a name="ln-1689"></a><span class="k">      CALL </span><span class="n">mp_environ</span><span class="p">(</span><span class="n">nnodes</span><span class="p">,</span> <span class="n">mepos</span><span class="p">,</span> <span class="n">comm</span><span class="p">)</span>
 <a name="ln-1690"></a>
 <a name="ln-1691"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">UBOUND</span><span class="p">(</span><span class="n">group_distribution</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">nnodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-1692"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; group_distribution wrong bounds&quot;</span><span class="p">)</span>
-<a name="ln-1693"></a>      <span class="n">ENDIF</span>
+<a name="ln-1693"></a>      <span class="k">ENDIF</span>
 <a name="ln-1694"></a>
 <a name="ln-1695"></a><span class="cp">#if defined(__parallel)</span>
 <a name="ln-1696"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">subgroup_min_size</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-1697"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">subgroup_min_size</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">subgroup_min_size</span> <span class="o">&gt;</span> <span class="n">nnodes</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-1698"></a><span class="k">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; subgroup_min_size too small or too large&quot;</span><span class="p">)</span>
-<a name="ln-1699"></a>         <span class="n">ENDIF</span>
-<a name="ln-1700"></a>         <span class="n">ngroups</span> <span class="o">=</span> <span class="n">nnodes</span><span class="o">/</span><span class="n">subgroup_min_size</span>
+<a name="ln-1699"></a>         <span class="k">ENDIF</span>
+<a name="ln-1700"></a><span class="k">         </span><span class="n">ngroups</span> <span class="o">=</span> <span class="n">nnodes</span><span class="o">/</span><span class="n">subgroup_min_size</span>
 <a name="ln-1701"></a>         <span class="n">my_subgroup_min_size</span> <span class="o">=</span> <span class="n">subgroup_min_size</span>
 <a name="ln-1702"></a>      <span class="k">ELSE</span> <span class="c">! n_subgroups</span>
 <a name="ln-1703"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">n_subgroups</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-1704"></a><span class="k">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; n_subgroups too small&quot;</span><span class="p">)</span>
-<a name="ln-1705"></a>         <span class="n">ENDIF</span>
-<a name="ln-1706"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">nnodes</span><span class="o">/</span><span class="n">n_subgroups</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span> <span class="c">! we have a least one cpu per group</span>
+<a name="ln-1705"></a>         <span class="k">ENDIF</span>
+<a name="ln-1706"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">nnodes</span><span class="o">/</span><span class="n">n_subgroups</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span> <span class="c">! we have a least one cpu per group</span>
 <a name="ln-1707"></a>            <span class="n">ngroups</span> <span class="o">=</span> <span class="n">n_subgroups</span>
 <a name="ln-1708"></a>         <span class="k">ELSE</span> <span class="c">! well, only one group then</span>
 <a name="ln-1709"></a>            <span class="n">ngroups</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-1710"></a>         <span class="n">ENDIF</span>
-<a name="ln-1711"></a>         <span class="n">my_subgroup_min_size</span> <span class="o">=</span> <span class="n">nnodes</span><span class="o">/</span><span class="n">ngroups</span>
-<a name="ln-1712"></a>      <span class="n">ENDIF</span>
+<a name="ln-1710"></a>         <span class="k">ENDIF</span>
+<a name="ln-1711"></a><span class="k">         </span><span class="n">my_subgroup_min_size</span> <span class="o">=</span> <span class="n">nnodes</span><span class="o">/</span><span class="n">ngroups</span>
+<a name="ln-1712"></a>      <span class="k">ENDIF</span>
 <a name="ln-1713"></a>
 <a name="ln-1714"></a>      <span class="c">! rank_permutation: is a permutation of ranks, so that groups are not necessarily continuous in rank of the master group</span>
 <a name="ln-1715"></a>      <span class="c">! while the order is not critical (we only color ranks), it can e.g. be used to make groups that have just 1 rank per node</span>
@@ -1984,12 +1984,12 @@
 <a name="ln-1722"></a>         <span class="k">DO </span><span class="n">irank</span> <span class="o">=</span> <span class="n">istride</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nnodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">local_stride</span>
 <a name="ln-1723"></a>            <span class="n">rank_permutation</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">irank</span>
 <a name="ln-1724"></a>            <span class="n">k</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-1725"></a>         <span class="n">ENDDO</span>
-<a name="ln-1726"></a>      <span class="n">ENDDO</span>
+<a name="ln-1725"></a>         <span class="k">ENDDO</span>
+<a name="ln-1726"></a><span class="k">      ENDDO</span>
 <a name="ln-1727"></a>
-<a name="ln-1728"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nnodes</span> <span class="o">-</span> <span class="mi">1</span>
+<a name="ln-1728"></a><span class="k">      DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nnodes</span> <span class="o">-</span> <span class="mi">1</span>
 <a name="ln-1729"></a>         <span class="n">group_distribution</span><span class="p">(</span><span class="n">rank_permutation</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="o">=</span> <span class="nb">MIN</span><span class="p">(</span><span class="n">i</span><span class="o">/</span><span class="n">my_subgroup_min_size</span><span class="p">,</span> <span class="n">ngroups</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-<a name="ln-1730"></a>      <span class="n">ENDDO</span>
+<a name="ln-1730"></a>      <span class="k">ENDDO</span>
 <a name="ln-1731"></a>      <span class="c">! even the user gave a partition, see if we can use it to overwrite this choice</span>
 <a name="ln-1732"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">group_partition</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-1733"></a><span class="k">         IF</span> <span class="p">(</span><span class="k">ALL</span><span class="p">(</span><span class="n">group_partition</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">(</span><span class="nb">SUM</span><span class="p">(</span><span class="n">group_partition</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">nnodes</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">(</span><span class="n">ngroups</span> <span class="o">==</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">group_partition</span><span class="p">)))</span> <span class="k">THEN</span>
@@ -1998,13 +1998,13 @@
 <a name="ln-1736"></a>               <span class="k">DO </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">group_partition</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 <a name="ln-1737"></a>                  <span class="n">group_distribution</span><span class="p">(</span><span class="n">rank_permutation</span><span class="p">(</span><span class="n">k</span><span class="p">))</span> <span class="o">=</span> <span class="n">i</span>
 <a name="ln-1738"></a>                  <span class="n">k</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-1739"></a>               <span class="n">ENDDO</span>
-<a name="ln-1740"></a>            <span class="n">ENDDO</span>
-<a name="ln-1741"></a>         <span class="k">ELSE</span>
+<a name="ln-1739"></a>               <span class="k">ENDDO</span>
+<a name="ln-1740"></a><span class="k">            ENDDO</span>
+<a name="ln-1741"></a><span class="k">         ELSE</span>
 <a name="ln-1742"></a>            <span class="c">! just ignore silently as we have reasonable defaults. Probably a warning would not be to bad</span>
-<a name="ln-1743"></a>         <span class="n">ENDIF</span>
-<a name="ln-1744"></a>      <span class="n">ENDIF</span>
-<a name="ln-1745"></a>      <span class="n">color</span> <span class="o">=</span> <span class="n">group_distribution</span><span class="p">(</span><span class="n">mepos</span><span class="p">)</span>
+<a name="ln-1743"></a>         <span class="k">ENDIF</span>
+<a name="ln-1744"></a><span class="k">      ENDIF</span>
+<a name="ln-1745"></a><span class="k">      </span><span class="n">color</span> <span class="o">=</span> <span class="n">group_distribution</span><span class="p">(</span><span class="n">mepos</span><span class="p">)</span>
 <a name="ln-1746"></a>      <span class="k">CALL </span><span class="n">mpi_comm_split</span><span class="p">(</span><span class="n">comm</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sub_comm</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
 <a name="ln-1747"></a>      <span class="n">debug_comm_count</span> <span class="o">=</span> <span class="n">debug_comm_count</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-1748"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="n">mpi_success</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;in &quot;</span><span class="o">//</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; split&quot;</span><span class="p">)</span>
@@ -2361,8 +2361,8 @@
 <a name="ln-2099"></a>      <span class="n">ierr</span> <span class="o">=</span> <span class="mi">0</span>
 <a name="ln-2100"></a>      <span class="k">IF</span> <span class="p">(</span><span class="s2">&quot;d&quot;</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="s2">&quot;l&quot;</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">real_8</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">int_8</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-2101"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Minimal location not available with long integers @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
-<a name="ln-2102"></a>      <span class="n">ENDIF</span>
-<a name="ln-2103"></a>      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
+<a name="ln-2102"></a>      <span class="k">ENDIF</span>
+<a name="ln-2103"></a><span class="k">      CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
 <a name="ln-2104"></a>
 <a name="ln-2105"></a><span class="cp">#if defined(__parallel)</span>
 <a name="ln-2106"></a>      <span class="n">msglen</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
@@ -2406,8 +2406,8 @@
 <a name="ln-2144"></a>      <span class="n">ierr</span> <span class="o">=</span> <span class="mi">0</span>
 <a name="ln-2145"></a>      <span class="k">IF</span> <span class="p">(</span><span class="s2">&quot;d&quot;</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="s2">&quot;l&quot;</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">real_8</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">int_8</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-2146"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Maximal location not available with long integers @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
-<a name="ln-2147"></a>      <span class="n">ENDIF</span>
-<a name="ln-2148"></a>      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
+<a name="ln-2147"></a>      <span class="k">ENDIF</span>
+<a name="ln-2148"></a><span class="k">      CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
 <a name="ln-2149"></a>
 <a name="ln-2150"></a><span class="cp">#if defined(__parallel)</span>
 <a name="ln-2151"></a>      <span class="n">msglen</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
@@ -2474,7 +2474,7 @@
 <a name="ln-2212"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">msglen</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-2213"></a><span class="k">         CALL </span><span class="n">mpi_allreduce</span><span class="p">(</span><span class="n">MPI_IN_PLACE</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msglen</span><span class="p">,</span> <span class="n">MPI_LOGICAL</span><span class="p">,</span> <span class="n">MPI_LOR</span><span class="p">,</span> <span class="n">gid</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
 <a name="ln-2214"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_allreduce @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
-<a name="ln-2215"></a>      <span class="n">ENDIF</span>
+<a name="ln-2215"></a>      <span class="k">ENDIF</span>
 <a name="ln-2216"></a><span class="cp">#else</span>
 <a name="ln-2217"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 <a name="ln-2218"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">gid</span><span class="p">)</span>
@@ -2508,7 +2508,7 @@
 <a name="ln-2246"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_iallreduce @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
 <a name="ln-2247"></a>      <span class="k">ELSE</span>
 <a name="ln-2248"></a><span class="k">         </span><span class="n">request</span> <span class="o">=</span> <span class="n">mp_request_null</span>
-<a name="ln-2249"></a>      <span class="n">ENDIF</span>
+<a name="ln-2249"></a>      <span class="k">ENDIF</span>
 <a name="ln-2250"></a><span class="cp">#else</span>
 <a name="ln-2251"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 <a name="ln-2252"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">gid</span><span class="p">)</span>
@@ -2570,7 +2570,7 @@
 <a name="ln-2308"></a>         <span class="k">CALL </span><span class="n">m_hostnm</span><span class="p">(</span><span class="n">procname</span><span class="p">)</span>
 <a name="ln-2309"></a>         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">resultlen</span><span class="p">))</span> <span class="n">resultlen</span> <span class="o">=</span> <span class="nb">LEN_TRIM</span><span class="p">(</span><span class="n">procname</span><span class="p">)</span>
 <a name="ln-2310"></a><span class="cp">#if defined(__parallel)</span>
-<a name="ln-2311"></a>      <span class="n">ENDIF</span>
+<a name="ln-2311"></a>      <span class="k">ENDIF</span>
 <a name="ln-2312"></a><span class="cp">#endif</span>
 <a name="ln-2313"></a>   <span class="k">END SUBROUTINE </span><span class="n">mp_get_processor_name</span>
 <a name="ln-2314"></a>
@@ -2863,7 +2863,7 @@
 <a name="ln-2601"></a><span class="cp">#endif</span>
 <a name="ln-2602"></a>         <span class="n">old_types</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">subtypes</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">type_handle</span>
 <a name="ln-2603"></a>         <span class="n">lengths</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">subtypes</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">length</span>
-<a name="ln-2604"></a>      <span class="n">ENDDO</span>
+<a name="ln-2604"></a>      <span class="k">ENDDO</span>
 <a name="ln-2605"></a><span class="cp">#if defined(__parallel)</span>
 <a name="ln-2606"></a>      <span class="k">CALL </span><span class="n">MPI_Type_create_struct</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-2607"></a>                                  <span class="n">lengths</span><span class="p">,</span> <span class="n">displacements</span><span class="p">,</span> <span class="n">old_types</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -2876,8 +2876,8 @@
 <a name="ln-2614"></a><span class="cp">#endif</span>
 <a name="ln-2615"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">vector_descriptor</span><span class="p">)</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">index_descriptor</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-2616"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; Vectors and indices NYI&quot;</span><span class="p">)</span>
-<a name="ln-2617"></a>      <span class="n">ENDIF</span>
-<a name="ln-2618"></a>   <span class="k">END FUNCTION </span><span class="n">mp_type_make_struct</span>
+<a name="ln-2617"></a>      <span class="k">ENDIF</span>
+<a name="ln-2618"></a><span class="k">   END FUNCTION </span><span class="n">mp_type_make_struct</span>
 <a name="ln-2619"></a>
 <a name="ln-2620"></a>   <span class="k">RECURSIVE SUBROUTINE </span><span class="n">mp_type_free_m</span><span class="p">(</span><span class="n">type_descriptor</span><span class="p">)</span>
 <a name="ln-2621"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">mp_type_descriptor_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">inout</span><span class="p">)</span>       <span class="kd">::</span> <span class="n">type_descriptor</span>
@@ -2894,9 +2894,9 @@
 <a name="ln-2632"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">type_descriptor</span><span class="p">%</span><span class="n">subtype</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-2633"></a><span class="k">         DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">type_descriptor</span><span class="p">%</span><span class="n">subtype</span><span class="p">)</span>
 <a name="ln-2634"></a>            <span class="k">CALL </span><span class="n">mp_type_free_m</span><span class="p">(</span><span class="n">type_descriptor</span><span class="p">%</span><span class="n">subtype</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-<a name="ln-2635"></a>         <span class="n">ENDDO</span>
-<a name="ln-2636"></a>         <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">type_descriptor</span><span class="p">%</span><span class="n">subtype</span><span class="p">)</span>
-<a name="ln-2637"></a>      <span class="n">ENDIF</span>
+<a name="ln-2635"></a>         <span class="k">ENDDO</span>
+<a name="ln-2636"></a><span class="k">         DEALLOCATE</span> <span class="p">(</span><span class="n">type_descriptor</span><span class="p">%</span><span class="n">subtype</span><span class="p">)</span>
+<a name="ln-2637"></a>      <span class="k">ENDIF</span>
 <a name="ln-2638"></a><span class="cp">#if defined(__parallel)</span>
 <a name="ln-2639"></a>      <span class="k">CALL </span><span class="n">MPI_Type_free</span><span class="p">(</span><span class="n">type_descriptor</span><span class="p">%</span><span class="n">type_handle</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
 <a name="ln-2640"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
@@ -3121,7 +3121,7 @@
 <a name="ln-2859"></a><span class="c">!$OMP     PARALLEL DO DEFAULT(NONE) PRIVATE(i) SHARED(rcount,rdispl,sdispl,rb,sb)</span>
 <a name="ln-2860"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">rcount</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <a name="ln-2861"></a>         <span class="n">rb</span><span class="p">(</span><span class="n">rdispl</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">sb</span><span class="p">(</span><span class="n">sdispl</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
-<a name="ln-2862"></a>      <span class="n">ENDDO</span>
+<a name="ln-2862"></a>      <span class="k">ENDDO</span>
 <a name="ln-2863"></a><span class="cp">#endif</span>
 <a name="ln-2864"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
 <a name="ln-2865"></a>
@@ -3678,8 +3678,8 @@
 <a name="ln-3416"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_iallreduce @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
 <a name="ln-3417"></a>      <span class="k">ELSE</span>
 <a name="ln-3418"></a><span class="k">         </span><span class="n">request</span> <span class="o">=</span> <span class="n">mp_request_null</span>
-<a name="ln-3419"></a>      <span class="n">ENDIF</span>
-<a name="ln-3420"></a>      <span class="k">CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">23</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglen</span><span class="o">*</span><span class="n">int_4_size</span><span class="p">)</span>
+<a name="ln-3419"></a>      <span class="k">ENDIF</span>
+<a name="ln-3420"></a><span class="k">      CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">23</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglen</span><span class="o">*</span><span class="n">int_4_size</span><span class="p">)</span>
 <a name="ln-3421"></a><span class="cp">#else</span>
 <a name="ln-3422"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 <a name="ln-3423"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">msglen</span><span class="p">)</span>
@@ -3725,8 +3725,8 @@
 <a name="ln-3463"></a><span class="k">            CALL </span><span class="n">mpi_allreduce</span><span class="p">(</span><span class="n">MPI_IN_PLACE</span><span class="p">,</span> <span class="n">msg</span><span class="p">(</span><span class="nb">LBOUND</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">m1</span><span class="p">),</span> <span class="n">msglen</span><span class="p">,</span> <span class="n">MPI_INTEGER</span><span class="p">,</span> <span class="n">MPI_SUM</span><span class="p">,</span> <span class="n">gid</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
 <a name="ln-3464"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_allreduce @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
 <a name="ln-3465"></a>         <span class="k">END IF</span>
-<a name="ln-3466"></a><span class="k">      </span><span class="n">ENDDO</span>
-<a name="ln-3467"></a>      <span class="k">CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglensum</span><span class="o">*</span><span class="n">int_4_size</span><span class="p">)</span>
+<a name="ln-3466"></a><span class="k">      ENDDO</span>
+<a name="ln-3467"></a><span class="k">      CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglensum</span><span class="o">*</span><span class="n">int_4_size</span><span class="p">)</span>
 <a name="ln-3468"></a><span class="cp">#else</span>
 <a name="ln-3469"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 <a name="ln-3470"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">gid</span><span class="p">)</span>
@@ -5469,8 +5469,8 @@
 <a name="ln-5207"></a><span class="k">         CALL </span><span class="n">mpi_win_create</span><span class="p">(</span><span class="n">base</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="nb">len</span><span class="p">,</span> <span class="n">int_4_size</span><span class="p">,</span> <span class="n">MPI_INFO_NULL</span><span class="p">,</span> <span class="n">comm</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
 <a name="ln-5208"></a>      <span class="k">ELSE</span>
 <a name="ln-5209"></a><span class="k">         CALL </span><span class="n">mpi_win_create</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span> <span class="nb">len</span><span class="p">,</span> <span class="n">int_4_size</span><span class="p">,</span> <span class="n">MPI_INFO_NULL</span><span class="p">,</span> <span class="n">comm</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
-<a name="ln-5210"></a>      <span class="n">ENDIF</span>
-<a name="ln-5211"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_win_create @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
+<a name="ln-5210"></a>      <span class="k">ENDIF</span>
+<a name="ln-5211"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_win_create @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
 <a name="ln-5212"></a><span class="cp">#else</span>
 <a name="ln-5213"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
 <a name="ln-5214"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">comm</span><span class="p">)</span>
@@ -5513,25 +5513,25 @@
 <a name="ln-5251"></a>      <span class="n">disp_aint</span> <span class="o">=</span> <span class="mi">0</span>
 <a name="ln-5252"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">disp</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-5253"></a><span class="k">         </span><span class="n">disp_aint</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">disp</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">mpi_address_kind</span><span class="p">)</span>
-<a name="ln-5254"></a>      <span class="n">ENDIF</span>
-<a name="ln-5255"></a>      <span class="n">handle_origin_datatype</span> <span class="o">=</span> <span class="n">MPI_INTEGER</span>
+<a name="ln-5254"></a>      <span class="k">ENDIF</span>
+<a name="ln-5255"></a><span class="k">      </span><span class="n">handle_origin_datatype</span> <span class="o">=</span> <span class="n">MPI_INTEGER</span>
 <a name="ln-5256"></a>      <span class="n">origin_len</span> <span class="o">=</span> <span class="nb">len</span>
 <a name="ln-5257"></a><span class="nb">      </span><span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">origin_datatype</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-5258"></a><span class="k">         </span><span class="n">handle_origin_datatype</span> <span class="o">=</span> <span class="n">origin_datatype</span><span class="p">%</span><span class="n">type_handle</span>
 <a name="ln-5259"></a>         <span class="n">origin_len</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-5260"></a>      <span class="n">ENDIF</span>
-<a name="ln-5261"></a>      <span class="n">handle_target_datatype</span> <span class="o">=</span> <span class="n">MPI_INTEGER</span>
+<a name="ln-5260"></a>      <span class="k">ENDIF</span>
+<a name="ln-5261"></a><span class="k">      </span><span class="n">handle_target_datatype</span> <span class="o">=</span> <span class="n">MPI_INTEGER</span>
 <a name="ln-5262"></a>      <span class="n">target_len</span> <span class="o">=</span> <span class="nb">len</span>
 <a name="ln-5263"></a><span class="nb">      </span><span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">target_datatype</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-5264"></a><span class="k">         </span><span class="n">handle_target_datatype</span> <span class="o">=</span> <span class="n">target_datatype</span><span class="p">%</span><span class="n">type_handle</span>
 <a name="ln-5265"></a>         <span class="n">target_len</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-5266"></a>      <span class="n">ENDIF</span>
-<a name="ln-5267"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-5266"></a>      <span class="k">ENDIF</span>
+<a name="ln-5267"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-5268"></a><span class="k">         </span><span class="n">do_local_copy</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <a name="ln-5269"></a>         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">myproc</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">origin_datatype</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">target_datatype</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-5270"></a><span class="k">            IF</span> <span class="p">(</span><span class="n">myproc</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">source</span><span class="p">)</span> <span class="n">do_local_copy</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-<a name="ln-5271"></a>         <span class="n">ENDIF</span>
-<a name="ln-5272"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">do_local_copy</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-5271"></a>         <span class="k">ENDIF</span>
+<a name="ln-5272"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">do_local_copy</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-5273"></a><span class="c">!$OMP           PARALLEL WORKSHARE DEFAULT(none) SHARED(base,win_data,disp_aint,len)</span>
 <a name="ln-5274"></a>            <span class="n">base</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">win_data</span><span class="p">(</span><span class="n">disp_aint</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">disp_aint</span> <span class="o">+</span> <span class="nb">len</span><span class="p">)</span>
 <a name="ln-5275"></a><span class="c">!$OMP           END PARALLEL WORKSHARE</span>
@@ -5540,11 +5540,11 @@
 <a name="ln-5278"></a>         <span class="k">ELSE</span>
 <a name="ln-5279"></a><span class="k">            CALL </span><span class="n">mpi_rget</span><span class="p">(</span><span class="n">base</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">origin_len</span><span class="p">,</span> <span class="n">handle_origin_datatype</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">disp_aint</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-5280"></a>                          <span class="n">target_len</span><span class="p">,</span> <span class="n">handle_target_datatype</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
-<a name="ln-5281"></a>         <span class="n">ENDIF</span>
-<a name="ln-5282"></a>      <span class="k">ELSE</span>
+<a name="ln-5281"></a>         <span class="k">ENDIF</span>
+<a name="ln-5282"></a><span class="k">      ELSE</span>
 <a name="ln-5283"></a><span class="k">         </span><span class="n">request</span> <span class="o">=</span> <span class="n">mp_request_null</span>
 <a name="ln-5284"></a>         <span class="n">ierr</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-5285"></a>      <span class="n">ENDIF</span>
+<a name="ln-5285"></a>      <span class="k">ENDIF</span>
 <a name="ln-5286"></a><span class="cp">#else</span>
 <a name="ln-5287"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a name="ln-5288"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">win</span><span class="p">)</span>
@@ -5573,7 +5573,7 @@
 <a name="ln-5311"></a><span class="k">         </span><span class="n">base</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">win_data</span><span class="p">(</span><span class="n">disp</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">disp</span> <span class="o">+</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">base</span><span class="p">))</span>
 <a name="ln-5312"></a>      <span class="k">ELSE</span>
 <a name="ln-5313"></a><span class="k">         </span><span class="n">base</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">win_data</span><span class="p">(:</span><span class="n">SIZE</span><span class="p">(</span><span class="n">base</span><span class="p">))</span>
-<a name="ln-5314"></a>      <span class="n">ENDIF</span>
+<a name="ln-5314"></a>      <span class="k">ENDIF</span>
 <a name="ln-5315"></a>
 <a name="ln-5316"></a><span class="cp">#endif</span>
 <a name="ln-5317"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
@@ -5667,8 +5667,8 @@
 <a name="ln-5405"></a><span class="k">         </span><span class="nb">stat</span> <span class="o">=</span> <span class="n">ierr</span>
 <a name="ln-5406"></a>      <span class="k">ELSE</span>
 <a name="ln-5407"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_free_mem @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
-<a name="ln-5408"></a>      <span class="n">ENDIF</span>
-<a name="ln-5409"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
+<a name="ln-5408"></a>      <span class="k">ENDIF</span>
+<a name="ln-5409"></a><span class="k">      NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
 <a name="ln-5410"></a><span class="cp">#else</span>
 <a name="ln-5411"></a>      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
 <a name="ln-5412"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">stat</span><span class="p">))</span> <span class="nb">stat</span> <span class="o">=</span> <span class="mi">0</span>
@@ -5870,8 +5870,8 @@
 <a name="ln-5608"></a>      <span class="n">type_descriptor</span><span class="p">%</span><span class="n">data_i</span> <span class="o">=&gt;</span> <span class="n">ptr</span>
 <a name="ln-5609"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">vector_descriptor</span><span class="p">)</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">index_descriptor</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-5610"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;: Vectors and indices NYI&quot;</span><span class="p">)</span>
-<a name="ln-5611"></a>      <span class="n">ENDIF</span>
-<a name="ln-5612"></a>   <span class="k">END FUNCTION </span><span class="n">mp_type_make_i</span>
+<a name="ln-5611"></a>      <span class="k">ENDIF</span>
+<a name="ln-5612"></a><span class="k">   END FUNCTION </span><span class="n">mp_type_make_i</span>
 <a name="ln-5613"></a>
 <a name="ln-5614"></a><span class="cp">#if defined(__parallel)</span>
 <a name="ln-5615"></a>   <span class="k">SUBROUTINE </span><span class="n">mp_alloc_mem_i</span> <span class="p">(</span><span class="k">DATA</span><span class="p">,</span> <span class="nb">len</span><span class="p">,</span> <span class="nb">stat</span><span class="p">)</span>
@@ -5895,8 +5895,8 @@
 <a name="ln-5633"></a>      <span class="n">mp_size</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">MPI_ADDRESS_KIND</span><span class="p">)</span><span class="o">*</span><span class="n">size</span>
 <a name="ln-5634"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">mp_size</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">mp_max_memory_size</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-5635"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;MPI cannot allocate more than 2 GiByte&quot;</span><span class="p">)</span>
-<a name="ln-5636"></a>      <span class="n">ENDIF</span>
-<a name="ln-5637"></a>      <span class="n">mp_info</span> <span class="o">=</span> <span class="n">MPI_INFO_NULL</span>
+<a name="ln-5636"></a>      <span class="k">ENDIF</span>
+<a name="ln-5637"></a><span class="k">      </span><span class="n">mp_info</span> <span class="o">=</span> <span class="n">MPI_INFO_NULL</span>
 <a name="ln-5638"></a>      <span class="k">CALL </span><span class="n">MPI_ALLOC_MEM</span><span class="p">(</span><span class="n">mp_size</span><span class="p">,</span> <span class="n">mp_info</span><span class="p">,</span> <span class="n">mp_baseptr</span><span class="p">,</span> <span class="n">mp_res</span><span class="p">)</span>
 <a name="ln-5639"></a>      <span class="k">CALL </span><span class="nb">C_F_POINTER</span><span class="p">(</span><span class="n">mp_baseptr</span><span class="p">,</span> <span class="k">DATA</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span><span class="n">length</span><span class="o">/</span><span class="p">))</span>
 <a name="ln-5640"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">stat</span><span class="p">))</span> <span class="nb">stat</span> <span class="o">=</span> <span class="n">mp_res</span>
@@ -5972,7 +5972,7 @@
 <a name="ln-5710"></a><span class="c">!$OMP     PARALLEL DO DEFAULT(NONE) PRIVATE(i) SHARED(rcount,rdispl,sdispl,rb,sb)</span>
 <a name="ln-5711"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">rcount</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <a name="ln-5712"></a>         <span class="n">rb</span><span class="p">(</span><span class="n">rdispl</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">sb</span><span class="p">(</span><span class="n">sdispl</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
-<a name="ln-5713"></a>      <span class="n">ENDDO</span>
+<a name="ln-5713"></a>      <span class="k">ENDDO</span>
 <a name="ln-5714"></a><span class="cp">#endif</span>
 <a name="ln-5715"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
 <a name="ln-5716"></a>
@@ -6529,8 +6529,8 @@
 <a name="ln-6267"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_iallreduce @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
 <a name="ln-6268"></a>      <span class="k">ELSE</span>
 <a name="ln-6269"></a><span class="k">         </span><span class="n">request</span> <span class="o">=</span> <span class="n">mp_request_null</span>
-<a name="ln-6270"></a>      <span class="n">ENDIF</span>
-<a name="ln-6271"></a>      <span class="k">CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">23</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglen</span><span class="o">*</span><span class="n">int_8_size</span><span class="p">)</span>
+<a name="ln-6270"></a>      <span class="k">ENDIF</span>
+<a name="ln-6271"></a><span class="k">      CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">23</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglen</span><span class="o">*</span><span class="n">int_8_size</span><span class="p">)</span>
 <a name="ln-6272"></a><span class="cp">#else</span>
 <a name="ln-6273"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 <a name="ln-6274"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">msglen</span><span class="p">)</span>
@@ -6576,8 +6576,8 @@
 <a name="ln-6314"></a><span class="k">            CALL </span><span class="n">mpi_allreduce</span><span class="p">(</span><span class="n">MPI_IN_PLACE</span><span class="p">,</span> <span class="n">msg</span><span class="p">(</span><span class="nb">LBOUND</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">m1</span><span class="p">),</span> <span class="n">msglen</span><span class="p">,</span> <span class="n">MPI_INTEGER8</span><span class="p">,</span> <span class="n">MPI_SUM</span><span class="p">,</span> <span class="n">gid</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
 <a name="ln-6315"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_allreduce @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
 <a name="ln-6316"></a>         <span class="k">END IF</span>
-<a name="ln-6317"></a><span class="k">      </span><span class="n">ENDDO</span>
-<a name="ln-6318"></a>      <span class="k">CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglensum</span><span class="o">*</span><span class="n">int_8_size</span><span class="p">)</span>
+<a name="ln-6317"></a><span class="k">      ENDDO</span>
+<a name="ln-6318"></a><span class="k">      CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglensum</span><span class="o">*</span><span class="n">int_8_size</span><span class="p">)</span>
 <a name="ln-6319"></a><span class="cp">#else</span>
 <a name="ln-6320"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 <a name="ln-6321"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">gid</span><span class="p">)</span>
@@ -8320,8 +8320,8 @@
 <a name="ln-8058"></a><span class="k">         CALL </span><span class="n">mpi_win_create</span><span class="p">(</span><span class="n">base</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="nb">len</span><span class="p">,</span> <span class="n">int_8_size</span><span class="p">,</span> <span class="n">MPI_INFO_NULL</span><span class="p">,</span> <span class="n">comm</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
 <a name="ln-8059"></a>      <span class="k">ELSE</span>
 <a name="ln-8060"></a><span class="k">         CALL </span><span class="n">mpi_win_create</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span> <span class="nb">len</span><span class="p">,</span> <span class="n">int_8_size</span><span class="p">,</span> <span class="n">MPI_INFO_NULL</span><span class="p">,</span> <span class="n">comm</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
-<a name="ln-8061"></a>      <span class="n">ENDIF</span>
-<a name="ln-8062"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_win_create @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
+<a name="ln-8061"></a>      <span class="k">ENDIF</span>
+<a name="ln-8062"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_win_create @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
 <a name="ln-8063"></a><span class="cp">#else</span>
 <a name="ln-8064"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
 <a name="ln-8065"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">comm</span><span class="p">)</span>
@@ -8364,25 +8364,25 @@
 <a name="ln-8102"></a>      <span class="n">disp_aint</span> <span class="o">=</span> <span class="mi">0</span>
 <a name="ln-8103"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">disp</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-8104"></a><span class="k">         </span><span class="n">disp_aint</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">disp</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">mpi_address_kind</span><span class="p">)</span>
-<a name="ln-8105"></a>      <span class="n">ENDIF</span>
-<a name="ln-8106"></a>      <span class="n">handle_origin_datatype</span> <span class="o">=</span> <span class="n">MPI_INTEGER8</span>
+<a name="ln-8105"></a>      <span class="k">ENDIF</span>
+<a name="ln-8106"></a><span class="k">      </span><span class="n">handle_origin_datatype</span> <span class="o">=</span> <span class="n">MPI_INTEGER8</span>
 <a name="ln-8107"></a>      <span class="n">origin_len</span> <span class="o">=</span> <span class="nb">len</span>
 <a name="ln-8108"></a><span class="nb">      </span><span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">origin_datatype</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-8109"></a><span class="k">         </span><span class="n">handle_origin_datatype</span> <span class="o">=</span> <span class="n">origin_datatype</span><span class="p">%</span><span class="n">type_handle</span>
 <a name="ln-8110"></a>         <span class="n">origin_len</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-8111"></a>      <span class="n">ENDIF</span>
-<a name="ln-8112"></a>      <span class="n">handle_target_datatype</span> <span class="o">=</span> <span class="n">MPI_INTEGER8</span>
+<a name="ln-8111"></a>      <span class="k">ENDIF</span>
+<a name="ln-8112"></a><span class="k">      </span><span class="n">handle_target_datatype</span> <span class="o">=</span> <span class="n">MPI_INTEGER8</span>
 <a name="ln-8113"></a>      <span class="n">target_len</span> <span class="o">=</span> <span class="nb">len</span>
 <a name="ln-8114"></a><span class="nb">      </span><span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">target_datatype</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-8115"></a><span class="k">         </span><span class="n">handle_target_datatype</span> <span class="o">=</span> <span class="n">target_datatype</span><span class="p">%</span><span class="n">type_handle</span>
 <a name="ln-8116"></a>         <span class="n">target_len</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-8117"></a>      <span class="n">ENDIF</span>
-<a name="ln-8118"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-8117"></a>      <span class="k">ENDIF</span>
+<a name="ln-8118"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-8119"></a><span class="k">         </span><span class="n">do_local_copy</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <a name="ln-8120"></a>         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">myproc</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">origin_datatype</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">target_datatype</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-8121"></a><span class="k">            IF</span> <span class="p">(</span><span class="n">myproc</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">source</span><span class="p">)</span> <span class="n">do_local_copy</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-<a name="ln-8122"></a>         <span class="n">ENDIF</span>
-<a name="ln-8123"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">do_local_copy</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-8122"></a>         <span class="k">ENDIF</span>
+<a name="ln-8123"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">do_local_copy</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-8124"></a><span class="c">!$OMP           PARALLEL WORKSHARE DEFAULT(none) SHARED(base,win_data,disp_aint,len)</span>
 <a name="ln-8125"></a>            <span class="n">base</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">win_data</span><span class="p">(</span><span class="n">disp_aint</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">disp_aint</span> <span class="o">+</span> <span class="nb">len</span><span class="p">)</span>
 <a name="ln-8126"></a><span class="c">!$OMP           END PARALLEL WORKSHARE</span>
@@ -8391,11 +8391,11 @@
 <a name="ln-8129"></a>         <span class="k">ELSE</span>
 <a name="ln-8130"></a><span class="k">            CALL </span><span class="n">mpi_rget</span><span class="p">(</span><span class="n">base</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">origin_len</span><span class="p">,</span> <span class="n">handle_origin_datatype</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">disp_aint</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-8131"></a>                          <span class="n">target_len</span><span class="p">,</span> <span class="n">handle_target_datatype</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
-<a name="ln-8132"></a>         <span class="n">ENDIF</span>
-<a name="ln-8133"></a>      <span class="k">ELSE</span>
+<a name="ln-8132"></a>         <span class="k">ENDIF</span>
+<a name="ln-8133"></a><span class="k">      ELSE</span>
 <a name="ln-8134"></a><span class="k">         </span><span class="n">request</span> <span class="o">=</span> <span class="n">mp_request_null</span>
 <a name="ln-8135"></a>         <span class="n">ierr</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-8136"></a>      <span class="n">ENDIF</span>
+<a name="ln-8136"></a>      <span class="k">ENDIF</span>
 <a name="ln-8137"></a><span class="cp">#else</span>
 <a name="ln-8138"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a name="ln-8139"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">win</span><span class="p">)</span>
@@ -8424,7 +8424,7 @@
 <a name="ln-8162"></a><span class="k">         </span><span class="n">base</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">win_data</span><span class="p">(</span><span class="n">disp</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">disp</span> <span class="o">+</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">base</span><span class="p">))</span>
 <a name="ln-8163"></a>      <span class="k">ELSE</span>
 <a name="ln-8164"></a><span class="k">         </span><span class="n">base</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">win_data</span><span class="p">(:</span><span class="n">SIZE</span><span class="p">(</span><span class="n">base</span><span class="p">))</span>
-<a name="ln-8165"></a>      <span class="n">ENDIF</span>
+<a name="ln-8165"></a>      <span class="k">ENDIF</span>
 <a name="ln-8166"></a>
 <a name="ln-8167"></a><span class="cp">#endif</span>
 <a name="ln-8168"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
@@ -8518,8 +8518,8 @@
 <a name="ln-8256"></a><span class="k">         </span><span class="nb">stat</span> <span class="o">=</span> <span class="n">ierr</span>
 <a name="ln-8257"></a>      <span class="k">ELSE</span>
 <a name="ln-8258"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_free_mem @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
-<a name="ln-8259"></a>      <span class="n">ENDIF</span>
-<a name="ln-8260"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
+<a name="ln-8259"></a>      <span class="k">ENDIF</span>
+<a name="ln-8260"></a><span class="k">      NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
 <a name="ln-8261"></a><span class="cp">#else</span>
 <a name="ln-8262"></a>      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
 <a name="ln-8263"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">stat</span><span class="p">))</span> <span class="nb">stat</span> <span class="o">=</span> <span class="mi">0</span>
@@ -8721,8 +8721,8 @@
 <a name="ln-8459"></a>      <span class="n">type_descriptor</span><span class="p">%</span><span class="n">data_l</span> <span class="o">=&gt;</span> <span class="n">ptr</span>
 <a name="ln-8460"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">vector_descriptor</span><span class="p">)</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">index_descriptor</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-8461"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;: Vectors and indices NYI&quot;</span><span class="p">)</span>
-<a name="ln-8462"></a>      <span class="n">ENDIF</span>
-<a name="ln-8463"></a>   <span class="k">END FUNCTION </span><span class="n">mp_type_make_l</span>
+<a name="ln-8462"></a>      <span class="k">ENDIF</span>
+<a name="ln-8463"></a><span class="k">   END FUNCTION </span><span class="n">mp_type_make_l</span>
 <a name="ln-8464"></a>
 <a name="ln-8465"></a><span class="cp">#if defined(__parallel)</span>
 <a name="ln-8466"></a>   <span class="k">SUBROUTINE </span><span class="n">mp_alloc_mem_l</span> <span class="p">(</span><span class="k">DATA</span><span class="p">,</span> <span class="nb">len</span><span class="p">,</span> <span class="nb">stat</span><span class="p">)</span>
@@ -8746,8 +8746,8 @@
 <a name="ln-8484"></a>      <span class="n">mp_size</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">MPI_ADDRESS_KIND</span><span class="p">)</span><span class="o">*</span><span class="n">size</span>
 <a name="ln-8485"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">mp_size</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">mp_max_memory_size</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-8486"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;MPI cannot allocate more than 2 GiByte&quot;</span><span class="p">)</span>
-<a name="ln-8487"></a>      <span class="n">ENDIF</span>
-<a name="ln-8488"></a>      <span class="n">mp_info</span> <span class="o">=</span> <span class="n">MPI_INFO_NULL</span>
+<a name="ln-8487"></a>      <span class="k">ENDIF</span>
+<a name="ln-8488"></a><span class="k">      </span><span class="n">mp_info</span> <span class="o">=</span> <span class="n">MPI_INFO_NULL</span>
 <a name="ln-8489"></a>      <span class="k">CALL </span><span class="n">MPI_ALLOC_MEM</span><span class="p">(</span><span class="n">mp_size</span><span class="p">,</span> <span class="n">mp_info</span><span class="p">,</span> <span class="n">mp_baseptr</span><span class="p">,</span> <span class="n">mp_res</span><span class="p">)</span>
 <a name="ln-8490"></a>      <span class="k">CALL </span><span class="nb">C_F_POINTER</span><span class="p">(</span><span class="n">mp_baseptr</span><span class="p">,</span> <span class="k">DATA</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span><span class="n">length</span><span class="o">/</span><span class="p">))</span>
 <a name="ln-8491"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">stat</span><span class="p">))</span> <span class="nb">stat</span> <span class="o">=</span> <span class="n">mp_res</span>
@@ -8823,7 +8823,7 @@
 <a name="ln-8561"></a><span class="c">!$OMP     PARALLEL DO DEFAULT(NONE) PRIVATE(i) SHARED(rcount,rdispl,sdispl,rb,sb)</span>
 <a name="ln-8562"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">rcount</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <a name="ln-8563"></a>         <span class="n">rb</span><span class="p">(</span><span class="n">rdispl</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">sb</span><span class="p">(</span><span class="n">sdispl</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
-<a name="ln-8564"></a>      <span class="n">ENDDO</span>
+<a name="ln-8564"></a>      <span class="k">ENDDO</span>
 <a name="ln-8565"></a><span class="cp">#endif</span>
 <a name="ln-8566"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
 <a name="ln-8567"></a>
@@ -9380,8 +9380,8 @@
 <a name="ln-9118"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_iallreduce @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
 <a name="ln-9119"></a>      <span class="k">ELSE</span>
 <a name="ln-9120"></a><span class="k">         </span><span class="n">request</span> <span class="o">=</span> <span class="n">mp_request_null</span>
-<a name="ln-9121"></a>      <span class="n">ENDIF</span>
-<a name="ln-9122"></a>      <span class="k">CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">23</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglen</span><span class="o">*</span><span class="n">real_8_size</span><span class="p">)</span>
+<a name="ln-9121"></a>      <span class="k">ENDIF</span>
+<a name="ln-9122"></a><span class="k">      CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">23</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglen</span><span class="o">*</span><span class="n">real_8_size</span><span class="p">)</span>
 <a name="ln-9123"></a><span class="cp">#else</span>
 <a name="ln-9124"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 <a name="ln-9125"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">msglen</span><span class="p">)</span>
@@ -9427,8 +9427,8 @@
 <a name="ln-9165"></a><span class="k">            CALL </span><span class="n">mpi_allreduce</span><span class="p">(</span><span class="n">MPI_IN_PLACE</span><span class="p">,</span> <span class="n">msg</span><span class="p">(</span><span class="nb">LBOUND</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">m1</span><span class="p">),</span> <span class="n">msglen</span><span class="p">,</span> <span class="n">MPI_DOUBLE_PRECISION</span><span class="p">,</span> <span class="n">MPI_SUM</span><span class="p">,</span> <span class="n">gid</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
 <a name="ln-9166"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_allreduce @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
 <a name="ln-9167"></a>         <span class="k">END IF</span>
-<a name="ln-9168"></a><span class="k">      </span><span class="n">ENDDO</span>
-<a name="ln-9169"></a>      <span class="k">CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglensum</span><span class="o">*</span><span class="n">real_8_size</span><span class="p">)</span>
+<a name="ln-9168"></a><span class="k">      ENDDO</span>
+<a name="ln-9169"></a><span class="k">      CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglensum</span><span class="o">*</span><span class="n">real_8_size</span><span class="p">)</span>
 <a name="ln-9170"></a><span class="cp">#else</span>
 <a name="ln-9171"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 <a name="ln-9172"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">gid</span><span class="p">)</span>
@@ -11171,8 +11171,8 @@
 <a name="ln-10909"></a><span class="k">         CALL </span><span class="n">mpi_win_create</span><span class="p">(</span><span class="n">base</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="nb">len</span><span class="p">,</span> <span class="n">real_8_size</span><span class="p">,</span> <span class="n">MPI_INFO_NULL</span><span class="p">,</span> <span class="n">comm</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
 <a name="ln-10910"></a>      <span class="k">ELSE</span>
 <a name="ln-10911"></a><span class="k">         CALL </span><span class="n">mpi_win_create</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span> <span class="nb">len</span><span class="p">,</span> <span class="n">real_8_size</span><span class="p">,</span> <span class="n">MPI_INFO_NULL</span><span class="p">,</span> <span class="n">comm</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
-<a name="ln-10912"></a>      <span class="n">ENDIF</span>
-<a name="ln-10913"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_win_create @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
+<a name="ln-10912"></a>      <span class="k">ENDIF</span>
+<a name="ln-10913"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_win_create @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
 <a name="ln-10914"></a><span class="cp">#else</span>
 <a name="ln-10915"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
 <a name="ln-10916"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">comm</span><span class="p">)</span>
@@ -11215,25 +11215,25 @@
 <a name="ln-10953"></a>      <span class="n">disp_aint</span> <span class="o">=</span> <span class="mi">0</span>
 <a name="ln-10954"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">disp</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-10955"></a><span class="k">         </span><span class="n">disp_aint</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">disp</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">mpi_address_kind</span><span class="p">)</span>
-<a name="ln-10956"></a>      <span class="n">ENDIF</span>
-<a name="ln-10957"></a>      <span class="n">handle_origin_datatype</span> <span class="o">=</span> <span class="n">MPI_DOUBLE_PRECISION</span>
+<a name="ln-10956"></a>      <span class="k">ENDIF</span>
+<a name="ln-10957"></a><span class="k">      </span><span class="n">handle_origin_datatype</span> <span class="o">=</span> <span class="n">MPI_DOUBLE_PRECISION</span>
 <a name="ln-10958"></a>      <span class="n">origin_len</span> <span class="o">=</span> <span class="nb">len</span>
 <a name="ln-10959"></a><span class="nb">      </span><span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">origin_datatype</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-10960"></a><span class="k">         </span><span class="n">handle_origin_datatype</span> <span class="o">=</span> <span class="n">origin_datatype</span><span class="p">%</span><span class="n">type_handle</span>
 <a name="ln-10961"></a>         <span class="n">origin_len</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-10962"></a>      <span class="n">ENDIF</span>
-<a name="ln-10963"></a>      <span class="n">handle_target_datatype</span> <span class="o">=</span> <span class="n">MPI_DOUBLE_PRECISION</span>
+<a name="ln-10962"></a>      <span class="k">ENDIF</span>
+<a name="ln-10963"></a><span class="k">      </span><span class="n">handle_target_datatype</span> <span class="o">=</span> <span class="n">MPI_DOUBLE_PRECISION</span>
 <a name="ln-10964"></a>      <span class="n">target_len</span> <span class="o">=</span> <span class="nb">len</span>
 <a name="ln-10965"></a><span class="nb">      </span><span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">target_datatype</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-10966"></a><span class="k">         </span><span class="n">handle_target_datatype</span> <span class="o">=</span> <span class="n">target_datatype</span><span class="p">%</span><span class="n">type_handle</span>
 <a name="ln-10967"></a>         <span class="n">target_len</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-10968"></a>      <span class="n">ENDIF</span>
-<a name="ln-10969"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-10968"></a>      <span class="k">ENDIF</span>
+<a name="ln-10969"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-10970"></a><span class="k">         </span><span class="n">do_local_copy</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <a name="ln-10971"></a>         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">myproc</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">origin_datatype</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">target_datatype</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-10972"></a><span class="k">            IF</span> <span class="p">(</span><span class="n">myproc</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">source</span><span class="p">)</span> <span class="n">do_local_copy</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-<a name="ln-10973"></a>         <span class="n">ENDIF</span>
-<a name="ln-10974"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">do_local_copy</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-10973"></a>         <span class="k">ENDIF</span>
+<a name="ln-10974"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">do_local_copy</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-10975"></a><span class="c">!$OMP           PARALLEL WORKSHARE DEFAULT(none) SHARED(base,win_data,disp_aint,len)</span>
 <a name="ln-10976"></a>            <span class="n">base</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">win_data</span><span class="p">(</span><span class="n">disp_aint</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">disp_aint</span> <span class="o">+</span> <span class="nb">len</span><span class="p">)</span>
 <a name="ln-10977"></a><span class="c">!$OMP           END PARALLEL WORKSHARE</span>
@@ -11242,11 +11242,11 @@
 <a name="ln-10980"></a>         <span class="k">ELSE</span>
 <a name="ln-10981"></a><span class="k">            CALL </span><span class="n">mpi_rget</span><span class="p">(</span><span class="n">base</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">origin_len</span><span class="p">,</span> <span class="n">handle_origin_datatype</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">disp_aint</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-10982"></a>                          <span class="n">target_len</span><span class="p">,</span> <span class="n">handle_target_datatype</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
-<a name="ln-10983"></a>         <span class="n">ENDIF</span>
-<a name="ln-10984"></a>      <span class="k">ELSE</span>
+<a name="ln-10983"></a>         <span class="k">ENDIF</span>
+<a name="ln-10984"></a><span class="k">      ELSE</span>
 <a name="ln-10985"></a><span class="k">         </span><span class="n">request</span> <span class="o">=</span> <span class="n">mp_request_null</span>
 <a name="ln-10986"></a>         <span class="n">ierr</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-10987"></a>      <span class="n">ENDIF</span>
+<a name="ln-10987"></a>      <span class="k">ENDIF</span>
 <a name="ln-10988"></a><span class="cp">#else</span>
 <a name="ln-10989"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a name="ln-10990"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">win</span><span class="p">)</span>
@@ -11275,7 +11275,7 @@
 <a name="ln-11013"></a><span class="k">         </span><span class="n">base</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">win_data</span><span class="p">(</span><span class="n">disp</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">disp</span> <span class="o">+</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">base</span><span class="p">))</span>
 <a name="ln-11014"></a>      <span class="k">ELSE</span>
 <a name="ln-11015"></a><span class="k">         </span><span class="n">base</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">win_data</span><span class="p">(:</span><span class="n">SIZE</span><span class="p">(</span><span class="n">base</span><span class="p">))</span>
-<a name="ln-11016"></a>      <span class="n">ENDIF</span>
+<a name="ln-11016"></a>      <span class="k">ENDIF</span>
 <a name="ln-11017"></a>
 <a name="ln-11018"></a><span class="cp">#endif</span>
 <a name="ln-11019"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
@@ -11369,8 +11369,8 @@
 <a name="ln-11107"></a><span class="k">         </span><span class="nb">stat</span> <span class="o">=</span> <span class="n">ierr</span>
 <a name="ln-11108"></a>      <span class="k">ELSE</span>
 <a name="ln-11109"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_free_mem @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
-<a name="ln-11110"></a>      <span class="n">ENDIF</span>
-<a name="ln-11111"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
+<a name="ln-11110"></a>      <span class="k">ENDIF</span>
+<a name="ln-11111"></a><span class="k">      NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
 <a name="ln-11112"></a><span class="cp">#else</span>
 <a name="ln-11113"></a>      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
 <a name="ln-11114"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">stat</span><span class="p">))</span> <span class="nb">stat</span> <span class="o">=</span> <span class="mi">0</span>
@@ -11572,8 +11572,8 @@
 <a name="ln-11310"></a>      <span class="n">type_descriptor</span><span class="p">%</span><span class="n">data_d</span> <span class="o">=&gt;</span> <span class="n">ptr</span>
 <a name="ln-11311"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">vector_descriptor</span><span class="p">)</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">index_descriptor</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-11312"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;: Vectors and indices NYI&quot;</span><span class="p">)</span>
-<a name="ln-11313"></a>      <span class="n">ENDIF</span>
-<a name="ln-11314"></a>   <span class="k">END FUNCTION </span><span class="n">mp_type_make_d</span>
+<a name="ln-11313"></a>      <span class="k">ENDIF</span>
+<a name="ln-11314"></a><span class="k">   END FUNCTION </span><span class="n">mp_type_make_d</span>
 <a name="ln-11315"></a>
 <a name="ln-11316"></a><span class="cp">#if defined(__parallel)</span>
 <a name="ln-11317"></a>   <span class="k">SUBROUTINE </span><span class="n">mp_alloc_mem_d</span> <span class="p">(</span><span class="k">DATA</span><span class="p">,</span> <span class="nb">len</span><span class="p">,</span> <span class="nb">stat</span><span class="p">)</span>
@@ -11597,8 +11597,8 @@
 <a name="ln-11335"></a>      <span class="n">mp_size</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">MPI_ADDRESS_KIND</span><span class="p">)</span><span class="o">*</span><span class="n">size</span>
 <a name="ln-11336"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">mp_size</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">mp_max_memory_size</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-11337"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;MPI cannot allocate more than 2 GiByte&quot;</span><span class="p">)</span>
-<a name="ln-11338"></a>      <span class="n">ENDIF</span>
-<a name="ln-11339"></a>      <span class="n">mp_info</span> <span class="o">=</span> <span class="n">MPI_INFO_NULL</span>
+<a name="ln-11338"></a>      <span class="k">ENDIF</span>
+<a name="ln-11339"></a><span class="k">      </span><span class="n">mp_info</span> <span class="o">=</span> <span class="n">MPI_INFO_NULL</span>
 <a name="ln-11340"></a>      <span class="k">CALL </span><span class="n">MPI_ALLOC_MEM</span><span class="p">(</span><span class="n">mp_size</span><span class="p">,</span> <span class="n">mp_info</span><span class="p">,</span> <span class="n">mp_baseptr</span><span class="p">,</span> <span class="n">mp_res</span><span class="p">)</span>
 <a name="ln-11341"></a>      <span class="k">CALL </span><span class="nb">C_F_POINTER</span><span class="p">(</span><span class="n">mp_baseptr</span><span class="p">,</span> <span class="k">DATA</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span><span class="n">length</span><span class="o">/</span><span class="p">))</span>
 <a name="ln-11342"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">stat</span><span class="p">))</span> <span class="nb">stat</span> <span class="o">=</span> <span class="n">mp_res</span>
@@ -11674,7 +11674,7 @@
 <a name="ln-11412"></a><span class="c">!$OMP     PARALLEL DO DEFAULT(NONE) PRIVATE(i) SHARED(rcount,rdispl,sdispl,rb,sb)</span>
 <a name="ln-11413"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">rcount</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <a name="ln-11414"></a>         <span class="n">rb</span><span class="p">(</span><span class="n">rdispl</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">sb</span><span class="p">(</span><span class="n">sdispl</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
-<a name="ln-11415"></a>      <span class="n">ENDDO</span>
+<a name="ln-11415"></a>      <span class="k">ENDDO</span>
 <a name="ln-11416"></a><span class="cp">#endif</span>
 <a name="ln-11417"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
 <a name="ln-11418"></a>
@@ -12231,8 +12231,8 @@
 <a name="ln-11969"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_iallreduce @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
 <a name="ln-11970"></a>      <span class="k">ELSE</span>
 <a name="ln-11971"></a><span class="k">         </span><span class="n">request</span> <span class="o">=</span> <span class="n">mp_request_null</span>
-<a name="ln-11972"></a>      <span class="n">ENDIF</span>
-<a name="ln-11973"></a>      <span class="k">CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">23</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglen</span><span class="o">*</span><span class="n">real_4_size</span><span class="p">)</span>
+<a name="ln-11972"></a>      <span class="k">ENDIF</span>
+<a name="ln-11973"></a><span class="k">      CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">23</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglen</span><span class="o">*</span><span class="n">real_4_size</span><span class="p">)</span>
 <a name="ln-11974"></a><span class="cp">#else</span>
 <a name="ln-11975"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 <a name="ln-11976"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">msglen</span><span class="p">)</span>
@@ -12278,8 +12278,8 @@
 <a name="ln-12016"></a><span class="k">            CALL </span><span class="n">mpi_allreduce</span><span class="p">(</span><span class="n">MPI_IN_PLACE</span><span class="p">,</span> <span class="n">msg</span><span class="p">(</span><span class="nb">LBOUND</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">m1</span><span class="p">),</span> <span class="n">msglen</span><span class="p">,</span> <span class="n">MPI_REAL</span><span class="p">,</span> <span class="n">MPI_SUM</span><span class="p">,</span> <span class="n">gid</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
 <a name="ln-12017"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_allreduce @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
 <a name="ln-12018"></a>         <span class="k">END IF</span>
-<a name="ln-12019"></a><span class="k">      </span><span class="n">ENDDO</span>
-<a name="ln-12020"></a>      <span class="k">CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglensum</span><span class="o">*</span><span class="n">real_4_size</span><span class="p">)</span>
+<a name="ln-12019"></a><span class="k">      ENDDO</span>
+<a name="ln-12020"></a><span class="k">      CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglensum</span><span class="o">*</span><span class="n">real_4_size</span><span class="p">)</span>
 <a name="ln-12021"></a><span class="cp">#else</span>
 <a name="ln-12022"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 <a name="ln-12023"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">gid</span><span class="p">)</span>
@@ -14022,8 +14022,8 @@
 <a name="ln-13760"></a><span class="k">         CALL </span><span class="n">mpi_win_create</span><span class="p">(</span><span class="n">base</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="nb">len</span><span class="p">,</span> <span class="n">real_4_size</span><span class="p">,</span> <span class="n">MPI_INFO_NULL</span><span class="p">,</span> <span class="n">comm</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
 <a name="ln-13761"></a>      <span class="k">ELSE</span>
 <a name="ln-13762"></a><span class="k">         CALL </span><span class="n">mpi_win_create</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span> <span class="nb">len</span><span class="p">,</span> <span class="n">real_4_size</span><span class="p">,</span> <span class="n">MPI_INFO_NULL</span><span class="p">,</span> <span class="n">comm</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
-<a name="ln-13763"></a>      <span class="n">ENDIF</span>
-<a name="ln-13764"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_win_create @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
+<a name="ln-13763"></a>      <span class="k">ENDIF</span>
+<a name="ln-13764"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_win_create @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
 <a name="ln-13765"></a><span class="cp">#else</span>
 <a name="ln-13766"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
 <a name="ln-13767"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">comm</span><span class="p">)</span>
@@ -14066,25 +14066,25 @@
 <a name="ln-13804"></a>      <span class="n">disp_aint</span> <span class="o">=</span> <span class="mi">0</span>
 <a name="ln-13805"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">disp</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-13806"></a><span class="k">         </span><span class="n">disp_aint</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">disp</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">mpi_address_kind</span><span class="p">)</span>
-<a name="ln-13807"></a>      <span class="n">ENDIF</span>
-<a name="ln-13808"></a>      <span class="n">handle_origin_datatype</span> <span class="o">=</span> <span class="n">MPI_REAL</span>
+<a name="ln-13807"></a>      <span class="k">ENDIF</span>
+<a name="ln-13808"></a><span class="k">      </span><span class="n">handle_origin_datatype</span> <span class="o">=</span> <span class="n">MPI_REAL</span>
 <a name="ln-13809"></a>      <span class="n">origin_len</span> <span class="o">=</span> <span class="nb">len</span>
 <a name="ln-13810"></a><span class="nb">      </span><span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">origin_datatype</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-13811"></a><span class="k">         </span><span class="n">handle_origin_datatype</span> <span class="o">=</span> <span class="n">origin_datatype</span><span class="p">%</span><span class="n">type_handle</span>
 <a name="ln-13812"></a>         <span class="n">origin_len</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-13813"></a>      <span class="n">ENDIF</span>
-<a name="ln-13814"></a>      <span class="n">handle_target_datatype</span> <span class="o">=</span> <span class="n">MPI_REAL</span>
+<a name="ln-13813"></a>      <span class="k">ENDIF</span>
+<a name="ln-13814"></a><span class="k">      </span><span class="n">handle_target_datatype</span> <span class="o">=</span> <span class="n">MPI_REAL</span>
 <a name="ln-13815"></a>      <span class="n">target_len</span> <span class="o">=</span> <span class="nb">len</span>
 <a name="ln-13816"></a><span class="nb">      </span><span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">target_datatype</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-13817"></a><span class="k">         </span><span class="n">handle_target_datatype</span> <span class="o">=</span> <span class="n">target_datatype</span><span class="p">%</span><span class="n">type_handle</span>
 <a name="ln-13818"></a>         <span class="n">target_len</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-13819"></a>      <span class="n">ENDIF</span>
-<a name="ln-13820"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-13819"></a>      <span class="k">ENDIF</span>
+<a name="ln-13820"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-13821"></a><span class="k">         </span><span class="n">do_local_copy</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <a name="ln-13822"></a>         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">myproc</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">origin_datatype</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">target_datatype</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-13823"></a><span class="k">            IF</span> <span class="p">(</span><span class="n">myproc</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">source</span><span class="p">)</span> <span class="n">do_local_copy</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-<a name="ln-13824"></a>         <span class="n">ENDIF</span>
-<a name="ln-13825"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">do_local_copy</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-13824"></a>         <span class="k">ENDIF</span>
+<a name="ln-13825"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">do_local_copy</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-13826"></a><span class="c">!$OMP           PARALLEL WORKSHARE DEFAULT(none) SHARED(base,win_data,disp_aint,len)</span>
 <a name="ln-13827"></a>            <span class="n">base</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">win_data</span><span class="p">(</span><span class="n">disp_aint</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">disp_aint</span> <span class="o">+</span> <span class="nb">len</span><span class="p">)</span>
 <a name="ln-13828"></a><span class="c">!$OMP           END PARALLEL WORKSHARE</span>
@@ -14093,11 +14093,11 @@
 <a name="ln-13831"></a>         <span class="k">ELSE</span>
 <a name="ln-13832"></a><span class="k">            CALL </span><span class="n">mpi_rget</span><span class="p">(</span><span class="n">base</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">origin_len</span><span class="p">,</span> <span class="n">handle_origin_datatype</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">disp_aint</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-13833"></a>                          <span class="n">target_len</span><span class="p">,</span> <span class="n">handle_target_datatype</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
-<a name="ln-13834"></a>         <span class="n">ENDIF</span>
-<a name="ln-13835"></a>      <span class="k">ELSE</span>
+<a name="ln-13834"></a>         <span class="k">ENDIF</span>
+<a name="ln-13835"></a><span class="k">      ELSE</span>
 <a name="ln-13836"></a><span class="k">         </span><span class="n">request</span> <span class="o">=</span> <span class="n">mp_request_null</span>
 <a name="ln-13837"></a>         <span class="n">ierr</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-13838"></a>      <span class="n">ENDIF</span>
+<a name="ln-13838"></a>      <span class="k">ENDIF</span>
 <a name="ln-13839"></a><span class="cp">#else</span>
 <a name="ln-13840"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a name="ln-13841"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">win</span><span class="p">)</span>
@@ -14126,7 +14126,7 @@
 <a name="ln-13864"></a><span class="k">         </span><span class="n">base</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">win_data</span><span class="p">(</span><span class="n">disp</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">disp</span> <span class="o">+</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">base</span><span class="p">))</span>
 <a name="ln-13865"></a>      <span class="k">ELSE</span>
 <a name="ln-13866"></a><span class="k">         </span><span class="n">base</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">win_data</span><span class="p">(:</span><span class="n">SIZE</span><span class="p">(</span><span class="n">base</span><span class="p">))</span>
-<a name="ln-13867"></a>      <span class="n">ENDIF</span>
+<a name="ln-13867"></a>      <span class="k">ENDIF</span>
 <a name="ln-13868"></a>
 <a name="ln-13869"></a><span class="cp">#endif</span>
 <a name="ln-13870"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
@@ -14220,8 +14220,8 @@
 <a name="ln-13958"></a><span class="k">         </span><span class="nb">stat</span> <span class="o">=</span> <span class="n">ierr</span>
 <a name="ln-13959"></a>      <span class="k">ELSE</span>
 <a name="ln-13960"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_free_mem @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
-<a name="ln-13961"></a>      <span class="n">ENDIF</span>
-<a name="ln-13962"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
+<a name="ln-13961"></a>      <span class="k">ENDIF</span>
+<a name="ln-13962"></a><span class="k">      NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
 <a name="ln-13963"></a><span class="cp">#else</span>
 <a name="ln-13964"></a>      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
 <a name="ln-13965"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">stat</span><span class="p">))</span> <span class="nb">stat</span> <span class="o">=</span> <span class="mi">0</span>
@@ -14423,8 +14423,8 @@
 <a name="ln-14161"></a>      <span class="n">type_descriptor</span><span class="p">%</span><span class="n">data_r</span> <span class="o">=&gt;</span> <span class="n">ptr</span>
 <a name="ln-14162"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">vector_descriptor</span><span class="p">)</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">index_descriptor</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-14163"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;: Vectors and indices NYI&quot;</span><span class="p">)</span>
-<a name="ln-14164"></a>      <span class="n">ENDIF</span>
-<a name="ln-14165"></a>   <span class="k">END FUNCTION </span><span class="n">mp_type_make_r</span>
+<a name="ln-14164"></a>      <span class="k">ENDIF</span>
+<a name="ln-14165"></a><span class="k">   END FUNCTION </span><span class="n">mp_type_make_r</span>
 <a name="ln-14166"></a>
 <a name="ln-14167"></a><span class="cp">#if defined(__parallel)</span>
 <a name="ln-14168"></a>   <span class="k">SUBROUTINE </span><span class="n">mp_alloc_mem_r</span> <span class="p">(</span><span class="k">DATA</span><span class="p">,</span> <span class="nb">len</span><span class="p">,</span> <span class="nb">stat</span><span class="p">)</span>
@@ -14448,8 +14448,8 @@
 <a name="ln-14186"></a>      <span class="n">mp_size</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">MPI_ADDRESS_KIND</span><span class="p">)</span><span class="o">*</span><span class="n">size</span>
 <a name="ln-14187"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">mp_size</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">mp_max_memory_size</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-14188"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;MPI cannot allocate more than 2 GiByte&quot;</span><span class="p">)</span>
-<a name="ln-14189"></a>      <span class="n">ENDIF</span>
-<a name="ln-14190"></a>      <span class="n">mp_info</span> <span class="o">=</span> <span class="n">MPI_INFO_NULL</span>
+<a name="ln-14189"></a>      <span class="k">ENDIF</span>
+<a name="ln-14190"></a><span class="k">      </span><span class="n">mp_info</span> <span class="o">=</span> <span class="n">MPI_INFO_NULL</span>
 <a name="ln-14191"></a>      <span class="k">CALL </span><span class="n">MPI_ALLOC_MEM</span><span class="p">(</span><span class="n">mp_size</span><span class="p">,</span> <span class="n">mp_info</span><span class="p">,</span> <span class="n">mp_baseptr</span><span class="p">,</span> <span class="n">mp_res</span><span class="p">)</span>
 <a name="ln-14192"></a>      <span class="k">CALL </span><span class="nb">C_F_POINTER</span><span class="p">(</span><span class="n">mp_baseptr</span><span class="p">,</span> <span class="k">DATA</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span><span class="n">length</span><span class="o">/</span><span class="p">))</span>
 <a name="ln-14193"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">stat</span><span class="p">))</span> <span class="nb">stat</span> <span class="o">=</span> <span class="n">mp_res</span>
@@ -14525,7 +14525,7 @@
 <a name="ln-14263"></a><span class="c">!$OMP     PARALLEL DO DEFAULT(NONE) PRIVATE(i) SHARED(rcount,rdispl,sdispl,rb,sb)</span>
 <a name="ln-14264"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">rcount</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <a name="ln-14265"></a>         <span class="n">rb</span><span class="p">(</span><span class="n">rdispl</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">sb</span><span class="p">(</span><span class="n">sdispl</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
-<a name="ln-14266"></a>      <span class="n">ENDDO</span>
+<a name="ln-14266"></a>      <span class="k">ENDDO</span>
 <a name="ln-14267"></a><span class="cp">#endif</span>
 <a name="ln-14268"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
 <a name="ln-14269"></a>
@@ -15082,8 +15082,8 @@
 <a name="ln-14820"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_iallreduce @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
 <a name="ln-14821"></a>      <span class="k">ELSE</span>
 <a name="ln-14822"></a><span class="k">         </span><span class="n">request</span> <span class="o">=</span> <span class="n">mp_request_null</span>
-<a name="ln-14823"></a>      <span class="n">ENDIF</span>
-<a name="ln-14824"></a>      <span class="k">CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">23</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglen</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">real_8_size</span><span class="p">))</span>
+<a name="ln-14823"></a>      <span class="k">ENDIF</span>
+<a name="ln-14824"></a><span class="k">      CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">23</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglen</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">real_8_size</span><span class="p">))</span>
 <a name="ln-14825"></a><span class="cp">#else</span>
 <a name="ln-14826"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 <a name="ln-14827"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">msglen</span><span class="p">)</span>
@@ -15129,8 +15129,8 @@
 <a name="ln-14867"></a><span class="k">            CALL </span><span class="n">mpi_allreduce</span><span class="p">(</span><span class="n">MPI_IN_PLACE</span><span class="p">,</span> <span class="n">msg</span><span class="p">(</span><span class="nb">LBOUND</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">m1</span><span class="p">),</span> <span class="n">msglen</span><span class="p">,</span> <span class="n">MPI_DOUBLE_COMPLEX</span><span class="p">,</span> <span class="n">MPI_SUM</span><span class="p">,</span> <span class="n">gid</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
 <a name="ln-14868"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_allreduce @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
 <a name="ln-14869"></a>         <span class="k">END IF</span>
-<a name="ln-14870"></a><span class="k">      </span><span class="n">ENDDO</span>
-<a name="ln-14871"></a>      <span class="k">CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglensum</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">real_8_size</span><span class="p">))</span>
+<a name="ln-14870"></a><span class="k">      ENDDO</span>
+<a name="ln-14871"></a><span class="k">      CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglensum</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">real_8_size</span><span class="p">))</span>
 <a name="ln-14872"></a><span class="cp">#else</span>
 <a name="ln-14873"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 <a name="ln-14874"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">gid</span><span class="p">)</span>
@@ -16873,8 +16873,8 @@
 <a name="ln-16611"></a><span class="k">         CALL </span><span class="n">mpi_win_create</span><span class="p">(</span><span class="n">base</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="nb">len</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">real_8_size</span><span class="p">),</span> <span class="n">MPI_INFO_NULL</span><span class="p">,</span> <span class="n">comm</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
 <a name="ln-16612"></a>      <span class="k">ELSE</span>
 <a name="ln-16613"></a><span class="k">         CALL </span><span class="n">mpi_win_create</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span> <span class="nb">len</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">real_8_size</span><span class="p">),</span> <span class="n">MPI_INFO_NULL</span><span class="p">,</span> <span class="n">comm</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
-<a name="ln-16614"></a>      <span class="n">ENDIF</span>
-<a name="ln-16615"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_win_create @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
+<a name="ln-16614"></a>      <span class="k">ENDIF</span>
+<a name="ln-16615"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_win_create @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
 <a name="ln-16616"></a><span class="cp">#else</span>
 <a name="ln-16617"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
 <a name="ln-16618"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">comm</span><span class="p">)</span>
@@ -16917,25 +16917,25 @@
 <a name="ln-16655"></a>      <span class="n">disp_aint</span> <span class="o">=</span> <span class="mi">0</span>
 <a name="ln-16656"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">disp</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-16657"></a><span class="k">         </span><span class="n">disp_aint</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">disp</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">mpi_address_kind</span><span class="p">)</span>
-<a name="ln-16658"></a>      <span class="n">ENDIF</span>
-<a name="ln-16659"></a>      <span class="n">handle_origin_datatype</span> <span class="o">=</span> <span class="n">MPI_DOUBLE_COMPLEX</span>
+<a name="ln-16658"></a>      <span class="k">ENDIF</span>
+<a name="ln-16659"></a><span class="k">      </span><span class="n">handle_origin_datatype</span> <span class="o">=</span> <span class="n">MPI_DOUBLE_COMPLEX</span>
 <a name="ln-16660"></a>      <span class="n">origin_len</span> <span class="o">=</span> <span class="nb">len</span>
 <a name="ln-16661"></a><span class="nb">      </span><span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">origin_datatype</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-16662"></a><span class="k">         </span><span class="n">handle_origin_datatype</span> <span class="o">=</span> <span class="n">origin_datatype</span><span class="p">%</span><span class="n">type_handle</span>
 <a name="ln-16663"></a>         <span class="n">origin_len</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-16664"></a>      <span class="n">ENDIF</span>
-<a name="ln-16665"></a>      <span class="n">handle_target_datatype</span> <span class="o">=</span> <span class="n">MPI_DOUBLE_COMPLEX</span>
+<a name="ln-16664"></a>      <span class="k">ENDIF</span>
+<a name="ln-16665"></a><span class="k">      </span><span class="n">handle_target_datatype</span> <span class="o">=</span> <span class="n">MPI_DOUBLE_COMPLEX</span>
 <a name="ln-16666"></a>      <span class="n">target_len</span> <span class="o">=</span> <span class="nb">len</span>
 <a name="ln-16667"></a><span class="nb">      </span><span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">target_datatype</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-16668"></a><span class="k">         </span><span class="n">handle_target_datatype</span> <span class="o">=</span> <span class="n">target_datatype</span><span class="p">%</span><span class="n">type_handle</span>
 <a name="ln-16669"></a>         <span class="n">target_len</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-16670"></a>      <span class="n">ENDIF</span>
-<a name="ln-16671"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-16670"></a>      <span class="k">ENDIF</span>
+<a name="ln-16671"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-16672"></a><span class="k">         </span><span class="n">do_local_copy</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <a name="ln-16673"></a>         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">myproc</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">origin_datatype</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">target_datatype</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-16674"></a><span class="k">            IF</span> <span class="p">(</span><span class="n">myproc</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">source</span><span class="p">)</span> <span class="n">do_local_copy</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-<a name="ln-16675"></a>         <span class="n">ENDIF</span>
-<a name="ln-16676"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">do_local_copy</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-16675"></a>         <span class="k">ENDIF</span>
+<a name="ln-16676"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">do_local_copy</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-16677"></a><span class="c">!$OMP           PARALLEL WORKSHARE DEFAULT(none) SHARED(base,win_data,disp_aint,len)</span>
 <a name="ln-16678"></a>            <span class="n">base</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">win_data</span><span class="p">(</span><span class="n">disp_aint</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">disp_aint</span> <span class="o">+</span> <span class="nb">len</span><span class="p">)</span>
 <a name="ln-16679"></a><span class="c">!$OMP           END PARALLEL WORKSHARE</span>
@@ -16944,11 +16944,11 @@
 <a name="ln-16682"></a>         <span class="k">ELSE</span>
 <a name="ln-16683"></a><span class="k">            CALL </span><span class="n">mpi_rget</span><span class="p">(</span><span class="n">base</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">origin_len</span><span class="p">,</span> <span class="n">handle_origin_datatype</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">disp_aint</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-16684"></a>                          <span class="n">target_len</span><span class="p">,</span> <span class="n">handle_target_datatype</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
-<a name="ln-16685"></a>         <span class="n">ENDIF</span>
-<a name="ln-16686"></a>      <span class="k">ELSE</span>
+<a name="ln-16685"></a>         <span class="k">ENDIF</span>
+<a name="ln-16686"></a><span class="k">      ELSE</span>
 <a name="ln-16687"></a><span class="k">         </span><span class="n">request</span> <span class="o">=</span> <span class="n">mp_request_null</span>
 <a name="ln-16688"></a>         <span class="n">ierr</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-16689"></a>      <span class="n">ENDIF</span>
+<a name="ln-16689"></a>      <span class="k">ENDIF</span>
 <a name="ln-16690"></a><span class="cp">#else</span>
 <a name="ln-16691"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a name="ln-16692"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">win</span><span class="p">)</span>
@@ -16977,7 +16977,7 @@
 <a name="ln-16715"></a><span class="k">         </span><span class="n">base</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">win_data</span><span class="p">(</span><span class="n">disp</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">disp</span> <span class="o">+</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">base</span><span class="p">))</span>
 <a name="ln-16716"></a>      <span class="k">ELSE</span>
 <a name="ln-16717"></a><span class="k">         </span><span class="n">base</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">win_data</span><span class="p">(:</span><span class="n">SIZE</span><span class="p">(</span><span class="n">base</span><span class="p">))</span>
-<a name="ln-16718"></a>      <span class="n">ENDIF</span>
+<a name="ln-16718"></a>      <span class="k">ENDIF</span>
 <a name="ln-16719"></a>
 <a name="ln-16720"></a><span class="cp">#endif</span>
 <a name="ln-16721"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
@@ -17071,8 +17071,8 @@
 <a name="ln-16809"></a><span class="k">         </span><span class="nb">stat</span> <span class="o">=</span> <span class="n">ierr</span>
 <a name="ln-16810"></a>      <span class="k">ELSE</span>
 <a name="ln-16811"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_free_mem @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
-<a name="ln-16812"></a>      <span class="n">ENDIF</span>
-<a name="ln-16813"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
+<a name="ln-16812"></a>      <span class="k">ENDIF</span>
+<a name="ln-16813"></a><span class="k">      NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
 <a name="ln-16814"></a><span class="cp">#else</span>
 <a name="ln-16815"></a>      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
 <a name="ln-16816"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">stat</span><span class="p">))</span> <span class="nb">stat</span> <span class="o">=</span> <span class="mi">0</span>
@@ -17274,8 +17274,8 @@
 <a name="ln-17012"></a>      <span class="n">type_descriptor</span><span class="p">%</span><span class="n">data_z</span> <span class="o">=&gt;</span> <span class="n">ptr</span>
 <a name="ln-17013"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">vector_descriptor</span><span class="p">)</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">index_descriptor</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-17014"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;: Vectors and indices NYI&quot;</span><span class="p">)</span>
-<a name="ln-17015"></a>      <span class="n">ENDIF</span>
-<a name="ln-17016"></a>   <span class="k">END FUNCTION </span><span class="n">mp_type_make_z</span>
+<a name="ln-17015"></a>      <span class="k">ENDIF</span>
+<a name="ln-17016"></a><span class="k">   END FUNCTION </span><span class="n">mp_type_make_z</span>
 <a name="ln-17017"></a>
 <a name="ln-17018"></a><span class="cp">#if defined(__parallel)</span>
 <a name="ln-17019"></a>   <span class="k">SUBROUTINE </span><span class="n">mp_alloc_mem_z</span> <span class="p">(</span><span class="k">DATA</span><span class="p">,</span> <span class="nb">len</span><span class="p">,</span> <span class="nb">stat</span><span class="p">)</span>
@@ -17299,8 +17299,8 @@
 <a name="ln-17037"></a>      <span class="n">mp_size</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">MPI_ADDRESS_KIND</span><span class="p">)</span><span class="o">*</span><span class="n">size</span>
 <a name="ln-17038"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">mp_size</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">mp_max_memory_size</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-17039"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;MPI cannot allocate more than 2 GiByte&quot;</span><span class="p">)</span>
-<a name="ln-17040"></a>      <span class="n">ENDIF</span>
-<a name="ln-17041"></a>      <span class="n">mp_info</span> <span class="o">=</span> <span class="n">MPI_INFO_NULL</span>
+<a name="ln-17040"></a>      <span class="k">ENDIF</span>
+<a name="ln-17041"></a><span class="k">      </span><span class="n">mp_info</span> <span class="o">=</span> <span class="n">MPI_INFO_NULL</span>
 <a name="ln-17042"></a>      <span class="k">CALL </span><span class="n">MPI_ALLOC_MEM</span><span class="p">(</span><span class="n">mp_size</span><span class="p">,</span> <span class="n">mp_info</span><span class="p">,</span> <span class="n">mp_baseptr</span><span class="p">,</span> <span class="n">mp_res</span><span class="p">)</span>
 <a name="ln-17043"></a>      <span class="k">CALL </span><span class="nb">C_F_POINTER</span><span class="p">(</span><span class="n">mp_baseptr</span><span class="p">,</span> <span class="k">DATA</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span><span class="n">length</span><span class="o">/</span><span class="p">))</span>
 <a name="ln-17044"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">stat</span><span class="p">))</span> <span class="nb">stat</span> <span class="o">=</span> <span class="n">mp_res</span>
@@ -17376,7 +17376,7 @@
 <a name="ln-17114"></a><span class="c">!$OMP     PARALLEL DO DEFAULT(NONE) PRIVATE(i) SHARED(rcount,rdispl,sdispl,rb,sb)</span>
 <a name="ln-17115"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">rcount</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <a name="ln-17116"></a>         <span class="n">rb</span><span class="p">(</span><span class="n">rdispl</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">sb</span><span class="p">(</span><span class="n">sdispl</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
-<a name="ln-17117"></a>      <span class="n">ENDDO</span>
+<a name="ln-17117"></a>      <span class="k">ENDDO</span>
 <a name="ln-17118"></a><span class="cp">#endif</span>
 <a name="ln-17119"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
 <a name="ln-17120"></a>
@@ -17933,8 +17933,8 @@
 <a name="ln-17671"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_iallreduce @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
 <a name="ln-17672"></a>      <span class="k">ELSE</span>
 <a name="ln-17673"></a><span class="k">         </span><span class="n">request</span> <span class="o">=</span> <span class="n">mp_request_null</span>
-<a name="ln-17674"></a>      <span class="n">ENDIF</span>
-<a name="ln-17675"></a>      <span class="k">CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">23</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglen</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">real_4_size</span><span class="p">))</span>
+<a name="ln-17674"></a>      <span class="k">ENDIF</span>
+<a name="ln-17675"></a><span class="k">      CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">23</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglen</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">real_4_size</span><span class="p">))</span>
 <a name="ln-17676"></a><span class="cp">#else</span>
 <a name="ln-17677"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 <a name="ln-17678"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">msglen</span><span class="p">)</span>
@@ -17980,8 +17980,8 @@
 <a name="ln-17718"></a><span class="k">            CALL </span><span class="n">mpi_allreduce</span><span class="p">(</span><span class="n">MPI_IN_PLACE</span><span class="p">,</span> <span class="n">msg</span><span class="p">(</span><span class="nb">LBOUND</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">m1</span><span class="p">),</span> <span class="n">msglen</span><span class="p">,</span> <span class="n">MPI_COMPLEX</span><span class="p">,</span> <span class="n">MPI_SUM</span><span class="p">,</span> <span class="n">gid</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
 <a name="ln-17719"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_allreduce @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
 <a name="ln-17720"></a>         <span class="k">END IF</span>
-<a name="ln-17721"></a><span class="k">      </span><span class="n">ENDDO</span>
-<a name="ln-17722"></a>      <span class="k">CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglensum</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">real_4_size</span><span class="p">))</span>
+<a name="ln-17721"></a><span class="k">      ENDDO</span>
+<a name="ln-17722"></a><span class="k">      CALL </span><span class="n">add_perf</span><span class="p">(</span><span class="n">perf_id</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">msg_size</span><span class="o">=</span><span class="n">msglensum</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">real_4_size</span><span class="p">))</span>
 <a name="ln-17723"></a><span class="cp">#else</span>
 <a name="ln-17724"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 <a name="ln-17725"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">gid</span><span class="p">)</span>
@@ -19724,8 +19724,8 @@
 <a name="ln-19462"></a><span class="k">         CALL </span><span class="n">mpi_win_create</span><span class="p">(</span><span class="n">base</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="nb">len</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">real_4_size</span><span class="p">),</span> <span class="n">MPI_INFO_NULL</span><span class="p">,</span> <span class="n">comm</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
 <a name="ln-19463"></a>      <span class="k">ELSE</span>
 <a name="ln-19464"></a><span class="k">         CALL </span><span class="n">mpi_win_create</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span> <span class="nb">len</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">real_4_size</span><span class="p">),</span> <span class="n">MPI_INFO_NULL</span><span class="p">,</span> <span class="n">comm</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
-<a name="ln-19465"></a>      <span class="n">ENDIF</span>
-<a name="ln-19466"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_win_create @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
+<a name="ln-19465"></a>      <span class="k">ENDIF</span>
+<a name="ln-19466"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_win_create @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
 <a name="ln-19467"></a><span class="cp">#else</span>
 <a name="ln-19468"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
 <a name="ln-19469"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">comm</span><span class="p">)</span>
@@ -19768,25 +19768,25 @@
 <a name="ln-19506"></a>      <span class="n">disp_aint</span> <span class="o">=</span> <span class="mi">0</span>
 <a name="ln-19507"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">disp</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-19508"></a><span class="k">         </span><span class="n">disp_aint</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">disp</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">mpi_address_kind</span><span class="p">)</span>
-<a name="ln-19509"></a>      <span class="n">ENDIF</span>
-<a name="ln-19510"></a>      <span class="n">handle_origin_datatype</span> <span class="o">=</span> <span class="n">MPI_COMPLEX</span>
+<a name="ln-19509"></a>      <span class="k">ENDIF</span>
+<a name="ln-19510"></a><span class="k">      </span><span class="n">handle_origin_datatype</span> <span class="o">=</span> <span class="n">MPI_COMPLEX</span>
 <a name="ln-19511"></a>      <span class="n">origin_len</span> <span class="o">=</span> <span class="nb">len</span>
 <a name="ln-19512"></a><span class="nb">      </span><span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">origin_datatype</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-19513"></a><span class="k">         </span><span class="n">handle_origin_datatype</span> <span class="o">=</span> <span class="n">origin_datatype</span><span class="p">%</span><span class="n">type_handle</span>
 <a name="ln-19514"></a>         <span class="n">origin_len</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-19515"></a>      <span class="n">ENDIF</span>
-<a name="ln-19516"></a>      <span class="n">handle_target_datatype</span> <span class="o">=</span> <span class="n">MPI_COMPLEX</span>
+<a name="ln-19515"></a>      <span class="k">ENDIF</span>
+<a name="ln-19516"></a><span class="k">      </span><span class="n">handle_target_datatype</span> <span class="o">=</span> <span class="n">MPI_COMPLEX</span>
 <a name="ln-19517"></a>      <span class="n">target_len</span> <span class="o">=</span> <span class="nb">len</span>
 <a name="ln-19518"></a><span class="nb">      </span><span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">target_datatype</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-19519"></a><span class="k">         </span><span class="n">handle_target_datatype</span> <span class="o">=</span> <span class="n">target_datatype</span><span class="p">%</span><span class="n">type_handle</span>
 <a name="ln-19520"></a>         <span class="n">target_len</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-19521"></a>      <span class="n">ENDIF</span>
-<a name="ln-19522"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-19521"></a>      <span class="k">ENDIF</span>
+<a name="ln-19522"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">len</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-19523"></a><span class="k">         </span><span class="n">do_local_copy</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <a name="ln-19524"></a>         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">myproc</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">origin_datatype</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">target_datatype</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-19525"></a><span class="k">            IF</span> <span class="p">(</span><span class="n">myproc</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">source</span><span class="p">)</span> <span class="n">do_local_copy</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-<a name="ln-19526"></a>         <span class="n">ENDIF</span>
-<a name="ln-19527"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">do_local_copy</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-19526"></a>         <span class="k">ENDIF</span>
+<a name="ln-19527"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">do_local_copy</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-19528"></a><span class="c">!$OMP           PARALLEL WORKSHARE DEFAULT(none) SHARED(base,win_data,disp_aint,len)</span>
 <a name="ln-19529"></a>            <span class="n">base</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">win_data</span><span class="p">(</span><span class="n">disp_aint</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">disp_aint</span> <span class="o">+</span> <span class="nb">len</span><span class="p">)</span>
 <a name="ln-19530"></a><span class="c">!$OMP           END PARALLEL WORKSHARE</span>
@@ -19795,11 +19795,11 @@
 <a name="ln-19533"></a>         <span class="k">ELSE</span>
 <a name="ln-19534"></a><span class="k">            CALL </span><span class="n">mpi_rget</span><span class="p">(</span><span class="n">base</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">origin_len</span><span class="p">,</span> <span class="n">handle_origin_datatype</span><span class="p">,</span> <span class="n">source</span><span class="p">,</span> <span class="n">disp_aint</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-19535"></a>                          <span class="n">target_len</span><span class="p">,</span> <span class="n">handle_target_datatype</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
-<a name="ln-19536"></a>         <span class="n">ENDIF</span>
-<a name="ln-19537"></a>      <span class="k">ELSE</span>
+<a name="ln-19536"></a>         <span class="k">ENDIF</span>
+<a name="ln-19537"></a><span class="k">      ELSE</span>
 <a name="ln-19538"></a><span class="k">         </span><span class="n">request</span> <span class="o">=</span> <span class="n">mp_request_null</span>
 <a name="ln-19539"></a>         <span class="n">ierr</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-19540"></a>      <span class="n">ENDIF</span>
+<a name="ln-19540"></a>      <span class="k">ENDIF</span>
 <a name="ln-19541"></a><span class="cp">#else</span>
 <a name="ln-19542"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
 <a name="ln-19543"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">win</span><span class="p">)</span>
@@ -19828,7 +19828,7 @@
 <a name="ln-19566"></a><span class="k">         </span><span class="n">base</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">win_data</span><span class="p">(</span><span class="n">disp</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">disp</span> <span class="o">+</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">base</span><span class="p">))</span>
 <a name="ln-19567"></a>      <span class="k">ELSE</span>
 <a name="ln-19568"></a><span class="k">         </span><span class="n">base</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">win_data</span><span class="p">(:</span><span class="n">SIZE</span><span class="p">(</span><span class="n">base</span><span class="p">))</span>
-<a name="ln-19569"></a>      <span class="n">ENDIF</span>
+<a name="ln-19569"></a>      <span class="k">ENDIF</span>
 <a name="ln-19570"></a>
 <a name="ln-19571"></a><span class="cp">#endif</span>
 <a name="ln-19572"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
@@ -19922,8 +19922,8 @@
 <a name="ln-19660"></a><span class="k">         </span><span class="nb">stat</span> <span class="o">=</span> <span class="n">ierr</span>
 <a name="ln-19661"></a>      <span class="k">ELSE</span>
 <a name="ln-19662"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_free_mem @ &quot;</span><span class="o">//</span><span class="n">routineN</span><span class="p">)</span>
-<a name="ln-19663"></a>      <span class="n">ENDIF</span>
-<a name="ln-19664"></a>      <span class="k">NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
+<a name="ln-19663"></a>      <span class="k">ENDIF</span>
+<a name="ln-19664"></a><span class="k">      NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
 <a name="ln-19665"></a><span class="cp">#else</span>
 <a name="ln-19666"></a>      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
 <a name="ln-19667"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">stat</span><span class="p">))</span> <span class="nb">stat</span> <span class="o">=</span> <span class="mi">0</span>
@@ -20125,8 +20125,8 @@
 <a name="ln-19863"></a>      <span class="n">type_descriptor</span><span class="p">%</span><span class="n">data_c</span> <span class="o">=&gt;</span> <span class="n">ptr</span>
 <a name="ln-19864"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">vector_descriptor</span><span class="p">)</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">index_descriptor</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-19865"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;: Vectors and indices NYI&quot;</span><span class="p">)</span>
-<a name="ln-19866"></a>      <span class="n">ENDIF</span>
-<a name="ln-19867"></a>   <span class="k">END FUNCTION </span><span class="n">mp_type_make_c</span>
+<a name="ln-19866"></a>      <span class="k">ENDIF</span>
+<a name="ln-19867"></a><span class="k">   END FUNCTION </span><span class="n">mp_type_make_c</span>
 <a name="ln-19868"></a>
 <a name="ln-19869"></a><span class="cp">#if defined(__parallel)</span>
 <a name="ln-19870"></a>   <span class="k">SUBROUTINE </span><span class="n">mp_alloc_mem_c</span> <span class="p">(</span><span class="k">DATA</span><span class="p">,</span> <span class="nb">len</span><span class="p">,</span> <span class="nb">stat</span><span class="p">)</span>
@@ -20150,8 +20150,8 @@
 <a name="ln-19888"></a>      <span class="n">mp_size</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">MPI_ADDRESS_KIND</span><span class="p">)</span><span class="o">*</span><span class="n">size</span>
 <a name="ln-19889"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">mp_size</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">mp_max_memory_size</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-19890"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;MPI cannot allocate more than 2 GiByte&quot;</span><span class="p">)</span>
-<a name="ln-19891"></a>      <span class="n">ENDIF</span>
-<a name="ln-19892"></a>      <span class="n">mp_info</span> <span class="o">=</span> <span class="n">MPI_INFO_NULL</span>
+<a name="ln-19891"></a>      <span class="k">ENDIF</span>
+<a name="ln-19892"></a><span class="k">      </span><span class="n">mp_info</span> <span class="o">=</span> <span class="n">MPI_INFO_NULL</span>
 <a name="ln-19893"></a>      <span class="k">CALL </span><span class="n">MPI_ALLOC_MEM</span><span class="p">(</span><span class="n">mp_size</span><span class="p">,</span> <span class="n">mp_info</span><span class="p">,</span> <span class="n">mp_baseptr</span><span class="p">,</span> <span class="n">mp_res</span><span class="p">)</span>
 <a name="ln-19894"></a>      <span class="k">CALL </span><span class="nb">C_F_POINTER</span><span class="p">(</span><span class="n">mp_baseptr</span><span class="p">,</span> <span class="k">DATA</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span><span class="n">length</span><span class="o">/</span><span class="p">))</span>
 <a name="ln-19895"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="nb">stat</span><span class="p">))</span> <span class="nb">stat</span> <span class="o">=</span> <span class="n">mp_res</span>

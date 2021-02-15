@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -227,7 +227,7 @@ private subroutine find_proper_position_caller(iterator, use_ithread)
   
 <tr>
   
-  <td><span class="anchor" id="variable-iterator~25"></span>type(<a href='../type/dbcsr_iterator.html'>dbcsr_iterator</a>),</td>
+  <td><span class="anchor" id="variable-iterator~36"></span>type(<a href='../type/dbcsr_iterator.html'>dbcsr_iterator</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -336,14 +336,14 @@ private subroutine find_proper_position_caller(iterator, use_ithread)
 <span class="k">            CALL </span><span class="n">find_proper_position</span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">pos</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">iterator</span><span class="p">%</span><span class="n">row</span><span class="p">,</span> <span class="n">iterator</span><span class="p">%</span><span class="n">nblks</span><span class="p">,</span> <span class="n">iterator</span><span class="p">%</span><span class="n">nblkrows_total</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">iterator</span><span class="p">%</span><span class="n">blk_p</span><span class="p">,</span> <span class="n">iterator</span><span class="p">%</span><span class="n">row_p</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="k">ELSE</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ELSE</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">row</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">r</span> <span class="o">=</span> <span class="n">iterator</span><span class="p">%</span><span class="n">global_rows</span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">row</span><span class="p">)</span>
          <span class="k">ELSE</span>
 <span class="k">            </span><span class="n">r</span> <span class="o">=</span> <span class="mi">0</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_ithread</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_ithread</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">find_proper_position</span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">pos</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">r</span><span class="p">,</span> <span class="n">iterator</span><span class="p">%</span><span class="n">nblks</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">local_rows</span><span class="p">),</span> <span class="p">&amp;</span>
                                       <span class="n">iterator</span><span class="p">%</span><span class="n">blk_p</span><span class="p">,</span> <span class="n">iterator</span><span class="p">%</span><span class="n">row_p</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -354,14 +354,14 @@ private subroutine find_proper_position_caller(iterator, use_ithread)
                                       <span class="n">r</span><span class="p">,</span> <span class="n">iterator</span><span class="p">%</span><span class="n">nblks</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">local_rows</span><span class="p">),</span> <span class="p">&amp;</span>
                                       <span class="n">iterator</span><span class="p">%</span><span class="n">blk_p</span><span class="p">,</span> <span class="n">iterator</span><span class="p">%</span><span class="n">row_p</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">local2global</span><span class="o">=</span><span class="n">iterator</span><span class="p">%</span><span class="n">local_rows</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">r</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">r</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">iterator</span><span class="p">%</span><span class="n">row</span> <span class="o">=</span> <span class="n">iterator</span><span class="p">%</span><span class="n">local_rows</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
          <span class="k">ELSE</span>
 <span class="k">            </span><span class="n">iterator</span><span class="p">%</span><span class="n">row</span> <span class="o">=</span> <span class="mi">0</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
-      <span class="n">post_row</span> <span class="o">=</span> <span class="n">iterator</span><span class="p">%</span><span class="n">row</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
+<span class="k">      </span><span class="n">post_row</span> <span class="o">=</span> <span class="n">iterator</span><span class="p">%</span><span class="n">row</span>
       <span class="n">post_pos</span> <span class="o">=</span> <span class="n">iterator</span><span class="p">%</span><span class="n">pos</span>
    <span class="k">END SUBROUTINE </span><span class="n">find_proper_position_caller</span>
 </pre></div>

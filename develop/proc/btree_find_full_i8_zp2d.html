@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -242,7 +242,7 @@ private subroutine btree_find_full_i8_zp2d(tree, key, node, position, ge_positio
   
 <tr>
   
-  <td><span class="anchor" id="variable-key~65"></span>integer(kind=keyt),</td>
+  <td><span class="anchor" id="variable-key~57"></span>integer(kind=keyt),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -413,8 +413,8 @@ private subroutine btree_find_full_i8_zp2d(tree, key, node, position, ge_positio
 <span class="k">            IF</span> <span class="p">(</span><span class="n">node</span><span class="p">%</span><span class="n">keys</span><span class="p">(</span><span class="n">position</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">key</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">               IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ge_position</span><span class="p">))</span> <span class="n">ge_position</span> <span class="o">=</span> <span class="n">position</span>
                <span class="k">RETURN</span>
-<span class="k">            </span><span class="n">ENDIF</span>
-         <span class="n">ENDIF</span>
+<span class="k">            ENDIF</span>
+<span class="k">         ENDIF</span>
          <span class="c">! If the key is not found, then either return the GE position</span>
          <span class="c">! if we&#39;re in a leaf (case 2 here), otherwise descend into the</span>
          <span class="c">! subtrees.</span>
@@ -426,8 +426,8 @@ private subroutine btree_find_full_i8_zp2d(tree, key, node, position, ge_positio
 <span class="k">            IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ge_position</span><span class="p">))</span> <span class="n">ge_position</span> <span class="o">=</span> <span class="n">gti</span>
             <span class="n">position</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">RETURN</span>
-<span class="k">         </span><span class="n">ENDIF</span>
-      <span class="k">END DO </span><span class="n">descent</span>
+<span class="k">         ENDIF</span>
+<span class="k">      END DO </span><span class="n">descent</span>
    <span class="k">END SUBROUTINE </span><span class="n">btree_find_full_i8_zp2d</span>
 </pre></div>
 

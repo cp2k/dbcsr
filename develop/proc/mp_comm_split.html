@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -465,35 +465,35 @@ public subroutine mp_comm_split(comm, sub_comm, ngroups, group_distribution, sub
 
       <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">subgroup_min_size</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">n_subgroups</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; missing arguments&quot;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">subgroup_min_size</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">n_subgroups</span><span class="p">))</span> <span class="k">THEN</span>
+      <span class="k">ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">subgroup_min_size</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">n_subgroups</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; too many arguments&quot;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
-      <span class="k">CALL </span><span class="n">mp_environ</span><span class="p">(</span><span class="n">nnodes</span><span class="p">,</span> <span class="n">mepos</span><span class="p">,</span> <span class="n">comm</span><span class="p">)</span>
+<span class="k">      CALL </span><span class="n">mp_environ</span><span class="p">(</span><span class="n">nnodes</span><span class="p">,</span> <span class="n">mepos</span><span class="p">,</span> <span class="n">comm</span><span class="p">)</span>
 
       <span class="k">IF</span> <span class="p">(</span><span class="nb">UBOUND</span><span class="p">(</span><span class="n">group_distribution</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">nnodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; group_distribution wrong bounds&quot;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
 <span class="cp">#if defined(__parallel)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">subgroup_min_size</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="n">subgroup_min_size</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">subgroup_min_size</span> <span class="o">&gt;</span> <span class="n">nnodes</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; subgroup_min_size too small or too large&quot;</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="n">ngroups</span> <span class="o">=</span> <span class="n">nnodes</span><span class="o">/</span><span class="n">subgroup_min_size</span>
+         <span class="k">ENDIF</span>
+<span class="k">         </span><span class="n">ngroups</span> <span class="o">=</span> <span class="n">nnodes</span><span class="o">/</span><span class="n">subgroup_min_size</span>
          <span class="n">my_subgroup_min_size</span> <span class="o">=</span> <span class="n">subgroup_min_size</span>
       <span class="k">ELSE</span> <span class="c">! n_subgroups</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">n_subgroups</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; n_subgroups too small&quot;</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">nnodes</span><span class="o">/</span><span class="n">n_subgroups</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span> <span class="c">! we have a least one cpu per group</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">nnodes</span><span class="o">/</span><span class="n">n_subgroups</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span> <span class="c">! we have a least one cpu per group</span>
             <span class="n">ngroups</span> <span class="o">=</span> <span class="n">n_subgroups</span>
          <span class="k">ELSE</span> <span class="c">! well, only one group then</span>
             <span class="n">ngroups</span> <span class="o">=</span> <span class="mi">1</span>
-         <span class="n">ENDIF</span>
-         <span class="n">my_subgroup_min_size</span> <span class="o">=</span> <span class="n">nnodes</span><span class="o">/</span><span class="n">ngroups</span>
-      <span class="n">ENDIF</span>
+         <span class="k">ENDIF</span>
+<span class="k">         </span><span class="n">my_subgroup_min_size</span> <span class="o">=</span> <span class="n">nnodes</span><span class="o">/</span><span class="n">ngroups</span>
+      <span class="k">ENDIF</span>
 
       <span class="c">! rank_permutation: is a permutation of ranks, so that groups are not necessarily continuous in rank of the master group</span>
       <span class="c">! while the order is not critical (we only color ranks), it can e.g. be used to make groups that have just 1 rank per node</span>
@@ -506,12 +506,12 @@ public subroutine mp_comm_split(comm, sub_comm, ngroups, group_distribution, sub
          <span class="k">DO </span><span class="n">irank</span> <span class="o">=</span> <span class="n">istride</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nnodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">local_stride</span>
             <span class="n">rank_permutation</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">=</span> <span class="n">irank</span>
             <span class="n">k</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDDO</span>
+         <span class="k">ENDDO</span>
+<span class="k">      ENDDO</span>
 
-      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nnodes</span> <span class="o">-</span> <span class="mi">1</span>
+<span class="k">      DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nnodes</span> <span class="o">-</span> <span class="mi">1</span>
          <span class="n">group_distribution</span><span class="p">(</span><span class="n">rank_permutation</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="o">=</span> <span class="nb">MIN</span><span class="p">(</span><span class="n">i</span><span class="o">/</span><span class="n">my_subgroup_min_size</span><span class="p">,</span> <span class="n">ngroups</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-      <span class="n">ENDDO</span>
+      <span class="k">ENDDO</span>
       <span class="c">! even the user gave a partition, see if we can use it to overwrite this choice</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">group_partition</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="k">ALL</span><span class="p">(</span><span class="n">group_partition</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">(</span><span class="nb">SUM</span><span class="p">(</span><span class="n">group_partition</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">nnodes</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">(</span><span class="n">ngroups</span> <span class="o">==</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">group_partition</span><span class="p">)))</span> <span class="k">THEN</span>
@@ -520,13 +520,13 @@ public subroutine mp_comm_split(comm, sub_comm, ngroups, group_distribution, sub
                <span class="k">DO </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">group_partition</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
                   <span class="n">group_distribution</span><span class="p">(</span><span class="n">rank_permutation</span><span class="p">(</span><span class="n">k</span><span class="p">))</span> <span class="o">=</span> <span class="n">i</span>
                   <span class="n">k</span> <span class="o">=</span> <span class="n">k</span> <span class="o">+</span> <span class="mi">1</span>
-               <span class="n">ENDDO</span>
-            <span class="n">ENDDO</span>
-         <span class="k">ELSE</span>
+               <span class="k">ENDDO</span>
+<span class="k">            ENDDO</span>
+<span class="k">         ELSE</span>
             <span class="c">! just ignore silently as we have reasonable defaults. Probably a warning would not be to bad</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
-      <span class="n">color</span> <span class="o">=</span> <span class="n">group_distribution</span><span class="p">(</span><span class="n">mepos</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
+<span class="k">      </span><span class="n">color</span> <span class="o">=</span> <span class="n">group_distribution</span><span class="p">(</span><span class="n">mepos</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">mpi_comm_split</span><span class="p">(</span><span class="n">comm</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">sub_comm</span><span class="p">,</span> <span class="n">ierr</span><span class="p">)</span>
       <span class="n">debug_comm_count</span> <span class="o">=</span> <span class="n">debug_comm_count</span> <span class="o">+</span> <span class="mi">1</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="n">mpi_success</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;in &quot;</span><span class="o">//</span><span class="n">routineP</span><span class="o">//</span><span class="s2">&quot; split&quot;</span><span class="p">)</span>

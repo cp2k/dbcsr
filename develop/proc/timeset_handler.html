@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ public subroutine timeset_handler(routineN, handle)
   
 <tr>
   
-  <td><span class="anchor" id="variable-routinen~4"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-routinen~6"></span>character(len=*),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -244,7 +244,7 @@ public subroutine timeset_handler(routineN, handle)
   
 <tr>
   
-  <td><span class="anchor" id="variable-handle"></span>integer,</td>
+  <td><span class="anchor" id="variable-handle~3"></span>integer,</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -348,8 +348,8 @@ public subroutine timeset_handler(routineN, handle)
       <span class="k">IF</span> <span class="p">(</span><span class="n">global_timings_level</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">cs_entry</span><span class="p">%</span><span class="n">walltime_start</span> <span class="o">=</span> <span class="n">m_walltime</span><span class="p">()</span>
          <span class="n">cs_entry</span><span class="p">%</span><span class="n">energy_start</span> <span class="o">=</span> <span class="n">m_energy</span><span class="p">()</span>
-      <span class="n">ENDIF</span>
-      <span class="n">timer_env</span> <span class="o">=&gt;</span> <span class="n">list_peek</span><span class="p">(</span><span class="n">timers_stack</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">timer_env</span> <span class="o">=&gt;</span> <span class="n">list_peek</span><span class="p">(</span><span class="n">timers_stack</span><span class="p">)</span>
 
       <span class="k">IF</span> <span class="p">(</span><span class="nb">LEN_TRIM</span><span class="p">(</span><span class="n">routineN</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">default_string_length</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s1">&#39;timings_timeset: routineN too long: &quot;&#39;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">routineN</span><span class="p">)</span><span class="o">//</span><span class="s2">&quot;&#39;&quot;</span><span class="p">)</span>

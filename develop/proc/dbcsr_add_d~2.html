@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ private subroutine dbcsr_add_d(matrix_a, matrix_b, alpha_scalar, beta_scalar)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_a~36"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_a~46"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -244,7 +244,7 @@ private subroutine dbcsr_add_d(matrix_a, matrix_b, alpha_scalar, beta_scalar)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_b~19"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_b~29"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -382,8 +382,8 @@ private subroutine dbcsr_add_d(matrix_a, matrix_b, alpha_scalar, beta_scalar)
                                 <span class="n">beta_scalar</span><span class="o">=</span><span class="n">dbcsr_scalar</span><span class="p">(</span><span class="nb">CMPLX</span><span class="p">(</span><span class="n">beta_scalar</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">real_8</span><span class="p">)))</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid combination of data type, NYI&quot;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_add_d</span>
 </pre></div>
 

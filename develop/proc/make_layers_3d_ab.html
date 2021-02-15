@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -289,7 +289,7 @@ private subroutine make_layers_3D_AB(my_num_layers_3D, side3D, mp_obj, is_left, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-buffer"></span>type(<a href='../type/dbcsr_buffer.html'>dbcsr_buffer</a>),</td>
+  <td><span class="anchor" id="variable-buffer~15"></span>type(<a href='../type/dbcsr_buffer.html'>dbcsr_buffer</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -383,9 +383,9 @@ private subroutine make_layers_3D_AB(my_num_layers_3D, side3D, mp_obj, is_left, 
 <span class="k">            </span><span class="n">buffer</span><span class="p">%</span><span class="n">subgrp</span> <span class="o">=</span> <span class="n">dbcsr_mp_my_row_group</span><span class="p">(</span><span class="n">mp_obj</span><span class="p">)</span>
          <span class="k">ELSE</span>
 <span class="k">            </span><span class="n">buffer</span><span class="p">%</span><span class="n">subgrp</span> <span class="o">=</span> <span class="n">dbcsr_mp_my_col_group</span><span class="p">(</span><span class="n">mp_obj</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">RETURN</span>
-<span class="k">      </span><span class="n">ENDIF</span>
+         <span class="k">ENDIF</span>
+<span class="k">         RETURN</span>
+<span class="k">      ENDIF</span>
       <span class="c">!</span>
       <span class="c">! Check if any existing 3D communicator can be reused</span>
       <span class="n">mygrp</span> <span class="o">=</span> <span class="n">dbcsr_mp_group</span><span class="p">(</span><span class="n">mp_obj</span><span class="p">)</span>
@@ -405,8 +405,8 @@ private subroutine make_layers_3D_AB(my_num_layers_3D, side3D, mp_obj, is_left, 
 <span class="k">         </span><span class="n">color</span> <span class="o">=</span> <span class="nb">MOD</span><span class="p">(</span><span class="n">mypcol</span><span class="p">,</span> <span class="n">side3D</span><span class="p">)</span>
          <span class="c">! Row-major order</span>
          <span class="n">key</span> <span class="o">=</span> <span class="n">myprow</span><span class="o">*</span><span class="p">(</span><span class="n">dbcsr_mp_npcols</span><span class="p">(</span><span class="n">mp_obj</span><span class="p">)</span><span class="o">/</span><span class="n">side3D</span><span class="p">)</span> <span class="o">+</span> <span class="n">mypcol</span><span class="o">/</span><span class="n">side3D</span>
-      <span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">mp_comm_split_direct</span><span class="p">(</span><span class="n">mygrp</span><span class="p">,</span> <span class="n">buffer</span><span class="p">%</span><span class="n">subgrp</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      CALL </span><span class="n">mp_comm_split_direct</span><span class="p">(</span><span class="n">mygrp</span><span class="p">,</span> <span class="n">buffer</span><span class="p">%</span><span class="n">subgrp</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
       <span class="n">buffer</span><span class="p">%</span><span class="n">num_layers_3D</span> <span class="o">=</span> <span class="n">my_num_layers_3D</span>
    <span class="k">END SUBROUTINE </span><span class="n">make_layers_3D_AB</span>
 </pre></div>

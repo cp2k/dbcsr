@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -302,7 +302,7 @@ private subroutine setup_buffer_matrices(buffer_set, buff_nrows, buff_ncols, sou
   
 <tr>
   
-  <td><span class="anchor" id="variable-data_size~13"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_size~9"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -401,9 +401,9 @@ private subroutine setup_buffer_matrices(buffer_set, buff_nrows, buff_ncols, sou
             <span class="k">CALL </span><span class="n">setup_buffer_matrix</span><span class="p">(</span><span class="n">buffer_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">row_image</span><span class="p">,</span> <span class="n">col_image</span><span class="p">),</span> <span class="p">&amp;</span>
                                      <span class="n">source_matrix</span><span class="p">,</span> <span class="n">index_size</span><span class="p">,</span> <span class="n">data_size</span><span class="o">=</span><span class="n">data_size</span><span class="p">,</span> <span class="p">&amp;</span>
                                      <span class="n">data_memory_type</span><span class="o">=</span><span class="n">memtype_abpanel_2</span><span class="p">)</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDDO</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">source_matrix</span><span class="p">%</span><span class="n">local_indexing</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">careful_mod</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="k">ENDDO</span>
+<span class="k">      ENDDO</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="n">source_matrix</span><span class="p">%</span><span class="n">local_indexing</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">careful_mod</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">array_exists</span><span class="p">(</span><span class="n">source_matrix</span><span class="p">%</span><span class="n">local_rows</span><span class="p">))</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Local rows should exist.&quot;</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">array_exists</span><span class="p">(</span><span class="n">source_matrix</span><span class="p">%</span><span class="n">global_rows</span><span class="p">))</span> <span class="p">&amp;</span>
@@ -413,8 +413,8 @@ private subroutine setup_buffer_matrices(buffer_set, buff_nrows, buff_ncols, sou
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Local cols should exist.&quot;</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">array_exists</span><span class="p">(</span><span class="n">source_matrix</span><span class="p">%</span><span class="n">global_cols</span><span class="p">))</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Global cols should exist.&quot;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">setup_buffer_matrices</span>
 </pre></div>
 

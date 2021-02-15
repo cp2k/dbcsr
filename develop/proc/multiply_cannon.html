@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -261,7 +261,7 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
   
 <tr>
   
-  <td><span class="anchor" id="variable-product_matrix~3"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-product_matrix~2"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -276,7 +276,7 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
   
 <tr>
   
-  <td><span class="anchor" id="variable-retain_sparsity~14"></span>logical,</td>
+  <td><span class="anchor" id="variable-retain_sparsity~9"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -291,7 +291,7 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
   
 <tr>
   
-  <td><span class="anchor" id="variable-filter_eps~15"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-filter_eps~10"></span>real(kind=real_8),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -306,7 +306,7 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
   
 <tr>
   
-  <td><span class="anchor" id="variable-flop~18"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-flop~11"></span>integer(kind=int_8),</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -468,8 +468,8 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
 <span class="k">         </span><span class="n">keep_sparsity</span> <span class="o">=</span> <span class="n">retain_sparsity</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">keep_sparsity</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-      <span class="n">ENDIF</span>
-      <span class="n">otf_filtering</span> <span class="o">=</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">filter_eps</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">otf_filtering</span> <span class="o">=</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">filter_eps</span><span class="p">)</span>
 
 <span class="c">!$OMP PARALLEL DEFAULT (NONE) &amp;</span>
 <span class="c">!$OMP SHARED (multrec, nthreads, product_matrix)</span>
@@ -561,10 +561,10 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
             <span class="n">my_sizes</span><span class="p">(</span><span class="n">imeta</span> <span class="o">+</span> <span class="n">ileft</span><span class="p">,</span> <span class="n">left_row_image</span><span class="p">,</span> <span class="n">left_col_image</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
                <span class="n">left_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">left_row_image</span><span class="p">,</span> <span class="n">left_col_image</span><span class="p">)%</span><span class="nb">index</span> <span class="p">&amp;</span>
                <span class="p">(</span><span class="n">dbcsr_slot_size</span><span class="p">)</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDDO</span>
+         <span class="k">ENDDO</span>
+<span class="k">      ENDDO</span>
 
-      <span class="k">DO </span><span class="n">right_row_image</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">right_row_nimages</span>
+<span class="k">      DO </span><span class="n">right_row_image</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">right_row_nimages</span>
          <span class="k">DO </span><span class="n">right_col_image</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">right_col_nimages</span>
             <span class="n">my_sizes</span><span class="p">(</span><span class="n">idata</span> <span class="o">+</span> <span class="n">iright</span><span class="p">,</span> <span class="n">right_row_image</span><span class="p">,</span> <span class="n">right_col_image</span><span class="p">)</span> <span class="p">&amp;</span>
                <span class="o">=</span> <span class="n">dbcsr_data_get_size_referenced</span><span class="p">(</span> <span class="p">&amp;</span>
@@ -572,10 +572,10 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
             <span class="n">my_sizes</span><span class="p">(</span><span class="n">imeta</span> <span class="o">+</span> <span class="n">iright</span><span class="p">,</span> <span class="n">right_row_image</span><span class="p">,</span> <span class="n">right_col_image</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
                <span class="n">right_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">right_row_image</span><span class="p">,</span> <span class="n">right_col_image</span><span class="p">)%</span><span class="nb">index</span> <span class="p">&amp;</span>
                <span class="p">(</span><span class="n">dbcsr_slot_size</span><span class="p">)</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDDO</span>
+         <span class="k">ENDDO</span>
+<span class="k">      ENDDO</span>
 
-      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">all_sizes</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="nb">LBOUND</span><span class="p">(</span><span class="n">my_sizes</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span><span class="nb">UBOUND</span><span class="p">(</span><span class="n">my_sizes</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">&amp;</span>
+<span class="k">      ALLOCATE</span> <span class="p">(</span><span class="n">all_sizes</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="nb">LBOUND</span><span class="p">(</span><span class="n">my_sizes</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span><span class="nb">UBOUND</span><span class="p">(</span><span class="n">my_sizes</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="p">&amp;</span>
                           <span class="nb">LBOUND</span><span class="p">(</span><span class="n">my_sizes</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span><span class="nb">UBOUND</span><span class="p">(</span><span class="n">my_sizes</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="mi">0</span><span class="p">:</span><span class="n">numnodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
       <span class="k">CALL </span><span class="n">mp_allgather</span><span class="p">(</span><span class="n">my_sizes</span><span class="p">,</span> <span class="n">all_sizes</span><span class="p">,</span> <span class="n">mp_group</span><span class="p">)</span>
       <span class="c">!</span>
@@ -590,13 +590,13 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
 <span class="k">         IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">left_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)%</span><span class="n">bcsc</span><span class="p">)</span> <span class="p">&amp;</span>
                <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Can not do on-the-fly filtering with CSC-indexed matrices.&quot;</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_has_local_row_index</span><span class="p">(</span><span class="n">left_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">dbcsr_has_local_row_index</span><span class="p">(</span><span class="n">left_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)))</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">nblkrows_used</span> <span class="o">=</span> <span class="n">dbcsr_nblkrows_local</span><span class="p">(</span><span class="n">left_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
          <span class="k">ELSE</span>
 <span class="k">            </span><span class="n">nblkrows_used</span> <span class="o">=</span> <span class="n">dbcsr_nblkrows_total</span><span class="p">(</span><span class="n">left_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-         <span class="n">ENDIF</span>
-         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">row_max_epss</span><span class="p">(</span><span class="n">nblkrows_used</span><span class="p">),</span> <span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">row_max_epss</span><span class="p">(</span><span class="n">nblkrows_used</span><span class="p">),</span> <span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Could not allocate memory for left epsilons&quot;</span><span class="p">)</span>
          <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">row_counts</span><span class="p">(</span><span class="n">nblkrows_used</span><span class="p">),</span> <span class="nb">stat</span><span class="o">=</span><span class="nb">stat</span><span class="p">)</span>
@@ -622,9 +622,9 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
                   <span class="k">ELSE</span>
 <span class="k">                     IF</span> <span class="p">(</span><span class="n">nblkrows_used</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">left_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">left_row_image</span><span class="p">,</span> <span class="n">left_col_image</span><span class="p">)%</span><span class="n">row_p</span><span class="p">))</span> <span class="p">&amp;</span>
                         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Row count mismatch&quot;</span><span class="p">)</span>
-                  <span class="n">ENDIF</span>
-               <span class="n">ENDIF</span>
-               <span class="k">IF</span> <span class="p">(</span><span class="n">list_indexing</span><span class="p">)</span> <span class="k">THEN</span>
+                  <span class="k">ENDIF</span>
+<span class="k">               ENDIF</span>
+<span class="k">               IF</span> <span class="p">(</span><span class="n">list_indexing</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">                  CALL </span><span class="n">count_bins</span><span class="p">(</span> <span class="p">&amp;</span>
                      <span class="n">left_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">left_row_image</span><span class="p">,</span> <span class="n">left_col_image</span><span class="p">)%</span><span class="n">nblks</span><span class="p">,</span> <span class="p">&amp;</span>
                      <span class="n">left_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">left_row_image</span><span class="p">,</span> <span class="n">left_col_image</span><span class="p">)%</span><span class="n">coo_l</span><span class="p">(</span><span class="mi">1</span><span class="kd">::</span><span class="mi">3</span><span class="p">),</span> <span class="p">&amp;</span>
@@ -633,11 +633,11 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
 <span class="k">                  CALL </span><span class="n">dbcsr_count_row_index</span><span class="p">(</span> <span class="p">&amp;</span>
                      <span class="n">left_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">left_row_image</span><span class="p">,</span> <span class="n">left_col_image</span><span class="p">)%</span><span class="n">row_p</span><span class="p">,</span> <span class="p">&amp;</span>
                      <span class="n">row_counts</span><span class="p">,</span> <span class="n">nblkrows_used</span><span class="p">)</span>
-               <span class="n">ENDIF</span>
-               <span class="n">total_row_counts</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">total_row_counts</span><span class="p">(:)</span> <span class="p">&amp;</span>
+               <span class="k">ENDIF</span>
+<span class="k">               </span><span class="n">total_row_counts</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">total_row_counts</span><span class="p">(:)</span> <span class="p">&amp;</span>
                                      <span class="o">+</span> <span class="n">row_counts</span><span class="p">(:)</span>
-            <span class="n">ENDDO</span>
-         <span class="n">ENDDO</span>
+            <span class="k">ENDDO</span>
+<span class="k">         ENDDO</span>
          <span class="c">! The counted blocks are then summed up</span>
          <span class="k">CALL </span><span class="n">mp_sum</span><span class="p">(</span><span class="n">total_row_counts</span><span class="p">,</span> <span class="n">dbcsr_mp_my_row_group</span><span class="p">(</span><span class="n">product_mp_obj</span><span class="p">))</span>
          <span class="c">! and used to determine the maximum per-block epsilon.</span>
@@ -654,7 +654,7 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
          <span class="c">!</span>
          <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">row_counts</span><span class="p">)</span>
          <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">total_row_counts</span><span class="p">)</span>
-      <span class="n">ENDIF</span> <span class="n">per_row_eps</span>
+      <span class="k">ENDIF </span><span class="n">per_row_eps</span>
       <span class="c">!</span>
       <span class="c">! The main transfer loop goes through the virtual rows/columns.</span>
       <span class="c">! The number of steps may be smaller if the grid dimension is very</span>
@@ -685,8 +685,8 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
             <span class="n">left_sizes</span><span class="p">(</span><span class="n">imeta</span><span class="p">,</span> <span class="n">left_src_vrow</span><span class="p">,</span> <span class="n">left_src_vcol</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
                <span class="n">all_sizes</span><span class="p">(</span> <span class="p">&amp;</span>
                <span class="n">imeta</span> <span class="o">+</span> <span class="n">ileft</span><span class="p">,</span> <span class="n">left_dst_irow</span><span class="p">,</span> <span class="n">left_dst_icol</span><span class="p">,</span> <span class="n">left_dst_p</span><span class="p">)</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDDO</span>
+         <span class="k">ENDDO</span>
+<span class="k">      ENDDO</span>
       <span class="c">!</span>
       <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">right_sizes</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">nvirt_k</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">right_npcols</span><span class="o">*</span><span class="n">right_col_nimages</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
       <span class="n">right_sizes</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
@@ -707,8 +707,8 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
             <span class="n">right_sizes</span><span class="p">(</span><span class="n">imeta</span><span class="p">,</span> <span class="n">right_src_vrow</span><span class="p">,</span> <span class="n">right_src_vcol</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
                <span class="n">all_sizes</span><span class="p">(</span> <span class="p">&amp;</span>
                <span class="n">imeta</span> <span class="o">+</span> <span class="n">iright</span><span class="p">,</span> <span class="n">right_dst_irow</span><span class="p">,</span> <span class="n">right_dst_icol</span><span class="p">,</span> <span class="n">right_dst_p</span><span class="p">)</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDDO</span>
+         <span class="k">ENDDO</span>
+<span class="k">      ENDDO</span>
       <span class="c">!</span>
       <span class="c">! Setup product work areas</span>
       <span class="n">left_max_nze</span> <span class="o">=</span> <span class="nb">MAXVAL</span><span class="p">(</span><span class="n">all_sizes</span><span class="p">(</span><span class="n">idata</span> <span class="o">+</span> <span class="n">ileft</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:))</span>
@@ -725,9 +725,9 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
                                                         <span class="n">nthreads</span><span class="p">)</span>
          <span class="k">ELSE</span>
 <span class="k">            </span><span class="n">size_guess_init</span> <span class="o">=</span> <span class="mi">1</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
-      <span class="n">ithread</span> <span class="o">=</span> <span class="mi">0</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
+<span class="k">      </span><span class="n">ithread</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="c">!$OMP PARALLEL DEFAULT(NONE) &amp;</span>
 <span class="c">!$OMP          PRIVATE (i, size_guess, ithread) &amp;</span>
 <span class="c">!$OMP          SHARED (product_matrix, left_max_nze, right_max_nze) &amp;</span>
@@ -741,8 +741,8 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
       <span class="n">size_guess</span> <span class="o">=</span> <span class="n">product_matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">datasize</span> <span class="c">! Should be minimal</span>
       <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">keep_sparsity</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">size_guess</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="n">size_guess</span><span class="p">,</span> <span class="n">size_guess_init</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">dbcsr_data_ensure_size</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">data_area</span><span class="p">,</span> <span class="p">&amp;</span>
+      <span class="k">ENDIF</span>
+<span class="k">      CALL </span><span class="n">dbcsr_data_ensure_size</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">data_area</span><span class="p">,</span> <span class="p">&amp;</span>
                                   <span class="n">size_guess</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_data_set_size_referenced</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">data_area</span><span class="p">,</span> <span class="p">&amp;</span>
                                           <span class="n">product_matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">datasize</span><span class="p">)</span>
@@ -768,7 +768,7 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
          <span class="k">CALL </span><span class="n">enumerate_blk_sizes</span><span class="p">(</span><span class="n">right_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)%</span><span class="n">col_blk_size</span><span class="p">%</span><span class="n">low</span><span class="p">%</span><span class="k">data</span><span class="p">,</span> <span class="p">&amp;</span>
                                   <span class="n">dbcsr_max_col_size</span><span class="p">(</span><span class="n">right_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)),</span> <span class="p">&amp;</span>
                                   <span class="n">col_blk_sizes2enum</span><span class="p">,</span> <span class="n">enum2col_blk_sizes</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
       <span class="c">!</span>
       <span class="c">! Setup the left buffer matrices</span>
@@ -784,8 +784,8 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
          <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Could not allocate memory for left norms&quot;</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="n">otf_filtering</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-      <span class="n">ENDIF</span>
-      <span class="n">left_buffer_calc</span> <span class="o">=&gt;</span> <span class="n">left_set</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">left_buffer_calc</span> <span class="o">=&gt;</span> <span class="n">left_set</span>
       <span class="n">left_buffer_comm</span> <span class="o">=&gt;</span> <span class="n">left_buffer_2</span>
       <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">left_data_sr</span><span class="p">(</span><span class="n">left_col_nimages</span><span class="p">))</span>
       <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">left_index_sr</span><span class="p">(</span><span class="n">left_col_nimages</span><span class="p">))</span>
@@ -807,8 +807,8 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
          <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">&quot;Could not allocate memory for right norms&quot;</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="n">otf_filtering</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-      <span class="n">ENDIF</span>
-      <span class="n">right_buffer_calc</span> <span class="o">=&gt;</span> <span class="n">right_set</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">right_buffer_calc</span> <span class="o">=&gt;</span> <span class="n">right_set</span>
       <span class="n">right_buffer_comm</span> <span class="o">=&gt;</span> <span class="n">right_buffer_2</span>
       <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">right_data_sr</span><span class="p">(</span><span class="n">right_row_nimages</span><span class="p">))</span>
       <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">right_index_sr</span><span class="p">(</span><span class="n">right_row_nimages</span><span class="p">))</span>
@@ -873,7 +873,7 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
                              <span class="n">data_size</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">right_max_nblks</span><span class="p">,</span> <span class="n">memory_type</span><span class="o">=</span><span class="n">memtype_trsbuffer_2</span><span class="p">)</span>
          <span class="n">trs_stackbuf_calc</span> <span class="o">=&gt;</span> <span class="n">trs_stackbuf_1</span>
          <span class="n">trs_stackbuf_comm</span> <span class="o">=&gt;</span> <span class="n">trs_stackbuf_2</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">!</span>
       <span class="c">! Reset indices for virtual images</span>
       <span class="n">v_ki_right</span> <span class="o">=</span> <span class="mi">0</span>
@@ -905,8 +905,8 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
             <span class="k">DO </span><span class="n">v_ki</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">right_row_nimages</span> <span class="o">-</span> <span class="mi">1</span>
                <span class="k">CALL </span><span class="n">dbcsr_repoint_index</span><span class="p">(</span><span class="n">right_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">v_ki</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
                <span class="n">right_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">v_ki</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)%</span><span class="n">valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-            <span class="n">ENDDO</span>
-         <span class="n">ENDIF</span> <span class="n">wait_right</span>
+            <span class="k">ENDDO</span>
+<span class="k">         ENDIF </span><span class="n">wait_right</span>
          <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle2</span><span class="p">)</span>
          <span class="c">!</span>
          <span class="c">! Right matrix transfer. Transfer in all but the last loop</span>
@@ -971,9 +971,9 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
 <span class="k">                  CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;_acc_sync_right&quot;</span><span class="p">,</span> <span class="n">handle3</span><span class="p">)</span>
                   <span class="k">CALL </span><span class="n">acc_event_synchronize</span><span class="p">(</span><span class="n">right_buffer_comm</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">v_ki</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">acc_ready</span><span class="p">)</span>
                   <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle3</span><span class="p">)</span>
-               <span class="n">ENDIF</span>
+               <span class="k">ENDIF</span>
 
-               <span class="n">right_src_p</span> <span class="o">=</span> <span class="n">right_pgrid</span><span class="p">(</span><span class="n">right_src_prow</span><span class="p">,</span> <span class="n">right_src_pcol</span><span class="p">)</span>
+<span class="k">               </span><span class="n">right_src_p</span> <span class="o">=</span> <span class="n">right_pgrid</span><span class="p">(</span><span class="n">right_src_prow</span><span class="p">,</span> <span class="n">right_src_pcol</span><span class="p">)</span>
                <span class="k">CALL </span><span class="n">dbcsr_data_set_pointer</span><span class="p">(</span> <span class="p">&amp;</span>
                   <span class="n">area</span><span class="o">=</span><span class="n">right_data_rp</span><span class="p">,</span> <span class="p">&amp;</span>
                   <span class="n">rsize</span><span class="o">=</span><span class="n">right_sizes</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">right_src_vrow</span><span class="p">,</span> <span class="n">right_src_vcol</span><span class="p">),</span> <span class="p">&amp;</span>
@@ -993,7 +993,7 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
                   <span class="n">grp</span> <span class="o">=</span> <span class="n">dbcsr_mp_my_col_group</span><span class="p">(</span><span class="n">right_mp_obj</span><span class="p">)</span>
                <span class="k">ELSE</span>
 <span class="k">                  </span><span class="n">grp</span> <span class="o">=</span> <span class="n">dbcsr_mp_group</span><span class="p">(</span><span class="n">right_mp_obj</span><span class="p">)</span>
-               <span class="n">ENDIF</span>
+               <span class="k">ENDIF</span>
                <span class="c">!</span>
                <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;_metrocomm2&quot;</span><span class="p">,</span> <span class="n">handle2</span><span class="p">)</span>
                <span class="k">CALL </span><span class="n">dbcsr_irecv_any</span><span class="p">(</span><span class="n">right_data_rp</span><span class="p">,</span> <span class="n">right_recv_p</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -1010,8 +1010,8 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
                                          <span class="n">data_type_byte</span><span class="p">,</span> <span class="p">&amp;</span>
                                          <span class="n">dbcsr_mpi_statistics</span><span class="p">%</span><span class="n">data_size_breakdown</span><span class="p">(:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">))</span>
                <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle2</span><span class="p">)</span>
-            <span class="n">ENDDO</span>
-         <span class="n">ENDIF</span> <span class="n">xfer_right</span>
+            <span class="k">ENDDO</span>
+<span class="k">         ENDIF </span><span class="n">xfer_right</span>
          <span class="c">!</span>
          <span class="c">! Wait for left matrix transfer completion. Wait in all but</span>
          <span class="c">! the first loop iteration.</span>
@@ -1029,8 +1029,8 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
             <span class="k">DO </span><span class="n">v_ki</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">left_col_nimages</span> <span class="o">-</span> <span class="mi">1</span>
                <span class="k">CALL </span><span class="n">dbcsr_repoint_index</span><span class="p">(</span><span class="n">left_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">v_ki</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
                <span class="n">left_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">v_ki</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)%</span><span class="n">valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-            <span class="n">ENDDO</span>
-         <span class="n">ENDIF</span> <span class="n">wait_left</span>
+            <span class="k">ENDDO</span>
+<span class="k">         ENDIF </span><span class="n">wait_left</span>
          <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle2</span><span class="p">)</span>
          <span class="c">!</span>
          <span class="c">! Left matrix transfer. Transfer in all but the last processor images.</span>
@@ -1094,9 +1094,9 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
 <span class="k">                  CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;_acc_sync_left&quot;</span><span class="p">,</span> <span class="n">handle3</span><span class="p">)</span>
                   <span class="k">CALL </span><span class="n">acc_event_synchronize</span><span class="p">(</span><span class="n">left_buffer_comm</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">v_ki</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">acc_ready</span><span class="p">)</span>
                   <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle3</span><span class="p">)</span>
-               <span class="n">ENDIF</span>
+               <span class="k">ENDIF</span>
 
-               <span class="n">left_src_p</span> <span class="o">=</span> <span class="n">left_pgrid</span><span class="p">(</span><span class="n">left_src_prow</span><span class="p">,</span> <span class="n">left_src_pcol</span><span class="p">)</span>
+<span class="k">               </span><span class="n">left_src_p</span> <span class="o">=</span> <span class="n">left_pgrid</span><span class="p">(</span><span class="n">left_src_prow</span><span class="p">,</span> <span class="n">left_src_pcol</span><span class="p">)</span>
                <span class="k">CALL </span><span class="n">dbcsr_data_set_pointer</span><span class="p">(</span> <span class="p">&amp;</span>
                   <span class="n">area</span><span class="o">=</span><span class="n">left_data_rp</span><span class="p">,</span> <span class="p">&amp;</span>
                   <span class="n">rsize</span><span class="o">=</span><span class="n">left_sizes</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">left_src_vrow</span><span class="p">,</span> <span class="n">left_src_vcol</span><span class="p">),</span> <span class="p">&amp;</span>
@@ -1116,7 +1116,7 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
                   <span class="n">grp</span> <span class="o">=</span> <span class="n">dbcsr_mp_my_row_group</span><span class="p">(</span><span class="n">left_mp_obj</span><span class="p">)</span>
                <span class="k">ELSE</span>
 <span class="k">                  </span><span class="n">grp</span> <span class="o">=</span> <span class="n">dbcsr_mp_group</span><span class="p">(</span><span class="n">left_mp_obj</span><span class="p">)</span>
-               <span class="n">ENDIF</span>
+               <span class="k">ENDIF</span>
                <span class="c">!</span>
                <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;_metrocomm4&quot;</span><span class="p">,</span> <span class="n">handle2</span><span class="p">)</span>
                <span class="k">CALL </span><span class="n">dbcsr_irecv_any</span><span class="p">(</span><span class="n">left_data_rp</span><span class="p">,</span> <span class="n">left_recv_p</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -1133,8 +1133,8 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
                                          <span class="n">data_type_byte</span><span class="p">,</span> <span class="p">&amp;</span>
                                          <span class="n">dbcsr_mpi_statistics</span><span class="p">%</span><span class="n">data_size_breakdown</span><span class="p">(:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">))</span>
                <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle2</span><span class="p">)</span>
-            <span class="n">ENDDO</span>
-         <span class="n">ENDIF</span> <span class="n">xfer_left</span>
+            <span class="k">ENDDO</span>
+<span class="k">         ENDIF </span><span class="n">xfer_left</span>
          <span class="c">!</span>
          <span class="c">! Do multiplication</span>
          <span class="n">v_ki_left</span> <span class="o">=</span> <span class="n">v_ki_left</span> <span class="o">+</span> <span class="mi">1</span>
@@ -1142,7 +1142,7 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
          <span class="k">IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">dbcsr_print</span><span class="p">(</span><span class="n">left_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">v_ki_left</span><span class="p">),</span> <span class="n">nodata</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
             <span class="k">CALL </span><span class="n">dbcsr_print</span><span class="p">(</span><span class="n">right_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">v_ki_right</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">nodata</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
-         <span class="n">ENDIF</span>
+         <span class="k">ENDIF</span>
          <span class="c">!</span>
          <span class="c">! from here the code for dbcsr_mm_driver_inner_init was taken</span>
          <span class="c">!</span>
@@ -1179,7 +1179,7 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
                                  <span class="n">right_norms</span><span class="p">,</span> <span class="n">k_sizes</span><span class="p">,</span> <span class="n">n_sizes</span><span class="p">)</span>
             <span class="k">CALL </span><span class="n">calculate_norms</span><span class="p">(</span><span class="n">left_buffer_calc</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">v_ki_left</span><span class="p">),</span> <span class="p">&amp;</span>
                                  <span class="n">left_norms</span><span class="p">,</span> <span class="n">m_sizes</span><span class="p">,</span> <span class="n">k_sizes</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
+         <span class="k">ENDIF</span>
          <span class="c">!</span>
          <span class="n">flop_single</span> <span class="o">=</span> <span class="mi">0</span>
          <span class="n">threads_finished</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1215,7 +1215,7 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
             <span class="k">CALL </span><span class="n">dbcsr_mm_multrec_finalize</span><span class="p">(</span><span class="n">multrec</span><span class="p">(</span><span class="n">ithread</span><span class="p">)%</span><span class="n">p</span><span class="p">)</span>
             <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">multrec</span><span class="p">(</span><span class="n">ithread</span><span class="p">)%</span><span class="n">p</span><span class="p">)</span>
             <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle3</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
+         <span class="k">ENDIF</span>
 
 <span class="c">!$OMP ATOMIC</span>
          <span class="n">threads_finished</span> <span class="o">=</span> <span class="n">threads_finished</span> <span class="o">+</span> <span class="mi">1</span>
@@ -1246,13 +1246,13 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
          <span class="c">! Move to the next images</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">v_ki_left</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">left_col_nimages</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">dbcsr_switch</span><span class="p">(</span><span class="n">left_buffer_calc</span><span class="p">,</span> <span class="n">left_buffer_comm</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">v_ki_right</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">right_row_nimages</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">v_ki_right</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">right_row_nimages</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">dbcsr_switch</span><span class="p">(</span><span class="n">right_buffer_calc</span><span class="p">,</span> <span class="n">right_buffer_comm</span><span class="p">)</span>
             <span class="k">CALL </span><span class="n">dbcsr_switch</span><span class="p">(</span><span class="n">trs_stackbuf_calc</span><span class="p">,</span> <span class="n">trs_stackbuf_comm</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
+         <span class="k">ENDIF</span>
 
-      <span class="n">ENDDO</span> <span class="n">grouped_k_index</span>
+<span class="k">      ENDDO </span><span class="n">grouped_k_index</span>
       <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle1</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">m_memory</span><span class="p">(</span><span class="n">mem</span><span class="p">)</span>
       <span class="n">max_memory</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="n">max_memory</span><span class="p">,</span> <span class="kt">REAL</span><span class="p">(</span><span class="n">mem</span><span class="p">))</span>
@@ -1266,13 +1266,13 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
 
 <span class="k">      IF</span> <span class="p">(</span><span class="nb">ALLOCATED</span><span class="p">(</span><span class="n">right_norms</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         DEALLOCATE</span> <span class="p">(</span><span class="n">right_norms</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">ALLOCATED</span><span class="p">(</span><span class="n">left_norms</span><span class="p">))</span> <span class="k">THEN</span>
+      <span class="k">ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="nb">ALLOCATED</span><span class="p">(</span><span class="n">left_norms</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         DEALLOCATE</span> <span class="p">(</span><span class="n">left_norms</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">ALLOCATED</span><span class="p">(</span><span class="n">row_max_epss</span><span class="p">))</span> <span class="k">THEN</span>
+      <span class="k">ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="nb">ALLOCATED</span><span class="p">(</span><span class="n">row_max_epss</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         DEALLOCATE</span> <span class="p">(</span><span class="n">row_max_epss</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">!</span>
       <span class="k">CALL </span><span class="n">dbcsr_destroy_array</span><span class="p">(</span><span class="n">right_buffer_2</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_destroy_array</span><span class="p">(</span><span class="n">left_buffer_2</span><span class="p">)</span>
@@ -1295,11 +1295,11 @@ public subroutine multiply_cannon(left_set, right_set, product_matrix, retain_sp
 <span class="k">         </span><span class="n">v_ki</span> <span class="o">=</span> <span class="mi">0</span>
          <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">blk_p</span><span class="p">)</span>
             <span class="n">v_ki</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="n">v_ki</span><span class="p">,</span> <span class="nb">ABS</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">blk_p</span><span class="p">(</span><span class="n">i</span><span class="p">)))</span>
-         <span class="n">ENDDO</span>
-         <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; Actual final size&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
+         <span class="k">ENDDO</span>
+<span class="k">         WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; Actual final size&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
             <span class="nb">LOG</span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">)))</span><span class="o">/</span><span class="nb">LOG</span><span class="p">(</span><span class="mi">1</span><span class="mf">0.0</span><span class="p">),</span> <span class="p">&amp;</span>
             <span class="nb">LOG</span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">v_ki</span><span class="p">))</span><span class="o">/</span><span class="nb">LOG</span><span class="p">(</span><span class="mi">1</span><span class="mf">0.0</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">!</span>
       <span class="n">flop</span> <span class="o">=</span> <span class="n">flop_total</span>
       <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">left_buffer_2</span><span class="p">,</span> <span class="n">right_buffer_2</span><span class="p">)</span>

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -244,7 +244,7 @@ private subroutine bubble_down(heap, first)
   
 <tr>
   
-  <td><span class="anchor" id="variable-first"></span>integer,</td>
+  <td><span class="anchor" id="variable-first~2"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -348,25 +348,25 @@ private subroutine bubble_down(heap, first)
             <span class="k">IF</span> <span class="p">(</span><span class="n">left_child_value</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">min_value</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">               </span><span class="n">min_value</span> <span class="o">=</span> <span class="n">left_child_value</span>
                <span class="n">smallest</span> <span class="o">=</span> <span class="n">left_child</span>
-            <span class="n">ENDIF</span>
-         <span class="n">ENDIF</span>
-         <span class="n">right_child</span> <span class="o">=</span> <span class="n">left_child</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">ENDIF</span>
+<span class="k">         ENDIF</span>
+<span class="k">         </span><span class="n">right_child</span> <span class="o">=</span> <span class="n">left_child</span> <span class="o">+</span> <span class="mi">1</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">right_child</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">heap</span><span class="p">%</span><span class="n">n</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">right_child_value</span> <span class="o">=</span> <span class="n">get_value</span><span class="p">(</span><span class="n">heap</span><span class="p">,</span> <span class="n">right_child</span><span class="p">)</span>
             <span class="k">IF</span> <span class="p">(</span><span class="n">right_child_value</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">min_value</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">               </span><span class="n">min_value</span> <span class="o">=</span> <span class="n">right_child_value</span>
                <span class="n">smallest</span> <span class="o">=</span> <span class="n">right_child</span>
-            <span class="n">ENDIF</span>
-         <span class="n">ENDIF</span>
+            <span class="k">ENDIF</span>
+<span class="k">         ENDIF</span>
          <span class="c">!</span>
          <span class="k">CALL </span><span class="n">dbcsr_heap_swap</span><span class="p">(</span><span class="n">heap</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">smallest</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">smallest</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">e</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">all_done</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
          <span class="k">ELSE</span>
 <span class="k">            </span><span class="n">e</span> <span class="o">=</span> <span class="n">smallest</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDDO</span>
-   <span class="k">END SUBROUTINE </span><span class="n">bubble_down</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDDO</span>
+<span class="k">   END SUBROUTINE </span><span class="n">bubble_down</span>
 </pre></div>
 
     </section>

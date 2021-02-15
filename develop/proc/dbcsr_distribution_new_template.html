@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ private subroutine dbcsr_distribution_new_template(dist, template, group, pgrid,
   
 <tr>
   
-  <td><span class="anchor" id="variable-dist~54"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
+  <td><span class="anchor" id="variable-dist~52"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -244,7 +244,7 @@ private subroutine dbcsr_distribution_new_template(dist, template, group, pgrid,
   
 <tr>
   
-  <td><span class="anchor" id="variable-template~6"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
+  <td><span class="anchor" id="variable-template~5"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -259,7 +259,7 @@ private subroutine dbcsr_distribution_new_template(dist, template, group, pgrid,
   
 <tr>
   
-  <td><span class="anchor" id="variable-group~37"></span>integer,</td>
+  <td><span class="anchor" id="variable-group~7"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -274,7 +274,7 @@ private subroutine dbcsr_distribution_new_template(dist, template, group, pgrid,
   
 <tr>
   
-  <td><span class="anchor" id="variable-pgrid~9"></span>integer,</td>
+  <td><span class="anchor" id="variable-pgrid~7"></span>integer,</td>
   <td></td>
   <td>optional</td>
   
@@ -289,7 +289,7 @@ private subroutine dbcsr_distribution_new_template(dist, template, group, pgrid,
   
 <tr>
   
-  <td><span class="anchor" id="variable-row_dist~10"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_dist~11"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -304,7 +304,7 @@ private subroutine dbcsr_distribution_new_template(dist, template, group, pgrid,
   
 <tr>
   
-  <td><span class="anchor" id="variable-col_dist~10"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_dist~11"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -319,7 +319,7 @@ private subroutine dbcsr_distribution_new_template(dist, template, group, pgrid,
   
 <tr>
   
-  <td><span class="anchor" id="variable-reuse_arrays~6"></span>logical,</td>
+  <td><span class="anchor" id="variable-reuse_arrays~4"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -423,9 +423,9 @@ private subroutine dbcsr_distribution_new_template(dist, template, group, pgrid,
 <span class="k">         CALL </span><span class="n">dbcsr_mp_new</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">pgrid</span><span class="p">)</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;dbcsr_distribution_new: neither template nor group supplied&quot;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
-      <span class="k">CALL </span><span class="n">dbcsr_distribution_new_low</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">mp_env</span><span class="p">,</span> <span class="p">&amp;</span>
+<span class="k">      CALL </span><span class="n">dbcsr_distribution_new_low</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">mp_env</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">row_dist_block</span><span class="o">=</span><span class="n">row_dist</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">col_dist_block</span><span class="o">=</span><span class="n">col_dist</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">reuse_arrays</span><span class="o">=</span><span class="n">reuse_arrays</span><span class="p">)</span>

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -370,8 +370,8 @@ private function mp_type_make_i(ptr, vector_descriptor, index_descriptor) result
       <span class="n">type_descriptor</span><span class="p">%</span><span class="n">data_i</span> <span class="o">=&gt;</span> <span class="n">ptr</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">vector_descriptor</span><span class="p">)</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">index_descriptor</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;: Vectors and indices NYI&quot;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-   <span class="k">END FUNCTION </span><span class="n">mp_type_make_i</span>
+      <span class="k">ENDIF</span>
+<span class="k">   END FUNCTION </span><span class="n">mp_type_make_i</span>
 </pre></div>
 
     </section>

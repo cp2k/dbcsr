@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -304,8 +304,8 @@
 <a name="ln-42"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=</span><span class="n">n</span><span class="p">)</span> <span class="kd">::</span> <span class="n">str</span><span class="p">)</span>
 <a name="ln-43"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span>
 <a name="ln-44"></a>         <span class="n">str</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">arr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a name="ln-45"></a>      <span class="n">ENDDO</span>
-<a name="ln-46"></a>   <span class="k">END SUBROUTINE </span><span class="n">c_f_string</span>
+<a name="ln-45"></a>      <span class="k">ENDDO</span>
+<a name="ln-46"></a><span class="k">   END SUBROUTINE </span><span class="n">c_f_string</span>
 <a name="ln-47"></a>
 <a name="ln-48"></a>   <span class="k">SUBROUTINE </span><span class="n">c_dbcsr_init_lib</span><span class="p">(</span><span class="n">fcomm</span><span class="p">,</span> <span class="n">io_unit</span><span class="p">)</span> <span class="k">bind</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;c_dbcsr_init_lib_internal&quot;</span><span class="p">)</span>
 <a name="ln-49"></a>      <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="kt">c_int</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">fcomm</span>
@@ -471,8 +471,8 @@
 <a name="ln-209"></a>         <span class="k">CALL </span><span class="n">dbcsr_multiply</span><span class="p">(</span><span class="n">transa</span><span class="p">,</span> <span class="n">transb</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">matrix_a</span><span class="p">,</span> <span class="n">matrix_b</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">matrix_c</span><span class="p">,</span> <span class="n">retain_sparsity</span><span class="o">=</span><span class="n">ret_sp</span><span class="p">)</span>
 <a name="ln-210"></a>      <span class="k">ELSE</span>
 <a name="ln-211"></a><span class="k">         CALL </span><span class="n">dbcsr_multiply</span><span class="p">(</span><span class="n">transa</span><span class="p">,</span> <span class="n">transb</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">matrix_a</span><span class="p">,</span> <span class="n">matrix_b</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">matrix_c</span><span class="p">)</span>
-<a name="ln-212"></a>      <span class="n">ENDIF</span>
-<a name="ln-213"></a>   <span class="k">END SUBROUTINE</span>
+<a name="ln-212"></a>      <span class="k">ENDIF</span>
+<a name="ln-213"></a><span class="k">   END SUBROUTINE</span>
 <a name="ln-214"></a>
 <a name="ln-215"></a><span class="k">   SUBROUTINE </span><span class="n">c_free_string</span><span class="p">(</span><span class="n">c_string</span><span class="p">)</span> <span class="k">BIND</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;c_free_string&quot;</span><span class="p">)</span>
 <a name="ln-216"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="kt">c_ptr</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>             <span class="kd">::</span> <span class="n">c_string</span>

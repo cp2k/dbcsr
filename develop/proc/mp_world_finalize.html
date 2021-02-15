@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -292,8 +292,8 @@ public subroutine mp_world_finalize()
          <span class="c">! A bug, we&#39;re leaking or double-freeing communicators. Needs to be fixed where the leak happens.</span>
          <span class="c">! Memory leak checking might be helpful to locate the culprit</span>
          <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;mp_world_finalize: assert failed: leaking communicators&quot;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">mpi_finalize</span><span class="p">(</span><span class="n">ierr</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      CALL </span><span class="n">mpi_finalize</span><span class="p">(</span><span class="n">ierr</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">ierr</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">mp_stop</span><span class="p">(</span><span class="n">ierr</span><span class="p">,</span> <span class="s2">&quot;mpi_finalize @ mp_world_finalize&quot;</span><span class="p">)</span>
 <span class="cp">#else</span>
       <span class="k">CALL </span><span class="n">rm_mp_perf_env</span><span class="p">()</span>

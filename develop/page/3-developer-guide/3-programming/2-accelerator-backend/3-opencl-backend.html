@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -146,9 +146,10 @@
 <h3>Runtime Settings</h3>
 <p>Runtime settings are made by the means of environment variables (implemented in <code>acc_opencl.c</code>). There are variables for chosing an OpenCL device:</p>
 <ul>
-<li><code>ACC_OPENCL_VENDOR</code>: character string matching the vendor of the OpenCL device in an case-insensitive fashion, e.g., "intel".</li>
+<li><code>ACC_OPENCL_DEVSPLIT</code>: integer enabling devices to be split into subdevices (non-zero: enabled, default/zero: disabled).</li>
 <li><code>ACC_OPENCL_DEVTYPE</code>: character string matching the device-kind like "cpu", "gpu", or another kind if neither CPU or GPU.</li>
 <li><code>ACC_OPENCL_DEVICE</code>: non-negative integer number to select a device from the (internally enumerated) list of devices.</li>
+<li><code>ACC_OPENCL_VENDOR</code>: character string matching the vendor of the OpenCL device in an case-insensitive fashion, e.g., "intel".</li>
 <li><code>ACC_OPENCL_VERBOSE</code>: verbosity level (integer).<ul>
 <li><code>ACC_OPENCL_VERBOSE=1</code>: outputs (stderr) the number of devices found and the name of the selected device.</li>
 <li><code>ACC_OPENCL_VERBOSE=2</code>: outputs (stderr) the duration needed to generate a requested kernel.</li>

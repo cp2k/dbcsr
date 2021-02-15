@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~219"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~163"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -244,7 +244,7 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
   
 <tr>
   
-  <td><span class="anchor" id="variable-imgdist~6"></span>type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),</td>
+  <td><span class="anchor" id="variable-imgdist~9"></span>type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -274,7 +274,7 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
   
 <tr>
   
-  <td><span class="anchor" id="variable-f_row~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-f_row~3"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -289,7 +289,7 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
   
 <tr>
   
-  <td><span class="anchor" id="variable-l_row~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-l_row~3"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -304,7 +304,7 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
   
 <tr>
   
-  <td><span class="anchor" id="variable-f_col~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-f_col~3"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -319,7 +319,7 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
   
 <tr>
   
-  <td><span class="anchor" id="variable-l_col~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-l_col~3"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -349,7 +349,7 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
   
 <tr>
   
-  <td><span class="anchor" id="variable-scale_value"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-scale_value~7"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -497,8 +497,8 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
       <span class="k">IF</span> <span class="p">(</span><span class="n">sm</span><span class="p">%</span><span class="n">symmetry</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">row_dist</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">col_dist</span><span class="p">))</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s1">&#39;Unequal row and column distributions for symmetric matrix.&#39;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="n">nrows_images</span> <span class="o">=</span> <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">row_decimation</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">nrows_images</span> <span class="o">=</span> <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">row_decimation</span>
       <span class="n">row_img_dist</span> <span class="o">=&gt;</span> <span class="n">array_data</span><span class="p">(</span><span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">row_image</span><span class="p">)</span>
       <span class="n">ncols_images</span> <span class="o">=</span> <span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">col_decimation</span>
       <span class="n">col_img_dist</span> <span class="o">=&gt;</span> <span class="n">array_data</span><span class="p">(</span><span class="n">imgdist</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">col_image</span><span class="p">)</span>
@@ -523,7 +523,7 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
       <span class="k">ELSE</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="n">ncols_images</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Col nimages for right matrix is not 1!&quot;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">!</span>
       <span class="c">! Crop matrix</span>
       <span class="n">do_crop</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
@@ -558,8 +558,8 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
             <span class="k">IF</span> <span class="p">(</span><span class="n">do_part_crop_f_row</span><span class="p">)</span> <span class="k">THEN</span>
                <span class="c">! Block offset of last cleared row</span>
                <span class="n">f_row_f</span> <span class="o">=</span> <span class="n">f_row</span> <span class="o">-</span> <span class="n">array_get</span><span class="p">(</span><span class="n">dbcsr_row_block_offsets</span><span class="p">(</span><span class="n">matrix</span><span class="p">),</span> <span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-            <span class="n">ENDIF</span>
-         <span class="n">ENDIF</span>
+            <span class="k">ENDIF</span>
+<span class="k">         ENDIF</span>
          <span class="c">!</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">l_row</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">dbcsr_nblkrows_total</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
@@ -572,9 +572,9 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
             <span class="k">IF</span> <span class="p">(</span><span class="n">do_part_crop_l_row</span><span class="p">)</span> <span class="k">THEN</span>
                <span class="c">! Block offset of first cleared row</span>
                <span class="n">l_row_l</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">l_row</span> <span class="o">-</span> <span class="n">array_get</span><span class="p">(</span><span class="n">dbcsr_row_block_offsets</span><span class="p">(</span><span class="n">matrix</span><span class="p">),</span> <span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
-            <span class="n">ENDIF</span>
-         <span class="n">ENDIF</span>
-         <span class="n">do_part_crop_row</span> <span class="o">=</span> <span class="n">do_part_crop_f_row</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">do_part_crop_l_row</span>
+            <span class="k">ENDIF</span>
+<span class="k">         ENDIF</span>
+<span class="k">         </span><span class="n">do_part_crop_row</span> <span class="o">=</span> <span class="n">do_part_crop_f_row</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">do_part_crop_l_row</span>
          <span class="c">!</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">f_col</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">block_col_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
@@ -587,8 +587,8 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
             <span class="k">IF</span> <span class="p">(</span><span class="n">do_part_crop_f_col</span><span class="p">)</span> <span class="k">THEN</span>
                <span class="c">! Block offset of last cleared col</span>
                <span class="n">f_col_f</span> <span class="o">=</span> <span class="n">f_col</span> <span class="o">-</span> <span class="n">array_get</span><span class="p">(</span><span class="n">dbcsr_col_block_offsets</span><span class="p">(</span><span class="n">matrix</span><span class="p">),</span> <span class="n">block_col_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-            <span class="n">ENDIF</span>
-         <span class="n">ENDIF</span>
+            <span class="k">ENDIF</span>
+<span class="k">         ENDIF</span>
          <span class="c">!</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">l_col</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">block_col_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">dbcsr_nblkcols_total</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
@@ -601,10 +601,10 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
             <span class="k">IF</span> <span class="p">(</span><span class="n">do_part_crop_l_col</span><span class="p">)</span> <span class="k">THEN</span>
                <span class="c">! Block offset of first cleared col</span>
                <span class="n">l_col_l</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">l_col</span> <span class="o">-</span> <span class="n">array_get</span><span class="p">(</span><span class="n">dbcsr_col_block_offsets</span><span class="p">(</span><span class="n">matrix</span><span class="p">),</span> <span class="n">block_col_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
-            <span class="n">ENDIF</span>
-         <span class="n">ENDIF</span>
-         <span class="n">do_part_crop_col</span> <span class="o">=</span> <span class="n">do_part_crop_f_col</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">do_part_crop_l_col</span>
-      <span class="n">ENDIF</span>
+            <span class="k">ENDIF</span>
+<span class="k">         ENDIF</span>
+<span class="k">         </span><span class="n">do_part_crop_col</span> <span class="o">=</span> <span class="n">do_part_crop_f_col</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">do_part_crop_l_col</span>
+      <span class="k">ENDIF</span>
       <span class="c">!</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_has_symmetry</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">nsymmetries</span> <span class="o">=</span> <span class="mi">2</span>
@@ -612,7 +612,7 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">nsymmetries</span> <span class="o">=</span> <span class="mi">1</span>
          <span class="n">do_symmetry</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">!</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">is_left</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">nimages</span> <span class="o">=</span> <span class="n">ncols_images</span>
@@ -630,8 +630,8 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
          <span class="k">IF</span> <span class="p">(</span><span class="n">otf_filtering</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            ALLOCATE</span> <span class="p">(</span><span class="n">left_total_row_counts</span><span class="p">(</span><span class="n">nblkrows_local</span><span class="p">))</span>
             <span class="n">left_total_row_counts</span> <span class="o">=</span> <span class="mi">0</span>
-         <span class="n">ENDIF</span>
-         <span class="n">do_win_create</span> <span class="o">=&gt;</span> <span class="n">do_win_create_left</span>
+         <span class="k">ENDIF</span>
+<span class="k">         </span><span class="n">do_win_create</span> <span class="o">=&gt;</span> <span class="n">do_win_create_left</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">nimages</span> <span class="o">=</span> <span class="n">nrows_images</span>
          <span class="n">buffer</span> <span class="o">=&gt;</span> <span class="n">buffers_win</span><span class="p">%</span><span class="n">right</span>
@@ -644,7 +644,7 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
          <span class="n">local_images_size</span> <span class="o">=&gt;</span> <span class="n">right_local_images_size</span>
          <span class="n">irequests</span> <span class="o">=</span> <span class="mi">2</span>
          <span class="n">do_win_create</span> <span class="o">=&gt;</span> <span class="n">do_win_create_right</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">!</span>
       <span class="c">! 3D communicator</span>
       <span class="k">CALL </span><span class="n">make_layers_3D_AB</span><span class="p">(</span><span class="n">layers_3D_C_reduction</span><span class="p">%</span><span class="n">num_layers_3D</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -663,39 +663,39 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
          <span class="n">local_g2l_map_cols</span> <span class="o">=&gt;</span> <span class="n">g2l_map_cols</span>
          <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">local_g2l_map_rows</span><span class="p">(</span><span class="n">sm</span><span class="p">%</span><span class="n">nblkrows_total</span><span class="p">))</span>
          <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">img_nblks_rows</span><span class="p">(</span><span class="n">nimages</span><span class="p">),</span> <span class="n">img_nblks_cols</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">!</span>
       <span class="n">local_g2l_map_rows</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">nrows_images</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">img_nblks_rows</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">nblkrows_local</span>
          <span class="k">DO </span><span class="n">row</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nblkrows_local</span>
             <span class="n">local_g2l_map_rows</span><span class="p">(</span><span class="n">local_rows</span><span class="p">(</span><span class="n">row</span><span class="p">))</span> <span class="o">=</span> <span class="n">row</span>
-         <span class="n">ENDDO</span>
-      <span class="k">ELSE</span>
+         <span class="k">ENDDO</span>
+<span class="k">      ELSE</span>
 <span class="k">         </span><span class="n">img_nblks_rows</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
          <span class="k">DO </span><span class="n">row</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nblkrows_local</span>
             <span class="n">row_img</span> <span class="o">=</span> <span class="n">row_img_dist</span><span class="p">(</span><span class="n">local_rows</span><span class="p">(</span><span class="n">row</span><span class="p">))</span>
             <span class="n">ui</span> <span class="o">=</span> <span class="nb">MOD</span><span class="p">(</span><span class="n">row_img</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nrows_images</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
             <span class="n">img_nblks_rows</span><span class="p">(</span><span class="n">ui</span><span class="p">)</span> <span class="o">=</span> <span class="n">img_nblks_rows</span><span class="p">(</span><span class="n">ui</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
             <span class="n">local_g2l_map_rows</span><span class="p">(</span><span class="n">local_rows</span><span class="p">(</span><span class="n">row</span><span class="p">))</span> <span class="o">=</span> <span class="n">img_nblks_rows</span><span class="p">(</span><span class="n">ui</span><span class="p">)</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDIF</span>
+         <span class="k">ENDDO</span>
+<span class="k">      ENDIF</span>
       <span class="c">!</span>
       <span class="n">local_g2l_map_cols</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">ncols_images</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">img_nblks_cols</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">nblkcols_local</span>
          <span class="k">DO </span><span class="n">col</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nblkcols_local</span>
             <span class="n">local_g2l_map_cols</span><span class="p">(</span><span class="n">local_cols</span><span class="p">(</span><span class="n">col</span><span class="p">))</span> <span class="o">=</span> <span class="n">col</span>
-         <span class="n">ENDDO</span>
-      <span class="k">ELSE</span>
+         <span class="k">ENDDO</span>
+<span class="k">      ELSE</span>
 <span class="k">         </span><span class="n">img_nblks_cols</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
          <span class="k">DO </span><span class="n">col</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nblkcols_local</span>
             <span class="n">col_img</span> <span class="o">=</span> <span class="n">col_img_dist</span><span class="p">(</span><span class="n">local_cols</span><span class="p">(</span><span class="n">col</span><span class="p">))</span>
             <span class="n">ui</span> <span class="o">=</span> <span class="nb">MOD</span><span class="p">(</span><span class="n">col_img</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ncols_images</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
             <span class="n">img_nblks_cols</span><span class="p">(</span><span class="n">ui</span><span class="p">)</span> <span class="o">=</span> <span class="n">img_nblks_cols</span><span class="p">(</span><span class="n">ui</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
             <span class="n">local_g2l_map_cols</span><span class="p">(</span><span class="n">local_cols</span><span class="p">(</span><span class="n">col</span><span class="p">))</span> <span class="o">=</span> <span class="n">img_nblks_cols</span><span class="p">(</span><span class="n">ui</span><span class="p">)</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDIF</span>
+         <span class="k">ENDDO</span>
+<span class="k">      ENDIF</span>
       <span class="c">!</span>
 <span class="c">!$OMP PARALLEL DEFAULT (NONE) &amp;</span>
 <span class="c">!$OMP PRIVATE (ithread,myt,iter,row,col,blk,row_size,col_size,&amp;</span>
@@ -729,7 +729,7 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">rowi</span> <span class="o">=&gt;</span> <span class="n">ui</span>
          <span class="n">coli</span> <span class="o">=&gt;</span> <span class="n">mi</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 <span class="c">!$OMP MASTER</span>
       <span class="n">nthreads</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="c">!$    nthreads = omp_get_num_threads()</span>
@@ -763,15 +763,15 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
             <span class="k">ELSE</span>
 <span class="k">               IF</span> <span class="p">(</span><span class="n">row</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">col</span><span class="p">)</span> <span class="k">CYCLE</span>
 <span class="k">               </span><span class="n">stored_row</span> <span class="o">=</span> <span class="n">col</span><span class="p">;</span> <span class="n">stored_col</span> <span class="o">=</span> <span class="n">row</span>
-            <span class="n">ENDIF</span>
+            <span class="k">ENDIF</span>
             <span class="c">! Apply cropping</span>
             <span class="k">IF</span> <span class="p">(</span><span class="n">do_crop</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">               IF</span> <span class="p">(</span><span class="n">stored_row</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="k">CYCLE</span>
 <span class="k">               IF</span> <span class="p">(</span><span class="n">stored_row</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="k">CYCLE</span>
 <span class="k">               IF</span> <span class="p">(</span><span class="n">stored_col</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">block_col_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="k">CYCLE</span>
 <span class="k">               IF</span> <span class="p">(</span><span class="n">stored_col</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">block_col_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="k">CYCLE</span>
-<span class="k">            </span><span class="n">ENDIF</span>
-            <span class="n">row_img</span> <span class="o">=</span> <span class="n">row_img_dist</span><span class="p">(</span><span class="n">stored_row</span><span class="p">)</span>
+<span class="k">            ENDIF</span>
+<span class="k">            </span><span class="n">row_img</span> <span class="o">=</span> <span class="n">row_img_dist</span><span class="p">(</span><span class="n">stored_row</span><span class="p">)</span>
             <span class="n">col_img</span> <span class="o">=</span> <span class="n">col_img_dist</span><span class="p">(</span><span class="n">stored_col</span><span class="p">)</span>
             <span class="k">CALL </span><span class="n">image_calculator</span><span class="p">(</span><span class="n">imgdist</span><span class="p">,</span> <span class="p">&amp;</span>
                                   <span class="n">prow</span><span class="o">=</span><span class="n">prow</span><span class="p">,</span> <span class="n">pcol</span><span class="o">=</span><span class="n">pcol</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -789,9 +789,9 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
 <span class="c">!$OMP ATOMIC</span>
             <span class="n">send_sizes</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">myt</span><span class="p">,</span> <span class="n">ui</span><span class="p">,</span> <span class="n">dst_proc</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
                <span class="n">send_sizes</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">myt</span><span class="p">,</span> <span class="n">ui</span><span class="p">,</span> <span class="n">dst_proc</span><span class="p">)</span> <span class="o">+</span> <span class="n">nze</span>
-         <span class="n">ENDDO</span> <span class="c">! symmetry_i</span>
-      <span class="n">ENDDO</span>
-      <span class="k">CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
+         <span class="k">ENDDO</span> <span class="c">! symmetry_i</span>
+      <span class="k">ENDDO</span>
+<span class="k">      CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
 <span class="c">!$OMP BARRIER</span>
 <span class="c">!$OMP MASTER</span>
       <span class="c">! Exchange refs</span>
@@ -815,29 +815,29 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
             <span class="k">DO </span><span class="n">it</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nthreads</span> <span class="o">-</span> <span class="mi">1</span>
                <span class="n">local_images_size</span><span class="p">(:,</span> <span class="n">ui</span><span class="p">)</span> <span class="o">=</span> <span class="n">local_images_size</span><span class="p">(:,</span> <span class="n">ui</span><span class="p">)</span> <span class="o">+</span> <span class="p">&amp;</span>
                                           <span class="n">recv_sizes</span><span class="p">(:,</span> <span class="n">it</span><span class="p">,</span> <span class="n">ui</span><span class="p">,</span> <span class="n">dst_proc</span><span class="p">)</span>
-            <span class="n">ENDDO</span>
-         <span class="n">ENDDO</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">local_images_size</span><span class="p">(</span><span class="n">imeta</span><span class="p">,</span> <span class="n">ui</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CYCLE</span>
+            <span class="k">ENDDO</span>
+<span class="k">         ENDDO</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">local_images_size</span><span class="p">(</span><span class="n">imeta</span><span class="p">,</span> <span class="n">ui</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CYCLE</span>
          <span class="c">! Include stats slots for threads indices</span>
          <span class="n">local_images_size</span><span class="p">(</span><span class="n">imeta</span><span class="p">,</span> <span class="n">ui</span><span class="p">)</span> <span class="o">=</span> <span class="n">local_images_size</span><span class="p">(</span><span class="n">imeta</span><span class="p">,</span> <span class="n">ui</span><span class="p">)</span> <span class="o">+</span> <span class="n">size_index</span>
          <span class="n">my_size_recv</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">my_size_recv</span><span class="p">(:)</span> <span class="o">+</span> <span class="n">local_images_size</span><span class="p">(:,</span> <span class="n">ui</span><span class="p">)</span>
-      <span class="n">ENDDO</span>
+      <span class="k">ENDDO</span>
       <span class="c">!</span>
       <span class="c">! Exchange sizes</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">is_left</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">mp_iallgather</span><span class="p">(</span><span class="n">local_images_size</span><span class="p">,</span> <span class="n">left_images_size</span><span class="p">,</span> <span class="n">buffer</span><span class="p">%</span><span class="n">subgrp</span><span class="p">,</span> <span class="n">requests</span><span class="p">(</span><span class="n">irequests</span><span class="p">))</span>
       <span class="k">ELSE</span>
 <span class="k">         CALL </span><span class="n">mp_iallgather</span><span class="p">(</span><span class="n">local_images_size</span><span class="p">,</span> <span class="n">right_images_size</span><span class="p">,</span> <span class="n">buffer</span><span class="p">%</span><span class="n">subgrp</span><span class="p">,</span> <span class="n">requests</span><span class="p">(</span><span class="n">irequests</span><span class="p">))</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">!</span>
       <span class="c">! Allocate data and meta buffers</span>
       <span class="n">do_win_create</span><span class="p">(:)</span> <span class="o">=</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">buffer</span><span class="p">%</span><span class="n">has_rma_win</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">has_rma_win</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">grp</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">grp</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">dbcsr_data_get_type</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="k">data</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">data_type</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">do_win_create</span><span class="p">(:)</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">buffer_init</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="p">&amp;</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
+<span class="k">      CALL </span><span class="n">buffer_init</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="p">&amp;</span>
                        <span class="n">my_size_recv</span><span class="p">(</span><span class="n">idata</span><span class="p">),</span> <span class="n">my_size_recv</span><span class="p">(</span><span class="n">imeta</span><span class="p">),</span> <span class="p">&amp;</span>
                        <span class="n">data_memory_type</span><span class="o">=</span><span class="n">memtype_mpi_buffer</span><span class="p">)</span>
       <span class="n">buffer</span><span class="p">%</span><span class="n">grp</span> <span class="o">=</span> <span class="n">grp</span>
@@ -868,31 +868,31 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
                   <span class="n">recv_displs</span><span class="p">(:,</span> <span class="n">it</span><span class="p">,</span> <span class="n">ui</span><span class="p">,</span> <span class="n">dst_proc</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_size_recv</span><span class="p">(:)</span>
                   <span class="n">my_size_send</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">my_size_send</span><span class="p">(:)</span> <span class="o">+</span> <span class="n">send_sizes</span><span class="p">(:,</span> <span class="n">it</span><span class="p">,</span> <span class="n">ui</span><span class="p">,</span> <span class="n">dst_proc</span><span class="p">)</span>
                   <span class="n">my_size_recv</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">my_size_recv</span><span class="p">(:)</span> <span class="o">+</span> <span class="n">recv_sizes</span><span class="p">(:,</span> <span class="n">it</span><span class="p">,</span> <span class="n">ui</span><span class="p">,</span> <span class="n">dst_proc</span><span class="p">)</span>
-               <span class="n">ENDDO</span>
-            <span class="n">ENDDO</span>
-         <span class="k">ELSE</span>
+               <span class="k">ENDDO</span>
+<span class="k">            ENDDO</span>
+<span class="k">         ELSE</span>
             <span class="c">! Reset all</span>
             <span class="n">send_displs</span><span class="p">(:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="n">dst_proc</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="n">recv_displs</span><span class="p">(:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="n">dst_proc</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>
-         <span class="n">ENDIF</span>
-         <span class="n">send_size_proc</span><span class="p">(:,</span> <span class="n">dst_proc</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_size_send</span><span class="p">(:)</span> <span class="o">-</span> <span class="n">send_displ_proc</span><span class="p">(:,</span> <span class="n">dst_proc</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+         <span class="k">ENDIF</span>
+<span class="k">         </span><span class="n">send_size_proc</span><span class="p">(:,</span> <span class="n">dst_proc</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_size_send</span><span class="p">(:)</span> <span class="o">-</span> <span class="n">send_displ_proc</span><span class="p">(:,</span> <span class="n">dst_proc</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
          <span class="n">recv_size_proc</span><span class="p">(:,</span> <span class="n">dst_proc</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_size_recv</span><span class="p">(:)</span> <span class="o">-</span> <span class="n">recv_displ_proc</span><span class="p">(:,</span> <span class="n">dst_proc</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-      <span class="n">ENDDO</span>
+      <span class="k">ENDDO</span>
       <span class="c">!</span>
       <span class="c">! Allocate data/meta to send</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_data_valid</span><span class="p">(</span><span class="n">make_buffers_data_send</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="n">dbcsr_data_get_type</span><span class="p">(</span><span class="n">make_buffers_data_send</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">data_type</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">make_buffers_data_send</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_data_valid</span><span class="p">(</span><span class="n">make_buffers_data_send</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="n">dbcsr_data_valid</span><span class="p">(</span><span class="n">make_buffers_data_send</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">dbcsr_data_ensure_size</span><span class="p">(</span><span class="n">make_buffers_data_send</span><span class="p">,</span> <span class="n">my_size_send</span><span class="p">(</span><span class="n">idata</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nocopy</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
       <span class="k">ELSE</span>
 <span class="k">         CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">make_buffers_data_send</span><span class="p">)</span>
          <span class="k">CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="n">make_buffers_data_send</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">my_size_send</span><span class="p">(</span><span class="n">idata</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="p">&amp;</span>
                              <span class="n">memory_type</span><span class="o">=</span><span class="n">memtype_mpi_buffer</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">make_buffers_meta_send</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="n">my_size_send</span><span class="p">(</span><span class="n">imeta</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="p">&amp;</span>
+      <span class="k">ENDIF</span>
+<span class="k">      CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">make_buffers_meta_send</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="n">my_size_send</span><span class="p">(</span><span class="n">imeta</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="p">&amp;</span>
                              <span class="n">nocopy</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="n">memory_type</span><span class="o">=</span><span class="n">memtype_mpi_buffer</span><span class="p">)</span>
       <span class="c">! Displs for data offset</span>
       <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">offset_threads</span><span class="p">(</span><span class="n">idata</span><span class="p">:</span><span class="n">imeta</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">nthreads</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nimages</span><span class="p">))</span>
@@ -909,8 +909,8 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
             <span class="k">DO </span><span class="n">dst_proc</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nprocs_total</span> <span class="o">-</span> <span class="mi">1</span>
                <span class="n">offset_threads</span><span class="p">(:,</span> <span class="n">it</span><span class="p">,</span> <span class="n">ui</span><span class="p">)</span> <span class="o">=</span> <span class="n">offset_threads</span><span class="p">(:,</span> <span class="n">it</span><span class="p">,</span> <span class="n">ui</span><span class="p">)</span> <span class="o">+</span> <span class="p">&amp;</span>
                                            <span class="n">recv_sizes</span><span class="p">(:,</span> <span class="n">it</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ui</span><span class="p">,</span> <span class="n">dst_proc</span><span class="p">)</span>
-            <span class="n">ENDDO</span>
-         <span class="n">ENDDO</span>
+            <span class="k">ENDDO</span>
+<span class="k">         ENDDO</span>
          <span class="c">! Fill meta indices for threads</span>
 <span class="c">!$       IF (is_left) THEN</span>
 <span class="c">!$          buffer%meta(local_images_displ(imeta, ui) + 1:local_images_displ(imeta, ui) + nthreads) = &amp;</span>
@@ -926,18 +926,18 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
             <span class="k">DO </span><span class="n">it</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nthreads</span> <span class="o">-</span> <span class="mi">1</span>
                <span class="n">send_displs</span><span class="p">(:,</span> <span class="n">it</span><span class="p">,</span> <span class="n">ui</span><span class="p">,</span> <span class="n">mynode</span><span class="p">)</span> <span class="o">=</span> <span class="n">send_displs</span><span class="p">(:,</span> <span class="n">it</span><span class="p">,</span> <span class="n">ui</span><span class="p">,</span> <span class="n">mynode</span><span class="p">)</span> <span class="o">+</span> <span class="p">&amp;</span>
                                                 <span class="n">recv_sizes</span><span class="p">(:,</span> <span class="n">it</span><span class="p">,</span> <span class="n">ui</span><span class="p">,</span> <span class="n">dst_proc</span><span class="p">)</span>
-            <span class="n">ENDDO</span>
-         <span class="n">ENDDO</span>
-         <span class="n">offset_data</span><span class="p">(:,</span> <span class="n">ui</span><span class="p">,</span> <span class="n">mynode</span><span class="p">)</span> <span class="o">=</span> <span class="n">send_displs</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="p">:,</span> <span class="n">ui</span><span class="p">,</span> <span class="n">mynode</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">ENDDO</span>
+<span class="k">         ENDDO</span>
+<span class="k">         </span><span class="n">offset_data</span><span class="p">(:,</span> <span class="n">ui</span><span class="p">,</span> <span class="n">mynode</span><span class="p">)</span> <span class="o">=</span> <span class="n">send_displs</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="p">:,</span> <span class="n">ui</span><span class="p">,</span> <span class="n">mynode</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
          <span class="n">send_displs</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="p">:,</span> <span class="n">ui</span><span class="p">,</span> <span class="n">mynode</span><span class="p">)</span> <span class="o">=</span> <span class="n">send_displs</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="p">:,</span> <span class="n">ui</span><span class="p">,</span> <span class="n">mynode</span><span class="p">)</span> <span class="o">+</span> <span class="n">local_images_displ</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">ui</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-      <span class="n">ENDDO</span>
+      <span class="k">ENDDO</span>
 <span class="c">!$OMP END MASTER</span>
 <span class="c">!$OMP BARRIER</span>
       <span class="c">!</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">do_part_crop_row</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">do_part_crop_col</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">data_block</span><span class="p">)</span>
          <span class="k">CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="n">data_block</span><span class="p">,</span> <span class="n">dbcsr_type_1d_to_2d</span><span class="p">(</span><span class="n">data_type</span><span class="p">))</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">!</span>
       <span class="c">! Copy data and meta in the buffers</span>
       <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;_pack&quot;</span><span class="p">,</span> <span class="n">handle2</span><span class="p">)</span>
@@ -956,15 +956,15 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
 <span class="k">               IF</span> <span class="p">(</span><span class="n">row</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">col</span><span class="p">)</span> <span class="k">CYCLE</span>
 <span class="k">               </span><span class="n">stored_row</span> <span class="o">=</span> <span class="n">col</span><span class="p">;</span> <span class="n">stored_col</span> <span class="o">=</span> <span class="n">row</span><span class="p">;</span> <span class="n">tr</span> <span class="o">=</span> <span class="n">blk_p</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span>
                <span class="n">tr_row_size</span> <span class="o">=</span> <span class="n">row_size</span><span class="p">;</span> <span class="n">tr_col_size</span> <span class="o">=</span> <span class="n">col_size</span>
-            <span class="n">ENDIF</span>
+            <span class="k">ENDIF</span>
             <span class="c">! Apply cropping</span>
             <span class="k">IF</span> <span class="p">(</span><span class="n">do_crop</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">               IF</span> <span class="p">(</span><span class="n">stored_row</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="k">CYCLE</span>
 <span class="k">               IF</span> <span class="p">(</span><span class="n">stored_row</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="k">CYCLE</span>
 <span class="k">               IF</span> <span class="p">(</span><span class="n">stored_col</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">block_col_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="k">CYCLE</span>
 <span class="k">               IF</span> <span class="p">(</span><span class="n">stored_col</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">block_col_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="k">CYCLE</span>
-<span class="k">            </span><span class="n">ENDIF</span>
-            <span class="n">row_img</span> <span class="o">=</span> <span class="n">row_img_dist</span><span class="p">(</span><span class="n">stored_row</span><span class="p">)</span>
+<span class="k">            ENDIF</span>
+<span class="k">            </span><span class="n">row_img</span> <span class="o">=</span> <span class="n">row_img_dist</span><span class="p">(</span><span class="n">stored_row</span><span class="p">)</span>
             <span class="n">col_img</span> <span class="o">=</span> <span class="n">col_img_dist</span><span class="p">(</span><span class="n">stored_col</span><span class="p">)</span>
             <span class="k">CALL </span><span class="n">image_calculator</span><span class="p">(</span><span class="n">imgdist</span><span class="p">,</span> <span class="p">&amp;</span>
                                   <span class="n">prow</span><span class="o">=</span><span class="n">prow</span><span class="p">,</span> <span class="n">pcol</span><span class="o">=</span><span class="n">pcol</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -979,7 +979,7 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
             <span class="k">ELSE</span>
 <span class="k">               </span><span class="n">data_buffer_p</span> <span class="o">=&gt;</span> <span class="n">make_buffers_data_send</span>
                <span class="n">meta_buffer_p</span> <span class="o">=&gt;</span> <span class="n">make_buffers_meta_send</span>
-            <span class="n">ENDIF</span>
+            <span class="k">ENDIF</span>
 <span class="c">!$          IF (is_left .AND. do_symmetry) THEN</span>
 <span class="c">!$             myt = threads_dist(stored_row)</span>
 <span class="c">!$             call omp_set_lock(locks(myt))</span>
@@ -998,12 +998,12 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
                <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">sm</span><span class="p">%</span><span class="n">negate_imaginary</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">                  CALL </span><span class="n">dbcsr_block_conjg</span><span class="p">(</span><span class="n">data_buffer_p</span><span class="p">,</span> <span class="n">row_size</span><span class="o">=</span><span class="n">nze</span><span class="p">,</span> <span class="n">col_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="p">&amp;</span>
                                          <span class="n">lb</span><span class="o">=</span><span class="n">send_displs</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">myt</span><span class="p">,</span> <span class="n">ui</span><span class="p">,</span> <span class="n">dst_proc</span><span class="p">))</span>
-               <span class="n">ENDIF</span>
-            <span class="k">ELSE</span>
+               <span class="k">ENDIF</span>
+<span class="k">            ELSE</span>
 <span class="k">               CALL </span><span class="n">dbcsr_block_copy_aa</span><span class="p">(</span><span class="n">data_buffer_p</span><span class="p">,</span> <span class="n">sm</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span> <span class="n">row_size</span><span class="p">,</span> <span class="n">col_size</span><span class="p">,</span> <span class="p">&amp;</span>
                                         <span class="n">send_displs</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">myt</span><span class="p">,</span> <span class="n">ui</span><span class="p">,</span> <span class="n">dst_proc</span><span class="p">),</span> <span class="n">bp</span><span class="p">,</span> <span class="p">&amp;</span>
                                         <span class="n">scale_value</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
+            <span class="k">ENDIF</span>
             <span class="c">!</span>
             <span class="c">! Apply cropping for partial blocks</span>
             <span class="k">IF</span> <span class="p">(</span><span class="n">do_part_crop_row</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">do_part_crop_col</span><span class="p">)</span> <span class="k">THEN</span>
@@ -1016,20 +1016,20 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
                <span class="k">IF</span> <span class="p">(</span><span class="n">do_part_crop_row</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">                  IF</span> <span class="p">(</span><span class="n">do_part_crop_f_row</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">stored_row</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">                     CALL </span><span class="n">dbcsr_data_clear</span><span class="p">(</span><span class="n">data_block</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="n">f_row_f</span><span class="p">)</span>
-                  <span class="n">ENDIF</span>
-                  <span class="k">IF</span> <span class="p">(</span><span class="n">do_part_crop_l_row</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">stored_row</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="k">THEN</span>
+                  <span class="k">ENDIF</span>
+<span class="k">                  IF</span> <span class="p">(</span><span class="n">do_part_crop_l_row</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">stored_row</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">                     CALL </span><span class="n">dbcsr_data_clear</span><span class="p">(</span><span class="n">data_block</span><span class="p">,</span> <span class="n">lb</span><span class="o">=</span><span class="n">l_row_l</span><span class="p">)</span>
-                  <span class="n">ENDIF</span>
-               <span class="n">ENDIF</span>
-               <span class="k">IF</span> <span class="p">(</span><span class="n">do_part_crop_col</span><span class="p">)</span> <span class="k">THEN</span>
+                  <span class="k">ENDIF</span>
+<span class="k">               ENDIF</span>
+<span class="k">               IF</span> <span class="p">(</span><span class="n">do_part_crop_col</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">                  IF</span> <span class="p">(</span><span class="n">do_part_crop_f_col</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">stored_col</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">block_col_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">                     CALL </span><span class="n">dbcsr_data_clear</span><span class="p">(</span><span class="n">data_block</span><span class="p">,</span> <span class="n">ub2</span><span class="o">=</span><span class="n">f_col_f</span><span class="p">)</span>
-                  <span class="n">ENDIF</span>
-                  <span class="k">IF</span> <span class="p">(</span><span class="n">do_part_crop_l_col</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">stored_col</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">block_col_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="k">THEN</span>
+                  <span class="k">ENDIF</span>
+<span class="k">                  IF</span> <span class="p">(</span><span class="n">do_part_crop_l_col</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">stored_col</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">block_col_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">                     CALL </span><span class="n">dbcsr_data_clear</span><span class="p">(</span><span class="n">data_block</span><span class="p">,</span> <span class="n">lb2</span><span class="o">=</span><span class="n">l_col_l</span><span class="p">)</span>
-                  <span class="n">ENDIF</span>
-               <span class="n">ENDIF</span>
-            <span class="n">ENDIF</span>
+                  <span class="k">ENDIF</span>
+<span class="k">               ENDIF</span>
+<span class="k">            ENDIF</span>
             <span class="c">!</span>
             <span class="c">! Set meta data (global or local indexing)</span>
             <span class="k">IF</span> <span class="p">(</span><span class="n">dst_proc</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">mynode</span><span class="p">)</span> <span class="k">THEN</span>
@@ -1039,9 +1039,9 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
                <span class="k">IF</span> <span class="p">(</span><span class="n">is_left</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">otf_filtering</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">                  </span><span class="n">left_total_row_counts</span><span class="p">(</span><span class="n">stored_row</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
                      <span class="n">left_total_row_counts</span><span class="p">(</span><span class="n">stored_row</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-               <span class="n">ENDIF</span>
-            <span class="n">ENDIF</span>
-            <span class="n">meta_buffer_p</span><span class="p">(</span><span class="n">send_displs</span><span class="p">(</span><span class="n">imeta</span><span class="p">,</span> <span class="n">myt</span><span class="p">,</span> <span class="n">ui</span><span class="p">,</span> <span class="n">dst_proc</span><span class="p">))</span> <span class="o">=</span> <span class="n">stored_row</span>
+               <span class="k">ENDIF</span>
+<span class="k">            ENDIF</span>
+<span class="k">            </span><span class="n">meta_buffer_p</span><span class="p">(</span><span class="n">send_displs</span><span class="p">(</span><span class="n">imeta</span><span class="p">,</span> <span class="n">myt</span><span class="p">,</span> <span class="n">ui</span><span class="p">,</span> <span class="n">dst_proc</span><span class="p">))</span> <span class="o">=</span> <span class="n">stored_row</span>
             <span class="n">meta_buffer_p</span><span class="p">(</span><span class="n">send_displs</span><span class="p">(</span><span class="n">imeta</span><span class="p">,</span> <span class="n">myt</span><span class="p">,</span> <span class="n">ui</span><span class="p">,</span> <span class="n">dst_proc</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">stored_col</span>
             <span class="n">meta_buffer_p</span><span class="p">(</span><span class="n">send_displs</span><span class="p">(</span><span class="n">imeta</span><span class="p">,</span> <span class="n">myt</span><span class="p">,</span> <span class="n">ui</span><span class="p">,</span> <span class="n">dst_proc</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">offset_data</span><span class="p">(</span><span class="n">myt</span><span class="p">,</span> <span class="n">ui</span><span class="p">,</span> <span class="n">dst_proc</span><span class="p">)</span>
             <span class="c">!</span>
@@ -1051,15 +1051,15 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
 <span class="c">!$          IF (is_left .AND. do_symmetry) THEN</span>
 <span class="c">!$             call omp_unset_lock(locks(myt))</span>
 <span class="c">!$          ENDIF</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDDO</span>
-      <span class="k">CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
+         <span class="k">ENDDO</span>
+<span class="k">      ENDDO</span>
+<span class="k">      CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle2</span><span class="p">)</span>
       <span class="c">!</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">do_part_crop_row</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">do_part_crop_col</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">dbcsr_data_clear_pointer</span><span class="p">(</span><span class="n">data_block</span><span class="p">)</span>
          <span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">data_block</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">!</span>
 <span class="c">!$OMP BARRIER</span>
 <span class="c">!$OMP MASTER</span>
@@ -1068,16 +1068,16 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
       <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_data_valid</span><span class="p">(</span><span class="n">make_buffers_data_recv</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="n">dbcsr_data_get_type</span><span class="p">(</span><span class="n">make_buffers_data_recv</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">data_type</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">make_buffers_data_recv</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_data_valid</span><span class="p">(</span><span class="n">make_buffers_data_recv</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="n">dbcsr_data_valid</span><span class="p">(</span><span class="n">make_buffers_data_recv</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">dbcsr_data_ensure_size</span><span class="p">(</span><span class="n">make_buffers_data_recv</span><span class="p">,</span> <span class="n">my_size_recv</span><span class="p">(</span><span class="n">idata</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nocopy</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
       <span class="k">ELSE</span>
 <span class="k">         CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">make_buffers_data_recv</span><span class="p">)</span>
          <span class="k">CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="n">make_buffers_data_recv</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">my_size_recv</span><span class="p">(</span><span class="n">idata</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="p">&amp;</span>
                              <span class="n">memory_type</span><span class="o">=</span><span class="n">memtype_mpi_buffer</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">make_buffers_meta_recv</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="n">my_size_recv</span><span class="p">(</span><span class="n">imeta</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="p">&amp;</span>
+      <span class="k">ENDIF</span>
+<span class="k">      CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">make_buffers_meta_recv</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="n">my_size_recv</span><span class="p">(</span><span class="n">imeta</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="p">&amp;</span>
                              <span class="n">nocopy</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="n">memory_type</span><span class="o">=</span><span class="n">memtype_mpi_buffer</span><span class="p">)</span>
       <span class="c">! Exchange data</span>
       <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="s2">&quot;_data&quot;</span><span class="p">,</span> <span class="n">handle2</span><span class="p">)</span>
@@ -1124,8 +1124,8 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
 <span class="c">!$OMP ATOMIC</span>
                      <span class="n">left_total_row_counts</span><span class="p">(</span><span class="n">stored_row</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
                         <span class="n">left_total_row_counts</span><span class="p">(</span><span class="n">stored_row</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-                  <span class="n">ENDIF</span>
-               <span class="n">ENDDO</span>
+                  <span class="k">ENDIF</span>
+<span class="k">               ENDDO</span>
                <span class="c">! Copy data</span>
                <span class="k">CALL </span><span class="n">dbcsr_data_set</span><span class="p">(</span><span class="n">data_buffer_p</span><span class="p">,</span> <span class="p">&amp;</span>
                                    <span class="n">offset_threads</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">ithread</span><span class="p">,</span> <span class="n">ui</span><span class="p">)</span> <span class="o">+</span> <span class="n">local_images_displ</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">ui</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -1133,9 +1133,9 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
                                    <span class="n">make_buffers_data_recv</span><span class="p">,</span> <span class="n">recv_displs</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">ithread</span><span class="p">,</span> <span class="n">ui</span><span class="p">,</span> <span class="n">dst_proc</span><span class="p">))</span>
                <span class="n">offset_threads</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">ithread</span><span class="p">,</span> <span class="n">ui</span><span class="p">)</span> <span class="o">=</span> <span class="n">offset_threads</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">ithread</span><span class="p">,</span> <span class="n">ui</span><span class="p">)</span> <span class="o">+</span> <span class="p">&amp;</span>
                                                     <span class="n">recv_sizes</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">ithread</span><span class="p">,</span> <span class="n">ui</span><span class="p">,</span> <span class="n">dst_proc</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDDO</span>
+            <span class="k">ENDIF</span>
+<span class="k">         ENDDO</span>
+<span class="k">      ENDDO</span>
 <span class="c">!$OMP END PARALLEL</span>
       <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">send_sizes</span><span class="p">,</span> <span class="n">recv_sizes</span><span class="p">)</span>
       <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">send_displs</span><span class="p">,</span> <span class="n">recv_displs</span><span class="p">,</span> <span class="n">offset_data</span><span class="p">,</span> <span class="n">offset_threads</span><span class="p">)</span>
@@ -1143,7 +1143,7 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
       <span class="c">!</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">is_left</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">otf_filtering</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">mp_isum</span><span class="p">(</span><span class="n">left_total_row_counts</span><span class="p">,</span> <span class="n">dbcsr_mp_my_row_group</span><span class="p">(</span><span class="n">mp_obj</span><span class="p">),</span> <span class="n">request_count_rows</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">!</span>
       <span class="k">CALL </span><span class="n">setup_rec_index_images</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">meta</span><span class="p">,</span> <span class="n">img_nblks_rows</span><span class="p">,</span> <span class="n">img_nblks_cols</span><span class="p">,</span> <span class="p">&amp;</span>
                                   <span class="n">local_images_size</span><span class="p">(</span><span class="n">imeta</span><span class="p">,</span> <span class="p">:),</span> <span class="n">local_images_displ</span><span class="p">(</span><span class="n">imeta</span><span class="p">,</span> <span class="p">:),</span> <span class="p">&amp;</span>
@@ -1152,7 +1152,7 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
 <span class="k">         </span><span class="n">do_win_create</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">do_win_create</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">dbcsr_data_exists</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">data_before_resize</span><span class="p">)</span>
          <span class="n">do_win_create</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">do_win_create</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">meta_before_resize</span><span class="p">)</span>
          <span class="k">CALL </span><span class="n">mp_isum</span><span class="p">(</span><span class="n">do_win_create</span><span class="p">,</span> <span class="n">buffer</span><span class="p">%</span><span class="n">subgrp</span><span class="p">,</span> <span class="n">requests_win_create</span><span class="p">(</span><span class="n">irequests</span><span class="p">))</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">!</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">is_left</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         NULLIFY</span> <span class="p">(</span><span class="n">local_g2l_map_rows</span><span class="p">)</span>
@@ -1160,7 +1160,7 @@ private subroutine make_buffers(matrix, imgdist, is_left, f_row, l_row, f_col, l
       <span class="k">ELSE</span>
 <span class="k">         DEALLOCATE</span> <span class="p">(</span><span class="n">local_g2l_map_rows</span><span class="p">)</span>
          <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">local_g2l_map_cols</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 <span class="c">!$    IF (is_left .AND. do_symmetry) THEN</span>
 <span class="c">!$       DEALLOCATE (locks)</span>
 <span class="c">!$    ENDIF</span>

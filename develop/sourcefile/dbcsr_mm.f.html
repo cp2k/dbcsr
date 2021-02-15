@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -507,9 +507,9 @@
 <a name="ln-245"></a>      <span class="k">ELSE</span>
 <a name="ln-246"></a><span class="k">         </span><span class="n">average</span> <span class="o">=</span> <span class="mi">0</span>
 <a name="ln-247"></a>         <span class="n">min_recv_data</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-248"></a>      <span class="n">ENDIF</span>
+<a name="ln-248"></a>      <span class="k">ENDIF</span>
 <a name="ln-249"></a>
-<a name="ln-250"></a>      <span class="n">total_recv_breakdown</span><span class="p">(:,</span> <span class="p">:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">dbcsr_mpi_statistics</span><span class="p">%</span><span class="n">data_size_breakdown</span><span class="p">(:,</span> <span class="p">:,</span> <span class="p">:)</span>
+<a name="ln-250"></a><span class="k">      </span><span class="n">total_recv_breakdown</span><span class="p">(:,</span> <span class="p">:,</span> <span class="p">:)</span> <span class="o">=</span> <span class="n">dbcsr_mpi_statistics</span><span class="p">%</span><span class="n">data_size_breakdown</span><span class="p">(:,</span> <span class="p">:,</span> <span class="p">:)</span>
 <a name="ln-251"></a>      <span class="k">CALL </span><span class="n">mp_sum</span><span class="p">(</span><span class="n">total_recv_breakdown</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
 <a name="ln-252"></a>
 <a name="ln-253"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">output_unit</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
@@ -539,14 +539,14 @@
 <a name="ln-277"></a>                  <span class="k">WRITE</span> <span class="p">(</span><span class="n">output_unit</span><span class="p">,</span> <span class="s1">&#39;(A,I8,A,I8,T40,I10,T55,I20)&#39;</span><span class="p">)</span> <span class="s2">&quot;  &quot;</span><span class="p">,</span> <span class="n">dbcsr_mpi_size_limits</span><span class="p">(</span><span class="n">ilimit</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="p">&amp;</span>
 <a name="ln-278"></a>                     <span class="s2">&quot; &lt; size &lt;= &quot;</span><span class="p">,</span> <span class="n">dbcsr_mpi_size_limits</span><span class="p">(</span><span class="n">ilimit</span><span class="p">),</span> <span class="p">&amp;</span>
 <a name="ln-279"></a>                     <span class="nb">SUM</span><span class="p">(</span><span class="n">total_recv_breakdown</span><span class="p">(</span><span class="n">ilimit</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:)),</span> <span class="nb">SUM</span><span class="p">(</span><span class="n">total_recv_breakdown</span><span class="p">(</span><span class="n">ilimit</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">:))</span>
-<a name="ln-280"></a>               <span class="n">ENDDO</span>
-<a name="ln-281"></a>               <span class="n">ilimit</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">dbcsr_mpi_size_limits</span><span class="p">)</span>
+<a name="ln-280"></a>               <span class="k">ENDDO</span>
+<a name="ln-281"></a><span class="k">               </span><span class="n">ilimit</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">dbcsr_mpi_size_limits</span><span class="p">)</span>
 <a name="ln-282"></a>               <span class="k">WRITE</span> <span class="p">(</span><span class="n">output_unit</span><span class="p">,</span> <span class="s1">&#39;(A,I8,A,T40,I10,T55,I20)&#39;</span><span class="p">)</span> <span class="s2">&quot;  &quot;</span><span class="p">,</span> <span class="n">dbcsr_mpi_size_limits</span><span class="p">(</span><span class="n">ilimit</span><span class="p">),</span> <span class="p">&amp;</span>
 <a name="ln-283"></a>                  <span class="s2">&quot; &lt; size    &quot;</span><span class="p">,</span> <span class="nb">SUM</span><span class="p">(</span><span class="n">total_recv_breakdown</span><span class="p">(</span><span class="n">ilimit</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="p">:)),</span> <span class="nb">SUM</span><span class="p">(</span><span class="n">total_recv_breakdown</span><span class="p">(</span><span class="n">ilimit</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">:))</span>
-<a name="ln-284"></a>            <span class="n">ENDIF</span>
-<a name="ln-285"></a>         <span class="n">ENDIF</span>
+<a name="ln-284"></a>            <span class="k">ENDIF</span>
+<a name="ln-285"></a><span class="k">         ENDIF</span>
 <a name="ln-286"></a>
-<a name="ln-287"></a>         <span class="n">isqrt</span> <span class="o">=</span> <span class="nb">NINT</span><span class="p">(</span><span class="nb">SQRT</span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">dbcsr_mpi_statistics</span><span class="p">%</span><span class="n">last_mpi_ranks_used</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)))</span>
+<a name="ln-287"></a><span class="k">         </span><span class="n">isqrt</span> <span class="o">=</span> <span class="nb">NINT</span><span class="p">(</span><span class="nb">SQRT</span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">dbcsr_mpi_statistics</span><span class="p">%</span><span class="n">last_mpi_ranks_used</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)))</span>
 <a name="ln-288"></a>         <span class="n">isqrt2</span> <span class="o">=</span> <span class="nb">NINT</span><span class="p">(</span><span class="nb">SQRT</span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">dbcsr_mpi_statistics</span><span class="p">%</span><span class="n">last_mpi_ranks_used</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)))</span>
 <a name="ln-289"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">isqrt</span><span class="o">*</span><span class="n">isqrt</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">dbcsr_mpi_statistics</span><span class="p">%</span><span class="n">last_mpi_ranks_used</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-290"></a><span class="k">            WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">output_unit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(T2,A)&quot;</span><span class="p">)</span> <span class="nb">REPEAT</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="mi">79</span><span class="p">)</span>
@@ -555,9 +555,9 @@
 <a name="ln-293"></a>               <span class="s2">&quot; Used ranks: &quot;</span><span class="p">,</span> <span class="n">dbcsr_mpi_statistics</span><span class="p">%</span><span class="n">last_mpi_ranks_used</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-294"></a>               <span class="s2">&quot; Suggested: &quot;</span><span class="p">,</span> <span class="n">isqrt</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">isqrt2</span><span class="o">**</span><span class="mi">2</span>
 <a name="ln-295"></a>            <span class="n">DBCSR_WARN</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-<a name="ln-296"></a>         <span class="n">ENDIF</span>
-<a name="ln-297"></a>      <span class="n">ENDIF</span>
-<a name="ln-298"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_multiply_print_statistics</span>
+<a name="ln-296"></a>         <span class="k">ENDIF</span>
+<a name="ln-297"></a><span class="k">      ENDIF</span>
+<a name="ln-298"></a><span class="k">   END SUBROUTINE </span><span class="n">dbcsr_multiply_print_statistics</span>
 <a name="ln-299"></a>
 <a name="ln-300"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_multiply_clear_mempools</span><span class="p">()</span>
 <a name="ln-301"></a>      <span class="c">!! Deallocate memory contained in mempools</span>
@@ -689,7 +689,7 @@
 <a name="ln-427"></a>      <span class="c">! Reset GPU errors</span>
 <a name="ln-428"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">has_acc</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-429"></a><span class="k">         CALL </span><span class="n">dbcsr_acc_clear_errors</span><span class="p">()</span>
-<a name="ln-430"></a>      <span class="n">ENDIF</span>
+<a name="ln-430"></a>      <span class="k">ENDIF</span>
 <a name="ln-431"></a>
 <a name="ln-432"></a>      <span class="c">! Check if RMA is used with buggy OpenMPI (version&lt;1.10.4 or 2.0.1)</span>
 <a name="ln-433"></a>      <span class="k">CALL </span><span class="n">check_openmpi_rma</span><span class="p">()</span>
@@ -706,9 +706,9 @@
 <a name="ln-444"></a><span class="k">         IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">acc_stream_associated</span><span class="p">(</span><span class="n">stream_1</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-445"></a><span class="k">            CALL </span><span class="n">acc_stream_create</span><span class="p">(</span><span class="n">stream_1</span><span class="p">,</span> <span class="s2">&quot;MemCpy (odd ticks)&quot;</span><span class="p">)</span>
 <a name="ln-446"></a>            <span class="k">CALL </span><span class="n">acc_stream_create</span><span class="p">(</span><span class="n">stream_2</span><span class="p">,</span> <span class="s2">&quot;MemCpy (even ticks)&quot;</span><span class="p">)</span>
-<a name="ln-447"></a>         <span class="n">ENDIF</span>
+<a name="ln-447"></a>         <span class="k">ENDIF</span>
 <a name="ln-448"></a>
-<a name="ln-449"></a>         <span class="k">CALL </span><span class="n">dbcsr_memtype_setup</span><span class="p">(</span><span class="n">memtype_abpanel_1</span><span class="p">,</span> <span class="n">has_pool</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="p">&amp;</span>
+<a name="ln-449"></a><span class="k">         CALL </span><span class="n">dbcsr_memtype_setup</span><span class="p">(</span><span class="n">memtype_abpanel_1</span><span class="p">,</span> <span class="n">has_pool</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="p">&amp;</span>
 <a name="ln-450"></a>                                  <span class="n">acc_hostalloc</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="n">acc_devalloc</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="n">acc_stream</span><span class="o">=</span><span class="n">stream_1</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-451"></a>                                  <span class="n">mpi</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="n">oversize_factor</span><span class="o">=</span><span class="n">default_resize_factor</span><span class="p">)</span>
 <a name="ln-452"></a>
@@ -723,9 +723,9 @@
 <a name="ln-461"></a>                                  <span class="n">acc_hostalloc</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="n">acc_devalloc</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="n">acc_stream</span><span class="o">=</span><span class="n">stream_2</span><span class="p">)</span>
 <a name="ln-462"></a>         <span class="k">CALL </span><span class="n">dbcsr_mempool_limit_capacity</span><span class="p">(</span><span class="n">memtype_trsbuffer_1</span><span class="p">%</span><span class="n">pool</span><span class="p">,</span> <span class="n">capacity</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <a name="ln-463"></a>         <span class="k">CALL </span><span class="n">dbcsr_mempool_limit_capacity</span><span class="p">(</span><span class="n">memtype_trsbuffer_2</span><span class="p">%</span><span class="n">pool</span><span class="p">,</span> <span class="n">capacity</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<a name="ln-464"></a>      <span class="n">ENDIF</span>
+<a name="ln-464"></a>      <span class="k">ENDIF</span>
 <a name="ln-465"></a>
-<a name="ln-466"></a>      <span class="k">CALL </span><span class="n">dbcsr_memtype_setup</span><span class="p">(</span><span class="n">memtype_mpi_buffer</span><span class="p">,</span> <span class="n">mpi</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+<a name="ln-466"></a><span class="k">      CALL </span><span class="n">dbcsr_memtype_setup</span><span class="p">(</span><span class="n">memtype_mpi_buffer</span><span class="p">,</span> <span class="n">mpi</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
 <a name="ln-467"></a>      <span class="k">CALL </span><span class="n">dbcsr_memtype_setup</span><span class="p">(</span><span class="n">memtype_mpi_product</span><span class="p">,</span> <span class="n">mpi</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="n">has_pool</span><span class="o">=</span><span class="n">use_mempools</span><span class="p">)</span>
 <a name="ln-468"></a>
 <a name="ln-469"></a>      <span class="c">! check parameters ---------------------------------------------------------</span>
@@ -756,8 +756,8 @@
 <a name="ln-494"></a><span class="k">            CALL </span><span class="n">dbcsr_print</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">,</span> <span class="n">nodata</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
 <a name="ln-495"></a>            <span class="k">CALL </span><span class="n">dbcsr_print</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">,</span> <span class="n">nodata</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
 <a name="ln-496"></a>            <span class="k">CALL </span><span class="n">dbcsr_print</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">,</span> <span class="n">nodata</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
-<a name="ln-497"></a>         <span class="n">ENDIF</span>
-<a name="ln-498"></a>      <span class="n">ENDIF</span>
+<a name="ln-497"></a>         <span class="k">ENDIF</span>
+<a name="ln-498"></a><span class="k">      ENDIF</span>
 <a name="ln-499"></a>
 <a name="ln-500"></a>      <span class="c">! transpose/conjg left and/or right matrices if needed</span>
 <a name="ln-501"></a>      <span class="n">transpose_left</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
@@ -778,8 +778,8 @@
 <a name="ln-516"></a><span class="k">            CALL </span><span class="n">dbcsr_new_transposed</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">,</span> <span class="n">matrix_a</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-517"></a>                                      <span class="n">shallow_data_copy</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="n">redistribute</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span> <span class="p">&amp;</span>
 <a name="ln-518"></a>                                      <span class="n">transpose_distribution</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
-<a name="ln-519"></a>         <span class="n">ENDIF</span>
-<a name="ln-520"></a>         <span class="n">transpose_left</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<a name="ln-519"></a>         <span class="k">ENDIF</span>
+<a name="ln-520"></a><span class="k">         </span><span class="n">transpose_left</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
 <a name="ln-521"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_conjugate_transpose</span><span class="p">)</span>
 <a name="ln-522"></a>         <span class="n">matrix_left</span> <span class="o">=</span> <span class="n">dbcsr_type</span><span class="p">()</span>
 <a name="ln-523"></a>         <span class="k">CALL </span><span class="n">dbcsr_new_transposed</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">,</span> <span class="n">matrix_a</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -809,8 +809,8 @@
 <a name="ln-547"></a><span class="k">            CALL </span><span class="n">dbcsr_new_transposed</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">,</span> <span class="n">matrix_b</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-548"></a>                                      <span class="n">shallow_data_copy</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="n">redistribute</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span> <span class="p">&amp;</span>
 <a name="ln-549"></a>                                      <span class="n">transpose_distribution</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
-<a name="ln-550"></a>         <span class="n">ENDIF</span>
-<a name="ln-551"></a>         <span class="n">transpose_right</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<a name="ln-550"></a>         <span class="k">ENDIF</span>
+<a name="ln-551"></a><span class="k">         </span><span class="n">transpose_right</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
 <a name="ln-552"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_conjugate_transpose</span><span class="p">)</span>
 <a name="ln-553"></a>         <span class="n">matrix_right</span> <span class="o">=</span> <span class="n">dbcsr_type</span><span class="p">()</span>
 <a name="ln-554"></a>         <span class="k">CALL </span><span class="n">dbcsr_new_transposed</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">,</span> <span class="n">matrix_b</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -844,7 +844,7 @@
 <a name="ln-582"></a>      <span class="c">! No dense multiplication when RMA is used.</span>
 <a name="ln-583"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-584"></a><span class="k">         </span><span class="n">use_dense_mult</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a name="ln-585"></a>      <span class="n">ENDIF</span>
+<a name="ln-585"></a>      <span class="k">ENDIF</span>
 <a name="ln-586"></a>      <span class="c">! we skip dense multiply for (anti)symmetric matrices (slowdown for S/H * C)</span>
 <a name="ln-587"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">use_dense_mult</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-588"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">dbcsr_has_symmetry</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">)</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="p">&amp;</span>
@@ -853,14 +853,14 @@
 <a name="ln-591"></a>         <span class="k">ELSE</span>
 <a name="ln-592"></a><span class="k">            </span><span class="n">use_dense_mult</span> <span class="o">=</span> <span class="n">dbcsr_may_be_dense</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">,</span> <span class="n">make_dense_occ_thresh</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-593"></a>                             <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">dbcsr_may_be_dense</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">,</span> <span class="n">make_dense_occ_thresh</span><span class="p">)</span>
-<a name="ln-594"></a>         <span class="n">ENDIF</span>
-<a name="ln-595"></a>      <span class="n">ENDIF</span>
-<a name="ln-596"></a>      <span class="n">ab_dense</span> <span class="o">=</span> <span class="n">use_dense_mult</span>
+<a name="ln-594"></a>         <span class="k">ENDIF</span>
+<a name="ln-595"></a><span class="k">      ENDIF</span>
+<a name="ln-596"></a><span class="k">      </span><span class="n">ab_dense</span> <span class="o">=</span> <span class="n">use_dense_mult</span>
 <a name="ln-597"></a>      <span class="c">! Use memory pools when no dense</span>
 <a name="ln-598"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">has_acc</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-599"></a><span class="k">         CALL </span><span class="n">dbcsr_memtype_setup</span><span class="p">(</span><span class="n">memtype_abpanel_1</span><span class="p">,</span> <span class="n">has_pool</span><span class="o">=</span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">ab_dense</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">use_mempools</span><span class="p">,</span> <span class="n">mpi</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
 <a name="ln-600"></a>         <span class="k">CALL </span><span class="n">dbcsr_memtype_setup</span><span class="p">(</span><span class="n">memtype_abpanel_2</span><span class="p">,</span> <span class="n">has_pool</span><span class="o">=</span><span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">ab_dense</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">use_mempools</span><span class="p">,</span> <span class="n">mpi</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
-<a name="ln-601"></a>      <span class="n">ENDIF</span>
+<a name="ln-601"></a>      <span class="k">ENDIF</span>
 <a name="ln-602"></a>      <span class="c">!</span>
 <a name="ln-603"></a>      <span class="c">! Submatrix selection</span>
 <a name="ln-604"></a>      <span class="n">f_row</span> <span class="o">=</span> <span class="mi">1</span>
@@ -873,34 +873,34 @@
 <a name="ln-611"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">first_row</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="mi">1</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">first_row</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">dbcsr_nfullrows_total</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-612"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid first row specified&quot;</span><span class="p">)</span>
 <a name="ln-613"></a>         <span class="n">f_row</span> <span class="o">=</span> <span class="n">first_row</span>
-<a name="ln-614"></a>      <span class="n">ENDIF</span>
-<a name="ln-615"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">last_row</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-614"></a>      <span class="k">ENDIF</span>
+<a name="ln-615"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">last_row</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-616"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">last_row</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">dbcsr_nfullrows_total</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-617"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid last row specified&quot;</span><span class="p">)</span>
 <a name="ln-618"></a>         <span class="n">l_row</span> <span class="o">=</span> <span class="n">last_row</span>
-<a name="ln-619"></a>      <span class="n">ENDIF</span>
-<a name="ln-620"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">first_column</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-619"></a>      <span class="k">ENDIF</span>
+<a name="ln-620"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">first_column</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-621"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">first_column</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="mi">1</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">first_column</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-622"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid first col specified&quot;</span><span class="p">)</span>
 <a name="ln-623"></a>         <span class="n">f_col</span> <span class="o">=</span> <span class="n">first_column</span>
-<a name="ln-624"></a>      <span class="n">ENDIF</span>
-<a name="ln-625"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">last_column</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-624"></a>      <span class="k">ENDIF</span>
+<a name="ln-625"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">last_column</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-626"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">last_column</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-627"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid last column specified (C)&quot;</span><span class="p">)</span>
 <a name="ln-628"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">last_column</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-629"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid last column specified (B)&quot;</span><span class="p">)</span>
 <a name="ln-630"></a>         <span class="n">l_col</span> <span class="o">=</span> <span class="n">last_column</span>
-<a name="ln-631"></a>      <span class="n">ENDIF</span>
-<a name="ln-632"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">first_k</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-631"></a>      <span class="k">ENDIF</span>
+<a name="ln-632"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">first_k</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-633"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">first_k</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="mi">1</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">first_k</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-634"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid first k specified (A)&quot;</span><span class="p">)</span>
 <a name="ln-635"></a>         <span class="n">f_k</span> <span class="o">=</span> <span class="n">first_k</span>
-<a name="ln-636"></a>      <span class="n">ENDIF</span>
-<a name="ln-637"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">last_k</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-636"></a>      <span class="k">ENDIF</span>
+<a name="ln-637"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">last_k</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-638"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">last_k</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-639"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid last k specified (A)&quot;</span><span class="p">)</span>
 <a name="ln-640"></a>         <span class="n">l_k</span> <span class="o">=</span> <span class="n">last_k</span>
-<a name="ln-641"></a>      <span class="n">ENDIF</span>
+<a name="ln-641"></a>      <span class="k">ENDIF</span>
 <a name="ln-642"></a>      <span class="c">!</span>
 <a name="ln-643"></a>      <span class="c">! update statistics (we count marketing flops per MPI rank)</span>
 <a name="ln-644"></a>      <span class="n">dbcsr_mpi_statistics</span><span class="p">%</span><span class="n">last_mpi_ranks_used</span> <span class="o">=</span> <span class="n">numnodes</span>
@@ -926,8 +926,8 @@
 <a name="ln-664"></a>                               <span class="n">matrix_c</span><span class="p">%</span><span class="n">col_blk_size</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-665"></a><span class="k">         </span><span class="n">l_col</span> <span class="o">=</span> <span class="nb">MIN</span><span class="p">(</span><span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">),</span> <span class="p">&amp;</span>
 <a name="ln-666"></a>                     <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">))</span>
-<a name="ln-667"></a>      <span class="n">ENDIF</span>
-<a name="ln-668"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">f_row</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">l_row</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">l_row</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-667"></a>      <span class="k">ENDIF</span>
+<a name="ln-668"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">f_row</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">l_row</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">l_row</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-669"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Last row smaller than first row&quot;</span><span class="p">)</span>
 <a name="ln-670"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">f_col</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">l_col</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">l_col</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-671"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Last col smaller than first col&quot;</span><span class="p">)</span>
@@ -947,7 +947,7 @@
 <a name="ln-685"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_scalar_are_equal</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">dbcsr_scalar_one</span><span class="p">(</span><span class="n">beta</span><span class="p">%</span><span class="n">data_type</span><span class="p">))</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">keep_product_data</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-686"></a><span class="k">         CALL </span><span class="n">dbcsr_scale</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">,</span> <span class="n">alpha_scalar</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-687"></a>                          <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="n">f_row</span><span class="p">,</span> <span class="n">l_row</span><span class="p">,</span> <span class="n">f_col</span><span class="p">,</span> <span class="n">l_col</span><span class="o">/</span><span class="p">))</span>
-<a name="ln-688"></a>      <span class="n">ENDIF</span>
+<a name="ln-688"></a>      <span class="k">ENDIF</span>
 <a name="ln-689"></a>      <span class="c">!</span>
 <a name="ln-690"></a>      <span class="c">! The index of the product matrix is twiddled into canonical form</span>
 <a name="ln-691"></a>      <span class="c">! if it is (anti)symmetric (i.e., rows and columns are where the</span>
@@ -957,12 +957,12 @@
 <a name="ln-695"></a><span class="k">         </span><span class="n">product_reindex</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
 <a name="ln-696"></a>      <span class="k">ELSE</span>
 <a name="ln-697"></a><span class="k">         </span><span class="n">product_reindex</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a name="ln-698"></a>      <span class="n">ENDIF</span>
+<a name="ln-698"></a>      <span class="k">ENDIF</span>
 <a name="ln-699"></a>      <span class="c">! Product can not be made dense; however, A &amp; B may still be made</span>
 <a name="ln-700"></a>      <span class="c">! dense unless previously determined otherwise.</span>
 <a name="ln-701"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">product_reindex</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">keep_sparsity</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-702"></a><span class="k">         </span><span class="n">use_dense_mult</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a name="ln-703"></a>      <span class="n">ENDIF</span>
+<a name="ln-703"></a>      <span class="k">ENDIF</span>
 <a name="ln-704"></a>      <span class="c">!</span>
 <a name="ln-705"></a>      <span class="c">! The thread distribution must reflect the current (possibly</span>
 <a name="ln-706"></a>      <span class="c">! dense) distribution</span>
@@ -979,8 +979,8 @@
 <a name="ln-717"></a>            <span class="n">matrix_c</span><span class="p">%</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">thread_dist</span> <span class="o">=</span> <span class="n">matrix_left</span><span class="p">%</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">thread_dist</span>
 <a name="ln-718"></a>            <span class="k">CALL </span><span class="n">array_hold</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">%</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">thread_dist</span><span class="p">)</span>
 <a name="ln-719"></a>            <span class="n">thread_dist_force</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-<a name="ln-720"></a>         <span class="n">ENDIF</span>
-<a name="ln-721"></a>      <span class="n">ENDIF</span>
+<a name="ln-720"></a>         <span class="k">ENDIF</span>
+<a name="ln-721"></a><span class="k">      ENDIF</span>
 <a name="ln-722"></a>      <span class="c">!</span>
 <a name="ln-723"></a>      <span class="c">! Compute number of images (rows and columns)</span>
 <a name="ln-724"></a>      <span class="n">nimages_left_rows</span> <span class="o">=</span> <span class="n">dbcsr_mp_nprows</span><span class="p">(</span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">%</span><span class="n">dist</span><span class="p">))</span>
@@ -1022,7 +1022,7 @@
 <a name="ln-760"></a>         <span class="k">CALL </span><span class="n">make_sizes_dense</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">%</span><span class="n">row_blk_size</span><span class="p">,</span> <span class="n">k_vmap</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-761"></a>                               <span class="n">dbcsr_distribution_nrows</span><span class="p">(</span><span class="n">dense_rdist_right</span><span class="p">%</span><span class="n">i</span><span class="p">%</span><span class="n">main</span><span class="p">),</span> <span class="p">&amp;</span>
 <a name="ln-762"></a>                               <span class="n">dense_k_sizes</span><span class="p">)</span>
-<a name="ln-763"></a>      <span class="n">ENDIF</span>
+<a name="ln-763"></a>      <span class="k">ENDIF</span>
 <a name="ln-764"></a>      <span class="c">!</span>
 <a name="ln-765"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">use_dense_mult</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">ab_dense</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-766"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Wrong logic when making dense matrices.&quot;</span><span class="p">)</span>
@@ -1045,10 +1045,10 @@
 <a name="ln-783"></a>      <span class="k">ELSE</span>
 <a name="ln-784"></a><span class="k">         </span><span class="n">product_matrix</span> <span class="o">=</span> <span class="n">dbcsr_type</span><span class="p">()</span>
 <a name="ln-785"></a>         <span class="k">CALL </span><span class="n">dbcsr_copy</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">,</span> <span class="n">matrix_c</span><span class="p">,</span> <span class="n">shallow_data</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
-<a name="ln-786"></a>      <span class="n">ENDIF</span>
-<a name="ln-787"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">ab_dense</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-786"></a>      <span class="k">ENDIF</span>
+<a name="ln-787"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">ab_dense</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-788"></a><span class="k">         CALL </span><span class="n">dbcsr_distribution_release</span><span class="p">(</span><span class="n">dense_product_distribution</span><span class="p">)</span>
-<a name="ln-789"></a>      <span class="n">ENDIF</span>
+<a name="ln-789"></a>      <span class="k">ENDIF</span>
 <a name="ln-790"></a>      <span class="c">!</span>
 <a name="ln-791"></a>      <span class="c">! This is needed to build the hash tables because they are</span>
 <a name="ln-792"></a>      <span class="c">! locally indexed.</span>
@@ -1058,13 +1058,13 @@
 <a name="ln-796"></a><span class="k">         WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; Matrices &quot;</span><span class="p">,</span> <span class="n">dbcsr_get_matrix_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="p">&amp;</span>
 <a name="ln-797"></a>            <span class="n">dbcsr_get_matrix_type</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">),</span> <span class="n">dbcsr_get_matrix_type</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">)</span>
 <a name="ln-798"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; Matrices &quot;</span><span class="p">,</span> <span class="n">transa_l</span><span class="p">,</span> <span class="n">transb_l</span><span class="p">,</span> <span class="s2">&quot;keep&quot;</span><span class="p">,</span> <span class="n">keep_product_data</span>
-<a name="ln-799"></a>      <span class="n">ENDIF</span>
-<a name="ln-800"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">keep_product_data</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-799"></a>      <span class="k">ENDIF</span>
+<a name="ln-800"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">keep_product_data</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-801"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">product_reindex</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-802"></a><span class="k">            IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; Making canonical index&quot;</span>
 <a name="ln-803"></a>            <span class="k">CALL </span><span class="n">dbcsr_make_index_canonical</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">)</span>
-<a name="ln-804"></a>         <span class="n">ENDIF</span>
-<a name="ln-805"></a>         <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">))</span> <span class="p">&amp;</span>
+<a name="ln-804"></a>         <span class="k">ENDIF</span>
+<a name="ln-805"></a><span class="k">         IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-806"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Product matrix should be finalized!&quot;</span><span class="p">)</span>
 <a name="ln-807"></a>         <span class="k">CALL </span><span class="n">dbcsr_make_untransposed_blocks</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">)</span>
 <a name="ln-808"></a><span class="c">!$OMP PARALLEL &amp;</span>
@@ -1082,7 +1082,7 @@
 <a name="ln-820"></a>         <span class="k">CALL </span><span class="n">dbcsr_work_create</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">,</span> <span class="n">work_mutable</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span> <span class="p">&amp;</span>
 <a name="ln-821"></a>                                <span class="n">memory_type</span><span class="o">=</span><span class="n">memtype_product_wm</span><span class="p">(</span><span class="n">ithread</span><span class="p">)%</span><span class="n">p</span><span class="p">)</span>
 <a name="ln-822"></a><span class="c">!$OMP END PARALLEL</span>
-<a name="ln-823"></a>      <span class="n">ENDIF</span>
+<a name="ln-823"></a>      <span class="k">ENDIF</span>
 <a name="ln-824"></a>      <span class="c">!</span>
 <a name="ln-825"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-826"></a>         <span class="c">! Check for previous multiplication completeness</span>
@@ -1091,7 +1091,7 @@
 <a name="ln-829"></a>            <span class="k">CALL </span><span class="n">mp_wait</span><span class="p">(</span><span class="n">request_sync_mult</span><span class="p">)</span>
 <a name="ln-830"></a>            <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle2</span><span class="p">)</span>
 <a name="ln-831"></a>            <span class="n">request_sync_mult</span> <span class="o">=</span> <span class="n">mp_request_null</span>
-<a name="ln-832"></a>         <span class="n">ENDIF</span>
+<a name="ln-832"></a>         <span class="k">ENDIF</span>
 <a name="ln-833"></a>         <span class="c">!</span>
 <a name="ln-834"></a>         <span class="c">! Left buffer images</span>
 <a name="ln-835"></a>         <span class="k">CALL </span><span class="n">dbcsr_make_buffers</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">,</span> <span class="n">rdist_left</span><span class="p">,</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="p">&amp;</span>
@@ -1124,14 +1124,14 @@
 <a name="ln-862"></a>                       <span class="n">f_k</span><span class="p">,</span> <span class="n">l_k</span><span class="p">,</span> <span class="n">f_row</span><span class="p">,</span> <span class="n">l_row</span><span class="p">,</span> <span class="n">f_col</span><span class="p">,</span> <span class="n">l_col</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-863"></a>                       <span class="n">dense_row_sizes</span><span class="p">,</span> <span class="n">dense_k_sizes</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-864"></a>                       <span class="n">k_vmap</span><span class="p">,</span> <span class="n">m_map</span><span class="p">,</span> <span class="n">n_map</span><span class="p">)</span>
-<a name="ln-865"></a>      <span class="n">ENDIF</span>
+<a name="ln-865"></a>      <span class="k">ENDIF</span>
 <a name="ln-866"></a>      <span class="c">!</span>
 <a name="ln-867"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">ab_dense</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-868"></a><span class="k">         CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">k_vmap</span><span class="p">)</span>
 <a name="ln-869"></a>         <span class="k">CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">dense_row_sizes</span><span class="p">)</span>
 <a name="ln-870"></a>         <span class="k">CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">dense_col_sizes</span><span class="p">)</span>
 <a name="ln-871"></a>         <span class="k">CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">dense_k_sizes</span><span class="p">)</span>
-<a name="ln-872"></a>      <span class="n">ENDIF</span>
+<a name="ln-872"></a>      <span class="k">ENDIF</span>
 <a name="ln-873"></a>      <span class="c">!</span>
 <a name="ln-874"></a>      <span class="c">! The limits were already used.  Reset them.</span>
 <a name="ln-875"></a>      <span class="n">f_row</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">l_row</span> <span class="o">=</span> <span class="mi">0</span>
@@ -1151,7 +1151,7 @@
 <a name="ln-889"></a>                              <span class="n">filter_eps</span><span class="o">=</span><span class="n">filter_eps</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-890"></a>                              <span class="n">flop</span><span class="o">=</span><span class="n">my_flop</span><span class="p">)</span>
 <a name="ln-891"></a>         <span class="k">CALL </span><span class="n">dbcsr_finalize</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">,</span> <span class="n">reshuffle</span><span class="o">=</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">filter_eps</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">keep_sparsity</span><span class="p">)</span>
-<a name="ln-892"></a>      <span class="n">ENDIF</span>
+<a name="ln-892"></a>      <span class="k">ENDIF</span>
 <a name="ln-893"></a>      <span class="c">!</span>
 <a name="ln-894"></a>      <span class="c">! RMA implementation algorithm has to synchronize at the end of each multiplication</span>
 <a name="ln-895"></a>      <span class="n">comm</span> <span class="o">=</span> <span class="n">dbcsr_mp_group</span><span class="p">(</span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">dbcsr_distribution</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">)))</span>
@@ -1163,11 +1163,11 @@
 <a name="ln-901"></a>         <span class="k">CALL </span><span class="n">mp_sum</span><span class="p">(</span><span class="n">my_flop</span><span class="p">,</span> <span class="n">comm</span><span class="p">)</span>
 <a name="ln-902"></a>         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">flop</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-903"></a><span class="k">            </span><span class="n">flop</span> <span class="o">=</span> <span class="p">(</span><span class="n">my_flop</span> <span class="o">+</span> <span class="n">numnodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">numnodes</span>
-<a name="ln-904"></a>         <span class="n">ENDIF</span>
-<a name="ln-905"></a>         <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle2</span><span class="p">)</span>
+<a name="ln-904"></a>         <span class="k">ENDIF</span>
+<a name="ln-905"></a><span class="k">         CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle2</span><span class="p">)</span>
 <a name="ln-906"></a>      <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-907"></a><span class="k">         CALL </span><span class="n">mp_isync</span><span class="p">(</span><span class="n">comm</span><span class="p">,</span> <span class="n">request_sync_mult</span><span class="p">)</span>
-<a name="ln-908"></a>      <span class="n">ENDIF</span>
+<a name="ln-908"></a>      <span class="k">ENDIF</span>
 <a name="ln-909"></a>      <span class="c">!</span>
 <a name="ln-910"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">release_tdist</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-911"></a><span class="k">         CALL </span><span class="n">dbcsr_distribution_no_threads</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">%</span><span class="n">dist</span><span class="p">)</span>
@@ -1175,8 +1175,8 @@
 <a name="ln-913"></a>         <span class="c">! Restore matrix_c thread-dist</span>
 <a name="ln-914"></a>         <span class="n">matrix_c</span><span class="p">%</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">thread_dist</span> <span class="o">=</span> <span class="n">matrix_c_thread_dist</span>
 <a name="ln-915"></a>         <span class="k">CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">%</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">thread_dist</span><span class="p">)</span>
-<a name="ln-916"></a>      <span class="n">ENDIF</span>
-<a name="ln-917"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">transpose_left</span><span class="p">)</span> <span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">)</span>
+<a name="ln-916"></a>      <span class="k">ENDIF</span>
+<a name="ln-917"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">transpose_left</span><span class="p">)</span> <span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">matrix_left</span><span class="p">)</span>
 <a name="ln-918"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">transpose_right</span><span class="p">)</span> <span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">matrix_right</span><span class="p">)</span>
 <a name="ln-919"></a>      <span class="c">!</span>
 <a name="ln-920"></a>      <span class="k">CALL </span><span class="n">dbcsr_release_locals</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">)</span>
@@ -1185,8 +1185,8 @@
 <a name="ln-923"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">product_reindex</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-924"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; Making CP2K index&quot;</span>
 <a name="ln-925"></a>         <span class="k">CALL </span><span class="n">dbcsr_make_index_canonical</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">,</span> <span class="n">cp2k</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
-<a name="ln-926"></a>      <span class="n">ENDIF</span>
-<a name="ln-927"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">use_dense_mult</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-926"></a>      <span class="k">ENDIF</span>
+<a name="ln-927"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">use_dense_mult</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-928"></a><span class="k">         CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">)</span>
 <a name="ln-929"></a>         <span class="n">matrix_c</span> <span class="o">=</span> <span class="n">dbcsr_type</span><span class="p">()</span>
 <a name="ln-930"></a>         <span class="k">CALL </span><span class="n">dbcsr_make_undense</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">,</span> <span class="n">matrix_c</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -1205,21 +1205,21 @@
 <a name="ln-943"></a>         <span class="n">matrix_c</span> <span class="o">=</span> <span class="n">dbcsr_type</span><span class="p">()</span>
 <a name="ln-944"></a>         <span class="k">CALL </span><span class="n">dbcsr_copy</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">,</span> <span class="n">product_matrix</span><span class="p">,</span> <span class="n">shallow_data</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
 <a name="ln-945"></a>         <span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">product_matrix</span><span class="p">)</span>
-<a name="ln-946"></a>      <span class="n">ENDIF</span>
+<a name="ln-946"></a>      <span class="k">ENDIF</span>
 <a name="ln-947"></a>      <span class="c">!</span>
 <a name="ln-948"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-949"></a><span class="k">         CALL </span><span class="n">dbcsr_destroy_array</span><span class="p">(</span><span class="n">m2s_left</span><span class="p">)</span>
 <a name="ln-950"></a>         <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">m2s_left</span><span class="p">)</span>
 <a name="ln-951"></a>         <span class="k">CALL </span><span class="n">dbcsr_destroy_array</span><span class="p">(</span><span class="n">m2s_right</span><span class="p">)</span>
 <a name="ln-952"></a>         <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">m2s_right</span><span class="p">)</span>
-<a name="ln-953"></a>      <span class="n">ENDIF</span>
+<a name="ln-953"></a>      <span class="k">ENDIF</span>
 <a name="ln-954"></a>      <span class="c">!</span>
 <a name="ln-955"></a>      <span class="k">CALL </span><span class="n">dbcsr_image_dist_release</span><span class="p">(</span><span class="n">rdist_left</span><span class="p">)</span>
 <a name="ln-956"></a>      <span class="k">CALL </span><span class="n">dbcsr_image_dist_release</span><span class="p">(</span><span class="n">rdist_right</span><span class="p">)</span>
 <a name="ln-957"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">ab_dense</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-958"></a><span class="k">         CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">m_map</span><span class="p">)</span>
 <a name="ln-959"></a>         <span class="k">CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">n_map</span><span class="p">)</span>
-<a name="ln-960"></a>      <span class="n">ENDIF</span>
+<a name="ln-960"></a>      <span class="k">ENDIF</span>
 <a name="ln-961"></a>      <span class="c">!</span>
 <a name="ln-962"></a>      <span class="c">! To support the canonical multiply (all non-transposed blocks),</span>
 <a name="ln-963"></a>      <span class="c">! blocks may have to be transposed according to the CP2K</span>
@@ -1235,8 +1235,8 @@
 <a name="ln-973"></a><span class="k">            </span><span class="n">cs</span> <span class="o">=</span> <span class="n">dbcsr_checksum</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">)</span>
 <a name="ln-974"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; Multiplication&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-975"></a>               <span class="n">num_multiplications</span><span class="p">,</span> <span class="s2">&quot; Product checksum&quot;</span><span class="p">,</span> <span class="n">cs</span>
-<a name="ln-976"></a>         <span class="n">ENDIF</span>
-<a name="ln-977"></a>      <span class="n">ENDIF</span>
+<a name="ln-976"></a>         <span class="k">ENDIF</span>
+<a name="ln-977"></a><span class="k">      ENDIF</span>
 <a name="ln-978"></a>
 <a name="ln-979"></a>      <span class="c">! This tends to trigger only when all of these conditions are fulfilled:</span>
 <a name="ln-980"></a>      <span class="c">!  - transa==&quot;T&quot;</span>
@@ -1312,9 +1312,9 @@
 <a name="ln-1050"></a>                         <span class="s2">&quot; --- We disable RMA to prevent errors. &quot;</span><span class="o">//</span> <span class="p">&amp;</span>
 <a name="ln-1051"></a>                         <span class="s2">&quot;Please install a new OpenMPI version (&gt;=4.0.1). &quot;</span><span class="p">)</span>
 <a name="ln-1052"></a>         <span class="k">CALL </span><span class="n">dbcsr_set_config</span><span class="p">(</span><span class="n">use_mpi_rma</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
-<a name="ln-1053"></a>      <span class="n">ENDIF</span>
+<a name="ln-1053"></a>      <span class="k">ENDIF</span>
 <a name="ln-1054"></a>
-<a name="ln-1055"></a>   <span class="k">END SUBROUTINE </span><span class="n">check_openmpi_rma</span>
+<a name="ln-1055"></a><span class="k">   END SUBROUTINE </span><span class="n">check_openmpi_rma</span>
 <a name="ln-1056"></a>
 <a name="ln-1057"></a><span class="k">END MODULE </span><span class="n">dbcsr_mm</span>
 </pre></div>

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ public subroutine dbcsr_print(matrix, nodata, matlab_format, variable_name, unit
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~157"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~225"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -244,7 +244,7 @@ public subroutine dbcsr_print(matrix, nodata, matlab_format, variable_name, unit
   
 <tr>
   
-  <td><span class="anchor" id="variable-nodata~2"></span>logical,</td>
+  <td><span class="anchor" id="variable-nodata~14"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -289,7 +289,7 @@ public subroutine dbcsr_print(matrix, nodata, matlab_format, variable_name, unit
   
 <tr>
   
-  <td><span class="anchor" id="variable-unit_nr~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-unit_nr~31"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -438,8 +438,8 @@ public subroutine dbcsr_print(matrix, nodata, matlab_format, variable_name, unit
          <span class="k">ELSE</span>
 <span class="k">            </span><span class="n">ebr</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">nblkrows_total</span>
             <span class="n">sblk</span> <span class="o">=</span> <span class="mi">1</span>
-         <span class="n">ENDIF</span>
-         <span class="k">DO </span><span class="n">ibr</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ebr</span>
+         <span class="k">ENDIF</span>
+<span class="k">         DO </span><span class="n">ibr</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ebr</span>
             <span class="k">IF</span> <span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">list_indexing</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">               </span><span class="n">fblk</span> <span class="o">=</span> <span class="mi">1</span>
                <span class="n">lblk</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">coo_l</span><span class="p">)</span>
@@ -448,8 +448,8 @@ public subroutine dbcsr_print(matrix, nodata, matlab_format, variable_name, unit
                <span class="n">fblk</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">row_p</span><span class="p">(</span><span class="n">br</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
                <span class="n">lblk</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">row_p</span><span class="p">(</span><span class="n">br</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
                <span class="n">m</span> <span class="o">=</span> <span class="n">row_blk_size</span><span class="p">(</span><span class="n">br</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
-            <span class="k">DO </span><span class="n">blk</span> <span class="o">=</span> <span class="n">fblk</span><span class="p">,</span> <span class="n">lblk</span><span class="p">,</span> <span class="n">sblk</span>
+            <span class="k">ENDIF</span>
+<span class="k">            DO </span><span class="n">blk</span> <span class="o">=</span> <span class="n">fblk</span><span class="p">,</span> <span class="n">lblk</span><span class="p">,</span> <span class="n">sblk</span>
                <span class="k">IF</span> <span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">list_indexing</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">                  </span><span class="n">br</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">coo_l</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
                   <span class="n">bc</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">coo_l</span><span class="p">(</span><span class="n">blk</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
@@ -458,14 +458,14 @@ public subroutine dbcsr_print(matrix, nodata, matlab_format, variable_name, unit
                      <span class="n">local_cols</span> <span class="o">=&gt;</span> <span class="n">array_data</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">local_cols</span><span class="p">)</span>
                      <span class="n">br</span> <span class="o">=</span> <span class="n">local_rows</span><span class="p">(</span><span class="n">br</span><span class="p">)</span>
                      <span class="n">bc</span> <span class="o">=</span> <span class="n">local_cols</span><span class="p">(</span><span class="n">bc</span><span class="p">)</span>
-                  <span class="n">ENDIF</span>
-                  <span class="n">m</span> <span class="o">=</span> <span class="n">row_blk_size</span><span class="p">(</span><span class="n">br</span><span class="p">)</span>
+                  <span class="k">ENDIF</span>
+<span class="k">                  </span><span class="n">m</span> <span class="o">=</span> <span class="n">row_blk_size</span><span class="p">(</span><span class="n">br</span><span class="p">)</span>
                   <span class="n">ablk_p</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">coo_l</span><span class="p">(</span><span class="n">blk</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
                <span class="k">ELSE</span>
 <span class="k">                  </span><span class="n">bc</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">col_i</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
                   <span class="n">ablk_p</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
-               <span class="n">ENDIF</span>
-               <span class="n">n</span> <span class="o">=</span> <span class="n">col_blk_size</span><span class="p">(</span><span class="n">bc</span><span class="p">)</span>
+               <span class="k">ENDIF</span>
+<span class="k">               </span><span class="n">n</span> <span class="o">=</span> <span class="n">col_blk_size</span><span class="p">(</span><span class="n">bc</span><span class="p">)</span>
                <span class="n">mn</span> <span class="o">=</span> <span class="n">m</span><span class="o">*</span><span class="n">n</span>
                <span class="n">blk_p</span> <span class="o">=</span> <span class="nb">ABS</span><span class="p">(</span><span class="n">ablk_p</span><span class="p">)</span>
                <span class="n">tr</span> <span class="o">=</span> <span class="n">ablk_p</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="mi">0</span>
@@ -495,7 +495,7 @@ public subroutine dbcsr_print(matrix, nodata, matlab_format, variable_name, unit
                      <span class="k">END SELECT</span>
 <span class="k">                  ELSE</span>
 <span class="k">                     </span><span class="n">blk_cs</span> <span class="o">=</span> <span class="mf">0.0_dp</span>
-                  <span class="n">ENDIF</span>
+                  <span class="k">ENDIF</span>
                   <span class="c">!WRITE(iunit,*)routineP//&#39; chksum for (&#39;,br,&#39;,&#39;,bc,&#39;) at&#39;,&amp;</span>
                   <span class="c">!     blk_p,&#39;l&#39;,mn,&#39;= &#39;, blk_cs,&#39;size&#39;,m,n</span>
                   <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">my_matlab_format</span><span class="p">)</span> <span class="k">WRITE</span> <span class="p">(</span><span class="n">iunit</span><span class="p">,</span> <span class="s1">&#39;(A,I6,&quot;,&quot;,I6,A,I7,A,I6,I6,&quot;=&quot;,I7,A,E12.3)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
@@ -513,39 +513,39 @@ public subroutine dbcsr_print(matrix, nodata, matlab_format, variable_name, unit
                                                            <span class="n">variable_name</span><span class="o">=</span><span class="n">variable_name</span><span class="p">)</span>
                            <span class="k">ELSE</span>
 <span class="k">                              CALL </span><span class="n">dbcsr_printmat</span><span class="p">(</span><span class="n">r_dp</span><span class="p">(</span><span class="n">blk_p</span><span class="p">:</span><span class="n">blk_p</span> <span class="o">+</span> <span class="n">mn</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">iunit</span><span class="o">=</span><span class="n">iunit</span><span class="p">,</span> <span class="n">tr</span><span class="o">=</span><span class="n">tr</span><span class="p">)</span>
-                           <span class="n">ENDIF</span>
-                        <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
+                           <span class="k">ENDIF</span>
+<span class="k">                        CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
                            <span class="k">IF</span> <span class="p">(</span><span class="n">my_matlab_format</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">                              CALL </span><span class="n">dbcsr_printmat_matlab_s</span><span class="p">(</span><span class="n">r_sp</span><span class="p">(</span><span class="n">blk_p</span><span class="p">:</span><span class="n">blk_p</span> <span class="o">+</span> <span class="n">mn</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="p">&amp;</span>
                                                            <span class="n">row_blk_offset</span><span class="p">(</span><span class="n">br</span><span class="p">),</span> <span class="n">col_blk_offset</span><span class="p">(</span><span class="n">bc</span><span class="p">),</span> <span class="n">iunit</span><span class="p">,</span> <span class="n">tr</span><span class="o">=</span><span class="n">tr</span><span class="p">,</span> <span class="p">&amp;</span>
                                                            <span class="n">variable_name</span><span class="o">=</span><span class="n">variable_name</span><span class="p">)</span>
                            <span class="k">ELSE</span>
 <span class="k">                              CALL </span><span class="n">dbcsr_printmat</span><span class="p">(</span><span class="n">r_sp</span><span class="p">(</span><span class="n">blk_p</span><span class="p">:</span><span class="n">blk_p</span> <span class="o">+</span> <span class="n">mn</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">iunit</span><span class="o">=</span><span class="n">iunit</span><span class="p">,</span> <span class="n">tr</span><span class="o">=</span><span class="n">tr</span><span class="p">)</span>
-                           <span class="n">ENDIF</span>
-                        <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
+                           <span class="k">ENDIF</span>
+<span class="k">                        CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
                            <span class="k">IF</span> <span class="p">(</span><span class="n">my_matlab_format</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">                              CALL </span><span class="n">dbcsr_printmat_matlab_z</span><span class="p">(</span><span class="n">c_dp</span><span class="p">(</span><span class="n">blk_p</span><span class="p">:</span><span class="n">blk_p</span> <span class="o">+</span> <span class="n">mn</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="p">&amp;</span>
                                                            <span class="n">row_blk_offset</span><span class="p">(</span><span class="n">br</span><span class="p">),</span> <span class="n">col_blk_offset</span><span class="p">(</span><span class="n">bc</span><span class="p">),</span> <span class="n">iunit</span><span class="p">,</span> <span class="n">tr</span><span class="o">=</span><span class="n">tr</span><span class="p">,</span> <span class="p">&amp;</span>
                                                            <span class="n">variable_name</span><span class="o">=</span><span class="n">variable_name</span><span class="p">)</span>
                            <span class="k">ELSE</span>
 <span class="k">                              CALL </span><span class="n">dbcsr_printmat</span><span class="p">(</span><span class="n">c_dp</span><span class="p">(</span><span class="n">blk_p</span><span class="p">:</span><span class="n">blk_p</span> <span class="o">+</span> <span class="n">mn</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">iunit</span><span class="o">=</span><span class="n">iunit</span><span class="p">,</span> <span class="n">tr</span><span class="o">=</span><span class="n">tr</span><span class="p">)</span>
-                           <span class="n">ENDIF</span>
-                        <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
+                           <span class="k">ENDIF</span>
+<span class="k">                        CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
                            <span class="k">IF</span> <span class="p">(</span><span class="n">my_matlab_format</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">                              CALL </span><span class="n">dbcsr_printmat_matlab_c</span><span class="p">(</span><span class="n">c_sp</span><span class="p">(</span><span class="n">blk_p</span><span class="p">:</span><span class="n">blk_p</span> <span class="o">+</span> <span class="n">mn</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="p">&amp;</span>
                                                            <span class="n">row_blk_offset</span><span class="p">(</span><span class="n">br</span><span class="p">),</span> <span class="n">col_blk_offset</span><span class="p">(</span><span class="n">bc</span><span class="p">),</span> <span class="n">iunit</span><span class="p">,</span> <span class="n">tr</span><span class="o">=</span><span class="n">tr</span><span class="p">,</span> <span class="p">&amp;</span>
                                                            <span class="n">variable_name</span><span class="o">=</span><span class="n">variable_name</span><span class="p">)</span>
                            <span class="k">ELSE</span>
 <span class="k">                              CALL </span><span class="n">dbcsr_printmat</span><span class="p">(</span><span class="n">c_sp</span><span class="p">(</span><span class="n">blk_p</span><span class="p">:</span><span class="n">blk_p</span> <span class="o">+</span> <span class="n">mn</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">iunit</span><span class="o">=</span><span class="n">iunit</span><span class="p">,</span> <span class="n">tr</span><span class="o">=</span><span class="n">tr</span><span class="p">)</span>
-                           <span class="n">ENDIF</span>
-                        <span class="k">END SELECT</span>
-<span class="k">                     </span><span class="n">ENDIF</span>
-                  <span class="n">ENDIF</span>
-               <span class="n">ENDIF</span> <span class="n">block_exists</span>
-            <span class="n">ENDDO</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+                           <span class="k">ENDIF</span>
+<span class="k">                        END SELECT</span>
+<span class="k">                     ENDIF</span>
+<span class="k">                  ENDIF</span>
+<span class="k">               ENDIF </span><span class="n">block_exists</span>
+            <span class="k">ENDDO</span>
+<span class="k">         ENDDO</span>
+<span class="k">      ENDIF</span>
+<span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_print</span>
 </pre></div>
 

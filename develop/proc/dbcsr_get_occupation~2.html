@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ public function dbcsr_get_occupation(matrix) result(occupation)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~114"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~192"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -342,18 +342,18 @@ public function dbcsr_get_occupation(matrix) result(occupation)
 <span class="k">               </span><span class="n">occupation</span> <span class="o">=</span> <span class="mf">2.0_real_8</span><span class="o">*</span><span class="kt">REAL</span><span class="p">(</span><span class="n">nze_global</span><span class="p">,</span> <span class="n">real_8</span><span class="p">)</span><span class="o">/</span> <span class="p">&amp;</span>
                             <span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">nfullrows</span><span class="p">,</span> <span class="n">real_8</span><span class="p">)</span><span class="o">*</span><span class="kt">REAL</span><span class="p">(</span><span class="n">nfullrows</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">real_8</span><span class="p">)</span> <span class="o">+</span> <span class="p">&amp;</span>
                              <span class="nb">SUM</span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">row_blk_size</span><span class="p">,</span> <span class="n">real_8</span><span class="p">)</span><span class="o">*</span><span class="kt">REAL</span><span class="p">(</span><span class="n">row_blk_size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">real_8</span><span class="p">)))</span>
-            <span class="n">ENDIF</span>
-         <span class="k">ELSE</span>
+            <span class="k">ENDIF</span>
+<span class="k">         ELSE</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">nze_global</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="nb">INT</span><span class="p">(</span><span class="n">nfullrows</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="o">*</span><span class="nb">INT</span><span class="p">(</span><span class="n">nfullcols</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">               </span><span class="n">occupation</span> <span class="o">=</span> <span class="mf">1.0_real_8</span>
             <span class="k">ELSE</span>
 <span class="k">               </span><span class="n">occupation</span> <span class="o">=</span> <span class="kt">REAL</span><span class="p">(</span><span class="n">nze_global</span><span class="p">,</span> <span class="n">real_8</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">nfullrows</span><span class="p">,</span> <span class="n">real_8</span><span class="p">)</span><span class="o">*</span><span class="kt">REAL</span><span class="p">(</span><span class="n">nfullcols</span><span class="p">,</span> <span class="n">real_8</span><span class="p">))</span>
-            <span class="n">ENDIF</span>
-         <span class="n">ENDIF</span>
-      <span class="k">ELSE</span>
+            <span class="k">ENDIF</span>
+<span class="k">         ENDIF</span>
+<span class="k">      ELSE</span>
 <span class="k">         </span><span class="n">occupation</span> <span class="o">=</span> <span class="mf">0.0_real_8</span>
-      <span class="n">ENDIF</span>
-   <span class="k">END FUNCTION </span><span class="n">dbcsr_get_occupation</span>
+      <span class="k">ENDIF</span>
+<span class="k">   END FUNCTION </span><span class="n">dbcsr_get_occupation</span>
 </pre></div>
 
     </section>

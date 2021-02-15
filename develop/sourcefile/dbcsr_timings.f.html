@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -465,8 +465,8 @@
 <a name="ln-203"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">global_timings_level</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-204"></a><span class="k">         </span><span class="n">cs_entry</span><span class="p">%</span><span class="n">walltime_start</span> <span class="o">=</span> <span class="n">m_walltime</span><span class="p">()</span>
 <a name="ln-205"></a>         <span class="n">cs_entry</span><span class="p">%</span><span class="n">energy_start</span> <span class="o">=</span> <span class="n">m_energy</span><span class="p">()</span>
-<a name="ln-206"></a>      <span class="n">ENDIF</span>
-<a name="ln-207"></a>      <span class="n">timer_env</span> <span class="o">=&gt;</span> <span class="n">list_peek</span><span class="p">(</span><span class="n">timers_stack</span><span class="p">)</span>
+<a name="ln-206"></a>      <span class="k">ENDIF</span>
+<a name="ln-207"></a><span class="k">      </span><span class="n">timer_env</span> <span class="o">=&gt;</span> <span class="n">list_peek</span><span class="p">(</span><span class="n">timers_stack</span><span class="p">)</span>
 <a name="ln-208"></a>
 <a name="ln-209"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">LEN_TRIM</span><span class="p">(</span><span class="n">routineN</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">default_string_length</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-210"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s1">&#39;timings_timeset: routineN too long: &quot;&#39;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">routineN</span><span class="p">)</span><span class="o">//</span><span class="s2">&quot;&#39;&quot;</span><span class="p">)</span>
@@ -553,14 +553,14 @@
 <a name="ln-291"></a>         <span class="c">! add the elapsed time for this timeset/timestop to the time accumulator</span>
 <a name="ln-292"></a>         <span class="n">wt_elapsed</span> <span class="o">=</span> <span class="n">wt_now</span> <span class="o">-</span> <span class="n">cs_entry</span><span class="p">%</span><span class="n">walltime_start</span>
 <a name="ln-293"></a>         <span class="n">en_elapsed</span> <span class="o">=</span> <span class="n">en_now</span> <span class="o">-</span> <span class="n">cs_entry</span><span class="p">%</span><span class="n">energy_start</span>
-<a name="ln-294"></a>      <span class="n">ENDIF</span>
-<a name="ln-295"></a>      <span class="n">r_stat</span><span class="p">%</span><span class="n">active_calls</span> <span class="o">=</span> <span class="n">r_stat</span><span class="p">%</span><span class="n">active_calls</span> <span class="o">-</span> <span class="mi">1</span>
+<a name="ln-294"></a>      <span class="k">ENDIF</span>
+<a name="ln-295"></a><span class="k">      </span><span class="n">r_stat</span><span class="p">%</span><span class="n">active_calls</span> <span class="o">=</span> <span class="n">r_stat</span><span class="p">%</span><span class="n">active_calls</span> <span class="o">-</span> <span class="mi">1</span>
 <a name="ln-296"></a>
 <a name="ln-297"></a>      <span class="c">! if we&#39;re the last instance in the stack, we do the accounting of the total time</span>
 <a name="ln-298"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">r_stat</span><span class="p">%</span><span class="n">active_calls</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-299"></a><span class="k">         </span><span class="n">r_stat</span><span class="p">%</span><span class="n">incl_walltime_accu</span> <span class="o">=</span> <span class="n">r_stat</span><span class="p">%</span><span class="n">incl_walltime_accu</span> <span class="o">+</span> <span class="n">wt_elapsed</span>
 <a name="ln-300"></a>         <span class="n">r_stat</span><span class="p">%</span><span class="n">incl_energy_accu</span> <span class="o">=</span> <span class="n">r_stat</span><span class="p">%</span><span class="n">incl_energy_accu</span> <span class="o">+</span> <span class="n">en_elapsed</span>
-<a name="ln-301"></a>      <span class="n">ENDIF</span>
+<a name="ln-301"></a>      <span class="k">ENDIF</span>
 <a name="ln-302"></a>
 <a name="ln-303"></a>      <span class="c">! exclusive time we always sum, since children will correct this time with their total time</span>
 <a name="ln-304"></a>      <span class="n">r_stat</span><span class="p">%</span><span class="n">excl_walltime_accu</span> <span class="o">=</span> <span class="n">r_stat</span><span class="p">%</span><span class="n">excl_walltime_accu</span> <span class="o">+</span> <span class="n">wt_elapsed</span>
@@ -587,7 +587,7 @@
 <a name="ln-325"></a><span class="k">         </span><span class="n">c_stat</span><span class="p">%</span><span class="n">total_calls</span> <span class="o">=</span> <span class="n">c_stat</span><span class="p">%</span><span class="n">total_calls</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-326"></a>         <span class="n">c_stat</span><span class="p">%</span><span class="n">incl_walltime_accu</span> <span class="o">=</span> <span class="n">c_stat</span><span class="p">%</span><span class="n">incl_walltime_accu</span> <span class="o">+</span> <span class="n">wt_elapsed</span>
 <a name="ln-327"></a>         <span class="n">c_stat</span><span class="p">%</span><span class="n">incl_energy_accu</span> <span class="o">=</span> <span class="n">c_stat</span><span class="p">%</span><span class="n">incl_energy_accu</span> <span class="o">+</span> <span class="n">en_elapsed</span>
-<a name="ln-328"></a>      <span class="n">ENDIF</span>
+<a name="ln-328"></a>      <span class="k">ENDIF</span>
 <a name="ln-329"></a>
 <a name="ln-330"></a>      <span class="c">!..if debug mode echo the subroutine name</span>
 <a name="ln-331"></a>      <span class="k">IF</span> <span class="p">((</span><span class="n">timer_env</span><span class="p">%</span><span class="n">trace_all</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">r_stat</span><span class="p">%</span><span class="n">trace</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
@@ -602,7 +602,7 @@
 <a name="ln-340"></a>            <span class="s2">&quot; GPUmem: &quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">gpumem_total</span> <span class="o">-</span> <span class="n">gpumem_free</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1024</span><span class="o">*</span><span class="mi">1024</span><span class="p">),</span> <span class="s2">&quot; MB&quot;</span>
 <a name="ln-341"></a>         <span class="k">WRITE</span> <span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">trace_unit</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="nb">TRIM</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
 <a name="ln-342"></a>         <span class="k">CALL </span><span class="n">m_flush</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">trace_unit</span><span class="p">)</span>
-<a name="ln-343"></a>      <span class="n">ENDIF</span>
+<a name="ln-343"></a>      <span class="k">ENDIF</span>
 <a name="ln-344"></a>
 <a name="ln-345"></a><span class="c">!$OMP END CRITICAL(time_setstop)</span>
 <a name="ln-346"></a><span class="c">!$OMP END MASTER</span>

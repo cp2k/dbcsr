@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -610,18 +610,18 @@ public subroutine merge_index_arrays(new_row_i, new_col_i, new_blk_p, new_size, 
 <span class="k">         WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot; Old array&quot;</span><span class="p">,</span> <span class="n">old_size</span>
          <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">old_size</span>
             <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="s1">&#39;(I7,2X,I7,2X,I7)&#39;</span><span class="p">)</span> <span class="n">old_row_i</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">old_col_i</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">old_blk_p</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-         <span class="n">ENDDO</span>
-         <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot; Add array&quot;</span><span class="p">,</span> <span class="n">add_size</span>
+         <span class="k">ENDDO</span>
+<span class="k">         WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot; Add array&quot;</span><span class="p">,</span> <span class="n">add_size</span>
          <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">add_size</span>
             <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="s1">&#39;(I7,2X,I7,2X,I7)&#39;</span><span class="p">)</span> <span class="n">add_ip</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">added_nblks</span><span class="p">))</span> <span class="n">added_nblks</span> <span class="o">=</span> <span class="mi">0</span>
+         <span class="k">ENDDO</span>
+<span class="k">      ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">added_nblks</span><span class="p">))</span> <span class="n">added_nblks</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">added_size</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">added_size</span> <span class="o">=</span> <span class="mi">0</span>
          <span class="n">bp</span> <span class="o">=</span> <span class="n">added_size_offset</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">add_size</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+      <span class="k">ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="n">add_size</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">old_blk</span> <span class="o">=</span> <span class="mi">1</span>
          <span class="n">add_blk</span> <span class="o">=</span> <span class="mi">1</span>
          <span class="n">new_blk</span> <span class="o">=</span> <span class="mi">1</span>
@@ -641,8 +641,8 @@ public subroutine merge_index_arrays(new_row_i, new_col_i, new_blk_p, new_size, 
 <span class="k">                     IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">                        WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot;Duplicate block! addblk&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
                            <span class="n">add_blk</span><span class="p">,</span> <span class="s2">&quot;oldblk&quot;</span><span class="p">,</span> <span class="n">old_blk</span>
-                     <span class="n">ENDIF</span>
-                  <span class="n">ENDIF</span>
+                     <span class="k">ENDIF</span>
+<span class="k">                  ENDIF</span>
                   <span class="c">! Rows come first</span>
                   <span class="k">IF</span> <span class="p">(</span><span class="n">add_ip</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">add_blk</span><span class="p">)</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">old_row_i</span><span class="p">(</span><span class="n">old_blk</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">                     </span><span class="n">merge_from_whom</span> <span class="o">=</span> <span class="mi">2</span>
@@ -660,12 +660,12 @@ public subroutine merge_index_arrays(new_row_i, new_col_i, new_blk_p, new_size, 
                         <span class="k">IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">                           WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot;Duplicate, keeping old&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
                               <span class="n">add_ip</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">add_blk</span><span class="p">),</span> <span class="n">add_ip</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">add_blk</span><span class="p">)</span>
-                        <span class="n">ENDIF</span>
-                        <span class="n">merge_from_whom</span> <span class="o">=</span> <span class="mi">1</span>
+                        <span class="k">ENDIF</span>
+<span class="k">                        </span><span class="n">merge_from_whom</span> <span class="o">=</span> <span class="mi">1</span>
                         <span class="n">add_blk</span> <span class="o">=</span> <span class="n">add_blk</span> <span class="o">+</span> <span class="mi">1</span>
-                     <span class="n">ENDIF</span>
-                  <span class="n">ENDIF</span>
-               <span class="k">ELSE</span>
+                     <span class="k">ENDIF</span>
+<span class="k">                  ENDIF</span>
+<span class="k">               ELSE</span>
 <span class="k">                  IF</span> <span class="p">(</span><span class="n">add_blk</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">add_size</span><span class="p">)</span> <span class="k">THEN</span>
                      <span class="c">! Merges from the add array</span>
                      <span class="n">merge_from_whom</span> <span class="o">=</span> <span class="mi">2</span>
@@ -676,9 +676,9 @@ public subroutine merge_index_arrays(new_row_i, new_col_i, new_blk_p, new_size, 
                      <span class="c">! Hmmm, nothing to merge...</span>
                      <span class="n">merge_from_whom</span> <span class="o">=</span> <span class="mi">0</span>
                      <span class="c">!WRITE(*,*)&quot;Ran out of data to merge&quot;</span>
-                  <span class="n">ENDIF</span>
-               <span class="n">ENDIF</span>
-               <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">merge_from_whom</span><span class="p">)</span>
+                  <span class="k">ENDIF</span>
+<span class="k">               ENDIF</span>
+<span class="k">               SELECT CASE</span> <span class="p">(</span><span class="n">merge_from_whom</span><span class="p">)</span>
                <span class="k">CASE</span> <span class="p">(</span><span class="mi">2</span><span class="p">)</span>
                   <span class="c">! Merges from the add array</span>
                   <span class="n">new_row_i</span><span class="p">(</span><span class="n">new_blk</span><span class="p">)</span> <span class="o">=</span> <span class="n">add_ip</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">add_blk</span><span class="p">)</span>
@@ -690,8 +690,8 @@ public subroutine merge_index_arrays(new_row_i, new_col_i, new_blk_p, new_size, 
 <span class="k">                     </span><span class="n">new_blk_p</span><span class="p">(</span><span class="n">new_blk</span><span class="p">)</span> <span class="o">=</span> <span class="n">bp</span>
                      <span class="n">bp</span> <span class="o">=</span> <span class="n">bp</span> <span class="o">+</span> <span class="n">added_sizes</span><span class="p">(</span><span class="n">add_blk</span><span class="p">)</span>
                      <span class="n">added_size</span> <span class="o">=</span> <span class="n">added_size</span> <span class="o">+</span> <span class="n">added_sizes</span><span class="p">(</span><span class="n">add_blk</span><span class="p">)</span>
-                  <span class="n">ENDIF</span>
-                  <span class="n">add_blk</span> <span class="o">=</span> <span class="n">add_blk</span> <span class="o">+</span> <span class="mi">1</span>
+                  <span class="k">ENDIF</span>
+<span class="k">                  </span><span class="n">add_blk</span> <span class="o">=</span> <span class="n">add_blk</span> <span class="o">+</span> <span class="mi">1</span>
                <span class="k">CASE</span> <span class="p">(</span><span class="mi">1</span><span class="p">)</span>
                   <span class="c">! Merges from the old array</span>
                   <span class="n">new_row_i</span><span class="p">(</span><span class="n">new_blk</span><span class="p">)</span> <span class="o">=</span> <span class="n">old_row_i</span><span class="p">(</span><span class="n">old_blk</span><span class="p">)</span>
@@ -703,21 +703,21 @@ public subroutine merge_index_arrays(new_row_i, new_col_i, new_blk_p, new_size, 
                   <span class="c">!WRITE(*,*)&quot;Nothing to merge&quot;</span>
                <span class="k">END SELECT</span>
 <span class="k">               </span><span class="n">new_blk</span> <span class="o">=</span> <span class="n">new_blk</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="n">ENDDO</span>
-         <span class="n">ENDIF</span>
-      <span class="k">ELSE</span>
+            <span class="k">ENDDO</span>
+<span class="k">         ENDIF</span>
+<span class="k">      ELSE</span>
 <span class="k">         </span><span class="n">new_row_i</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">old_size</span><span class="p">)</span> <span class="o">=</span> <span class="n">old_row_i</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">old_size</span><span class="p">)</span>
          <span class="n">new_col_i</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">old_size</span><span class="p">)</span> <span class="o">=</span> <span class="n">old_col_i</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">old_size</span><span class="p">)</span>
          <span class="n">new_blk_p</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">old_size</span><span class="p">)</span> <span class="o">=</span> <span class="n">old_blk_p</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">old_size</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">multidata</span><span class="p">)</span> <span class="n">new_blk_d</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">old_size</span><span class="p">)</span> <span class="o">=</span> <span class="n">old_blk_d</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">old_size</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">THEN</span>
+      <span class="k">ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot; New array&quot;</span>
          <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">new_size</span>
             <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="s1">&#39;(4(2X,I7))&#39;</span><span class="p">)</span> <span class="n">new_row_i</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">new_col_i</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">new_blk_p</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDIF</span>
-   <span class="k">END SUBROUTINE </span><span class="n">merge_index_arrays</span>
+         <span class="k">ENDDO</span>
+<span class="k">      ENDIF</span>
+<span class="k">   END SUBROUTINE </span><span class="n">merge_index_arrays</span>
 </pre></div>
 
     </section>

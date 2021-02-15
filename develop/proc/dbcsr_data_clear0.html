@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -244,7 +244,7 @@ private subroutine dbcsr_data_clear0(area, lb, ub, value, lb2, ub2)
   
 <tr>
   
-  <td><span class="anchor" id="variable-lb~52"></span>integer,</td>
+  <td><span class="anchor" id="variable-lb~51"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -276,7 +276,7 @@ private subroutine dbcsr_data_clear0(area, lb, ub, value, lb2, ub2)
   
 <tr>
   
-  <td><span class="anchor" id="variable-value~80"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-value~48"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -405,9 +405,9 @@ private subroutine dbcsr_data_clear0(area, lb, ub, value, lb2, ub2)
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="k">value</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="k">value</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Incompatible data types&quot;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
-      <span class="n">l</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">      </span><span class="n">l</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="n">u</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span>
       <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
@@ -416,65 +416,65 @@ private subroutine dbcsr_data_clear0(area, lb, ub, value, lb2, ub2)
          <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">lb</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">lb</span> <span class="o">&lt;</span> <span class="n">l</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;lower bound too low&quot;</span><span class="p">)</span>
             <span class="n">l</span> <span class="o">=</span> <span class="n">lb</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">ub</span> <span class="o">&gt;</span> <span class="n">u</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;upper bound too high&quot;</span><span class="p">)</span>
             <span class="n">u</span> <span class="o">=</span> <span class="n">ub</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="k">value</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="k">value</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span> <span class="o">=</span> <span class="k">value</span><span class="p">%</span><span class="n">r_sp</span>
          <span class="k">ELSE</span>
 <span class="k">            </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span> <span class="o">=</span> <span class="mf">0.0_real_4</span>
-         <span class="n">ENDIF</span>
-      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">      CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
          <span class="n">l</span> <span class="o">=</span> <span class="nb">LBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
          <span class="n">u</span> <span class="o">=</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">lb</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">lb</span> <span class="o">&lt;</span> <span class="n">l</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;lower bound too low&quot;</span><span class="p">)</span>
             <span class="n">l</span> <span class="o">=</span> <span class="n">lb</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">ub</span> <span class="o">&gt;</span> <span class="n">u</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;upper bound too high&quot;</span><span class="p">)</span>
             <span class="n">u</span> <span class="o">=</span> <span class="n">ub</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="k">value</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="k">value</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span> <span class="o">=</span> <span class="k">value</span><span class="p">%</span><span class="n">r_dp</span>
          <span class="k">ELSE</span>
 <span class="k">            </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span> <span class="o">=</span> <span class="mf">0.0_real_8</span>
-         <span class="n">ENDIF</span>
-      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">      CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
          <span class="n">l</span> <span class="o">=</span> <span class="nb">LBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
          <span class="n">u</span> <span class="o">=</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">lb</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">lb</span> <span class="o">&lt;</span> <span class="n">l</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;lower bound too low&quot;</span><span class="p">)</span>
             <span class="n">l</span> <span class="o">=</span> <span class="n">lb</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">ub</span> <span class="o">&gt;</span> <span class="n">u</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;upper bound too high&quot;</span><span class="p">)</span>
             <span class="n">u</span> <span class="o">=</span> <span class="n">ub</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="k">value</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="k">value</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span> <span class="o">=</span> <span class="k">value</span><span class="p">%</span><span class="n">c_sp</span>
          <span class="k">ELSE</span>
 <span class="k">            </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span> <span class="o">=</span> <span class="nb">CMPLX</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">real_4</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">      CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
          <span class="n">l</span> <span class="o">=</span> <span class="nb">LBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
          <span class="n">u</span> <span class="o">=</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">lb</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">lb</span> <span class="o">&lt;</span> <span class="n">l</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;lower bound too low&quot;</span><span class="p">)</span>
             <span class="n">l</span> <span class="o">=</span> <span class="n">lb</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">ub</span> <span class="o">&gt;</span> <span class="n">u</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;upper bound too high&quot;</span><span class="p">)</span>
             <span class="n">u</span> <span class="o">=</span> <span class="n">ub</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="k">value</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="k">value</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span> <span class="o">=</span> <span class="k">value</span><span class="p">%</span><span class="n">c_dp</span>
          <span class="k">ELSE</span>
 <span class="k">            </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span> <span class="o">=</span> <span class="nb">CMPLX</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">real_8</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4_2d</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">      CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4_2d</span><span class="p">)</span>
          <span class="n">l</span> <span class="o">=</span> <span class="nb">LBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_sp</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
          <span class="n">u</span> <span class="o">=</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_sp</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
          <span class="n">l2</span> <span class="o">=</span> <span class="nb">LBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_sp</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
@@ -482,25 +482,25 @@ private subroutine dbcsr_data_clear0(area, lb, ub, value, lb2, ub2)
          <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">lb</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">lb</span> <span class="o">&lt;</span> <span class="n">l</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;lower bound too low&quot;</span><span class="p">)</span>
             <span class="n">l</span> <span class="o">=</span> <span class="n">lb</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">ub</span> <span class="o">&gt;</span> <span class="n">u</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;upper bound too high&quot;</span><span class="p">)</span>
             <span class="n">u</span> <span class="o">=</span> <span class="n">ub</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">lb2</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">lb2</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">lb2</span> <span class="o">&lt;</span> <span class="n">l2</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;lower2 bound too low&quot;</span><span class="p">)</span>
             <span class="n">l2</span> <span class="o">=</span> <span class="n">lb2</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub2</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub2</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">ub2</span> <span class="o">&gt;</span> <span class="n">u2</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;upper2 bound too high&quot;</span><span class="p">)</span>
             <span class="n">u2</span> <span class="o">=</span> <span class="n">ub2</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="k">value</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="k">value</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_sp</span><span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">,</span> <span class="n">l2</span><span class="p">:</span><span class="n">u2</span><span class="p">)</span> <span class="o">=</span> <span class="k">value</span><span class="p">%</span><span class="n">r_sp</span>
          <span class="k">ELSE</span>
 <span class="k">            </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_sp</span><span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">,</span> <span class="n">l2</span><span class="p">:</span><span class="n">u2</span><span class="p">)</span> <span class="o">=</span> <span class="mf">0.0_real_4</span>
-         <span class="n">ENDIF</span>
-      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8_2d</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">      CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8_2d</span><span class="p">)</span>
          <span class="n">l</span> <span class="o">=</span> <span class="nb">LBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_dp</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
          <span class="n">u</span> <span class="o">=</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_dp</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
          <span class="n">l2</span> <span class="o">=</span> <span class="nb">LBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_dp</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
@@ -508,25 +508,25 @@ private subroutine dbcsr_data_clear0(area, lb, ub, value, lb2, ub2)
          <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">lb</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">lb</span> <span class="o">&lt;</span> <span class="n">l</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;lower bound too low&quot;</span><span class="p">)</span>
             <span class="n">l</span> <span class="o">=</span> <span class="n">lb</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">ub</span> <span class="o">&gt;</span> <span class="n">u</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;upper bound too high&quot;</span><span class="p">)</span>
             <span class="n">u</span> <span class="o">=</span> <span class="n">ub</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">lb2</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">lb2</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">lb2</span> <span class="o">&lt;</span> <span class="n">l2</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;lower2 bound too low&quot;</span><span class="p">)</span>
             <span class="n">l2</span> <span class="o">=</span> <span class="n">lb2</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub2</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub2</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">ub2</span> <span class="o">&gt;</span> <span class="n">u2</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;upper2 bound too high&quot;</span><span class="p">)</span>
             <span class="n">u2</span> <span class="o">=</span> <span class="n">ub2</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="k">value</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="k">value</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_dp</span><span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">,</span> <span class="n">l2</span><span class="p">:</span><span class="n">u2</span><span class="p">)</span> <span class="o">=</span> <span class="k">value</span><span class="p">%</span><span class="n">r_dp</span>
          <span class="k">ELSE</span>
 <span class="k">            </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_dp</span><span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">,</span> <span class="n">l2</span><span class="p">:</span><span class="n">u2</span><span class="p">)</span> <span class="o">=</span> <span class="mf">0.0_real_8</span>
-         <span class="n">ENDIF</span>
-      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4_2d</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">      CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4_2d</span><span class="p">)</span>
          <span class="n">l</span> <span class="o">=</span> <span class="nb">LBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_sp</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
          <span class="n">u</span> <span class="o">=</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_sp</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
          <span class="n">l2</span> <span class="o">=</span> <span class="nb">LBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_sp</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
@@ -534,25 +534,25 @@ private subroutine dbcsr_data_clear0(area, lb, ub, value, lb2, ub2)
          <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">lb</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">lb</span> <span class="o">&lt;</span> <span class="n">l</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;lower bound too low&quot;</span><span class="p">)</span>
             <span class="n">l</span> <span class="o">=</span> <span class="n">lb</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">ub</span> <span class="o">&gt;</span> <span class="n">u</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;upper bound too high&quot;</span><span class="p">)</span>
             <span class="n">u</span> <span class="o">=</span> <span class="n">ub</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">lb2</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">lb2</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">lb2</span> <span class="o">&lt;</span> <span class="n">l2</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;lower2 bound too low&quot;</span><span class="p">)</span>
             <span class="n">l2</span> <span class="o">=</span> <span class="n">lb2</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub2</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub2</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">ub2</span> <span class="o">&gt;</span> <span class="n">u2</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;upper2 bound too high&quot;</span><span class="p">)</span>
             <span class="n">u2</span> <span class="o">=</span> <span class="n">ub2</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="k">value</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="k">value</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_sp</span><span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">,</span> <span class="n">l2</span><span class="p">:</span><span class="n">u2</span><span class="p">)</span> <span class="o">=</span> <span class="k">value</span><span class="p">%</span><span class="n">c_sp</span>
          <span class="k">ELSE</span>
 <span class="k">            </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_sp</span><span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">,</span> <span class="n">l2</span><span class="p">:</span><span class="n">u2</span><span class="p">)</span> <span class="o">=</span> <span class="nb">CMPLX</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">real_4</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8_2d</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">      CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8_2d</span><span class="p">)</span>
          <span class="n">l</span> <span class="o">=</span> <span class="nb">LBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_dp</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
          <span class="n">u</span> <span class="o">=</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_dp</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
          <span class="n">l2</span> <span class="o">=</span> <span class="nb">LBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_dp</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
@@ -560,25 +560,25 @@ private subroutine dbcsr_data_clear0(area, lb, ub, value, lb2, ub2)
          <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">lb</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">lb</span> <span class="o">&lt;</span> <span class="n">l</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;lower bound too low&quot;</span><span class="p">)</span>
             <span class="n">l</span> <span class="o">=</span> <span class="n">lb</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">ub</span> <span class="o">&gt;</span> <span class="n">u</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;upper bound too high&quot;</span><span class="p">)</span>
             <span class="n">u</span> <span class="o">=</span> <span class="n">ub</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">lb2</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">lb2</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">lb2</span> <span class="o">&lt;</span> <span class="n">l2</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;lower2 bound too low&quot;</span><span class="p">)</span>
             <span class="n">l2</span> <span class="o">=</span> <span class="n">lb2</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub2</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ub2</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">ub2</span> <span class="o">&gt;</span> <span class="n">u2</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;upper2 bound too high&quot;</span><span class="p">)</span>
             <span class="n">u2</span> <span class="o">=</span> <span class="n">ub2</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="k">value</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="k">value</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_dp</span><span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">,</span> <span class="n">l2</span><span class="p">:</span><span class="n">u2</span><span class="p">)</span> <span class="o">=</span> <span class="k">value</span><span class="p">%</span><span class="n">c_dp</span>
          <span class="k">ELSE</span>
 <span class="k">            </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_dp</span><span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">,</span> <span class="n">l2</span><span class="p">:</span><span class="n">u2</span><span class="p">)</span> <span class="o">=</span> <span class="nb">CMPLX</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">real_8</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="k">CASE </span><span class="n">default</span>
+         <span class="k">ENDIF</span>
+<span class="k">      CASE </span><span class="n">default</span>
          <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid or unsupported data type.&quot;</span><span class="p">)</span>
       <span class="k">END SELECT</span>
 

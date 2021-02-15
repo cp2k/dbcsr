@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -322,7 +322,7 @@ public subroutine m_cpuinfo(model_name)
       <span class="k">IF</span> <span class="p">(</span><span class="nb">stat</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">bufferlen</span>
             <span class="k">READ</span> <span class="p">(</span><span class="mi">121245</span><span class="p">,</span> <span class="k">END</span><span class="o">=</span><span class="mi">999</span><span class="p">)</span> <span class="n">buffer</span><span class="p">(</span><span class="n">I</span><span class="p">:</span><span class="n">I</span><span class="p">)</span>
-         <span class="n">ENDDO</span>
+         <span class="k">ENDDO</span>
 <span class="mi">999</span>      <span class="k">CLOSE</span> <span class="p">(</span><span class="mi">121245</span><span class="p">)</span>
          <span class="n">imod</span> <span class="o">=</span> <span class="nb">INDEX</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="s2">&quot;model name&quot;</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">imod</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
@@ -330,9 +330,9 @@ public subroutine m_cpuinfo(model_name)
             <span class="n">iline</span> <span class="o">=</span> <span class="n">icol</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">+</span> <span class="nb">INDEX</span><span class="p">(</span><span class="n">buffer</span><span class="p">(</span><span class="n">icol</span><span class="p">:),</span> <span class="nb">NEW_LINE</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">))</span>
             <span class="k">IF</span> <span class="p">(</span><span class="n">iline</span> <span class="o">==</span> <span class="n">icol</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="n">iline</span> <span class="o">=</span> <span class="n">bufferlen</span> <span class="o">+</span> <span class="mi">1</span>
             <span class="n">model_name</span> <span class="o">=</span> <span class="n">buffer</span><span class="p">(</span><span class="n">icol</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">iline</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
-   <span class="k">END SUBROUTINE </span><span class="n">m_cpuinfo</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
+<span class="k">   END SUBROUTINE </span><span class="n">m_cpuinfo</span>
 </pre></div>
 
     </section>

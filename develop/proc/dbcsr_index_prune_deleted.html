@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -230,7 +230,7 @@ public subroutine dbcsr_index_prune_deleted(matrix)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~234"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~253"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -346,9 +346,9 @@ public subroutine dbcsr_index_prune_deleted(matrix)
                <span class="n">new_row_count</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">=</span> <span class="n">new_row_count</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
                <span class="n">new_col_i</span><span class="p">(</span><span class="n">new_blk</span><span class="p">)</span> <span class="o">=</span> <span class="n">old_col_i</span><span class="p">(</span><span class="n">old_blk</span><span class="p">)</span>
                <span class="n">new_blk_p</span><span class="p">(</span><span class="n">new_blk</span><span class="p">)</span> <span class="o">=</span> <span class="n">old_blk_p</span><span class="p">(</span><span class="n">old_blk</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDDO</span>
+            <span class="k">ENDIF</span>
+<span class="k">         ENDDO</span>
+<span class="k">      ENDDO</span>
       <span class="c">!</span>
       <span class="k">CALL </span><span class="n">dbcsr_clearfrom_index_array</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">dbcsr_slot_row_p</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_clearfrom_index_array</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">dbcsr_slot_col_i</span><span class="p">)</span>

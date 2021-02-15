@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -536,10 +536,10 @@
 <a name="ln-274"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">cond</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-275"></a><span class="k">            </span><span class="nb">count</span> <span class="o">=</span> <span class="nb">count</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-276"></a>            <span class="n">rowcols_tmp</span><span class="p">(</span><span class="nb">count</span><span class="p">)</span> <span class="o">=</span> <span class="n">rowcol</span>
-<a name="ln-277"></a>         <span class="n">ENDIF</span>
-<a name="ln-278"></a>      <span class="n">ENDDO</span>
+<a name="ln-277"></a>         <span class="k">ENDIF</span>
+<a name="ln-278"></a><span class="k">      ENDDO</span>
 <a name="ln-279"></a>
-<a name="ln-280"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">repl_rowcols</span><span class="p">(</span><span class="nb">count</span><span class="p">))</span>
+<a name="ln-280"></a><span class="k">      ALLOCATE</span> <span class="p">(</span><span class="n">repl_rowcols</span><span class="p">(</span><span class="nb">count</span><span class="p">))</span>
 <a name="ln-281"></a>      <span class="n">repl_rowcols</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">rowcols_tmp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">count</span><span class="p">)</span> <span class="o">+</span> <span class="n">igroup</span><span class="o">*</span><span class="n">t</span><span class="p">%</span><span class="n">nmrowcol_local</span>
 <a name="ln-282"></a>
 <a name="ln-283"></a>   <span class="k">END FUNCTION</span>
@@ -559,10 +559,10 @@
 <a name="ln-297"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">t</span><span class="p">%</span><span class="n">dist_vec</span><span class="p">(</span><span class="n">rowcol</span><span class="p">)</span> <span class="o">==</span> <span class="n">dist</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-298"></a><span class="k">            </span><span class="nb">count</span> <span class="o">=</span> <span class="nb">count</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-299"></a>            <span class="n">rowcols_tmp</span><span class="p">(</span><span class="nb">count</span><span class="p">)</span> <span class="o">=</span> <span class="n">rowcol</span>
-<a name="ln-300"></a>         <span class="n">ENDIF</span>
-<a name="ln-301"></a>      <span class="n">ENDDO</span>
+<a name="ln-300"></a>         <span class="k">ENDIF</span>
+<a name="ln-301"></a><span class="k">      ENDDO</span>
 <a name="ln-302"></a>
-<a name="ln-303"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">arb_rowcols</span><span class="p">(</span><span class="nb">count</span><span class="p">))</span>
+<a name="ln-303"></a><span class="k">      ALLOCATE</span> <span class="p">(</span><span class="n">arb_rowcols</span><span class="p">(</span><span class="nb">count</span><span class="p">))</span>
 <a name="ln-304"></a>      <span class="n">arb_rowcols</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">rowcols_tmp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">count</span><span class="p">)</span>
 <a name="ln-305"></a>   <span class="k">END FUNCTION</span>
 <a name="ln-306"></a>
@@ -603,9 +603,9 @@
 <a name="ln-341"></a>
 <a name="ln-342"></a>      <span class="k">DO </span><span class="n">ind</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nmrowcol</span>
 <a name="ln-343"></a>         <span class="n">bsize_vec</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span> <span class="o">=</span> <span class="n">block_sizes</span><span class="p">%</span><span class="k">data</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span>
-<a name="ln-344"></a>      <span class="n">ENDDO</span>
+<a name="ln-344"></a>      <span class="k">ENDDO</span>
 <a name="ln-345"></a>
-<a name="ln-346"></a>      <span class="k">CALL </span><span class="n">dbcsr_tas_default_distvec</span><span class="p">(</span><span class="nb">INT</span><span class="p">(</span><span class="n">nmrowcol</span><span class="p">),</span> <span class="n">nprowcol</span><span class="p">,</span> <span class="n">bsize_vec</span><span class="p">,</span> <span class="n">dist_vec</span><span class="p">)</span>
+<a name="ln-346"></a><span class="k">      CALL </span><span class="n">dbcsr_tas_default_distvec</span><span class="p">(</span><span class="nb">INT</span><span class="p">(</span><span class="n">nmrowcol</span><span class="p">),</span> <span class="n">nprowcol</span><span class="p">,</span> <span class="n">bsize_vec</span><span class="p">,</span> <span class="n">dist_vec</span><span class="p">)</span>
 <a name="ln-347"></a>      <span class="n">dbcsr_tas_dist_arb_default</span> <span class="o">=</span> <span class="n">dbcsr_tas_dist_arb</span><span class="p">(</span><span class="n">dist_vec</span><span class="p">,</span> <span class="n">nprowcol</span><span class="p">,</span> <span class="n">nmrowcol</span><span class="p">)</span>
 <a name="ln-348"></a>
 <a name="ln-349"></a>   <span class="k">END FUNCTION</span>
@@ -652,9 +652,9 @@
 <a name="ln-390"></a>
 <a name="ln-391"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n_idle</span>
 <a name="ln-392"></a>         <span class="k">CALL </span><span class="n">dlarnv</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">iseed</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">rand</span><span class="p">)</span>
-<a name="ln-393"></a>      <span class="n">ENDDO</span>
+<a name="ln-393"></a>      <span class="k">ENDDO</span>
 <a name="ln-394"></a>
-<a name="ln-395"></a>      <span class="n">occup</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-395"></a><span class="k">      </span><span class="n">occup</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
 <a name="ln-396"></a>      <span class="n">weights_s</span> <span class="o">=</span> <span class="n">weights</span>
 <a name="ln-397"></a>      <span class="k">CALL </span><span class="n">sort</span><span class="p">(</span><span class="n">weights_s</span><span class="p">,</span> <span class="n">nel</span><span class="p">,</span> <span class="n">sort_index</span><span class="p">)</span>
 <a name="ln-398"></a>
@@ -675,9 +675,9 @@
 <a name="ln-413"></a>
 <a name="ln-414"></a>         <span class="n">dist</span><span class="p">(</span><span class="n">sort_index</span><span class="p">(</span><span class="n">iel</span><span class="p">))</span> <span class="o">=</span> <span class="n">ibin</span> <span class="o">-</span> <span class="mi">1</span>
 <a name="ln-415"></a>         <span class="n">occup</span><span class="p">(</span><span class="n">ibin</span><span class="p">)</span> <span class="o">=</span> <span class="n">occup</span><span class="p">(</span><span class="n">ibin</span><span class="p">)</span> <span class="o">+</span> <span class="n">weights_s</span><span class="p">(</span><span class="n">iel</span><span class="p">)</span>
-<a name="ln-416"></a>      <span class="n">ENDDO</span>
+<a name="ln-416"></a>      <span class="k">ENDDO</span>
 <a name="ln-417"></a>
-<a name="ln-418"></a>   <span class="k">END SUBROUTINE</span>
+<a name="ln-418"></a><span class="k">   END SUBROUTINE</span>
 <a name="ln-419"></a>
 <a name="ln-420"></a><span class="k">   FUNCTION </span><span class="n">new_dbcsr_tas_dist_repl</span><span class="p">(</span><span class="n">dist_vec</span><span class="p">,</span> <span class="n">nprowcol</span><span class="p">,</span> <span class="n">nmrowcol</span><span class="p">,</span> <span class="n">n_repl</span><span class="p">,</span> <span class="n">dist_size</span><span class="p">)</span>
 <a name="ln-421"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">dist_vec</span>
@@ -724,9 +724,9 @@
 <a name="ln-462"></a>            <span class="k">ELSE</span>
 <a name="ln-463"></a><span class="k">               </span><span class="nb">count</span> <span class="o">=</span> <span class="nb">count</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-464"></a>               <span class="n">rowcols_tmp</span><span class="p">(</span><span class="nb">count</span><span class="p">)</span> <span class="o">=</span> <span class="n">rowcol</span>
-<a name="ln-465"></a>            <span class="n">ENDIF</span>
-<a name="ln-466"></a>         <span class="n">ENDDO</span>
-<a name="ln-467"></a>      <span class="n">ENDDO</span> <span class="n">loop</span>
+<a name="ln-465"></a>            <span class="k">ENDIF</span>
+<a name="ln-466"></a><span class="k">         ENDDO</span>
+<a name="ln-467"></a><span class="k">      ENDDO </span><span class="n">loop</span>
 <a name="ln-468"></a>
 <a name="ln-469"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">cyclic_rowcols</span><span class="p">(</span><span class="nb">count</span><span class="p">))</span>
 <a name="ln-470"></a>      <span class="n">cyclic_rowcols</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">rowcols_tmp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="nb">count</span><span class="p">)</span>

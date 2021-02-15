@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ private subroutine printmat_s(matrix, rows, cols, iunit, title, tr)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~162"></span>real(kind=real_4),</td>
+  <td><span class="anchor" id="variable-matrix~230"></span>real(kind=real_4),</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -244,7 +244,7 @@ private subroutine printmat_s(matrix, rows, cols, iunit, title, tr)
   
 <tr>
   
-  <td><span class="anchor" id="variable-rows~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-rows~7"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -307,7 +307,7 @@ private subroutine printmat_s(matrix, rows, cols, iunit, title, tr)
   
 <tr>
   
-  <td><span class="anchor" id="variable-tr~19"></span>logical,</td>
+  <td><span class="anchor" id="variable-tr~24"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -410,16 +410,16 @@ private subroutine printmat_s(matrix, rows, cols, iunit, title, tr)
 <span class="k">            </span><span class="n">t</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
             <span class="n">m</span> <span class="o">=</span> <span class="n">cols</span>
             <span class="n">n</span> <span class="o">=</span> <span class="n">rows</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
-      <span class="k">DO </span><span class="n">r</span> <span class="o">=</span> <span class="nb">LBOUND</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
+<span class="k">      DO </span><span class="n">r</span> <span class="o">=</span> <span class="nb">LBOUND</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
          <span class="n">bit_bucket</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
-      <span class="n">ENDDO</span>
-      <span class="n">bit_bucket</span> <span class="o">=</span> <span class="mf">0.0_dp</span>
+      <span class="k">ENDDO</span>
+<span class="k">      </span><span class="n">bit_bucket</span> <span class="o">=</span> <span class="mf">0.0_dp</span>
       <span class="k">DO </span><span class="n">r</span> <span class="o">=</span> <span class="nb">LBOUND</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
          <span class="n">bit_bucket</span> <span class="o">=</span> <span class="n">bit_bucket</span> <span class="o">+</span> <span class="n">matrix</span><span class="p">(</span><span class="n">r</span><span class="p">)</span>
-      <span class="n">ENDDO</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">m</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">10000</span><span class="p">)</span> <span class="n">m</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="k">ENDDO</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="n">m</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">10000</span><span class="p">)</span> <span class="n">m</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">n</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">10000</span><span class="p">)</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">m</span><span class="o">*</span><span class="n">n</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="mi">1</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">m</span><span class="o">*</span><span class="n">n</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span> <span class="k">RETURN</span>
 <span class="k">      WRITE</span> <span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s2">&quot;(&#39;(&#39;,I4,&#39;(F9.4))&#39;)&quot;</span><span class="p">)</span> <span class="n">cols</span>
@@ -428,9 +428,9 @@ private subroutine printmat_s(matrix, rows, cols, iunit, title, tr)
 <span class="k">            WRITE</span> <span class="p">(</span><span class="n">iunit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="n">f</span><span class="p">)</span> <span class="n">matrix</span><span class="p">(</span><span class="n">r</span><span class="p">:</span><span class="n">r</span> <span class="o">+</span> <span class="p">(</span><span class="n">cols</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">rows</span><span class="p">:</span><span class="n">rows</span><span class="p">)</span>
          <span class="k">ELSE</span>
 <span class="k">            WRITE</span> <span class="p">(</span><span class="n">iunit</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="n">f</span><span class="p">)</span> <span class="n">matrix</span><span class="p">((</span><span class="n">r</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">cols</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">r</span><span class="o">*</span><span class="n">cols</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDDO</span>
-   <span class="k">END SUBROUTINE </span><span class="n">printmat_s</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDDO</span>
+<span class="k">   END SUBROUTINE </span><span class="n">printmat_s</span>
 </pre></div>
 
     </section>

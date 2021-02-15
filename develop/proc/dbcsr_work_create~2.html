@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ public subroutine dbcsr_work_create(matrix, nblks_guess, sizedata_guess, n, work
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~208"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~239"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -278,7 +278,7 @@ public subroutine dbcsr_work_create(matrix, nblks_guess, sizedata_guess, n, work
   
 <tr>
   
-  <td><span class="anchor" id="variable-n~8"></span>integer,</td>
+  <td><span class="anchor" id="variable-n~49"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -310,7 +310,7 @@ public subroutine dbcsr_work_create(matrix, nblks_guess, sizedata_guess, n, work
   
 <tr>
   
-  <td><span class="anchor" id="variable-memory_type~5"></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td><span class="anchor" id="variable-memory_type~11"></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -418,7 +418,7 @@ public subroutine dbcsr_work_create(matrix, nblks_guess, sizedata_guess, n, work
 <span class="c">!$       ELSE</span>
 <span class="c">!$          nw = omp_get_max_threads()</span>
 <span class="c">!$       ENDIF</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 <span class="c">!$OMP     MASTER</span>
       <span class="n">wms_new</span> <span class="o">=</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">)</span>
       <span class="n">wms_realloc</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
@@ -427,11 +427,11 @@ public subroutine dbcsr_work_create(matrix, nblks_guess, sizedata_guess, n, work
          <span class="k">IF</span> <span class="p">(</span><span class="n">ow</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">nw</span><span class="p">)</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">&quot;Number of work matrices less than threads.&quot;</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">ow</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">nw</span><span class="p">)</span> <span class="n">wms_realloc</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">work_mutable</span><span class="p">))</span> <span class="k">THEN</span>
+      <span class="k">ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">work_mutable</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">matrix</span><span class="p">%</span><span class="n">work_mutable</span> <span class="o">=</span> <span class="n">work_mutable</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">wms_realloc</span><span class="p">)</span> <span class="k">THEN</span>
+      <span class="k">ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="n">wms_realloc</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">wms</span><span class="p">(</span><span class="n">nw</span><span class="p">))</span>
          <span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">ow</span><span class="p">)</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">ow</span><span class="p">)</span>
          <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">)</span>
@@ -444,8 +444,8 @@ public subroutine dbcsr_work_create(matrix, nblks_guess, sizedata_guess, n, work
                <span class="k">CALL </span><span class="n">dbcsr_mutable_new</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">mutable</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span>
          <span class="k">END DO</span>
-<span class="k">      </span><span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">wms_new</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">      ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="n">wms_new</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">nw</span><span class="p">))</span>
          <span class="k">DO </span><span class="n">iw</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nw</span>
             <span class="k">CALL </span><span class="n">dbcsr_init_wm</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">),</span> <span class="n">matrix</span><span class="p">%</span><span class="n">data_type</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -455,8 +455,8 @@ public subroutine dbcsr_work_create(matrix, nblks_guess, sizedata_guess, n, work
                <span class="k">CALL </span><span class="n">dbcsr_mutable_new</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">mutable</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span>
          <span class="k">END DO</span>
-<span class="k">      </span><span class="n">ENDIF</span>
-      <span class="n">matrix</span><span class="p">%</span><span class="n">valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<span class="k">      ENDIF</span>
+<span class="k">      </span><span class="n">matrix</span><span class="p">%</span><span class="n">valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <span class="c">!$OMP     END MASTER</span>
       <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_work_create</span>

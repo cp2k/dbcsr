@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -323,7 +323,7 @@ public subroutine csr_create_new(csr_mat, nrows_total, ncols_total, nze_total, n
   
 <tr>
   
-  <td><span class="anchor" id="variable-mp_group~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-mp_group~9"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -339,7 +339,7 @@ public subroutine csr_create_new(csr_mat, nrows_total, ncols_total, nze_total, n
   
 <tr>
   
-  <td><span class="anchor" id="variable-data_type~20"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type~42"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -462,9 +462,9 @@ public subroutine csr_create_new(csr_mat, nrows_total, ncols_total, nze_total, n
 <span class="k">         </span><span class="n">csr_mat</span><span class="p">%</span><span class="n">nzval_local</span><span class="p">%</span><span class="n">data_type</span> <span class="o">=</span> <span class="n">data_type</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">csr_mat</span><span class="p">%</span><span class="n">nzval_local</span><span class="p">%</span><span class="n">data_type</span> <span class="o">=</span> <span class="n">dbcsr_type_real_default</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
-      <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">csr_mat</span><span class="p">%</span><span class="n">nzval_local</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span>
+<span class="k">      SELECT CASE</span> <span class="p">(</span><span class="n">csr_mat</span><span class="p">%</span><span class="n">nzval_local</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span>
       <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
          <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">csr_mat</span><span class="p">%</span><span class="n">nzval_local</span><span class="p">%</span><span class="n">r_sp</span><span class="p">(</span><span class="n">nze_local</span><span class="p">))</span>
       <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>

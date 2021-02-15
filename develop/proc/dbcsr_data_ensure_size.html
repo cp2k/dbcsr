@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -245,7 +245,7 @@ public subroutine dbcsr_data_ensure_size(area, data_size, nocopy, zero_pad, fact
   
 <tr>
   
-  <td><span class="anchor" id="variable-data_size~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_size~5"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -422,14 +422,14 @@ public subroutine dbcsr_data_ensure_size(area, data_size, nocopy, zero_pad, fact
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Cannot use dev memory with previous data area.&quot;</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">pool</span><span class="p">))</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Cannot use memory pool with previous data area.&quot;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
-      <span class="n">wanted_size</span> <span class="o">=</span> <span class="n">data_size</span>
+<span class="k">      </span><span class="n">wanted_size</span> <span class="o">=</span> <span class="n">data_size</span>
 <span class="cp">#if defined(__HAS_smm_dnn) &amp;&amp; defined(__HAS_smm_vec)</span>
       <span class="c">! allocate some more as padding for libsmm kernels which read over the end.</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">data_size</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">wanted_size</span> <span class="o">=</span> <span class="n">data_size</span> <span class="o">+</span> <span class="mi">10</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 <span class="cp">#endif</span>
 
       <span class="c">!IF(area%d%memory_type%acc_devalloc) THEN</span>
@@ -443,7 +443,7 @@ public subroutine dbcsr_data_ensure_size(area, data_size, nocopy, zero_pad, fact
       <span class="k">IF</span> <span class="p">(</span><span class="n">current_size</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">1</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">current_size</span> <span class="p">.</span><span class="n">GE</span><span class="p">.</span> <span class="n">wanted_size</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
          <span class="k">RETURN</span>
-<span class="k">      </span><span class="n">ENDIF</span>
+<span class="k">      ENDIF</span>
       <span class="c">!</span>
       <span class="n">nocp</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nocopy</span><span class="p">))</span> <span class="n">nocp</span> <span class="o">=</span> <span class="n">nocopy</span>
@@ -458,9 +458,9 @@ public subroutine dbcsr_data_ensure_size(area, data_size, nocopy, zero_pad, fact
                <span class="k">CALL </span><span class="n">dbcsr_data_clear_pointer</span><span class="p">(</span><span class="n">area</span><span class="p">)</span>
             <span class="k">ELSE</span>
 <span class="k">               CALL </span><span class="n">internal_data_deallocate</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
-         <span class="n">ENDIF</span>
-      <span class="k">END IF</span>
+            <span class="k">ENDIF</span>
+<span class="k">         ENDIF</span>
+<span class="k">      END IF</span>
 
 <span class="k">      IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_data_exists</span><span class="p">(</span><span class="n">area</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">pool</span><span class="p">))</span> <span class="k">THEN</span>
@@ -492,8 +492,8 @@ public subroutine dbcsr_data_ensure_size(area, data_size, nocopy, zero_pad, fact
                                       <span class="n">memory_type</span><span class="o">=</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">nocopy</span><span class="o">=</span><span class="n">nocp</span><span class="p">,</span> <span class="n">zero_pad</span><span class="o">=</span><span class="n">zero_pad</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">factor</span><span class="o">=</span><span class="n">factor</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
-         <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_int_4</span><span class="p">)</span>
+            <span class="k">ENDIF</span>
+<span class="k">         CASE</span> <span class="p">(</span><span class="n">dbcsr_type_int_4</span><span class="p">)</span>
             <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">area_resize</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">               CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">i4</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">array_resize</span><span class="o">=</span><span class="n">area_resize</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">i4</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -506,8 +506,8 @@ public subroutine dbcsr_data_ensure_size(area, data_size, nocopy, zero_pad, fact
                                       <span class="n">memory_type</span><span class="o">=</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">nocopy</span><span class="o">=</span><span class="n">nocp</span><span class="p">,</span> <span class="n">zero_pad</span><span class="o">=</span><span class="n">zero_pad</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">factor</span><span class="o">=</span><span class="n">factor</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
-         <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
+            <span class="k">ENDIF</span>
+<span class="k">         CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
             <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">area_resize</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">               CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">array_resize</span><span class="o">=</span><span class="n">area_resize</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -520,8 +520,8 @@ public subroutine dbcsr_data_ensure_size(area, data_size, nocopy, zero_pad, fact
                                       <span class="n">memory_type</span><span class="o">=</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">nocopy</span><span class="o">=</span><span class="n">nocp</span><span class="p">,</span> <span class="n">zero_pad</span><span class="o">=</span><span class="n">zero_pad</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">factor</span><span class="o">=</span><span class="n">factor</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
-         <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
+            <span class="k">ENDIF</span>
+<span class="k">         CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
             <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">area_resize</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">               CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">array_resize</span><span class="o">=</span><span class="n">area_resize</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -534,8 +534,8 @@ public subroutine dbcsr_data_ensure_size(area, data_size, nocopy, zero_pad, fact
                                       <span class="n">memory_type</span><span class="o">=</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">nocopy</span><span class="o">=</span><span class="n">nocp</span><span class="p">,</span> <span class="n">zero_pad</span><span class="o">=</span><span class="n">zero_pad</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">factor</span><span class="o">=</span><span class="n">factor</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
-         <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
+            <span class="k">ENDIF</span>
+<span class="k">         CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
             <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">area_resize</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">               CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">array_resize</span><span class="o">=</span><span class="n">area_resize</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -548,8 +548,8 @@ public subroutine dbcsr_data_ensure_size(area, data_size, nocopy, zero_pad, fact
                                       <span class="n">memory_type</span><span class="o">=</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">nocopy</span><span class="o">=</span><span class="n">nocp</span><span class="p">,</span> <span class="n">zero_pad</span><span class="o">=</span><span class="n">zero_pad</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">factor</span><span class="o">=</span><span class="n">factor</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
-         <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
+            <span class="k">ENDIF</span>
+<span class="k">         CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
             <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">area_resize</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">               CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">array_resize</span><span class="o">=</span><span class="n">area_resize</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -562,8 +562,8 @@ public subroutine dbcsr_data_ensure_size(area, data_size, nocopy, zero_pad, fact
                                       <span class="n">memory_type</span><span class="o">=</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">nocopy</span><span class="o">=</span><span class="n">nocp</span><span class="p">,</span> <span class="n">zero_pad</span><span class="o">=</span><span class="n">zero_pad</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">factor</span><span class="o">=</span><span class="n">factor</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
-         <span class="k">CASE </span><span class="n">default</span>
+            <span class="k">ENDIF</span>
+<span class="k">         CASE </span><span class="n">default</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type are supported&quot;</span><span class="p">)</span>
          <span class="k">END SELECT</span>
 
@@ -582,10 +582,10 @@ public subroutine dbcsr_data_ensure_size(area, data_size, nocopy, zero_pad, fact
             <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_datatype_sizeof</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span><span class="o">*</span><span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">area</span><span class="p">)</span> <span class="p">&amp;</span>
                 <span class="o">/=</span> <span class="n">acc_devmem_size_in_bytes</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">))</span> <span class="p">&amp;</span>
                <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Host and device buffer differ in size.&quot;</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
+         <span class="k">ENDIF</span>
 
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="k">      ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_data_ensure_size</span>
 </pre></div>
 

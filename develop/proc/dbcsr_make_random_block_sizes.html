@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -227,7 +227,7 @@ public subroutine dbcsr_make_random_block_sizes(block_sizes, size_sum, size_mix)
   
 <tr>
   
-  <td><span class="anchor" id="variable-block_sizes"></span>integer,</td>
+  <td><span class="anchor" id="variable-block_sizes~4"></span>integer,</td>
   <td>intent(out),</td>
   <td></td>
   
@@ -371,9 +371,9 @@ public subroutine dbcsr_make_random_block_sizes(block_sizes, size_sum, size_mix)
          <span class="k">IF</span> <span class="p">(</span><span class="n">mixer</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">selector</span><span class="p">)</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">mixer</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">selector</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">mixer</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">selector</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
             <span class="n">selector</span> <span class="o">=</span> <span class="nb">MOD</span><span class="p">(</span><span class="n">selector</span><span class="p">,</span> <span class="n">nsize_mix</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDDO</span>
-      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">block_sizes</span><span class="p">(</span><span class="n">nblocks</span><span class="p">))</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDDO</span>
+<span class="k">      ALLOCATE</span> <span class="p">(</span><span class="n">block_sizes</span><span class="p">(</span><span class="n">nblocks</span><span class="p">))</span>
       <span class="n">block_sizes</span> <span class="o">=</span> <span class="n">sizes</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nblocks</span><span class="p">)</span>
       <span class="n">current_sum</span> <span class="o">=</span> <span class="nb">SUM</span><span class="p">(</span><span class="n">block_sizes</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">current_sum</span> <span class="o">/=</span> <span class="n">size_sum</span><span class="p">)</span> <span class="p">&amp;</span>

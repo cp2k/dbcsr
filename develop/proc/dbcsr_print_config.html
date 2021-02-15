@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ public subroutine dbcsr_print_config(unit_nr)
   
 <tr>
   
-  <td><span class="anchor" id="variable-unit_nr~7"></span>integer,</td>
+  <td><span class="anchor" id="variable-unit_nr~35"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -337,8 +337,8 @@ public subroutine dbcsr_print_config(unit_nr)
       <span class="k">ELSE</span>
 <span class="k">         WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T72,A)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
             <span class="s2">&quot;DBCSR| Maximum elements for images&quot;</span><span class="p">,</span> <span class="s2">&quot;UNLIMITED&quot;</span>
-      <span class="n">ENDIF</span>
-      <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+      <span class="k">ENDIF</span>
+<span class="k">      WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
          <span class="s2">&quot;DBCSR| Multiplicative factor virtual images&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_mult_images</span>
 
       <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
@@ -354,9 +354,9 @@ public subroutine dbcsr_print_config(unit_nr)
             <span class="s2">&quot;DBCSR| Multiplication size n stacks&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nn_stacks</span>
          <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
             <span class="s2">&quot;DBCSR| Multiplication size k stacks&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nk_stacks</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
-      <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+<span class="k">      WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
          <span class="s2">&quot;DBCSR| Use memory pool for CPU allocation&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mempools_cpu</span>
 
       <span class="k">IF</span> <span class="p">(</span><span class="n">has_mpi</span><span class="p">)</span> <span class="k">THEN</span>
@@ -366,8 +366,8 @@ public subroutine dbcsr_print_config(unit_nr)
          <span class="k">ELSE</span>
 <span class="k">            WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
                <span class="s2">&quot;DBCSR| Number of 3D layers&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_layers_3D</span>
-         <span class="n">ENDIF</span>
-         <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
+         <span class="k">ENDIF</span>
+<span class="k">         WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
             <span class="s2">&quot;DBCSR| Use MPI memory allocation&quot;</span><span class="p">,</span> <span class="n">dbcsr_data_allocation</span><span class="p">%</span><span class="n">use_mpi_allocator</span>
          <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
             <span class="s2">&quot;DBCSR| Use RMA algorithm&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span>
@@ -384,9 +384,9 @@ public subroutine dbcsr_print_config(unit_nr)
             <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
                <span class="s2">&quot;DBCSR| MPI: Number of nodes&quot;</span><span class="p">,</span> <span class="n">numnodes</span>
          <span class="k">END BLOCK</span>
-<span class="k">      </span><span class="n">ENDIF</span>
+<span class="k">      ENDIF</span>
 
-      <span class="k">BLOCK</span>
+<span class="k">      BLOCK</span>
 <span class="k">         </span><span class="kt">INTEGER</span> <span class="kd">::</span> <span class="n">numthreads</span><span class="p">,</span> <span class="n">numthreads_max</span>
          <span class="n">numthreads</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
          <span class="n">numthreads_max</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>

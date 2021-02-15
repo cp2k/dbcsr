@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ private subroutine build_csr_index(mi, mf, ai, af, row_p, blk_info, list_index, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-mi~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-mi~5"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -259,7 +259,7 @@ private subroutine build_csr_index(mi, mf, ai, af, row_p, blk_info, list_index, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-ai~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-ai~3"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -274,7 +274,7 @@ private subroutine build_csr_index(mi, mf, ai, af, row_p, blk_info, list_index, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-af~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-af~3"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -289,7 +289,7 @@ private subroutine build_csr_index(mi, mf, ai, af, row_p, blk_info, list_index, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-row_p~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_p~4"></span>integer,</td>
   <td>intent(out),</td>
   <td></td>
   
@@ -462,20 +462,20 @@ private subroutine build_csr_index(mi, mf, ai, af, row_p, blk_info, list_index, 
       <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="s1">&#39;(I7,1X,5(A,2(1X,I7)))&#39;</span><span class="p">)</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;bci&quot;</span><span class="p">,</span> <span class="n">mi</span><span class="p">,</span> <span class="n">mf</span><span class="p">,</span> <span class="s2">&quot;;&quot;</span><span class="p">,</span> <span class="n">ai</span><span class="p">,</span> <span class="n">af</span>
          <span class="c">!write(*,&#39;(3(I7))&#39;)list_index(:,ai:af)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
-      <span class="n">counts</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">      </span><span class="n">counts</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="n">ai</span><span class="p">,</span> <span class="n">af</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">careful</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">list_index</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">mi</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of range&quot;</span><span class="p">)</span>
             <span class="k">IF</span> <span class="p">(</span><span class="n">list_index</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">mf</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of range&quot;</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="n">counts</span><span class="p">(</span><span class="n">list_index</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span> <span class="o">=</span> <span class="n">counts</span><span class="p">(</span><span class="n">list_index</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
-      <span class="n">ENDDO</span>
-      <span class="n">row_p</span><span class="p">(</span><span class="n">mi</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>
+         <span class="k">ENDIF</span>
+<span class="k">         </span><span class="n">counts</span><span class="p">(</span><span class="n">list_index</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span> <span class="o">=</span> <span class="n">counts</span><span class="p">(</span><span class="n">list_index</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
+      <span class="k">ENDDO</span>
+<span class="k">      </span><span class="n">row_p</span><span class="p">(</span><span class="n">mi</span><span class="p">)</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="n">mi</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">mf</span> <span class="o">+</span> <span class="mi">1</span>
          <span class="n">row_p</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">row_p</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">counts</span><span class="p">(</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-      <span class="n">ENDDO</span>
+      <span class="k">ENDDO</span>
       <span class="c">! Adds every block to its corresponding row.</span>
       <span class="n">counts</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="n">ai</span><span class="p">,</span> <span class="n">af</span>
@@ -484,17 +484,17 @@ private subroutine build_csr_index(mi, mf, ai, af, row_p, blk_info, list_index, 
          <span class="k">IF</span> <span class="p">(</span><span class="n">careful</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">row_p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">+</span> <span class="n">counts</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">af</span> <span class="o">-</span> <span class="n">ai</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of range&quot;</span><span class="p">)</span>
             <span class="k">IF</span> <span class="p">(</span><span class="n">row_p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">+</span> <span class="n">counts</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of range&quot;</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="n">blk_info</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">row_p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">+</span> <span class="n">counts</span><span class="p">(</span><span class="n">row</span><span class="p">))</span> <span class="o">=</span> <span class="n">list_index</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">         </span><span class="n">blk_info</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">row_p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">+</span> <span class="n">counts</span><span class="p">(</span><span class="n">row</span><span class="p">))</span> <span class="o">=</span> <span class="n">list_index</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
          <span class="n">blk_info</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">row_p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">+</span> <span class="n">counts</span><span class="p">(</span><span class="n">row</span><span class="p">))</span> <span class="o">=</span> <span class="n">list_index</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">nnorms</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">csr_norms</span><span class="p">(</span><span class="n">row_p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">+</span> <span class="n">counts</span><span class="p">(</span><span class="n">row</span><span class="p">))</span> <span class="o">=</span> <span class="n">list_norms</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDDO</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">nnorms</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDDO</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="n">nnorms</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">csr_norms</span><span class="p">(:)</span> <span class="o">=</span> <span class="mf">0.0_sp</span>
-      <span class="n">ENDIF</span>
-   <span class="k">END SUBROUTINE </span><span class="n">build_csr_index</span>
+      <span class="k">ENDIF</span>
+<span class="k">   END SUBROUTINE </span><span class="n">build_csr_index</span>
 </pre></div>
 
     </section>

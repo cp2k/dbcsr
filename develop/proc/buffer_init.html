@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ private subroutine buffer_init(buffer, data_type, data_size, meta_size, num_data
   
 <tr>
   
-  <td><span class="anchor" id="variable-buffer~4"></span>type(<a href='../type/dbcsr_buffer.html'>dbcsr_buffer</a>),</td>
+  <td><span class="anchor" id="variable-buffer~18"></span>type(<a href='../type/dbcsr_buffer.html'>dbcsr_buffer</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -244,7 +244,7 @@ private subroutine buffer_init(buffer, data_type, data_size, meta_size, num_data
   
 <tr>
   
-  <td><span class="anchor" id="variable-data_type~35"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type~29"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -259,7 +259,7 @@ private subroutine buffer_init(buffer, data_type, data_size, meta_size, num_data
   
 <tr>
   
-  <td><span class="anchor" id="variable-data_size~9"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_size~12"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -304,7 +304,7 @@ private subroutine buffer_init(buffer, data_type, data_size, meta_size, num_data
   
 <tr>
   
-  <td><span class="anchor" id="variable-data_memory_type~4"></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td><span class="anchor" id="variable-data_memory_type~3"></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -417,8 +417,8 @@ private subroutine buffer_init(buffer, data_type, data_size, meta_size, num_data
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Previous data area already initialized.&quot;</span><span class="p">)</span>
          <span class="k">CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">data_before_resize</span><span class="p">)</span>
          <span class="k">CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">data_before_resize</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">memory_type</span><span class="o">=</span><span class="n">data_memory_type</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="n">new_trs_stackbuf</span> <span class="o">=</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">trs_memory_type</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">has_acc</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">new_trs_stackbuf</span> <span class="o">=</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">trs_memory_type</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">has_acc</span>
       <span class="c">!</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">is_valid</span><span class="p">)</span> <span class="k">THEN</span>
          <span class="c">! Invalid buffers if data_type is different</span>
@@ -426,10 +426,10 @@ private subroutine buffer_init(buffer, data_type, data_size, meta_size, num_data
 <span class="k">            CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="k">data</span><span class="p">)</span>
             <span class="k">IF</span> <span class="p">(</span><span class="n">new_trs_stackbuf</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">               CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">trs_stackbuf</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
-            <span class="n">buffer</span><span class="p">%</span><span class="n">is_valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
+            <span class="k">ENDIF</span>
+<span class="k">            </span><span class="n">buffer</span><span class="p">%</span><span class="n">is_valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
       <span class="c">!</span>
       <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">buffer</span><span class="p">%</span><span class="n">is_valid</span><span class="p">)</span> <span class="k">THEN</span>
          <span class="c">! First initialization</span>
@@ -442,21 +442,21 @@ private subroutine buffer_init(buffer, data_type, data_size, meta_size, num_data
             <span class="k">CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">trs_stackbuf</span><span class="p">,</span> <span class="p">&amp;</span>
                                 <span class="n">data_type</span><span class="o">=</span><span class="n">dbcsr_type_int_4</span><span class="p">,</span> <span class="n">data_size</span><span class="o">=</span><span class="p">(</span><span class="n">meta_size</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">my_num_data</span><span class="p">,</span> <span class="p">&amp;</span>
                                 <span class="n">memory_type</span><span class="o">=</span><span class="n">trs_memory_type</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="n">buffer</span><span class="p">%</span><span class="n">is_valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+         <span class="k">ENDIF</span>
+<span class="k">         </span><span class="n">buffer</span><span class="p">%</span><span class="n">is_valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
       <span class="k">ELSE</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">num_data</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">dbcsr_data_ensure_size</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="k">data</span><span class="p">,</span> <span class="n">data_size</span><span class="o">*</span><span class="n">my_num_data</span><span class="p">,</span> <span class="n">nocopy</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
             <span class="k">IF</span> <span class="p">(</span><span class="n">new_trs_stackbuf</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">               CALL </span><span class="n">dbcsr_data_ensure_size</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">trs_stackbuf</span><span class="p">,</span> <span class="p">(</span><span class="n">meta_size</span><span class="o">/</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">my_num_data</span><span class="p">,</span> <span class="n">nocopy</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
-            <span class="n">ENDIF</span>
-         <span class="k">ELSE</span>
+            <span class="k">ENDIF</span>
+<span class="k">         ELSE</span>
             <span class="c">! Case for MPI windows</span>
             <span class="c">! data_before_resize keeps the pointer to previous data in the case of reallocation</span>
             <span class="k">CALL </span><span class="n">dbcsr_data_ensure_size</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="k">data</span><span class="p">,</span> <span class="n">data_size</span><span class="p">,</span> <span class="n">nocopy</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="p">&amp;</span>
                                         <span class="n">area_resize</span><span class="o">=</span><span class="n">buffer</span><span class="p">%</span><span class="n">data_before_resize</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
       <span class="c">!</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">num_data</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">meta</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="n">meta_size</span><span class="o">*</span><span class="n">my_num_data</span><span class="p">,</span> <span class="n">nocopy</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="p">&amp;</span>
@@ -467,7 +467,7 @@ private subroutine buffer_init(buffer, data_type, data_size, meta_size, num_data
          <span class="k">CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">meta</span><span class="p">,</span> <span class="n">array_resize</span><span class="o">=</span><span class="n">buffer</span><span class="p">%</span><span class="n">meta_before_resize</span><span class="p">,</span> <span class="p">&amp;</span>
                                 <span class="n">ub</span><span class="o">=</span><span class="n">meta_size</span><span class="p">,</span> <span class="n">nocopy</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.,</span> <span class="p">&amp;</span>
                                 <span class="n">memory_type</span><span class="o">=</span><span class="n">memtype_mpi_buffer</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">!</span>
       <span class="n">buffer</span><span class="p">%</span><span class="n">is_comm</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
    <span class="k">END SUBROUTINE </span><span class="n">buffer_init</span>

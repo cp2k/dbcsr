@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -947,9 +947,9 @@
 <a name="ln-685"></a>
 <a name="ln-686"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">distribution</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-687"></a><span class="k">         </span><span class="n">distribution</span><span class="p">%</span><span class="n">prv</span> <span class="o">=</span> <span class="n">dist</span>
-<a name="ln-688"></a>      <span class="n">ENDIF</span>
+<a name="ln-688"></a>      <span class="k">ENDIF</span>
 <a name="ln-689"></a>
-<a name="ln-690"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_get_info</span>
+<a name="ln-690"></a><span class="k">   END SUBROUTINE </span><span class="n">dbcsr_get_info</span>
 <a name="ln-691"></a>
 <a name="ln-692"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_distribution_get</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">row_dist</span><span class="p">,</span> <span class="n">col_dist</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-693"></a>                                     <span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">,</span> <span class="n">has_threads</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -1020,8 +1020,8 @@
 <a name="ln-758"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-759"></a><span class="k">         CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
 <a name="ln-760"></a>         <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
-<a name="ln-761"></a>      <span class="n">ENDIF</span>
-<a name="ln-762"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_release_p</span>
+<a name="ln-761"></a>      <span class="k">ENDIF</span>
+<a name="ln-762"></a><span class="k">   END SUBROUTINE </span><span class="n">dbcsr_release_p</span>
 <a name="ln-763"></a>
 <a name="ln-764"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
 <a name="ln-765"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">matrix</span>
@@ -1035,9 +1035,9 @@
 <a name="ln-773"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-774"></a><span class="k">         CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
 <a name="ln-775"></a>         <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
-<a name="ln-776"></a>      <span class="n">ENDIF</span>
+<a name="ln-776"></a>      <span class="k">ENDIF</span>
 <a name="ln-777"></a>
-<a name="ln-778"></a>      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+<a name="ln-778"></a><span class="k">      ALLOCATE</span> <span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
 <a name="ln-779"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_init_p</span>
 <a name="ln-780"></a>
 <a name="ln-781"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_print</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">nodata</span><span class="p">,</span> <span class="n">matlab_format</span><span class="p">,</span> <span class="n">variable_name</span><span class="p">,</span> <span class="n">unit_nr</span><span class="p">)</span>
@@ -1109,17 +1109,17 @@
 <a name="ln-847"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">reuse_arrays</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-848"></a><span class="k">            DEALLOCATE</span> <span class="p">(</span><span class="n">row_dist</span><span class="p">,</span> <span class="n">col_dist</span><span class="p">)</span>
 <a name="ln-849"></a>            <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">row_dist</span><span class="p">,</span> <span class="n">col_dist</span><span class="p">)</span>
-<a name="ln-850"></a>         <span class="n">ENDIF</span>
-<a name="ln-851"></a>      <span class="n">ENDIF</span>
+<a name="ln-850"></a>         <span class="k">ENDIF</span>
+<a name="ln-851"></a><span class="k">      ENDIF</span>
 <a name="ln-852"></a>
-<a name="ln-853"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">template</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-853"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">template</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-854"></a><span class="k">         call </span><span class="n">dbcsr_distribution_new_prv</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">template</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">pgrid</span><span class="p">,</span> <span class="n">cont_row_dist</span><span class="p">,</span> <span class="n">cont_col_dist</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-855"></a>                                         <span class="n">reuse_arrays</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
 <a name="ln-856"></a>      <span class="k">ELSE</span>
 <a name="ln-857"></a><span class="k">         call </span><span class="n">dbcsr_distribution_new_prv</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="n">group</span><span class="p">,</span> <span class="n">pgrid</span><span class="o">=</span><span class="n">pgrid</span><span class="p">,</span> <span class="n">row_dist</span><span class="o">=</span><span class="n">cont_row_dist</span><span class="p">,</span> <span class="n">col_dist</span><span class="o">=</span><span class="n">cont_col_dist</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-858"></a>                                         <span class="n">reuse_arrays</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
-<a name="ln-859"></a>      <span class="n">ENDIF</span>
-<a name="ln-860"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_distribution_new</span>
+<a name="ln-859"></a>      <span class="k">ENDIF</span>
+<a name="ln-860"></a><span class="k">   END SUBROUTINE </span><span class="n">dbcsr_distribution_new</span>
 <a name="ln-861"></a>
 <a name="ln-862"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_print_statistics</span><span class="p">(</span><span class="n">print_timers</span><span class="p">,</span> <span class="n">callgraph_filename</span><span class="p">)</span>
 <a name="ln-863"></a>      <span class="c">!! Print statistics</span>
@@ -1166,9 +1166,9 @@
 <a name="ln-904"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">reuse_arrays</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-905"></a><span class="k">            DEALLOCATE</span> <span class="p">(</span><span class="n">row_blk_size</span><span class="p">,</span> <span class="n">col_blk_size</span><span class="p">)</span>
 <a name="ln-906"></a>            <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">row_blk_size</span><span class="p">,</span> <span class="n">col_blk_size</span><span class="p">)</span>
-<a name="ln-907"></a>         <span class="n">ENDIF</span>
-<a name="ln-908"></a>      <span class="n">ENDIF</span>
-<a name="ln-909"></a>      <span class="k">CALL </span><span class="n">dbcsr_create_prv</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dist</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-907"></a>         <span class="k">ENDIF</span>
+<a name="ln-908"></a><span class="k">      ENDIF</span>
+<a name="ln-909"></a><span class="k">      CALL </span><span class="n">dbcsr_create_prv</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dist</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-910"></a>                            <span class="n">matrix_type</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-911"></a>                            <span class="n">cont_row_blk_size</span><span class="p">,</span> <span class="n">cont_col_blk_size</span><span class="p">,</span> <span class="n">nze</span><span class="o">=</span><span class="n">nze</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-912"></a>                            <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">,</span> <span class="n">reuse</span><span class="o">=</span><span class="n">reuse</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -1196,7 +1196,7 @@
 <a name="ln-934"></a>
 <a name="ln-935"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">row_blk_size</span><span class="p">)</span> <span class="p">.</span><span class="n">NEQV</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">col_blk_size</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-936"></a><span class="k">         </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Both row_blk_size and col_blk_size must be provided!&quot;</span><span class="p">)</span>
-<a name="ln-937"></a>      <span class="n">ENDIF</span>
+<a name="ln-937"></a>      <span class="k">ENDIF</span>
 <a name="ln-938"></a>
 <a name="ln-939"></a>      <span class="c">! Make the array contiguous, avoid to change API</span>
 <a name="ln-940"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">row_blk_size</span><span class="p">))</span> <span class="k">THEN</span>
@@ -1208,11 +1208,11 @@
 <a name="ln-946"></a><span class="k">            IF</span> <span class="p">(</span><span class="n">reuse_arrays</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-947"></a><span class="k">               DEALLOCATE</span> <span class="p">(</span><span class="n">row_blk_size</span><span class="p">,</span> <span class="n">col_blk_size</span><span class="p">)</span>
 <a name="ln-948"></a>               <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">row_blk_size</span><span class="p">,</span> <span class="n">col_blk_size</span><span class="p">)</span>
-<a name="ln-949"></a>            <span class="n">ENDIF</span>
-<a name="ln-950"></a>         <span class="n">ENDIF</span>
-<a name="ln-951"></a>      <span class="n">ENDIF</span>
+<a name="ln-949"></a>            <span class="k">ENDIF</span>
+<a name="ln-950"></a><span class="k">         ENDIF</span>
+<a name="ln-951"></a><span class="k">      ENDIF</span>
 <a name="ln-952"></a>
-<a name="ln-953"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-953"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-954"></a><span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">row_blk_size</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-955"></a><span class="k">            CALL </span><span class="n">dbcsr_create_prv</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">template</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-956"></a>                                  <span class="n">dist</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">matrix_type</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -1226,8 +1226,8 @@
 <a name="ln-964"></a>                                  <span class="n">nze</span><span class="o">=</span><span class="n">nze</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-965"></a>                                  <span class="n">reuse_arrays</span><span class="o">=</span><span class="n">reuse_arrays</span><span class="p">,</span> <span class="n">mutable_work</span><span class="o">=</span><span class="n">mutable_work</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-966"></a>                                  <span class="n">replication_type</span><span class="o">=</span><span class="n">replication_type</span><span class="p">)</span>
-<a name="ln-967"></a>         <span class="n">ENDIF</span>
-<a name="ln-968"></a>      <span class="k">ELSE</span>
+<a name="ln-967"></a>         <span class="k">ENDIF</span>
+<a name="ln-968"></a><span class="k">      ELSE</span>
 <a name="ln-969"></a><span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">row_blk_size</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-970"></a><span class="k">            CALL </span><span class="n">dbcsr_create_prv</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">template</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-971"></a>                                  <span class="n">matrix_type</span><span class="o">=</span><span class="n">matrix_type</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -1241,9 +1241,9 @@
 <a name="ln-979"></a>                                  <span class="n">nze</span><span class="o">=</span><span class="n">nze</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">data_type</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-980"></a>                                  <span class="n">reuse_arrays</span><span class="o">=</span><span class="n">reuse_arrays</span><span class="p">,</span> <span class="n">mutable_work</span><span class="o">=</span><span class="n">mutable_work</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-981"></a>                                  <span class="n">replication_type</span><span class="o">=</span><span class="n">replication_type</span><span class="p">)</span>
-<a name="ln-982"></a>         <span class="n">ENDIF</span>
-<a name="ln-983"></a>      <span class="n">ENDIF</span>
-<a name="ln-984"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_create_template</span>
+<a name="ln-982"></a>         <span class="k">ENDIF</span>
+<a name="ln-983"></a><span class="k">      ENDIF</span>
+<a name="ln-984"></a><span class="k">   END SUBROUTINE </span><span class="n">dbcsr_create_template</span>
 <a name="ln-985"></a>
 <a name="ln-986"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_filter</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">eps</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">use_absolute</span><span class="p">,</span> <span class="n">filter_diag</span><span class="p">)</span>
 <a name="ln-987"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">matrix</span>
@@ -1322,8 +1322,8 @@
 <a name="ln-1060"></a>      <span class="k">ELSE</span>
 <a name="ln-1061"></a><span class="k">         CALL </span><span class="n">dbcsr_transposed_prv</span><span class="p">(</span><span class="n">transposed</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">normal</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">shallow_data_copy</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-1062"></a>                                   <span class="n">transpose_data</span><span class="p">,</span> <span class="n">transpose_distribution</span><span class="p">)</span>
-<a name="ln-1063"></a>      <span class="n">ENDIF</span>
-<a name="ln-1064"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_transposed</span>
+<a name="ln-1063"></a>      <span class="k">ENDIF</span>
+<a name="ln-1064"></a><span class="k">   END SUBROUTINE </span><span class="n">dbcsr_transposed</span>
 <a name="ln-1065"></a>
 <a name="ln-1066"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_function_of_elements</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">a0</span><span class="p">,</span> <span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">)</span>
 <a name="ln-1067"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">matrix_a</span>
@@ -1374,8 +1374,8 @@
 <a name="ln-1112"></a><span class="k">         CALL </span><span class="n">csr_create_from_dbcsr_prv</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">csr_mat</span><span class="p">,</span> <span class="n">dist_format</span><span class="p">,</span> <span class="n">csr_sparsity</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">numnodes</span><span class="p">)</span>
 <a name="ln-1113"></a>      <span class="k">ELSE</span>
 <a name="ln-1114"></a><span class="k">         CALL </span><span class="n">csr_create_from_dbcsr_prv</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">csr_mat</span><span class="p">,</span> <span class="n">dist_format</span><span class="p">,</span> <span class="n">numnodes</span><span class="o">=</span><span class="n">numnodes</span><span class="p">)</span>
-<a name="ln-1115"></a>      <span class="n">ENDIF</span>
-<a name="ln-1116"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_csr_create_from_dbcsr</span>
+<a name="ln-1115"></a>      <span class="k">ENDIF</span>
+<a name="ln-1116"></a><span class="k">   END SUBROUTINE </span><span class="n">dbcsr_csr_create_from_dbcsr</span>
 <a name="ln-1117"></a>
 <a name="ln-1118"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_convert_csr_to_dbcsr</span><span class="p">(</span><span class="n">dbcsr_mat</span><span class="p">,</span> <span class="n">csr_mat</span><span class="p">)</span>
 <a name="ln-1119"></a>

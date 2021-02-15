@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ public subroutine acc_devmem_set_cptr(this, pointee, size_in_bytes, lb_in_bytes)
   
 <tr>
   
-  <td><span class="anchor" id="variable-this~46"></span>type(<a href='../type/acc_devmem_type.html'>acc_devmem_type</a>),</td>
+  <td><span class="anchor" id="variable-this~40"></span>type(<a href='../type/acc_devmem_type.html'>acc_devmem_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -380,7 +380,7 @@ public subroutine acc_devmem_set_cptr(this, pointee, size_in_bytes, lb_in_bytes)
          <span class="c">! Empty buffers</span>
          <span class="n">this</span><span class="p">%</span><span class="n">size_in_bytes</span> <span class="o">=</span> <span class="n">pointee</span><span class="p">%</span><span class="n">size_in_bytes</span>
          <span class="n">this</span><span class="p">%</span><span class="n">cptr</span> <span class="o">=</span> <span class="n">pointee</span><span class="p">%</span><span class="n">cptr</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 <span class="cp">#endif</span>
    <span class="k">END SUBROUTINE </span><span class="n">acc_devmem_set_cptr</span>
 </pre></div>

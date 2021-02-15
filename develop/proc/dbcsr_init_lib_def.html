@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ private subroutine dbcsr_init_lib_def(mp_comm, io_unit, accdrv_active_device_id)
   
 <tr>
   
-  <td><span class="anchor" id="variable-mp_comm~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-mp_comm~21"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -244,7 +244,7 @@ private subroutine dbcsr_init_lib_def(mp_comm, io_unit, accdrv_active_device_id)
   
 <tr>
   
-  <td><span class="anchor" id="variable-io_unit~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-io_unit~6"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -344,8 +344,8 @@ private subroutine dbcsr_init_lib_def(mp_comm, io_unit, accdrv_active_device_id)
          <span class="c">! Update ext_io_unit</span>
          <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">io_unit</span><span class="p">))</span> <span class="n">ext_io_unit</span> <span class="o">=</span> <span class="n">io_unit</span>
          <span class="k">RETURN</span>
-<span class="k">      </span><span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">dbcsr_init_lib_pre</span><span class="p">(</span><span class="n">mp_comm</span><span class="p">,</span> <span class="n">io_unit</span><span class="p">,</span> <span class="n">accdrv_active_device_id</span><span class="p">)</span>
+<span class="k">      ENDIF</span>
+<span class="k">      CALL </span><span class="n">dbcsr_init_lib_pre</span><span class="p">(</span><span class="n">mp_comm</span><span class="p">,</span> <span class="n">io_unit</span><span class="p">,</span> <span class="n">accdrv_active_device_id</span><span class="p">)</span>
       <span class="c">!</span>
       <span class="c">! Declare loggers</span>
       <span class="k">CALL </span><span class="n">dbcsr_logger_create</span><span class="p">(</span><span class="n">logger</span><span class="p">,</span> <span class="n">mp_env</span><span class="o">=</span><span class="n">mp_env</span><span class="p">,</span> <span class="p">&amp;</span>

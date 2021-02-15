@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -244,7 +244,7 @@ public function dbcsr_mempool_get(memtype, datatype, datasize) result(res)
   
 <tr>
   
-  <td><span class="anchor" id="variable-datatype"></span>integer,</td>
+  <td><span class="anchor" id="variable-datatype~2"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -278,7 +278,7 @@ public function dbcsr_mempool_get(memtype, datatype, datasize) result(res)
     
     
     
-   <h3>Return Value <small><span class="anchor" id="variable-res~18"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>)
+   <h3>Return Value <small><span class="anchor" id="variable-res~2"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>)
   </small></h3>
     
     
@@ -376,10 +376,10 @@ public function dbcsr_mempool_get(memtype, datatype, datasize) result(res)
 <span class="k">            </span><span class="n">best_cur</span> <span class="o">=&gt;</span> <span class="n">cur</span>
             <span class="n">best_prev</span> <span class="o">=&gt;</span> <span class="n">prev</span>
             <span class="n">best_size</span> <span class="o">=</span> <span class="n">s</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDDO</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDDO</span>
 
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">best_cur</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">best_cur</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="n">best_cur</span><span class="p">%</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">refcount</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;refcount /= 0&quot;</span><span class="p">)</span>
          <span class="n">best_cur</span><span class="p">%</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">refcount</span> <span class="o">=</span> <span class="mi">1</span>
          <span class="n">best_prev</span><span class="p">%</span><span class="n">next</span> <span class="o">=&gt;</span> <span class="n">best_cur</span><span class="p">%</span><span class="n">next</span>

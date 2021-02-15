@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -371,8 +371,8 @@ public subroutine make_sizes_dense(old_sizes, mapping, nel_new, new_sizes)
       <span class="n">new_s</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="k">DO </span><span class="n">el</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nel_old</span>
          <span class="n">new_s</span><span class="p">(</span><span class="n">map</span><span class="p">(</span><span class="n">el</span><span class="p">))</span> <span class="o">=</span> <span class="n">new_s</span><span class="p">(</span><span class="n">map</span><span class="p">(</span><span class="n">el</span><span class="p">))</span> <span class="o">+</span> <span class="n">old_s</span><span class="p">(</span><span class="n">el</span><span class="p">)</span>
-      <span class="n">ENDDO</span>
-      <span class="k">CALL </span><span class="n">array_new</span><span class="p">(</span><span class="n">new_sizes</span><span class="p">,</span> <span class="n">new_s</span><span class="p">,</span> <span class="n">gift</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+      <span class="k">ENDDO</span>
+<span class="k">      CALL </span><span class="n">array_new</span><span class="p">(</span><span class="n">new_sizes</span><span class="p">,</span> <span class="n">new_s</span><span class="p">,</span> <span class="n">gift</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
    <span class="k">END SUBROUTINE </span><span class="n">make_sizes_dense</span>
 </pre></div>
 

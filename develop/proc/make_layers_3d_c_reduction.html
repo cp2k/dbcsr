@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -336,7 +336,7 @@ public subroutine make_layers_3D_C_reduction(my_num_layers_3D, mp_obj)
          <span class="c">! Reset 3D communicator if it was previously declared</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">layers_3D_C_reduction</span><span class="p">%</span><span class="n">num_layers_3D</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="k">CALL </span><span class="n">release_layers_3D_C_reduction</span><span class="p">()</span>
          <span class="k">RETURN</span>
-<span class="k">      </span><span class="n">ENDIF</span>
+<span class="k">      ENDIF</span>
       <span class="c">!</span>
       <span class="c">! Check if any existing 3D communicator can be reused</span>
       <span class="n">mygrp</span> <span class="o">=</span> <span class="n">dbcsr_mp_group</span><span class="p">(</span><span class="n">mp_obj</span><span class="p">)</span>
@@ -359,14 +359,14 @@ public subroutine make_layers_3D_C_reduction(my_num_layers_3D, mp_obj)
             <span class="c">! Square topology, scale both coordinates</span>
             <span class="n">do_layers_3D</span> <span class="o">=</span> <span class="p">((</span><span class="n">nprows</span><span class="o">/</span><span class="nb">NINT</span><span class="p">(</span><span class="nb">SQRT</span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="nb">MAX</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">my_num_layers_3D</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">))))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span> <span class="p">&amp;</span>
                            <span class="n">my_num_layers_3D</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="p">(</span><span class="n">nprows</span><span class="o">*</span><span class="n">npcols</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">do_layers_3D</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">warning</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">do_layers_3D</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">warning</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">msg</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(A,I3,A,I3,A,I3,A)&#39;</span><span class="p">)</span> <span class="s2">&quot;Cannot make 3D layers with &quot;</span><span class="p">,</span> <span class="n">my_num_layers_3D</span><span class="p">,</span> <span class="p">&amp;</span>
                <span class="s2">&quot; layers and (&quot;</span><span class="p">,</span> <span class="n">nprows</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">npcols</span><span class="p">,</span> <span class="s2">&quot;) ranks! Run with a single layer.&quot;</span>
             <span class="n">DBCSR_WARN</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
             <span class="n">warning</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">do_layers_3D</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">do_layers_3D</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">layers_3D_C_reduction</span><span class="p">%</span><span class="n">grp</span> <span class="o">=</span> <span class="n">mygrp</span>
             <span class="n">layers_3D_C_reduction</span><span class="p">%</span><span class="n">num_layers_3D</span> <span class="o">=</span> <span class="n">my_num_layers_3D</span>
             <span class="n">layers_3D_C_reduction</span><span class="p">%</span><span class="n">max_num_layers_3D</span> <span class="o">=</span> <span class="p">&amp;</span>
@@ -388,11 +388,11 @@ public subroutine make_layers_3D_C_reduction(my_num_layers_3D, mp_obj)
             <span class="n">color</span> <span class="o">=</span> <span class="n">key</span><span class="o">/</span><span class="p">(</span><span class="n">nprows</span><span class="o">/</span><span class="n">layers_3D_C_reduction</span><span class="p">%</span><span class="n">side3D</span><span class="p">)</span>
             <span class="k">CALL </span><span class="n">mp_comm_split_direct</span><span class="p">(</span><span class="n">layers_3D_C_reduction</span><span class="p">%</span><span class="n">grp3D</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">layers_3D_C_reduction</span><span class="p">%</span><span class="n">rowgrp3D</span><span class="p">,</span> <span class="n">color</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="k">ELSE</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ELSE</span>
 <span class="k">         </span><span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s1">&#39;Cannot make 3D layers without experimental MPI algorithm enabled!&#39;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-   <span class="k">END SUBROUTINE </span><span class="n">make_layers_3D_C_reduction</span>
+      <span class="k">ENDIF</span>
+<span class="k">   END SUBROUTINE </span><span class="n">make_layers_3D_C_reduction</span>
 </pre></div>
 
     </section>

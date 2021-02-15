@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -606,8 +606,8 @@ public subroutine dbcsr_block_partial_copy(dst, dst_rs, dst_cs, dst_tr, src, src
       <span class="k">IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="n">dbcsr_type_2d_to_1d</span><span class="p">(</span><span class="n">dbcsr_data_get_type</span><span class="p">(</span><span class="n">dst</span><span class="p">))</span> <span class="o">/=</span> <span class="n">dbcsr_type_2d_to_1d</span><span class="p">(</span><span class="n">dbcsr_data_get_type</span><span class="p">(</span><span class="n">src</span><span class="p">)))</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Incompatible data types.&quot;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="n">dst_o</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">src_o</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">dst_o</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">src_o</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">dst_offset</span><span class="p">))</span> <span class="n">dst_o</span> <span class="o">=</span> <span class="n">dst_offset</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">src_offset</span><span class="p">))</span> <span class="n">src_o</span> <span class="o">=</span> <span class="n">src_offset</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">verification</span><span class="p">)</span> <span class="k">THEN</span>
@@ -619,7 +619,7 @@ public subroutine dbcsr_block_partial_copy(dst, dst_rs, dst_cs, dst_tr, src, src
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Incompatible src row sizes&quot;</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">src_c_lb</span> <span class="o">+</span> <span class="n">ncol</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&gt;</span> <span class="n">src_cs</span><span class="p">)</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Incompatible src col sizes&quot;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">!</span>
       <span class="n">src_is_2d</span> <span class="o">=</span> <span class="n">dbcsr_type_is_2d</span><span class="p">(</span><span class="n">dbcsr_data_get_type</span><span class="p">(</span><span class="n">src</span><span class="p">))</span>
       <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">dbcsr_data_get_type</span><span class="p">(</span><span class="n">dst</span><span class="p">))</span>
@@ -634,8 +634,8 @@ public subroutine dbcsr_block_partial_copy(dst, dst_rs, dst_cs, dst_tr, src, src
                                       <span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span> <span class="n">src_rs</span><span class="p">,</span> <span class="n">src_cs</span><span class="p">,</span> <span class="n">src_tr</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">dst_r_lb</span><span class="p">,</span> <span class="n">dst_c_lb</span><span class="p">,</span> <span class="n">src_r_lb</span><span class="p">,</span> <span class="n">src_c_lb</span><span class="p">,</span> <span class="n">nrow</span><span class="p">,</span> <span class="n">ncol</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">dst_offset</span><span class="o">=</span><span class="n">dst_o</span><span class="p">,</span> <span class="n">src_offset</span><span class="o">=</span><span class="n">src_o</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">      CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">src_is_2d</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">block_partial_copy_1d2d_d</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span> <span class="n">dst_rs</span><span class="p">,</span> <span class="n">dst_cs</span><span class="p">,</span> <span class="n">dst_tr</span><span class="p">,</span> <span class="p">&amp;</span>
                                            <span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_dp</span><span class="p">,</span> <span class="n">src_tr</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -646,8 +646,8 @@ public subroutine dbcsr_block_partial_copy(dst, dst_rs, dst_cs, dst_tr, src, src
                                       <span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span> <span class="n">src_rs</span><span class="p">,</span> <span class="n">src_cs</span><span class="p">,</span> <span class="n">src_tr</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">dst_r_lb</span><span class="p">,</span> <span class="n">dst_c_lb</span><span class="p">,</span> <span class="n">src_r_lb</span><span class="p">,</span> <span class="n">src_c_lb</span><span class="p">,</span> <span class="n">nrow</span><span class="p">,</span> <span class="n">ncol</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">dst_offset</span><span class="o">=</span><span class="n">dst_o</span><span class="p">,</span> <span class="n">src_offset</span><span class="o">=</span><span class="n">src_o</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">      CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">src_is_2d</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">block_partial_copy_1d2d_c</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span> <span class="n">dst_rs</span><span class="p">,</span> <span class="n">dst_cs</span><span class="p">,</span> <span class="n">dst_tr</span><span class="p">,</span> <span class="p">&amp;</span>
                                            <span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_sp</span><span class="p">,</span> <span class="n">src_tr</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -658,8 +658,8 @@ public subroutine dbcsr_block_partial_copy(dst, dst_rs, dst_cs, dst_tr, src, src
                                       <span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span> <span class="n">src_rs</span><span class="p">,</span> <span class="n">src_cs</span><span class="p">,</span> <span class="n">src_tr</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">dst_r_lb</span><span class="p">,</span> <span class="n">dst_c_lb</span><span class="p">,</span> <span class="n">src_r_lb</span><span class="p">,</span> <span class="n">src_c_lb</span><span class="p">,</span> <span class="n">nrow</span><span class="p">,</span> <span class="n">ncol</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">dst_offset</span><span class="o">=</span><span class="n">dst_o</span><span class="p">,</span> <span class="n">src_offset</span><span class="o">=</span><span class="n">src_o</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">      CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">src_is_2d</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">block_partial_copy_1d2d_z</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span> <span class="n">dst_rs</span><span class="p">,</span> <span class="n">dst_cs</span><span class="p">,</span> <span class="n">dst_tr</span><span class="p">,</span> <span class="p">&amp;</span>
                                            <span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_dp</span><span class="p">,</span> <span class="n">src_tr</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -670,8 +670,8 @@ public subroutine dbcsr_block_partial_copy(dst, dst_rs, dst_cs, dst_tr, src, src
                                       <span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span> <span class="n">src_rs</span><span class="p">,</span> <span class="n">src_cs</span><span class="p">,</span> <span class="n">src_tr</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">dst_r_lb</span><span class="p">,</span> <span class="n">dst_c_lb</span><span class="p">,</span> <span class="n">src_r_lb</span><span class="p">,</span> <span class="n">src_c_lb</span><span class="p">,</span> <span class="n">nrow</span><span class="p">,</span> <span class="n">ncol</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">dst_offset</span><span class="o">=</span><span class="n">dst_o</span><span class="p">,</span> <span class="n">src_offset</span><span class="o">=</span><span class="n">src_o</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4_2d</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">      CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4_2d</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">src_is_2d</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">block_partial_copy_2d2d_s</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_sp</span><span class="p">,</span> <span class="n">dst_tr</span><span class="p">,</span> <span class="p">&amp;</span>
                                            <span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_sp</span><span class="p">,</span> <span class="n">src_tr</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -681,8 +681,8 @@ public subroutine dbcsr_block_partial_copy(dst, dst_rs, dst_cs, dst_tr, src, src
                                            <span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span> <span class="n">src_rs</span><span class="p">,</span> <span class="n">src_cs</span><span class="p">,</span> <span class="n">src_tr</span><span class="p">,</span> <span class="p">&amp;</span>
                                            <span class="n">dst_r_lb</span><span class="p">,</span> <span class="n">dst_c_lb</span><span class="p">,</span> <span class="n">src_r_lb</span><span class="p">,</span> <span class="n">src_c_lb</span><span class="p">,</span> <span class="n">nrow</span><span class="p">,</span> <span class="n">ncol</span><span class="p">,</span> <span class="p">&amp;</span>
                                            <span class="n">src_offset</span><span class="o">=</span><span class="n">src_o</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8_2d</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">      CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8_2d</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">src_is_2d</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">block_partial_copy_2d2d_d</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_dp</span><span class="p">,</span> <span class="n">dst_tr</span><span class="p">,</span> <span class="p">&amp;</span>
                                            <span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_dp</span><span class="p">,</span> <span class="n">src_tr</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -692,8 +692,8 @@ public subroutine dbcsr_block_partial_copy(dst, dst_rs, dst_cs, dst_tr, src, src
                                            <span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span> <span class="n">src_rs</span><span class="p">,</span> <span class="n">src_cs</span><span class="p">,</span> <span class="n">src_tr</span><span class="p">,</span> <span class="p">&amp;</span>
                                            <span class="n">dst_r_lb</span><span class="p">,</span> <span class="n">dst_c_lb</span><span class="p">,</span> <span class="n">src_r_lb</span><span class="p">,</span> <span class="n">src_c_lb</span><span class="p">,</span> <span class="n">nrow</span><span class="p">,</span> <span class="n">ncol</span><span class="p">,</span> <span class="p">&amp;</span>
                                            <span class="n">src_offset</span><span class="o">=</span><span class="n">src_o</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4_2d</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">      CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4_2d</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">src_is_2d</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">block_partial_copy_2d2d_c</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_sp</span><span class="p">,</span> <span class="n">dst_tr</span><span class="p">,</span> <span class="p">&amp;</span>
                                            <span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_sp</span><span class="p">,</span> <span class="n">src_tr</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -703,8 +703,8 @@ public subroutine dbcsr_block_partial_copy(dst, dst_rs, dst_cs, dst_tr, src, src
                                            <span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span> <span class="n">src_rs</span><span class="p">,</span> <span class="n">src_cs</span><span class="p">,</span> <span class="n">src_tr</span><span class="p">,</span> <span class="p">&amp;</span>
                                            <span class="n">dst_r_lb</span><span class="p">,</span> <span class="n">dst_c_lb</span><span class="p">,</span> <span class="n">src_r_lb</span><span class="p">,</span> <span class="n">src_c_lb</span><span class="p">,</span> <span class="n">nrow</span><span class="p">,</span> <span class="n">ncol</span><span class="p">,</span> <span class="p">&amp;</span>
                                            <span class="n">src_offset</span><span class="o">=</span><span class="n">src_o</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8_2d</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">      CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8_2d</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">src_is_2d</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">block_partial_copy_2d2d_z</span><span class="p">(</span><span class="n">dst</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_dp</span><span class="p">,</span> <span class="n">dst_tr</span><span class="p">,</span> <span class="p">&amp;</span>
                                            <span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_dp</span><span class="p">,</span> <span class="n">src_tr</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -714,8 +714,8 @@ public subroutine dbcsr_block_partial_copy(dst, dst_rs, dst_cs, dst_tr, src, src
                                            <span class="n">src</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span> <span class="n">src_rs</span><span class="p">,</span> <span class="n">src_cs</span><span class="p">,</span> <span class="n">src_tr</span><span class="p">,</span> <span class="p">&amp;</span>
                                            <span class="n">dst_r_lb</span><span class="p">,</span> <span class="n">dst_c_lb</span><span class="p">,</span> <span class="n">src_r_lb</span><span class="p">,</span> <span class="n">src_c_lb</span><span class="p">,</span> <span class="n">nrow</span><span class="p">,</span> <span class="n">ncol</span><span class="p">,</span> <span class="p">&amp;</span>
                                            <span class="n">src_offset</span><span class="o">=</span><span class="n">src_o</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="k">CASE </span><span class="n">default</span>
+         <span class="k">ENDIF</span>
+<span class="k">      CASE </span><span class="n">default</span>
          <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type.&quot;</span><span class="p">)</span>
       <span class="k">END SELECT</span>
 <span class="k">   END SUBROUTINE </span><span class="n">dbcsr_block_partial_copy</span>

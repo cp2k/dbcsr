@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -430,7 +430,7 @@
 <a name="ln-168"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Matrices must have local indexing.&quot;</span><span class="p">)</span>
 <a name="ln-169"></a>         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">left</span><span class="p">%</span><span class="n">local_indexing</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-170"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Matrices must have local indexing.&quot;</span><span class="p">)</span>
-<a name="ln-171"></a>      <span class="n">ENDIF</span>
+<a name="ln-171"></a>      <span class="k">ENDIF</span>
 <a name="ln-172"></a>      <span class="c">!</span>
 <a name="ln-173"></a>      <span class="c">! Fill result data structure.</span>
 <a name="ln-174"></a>      <span class="n">this</span><span class="p">%</span><span class="n">keep_sparsity</span> <span class="o">=</span> <span class="n">keep_sparsity</span>
@@ -444,7 +444,7 @@
 <a name="ln-182"></a><span class="k">         </span><span class="n">this</span><span class="p">%</span><span class="n">eps</span> <span class="o">=</span> <span class="n">eps</span>
 <a name="ln-183"></a>      <span class="k">ELSE</span>
 <a name="ln-184"></a><span class="k">         </span><span class="n">this</span><span class="p">%</span><span class="n">eps</span> <span class="o">=</span> <span class="mf">0.0_real_8</span>
-<a name="ln-185"></a>      <span class="n">ENDIF</span>
+<a name="ln-185"></a>      <span class="k">ENDIF</span>
 <a name="ln-186"></a>      <span class="c">!</span>
 <a name="ln-187"></a>      <span class="c">!</span>
 <a name="ln-188"></a><span class="c">!$    NULLIFY (product_thread_dist)</span>
@@ -468,35 +468,35 @@
 <a name="ln-206"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot;dist local rows&quot;</span><span class="p">,</span> <span class="n">dbcsr_distribution_local_rows</span><span class="p">(</span><span class="nb">product</span><span class="p">%</span><span class="n">dist</span><span class="p">)</span>
 <a name="ln-207"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot; mat local rows&quot;</span><span class="p">,</span> <span class="n">array_data</span><span class="p">(</span><span class="nb">product</span><span class="p">%</span><span class="n">local_rows</span><span class="p">)</span>
 <a name="ln-208"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Array mismatch.&quot;</span><span class="p">)</span>
-<a name="ln-209"></a>         <span class="n">ENDIF</span>
-<a name="ln-210"></a>         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">array_equality</span><span class="p">(</span><span class="n">dbcsr_distribution_local_cols_obj</span><span class="p">(</span><span class="nb">product</span><span class="p">%</span><span class="n">dist</span><span class="p">),</span> <span class="p">&amp;</span>
+<a name="ln-209"></a>         <span class="k">ENDIF</span>
+<a name="ln-210"></a><span class="k">         IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">array_equality</span><span class="p">(</span><span class="n">dbcsr_distribution_local_cols_obj</span><span class="p">(</span><span class="nb">product</span><span class="p">%</span><span class="n">dist</span><span class="p">),</span> <span class="p">&amp;</span>
 <a name="ln-211"></a>                                  <span class="nb">product</span><span class="p">%</span><span class="n">local_cols</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-212"></a><span class="k">            WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot;col dist&quot;</span><span class="p">,</span> <span class="n">dbcsr_distribution_col_dist</span><span class="p">(</span><span class="nb">product</span><span class="p">%</span><span class="n">dist</span><span class="p">)</span>
 <a name="ln-213"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot;dist local cols&quot;</span><span class="p">,</span> <span class="n">dbcsr_distribution_local_cols</span><span class="p">(</span><span class="nb">product</span><span class="p">%</span><span class="n">dist</span><span class="p">)</span>
 <a name="ln-214"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot; mat local cols&quot;</span><span class="p">,</span> <span class="n">array_data</span><span class="p">(</span><span class="nb">product</span><span class="p">%</span><span class="n">local_cols</span><span class="p">)</span>
 <a name="ln-215"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Array mismatch.&quot;</span><span class="p">)</span>
-<a name="ln-216"></a>         <span class="n">ENDIF</span>
-<a name="ln-217"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">c_local_rows</span><span class="p">)</span> <span class="o">/=</span> <span class="n">c_nblkrows_local</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-216"></a>         <span class="k">ENDIF</span>
+<a name="ln-217"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">c_local_rows</span><span class="p">)</span> <span class="o">/=</span> <span class="n">c_nblkrows_local</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-218"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Row count mismatch.&quot;</span><span class="p">)</span>
 <a name="ln-219"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">c_local_cols</span><span class="p">)</span> <span class="o">/=</span> <span class="n">c_nblkcols_local</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-220"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Column count mismatch.&quot;</span><span class="p">)</span>
-<a name="ln-221"></a>      <span class="n">ENDIF</span>
+<a name="ln-221"></a>      <span class="k">ENDIF</span>
 <a name="ln-222"></a>      <span class="c">!</span>
 <a name="ln-223"></a>      <span class="c">! And the k epsilons</span>
 <a name="ln-224"></a>      <span class="k">IF</span> <span class="p">((</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">left</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">right</span><span class="p">))</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">this</span><span class="p">%</span><span class="n">use_eps</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-225"></a><span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">row_max_epss</span><span class="p">(</span><span class="n">c_nblkrows_local</span><span class="p">))</span>
 <a name="ln-226"></a>         <span class="n">this</span><span class="p">%</span><span class="n">new_row_max_epss</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-<a name="ln-227"></a>      <span class="n">ENDIF</span>
-<a name="ln-228"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">use_eps</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-227"></a>      <span class="k">ENDIF</span>
+<a name="ln-228"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">use_eps</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-229"></a><span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">left</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">right</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-230"></a><span class="k">            CALL </span><span class="n">local_filter_sp</span><span class="p">(</span><span class="n">row_max_epss</span><span class="p">,</span> <span class="n">c_nblkrows_local</span><span class="p">,</span> <span class="n">c_local_rows</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-231"></a>                                 <span class="n">this</span><span class="p">%</span><span class="n">row_max_epss</span><span class="p">)</span>
 <a name="ln-232"></a>         <span class="k">ELSE</span>
 <a name="ln-233"></a><span class="k">            </span><span class="n">this</span><span class="p">%</span><span class="n">row_max_epss</span> <span class="o">=&gt;</span> <span class="n">row_max_epss</span>
-<a name="ln-234"></a>         <span class="n">ENDIF</span>
-<a name="ln-235"></a>      <span class="k">ELSE</span>
+<a name="ln-234"></a>         <span class="k">ENDIF</span>
+<a name="ln-235"></a><span class="k">      ELSE</span>
 <a name="ln-236"></a><span class="k">         </span><span class="n">this</span><span class="p">%</span><span class="n">row_max_epss</span><span class="p">(:)</span> <span class="o">=</span> <span class="o">-</span><span class="nb">HUGE</span><span class="p">(</span><span class="mf">0.0_sp</span><span class="p">)</span>
-<a name="ln-237"></a>      <span class="n">ENDIF</span>
+<a name="ln-237"></a>      <span class="k">ENDIF</span>
 <a name="ln-238"></a>      <span class="c">!</span>
 <a name="ln-239"></a>      <span class="n">this</span><span class="p">%</span><span class="n">m_sizes</span> <span class="o">=&gt;</span> <span class="n">m_sizes</span>
 <a name="ln-240"></a>      <span class="n">this</span><span class="p">%</span><span class="n">n_sizes</span> <span class="o">=&gt;</span> <span class="n">n_sizes</span>
@@ -644,10 +644,10 @@
 <a name="ln-382"></a><span class="k">            CALL </span><span class="n">multrec_filtering</span><span class="p">(</span><span class="n">this</span><span class="p">)</span>
 <a name="ln-383"></a>         <span class="k">ELSE</span>
 <a name="ln-384"></a><span class="k">            </span><span class="n">this</span><span class="p">%</span><span class="n">product_wm</span><span class="p">%</span><span class="n">datasize_after_filtering</span> <span class="o">=</span> <span class="n">this</span><span class="p">%</span><span class="n">product_wm</span><span class="p">%</span><span class="n">datasize</span>
-<a name="ln-385"></a>         <span class="n">ENDIF</span>
-<a name="ln-386"></a>      <span class="n">ENDIF</span>
+<a name="ln-385"></a>         <span class="k">ENDIF</span>
+<a name="ln-386"></a><span class="k">      ENDIF</span>
 <a name="ln-387"></a>
-<a name="ln-388"></a>      <span class="n">this</span><span class="p">%</span><span class="n">initialized</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<a name="ln-388"></a><span class="k">      </span><span class="n">this</span><span class="p">%</span><span class="n">initialized</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <a name="ln-389"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
 <a name="ln-390"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_mm_multrec_finalize</span>
 <a name="ln-391"></a>
@@ -768,15 +768,15 @@
 <a name="ln-506"></a>
 <a name="ln-507"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-508"></a><span class="k">         WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="s1">&#39;(I7,1X,5(A,2(1X,I7)))&#39;</span><span class="p">)</span> <span class="n">d</span><span class="p">,</span> <span class="s2">&quot; rm&quot;</span><span class="p">,</span> <span class="n">mi</span><span class="p">,</span> <span class="n">mf</span><span class="p">,</span> <span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">ni</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">ki</span><span class="p">,</span> <span class="n">kf</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">ai</span><span class="p">,</span> <span class="n">af</span><span class="p">,</span> <span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">bi</span><span class="p">,</span> <span class="n">bf</span>
-<a name="ln-509"></a>      <span class="n">ENDIF</span>
-<a name="ln-510"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="n">TRUE</span><span class="p">.)</span> <span class="k">THEN</span>
+<a name="ln-509"></a>      <span class="k">ENDIF</span>
+<a name="ln-510"></a><span class="k">      IF</span> <span class="p">(.</span><span class="n">TRUE</span><span class="p">.)</span> <span class="k">THEN</span>
 <a name="ln-511"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">af</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">ai</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">bf</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">bi</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">mf</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">mi</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">nf</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">ni</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">kf</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">ki</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-512"></a><span class="k">            IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot;Empty&quot;</span>
 <a name="ln-513"></a>            <span class="k">RETURN</span>
-<a name="ln-514"></a><span class="k">         </span><span class="n">ENDIF</span>
-<a name="ln-515"></a>      <span class="n">ENDIF</span>
+<a name="ln-514"></a><span class="k">         ENDIF</span>
+<a name="ln-515"></a><span class="k">      ENDIF</span>
 <a name="ln-516"></a>
-<a name="ln-517"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">af</span> <span class="o">-</span> <span class="n">ai</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">multrec_limit</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">bf</span> <span class="o">-</span> <span class="n">bi</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">multrec_limit</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-517"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">af</span> <span class="o">-</span> <span class="n">ai</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">multrec_limit</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">bf</span> <span class="o">-</span> <span class="n">bi</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">multrec_limit</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-518"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">af</span> <span class="o">-</span> <span class="n">ai</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">bf</span> <span class="o">-</span> <span class="n">bi</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-519"></a>            <span class="k">CALL </span><span class="n">dbcsr_mm_csr_multiply</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">csr</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-520"></a>                                       <span class="n">mi</span><span class="o">=</span><span class="n">mi</span><span class="p">,</span> <span class="n">mf</span><span class="o">=</span><span class="n">mf</span><span class="p">,</span> <span class="n">ni</span><span class="o">=</span><span class="n">ni</span><span class="p">,</span> <span class="n">nf</span><span class="o">=</span><span class="n">nf</span><span class="p">,</span> <span class="n">ki</span><span class="o">=</span><span class="n">ki</span><span class="p">,</span> <span class="n">kf</span><span class="o">=</span><span class="n">kf</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -790,15 +790,15 @@
 <a name="ln-528"></a>                                       <span class="n">a_index</span><span class="o">=</span><span class="n">a_index</span><span class="p">,</span> <span class="n">b_index</span><span class="o">=</span><span class="n">b_index</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-529"></a>                                       <span class="n">a_norms</span><span class="o">=</span><span class="n">this</span><span class="p">%</span><span class="n">a_norms</span><span class="p">,</span> <span class="n">b_norms</span><span class="o">=</span><span class="n">this</span><span class="p">%</span><span class="n">b_norms</span><span class="p">)</span>
 <a name="ln-530"></a>         <span class="k">RETURN</span>
-<a name="ln-531"></a><span class="k">      </span><span class="n">ENDIF</span>
+<a name="ln-531"></a><span class="k">      ENDIF</span>
 <a name="ln-532"></a>
-<a name="ln-533"></a>      <span class="n">M</span> <span class="o">=</span> <span class="n">mf</span> <span class="o">-</span> <span class="n">mi</span> <span class="o">+</span> <span class="mi">1</span>
+<a name="ln-533"></a><span class="k">      </span><span class="n">M</span> <span class="o">=</span> <span class="n">mf</span> <span class="o">-</span> <span class="n">mi</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-534"></a>      <span class="n">N</span> <span class="o">=</span> <span class="n">nf</span> <span class="o">-</span> <span class="n">ni</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-535"></a>      <span class="n">K</span> <span class="o">=</span> <span class="n">kf</span> <span class="o">-</span> <span class="n">ki</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-536"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-537"></a><span class="k">         WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s1">&#39;m,k,n&#39;</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">K</span><span class="p">,</span> <span class="n">N</span>
-<a name="ln-538"></a>      <span class="n">ENDIF</span>
-<a name="ln-539"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">M</span> <span class="o">&gt;=</span> <span class="nb">MAX</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">K</span><span class="p">))</span> <span class="n">cut</span> <span class="o">=</span> <span class="mi">1</span>
+<a name="ln-538"></a>      <span class="k">ENDIF</span>
+<a name="ln-539"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">M</span> <span class="o">&gt;=</span> <span class="nb">MAX</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">K</span><span class="p">))</span> <span class="n">cut</span> <span class="o">=</span> <span class="mi">1</span>
 <a name="ln-540"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">K</span> <span class="o">&gt;=</span> <span class="nb">MAX</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">M</span><span class="p">))</span> <span class="n">cut</span> <span class="o">=</span> <span class="mi">2</span>
 <a name="ln-541"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">N</span> <span class="o">&gt;=</span> <span class="nb">MAX</span><span class="p">(</span><span class="n">M</span><span class="p">,</span> <span class="n">K</span><span class="p">))</span> <span class="n">cut</span> <span class="o">=</span> <span class="mi">3</span>
 <a name="ln-542"></a>      <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">cut</span><span class="p">)</span>
@@ -815,13 +815,13 @@
 <a name="ln-553"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-554"></a><span class="k">            WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">N</span><span class="p">,</span> <span class="n">s1</span><span class="p">,</span> <span class="n">ni</span> <span class="o">+</span> <span class="n">s1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">ai</span><span class="p">,</span> <span class="n">af</span><span class="p">,</span> <span class="n">acut</span>
 <a name="ln-555"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="s1">&#39;(3(I7))&#39;</span><span class="p">)</span> <span class="n">a_index</span>
-<a name="ln-556"></a>         <span class="n">ENDIF</span>
-<a name="ln-557"></a>         <span class="n">bcut</span> <span class="o">=</span> <span class="n">find_cut_row</span><span class="p">(</span><span class="n">bi</span><span class="p">,</span> <span class="n">bf</span><span class="p">,</span> <span class="n">b_index</span><span class="p">,</span> <span class="n">ki</span> <span class="o">+</span> <span class="n">s1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+<a name="ln-556"></a>         <span class="k">ENDIF</span>
+<a name="ln-557"></a><span class="k">         </span><span class="n">bcut</span> <span class="o">=</span> <span class="n">find_cut_row</span><span class="p">(</span><span class="n">bi</span><span class="p">,</span> <span class="n">bf</span><span class="p">,</span> <span class="n">b_index</span><span class="p">,</span> <span class="n">ki</span> <span class="o">+</span> <span class="n">s1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 <a name="ln-558"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-559"></a><span class="k">            WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">N</span><span class="p">,</span> <span class="n">s1</span><span class="p">,</span> <span class="n">ni</span> <span class="o">+</span> <span class="n">s1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">bi</span><span class="p">,</span> <span class="n">bf</span><span class="p">,</span> <span class="n">bcut</span>
 <a name="ln-560"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="s1">&#39;(3(I7))&#39;</span><span class="p">)</span> <span class="n">b_index</span>
-<a name="ln-561"></a>         <span class="n">ENDIF</span>
-<a name="ln-562"></a>         <span class="k">CALL </span><span class="n">sparse_multrec</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">mi</span><span class="p">,</span> <span class="n">mf</span><span class="p">,</span> <span class="n">ni</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">ki</span><span class="p">,</span> <span class="n">ki</span> <span class="o">+</span> <span class="n">s1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-561"></a>         <span class="k">ENDIF</span>
+<a name="ln-562"></a><span class="k">         CALL </span><span class="n">sparse_multrec</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">mi</span><span class="p">,</span> <span class="n">mf</span><span class="p">,</span> <span class="n">ni</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">ki</span><span class="p">,</span> <span class="n">ki</span> <span class="o">+</span> <span class="n">s1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-563"></a>                             <span class="n">ai</span><span class="p">,</span> <span class="n">acut</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">a_index</span><span class="p">,</span> <span class="n">bi</span><span class="p">,</span> <span class="n">bcut</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">b_index</span><span class="p">,</span> <span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 <a name="ln-564"></a>         <span class="k">CALL </span><span class="n">sparse_multrec</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">mi</span><span class="p">,</span> <span class="n">mf</span><span class="p">,</span> <span class="n">ni</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">ki</span> <span class="o">+</span> <span class="n">s1</span><span class="p">,</span> <span class="n">kf</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-565"></a>                             <span class="n">acut</span><span class="p">,</span> <span class="n">af</span><span class="p">,</span> <span class="n">a_index</span><span class="p">,</span> <span class="n">bcut</span><span class="p">,</span> <span class="n">bf</span><span class="p">,</span> <span class="n">b_index</span><span class="p">,</span> <span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
@@ -831,8 +831,8 @@
 <a name="ln-569"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-570"></a><span class="k">            WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">N</span><span class="p">,</span> <span class="n">s1</span><span class="p">,</span> <span class="n">ni</span> <span class="o">+</span> <span class="n">s1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="n">bi</span><span class="p">,</span> <span class="n">bf</span><span class="p">,</span> <span class="n">bcut</span>
 <a name="ln-571"></a>            <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="s1">&#39;(3(I7))&#39;</span><span class="p">)</span> <span class="n">b_index</span>
-<a name="ln-572"></a>         <span class="n">ENDIF</span>
-<a name="ln-573"></a>         <span class="k">CALL </span><span class="n">sparse_multrec</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">mi</span><span class="p">,</span> <span class="n">mf</span><span class="p">,</span> <span class="n">ni</span><span class="p">,</span> <span class="n">ni</span> <span class="o">+</span> <span class="n">s1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ki</span><span class="p">,</span> <span class="n">kf</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-572"></a>         <span class="k">ENDIF</span>
+<a name="ln-573"></a><span class="k">         CALL </span><span class="n">sparse_multrec</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">mi</span><span class="p">,</span> <span class="n">mf</span><span class="p">,</span> <span class="n">ni</span><span class="p">,</span> <span class="n">ni</span> <span class="o">+</span> <span class="n">s1</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">ki</span><span class="p">,</span> <span class="n">kf</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-574"></a>                             <span class="n">ai</span><span class="p">,</span> <span class="n">af</span><span class="p">,</span> <span class="n">a_index</span><span class="p">,</span> <span class="n">bi</span><span class="p">,</span> <span class="n">bcut</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">b_index</span><span class="p">,</span> <span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 <a name="ln-575"></a>         <span class="k">CALL </span><span class="n">sparse_multrec</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">,</span> <span class="n">mi</span><span class="p">,</span> <span class="n">mf</span><span class="p">,</span> <span class="n">ni</span> <span class="o">+</span> <span class="n">s1</span><span class="p">,</span> <span class="n">nf</span><span class="p">,</span> <span class="n">ki</span><span class="p">,</span> <span class="n">kf</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-576"></a>                             <span class="n">ai</span><span class="p">,</span> <span class="n">af</span><span class="p">,</span> <span class="n">a_index</span><span class="p">,</span> <span class="n">bcut</span><span class="p">,</span> <span class="n">bf</span><span class="p">,</span> <span class="n">b_index</span><span class="p">,</span> <span class="n">d</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
@@ -854,24 +854,24 @@
 <a name="ln-592"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ilow</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">val</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-593"></a><span class="k">         </span><span class="n">res</span> <span class="o">=</span> <span class="n">ilow</span>
 <a name="ln-594"></a>         <span class="k">RETURN</span>
-<a name="ln-595"></a><span class="k">      </span><span class="n">ENDIF</span>
+<a name="ln-595"></a><span class="k">      ENDIF</span>
 <a name="ln-596"></a>
-<a name="ln-597"></a>      <span class="n">ihigh</span> <span class="o">=</span> <span class="n">af</span>
+<a name="ln-597"></a><span class="k">      </span><span class="n">ihigh</span> <span class="o">=</span> <span class="n">af</span>
 <a name="ln-598"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ihigh</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">val</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-599"></a><span class="k">         </span><span class="n">res</span> <span class="o">=</span> <span class="n">ihigh</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-600"></a>         <span class="k">RETURN</span>
-<a name="ln-601"></a><span class="k">      </span><span class="n">ENDIF</span>
+<a name="ln-601"></a><span class="k">      ENDIF</span>
 <a name="ln-602"></a>
-<a name="ln-603"></a>      <span class="k">DO</span>
+<a name="ln-603"></a><span class="k">      DO</span>
 <a name="ln-604"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">ihigh</span> <span class="o">-</span> <span class="n">ilow</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="k">EXIT</span>
 <a name="ln-605"></a><span class="k">         </span><span class="n">i</span> <span class="o">=</span> <span class="p">(</span><span class="n">ilow</span> <span class="o">+</span> <span class="n">ihigh</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
 <a name="ln-606"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">val</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-607"></a><span class="k">            </span><span class="n">ihigh</span> <span class="o">=</span> <span class="n">i</span>
 <a name="ln-608"></a>         <span class="k">ELSE</span>
 <a name="ln-609"></a><span class="k">            </span><span class="n">ilow</span> <span class="o">=</span> <span class="n">i</span>
-<a name="ln-610"></a>         <span class="n">ENDIF</span>
-<a name="ln-611"></a>      <span class="n">ENDDO</span>
-<a name="ln-612"></a>      <span class="n">res</span> <span class="o">=</span> <span class="n">ihigh</span>
+<a name="ln-610"></a>         <span class="k">ENDIF</span>
+<a name="ln-611"></a><span class="k">      ENDDO</span>
+<a name="ln-612"></a><span class="k">      </span><span class="n">res</span> <span class="o">=</span> <span class="n">ihigh</span>
 <a name="ln-613"></a>
 <a name="ln-614"></a>      <span class="c">! the linear search version</span>
 <a name="ln-615"></a>      <span class="c">! DO i=ai,af</span>
@@ -895,24 +895,24 @@
 <a name="ln-633"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">ilow</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">val</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-634"></a><span class="k">         </span><span class="n">res</span> <span class="o">=</span> <span class="n">ilow</span>
 <a name="ln-635"></a>         <span class="k">RETURN</span>
-<a name="ln-636"></a><span class="k">      </span><span class="n">ENDIF</span>
+<a name="ln-636"></a><span class="k">      ENDIF</span>
 <a name="ln-637"></a>
-<a name="ln-638"></a>      <span class="n">ihigh</span> <span class="o">=</span> <span class="n">af</span>
+<a name="ln-638"></a><span class="k">      </span><span class="n">ihigh</span> <span class="o">=</span> <span class="n">af</span>
 <a name="ln-639"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">ihigh</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">val</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-640"></a><span class="k">         </span><span class="n">res</span> <span class="o">=</span> <span class="n">ihigh</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-641"></a>         <span class="k">RETURN</span>
-<a name="ln-642"></a><span class="k">      </span><span class="n">ENDIF</span>
+<a name="ln-642"></a><span class="k">      ENDIF</span>
 <a name="ln-643"></a>
-<a name="ln-644"></a>      <span class="k">DO</span>
+<a name="ln-644"></a><span class="k">      DO</span>
 <a name="ln-645"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">ihigh</span> <span class="o">-</span> <span class="n">ilow</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="k">EXIT</span>
 <a name="ln-646"></a><span class="k">         </span><span class="n">i</span> <span class="o">=</span> <span class="p">(</span><span class="n">ilow</span> <span class="o">+</span> <span class="n">ihigh</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
 <a name="ln-647"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">val</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-648"></a><span class="k">            </span><span class="n">ihigh</span> <span class="o">=</span> <span class="n">i</span>
 <a name="ln-649"></a>         <span class="k">ELSE</span>
 <a name="ln-650"></a><span class="k">            </span><span class="n">ilow</span> <span class="o">=</span> <span class="n">i</span>
-<a name="ln-651"></a>         <span class="n">ENDIF</span>
-<a name="ln-652"></a>      <span class="n">ENDDO</span>
-<a name="ln-653"></a>      <span class="n">res</span> <span class="o">=</span> <span class="n">ihigh</span>
+<a name="ln-651"></a>         <span class="k">ENDIF</span>
+<a name="ln-652"></a><span class="k">      ENDDO</span>
+<a name="ln-653"></a><span class="k">      </span><span class="n">res</span> <span class="o">=</span> <span class="n">ihigh</span>
 <a name="ln-654"></a>
 <a name="ln-655"></a>      <span class="c">! the linear search version</span>
 <a name="ln-656"></a>      <span class="c">! DO i=ai,af</span>
@@ -1006,10 +1006,10 @@
 <a name="ln-744"></a><span class="k">               </span><span class="n">rowi</span><span class="p">(</span><span class="n">lastblk</span><span class="p">)</span> <span class="o">=</span> <span class="n">rowi</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
 <a name="ln-745"></a>               <span class="n">coli</span><span class="p">(</span><span class="n">lastblk</span><span class="p">)</span> <span class="o">=</span> <span class="n">coli</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
 <a name="ln-746"></a>               <span class="n">blkp</span><span class="p">(</span><span class="n">lastblk</span><span class="p">)</span> <span class="o">=</span> <span class="n">blkp</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
-<a name="ln-747"></a>            <span class="n">ENDIF</span>
-<a name="ln-748"></a>            <span class="n">nze</span> <span class="o">=</span> <span class="n">nze</span> <span class="o">+</span> <span class="n">blk_nze</span>
-<a name="ln-749"></a>         <span class="n">ENDIF</span>
-<a name="ln-750"></a>      <span class="n">ENDDO</span>
+<a name="ln-747"></a>            <span class="k">ENDIF</span>
+<a name="ln-748"></a><span class="k">            </span><span class="n">nze</span> <span class="o">=</span> <span class="n">nze</span> <span class="o">+</span> <span class="n">blk_nze</span>
+<a name="ln-749"></a>         <span class="k">ENDIF</span>
+<a name="ln-750"></a><span class="k">      ENDDO</span>
 <a name="ln-751"></a>      <span class="c">!</span>
 <a name="ln-752"></a>      <span class="n">nblks</span> <span class="o">=</span> <span class="n">lastblk</span>
 <a name="ln-753"></a>
@@ -1061,10 +1061,10 @@
 <a name="ln-799"></a><span class="k">               </span><span class="n">rowi</span><span class="p">(</span><span class="n">lastblk</span><span class="p">)</span> <span class="o">=</span> <span class="n">rowi</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
 <a name="ln-800"></a>               <span class="n">coli</span><span class="p">(</span><span class="n">lastblk</span><span class="p">)</span> <span class="o">=</span> <span class="n">coli</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
 <a name="ln-801"></a>               <span class="n">blkp</span><span class="p">(</span><span class="n">lastblk</span><span class="p">)</span> <span class="o">=</span> <span class="n">blkp</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
-<a name="ln-802"></a>            <span class="n">ENDIF</span>
-<a name="ln-803"></a>            <span class="n">nze</span> <span class="o">=</span> <span class="n">nze</span> <span class="o">+</span> <span class="n">blk_nze</span>
-<a name="ln-804"></a>         <span class="n">ENDIF</span>
-<a name="ln-805"></a>      <span class="n">ENDDO</span>
+<a name="ln-802"></a>            <span class="k">ENDIF</span>
+<a name="ln-803"></a><span class="k">            </span><span class="n">nze</span> <span class="o">=</span> <span class="n">nze</span> <span class="o">+</span> <span class="n">blk_nze</span>
+<a name="ln-804"></a>         <span class="k">ENDIF</span>
+<a name="ln-805"></a><span class="k">      ENDDO</span>
 <a name="ln-806"></a>      <span class="c">!</span>
 <a name="ln-807"></a>      <span class="n">nblks</span> <span class="o">=</span> <span class="n">lastblk</span>
 <a name="ln-808"></a>
@@ -1115,10 +1115,10 @@
 <a name="ln-853"></a><span class="k">               </span><span class="n">rowi</span><span class="p">(</span><span class="n">lastblk</span><span class="p">)</span> <span class="o">=</span> <span class="n">rowi</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
 <a name="ln-854"></a>               <span class="n">coli</span><span class="p">(</span><span class="n">lastblk</span><span class="p">)</span> <span class="o">=</span> <span class="n">coli</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
 <a name="ln-855"></a>               <span class="n">blkp</span><span class="p">(</span><span class="n">lastblk</span><span class="p">)</span> <span class="o">=</span> <span class="n">blkp</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
-<a name="ln-856"></a>            <span class="n">ENDIF</span>
-<a name="ln-857"></a>            <span class="n">nze</span> <span class="o">=</span> <span class="n">nze</span> <span class="o">+</span> <span class="n">blk_nze</span>
-<a name="ln-858"></a>         <span class="n">ENDIF</span>
-<a name="ln-859"></a>      <span class="n">ENDDO</span>
+<a name="ln-856"></a>            <span class="k">ENDIF</span>
+<a name="ln-857"></a><span class="k">            </span><span class="n">nze</span> <span class="o">=</span> <span class="n">nze</span> <span class="o">+</span> <span class="n">blk_nze</span>
+<a name="ln-858"></a>         <span class="k">ENDIF</span>
+<a name="ln-859"></a><span class="k">      ENDDO</span>
 <a name="ln-860"></a>      <span class="c">!</span>
 <a name="ln-861"></a>      <span class="n">nblks</span> <span class="o">=</span> <span class="n">lastblk</span>
 <a name="ln-862"></a>
@@ -1169,10 +1169,10 @@
 <a name="ln-907"></a><span class="k">               </span><span class="n">rowi</span><span class="p">(</span><span class="n">lastblk</span><span class="p">)</span> <span class="o">=</span> <span class="n">rowi</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
 <a name="ln-908"></a>               <span class="n">coli</span><span class="p">(</span><span class="n">lastblk</span><span class="p">)</span> <span class="o">=</span> <span class="n">coli</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
 <a name="ln-909"></a>               <span class="n">blkp</span><span class="p">(</span><span class="n">lastblk</span><span class="p">)</span> <span class="o">=</span> <span class="n">blkp</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
-<a name="ln-910"></a>            <span class="n">ENDIF</span>
-<a name="ln-911"></a>            <span class="n">nze</span> <span class="o">=</span> <span class="n">nze</span> <span class="o">+</span> <span class="n">blk_nze</span>
-<a name="ln-912"></a>         <span class="n">ENDIF</span>
-<a name="ln-913"></a>      <span class="n">ENDDO</span>
+<a name="ln-910"></a>            <span class="k">ENDIF</span>
+<a name="ln-911"></a><span class="k">            </span><span class="n">nze</span> <span class="o">=</span> <span class="n">nze</span> <span class="o">+</span> <span class="n">blk_nze</span>
+<a name="ln-912"></a>         <span class="k">ENDIF</span>
+<a name="ln-913"></a><span class="k">      ENDDO</span>
 <a name="ln-914"></a>      <span class="c">!</span>
 <a name="ln-915"></a>      <span class="n">nblks</span> <span class="o">=</span> <span class="n">lastblk</span>
 <a name="ln-916"></a>

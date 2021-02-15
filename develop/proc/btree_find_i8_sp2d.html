@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -242,7 +242,7 @@ private subroutine btree_find_i8_sp2d(tree, key, value, exists)
   
 <tr>
   
-  <td><span class="anchor" id="variable-key~25"></span>integer(kind=keyt),</td>
+  <td><span class="anchor" id="variable-key~17"></span>integer(kind=keyt),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -257,7 +257,7 @@ private subroutine btree_find_i8_sp2d(tree, key, value, exists)
   
 <tr>
   
-  <td><span class="anchor" id="variable-value~53"></span>type(<a href='../type/btree_data_sp2d.html'>btree_data_sp2d</a>),</td>
+  <td><span class="anchor" id="variable-value~25"></span>type(<a href='../type/btree_data_sp2d.html'>btree_data_sp2d</a>),</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -360,11 +360,11 @@ private subroutine btree_find_i8_sp2d(tree, key, value, exists)
       <span class="k">CALL </span><span class="n">btree_find_full_i8_sp2d</span> <span class="p">(</span><span class="n">tree</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">position</span><span class="p">,</span> <span class="nb">short</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">exists</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">exists</span> <span class="o">=</span> <span class="n">position</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">position</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+      <span class="k">ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="n">position</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         value</span> <span class="o">=</span> <span class="n">node</span><span class="p">%</span><span class="n">values</span><span class="p">(</span><span class="n">position</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-   <span class="k">END SUBROUTINE </span><span class="n">btree_find_i8_sp2d</span>
+      <span class="k">ENDIF</span>
+<span class="k">   END SUBROUTINE </span><span class="n">btree_find_i8_sp2d</span>
 </pre></div>
 
     </section>

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -324,7 +324,7 @@ private subroutine make_index_triangular(new_row_p, new_col_i, new_blk_p, old_ro
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~231"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~250"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -430,8 +430,8 @@ private subroutine make_index_triangular(new_row_p, new_col_i, new_blk_p, old_ro
 <span class="k">         WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot;old row_p&quot;</span><span class="p">,</span> <span class="n">old_row_p</span>
          <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot;old col_i&quot;</span><span class="p">,</span> <span class="n">old_col_i</span>
          <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot;old blk_p&quot;</span><span class="p">,</span> <span class="n">old_blk_p</span>
-      <span class="n">ENDIF</span>
-      <span class="k">DO </span><span class="n">row</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">old_row_p</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+      <span class="k">ENDIF</span>
+<span class="k">      DO </span><span class="n">row</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">old_row_p</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
          <span class="k">DO </span><span class="n">blk</span> <span class="o">=</span> <span class="n">old_row_p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">old_row_p</span><span class="p">(</span><span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
             <span class="n">col</span> <span class="o">=</span> <span class="n">old_col_i</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
             <span class="n">stored_row</span> <span class="o">=</span> <span class="n">row</span>
@@ -441,8 +441,8 @@ private subroutine make_index_triangular(new_row_p, new_col_i, new_blk_p, old_ro
             <span class="k">IF</span> <span class="p">(</span><span class="n">stored_row</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">stored_col</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">               CALL </span><span class="n">swap</span><span class="p">(</span><span class="n">stored_row</span><span class="p">,</span> <span class="n">stored_col</span><span class="p">)</span>
                <span class="n">tr</span> <span class="o">=</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">tr</span>
-            <span class="n">ENDIF</span>
-            <span class="k">IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="p">&amp;</span>
+            <span class="k">ENDIF</span>
+<span class="k">            IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="p">&amp;</span>
                <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="s1">&#39;(A,2(1X,I5),A,2(1X,I5),&quot;;&quot;,I7,1X,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
                <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; X-&gt;&quot;</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="s2">&quot;-&gt;&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
                <span class="n">stored_row</span><span class="p">,</span> <span class="n">stored_col</span><span class="p">,</span> <span class="n">blk</span><span class="p">,</span> <span class="n">tr</span>
@@ -452,10 +452,10 @@ private subroutine make_index_triangular(new_row_p, new_col_i, new_blk_p, old_ro
 <span class="k">               </span><span class="n">new_blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="o">=</span> <span class="n">old_blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
             <span class="k">ELSE</span>
 <span class="k">               </span><span class="n">new_blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">old_blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDDO</span>
-      <span class="k">CALL </span><span class="n">dbcsr_sort_indices</span><span class="p">(</span><span class="n">nblks</span><span class="p">,</span> <span class="n">row_i</span><span class="p">,</span> <span class="n">new_col_i</span><span class="p">,</span> <span class="n">blk_p</span><span class="o">=</span><span class="n">new_blk_p</span><span class="p">)</span>
+            <span class="k">ENDIF</span>
+<span class="k">         ENDDO</span>
+<span class="k">      ENDDO</span>
+<span class="k">      CALL </span><span class="n">dbcsr_sort_indices</span><span class="p">(</span><span class="n">nblks</span><span class="p">,</span> <span class="n">row_i</span><span class="p">,</span> <span class="n">new_col_i</span><span class="p">,</span> <span class="n">blk_p</span><span class="o">=</span><span class="n">new_blk_p</span><span class="p">)</span>
       <span class="c">! Re-create the index</span>
       <span class="k">CALL </span><span class="n">dbcsr_make_dbcsr_index</span><span class="p">(</span><span class="n">new_row_p</span><span class="p">,</span> <span class="n">row_i</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">new_row_p</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nblks</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">THEN</span>
@@ -463,8 +463,8 @@ private subroutine make_index_triangular(new_row_p, new_col_i, new_blk_p, old_ro
          <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot;new row_i&quot;</span><span class="p">,</span> <span class="n">row_i</span>
          <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot;new col_i&quot;</span><span class="p">,</span> <span class="n">new_col_i</span>
          <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot;new blk_p&quot;</span><span class="p">,</span> <span class="n">new_blk_p</span>
-      <span class="n">ENDIF</span>
-   <span class="k">END SUBROUTINE </span><span class="n">make_index_triangular</span>
+      <span class="k">ENDIF</span>
+<span class="k">   END SUBROUTINE </span><span class="n">make_index_triangular</span>
 </pre></div>
 
     </section>

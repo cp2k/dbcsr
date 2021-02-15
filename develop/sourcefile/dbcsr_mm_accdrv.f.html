@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -574,9 +574,9 @@
 <a name="ln-312"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">thread_privates</span><span class="p">%</span><span class="n">stack_buffers</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-313"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">thread_privates</span><span class="p">%</span><span class="n">stack_buffers</span><span class="p">)</span> <span class="o">/=</span> <span class="n">my_total_buffers</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-314"></a>            <span class="k">CALL </span><span class="n">deallocate_stackbuffers</span><span class="p">()</span>
-<a name="ln-315"></a>      <span class="n">ENDIF</span>
+<a name="ln-315"></a>      <span class="k">ENDIF</span>
 <a name="ln-316"></a>
-<a name="ln-317"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">thread_privates</span><span class="p">%</span><span class="n">stack_buffers</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-317"></a><span class="k">      IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">thread_privates</span><span class="p">%</span><span class="n">stack_buffers</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-318"></a><span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">thread_privates</span><span class="p">%</span><span class="n">stack_buffers</span><span class="p">(</span><span class="n">my_total_buffers</span><span class="p">))</span>
 <a name="ln-319"></a>         <span class="c">!Done with OMP CRITICAL because curr_*_stream are shared.</span>
 <a name="ln-320"></a><span class="c">!$OMP        CRITICAL(crit_setup_stackbuffers)</span>
@@ -589,8 +589,8 @@
 <a name="ln-327"></a>            <span class="k">ELSE</span>
 <a name="ln-328"></a><span class="k">               </span><span class="n">curr_posterior_stream</span> <span class="o">=</span> <span class="nb">MOD</span><span class="p">(</span><span class="n">curr_posterior_stream</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">posterior_streams</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-329"></a>               <span class="n">thread_privates</span><span class="p">%</span><span class="n">stack_buffers</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">stream</span> <span class="o">=</span> <span class="n">posterior_streams</span><span class="p">(</span><span class="n">curr_posterior_stream</span><span class="p">)</span>
-<a name="ln-330"></a>            <span class="n">ENDIF</span>
-<a name="ln-331"></a>            <span class="k">CALL </span><span class="n">acc_hostmem_allocate</span><span class="p">(</span><span class="n">thread_privates</span><span class="p">%</span><span class="n">stack_buffers</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">hostmem</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-330"></a>            <span class="k">ENDIF</span>
+<a name="ln-331"></a><span class="k">            CALL </span><span class="n">acc_hostmem_allocate</span><span class="p">(</span><span class="n">thread_privates</span><span class="p">%</span><span class="n">stack_buffers</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">hostmem</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-332"></a>                                      <span class="n">dbcsr_ps_acc_width</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_stack_size</span><span class="p">,</span> <span class="n">thread_privates</span><span class="p">%</span><span class="n">stack_buffers</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">stream</span><span class="p">)</span>
 <a name="ln-333"></a>            <span class="k">CALL </span><span class="n">acc_event_create</span><span class="p">(</span><span class="n">thread_privates</span><span class="p">%</span><span class="n">stack_buffers</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">ready</span><span class="p">)</span>
 <a name="ln-334"></a>            <span class="k">CALL </span><span class="n">acc_event_create</span><span class="p">(</span><span class="n">thread_privates</span><span class="p">%</span><span class="n">stack_buffers</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">calculated</span><span class="p">)</span>
@@ -627,8 +627,8 @@
 <a name="ln-365"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">c_area_copy</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-366"></a><span class="k">         CALL </span><span class="n">dbcsr_data_dev2host</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">c_buffer</span><span class="p">)</span>
 <a name="ln-367"></a>         <span class="n">this</span><span class="p">%</span><span class="n">c_area_copy</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-<a name="ln-368"></a>      <span class="n">ENDIF</span>
-<a name="ln-369"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_mm_accdrv_dev2host_init</span>
+<a name="ln-368"></a>      <span class="k">ENDIF</span>
+<a name="ln-369"></a><span class="k">   END SUBROUTINE </span><span class="n">dbcsr_mm_accdrv_dev2host_init</span>
 <a name="ln-370"></a>
 <a name="ln-371"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_mm_accdrv_finalize</span><span class="p">(</span><span class="n">this</span><span class="p">)</span>
 <a name="ln-372"></a>      <span class="c">!! Finalizes a multiplication cycle for a set of C-blocks.</span>
@@ -640,8 +640,8 @@
 <a name="ln-378"></a>
 <a name="ln-379"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">c_area_copy</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-380"></a><span class="k">         CALL </span><span class="n">dbcsr_data_dev2host</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">c_buffer</span><span class="p">)</span>
-<a name="ln-381"></a>      <span class="n">ENDIF</span>
-<a name="ln-382"></a>      <span class="k">CALL </span><span class="n">acc_stream_synchronize</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">c_buffer</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">)</span>
+<a name="ln-381"></a>      <span class="k">ENDIF</span>
+<a name="ln-382"></a><span class="k">      CALL </span><span class="n">acc_stream_synchronize</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">c_buffer</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">)</span>
 <a name="ln-383"></a>
 <a name="ln-384"></a>      <span class="n">c_area</span> <span class="o">=</span> <span class="n">this</span><span class="p">%</span><span class="n">product_wm</span><span class="p">%</span><span class="n">data_area</span>
 <a name="ln-385"></a>      <span class="k">CALL </span><span class="n">block_add</span><span class="p">(</span><span class="n">c_area</span><span class="p">,</span> <span class="n">this</span><span class="p">%</span><span class="n">c_buffer</span><span class="p">)</span>
@@ -697,16 +697,16 @@
 <a name="ln-435"></a><span class="k">            </span><span class="n">params_out</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="n">top</span><span class="p">:</span><span class="n">top</span> <span class="o">+</span> <span class="n">bin_top</span><span class="p">(</span><span class="n">bin_id</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">bin_arr</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="n">bin_top</span><span class="p">(</span><span class="n">bin_id</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">bin_id</span><span class="p">)</span>
 <a name="ln-436"></a>            <span class="n">top</span> <span class="o">=</span> <span class="n">top</span> <span class="o">+</span> <span class="n">bin_top</span><span class="p">(</span><span class="n">bin_id</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
 <a name="ln-437"></a>            <span class="n">bin_top</span><span class="p">(</span><span class="n">bin_id</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-438"></a>         <span class="n">ENDIF</span>
-<a name="ln-439"></a>         <span class="n">bin_arr</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="n">bin_top</span><span class="p">(</span><span class="n">bin_id</span><span class="p">),</span> <span class="n">bin_id</span><span class="p">)</span> <span class="o">=</span> <span class="n">val</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span>
+<a name="ln-438"></a>         <span class="k">ENDIF</span>
+<a name="ln-439"></a><span class="k">         </span><span class="n">bin_arr</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="n">bin_top</span><span class="p">(</span><span class="n">bin_id</span><span class="p">),</span> <span class="n">bin_id</span><span class="p">)</span> <span class="o">=</span> <span class="n">val</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span>
 <a name="ln-440"></a>         <span class="n">bin_top</span><span class="p">(</span><span class="n">bin_id</span><span class="p">)</span> <span class="o">=</span> <span class="n">bin_top</span><span class="p">(</span><span class="n">bin_id</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-441"></a>      <span class="k">END DO</span>
 <a name="ln-442"></a><span class="k">      DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_binning_nbins</span>
 <a name="ln-443"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">bin_top</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-444"></a><span class="k">            </span><span class="n">params_out</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="n">top</span><span class="p">:</span><span class="n">top</span> <span class="o">+</span> <span class="n">bin_top</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">bin_arr</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="n">bin_top</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
 <a name="ln-445"></a>            <span class="n">top</span> <span class="o">=</span> <span class="n">top</span> <span class="o">+</span> <span class="n">bin_top</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-<a name="ln-446"></a>         <span class="n">ENDIF</span>
-<a name="ln-447"></a>      <span class="k">END DO</span>
+<a name="ln-446"></a>         <span class="k">ENDIF</span>
+<a name="ln-447"></a><span class="k">      END DO</span>
 <a name="ln-448"></a>
 <a name="ln-449"></a><span class="k">   END SUBROUTINE </span><span class="n">stack_binning</span>
 <a name="ln-450"></a>
@@ -733,9 +733,9 @@
 <a name="ln-471"></a>            <span class="k">CALL </span><span class="n">acc_event_record</span><span class="p">(</span><span class="n">barrier_events</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">stream</span><span class="o">=</span><span class="n">posterior_streams</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
 <a name="ln-472"></a>            <span class="k">DO </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">priority_streams</span><span class="p">)</span>
 <a name="ln-473"></a>               <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">priority_streams</span><span class="p">(</span><span class="n">j</span><span class="p">),</span> <span class="n">barrier_events</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-<a name="ln-474"></a>            <span class="n">ENDDO</span>
-<a name="ln-475"></a>         <span class="n">ENDDO</span>
-<a name="ln-476"></a>      <span class="n">ENDIF</span>
+<a name="ln-474"></a>            <span class="k">ENDDO</span>
+<a name="ln-475"></a><span class="k">         ENDDO</span>
+<a name="ln-476"></a><span class="k">      ENDIF</span>
 <a name="ln-477"></a><span class="c">!$OMP     END CRITICAL</span>
 <a name="ln-478"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_mm_accdrv_barrier</span>
 <a name="ln-479"></a>
@@ -771,10 +771,10 @@
 <a name="ln-509"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">acc_event_query</span><span class="p">(</span><span class="n">stack_buffers</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">calculated</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-510"></a><span class="k">            </span><span class="n">stackbuf</span> <span class="o">=&gt;</span> <span class="n">stack_buffers</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 <a name="ln-511"></a>            <span class="k">EXIT</span>
-<a name="ln-512"></a><span class="k">         </span><span class="n">ENDIF</span>
-<a name="ln-513"></a>      <span class="n">ENDDO</span>
+<a name="ln-512"></a><span class="k">         ENDIF</span>
+<a name="ln-513"></a><span class="k">      ENDDO</span>
 <a name="ln-514"></a>
-<a name="ln-515"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">stackbuf</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-515"></a><span class="k">      IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">stackbuf</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-516"></a><span class="k">         </span><span class="n">success</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <a name="ln-517"></a>         <span class="k">RETURN</span>
 <a name="ln-518"></a><span class="k">      END IF</span>
@@ -849,9 +849,9 @@
 <a name="ln-587"></a>         <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">a_area</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">calculated</span><span class="p">)</span>
 <a name="ln-588"></a>         <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">b_area</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">calculated</span><span class="p">)</span>
 <a name="ln-589"></a>         <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">c_area</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">calculated</span><span class="p">)</span>
-<a name="ln-590"></a>      <span class="n">ENDIF</span>
+<a name="ln-590"></a>      <span class="k">ENDIF</span>
 <a name="ln-591"></a>
-<a name="ln-592"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
+<a name="ln-592"></a><span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
 <a name="ln-593"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_mm_accdrv_process</span>
 <a name="ln-594"></a>
 <a name="ln-595"></a><span class="k">END MODULE </span><span class="n">dbcsr_mm_accdrv</span>

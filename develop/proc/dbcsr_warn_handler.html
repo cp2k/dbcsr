@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -334,8 +334,8 @@ public subroutine dbcsr_warn_handler(location, message)
       <span class="k">IF</span> <span class="p">(</span><span class="n">unit_nr</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">print_message</span><span class="p">(</span><span class="s2">&quot;WARNING in &quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">location</span><span class="p">)</span><span class="o">//</span><span class="s1">&#39; :: &#39;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="nb">ADJUSTL</span><span class="p">(</span><span class="n">message</span><span class="p">)),</span> <span class="n">unit_nr</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
          <span class="k">CALL </span><span class="n">m_flush</span><span class="p">(</span><span class="n">unit_nr</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_warn_handler</span>
+      <span class="k">ENDIF</span>
+<span class="k">   END SUBROUTINE </span><span class="n">dbcsr_warn_handler</span>
 </pre></div>
 
     </section>

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -227,7 +227,7 @@ private pure function find_cut_row(ai, af, a, val) result(res)
   
 <tr>
   
-  <td><span class="anchor" id="variable-ai"></span>integer,</td>
+  <td><span class="anchor" id="variable-ai~4"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -242,7 +242,7 @@ private pure function find_cut_row(ai, af, a, val) result(res)
   
 <tr>
   
-  <td><span class="anchor" id="variable-af"></span>integer,</td>
+  <td><span class="anchor" id="variable-af~4"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -257,7 +257,7 @@ private pure function find_cut_row(ai, af, a, val) result(res)
   
 <tr>
   
-  <td><span class="anchor" id="variable-a~8"></span>integer,</td>
+  <td><span class="anchor" id="variable-a~3"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -272,7 +272,7 @@ private pure function find_cut_row(ai, af, a, val) result(res)
   
 <tr>
   
-  <td><span class="anchor" id="variable-val~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-val"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -291,7 +291,7 @@ private pure function find_cut_row(ai, af, a, val) result(res)
     
     
     
-   <h3>Return Value <small><span class="anchor" id="variable-res~20"></span>integer
+   <h3>Return Value <small><span class="anchor" id="variable-res~5"></span>integer
   </small></h3>
     
     
@@ -371,24 +371,24 @@ private pure function find_cut_row(ai, af, a, val) result(res)
       <span class="k">IF</span> <span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ilow</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">val</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">res</span> <span class="o">=</span> <span class="n">ilow</span>
          <span class="k">RETURN</span>
-<span class="k">      </span><span class="n">ENDIF</span>
+<span class="k">      ENDIF</span>
 
-      <span class="n">ihigh</span> <span class="o">=</span> <span class="n">af</span>
+<span class="k">      </span><span class="n">ihigh</span> <span class="o">=</span> <span class="n">af</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ihigh</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">val</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">res</span> <span class="o">=</span> <span class="n">ihigh</span> <span class="o">+</span> <span class="mi">1</span>
          <span class="k">RETURN</span>
-<span class="k">      </span><span class="n">ENDIF</span>
+<span class="k">      ENDIF</span>
 
-      <span class="k">DO</span>
+<span class="k">      DO</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="n">ihigh</span> <span class="o">-</span> <span class="n">ilow</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="k">EXIT</span>
 <span class="k">         </span><span class="n">i</span> <span class="o">=</span> <span class="p">(</span><span class="n">ilow</span> <span class="o">+</span> <span class="n">ihigh</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">a</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">val</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">ihigh</span> <span class="o">=</span> <span class="n">i</span>
          <span class="k">ELSE</span>
 <span class="k">            </span><span class="n">ilow</span> <span class="o">=</span> <span class="n">i</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDDO</span>
-      <span class="n">res</span> <span class="o">=</span> <span class="n">ihigh</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDDO</span>
+<span class="k">      </span><span class="n">res</span> <span class="o">=</span> <span class="n">ihigh</span>
 
       <span class="c">! the linear search version</span>
       <span class="c">! DO i=ai,af</span>

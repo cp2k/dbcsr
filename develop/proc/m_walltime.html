@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -317,9 +317,9 @@ public function m_walltime() result(wt)
             <span class="k">CALL </span><span class="nb">SYSTEM_CLOCK</span><span class="p">(</span><span class="n">count_rate</span><span class="o">=</span><span class="n">count_rate</span><span class="p">,</span> <span class="n">count_max</span><span class="o">=</span><span class="n">count_max</span><span class="p">)</span>
             <span class="n">cycles</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="n">last_count</span> <span class="o">=</span> <span class="mi">0</span>
-         <span class="n">ENDIF</span>
+         <span class="k">ENDIF</span>
 
-         <span class="k">CALL </span><span class="nb">SYSTEM_CLOCK</span><span class="p">(</span><span class="nb">count</span><span class="o">=</span><span class="nb">count</span><span class="p">)</span>
+<span class="k">         CALL </span><span class="nb">SYSTEM_CLOCK</span><span class="p">(</span><span class="nb">count</span><span class="o">=</span><span class="nb">count</span><span class="p">)</span>
 
          <span class="c">! protect against non-standard cases where time might be non-monotonous,</span>
          <span class="c">! but it is unlikely that the clock cycled (e.g. underlying system clock adjustments)</span>
@@ -331,8 +331,8 @@ public function m_walltime() result(wt)
 <span class="k">               </span><span class="nb">count</span> <span class="o">=</span> <span class="n">last_count</span>
             <span class="k">ELSE</span>
 <span class="k">               </span><span class="n">cycles</span> <span class="o">=</span> <span class="n">cycles</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="n">ENDIF</span>
-         <span class="n">ENDIF</span>
+            <span class="k">ENDIF</span>
+<span class="k">         ENDIF</span>
 
          <span class="c">! keep track of our history</span>
          <span class="n">last_count</span> <span class="o">=</span> <span class="nb">count</span>

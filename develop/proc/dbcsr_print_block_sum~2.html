@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ public subroutine dbcsr_print_block_sum(matrix, unit_nr)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~167"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~235"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -244,7 +244,7 @@ public subroutine dbcsr_print_block_sum(matrix, unit_nr)
   
 <tr>
   
-  <td><span class="anchor" id="variable-unit_nr~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-unit_nr~32"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -400,13 +400,13 @@ public subroutine dbcsr_print_block_sum(matrix, unit_nr)
 <span class="k">                        </span><span class="n">blk_sum_r_dp</span> <span class="o">=</span> <span class="mf">0.0_dp</span>
                         <span class="k">WRITE</span> <span class="p">(</span><span class="n">iunit</span><span class="p">,</span> <span class="s1">&#39;(I6,I6,ES18.9)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
                            <span class="n">br</span><span class="p">,</span> <span class="n">bc</span><span class="p">,</span> <span class="n">blk_sum_r_dp</span>
-                     <span class="n">ENDIF</span>
-                  <span class="n">ENDIF</span> <span class="n">block_exists</span>
-               <span class="n">ENDDO</span>
-            <span class="n">ENDDO</span>
-         <span class="n">ENDIF</span>
+                     <span class="k">ENDIF</span>
+<span class="k">                  ENDIF </span><span class="n">block_exists</span>
+               <span class="k">ENDDO</span>
+<span class="k">            ENDDO</span>
+<span class="k">         ENDIF</span>
 
-      <span class="n">ENDIF</span> <span class="c">! unit &gt; 0</span>
+<span class="k">      ENDIF</span> <span class="c">! unit &gt; 0</span>
 
       <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
 

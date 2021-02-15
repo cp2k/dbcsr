@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -563,7 +563,7 @@ private subroutine block_partial_copy_c(dst, dst_rs, dst_cs, dst_tr, src, src_rs
 <span class="k">            CALL </span><span class="n">libxsmm_matcopy</span><span class="p">(</span><span class="n">libxsmm_ptr0</span><span class="p">(</span><span class="n">dst</span><span class="p">(</span><span class="n">dst_offset</span> <span class="o">+</span> <span class="n">dst_r_lb</span> <span class="o">+</span> <span class="p">(</span><span class="n">dst_c_lb</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">dst_rs</span><span class="p">)),</span> <span class="p">&amp;</span>
                                  <span class="n">libxsmm_ptr0</span><span class="p">(</span><span class="n">src</span><span class="p">(</span><span class="n">src_offset</span> <span class="o">+</span> <span class="n">src_r_lb</span> <span class="o">+</span> <span class="p">(</span><span class="n">src_c_lb</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">src_rs</span><span class="p">)),</span> <span class="p">&amp;</span>
                                  <span class="mi">8</span><span class="p">,</span> <span class="n">nrow</span><span class="p">,</span> <span class="n">ncol</span><span class="p">,</span> <span class="n">src_rs</span><span class="p">,</span> <span class="n">dst_rs</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
+         <span class="k">ENDIF</span>
 <span class="cp">#else</span>
          <span class="k">DO </span><span class="n">col</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">ncol</span> <span class="o">-</span> <span class="mi">1</span>
             <span class="k">DO </span><span class="n">row</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nrow</span> <span class="o">-</span> <span class="mi">1</span>
@@ -602,8 +602,8 @@ private subroutine block_partial_copy_c(dst, dst_rs, dst_cs, dst_tr, src, src_rs
             <span class="k">END DO</span>
 <span class="k">         END DO</span>
 <span class="cp">#endif</span>
-      <span class="n">ENDIF</span>
-   <span class="k">END SUBROUTINE </span><span class="n">block_partial_copy_c</span>
+      <span class="k">ENDIF</span>
+<span class="k">   END SUBROUTINE </span><span class="n">block_partial_copy_c</span>
 </pre></div>
 
     </section>

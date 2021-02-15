@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ public subroutine dbcsr_make_random_matrix(matrix, row_blk_sizes, col_blk_sizes,
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~105"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~173"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -244,7 +244,7 @@ public subroutine dbcsr_make_random_matrix(matrix, row_blk_sizes, col_blk_sizes,
   
 <tr>
   
-  <td><span class="anchor" id="variable-row_blk_sizes"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_blk_sizes~3"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -259,7 +259,7 @@ public subroutine dbcsr_make_random_matrix(matrix, row_blk_sizes, col_blk_sizes,
   
 <tr>
   
-  <td><span class="anchor" id="variable-col_blk_sizes"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_blk_sizes~3"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -274,7 +274,7 @@ public subroutine dbcsr_make_random_matrix(matrix, row_blk_sizes, col_blk_sizes,
   
 <tr>
   
-  <td><span class="anchor" id="variable-name~8"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-name~20"></span>character(len=*),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -289,7 +289,7 @@ public subroutine dbcsr_make_random_matrix(matrix, row_blk_sizes, col_blk_sizes,
   
 <tr>
   
-  <td><span class="anchor" id="variable-sparsity"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-sparsity~2"></span>real(kind=real_8),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -304,7 +304,7 @@ public subroutine dbcsr_make_random_matrix(matrix, row_blk_sizes, col_blk_sizes,
   
 <tr>
   
-  <td><span class="anchor" id="variable-mp_group~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-mp_group~7"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -319,7 +319,7 @@ public subroutine dbcsr_make_random_matrix(matrix, row_blk_sizes, col_blk_sizes,
   
 <tr>
   
-  <td><span class="anchor" id="variable-data_type~16"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type~38"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -349,7 +349,7 @@ public subroutine dbcsr_make_random_matrix(matrix, row_blk_sizes, col_blk_sizes,
   
 <tr>
   
-  <td><span class="anchor" id="variable-dist~18"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
+  <td><span class="anchor" id="variable-dist~68"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -465,8 +465,8 @@ public subroutine dbcsr_make_random_matrix(matrix, row_blk_sizes, col_blk_sizes,
       <span class="k">ELSE</span>
 <span class="k">         CALL </span><span class="n">dbcsr_make_null_dist</span><span class="p">(</span><span class="n">new_dist</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">row_blk_sizes</span><span class="p">),</span> <span class="p">&amp;</span>
                                    <span class="n">SIZE</span><span class="p">(</span><span class="n">col_blk_sizes</span><span class="p">),</span> <span class="n">group</span><span class="o">=</span><span class="n">mp_group</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="n">my_data_type</span> <span class="o">=</span> <span class="n">dbcsr_type_real_default</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">my_data_type</span> <span class="o">=</span> <span class="n">dbcsr_type_real_default</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">data_type</span><span class="p">))</span> <span class="n">my_data_type</span> <span class="o">=</span> <span class="n">data_type</span>
       <span class="n">my_symmetry</span> <span class="o">=</span> <span class="n">dbcsr_type_no_symmetry</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">symmetry</span><span class="p">))</span> <span class="n">my_symmetry</span> <span class="o">=</span> <span class="n">symmetry</span>
@@ -482,8 +482,8 @@ public subroutine dbcsr_make_random_matrix(matrix, row_blk_sizes, col_blk_sizes,
 <span class="k">         </span><span class="n">my_sparsity</span> <span class="o">=</span> <span class="n">sparsity</span><span class="o">/</span><span class="mi">10</span><span class="mf">0.0</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">my_sparsity</span> <span class="o">=</span> <span class="n">sparsity</span>
-      <span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">dbcsr_work_create</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="p">&amp;</span>
+      <span class="k">ENDIF</span>
+<span class="k">      CALL </span><span class="n">dbcsr_work_create</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="p">&amp;</span>
                              <span class="n">nblks_guess</span><span class="o">=</span><span class="nb">INT</span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">dbcsr_nblkrows_total</span><span class="p">(</span><span class="n">matrix</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span> <span class="p">&amp;</span>
                                              <span class="o">*</span><span class="kt">REAL</span><span class="p">(</span><span class="n">dbcsr_nblkcols_total</span><span class="p">(</span><span class="n">matrix</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span> <span class="p">&amp;</span>
                                              <span class="o">*</span><span class="p">(</span><span class="mf">1.0_dp</span> <span class="o">-</span> <span class="n">sparsity</span><span class="p">)</span><span class="o">*</span><span class="mf">1.1_dp</span><span class="o">/</span><span class="n">numproc</span><span class="p">),</span> <span class="p">&amp;</span>
@@ -513,8 +513,8 @@ public subroutine dbcsr_make_random_matrix(matrix, row_blk_sizes, col_blk_sizes,
 <span class="k">            </span><span class="n">increment</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="nb">FLOOR</span><span class="p">(</span><span class="nb">LOG</span><span class="p">(</span><span class="k">value</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">/</span><span class="nb">LOG</span><span class="p">(</span><span class="n">my_sparsity</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span>
          <span class="k">ELSE</span>
 <span class="k">            </span><span class="n">increment</span> <span class="o">=</span> <span class="mi">1</span>
-         <span class="n">ENDIF</span>
-         <span class="n">ele</span> <span class="o">=</span> <span class="n">ele</span> <span class="o">+</span> <span class="n">increment</span>
+         <span class="k">ENDIF</span>
+<span class="k">         </span><span class="n">ele</span> <span class="o">=</span> <span class="n">ele</span> <span class="o">+</span> <span class="n">increment</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">ele</span> <span class="o">&gt;=</span> <span class="n">nmax</span><span class="p">)</span> <span class="k">EXIT</span>
 <span class="k">         </span><span class="n">counter</span> <span class="o">=</span> <span class="n">counter</span> <span class="o">+</span> <span class="mi">1</span>
          <span class="n">row</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">ele</span><span class="o">/</span><span class="n">ncol</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
@@ -529,8 +529,8 @@ public subroutine dbcsr_make_random_matrix(matrix, row_blk_sizes, col_blk_sizes,
 <span class="k">            IF</span> <span class="p">(</span><span class="n">p</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">my_proc</span><span class="p">)</span> <span class="k">CYCLE</span>
 <span class="k">         ELSE</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">my_symmetry</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">dbcsr_type_no_symmetry</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">s_col</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">s_row</span><span class="p">)</span> <span class="k">CYCLE</span>
-<span class="k">         </span><span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">my_proc</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CYCLE</span>
+<span class="k">         ENDIF</span>
+<span class="k">         IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">my_proc</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CYCLE</span>
 
          <span class="c">! fill based on a block based seed, makes this the same values in parallel</span>
          <span class="k">CALL </span><span class="n">set_larnv_seed</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">nrow</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">ncol</span><span class="p">,</span> <span class="n">randmat_counter</span><span class="p">,</span> <span class="n">iseed</span><span class="p">)</span>
@@ -561,10 +561,10 @@ public subroutine dbcsr_make_random_matrix(matrix, row_blk_sizes, col_blk_sizes,
                <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;wrong matrix symmetry&quot;</span><span class="p">)</span>
             <span class="k">END SELECT</span>
 <span class="k">            CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">s_row</span><span class="p">,</span> <span class="n">s_col</span><span class="p">,</span> <span class="n">data_values_tr</span><span class="p">,</span> <span class="n">summation</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDDO</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDDO</span>
 
-      <span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">data_values</span><span class="p">)</span>
+<span class="k">      CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">data_values</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">data_values_tr</span><span class="p">)</span>
 
       <span class="k">CALL </span><span class="n">dbcsr_distribution_release</span><span class="p">(</span><span class="n">new_dist</span><span class="p">)</span>

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -232,7 +232,7 @@ public subroutine dbcsr_complete_redistribute(matrix, redist, keep_sparsity, sum
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~155"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~182"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -262,7 +262,7 @@ public subroutine dbcsr_complete_redistribute(matrix, redist, keep_sparsity, sum
   
 <tr>
   
-  <td><span class="anchor" id="variable-keep_sparsity~7"></span>logical,</td>
+  <td><span class="anchor" id="variable-keep_sparsity~9"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -278,7 +278,7 @@ public subroutine dbcsr_complete_redistribute(matrix, redist, keep_sparsity, sum
   
 <tr>
   
-  <td><span class="anchor" id="variable-summation~10"></span>logical,</td>
+  <td><span class="anchor" id="variable-summation~42"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -466,14 +466,14 @@ public subroutine dbcsr_complete_redistribute(matrix, redist, keep_sparsity, sum
       <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="nb">MAXVAL</span><span class="p">(</span><span class="n">row_dist_new</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">pgrid</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s1">&#39;Range of row distribution not equal to processor rows&#39;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">MAXVAL</span><span class="p">(</span><span class="n">col_dist_new</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">pgrid</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="p">&amp;</span>
+      <span class="k">ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="nb">MAXVAL</span><span class="p">(</span><span class="n">col_dist_new</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">pgrid</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="p">&amp;</span>
          <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s1">&#39;Col distribution references unexistent processor cols&#39;</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="nb">MAXVAL</span><span class="p">(</span><span class="n">col_dist_new</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">pgrid</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s1">&#39;Range of col distribution not equal to processor cols&#39;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">send_count</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">numnodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+      <span class="k">ENDIF</span>
+<span class="k">      ALLOCATE</span> <span class="p">(</span><span class="n">send_count</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">numnodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
       <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">recv_count</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">numnodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
       <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">total_send_count</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">numnodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
       <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">total_recv_count</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">numnodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
@@ -485,7 +485,7 @@ public subroutine dbcsr_complete_redistribute(matrix, redist, keep_sparsity, sum
       <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">rm_disp</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">numnodes</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">cs1</span> <span class="o">=</span> <span class="n">dbcsr_checksum</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">!cs1 = dbcsr_checksum (matrix)</span>
       <span class="c">!call dbcsr_print(matrix)</span>
       <span class="c">!</span>
@@ -513,11 +513,11 @@ public subroutine dbcsr_complete_redistribute(matrix, redist, keep_sparsity, sum
                   <span class="n">send_count</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dst_p</span><span class="p">)</span> <span class="o">=</span> <span class="n">send_count</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dst_p</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
                   <span class="n">send_count</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dst_p</span><span class="p">)</span> <span class="o">=</span> <span class="n">send_count</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dst_p</span><span class="p">)</span> <span class="o">+</span> <span class="p">&amp;</span>
                                          <span class="n">col_reblocks</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">col_int</span><span class="p">)</span><span class="o">*</span><span class="n">row_reblocks</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">row_int</span><span class="p">)</span>
-               <span class="n">ENDIF</span>
-            <span class="n">ENDDO</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDDO</span>
-      <span class="k">CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
+               <span class="k">ENDIF</span>
+<span class="k">            ENDDO</span>
+<span class="k">         ENDDO</span>
+<span class="k">      ENDDO</span>
+<span class="k">      CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
       <span class="c">!</span>
       <span class="c">!</span>
       <span class="k">CALL </span><span class="n">mp_alltoall</span><span class="p">(</span><span class="n">send_count</span><span class="p">,</span> <span class="n">recv_count</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">mp_group</span><span class="p">)</span>
@@ -534,8 +534,8 @@ public subroutine dbcsr_complete_redistribute(matrix, redist, keep_sparsity, sum
          <span class="n">total_send_count</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dst_p</span><span class="p">)</span> <span class="o">=</span> <span class="n">send_count</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dst_p</span><span class="p">)</span>
          <span class="n">total_recv_count</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dst_p</span><span class="p">)</span> <span class="o">=</span> <span class="n">recv_count</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dst_p</span><span class="p">)</span>
          <span class="n">total_recv_count</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dst_p</span><span class="p">)</span> <span class="o">=</span> <span class="n">recv_count</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dst_p</span><span class="p">)</span>
-      <span class="n">ENDDO</span>
-      <span class="n">sd_disp</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">sm_disp</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+      <span class="k">ENDDO</span>
+<span class="k">      </span><span class="n">sd_disp</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">sm_disp</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
       <span class="n">rd_disp</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">rm_disp</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
       <span class="n">sd_disp</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">sm_disp</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
       <span class="n">rd_disp</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">rm_disp</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
@@ -548,8 +548,8 @@ public subroutine dbcsr_complete_redistribute(matrix, redist, keep_sparsity, sum
                           <span class="o">+</span> <span class="n">metalen</span><span class="o">*</span><span class="n">total_recv_count</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">dst_p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
          <span class="n">rd_disp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">=</span> <span class="n">rd_disp</span><span class="p">(</span><span class="n">dst_p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
                           <span class="o">+</span> <span class="n">total_recv_count</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">dst_p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-      <span class="n">ENDDO</span>
-      <span class="n">sdp</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">sd_disp</span>     <span class="c">! sdp points to the the next place to store</span>
+      <span class="k">ENDDO</span>
+<span class="k">      </span><span class="n">sdp</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">sd_disp</span>     <span class="c">! sdp points to the the next place to store</span>
       <span class="c">! data. It is postincremented.</span>
       <span class="n">smp</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">sm_disp</span> <span class="o">-</span> <span class="n">metalen</span>  <span class="c">! But smp points to the &quot;working&quot; data, not</span>
       <span class="c">! the next. It is pre-incremented, so we must</span>
@@ -601,11 +601,11 @@ public subroutine dbcsr_complete_redistribute(matrix, redist, keep_sparsity, sum
                      <span class="n">src_r_lb</span><span class="o">=</span><span class="n">row_offset_old</span><span class="p">,</span> <span class="n">src_c_lb</span><span class="o">=</span><span class="n">col_offset_old</span><span class="p">,</span> <span class="p">&amp;</span>
                      <span class="n">nrow</span><span class="o">=</span><span class="n">row_rle</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="n">col_rle</span><span class="p">)</span>
                   <span class="n">sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">=</span> <span class="n">sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">+</span> <span class="n">nze_rle</span>
-               <span class="n">ENDIF</span> <span class="n">loc_ok</span>
-            <span class="n">ENDDO</span> <span class="c">! row_int</span>
-         <span class="n">ENDDO</span> <span class="c">! col_int</span>
-      <span class="n">ENDDO</span>
-      <span class="k">CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
+               <span class="k">ENDIF </span><span class="n">loc_ok</span>
+            <span class="k">ENDDO</span> <span class="c">! row_int</span>
+         <span class="k">ENDDO</span> <span class="c">! col_int</span>
+      <span class="k">ENDDO</span>
+<span class="k">      CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_data_clear_pointer</span><span class="p">(</span><span class="n">data_block</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">data_block</span><span class="p">)</span>
 
@@ -691,8 +691,8 @@ public subroutine dbcsr_complete_redistribute(matrix, redist, keep_sparsity, sum
                         <span class="n">col_blk_size_new</span><span class="p">(</span><span class="n">stored_col_new</span><span class="p">)</span>
                <span class="n">valid_block</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
                <span class="n">cnt_new</span> <span class="o">=</span> <span class="n">cnt_new</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="n">ENDIF</span>
-            <span class="n">nze_rle</span> <span class="o">=</span> <span class="n">row_rle</span><span class="o">*</span><span class="n">col_rle</span>
+            <span class="k">ENDIF</span>
+<span class="k">            </span><span class="n">nze_rle</span> <span class="o">=</span> <span class="n">row_rle</span><span class="o">*</span><span class="n">col_rle</span>
 
             <span class="k">IF</span> <span class="p">(</span><span class="n">valid_block</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">               </span><span class="n">row_size_new</span> <span class="o">=</span> <span class="n">row_blk_size_new</span><span class="p">(</span><span class="n">stored_row_new</span><span class="p">)</span>
@@ -707,9 +707,9 @@ public subroutine dbcsr_complete_redistribute(matrix, redist, keep_sparsity, sum
                   <span class="n">nrow</span><span class="o">=</span><span class="n">row_rle</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="n">col_rle</span><span class="p">)</span>
             <span class="k">ELSE</span>
 <span class="k">               </span><span class="n">cnt_skip</span> <span class="o">=</span> <span class="n">cnt_skip</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="n">ENDIF</span>
+            <span class="k">ENDIF</span>
 
-            <span class="n">data_offset_l</span> <span class="o">=</span> <span class="n">data_offset_l</span> <span class="o">+</span> <span class="n">nze_rle</span>
+<span class="k">            </span><span class="n">data_offset_l</span> <span class="o">=</span> <span class="n">data_offset_l</span> <span class="o">+</span> <span class="n">nze_rle</span>
             <span class="k">IF</span> <span class="p">((.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">found</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">my_summation</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">valid_block</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">               IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; Adding new block at&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
                   <span class="n">stored_row_new</span><span class="p">,</span> <span class="n">stored_col_new</span>
@@ -720,11 +720,11 @@ public subroutine dbcsr_complete_redistribute(matrix, redist, keep_sparsity, sum
 <span class="k">               IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">my_keep_sparsity</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">dbg</span><span class="p">)</span> <span class="p">&amp;</span>
                   <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; Reusing block at&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
                   <span class="n">stored_row_new</span><span class="p">,</span> <span class="n">stored_col_new</span>
-            <span class="n">ENDIF</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDDO</span>
+            <span class="k">ENDIF</span>
+<span class="k">         ENDDO</span>
+<span class="k">      ENDDO</span>
 
-      <span class="k">CALL </span><span class="n">dbcsr_data_clear_pointer</span><span class="p">(</span><span class="n">data_block</span><span class="p">)</span>
+<span class="k">      CALL </span><span class="n">dbcsr_data_clear_pointer</span><span class="p">(</span><span class="n">data_block</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">buff_data</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">data_block</span><span class="p">)</span>
       <span class="c">!</span>
@@ -733,9 +733,9 @@ public subroutine dbcsr_complete_redistribute(matrix, redist, keep_sparsity, sum
             <span class="s2">&quot;actual=&quot;</span><span class="p">,</span> <span class="n">blks</span>
          <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; Declared data size=&quot;</span><span class="p">,</span> <span class="n">redist</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">datasize</span><span class="p">,</span> <span class="p">&amp;</span>
             <span class="s2">&quot;actual=&quot;</span><span class="p">,</span> <span class="n">blk_ps</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
-      <span class="k">CALL </span><span class="n">dbcsr_finalize</span><span class="p">(</span><span class="n">redist</span><span class="p">)</span>
+<span class="k">      CALL </span><span class="n">dbcsr_finalize</span><span class="p">(</span><span class="n">redist</span><span class="p">)</span>
 
       <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">send_count</span><span class="p">)</span>
       <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">recv_count</span><span class="p">)</span>
@@ -754,7 +754,7 @@ public subroutine dbcsr_complete_redistribute(matrix, redist, keep_sparsity, sum
       <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">cs2</span> <span class="o">=</span> <span class="n">dbcsr_checksum</span><span class="p">(</span><span class="n">redist</span><span class="p">)</span>
          <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; Checksums=&quot;</span><span class="p">,</span> <span class="n">cs1</span><span class="p">,</span> <span class="n">cs2</span><span class="p">,</span> <span class="n">cs1</span> <span class="o">-</span> <span class="n">cs2</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">!IF(cs1-cs2 &gt; 0.00001) DBCSR_ABORT(&quot;Mangled data!&quot;)</span>
       <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_complete_redistribute</span>

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -330,17 +330,17 @@
 <a name="ln-68"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">MOD</span><span class="p">(</span><span class="n">numnodes</span><span class="p">,</span> <span class="n">npdims</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-69"></a><span class="k">         CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-70"></a>                          <span class="s2">&quot;numnodes is not multiple of npcols&quot;</span><span class="p">)</span>
-<a name="ln-71"></a>      <span class="n">ENDIF</span>
-<a name="ln-72"></a>      <span class="n">npdims</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">numnodes</span><span class="o">/</span><span class="n">npdims</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<a name="ln-73"></a>   <span class="n">ENDIF</span>
-<a name="ln-74"></a>   <span class="k">CALL </span><span class="n">mp_cart_create</span><span class="p">(</span><span class="n">mp_comm</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">npdims</span><span class="p">,</span> <span class="n">myploc</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
+<a name="ln-71"></a>      <span class="k">ENDIF</span>
+<a name="ln-72"></a><span class="k">      </span><span class="n">npdims</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">numnodes</span><span class="o">/</span><span class="n">npdims</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<a name="ln-73"></a>   <span class="k">ENDIF</span>
+<a name="ln-74"></a><span class="k">   CALL </span><span class="n">mp_cart_create</span><span class="p">(</span><span class="n">mp_comm</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">npdims</span><span class="p">,</span> <span class="n">myploc</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
 <a name="ln-75"></a>   <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">pgrid</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">npdims</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">npdims</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
 <a name="ln-76"></a>   <span class="k">DO </span><span class="n">prow</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">npdims</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
 <a name="ln-77"></a>      <span class="k">DO </span><span class="n">pcol</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">npdims</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
 <a name="ln-78"></a>         <span class="k">CALL </span><span class="n">mp_cart_rank</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span><span class="n">prow</span><span class="p">,</span> <span class="n">pcol</span><span class="o">/</span><span class="p">),</span> <span class="n">pgrid</span><span class="p">(</span><span class="n">prow</span><span class="p">,</span> <span class="n">pcol</span><span class="p">))</span>
-<a name="ln-79"></a>      <span class="n">ENDDO</span>
-<a name="ln-80"></a>   <span class="n">ENDDO</span>
-<a name="ln-81"></a>   <span class="k">CALL </span><span class="n">dbcsr_mp_new</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">pgrid</span><span class="p">,</span> <span class="n">mynode</span><span class="p">,</span> <span class="n">numnodes</span><span class="p">,</span> <span class="p">&amp;</span>
+<a name="ln-79"></a>      <span class="k">ENDDO</span>
+<a name="ln-80"></a><span class="k">   ENDDO</span>
+<a name="ln-81"></a><span class="k">   CALL </span><span class="n">dbcsr_mp_new</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">pgrid</span><span class="p">,</span> <span class="n">mynode</span><span class="p">,</span> <span class="n">numnodes</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-82"></a>                     <span class="n">myprow</span><span class="o">=</span><span class="n">myploc</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">mypcol</span><span class="o">=</span><span class="n">myploc</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 <a name="ln-83"></a>   <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">pgrid</span><span class="p">)</span>
 <a name="ln-84"></a>
@@ -412,18 +412,18 @@
 <a name="ln-150"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">m_iargc</span><span class="p">()</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-151"></a><span class="k">         CALL </span><span class="n">m_getarg</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
 <a name="ln-152"></a>         <span class="k">CALL </span><span class="n">open_file</span><span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">line</span><span class="p">),</span> <span class="n">unit_number</span><span class="o">=</span><span class="n">unit</span><span class="p">)</span>
-<a name="ln-153"></a>      <span class="n">ENDIF</span>
+<a name="ln-153"></a>      <span class="k">ENDIF</span>
 <a name="ln-154"></a>
-<a name="ln-155"></a>      <span class="n">narg</span> <span class="o">=</span> <span class="mi">0</span>
+<a name="ln-155"></a><span class="k">      </span><span class="n">narg</span> <span class="o">=</span> <span class="mi">0</span>
 <a name="ln-156"></a>      <span class="k">DO</span>
 <a name="ln-157"></a><span class="k">         READ</span> <span class="p">(</span><span class="n">unit</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">IOSTAT</span><span class="o">=</span><span class="n">istat</span><span class="p">)</span> <span class="n">line</span>
 <a name="ln-158"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">istat</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">EXIT</span>
 <a name="ln-159"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">line</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="s1">&#39;#&#39;</span><span class="p">)</span> <span class="k">CYCLE</span>
 <a name="ln-160"></a><span class="k">         </span><span class="n">narg</span> <span class="o">=</span> <span class="n">narg</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-161"></a>         <span class="n">args</span><span class="p">(</span><span class="n">narg</span><span class="p">)</span> <span class="o">=</span> <span class="n">line</span>
-<a name="ln-162"></a>      <span class="n">ENDDO</span>
+<a name="ln-162"></a>      <span class="k">ENDDO</span>
 <a name="ln-163"></a>
-<a name="ln-164"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_test_read_args</span>
+<a name="ln-164"></a><span class="k">   END SUBROUTINE </span><span class="n">dbcsr_test_read_args</span>
 <a name="ln-165"></a>
 <a name="ln-166"></a><span class="k">END PROGRAM </span><span class="n">dbcsr_performance_driver</span>
 </pre></div>

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -443,9 +443,9 @@
 <a name="ln-181"></a>
 <a name="ln-182"></a>         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">data_size</span><span class="p">)</span> <span class="p">.</span><span class="n">NEQV</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">data_size2</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-183"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Must specify 2 sizes for 2-D data&quot;</span><span class="p">)</span>
-<a name="ln-184"></a>      <span class="n">ENDIF</span>
+<a name="ln-184"></a>      <span class="k">ENDIF</span>
 <a name="ln-185"></a>
-<a name="ln-186"></a>      <span class="n">sizes_oversized</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">sizes_requested</span><span class="o">*</span><span class="n">my_memory_type</span><span class="p">%</span><span class="n">oversize_factor</span><span class="p">)</span>
+<a name="ln-186"></a><span class="k">      </span><span class="n">sizes_oversized</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">sizes_requested</span><span class="o">*</span><span class="n">my_memory_type</span><span class="p">%</span><span class="n">oversize_factor</span><span class="p">)</span>
 <a name="ln-187"></a>      <span class="n">total_size_requested</span> <span class="o">=</span> <span class="nb">PRODUCT</span><span class="p">(</span><span class="n">sizes_requested</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">d</span><span class="p">))</span>
 <a name="ln-188"></a>      <span class="n">total_size_oversized</span> <span class="o">=</span> <span class="nb">PRODUCT</span><span class="p">(</span><span class="n">sizes_oversized</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">d</span><span class="p">))</span>
 <a name="ln-189"></a>
@@ -454,9 +454,9 @@
 <a name="ln-192"></a>
 <a name="ln-193"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">total_size_requested</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">my_memory_type</span><span class="p">%</span><span class="n">pool</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-194"></a><span class="k">         </span><span class="n">area</span> <span class="o">=</span> <span class="n">dbcsr_mempool_get</span><span class="p">(</span><span class="n">my_memory_type</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">total_size_requested</span><span class="p">)</span>
-<a name="ln-195"></a>      <span class="n">ENDIF</span>
+<a name="ln-195"></a>      <span class="k">ENDIF</span>
 <a name="ln-196"></a>
-<a name="ln-197"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-197"></a><span class="k">      IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-198"></a><span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">)</span>
 <a name="ln-199"></a><span class="c">!$OMP        CRITICAL (crit_area_id)</span>
 <a name="ln-200"></a>         <span class="n">id</span> <span class="o">=</span> <span class="n">id</span> <span class="o">+</span> <span class="mi">1</span>
@@ -468,9 +468,9 @@
 <a name="ln-206"></a>         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">data_size</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-207"></a><span class="k">            CALL </span><span class="n">internal_data_allocate</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">,</span> <span class="n">sizes_oversized</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">d</span><span class="p">))</span>
 <a name="ln-208"></a>         <span class="k">END IF</span>
-<a name="ln-209"></a><span class="k">      </span><span class="n">ENDIF</span>
+<a name="ln-209"></a><span class="k">      ENDIF</span>
 <a name="ln-210"></a>
-<a name="ln-211"></a>      <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">ref_size</span> <span class="o">=</span> <span class="n">total_size_requested</span>
+<a name="ln-211"></a><span class="k">      </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">ref_size</span> <span class="o">=</span> <span class="n">total_size_requested</span>
 <a name="ln-212"></a>
 <a name="ln-213"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
 <a name="ln-214"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_data_new</span>
@@ -514,14 +514,14 @@
 <a name="ln-252"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Cannot use dev memory with previous data area.&quot;</span><span class="p">)</span>
 <a name="ln-253"></a>         <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">pool</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-254"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Cannot use memory pool with previous data area.&quot;</span><span class="p">)</span>
-<a name="ln-255"></a>      <span class="n">ENDIF</span>
+<a name="ln-255"></a>      <span class="k">ENDIF</span>
 <a name="ln-256"></a>
-<a name="ln-257"></a>      <span class="n">wanted_size</span> <span class="o">=</span> <span class="n">data_size</span>
+<a name="ln-257"></a><span class="k">      </span><span class="n">wanted_size</span> <span class="o">=</span> <span class="n">data_size</span>
 <a name="ln-258"></a><span class="cp">#if defined(__HAS_smm_dnn) &amp;&amp; defined(__HAS_smm_vec)</span>
 <a name="ln-259"></a>      <span class="c">! allocate some more as padding for libsmm kernels which read over the end.</span>
 <a name="ln-260"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">data_size</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-261"></a><span class="k">         </span><span class="n">wanted_size</span> <span class="o">=</span> <span class="n">data_size</span> <span class="o">+</span> <span class="mi">10</span>
-<a name="ln-262"></a>      <span class="n">ENDIF</span>
+<a name="ln-262"></a>      <span class="k">ENDIF</span>
 <a name="ln-263"></a><span class="cp">#endif</span>
 <a name="ln-264"></a>
 <a name="ln-265"></a>      <span class="c">!IF(area%d%memory_type%acc_devalloc) THEN</span>
@@ -535,7 +535,7 @@
 <a name="ln-273"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">current_size</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">1</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">current_size</span> <span class="p">.</span><span class="n">GE</span><span class="p">.</span> <span class="n">wanted_size</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-274"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
 <a name="ln-275"></a>         <span class="k">RETURN</span>
-<a name="ln-276"></a><span class="k">      </span><span class="n">ENDIF</span>
+<a name="ln-276"></a><span class="k">      ENDIF</span>
 <a name="ln-277"></a>      <span class="c">!</span>
 <a name="ln-278"></a>      <span class="n">nocp</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <a name="ln-279"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nocopy</span><span class="p">))</span> <span class="n">nocp</span> <span class="o">=</span> <span class="n">nocopy</span>
@@ -550,9 +550,9 @@
 <a name="ln-288"></a>               <span class="k">CALL </span><span class="n">dbcsr_data_clear_pointer</span><span class="p">(</span><span class="n">area</span><span class="p">)</span>
 <a name="ln-289"></a>            <span class="k">ELSE</span>
 <a name="ln-290"></a><span class="k">               CALL </span><span class="n">internal_data_deallocate</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">)</span>
-<a name="ln-291"></a>            <span class="n">ENDIF</span>
-<a name="ln-292"></a>         <span class="n">ENDIF</span>
-<a name="ln-293"></a>      <span class="k">END IF</span>
+<a name="ln-291"></a>            <span class="k">ENDIF</span>
+<a name="ln-292"></a><span class="k">         ENDIF</span>
+<a name="ln-293"></a><span class="k">      END IF</span>
 <a name="ln-294"></a>
 <a name="ln-295"></a><span class="k">      IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_data_exists</span><span class="p">(</span><span class="n">area</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-296"></a><span class="k">         IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">pool</span><span class="p">))</span> <span class="k">THEN</span>
@@ -584,8 +584,8 @@
 <a name="ln-322"></a>                                      <span class="n">memory_type</span><span class="o">=</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-323"></a>                                      <span class="n">nocopy</span><span class="o">=</span><span class="n">nocp</span><span class="p">,</span> <span class="n">zero_pad</span><span class="o">=</span><span class="n">zero_pad</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-324"></a>                                      <span class="n">factor</span><span class="o">=</span><span class="n">factor</span><span class="p">)</span>
-<a name="ln-325"></a>            <span class="n">ENDIF</span>
-<a name="ln-326"></a>         <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_int_4</span><span class="p">)</span>
+<a name="ln-325"></a>            <span class="k">ENDIF</span>
+<a name="ln-326"></a><span class="k">         CASE</span> <span class="p">(</span><span class="n">dbcsr_type_int_4</span><span class="p">)</span>
 <a name="ln-327"></a>            <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">area_resize</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-328"></a><span class="k">               CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">i4</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-329"></a>                                      <span class="n">array_resize</span><span class="o">=</span><span class="n">area_resize</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">i4</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -598,8 +598,8 @@
 <a name="ln-336"></a>                                      <span class="n">memory_type</span><span class="o">=</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-337"></a>                                      <span class="n">nocopy</span><span class="o">=</span><span class="n">nocp</span><span class="p">,</span> <span class="n">zero_pad</span><span class="o">=</span><span class="n">zero_pad</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-338"></a>                                      <span class="n">factor</span><span class="o">=</span><span class="n">factor</span><span class="p">)</span>
-<a name="ln-339"></a>            <span class="n">ENDIF</span>
-<a name="ln-340"></a>         <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
+<a name="ln-339"></a>            <span class="k">ENDIF</span>
+<a name="ln-340"></a><span class="k">         CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
 <a name="ln-341"></a>            <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">area_resize</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-342"></a><span class="k">               CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-343"></a>                                      <span class="n">array_resize</span><span class="o">=</span><span class="n">area_resize</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -612,8 +612,8 @@
 <a name="ln-350"></a>                                      <span class="n">memory_type</span><span class="o">=</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-351"></a>                                      <span class="n">nocopy</span><span class="o">=</span><span class="n">nocp</span><span class="p">,</span> <span class="n">zero_pad</span><span class="o">=</span><span class="n">zero_pad</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-352"></a>                                      <span class="n">factor</span><span class="o">=</span><span class="n">factor</span><span class="p">)</span>
-<a name="ln-353"></a>            <span class="n">ENDIF</span>
-<a name="ln-354"></a>         <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
+<a name="ln-353"></a>            <span class="k">ENDIF</span>
+<a name="ln-354"></a><span class="k">         CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
 <a name="ln-355"></a>            <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">area_resize</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-356"></a><span class="k">               CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-357"></a>                                      <span class="n">array_resize</span><span class="o">=</span><span class="n">area_resize</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -626,8 +626,8 @@
 <a name="ln-364"></a>                                      <span class="n">memory_type</span><span class="o">=</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-365"></a>                                      <span class="n">nocopy</span><span class="o">=</span><span class="n">nocp</span><span class="p">,</span> <span class="n">zero_pad</span><span class="o">=</span><span class="n">zero_pad</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-366"></a>                                      <span class="n">factor</span><span class="o">=</span><span class="n">factor</span><span class="p">)</span>
-<a name="ln-367"></a>            <span class="n">ENDIF</span>
-<a name="ln-368"></a>         <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
+<a name="ln-367"></a>            <span class="k">ENDIF</span>
+<a name="ln-368"></a><span class="k">         CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
 <a name="ln-369"></a>            <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">area_resize</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-370"></a><span class="k">               CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-371"></a>                                      <span class="n">array_resize</span><span class="o">=</span><span class="n">area_resize</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -640,8 +640,8 @@
 <a name="ln-378"></a>                                      <span class="n">memory_type</span><span class="o">=</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-379"></a>                                      <span class="n">nocopy</span><span class="o">=</span><span class="n">nocp</span><span class="p">,</span> <span class="n">zero_pad</span><span class="o">=</span><span class="n">zero_pad</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-380"></a>                                      <span class="n">factor</span><span class="o">=</span><span class="n">factor</span><span class="p">)</span>
-<a name="ln-381"></a>            <span class="n">ENDIF</span>
-<a name="ln-382"></a>         <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
+<a name="ln-381"></a>            <span class="k">ENDIF</span>
+<a name="ln-382"></a><span class="k">         CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
 <a name="ln-383"></a>            <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">area_resize</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-384"></a><span class="k">               CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-385"></a>                                      <span class="n">array_resize</span><span class="o">=</span><span class="n">area_resize</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -654,8 +654,8 @@
 <a name="ln-392"></a>                                      <span class="n">memory_type</span><span class="o">=</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-393"></a>                                      <span class="n">nocopy</span><span class="o">=</span><span class="n">nocp</span><span class="p">,</span> <span class="n">zero_pad</span><span class="o">=</span><span class="n">zero_pad</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-394"></a>                                      <span class="n">factor</span><span class="o">=</span><span class="n">factor</span><span class="p">)</span>
-<a name="ln-395"></a>            <span class="n">ENDIF</span>
-<a name="ln-396"></a>         <span class="k">CASE </span><span class="n">default</span>
+<a name="ln-395"></a>            <span class="k">ENDIF</span>
+<a name="ln-396"></a><span class="k">         CASE </span><span class="n">default</span>
 <a name="ln-397"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type are supported&quot;</span><span class="p">)</span>
 <a name="ln-398"></a>         <span class="k">END SELECT</span>
 <a name="ln-399"></a>
@@ -674,10 +674,10 @@
 <a name="ln-412"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_datatype_sizeof</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span><span class="o">*</span><span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">area</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-413"></a>                <span class="o">/=</span> <span class="n">acc_devmem_size_in_bytes</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-414"></a>               <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Host and device buffer differ in size.&quot;</span><span class="p">)</span>
-<a name="ln-415"></a>         <span class="n">ENDIF</span>
+<a name="ln-415"></a>         <span class="k">ENDIF</span>
 <a name="ln-416"></a>
-<a name="ln-417"></a>      <span class="n">ENDIF</span>
-<a name="ln-418"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<a name="ln-417"></a><span class="k">      ENDIF</span>
+<a name="ln-418"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
 <a name="ln-419"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_data_ensure_size</span>
 <a name="ln-420"></a>
 <a name="ln-421"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">area</span><span class="p">)</span>
@@ -701,7 +701,7 @@
 <a name="ln-439"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-440"></a><span class="k">            IF</span> <span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">refcount</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-441"></a>               <span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">&quot;Data seems to be unreferenced.&quot;</span><span class="p">)</span>
-<a name="ln-442"></a>         <span class="n">ENDIF</span>
+<a name="ln-442"></a>         <span class="k">ENDIF</span>
 <a name="ln-443"></a>         <span class="c">!</span>
 <a name="ln-444"></a>         <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">refcount</span> <span class="o">=</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">refcount</span> <span class="o">-</span> <span class="mi">1</span>
 <a name="ln-445"></a>         <span class="c">! If we&#39;re releasing the last reference, then free the memory.</span>
@@ -714,12 +714,12 @@
 <a name="ln-452"></a>            <span class="k">ELSE</span>
 <a name="ln-453"></a><span class="k">               CALL </span><span class="n">internal_data_deallocate</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">)</span>
 <a name="ln-454"></a>               <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">)</span>
-<a name="ln-455"></a>            <span class="n">ENDIF</span>
-<a name="ln-456"></a>            <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">)</span>
-<a name="ln-457"></a>         <span class="n">ENDIF</span>
-<a name="ln-458"></a>      <span class="n">ENDIF</span>
+<a name="ln-455"></a>            <span class="k">ENDIF</span>
+<a name="ln-456"></a><span class="k">            NULLIFY</span> <span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">)</span>
+<a name="ln-457"></a>         <span class="k">ENDIF</span>
+<a name="ln-458"></a><span class="k">      ENDIF</span>
 <a name="ln-459"></a>
-<a name="ln-460"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<a name="ln-460"></a><span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
 <a name="ln-461"></a>
 <a name="ln-462"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_data_release</span>
 <a name="ln-463"></a>

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ private subroutine dbcsr_copy_submatrix(matrix_b, matrix_a, name, block_row_boun
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_b~27"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_b~37"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -244,7 +244,7 @@ private subroutine dbcsr_copy_submatrix(matrix_b, matrix_a, name, block_row_boun
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_a~45"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_a~55"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -259,7 +259,7 @@ private subroutine dbcsr_copy_submatrix(matrix_b, matrix_a, name, block_row_boun
   
 <tr>
   
-  <td><span class="anchor" id="variable-name~10"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-name~22"></span>character(len=*),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -415,16 +415,16 @@ private subroutine dbcsr_copy_submatrix(matrix_b, matrix_a, name, block_row_boun
 <span class="k">         </span><span class="n">shallow</span> <span class="o">=</span> <span class="n">shallow_data</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">shallow</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">! Verify assumptions.</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">block_row_bounds</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">block_row_bounds</span><span class="p">)</span> <span class="o">/=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Size of bounds specifier must be 2&quot;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">block_column_bounds</span><span class="p">))</span> <span class="k">THEN</span>
+      <span class="k">ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">block_column_bounds</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">block_column_bounds</span><span class="p">)</span> <span class="o">/=</span> <span class="mi">2</span><span class="p">)</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Size of bounds specifier must be 2&quot;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">! Setup target matrix</span>
       <span class="k">CALL </span><span class="n">dbcsr_create</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="n">matrix_a</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_finalize</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">)</span>
@@ -447,12 +447,12 @@ private subroutine dbcsr_copy_submatrix(matrix_b, matrix_a, name, block_row_boun
             <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">block_row_bounds</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">               IF</span> <span class="p">(</span><span class="n">row</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="k">CYCLE</span>
 <span class="k">               IF</span> <span class="p">(</span><span class="n">row</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="k">CYCLE</span>
-<span class="k">            </span><span class="n">ENDIF</span>
-            <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">block_column_bounds</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">            ENDIF</span>
+<span class="k">            IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">block_column_bounds</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">               IF</span> <span class="p">(</span><span class="n">col</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">block_column_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="k">CYCLE</span>
 <span class="k">               IF</span> <span class="p">(</span><span class="n">col</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">block_column_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="k">CYCLE</span>
-<span class="k">            </span><span class="n">ENDIF</span>
-            <span class="k">CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">data_block</span><span class="p">,</span> <span class="n">transposed</span><span class="o">=</span><span class="n">tr</span><span class="p">)</span>
+<span class="k">            ENDIF</span>
+<span class="k">            CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">data_block</span><span class="p">,</span> <span class="n">transposed</span><span class="o">=</span><span class="n">tr</span><span class="p">)</span>
          <span class="k">END DO</span>
 <span class="k">         CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
          <span class="k">CALL </span><span class="n">dbcsr_data_clear_pointer</span><span class="p">(</span><span class="n">data_block</span><span class="p">)</span>
@@ -478,21 +478,21 @@ private subroutine dbcsr_copy_submatrix(matrix_b, matrix_a, name, block_row_boun
             <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">block_row_bounds</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">               IF</span> <span class="p">(</span><span class="n">row</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="k">CYCLE</span>
 <span class="k">               IF</span> <span class="p">(</span><span class="n">row</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">block_row_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="k">CYCLE</span>
-<span class="k">            </span><span class="n">ENDIF</span>
-            <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">block_column_bounds</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">            ENDIF</span>
+<span class="k">            IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">block_column_bounds</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">               IF</span> <span class="p">(</span><span class="n">col</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">block_column_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="k">CYCLE</span>
 <span class="k">               IF</span> <span class="p">(</span><span class="n">col</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="n">block_column_bounds</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span> <span class="k">CYCLE</span>
-<span class="k">            </span><span class="n">ENDIF</span>
-            <span class="n">row_list</span><span class="p">(</span><span class="n">new_blk</span><span class="p">)</span> <span class="o">=</span> <span class="n">row</span>
+<span class="k">            ENDIF</span>
+<span class="k">            </span><span class="n">row_list</span><span class="p">(</span><span class="n">new_blk</span><span class="p">)</span> <span class="o">=</span> <span class="n">row</span>
             <span class="n">col_list</span><span class="p">(</span><span class="n">new_blk</span><span class="p">)</span> <span class="o">=</span> <span class="n">col</span>
             <span class="n">blkp_list</span><span class="p">(</span><span class="n">new_blk</span><span class="p">)</span> <span class="o">=</span> <span class="n">blk_p</span>
             <span class="n">new_blk</span> <span class="o">=</span> <span class="n">new_blk</span> <span class="o">+</span> <span class="mi">1</span>
-         <span class="n">ENDDO</span>
-         <span class="n">new_blk</span> <span class="o">=</span> <span class="n">new_blk</span> <span class="o">-</span> <span class="mi">1</span>
+         <span class="k">ENDDO</span>
+<span class="k">         </span><span class="n">new_blk</span> <span class="o">=</span> <span class="n">new_blk</span> <span class="o">-</span> <span class="mi">1</span>
          <span class="k">CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
          <span class="k">CALL </span><span class="n">dbcsr_reserve_blocks</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">,</span> <span class="n">row_list</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">new_blk</span><span class="p">),</span> <span class="p">&amp;</span>
                                    <span class="n">col_list</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">new_blk</span><span class="p">),</span> <span class="n">blkp_list</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">new_blk</span><span class="p">))</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">!</span>
       <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_copy_submatrix</span>

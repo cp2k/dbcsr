@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -319,7 +319,7 @@ private subroutine merge_index(new_row_p, new_col_i, new_blk_p, blk_d, old_row_p
   
 <tr>
   
-  <td><span class="anchor" id="variable-old_blk_p~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-old_blk_p~4"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -409,7 +409,7 @@ private subroutine merge_index(new_row_p, new_col_i, new_blk_p, blk_d, old_row_p
   
 <tr>
   
-  <td><span class="anchor" id="variable-nrows~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-nrows~5"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -566,8 +566,8 @@ private subroutine merge_index(new_row_p, new_col_i, new_blk_p, blk_d, old_row_p
                <span class="n">col_span</span><span class="p">(</span><span class="n">blk1</span><span class="p">:</span><span class="n">blk2</span><span class="p">)</span> <span class="o">=</span> <span class="n">all_col_i</span><span class="p">(</span><span class="n">t</span><span class="p">)%</span><span class="n">p</span><span class="p">(</span><span class="n">src_blk_1</span><span class="p">:</span><span class="n">src_blk_2</span><span class="p">)</span>
                <span class="n">blk_span</span><span class="p">(</span><span class="n">blk1</span><span class="p">:</span><span class="n">blk2</span><span class="p">)</span> <span class="o">=</span> <span class="n">all_blk_p</span><span class="p">(</span><span class="n">t</span><span class="p">)%</span><span class="n">p</span><span class="p">(</span><span class="n">src_blk_1</span><span class="p">:</span><span class="n">src_blk_2</span><span class="p">)</span>
                <span class="n">d_span</span><span class="p">(</span><span class="n">blk1</span><span class="p">:</span><span class="n">blk2</span><span class="p">)</span> <span class="o">=</span> <span class="n">t</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="n">ENDDO</span>
-         <span class="k">ELSE</span>
+            <span class="k">ENDDO</span>
+<span class="k">         ELSE</span>
 <span class="k">            DO </span><span class="n">t</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nwms</span>
                <span class="n">src_blk_1</span> <span class="o">=</span> <span class="n">all_row_p</span><span class="p">(</span><span class="n">t</span><span class="p">)%</span><span class="n">p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
                <span class="n">src_blk_2</span> <span class="o">=</span> <span class="n">all_row_p</span><span class="p">(</span><span class="n">t</span><span class="p">)%</span><span class="n">p</span><span class="p">(</span><span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
@@ -576,12 +576,12 @@ private subroutine merge_index(new_row_p, new_col_i, new_blk_p, blk_d, old_row_p
                <span class="n">col_span</span><span class="p">(</span><span class="n">blk1</span><span class="p">:</span><span class="n">blk2</span><span class="p">)</span> <span class="o">=</span> <span class="n">all_col_i</span><span class="p">(</span><span class="n">t</span><span class="p">)%</span><span class="n">p</span><span class="p">(</span><span class="n">src_blk_1</span><span class="p">:</span><span class="n">src_blk_2</span><span class="p">)</span>
                <span class="n">blk_span</span><span class="p">(</span><span class="n">blk1</span><span class="p">:</span><span class="n">blk2</span><span class="p">)</span> <span class="o">=</span> <span class="n">all_blk_p</span><span class="p">(</span><span class="n">t</span><span class="p">)%</span><span class="n">p</span><span class="p">(</span><span class="n">src_blk_1</span><span class="p">:</span><span class="n">src_blk_2</span><span class="p">)</span> <span class="p">&amp;</span>
                     <span class="p">&amp;</span>              <span class="o">+</span> <span class="n">all_data_offsets</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
-            <span class="n">ENDDO</span>
-         <span class="n">ENDIF</span>
-         <span class="k">CALL </span><span class="n">sort</span><span class="p">(</span><span class="n">col_span</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">col_span</span><span class="p">),</span> <span class="n">tmp_arr</span><span class="p">)</span>
+            <span class="k">ENDDO</span>
+<span class="k">         ENDIF</span>
+<span class="k">         CALL </span><span class="n">sort</span><span class="p">(</span><span class="n">col_span</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">col_span</span><span class="p">),</span> <span class="n">tmp_arr</span><span class="p">)</span>
          <span class="n">blk_p_buff</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">SIZE</span><span class="p">(</span><span class="n">blk_span</span><span class="p">))</span> <span class="o">=</span> <span class="n">blk_span</span><span class="p">(:)</span>
          <span class="n">blk_span</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">SIZE</span><span class="p">(</span><span class="n">blk_span</span><span class="p">))</span> <span class="o">=</span> <span class="n">blk_p_buff</span><span class="p">(</span><span class="n">tmp_arr</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">SIZE</span><span class="p">(</span><span class="n">blk_span</span><span class="p">)))</span>
-      <span class="n">ENDDO</span>
+      <span class="k">ENDDO</span>
 <span class="c">!$OMP     END DO</span>
       <span class="c">!</span>
       <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">tmp_arr</span><span class="p">)</span>

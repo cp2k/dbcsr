@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ public subroutine dbcsr_copy(matrix_b, matrix_a, name, keep_sparsity, shallow_da
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_b~24"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_b~34"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -244,7 +244,7 @@ public subroutine dbcsr_copy(matrix_b, matrix_a, name, keep_sparsity, shallow_da
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_a~42"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_a~52"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -259,7 +259,7 @@ public subroutine dbcsr_copy(matrix_b, matrix_a, name, keep_sparsity, shallow_da
   
 <tr>
   
-  <td><span class="anchor" id="variable-name~9"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-name~21"></span>character(len=*),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -274,7 +274,7 @@ public subroutine dbcsr_copy(matrix_b, matrix_a, name, keep_sparsity, shallow_da
   
 <tr>
   
-  <td><span class="anchor" id="variable-keep_sparsity~6"></span>logical,</td>
+  <td><span class="anchor" id="variable-keep_sparsity~11"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -328,7 +328,7 @@ public subroutine dbcsr_copy(matrix_b, matrix_a, name, keep_sparsity, shallow_da
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_type~7"></span>character,</td>
+  <td><span class="anchor" id="variable-matrix_type~8"></span>character,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -450,8 +450,8 @@ public subroutine dbcsr_copy(matrix_b, matrix_a, name, keep_sparsity, shallow_da
          <span class="k">ELSE</span>
 <span class="k">            </span><span class="n">new_type</span> <span class="o">=</span> <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span>
             <span class="n">repl_type</span> <span class="o">=</span> <span class="n">dbcsr_get_replication_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="n">new_matrix_type</span> <span class="o">=</span> <span class="n">dbcsr_get_matrix_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">         </span><span class="n">new_matrix_type</span> <span class="o">=</span> <span class="n">dbcsr_get_matrix_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">matrix_type</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">symmetry_compatible</span><span class="p">(</span><span class="n">dbcsr_get_matrix_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="n">matrix_type</span><span class="p">))</span> <span class="p">&amp;</span>
                <span class="k">CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span> <span class="s2">&quot;Specified target matrix symmetry &quot;</span><span class="o">//</span><span class="n">matrix_type</span><span class="o">//</span> <span class="p">&amp;</span>
@@ -471,8 +471,8 @@ public subroutine dbcsr_copy(matrix_b, matrix_a, name, keep_sparsity, shallow_da
                               <span class="n">data_type</span><span class="o">=</span><span class="n">new_type</span><span class="p">,</span> <span class="p">&amp;</span>
                               <span class="n">matrix_type</span><span class="o">=</span><span class="n">new_matrix_type</span><span class="p">,</span> <span class="p">&amp;</span>
                               <span class="n">template</span><span class="o">=</span><span class="n">matrix_a</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">%</span><span class="nb">index</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="n">SIZE</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">%</span><span class="nb">index</span><span class="p">),</span> <span class="p">&amp;</span>
+         <span class="k">ENDIF</span>
+<span class="k">         CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">%</span><span class="nb">index</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="n">SIZE</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">%</span><span class="nb">index</span><span class="p">),</span> <span class="p">&amp;</span>
                                 <span class="n">memory_type</span><span class="o">=</span><span class="n">dbcsr_get_index_memory_type</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">))</span>
          <span class="c">!</span>
          <span class="c">! copy index and data</span>
@@ -489,12 +489,12 @@ public subroutine dbcsr_copy(matrix_b, matrix_a, name, keep_sparsity, shallow_da
             <span class="k">ELSE</span>
 <span class="k">               CALL </span><span class="n">dbcsr_data_convert</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span> <span class="p">&amp;</span>
                                        <span class="n">matrix_a</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span> <span class="n">drop_real</span><span class="o">=</span><span class="n">keep_imaginary</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
-         <span class="k">ELSE</span>
+            <span class="k">ENDIF</span>
+<span class="k">         ELSE</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">))</span> <span class="p">&amp;</span>
                <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Shallow copy only possible when retaining data type.&quot;</span><span class="p">)</span>
             <span class="k">CALL </span><span class="n">dbcsr_switch_data_area</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">,</span> <span class="n">matrix_a</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
+         <span class="k">ENDIF</span>
          <span class="c">!</span>
          <span class="c">! the row_p, col_i and blk_p ...</span>
          <span class="k">CALL </span><span class="n">dbcsr_repoint_index</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">)</span>
@@ -503,8 +503,8 @@ public subroutine dbcsr_copy(matrix_b, matrix_a, name, keep_sparsity, shallow_da
          <span class="n">matrix_b</span><span class="p">%</span><span class="n">valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
 
          <span class="n">matrix_b</span><span class="p">%</span><span class="n">sparsity_id</span> <span class="o">=</span> <span class="n">matrix_a</span><span class="p">%</span><span class="n">sparsity_id</span>
-      <span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_copy</span>
 </pre></div>
 

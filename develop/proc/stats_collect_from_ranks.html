@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -244,7 +244,7 @@ private subroutine stats_collect_from_ranks(report, group)
   
 <tr>
   
-  <td><span class="anchor" id="variable-group~9"></span>integer,</td>
+  <td><span class="anchor" id="variable-group~6"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -362,8 +362,8 @@ private subroutine stats_collect_from_ranks(report, group)
          <span class="k">IF</span> <span class="p">(</span><span class="n">sending_rank</span> <span class="o">==</span> <span class="n">myrank</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">i</span> <span class="o">=</span> <span class="nb">MINLOC</span><span class="p">(</span><span class="n">mnk_collected</span><span class="p">,</span> <span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
             <span class="n">mnk</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">report</span><span class="p">%</span><span class="n">num_mnk_stacks</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">),</span> <span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">CALL </span><span class="n">mp_bcast</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="n">mnk</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">sending_rank</span><span class="p">,</span> <span class="n">gid</span><span class="o">=</span><span class="n">group</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">         CALL </span><span class="n">mp_bcast</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="n">mnk</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">sending_rank</span><span class="p">,</span> <span class="n">gid</span><span class="o">=</span><span class="n">group</span><span class="p">)</span>
 
          <span class="k">CALL </span><span class="n">stats_add</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="n">mnk</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">n</span><span class="o">=</span><span class="n">mnk</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">k</span><span class="o">=</span><span class="n">mnk</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">stacksize_cpu</span><span class="o">=</span><span class="mi">0_int_8</span><span class="p">,</span> <span class="n">stacksize_acc</span><span class="o">=</span><span class="mi">0_int_8</span><span class="p">)</span>
          <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">report</span><span class="p">%</span><span class="n">num_mnk_stacks</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>

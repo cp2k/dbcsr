@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ private subroutine dbcsr_destroy(matrix, force)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~202"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~325"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -346,8 +346,8 @@ private subroutine dbcsr_destroy(matrix, force)
             <span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">&quot;Destroying unfinalized matrix&quot;</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">memory_deallocate</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">,</span> <span class="n">matrix</span><span class="p">%</span><span class="n">index_memory_type</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">         CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span>
          <span class="k">CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">row_blk_size</span><span class="p">)</span>
          <span class="k">CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">col_blk_size</span><span class="p">)</span>
          <span class="k">CALL </span><span class="n">array_release</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">row_blk_offset</span><span class="p">)</span>
@@ -356,8 +356,8 @@ private subroutine dbcsr_destroy(matrix, force)
          <span class="k">CALL </span><span class="n">dbcsr_release_locals</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
          <span class="n">matrix</span><span class="p">%</span><span class="n">valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
          <span class="n">matrix</span><span class="p">%</span><span class="n">refcount</span> <span class="o">=</span> <span class="mi">0</span>
-      <span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_destroy</span>
 </pre></div>
 

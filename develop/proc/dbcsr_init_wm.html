@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ private subroutine dbcsr_init_wm(wm, data_type, nblks_guess, sizedata_guess, mem
   
 <tr>
   
-  <td><span class="anchor" id="variable-wm~2"></span>type(<a href='../type/dbcsr_work_type.html'>dbcsr_work_type</a>),</td>
+  <td><span class="anchor" id="variable-wm"></span>type(<a href='../type/dbcsr_work_type.html'>dbcsr_work_type</a>),</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -244,7 +244,7 @@ private subroutine dbcsr_init_wm(wm, data_type, nblks_guess, sizedata_guess, mem
   
 <tr>
   
-  <td><span class="anchor" id="variable-data_type~25"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type~45"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -291,7 +291,7 @@ private subroutine dbcsr_init_wm(wm, data_type, nblks_guess, sizedata_guess, mem
   
 <tr>
   
-  <td><span class="anchor" id="variable-memory_type~4"></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td><span class="anchor" id="variable-memory_type~10"></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -401,7 +401,7 @@ private subroutine dbcsr_init_wm(wm, data_type, nblks_guess, sizedata_guess, mem
 <span class="k">         NULLIFY</span> <span class="p">(</span><span class="n">wm</span><span class="p">%</span><span class="n">row_i</span><span class="p">,</span> <span class="n">wm</span><span class="p">%</span><span class="n">col_i</span><span class="p">,</span> <span class="n">wm</span><span class="p">%</span><span class="n">blk_p</span><span class="p">)</span>
          <span class="c">!nblks = CEILING (REAL (matrix%nblkrows_local * matrix%nblkcols_local)&amp;</span>
          <span class="c">!     / REAL (dbcsr_mp_numnodes (dbcsr_distribution_mp (matrix%dist))))</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">! Data</span>
       <span class="k">CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">wm</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">sizedata_guess</span><span class="p">))</span> <span class="k">THEN</span>
@@ -411,8 +411,8 @@ private subroutine dbcsr_init_wm(wm, data_type, nblks_guess, sizedata_guess, mem
                              <span class="n">data_size</span><span class="o">=</span><span class="n">sizedata_guess</span><span class="p">,</span> <span class="n">memory_type</span><span class="o">=</span><span class="n">memory_type</span><span class="p">)</span>
       <span class="k">ELSE</span>
 <span class="k">         CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="n">wm</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">memory_type</span><span class="o">=</span><span class="n">memory_type</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">dbcsr_mutable_init</span><span class="p">(</span><span class="n">wm</span><span class="p">%</span><span class="n">mutable</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      CALL </span><span class="n">dbcsr_mutable_init</span><span class="p">(</span><span class="n">wm</span><span class="p">%</span><span class="n">mutable</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_init_wm</span>
 </pre></div>

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ public subroutine dbcsr_make_buffers(matrix, imgdist, is_left, f_row, l_row, f_c
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~218"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~162"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -244,7 +244,7 @@ public subroutine dbcsr_make_buffers(matrix, imgdist, is_left, f_row, l_row, f_c
   
 <tr>
   
-  <td><span class="anchor" id="variable-imgdist~5"></span>type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),</td>
+  <td><span class="anchor" id="variable-imgdist~8"></span>type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -274,7 +274,7 @@ public subroutine dbcsr_make_buffers(matrix, imgdist, is_left, f_row, l_row, f_c
   
 <tr>
   
-  <td><span class="anchor" id="variable-f_row"></span>integer,</td>
+  <td><span class="anchor" id="variable-f_row~2"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -289,7 +289,7 @@ public subroutine dbcsr_make_buffers(matrix, imgdist, is_left, f_row, l_row, f_c
   
 <tr>
   
-  <td><span class="anchor" id="variable-l_row"></span>integer,</td>
+  <td><span class="anchor" id="variable-l_row~2"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -304,7 +304,7 @@ public subroutine dbcsr_make_buffers(matrix, imgdist, is_left, f_row, l_row, f_c
   
 <tr>
   
-  <td><span class="anchor" id="variable-f_col"></span>integer,</td>
+  <td><span class="anchor" id="variable-f_col~2"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -319,7 +319,7 @@ public subroutine dbcsr_make_buffers(matrix, imgdist, is_left, f_row, l_row, f_c
   
 <tr>
   
-  <td><span class="anchor" id="variable-l_col"></span>integer,</td>
+  <td><span class="anchor" id="variable-l_col~2"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -349,7 +349,7 @@ public subroutine dbcsr_make_buffers(matrix, imgdist, is_left, f_row, l_row, f_c
   
 <tr>
   
-  <td><span class="anchor" id="variable-alpha~33"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-alpha~24"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -453,8 +453,8 @@ public subroutine dbcsr_make_buffers(matrix, imgdist, is_left, f_row, l_row, f_c
 <span class="k">         CALL </span><span class="n">make_buffers</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">imgdist</span><span class="p">,</span> <span class="n">is_left</span><span class="p">,</span> <span class="p">&amp;</span>
                            <span class="n">f_row</span><span class="p">,</span> <span class="n">l_row</span><span class="p">,</span> <span class="n">f_col</span><span class="p">,</span> <span class="n">l_col</span><span class="p">,</span> <span class="p">&amp;</span>
                            <span class="n">otf_filtering</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_make_buffers</span>
+      <span class="k">ENDIF</span>
+<span class="k">   END SUBROUTINE </span><span class="n">dbcsr_make_buffers</span>
 </pre></div>
 
     </section>

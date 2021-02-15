@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -265,7 +265,7 @@ private subroutine buffer_matrices_ensure_size(buffer_set, index_size, data_size
   
 <tr>
   
-  <td><span class="anchor" id="variable-data_size~14"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_size~10"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -369,9 +369,9 @@ private subroutine buffer_matrices_ensure_size(buffer_set, index_size, data_size
                                    <span class="n">ub</span><span class="o">=</span><span class="n">index_size</span><span class="p">,</span> <span class="p">&amp;</span>
                                    <span class="n">memory_type</span><span class="o">=</span><span class="n">dbcsr_get_index_memory_type</span><span class="p">(</span><span class="n">buffer_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">row_image</span><span class="p">,</span> <span class="n">col_image</span><span class="p">)))</span>
             <span class="k">CALL </span><span class="n">dbcsr_repoint_index</span><span class="p">(</span><span class="n">buffer_set</span><span class="p">%</span><span class="n">mats</span><span class="p">(</span><span class="n">row_image</span><span class="p">,</span> <span class="n">col_image</span><span class="p">))</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDDO</span>
-      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+         <span class="k">ENDDO</span>
+<span class="k">      ENDDO</span>
+<span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">buffer_matrices_ensure_size</span>
 </pre></div>
 

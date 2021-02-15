@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ public subroutine dbcsr_init_random(matrix, keep_sparsity)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~118"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~196"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -244,7 +244,7 @@ public subroutine dbcsr_init_random(matrix, keep_sparsity)
   
 <tr>
   
-  <td><span class="anchor" id="variable-keep_sparsity~5"></span>logical,</td>
+  <td><span class="anchor" id="variable-keep_sparsity~10"></span>logical,</td>
   <td></td>
   <td>optional</td>
   
@@ -365,8 +365,8 @@ public subroutine dbcsr_init_random(matrix, keep_sparsity)
                <span class="c">! for all layouts (and block distributions)</span>
                <span class="k">CALL </span><span class="n">set_larnv_seed</span><span class="p">(</span><span class="n">row</span><span class="p">,</span> <span class="n">nrow</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">ncol</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">iseed</span><span class="p">)</span>
                <span class="k">CALL </span><span class="n">dlarnv</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">iseed</span><span class="p">,</span> <span class="n">row_size</span><span class="o">*</span><span class="n">col_size</span><span class="p">,</span> <span class="n">rnd</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-            <span class="n">ENDIF</span>
-            <span class="k">IF</span> <span class="p">(</span><span class="n">found</span><span class="p">)</span> <span class="k">THEN</span>
+            <span class="k">ENDIF</span>
+<span class="k">            IF</span> <span class="p">(</span><span class="n">found</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">               CALL </span><span class="n">dcopy</span><span class="p">(</span><span class="n">row_size</span><span class="o">*</span><span class="n">col_size</span><span class="p">,</span> <span class="n">rnd</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">data_d</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
             <span class="k">ELSE</span>
 <span class="k">               IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">my_keep_sparsity</span><span class="p">)</span> <span class="k">THEN</span>
@@ -374,12 +374,12 @@ public subroutine dbcsr_init_random(matrix, keep_sparsity)
                   <span class="k">CALL </span><span class="n">dcopy</span><span class="p">(</span><span class="n">row_size</span><span class="o">*</span><span class="n">col_size</span><span class="p">,</span> <span class="n">rnd</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">buff</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
                   <span class="k">CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">stored_row</span><span class="p">,</span> <span class="n">stored_col</span><span class="p">,</span> <span class="n">buff</span><span class="p">)</span>
                   <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">buff</span><span class="p">)</span>
-               <span class="n">ENDIF</span>
-            <span class="n">ENDIF</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDDO</span>
-      <span class="n">ENDDO</span>
-      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">rnd</span><span class="p">)</span>
+               <span class="k">ENDIF</span>
+<span class="k">            ENDIF</span>
+<span class="k">         ENDIF</span>
+<span class="k">      ENDDO</span>
+<span class="k">      ENDDO</span>
+<span class="k">      DEALLOCATE</span> <span class="p">(</span><span class="n">rnd</span><span class="p">)</span>
 
       <span class="k">CALL </span><span class="n">dbcsr_finalize</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>

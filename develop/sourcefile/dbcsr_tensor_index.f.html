@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -344,15 +344,15 @@
 <a name="ln-82"></a><span class="k">         </span><span class="n">map</span><span class="p">%</span><span class="n">col_major</span> <span class="o">=</span> <span class="n">col_major</span>
 <a name="ln-83"></a>      <span class="k">ELSE</span>
 <a name="ln-84"></a><span class="k">         </span><span class="n">map</span><span class="p">%</span><span class="n">col_major</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-<a name="ln-85"></a>      <span class="n">ENDIF</span>
+<a name="ln-85"></a>      <span class="k">ENDIF</span>
 <a name="ln-86"></a>
-<a name="ln-87"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">base</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-87"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">base</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-88"></a><span class="k">         </span><span class="n">map</span><span class="p">%</span><span class="n">base</span> <span class="o">=</span> <span class="n">base</span>
 <a name="ln-89"></a>      <span class="k">ELSE</span>
 <a name="ln-90"></a><span class="k">         </span><span class="n">map</span><span class="p">%</span><span class="n">base</span> <span class="o">=</span> <span class="mi">1</span>
-<a name="ln-91"></a>      <span class="n">ENDIF</span>
+<a name="ln-91"></a>      <span class="k">ENDIF</span>
 <a name="ln-92"></a>
-<a name="ln-93"></a>      <span class="n">map</span><span class="p">%</span><span class="n">ndim1_2d</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">map1_2d</span><span class="p">)</span>
+<a name="ln-93"></a><span class="k">      </span><span class="n">map</span><span class="p">%</span><span class="n">ndim1_2d</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">map1_2d</span><span class="p">)</span>
 <a name="ln-94"></a>      <span class="n">map</span><span class="p">%</span><span class="n">ndim2_2d</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">map2_2d</span><span class="p">)</span>
 <a name="ln-95"></a>      <span class="n">map</span><span class="p">%</span><span class="n">ndim_nd</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span>
 <a name="ln-96"></a>
@@ -445,30 +445,30 @@
 <a name="ln-183"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">dims_2d</span><span class="p">))</span> <span class="n">dims_2d</span><span class="p">(:)</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">map</span><span class="p">%</span><span class="n">dims_2d</span><span class="p">(:))</span>
 <a name="ln-184"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">dims_nd</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-185"></a><span class="k">         </span><span class="n">dims_nd</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">map</span><span class="p">%</span><span class="n">dims_nd</span><span class="p">(:)</span>
-<a name="ln-186"></a>      <span class="n">ENDIF</span>
-<a name="ln-187"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">dims1_2d</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-186"></a>      <span class="k">ENDIF</span>
+<a name="ln-187"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">dims1_2d</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-188"></a><span class="k">         </span><span class="n">dims1_2d</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">map</span><span class="p">%</span><span class="n">dims1_2d</span>
-<a name="ln-189"></a>      <span class="n">ENDIF</span>
-<a name="ln-190"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">dims2_2d</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-189"></a>      <span class="k">ENDIF</span>
+<a name="ln-190"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">dims2_2d</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-191"></a><span class="k">         </span><span class="n">dims2_2d</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">map</span><span class="p">%</span><span class="n">dims2_2d</span>
-<a name="ln-192"></a>      <span class="n">ENDIF</span>
-<a name="ln-193"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">map1_2d</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-192"></a>      <span class="k">ENDIF</span>
+<a name="ln-193"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">map1_2d</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-194"></a><span class="k">         </span><span class="n">map1_2d</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">map</span><span class="p">%</span><span class="n">map1_2d</span>
-<a name="ln-195"></a>      <span class="n">ENDIF</span>
-<a name="ln-196"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">map2_2d</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-195"></a>      <span class="k">ENDIF</span>
+<a name="ln-196"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">map2_2d</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-197"></a><span class="k">         </span><span class="n">map2_2d</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">map</span><span class="p">%</span><span class="n">map2_2d</span>
-<a name="ln-198"></a>      <span class="n">ENDIF</span>
-<a name="ln-199"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">map_nd</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-198"></a>      <span class="k">ENDIF</span>
+<a name="ln-199"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">map_nd</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-200"></a><span class="k">         </span><span class="n">map_nd</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">map</span><span class="p">%</span><span class="n">map_nd</span><span class="p">(:)</span>
-<a name="ln-201"></a>      <span class="n">ENDIF</span>
-<a name="ln-202"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">base</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-201"></a>      <span class="k">ENDIF</span>
+<a name="ln-202"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">base</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-203"></a><span class="k">         </span><span class="n">base</span> <span class="o">=</span> <span class="n">map</span><span class="p">%</span><span class="n">base</span>
-<a name="ln-204"></a>      <span class="n">ENDIF</span>
-<a name="ln-205"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">col_major</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-204"></a>      <span class="k">ENDIF</span>
+<a name="ln-205"></a><span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">col_major</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-206"></a><span class="k">         </span><span class="n">col_major</span> <span class="o">=</span> <span class="n">map</span><span class="p">%</span><span class="n">col_major</span>
-<a name="ln-207"></a>      <span class="n">ENDIF</span>
+<a name="ln-207"></a>      <span class="k">ENDIF</span>
 <a name="ln-208"></a>
-<a name="ln-209"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_t_get_mapping_info</span>
+<a name="ln-209"></a><span class="k">   END SUBROUTINE </span><span class="n">dbcsr_t_get_mapping_info</span>
 <a name="ln-210"></a>
 <a name="ln-211"></a>   <span class="k">PURE FUNCTION </span><span class="n">combine_tensor_index</span><span class="p">(</span><span class="n">ind_in</span><span class="p">,</span> <span class="n">dims</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">ind_out</span><span class="p">)</span>
 <a name="ln-212"></a>      <span class="c">!! transform nd index to flat index</span>
@@ -482,9 +482,9 @@
 <a name="ln-220"></a>      <span class="n">ind_out</span> <span class="o">=</span> <span class="n">ind_in</span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">dims</span><span class="p">))</span>
 <a name="ln-221"></a>      <span class="k">DO </span><span class="n">i_dim</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span>
 <a name="ln-222"></a>         <span class="n">ind_out</span> <span class="o">=</span> <span class="p">(</span><span class="n">ind_out</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">dims</span><span class="p">(</span><span class="n">i_dim</span><span class="p">)</span> <span class="o">+</span> <span class="n">ind_in</span><span class="p">(</span><span class="n">i_dim</span><span class="p">)</span>
-<a name="ln-223"></a>      <span class="n">ENDDO</span>
+<a name="ln-223"></a>      <span class="k">ENDDO</span>
 <a name="ln-224"></a>
-<a name="ln-225"></a>   <span class="k">END FUNCTION</span>
+<a name="ln-225"></a><span class="k">   END FUNCTION</span>
 <a name="ln-226"></a>
 <a name="ln-227"></a><span class="k">   PURE FUNCTION </span><span class="n">combine_pgrid_index</span><span class="p">(</span><span class="n">ind_in</span><span class="p">,</span> <span class="n">dims</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">ind_out</span><span class="p">)</span>
 <a name="ln-228"></a>      <span class="c">!! transform nd index to flat index</span>
@@ -500,8 +500,8 @@
 <a name="ln-238"></a>      <span class="n">ind_out</span> <span class="o">=</span> <span class="n">ind_in</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <a name="ln-239"></a>      <span class="k">DO </span><span class="n">i_dim</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span>
 <a name="ln-240"></a>         <span class="n">ind_out</span> <span class="o">=</span> <span class="n">ind_out</span><span class="o">*</span><span class="n">dims</span><span class="p">(</span><span class="n">i_dim</span><span class="p">)</span> <span class="o">+</span> <span class="n">ind_in</span><span class="p">(</span><span class="n">i_dim</span><span class="p">)</span>
-<a name="ln-241"></a>      <span class="n">ENDDO</span>
-<a name="ln-242"></a>   <span class="k">END FUNCTION</span>
+<a name="ln-241"></a>      <span class="k">ENDDO</span>
+<a name="ln-242"></a><span class="k">   END FUNCTION</span>
 <a name="ln-243"></a>
 <a name="ln-244"></a><span class="k">   PURE FUNCTION </span><span class="n">split_tensor_index</span><span class="p">(</span><span class="n">ind_in</span><span class="p">,</span> <span class="n">dims</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">ind_out</span><span class="p">)</span>
 <a name="ln-245"></a>      <span class="c">!! transform flat index to nd index</span>
@@ -558,13 +558,13 @@
 <a name="ln-296"></a>
 <a name="ln-297"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">map</span><span class="p">%</span><span class="n">ndim1_2d</span>
 <a name="ln-298"></a>         <span class="n">ind_tmp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">ind_in</span><span class="p">(</span><span class="n">map</span><span class="p">%</span><span class="n">map1_2d</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-<a name="ln-299"></a>      <span class="n">ENDDO</span>
-<a name="ln-300"></a>      <span class="n">ind_out</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">combine_tensor_index</span><span class="p">(</span><span class="n">ind_tmp</span><span class="p">(:</span><span class="n">map</span><span class="p">%</span><span class="n">ndim1_2d</span><span class="p">),</span> <span class="n">map</span><span class="p">%</span><span class="n">dims1_2d</span><span class="p">)</span>
+<a name="ln-299"></a>      <span class="k">ENDDO</span>
+<a name="ln-300"></a><span class="k">      </span><span class="n">ind_out</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">combine_tensor_index</span><span class="p">(</span><span class="n">ind_tmp</span><span class="p">(:</span><span class="n">map</span><span class="p">%</span><span class="n">ndim1_2d</span><span class="p">),</span> <span class="n">map</span><span class="p">%</span><span class="n">dims1_2d</span><span class="p">)</span>
 <a name="ln-301"></a>
 <a name="ln-302"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">map</span><span class="p">%</span><span class="n">ndim2_2d</span>
 <a name="ln-303"></a>         <span class="n">ind_tmp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">ind_in</span><span class="p">(</span><span class="n">map</span><span class="p">%</span><span class="n">map2_2d</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-<a name="ln-304"></a>      <span class="n">ENDDO</span>
-<a name="ln-305"></a>      <span class="n">ind_out</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">combine_tensor_index</span><span class="p">(</span><span class="n">ind_tmp</span><span class="p">(:</span><span class="n">map</span><span class="p">%</span><span class="n">ndim2_2d</span><span class="p">),</span> <span class="n">map</span><span class="p">%</span><span class="n">dims2_2d</span><span class="p">)</span>
+<a name="ln-304"></a>      <span class="k">ENDDO</span>
+<a name="ln-305"></a><span class="k">      </span><span class="n">ind_out</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">combine_tensor_index</span><span class="p">(</span><span class="n">ind_tmp</span><span class="p">(:</span><span class="n">map</span><span class="p">%</span><span class="n">ndim2_2d</span><span class="p">),</span> <span class="n">map</span><span class="p">%</span><span class="n">dims2_2d</span><span class="p">)</span>
 <a name="ln-306"></a>   <span class="k">END FUNCTION</span>
 <a name="ln-307"></a>
 <a name="ln-308"></a><span class="k">   PURE FUNCTION </span><span class="n">get_2d_indices_pgrid</span><span class="p">(</span><span class="n">map</span><span class="p">,</span> <span class="n">ind_in</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">ind_out</span><span class="p">)</span>
@@ -581,13 +581,13 @@
 <a name="ln-319"></a>
 <a name="ln-320"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">map</span><span class="p">%</span><span class="n">ndim1_2d</span>
 <a name="ln-321"></a>         <span class="n">ind_tmp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">ind_in</span><span class="p">(</span><span class="n">map</span><span class="p">%</span><span class="n">map1_2d</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-<a name="ln-322"></a>      <span class="n">ENDDO</span>
-<a name="ln-323"></a>      <span class="n">ind_out</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">combine_pgrid_index</span><span class="p">(</span><span class="n">ind_tmp</span><span class="p">(:</span><span class="n">map</span><span class="p">%</span><span class="n">ndim1_2d</span><span class="p">),</span> <span class="n">map</span><span class="p">%</span><span class="n">dims1_2d</span><span class="p">)</span>
+<a name="ln-322"></a>      <span class="k">ENDDO</span>
+<a name="ln-323"></a><span class="k">      </span><span class="n">ind_out</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">combine_pgrid_index</span><span class="p">(</span><span class="n">ind_tmp</span><span class="p">(:</span><span class="n">map</span><span class="p">%</span><span class="n">ndim1_2d</span><span class="p">),</span> <span class="n">map</span><span class="p">%</span><span class="n">dims1_2d</span><span class="p">)</span>
 <a name="ln-324"></a>
 <a name="ln-325"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">map</span><span class="p">%</span><span class="n">ndim2_2d</span>
 <a name="ln-326"></a>         <span class="n">ind_tmp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">ind_in</span><span class="p">(</span><span class="n">map</span><span class="p">%</span><span class="n">map2_2d</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-<a name="ln-327"></a>      <span class="n">ENDDO</span>
-<a name="ln-328"></a>      <span class="n">ind_out</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">combine_pgrid_index</span><span class="p">(</span><span class="n">ind_tmp</span><span class="p">(:</span><span class="n">map</span><span class="p">%</span><span class="n">ndim2_2d</span><span class="p">),</span> <span class="n">map</span><span class="p">%</span><span class="n">dims2_2d</span><span class="p">)</span>
+<a name="ln-327"></a>      <span class="k">ENDDO</span>
+<a name="ln-328"></a><span class="k">      </span><span class="n">ind_out</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="n">combine_pgrid_index</span><span class="p">(</span><span class="n">ind_tmp</span><span class="p">(:</span><span class="n">map</span><span class="p">%</span><span class="n">ndim2_2d</span><span class="p">),</span> <span class="n">map</span><span class="p">%</span><span class="n">dims2_2d</span><span class="p">)</span>
 <a name="ln-329"></a>   <span class="k">END FUNCTION</span>
 <a name="ln-330"></a>
 <a name="ln-331"></a><span class="k">   PURE FUNCTION </span><span class="n">get_nd_indices_tensor</span><span class="p">(</span><span class="n">map</span><span class="p">,</span> <span class="n">ind_in</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">ind_out</span><span class="p">)</span>
@@ -606,15 +606,15 @@
 <a name="ln-344"></a>
 <a name="ln-345"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">map</span><span class="p">%</span><span class="n">ndim1_2d</span>
 <a name="ln-346"></a>         <span class="n">ind_out</span><span class="p">(</span><span class="n">map</span><span class="p">%</span><span class="n">map1_2d</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="o">=</span> <span class="n">ind_tmp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a name="ln-347"></a>      <span class="n">ENDDO</span>
+<a name="ln-347"></a>      <span class="k">ENDDO</span>
 <a name="ln-348"></a>
-<a name="ln-349"></a>      <span class="n">ind_tmp</span><span class="p">(:</span><span class="n">map</span><span class="p">%</span><span class="n">ndim2_2d</span><span class="p">)</span> <span class="o">=</span> <span class="n">split_tensor_index</span><span class="p">(</span><span class="n">ind_in</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">map</span><span class="p">%</span><span class="n">dims2_2d</span><span class="p">)</span>
+<a name="ln-349"></a><span class="k">      </span><span class="n">ind_tmp</span><span class="p">(:</span><span class="n">map</span><span class="p">%</span><span class="n">ndim2_2d</span><span class="p">)</span> <span class="o">=</span> <span class="n">split_tensor_index</span><span class="p">(</span><span class="n">ind_in</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">map</span><span class="p">%</span><span class="n">dims2_2d</span><span class="p">)</span>
 <a name="ln-350"></a>
 <a name="ln-351"></a>      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">map</span><span class="p">%</span><span class="n">ndim2_2d</span>
 <a name="ln-352"></a>         <span class="n">ind_out</span><span class="p">(</span><span class="n">map</span><span class="p">%</span><span class="n">map2_2d</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="o">=</span> <span class="n">ind_tmp</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<a name="ln-353"></a>      <span class="n">ENDDO</span>
+<a name="ln-353"></a>      <span class="k">ENDDO</span>
 <a name="ln-354"></a>
-<a name="ln-355"></a>   <span class="k">END FUNCTION</span>
+<a name="ln-355"></a><span class="k">   END FUNCTION</span>
 <a name="ln-356"></a>
 <a name="ln-357"></a><span class="k">   PURE FUNCTION </span><span class="n">get_nd_indices_pgrid</span><span class="p">(</span><span class="n">map</span><span class="p">,</span> <span class="n">ind_in</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">ind_out</span><span class="p">)</span>
 <a name="ln-358"></a>      <span class="c">!! transform 2d index to nd index, using info from index mapping.</span>

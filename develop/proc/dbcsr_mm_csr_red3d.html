@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ public subroutine dbcsr_mm_csr_red3D(this, meta_buffer, data_buffer, flop, m_siz
   
 <tr>
   
-  <td><span class="anchor" id="variable-this~17"></span>type(<a href='../type/dbcsr_mm_csr_type.html'>dbcsr_mm_csr_type</a>),</td>
+  <td><span class="anchor" id="variable-this~7"></span>type(<a href='../type/dbcsr_mm_csr_type.html'>dbcsr_mm_csr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -244,7 +244,7 @@ public subroutine dbcsr_mm_csr_red3D(this, meta_buffer, data_buffer, flop, m_siz
   
 <tr>
   
-  <td><span class="anchor" id="variable-meta_buffer~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-meta_buffer"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -259,7 +259,7 @@ public subroutine dbcsr_mm_csr_red3D(this, meta_buffer, data_buffer, flop, m_siz
   
 <tr>
   
-  <td><span class="anchor" id="variable-data_buffer~5"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
+  <td><span class="anchor" id="variable-data_buffer~2"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -274,7 +274,7 @@ public subroutine dbcsr_mm_csr_red3D(this, meta_buffer, data_buffer, flop, m_siz
   
 <tr>
   
-  <td><span class="anchor" id="variable-flop~13"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-flop~9"></span>integer(kind=int_8),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -289,7 +289,7 @@ public subroutine dbcsr_mm_csr_red3D(this, meta_buffer, data_buffer, flop, m_siz
   
 <tr>
   
-  <td><span class="anchor" id="variable-m_sizes~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-m_sizes~5"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -304,7 +304,7 @@ public subroutine dbcsr_mm_csr_red3D(this, meta_buffer, data_buffer, flop, m_siz
   
 <tr>
   
-  <td><span class="anchor" id="variable-n_sizes~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-n_sizes~5"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -319,7 +319,7 @@ public subroutine dbcsr_mm_csr_red3D(this, meta_buffer, data_buffer, flop, m_siz
   
 <tr>
   
-  <td><span class="anchor" id="variable-g2l_map_rows~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-g2l_map_rows"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -334,7 +334,7 @@ public subroutine dbcsr_mm_csr_red3D(this, meta_buffer, data_buffer, flop, m_siz
   
 <tr>
   
-  <td><span class="anchor" id="variable-g2l_map_cols~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-g2l_map_cols"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -364,7 +364,7 @@ public subroutine dbcsr_mm_csr_red3D(this, meta_buffer, data_buffer, flop, m_siz
   
 <tr>
   
-  <td><span class="anchor" id="variable-keep_sparsity~11"></span>logical,</td>
+  <td><span class="anchor" id="variable-keep_sparsity~7"></span>logical,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -473,9 +473,9 @@ public subroutine dbcsr_mm_csr_red3D(this, meta_buffer, data_buffer, flop, m_siz
 <span class="k">         DO </span><span class="n">iblock</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">original_lastblk</span>
             <span class="n">row_i</span><span class="p">(</span><span class="n">iblock</span><span class="p">)</span> <span class="o">=</span> <span class="n">g2l_map_rows</span><span class="p">(</span><span class="n">row_i</span><span class="p">(</span><span class="n">iblock</span><span class="p">))</span>
             <span class="n">col_i</span><span class="p">(</span><span class="n">iblock</span><span class="p">)</span> <span class="o">=</span> <span class="n">g2l_map_cols</span><span class="p">(</span><span class="n">col_i</span><span class="p">(</span><span class="n">iblock</span><span class="p">))</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDIF</span>
-      <span class="n">lb_meta</span> <span class="o">=</span> <span class="n">ub_meta</span>
+         <span class="k">ENDDO</span>
+<span class="k">      ENDIF</span>
+<span class="k">      </span><span class="n">lb_meta</span> <span class="o">=</span> <span class="n">ub_meta</span>
       <span class="n">ub_meta</span> <span class="o">=</span> <span class="n">lb_meta</span> <span class="o">+</span> <span class="n">nblocks</span>
       <span class="n">blk_p</span> <span class="o">=&gt;</span> <span class="n">meta_buffer</span><span class="p">(</span><span class="n">lb_meta</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">ub_meta</span><span class="p">)</span>
       <span class="c">!</span>
@@ -490,7 +490,7 @@ public subroutine dbcsr_mm_csr_red3D(this, meta_buffer, data_buffer, flop, m_siz
          <span class="k">IF</span> <span class="p">(</span><span class="n">block_exists</span><span class="p">)</span> <span class="k">CYCLE</span>
 <span class="k">         </span><span class="n">nblks_max</span> <span class="o">=</span> <span class="n">nblks_max</span> <span class="o">+</span> <span class="mi">1</span>
          <span class="n">nze_max</span> <span class="o">=</span> <span class="n">nze_max</span> <span class="o">+</span> <span class="n">nze</span>
-      <span class="n">ENDDO</span>
+      <span class="k">ENDDO</span>
       <span class="c">! Resize buffers</span>
       <span class="k">CALL </span><span class="n">dbcsr_data_ensure_size</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">product_wm</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span> <span class="p">&amp;</span>
                                   <span class="n">nze_max</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="n">default_resize_factor</span><span class="p">,</span> <span class="n">nocopy</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span> <span class="p">&amp;</span>
@@ -524,9 +524,9 @@ public subroutine dbcsr_mm_csr_red3D(this, meta_buffer, data_buffer, flop, m_siz
             <span class="c">!</span>
             <span class="k">CALL </span><span class="n">dbcsr_block_copy_aa</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">product_wm</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span> <span class="n">data_buffer</span><span class="p">,</span> <span class="p">&amp;</span>
                                      <span class="n">m_sizes</span><span class="p">(</span><span class="n">row_i</span><span class="p">(</span><span class="n">iblock</span><span class="p">)),</span> <span class="n">n_sizes</span><span class="p">(</span><span class="n">col_i</span><span class="p">(</span><span class="n">iblock</span><span class="p">)),</span> <span class="n">lb</span><span class="p">,</span> <span class="n">lb_data</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDDO</span>
-      <span class="k">CALL </span><span class="n">dbcsr_mm_sched_set_orig_datasize</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">sched</span><span class="p">,</span> <span class="n">this</span><span class="p">%</span><span class="n">product_wm</span><span class="p">%</span><span class="n">datasize</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDDO</span>
+<span class="k">      CALL </span><span class="n">dbcsr_mm_sched_set_orig_datasize</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">sched</span><span class="p">,</span> <span class="n">this</span><span class="p">%</span><span class="n">product_wm</span><span class="p">%</span><span class="n">datasize</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_mm_csr_red3D</span>
 </pre></div>
 

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ private subroutine dbcsr_merge_all(matrix, old_row_p, old_col_i, old_blk_p, sort
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~215"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~246"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -274,7 +274,7 @@ private subroutine dbcsr_merge_all(matrix, old_row_p, old_col_i, old_blk_p, sort
   
 <tr>
   
-  <td><span class="anchor" id="variable-old_blk_p"></span>integer,</td>
+  <td><span class="anchor" id="variable-old_blk_p~3"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -429,7 +429,7 @@ private subroutine dbcsr_merge_all(matrix, old_row_p, old_col_i, old_blk_p, sort
          <span class="k">CASE </span><span class="n">default</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type&quot;</span><span class="p">)</span>
          <span class="k">END SELECT</span>
-<span class="k">      </span><span class="n">ENDIF</span>
+<span class="k">      ENDIF</span>
       <span class="c">!</span>
       <span class="c">! Initializations and some counts from the threads are summed.</span>
       <span class="c">!</span>
@@ -448,7 +448,7 @@ private subroutine dbcsr_merge_all(matrix, old_row_p, old_col_i, old_blk_p, sort
 <span class="c">!$OMP        CRITICAL (crit_data)</span>
          <span class="k">CALL </span><span class="n">dbcsr_data_hold</span><span class="p">(</span><span class="n">all_data_areas</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
 <span class="c">!$OMP        END CRITICAL (crit_data)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">! The following is valid because the data actually referenced</span>
       <span class="c">! by blocks is explicitly calculated in dbcsr_finalize.</span>
       <span class="n">all_data_sizes</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">nze</span>
@@ -461,8 +461,8 @@ private subroutine dbcsr_merge_all(matrix, old_row_p, old_col_i, old_blk_p, sort
 <span class="k">         </span><span class="n">wm_datasize</span> <span class="o">=</span> <span class="n">wm</span><span class="p">%</span><span class="n">datasize_after_filtering</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">wm_datasize</span> <span class="o">=</span> <span class="n">wm</span><span class="p">%</span><span class="n">datasize</span>
-      <span class="n">ENDIF</span>
-      <span class="n">nblks</span> <span class="o">=</span> <span class="n">wm</span><span class="p">%</span><span class="n">lastblk</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">nblks</span> <span class="o">=</span> <span class="n">wm</span><span class="p">%</span><span class="n">lastblk</span>
 <span class="c">!$OMP     ATOMIC</span>
       <span class="n">new_nblks</span> <span class="o">=</span> <span class="n">new_nblks</span> <span class="o">+</span> <span class="n">nblks</span>
 <span class="c">!$OMP     ATOMIC</span>
@@ -477,7 +477,7 @@ private subroutine dbcsr_merge_all(matrix, old_row_p, old_col_i, old_blk_p, sort
 <span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">blk_d</span><span class="p">(</span><span class="n">new_nblks</span><span class="p">))</span>
       <span class="k">ELSE</span>
 <span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">blk_d</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 <span class="c">!$OMP     END MASTER</span>
       <span class="c">!</span>
       <span class="c">! Each thread creates a row_p index for its new blocks.  This gives the</span>
@@ -493,8 +493,8 @@ private subroutine dbcsr_merge_all(matrix, old_row_p, old_col_i, old_blk_p, sort
       <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">sort_data</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="n">wm_datasize</span> <span class="o">&gt;</span> <span class="n">dbcsr_data_get_size_referenced</span><span class="p">(</span><span class="n">wm</span><span class="p">%</span><span class="n">data_area</span><span class="p">))</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Data size mismatch.&quot;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="n">all_col_i</span><span class="p">(</span><span class="n">which_wm</span><span class="p">)%</span><span class="n">p</span> <span class="o">=&gt;</span> <span class="n">wm</span><span class="p">%</span><span class="n">col_i</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">all_col_i</span><span class="p">(</span><span class="n">which_wm</span><span class="p">)%</span><span class="n">p</span> <span class="o">=&gt;</span> <span class="n">wm</span><span class="p">%</span><span class="n">col_i</span>
       <span class="n">all_blk_p</span><span class="p">(</span><span class="n">which_wm</span><span class="p">)%</span><span class="n">p</span> <span class="o">=&gt;</span> <span class="n">wm</span><span class="p">%</span><span class="n">blk_p</span>
 <span class="c">!$OMP     BARRIER</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">sort_data</span><span class="p">)</span> <span class="k">THEN</span>
@@ -511,9 +511,9 @@ private subroutine dbcsr_merge_all(matrix, old_row_p, old_col_i, old_blk_p, sort
          <span class="n">all_data_offsets</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">all_data_sizes</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
          <span class="k">DO </span><span class="n">t</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">nwms</span>
             <span class="n">all_data_offsets</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">=</span> <span class="n">all_data_offsets</span><span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">all_data_sizes</span><span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-         <span class="n">ENDDO</span>
+         <span class="k">ENDDO</span>
 <span class="c">!$OMP        END MASTER</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">!</span>
       <span class="c">! The new row counts are created, then the new row_p index is created.</span>
       <span class="c">!</span>
@@ -523,9 +523,9 @@ private subroutine dbcsr_merge_all(matrix, old_row_p, old_col_i, old_blk_p, sort
          <span class="k">DO </span><span class="n">t</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nwms</span>
             <span class="n">my_row_count</span> <span class="o">=</span> <span class="n">my_row_count</span> <span class="p">&amp;</span>
                  <span class="p">&amp;</span>       <span class="o">+</span> <span class="n">all_row_p</span><span class="p">(</span><span class="n">t</span><span class="p">)%</span><span class="n">p</span><span class="p">(</span><span class="n">row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">all_row_p</span><span class="p">(</span><span class="n">t</span><span class="p">)%</span><span class="n">p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
-         <span class="n">ENDDO</span>
-         <span class="n">new_row_p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_row_count</span>
-      <span class="n">ENDDO</span>
+         <span class="k">ENDDO</span>
+<span class="k">         </span><span class="n">new_row_p</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="o">=</span> <span class="n">my_row_count</span>
+      <span class="k">ENDDO</span>
 <span class="c">!$OMP     END DO</span>
 <span class="c">!$OMP     MASTER</span>
       <span class="n">max_row_count</span> <span class="o">=</span> <span class="nb">MAXVAL</span><span class="p">(</span><span class="n">new_row_p</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nrows</span><span class="p">))</span>
@@ -561,7 +561,7 @@ private subroutine dbcsr_merge_all(matrix, old_row_p, old_col_i, old_blk_p, sort
          <span class="c">! Data stored in the work matrices will be just appended to the</span>
          <span class="c">! current data area.</span>
          <span class="k">CALL </span><span class="n">dbcsr_data_ensure_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span> <span class="n">new_nze</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 <span class="c">!$OMP     END MASTER</span>
 <span class="c">!$OMP     BARRIER</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">sort_data</span><span class="p">)</span> <span class="k">THEN</span>
@@ -579,8 +579,8 @@ private subroutine dbcsr_merge_all(matrix, old_row_p, old_col_i, old_blk_p, sort
                                  <span class="n">src</span><span class="o">=</span><span class="n">wm</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span> <span class="p">&amp;</span>
                                  <span class="n">src_lb</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mi">1</span><span class="o">/</span><span class="p">),</span> <span class="p">&amp;</span>
                                  <span class="n">src_sizes</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="n">all_data_sizes</span><span class="p">(</span><span class="n">which_wm</span><span class="p">)</span><span class="o">/</span><span class="p">))</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
       <span class="c">!</span>
       <span class="c">! Creates a new index array.</span>
       <span class="c">!</span>
@@ -599,8 +599,8 @@ private subroutine dbcsr_merge_all(matrix, old_row_p, old_col_i, old_blk_p, sort
       <span class="k">ELSE</span>
 <span class="k">         CALL </span><span class="n">dbcsr_addto_index_array</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">dbcsr_slot_blk_p</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="k">DATA</span><span class="o">=</span><span class="n">new_blk_p</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="n">matrix</span><span class="p">%</span><span class="n">nblks</span> <span class="o">=</span> <span class="n">new_nblks</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">matrix</span><span class="p">%</span><span class="n">nblks</span> <span class="o">=</span> <span class="n">new_nblks</span>
       <span class="n">matrix</span><span class="p">%</span><span class="n">nze</span> <span class="o">=</span> <span class="n">new_nze</span>
       <span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_nblks</span><span class="p">)</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">nblks</span>
       <span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_nze</span><span class="p">)</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">nze</span>
@@ -619,9 +619,9 @@ private subroutine dbcsr_merge_all(matrix, old_row_p, old_col_i, old_blk_p, sort
 <span class="c">!$OMP           CRITICAL (crit_data)</span>
             <span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">all_data_areas</span><span class="p">(</span><span class="n">which_wm</span><span class="p">))</span>
 <span class="c">!$OMP           END CRITICAL (crit_data)</span>
-         <span class="n">ENDDO</span>
+         <span class="k">ENDDO</span>
 <span class="c">!$OMP        END MASTER</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 <span class="c">!$OMP     BARRIER</span>
 <span class="c">!$OMP     MASTER</span>
       <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">all_row_p</span><span class="p">)</span>
@@ -636,8 +636,8 @@ private subroutine dbcsr_merge_all(matrix, old_row_p, old_col_i, old_blk_p, sort
 <span class="k">         DEALLOCATE</span> <span class="p">(</span><span class="n">all_data_areas</span><span class="p">)</span>
          <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">new_blk_sizes</span><span class="p">)</span>
          <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">new_blk_p_sorted</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">blk_d</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      DEALLOCATE</span> <span class="p">(</span><span class="n">blk_d</span><span class="p">)</span>
 <span class="c">!$OMP     END MASTER</span>
 <span class="c">!$OMP     BARRIER</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; stopped&quot;</span>

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -136,21 +136,21 @@
     <div class="col-md-9 col-md-push-3" id='text'>
       <h1>Code Architecture</h1>
 <p><img alt="DBCSR code architecture" src="./dbcsr_mm_overview.png"></p>
-<div class="codehilite"><pre><span></span><code><span class="err">dbcsr/</span>
-<span class="err">-- src/</span>
-<span class="err">---- acc/: contains all code related to accelerators</span>
-<span class="err">---- base/: base routines needed to abstract away some machine/compiler dependent functionality</span>
-<span class="err">---- block/: block level routines</span>
-<span class="err">---- core/: core matrix data structure</span>
-<span class="err">---- data/: data handling</span>
-<span class="err">---- dist/: data distribution and message passing</span>
-<span class="err">---- mm/: matrix-matrix multiplication</span>
-<span class="err">---- mpi/: wrappers of the MPI routines</span>
-<span class="err">---- ops/: high level operations</span>
-<span class="err">---- tas/: tall-and-skinny matrices</span>
-<span class="err">---- tensors/: block-sparse tensor framework</span>
-<span class="err">---- utils/: utilities</span>
-<span class="err">---- work/</span>
+<div class="codehilite"><pre><span></span><code>dbcsr/
+-- src/
+---- acc/: contains all code related to accelerators
+---- base/: base routines needed to abstract away some machine/compiler dependent functionality
+---- block/: block level routines
+---- core/: core matrix data structure
+---- data/: data handling
+---- dist/: data distribution and message passing
+---- mm/: matrix-matrix multiplication
+---- mpi/: wrappers of the MPI routines
+---- ops/: high level operations
+---- tas/: tall-and-skinny matrices
+---- tensors/: block-sparse tensor framework
+---- utils/: utilities
+---- work/
 </code></pre></div>
 
 <h1>Distribution Scheme</h1>

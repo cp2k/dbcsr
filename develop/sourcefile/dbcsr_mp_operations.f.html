@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -404,8 +404,8 @@
 <a name="ln-142"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_mp_has_subgroups</span><span class="p">(</span><span class="n">mp_env</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-143"></a><span class="k">         </span><span class="n">mpe</span> <span class="o">=</span> <span class="n">mp_env</span>
 <a name="ln-144"></a>         <span class="k">CALL </span><span class="n">dbcsr_mp_grid_setup</span><span class="p">(</span><span class="n">mpe</span><span class="p">)</span>
-<a name="ln-145"></a>      <span class="n">ENDIF</span>
-<a name="ln-146"></a>      <span class="n">most_collective</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<a name="ln-145"></a>      <span class="k">ENDIF</span>
+<a name="ln-146"></a><span class="k">      </span><span class="n">most_collective</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
 <a name="ln-147"></a>      <span class="n">remainder_collective</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
 <a name="ln-148"></a>      <span class="n">no_h</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <a name="ln-149"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">most_ptp</span><span class="p">))</span> <span class="n">most_collective</span> <span class="o">=</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">most_ptp</span>
@@ -432,15 +432,15 @@
 <a name="ln-170"></a>         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">new_sdispl</span><span class="p">(</span><span class="n">numnodes</span><span class="p">),</span> <span class="n">new_rdispl</span><span class="p">(</span><span class="n">numnodes</span><span class="p">))</span>
 <a name="ln-171"></a>         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">remainder_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-172"></a><span class="k">            CALL </span><span class="n">remainder_point_to_point</span><span class="p">()</span>
-<a name="ln-173"></a>         <span class="n">ENDIF</span>
-<a name="ln-174"></a>         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">most_collective</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-173"></a>         <span class="k">ENDIF</span>
+<a name="ln-174"></a><span class="k">         IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">most_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-175"></a><span class="k">            CALL </span><span class="n">most_point_to_point</span><span class="p">()</span>
 <a name="ln-176"></a>         <span class="k">ELSE</span>
 <a name="ln-177"></a><span class="k">            CALL </span><span class="n">most_alltoall</span><span class="p">()</span>
-<a name="ln-178"></a>         <span class="n">ENDIF</span>
-<a name="ln-179"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">remainder_collective</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-178"></a>         <span class="k">ENDIF</span>
+<a name="ln-179"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">remainder_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-180"></a><span class="k">            CALL </span><span class="n">remainder_alltoall</span><span class="p">()</span>
-<a name="ln-181"></a>         <span class="n">ENDIF</span>
+<a name="ln-181"></a>         <span class="k">ENDIF</span>
 <a name="ln-182"></a>         <span class="c">! Wait for all issued sends and receives.</span>
 <a name="ln-183"></a>         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">most_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-184"></a><span class="k">            CALL </span><span class="n">mp_waitall</span><span class="p">(</span><span class="n">row_sr</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">nrow_sr</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
@@ -451,12 +451,12 @@
 <a name="ln-189"></a><span class="k">         IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">remainder_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-190"></a><span class="k">            CALL </span><span class="n">mp_waitall</span><span class="p">(</span><span class="n">all_sr</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nall_sr</span><span class="p">))</span>
 <a name="ln-191"></a>            <span class="k">CALL </span><span class="n">mp_waitall</span><span class="p">(</span><span class="n">all_rr</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nall_rr</span><span class="p">))</span>
-<a name="ln-192"></a>         <span class="n">ENDIF</span>
-<a name="ln-193"></a>      <span class="k">ELSE</span>
+<a name="ln-192"></a>         <span class="k">ENDIF</span>
+<a name="ln-193"></a><span class="k">      ELSE</span>
 <a name="ln-194"></a><span class="k">         CALL </span><span class="n">mp_alltoall</span><span class="p">(</span><span class="n">sb</span><span class="p">,</span> <span class="n">scount</span><span class="p">,</span> <span class="n">sdispl</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-195"></a>                          <span class="n">rb</span><span class="p">,</span> <span class="n">rcount</span><span class="p">,</span> <span class="n">rdispl</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-196"></a>                          <span class="n">all_group</span><span class="p">)</span>
-<a name="ln-197"></a>      <span class="n">ENDIF</span> <span class="n">subgrouped</span>
+<a name="ln-197"></a>      <span class="k">ENDIF </span><span class="n">subgrouped</span>
 <a name="ln-198"></a>   <span class="k">CONTAINS</span>
 <a name="ln-199"></a><span class="k">      SUBROUTINE </span><span class="n">most_alltoall</span><span class="p">()</span>
 <a name="ln-200"></a>         <span class="k">DO </span><span class="n">pcol</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">npcols</span> <span class="o">-</span> <span class="mi">1</span>
@@ -491,7 +491,7 @@
 <a name="ln-229"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">send_cnt</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-230"></a><span class="k">               CALL </span><span class="n">mp_isend</span><span class="p">(</span><span class="n">send_data_p</span><span class="p">,</span> <span class="n">pcol</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">row_sr</span><span class="p">(</span><span class="n">nrow_sr</span><span class="p">),</span> <span class="n">tag</span><span class="p">)</span>
 <a name="ln-231"></a>               <span class="n">nrow_sr</span> <span class="o">=</span> <span class="n">nrow_sr</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-232"></a>            <span class="n">ENDIF</span>
+<a name="ln-232"></a>            <span class="k">ENDIF</span>
 <a name="ln-233"></a>            <span class="c">!</span>
 <a name="ln-234"></a>            <span class="n">pcol</span> <span class="o">=</span> <span class="nb">MODULO</span><span class="p">(</span><span class="n">mypcol</span> <span class="o">-</span> <span class="n">i</span><span class="p">,</span> <span class="n">npcols</span><span class="p">)</span>
 <a name="ln-235"></a>            <span class="n">src</span> <span class="o">=</span> <span class="n">dbcsr_mp_get_process</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span> <span class="n">myprow</span><span class="p">,</span> <span class="n">pcol</span><span class="p">)</span>
@@ -501,8 +501,8 @@
 <a name="ln-239"></a>            <span class="k">IF</span> <span class="p">(</span><span class="n">recv_cnt</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-240"></a><span class="k">               CALL </span><span class="n">mp_irecv</span><span class="p">(</span><span class="n">recv_data_p</span><span class="p">,</span> <span class="n">pcol</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">row_rr</span><span class="p">(</span><span class="n">nrow_rr</span><span class="p">),</span> <span class="n">tag</span><span class="p">)</span>
 <a name="ln-241"></a>               <span class="n">nrow_rr</span> <span class="o">=</span> <span class="n">nrow_rr</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-242"></a>            <span class="n">ENDIF</span>
-<a name="ln-243"></a>         <span class="n">ENDDO</span>
+<a name="ln-242"></a>            <span class="k">ENDIF</span>
+<a name="ln-243"></a><span class="k">         ENDDO</span>
 <a name="ln-244"></a>         <span class="c">! go through my pcol and exchange</span>
 <a name="ln-245"></a>         <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nprows</span> <span class="o">-</span> <span class="mi">1</span>
 <a name="ln-246"></a>            <span class="n">prow</span> <span class="o">=</span> <span class="nb">MOD</span><span class="p">(</span><span class="n">myprow</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">nprows</span><span class="p">)</span>
@@ -515,7 +515,7 @@
 <a name="ln-253"></a>               <span class="n">tag</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">myprow</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-254"></a>               <span class="k">CALL </span><span class="n">mp_isend</span><span class="p">(</span><span class="n">send_data_p</span><span class="p">,</span> <span class="n">prow</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">col_sr</span><span class="p">(</span><span class="n">ncol_sr</span><span class="p">),</span> <span class="n">tag</span><span class="p">)</span>
 <a name="ln-255"></a>               <span class="n">ncol_sr</span> <span class="o">=</span> <span class="n">ncol_sr</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-256"></a>            <span class="n">ENDIF</span>
+<a name="ln-256"></a>            <span class="k">ENDIF</span>
 <a name="ln-257"></a>            <span class="c">!</span>
 <a name="ln-258"></a>            <span class="n">prow</span> <span class="o">=</span> <span class="nb">MODULO</span><span class="p">(</span><span class="n">myprow</span> <span class="o">-</span> <span class="n">i</span><span class="p">,</span> <span class="n">nprows</span><span class="p">)</span>
 <a name="ln-259"></a>            <span class="n">src</span> <span class="o">=</span> <span class="n">dbcsr_mp_get_process</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span> <span class="n">prow</span><span class="p">,</span> <span class="n">mypcol</span><span class="p">)</span>
@@ -525,9 +525,9 @@
 <a name="ln-263"></a>               <span class="n">tag</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">prow</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-264"></a>               <span class="k">CALL </span><span class="n">mp_irecv</span><span class="p">(</span><span class="n">recv_data_p</span><span class="p">,</span> <span class="n">prow</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">col_rr</span><span class="p">(</span><span class="n">ncol_rr</span><span class="p">),</span> <span class="n">tag</span><span class="p">)</span>
 <a name="ln-265"></a>               <span class="n">ncol_rr</span> <span class="o">=</span> <span class="n">ncol_rr</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-266"></a>            <span class="n">ENDIF</span>
-<a name="ln-267"></a>         <span class="n">ENDDO</span>
-<a name="ln-268"></a>      <span class="k">END SUBROUTINE </span><span class="n">most_point_to_point</span>
+<a name="ln-266"></a>            <span class="k">ENDIF</span>
+<a name="ln-267"></a><span class="k">         ENDDO</span>
+<a name="ln-268"></a><span class="k">      END SUBROUTINE </span><span class="n">most_point_to_point</span>
 <a name="ln-269"></a>      <span class="k">SUBROUTINE </span><span class="n">remainder_alltoall</span><span class="p">()</span>
 <a name="ln-270"></a>         <span class="n">new_scount</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">scount</span><span class="p">(:)</span>
 <a name="ln-271"></a>         <span class="n">new_rcount</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">rcount</span><span class="p">(:)</span>
@@ -558,7 +558,7 @@
 <a name="ln-296"></a>                  <span class="n">send_data_p</span> <span class="o">=&gt;</span> <span class="n">sb</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">sdispl</span><span class="p">(</span><span class="n">dst</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span><span class="mi">1</span> <span class="o">+</span> <span class="n">sdispl</span><span class="p">(</span><span class="n">dst</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">send_cnt</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
 <a name="ln-297"></a>                  <span class="k">CALL </span><span class="n">mp_isend</span><span class="p">(</span><span class="n">send_data_p</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="n">all_group</span><span class="p">,</span> <span class="n">all_sr</span><span class="p">(</span><span class="n">nall_sr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">tag</span><span class="p">)</span>
 <a name="ln-298"></a>                  <span class="n">nall_sr</span> <span class="o">=</span> <span class="n">nall_sr</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-299"></a>               <span class="n">ENDIF</span>
+<a name="ln-299"></a>               <span class="k">ENDIF</span>
 <a name="ln-300"></a>               <span class="c">!</span>
 <a name="ln-301"></a>               <span class="n">src</span> <span class="o">=</span> <span class="n">dbcsr_mp_get_process</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span> <span class="n">prow</span><span class="p">,</span> <span class="n">pcol</span><span class="p">)</span>
 <a name="ln-302"></a>               <span class="n">recv_cnt</span> <span class="o">=</span> <span class="n">rcount</span><span class="p">(</span><span class="n">src</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
@@ -567,10 +567,10 @@
 <a name="ln-305"></a>                  <span class="n">tag</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">src</span> <span class="o">+</span> <span class="mi">2</span>
 <a name="ln-306"></a>                  <span class="k">CALL </span><span class="n">mp_irecv</span><span class="p">(</span><span class="n">recv_data_p</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">all_group</span><span class="p">,</span> <span class="n">all_rr</span><span class="p">(</span><span class="n">nall_rr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">tag</span><span class="p">)</span>
 <a name="ln-307"></a>                  <span class="n">nall_rr</span> <span class="o">=</span> <span class="n">nall_rr</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-308"></a>               <span class="n">ENDIF</span>
-<a name="ln-309"></a>            <span class="n">ENDDO</span>
-<a name="ln-310"></a>         <span class="n">ENDDO</span>
-<a name="ln-311"></a>      <span class="k">END SUBROUTINE </span><span class="n">remainder_point_to_point</span>
+<a name="ln-308"></a>               <span class="k">ENDIF</span>
+<a name="ln-309"></a><span class="k">            ENDDO</span>
+<a name="ln-310"></a><span class="k">         ENDDO</span>
+<a name="ln-311"></a><span class="k">      END SUBROUTINE </span><span class="n">remainder_point_to_point</span>
 <a name="ln-312"></a>   <span class="k">END SUBROUTINE </span><span class="n">hybrid_alltoall_i1</span>
 <a name="ln-313"></a>
 <a name="ln-314"></a>   <span class="k">FUNCTION </span><span class="n">dbcsr_mp_type_from_anytype</span><span class="p">(</span><span class="n">data_area</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">mp_type</span><span class="p">)</span>
@@ -899,8 +899,8 @@
 <a name="ln-637"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_mp_has_subgroups</span><span class="p">(</span><span class="n">mp_env</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-638"></a><span class="k">         </span><span class="n">mpe</span> <span class="o">=</span> <span class="n">mp_env</span>
 <a name="ln-639"></a>         <span class="k">CALL </span><span class="n">dbcsr_mp_grid_setup</span><span class="p">(</span><span class="n">mpe</span><span class="p">)</span>
-<a name="ln-640"></a>      <span class="n">ENDIF</span>
-<a name="ln-641"></a>      <span class="n">most_collective</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<a name="ln-640"></a>      <span class="k">ENDIF</span>
+<a name="ln-641"></a><span class="k">      </span><span class="n">most_collective</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
 <a name="ln-642"></a>      <span class="n">remainder_collective</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
 <a name="ln-643"></a>      <span class="n">no_h</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <a name="ln-644"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">most_ptp</span><span class="p">))</span> <span class="n">most_collective</span> <span class="o">=</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">most_ptp</span>
@@ -927,15 +927,15 @@
 <a name="ln-665"></a>         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">new_sdispl</span><span class="p">(</span><span class="n">numnodes</span><span class="p">),</span> <span class="n">new_rdispl</span><span class="p">(</span><span class="n">numnodes</span><span class="p">))</span>
 <a name="ln-666"></a>         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">remainder_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-667"></a><span class="k">            CALL </span><span class="n">remainder_point_to_point</span><span class="p">()</span>
-<a name="ln-668"></a>         <span class="n">ENDIF</span>
-<a name="ln-669"></a>         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">most_collective</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-668"></a>         <span class="k">ENDIF</span>
+<a name="ln-669"></a><span class="k">         IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">most_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-670"></a><span class="k">            CALL </span><span class="n">most_point_to_point</span><span class="p">()</span>
 <a name="ln-671"></a>         <span class="k">ELSE</span>
 <a name="ln-672"></a><span class="k">            CALL </span><span class="n">most_alltoall</span><span class="p">()</span>
-<a name="ln-673"></a>         <span class="n">ENDIF</span>
-<a name="ln-674"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">remainder_collective</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-673"></a>         <span class="k">ENDIF</span>
+<a name="ln-674"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">remainder_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-675"></a><span class="k">            CALL </span><span class="n">remainder_alltoall</span><span class="p">()</span>
-<a name="ln-676"></a>         <span class="n">ENDIF</span>
+<a name="ln-676"></a>         <span class="k">ENDIF</span>
 <a name="ln-677"></a>         <span class="c">! Wait for all issued sends and receives.</span>
 <a name="ln-678"></a>         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">most_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-679"></a><span class="k">            CALL </span><span class="n">mp_waitall</span><span class="p">(</span><span class="n">row_sr</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">nrow_sr</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
@@ -946,12 +946,12 @@
 <a name="ln-684"></a><span class="k">         IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">remainder_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-685"></a><span class="k">            CALL </span><span class="n">mp_waitall</span><span class="p">(</span><span class="n">all_sr</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nall_sr</span><span class="p">))</span>
 <a name="ln-686"></a>            <span class="k">CALL </span><span class="n">mp_waitall</span><span class="p">(</span><span class="n">all_rr</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nall_rr</span><span class="p">))</span>
-<a name="ln-687"></a>         <span class="n">ENDIF</span>
-<a name="ln-688"></a>      <span class="k">ELSE</span>
+<a name="ln-687"></a>         <span class="k">ENDIF</span>
+<a name="ln-688"></a><span class="k">      ELSE</span>
 <a name="ln-689"></a><span class="k">         CALL </span><span class="n">mp_alltoall</span><span class="p">(</span><span class="n">sb</span><span class="p">,</span> <span class="n">scount</span><span class="p">,</span> <span class="n">sdispl</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-690"></a>                          <span class="n">rb</span><span class="p">,</span> <span class="n">rcount</span><span class="p">,</span> <span class="n">rdispl</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-691"></a>                          <span class="n">all_group</span><span class="p">)</span>
-<a name="ln-692"></a>      <span class="n">ENDIF</span> <span class="n">subgrouped</span>
+<a name="ln-692"></a>      <span class="k">ENDIF </span><span class="n">subgrouped</span>
 <a name="ln-693"></a>   <span class="k">CONTAINS</span>
 <a name="ln-694"></a><span class="k">      SUBROUTINE </span><span class="n">most_alltoall</span><span class="p">()</span>
 <a name="ln-695"></a>         <span class="k">DO </span><span class="n">pcol</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">npcols</span> <span class="o">-</span> <span class="mi">1</span>
@@ -987,8 +987,8 @@
 <a name="ln-725"></a><span class="k">                  </span><span class="n">tag</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">mypcol</span>
 <a name="ln-726"></a>                  <span class="k">CALL </span><span class="n">mp_isend</span><span class="p">(</span><span class="n">send_data_p</span><span class="p">,</span> <span class="n">pcol</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">row_sr</span><span class="p">(</span><span class="n">nrow_sr</span><span class="p">),</span> <span class="n">tag</span><span class="p">)</span>
 <a name="ln-727"></a>                  <span class="n">nrow_sr</span> <span class="o">=</span> <span class="n">nrow_sr</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-728"></a>               <span class="n">ENDIF</span>
-<a name="ln-729"></a>            <span class="n">ENDIF</span>
+<a name="ln-728"></a>               <span class="k">ENDIF</span>
+<a name="ln-729"></a><span class="k">            ENDIF</span>
 <a name="ln-730"></a>            <span class="c">!</span>
 <a name="ln-731"></a>            <span class="n">pcol</span> <span class="o">=</span> <span class="nb">MODULO</span><span class="p">(</span><span class="n">mypcol</span> <span class="o">-</span> <span class="n">i</span><span class="p">,</span> <span class="n">npcols</span><span class="p">)</span>
 <a name="ln-732"></a>            <span class="n">src</span> <span class="o">=</span> <span class="n">dbcsr_mp_get_process</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span> <span class="n">myprow</span><span class="p">,</span> <span class="n">pcol</span><span class="p">)</span>
@@ -1001,9 +1001,9 @@
 <a name="ln-739"></a>                  <span class="n">nrow_rr</span> <span class="o">=</span> <span class="n">nrow_rr</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-740"></a>               <span class="k">ELSE</span>
 <a name="ln-741"></a><span class="k">                  CALL </span><span class="n">memory_copy</span><span class="p">(</span><span class="n">recv_data_p</span><span class="p">,</span> <span class="n">send_data_p</span><span class="p">,</span> <span class="n">recv_cnt</span><span class="p">)</span>
-<a name="ln-742"></a>               <span class="n">ENDIF</span>
-<a name="ln-743"></a>            <span class="n">ENDIF</span>
-<a name="ln-744"></a>         <span class="n">ENDDO</span>
+<a name="ln-742"></a>               <span class="k">ENDIF</span>
+<a name="ln-743"></a><span class="k">            ENDIF</span>
+<a name="ln-744"></a><span class="k">         ENDDO</span>
 <a name="ln-745"></a>         <span class="c">! go through my pcol and exchange</span>
 <a name="ln-746"></a>         <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nprows</span> <span class="o">-</span> <span class="mi">1</span>
 <a name="ln-747"></a>            <span class="n">prow</span> <span class="o">=</span> <span class="nb">MOD</span><span class="p">(</span><span class="n">myprow</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">nprows</span><span class="p">)</span>
@@ -1017,8 +1017,8 @@
 <a name="ln-755"></a><span class="k">                  </span><span class="n">tag</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">myprow</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-756"></a>                  <span class="k">CALL </span><span class="n">mp_isend</span><span class="p">(</span><span class="n">send_data_p</span><span class="p">,</span> <span class="n">prow</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">col_sr</span><span class="p">(</span><span class="n">ncol_sr</span><span class="p">),</span> <span class="n">tag</span><span class="p">)</span>
 <a name="ln-757"></a>                  <span class="n">ncol_sr</span> <span class="o">=</span> <span class="n">ncol_sr</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-758"></a>               <span class="n">ENDIF</span>
-<a name="ln-759"></a>            <span class="n">ENDIF</span>
+<a name="ln-758"></a>               <span class="k">ENDIF</span>
+<a name="ln-759"></a><span class="k">            ENDIF</span>
 <a name="ln-760"></a>            <span class="c">!</span>
 <a name="ln-761"></a>            <span class="n">prow</span> <span class="o">=</span> <span class="nb">MODULO</span><span class="p">(</span><span class="n">myprow</span> <span class="o">-</span> <span class="n">i</span><span class="p">,</span> <span class="n">nprows</span><span class="p">)</span>
 <a name="ln-762"></a>            <span class="n">src</span> <span class="o">=</span> <span class="n">dbcsr_mp_get_process</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span> <span class="n">prow</span><span class="p">,</span> <span class="n">mypcol</span><span class="p">)</span>
@@ -1031,10 +1031,10 @@
 <a name="ln-769"></a>                  <span class="n">ncol_rr</span> <span class="o">=</span> <span class="n">ncol_rr</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-770"></a>               <span class="k">ELSE</span>
 <a name="ln-771"></a><span class="k">                  CALL </span><span class="n">memory_copy</span><span class="p">(</span><span class="n">recv_data_p</span><span class="p">,</span> <span class="n">send_data_p</span><span class="p">,</span> <span class="n">recv_cnt</span><span class="p">)</span>
-<a name="ln-772"></a>               <span class="n">ENDIF</span>
-<a name="ln-773"></a>            <span class="n">ENDIF</span>
-<a name="ln-774"></a>         <span class="n">ENDDO</span>
-<a name="ln-775"></a>      <span class="k">END SUBROUTINE </span><span class="n">most_point_to_point</span>
+<a name="ln-772"></a>               <span class="k">ENDIF</span>
+<a name="ln-773"></a><span class="k">            ENDIF</span>
+<a name="ln-774"></a><span class="k">         ENDDO</span>
+<a name="ln-775"></a><span class="k">      END SUBROUTINE </span><span class="n">most_point_to_point</span>
 <a name="ln-776"></a>      <span class="k">SUBROUTINE </span><span class="n">remainder_alltoall</span><span class="p">()</span>
 <a name="ln-777"></a>         <span class="n">new_scount</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">scount</span><span class="p">(:)</span>
 <a name="ln-778"></a>         <span class="n">new_rcount</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">rcount</span><span class="p">(:)</span>
@@ -1065,7 +1065,7 @@
 <a name="ln-803"></a>                  <span class="n">tag</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">mynode</span> <span class="o">+</span> <span class="mi">2</span>
 <a name="ln-804"></a>                  <span class="k">CALL </span><span class="n">mp_isend</span><span class="p">(</span><span class="n">send_data_p</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="n">all_group</span><span class="p">,</span> <span class="n">all_sr</span><span class="p">(</span><span class="n">nall_sr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">tag</span><span class="p">)</span>
 <a name="ln-805"></a>                  <span class="n">nall_sr</span> <span class="o">=</span> <span class="n">nall_sr</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-806"></a>               <span class="n">ENDIF</span>
+<a name="ln-806"></a>               <span class="k">ENDIF</span>
 <a name="ln-807"></a>               <span class="c">!</span>
 <a name="ln-808"></a>               <span class="n">src</span> <span class="o">=</span> <span class="n">dbcsr_mp_get_process</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span> <span class="n">prow</span><span class="p">,</span> <span class="n">pcol</span><span class="p">)</span>
 <a name="ln-809"></a>               <span class="n">recv_cnt</span> <span class="o">=</span> <span class="n">rcount</span><span class="p">(</span><span class="n">src</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
@@ -1074,10 +1074,10 @@
 <a name="ln-812"></a>                  <span class="n">tag</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">src</span> <span class="o">+</span> <span class="mi">2</span>
 <a name="ln-813"></a>                  <span class="k">CALL </span><span class="n">mp_irecv</span><span class="p">(</span><span class="n">recv_data_p</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">all_group</span><span class="p">,</span> <span class="n">all_rr</span><span class="p">(</span><span class="n">nall_rr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">tag</span><span class="p">)</span>
 <a name="ln-814"></a>                  <span class="n">nall_rr</span> <span class="o">=</span> <span class="n">nall_rr</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-815"></a>               <span class="n">ENDIF</span>
-<a name="ln-816"></a>            <span class="n">ENDDO</span>
-<a name="ln-817"></a>         <span class="n">ENDDO</span>
-<a name="ln-818"></a>      <span class="k">END SUBROUTINE </span><span class="n">remainder_point_to_point</span>
+<a name="ln-815"></a>               <span class="k">ENDIF</span>
+<a name="ln-816"></a><span class="k">            ENDDO</span>
+<a name="ln-817"></a><span class="k">         ENDDO</span>
+<a name="ln-818"></a><span class="k">      END SUBROUTINE </span><span class="n">remainder_point_to_point</span>
 <a name="ln-819"></a>   <span class="k">END SUBROUTINE </span><span class="n">hybrid_alltoall_d1</span>
 <a name="ln-820"></a><span class="cp"># 594 &quot;/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F&quot;</span>
 <a name="ln-821"></a>   <span class="k">SUBROUTINE </span><span class="n">hybrid_alltoall_s1</span><span class="p">(</span><span class="n">sb</span><span class="p">,</span> <span class="n">scount</span><span class="p">,</span> <span class="n">sdispl</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -1119,8 +1119,8 @@
 <a name="ln-857"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_mp_has_subgroups</span><span class="p">(</span><span class="n">mp_env</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-858"></a><span class="k">         </span><span class="n">mpe</span> <span class="o">=</span> <span class="n">mp_env</span>
 <a name="ln-859"></a>         <span class="k">CALL </span><span class="n">dbcsr_mp_grid_setup</span><span class="p">(</span><span class="n">mpe</span><span class="p">)</span>
-<a name="ln-860"></a>      <span class="n">ENDIF</span>
-<a name="ln-861"></a>      <span class="n">most_collective</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<a name="ln-860"></a>      <span class="k">ENDIF</span>
+<a name="ln-861"></a><span class="k">      </span><span class="n">most_collective</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
 <a name="ln-862"></a>      <span class="n">remainder_collective</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
 <a name="ln-863"></a>      <span class="n">no_h</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <a name="ln-864"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">most_ptp</span><span class="p">))</span> <span class="n">most_collective</span> <span class="o">=</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">most_ptp</span>
@@ -1147,15 +1147,15 @@
 <a name="ln-885"></a>         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">new_sdispl</span><span class="p">(</span><span class="n">numnodes</span><span class="p">),</span> <span class="n">new_rdispl</span><span class="p">(</span><span class="n">numnodes</span><span class="p">))</span>
 <a name="ln-886"></a>         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">remainder_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-887"></a><span class="k">            CALL </span><span class="n">remainder_point_to_point</span><span class="p">()</span>
-<a name="ln-888"></a>         <span class="n">ENDIF</span>
-<a name="ln-889"></a>         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">most_collective</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-888"></a>         <span class="k">ENDIF</span>
+<a name="ln-889"></a><span class="k">         IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">most_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-890"></a><span class="k">            CALL </span><span class="n">most_point_to_point</span><span class="p">()</span>
 <a name="ln-891"></a>         <span class="k">ELSE</span>
 <a name="ln-892"></a><span class="k">            CALL </span><span class="n">most_alltoall</span><span class="p">()</span>
-<a name="ln-893"></a>         <span class="n">ENDIF</span>
-<a name="ln-894"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">remainder_collective</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-893"></a>         <span class="k">ENDIF</span>
+<a name="ln-894"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">remainder_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-895"></a><span class="k">            CALL </span><span class="n">remainder_alltoall</span><span class="p">()</span>
-<a name="ln-896"></a>         <span class="n">ENDIF</span>
+<a name="ln-896"></a>         <span class="k">ENDIF</span>
 <a name="ln-897"></a>         <span class="c">! Wait for all issued sends and receives.</span>
 <a name="ln-898"></a>         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">most_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-899"></a><span class="k">            CALL </span><span class="n">mp_waitall</span><span class="p">(</span><span class="n">row_sr</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">nrow_sr</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
@@ -1166,12 +1166,12 @@
 <a name="ln-904"></a><span class="k">         IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">remainder_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-905"></a><span class="k">            CALL </span><span class="n">mp_waitall</span><span class="p">(</span><span class="n">all_sr</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nall_sr</span><span class="p">))</span>
 <a name="ln-906"></a>            <span class="k">CALL </span><span class="n">mp_waitall</span><span class="p">(</span><span class="n">all_rr</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nall_rr</span><span class="p">))</span>
-<a name="ln-907"></a>         <span class="n">ENDIF</span>
-<a name="ln-908"></a>      <span class="k">ELSE</span>
+<a name="ln-907"></a>         <span class="k">ENDIF</span>
+<a name="ln-908"></a><span class="k">      ELSE</span>
 <a name="ln-909"></a><span class="k">         CALL </span><span class="n">mp_alltoall</span><span class="p">(</span><span class="n">sb</span><span class="p">,</span> <span class="n">scount</span><span class="p">,</span> <span class="n">sdispl</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-910"></a>                          <span class="n">rb</span><span class="p">,</span> <span class="n">rcount</span><span class="p">,</span> <span class="n">rdispl</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-911"></a>                          <span class="n">all_group</span><span class="p">)</span>
-<a name="ln-912"></a>      <span class="n">ENDIF</span> <span class="n">subgrouped</span>
+<a name="ln-912"></a>      <span class="k">ENDIF </span><span class="n">subgrouped</span>
 <a name="ln-913"></a>   <span class="k">CONTAINS</span>
 <a name="ln-914"></a><span class="k">      SUBROUTINE </span><span class="n">most_alltoall</span><span class="p">()</span>
 <a name="ln-915"></a>         <span class="k">DO </span><span class="n">pcol</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">npcols</span> <span class="o">-</span> <span class="mi">1</span>
@@ -1207,8 +1207,8 @@
 <a name="ln-945"></a><span class="k">                  </span><span class="n">tag</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">mypcol</span>
 <a name="ln-946"></a>                  <span class="k">CALL </span><span class="n">mp_isend</span><span class="p">(</span><span class="n">send_data_p</span><span class="p">,</span> <span class="n">pcol</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">row_sr</span><span class="p">(</span><span class="n">nrow_sr</span><span class="p">),</span> <span class="n">tag</span><span class="p">)</span>
 <a name="ln-947"></a>                  <span class="n">nrow_sr</span> <span class="o">=</span> <span class="n">nrow_sr</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-948"></a>               <span class="n">ENDIF</span>
-<a name="ln-949"></a>            <span class="n">ENDIF</span>
+<a name="ln-948"></a>               <span class="k">ENDIF</span>
+<a name="ln-949"></a><span class="k">            ENDIF</span>
 <a name="ln-950"></a>            <span class="c">!</span>
 <a name="ln-951"></a>            <span class="n">pcol</span> <span class="o">=</span> <span class="nb">MODULO</span><span class="p">(</span><span class="n">mypcol</span> <span class="o">-</span> <span class="n">i</span><span class="p">,</span> <span class="n">npcols</span><span class="p">)</span>
 <a name="ln-952"></a>            <span class="n">src</span> <span class="o">=</span> <span class="n">dbcsr_mp_get_process</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span> <span class="n">myprow</span><span class="p">,</span> <span class="n">pcol</span><span class="p">)</span>
@@ -1221,9 +1221,9 @@
 <a name="ln-959"></a>                  <span class="n">nrow_rr</span> <span class="o">=</span> <span class="n">nrow_rr</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-960"></a>               <span class="k">ELSE</span>
 <a name="ln-961"></a><span class="k">                  CALL </span><span class="n">memory_copy</span><span class="p">(</span><span class="n">recv_data_p</span><span class="p">,</span> <span class="n">send_data_p</span><span class="p">,</span> <span class="n">recv_cnt</span><span class="p">)</span>
-<a name="ln-962"></a>               <span class="n">ENDIF</span>
-<a name="ln-963"></a>            <span class="n">ENDIF</span>
-<a name="ln-964"></a>         <span class="n">ENDDO</span>
+<a name="ln-962"></a>               <span class="k">ENDIF</span>
+<a name="ln-963"></a><span class="k">            ENDIF</span>
+<a name="ln-964"></a><span class="k">         ENDDO</span>
 <a name="ln-965"></a>         <span class="c">! go through my pcol and exchange</span>
 <a name="ln-966"></a>         <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nprows</span> <span class="o">-</span> <span class="mi">1</span>
 <a name="ln-967"></a>            <span class="n">prow</span> <span class="o">=</span> <span class="nb">MOD</span><span class="p">(</span><span class="n">myprow</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">nprows</span><span class="p">)</span>
@@ -1237,8 +1237,8 @@
 <a name="ln-975"></a><span class="k">                  </span><span class="n">tag</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">myprow</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-976"></a>                  <span class="k">CALL </span><span class="n">mp_isend</span><span class="p">(</span><span class="n">send_data_p</span><span class="p">,</span> <span class="n">prow</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">col_sr</span><span class="p">(</span><span class="n">ncol_sr</span><span class="p">),</span> <span class="n">tag</span><span class="p">)</span>
 <a name="ln-977"></a>                  <span class="n">ncol_sr</span> <span class="o">=</span> <span class="n">ncol_sr</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-978"></a>               <span class="n">ENDIF</span>
-<a name="ln-979"></a>            <span class="n">ENDIF</span>
+<a name="ln-978"></a>               <span class="k">ENDIF</span>
+<a name="ln-979"></a><span class="k">            ENDIF</span>
 <a name="ln-980"></a>            <span class="c">!</span>
 <a name="ln-981"></a>            <span class="n">prow</span> <span class="o">=</span> <span class="nb">MODULO</span><span class="p">(</span><span class="n">myprow</span> <span class="o">-</span> <span class="n">i</span><span class="p">,</span> <span class="n">nprows</span><span class="p">)</span>
 <a name="ln-982"></a>            <span class="n">src</span> <span class="o">=</span> <span class="n">dbcsr_mp_get_process</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span> <span class="n">prow</span><span class="p">,</span> <span class="n">mypcol</span><span class="p">)</span>
@@ -1251,10 +1251,10 @@
 <a name="ln-989"></a>                  <span class="n">ncol_rr</span> <span class="o">=</span> <span class="n">ncol_rr</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-990"></a>               <span class="k">ELSE</span>
 <a name="ln-991"></a><span class="k">                  CALL </span><span class="n">memory_copy</span><span class="p">(</span><span class="n">recv_data_p</span><span class="p">,</span> <span class="n">send_data_p</span><span class="p">,</span> <span class="n">recv_cnt</span><span class="p">)</span>
-<a name="ln-992"></a>               <span class="n">ENDIF</span>
-<a name="ln-993"></a>            <span class="n">ENDIF</span>
-<a name="ln-994"></a>         <span class="n">ENDDO</span>
-<a name="ln-995"></a>      <span class="k">END SUBROUTINE </span><span class="n">most_point_to_point</span>
+<a name="ln-992"></a>               <span class="k">ENDIF</span>
+<a name="ln-993"></a><span class="k">            ENDIF</span>
+<a name="ln-994"></a><span class="k">         ENDDO</span>
+<a name="ln-995"></a><span class="k">      END SUBROUTINE </span><span class="n">most_point_to_point</span>
 <a name="ln-996"></a>      <span class="k">SUBROUTINE </span><span class="n">remainder_alltoall</span><span class="p">()</span>
 <a name="ln-997"></a>         <span class="n">new_scount</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">scount</span><span class="p">(:)</span>
 <a name="ln-998"></a>         <span class="n">new_rcount</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">rcount</span><span class="p">(:)</span>
@@ -1285,7 +1285,7 @@
 <a name="ln-1023"></a>                  <span class="n">tag</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">mynode</span> <span class="o">+</span> <span class="mi">2</span>
 <a name="ln-1024"></a>                  <span class="k">CALL </span><span class="n">mp_isend</span><span class="p">(</span><span class="n">send_data_p</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="n">all_group</span><span class="p">,</span> <span class="n">all_sr</span><span class="p">(</span><span class="n">nall_sr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">tag</span><span class="p">)</span>
 <a name="ln-1025"></a>                  <span class="n">nall_sr</span> <span class="o">=</span> <span class="n">nall_sr</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-1026"></a>               <span class="n">ENDIF</span>
+<a name="ln-1026"></a>               <span class="k">ENDIF</span>
 <a name="ln-1027"></a>               <span class="c">!</span>
 <a name="ln-1028"></a>               <span class="n">src</span> <span class="o">=</span> <span class="n">dbcsr_mp_get_process</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span> <span class="n">prow</span><span class="p">,</span> <span class="n">pcol</span><span class="p">)</span>
 <a name="ln-1029"></a>               <span class="n">recv_cnt</span> <span class="o">=</span> <span class="n">rcount</span><span class="p">(</span><span class="n">src</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
@@ -1294,10 +1294,10 @@
 <a name="ln-1032"></a>                  <span class="n">tag</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">src</span> <span class="o">+</span> <span class="mi">2</span>
 <a name="ln-1033"></a>                  <span class="k">CALL </span><span class="n">mp_irecv</span><span class="p">(</span><span class="n">recv_data_p</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">all_group</span><span class="p">,</span> <span class="n">all_rr</span><span class="p">(</span><span class="n">nall_rr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">tag</span><span class="p">)</span>
 <a name="ln-1034"></a>                  <span class="n">nall_rr</span> <span class="o">=</span> <span class="n">nall_rr</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-1035"></a>               <span class="n">ENDIF</span>
-<a name="ln-1036"></a>            <span class="n">ENDDO</span>
-<a name="ln-1037"></a>         <span class="n">ENDDO</span>
-<a name="ln-1038"></a>      <span class="k">END SUBROUTINE </span><span class="n">remainder_point_to_point</span>
+<a name="ln-1035"></a>               <span class="k">ENDIF</span>
+<a name="ln-1036"></a><span class="k">            ENDDO</span>
+<a name="ln-1037"></a><span class="k">         ENDDO</span>
+<a name="ln-1038"></a><span class="k">      END SUBROUTINE </span><span class="n">remainder_point_to_point</span>
 <a name="ln-1039"></a>   <span class="k">END SUBROUTINE </span><span class="n">hybrid_alltoall_s1</span>
 <a name="ln-1040"></a><span class="cp"># 594 &quot;/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F&quot;</span>
 <a name="ln-1041"></a>   <span class="k">SUBROUTINE </span><span class="n">hybrid_alltoall_z1</span><span class="p">(</span><span class="n">sb</span><span class="p">,</span> <span class="n">scount</span><span class="p">,</span> <span class="n">sdispl</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -1339,8 +1339,8 @@
 <a name="ln-1077"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_mp_has_subgroups</span><span class="p">(</span><span class="n">mp_env</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-1078"></a><span class="k">         </span><span class="n">mpe</span> <span class="o">=</span> <span class="n">mp_env</span>
 <a name="ln-1079"></a>         <span class="k">CALL </span><span class="n">dbcsr_mp_grid_setup</span><span class="p">(</span><span class="n">mpe</span><span class="p">)</span>
-<a name="ln-1080"></a>      <span class="n">ENDIF</span>
-<a name="ln-1081"></a>      <span class="n">most_collective</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<a name="ln-1080"></a>      <span class="k">ENDIF</span>
+<a name="ln-1081"></a><span class="k">      </span><span class="n">most_collective</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
 <a name="ln-1082"></a>      <span class="n">remainder_collective</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
 <a name="ln-1083"></a>      <span class="n">no_h</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <a name="ln-1084"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">most_ptp</span><span class="p">))</span> <span class="n">most_collective</span> <span class="o">=</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">most_ptp</span>
@@ -1367,15 +1367,15 @@
 <a name="ln-1105"></a>         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">new_sdispl</span><span class="p">(</span><span class="n">numnodes</span><span class="p">),</span> <span class="n">new_rdispl</span><span class="p">(</span><span class="n">numnodes</span><span class="p">))</span>
 <a name="ln-1106"></a>         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">remainder_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-1107"></a><span class="k">            CALL </span><span class="n">remainder_point_to_point</span><span class="p">()</span>
-<a name="ln-1108"></a>         <span class="n">ENDIF</span>
-<a name="ln-1109"></a>         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">most_collective</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-1108"></a>         <span class="k">ENDIF</span>
+<a name="ln-1109"></a><span class="k">         IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">most_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-1110"></a><span class="k">            CALL </span><span class="n">most_point_to_point</span><span class="p">()</span>
 <a name="ln-1111"></a>         <span class="k">ELSE</span>
 <a name="ln-1112"></a><span class="k">            CALL </span><span class="n">most_alltoall</span><span class="p">()</span>
-<a name="ln-1113"></a>         <span class="n">ENDIF</span>
-<a name="ln-1114"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">remainder_collective</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-1113"></a>         <span class="k">ENDIF</span>
+<a name="ln-1114"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">remainder_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-1115"></a><span class="k">            CALL </span><span class="n">remainder_alltoall</span><span class="p">()</span>
-<a name="ln-1116"></a>         <span class="n">ENDIF</span>
+<a name="ln-1116"></a>         <span class="k">ENDIF</span>
 <a name="ln-1117"></a>         <span class="c">! Wait for all issued sends and receives.</span>
 <a name="ln-1118"></a>         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">most_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-1119"></a><span class="k">            CALL </span><span class="n">mp_waitall</span><span class="p">(</span><span class="n">row_sr</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">nrow_sr</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
@@ -1386,12 +1386,12 @@
 <a name="ln-1124"></a><span class="k">         IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">remainder_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-1125"></a><span class="k">            CALL </span><span class="n">mp_waitall</span><span class="p">(</span><span class="n">all_sr</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nall_sr</span><span class="p">))</span>
 <a name="ln-1126"></a>            <span class="k">CALL </span><span class="n">mp_waitall</span><span class="p">(</span><span class="n">all_rr</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nall_rr</span><span class="p">))</span>
-<a name="ln-1127"></a>         <span class="n">ENDIF</span>
-<a name="ln-1128"></a>      <span class="k">ELSE</span>
+<a name="ln-1127"></a>         <span class="k">ENDIF</span>
+<a name="ln-1128"></a><span class="k">      ELSE</span>
 <a name="ln-1129"></a><span class="k">         CALL </span><span class="n">mp_alltoall</span><span class="p">(</span><span class="n">sb</span><span class="p">,</span> <span class="n">scount</span><span class="p">,</span> <span class="n">sdispl</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-1130"></a>                          <span class="n">rb</span><span class="p">,</span> <span class="n">rcount</span><span class="p">,</span> <span class="n">rdispl</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-1131"></a>                          <span class="n">all_group</span><span class="p">)</span>
-<a name="ln-1132"></a>      <span class="n">ENDIF</span> <span class="n">subgrouped</span>
+<a name="ln-1132"></a>      <span class="k">ENDIF </span><span class="n">subgrouped</span>
 <a name="ln-1133"></a>   <span class="k">CONTAINS</span>
 <a name="ln-1134"></a><span class="k">      SUBROUTINE </span><span class="n">most_alltoall</span><span class="p">()</span>
 <a name="ln-1135"></a>         <span class="k">DO </span><span class="n">pcol</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">npcols</span> <span class="o">-</span> <span class="mi">1</span>
@@ -1427,8 +1427,8 @@
 <a name="ln-1165"></a><span class="k">                  </span><span class="n">tag</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">mypcol</span>
 <a name="ln-1166"></a>                  <span class="k">CALL </span><span class="n">mp_isend</span><span class="p">(</span><span class="n">send_data_p</span><span class="p">,</span> <span class="n">pcol</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">row_sr</span><span class="p">(</span><span class="n">nrow_sr</span><span class="p">),</span> <span class="n">tag</span><span class="p">)</span>
 <a name="ln-1167"></a>                  <span class="n">nrow_sr</span> <span class="o">=</span> <span class="n">nrow_sr</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-1168"></a>               <span class="n">ENDIF</span>
-<a name="ln-1169"></a>            <span class="n">ENDIF</span>
+<a name="ln-1168"></a>               <span class="k">ENDIF</span>
+<a name="ln-1169"></a><span class="k">            ENDIF</span>
 <a name="ln-1170"></a>            <span class="c">!</span>
 <a name="ln-1171"></a>            <span class="n">pcol</span> <span class="o">=</span> <span class="nb">MODULO</span><span class="p">(</span><span class="n">mypcol</span> <span class="o">-</span> <span class="n">i</span><span class="p">,</span> <span class="n">npcols</span><span class="p">)</span>
 <a name="ln-1172"></a>            <span class="n">src</span> <span class="o">=</span> <span class="n">dbcsr_mp_get_process</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span> <span class="n">myprow</span><span class="p">,</span> <span class="n">pcol</span><span class="p">)</span>
@@ -1441,9 +1441,9 @@
 <a name="ln-1179"></a>                  <span class="n">nrow_rr</span> <span class="o">=</span> <span class="n">nrow_rr</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-1180"></a>               <span class="k">ELSE</span>
 <a name="ln-1181"></a><span class="k">                  CALL </span><span class="n">memory_copy</span><span class="p">(</span><span class="n">recv_data_p</span><span class="p">,</span> <span class="n">send_data_p</span><span class="p">,</span> <span class="n">recv_cnt</span><span class="p">)</span>
-<a name="ln-1182"></a>               <span class="n">ENDIF</span>
-<a name="ln-1183"></a>            <span class="n">ENDIF</span>
-<a name="ln-1184"></a>         <span class="n">ENDDO</span>
+<a name="ln-1182"></a>               <span class="k">ENDIF</span>
+<a name="ln-1183"></a><span class="k">            ENDIF</span>
+<a name="ln-1184"></a><span class="k">         ENDDO</span>
 <a name="ln-1185"></a>         <span class="c">! go through my pcol and exchange</span>
 <a name="ln-1186"></a>         <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nprows</span> <span class="o">-</span> <span class="mi">1</span>
 <a name="ln-1187"></a>            <span class="n">prow</span> <span class="o">=</span> <span class="nb">MOD</span><span class="p">(</span><span class="n">myprow</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">nprows</span><span class="p">)</span>
@@ -1457,8 +1457,8 @@
 <a name="ln-1195"></a><span class="k">                  </span><span class="n">tag</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">myprow</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-1196"></a>                  <span class="k">CALL </span><span class="n">mp_isend</span><span class="p">(</span><span class="n">send_data_p</span><span class="p">,</span> <span class="n">prow</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">col_sr</span><span class="p">(</span><span class="n">ncol_sr</span><span class="p">),</span> <span class="n">tag</span><span class="p">)</span>
 <a name="ln-1197"></a>                  <span class="n">ncol_sr</span> <span class="o">=</span> <span class="n">ncol_sr</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-1198"></a>               <span class="n">ENDIF</span>
-<a name="ln-1199"></a>            <span class="n">ENDIF</span>
+<a name="ln-1198"></a>               <span class="k">ENDIF</span>
+<a name="ln-1199"></a><span class="k">            ENDIF</span>
 <a name="ln-1200"></a>            <span class="c">!</span>
 <a name="ln-1201"></a>            <span class="n">prow</span> <span class="o">=</span> <span class="nb">MODULO</span><span class="p">(</span><span class="n">myprow</span> <span class="o">-</span> <span class="n">i</span><span class="p">,</span> <span class="n">nprows</span><span class="p">)</span>
 <a name="ln-1202"></a>            <span class="n">src</span> <span class="o">=</span> <span class="n">dbcsr_mp_get_process</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span> <span class="n">prow</span><span class="p">,</span> <span class="n">mypcol</span><span class="p">)</span>
@@ -1471,10 +1471,10 @@
 <a name="ln-1209"></a>                  <span class="n">ncol_rr</span> <span class="o">=</span> <span class="n">ncol_rr</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-1210"></a>               <span class="k">ELSE</span>
 <a name="ln-1211"></a><span class="k">                  CALL </span><span class="n">memory_copy</span><span class="p">(</span><span class="n">recv_data_p</span><span class="p">,</span> <span class="n">send_data_p</span><span class="p">,</span> <span class="n">recv_cnt</span><span class="p">)</span>
-<a name="ln-1212"></a>               <span class="n">ENDIF</span>
-<a name="ln-1213"></a>            <span class="n">ENDIF</span>
-<a name="ln-1214"></a>         <span class="n">ENDDO</span>
-<a name="ln-1215"></a>      <span class="k">END SUBROUTINE </span><span class="n">most_point_to_point</span>
+<a name="ln-1212"></a>               <span class="k">ENDIF</span>
+<a name="ln-1213"></a><span class="k">            ENDIF</span>
+<a name="ln-1214"></a><span class="k">         ENDDO</span>
+<a name="ln-1215"></a><span class="k">      END SUBROUTINE </span><span class="n">most_point_to_point</span>
 <a name="ln-1216"></a>      <span class="k">SUBROUTINE </span><span class="n">remainder_alltoall</span><span class="p">()</span>
 <a name="ln-1217"></a>         <span class="n">new_scount</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">scount</span><span class="p">(:)</span>
 <a name="ln-1218"></a>         <span class="n">new_rcount</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">rcount</span><span class="p">(:)</span>
@@ -1505,7 +1505,7 @@
 <a name="ln-1243"></a>                  <span class="n">tag</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">mynode</span> <span class="o">+</span> <span class="mi">2</span>
 <a name="ln-1244"></a>                  <span class="k">CALL </span><span class="n">mp_isend</span><span class="p">(</span><span class="n">send_data_p</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="n">all_group</span><span class="p">,</span> <span class="n">all_sr</span><span class="p">(</span><span class="n">nall_sr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">tag</span><span class="p">)</span>
 <a name="ln-1245"></a>                  <span class="n">nall_sr</span> <span class="o">=</span> <span class="n">nall_sr</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-1246"></a>               <span class="n">ENDIF</span>
+<a name="ln-1246"></a>               <span class="k">ENDIF</span>
 <a name="ln-1247"></a>               <span class="c">!</span>
 <a name="ln-1248"></a>               <span class="n">src</span> <span class="o">=</span> <span class="n">dbcsr_mp_get_process</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span> <span class="n">prow</span><span class="p">,</span> <span class="n">pcol</span><span class="p">)</span>
 <a name="ln-1249"></a>               <span class="n">recv_cnt</span> <span class="o">=</span> <span class="n">rcount</span><span class="p">(</span><span class="n">src</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
@@ -1514,10 +1514,10 @@
 <a name="ln-1252"></a>                  <span class="n">tag</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">src</span> <span class="o">+</span> <span class="mi">2</span>
 <a name="ln-1253"></a>                  <span class="k">CALL </span><span class="n">mp_irecv</span><span class="p">(</span><span class="n">recv_data_p</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">all_group</span><span class="p">,</span> <span class="n">all_rr</span><span class="p">(</span><span class="n">nall_rr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">tag</span><span class="p">)</span>
 <a name="ln-1254"></a>                  <span class="n">nall_rr</span> <span class="o">=</span> <span class="n">nall_rr</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-1255"></a>               <span class="n">ENDIF</span>
-<a name="ln-1256"></a>            <span class="n">ENDDO</span>
-<a name="ln-1257"></a>         <span class="n">ENDDO</span>
-<a name="ln-1258"></a>      <span class="k">END SUBROUTINE </span><span class="n">remainder_point_to_point</span>
+<a name="ln-1255"></a>               <span class="k">ENDIF</span>
+<a name="ln-1256"></a><span class="k">            ENDDO</span>
+<a name="ln-1257"></a><span class="k">         ENDDO</span>
+<a name="ln-1258"></a><span class="k">      END SUBROUTINE </span><span class="n">remainder_point_to_point</span>
 <a name="ln-1259"></a>   <span class="k">END SUBROUTINE </span><span class="n">hybrid_alltoall_z1</span>
 <a name="ln-1260"></a><span class="cp"># 594 &quot;/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F&quot;</span>
 <a name="ln-1261"></a>   <span class="k">SUBROUTINE </span><span class="n">hybrid_alltoall_c1</span><span class="p">(</span><span class="n">sb</span><span class="p">,</span> <span class="n">scount</span><span class="p">,</span> <span class="n">sdispl</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -1559,8 +1559,8 @@
 <a name="ln-1297"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_mp_has_subgroups</span><span class="p">(</span><span class="n">mp_env</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-1298"></a><span class="k">         </span><span class="n">mpe</span> <span class="o">=</span> <span class="n">mp_env</span>
 <a name="ln-1299"></a>         <span class="k">CALL </span><span class="n">dbcsr_mp_grid_setup</span><span class="p">(</span><span class="n">mpe</span><span class="p">)</span>
-<a name="ln-1300"></a>      <span class="n">ENDIF</span>
-<a name="ln-1301"></a>      <span class="n">most_collective</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<a name="ln-1300"></a>      <span class="k">ENDIF</span>
+<a name="ln-1301"></a><span class="k">      </span><span class="n">most_collective</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
 <a name="ln-1302"></a>      <span class="n">remainder_collective</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
 <a name="ln-1303"></a>      <span class="n">no_h</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <a name="ln-1304"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">most_ptp</span><span class="p">))</span> <span class="n">most_collective</span> <span class="o">=</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">most_ptp</span>
@@ -1587,15 +1587,15 @@
 <a name="ln-1325"></a>         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">new_sdispl</span><span class="p">(</span><span class="n">numnodes</span><span class="p">),</span> <span class="n">new_rdispl</span><span class="p">(</span><span class="n">numnodes</span><span class="p">))</span>
 <a name="ln-1326"></a>         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">remainder_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-1327"></a><span class="k">            CALL </span><span class="n">remainder_point_to_point</span><span class="p">()</span>
-<a name="ln-1328"></a>         <span class="n">ENDIF</span>
-<a name="ln-1329"></a>         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">most_collective</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-1328"></a>         <span class="k">ENDIF</span>
+<a name="ln-1329"></a><span class="k">         IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">most_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-1330"></a><span class="k">            CALL </span><span class="n">most_point_to_point</span><span class="p">()</span>
 <a name="ln-1331"></a>         <span class="k">ELSE</span>
 <a name="ln-1332"></a><span class="k">            CALL </span><span class="n">most_alltoall</span><span class="p">()</span>
-<a name="ln-1333"></a>         <span class="n">ENDIF</span>
-<a name="ln-1334"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">remainder_collective</span><span class="p">)</span> <span class="k">THEN</span>
+<a name="ln-1333"></a>         <span class="k">ENDIF</span>
+<a name="ln-1334"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">remainder_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-1335"></a><span class="k">            CALL </span><span class="n">remainder_alltoall</span><span class="p">()</span>
-<a name="ln-1336"></a>         <span class="n">ENDIF</span>
+<a name="ln-1336"></a>         <span class="k">ENDIF</span>
 <a name="ln-1337"></a>         <span class="c">! Wait for all issued sends and receives.</span>
 <a name="ln-1338"></a>         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">most_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-1339"></a><span class="k">            CALL </span><span class="n">mp_waitall</span><span class="p">(</span><span class="n">row_sr</span><span class="p">(</span><span class="mi">0</span><span class="p">:</span><span class="n">nrow_sr</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
@@ -1606,12 +1606,12 @@
 <a name="ln-1344"></a><span class="k">         IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">remainder_collective</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-1345"></a><span class="k">            CALL </span><span class="n">mp_waitall</span><span class="p">(</span><span class="n">all_sr</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nall_sr</span><span class="p">))</span>
 <a name="ln-1346"></a>            <span class="k">CALL </span><span class="n">mp_waitall</span><span class="p">(</span><span class="n">all_rr</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nall_rr</span><span class="p">))</span>
-<a name="ln-1347"></a>         <span class="n">ENDIF</span>
-<a name="ln-1348"></a>      <span class="k">ELSE</span>
+<a name="ln-1347"></a>         <span class="k">ENDIF</span>
+<a name="ln-1348"></a><span class="k">      ELSE</span>
 <a name="ln-1349"></a><span class="k">         CALL </span><span class="n">mp_alltoall</span><span class="p">(</span><span class="n">sb</span><span class="p">,</span> <span class="n">scount</span><span class="p">,</span> <span class="n">sdispl</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-1350"></a>                          <span class="n">rb</span><span class="p">,</span> <span class="n">rcount</span><span class="p">,</span> <span class="n">rdispl</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-1351"></a>                          <span class="n">all_group</span><span class="p">)</span>
-<a name="ln-1352"></a>      <span class="n">ENDIF</span> <span class="n">subgrouped</span>
+<a name="ln-1352"></a>      <span class="k">ENDIF </span><span class="n">subgrouped</span>
 <a name="ln-1353"></a>   <span class="k">CONTAINS</span>
 <a name="ln-1354"></a><span class="k">      SUBROUTINE </span><span class="n">most_alltoall</span><span class="p">()</span>
 <a name="ln-1355"></a>         <span class="k">DO </span><span class="n">pcol</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">npcols</span> <span class="o">-</span> <span class="mi">1</span>
@@ -1647,8 +1647,8 @@
 <a name="ln-1385"></a><span class="k">                  </span><span class="n">tag</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">mypcol</span>
 <a name="ln-1386"></a>                  <span class="k">CALL </span><span class="n">mp_isend</span><span class="p">(</span><span class="n">send_data_p</span><span class="p">,</span> <span class="n">pcol</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">row_sr</span><span class="p">(</span><span class="n">nrow_sr</span><span class="p">),</span> <span class="n">tag</span><span class="p">)</span>
 <a name="ln-1387"></a>                  <span class="n">nrow_sr</span> <span class="o">=</span> <span class="n">nrow_sr</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-1388"></a>               <span class="n">ENDIF</span>
-<a name="ln-1389"></a>            <span class="n">ENDIF</span>
+<a name="ln-1388"></a>               <span class="k">ENDIF</span>
+<a name="ln-1389"></a><span class="k">            ENDIF</span>
 <a name="ln-1390"></a>            <span class="c">!</span>
 <a name="ln-1391"></a>            <span class="n">pcol</span> <span class="o">=</span> <span class="nb">MODULO</span><span class="p">(</span><span class="n">mypcol</span> <span class="o">-</span> <span class="n">i</span><span class="p">,</span> <span class="n">npcols</span><span class="p">)</span>
 <a name="ln-1392"></a>            <span class="n">src</span> <span class="o">=</span> <span class="n">dbcsr_mp_get_process</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span> <span class="n">myprow</span><span class="p">,</span> <span class="n">pcol</span><span class="p">)</span>
@@ -1661,9 +1661,9 @@
 <a name="ln-1399"></a>                  <span class="n">nrow_rr</span> <span class="o">=</span> <span class="n">nrow_rr</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-1400"></a>               <span class="k">ELSE</span>
 <a name="ln-1401"></a><span class="k">                  CALL </span><span class="n">memory_copy</span><span class="p">(</span><span class="n">recv_data_p</span><span class="p">,</span> <span class="n">send_data_p</span><span class="p">,</span> <span class="n">recv_cnt</span><span class="p">)</span>
-<a name="ln-1402"></a>               <span class="n">ENDIF</span>
-<a name="ln-1403"></a>            <span class="n">ENDIF</span>
-<a name="ln-1404"></a>         <span class="n">ENDDO</span>
+<a name="ln-1402"></a>               <span class="k">ENDIF</span>
+<a name="ln-1403"></a><span class="k">            ENDIF</span>
+<a name="ln-1404"></a><span class="k">         ENDDO</span>
 <a name="ln-1405"></a>         <span class="c">! go through my pcol and exchange</span>
 <a name="ln-1406"></a>         <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nprows</span> <span class="o">-</span> <span class="mi">1</span>
 <a name="ln-1407"></a>            <span class="n">prow</span> <span class="o">=</span> <span class="nb">MOD</span><span class="p">(</span><span class="n">myprow</span> <span class="o">+</span> <span class="n">i</span><span class="p">,</span> <span class="n">nprows</span><span class="p">)</span>
@@ -1677,8 +1677,8 @@
 <a name="ln-1415"></a><span class="k">                  </span><span class="n">tag</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">myprow</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-1416"></a>                  <span class="k">CALL </span><span class="n">mp_isend</span><span class="p">(</span><span class="n">send_data_p</span><span class="p">,</span> <span class="n">prow</span><span class="p">,</span> <span class="n">grp</span><span class="p">,</span> <span class="n">col_sr</span><span class="p">(</span><span class="n">ncol_sr</span><span class="p">),</span> <span class="n">tag</span><span class="p">)</span>
 <a name="ln-1417"></a>                  <span class="n">ncol_sr</span> <span class="o">=</span> <span class="n">ncol_sr</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-1418"></a>               <span class="n">ENDIF</span>
-<a name="ln-1419"></a>            <span class="n">ENDIF</span>
+<a name="ln-1418"></a>               <span class="k">ENDIF</span>
+<a name="ln-1419"></a><span class="k">            ENDIF</span>
 <a name="ln-1420"></a>            <span class="c">!</span>
 <a name="ln-1421"></a>            <span class="n">prow</span> <span class="o">=</span> <span class="nb">MODULO</span><span class="p">(</span><span class="n">myprow</span> <span class="o">-</span> <span class="n">i</span><span class="p">,</span> <span class="n">nprows</span><span class="p">)</span>
 <a name="ln-1422"></a>            <span class="n">src</span> <span class="o">=</span> <span class="n">dbcsr_mp_get_process</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span> <span class="n">prow</span><span class="p">,</span> <span class="n">mypcol</span><span class="p">)</span>
@@ -1691,10 +1691,10 @@
 <a name="ln-1429"></a>                  <span class="n">ncol_rr</span> <span class="o">=</span> <span class="n">ncol_rr</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-1430"></a>               <span class="k">ELSE</span>
 <a name="ln-1431"></a><span class="k">                  CALL </span><span class="n">memory_copy</span><span class="p">(</span><span class="n">recv_data_p</span><span class="p">,</span> <span class="n">send_data_p</span><span class="p">,</span> <span class="n">recv_cnt</span><span class="p">)</span>
-<a name="ln-1432"></a>               <span class="n">ENDIF</span>
-<a name="ln-1433"></a>            <span class="n">ENDIF</span>
-<a name="ln-1434"></a>         <span class="n">ENDDO</span>
-<a name="ln-1435"></a>      <span class="k">END SUBROUTINE </span><span class="n">most_point_to_point</span>
+<a name="ln-1432"></a>               <span class="k">ENDIF</span>
+<a name="ln-1433"></a><span class="k">            ENDIF</span>
+<a name="ln-1434"></a><span class="k">         ENDDO</span>
+<a name="ln-1435"></a><span class="k">      END SUBROUTINE </span><span class="n">most_point_to_point</span>
 <a name="ln-1436"></a>      <span class="k">SUBROUTINE </span><span class="n">remainder_alltoall</span><span class="p">()</span>
 <a name="ln-1437"></a>         <span class="n">new_scount</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">scount</span><span class="p">(:)</span>
 <a name="ln-1438"></a>         <span class="n">new_rcount</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">rcount</span><span class="p">(:)</span>
@@ -1725,7 +1725,7 @@
 <a name="ln-1463"></a>                  <span class="n">tag</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">mynode</span> <span class="o">+</span> <span class="mi">2</span>
 <a name="ln-1464"></a>                  <span class="k">CALL </span><span class="n">mp_isend</span><span class="p">(</span><span class="n">send_data_p</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="n">all_group</span><span class="p">,</span> <span class="n">all_sr</span><span class="p">(</span><span class="n">nall_sr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">tag</span><span class="p">)</span>
 <a name="ln-1465"></a>                  <span class="n">nall_sr</span> <span class="o">=</span> <span class="n">nall_sr</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-1466"></a>               <span class="n">ENDIF</span>
+<a name="ln-1466"></a>               <span class="k">ENDIF</span>
 <a name="ln-1467"></a>               <span class="c">!</span>
 <a name="ln-1468"></a>               <span class="n">src</span> <span class="o">=</span> <span class="n">dbcsr_mp_get_process</span><span class="p">(</span><span class="n">mp_env</span><span class="p">,</span> <span class="n">prow</span><span class="p">,</span> <span class="n">pcol</span><span class="p">)</span>
 <a name="ln-1469"></a>               <span class="n">recv_cnt</span> <span class="o">=</span> <span class="n">rcount</span><span class="p">(</span><span class="n">src</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
@@ -1734,10 +1734,10 @@
 <a name="ln-1472"></a>                  <span class="n">tag</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">src</span> <span class="o">+</span> <span class="mi">2</span>
 <a name="ln-1473"></a>                  <span class="k">CALL </span><span class="n">mp_irecv</span><span class="p">(</span><span class="n">recv_data_p</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">all_group</span><span class="p">,</span> <span class="n">all_rr</span><span class="p">(</span><span class="n">nall_rr</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">tag</span><span class="p">)</span>
 <a name="ln-1474"></a>                  <span class="n">nall_rr</span> <span class="o">=</span> <span class="n">nall_rr</span> <span class="o">+</span> <span class="mi">1</span>
-<a name="ln-1475"></a>               <span class="n">ENDIF</span>
-<a name="ln-1476"></a>            <span class="n">ENDDO</span>
-<a name="ln-1477"></a>         <span class="n">ENDDO</span>
-<a name="ln-1478"></a>      <span class="k">END SUBROUTINE </span><span class="n">remainder_point_to_point</span>
+<a name="ln-1475"></a>               <span class="k">ENDIF</span>
+<a name="ln-1476"></a><span class="k">            ENDDO</span>
+<a name="ln-1477"></a><span class="k">         ENDDO</span>
+<a name="ln-1478"></a><span class="k">      END SUBROUTINE </span><span class="n">remainder_point_to_point</span>
 <a name="ln-1479"></a>   <span class="k">END SUBROUTINE </span><span class="n">hybrid_alltoall_c1</span>
 <a name="ln-1480"></a><span class="cp"># 814 &quot;/__w/dbcsr/dbcsr/src/mpi/dbcsr_mp_operations.F&quot;</span>
 <a name="ln-1481"></a>

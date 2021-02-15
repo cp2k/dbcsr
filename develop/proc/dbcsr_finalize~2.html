@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -232,7 +232,7 @@ public subroutine dbcsr_finalize(matrix, reshuffle)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~209"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~240"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -365,14 +365,14 @@ public subroutine dbcsr_finalize(matrix, reshuffle)
 <span class="c">!$OMP        BARRIER</span>
          <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
          <span class="k">RETURN</span>
-<span class="k">      </span><span class="n">ENDIF</span>
+<span class="k">      ENDIF</span>
       <span class="c">!</span>
       <span class="c">! If possible, data copying is avoided.</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">reshuffle</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">sort_data</span> <span class="o">=</span> <span class="n">reshuffle</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">sort_data</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">!</span>
       <span class="c">! Now make sure that a valid row_p exists. Also clear the row_p if</span>
       <span class="c">! the matrix is declared to have 0 blocks.</span>
@@ -380,8 +380,8 @@ public subroutine dbcsr_finalize(matrix, reshuffle)
       <span class="n">fake_row_p</span> <span class="o">=</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">row_p</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">row_p</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">fake_row_p</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">row_p</span><span class="p">)</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="mi">1</span>
-      <span class="n">ENDIF</span>
-      <span class="n">fake_row_p</span> <span class="o">=</span> <span class="n">fake_row_p</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">matrix</span><span class="p">%</span><span class="n">nblks</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">fake_row_p</span> <span class="o">=</span> <span class="n">fake_row_p</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">matrix</span><span class="p">%</span><span class="n">nblks</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span>
 <span class="c">!$OMP     END MASTER</span>
       <span class="c">!</span>
       <span class="c">! See where data will be appended in the main data</span>
@@ -401,23 +401,23 @@ public subroutine dbcsr_finalize(matrix, reshuffle)
 <span class="k">         WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; sizes&quot;</span><span class="p">,</span> <span class="n">matrix</span><span class="p">%</span><span class="n">nze</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="p">&amp;</span>
             <span class="n">dbcsr_data_get_size_referenced</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">),</span> <span class="p">&amp;</span>
             <span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(.</span><span class="n">FALSE</span><span class="p">.</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">dbcsr_data_get_size_referenced</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="p">&amp;</span>
+      <span class="k">ENDIF</span>
+<span class="k">      IF</span> <span class="p">(.</span><span class="n">FALSE</span><span class="p">.</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">dbcsr_data_get_size_referenced</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="p">&amp;</span>
           <span class="n">matrix</span><span class="p">%</span><span class="n">nze</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">nze</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">dbcsr_data_get_size_referenced</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">))</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">&quot;Should reshuffle.&quot;</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">sort_data</span> <span class="o">=</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_wm_use_mutable</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">sort_data</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">matrix</span><span class="p">%</span><span class="n">nze</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="n">sort_data</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">matrix</span><span class="p">%</span><span class="n">nze</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">dbcsr_add_wm_from_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
          <span class="n">matrix</span><span class="p">%</span><span class="n">nze</span> <span class="o">=</span> <span class="mi">0</span>
 <span class="c">!$OMP        MASTER</span>
          <span class="n">fake_row_p</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
 <span class="c">!$OMP        END MASTER</span>
-      <span class="n">ENDIF</span>
-      <span class="n">start_offset</span> <span class="o">=</span> <span class="n">dbcsr_data_get_size_referenced</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">start_offset</span> <span class="o">=</span> <span class="n">dbcsr_data_get_size_referenced</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">nze</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="n">start_offset</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="c">!$OMP     MASTER</span>
       <span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_nze</span><span class="p">)</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">nze</span>
@@ -431,7 +431,7 @@ public subroutine dbcsr_finalize(matrix, reshuffle)
          <span class="k">CALL </span><span class="n">dbcsr_addto_index_array</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">dbcsr_slot_blk_p</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">reservation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
          <span class="k">CALL </span><span class="n">dbcsr_repoint_index</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 <span class="c">!$OMP     END MASTER</span>
       <span class="c">!</span>
 <span class="c">!$OMP     BARRIER</span>
@@ -450,7 +450,7 @@ public subroutine dbcsr_finalize(matrix, reshuffle)
 <span class="k">            </span><span class="n">nwms</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="c">!$          nwms = omp_get_num_threads()</span>
             <span class="k">CALL </span><span class="n">dbcsr_work_create</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">nwms</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
+         <span class="k">ENDIF</span>
 <span class="c">!$OMP        END MASTER</span>
 <span class="c">!$OMP        BARRIER</span>
          <span class="c">!</span>
@@ -459,14 +459,14 @@ public subroutine dbcsr_finalize(matrix, reshuffle)
          <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">)</span>
             <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">row_i</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">               CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">row_i</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
-            <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">col_i</span><span class="p">))</span> <span class="k">THEN</span>
+            <span class="k">ENDIF</span>
+<span class="k">            IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">col_i</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">               CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">col_i</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
-            <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">blk_p</span><span class="p">))</span> <span class="k">THEN</span>
+            <span class="k">ENDIF</span>
+<span class="k">            IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">blk_p</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">               CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">blk_p</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
-         <span class="n">ENDDO</span>
+            <span class="k">ENDIF</span>
+<span class="k">         ENDDO</span>
 <span class="c">!$OMP        ENDDO</span>
          <span class="c">!</span>
          <span class="c">! Check for deleted blocks</span>
@@ -474,8 +474,8 @@ public subroutine dbcsr_finalize(matrix, reshuffle)
          <span class="n">nblks</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">row_p</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">nblkrows_total</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="nb">ANY</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">blk_p</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nblks</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">dbcsr_index_prune_deleted</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="n">old_row_p</span> <span class="o">=&gt;</span> <span class="n">matrix</span><span class="p">%</span><span class="n">row_p</span>
+         <span class="k">ENDIF</span>
+<span class="k">         </span><span class="n">old_row_p</span> <span class="o">=&gt;</span> <span class="n">matrix</span><span class="p">%</span><span class="n">row_p</span>
          <span class="n">old_col_i</span> <span class="o">=&gt;</span> <span class="n">matrix</span><span class="p">%</span><span class="n">col_i</span>
          <span class="n">old_blk_p</span> <span class="o">=&gt;</span> <span class="n">matrix</span><span class="p">%</span><span class="n">blk_p</span>
 <span class="c">!$OMP        END MASTER</span>
@@ -507,26 +507,26 @@ public subroutine dbcsr_finalize(matrix, reshuffle)
 <span class="k">            CALL </span><span class="n">dbcsr_merge_all</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="p">&amp;</span>
                                  <span class="n">old_row_p</span><span class="p">,</span> <span class="n">old_col_i</span><span class="p">,</span> <span class="n">old_blk_p</span><span class="p">,</span> <span class="p">&amp;</span>
                                  <span class="n">sort_data</span><span class="o">=</span><span class="n">sort_data</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
 <span class="c">!$OMP BARRIER</span>
 <span class="c">!$OMP MASTER</span>
       <span class="c">! Clean up.</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">dbcsr_work_destroy_all</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="n">matrix</span><span class="p">%</span><span class="n">valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">matrix</span><span class="p">%</span><span class="n">valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
 <span class="c">!$OMP END MASTER</span>
 <span class="c">!$OMP BARRIER</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="c">!$OMP        SINGLE</span>
          <span class="k">CALL </span><span class="n">dbcsr_verify_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
 <span class="c">!$OMP        END SINGLE</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 <span class="c">!$OMP MASTER</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">fake_row_p</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         DEALLOCATE</span> <span class="p">(</span><span class="n">empty_row_p</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 <span class="c">!$OMP END MASTER</span>
 <span class="c">!$OMP BARRIER</span>
       <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>

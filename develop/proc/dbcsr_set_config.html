@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -751,23 +751,23 @@ public subroutine dbcsr_set_config(mm_driver, use_mpi_allocator, mm_stack_size, 
 <span class="k">               </span><span class="n">nthreads</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="c">!$             nthreads = OMP_GET_MAX_THREADS()</span>
                <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span> <span class="o">-</span> <span class="p">(</span><span class="mi">30</span><span class="o">*</span><span class="n">nthreads</span><span class="p">)</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
+            <span class="k">ENDIF</span>
+<span class="k">         ENDIF</span>
+<span class="k">      ENDIF</span>
 
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nstacks</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nstacks</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nm_stacks</span> <span class="o">=</span> <span class="n">nstacks</span>
          <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nn_stacks</span> <span class="o">=</span> <span class="n">nstacks</span>
          <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nk_stacks</span> <span class="o">=</span> <span class="n">nstacks</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mm_stack_size</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mm_stack_size</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_stack_size</span> <span class="o">=</span> <span class="n">mm_stack_size</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">mm_stack_size</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
             <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_stack_size</span> <span class="o">=</span> <span class="n">mm_stack_default_size</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">mm_name_auto</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_driver</span> <span class="o">=</span> <span class="n">mm_default_driver</span>
          <span class="k">ELSE IF</span> <span class="p">(</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">mm_name_blas</span><span class="p">)</span> <span class="k">THEN</span>
@@ -782,10 +782,10 @@ public subroutine dbcsr_set_config(mm_driver, use_mpi_allocator, mm_stack_size, 
             <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_driver</span> <span class="o">=</span> <span class="n">mm_driver_xsmm</span>
          <span class="k">ELSE</span>
 <span class="k">            </span><span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Unknown MM driver: &quot;</span><span class="o">//</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">mm_driver</span><span class="p">))</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
 
-   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_set_config</span>
+<span class="k">   END SUBROUTINE </span><span class="n">dbcsr_set_config</span>
 </pre></div>
 
     </section>

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ public subroutine dbcsr_make_index_local_row(matrix)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~236"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~255"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -329,8 +329,8 @@ public subroutine dbcsr_make_index_local_row(matrix)
       <span class="n">prow</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_home_vprow</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">prow</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">prow</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_home_prow</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="n">nlocal_rows</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">nblkrows_local</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">nlocal_rows</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">nblkrows_local</span>
       <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">local_row_p</span><span class="p">(</span><span class="n">nlocal_rows</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
       <span class="c">! The existing row_p is converted from an indexing array into a</span>
       <span class="c">! counting array.  Because it is later discarded, the counting is</span>
@@ -344,8 +344,8 @@ public subroutine dbcsr_make_index_local_row(matrix)
       <span class="c">! The counts are mapped to local rows,</span>
       <span class="k">DO </span><span class="n">lrow</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nlocal_rows</span>
          <span class="n">local_row_p</span><span class="p">(</span><span class="n">lrow</span><span class="p">)</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">row_p</span><span class="p">(</span><span class="n">local_rows</span><span class="p">(</span><span class="n">lrow</span><span class="p">))</span>
-      <span class="n">ENDDO</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">SUM</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">row_p</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">ntotal_rows</span><span class="p">))</span> <span class="o">/=</span> <span class="nb">SUM</span><span class="p">(</span><span class="n">local_row_p</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nlocal_rows</span><span class="p">)))</span> <span class="p">&amp;</span>
+      <span class="k">ENDDO</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="nb">SUM</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">row_p</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">ntotal_rows</span><span class="p">))</span> <span class="o">/=</span> <span class="nb">SUM</span><span class="p">(</span><span class="n">local_row_p</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nlocal_rows</span><span class="p">)))</span> <span class="p">&amp;</span>
          <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Inconsistent row counts. Perhaps non-local rows contain data?.&quot;</span><span class="p">)</span>
       <span class="c">! then converted into an index.</span>
       <span class="k">CALL </span><span class="n">dbcsr_build_row_index</span><span class="p">(</span><span class="n">local_row_p</span><span class="p">,</span> <span class="n">nlocal_rows</span><span class="p">)</span>
@@ -362,9 +362,9 @@ public subroutine dbcsr_make_index_local_row(matrix)
          <span class="k">IF</span> <span class="p">(</span><span class="n">array_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">global_rows</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">(</span><span class="n">nlocal_rows</span> <span class="o">/=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
                <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid number of local or global rows.&quot;</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
-      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">local_row_p</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
+<span class="k">      DEALLOCATE</span> <span class="p">(</span><span class="n">local_row_p</span><span class="p">)</span>
       <span class="c">!</span>
       <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_make_index_local_row</span>

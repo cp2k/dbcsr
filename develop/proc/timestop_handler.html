@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ public subroutine timestop_handler(handle)
   
 <tr>
   
-  <td><span class="anchor" id="variable-handle~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-handle~4"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -349,14 +349,14 @@ public subroutine timestop_handler(handle)
          <span class="c">! add the elapsed time for this timeset/timestop to the time accumulator</span>
          <span class="n">wt_elapsed</span> <span class="o">=</span> <span class="n">wt_now</span> <span class="o">-</span> <span class="n">cs_entry</span><span class="p">%</span><span class="n">walltime_start</span>
          <span class="n">en_elapsed</span> <span class="o">=</span> <span class="n">en_now</span> <span class="o">-</span> <span class="n">cs_entry</span><span class="p">%</span><span class="n">energy_start</span>
-      <span class="n">ENDIF</span>
-      <span class="n">r_stat</span><span class="p">%</span><span class="n">active_calls</span> <span class="o">=</span> <span class="n">r_stat</span><span class="p">%</span><span class="n">active_calls</span> <span class="o">-</span> <span class="mi">1</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">r_stat</span><span class="p">%</span><span class="n">active_calls</span> <span class="o">=</span> <span class="n">r_stat</span><span class="p">%</span><span class="n">active_calls</span> <span class="o">-</span> <span class="mi">1</span>
 
       <span class="c">! if we&#39;re the last instance in the stack, we do the accounting of the total time</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">r_stat</span><span class="p">%</span><span class="n">active_calls</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">r_stat</span><span class="p">%</span><span class="n">incl_walltime_accu</span> <span class="o">=</span> <span class="n">r_stat</span><span class="p">%</span><span class="n">incl_walltime_accu</span> <span class="o">+</span> <span class="n">wt_elapsed</span>
          <span class="n">r_stat</span><span class="p">%</span><span class="n">incl_energy_accu</span> <span class="o">=</span> <span class="n">r_stat</span><span class="p">%</span><span class="n">incl_energy_accu</span> <span class="o">+</span> <span class="n">en_elapsed</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
       <span class="c">! exclusive time we always sum, since children will correct this time with their total time</span>
       <span class="n">r_stat</span><span class="p">%</span><span class="n">excl_walltime_accu</span> <span class="o">=</span> <span class="n">r_stat</span><span class="p">%</span><span class="n">excl_walltime_accu</span> <span class="o">+</span> <span class="n">wt_elapsed</span>
@@ -383,7 +383,7 @@ public subroutine timestop_handler(handle)
 <span class="k">         </span><span class="n">c_stat</span><span class="p">%</span><span class="n">total_calls</span> <span class="o">=</span> <span class="n">c_stat</span><span class="p">%</span><span class="n">total_calls</span> <span class="o">+</span> <span class="mi">1</span>
          <span class="n">c_stat</span><span class="p">%</span><span class="n">incl_walltime_accu</span> <span class="o">=</span> <span class="n">c_stat</span><span class="p">%</span><span class="n">incl_walltime_accu</span> <span class="o">+</span> <span class="n">wt_elapsed</span>
          <span class="n">c_stat</span><span class="p">%</span><span class="n">incl_energy_accu</span> <span class="o">=</span> <span class="n">c_stat</span><span class="p">%</span><span class="n">incl_energy_accu</span> <span class="o">+</span> <span class="n">en_elapsed</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
       <span class="c">!..if debug mode echo the subroutine name</span>
       <span class="k">IF</span> <span class="p">((</span><span class="n">timer_env</span><span class="p">%</span><span class="n">trace_all</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">r_stat</span><span class="p">%</span><span class="n">trace</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">&amp;</span>
@@ -398,7 +398,7 @@ public subroutine timestop_handler(handle)
             <span class="s2">&quot; GPUmem: &quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">gpumem_total</span> <span class="o">-</span> <span class="n">gpumem_free</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1024</span><span class="o">*</span><span class="mi">1024</span><span class="p">),</span> <span class="s2">&quot; MB&quot;</span>
          <span class="k">WRITE</span> <span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">trace_unit</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="nb">TRIM</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
          <span class="k">CALL </span><span class="n">m_flush</span><span class="p">(</span><span class="n">timer_env</span><span class="p">%</span><span class="n">trace_unit</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
 <span class="c">!$OMP END CRITICAL(time_setstop)</span>
 <span class="c">!$OMP END MASTER</span>

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ public subroutine dbcsr_mm_csr_init(this, left, right, product, m_sizes, n_sizes
   
 <tr>
   
-  <td><span class="anchor" id="variable-this~13"></span>type(<a href='../type/dbcsr_mm_csr_type.html'>dbcsr_mm_csr_type</a>),</td>
+  <td><span class="anchor" id="variable-this~3"></span>type(<a href='../type/dbcsr_mm_csr_type.html'>dbcsr_mm_csr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -244,7 +244,7 @@ public subroutine dbcsr_mm_csr_init(this, left, right, product, m_sizes, n_sizes
   
 <tr>
   
-  <td><span class="anchor" id="variable-left~7"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-left~4"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -259,7 +259,7 @@ public subroutine dbcsr_mm_csr_init(this, left, right, product, m_sizes, n_sizes
   
 <tr>
   
-  <td><span class="anchor" id="variable-right~7"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-right~4"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -274,7 +274,7 @@ public subroutine dbcsr_mm_csr_init(this, left, right, product, m_sizes, n_sizes
   
 <tr>
   
-  <td><span class="anchor" id="variable-product~2"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-product"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -289,7 +289,7 @@ public subroutine dbcsr_mm_csr_init(this, left, right, product, m_sizes, n_sizes
   
 <tr>
   
-  <td><span class="anchor" id="variable-m_sizes~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-m_sizes~4"></span>integer,</td>
   <td></td>
   <td></td>
   
@@ -304,7 +304,7 @@ public subroutine dbcsr_mm_csr_init(this, left, right, product, m_sizes, n_sizes
   
 <tr>
   
-  <td><span class="anchor" id="variable-n_sizes~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-n_sizes~4"></span>integer,</td>
   <td></td>
   <td></td>
   
@@ -319,7 +319,7 @@ public subroutine dbcsr_mm_csr_init(this, left, right, product, m_sizes, n_sizes
   
 <tr>
   
-  <td><span class="anchor" id="variable-block_estimate~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-block_estimate"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -334,7 +334,7 @@ public subroutine dbcsr_mm_csr_init(this, left, right, product, m_sizes, n_sizes
   
 <tr>
   
-  <td><span class="anchor" id="variable-right_row_blk_size~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-right_row_blk_size"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -349,7 +349,7 @@ public subroutine dbcsr_mm_csr_init(this, left, right, product, m_sizes, n_sizes
   
 <tr>
   
-  <td><span class="anchor" id="variable-nlayers~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-nlayers"></span>integer,</td>
   <td></td>
   <td>optional</td>
   
@@ -461,7 +461,7 @@ public subroutine dbcsr_mm_csr_init(this, left, right, product, m_sizes, n_sizes
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Matrices must have local indexing.&quot;</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">left</span><span class="p">%</span><span class="n">local_indexing</span><span class="p">)</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Matrices must have local indexing.&quot;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">! Setup the hash tables if needed</span>
       <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">c_hashes</span><span class="p">(</span><span class="nb">product</span><span class="p">%</span><span class="n">nblkrows_local</span><span class="p">))</span>
       <span class="k">CALL </span><span class="n">fill_hash_tables</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">c_hashes</span><span class="p">,</span> <span class="nb">product</span><span class="p">,</span> <span class="n">block_estimate</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -510,20 +510,20 @@ public subroutine dbcsr_mm_csr_init(this, left, right, product, m_sizes, n_sizes
 <span class="k">            </span><span class="n">m_size</span> <span class="o">=</span> <span class="n">most_common_m</span><span class="p">(</span><span class="n">m_map</span><span class="p">)</span>
          <span class="k">ELSE</span>
 <span class="k">            </span><span class="n">m_size</span> <span class="o">=</span> <span class="mi">777</span>
-         <span class="n">ENDIF</span>
-         <span class="k">DO </span><span class="n">k_map</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nk_stacks</span> <span class="o">+</span> <span class="mi">1</span>
+         <span class="k">ENDIF</span>
+<span class="k">         DO </span><span class="n">k_map</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nk_stacks</span> <span class="o">+</span> <span class="mi">1</span>
             <span class="k">IF</span> <span class="p">(</span><span class="n">k_map</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nk_stacks</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">               </span><span class="n">k_size</span> <span class="o">=</span> <span class="n">most_common_k</span><span class="p">(</span><span class="n">k_map</span><span class="p">)</span>
             <span class="k">ELSE</span>
 <span class="k">               </span><span class="n">k_size</span> <span class="o">=</span> <span class="mi">888</span>
-            <span class="n">ENDIF</span>
-            <span class="k">DO </span><span class="n">n_map</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nn_stacks</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">ENDIF</span>
+<span class="k">            DO </span><span class="n">n_map</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nn_stacks</span> <span class="o">+</span> <span class="mi">1</span>
                <span class="k">IF</span> <span class="p">(</span><span class="n">n_map</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nn_stacks</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">                  </span><span class="n">n_size</span> <span class="o">=</span> <span class="n">most_common_n</span><span class="p">(</span><span class="n">n_map</span><span class="p">)</span>
                <span class="k">ELSE</span>
 <span class="k">                  </span><span class="n">n_size</span> <span class="o">=</span> <span class="mi">999</span>
-               <span class="n">ENDIF</span>
-               <span class="k">IF</span> <span class="p">(</span><span class="n">m_map</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nm_stacks</span> <span class="p">&amp;</span>
+               <span class="k">ENDIF</span>
+<span class="k">               IF</span> <span class="p">(</span><span class="n">m_map</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nm_stacks</span> <span class="p">&amp;</span>
                    <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">k_map</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nk_stacks</span> <span class="p">&amp;</span>
                    <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">n_map</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">nn_stacks</span><span class="p">)</span> <span class="k">THEN</span>
                   <span class="c">! This is the case when m, n, and k are all defined.</span>
@@ -553,10 +553,10 @@ public subroutine dbcsr_mm_csr_init(this, left, right, product, m_sizes, n_sizes
                   <span class="n">this</span><span class="p">%</span><span class="n">stacks_descr</span><span class="p">(</span><span class="n">ps_g</span><span class="p">)%</span><span class="n">max_k</span> <span class="o">=</span> <span class="n">this</span><span class="p">%</span><span class="n">max_k</span>
                   <span class="n">this</span><span class="p">%</span><span class="n">stacks_descr</span><span class="p">(</span><span class="n">ps_g</span><span class="p">)%</span><span class="n">defined_mnk</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
                <span class="k">END IF</span>
-<span class="k">            </span><span class="n">ENDDO</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDDO</span>
-      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">most_common_m</span><span class="p">)</span>
+<span class="k">            ENDDO</span>
+<span class="k">         ENDDO</span>
+<span class="k">      ENDDO</span>
+<span class="k">      DEALLOCATE</span> <span class="p">(</span><span class="n">most_common_m</span><span class="p">)</span>
       <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">most_common_n</span><span class="p">)</span>
       <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">most_common_k</span><span class="p">)</span>
 
@@ -569,15 +569,15 @@ public subroutine dbcsr_mm_csr_init(this, left, right, product, m_sizes, n_sizes
          <span class="n">flop_list</span><span class="p">(</span><span class="n">istack</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="o">*</span><span class="n">this</span><span class="p">%</span><span class="n">stacks_descr</span><span class="p">(</span><span class="n">istack</span><span class="p">)%</span><span class="n">m</span> <span class="p">&amp;</span>
                              <span class="o">*</span><span class="n">this</span><span class="p">%</span><span class="n">stacks_descr</span><span class="p">(</span><span class="n">istack</span><span class="p">)%</span><span class="n">n</span> <span class="p">&amp;</span>
                              <span class="o">*</span><span class="n">this</span><span class="p">%</span><span class="n">stacks_descr</span><span class="p">(</span><span class="n">istack</span><span class="p">)%</span><span class="n">k</span>
-      <span class="n">ENDDO</span>
+      <span class="k">ENDDO</span>
 
-      <span class="k">CALL </span><span class="n">sort</span><span class="p">(</span><span class="n">flop_list</span><span class="p">,</span> <span class="n">nstacks</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">flop_index</span><span class="p">)</span>
+<span class="k">      CALL </span><span class="n">sort</span><span class="p">(</span><span class="n">flop_list</span><span class="p">,</span> <span class="n">nstacks</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">flop_index</span><span class="p">)</span>
       <span class="n">tmp_descr</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">this</span><span class="p">%</span><span class="n">stacks_descr</span>
       <span class="k">DO </span><span class="n">istack</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nstacks</span> <span class="o">-</span> <span class="mi">1</span>
          <span class="n">this</span><span class="p">%</span><span class="n">stacks_descr</span><span class="p">(</span><span class="n">istack</span><span class="p">)</span> <span class="o">=</span> <span class="n">tmp_descr</span><span class="p">(</span><span class="n">flop_index</span><span class="p">(</span><span class="n">istack</span><span class="p">))</span>
-      <span class="n">ENDDO</span>
+      <span class="k">ENDDO</span>
 
-      <span class="k">DO </span><span class="n">m_map</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">stack_map</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">      DO </span><span class="n">m_map</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">stack_map</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
          <span class="k">DO </span><span class="n">k_map</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">stack_map</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
             <span class="n">map_loop</span><span class="p">:</span> <span class="k">DO </span><span class="n">n_map</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">stack_map</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
                <span class="k">DO </span><span class="n">istack</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nstacks</span> <span class="o">-</span> <span class="mi">1</span>
@@ -585,11 +585,11 @@ public subroutine dbcsr_mm_csr_init(this, left, right, product, m_sizes, n_sizes
 <span class="k">                     </span><span class="n">this</span><span class="p">%</span><span class="n">stack_map</span><span class="p">(</span><span class="n">m_map</span><span class="p">,</span> <span class="n">k_map</span><span class="p">,</span> <span class="n">n_map</span><span class="p">)</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">istack</span><span class="p">,</span> <span class="nb">kind</span><span class="o">=</span><span class="n">int_1</span><span class="p">)</span>
                      <span class="k">CYCLE </span><span class="n">map_loop</span>
                   <span class="k">END IF</span>
-<span class="k">               </span><span class="n">ENDDO</span>
-            <span class="n">ENDDO</span> <span class="n">map_loop</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDDO</span>
-      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">flop_list</span><span class="p">,</span> <span class="n">flop_index</span><span class="p">,</span> <span class="n">tmp_descr</span><span class="p">)</span>
+<span class="k">               ENDDO</span>
+<span class="k">            ENDDO </span><span class="n">map_loop</span>
+         <span class="k">ENDDO</span>
+<span class="k">      ENDDO</span>
+<span class="k">      DEALLOCATE</span> <span class="p">(</span><span class="n">flop_list</span><span class="p">,</span> <span class="n">flop_index</span><span class="p">,</span> <span class="n">tmp_descr</span><span class="p">)</span>
 
       <span class="n">this</span><span class="p">%</span><span class="n">product_wm</span> <span class="o">=&gt;</span> <span class="nb">product</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">ithread</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_mm_sched_init</span><span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">sched</span><span class="p">,</span> <span class="p">&amp;</span>

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -244,7 +244,7 @@ public subroutine dbcsr_data_new(area, data_type, data_size, data_size2, memory_
   
 <tr>
   
-  <td><span class="anchor" id="variable-data_type~26"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type~20"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -259,7 +259,7 @@ public subroutine dbcsr_data_new(area, data_type, data_size, data_size2, memory_
   
 <tr>
   
-  <td><span class="anchor" id="variable-data_size~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_size~4"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -291,7 +291,7 @@ public subroutine dbcsr_data_new(area, data_type, data_size, data_size2, memory_
   
 <tr>
   
-  <td><span class="anchor" id="variable-memory_type~6"></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td><span class="anchor" id="variable-memory_type~2"></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -406,9 +406,9 @@ public subroutine dbcsr_data_new(area, data_type, data_size, data_size2, memory_
 
          <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">data_size</span><span class="p">)</span> <span class="p">.</span><span class="n">NEQV</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">data_size2</span><span class="p">))</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Must specify 2 sizes for 2-D data&quot;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
-      <span class="n">sizes_oversized</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">sizes_requested</span><span class="o">*</span><span class="n">my_memory_type</span><span class="p">%</span><span class="n">oversize_factor</span><span class="p">)</span>
+<span class="k">      </span><span class="n">sizes_oversized</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">sizes_requested</span><span class="o">*</span><span class="n">my_memory_type</span><span class="p">%</span><span class="n">oversize_factor</span><span class="p">)</span>
       <span class="n">total_size_requested</span> <span class="o">=</span> <span class="nb">PRODUCT</span><span class="p">(</span><span class="n">sizes_requested</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">d</span><span class="p">))</span>
       <span class="n">total_size_oversized</span> <span class="o">=</span> <span class="nb">PRODUCT</span><span class="p">(</span><span class="n">sizes_oversized</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">d</span><span class="p">))</span>
 
@@ -417,9 +417,9 @@ public subroutine dbcsr_data_new(area, data_type, data_size, data_size2, memory_
 
       <span class="k">IF</span> <span class="p">(</span><span class="n">total_size_requested</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">my_memory_type</span><span class="p">%</span><span class="n">pool</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">area</span> <span class="o">=</span> <span class="n">dbcsr_mempool_get</span><span class="p">(</span><span class="n">my_memory_type</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">total_size_requested</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
-      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">      IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">)</span>
 <span class="c">!$OMP        CRITICAL (crit_area_id)</span>
          <span class="n">id</span> <span class="o">=</span> <span class="n">id</span> <span class="o">+</span> <span class="mi">1</span>
@@ -431,9 +431,9 @@ public subroutine dbcsr_data_new(area, data_type, data_size, data_size2, memory_
          <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">data_size</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">internal_data_allocate</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">,</span> <span class="n">sizes_oversized</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">d</span><span class="p">))</span>
          <span class="k">END IF</span>
-<span class="k">      </span><span class="n">ENDIF</span>
+<span class="k">      ENDIF</span>
 
-      <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">ref_size</span> <span class="o">=</span> <span class="n">total_size_requested</span>
+<span class="k">      </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">ref_size</span> <span class="o">=</span> <span class="n">total_size_requested</span>
 
       <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_data_new</span>

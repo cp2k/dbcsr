@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -227,7 +227,7 @@ private subroutine dbcsr_printmat_matlab_c(matrix, rows, cols, r_offset, c_offse
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~161"></span>complex(kind=real_4),</td>
+  <td><span class="anchor" id="variable-matrix~229"></span>complex(kind=real_4),</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -242,7 +242,7 @@ private subroutine dbcsr_printmat_matlab_c(matrix, rows, cols, r_offset, c_offse
   
 <tr>
   
-  <td><span class="anchor" id="variable-rows~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-rows~6"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -317,7 +317,7 @@ private subroutine dbcsr_printmat_matlab_c(matrix, rows, cols, r_offset, c_offse
   
 <tr>
   
-  <td><span class="anchor" id="variable-tr~18"></span>logical,</td>
+  <td><span class="anchor" id="variable-tr~23"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -431,10 +431,10 @@ private subroutine dbcsr_printmat_matlab_c(matrix, rows, cols, r_offset, c_offse
             <span class="n">n</span> <span class="o">=</span> <span class="n">rows</span>
             <span class="n">r_off</span> <span class="o">=</span> <span class="n">c_offset</span>
             <span class="n">c_off</span> <span class="o">=</span> <span class="n">r_offset</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
 
-      <span class="k">DO </span><span class="n">c</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">cols</span>
+<span class="k">      DO </span><span class="n">c</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">cols</span>
          <span class="k">DO </span><span class="n">r</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">rows</span>
             <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">t</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">               IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">variable_name</span><span class="p">))</span> <span class="k">THEN</span>
@@ -444,8 +444,8 @@ private subroutine dbcsr_printmat_matlab_c(matrix, rows, cols, r_offset, c_offse
                <span class="k">ELSE</span>
 <span class="k">                  WRITE</span> <span class="p">(</span><span class="n">iunit</span><span class="p">,</span> <span class="s1">&#39;(A,I3,A,I3,A,E15.7,A,E15.7,A)&#39;</span><span class="p">)</span> <span class="s1">&#39;a(&#39;</span><span class="p">,</span> <span class="n">r</span> <span class="o">+</span> <span class="n">r_offset</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">c</span> <span class="o">+</span> <span class="n">c_offset</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;)=&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
                      <span class="kt">REAL</span><span class="p">(</span><span class="n">matrix</span><span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="p">(</span><span class="n">c</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">rows</span><span class="p">)),</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="nb">AIMAG</span><span class="p">(</span><span class="n">matrix</span><span class="p">(</span><span class="n">r</span> <span class="o">+</span> <span class="p">(</span><span class="n">c</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">rows</span><span class="p">)),</span> <span class="s1">&#39;i;&#39;</span>
-               <span class="n">ENDIF</span>
-            <span class="k">ELSE</span>
+               <span class="k">ENDIF</span>
+<span class="k">            ELSE</span>
 <span class="k">               IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">variable_name</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">                  WRITE</span> <span class="p">(</span><span class="n">iunit</span><span class="p">,</span> <span class="s1">&#39;(A,I3,A,I3,A,E15.7,A,E15.7,A)&#39;</span><span class="p">)</span> <span class="n">variable_name</span><span class="o">//</span><span class="s1">&#39;(&#39;</span><span class="p">,</span> <span class="n">r</span> <span class="o">+</span> <span class="n">r_offset</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
                      <span class="n">c</span> <span class="o">+</span> <span class="n">c_offset</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;)=&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -453,11 +453,11 @@ private subroutine dbcsr_printmat_matlab_c(matrix, rows, cols, r_offset, c_offse
                <span class="k">ELSE</span>
 <span class="k">                  WRITE</span> <span class="p">(</span><span class="n">iunit</span><span class="p">,</span> <span class="s1">&#39;(A,I3,A,I3,A,E15.7,A,E15.7,A)&#39;</span><span class="p">)</span> <span class="s1">&#39;a(&#39;</span><span class="p">,</span> <span class="n">r</span> <span class="o">+</span> <span class="n">r_offset</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">c</span> <span class="o">+</span> <span class="n">c_offset</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;)=&#39;</span><span class="p">,</span> <span class="p">&amp;</span>
                      <span class="kt">REAL</span><span class="p">(</span><span class="n">matrix</span><span class="p">((</span><span class="n">r</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">cols</span> <span class="o">+</span> <span class="n">c</span><span class="p">)),</span> <span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="nb">AIMAG</span><span class="p">(</span><span class="n">matrix</span><span class="p">((</span><span class="n">r</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">cols</span> <span class="o">+</span> <span class="n">c</span><span class="p">)),</span> <span class="s1">&#39;i;&#39;</span>
-               <span class="n">ENDIF</span>
-            <span class="n">ENDIF</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDDO</span>
-   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_printmat_matlab_c</span>
+               <span class="k">ENDIF</span>
+<span class="k">            ENDIF</span>
+<span class="k">         ENDDO</span>
+<span class="k">      ENDDO</span>
+<span class="k">   END SUBROUTINE </span><span class="n">dbcsr_printmat_matlab_c</span>
 </pre></div>
 
     </section>

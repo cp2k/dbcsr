@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ private subroutine make_meta(buffer, ntotal_images, vprow, vpcol, imgdist, do_me
   
 <tr>
   
-  <td><span class="anchor" id="variable-buffer~6"></span>type(<a href='../type/dbcsr_buffer.html'>dbcsr_buffer</a>),</td>
+  <td><span class="anchor" id="variable-buffer~20"></span>type(<a href='../type/dbcsr_buffer.html'>dbcsr_buffer</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -259,7 +259,7 @@ private subroutine make_meta(buffer, ntotal_images, vprow, vpcol, imgdist, do_me
   
 <tr>
   
-  <td><span class="anchor" id="variable-vprow~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-vprow~3"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -274,7 +274,7 @@ private subroutine make_meta(buffer, ntotal_images, vprow, vpcol, imgdist, do_me
   
 <tr>
   
-  <td><span class="anchor" id="variable-vpcol~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-vpcol~3"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -289,7 +289,7 @@ private subroutine make_meta(buffer, ntotal_images, vprow, vpcol, imgdist, do_me
   
 <tr>
   
-  <td><span class="anchor" id="variable-imgdist~9"></span>type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),</td>
+  <td><span class="anchor" id="variable-imgdist~12"></span>type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -334,7 +334,7 @@ private subroutine make_meta(buffer, ntotal_images, vprow, vpcol, imgdist, do_me
   
 <tr>
   
-  <td><span class="anchor" id="variable-nthreads"></span>integer,</td>
+  <td><span class="anchor" id="variable-nthreads~2"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -430,8 +430,8 @@ private subroutine make_meta(buffer, ntotal_images, vprow, vpcol, imgdist, do_me
       <span class="n">size_index</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nthreads</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="c">!$       size_index = nthreads + 1</span>
-      <span class="n">ENDIF</span>
-      <span class="n">buffer</span><span class="p">%</span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_nblks</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">buffer</span><span class="p">%</span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_nblks</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
          <span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">meta_size</span> <span class="o">-</span> <span class="n">size_index</span><span class="p">)</span><span class="o">/</span><span class="mi">3</span>
       <span class="n">buffer</span><span class="p">%</span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_nze</span><span class="p">)</span> <span class="o">=</span> <span class="p">&amp;</span>
          <span class="n">dbcsr_data_get_size_referenced</span><span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="k">data</span><span class="p">)</span>
@@ -446,8 +446,8 @@ private subroutine make_meta(buffer, ntotal_images, vprow, vpcol, imgdist, do_me
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">buffer</span><span class="p">%</span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_home_vprow</span><span class="p">)</span> <span class="o">=</span> <span class="nb">MOD</span><span class="p">(</span><span class="n">vprow</span><span class="p">,</span> <span class="n">ntotal_images</span><span class="p">)</span>
          <span class="n">buffer</span><span class="p">%</span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_home_vpcol</span><span class="p">)</span> <span class="o">=</span> <span class="n">vpcol</span>
-      <span class="n">ENDIF</span>
-      <span class="n">buffer</span><span class="p">%</span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_row_p</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">buffer</span><span class="p">%</span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_row_p</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
       <span class="n">buffer</span><span class="p">%</span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_col_i</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
       <span class="n">buffer</span><span class="p">%</span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_blk_p</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
       <span class="c">! thr_c</span>

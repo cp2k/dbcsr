@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -230,7 +230,7 @@ public subroutine csr_create_template(matrix_b, matrix_a)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_b~43"></span>type(<a href='../type/csr_type.html'>csr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_b~53"></span>type(<a href='../type/csr_type.html'>csr_type</a>),</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -245,7 +245,7 @@ public subroutine csr_create_template(matrix_b, matrix_a)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_a~75"></span>type(<a href='../type/csr_type.html'>csr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_a~85"></span>type(<a href='../type/csr_type.html'>csr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -352,9 +352,9 @@ public subroutine csr_create_template(matrix_b, matrix_a)
 <span class="k">         </span><span class="n">matrix_b</span><span class="p">%</span><span class="n">rowptr_local</span> <span class="o">=</span> <span class="n">matrix_a</span><span class="p">%</span><span class="n">rowptr_local</span>
          <span class="n">matrix_b</span><span class="p">%</span><span class="n">nzerow_local</span> <span class="o">=</span> <span class="n">matrix_a</span><span class="p">%</span><span class="n">nzerow_local</span>
          <span class="n">matrix_b</span><span class="p">%</span><span class="n">colind_local</span> <span class="o">=</span> <span class="n">matrix_a</span><span class="p">%</span><span class="n">colind_local</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
-      <span class="k">IF</span> <span class="p">(</span><span class="n">matrix_a</span><span class="p">%</span><span class="n">has_mapping</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="n">matrix_a</span><span class="p">%</span><span class="n">has_mapping</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">map</span> <span class="o">=</span> <span class="n">matrix_a</span><span class="p">%</span><span class="n">dbcsr_mapping</span>
          <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">matrix_b</span><span class="p">%</span><span class="n">dbcsr_mapping</span><span class="p">%</span><span class="n">csr_to_brd_ind</span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">map</span><span class="p">%</span><span class="n">csr_to_brd_ind</span><span class="p">)))</span>
          <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">matrix_b</span><span class="p">%</span><span class="n">dbcsr_mapping</span><span class="p">%</span><span class="n">brd_to_csr_ind</span><span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">map</span><span class="p">%</span><span class="n">brd_to_csr_ind</span><span class="p">)))</span>
@@ -373,15 +373,15 @@ public subroutine csr_create_template(matrix_b, matrix_a)
             <span class="n">matrix_b</span><span class="p">%</span><span class="n">dbcsr_mapping</span><span class="p">%</span><span class="n">dbcsr_col_i</span> <span class="o">=</span> <span class="n">map</span><span class="p">%</span><span class="n">dbcsr_col_i</span>
             <span class="n">matrix_b</span><span class="p">%</span><span class="n">dbcsr_mapping</span><span class="p">%</span><span class="n">dbcsr_row_blk_size</span> <span class="o">=</span> <span class="n">map</span><span class="p">%</span><span class="n">dbcsr_row_blk_size</span>
             <span class="n">matrix_b</span><span class="p">%</span><span class="n">dbcsr_mapping</span><span class="p">%</span><span class="n">dbcsr_col_blk_size</span> <span class="o">=</span> <span class="n">map</span><span class="p">%</span><span class="n">dbcsr_col_blk_size</span>
-         <span class="n">ENDIF</span>
+         <span class="k">ENDIF</span>
 
-         <span class="k">CALL </span><span class="n">dbcsr_copy</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">%</span><span class="n">dbcsr_mapping</span><span class="p">%</span><span class="n">brd_mat</span><span class="p">,</span> <span class="n">map</span><span class="p">%</span><span class="n">brd_mat</span><span class="p">)</span>
+<span class="k">         CALL </span><span class="n">dbcsr_copy</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">%</span><span class="n">dbcsr_mapping</span><span class="p">%</span><span class="n">brd_mat</span><span class="p">,</span> <span class="n">map</span><span class="p">%</span><span class="n">brd_mat</span><span class="p">)</span>
 
          <span class="n">matrix_b</span><span class="p">%</span><span class="n">valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
 
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
-      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">csr_create_template</span>
 </pre></div>
 

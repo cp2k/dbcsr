@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ public subroutine meta_from_dist(meta, dist, row_blk_size, col_blk_size)
   
 <tr>
   
-  <td><span class="anchor" id="variable-meta~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-meta~2"></span>integer,</td>
   <td>intent(out),</td>
   <td></td>
   
@@ -244,7 +244,7 @@ public subroutine meta_from_dist(meta, dist, row_blk_size, col_blk_size)
   
 <tr>
   
-  <td><span class="anchor" id="variable-dist~64"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
+  <td><span class="anchor" id="variable-dist~32"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -259,7 +259,7 @@ public subroutine meta_from_dist(meta, dist, row_blk_size, col_blk_size)
   
 <tr>
   
-  <td><span class="anchor" id="variable-row_blk_size~12"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_blk_size~9"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -275,7 +275,7 @@ public subroutine meta_from_dist(meta, dist, row_blk_size, col_blk_size)
   
 <tr>
   
-  <td><span class="anchor" id="variable-col_blk_size~12"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_blk_size~9"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -377,11 +377,11 @@ public subroutine meta_from_dist(meta, dist, row_blk_size, col_blk_size)
       <span class="n">nfullcols_local</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dbcsr_distribution_nlocal_rows</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
          <span class="n">nfullrows_local</span> <span class="o">=</span> <span class="n">nfullrows_local</span> <span class="o">+</span> <span class="n">row_blk_size</span><span class="p">(</span><span class="n">blkrows_local</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-      <span class="n">ENDDO</span>
-      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dbcsr_distribution_nlocal_cols</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
+      <span class="k">ENDDO</span>
+<span class="k">      DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">dbcsr_distribution_nlocal_cols</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
          <span class="n">nfullcols_local</span> <span class="o">=</span> <span class="n">nfullcols_local</span> <span class="o">+</span> <span class="n">col_blk_size</span><span class="p">(</span><span class="n">blkcols_local</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
-      <span class="n">ENDDO</span>
-      <span class="n">meta</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="k">ENDDO</span>
+<span class="k">      </span><span class="n">meta</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="n">meta</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="o">=</span> <span class="n">dbcsr_distribution_nrows</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
       <span class="n">meta</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span> <span class="o">=</span> <span class="n">dbcsr_distribution_ncols</span><span class="p">(</span><span class="n">dist</span><span class="p">)</span>
       <span class="n">meta</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span> <span class="o">=</span> <span class="n">nfullrows_total</span>

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ public function dbcsr_get_data_size_used(matrix) result(data_size)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~198"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~321"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -248,7 +248,7 @@ public function dbcsr_get_data_size_used(matrix) result(data_size)
     
     
     
-   <h3>Return Value <small><span class="anchor" id="variable-data_size~4"></span>integer
+   <h3>Return Value <small><span class="anchor" id="variable-data_size~21"></span>integer
   </small></h3>
     <p>Data size used by matrix</p>
     
@@ -341,9 +341,9 @@ public function dbcsr_get_data_size_used(matrix) result(data_size)
             <span class="k">IF</span> <span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">blk_p</span><span class="p">(</span><span class="n">blk</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">               </span><span class="n">nze</span> <span class="o">=</span> <span class="n">row_blk_sizes</span><span class="p">(</span><span class="n">row</span><span class="p">)</span><span class="o">*</span><span class="n">col_blk_sizes</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
                <span class="n">data_size</span> <span class="o">=</span> <span class="n">data_size</span> <span class="o">+</span> <span class="n">nze</span>
-            <span class="n">ENDIF</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDDO</span>
+            <span class="k">ENDIF</span>
+<span class="k">         ENDDO</span>
+<span class="k">      ENDDO</span>
 <span class="c">!$OMP     END DO</span>
       <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
    <span class="k">END FUNCTION </span><span class="n">dbcsr_get_data_size_used</span>

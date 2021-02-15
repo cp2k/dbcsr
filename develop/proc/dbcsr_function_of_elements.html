@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -247,7 +247,7 @@ public subroutine dbcsr_function_of_elements(matrix_a, func, a0, a1, a2)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_a~40"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_a~50"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -426,19 +426,19 @@ public subroutine dbcsr_function_of_elements(matrix_a, func, a0, a1, a2)
 <span class="k">         </span><span class="n">p0</span> <span class="o">=</span> <span class="n">a0</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">p0</span> <span class="o">=</span> <span class="mf">0.0_dp</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">a1</span><span class="p">))</span> <span class="k">THEN</span>
+      <span class="k">ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">a1</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">p1</span> <span class="o">=</span> <span class="n">a1</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">p1</span> <span class="o">=</span> <span class="mf">1.0_dp</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">a2</span><span class="p">))</span> <span class="k">THEN</span>
+      <span class="k">ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">a2</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">p2</span> <span class="o">=</span> <span class="n">a2</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">p2</span> <span class="o">=</span> <span class="mf">0.0_dp</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
-      <span class="n">data_type</span> <span class="o">=</span> <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span>
+<span class="k">      </span><span class="n">data_type</span> <span class="o">=</span> <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">a_data</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="n">a_data</span><span class="p">,</span> <span class="n">data_type</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_iterator_start</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span> <span class="n">matrix_a</span><span class="p">)</span>
@@ -458,16 +458,16 @@ public subroutine dbcsr_function_of_elements(matrix_a, func, a0, a1, a2)
                <span class="k">DO </span><span class="n">ielem</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nze</span>
                   <span class="k">IF</span> <span class="p">(</span><span class="nb">ABS</span><span class="p">(</span><span class="n">a_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(</span><span class="n">ielem</span><span class="p">))</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="nb">ABS</span><span class="p">(</span><span class="n">p0</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">                     </span><span class="n">a_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(</span><span class="n">ielem</span><span class="p">)</span> <span class="o">=</span> <span class="nb">SIGN</span><span class="p">(</span><span class="n">p0</span><span class="p">,</span> <span class="n">a_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(</span><span class="n">ielem</span><span class="p">))</span>
-                  <span class="n">ENDIF</span>
-               <span class="n">ENDDO</span>
-            <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_func_truncate</span><span class="p">)</span>
+                  <span class="k">ENDIF</span>
+<span class="k">               ENDDO</span>
+<span class="k">            CASE</span> <span class="p">(</span><span class="n">dbcsr_func_truncate</span><span class="p">)</span>
                <span class="c">! if |x|&gt;|a0| then x=|a0|*sign(x)</span>
                <span class="k">DO </span><span class="n">ielem</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nze</span>
                   <span class="k">IF</span> <span class="p">(</span><span class="nb">ABS</span><span class="p">(</span><span class="n">a_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(</span><span class="n">ielem</span><span class="p">))</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="nb">ABS</span><span class="p">(</span><span class="n">p0</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">                     </span><span class="n">a_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(</span><span class="n">ielem</span><span class="p">)</span> <span class="o">=</span> <span class="nb">SIGN</span><span class="p">(</span><span class="n">p0</span><span class="p">,</span> <span class="n">a_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(</span><span class="n">ielem</span><span class="p">))</span>
-                  <span class="n">ENDIF</span>
-               <span class="n">ENDDO</span>
-            <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_func_inverse_special</span><span class="p">)</span>
+                  <span class="k">ENDIF</span>
+<span class="k">               ENDDO</span>
+<span class="k">            CASE</span> <span class="p">(</span><span class="n">dbcsr_func_inverse_special</span><span class="p">)</span>
                <span class="c">!IF (MINVAL(ABS(a_data%d%r_dp)).le.ABS(p2)) THEN</span>
                <span class="c">!   ! there is at least one near-zero element,</span>
                <span class="c">!   ! invert element-by-element</span>
@@ -525,8 +525,8 @@ public subroutine dbcsr_function_of_elements(matrix_a, func, a0, a1, a2)
          <span class="k">CASE </span><span class="n">DEFAULT</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Operation is implemented only for dp real values&quot;</span><span class="p">)</span>
          <span class="k">END SELECT</span>
-<span class="k">      </span><span class="n">ENDDO</span>
-      <span class="k">CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
+<span class="k">      ENDDO</span>
+<span class="k">      CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_data_clear_pointer</span><span class="p">(</span><span class="n">a_data</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">a_data</span><span class="p">)</span>
       <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>

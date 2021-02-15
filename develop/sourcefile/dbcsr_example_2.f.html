@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -395,10 +395,10 @@
 <a name="ln-133"></a>            <span class="c">! fill the matrix with the random block</span>
 <a name="ln-134"></a>            <span class="k">CALL </span><span class="nb">RANDOM_NUMBER</span><span class="p">(</span><span class="n">values</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">))</span>
 <a name="ln-135"></a>            <span class="k">CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">,</span> <span class="n">row_s</span><span class="p">,</span> <span class="n">col_s</span><span class="p">,</span> <span class="n">values</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">))</span>
-<a name="ln-136"></a>         <span class="n">ENDIF</span>
-<a name="ln-137"></a>      <span class="n">ENDDO</span>
-<a name="ln-138"></a>   <span class="n">ENDDO</span>
-<a name="ln-139"></a>   <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">values</span><span class="p">)</span>
+<a name="ln-136"></a>         <span class="k">ENDIF</span>
+<a name="ln-137"></a><span class="k">      ENDDO</span>
+<a name="ln-138"></a><span class="k">   ENDDO</span>
+<a name="ln-139"></a><span class="k">   DEALLOCATE</span> <span class="p">(</span><span class="n">values</span><span class="p">)</span>
 <a name="ln-140"></a>
 <a name="ln-141"></a>   <span class="c">!</span>
 <a name="ln-142"></a>   <span class="c">! finalize the DBCSR matrix</span>

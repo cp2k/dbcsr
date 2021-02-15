@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -374,19 +374,19 @@ public subroutine dbcsr_desymmetrize_deep(sm, desm, untransposed_data)
          <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Input matrix is invalid.&quot;</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_valid_index</span><span class="p">(</span><span class="n">desm</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">desm</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">dbcsr_create</span><span class="p">(</span><span class="n">desm</span><span class="p">,</span> <span class="n">sm</span><span class="p">,</span> <span class="n">matrix_type</span><span class="o">=</span><span class="s2">&quot;N&quot;</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      CALL </span><span class="n">dbcsr_create</span><span class="p">(</span><span class="n">desm</span><span class="p">,</span> <span class="n">sm</span><span class="p">,</span> <span class="n">matrix_type</span><span class="o">=</span><span class="s2">&quot;N&quot;</span><span class="p">)</span>
 
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">untransposed_data</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">make_untr</span> <span class="o">=</span> <span class="n">untransposed_data</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">make_untr</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-      <span class="n">ENDIF</span>
-      <span class="n">nsymmetries</span> <span class="o">=</span> <span class="mi">1</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">nsymmetries</span> <span class="o">=</span> <span class="mi">1</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">sm</span><span class="p">%</span><span class="n">symmetry</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">nsymmetries</span> <span class="o">=</span> <span class="mi">2</span>
-      <span class="n">ENDIF</span>
-      <span class="n">row_blk_size</span> <span class="o">=&gt;</span> <span class="n">array_data</span><span class="p">(</span><span class="n">sm</span><span class="p">%</span><span class="n">row_blk_size</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">row_blk_size</span> <span class="o">=&gt;</span> <span class="n">array_data</span><span class="p">(</span><span class="n">sm</span><span class="p">%</span><span class="n">row_blk_size</span><span class="p">)</span>
       <span class="n">col_blk_size</span> <span class="o">=&gt;</span> <span class="n">array_data</span><span class="p">(</span><span class="n">sm</span><span class="p">%</span><span class="n">col_blk_size</span><span class="p">)</span>
       <span class="n">target_dist</span> <span class="o">=</span> <span class="n">sm</span><span class="p">%</span><span class="n">dist</span>
       <span class="n">row_dist</span> <span class="o">=&gt;</span> <span class="n">dbcsr_distribution_row_dist</span><span class="p">(</span><span class="n">target_dist</span><span class="p">)</span>
@@ -421,7 +421,7 @@ public subroutine dbcsr_desymmetrize_deep(sm, desm, untransposed_data)
             <span class="k">ELSE</span>
 <span class="k">               IF</span> <span class="p">(</span><span class="n">row</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">col</span><span class="p">)</span> <span class="k">CYCLE</span>
 <span class="k">               </span><span class="n">stored_row</span> <span class="o">=</span> <span class="n">col</span><span class="p">;</span> <span class="n">stored_col</span> <span class="o">=</span> <span class="n">row</span>
-            <span class="n">ENDIF</span>
+            <span class="k">ENDIF</span>
             <span class="c">! Where do we send this block?</span>
             <span class="n">prow</span> <span class="o">=</span> <span class="n">row_dist</span><span class="p">(</span><span class="n">stored_row</span><span class="p">)</span>
             <span class="n">pcol</span> <span class="o">=</span> <span class="n">col_dist</span><span class="p">(</span><span class="n">stored_col</span><span class="p">)</span>
@@ -429,8 +429,8 @@ public subroutine dbcsr_desymmetrize_deep(sm, desm, untransposed_data)
             <span class="n">nze</span> <span class="o">=</span> <span class="n">row_size</span><span class="o">*</span><span class="n">col_size</span>
             <span class="n">send_count</span><span class="p">(</span><span class="n">imeta</span><span class="p">,</span> <span class="n">dst_p</span><span class="p">)</span> <span class="o">=</span> <span class="n">send_count</span><span class="p">(</span><span class="n">imeta</span><span class="p">,</span> <span class="n">dst_p</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
             <span class="n">send_count</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">dst_p</span><span class="p">)</span> <span class="o">=</span> <span class="n">send_count</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">dst_p</span><span class="p">)</span> <span class="o">+</span> <span class="n">nze</span>
-         <span class="n">ENDDO</span> <span class="c">! symmetry_i</span>
-      <span class="n">ENDDO</span> <span class="c">! iter</span>
+         <span class="k">ENDDO</span> <span class="c">! symmetry_i</span>
+      <span class="k">ENDDO</span> <span class="c">! iter</span>
       <span class="k">CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
       <span class="c">!</span>
       <span class="k">CALL </span><span class="n">mp_alltoall</span><span class="p">(</span><span class="n">send_count</span><span class="p">,</span> <span class="n">recv_count</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">mp_group</span><span class="p">)</span>
@@ -451,8 +451,8 @@ public subroutine dbcsr_desymmetrize_deep(sm, desm, untransposed_data)
          <span class="n">total_send_count</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">dst_p</span><span class="p">)</span> <span class="o">=</span> <span class="n">send_count</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">dst_p</span><span class="p">)</span>
          <span class="n">total_recv_count</span><span class="p">(</span><span class="n">imeta</span><span class="p">,</span> <span class="n">dst_p</span><span class="p">)</span> <span class="o">=</span> <span class="n">recv_count</span><span class="p">(</span><span class="n">imeta</span><span class="p">,</span> <span class="n">dst_p</span><span class="p">)</span>
          <span class="n">total_recv_count</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">dst_p</span><span class="p">)</span> <span class="o">=</span> <span class="n">recv_count</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">dst_p</span><span class="p">)</span>
-      <span class="n">ENDDO</span>
-      <span class="n">sd_disp</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">sm_disp</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+      <span class="k">ENDDO</span>
+<span class="k">      </span><span class="n">sd_disp</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">sm_disp</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
       <span class="n">rd_disp</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="n">rm_disp</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
       <span class="n">sd_disp</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">sm_disp</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
       <span class="n">rd_disp</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">rm_disp</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span>
@@ -465,8 +465,8 @@ public subroutine dbcsr_desymmetrize_deep(sm, desm, untransposed_data)
                           <span class="o">+</span> <span class="n">metalen</span><span class="o">*</span><span class="n">total_recv_count</span><span class="p">(</span><span class="n">imeta</span><span class="p">,</span> <span class="n">dst_p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
          <span class="n">rd_disp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">=</span> <span class="n">rd_disp</span><span class="p">(</span><span class="n">dst_p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
                           <span class="o">+</span> <span class="n">total_recv_count</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">dst_p</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-      <span class="n">ENDDO</span>
-      <span class="n">sdp</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">sd_disp</span>
+      <span class="k">ENDDO</span>
+<span class="k">      </span><span class="n">sdp</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">sd_disp</span>
       <span class="n">smp</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">sm_disp</span>
       <span class="c">!</span>
       <span class="k">CALL </span><span class="n">dbcsr_iterator_start</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span> <span class="n">sm</span><span class="p">)</span>
@@ -479,7 +479,7 @@ public subroutine dbcsr_desymmetrize_deep(sm, desm, untransposed_data)
             <span class="k">ELSE</span>
 <span class="k">               IF</span> <span class="p">(</span><span class="n">row</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">col</span><span class="p">)</span> <span class="k">CYCLE</span>
 <span class="k">               </span><span class="n">stored_row</span> <span class="o">=</span> <span class="n">col</span><span class="p">;</span> <span class="n">stored_col</span> <span class="o">=</span> <span class="n">row</span><span class="p">;</span> <span class="n">tr</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-            <span class="n">ENDIF</span>
+            <span class="k">ENDIF</span>
             <span class="c">! Where do we send this block?</span>
             <span class="n">prow</span> <span class="o">=</span> <span class="n">row_dist</span><span class="p">(</span><span class="n">stored_row</span><span class="p">)</span>
             <span class="n">pcol</span> <span class="o">=</span> <span class="n">col_dist</span><span class="p">(</span><span class="n">stored_col</span><span class="p">)</span>
@@ -513,11 +513,11 @@ public subroutine dbcsr_desymmetrize_deep(sm, desm, untransposed_data)
                                     <span class="n">sm</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span> <span class="p">(</span><span class="o">/</span><span class="nb">ABS</span><span class="p">(</span><span class="n">blk_p</span><span class="p">)</span><span class="o">/</span><span class="p">),</span> <span class="p">(</span><span class="o">/</span><span class="n">nze</span><span class="o">/</span><span class="p">))</span>
                <span class="k">IF</span> <span class="p">(</span><span class="n">tr</span><span class="p">)</span> <span class="p">&amp;</span>
                   <span class="n">send_meta</span><span class="p">(</span><span class="n">smp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span> <span class="o">=</span> <span class="o">-</span><span class="n">send_meta</span><span class="p">(</span><span class="n">smp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
-            <span class="n">smp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">=</span> <span class="n">smp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">+</span> <span class="n">metalen</span>
+            <span class="k">ENDIF</span>
+<span class="k">            </span><span class="n">smp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">=</span> <span class="n">smp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">+</span> <span class="n">metalen</span>
             <span class="n">sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">=</span> <span class="n">sdp</span><span class="p">(</span><span class="n">dst_p</span><span class="p">)</span> <span class="o">+</span> <span class="n">nze</span>
-         <span class="n">ENDDO</span> <span class="c">! symmetry_i</span>
-      <span class="n">ENDDO</span> <span class="c">! iter</span>
+         <span class="k">ENDDO</span> <span class="c">! symmetry_i</span>
+      <span class="k">ENDDO</span> <span class="c">! iter</span>
       <span class="k">CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
       <span class="c">! Exchange the data and metadata structures.</span>
       <span class="k">CALL </span><span class="n">hybrid_alltoall_any</span><span class="p">(</span><span class="n">send_data</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -546,8 +546,8 @@ public subroutine dbcsr_desymmetrize_deep(sm, desm, untransposed_data)
          <span class="k">IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            IF</span> <span class="p">((</span><span class="n">blks</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">3</span> <span class="o">/=</span> <span class="n">rm_disp</span><span class="p">(</span><span class="n">src_p</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
                <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Count mismatch&quot;</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="n">blks</span> <span class="o">=</span> <span class="p">(</span><span class="n">rm_disp</span><span class="p">(</span><span class="n">src_p</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">metalen</span> <span class="o">+</span> <span class="mi">1</span>
+         <span class="k">ENDIF</span>
+<span class="k">         </span><span class="n">blks</span> <span class="o">=</span> <span class="p">(</span><span class="n">rm_disp</span><span class="p">(</span><span class="n">src_p</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">metalen</span> <span class="o">+</span> <span class="mi">1</span>
          <span class="k">DO </span><span class="n">blk_l</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">recv_count</span><span class="p">(</span><span class="n">imeta</span><span class="p">,</span> <span class="n">src_p</span><span class="p">)</span>
             <span class="n">stored_row</span> <span class="o">=</span> <span class="n">recv_meta</span><span class="p">(</span><span class="n">rm_disp</span><span class="p">(</span><span class="n">src_p</span><span class="p">)</span> <span class="o">+</span> <span class="n">metalen</span><span class="o">*</span><span class="p">(</span><span class="n">blk_l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
             <span class="n">stored_col</span> <span class="o">=</span> <span class="n">recv_meta</span><span class="p">(</span><span class="n">rm_disp</span><span class="p">(</span><span class="n">src_p</span><span class="p">)</span> <span class="o">+</span> <span class="n">metalen</span><span class="o">*</span><span class="p">(</span><span class="n">blk_l</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
@@ -559,8 +559,8 @@ public subroutine dbcsr_desymmetrize_deep(sm, desm, untransposed_data)
                   <span class="o">*</span><span class="n">col_blk_size</span><span class="p">(</span><span class="n">stored_col</span><span class="p">)</span>
             <span class="n">blk_ps</span> <span class="o">=</span> <span class="n">blk_ps</span> <span class="o">+</span> <span class="n">nze</span>
             <span class="n">blks</span> <span class="o">=</span> <span class="n">blks</span> <span class="o">+</span> <span class="mi">1</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDDO</span>
+         <span class="k">ENDDO</span>
+<span class="k">      ENDDO</span>
       <span class="c">!</span>
       <span class="n">desm</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">lastblk</span> <span class="o">=</span> <span class="n">blks</span> <span class="o">-</span> <span class="mi">1</span>
       <span class="n">desm</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">)%</span><span class="n">datasize</span> <span class="o">=</span> <span class="n">blk_ps</span> <span class="o">-</span> <span class="mi">1</span>

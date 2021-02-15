@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ private subroutine dbcsr_get_block_p_d(matrix, row, col, block, tr, found, row_s
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~248"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~268"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -244,7 +244,7 @@ private subroutine dbcsr_get_block_p_d(matrix, row, col, block, tr, found, row_s
   
 <tr>
   
-  <td><span class="anchor" id="variable-row~65"></span>integer,</td>
+  <td><span class="anchor" id="variable-row~104"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -260,7 +260,7 @@ private subroutine dbcsr_get_block_p_d(matrix, row, col, block, tr, found, row_s
   
 <tr>
   
-  <td><span class="anchor" id="variable-col~43"></span>integer,</td>
+  <td><span class="anchor" id="variable-col~55"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -276,7 +276,7 @@ private subroutine dbcsr_get_block_p_d(matrix, row, col, block, tr, found, row_s
   
 <tr>
   
-  <td><span class="anchor" id="variable-block~51"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-block~157"></span>real(kind=real_8),</td>
   <td></td>
   <td></td>
   
@@ -291,7 +291,7 @@ private subroutine dbcsr_get_block_p_d(matrix, row, col, block, tr, found, row_s
   
 <tr>
   
-  <td><span class="anchor" id="variable-tr~30"></span>logical,</td>
+  <td><span class="anchor" id="variable-tr~31"></span>logical,</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -306,7 +306,7 @@ private subroutine dbcsr_get_block_p_d(matrix, row, col, block, tr, found, row_s
   
 <tr>
   
-  <td><span class="anchor" id="variable-found~26"></span>logical,</td>
+  <td><span class="anchor" id="variable-found~63"></span>logical,</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -321,7 +321,7 @@ private subroutine dbcsr_get_block_p_d(matrix, row, col, block, tr, found, row_s
   
 <tr>
   
-  <td><span class="anchor" id="variable-row_size~48"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_size~69"></span>integer,</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -337,7 +337,7 @@ private subroutine dbcsr_get_block_p_d(matrix, row, col, block, tr, found, row_s
   
 <tr>
   
-  <td><span class="anchor" id="variable-col_size~46"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_size~68"></span>integer,</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -444,9 +444,9 @@ private subroutine dbcsr_get_block_p_d(matrix, row, col, block, tr, found, row_s
       <span class="k">IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_type</span> <span class="o">/=</span> <span class="n">dbcsr_type_real_8</span><span class="p">)</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Data type mismatch for requested block.&quot;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
-      <span class="k">CALL </span><span class="n">dbcsr_get_block_index</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">stored_row</span><span class="p">,</span> <span class="n">stored_col</span><span class="p">,</span> <span class="p">&amp;</span>
+<span class="k">      CALL </span><span class="n">dbcsr_get_block_index</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">stored_row</span><span class="p">,</span> <span class="n">stored_col</span><span class="p">,</span> <span class="p">&amp;</span>
                                  <span class="n">stored_tr</span><span class="p">,</span> <span class="n">found</span><span class="p">,</span> <span class="n">blk</span><span class="p">,</span> <span class="n">offset</span><span class="p">)</span>
       <span class="n">tr</span> <span class="o">=</span> <span class="n">stored_tr</span>
 
@@ -467,8 +467,8 @@ private subroutine dbcsr_get_block_p_d(matrix, row, col, block, tr, found, row_s
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Can not retrieve blocks from non-mutable work matrices.&quot;</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_use_mutable</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Can not retrieve rank-1 block pointers from mutable work matrices.&quot;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_get_block_p_d</span>
+      <span class="k">ENDIF</span>
+<span class="k">   END SUBROUTINE </span><span class="n">dbcsr_get_block_p_d</span>
 </pre></div>
 
     </section>

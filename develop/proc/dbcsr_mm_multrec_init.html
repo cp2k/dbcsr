@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ public subroutine dbcsr_mm_multrec_init(this, left, right, product, keep_sparsit
   
 <tr>
   
-  <td><span class="anchor" id="variable-this~3"></span>type(<a href='../type/dbcsr_mm_multrec_type.html'>dbcsr_mm_multrec_type</a>),</td>
+  <td><span class="anchor" id="variable-this~28"></span>type(<a href='../type/dbcsr_mm_multrec_type.html'>dbcsr_mm_multrec_type</a>),</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -244,7 +244,7 @@ public subroutine dbcsr_mm_multrec_init(this, left, right, product, keep_sparsit
   
 <tr>
   
-  <td><span class="anchor" id="variable-left~2"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-left~10"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -260,7 +260,7 @@ public subroutine dbcsr_mm_multrec_init(this, left, right, product, keep_sparsit
   
 <tr>
   
-  <td><span class="anchor" id="variable-right~2"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-right~10"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -276,7 +276,7 @@ public subroutine dbcsr_mm_multrec_init(this, left, right, product, keep_sparsit
   
 <tr>
   
-  <td><span class="anchor" id="variable-product"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-product~2"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -306,7 +306,7 @@ public subroutine dbcsr_mm_multrec_init(this, left, right, product, keep_sparsit
   
 <tr>
   
-  <td><span class="anchor" id="variable-eps~12"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-eps~8"></span>real(kind=real_8),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -321,7 +321,7 @@ public subroutine dbcsr_mm_multrec_init(this, left, right, product, keep_sparsit
   
 <tr>
   
-  <td><span class="anchor" id="variable-row_max_epss~2"></span>real(kind=sp),</td>
+  <td><span class="anchor" id="variable-row_max_epss~4"></span>real(kind=sp),</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -336,7 +336,7 @@ public subroutine dbcsr_mm_multrec_init(this, left, right, product, keep_sparsit
   
 <tr>
   
-  <td><span class="anchor" id="variable-block_estimate"></span>integer,</td>
+  <td><span class="anchor" id="variable-block_estimate~3"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -351,7 +351,7 @@ public subroutine dbcsr_mm_multrec_init(this, left, right, product, keep_sparsit
   
 <tr>
   
-  <td><span class="anchor" id="variable-right_row_blk_size"></span>integer,</td>
+  <td><span class="anchor" id="variable-right_row_blk_size~2"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -366,7 +366,7 @@ public subroutine dbcsr_mm_multrec_init(this, left, right, product, keep_sparsit
   
 <tr>
   
-  <td><span class="anchor" id="variable-m_sizes~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-m_sizes~6"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -381,7 +381,7 @@ public subroutine dbcsr_mm_multrec_init(this, left, right, product, keep_sparsit
   
 <tr>
   
-  <td><span class="anchor" id="variable-n_sizes~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-n_sizes~6"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -396,7 +396,7 @@ public subroutine dbcsr_mm_multrec_init(this, left, right, product, keep_sparsit
   
 <tr>
   
-  <td><span class="anchor" id="variable-nlayers"></span>integer,</td>
+  <td><span class="anchor" id="variable-nlayers~4"></span>integer,</td>
   <td></td>
   <td>optional</td>
   
@@ -528,7 +528,7 @@ public subroutine dbcsr_mm_multrec_init(this, left, right, product, keep_sparsit
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Matrices must have local indexing.&quot;</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">left</span><span class="p">%</span><span class="n">local_indexing</span><span class="p">)</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Matrices must have local indexing.&quot;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">!</span>
       <span class="c">! Fill result data structure.</span>
       <span class="n">this</span><span class="p">%</span><span class="n">keep_sparsity</span> <span class="o">=</span> <span class="n">keep_sparsity</span>
@@ -542,7 +542,7 @@ public subroutine dbcsr_mm_multrec_init(this, left, right, product, keep_sparsit
 <span class="k">         </span><span class="n">this</span><span class="p">%</span><span class="n">eps</span> <span class="o">=</span> <span class="n">eps</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">this</span><span class="p">%</span><span class="n">eps</span> <span class="o">=</span> <span class="mf">0.0_real_8</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">!</span>
       <span class="c">!</span>
 <span class="c">!$    NULLIFY (product_thread_dist)</span>
@@ -566,35 +566,35 @@ public subroutine dbcsr_mm_multrec_init(this, left, right, product, keep_sparsit
             <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot;dist local rows&quot;</span><span class="p">,</span> <span class="n">dbcsr_distribution_local_rows</span><span class="p">(</span><span class="nb">product</span><span class="p">%</span><span class="n">dist</span><span class="p">)</span>
             <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot; mat local rows&quot;</span><span class="p">,</span> <span class="n">array_data</span><span class="p">(</span><span class="nb">product</span><span class="p">%</span><span class="n">local_rows</span><span class="p">)</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Array mismatch.&quot;</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">array_equality</span><span class="p">(</span><span class="n">dbcsr_distribution_local_cols_obj</span><span class="p">(</span><span class="nb">product</span><span class="p">%</span><span class="n">dist</span><span class="p">),</span> <span class="p">&amp;</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">array_equality</span><span class="p">(</span><span class="n">dbcsr_distribution_local_cols_obj</span><span class="p">(</span><span class="nb">product</span><span class="p">%</span><span class="n">dist</span><span class="p">),</span> <span class="p">&amp;</span>
                                   <span class="nb">product</span><span class="p">%</span><span class="n">local_cols</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot;col dist&quot;</span><span class="p">,</span> <span class="n">dbcsr_distribution_col_dist</span><span class="p">(</span><span class="nb">product</span><span class="p">%</span><span class="n">dist</span><span class="p">)</span>
             <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot;dist local cols&quot;</span><span class="p">,</span> <span class="n">dbcsr_distribution_local_cols</span><span class="p">(</span><span class="nb">product</span><span class="p">%</span><span class="n">dist</span><span class="p">)</span>
             <span class="k">WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="s2">&quot; mat local cols&quot;</span><span class="p">,</span> <span class="n">array_data</span><span class="p">(</span><span class="nb">product</span><span class="p">%</span><span class="n">local_cols</span><span class="p">)</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Array mismatch.&quot;</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">c_local_rows</span><span class="p">)</span> <span class="o">/=</span> <span class="n">c_nblkrows_local</span><span class="p">)</span> <span class="p">&amp;</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">c_local_rows</span><span class="p">)</span> <span class="o">/=</span> <span class="n">c_nblkrows_local</span><span class="p">)</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Row count mismatch.&quot;</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">c_local_cols</span><span class="p">)</span> <span class="o">/=</span> <span class="n">c_nblkcols_local</span><span class="p">)</span> <span class="p">&amp;</span>
             <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Column count mismatch.&quot;</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">!</span>
       <span class="c">! And the k epsilons</span>
       <span class="k">IF</span> <span class="p">((</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">left</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">right</span><span class="p">))</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">this</span><span class="p">%</span><span class="n">use_eps</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">row_max_epss</span><span class="p">(</span><span class="n">c_nblkrows_local</span><span class="p">))</span>
          <span class="n">this</span><span class="p">%</span><span class="n">new_row_max_epss</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">use_eps</span><span class="p">)</span> <span class="k">THEN</span>
+      <span class="k">ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">use_eps</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">left</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="nb">PRESENT</span><span class="p">(</span><span class="n">right</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">local_filter_sp</span><span class="p">(</span><span class="n">row_max_epss</span><span class="p">,</span> <span class="n">c_nblkrows_local</span><span class="p">,</span> <span class="n">c_local_rows</span><span class="p">,</span> <span class="p">&amp;</span>
                                  <span class="n">this</span><span class="p">%</span><span class="n">row_max_epss</span><span class="p">)</span>
          <span class="k">ELSE</span>
 <span class="k">            </span><span class="n">this</span><span class="p">%</span><span class="n">row_max_epss</span> <span class="o">=&gt;</span> <span class="n">row_max_epss</span>
-         <span class="n">ENDIF</span>
-      <span class="k">ELSE</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ELSE</span>
 <span class="k">         </span><span class="n">this</span><span class="p">%</span><span class="n">row_max_epss</span><span class="p">(:)</span> <span class="o">=</span> <span class="o">-</span><span class="nb">HUGE</span><span class="p">(</span><span class="mf">0.0_sp</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">!</span>
       <span class="n">this</span><span class="p">%</span><span class="n">m_sizes</span> <span class="o">=&gt;</span> <span class="n">m_sizes</span>
       <span class="n">this</span><span class="p">%</span><span class="n">n_sizes</span> <span class="o">=&gt;</span> <span class="n">n_sizes</span>

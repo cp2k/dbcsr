@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -244,7 +244,7 @@ private function next_linebreak(message, pos, rowlen) result(ibreak)
   
 <tr>
   
-  <td><span class="anchor" id="variable-pos~7"></span>integer,</td>
+  <td><span class="anchor" id="variable-pos~28"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -361,9 +361,9 @@ private function next_linebreak(message, pos, rowlen) result(ibreak)
 <span class="k">            </span><span class="n">ibreak</span> <span class="o">=</span> <span class="n">pos</span> <span class="o">+</span> <span class="n">rowlen</span> <span class="o">-</span> <span class="mi">1</span> <span class="c">! no space found, break mid-word</span>
          <span class="k">ELSE</span>
 <span class="k">            </span><span class="n">ibreak</span> <span class="o">=</span> <span class="n">pos</span> <span class="o">+</span> <span class="n">i</span> <span class="c">! break at space closest to rowlen</span>
-         <span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
-   <span class="k">END FUNCTION </span><span class="n">next_linebreak</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
+<span class="k">   END FUNCTION </span><span class="n">next_linebreak</span>
 </pre></div>
 
     </section>

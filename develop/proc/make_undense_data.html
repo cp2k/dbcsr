@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -230,7 +230,7 @@ private subroutine make_undense_data(matrix, dense_data, nfullrows, nfullcols, d
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~152"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~179"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -328,7 +328,7 @@ private subroutine make_undense_data(matrix, dense_data, nfullrows, nfullcols, d
   
 <tr>
   
-  <td><span class="anchor" id="variable-row_map~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_map~9"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -346,7 +346,7 @@ private subroutine make_undense_data(matrix, dense_data, nfullrows, nfullcols, d
   
 <tr>
   
-  <td><span class="anchor" id="variable-col_map~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_map~9"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -535,13 +535,13 @@ private subroutine make_undense_data(matrix, dense_data, nfullrows, nfullcols, d
                <span class="n">src_rs</span><span class="o">=</span><span class="n">dense_rs</span><span class="p">,</span> <span class="n">src_cs</span><span class="o">=</span><span class="n">dense_cs</span><span class="p">,</span> <span class="n">src_tr</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.,</span> <span class="p">&amp;</span>
                <span class="n">src_r_lb</span><span class="o">=</span><span class="n">sro</span><span class="p">,</span> <span class="n">src_c_lb</span><span class="o">=</span><span class="n">sco</span><span class="p">,</span> <span class="p">&amp;</span>
                <span class="n">nrow</span><span class="o">=</span><span class="n">blk_row_size</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="n">blk_col_size</span><span class="p">)</span>
-         <span class="n">ENDDO</span>
-         <span class="k">CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
+         <span class="k">ENDDO</span>
+<span class="k">         CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
          <span class="k">CALL </span><span class="n">dbcsr_data_clear_pointer</span><span class="p">(</span><span class="k">block</span><span class="p">)</span>
          <span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="k">block</span><span class="p">)</span>
 <span class="c">!$OMP END PARALLEL</span>
-      <span class="n">ENDIF</span>
-   <span class="k">END SUBROUTINE </span><span class="n">make_undense_data</span>
+      <span class="k">ENDIF</span>
+<span class="k">   END SUBROUTINE </span><span class="n">make_undense_data</span>
 </pre></div>
 
     </section>

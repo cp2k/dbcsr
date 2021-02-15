@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -263,7 +263,7 @@ private function dbcsr_get_data_c_s(area, select_data_type, lb, ub) result(DATA)
   
 <tr>
   
-  <td><span class="anchor" id="variable-lb~14"></span>integer,</td>
+  <td><span class="anchor" id="variable-lb~12"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -279,7 +279,7 @@ private function dbcsr_get_data_c_s(area, select_data_type, lb, ub) result(DATA)
   
 <tr>
   
-  <td><span class="anchor" id="variable-ub~13"></span>integer,</td>
+  <td><span class="anchor" id="variable-ub~12"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -299,7 +299,7 @@ private function dbcsr_get_data_c_s(area, select_data_type, lb, ub) result(DATA)
     
     
     
-   <h3>Return Value <small><span class="anchor" id="variable-data~21"></span>real(kind=real_4),
+   <h3>Return Value <small><span class="anchor" id="variable-data~18"></span>real(kind=real_4),
   DIMENSION(:),POINTER</small></h3>
     <p>pointer to data</p>
     
@@ -405,15 +405,15 @@ private function dbcsr_get_data_c_s(area, select_data_type, lb, ub) result(DATA)
                   <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
                <span class="k">IF</span> <span class="p">(</span><span class="n">u</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="p">&amp;</span>
                   <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
-            <span class="k">DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span> <span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span>
+            <span class="k">ENDIF</span>
+<span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span> <span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span>
          <span class="k">ELSE</span>
 <span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span>
-         <span class="n">ENDIF</span>
-      <span class="k">ELSE</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ELSE</span>
 <span class="k">         NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-   <span class="k">END FUNCTION </span><span class="n">dbcsr_get_data_c_s</span>
+      <span class="k">ENDIF</span>
+<span class="k">   END FUNCTION </span><span class="n">dbcsr_get_data_c_s</span>
 </pre></div>
 
     </section>

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ public subroutine dbcsr_index_compact(matrix)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~238"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~257"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -331,31 +331,31 @@ public subroutine dbcsr_index_compact(matrix)
 <span class="k">         </span><span class="n">size_row_p</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">row_p</span><span class="p">)</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">size_row_p</span> <span class="o">=</span> <span class="mi">0</span>
-      <span class="n">ENDIF</span>
-      <span class="n">has_col_i</span> <span class="o">=</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">col_i</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">has_col_i</span> <span class="o">=</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">col_i</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">has_col_i</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">size_col_i</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">col_i</span><span class="p">)</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">size_col_i</span> <span class="o">=</span> <span class="mi">0</span>
-      <span class="n">ENDIF</span>
-      <span class="n">has_blk_p</span> <span class="o">=</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">blk_p</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">has_blk_p</span> <span class="o">=</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">blk_p</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">has_blk_p</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">size_blk_p</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">blk_p</span><span class="p">)</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">size_blk_p</span> <span class="o">=</span> <span class="mi">0</span>
-      <span class="n">ENDIF</span>
-      <span class="n">has_thr_c</span> <span class="o">=</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">thr_c</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">has_thr_c</span> <span class="o">=</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">thr_c</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">has_thr_c</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">size_thr_c</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">thr_c</span><span class="p">)</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">size_thr_c</span> <span class="o">=</span> <span class="mi">0</span>
-      <span class="n">ENDIF</span>
-      <span class="n">has_coo_l</span> <span class="o">=</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">coo_l</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">has_coo_l</span> <span class="o">=</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">coo_l</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">has_coo_l</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">size_coo_l</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">coo_l</span><span class="p">)</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">size_coo_l</span> <span class="o">=</span> <span class="mi">0</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">!</span>
       <span class="n">new_size</span> <span class="o">=</span> <span class="n">dbcsr_num_slots</span> <span class="o">+</span> <span class="p">&amp;</span>
                  <span class="n">size_row_p</span> <span class="o">+</span> <span class="n">size_col_i</span> <span class="o">+</span> <span class="n">size_blk_p</span> <span class="o">+</span> <span class="n">size_thr_c</span> <span class="o">+</span> <span class="n">size_coo_l</span>
@@ -365,24 +365,24 @@ public subroutine dbcsr_index_compact(matrix)
          <span class="k">IF</span> <span class="p">(</span><span class="n">has_row_p</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            ALLOCATE</span> <span class="p">(</span><span class="n">row_p</span><span class="p">(</span><span class="n">size_row_p</span><span class="p">))</span>
             <span class="n">row_p</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">row_p</span><span class="p">(:)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">has_col_i</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">has_col_i</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            ALLOCATE</span> <span class="p">(</span><span class="n">col_i</span><span class="p">(</span><span class="n">size_col_i</span><span class="p">))</span>
             <span class="n">col_i</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">col_i</span><span class="p">(:)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">has_blk_p</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">has_blk_p</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            ALLOCATE</span> <span class="p">(</span><span class="n">blk_p</span><span class="p">(</span><span class="n">size_blk_p</span><span class="p">))</span>
             <span class="n">blk_p</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">blk_p</span><span class="p">(:)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">has_thr_c</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">has_thr_c</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            ALLOCATE</span> <span class="p">(</span><span class="n">thr_c</span><span class="p">(</span><span class="n">size_thr_c</span><span class="p">))</span>
             <span class="n">thr_c</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">thr_c</span><span class="p">(:)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">has_coo_l</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">has_coo_l</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            ALLOCATE</span> <span class="p">(</span><span class="n">coo_l</span><span class="p">(</span><span class="n">size_coo_l</span><span class="p">))</span>
             <span class="n">coo_l</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">coo_l</span><span class="p">(:)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_num_slots</span><span class="p">))</span>
+         <span class="k">ENDIF</span>
+<span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">meta</span><span class="p">(</span><span class="n">dbcsr_num_slots</span><span class="p">))</span>
          <span class="n">meta</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">dbcsr_num_slots</span><span class="p">)</span>
          <span class="c">! Clear the index.</span>
          <span class="k">CALL </span><span class="n">memory_deallocate</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -399,34 +399,34 @@ public subroutine dbcsr_index_compact(matrix)
          <span class="k">IF</span> <span class="p">(</span><span class="n">has_thr_c</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">dbcsr_addto_index_array</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">dbcsr_slot_thr_c</span><span class="p">,</span> <span class="n">thr_c</span><span class="p">)</span>
             <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">thr_c</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">has_row_p</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">has_row_p</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">dbcsr_addto_index_array</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">dbcsr_slot_row_p</span><span class="p">,</span> <span class="n">row_p</span><span class="p">)</span>
             <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">row_p</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">has_col_i</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">has_col_i</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">dbcsr_addto_index_array</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">dbcsr_slot_col_i</span><span class="p">,</span> <span class="n">col_i</span><span class="p">)</span>
             <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">col_i</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">has_blk_p</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">has_blk_p</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">dbcsr_addto_index_array</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">dbcsr_slot_blk_p</span><span class="p">,</span> <span class="n">blk_p</span><span class="p">)</span>
             <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">blk_p</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">has_coo_l</span><span class="p">)</span> <span class="k">THEN</span>
+         <span class="k">ENDIF</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">has_coo_l</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            CALL </span><span class="n">dbcsr_addto_index_array</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">dbcsr_slot_coo_l</span><span class="p">,</span> <span class="n">coo_l</span><span class="p">)</span>
             <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">coo_l</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">meta</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">         DEALLOCATE</span> <span class="p">(</span><span class="n">meta</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="k">THEN</span>
             <span class="c">! This is pretty strong but it should be true.</span>
             <span class="k">IF</span> <span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_size</span><span class="p">)</span> <span class="o">/=</span> <span class="n">new_size</span><span class="p">)</span> <span class="p">&amp;</span>
                <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Unexpected index size.&quot;</span><span class="p">)</span>
             <span class="k">IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">)</span> <span class="o">/=</span> <span class="n">new_size</span><span class="p">)</span> <span class="p">&amp;</span>
                <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Unexpected index size.&quot;</span><span class="p">)</span>
-         <span class="n">ENDIF</span>
-         <span class="k">CALL </span><span class="n">dbcsr_repoint_index</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
-      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">         CALL </span><span class="n">dbcsr_repoint_index</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_index_compact</span>
 </pre></div>
 

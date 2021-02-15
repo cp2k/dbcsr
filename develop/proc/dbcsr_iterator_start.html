@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -267,7 +267,7 @@ public subroutine dbcsr_iterator_start(iterator, matrix, shared, dynamic, dynami
   
 <tr>
   
-  <td><span class="anchor" id="variable-iterator~22"></span>type(<a href='../type/dbcsr_iterator.html'>dbcsr_iterator</a>),</td>
+  <td><span class="anchor" id="variable-iterator~33"></span>type(<a href='../type/dbcsr_iterator.html'>dbcsr_iterator</a>),</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -282,7 +282,7 @@ public subroutine dbcsr_iterator_start(iterator, matrix, shared, dynamic, dynami
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~271"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~259"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -532,7 +532,7 @@ public subroutine dbcsr_iterator_start(iterator, matrix, shared, dynamic, dynami
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">iterator</span><span class="p">%</span><span class="n">dynamic_byrows</span> <span class="o">=</span> <span class="n">iterator</span><span class="p">%</span><span class="n">dynamic</span>
 <span class="c">!$       iterator%dynamic_byrows = iterator%dynamic</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 <span class="c">!$    IF (.NOT. iterator%shared) THEN</span>
 <span class="c">!$       iterator%dynamic = .FALSE.</span>
 <span class="c">!$    ENDIF</span>
@@ -564,21 +564,21 @@ public subroutine dbcsr_iterator_start(iterator, matrix, shared, dynamic, dynami
 <span class="c">!$OMP        BARRIER</span>
          <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">common_pos</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">            </span><span class="n">iterator</span><span class="p">%</span><span class="n">common_pos</span> <span class="o">=&gt;</span> <span class="n">common_int_pointer</span>
-         <span class="n">ENDIF</span>
+         <span class="k">ENDIF</span>
 <span class="c">!$OMP        BARRIER</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
       <span class="c">!</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">contiguous_pointers</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">iterator</span><span class="p">%</span><span class="n">contiguous_pointers</span> <span class="o">=</span> <span class="n">contiguous_pointers</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">iterator</span><span class="p">%</span><span class="n">contiguous_pointers</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">read_only</span><span class="p">))</span> <span class="k">THEN</span>
+      <span class="k">ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">read_only</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         </span><span class="n">iterator</span><span class="p">%</span><span class="n">read_only</span> <span class="o">=</span> <span class="n">read_only</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">iterator</span><span class="p">%</span><span class="n">read_only</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-      <span class="n">ENDIF</span>
-      <span class="n">iterator</span><span class="p">%</span><span class="n">row</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">iterator</span><span class="p">%</span><span class="n">row</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="n">iterator</span><span class="p">%</span><span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="n">iterator</span><span class="p">%</span><span class="n">rbs</span> <span class="o">=&gt;</span> <span class="n">array_data</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">row_blk_size</span><span class="p">)</span>
       <span class="n">iterator</span><span class="p">%</span><span class="n">cbs</span> <span class="o">=&gt;</span> <span class="n">array_data</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">col_blk_size</span><span class="p">)</span>
@@ -603,9 +603,9 @@ public subroutine dbcsr_iterator_start(iterator, matrix, shared, dynamic, dynami
 <span class="k">         </span><span class="n">iterator</span><span class="p">%</span><span class="n">nblkrows_total</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">nblkcols_total</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">iterator</span><span class="p">%</span><span class="n">nblkrows_total</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">nblkrows_total</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 
-      <span class="n">iterator</span><span class="p">%</span><span class="n">row_p</span> <span class="o">=&gt;</span> <span class="n">matrix</span><span class="p">%</span><span class="n">row_p</span>
+<span class="k">      </span><span class="n">iterator</span><span class="p">%</span><span class="n">row_p</span> <span class="o">=&gt;</span> <span class="n">matrix</span><span class="p">%</span><span class="n">row_p</span>
       <span class="n">iterator</span><span class="p">%</span><span class="n">col_i</span> <span class="o">=&gt;</span> <span class="n">matrix</span><span class="p">%</span><span class="n">col_i</span>
       <span class="n">iterator</span><span class="p">%</span><span class="n">blk_p</span> <span class="o">=&gt;</span> <span class="n">matrix</span><span class="p">%</span><span class="n">blk_p</span>
 <span class="c">!$OMP     CRITICAL (crit_data)</span>
@@ -617,7 +617,7 @@ public subroutine dbcsr_iterator_start(iterator, matrix, shared, dynamic, dynami
 <span class="k">         </span><span class="n">iterator</span><span class="p">%</span><span class="n">tdist</span> <span class="o">=&gt;</span> <span class="n">array_data</span><span class="p">(</span><span class="n">dbcsr_distribution_thread_dist</span><span class="p">(</span><span class="n">dist</span><span class="p">))</span>
       <span class="k">ELSE</span>
 <span class="k">         NULLIFY</span> <span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">tdist</span><span class="p">)</span>
-      <span class="n">ENDIF</span>
+      <span class="k">ENDIF</span>
 <span class="c">!$    IF (iterator%dynamic) THEN</span>
 <span class="c">!$OMP           SINGLE</span>
 <span class="c">!$       IF (iterator%dynamic_byrows) THEN</span>

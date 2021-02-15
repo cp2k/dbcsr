@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,7 +229,7 @@ private subroutine dbcsr_distribution_new_low(dist, mp_env, row_dist_block, col_
   
 <tr>
   
-  <td><span class="anchor" id="variable-dist~56"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
+  <td><span class="anchor" id="variable-dist~54"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -244,7 +244,7 @@ private subroutine dbcsr_distribution_new_low(dist, mp_env, row_dist_block, col_
   
 <tr>
   
-  <td><span class="anchor" id="variable-mp_env~37"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
+  <td><span class="anchor" id="variable-mp_env~5"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -319,7 +319,7 @@ private subroutine dbcsr_distribution_new_low(dist, mp_env, row_dist_block, col_
   
 <tr>
   
-  <td><span class="anchor" id="variable-reuse_arrays~7"></span>logical,</td>
+  <td><span class="anchor" id="variable-reuse_arrays~5"></span>logical,</td>
   <td></td>
   <td>optional</td>
   
@@ -451,11 +451,11 @@ private subroutine dbcsr_distribution_new_low(dist, mp_env, row_dist_block, col_
             <span class="k">IF</span> <span class="p">(</span><span class="n">row_dist_block</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">mypcoor</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">               </span><span class="n">row_dist_tmp</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span> <span class="o">=</span> <span class="n">i</span>
                <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="n">ENDIF</span>
-         <span class="n">ENDDO</span>
-         <span class="k">CALL </span><span class="n">array_new</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">local_rows</span><span class="p">,</span> <span class="n">row_dist_tmp</span><span class="p">,</span> <span class="n">gift</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">local_cols</span><span class="p">))</span> <span class="k">THEN</span>
+            <span class="k">ENDIF</span>
+<span class="k">         ENDDO</span>
+<span class="k">         CALL </span><span class="n">array_new</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">local_rows</span><span class="p">,</span> <span class="n">row_dist_tmp</span><span class="p">,</span> <span class="n">gift</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">local_cols</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">array_new</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">local_cols</span><span class="p">,</span> <span class="n">local_cols</span><span class="p">,</span> <span class="n">gift</span><span class="o">=</span><span class="n">reuse_arrays</span><span class="p">)</span>
       <span class="k">ELSE</span>
 <span class="k">         </span><span class="n">mypcoor</span> <span class="o">=</span> <span class="n">dbcsr_mp_mypcol</span><span class="p">(</span><span class="n">mp_env</span><span class="p">)</span>
@@ -466,12 +466,12 @@ private subroutine dbcsr_distribution_new_low(dist, mp_env, row_dist_block, col_
             <span class="k">IF</span> <span class="p">(</span><span class="n">col_dist_block</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">mypcoor</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">               </span><span class="n">col_dist_tmp</span><span class="p">(</span><span class="n">seq</span><span class="p">)</span> <span class="o">=</span> <span class="n">i</span>
                <span class="n">seq</span> <span class="o">=</span> <span class="n">seq</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="n">ENDIF</span>
-         <span class="n">ENDDO</span>
-         <span class="k">CALL </span><span class="n">array_new</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">local_cols</span><span class="p">,</span> <span class="n">col_dist_tmp</span><span class="p">,</span> <span class="n">gift</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
-      <span class="n">ENDIF</span>
+            <span class="k">ENDIF</span>
+<span class="k">         ENDDO</span>
+<span class="k">         CALL </span><span class="n">array_new</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">local_cols</span><span class="p">,</span> <span class="n">col_dist_tmp</span><span class="p">,</span> <span class="n">gift</span><span class="o">=</span><span class="p">.</span><span class="n">TRUE</span><span class="p">.)</span>
+      <span class="k">ENDIF</span>
 
-      <span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">num_threads</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">      </span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">num_threads</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="c">!$    dist%d%num_threads = OMP_GET_MAX_THREADS()</span>
       <span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">has_thread_dist</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
       <span class="k">CALL </span><span class="n">array_nullify</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">thread_dist</span><span class="p">)</span>

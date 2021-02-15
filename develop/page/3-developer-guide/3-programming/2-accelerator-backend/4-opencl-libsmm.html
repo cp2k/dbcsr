@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -146,9 +146,10 @@
 <h3>Runtime Settings</h3>
 <p>Runtime settings are made by the means of environment variables (implemented in <code>opencl_libsmm.c</code>). There are two categories (for the two major functions) like matrix transpose (<code>OPENCL_LIBSMM_TRANS_*</code>) and matrix multiplication (<code>OPENCL_LIBSMM_SMM_*</code>). Common settings are (see OpenCL backend documentation for more details):</p>
 <ul>
-<li><code>ACC_OPENCL_VENDOR</code>: character string matching the vendor of the OpenCL device in an case-insensitive fashion, e.g., "intel".</li>
+<li><code>ACC_OPENCL_DEVSPLIT</code>: integer enabling devices to be split into subdevices (non-zero: enabled, default/zero: disabled).</li>
 <li><code>ACC_OPENCL_DEVTYPE</code>: character string matching the device-kind like "cpu", "gpu", or another kind if neither CPU or GPU.</li>
 <li><code>ACC_OPENCL_DEVICE</code>: non-negative integer number to select a device from the (internally enumerated) list of devices.</li>
+<li><code>ACC_OPENCL_VENDOR</code>: character string matching the vendor of the OpenCL device in an case-insensitive fashion, e.g., "intel".</li>
 <li><code>ACC_OPENCL_VERBOSE</code>: verbosity level (integer).<ul>
 <li><code>ACC_OPENCL_VERBOSE=1</code>: outputs (stderr) the number of devices found and the name of the selected device.</li>
 <li><code>ACC_OPENCL_VERBOSE=2</code>: outputs (stderr) the duration needed to generate a requested kernel.</li>
@@ -184,17 +185,17 @@ make <span class="nv">DBG</span><span class="o">=</span><span class="m">0</span>
 pip install -r requirements.txt
 </code></pre></div>
 
-<p>The OpenTuner script supports several command line arguments (<code>tune_multiply.py --help</code>); defaults are reasonable with <code>--stop-after</code> of interest for adjustment, e.g., <code>--stop-after=300</code> to finish in five minutes (without limit, OpenTuner decides when the process is finished). A single kernel can be selected by M, N, and K parameters (GEMM), e.g., <code>M=15</code>, <code>N=5</code>, and <code>K=7</code>:</p>
-<div class="codehilite"><pre><span></span><code>./tune_multiply.py <span class="m">13</span> <span class="m">5</span> <span class="m">7</span>
+<p>The OpenTuner script supports several command line arguments (<code>tune_multiply.py --help</code>). For example, <code>--stop-after=300</code> can be interest to finish in five minutes (without a limit, OpenTuner decides when the auto-tuning process is finished). A single kernel can be selected by M, N, and K parameters (GEMM), e.g., <code>M=15</code>, <code>N=5</code>, and <code>K=7</code>:</p>
+<div class="codehilite"><pre><span></span><code>./tune_multiply.py <span class="m">13</span> <span class="m">5</span> <span class="m">7</span> --no-dups
 </code></pre></div>
 
 <p><strong>NOTE</strong>: If multiple different kernels are tuned using <code>tune_multiply.py</code>, it is advisible to delete the <code>opentuner.db</code> directory prior to a new kernel otherwise auto-tuning is potentially (mis-)guided by information which was collected for a different kernel (<code>tune_multiply.sh</code> does this automatically).</p>
 <p>The OpenTuner script implements multiple objectives ("cost"), primarily "accuracy" (maximized) and a secondary objective "size" (minimized). The former represents the achieved performance (GFLOPS/s) while the latter represents an artificial kernel requirement (just to prefer one parameter set over another in case of similar performance). The console output looks like:</p>
-<div class="codehilite"><pre><span></span><code><span class="err">[    15s]    INFO opentuner.search.plugin.DisplayPlugin: tests=8, best {&#39;BS&#39;: 32, &#39;BM&#39;: 6, &#39;BN&#39;: 1}, cost accuracy=28.80000000, size=1.0, found by UniformGreedyMutation</span>
-<span class="err">[    27s]    INFO opentuner.search.plugin.DisplayPlugin: tests=19, best {&#39;BS&#39;: 48, &#39;BM&#39;: 8, &#39;BN&#39;: 1}, cost accuracy=32.20000000, size=1.0, found by UniformGreedyMutation</span>
-<span class="err">[    40s]    INFO opentuner.search.plugin.DisplayPlugin: tests=31, best {&#39;BS&#39;: 48, &#39;BM&#39;: 8, &#39;BN&#39;: 1}, cost accuracy=32.20000000, size=1.0, found by UniformGreedyMutation</span>
-<span class="err">[    54s]    INFO opentuner.search.plugin.DisplayPlugin: tests=43, best {&#39;BS&#39;: 48, &#39;BM&#39;: 8, &#39;BN&#39;: 1}, cost accuracy=32.20000000, size=1.0, found by UniformGreedyMutation</span>
-<span class="err">[    67s]    INFO opentuner.search.plugin.DisplayPlugin: tests=53, best {&#39;BS&#39;: 48, &#39;BM&#39;: 8, &#39;BN&#39;: 1}, cost accuracy=32.20000000, size=1.0, found by UniformGreedyMutation</span>
+<div class="codehilite"><pre><span></span><code>[    15s]    INFO opentuner.search.plugin.DisplayPlugin: tests=8, best {&#39;BS&#39;: 32, &#39;BM&#39;: 6, &#39;BN&#39;: 1}, cost accuracy=28.80000000, size=1.0, found by UniformGreedyMutation
+[    27s]    INFO opentuner.search.plugin.DisplayPlugin: tests=19, best {&#39;BS&#39;: 48, &#39;BM&#39;: 8, &#39;BN&#39;: 1}, cost accuracy=32.20000000, size=1.0, found by UniformGreedyMutation
+[    40s]    INFO opentuner.search.plugin.DisplayPlugin: tests=31, best {&#39;BS&#39;: 48, &#39;BM&#39;: 8, &#39;BN&#39;: 1}, cost accuracy=32.20000000, size=1.0, found by UniformGreedyMutation
+[    54s]    INFO opentuner.search.plugin.DisplayPlugin: tests=43, best {&#39;BS&#39;: 48, &#39;BM&#39;: 8, &#39;BN&#39;: 1}, cost accuracy=32.20000000, size=1.0, found by UniformGreedyMutation
+[    67s]    INFO opentuner.search.plugin.DisplayPlugin: tests=53, best {&#39;BS&#39;: 48, &#39;BM&#39;: 8, &#39;BN&#39;: 1}, cost accuracy=32.20000000, size=1.0, found by UniformGreedyMutation
 </code></pre></div>
 
 <p>The script finally writes a JSON-file with a filename like <code>tune_multiply-float-12x12x12-60gflops.json</code> which is encoding the benchmark (multiply), the precision (float), the kernel (12x12x12), and the achieved performance (60gflops). The script handles SIGINT (like Ctrl-C), and output is still written despite of not terminating normally (can abused to tune interactively). Tuninig starts from an internal default that is supposed to match LIBSMM's internal default parameters. However, tuning can be (re-)started with specific parameters (e.g., <code>-bs 64</code>, <code>-bm 13</code>, <code>-bn 1</code> for <code>OPENCL_LIBSMM_SMM_BATCHSIZE</code>, <code>OPENCL_LIBSMM_SMM_BLOCK_M</code>, and <code>OPENCL_LIBSMM_SMM_BLOCK_N</code> respectively).</p>
@@ -222,7 +223,7 @@ make <span class="nv">DBG</span><span class="o">=</span><span class="m">0</span>
 
 <p>To tune multiple kernels in a convenient fashion, a triplet specification can be supplied to the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.sh">tune_multiply.sh</a> wrapper script. This script estimates the total runtime for auto-tuning kernels, cleans up intermediate results (<code>opentuner.db</code>), allows to specify triplets, and to split work in order to auto-tune in parallel.</p>
 <p>Triplets are used to conveniently describe multiple kernels. A triplet specification consists of comma-separated groups of M,N,K-extents, i.e., matrix shapes according to GEMM. For example:</p>
-<div class="codehilite"><pre><span></span><code><span class="err">4 10 15, 6 7 8, 23</span>
+<div class="codehilite"><pre><span></span><code>4 10 15, 6 7 8, 23
 </code></pre></div>
 
 <p>This triplet specification expands to 55 kernels using the Cartesian product, concatenating the triplets from all expanded groups by combining all values within a comma-separated group. Further, the wrapper script allows to limit the time spent for tuning a single kernel and to partition the amount of kernels to be tuned, e.g., among a cluster of eight systems (below the first partition out of eight would be procesed with five minutes per kernel and about 35 minutes in total per partition).</p>

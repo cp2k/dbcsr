@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -257,7 +257,7 @@ private pure function pd_blk_cs(ld, od, DATA, tr, ro, co) result(pd_cs)
   
 <tr>
   
-  <td><span class="anchor" id="variable-data~59"></span>real(kind=dp),</td>
+  <td><span class="anchor" id="variable-data~43"></span>real(kind=dp),</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -272,7 +272,7 @@ private pure function pd_blk_cs(ld, od, DATA, tr, ro, co) result(pd_cs)
   
 <tr>
   
-  <td><span class="anchor" id="variable-tr~37"></span>logical,</td>
+  <td><span class="anchor" id="variable-tr~19"></span>logical,</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -403,16 +403,16 @@ private pure function pd_blk_cs(ld, od, DATA, tr, ro, co) result(pd_cs)
          <span class="k">DO </span><span class="n">r</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">rs</span>
             <span class="k">DO </span><span class="n">c</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">cs</span>
                <span class="n">pd_cs</span> <span class="o">=</span> <span class="n">pd_cs</span> <span class="o">+</span> <span class="k">DATA</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span><span class="o">*</span><span class="nb">LOG</span><span class="p">(</span><span class="nb">ABS</span><span class="p">(</span><span class="kt">REAL</span><span class="p">((</span><span class="n">ro</span> <span class="o">+</span> <span class="n">r</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="o">*</span><span class="kt">REAL</span><span class="p">((</span><span class="n">co</span> <span class="o">+</span> <span class="n">c</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)))</span>
-            <span class="n">ENDDO</span>
-         <span class="n">ENDDO</span>
-      <span class="k">ELSE</span>
+            <span class="k">ENDDO</span>
+<span class="k">         ENDDO</span>
+<span class="k">      ELSE</span>
 <span class="k">         DO </span><span class="n">c</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">cs</span>
             <span class="k">DO </span><span class="n">r</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">rs</span>
                <span class="n">pd_cs</span> <span class="o">=</span> <span class="n">pd_cs</span> <span class="o">+</span> <span class="k">DATA</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span><span class="o">*</span><span class="nb">LOG</span><span class="p">(</span><span class="nb">ABS</span><span class="p">(</span><span class="kt">REAL</span><span class="p">((</span><span class="n">ro</span> <span class="o">+</span> <span class="n">r</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span><span class="o">*</span><span class="kt">REAL</span><span class="p">((</span><span class="n">co</span> <span class="o">+</span> <span class="n">c</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)))</span>
-            <span class="n">ENDDO</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDIF</span>
-   <span class="k">END FUNCTION </span><span class="n">pd_blk_cs</span>
+            <span class="k">ENDDO</span>
+<span class="k">         ENDDO</span>
+<span class="k">      ENDIF</span>
+<span class="k">   END FUNCTION </span><span class="n">pd_blk_cs</span>
 </pre></div>
 
     </section>

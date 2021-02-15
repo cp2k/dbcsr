@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -244,7 +244,7 @@ private subroutine dbcsr_data_get_sizes_any(area, sizes, valid)
   
 <tr>
   
-  <td><span class="anchor" id="variable-sizes~8"></span>integer,</td>
+  <td><span class="anchor" id="variable-sizes~9"></span>integer,</td>
   <td>intent(out),</td>
   <td></td>
   
@@ -364,9 +364,9 @@ private subroutine dbcsr_data_get_sizes_any(area, sizes, valid)
             <span class="k">ELSE</span>
 <span class="k">               IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">sizes</span><span class="p">)</span> <span class="o">/=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
                   <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Sizes must have 1 elements for 1-D data&quot;</span><span class="p">)</span>
-            <span class="n">ENDIF</span>
-         <span class="n">ENDIF</span>
-         <span class="n">valid</span> <span class="o">=</span> <span class="n">dbcsr_data_exists</span><span class="p">(</span><span class="n">area</span><span class="p">)</span>
+            <span class="k">ENDIF</span>
+<span class="k">         ENDIF</span>
+<span class="k">         </span><span class="n">valid</span> <span class="o">=</span> <span class="n">dbcsr_data_exists</span><span class="p">(</span><span class="n">area</span><span class="p">)</span>
          <span class="k">IF</span> <span class="p">(</span><span class="n">valid</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">            SELECT CASE</span> <span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span>
             <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
@@ -392,9 +392,9 @@ private subroutine dbcsr_data_get_sizes_any(area, sizes, valid)
             <span class="k">CASE </span><span class="n">default</span>
                <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Incorrect data type&quot;</span><span class="p">)</span>
             <span class="k">END SELECT</span>
-<span class="k">         </span><span class="n">ENDIF</span>
-      <span class="n">ENDIF</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="p">&amp;</span>
+<span class="k">         ENDIF</span>
+<span class="k">      ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="p">&amp;</span>
          <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_data_get_sizes_any</span>
 </pre></div>

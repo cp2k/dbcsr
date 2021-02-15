@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -234,7 +234,7 @@ public function joaat_hash(key) result(hash_index)
   
 <tr>
   
-  <td><span class="anchor" id="variable-key~67"></span>integer,</td>
+  <td><span class="anchor" id="variable-key~9"></span>integer,</td>
   <td>intent(in),</td>
   <td></td>
   
@@ -352,9 +352,9 @@ public function joaat_hash(key) result(hash_index)
             <span class="n">hash</span> <span class="o">=</span> <span class="nb">IAND</span><span class="p">(</span><span class="n">hash</span> <span class="o">+</span> <span class="k">byte</span><span class="p">,</span> <span class="n">b32</span><span class="p">)</span>
             <span class="n">hash</span> <span class="o">=</span> <span class="nb">IAND</span><span class="p">(</span><span class="n">hash</span> <span class="o">+</span> <span class="nb">IAND</span><span class="p">(</span><span class="nb">ISHFT</span><span class="p">(</span><span class="n">hash</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">b32</span><span class="p">),</span> <span class="n">b32</span><span class="p">)</span>
             <span class="n">hash</span> <span class="o">=</span> <span class="nb">IAND</span><span class="p">(</span><span class="nb">IEOR</span><span class="p">(</span><span class="n">hash</span><span class="p">,</span> <span class="nb">IAND</span><span class="p">(</span><span class="nb">ISHFT</span><span class="p">(</span><span class="n">hash</span><span class="p">,</span> <span class="o">-</span><span class="mi">6</span><span class="p">),</span> <span class="n">b32</span><span class="p">)),</span> <span class="n">b32</span><span class="p">)</span>
-         <span class="n">ENDDO</span>
-      <span class="n">ENDDO</span>
-      <span class="n">hash</span> <span class="o">=</span> <span class="nb">IAND</span><span class="p">(</span><span class="n">hash</span> <span class="o">+</span> <span class="nb">IAND</span><span class="p">(</span><span class="nb">ISHFT</span><span class="p">(</span><span class="n">hash</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">b32</span><span class="p">),</span> <span class="n">b32</span><span class="p">)</span>
+         <span class="k">ENDDO</span>
+<span class="k">      ENDDO</span>
+<span class="k">      </span><span class="n">hash</span> <span class="o">=</span> <span class="nb">IAND</span><span class="p">(</span><span class="n">hash</span> <span class="o">+</span> <span class="nb">IAND</span><span class="p">(</span><span class="nb">ISHFT</span><span class="p">(</span><span class="n">hash</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">b32</span><span class="p">),</span> <span class="n">b32</span><span class="p">)</span>
       <span class="n">hash</span> <span class="o">=</span> <span class="nb">IAND</span><span class="p">(</span><span class="nb">IEOR</span><span class="p">(</span><span class="n">hash</span><span class="p">,</span> <span class="nb">IAND</span><span class="p">(</span><span class="nb">ISHFT</span><span class="p">(</span><span class="n">hash</span><span class="p">,</span> <span class="o">-</span><span class="mi">11</span><span class="p">),</span> <span class="n">b32</span><span class="p">)),</span> <span class="n">b32</span><span class="p">)</span>
       <span class="n">hash</span> <span class="o">=</span> <span class="nb">IAND</span><span class="p">(</span><span class="n">hash</span> <span class="o">+</span> <span class="nb">IAND</span><span class="p">(</span><span class="nb">ISHFT</span><span class="p">(</span><span class="n">hash</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span> <span class="n">b32</span><span class="p">),</span> <span class="n">b32</span><span class="p">)</span>
       <span class="c">! In fortran 4-byte-integers have only 31 bits because they are signed</span>

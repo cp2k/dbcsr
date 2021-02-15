@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -418,9 +418,9 @@
 <a name="ln-156"></a>      <span class="k">ELSE</span>
 <a name="ln-157"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">sizes</span><span class="p">)</span> <span class="o">/=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-158"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Sizes must have 1 elements for 1-D data&quot;</span><span class="p">)</span>
-<a name="ln-159"></a>      <span class="n">ENDIF</span>
+<a name="ln-159"></a>      <span class="k">ENDIF</span>
 <a name="ln-160"></a>
-<a name="ln-161"></a>      <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span>
+<a name="ln-161"></a><span class="k">      SELECT CASE</span> <span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span>
 <a name="ln-162"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_int_4</span><span class="p">)</span>
 <a name="ln-163"></a>         <span class="k">CALL </span><span class="n">memory_allocate</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">i4</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">sizes</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">mem_type</span><span class="o">=</span><span class="n">area</span><span class="p">%</span><span class="n">memory_type</span><span class="p">)</span>
 <a name="ln-164"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_int_8</span><span class="p">)</span>
@@ -451,9 +451,9 @@
 <a name="ln-189"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">sizes</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-190"></a>            <span class="k">CALL </span><span class="n">acc_devmem_allocate_bytes</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">,</span> <span class="n">dbcsr_datatype_sizeof</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span><span class="o">*</span><span class="n">sizes</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 <a name="ln-191"></a>         <span class="k">CALL </span><span class="n">acc_event_create</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">acc_ready</span><span class="p">)</span>
-<a name="ln-192"></a>      <span class="n">ENDIF</span>
+<a name="ln-192"></a>      <span class="k">ENDIF</span>
 <a name="ln-193"></a>
-<a name="ln-194"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-194"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-195"></a>         <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
 <a name="ln-196"></a>
 <a name="ln-197"></a>   <span class="k">END SUBROUTINE </span><span class="n">internal_data_allocate</span>
@@ -514,9 +514,9 @@
 <a name="ln-252"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">acc_devmem_allocated</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-253"></a>            <span class="k">CALL </span><span class="n">acc_devmem_deallocate</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">)</span>
 <a name="ln-254"></a>         <span class="k">CALL </span><span class="n">acc_event_destroy</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">acc_ready</span><span class="p">)</span>
-<a name="ln-255"></a>      <span class="n">ENDIF</span>
+<a name="ln-255"></a>      <span class="k">ENDIF</span>
 <a name="ln-256"></a>
-<a name="ln-257"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-257"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-258"></a>         <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
 <a name="ln-259"></a>   <span class="k">END SUBROUTINE </span><span class="n">internal_data_deallocate</span>
 <a name="ln-260"></a>
@@ -528,9 +528,9 @@
 <a name="ln-266"></a>
 <a name="ln-267"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-268"></a><span class="k">         RETURN</span>
-<a name="ln-269"></a><span class="k">      </span><span class="n">ENDIF</span>
+<a name="ln-269"></a><span class="k">      ENDIF</span>
 <a name="ln-270"></a>
-<a name="ln-271"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">refcount</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-271"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">refcount</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-272"></a>         <span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">&quot;Data seems to be unreferenced.&quot;</span><span class="p">)</span>
 <a name="ln-273"></a>      <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span>
 <a name="ln-274"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_int_4</span><span class="p">)</span>
@@ -585,7 +585,7 @@
 <a name="ln-323"></a>
 <a name="ln-324"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-325"></a><span class="k">         CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">)</span>
-<a name="ln-326"></a>      <span class="n">ENDIF</span>
+<a name="ln-326"></a>      <span class="k">ENDIF</span>
 <a name="ln-327"></a>      <span class="c">!</span>
 <a name="ln-328"></a>      <span class="n">valid</span> <span class="o">=</span> <span class="n">dbcsr_data_valid</span><span class="p">(</span><span class="n">area</span><span class="p">)</span>
 <a name="ln-329"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">valid</span><span class="p">)</span> <span class="p">&amp;</span>
@@ -618,8 +618,8 @@
 <a name="ln-356"></a>
 <a name="ln-357"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-358"></a><span class="k">         CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
-<a name="ln-359"></a>      <span class="n">ENDIF</span>
-<a name="ln-360"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_data_exists</span>
+<a name="ln-359"></a>      <span class="k">ENDIF</span>
+<a name="ln-360"></a><span class="k">   END FUNCTION </span><span class="n">dbcsr_data_exists</span>
 <a name="ln-361"></a>
 <a name="ln-362"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_data_hold</span><span class="p">(</span><span class="n">area</span><span class="p">)</span>
 <a name="ln-363"></a>      <span class="c">!! Registers another use of the data area</span>
@@ -632,10 +632,10 @@
 <a name="ln-370"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Can&#39;t hold an empty data area.&quot;</span><span class="p">)</span>
 <a name="ln-371"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">refcount</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-372"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Should not hold an area with zero references.&quot;</span><span class="p">)</span>
-<a name="ln-373"></a>      <span class="n">ENDIF</span>
-<a name="ln-374"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">))</span> <span class="k">THEN</span>
+<a name="ln-373"></a>      <span class="k">ENDIF</span>
+<a name="ln-374"></a><span class="k">      IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">))</span> <span class="k">THEN</span>
 <a name="ln-375"></a><span class="k">         RETURN</span>
-<a name="ln-376"></a><span class="k">      </span><span class="n">ENDIF</span>
+<a name="ln-376"></a><span class="k">      ENDIF</span>
 <a name="ln-377"></a><span class="c">!$OMP ATOMIC</span>
 <a name="ln-378"></a>      <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">refcount</span> <span class="o">=</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">refcount</span> <span class="o">+</span> <span class="mi">1</span>
 <a name="ln-379"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_data_hold</span>
@@ -673,8 +673,8 @@
 <a name="ln-411"></a>         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">compatible</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-412"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Can not point 1-d pointer to 2-d data&quot;</span><span class="p">)</span>
 <a name="ln-413"></a>
-<a name="ln-414"></a>      <span class="n">ENDIF</span>
-<a name="ln-415"></a>      <span class="n">pointee_is_2d</span> <span class="o">=</span> <span class="n">dbcsr_type_is_2d</span><span class="p">(</span><span class="n">dt2</span><span class="p">)</span>
+<a name="ln-414"></a>      <span class="k">ENDIF</span>
+<a name="ln-415"></a><span class="k">      </span><span class="n">pointee_is_2d</span> <span class="o">=</span> <span class="n">dbcsr_type_is_2d</span><span class="p">(</span><span class="n">dt2</span><span class="p">)</span>
 <a name="ln-416"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-417"></a><span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">source_lb</span><span class="p">)</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">pointee_is_2d</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-418"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Lower bound specification not possible with 2-d data&quot;</span><span class="p">)</span>
@@ -683,7 +683,7 @@
 <a name="ln-421"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Attempt to point out of bounds&quot;</span><span class="p">)</span>
 <a name="ln-422"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">bp</span> <span class="o">+</span> <span class="n">nze</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&gt;</span> <span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">pointee</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-423"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Attempt to point out of bounds&quot;</span><span class="p">)</span>
-<a name="ln-424"></a>      <span class="n">ENDIF</span>
+<a name="ln-424"></a>      <span class="k">ENDIF</span>
 <a name="ln-425"></a>      <span class="c">! There&#39;s a remap if the ranks are compatible but not equal.</span>
 <a name="ln-426"></a>      <span class="n">rmp</span> <span class="o">=</span> <span class="n">dt1</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">dt2</span>
 <a name="ln-427"></a>      <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">dt2</span><span class="p">)</span>
@@ -698,8 +698,8 @@
 <a name="ln-436"></a>                                     <span class="n">r_sp</span><span class="p">)</span>
 <a name="ln-437"></a>         <span class="k">ELSE</span>
 <a name="ln-438"></a><span class="k">            </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span> <span class="o">=&gt;</span> <span class="n">dbcsr_get_data_p_s</span><span class="p">(</span><span class="n">pointee</span><span class="p">,</span> <span class="n">bp</span><span class="p">,</span> <span class="n">bp</span> <span class="o">+</span> <span class="n">nze</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-<a name="ln-439"></a>         <span class="n">ENDIF</span>
-<a name="ln-440"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8_2d</span><span class="p">)</span>
+<a name="ln-439"></a>         <span class="k">ENDIF</span>
+<a name="ln-440"></a><span class="k">      CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8_2d</span><span class="p">)</span>
 <a name="ln-441"></a>         <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_dp</span> <span class="o">=&gt;</span> <span class="n">pointee</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_dp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">rsize</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="n">csize</span><span class="p">)</span>
 <a name="ln-442"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
 <a name="ln-443"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">rmp</span><span class="p">)</span> <span class="k">THEN</span>
@@ -708,8 +708,8 @@
 <a name="ln-446"></a>                                     <span class="n">r_dp</span><span class="p">)</span>
 <a name="ln-447"></a>         <span class="k">ELSE</span>
 <a name="ln-448"></a><span class="k">            </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span> <span class="o">=&gt;</span> <span class="n">dbcsr_get_data_p_d</span><span class="p">(</span><span class="n">pointee</span><span class="p">,</span> <span class="n">bp</span><span class="p">,</span> <span class="n">bp</span> <span class="o">+</span> <span class="n">nze</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-<a name="ln-449"></a>         <span class="n">ENDIF</span>
-<a name="ln-450"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4_2d</span><span class="p">)</span>
+<a name="ln-449"></a>         <span class="k">ENDIF</span>
+<a name="ln-450"></a><span class="k">      CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4_2d</span><span class="p">)</span>
 <a name="ln-451"></a>         <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_sp</span> <span class="o">=&gt;</span> <span class="n">pointee</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_sp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">rsize</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="n">csize</span><span class="p">)</span>
 <a name="ln-452"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
 <a name="ln-453"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">rmp</span><span class="p">)</span> <span class="k">THEN</span>
@@ -718,8 +718,8 @@
 <a name="ln-456"></a>                                     <span class="n">c_sp</span><span class="p">)</span>
 <a name="ln-457"></a>         <span class="k">ELSE</span>
 <a name="ln-458"></a><span class="k">            </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span> <span class="o">=&gt;</span> <span class="n">dbcsr_get_data_p_c</span><span class="p">(</span><span class="n">pointee</span><span class="p">,</span> <span class="n">bp</span><span class="p">,</span> <span class="n">bp</span> <span class="o">+</span> <span class="n">nze</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-<a name="ln-459"></a>         <span class="n">ENDIF</span>
-<a name="ln-460"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8_2d</span><span class="p">)</span>
+<a name="ln-459"></a>         <span class="k">ENDIF</span>
+<a name="ln-460"></a><span class="k">      CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8_2d</span><span class="p">)</span>
 <a name="ln-461"></a>         <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_dp</span> <span class="o">=&gt;</span> <span class="n">pointee</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_dp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">rsize</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="n">csize</span><span class="p">)</span>
 <a name="ln-462"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
 <a name="ln-463"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">rmp</span><span class="p">)</span> <span class="k">THEN</span>
@@ -728,15 +728,15 @@
 <a name="ln-466"></a>                                     <span class="n">c_dp</span><span class="p">)</span>
 <a name="ln-467"></a>         <span class="k">ELSE</span>
 <a name="ln-468"></a><span class="k">            </span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span> <span class="o">=&gt;</span> <span class="n">dbcsr_get_data_p_z</span><span class="p">(</span><span class="n">pointee</span><span class="p">,</span> <span class="n">bp</span><span class="p">,</span> <span class="n">bp</span> <span class="o">+</span> <span class="n">nze</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
-<a name="ln-469"></a>         <span class="n">ENDIF</span>
-<a name="ln-470"></a>      <span class="k">CASE </span><span class="n">default</span>
+<a name="ln-469"></a>         <span class="k">ENDIF</span>
+<a name="ln-470"></a><span class="k">      CASE </span><span class="n">default</span>
 <a name="ln-471"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid data type&quot;</span><span class="p">)</span>
 <a name="ln-472"></a>      <span class="k">END SELECT</span>
 <a name="ln-473"></a><span class="k">      CALL </span><span class="n">dbcsr_data_set_size_referenced</span><span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="n">rsize</span><span class="o">*</span><span class="n">csize</span><span class="p">)</span>
 <a name="ln-474"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-475"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">dbcsr_data_get_size_referenced</span><span class="p">(</span><span class="n">area</span><span class="p">)</span> <span class="o">/=</span> <span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">area</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-476"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Size mismatch&quot;</span><span class="p">)</span>
-<a name="ln-477"></a>      <span class="n">ENDIF</span>
+<a name="ln-477"></a>      <span class="k">ENDIF</span>
 <a name="ln-478"></a>      <span class="c">!</span>
 <a name="ln-479"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_devalloc</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">pointee</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_devalloc</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-480"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">pointee_is_2d</span><span class="p">)</span> <span class="p">&amp;</span>
@@ -745,8 +745,8 @@
 <a name="ln-483"></a>                                  <span class="n">pointee</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-484"></a>                                  <span class="n">dbcsr_datatype_sizeof</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span><span class="o">*</span><span class="n">nze</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-485"></a>                                  <span class="n">dbcsr_datatype_sizeof</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">bp</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
-<a name="ln-486"></a>      <span class="n">ENDIF</span>
-<a name="ln-487"></a>   <span class="k">END SUBROUTINE </span><span class="n">set_data_area_area</span>
+<a name="ln-486"></a>      <span class="k">ENDIF</span>
+<a name="ln-487"></a><span class="k">   END SUBROUTINE </span><span class="n">set_data_area_area</span>
 <a name="ln-488"></a>
 <a name="ln-489"></a>   <span class="k">FUNCTION </span><span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">area</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">data_size</span><span class="p">)</span>
 <a name="ln-490"></a>      <span class="c">!! Returns the allocated data size</span>
@@ -795,8 +795,8 @@
 <a name="ln-533"></a><span class="k">      ELSE</span>
 <a name="ln-534"></a><span class="k">         </span><span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">&quot;Uninitialized data area&quot;</span><span class="p">)</span>
 <a name="ln-535"></a>         <span class="n">data_size</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-536"></a>      <span class="n">ENDIF</span>
-<a name="ln-537"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_data_get_size</span>
+<a name="ln-536"></a>      <span class="k">ENDIF</span>
+<a name="ln-537"></a><span class="k">   END FUNCTION </span><span class="n">dbcsr_data_get_size</span>
 <a name="ln-538"></a>
 <a name="ln-539"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_data_verify_bounds</span><span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">)</span>
 <a name="ln-540"></a>      <span class="c">!! Verifies bounds of a data area</span>
@@ -825,8 +825,8 @@
 <a name="ln-563"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;size must be 1 for 1-d lb&quot;</span><span class="p">)</span>
 <a name="ln-564"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">ub</span><span class="p">)</span> <span class="o">/=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-565"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;size must be 1 for 1-d ub&quot;</span><span class="p">)</span>
-<a name="ln-566"></a>      <span class="n">ENDIF</span>
-<a name="ln-567"></a>      <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">data_type</span><span class="p">)</span>
+<a name="ln-566"></a>      <span class="k">ENDIF</span>
+<a name="ln-567"></a><span class="k">      SELECT CASE</span> <span class="p">(</span><span class="n">data_type</span><span class="p">)</span>
 <a name="ln-568"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
 <a name="ln-569"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">lb</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">LBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;lb r_sp&quot;</span><span class="p">)</span>
 <a name="ln-570"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">ub</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;ub r_sp&quot;</span><span class="p">)</span>
@@ -886,9 +886,9 @@
 <a name="ln-624"></a>
 <a name="ln-625"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-626"></a><span class="k">         CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">error_handle</span><span class="p">)</span>
-<a name="ln-627"></a>      <span class="n">ENDIF</span>
+<a name="ln-627"></a>      <span class="k">ENDIF</span>
 <a name="ln-628"></a>
-<a name="ln-629"></a>      <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span>
+<a name="ln-629"></a><span class="k">      SELECT CASE</span> <span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span>
 <a name="ln-630"></a>      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
 <a name="ln-631"></a>         <span class="n">r_sp</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">(</span><span class="n">lb</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span><span class="n">ub</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 <a name="ln-632"></a>         <span class="k">CALL </span><span class="n">memory_zero</span><span class="p">(</span><span class="n">r_sp</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">r_sp</span><span class="p">))</span>
@@ -918,8 +918,8 @@
 <a name="ln-656"></a>
 <a name="ln-657"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-658"></a><span class="k">         CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>
-<a name="ln-659"></a>      <span class="n">ENDIF</span>
-<a name="ln-660"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_data_zero</span>
+<a name="ln-659"></a>      <span class="k">ENDIF</span>
+<a name="ln-660"></a><span class="k">   END SUBROUTINE </span><span class="n">dbcsr_data_zero</span>
 <a name="ln-661"></a>
 <a name="ln-662"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_data_get_sizes_any</span><span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="n">sizes</span><span class="p">,</span> <span class="n">valid</span><span class="p">)</span>
 <a name="ln-663"></a>      <span class="c">!! Returns the allocated data size</span>
@@ -950,9 +950,9 @@
 <a name="ln-688"></a>            <span class="k">ELSE</span>
 <a name="ln-689"></a><span class="k">               IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">sizes</span><span class="p">)</span> <span class="o">/=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-690"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Sizes must have 1 elements for 1-D data&quot;</span><span class="p">)</span>
-<a name="ln-691"></a>            <span class="n">ENDIF</span>
-<a name="ln-692"></a>         <span class="n">ENDIF</span>
-<a name="ln-693"></a>         <span class="n">valid</span> <span class="o">=</span> <span class="n">dbcsr_data_exists</span><span class="p">(</span><span class="n">area</span><span class="p">)</span>
+<a name="ln-691"></a>            <span class="k">ENDIF</span>
+<a name="ln-692"></a><span class="k">         ENDIF</span>
+<a name="ln-693"></a><span class="k">         </span><span class="n">valid</span> <span class="o">=</span> <span class="n">dbcsr_data_exists</span><span class="p">(</span><span class="n">area</span><span class="p">)</span>
 <a name="ln-694"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">valid</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-695"></a><span class="k">            SELECT CASE</span> <span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span>
 <a name="ln-696"></a>            <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
@@ -978,9 +978,9 @@
 <a name="ln-716"></a>            <span class="k">CASE </span><span class="n">default</span>
 <a name="ln-717"></a>               <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Incorrect data type&quot;</span><span class="p">)</span>
 <a name="ln-718"></a>            <span class="k">END SELECT</span>
-<a name="ln-719"></a><span class="k">         </span><span class="n">ENDIF</span>
-<a name="ln-720"></a>      <span class="n">ENDIF</span>
-<a name="ln-721"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-719"></a><span class="k">         ENDIF</span>
+<a name="ln-720"></a><span class="k">      ENDIF</span>
+<a name="ln-721"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-722"></a>         <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
 <a name="ln-723"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_data_get_sizes_any</span>
 <a name="ln-724"></a>
@@ -1014,8 +1014,8 @@
 <a name="ln-752"></a><span class="k">         </span><span class="n">valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <a name="ln-753"></a>         <span class="n">row_size</span> <span class="o">=</span> <span class="mi">0</span>
 <a name="ln-754"></a>         <span class="n">col_size</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-755"></a>      <span class="n">ENDIF</span>
-<a name="ln-756"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="p">&amp;</span>
+<a name="ln-755"></a>      <span class="k">ENDIF</span>
+<a name="ln-756"></a><span class="k">      IF</span> <span class="p">(</span><span class="n">careful_mod</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-757"></a>         <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
 <a name="ln-758"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_data_get_sizes_2</span>
 <a name="ln-759"></a>
@@ -1046,8 +1046,8 @@
 <a name="ln-784"></a>      <span class="k">ELSE</span>
 <a name="ln-785"></a><span class="k">         </span><span class="n">valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <a name="ln-786"></a>         <span class="n">total_size</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-787"></a>      <span class="n">ENDIF</span>
-<a name="ln-788"></a>      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+<a name="ln-787"></a>      <span class="k">ENDIF</span>
+<a name="ln-788"></a><span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
 <a name="ln-789"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_data_get_sizes_1</span>
 <a name="ln-790"></a>
 <a name="ln-791"></a>   <span class="k">ELEMENTAL FUNCTION </span><span class="n">dbcsr_scalar_one</span><span class="p">(</span><span class="n">data_type</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">one</span><span class="p">)</span>
@@ -1110,8 +1110,8 @@
 <a name="ln-848"></a>         <span class="k">CASE </span><span class="n">default</span>
 <a name="ln-849"></a>            <span class="n">are_equal</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <a name="ln-850"></a>         <span class="k">END SELECT</span>
-<a name="ln-851"></a><span class="k">      </span><span class="n">ENDIF</span>
-<a name="ln-852"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_scalar_are_equal</span>
+<a name="ln-851"></a><span class="k">      ENDIF</span>
+<a name="ln-852"></a><span class="k">   END FUNCTION </span><span class="n">dbcsr_scalar_are_equal</span>
 <a name="ln-853"></a>
 <a name="ln-854"></a>   <span class="k">ELEMENTAL FUNCTION </span><span class="n">dbcsr_scalar_negative</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">negated</span><span class="p">)</span>
 <a name="ln-855"></a>      <span class="c">!! Returns an encapsulated scalar as a negation of the given</span>
@@ -1289,8 +1289,8 @@
 <a name="ln-1027"></a><span class="k">         </span><span class="n">data_size_referenced</span> <span class="o">=</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">ref_size</span>
 <a name="ln-1028"></a>      <span class="k">ELSE</span>
 <a name="ln-1029"></a><span class="k">         </span><span class="n">data_size_referenced</span> <span class="o">=</span> <span class="mi">0</span>
-<a name="ln-1030"></a>      <span class="n">ENDIF</span>
-<a name="ln-1031"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_data_get_size_referenced</span>
+<a name="ln-1030"></a>      <span class="k">ENDIF</span>
+<a name="ln-1031"></a><span class="k">   END FUNCTION </span><span class="n">dbcsr_data_get_size_referenced</span>
 <a name="ln-1032"></a>
 <a name="ln-1033"></a>   <span class="k">PURE SUBROUTINE </span><span class="n">dbcsr_data_set_size_referenced</span><span class="p">(</span><span class="n">data_area</span><span class="p">,</span> <span class="n">referenced_size</span><span class="p">)</span>
 <a name="ln-1034"></a>      <span class="c">!! Sets the referenced size of the data area</span>
@@ -1389,15 +1389,15 @@
 <a name="ln-1127"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
 <a name="ln-1128"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">u</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-1129"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
-<a name="ln-1130"></a>            <span class="n">ENDIF</span>
-<a name="ln-1131"></a>            <span class="k">DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span> <span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span>
+<a name="ln-1130"></a>            <span class="k">ENDIF</span>
+<a name="ln-1131"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span> <span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span>
 <a name="ln-1132"></a>         <span class="k">ELSE</span>
 <a name="ln-1133"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span>
-<a name="ln-1134"></a>         <span class="n">ENDIF</span>
-<a name="ln-1135"></a>      <span class="k">ELSE</span>
+<a name="ln-1134"></a>         <span class="k">ENDIF</span>
+<a name="ln-1135"></a><span class="k">      ELSE</span>
 <a name="ln-1136"></a><span class="k">         NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
-<a name="ln-1137"></a>      <span class="n">ENDIF</span>
-<a name="ln-1138"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_get_data_c_d</span>
+<a name="ln-1137"></a>      <span class="k">ENDIF</span>
+<a name="ln-1138"></a><span class="k">   END FUNCTION </span><span class="n">dbcsr_get_data_c_d</span>
 <a name="ln-1139"></a>
 <a name="ln-1140"></a>   <span class="k">FUNCTION </span><span class="n">dbcsr_get_data_p_d</span> <span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
 <a name="ln-1141"></a>     <span class="c">!! Returns the single/double precision real/complex data</span>
@@ -1430,15 +1430,15 @@
 <a name="ln-1168"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
 <a name="ln-1169"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">u</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-1170"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
-<a name="ln-1171"></a>            <span class="n">ENDIF</span>
-<a name="ln-1172"></a>            <span class="k">DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span> <span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span>
+<a name="ln-1171"></a>            <span class="k">ENDIF</span>
+<a name="ln-1172"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span> <span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span>
 <a name="ln-1173"></a>         <span class="k">ELSE</span>
 <a name="ln-1174"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span>
-<a name="ln-1175"></a>         <span class="n">ENDIF</span>
-<a name="ln-1176"></a>      <span class="k">ELSE</span>
+<a name="ln-1175"></a>         <span class="k">ENDIF</span>
+<a name="ln-1176"></a><span class="k">      ELSE</span>
 <a name="ln-1177"></a><span class="k">         NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
-<a name="ln-1178"></a>      <span class="n">ENDIF</span>
-<a name="ln-1179"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_get_data_p_d</span>
+<a name="ln-1178"></a>      <span class="k">ENDIF</span>
+<a name="ln-1179"></a><span class="k">   END FUNCTION </span><span class="n">dbcsr_get_data_p_d</span>
 <a name="ln-1180"></a>
 <a name="ln-1181"></a>   <span class="k">FUNCTION </span><span class="n">dbcsr_get_data_p_2d_d</span> <span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
 <a name="ln-1182"></a>     <span class="c">!! Returns the single/double precision real/complex data</span>
@@ -1475,15 +1475,15 @@
 <a name="ln-1213"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
 <a name="ln-1214"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_dp</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-1215"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
-<a name="ln-1216"></a>            <span class="n">ENDIF</span>
-<a name="ln-1217"></a>            <span class="k">DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_dp</span> <span class="p">(</span><span class="n">l</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">l</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<a name="ln-1216"></a>            <span class="k">ENDIF</span>
+<a name="ln-1217"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_dp</span> <span class="p">(</span><span class="n">l</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">l</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 <a name="ln-1218"></a>         <span class="k">ELSE</span>
 <a name="ln-1219"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_dp</span>
-<a name="ln-1220"></a>         <span class="n">ENDIF</span>
-<a name="ln-1221"></a>      <span class="k">ELSE</span>
+<a name="ln-1220"></a>         <span class="k">ENDIF</span>
+<a name="ln-1221"></a><span class="k">      ELSE</span>
 <a name="ln-1222"></a><span class="k">         NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
-<a name="ln-1223"></a>      <span class="n">ENDIF</span>
-<a name="ln-1224"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_get_data_p_2d_d</span>
+<a name="ln-1223"></a>      <span class="k">ENDIF</span>
+<a name="ln-1224"></a><span class="k">   END FUNCTION </span><span class="n">dbcsr_get_data_p_2d_d</span>
 <a name="ln-1225"></a>
 <a name="ln-1226"></a>   <span class="k">SUBROUTINE </span><span class="n">get_data_d</span> <span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="k">DATA</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">)</span>
 <a name="ln-1227"></a>     <span class="c">!! Returns the single/double precision real/complex data</span>
@@ -1512,15 +1512,15 @@
 <a name="ln-1250"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
 <a name="ln-1251"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">u</span> <span class="o">&gt;</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-1252"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
-<a name="ln-1253"></a>            <span class="n">ENDIF</span>
-<a name="ln-1254"></a>            <span class="k">DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span> <span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span>
+<a name="ln-1253"></a>            <span class="k">ENDIF</span>
+<a name="ln-1254"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span> <span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span>
 <a name="ln-1255"></a>         <span class="k">ELSE</span>
 <a name="ln-1256"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span>
-<a name="ln-1257"></a>         <span class="n">ENDIF</span>
-<a name="ln-1258"></a>      <span class="k">ELSE</span>
+<a name="ln-1257"></a>         <span class="k">ENDIF</span>
+<a name="ln-1258"></a><span class="k">      ELSE</span>
 <a name="ln-1259"></a><span class="k">         NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
-<a name="ln-1260"></a>      <span class="n">ENDIF</span>
-<a name="ln-1261"></a>   <span class="k">END SUBROUTINE </span><span class="n">get_data_d</span>
+<a name="ln-1260"></a>      <span class="k">ENDIF</span>
+<a name="ln-1261"></a><span class="k">   END SUBROUTINE </span><span class="n">get_data_d</span>
 <a name="ln-1262"></a>
 <a name="ln-1263"></a>   <span class="k">SUBROUTINE </span><span class="n">get_data_2d_d</span> <span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="k">DATA</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">)</span>
 <a name="ln-1264"></a>     <span class="c">!! Returns the single/double precision real/complex data</span>
@@ -1553,15 +1553,15 @@
 <a name="ln-1291"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
 <a name="ln-1292"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_dp</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-1293"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
-<a name="ln-1294"></a>            <span class="n">ENDIF</span>
-<a name="ln-1295"></a>            <span class="k">DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_dp</span> <span class="p">(</span><span class="n">l</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">l</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<a name="ln-1294"></a>            <span class="k">ENDIF</span>
+<a name="ln-1295"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_dp</span> <span class="p">(</span><span class="n">l</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">l</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 <a name="ln-1296"></a>         <span class="k">ELSE</span>
 <a name="ln-1297"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_dp</span>
-<a name="ln-1298"></a>         <span class="n">ENDIF</span>
-<a name="ln-1299"></a>      <span class="k">ELSE</span>
+<a name="ln-1298"></a>         <span class="k">ENDIF</span>
+<a name="ln-1299"></a><span class="k">      ELSE</span>
 <a name="ln-1300"></a><span class="k">         NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
-<a name="ln-1301"></a>      <span class="n">ENDIF</span>
-<a name="ln-1302"></a>   <span class="k">END SUBROUTINE </span><span class="n">get_data_2d_d</span>
+<a name="ln-1301"></a>      <span class="k">ENDIF</span>
+<a name="ln-1302"></a><span class="k">   END SUBROUTINE </span><span class="n">get_data_2d_d</span>
 <a name="ln-1303"></a>
 <a name="ln-1304"></a>   <span class="k">ELEMENTAL FUNCTION </span><span class="n">dbcsr_scalar_d</span> <span class="p">(</span><span class="n">scalar</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">encapsulated_scalar</span><span class="p">)</span>
 <a name="ln-1305"></a>     <span class="c">!! Sets a scalar in an encapsulated data structure</span>
@@ -1662,15 +1662,15 @@
 <a name="ln-1400"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
 <a name="ln-1401"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">u</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-1402"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
-<a name="ln-1403"></a>            <span class="n">ENDIF</span>
-<a name="ln-1404"></a>            <span class="k">DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span> <span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span>
+<a name="ln-1403"></a>            <span class="k">ENDIF</span>
+<a name="ln-1404"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span> <span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span>
 <a name="ln-1405"></a>         <span class="k">ELSE</span>
 <a name="ln-1406"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span>
-<a name="ln-1407"></a>         <span class="n">ENDIF</span>
-<a name="ln-1408"></a>      <span class="k">ELSE</span>
+<a name="ln-1407"></a>         <span class="k">ENDIF</span>
+<a name="ln-1408"></a><span class="k">      ELSE</span>
 <a name="ln-1409"></a><span class="k">         NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
-<a name="ln-1410"></a>      <span class="n">ENDIF</span>
-<a name="ln-1411"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_get_data_c_s</span>
+<a name="ln-1410"></a>      <span class="k">ENDIF</span>
+<a name="ln-1411"></a><span class="k">   END FUNCTION </span><span class="n">dbcsr_get_data_c_s</span>
 <a name="ln-1412"></a>
 <a name="ln-1413"></a>   <span class="k">FUNCTION </span><span class="n">dbcsr_get_data_p_s</span> <span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
 <a name="ln-1414"></a>     <span class="c">!! Returns the single/double precision real/complex data</span>
@@ -1703,15 +1703,15 @@
 <a name="ln-1441"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
 <a name="ln-1442"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">u</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-1443"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
-<a name="ln-1444"></a>            <span class="n">ENDIF</span>
-<a name="ln-1445"></a>            <span class="k">DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span> <span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span>
+<a name="ln-1444"></a>            <span class="k">ENDIF</span>
+<a name="ln-1445"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span> <span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span>
 <a name="ln-1446"></a>         <span class="k">ELSE</span>
 <a name="ln-1447"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span>
-<a name="ln-1448"></a>         <span class="n">ENDIF</span>
-<a name="ln-1449"></a>      <span class="k">ELSE</span>
+<a name="ln-1448"></a>         <span class="k">ENDIF</span>
+<a name="ln-1449"></a><span class="k">      ELSE</span>
 <a name="ln-1450"></a><span class="k">         NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
-<a name="ln-1451"></a>      <span class="n">ENDIF</span>
-<a name="ln-1452"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_get_data_p_s</span>
+<a name="ln-1451"></a>      <span class="k">ENDIF</span>
+<a name="ln-1452"></a><span class="k">   END FUNCTION </span><span class="n">dbcsr_get_data_p_s</span>
 <a name="ln-1453"></a>
 <a name="ln-1454"></a>   <span class="k">FUNCTION </span><span class="n">dbcsr_get_data_p_2d_s</span> <span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
 <a name="ln-1455"></a>     <span class="c">!! Returns the single/double precision real/complex data</span>
@@ -1748,15 +1748,15 @@
 <a name="ln-1486"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
 <a name="ln-1487"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_sp</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-1488"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
-<a name="ln-1489"></a>            <span class="n">ENDIF</span>
-<a name="ln-1490"></a>            <span class="k">DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_sp</span> <span class="p">(</span><span class="n">l</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">l</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<a name="ln-1489"></a>            <span class="k">ENDIF</span>
+<a name="ln-1490"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_sp</span> <span class="p">(</span><span class="n">l</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">l</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 <a name="ln-1491"></a>         <span class="k">ELSE</span>
 <a name="ln-1492"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_sp</span>
-<a name="ln-1493"></a>         <span class="n">ENDIF</span>
-<a name="ln-1494"></a>      <span class="k">ELSE</span>
+<a name="ln-1493"></a>         <span class="k">ENDIF</span>
+<a name="ln-1494"></a><span class="k">      ELSE</span>
 <a name="ln-1495"></a><span class="k">         NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
-<a name="ln-1496"></a>      <span class="n">ENDIF</span>
-<a name="ln-1497"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_get_data_p_2d_s</span>
+<a name="ln-1496"></a>      <span class="k">ENDIF</span>
+<a name="ln-1497"></a><span class="k">   END FUNCTION </span><span class="n">dbcsr_get_data_p_2d_s</span>
 <a name="ln-1498"></a>
 <a name="ln-1499"></a>   <span class="k">SUBROUTINE </span><span class="n">get_data_s</span> <span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="k">DATA</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">)</span>
 <a name="ln-1500"></a>     <span class="c">!! Returns the single/double precision real/complex data</span>
@@ -1785,15 +1785,15 @@
 <a name="ln-1523"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
 <a name="ln-1524"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">u</span> <span class="o">&gt;</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-1525"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
-<a name="ln-1526"></a>            <span class="n">ENDIF</span>
-<a name="ln-1527"></a>            <span class="k">DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span> <span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span>
+<a name="ln-1526"></a>            <span class="k">ENDIF</span>
+<a name="ln-1527"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span> <span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span>
 <a name="ln-1528"></a>         <span class="k">ELSE</span>
 <a name="ln-1529"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span>
-<a name="ln-1530"></a>         <span class="n">ENDIF</span>
-<a name="ln-1531"></a>      <span class="k">ELSE</span>
+<a name="ln-1530"></a>         <span class="k">ENDIF</span>
+<a name="ln-1531"></a><span class="k">      ELSE</span>
 <a name="ln-1532"></a><span class="k">         NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
-<a name="ln-1533"></a>      <span class="n">ENDIF</span>
-<a name="ln-1534"></a>   <span class="k">END SUBROUTINE </span><span class="n">get_data_s</span>
+<a name="ln-1533"></a>      <span class="k">ENDIF</span>
+<a name="ln-1534"></a><span class="k">   END SUBROUTINE </span><span class="n">get_data_s</span>
 <a name="ln-1535"></a>
 <a name="ln-1536"></a>   <span class="k">SUBROUTINE </span><span class="n">get_data_2d_s</span> <span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="k">DATA</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">)</span>
 <a name="ln-1537"></a>     <span class="c">!! Returns the single/double precision real/complex data</span>
@@ -1826,15 +1826,15 @@
 <a name="ln-1564"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
 <a name="ln-1565"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_sp</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-1566"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
-<a name="ln-1567"></a>            <span class="n">ENDIF</span>
-<a name="ln-1568"></a>            <span class="k">DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_sp</span> <span class="p">(</span><span class="n">l</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">l</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<a name="ln-1567"></a>            <span class="k">ENDIF</span>
+<a name="ln-1568"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_sp</span> <span class="p">(</span><span class="n">l</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">l</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 <a name="ln-1569"></a>         <span class="k">ELSE</span>
 <a name="ln-1570"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r2_sp</span>
-<a name="ln-1571"></a>         <span class="n">ENDIF</span>
-<a name="ln-1572"></a>      <span class="k">ELSE</span>
+<a name="ln-1571"></a>         <span class="k">ENDIF</span>
+<a name="ln-1572"></a><span class="k">      ELSE</span>
 <a name="ln-1573"></a><span class="k">         NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
-<a name="ln-1574"></a>      <span class="n">ENDIF</span>
-<a name="ln-1575"></a>   <span class="k">END SUBROUTINE </span><span class="n">get_data_2d_s</span>
+<a name="ln-1574"></a>      <span class="k">ENDIF</span>
+<a name="ln-1575"></a><span class="k">   END SUBROUTINE </span><span class="n">get_data_2d_s</span>
 <a name="ln-1576"></a>
 <a name="ln-1577"></a>   <span class="k">ELEMENTAL FUNCTION </span><span class="n">dbcsr_scalar_s</span> <span class="p">(</span><span class="n">scalar</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">encapsulated_scalar</span><span class="p">)</span>
 <a name="ln-1578"></a>     <span class="c">!! Sets a scalar in an encapsulated data structure</span>
@@ -1935,15 +1935,15 @@
 <a name="ln-1673"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
 <a name="ln-1674"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">u</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-1675"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
-<a name="ln-1676"></a>            <span class="n">ENDIF</span>
-<a name="ln-1677"></a>            <span class="k">DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span> <span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span>
+<a name="ln-1676"></a>            <span class="k">ENDIF</span>
+<a name="ln-1677"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span> <span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span>
 <a name="ln-1678"></a>         <span class="k">ELSE</span>
 <a name="ln-1679"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span>
-<a name="ln-1680"></a>         <span class="n">ENDIF</span>
-<a name="ln-1681"></a>      <span class="k">ELSE</span>
+<a name="ln-1680"></a>         <span class="k">ENDIF</span>
+<a name="ln-1681"></a><span class="k">      ELSE</span>
 <a name="ln-1682"></a><span class="k">         NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
-<a name="ln-1683"></a>      <span class="n">ENDIF</span>
-<a name="ln-1684"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_get_data_c_z</span>
+<a name="ln-1683"></a>      <span class="k">ENDIF</span>
+<a name="ln-1684"></a><span class="k">   END FUNCTION </span><span class="n">dbcsr_get_data_c_z</span>
 <a name="ln-1685"></a>
 <a name="ln-1686"></a>   <span class="k">FUNCTION </span><span class="n">dbcsr_get_data_p_z</span> <span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
 <a name="ln-1687"></a>     <span class="c">!! Returns the single/double precision real/complex data</span>
@@ -1976,15 +1976,15 @@
 <a name="ln-1714"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
 <a name="ln-1715"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">u</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-1716"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
-<a name="ln-1717"></a>            <span class="n">ENDIF</span>
-<a name="ln-1718"></a>            <span class="k">DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span> <span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span>
+<a name="ln-1717"></a>            <span class="k">ENDIF</span>
+<a name="ln-1718"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span> <span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span>
 <a name="ln-1719"></a>         <span class="k">ELSE</span>
 <a name="ln-1720"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span>
-<a name="ln-1721"></a>         <span class="n">ENDIF</span>
-<a name="ln-1722"></a>      <span class="k">ELSE</span>
+<a name="ln-1721"></a>         <span class="k">ENDIF</span>
+<a name="ln-1722"></a><span class="k">      ELSE</span>
 <a name="ln-1723"></a><span class="k">         NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
-<a name="ln-1724"></a>      <span class="n">ENDIF</span>
-<a name="ln-1725"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_get_data_p_z</span>
+<a name="ln-1724"></a>      <span class="k">ENDIF</span>
+<a name="ln-1725"></a><span class="k">   END FUNCTION </span><span class="n">dbcsr_get_data_p_z</span>
 <a name="ln-1726"></a>
 <a name="ln-1727"></a>   <span class="k">FUNCTION </span><span class="n">dbcsr_get_data_p_2d_z</span> <span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
 <a name="ln-1728"></a>     <span class="c">!! Returns the single/double precision real/complex data</span>
@@ -2021,15 +2021,15 @@
 <a name="ln-1759"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
 <a name="ln-1760"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_dp</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-1761"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
-<a name="ln-1762"></a>            <span class="n">ENDIF</span>
-<a name="ln-1763"></a>            <span class="k">DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_dp</span> <span class="p">(</span><span class="n">l</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">l</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<a name="ln-1762"></a>            <span class="k">ENDIF</span>
+<a name="ln-1763"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_dp</span> <span class="p">(</span><span class="n">l</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">l</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 <a name="ln-1764"></a>         <span class="k">ELSE</span>
 <a name="ln-1765"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_dp</span>
-<a name="ln-1766"></a>         <span class="n">ENDIF</span>
-<a name="ln-1767"></a>      <span class="k">ELSE</span>
+<a name="ln-1766"></a>         <span class="k">ENDIF</span>
+<a name="ln-1767"></a><span class="k">      ELSE</span>
 <a name="ln-1768"></a><span class="k">         NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
-<a name="ln-1769"></a>      <span class="n">ENDIF</span>
-<a name="ln-1770"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_get_data_p_2d_z</span>
+<a name="ln-1769"></a>      <span class="k">ENDIF</span>
+<a name="ln-1770"></a><span class="k">   END FUNCTION </span><span class="n">dbcsr_get_data_p_2d_z</span>
 <a name="ln-1771"></a>
 <a name="ln-1772"></a>   <span class="k">SUBROUTINE </span><span class="n">get_data_z</span> <span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="k">DATA</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">)</span>
 <a name="ln-1773"></a>     <span class="c">!! Returns the single/double precision real/complex data</span>
@@ -2058,15 +2058,15 @@
 <a name="ln-1796"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
 <a name="ln-1797"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">u</span> <span class="o">&gt;</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-1798"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
-<a name="ln-1799"></a>            <span class="n">ENDIF</span>
-<a name="ln-1800"></a>            <span class="k">DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span> <span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span>
+<a name="ln-1799"></a>            <span class="k">ENDIF</span>
+<a name="ln-1800"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span> <span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span>
 <a name="ln-1801"></a>         <span class="k">ELSE</span>
 <a name="ln-1802"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span>
-<a name="ln-1803"></a>         <span class="n">ENDIF</span>
-<a name="ln-1804"></a>      <span class="k">ELSE</span>
+<a name="ln-1803"></a>         <span class="k">ENDIF</span>
+<a name="ln-1804"></a><span class="k">      ELSE</span>
 <a name="ln-1805"></a><span class="k">         NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
-<a name="ln-1806"></a>      <span class="n">ENDIF</span>
-<a name="ln-1807"></a>   <span class="k">END SUBROUTINE </span><span class="n">get_data_z</span>
+<a name="ln-1806"></a>      <span class="k">ENDIF</span>
+<a name="ln-1807"></a><span class="k">   END SUBROUTINE </span><span class="n">get_data_z</span>
 <a name="ln-1808"></a>
 <a name="ln-1809"></a>   <span class="k">SUBROUTINE </span><span class="n">get_data_2d_z</span> <span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="k">DATA</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">)</span>
 <a name="ln-1810"></a>     <span class="c">!! Returns the single/double precision real/complex data</span>
@@ -2099,15 +2099,15 @@
 <a name="ln-1837"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
 <a name="ln-1838"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_dp</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-1839"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
-<a name="ln-1840"></a>            <span class="n">ENDIF</span>
-<a name="ln-1841"></a>            <span class="k">DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_dp</span> <span class="p">(</span><span class="n">l</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">l</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<a name="ln-1840"></a>            <span class="k">ENDIF</span>
+<a name="ln-1841"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_dp</span> <span class="p">(</span><span class="n">l</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">l</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 <a name="ln-1842"></a>         <span class="k">ELSE</span>
 <a name="ln-1843"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_dp</span>
-<a name="ln-1844"></a>         <span class="n">ENDIF</span>
-<a name="ln-1845"></a>      <span class="k">ELSE</span>
+<a name="ln-1844"></a>         <span class="k">ENDIF</span>
+<a name="ln-1845"></a><span class="k">      ELSE</span>
 <a name="ln-1846"></a><span class="k">         NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
-<a name="ln-1847"></a>      <span class="n">ENDIF</span>
-<a name="ln-1848"></a>   <span class="k">END SUBROUTINE </span><span class="n">get_data_2d_z</span>
+<a name="ln-1847"></a>      <span class="k">ENDIF</span>
+<a name="ln-1848"></a><span class="k">   END SUBROUTINE </span><span class="n">get_data_2d_z</span>
 <a name="ln-1849"></a>
 <a name="ln-1850"></a>   <span class="k">ELEMENTAL FUNCTION </span><span class="n">dbcsr_scalar_z</span> <span class="p">(</span><span class="n">scalar</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">encapsulated_scalar</span><span class="p">)</span>
 <a name="ln-1851"></a>     <span class="c">!! Sets a scalar in an encapsulated data structure</span>
@@ -2208,15 +2208,15 @@
 <a name="ln-1946"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
 <a name="ln-1947"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">u</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-1948"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
-<a name="ln-1949"></a>            <span class="n">ENDIF</span>
-<a name="ln-1950"></a>            <span class="k">DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span> <span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span>
+<a name="ln-1949"></a>            <span class="k">ENDIF</span>
+<a name="ln-1950"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span> <span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span>
 <a name="ln-1951"></a>         <span class="k">ELSE</span>
 <a name="ln-1952"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span>
-<a name="ln-1953"></a>         <span class="n">ENDIF</span>
-<a name="ln-1954"></a>      <span class="k">ELSE</span>
+<a name="ln-1953"></a>         <span class="k">ENDIF</span>
+<a name="ln-1954"></a><span class="k">      ELSE</span>
 <a name="ln-1955"></a><span class="k">         NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
-<a name="ln-1956"></a>      <span class="n">ENDIF</span>
-<a name="ln-1957"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_get_data_c_c</span>
+<a name="ln-1956"></a>      <span class="k">ENDIF</span>
+<a name="ln-1957"></a><span class="k">   END FUNCTION </span><span class="n">dbcsr_get_data_c_c</span>
 <a name="ln-1958"></a>
 <a name="ln-1959"></a>   <span class="k">FUNCTION </span><span class="n">dbcsr_get_data_p_c</span> <span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
 <a name="ln-1960"></a>     <span class="c">!! Returns the single/double precision real/complex data</span>
@@ -2249,15 +2249,15 @@
 <a name="ln-1987"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
 <a name="ln-1988"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">u</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-1989"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
-<a name="ln-1990"></a>            <span class="n">ENDIF</span>
-<a name="ln-1991"></a>            <span class="k">DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span> <span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span>
+<a name="ln-1990"></a>            <span class="k">ENDIF</span>
+<a name="ln-1991"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span> <span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span>
 <a name="ln-1992"></a>         <span class="k">ELSE</span>
 <a name="ln-1993"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span>
-<a name="ln-1994"></a>         <span class="n">ENDIF</span>
-<a name="ln-1995"></a>      <span class="k">ELSE</span>
+<a name="ln-1994"></a>         <span class="k">ENDIF</span>
+<a name="ln-1995"></a><span class="k">      ELSE</span>
 <a name="ln-1996"></a><span class="k">         NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
-<a name="ln-1997"></a>      <span class="n">ENDIF</span>
-<a name="ln-1998"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_get_data_p_c</span>
+<a name="ln-1997"></a>      <span class="k">ENDIF</span>
+<a name="ln-1998"></a><span class="k">   END FUNCTION </span><span class="n">dbcsr_get_data_p_c</span>
 <a name="ln-1999"></a>
 <a name="ln-2000"></a>   <span class="k">FUNCTION </span><span class="n">dbcsr_get_data_p_2d_c</span> <span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
 <a name="ln-2001"></a>     <span class="c">!! Returns the single/double precision real/complex data</span>
@@ -2294,15 +2294,15 @@
 <a name="ln-2032"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
 <a name="ln-2033"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_sp</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-2034"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
-<a name="ln-2035"></a>            <span class="n">ENDIF</span>
-<a name="ln-2036"></a>            <span class="k">DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_sp</span> <span class="p">(</span><span class="n">l</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">l</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<a name="ln-2035"></a>            <span class="k">ENDIF</span>
+<a name="ln-2036"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_sp</span> <span class="p">(</span><span class="n">l</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">l</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 <a name="ln-2037"></a>         <span class="k">ELSE</span>
 <a name="ln-2038"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_sp</span>
-<a name="ln-2039"></a>         <span class="n">ENDIF</span>
-<a name="ln-2040"></a>      <span class="k">ELSE</span>
+<a name="ln-2039"></a>         <span class="k">ENDIF</span>
+<a name="ln-2040"></a><span class="k">      ELSE</span>
 <a name="ln-2041"></a><span class="k">         NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
-<a name="ln-2042"></a>      <span class="n">ENDIF</span>
-<a name="ln-2043"></a>   <span class="k">END FUNCTION </span><span class="n">dbcsr_get_data_p_2d_c</span>
+<a name="ln-2042"></a>      <span class="k">ENDIF</span>
+<a name="ln-2043"></a><span class="k">   END FUNCTION </span><span class="n">dbcsr_get_data_p_2d_c</span>
 <a name="ln-2044"></a>
 <a name="ln-2045"></a>   <span class="k">SUBROUTINE </span><span class="n">get_data_c</span> <span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="k">DATA</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">)</span>
 <a name="ln-2046"></a>     <span class="c">!! Returns the single/double precision real/complex data</span>
@@ -2331,15 +2331,15 @@
 <a name="ln-2069"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
 <a name="ln-2070"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">u</span> <span class="o">&gt;</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-2071"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
-<a name="ln-2072"></a>            <span class="n">ENDIF</span>
-<a name="ln-2073"></a>            <span class="k">DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span> <span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span>
+<a name="ln-2072"></a>            <span class="k">ENDIF</span>
+<a name="ln-2073"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span> <span class="p">(</span><span class="n">l</span><span class="p">:</span><span class="n">u</span><span class="p">)</span>
 <a name="ln-2074"></a>         <span class="k">ELSE</span>
 <a name="ln-2075"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span>
-<a name="ln-2076"></a>         <span class="n">ENDIF</span>
-<a name="ln-2077"></a>      <span class="k">ELSE</span>
+<a name="ln-2076"></a>         <span class="k">ENDIF</span>
+<a name="ln-2077"></a><span class="k">      ELSE</span>
 <a name="ln-2078"></a><span class="k">         NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
-<a name="ln-2079"></a>      <span class="n">ENDIF</span>
-<a name="ln-2080"></a>   <span class="k">END SUBROUTINE </span><span class="n">get_data_c</span>
+<a name="ln-2079"></a>      <span class="k">ENDIF</span>
+<a name="ln-2080"></a><span class="k">   END SUBROUTINE </span><span class="n">get_data_c</span>
 <a name="ln-2081"></a>
 <a name="ln-2082"></a>   <span class="k">SUBROUTINE </span><span class="n">get_data_2d_c</span> <span class="p">(</span><span class="n">area</span><span class="p">,</span> <span class="k">DATA</span><span class="p">,</span> <span class="n">lb</span><span class="p">,</span> <span class="n">ub</span><span class="p">)</span>
 <a name="ln-2083"></a>     <span class="c">!! Returns the single/double precision real/complex data</span>
@@ -2372,15 +2372,15 @@
 <a name="ln-2110"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
 <a name="ln-2111"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">UBOUND</span><span class="p">(</span><span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_sp</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span> <span class="p">&amp;</span>
 <a name="ln-2112"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Out of bounds&quot;</span><span class="p">)</span>
-<a name="ln-2113"></a>            <span class="n">ENDIF</span>
-<a name="ln-2114"></a>            <span class="k">DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_sp</span> <span class="p">(</span><span class="n">l</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">l</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<a name="ln-2113"></a>            <span class="k">ENDIF</span>
+<a name="ln-2114"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_sp</span> <span class="p">(</span><span class="n">l</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">l</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span><span class="n">u</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
 <a name="ln-2115"></a>         <span class="k">ELSE</span>
 <a name="ln-2116"></a><span class="k">            DATA</span> <span class="o">=&gt;</span> <span class="n">area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c2_sp</span>
-<a name="ln-2117"></a>         <span class="n">ENDIF</span>
-<a name="ln-2118"></a>      <span class="k">ELSE</span>
+<a name="ln-2117"></a>         <span class="k">ENDIF</span>
+<a name="ln-2118"></a><span class="k">      ELSE</span>
 <a name="ln-2119"></a><span class="k">         NULLIFY</span> <span class="p">(</span><span class="k">DATA</span><span class="p">)</span>
-<a name="ln-2120"></a>      <span class="n">ENDIF</span>
-<a name="ln-2121"></a>   <span class="k">END SUBROUTINE </span><span class="n">get_data_2d_c</span>
+<a name="ln-2120"></a>      <span class="k">ENDIF</span>
+<a name="ln-2121"></a><span class="k">   END SUBROUTINE </span><span class="n">get_data_2d_c</span>
 <a name="ln-2122"></a>
 <a name="ln-2123"></a>   <span class="k">ELEMENTAL FUNCTION </span><span class="n">dbcsr_scalar_c</span> <span class="p">(</span><span class="n">scalar</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">encapsulated_scalar</span><span class="p">)</span>
 <a name="ln-2124"></a>     <span class="c">!! Sets a scalar in an encapsulated data structure</span>

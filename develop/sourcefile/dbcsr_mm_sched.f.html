@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-20-gf69b26e52</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-21-g34cf21bb1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -575,9 +575,9 @@
 <a name="ln-313"></a>               <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;product data out of range&quot;</span><span class="p">)</span>
 <a name="ln-314"></a>            <span class="k">END IF</span>
 <a name="ln-315"></a><span class="k">         END DO</span>
-<a name="ln-316"></a><span class="k">      </span><span class="n">ENDIF</span>
+<a name="ln-316"></a><span class="k">      ENDIF</span>
 <a name="ln-317"></a>
-<a name="ln-318"></a>      <span class="k">IF</span> <span class="p">(.</span><span class="n">FALSE</span><span class="p">.)</span> <span class="k">THEN</span>
+<a name="ln-318"></a><span class="k">      IF</span> <span class="p">(.</span><span class="n">FALSE</span><span class="p">.)</span> <span class="k">THEN</span>
 <a name="ln-319"></a>         <span class="c">! Check if homogeneous stacks are indeed homogeneous</span>
 <a name="ln-320"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">defined_mnk</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-321"></a><span class="k">            DO </span><span class="n">sp</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">stack_fillcount</span>
@@ -588,8 +588,8 @@
 <a name="ln-326"></a>               <span class="k">IF</span> <span class="p">(</span><span class="n">stack_data</span><span class="p">(</span><span class="n">p_k</span><span class="p">,</span> <span class="n">sp</span><span class="p">)</span> <span class="o">/=</span> <span class="n">stack_descr</span><span class="p">%</span><span class="n">k</span><span class="p">)</span> <span class="p">&amp;</span>
 <a name="ln-327"></a>                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;homogeneous stacks check failed&quot;</span><span class="p">)</span>
 <a name="ln-328"></a>            <span class="k">END DO</span>
-<a name="ln-329"></a><span class="k">         </span><span class="n">ENDIF</span>
-<a name="ln-330"></a>      <span class="n">ENDIF</span>
+<a name="ln-329"></a><span class="k">         ENDIF</span>
+<a name="ln-330"></a><span class="k">      ENDIF</span>
 <a name="ln-331"></a>
 <a name="ln-332"></a>      <span class="c">! Submitting the stack for processing -------------------------------------</span>
 <a name="ln-333"></a>      <span class="n">flop_per_entry</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span><span class="o">*</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">max_m</span><span class="o">*</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">max_n</span><span class="o">*</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">max_k</span>
@@ -617,8 +617,8 @@
 <a name="ln-355"></a>            <span class="k">RETURN</span>
 <a name="ln-356"></a><span class="k">         ELSE</span>
 <a name="ln-357"></a><span class="k">            </span><span class="n">this</span><span class="p">%</span><span class="n">avoid_accdrv</span> <span class="o">=</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_avoid_after_busy</span>
-<a name="ln-358"></a>         <span class="n">ENDIF</span>
-<a name="ln-359"></a>      <span class="n">ENDIF</span>
+<a name="ln-358"></a>         <span class="k">ENDIF</span>
+<a name="ln-359"></a><span class="k">      ENDIF</span>
 <a name="ln-360"></a>
 <a name="ln-361"></a>      <span class="c">!WRITE (*,*) &quot;dbcsr_mm_sched_process: running hostdrv_process, stack_fillcount:&quot;, stack_fillcount</span>
 <a name="ln-362"></a>
@@ -646,9 +646,9 @@
 <a name="ln-384"></a>         <span class="k">CALL </span><span class="n">stats_add</span><span class="p">(</span><span class="n">mystats</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-385"></a>                        <span class="n">m</span><span class="o">=</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">n</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">stack_descr</span><span class="p">%</span><span class="n">k</span><span class="p">,</span> <span class="p">&amp;</span>
 <a name="ln-386"></a>                        <span class="n">stacksize_cpu</span><span class="o">=</span><span class="nb">INT</span><span class="p">(</span><span class="n">stack_fillcount</span><span class="p">,</span> <span class="nb">kind</span><span class="o">=</span><span class="n">int_8</span><span class="p">))</span>
-<a name="ln-387"></a>      <span class="n">ENDIF</span>
+<a name="ln-387"></a>      <span class="k">ENDIF</span>
 <a name="ln-388"></a>
-<a name="ln-389"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_mm_sched_process</span>
+<a name="ln-389"></a><span class="k">   END SUBROUTINE </span><span class="n">dbcsr_mm_sched_process</span>
 <a name="ln-390"></a>
 <a name="ln-391"></a>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_mm_sched_set_orig_datasize</span><span class="p">(</span><span class="n">this</span><span class="p">,</span> <span class="n">newsize</span><span class="p">)</span>
 <a name="ln-392"></a>      <span class="c">!! Change the datasize of the original workspace buffer</span>
@@ -698,8 +698,8 @@
 <a name="ln-436"></a>            <span class="n">stats</span><span class="p">%</span><span class="n">num_mnk_stacks</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span> <span class="o">=</span> <span class="n">stats</span><span class="p">%</span><span class="n">num_mnk_stacks</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span> <span class="o">+</span> <span class="n">my_nstacks_smm</span>
 <a name="ln-437"></a>            <span class="n">stats</span><span class="p">%</span><span class="n">num_mnk_stacks</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span> <span class="o">=</span> <span class="n">stats</span><span class="p">%</span><span class="n">num_mnk_stacks</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span> <span class="o">+</span> <span class="n">my_nstacks_acc</span>
 <a name="ln-438"></a>            <span class="k">RETURN</span>
-<a name="ln-439"></a><span class="k">         </span><span class="n">ENDIF</span>
-<a name="ln-440"></a>      <span class="k">END DO</span>
+<a name="ln-439"></a><span class="k">         ENDIF</span>
+<a name="ln-440"></a><span class="k">      END DO</span>
 <a name="ln-441"></a>
 <a name="ln-442"></a>      <span class="c">!not found, ok lets grow the list</span>
 <a name="ln-443"></a>      <span class="n">s</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">stats</span><span class="p">%</span><span class="n">num_mnk_stacks</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -801,8 +801,8 @@
 <a name="ln-539"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">sending_rank</span> <span class="o">==</span> <span class="n">myrank</span><span class="p">)</span> <span class="k">THEN</span>
 <a name="ln-540"></a><span class="k">            </span><span class="n">i</span> <span class="o">=</span> <span class="nb">MINLOC</span><span class="p">(</span><span class="n">mnk_collected</span><span class="p">,</span> <span class="nb">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <a name="ln-541"></a>            <span class="n">mnk</span> <span class="o">=</span> <span class="nb">INT</span><span class="p">(</span><span class="n">report</span><span class="p">%</span><span class="n">num_mnk_stacks</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">),</span> <span class="nb">kind</span><span class="o">=</span><span class="n">int_4</span><span class="p">)</span>
-<a name="ln-542"></a>         <span class="n">ENDIF</span>
-<a name="ln-543"></a>         <span class="k">CALL </span><span class="n">mp_bcast</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="n">mnk</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">sending_rank</span><span class="p">,</span> <span class="n">gid</span><span class="o">=</span><span class="n">group</span><span class="p">)</span>
+<a name="ln-542"></a>         <span class="k">ENDIF</span>
+<a name="ln-543"></a><span class="k">         CALL </span><span class="n">mp_bcast</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="n">mnk</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="n">sending_rank</span><span class="p">,</span> <span class="n">gid</span><span class="o">=</span><span class="n">group</span><span class="p">)</span>
 <a name="ln-544"></a>
 <a name="ln-545"></a>         <span class="k">CALL </span><span class="n">stats_add</span><span class="p">(</span><span class="n">report</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="n">mnk</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">n</span><span class="o">=</span><span class="n">mnk</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">k</span><span class="o">=</span><span class="n">mnk</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">stacksize_cpu</span><span class="o">=</span><span class="mi">0_int_8</span><span class="p">,</span> <span class="n">stacksize_acc</span><span class="o">=</span><span class="mi">0_int_8</span><span class="p">)</span>
 <a name="ln-546"></a>         <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">report</span><span class="p">%</span><span class="n">num_mnk_stacks</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
