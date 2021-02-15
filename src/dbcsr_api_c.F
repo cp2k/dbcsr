@@ -1394,19 +1394,19 @@ CONTAINS
       TYPE(dbcsr_type), POINTER :: matrix
       INTEGER(kind=c_int), DIMENSION(:), POINTER :: ${var}$
       INTEGER :: i
-    
+
       CALL c_f_pointer(c_matrix, matrix)
 
       NULLIFY (${var}$)
       CALL dbcsr_get_info(matrix=matrix, ${var}$=${var}$)
 
   #:if var in ['local_rows', 'local_cols', 'row_blk_offset', 'col_blk_offset']
-      DO i = 1,c_size
-         c_${var}$(i) = ${var}$(i) - 1
+      DO i = 1, c_size
+         c_${var}$ (i) = ${var}$ (i) - 1
       ENDDO
   #:else
-      DO i = 1,c_size
-         c_${var}$(i) = ${var}$(i);
+      DO i = 1, c_size
+         c_${var}$ (i) = ${var}$ (i); 
       ENDDO
   #:endif
       NULLIFY (${var}$)
