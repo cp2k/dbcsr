@@ -203,6 +203,7 @@ int c_dbcsr_acc_init(void)
                   c_dbcsr_acc_opencl_devices + c_dbcsr_acc_opencl_ndevices, NULL),
                   "split device into subdevices", result);
                 if (EXIT_SUCCESS == result) {
+                  ACC_OPENCL_CHECK(clReleaseDevice(devices[j]), "release device", result);
                   c_dbcsr_acc_opencl_ndevices += n;
                 }
                 else break;
