@@ -507,6 +507,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
             default: ;
           }
           if (NULL != typename) {
+            const int nonvcl = (EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(active_device, "nvidia"));
             int max_wgsize, wgsize, bs, bm, bn, nbm, nbn;
             result = c_dbcsr_acc_opencl_wgsize(active_device, NULL/*device-specific*/,
               &max_wgsize, NULL/*preferred_multiple*/);
@@ -543,9 +544,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 const char *const env_atomics = getenv("OPENCL_LIBSMM_SMM_ATOMICS");
                 const char *atomics = NULL;
                 if (NULL == env_atomics || '0' != *env_atomics) {
-                  if ((NULL == env_atomics && EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(active_device, "nvidia"))
-                    || NULL != c_dbcsr_acc_opencl_stristr(env_atomics, "cmpxchg"))
-                  {
+                  if ((NULL == env_atomics && nonvcl) || NULL != c_dbcsr_acc_opencl_stristr(env_atomics, "cmpxchg")) {
                     atomics = "atomic_add_global_cmpxchg(A,B)";
                   }
                   else {
@@ -575,7 +574,10 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
             if (EXIT_SUCCESS == result) {
               opencl_libsmm_smm_t new_config;
 #if defined(OPENCL_LIBSMM_SOURCE_MULTIPLY)
-              result = c_dbcsr_acc_opencl_kernel(OPENCL_LIBSMM_SOURCE_MULTIPLY,
+              result = c_dbcsr_acc_opencl_kernel(
+                nonvcl  ? (OPENCL_LIBSMM_SOURCE_MULTIPLY)
+                        : ("#pragma OPENCL EXTENSION all: enable\n"
+                           OPENCL_LIBSMM_STRING_MULTIPLY),
                 build_options, fname, &new_config.kernel);
 #else
               result = EXIT_FAILURE;

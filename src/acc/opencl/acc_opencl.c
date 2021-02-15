@@ -80,7 +80,11 @@ const char* c_dbcsr_acc_opencl_stristr(const char* a, const char* b)
 }
 
 
-/* comparator used with qsort; stabilized by tail condition (a < b ? -1 : 1) */
+/**
+ * Comparator used with qsort; stabilized by tail condition (a < b ? -1 : 1).
+ * Brings GPUs with local memory in front, followed by (potentially) integrated GPUs,
+ * and further orders by memory capacity.
+ */
 int c_dbcsr_acc_opencl_order_devices(const void* /*dev_a*/, const void* /*dev_b*/);
 int c_dbcsr_acc_opencl_order_devices(const void* dev_a, const void* dev_b)
 {
@@ -97,10 +101,14 @@ int c_dbcsr_acc_opencl_order_devices(const void* dev_a, const void* dev_b)
   else {
     if (CL_DEVICE_TYPE_GPU & type_a) {
       if (CL_DEVICE_TYPE_GPU & type_b) {
-        size_t size_a, size_b;
-        ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*a, NULL, &size_a));
-        ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*b, NULL, &size_b));
-        return (size_a < size_b ? 1 : (size_a != size_b ? -1 : (a < b ? -1 : 1)));
+        size_t size_a, size_b, local_a, local_b;
+        ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*a, NULL, &size_a, &local_a));
+        ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*b, NULL, &size_b, &local_b));
+        if ((0 == local_a && 0 == local_b) || (0 != local_a && 0 != local_b)) {
+          return (size_a < size_b ? 1 : (size_a != size_b ? -1 : (a < b ? -1 : 1)));
+        }
+        else if (0 != local_b) return 1;
+        else return -1;
       }
       else return -1;
     }
@@ -109,8 +117,8 @@ int c_dbcsr_acc_opencl_order_devices(const void* dev_a, const void* dev_b)
       if (CL_DEVICE_TYPE_ACCELERATOR & type_a) {
         if (CL_DEVICE_TYPE_ACCELERATOR & type_b) {
           size_t size_a, size_b;
-          ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*a, NULL, &size_a));
-          ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*b, NULL, &size_b));
+          ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*a, NULL, &size_a, NULL));
+          ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*b, NULL, &size_b, NULL));
           return (size_a < size_b ? 1 : (size_a != size_b ? -1 : (a < b ? -1 : 1)));
         }
         else return -1;
@@ -118,8 +126,8 @@ int c_dbcsr_acc_opencl_order_devices(const void* dev_a, const void* dev_b)
       else if (CL_DEVICE_TYPE_ACCELERATOR & type_b) return 1;
       else {
         size_t size_a, size_b;
-        ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*a, NULL, &size_a));
-        ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*b, NULL, &size_b));
+        ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*a, NULL, &size_a, NULL));
+        ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*b, NULL, &size_b, NULL));
         return (size_a < size_b ? 1 : (size_a != size_b ? -1 : (a < b ? -1 : 1)));
       }
     }
@@ -143,12 +151,15 @@ int c_dbcsr_acc_init(void)
     const char *const disable = getenv("ACC_OPENCL_DISABLE");
     if (NULL == disable || '0' == *disable) {
       cl_platform_id platforms[ACC_OPENCL_DEVICES_MAXCOUNT];
+      cl_device_id devices[ACC_OPENCL_DEVICES_MAXCOUNT];
       char buffer[ACC_OPENCL_BUFFERSIZE];
       const char *const env_device_vendor = getenv("ACC_OPENCL_VENDOR");
+      /* TODO: introduce more advanced syntax (partitioning a device) */
+      const char *const env_device_split = getenv("ACC_OPENCL_DEVSPLIT");
       const char *const env_device_type = getenv("ACC_OPENCL_DEVTYPE");
       const char *const env_device_id = getenv("ACC_OPENCL_DEVICE");
       int device_id = (NULL == env_device_id ? 0 : atoi(env_device_id));
-      cl_uint nplatforms = 0, ndevices = 0, i;
+      cl_uint nplatforms = 0, i;
       cl_device_type type = CL_DEVICE_TYPE_ALL;
       ACC_OPENCL_CHECK(clGetPlatformIDs(0, NULL, &nplatforms),
         "query number of platforms", result);
@@ -162,19 +173,44 @@ int c_dbcsr_acc_init(void)
       }
       c_dbcsr_acc_opencl_ndevices = 0;
       for (i = 0; i < nplatforms; ++i) {
-        if (EXIT_SUCCESS == result
-          && CL_SUCCESS == clGetDeviceIDs(platforms[i], type, 0, NULL, &ndevices))
-        {
-          const int n = (c_dbcsr_acc_opencl_ndevices + ndevices) < ACC_OPENCL_DEVICES_MAXCOUNT
-            ? (int)ndevices : (ACC_OPENCL_DEVICES_MAXCOUNT - c_dbcsr_acc_opencl_ndevices);
-          if (CL_SUCCESS == clGetDeviceIDs(platforms[i], type,
-            n, c_dbcsr_acc_opencl_devices + c_dbcsr_acc_opencl_ndevices, NULL))
-          {
-            c_dbcsr_acc_opencl_ndevices += n;
-          }
-          else {
-            ACC_OPENCL_ERROR("retrieve device ids", result);
-          }
+        cl_uint ndevices;
+        if (CL_SUCCESS == clGetDeviceIDs(platforms[i], type, 0, NULL, &ndevices) && 0 < ndevices) {
+          ACC_OPENCL_CHECK(clGetDeviceIDs(platforms[i], type, ndevices, devices, NULL),
+            "retrieve device ids", result);
+          if (EXIT_SUCCESS == result) {
+#if defined(CL_VERSION_1_2)
+            const cl_device_partition_property properties[] = {
+              CL_DEVICE_PARTITION_BY_AFFINITY_DOMAIN, CL_DEVICE_AFFINITY_DOMAIN_NUMA, /*terminator*/0
+            };
+#endif
+            cl_uint j = 0, n;
+            for (; j < ndevices; ++j) {
+#if defined(CL_VERSION_1_2)
+              if ( (NULL == env_device_split || '0' == *env_device_split)
+                || (c_dbcsr_acc_opencl_ndevices + 1) == ACC_OPENCL_DEVICES_MAXCOUNT
+                || (CL_SUCCESS != clCreateSubDevices(devices[j], properties, 0, NULL, &n)))
+#endif
+              {
+                c_dbcsr_acc_opencl_devices[c_dbcsr_acc_opencl_ndevices] = devices[j];
+                ++c_dbcsr_acc_opencl_ndevices;
+              }
+#if defined(CL_VERSION_1_2)
+              else { /* create subdevices */
+                if (ACC_OPENCL_DEVICES_MAXCOUNT < (c_dbcsr_acc_opencl_ndevices + n)) {
+                  n = ACC_OPENCL_DEVICES_MAXCOUNT - (cl_uint)c_dbcsr_acc_opencl_ndevices;
+                }
+                ACC_OPENCL_CHECK(clCreateSubDevices(devices[j], properties, n,
+                  c_dbcsr_acc_opencl_devices + c_dbcsr_acc_opencl_ndevices, NULL),
+                  "split device into subdevices", result);
+                if (EXIT_SUCCESS == result) {
+                  ACC_OPENCL_CHECK(clReleaseDevice(devices[j]), "release device", result);
+                  c_dbcsr_acc_opencl_ndevices += n;
+                }
+                else break;
+              }
+#endif
+            }
+          } /*else break;*/
         }
       }
       assert(NULL == c_dbcsr_acc_opencl_context);
@@ -202,21 +238,39 @@ int c_dbcsr_acc_init(void)
       }
       if (device_id < c_dbcsr_acc_opencl_ndevices) {
         if (EXIT_SUCCESS == result && 1 < c_dbcsr_acc_opencl_ndevices) {
+          char tmp[ACC_OPENCL_BUFFERSIZE] = "";
+          cl_device_type itype;
           /* reorder devices according to c_dbcsr_acc_opencl_order_devices */
           qsort(c_dbcsr_acc_opencl_devices, c_dbcsr_acc_opencl_ndevices,
             sizeof(cl_device_id), c_dbcsr_acc_opencl_order_devices);
-          /* preselect default device */
-          if (NULL == env_device_id || '\0' == *env_device_id) {
-            for (i = 0; i < (cl_uint)c_dbcsr_acc_opencl_ndevices; ++i) {
-              ACC_OPENCL_CHECK(clGetDeviceInfo(c_dbcsr_acc_opencl_devices[i],
-                CL_DEVICE_TYPE, sizeof(cl_device_type), &type, NULL),
-                "retrieve device type", result);
-              if (CL_DEVICE_TYPE_DEFAULT & type) {
+          /* search backwards to capture leading GPUs (order of devices) */
+          i = c_dbcsr_acc_opencl_ndevices - 1;
+          do {
+            ACC_OPENCL_CHECK(clGetDeviceInfo(c_dbcsr_acc_opencl_devices[i],
+              CL_DEVICE_TYPE, sizeof(cl_device_type), &itype, NULL),
+              "retrieve device type", result);
+            if (EXIT_SUCCESS == result) {
+              /* preselect default device */
+              if ((NULL == env_device_id || '\0' == *env_device_id)
+                && (CL_DEVICE_TYPE_DEFAULT & itype))
+              {
                 device_id = (int)i;
                 break;
               }
+              /* prune number of devices to capture GPUs only */
+              else if (CL_DEVICE_TYPE_ALL == type && CL_DEVICE_TYPE_GPU == itype && device_id <= (int)i) {
+                result = clGetDeviceInfo(c_dbcsr_acc_opencl_devices[i],
+                    CL_DEVICE_NAME, ACC_OPENCL_BUFFERSIZE, buffer, NULL);
+                if (CL_SUCCESS == result /* prune for homogeneous set of GPUs */
+                  && 0 != strncmp(buffer, tmp, ACC_OPENCL_BUFFERSIZE))
+                {
+                  c_dbcsr_acc_opencl_ndevices = i + 1;
+                  strncpy(tmp, buffer, ACC_OPENCL_BUFFERSIZE);
+                }
+              }
             }
-          }
+            else break;
+          } while (0 < i--);
         }
         if (EXIT_SUCCESS == result) {
           const char *const env_verbose = getenv("ACC_OPENCL_VERBOSE");
@@ -299,6 +353,7 @@ int c_dbcsr_acc_finalize(void)
 #endif
   if (NULL != c_dbcsr_acc_opencl_context) {
     const cl_context context = c_dbcsr_acc_opencl_context;
+    int i;
     assert(0 < c_dbcsr_acc_opencl_ndevices);
 #if defined(_OPENMP) && defined(ACC_OPENCL_THREADLOCAL_CONTEXT)
 #   pragma omp parallel
@@ -321,6 +376,16 @@ int c_dbcsr_acc_finalize(void)
       result = libsmm_acc_finalize();
     }
 #endif
+    for (i = 0; i < ACC_OPENCL_DEVICES_MAXCOUNT; ++i) {
+      const cl_device_id device_id = c_dbcsr_acc_opencl_devices[i];
+      if (NULL != device_id) {
+#if defined(CL_VERSION_1_2)
+        ACC_OPENCL_CHECK(clReleaseDevice(device_id), "release device", result);
+#endif
+        /* c_dbcsr_acc_opencl_set_active_device scans for non-NULL devices */
+        c_dbcsr_acc_opencl_devices[i] = NULL;
+      }
+    }
   }
   ACC_OPENCL_RETURN(result);
 }
@@ -449,14 +514,14 @@ int c_dbcsr_acc_opencl_device_ext(cl_device_id device, const char *const extname
 
 int c_dbcsr_acc_opencl_set_active_device(int device_id, cl_device_id* device)
 {
-  cl_int result = (((0 <= device_id && device_id < c_dbcsr_acc_opencl_ndevices) ||
-    /* allow successful completion if no device was found */
-    0 > c_dbcsr_acc_opencl_ndevices) ? EXIT_SUCCESS : EXIT_FAILURE);
-  if (0 < c_dbcsr_acc_opencl_ndevices) {
+  cl_int result;
+  if (0 < c_dbcsr_acc_opencl_ndevices && 0 <= device_id && device_id < ACC_OPENCL_DEVICES_MAXCOUNT) {
     const cl_device_id active_id = c_dbcsr_acc_opencl_devices[device_id];
     cl_device_id current_id = NULL;
-    if (EXIT_SUCCESS == result) result = c_dbcsr_acc_opencl_device(NULL/*stream*/, &current_id);
-    if (active_id != current_id) {
+    result = NULL != active_id
+      ? c_dbcsr_acc_opencl_device(NULL/*stream*/, &current_id)
+      : EXIT_FAILURE;
+    if (EXIT_SUCCESS == result && active_id != current_id) {
       cl_platform_id platform = NULL;
       ACC_OPENCL_CHECK(clGetDeviceInfo(active_id, CL_DEVICE_PLATFORM,
         sizeof(cl_platform_id), &platform, NULL),
@@ -513,6 +578,13 @@ int c_dbcsr_acc_opencl_set_active_device(int device_id, cl_device_id* device)
     if (NULL != device) {
       *device = (EXIT_SUCCESS == result ? active_id : NULL);
     }
+  }
+  else if (0 > c_dbcsr_acc_opencl_ndevices) {
+    /* allow successful completion if no device was found */
+    result = EXIT_SUCCESS;
+  }
+  else {
+    result = EXIT_FAILURE;
   }
   ACC_OPENCL_RETURN(result);
 }

@@ -47,7 +47,7 @@
 # define ACC_OPENCL_BUFFERSIZE (8 << 10/*8KB*/)
 #endif
 #if !defined(ACC_OPENCL_DEVICES_MAXCOUNT)
-# define ACC_OPENCL_DEVICES_MAXCOUNT 32
+# define ACC_OPENCL_DEVICES_MAXCOUNT 256
 #endif
 
 /* can depend on OpenCL implementation */
@@ -216,9 +216,9 @@ typedef struct c_dbcsr_acc_opencl_info_hostptr_t {
 c_dbcsr_acc_opencl_info_hostptr_t* c_dbcsr_acc_opencl_info_hostptr(void* memory);
 /** Get host-pointer associated with device-memory (acc_dev_mem_allocate). */
 void* c_dbcsr_acc_opencl_get_hostptr(cl_mem memory);
-/** Information about amount of device memory. */
+/** Amount of device memory; local memory is only non-zero if separate from global. */
 int c_dbcsr_acc_opencl_info_devmem(cl_device_id device,
-  size_t* mem_free, size_t* mem_total);
+  size_t* mem_free, size_t* mem_total, size_t* mem_local);
 /** Return the pointer to the 1st match of "b" in "a", or NULL (no match). */
 const char* c_dbcsr_acc_opencl_stristr(const char* a, const char* b);
 /** Get active device (can be thread/queue-specific). */

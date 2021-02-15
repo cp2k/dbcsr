@@ -93,6 +93,8 @@ if [ "${SED}" ] && [ "${LS}" ] && [ "${RM}" ] && [ "${WC}" ]; then
   NJSONS=$(${LS} -1 ./*.json 2>/dev/null | ${WC} -l)
   if [ "0" != "${NJSONS}" ]; then
     echo "Already found ${NJSONS} (unrelated?) JSON-files."
+  elif [ -e tune_multiply.csv ]; then
+    echo "No JSON file found but (unrelated?) tune_multiply.csv exists."
   fi
   SLEEP=$(command -v sleep)
   if [ "${DELAY}" ] && [ "${SLEEP}" ]; then
