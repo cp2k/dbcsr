@@ -287,9 +287,10 @@ int c_dbcsr_acc_memset_zero(void* dev_mem, size_t offset, size_t nbytes, void* s
 
 
 int c_dbcsr_acc_opencl_info_devmem(cl_device_id device,
-  size_t* mem_free, size_t* mem_total, size_t* mem_local)
+  size_t* mem_free, size_t* mem_total, size_t* mem_local,
+  int* mem_unified)
 {
-  int result = EXIT_SUCCESS;
+  int result = EXIT_SUCCESS, unified = 0;
   size_t size_free = 0, size_total = 0, size_local = 0;
 #if defined(_WIN32)
   MEMORYSTATUSEX mem_status;
@@ -333,27 +334,31 @@ int c_dbcsr_acc_opencl_info_devmem(cl_device_id device,
   if (NULL != device) {
     cl_device_local_mem_type cl_local_type = CL_GLOBAL;
     cl_ulong cl_size_total = 0, cl_size_local = 0;
+    cl_bool cl_unified = CL_FALSE;
     ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_GLOBAL_MEM_SIZE,
       sizeof(cl_ulong), &cl_size_total, NULL),
       "retrieve amount of global memory", result);
     ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_TYPE,
       sizeof(cl_device_local_mem_type), &cl_local_type, NULL),
       "retrieve amount of local memory", result);
-    if (CL_LOCAL == cl_local_type)
-    ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_SIZE,
-      sizeof(cl_ulong), &cl_size_local, NULL),
-      "retrieve amount of local device memory", result);
-    assert(0 < c_dbcsr_acc_opencl_ndevices);
-    size_total /= c_dbcsr_acc_opencl_ndevices;
-    size_free  /= c_dbcsr_acc_opencl_ndevices;
+    if (CL_LOCAL == cl_local_type) {
+      ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_SIZE,
+        sizeof(cl_ulong), &cl_size_local, NULL),
+        "retrieve amount of local device memory", result);
+    }
+    ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_HOST_UNIFIED_MEMORY,
+      sizeof(cl_bool), &cl_unified, NULL),
+      "retrieve amount of local memory", result);
     if (EXIT_SUCCESS == result) {
       if (cl_size_total < size_total) size_total = cl_size_total;
       if (size_total < size_free) size_free = size_total;
       size_local = cl_size_local;
+      unified = cl_unified;
     }
   }
   result = (size_free <= size_total ? EXIT_SUCCESS : EXIT_FAILURE);
-  assert(NULL != mem_local || NULL != mem_total || NULL != mem_free);
+  assert(NULL != mem_local || NULL != mem_total || NULL != mem_free || NULL != mem_unified);
+  if (NULL != mem_unified) *mem_unified = unified;
   if (NULL != mem_local) *mem_local = size_local;
   if (NULL != mem_total) *mem_total = size_total;
   if (NULL != mem_free)  *mem_free  = size_free;
@@ -369,8 +374,9 @@ int c_dbcsr_acc_dev_mem_info(size_t* mem_free, size_t* mem_total)
     result = c_dbcsr_acc_opencl_device(NULL/*stream*/, &active_id);
   }
   if (EXIT_SUCCESS == result) {
-    result = c_dbcsr_acc_opencl_info_devmem(active_id,
-      mem_free, mem_total, NULL/*mem_local*/);
+    result = c_dbcsr_acc_opencl_info_devmem(
+      active_id, mem_free, mem_total,
+      NULL/*mem_local*/, NULL/*mem_unified*/);
   }
   ACC_OPENCL_RETURN(result);
 }

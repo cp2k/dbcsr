@@ -218,13 +218,16 @@ c_dbcsr_acc_opencl_info_hostptr_t* c_dbcsr_acc_opencl_info_hostptr(void* memory)
 void* c_dbcsr_acc_opencl_get_hostptr(cl_mem memory);
 /** Amount of device memory; local memory is only non-zero if separate from global. */
 int c_dbcsr_acc_opencl_info_devmem(cl_device_id device,
-  size_t* mem_free, size_t* mem_total, size_t* mem_local);
+  size_t* mem_free, size_t* mem_total, size_t* mem_local,
+  int* mem_unified);
 /** Return the pointer to the 1st match of "b" in "a", or NULL (no match). */
 const char* c_dbcsr_acc_opencl_stristr(const char* a, const char* b);
 /** Get active device (can be thread/queue-specific). */
 int c_dbcsr_acc_opencl_device(void* stream, cl_device_id* device);
 /** Confirm the vendor of the given device. */
 int c_dbcsr_acc_opencl_device_vendor(cl_device_id device, const char* vendor);
+/** Confirm the name of the given device. */
+int c_dbcsr_acc_opencl_device_name(cl_device_id device, const char* name);
 /** Return the OpenCL support level for the given device. */
 int c_dbcsr_acc_opencl_device_level(cl_device_id device,
   int* level_major, int* level_minor);
