@@ -14,6 +14,7 @@
 /* size of workgroup (WG) */
 #define SWG (NBM * NBN)
 
+#if !defined(cl_intel_global_float_atomics)
 
 __attribute__((always_inline))
 inline void atomic_add_global_cmpxchg(global volatile T* dst, T inc)
@@ -38,6 +39,7 @@ inline void atomic_add_global_xchg(global volatile T* dst, T inc)
   } while (old_val.a != new_val.a);
 }
 
+#endif
 
 kernel void FN(global T *restrict cmat,
   GLOBAL const T *restrict amat, GLOBAL const T *restrict bmat,
