@@ -44,7 +44,7 @@ class SmmTuner(MeasurementInterface):
             match = None
         if (match is not None) and match.group(1) and match.group(2):
             self.typename = match.group(2)
-            self.typeid = match.group(1)
+            self.typeid = int(match.group(1))
         else:
             sys.tracebacklimit = 0
             raise RuntimeError(
@@ -128,14 +128,14 @@ class SmmTuner(MeasurementInterface):
             return Result(time=float("inf"), accuracy=0.0, size=100.0)
 
     def merge_into_csv(self, filenames):
-        """merge all JSONs into a single CSV file"""
+        """merge all JSONs into a single CSV-file"""
         if self.args.csvfile:
             merged = dict()
             for ifilename in filenames:
                 with open(ifilename, "r") as ifile:
-                    data = json.load(ifile)
                     try:
-                        key = (data["TYPEID"], data["M"], data["N"], data["K"])
+                        data = json.load(ifile)
+                        key = (int(data["TYPEID"]), data["M"], data["N"], data["K"])
                         value = (
                             data["GFLOPS"],
                             data["BS"],
@@ -152,12 +152,10 @@ class SmmTuner(MeasurementInterface):
                             print(
                                 "Worse result "
                                 + ifilename
-                                + " ignored when merging CSV file"
+                                + " ignored when merging CSV-file"
                             )
-                    except KeyError:
-                        print(
-                            "Malformed " + ifilename + " ignored when merging CSV file"
-                        )
+                    except (json.JSONDecodeError, KeyError):
+                        print("Failed to merge " + ifilename + " into CSV-file")
                         pass
             if bool(merged):
                 with open(self.args.csvfile, "w") as ofile:
@@ -214,6 +212,7 @@ class SmmTuner(MeasurementInterface):
             with open(ofilename, "w") as ofile:
                 json.dump(config, ofile)
                 ofile.write("\n")  # append newline at EOF
+                ofile.close()
                 print(
                     "Result achieving "
                     + str(self.gflops)
