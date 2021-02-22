@@ -225,12 +225,10 @@ void c_dbcsr_t_batched_contract_finalize(dbcsr_t_tensor c_tensor, int* c_unit_nr
 }
 #endif
 
-/* *************************************************************************************************
- * * *
- * *                                      OVERLOADED C FUNCTIONS *
- * * *
- * *************************************************************************************************/
-
+#if defined(__cplusplus)
+// --------------------------------------------------- //
+//         overloaded functions (cpp only)             //
+// --------------------------------------------------- //
 #:for dsuffix, ctype in c_dtype_float_list
 inline void c_dbcsr_t_get_block(const dbcsr_t_tensor c_tensor, const int *c_ind,
                                 const int *c_sizes, ${ctype}$ *c_block,
@@ -327,5 +325,6 @@ inline void c_dbcsr_t_get_data_p(const dbcsr_t_tensor c_tensor, ${ctype}$ **c_da
                                   c_select_data_type, c_lb, c_ub);
 }
 #:endfor
+#endif
 
 #endif /*DBCSR_H*/
