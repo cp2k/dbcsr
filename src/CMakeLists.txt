@@ -258,7 +258,7 @@ endif ()
 # DBCSR's C API
 if (WITH_C_API)
   # Build the C API as a separate library
-  add_fypp_sources(DBCSR_C_SRCS dbcsr_api_c.F tensors/dbcsr_tensor_api_c.F
+  add_fypp_sources(DBCSR_C_SRCS dbcsr.h dbcsr_api_c.F tensors/dbcsr_tensor_api_c.F
                    tensors/dbcsr_tensor.h)
 
   add_library(dbcsr_c ${DBCSR_C_SRCS})
