@@ -69,6 +69,8 @@ MODULE dbcsr_api
       dbcsr_has_symmetry_prv => dbcsr_has_symmetry, &
       dbcsr_nblkcols_total_prv => dbcsr_nblkcols_total, &
       dbcsr_nblkrows_total_prv => dbcsr_nblkrows_total, &
+      dbcsr_nblkcols_local_prv => dbcsr_nblkcols_local, &
+      dbcsr_nblkrows_local_prv => dbcsr_nblkrows_local, &
       dbcsr_nfullcols_total_prv => dbcsr_nfullcols_total, &
       dbcsr_nfullrows_total_prv => dbcsr_nfullrows_total, &
       dbcsr_release_prv => dbcsr_release, &
@@ -232,6 +234,8 @@ MODULE dbcsr_api
    PUBLIC :: dbcsr_get_occupation
    PUBLIC :: dbcsr_nblkrows_total
    PUBLIC :: dbcsr_nblkcols_total
+   PUBLIC :: dbcsr_nblkrows_local
+   PUBLIC :: dbcsr_nblkcols_local
    PUBLIC :: dbcsr_get_num_blocks
    PUBLIC :: dbcsr_get_data_size
    PUBLIC :: dbcsr_has_symmetry
@@ -579,6 +583,20 @@ CONTAINS
       nblkcols_total = dbcsr_nblkcols_total_prv(matrix%prv)
    END FUNCTION dbcsr_nblkcols_total
 
+   FUNCTION dbcsr_nblkrows_local(matrix) RESULT(nblkrows_local)
+      TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+      INTEGER                                            :: nblkrows_local
+
+      nblkrows_local = dbcsr_nblkrows_local_prv(matrix%prv)
+   END FUNCTION dbcsr_nblkrows_local
+
+   FUNCTION dbcsr_nblkcols_local(matrix) RESULT(nblkcols_local)
+      TYPE(dbcsr_type), INTENT(IN)                       :: matrix
+      INTEGER                                            :: nblkcols_local
+
+      nblkcols_local = dbcsr_nblkcols_local_prv(matrix%prv)
+   END FUNCTION dbcsr_nblkcols_local
+
    FUNCTION dbcsr_nfullrows_total(matrix) RESULT(nfullrows_total)
       TYPE(dbcsr_type), INTENT(IN)                       :: matrix
       INTEGER                                            :: nfullrows_total
@@ -621,13 +639,13 @@ CONTAINS
       !! Gets the index information of the next block, no data.
 
       TYPE(dbcsr_iterator_type), INTENT(INOUT)           :: iterator
-         !! the iterator
+      !! the iterator
       INTEGER, INTENT(OUT)                               :: row, column, blk
-         !! row of the data block
-         !! column of the data block
-         !! block number
+      !! row of the data block
+      !! column of the data block
+      !! block number
       INTEGER, INTENT(OUT), OPTIONAL                     :: blk_p
-         !! index into block data array
+      !! index into block data array
 
       CALL dbcsr_iterator_next_block_prv(iterator%prv, row=row, column=column, blk=blk, blk_p=blk_p)
    END SUBROUTINE dbcsr_iterator_next_block_index
@@ -827,7 +845,7 @@ CONTAINS
       !! Creates new distribution from blockr distributions
 
       TYPE(dbcsr_distribution_type), INTENT(OUT)         :: dist
-         !! distribution
+      !! distribution
       TYPE(dbcsr_distribution_type), INTENT(IN), &
          OPTIONAL                                        :: template
       INTEGER, INTENT(IN), OPTIONAL                      :: group
@@ -1082,7 +1100,7 @@ CONTAINS
       !! Deallocates a DBCSR matrix for compatibility with CP2K
 
       TYPE(dbcsr_type), POINTER                          :: matrix
-         !! DBCSR matrix
+      !! DBCSR matrix
 
       CALL dbcsr_release(matrix)
       IF (dbcsr_valid_index(matrix)) &
@@ -1154,12 +1172,12 @@ CONTAINS
       !! block. Currently it only and always uses the mutable data.
 
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
-         !! DBCSR matrix
+      !! DBCSR matrix
       INTEGER, INTENT(IN)                                :: block_row, block_col
-         !! the row
-         !! the column
+      !! the row
+      !! the column
       REAL(KIND=dp), DIMENSION(:, :), POINTER            :: block
-         !! the block to put
+      !! the block to put
 
       call dbcsr_add_block_node_prv(matrix%prv, block_row, block_col, block)
    END SUBROUTINE dbcsr_add_block_node

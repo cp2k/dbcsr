@@ -21,11 +21,6 @@
 #include <tensors/dbcsr_tensor.h>
 #include <complex.h>
 
-const int dbcsr_type_real_4 = 1;
-const int dbcsr_type_real_8 = 3;
-const int dbcsr_type_complex_4 = 5;
-const int dbcsr_type_complex_8 = 7;
-
 //-------------------------------------------------------------------------------------------------!
 // Testing the tensor contraction (13|2)x(54|21)=(3|45)
 // and several other functions, to make sure there are not any segmentation faults

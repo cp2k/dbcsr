@@ -44,7 +44,7 @@ void printvec(std::vector<int>& v) {
 
 }
 
-void fill_random(void* tensor, std::vector<std::vector<int>> nzblocks) {
+void fill_random(dbcsr_t_tensor tensor, std::vector<std::vector<int>> nzblocks) {
 
     int myrank, mpi_size;
     int dim = nzblocks.size();
@@ -96,7 +96,7 @@ void fill_random(void* tensor, std::vector<std::vector<int>> nzblocks) {
         }
     };
 
-    void* iter = nullptr;
+    dbcsr_t_iterator iter = nullptr;
 
     c_dbcsr_t_iterator_start(&iter, tensor);
 
@@ -141,8 +141,8 @@ int main(int argc, char* argv[])
 
     c_dbcsr_init_lib(MPI_COMM_WORLD, nullptr);
 
-    void* pgrid_3d = nullptr;
-    void* pgrid_4d = nullptr;
+    dbcsr_t_pgrid pgrid_3d = nullptr;
+    dbcsr_t_pgrid pgrid_4d = nullptr;
 
     std::vector<int> dims4(4);
     std::vector<int> dims3(3);
@@ -255,9 +255,9 @@ int main(int argc, char* argv[])
 
     }
 
-    void* dist1 = nullptr;
-    void* dist2 = nullptr;
-    void* dist3 = nullptr;
+    dbcsr_t_distribution dist1 = nullptr;
+    dbcsr_t_distribution dist2 = nullptr;
+    dbcsr_t_distribution dist3 = nullptr;
 
     // (13|2)x(54|21)=(3|45)
     std::vector<int> map11, map12, map21, map22, map31, map32;
@@ -287,9 +287,9 @@ int main(int argc, char* argv[])
     // create tensors
     // (13|2)x(54|21)=(3|45)
 
-    void* tensor1 = nullptr;
-    void* tensor2 = nullptr;
-    void* tensor3 = nullptr;
+    dbcsr_t_tensor tensor1 = nullptr;
+    dbcsr_t_tensor tensor2 = nullptr;
+    dbcsr_t_tensor tensor3 = nullptr;
 
     if (mpi_rank == 0) std::cout << "Creating tensors..." << std::endl;
 
