@@ -353,6 +353,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
           if ('\0' != *typename && 0 < nchar && (int)sizeof(build_options) > nchar) {
             opencl_libsmm_trans_t new_config;
 #if defined(OPENCL_LIBSMM_SOURCE_TRANSPOSE)
+            LIBXSMM_MEMZERO127(&new_config);
             result = c_dbcsr_acc_opencl_kernel(OPENCL_LIBSMM_SOURCE_TRANSPOSE,
               build_options, fname, &new_config.kernel);
 #else
@@ -432,17 +433,16 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
         /* eventually update performance counters inside of locked region */
         if (NULL != perf_event) {
           cl_ulong begin, end;
-          double membw;
           clWaitForEvents(1, perf_event);
           ACC_OPENCL_CHECK(clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_START, sizeof(cl_ulong), &begin, NULL),
             "query kernel start time", result);
           ACC_OPENCL_CHECK(clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong), &end, NULL),
             "query kernel end time", result);
           if (EXIT_SUCCESS == result) {
-            membw = ((double)stack_size * (typesize * m * n) * (1ULL << 30) * 1E-9) / LIBXSMM_DELTA(begin, end);
+            const double membw = (1E-9 * (1ULL << 30) * stack_size * (typesize * m * n)) / LIBXSMM_DELTA(begin, end);
 #if LIBXSMM_VERSION3(1, 16, 1) <= LIBXSMM_VERSION3(LIBXSMM_VERSION_MAJOR, \
     LIBXSMM_VERSION_MINOR, LIBXSMM_VERSION_UPDATE) && 1159 <= LIBXSMM_VERSION_PATCH
-            libxsmm_kahan_sum(log(membw), &config->membw_sumlog, &config->membw_err);
+            libxsmm_kahan_sum(log(membw), &config->membw_sumlog, &config->membw_comp);
             ++config->nexec;
 #endif
             if (4 <= c_dbcsr_acc_opencl_options.verbosity || 0 > c_dbcsr_acc_opencl_options.verbosity) {
@@ -656,6 +656,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
             if (EXIT_SUCCESS == result) {
               opencl_libsmm_smm_t new_config;
 #if defined(OPENCL_LIBSMM_SOURCE_MULTIPLY)
+              LIBXSMM_MEMZERO127(&new_config);
               result = c_dbcsr_acc_opencl_kernel(
                 (cl_intel && !cl_intel_0x4905 && 0 == unified && dbcsr_type_real_4 == datatype)
                   ? ("#pragma OPENCL EXTENSION cl_intel_global_float_atomics: enable\n"
@@ -788,17 +789,16 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
         /* eventually update performance counters inside of locked region */
         if (NULL != perf_event) {
           cl_ulong begin, end;
-          double gflops;
           clWaitForEvents(1, perf_event);
           ACC_OPENCL_CHECK(clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_START, sizeof(cl_ulong), &begin, NULL),
             "query kernel start time", result);
           ACC_OPENCL_CHECK(clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong), &end, NULL),
             "query kernel end time", result);
           if (EXIT_SUCCESS == result) {
-            gflops = (2.0 * m_max * n_max * k_max * stack_size) / LIBXSMM_DELTA(begin, end);
+            const double gflops = (2.0 * m_max * n_max * k_max * stack_size) / LIBXSMM_DELTA(begin, end);
 #if LIBXSMM_VERSION3(1, 16, 1) <= LIBXSMM_VERSION3(LIBXSMM_VERSION_MAJOR, \
     LIBXSMM_VERSION_MINOR, LIBXSMM_VERSION_UPDATE) && 1159 <= LIBXSMM_VERSION_PATCH
-            libxsmm_kahan_sum(log(gflops), &config->gflops_sumlog, &config->gflops_err);
+            libxsmm_kahan_sum(log(gflops), &config->gflops_sumlog, &config->gflops_comp);
             ++config->nexec;
 #endif
             if (4 <= c_dbcsr_acc_opencl_options.verbosity || 0 > c_dbcsr_acc_opencl_options.verbosity) {

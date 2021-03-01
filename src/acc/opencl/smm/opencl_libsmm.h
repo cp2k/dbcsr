@@ -52,7 +52,7 @@ typedef struct opencl_libsmm_trans_t {
   cl_kernel kernel; /* must be the 1st data member */
   size_t wgsize;
   /* ACC_OPENCL_VERBOSE: perf. counters */
-  double membw_sumlog, membw_err;
+  double membw_sumlog, membw_comp;
   size_t nexec;
 } opencl_libsmm_trans_t;
 
@@ -69,7 +69,7 @@ typedef struct opencl_libsmm_smm_t {
   /* parameters (either pretuned or determined) */
   int bs, bm, bn;
   /* ACC_OPENCL_VERBOSE: perf. counters */
-  double gflops_sumlog, gflops_err;
+  double gflops_sumlog, gflops_comp;
   size_t nexec;
 } opencl_libsmm_smm_t;
 
