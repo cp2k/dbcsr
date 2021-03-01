@@ -13,6 +13,7 @@ OBJSMM := $(SRCSMM:.cpp=.o)
 INCALL := $(INCACC) $(INCSMM)
 
 LIBXSMMROOT ?= $(wildcard ../../../../libxsmm)
+LIBXSMMROOT ?= $(wildcard $(HOME)/libxsmm)
 NVCC ?= $(shell which nvcc 2>/dev/null)
 CUDA_PATH ?= $(if $(NVCC),$(abspath $(dir $(NVCC))/..))
 UNAME := $(shell uname)
