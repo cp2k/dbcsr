@@ -301,7 +301,6 @@ int c_dbcsr_acc_init(void)
             }
           }
 #endif
-#if defined(ACC_OPENCL_MEM_ASYNC)
           if (EXIT_SUCCESS == result) {
             const char *const env = getenv("ACC_OPENCL_ASYNC_MEMOPS");
             if (NULL == env) {
@@ -310,9 +309,7 @@ int c_dbcsr_acc_init(void)
             }
             else c_dbcsr_acc_opencl_options.async_memops = (0 != atoi(env));
           }
-          else
-#endif
-          c_dbcsr_acc_opencl_options.async_memops = CL_FALSE;
+          else c_dbcsr_acc_opencl_options.async_memops = CL_FALSE;
 #if defined(ACC_OPENCL_SVM)
           if (EXIT_SUCCESS == result) {
             const char *const env = getenv("ACC_OPENCL_SVM");

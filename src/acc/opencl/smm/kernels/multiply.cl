@@ -14,6 +14,7 @@
 /* size of workgroup (WG) */
 #define SWG (NBM * NBN)
 
+
 #if !defined(cl_intel_global_float_atomics)
 
 __attribute__((always_inline))
@@ -27,7 +28,6 @@ inline void atomic_add_global_cmpxchg(global volatile T* dst, T inc)
   } while (old_val.a != new_val.a);
 }
 
-
 __attribute__((always_inline))
 inline void atomic_add_global_xchg(global volatile T* dst, T inc)
 {
@@ -40,6 +40,7 @@ inline void atomic_add_global_xchg(global volatile T* dst, T inc)
 }
 
 #endif
+
 
 kernel void FN(global T *restrict cmat,
   GLOBAL const T *restrict amat, GLOBAL const T *restrict bmat,
@@ -154,10 +155,12 @@ kernel void FN(global T *restrict cmat,
 #if (1 < BS)
     if (c0 != c1) { /* copy private tile to global memory */
 # if (SWG != SN)
-      for (int m = m0; m < m1; ++m) for (int n = n0; n < n1; ++n) {
-        T *const restrict r = &c[m-m0][n-n0];
-        ATOMIC_ADD_GLOBAL(&cwg[SM*n+m], *r);
-        *r = 0; /* reset */
+      for (int m = 0; m < BM; ++m) for (int n = 0; n < BN; ++n) {
+        const int gm = m + m0, gn = n + n0;
+        if (gm < SM && gn < SN) {
+          ATOMIC_ADD_GLOBAL(&cwg[SM*gn+gm], c[m][n]);
+          c[m][n] = 0; /* reset */
+        }
       }
 # else
       for (int m = 0; m < SM; ++m) {

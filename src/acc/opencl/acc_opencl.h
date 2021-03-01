@@ -77,18 +77,6 @@
 #if !defined(ACC_OPENCL_STREAM_PRIORITIES) && 1
 # define ACC_OPENCL_STREAM_PRIORITIES
 #endif
-#if !defined(ACC_OPENCL_STREAM_SYNCFLUSH) && 0
-# define ACC_OPENCL_STREAM_FINISH
-#endif
-#if !defined(ACC_OPENCL_EVENT_BARRIER) && 0
-# define ACC_OPENCL_EVENT_BARRIER
-#endif
-#if !defined(ACC_OPENCL_MEM_ASYNC) && 1
-# define ACC_OPENCL_MEM_ASYNC
-#endif
-#if !defined(ACC_OPENCL_DEBUG) && 0
-# define ACC_OPENCL_DEBUG
-#endif
 #if !defined(ACC_OPENCL_SVM) && 0
 # if defined(CL_VERSION_2_0)
 #   define ACC_OPENCL_SVM
