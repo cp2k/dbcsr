@@ -11,12 +11,6 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#if defined(CL_VERSION_1_2)
-# define ACC_OPENCL_ENQUEUE_EVENT(QUEUE, EVENT) clEnqueueMarkerWithWaitList(QUEUE, 0, NULL, EVENT)
-#else
-# define ACC_OPENCL_ENQUEUE_EVENT(QUEUE, EVENT) clEnqueueMarker(QUEUE, EVENT)
-#endif
-
 
 #if defined(__cplusplus)
 extern "C" {
@@ -31,7 +25,7 @@ int c_dbcsr_acc_event_create(void** event_p)
     cl_int status = CL_COMPLETE;
     assert(CL_SUCCESS == result);
     /* an empty event (unrecorded) has no work to wait for; hence it is
-     * considered occurred and acc_event_synchronize must not block
+     * considered occurred and c_dbcsr_acc_event_synchronize must not block
      */
     if (CL_SUCCESS == clSetUserEventStatus(event, status)) {
 #if defined(ACC_OPENCL_EVENT_NOALLOC)
@@ -80,17 +74,45 @@ int c_dbcsr_acc_event_destroy(void* event)
 }
 
 
-int c_dbcsr_acc_event_record(void* event, void* stream)
+int c_dbcsr_acc_opencl_enqueue_barrier(void* event, void* stream)
 {
   int result = EXIT_SUCCESS;
   assert(NULL != event && NULL != stream);
-  ACC_OPENCL_CHECK(ACC_OPENCL_ENQUEUE_EVENT(*ACC_OPENCL_STREAM(stream), ACC_OPENCL_EVENT(event)),
-    "record event", result);
+#if defined(CL_VERSION_1_2)
+  ACC_OPENCL_CHECK(clEnqueueBarrierWithWaitList(*ACC_OPENCL_STREAM(stream),
+    0, NULL, ACC_OPENCL_EVENT(event)), "record event", result);
+#else
+  result = EXIT_FAILURE;
+#endif
+  return result;
+}
+
+
+int c_dbcsr_acc_opencl_enqueue_marker(void* event, void* stream)
+{
+  int result = EXIT_SUCCESS;
+  assert(NULL != event && NULL != stream);
+#if defined(CL_VERSION_1_2)
+  ACC_OPENCL_CHECK(clEnqueueMarkerWithWaitList(*ACC_OPENCL_STREAM(stream),
+    0, NULL, ACC_OPENCL_EVENT(event)), "record event", result);
+#else
+  ACC_OPENCL_CHECK(clEnqueueMarker(*ACC_OPENCL_STREAM(stream),
+    ACC_OPENCL_EVENT(event)), "record event", result);
+#endif
+  return result;
+}
+
+
+int c_dbcsr_acc_event_record(void* event, void* stream)
+{
+  int result = EXIT_SUCCESS;
+  assert(NULL != c_dbcsr_acc_opencl_config.record_event);
+  result = c_dbcsr_acc_opencl_config.record_event(event, stream);
   ACC_OPENCL_RETURN(result);
 }
 
 
-int c_dbcsr_acc_event_query(void* event, acc_bool_t* has_occurred)
+int c_dbcsr_acc_event_query(void* event, c_dbcsr_acc_bool_t* has_occurred)
 {
   int result = EXIT_SUCCESS;
   cl_int status = CL_COMPLETE;

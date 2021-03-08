@@ -166,7 +166,7 @@ int main(int argc, char* argv[])
 #endif
   for (i = 0; i < ACC_EVENT_MAXCOUNT; ++i) ACC_CHECK(c_dbcsr_acc_event_create(event + i));
   for (i = 0; i < ACC_EVENT_MAXCOUNT; ++i) {
-    acc_bool_t has_occurred = 0;
+    c_dbcsr_acc_bool_t has_occurred = 0;
     ACC_CHECK(c_dbcsr_acc_event_query(event[i], &has_occurred));
     ACC_CHECK(has_occurred ? EXIT_SUCCESS : EXIT_FAILURE);
   }
@@ -190,7 +190,7 @@ int main(int argc, char* argv[])
 #endif
     const size_t offset = tid * mem_chunk, mem_rest = mem_alloc - offset;
     const size_t size = (mem_chunk <= mem_rest ? mem_chunk : mem_rest);
-    acc_bool_t has_occurred = 0;
+    c_dbcsr_acc_bool_t has_occurred = 0;
     ACC_CHECK(c_dbcsr_acc_memset_zero(dev_mem, offset, size, s));
     /* can enqueue multiple/duplicate copies for the same memory region */
     ACC_CHECK(c_dbcsr_acc_memcpy_d2h(dev_mem, host_mem, mem_alloc, s));

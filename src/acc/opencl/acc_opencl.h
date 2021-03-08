@@ -57,14 +57,15 @@
 #else
 # define ACC_OPENCL_MEM(A) ((cl_mem*)(A))
 #endif
+/* can depend on OpenCL implementation */
 #if !defined(ACC_OPENCL_STREAM_NOALLOC) && 1
 # define ACC_OPENCL_STREAM_NOALLOC
 # define ACC_OPENCL_STREAM(A) ((cl_command_queue*)&(A))
 #else
 # define ACC_OPENCL_STREAM(A) ((cl_command_queue*)(A))
 #endif
+/* incompatible with c_dbcsr_acc_event_record */
 #if !defined(ACC_OPENCL_EVENT_NOALLOC) && 0
-/* incompatible with acc_event_record */
 # define ACC_OPENCL_EVENT_NOALLOC
 # define ACC_OPENCL_EVENT(A) ((cl_event*)&(A))
 #else
@@ -175,17 +176,18 @@
 extern "C" {
 #endif
 
-/** Settings depending on OpenCL vendor or standard level (discovered/setup in acc_init). */
-typedef struct c_dbcsr_acc_opencl_options_t {
+/** Settings depending on OpenCL vendor or standard level (discovered/setup in c_dbcsr_acc_init). */
+typedef struct c_dbcsr_acc_opencl_config_t {
+  int (*record_event)(void* /*event*/, void* /*stream*/);
   /** Asynchronous memory operations (may crash for some OpenCL implementations). */
   cl_bool async_memops;
   /** Runtime SVM support (needs ACC_OPENCL_SVM at compile-time). */
   cl_bool svm_interop;
   /** Runtime verbosity (output on stderr). */
   cl_int verbosity;
-} c_dbcsr_acc_opencl_options_t;
+} c_dbcsr_acc_opencl_config_t;
 
-extern c_dbcsr_acc_opencl_options_t c_dbcsr_acc_opencl_options;
+extern c_dbcsr_acc_opencl_config_t c_dbcsr_acc_opencl_config;
 
 /* non-zero if library is initialized, zero devices is signaled by nagative value */
 extern int c_dbcsr_acc_opencl_ndevices;
@@ -200,9 +202,9 @@ typedef struct c_dbcsr_acc_opencl_info_hostptr_t {
   void* mapped;
 } c_dbcsr_acc_opencl_info_hostptr_t;
 
-/** Information about host-memory pointer (acc_host_mem_allocate). */
+/** Information about host-memory pointer (c_dbcsr_acc_host_mem_allocate). */
 c_dbcsr_acc_opencl_info_hostptr_t* c_dbcsr_acc_opencl_info_hostptr(void* memory);
-/** Get host-pointer associated with device-memory (acc_dev_mem_allocate). */
+/** Get host-pointer associated with device-memory (c_dbcsr_acc_dev_mem_allocate). */
 void* c_dbcsr_acc_opencl_get_hostptr(cl_mem memory);
 /** Amount of device memory; local memory is only non-zero if separate from global. */
 int c_dbcsr_acc_opencl_info_devmem(cl_device_id device,
@@ -222,7 +224,7 @@ int c_dbcsr_acc_opencl_device_level(cl_device_id device,
 /** Check if given device supports the extensions. */
 int c_dbcsr_acc_opencl_device_ext(cl_device_id device,
   const char *const extnames[], int num_exts);
-/** Internal flavor of acc_set_active_device; yields cl_device_id. */
+/** Internal flavor of c_dbcsr_acc_set_active_device; yields cl_device_id. */
 int c_dbcsr_acc_opencl_set_active_device(int device_id, cl_device_id* device);
 /** Get preferred multiple and max. size of workgroup (kernel- or device-specific). */
 int c_dbcsr_acc_opencl_wgsize(cl_device_id device, cl_kernel kernel,
@@ -233,6 +235,10 @@ int c_dbcsr_acc_opencl_kernel(const char* source, const char* build_options,
 /** Create command queue (stream). */
 int c_dbcsr_acc_opencl_stream_create(cl_command_queue* stream_p, const char* name,
   const ACC_OPENCL_COMMAND_QUEUE_PROPERTIES* properties);
+/** Enqueue barrier (see c_dbcsr_acc_opencl_config.record_event). */
+int c_dbcsr_acc_opencl_enqueue_barrier(void* event, void* stream);
+/** Enqueue marker (see c_dbcsr_acc_opencl_config.record_event). */
+int c_dbcsr_acc_opencl_enqueue_marker(void* event, void* stream);
 
 #if defined(__cplusplus)
 }

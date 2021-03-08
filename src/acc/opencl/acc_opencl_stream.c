@@ -71,7 +71,7 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority)
       properties[4] = 0; /* terminator */
     }
 #endif
-    if (3 <= c_dbcsr_acc_opencl_options.verbosity || 0 > c_dbcsr_acc_opencl_options.verbosity) {
+    if (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
       properties[1] = CL_QUEUE_PROFILING_ENABLE;
     }
     result = c_dbcsr_acc_opencl_stream_create(&queue, name, properties);
