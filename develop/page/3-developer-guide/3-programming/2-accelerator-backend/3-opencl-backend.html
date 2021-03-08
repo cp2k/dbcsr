@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.1.0-22-gacf88120a</small></a>
+          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.1.0-23-g046d53c2c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -150,9 +150,11 @@
 <li><code>ACC_OPENCL_DEVTYPE</code>: character string matching the device-kind like "cpu", "gpu", or another kind if neither CPU or GPU.</li>
 <li><code>ACC_OPENCL_DEVICE</code>: non-negative integer number to select a device from the (internally enumerated) list of devices.</li>
 <li><code>ACC_OPENCL_VENDOR</code>: character string matching the vendor of the OpenCL device in an case-insensitive fashion, e.g., "intel".</li>
-<li><code>ACC_OPENCL_VERBOSE</code>: verbosity level (integer).<ul>
-<li><code>ACC_OPENCL_VERBOSE=1</code>: outputs (stderr) the number of devices found and the name of the selected device.</li>
-<li><code>ACC_OPENCL_VERBOSE=2</code>: outputs (stderr) the duration needed to generate a requested kernel.</li>
+<li><code>ACC_OPENCL_VERBOSE</code>: verbosity level (integer) with console output on <code>stderr</code>.<ul>
+<li><code>ACC_OPENCL_VERBOSE=1</code>: outputs the number of devices found and the name of the selected device.</li>
+<li><code>ACC_OPENCL_VERBOSE=2</code>: outputs the duration needed to generate a requested kernel.</li>
+<li><code>ACC_OPENCL_VERBOSE=3</code>: outputs device-side performance of kernels (geometric mean).</li>
+<li><code>ACC_OPENCL_VERBOSE=4</code>: outputs device-side performance of kernels (every execution).</li>
 </ul>
 </li>
 </ul>
