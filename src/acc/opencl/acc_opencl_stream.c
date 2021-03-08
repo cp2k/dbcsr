@@ -17,16 +17,12 @@
     clCreateCommandQueueWithProperties(CTX, DEV, PROPS, RESULT)
 #else
 # define ACC_OPENCL_CREATE_COMMAND_QUEUE(CTX, DEV, PROPS, RESULT) \
-    clCreateCommandQueue(CTX, DEV, /* avoid warning about unused argument */ \
-      (cl_command_queue_properties)(0 & (NULL != (PROPS) ? (((cl_int*)(PROPS))[0]) : 0)), RESULT)
+    clCreateCommandQueue(CTX, DEV, (cl_command_queue_properties) \
+      (NULL != (PROPS) ? ((PROPS)[1]) : 0), RESULT)
 #endif
 
 #if defined(CL_VERSION_1_2)
-# if defined(ACC_OPENCL_EVENT_BARRIER)
-#   define ACC_OPENCL_WAIT_EVENT(QUEUE, EVENT) clEnqueueBarrierWithWaitList(QUEUE, 1, EVENT, NULL)
-# else
-#   define ACC_OPENCL_WAIT_EVENT(QUEUE, EVENT) clEnqueueMarkerWithWaitList(QUEUE, 1, EVENT, NULL)
-# endif
+# define ACC_OPENCL_WAIT_EVENT(QUEUE, EVENT) clEnqueueMarkerWithWaitList(QUEUE, 1, EVENT, NULL)
 #else
 # define ACC_OPENCL_WAIT_EVENT(QUEUE, EVENT) clEnqueueWaitForEvents(QUEUE, 1, EVENT)
 #endif
@@ -59,27 +55,26 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority)
 {
   cl_int result = EXIT_SUCCESS;
   if (NULL != c_dbcsr_acc_opencl_context) {
+    ACC_OPENCL_COMMAND_QUEUE_PROPERTIES properties[8] = {
+      CL_QUEUE_PROPERTIES, 0/*placeholder*/,
+      0 /* terminator */
+    };
     cl_command_queue queue = NULL;
 #if !defined(ACC_OPENCL_STREAM_PRIORITIES) || !defined(CL_QUEUE_PRIORITY_KHR)
     ACC_OPENCL_UNUSED(priority);
 #else
     if (0 <= priority) {
-      ACC_OPENCL_COMMAND_QUEUE_PROPERTIES properties[] = {
-        CL_QUEUE_PRIORITY_KHR, 0/*placeholder filled-in below*/,
-        0 /* terminator */
-      };
-      properties[1] = (CL_QUEUE_PRIORITY_HIGH_KHR <= priority && CL_QUEUE_PRIORITY_LOW_KHR >= priority)
-        ? priority : ((CL_QUEUE_PRIORITY_HIGH_KHR + CL_QUEUE_PRIORITY_LOW_KHR) / 2);
-      result = c_dbcsr_acc_opencl_stream_create(&queue, name, properties);
+      properties[2] = CL_QUEUE_PRIORITY_KHR;
+      properties[3] = ((  CL_QUEUE_PRIORITY_HIGH_KHR <= priority
+                        && CL_QUEUE_PRIORITY_LOW_KHR >= priority)
+        ? priority : CL_QUEUE_PRIORITY_MED_KHR);
+      properties[4] = 0; /* terminator */
     }
-    else
 #endif
-    {
-      ACC_OPENCL_COMMAND_QUEUE_PROPERTIES properties[] = {
-        0 /* terminator */
-      };
-      result = c_dbcsr_acc_opencl_stream_create(&queue, name, properties);
+    if (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
+      properties[1] = CL_QUEUE_PROFILING_ENABLE;
     }
+    result = c_dbcsr_acc_opencl_stream_create(&queue, name, properties);
     assert(NULL != stream_p);
     if (EXIT_SUCCESS == result) {
       assert(NULL != queue);
@@ -165,9 +160,6 @@ int c_dbcsr_acc_stream_sync(void* stream)
 { /* Blocks the host-thread. */
   int result = EXIT_SUCCESS;
   assert(NULL != stream);
-#if defined(ACC_OPENCL_DEBUG) && defined(_DEBUG)
-  fprintf(stderr, "c_dbcsr_acc_stream_sync(%p)\n", stream);
-#endif
   ACC_OPENCL_CHECK(clFinish(*ACC_OPENCL_STREAM(stream)),
     "synchronize stream", result);
   ACC_OPENCL_RETURN(result);
@@ -178,12 +170,6 @@ int c_dbcsr_acc_stream_wait_event(void* stream, void* event)
 { /* Wait for an event (device-side). */
   int result = EXIT_SUCCESS;
   assert(NULL != stream && NULL != event);
-#if defined(ACC_OPENCL_DEBUG) && defined(_DEBUG)
-  fprintf(stderr, "c_dbcsr_acc_stream_wait_event(%p, %p)\n", stream, event);
-#endif
-#if defined(ACC_OPENCL_STREAM_SYNCFLUSH)
-  ACC_OPENCL_CHECK(clFlush(*ACC_OPENCL_STREAM(stream)), "flush stream", result);
-#endif
   ACC_OPENCL_CHECK(ACC_OPENCL_WAIT_EVENT(*ACC_OPENCL_STREAM(stream), ACC_OPENCL_EVENT(event)),
     "wait for an event", result);
   ACC_OPENCL_RETURN(result);

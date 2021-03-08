@@ -22,7 +22,7 @@ extern "C" {
 #endif
 
 /** types */
-typedef int acc_bool_t;
+typedef int c_dbcsr_acc_bool_t;
 
 /** initialization and finalization */
 int c_dbcsr_acc_init(void);
@@ -46,7 +46,7 @@ int c_dbcsr_acc_stream_wait_event(void* stream, void* event);
 int c_dbcsr_acc_event_create(void** event_p);
 int c_dbcsr_acc_event_destroy(void* event);
 int c_dbcsr_acc_event_record(void* event, void* stream);
-int c_dbcsr_acc_event_query(void* event, acc_bool_t* has_occurred);
+int c_dbcsr_acc_event_query(void* event, c_dbcsr_acc_bool_t* has_occurred);
 int c_dbcsr_acc_event_synchronize(void* event);
 
 /** memory */

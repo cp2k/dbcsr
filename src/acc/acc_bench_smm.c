@@ -208,10 +208,10 @@ int main(int argc, char* argv[])
 #   else
     const char transb = 'N';
     printf("transpose: %.1f ms %.1f GFLOPS/s\n", 1000.0 * (duration + transpose) / nrepeat,
-      ((size_t)2 * m * n * k) * stack_size / ((duration + transpose) * (1ULL << 30) / nrepeat));
+      ((size_t)2 * m * n * k) * stack_size / ((duration + transpose) * 1E9 / nrepeat));
 #   endif
     printf("device: %.1f ms %.1f GFLOPS/s\n", 1000.0 * duration / nrepeat,
-      ((size_t)2 * m * n * k) * stack_size / (duration * (1ULL << 30) / nrepeat));
+      ((size_t)2 * m * n * k) * stack_size / (duration * 1E9 / nrepeat));
     memset(gold_hst, 0, sizeof(ELEM_TYPE) * mn * nc);
     for (r = 0; r < warmup; ++r) {
       libxsmm_gemm_batch_omp(LIBXSMM_GEMM_PRECISION(ELEM_TYPE), LIBXSMM_GEMM_PRECISION(ELEM_TYPE),
@@ -230,7 +230,7 @@ int main(int argc, char* argv[])
     }
     duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
     printf("host: %.1f ms %.1f GFLOPS/s\n", 1000.0 * duration / nrepeat,
-      ((size_t)2 * m * n * k) * stack_size / (duration * (1ULL << 30) / nrepeat));
+      ((size_t)2 * m * n * k) * stack_size / (duration * 1E9 / nrepeat));
     /* transfer result from device to host for validation */
     CHECK(c_dbcsr_acc_memcpy_d2h(cmat_dev, cmat_hst, sizeof(ELEM_TYPE) * mn * nc, stream), &result);
     CHECK(c_dbcsr_acc_stream_sync(stream), &result);
@@ -271,7 +271,7 @@ int main(int argc, char* argv[])
 # endif
   if (EXIT_SUCCESS == result) {
     printf("device: %.1f ms %.1f GFLOPS/s\n", 1000.0 * duration / nrepeat,
-      ((size_t)2 * m * n * k) * stack_size / (duration * (1ULL << 30) / nrepeat));
+      ((size_t)2 * m * n * k) * stack_size / (duration * 1E9 / nrepeat));
   }
 #endif
   CHECK(c_dbcsr_acc_host_mem_deallocate(stack_hst, stream), NULL);

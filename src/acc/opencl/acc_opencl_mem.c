@@ -63,7 +63,7 @@ c_dbcsr_acc_opencl_info_hostptr_t* c_dbcsr_acc_opencl_info_hostptr(void* memory)
 void* c_dbcsr_acc_opencl_get_hostptr(cl_mem memory)
 {
   void* result = NULL;
-  assert(c_dbcsr_acc_opencl_options.svm_interop);
+  assert(c_dbcsr_acc_opencl_config.svm_interop);
   if (NULL != memory && CL_SUCCESS != clGetMemObjectInfo(memory, CL_MEM_HOST_PTR, sizeof(void*), &result, NULL)) {
     assert(NULL == result);
   }
@@ -79,7 +79,7 @@ int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t nbytes, void* stream)
   const size_t size = nbytes + alignment + size_meminfo - 1;
   const cl_mem buffer = (
 #if defined(ACC_OPENCL_SVM)
-    c_dbcsr_acc_opencl_options.svm_interop ? clCreateBuffer(c_dbcsr_acc_opencl_context, CL_MEM_USE_HOST_PTR, size,
+    c_dbcsr_acc_opencl_config.svm_interop ? clCreateBuffer(c_dbcsr_acc_opencl_context, CL_MEM_USE_HOST_PTR, size,
       clSVMAlloc(c_dbcsr_acc_opencl_context, CL_MEM_READ_WRITE, size, sizeof(void*)/*minimal alignment*/), &result) :
 #endif
     clCreateBuffer(c_dbcsr_acc_opencl_context, CL_MEM_ALLOC_HOST_PTR, size, NULL/*host_ptr*/, &result));
@@ -87,7 +87,7 @@ int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t nbytes, void* stream)
   if (NULL != buffer) {
     const cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
     const uintptr_t address = (uintptr_t)clEnqueueMapBuffer(queue, buffer,
-      !c_dbcsr_acc_opencl_options.async_memops, CL_MAP_READ | CL_MAP_WRITE,
+      !c_dbcsr_acc_opencl_config.async_memops, CL_MAP_READ | CL_MAP_WRITE,
       0/*offset*/, size, 0, NULL, NULL, &result);
     if (0 != address) {
       const uintptr_t aligned = ACC_OPENCL_UP2(address + size_meminfo, alignment);
@@ -145,7 +145,7 @@ int c_dbcsr_acc_host_mem_deallocate(void* host_mem, void* stream)
       ACC_OPENCL_CHECK(clReleaseMemObject(info.buffer),
         "release host memory buffer", result);
 #if defined(ACC_OPENCL_SVM)
-      if (c_dbcsr_acc_opencl_options.svm_interop) clSVMFree(c_dbcsr_acc_opencl_context, info.mapped);
+      if (c_dbcsr_acc_opencl_config.svm_interop) clSVMFree(c_dbcsr_acc_opencl_context, info.mapped);
 #endif
     }
   }
@@ -158,7 +158,7 @@ int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes)
   cl_int result;
   const cl_mem buffer = (
 #if defined(ACC_OPENCL_SVM)
-    c_dbcsr_acc_opencl_options.svm_interop ? clCreateBuffer(c_dbcsr_acc_opencl_context, CL_MEM_USE_HOST_PTR, nbytes,
+    c_dbcsr_acc_opencl_config.svm_interop ? clCreateBuffer(c_dbcsr_acc_opencl_context, CL_MEM_USE_HOST_PTR, nbytes,
       clSVMAlloc(c_dbcsr_acc_opencl_context, CL_MEM_READ_WRITE, nbytes, 0/*default alignment*/), &result) :
 #endif
     clCreateBuffer(c_dbcsr_acc_opencl_context, CL_MEM_READ_WRITE, nbytes, NULL/*host_ptr*/, &result));
@@ -175,7 +175,7 @@ int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes)
     }
     else {
 #if defined(ACC_OPENCL_SVM)
-      void *const ptr = (c_dbcsr_acc_opencl_options.svm_interop
+      void *const ptr = (c_dbcsr_acc_opencl_config.svm_interop
         ? c_dbcsr_acc_opencl_get_hostptr(buffer) : NULL);
 #endif
       clReleaseMemObject(buffer);
@@ -201,7 +201,7 @@ int c_dbcsr_acc_dev_mem_deallocate(void* dev_mem)
   if (NULL != dev_mem) {
     const cl_mem buffer = *ACC_OPENCL_MEM(dev_mem);
 #if defined(ACC_OPENCL_SVM)
-    void *const ptr = (c_dbcsr_acc_opencl_options.svm_interop
+    void *const ptr = (c_dbcsr_acc_opencl_config.svm_interop
       ? c_dbcsr_acc_opencl_get_hostptr(buffer) : NULL);
 #endif
     ACC_OPENCL_CHECK(clReleaseMemObject(buffer),
@@ -238,7 +238,7 @@ int c_dbcsr_acc_memcpy_h2d(const void* host_mem, void* dev_mem, size_t nbytes, v
   assert((NULL != host_mem || 0 == nbytes) && (NULL != dev_mem || 0 == nbytes) && NULL != stream);
   if (NULL != host_mem && NULL != dev_mem && 0 != nbytes) {
     ACC_OPENCL_CHECK(clEnqueueWriteBuffer(*ACC_OPENCL_STREAM(stream), *ACC_OPENCL_MEM(dev_mem),
-      !c_dbcsr_acc_opencl_options.async_memops, 0/*offset*/, nbytes, host_mem, 0, NULL, NULL),
+      !c_dbcsr_acc_opencl_config.async_memops, 0/*offset*/, nbytes, host_mem, 0, NULL, NULL),
       "enqueue h2d copy", result);
   }
   ACC_OPENCL_RETURN(result);
@@ -251,7 +251,7 @@ int c_dbcsr_acc_memcpy_d2h(const void* dev_mem, void* host_mem, size_t nbytes, v
   assert((NULL != dev_mem || 0 == nbytes) && (NULL != host_mem || 0 == nbytes) && NULL != stream);
   if (NULL != host_mem && NULL != dev_mem && 0 != nbytes) {
     ACC_OPENCL_CHECK(clEnqueueReadBuffer(*ACC_OPENCL_STREAM(stream), *ACC_OPENCL_MEM(dev_mem),
-      !c_dbcsr_acc_opencl_options.async_memops, 0/*offset*/, nbytes, host_mem, 0, NULL, NULL),
+      !c_dbcsr_acc_opencl_config.async_memops, 0/*offset*/, nbytes, host_mem, 0, NULL, NULL),
       "enqueue d2h copy", result);
   }
   ACC_OPENCL_RETURN(result);

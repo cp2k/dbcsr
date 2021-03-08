@@ -37,7 +37,7 @@
 extern "C" {
 #endif
 
-c_dbcsr_acc_opencl_options_t c_dbcsr_acc_opencl_options;
+c_dbcsr_acc_opencl_config_t c_dbcsr_acc_opencl_config;
 int c_dbcsr_acc_opencl_ndevices;
 cl_device_id c_dbcsr_acc_opencl_devices[ACC_OPENCL_DEVICES_MAXCOUNT];
 cl_context c_dbcsr_acc_opencl_context;
@@ -284,7 +284,7 @@ int c_dbcsr_acc_init(void)
         if (EXIT_SUCCESS == result) {
           const char *const env_verbose = getenv("ACC_OPENCL_VERBOSE");
           cl_device_id active_device;
-          c_dbcsr_acc_opencl_options.verbosity = (NULL == env_verbose ? 0 : atoi(env_verbose));
+          c_dbcsr_acc_opencl_config.verbosity = (NULL == env_verbose ? 0 : atoi(env_verbose));
           result = c_dbcsr_acc_opencl_set_active_device(device_id, &active_device);
 #if defined(_OPENMP) && defined(ACC_OPENCL_THREADLOCAL_CONTEXT)
           if (EXIT_SUCCESS == result) {
@@ -301,29 +301,24 @@ int c_dbcsr_acc_init(void)
             }
           }
 #endif
-#if defined(ACC_OPENCL_MEM_ASYNC)
           if (EXIT_SUCCESS == result) {
+            const int cl_nonv = (EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(active_device, "nvidia"));
             const char *const env = getenv("ACC_OPENCL_ASYNC_MEMOPS");
-            if (NULL == env) {
-              const int confirmation = c_dbcsr_acc_opencl_device_vendor(active_device, "nvidia");
-              c_dbcsr_acc_opencl_options.async_memops = (EXIT_SUCCESS != confirmation);
-            }
-            else c_dbcsr_acc_opencl_options.async_memops = (0 != atoi(env));
-          }
-          else
-#endif
-          c_dbcsr_acc_opencl_options.async_memops = CL_FALSE;
+            c_dbcsr_acc_opencl_config.async_memops = (NULL == env ? cl_nonv : (0 != atoi(env)));
+            c_dbcsr_acc_opencl_config.record_event = (cl_nonv
+              ? c_dbcsr_acc_opencl_enqueue_marker /* validation errors -> barrier */
+              : c_dbcsr_acc_opencl_enqueue_barrier);
 #if defined(ACC_OPENCL_SVM)
-          if (EXIT_SUCCESS == result) {
-            const char *const env = getenv("ACC_OPENCL_SVM");
-            int level_major = 0;
-            c_dbcsr_acc_opencl_options.svm_interop = (NULL == env || 0 != atoi(env)) &&
-              (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_level(active_device,
-                &level_major, NULL/*level_minor*/) && 2 <= level_major);
-          }
-          else
+            { const char *const env = getenv("ACC_OPENCL_SVM");
+              int level_major = 0;
+              c_dbcsr_acc_opencl_config.svm_interop = (NULL == env || 0 != atoi(env)) &&
+                (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_level(active_device,
+                  &level_major, NULL/*level_minor*/) && 2 <= level_major);
+            }
+#else
+            c_dbcsr_acc_opencl_config.svm_interop = CL_FALSE;
 #endif
-          c_dbcsr_acc_opencl_options.svm_interop = CL_FALSE;
+          }
         }
       }
       else { /* mark as initialized */
@@ -334,10 +329,10 @@ int c_dbcsr_acc_init(void)
       c_dbcsr_acc_opencl_ndevices = -1;
     }
 #if defined(__DBCSR_ACC)
-    /* DBCSR shall call acc_init as well as libsmm_acc_init (since both interfaces are used).
-     * Also, libsmm_acc_init may privately call acc_init (as it depends on the ACC interface).
-     * The implementation of acc_init should hence be safe against "over initialization".
-     * However, DBCSR only calls acc_init (and expects an implicit libsmm_acc_init).
+    /* DBCSR shall call c_dbcsr_acc_init as well as libsmm_acc_init (since both interfaces are used).
+     * Also, libsmm_acc_init may privately call c_dbcsr_acc_init (as it depends on the ACC interface).
+     * The implementation of c_dbcsr_acc_init should hence be safe against "over initialization".
+     * However, DBCSR only calls c_dbcsr_acc_init (and expects an implicit libsmm_acc_init).
      */
     if (EXIT_SUCCESS == result) {
       result = libsmm_acc_init();
@@ -376,10 +371,10 @@ int c_dbcsr_acc_finalize(void)
       "release context", result);
     c_dbcsr_acc_opencl_context = NULL;
 #if defined(__DBCSR_ACC)
-    /* DBCSR may call acc_init() as well as libsmm_acc_init() since both interface are used.
-     * libsmm_acc_init may privately call acc_init (as it depends on the ACC interface).
-     * The implementation of acc_init() should be safe against "over initialization".
-     * However, DBCSR only calls acc_init() and expects an implicit libsmm_acc_init().
+    /* DBCSR may call c_dbcsr_acc_init as well as libsmm_acc_init() since both interface are used.
+     * libsmm_acc_init may privately call c_dbcsr_acc_init (as it depends on the ACC interface).
+     * The implementation of c_dbcsr_acc_init should be safe against "over initialization".
+     * However, DBCSR only calls c_dbcsr_acc_init and expects an implicit libsmm_acc_init().
      */
     if (EXIT_SUCCESS == result) {
       result = libsmm_acc_finalize();
@@ -409,7 +404,7 @@ int c_dbcsr_acc_get_ndevices(int* ndevices)
 {
   int result;
 #if defined(__DBCSR_ACC)
-  /* DBCSR calls acc_get_ndevices before calling acc_init(). */
+  /* DBCSR calls c_dbcsr_acc_get_ndevices before calling c_dbcsr_acc_init. */
   result = c_dbcsr_acc_init();
   if (EXIT_SUCCESS == result)
 #endif
@@ -435,15 +430,8 @@ int c_dbcsr_acc_opencl_device(void* stream, cl_device_id* device)
       sizeof(cl_device_id), device, NULL), "retrieve device from queue", result);
   }
   else if (NULL != c_dbcsr_acc_opencl_context) {
-#if !defined(NDEBUG)
-    size_t n = sizeof(cl_device_id);
-    ACC_OPENCL_CHECK(clGetContextInfo(c_dbcsr_acc_opencl_context, CL_CONTEXT_DEVICES,
-      sizeof(cl_device_id), device, &n), "retrieve id of active device", result);
-#else
     ACC_OPENCL_CHECK(clGetContextInfo(c_dbcsr_acc_opencl_context, CL_CONTEXT_DEVICES,
       sizeof(cl_device_id), device, NULL), "retrieve id of active device", result);
-#endif
-    assert(EXIT_SUCCESS != result || sizeof(cl_device_id) == n/*single-device context*/);
   }
   else {
     *device = NULL;
@@ -548,12 +536,14 @@ int c_dbcsr_acc_opencl_set_active_device(int device_id, cl_device_id* device)
       ? c_dbcsr_acc_opencl_device(NULL/*stream*/, &current_id)
       : EXIT_FAILURE;
     if (EXIT_SUCCESS == result && active_id != current_id) {
+      const cl_context context = c_dbcsr_acc_opencl_context;
       cl_platform_id platform = NULL;
       ACC_OPENCL_CHECK(clGetDeviceInfo(active_id, CL_DEVICE_PLATFORM,
         sizeof(cl_platform_id), &platform, NULL),
         "query device platform", result);
-      if (NULL != c_dbcsr_acc_opencl_context) {
-        ACC_OPENCL_CHECK(clReleaseContext(c_dbcsr_acc_opencl_context),
+      if (NULL != context) {
+        c_dbcsr_acc_opencl_context = NULL;
+        ACC_OPENCL_CHECK(clReleaseContext(context),
           "release context", result);
       }
       if (EXIT_SUCCESS == result) {
@@ -564,22 +554,17 @@ int c_dbcsr_acc_opencl_set_active_device(int device_id, cl_device_id* device)
 #endif
         cl_context_properties properties[] = {
           CL_CONTEXT_PLATFORM, 0/*placeholder*/,
-          /* insert other properties in front of below property */
-          CL_CONTEXT_INTEROP_USER_SYNC, CL_FALSE, /* TODO */
           0 /* end of properties */
         };
         properties[1] = (long)platform;
         c_dbcsr_acc_opencl_context = clCreateContext(properties,
           1/*num_devices*/, &active_id, notify, NULL/* user_data*/, &result);
         if (CL_INVALID_VALUE == result) { /* retry */
-          const size_t n = sizeof(properties) / sizeof(*properties);
-          assert(3 <= n);
-          properties[n-3] = 0;
-          c_dbcsr_acc_opencl_context = clCreateContext(0 != properties[0] ? properties : NULL,
+          c_dbcsr_acc_opencl_context = clCreateContext(NULL/*properties*/,
             1/*num_devices*/, &active_id, notify, NULL/* user_data*/, &result);
         }
         if (EXIT_SUCCESS == result) {
-          if (0 != c_dbcsr_acc_opencl_options.verbosity) {
+          if (0 != c_dbcsr_acc_opencl_config.verbosity) {
             char buffer[ACC_OPENCL_BUFFERSIZE];
             if (CL_SUCCESS == clGetDeviceInfo(active_id, CL_DEVICE_NAME,
               ACC_OPENCL_BUFFERSIZE, buffer, NULL))
