@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 import re
 import sys
@@ -33,7 +32,7 @@ def main(out_fn, project_name, mod_format, mode, archive_ext, src_dir, src_files
 
     for fn in src_files:
         if not fn.startswith("/"):
-            error("Path of source-file not absolut: " + fn)
+            error("Path of source-file not absolute: " + fn)
 
     src_basenames = [basename(fn).rsplit(".", 1)[0] for fn in src_files]
     for bfn in src_basenames:
@@ -46,7 +45,7 @@ def main(out_fn, project_name, mod_format, mode, archive_ext, src_dir, src_files
         parse_file(parsed_files, fn, src_dir)  # parses also included files
     messages.append("Parsed %d files" % len(parsed_files))
 
-    # create table mapping fortan module-names to file-name
+    # create table mapping fortran module-names to file-name
     mod2fn = dict()
     for fn in src_files:
         for m in parsed_files[fn]["module"]:
@@ -182,9 +181,8 @@ $(EXEDIR)/{bfn}.$(ONEVERSION) : {bfn}.o {deps}
 
         makefile += "\n\n"
 
-    with open(out_fn, "w") as fhandle:
+    with open(out_fn, "w", encoding="utf8") as fhandle:
         fhandle.write(makefile)
-        fhandle.close()
 
 
 # ============================================================================
@@ -200,14 +198,14 @@ def parse_file(parsed_files, fn, src_dir):
     if fn in parsed_files:
         return
 
-    with open(fn) as fhandle:
+    with open(fn, encoding="utf8") as fhandle:
         content = fhandle.read()
 
     # re.IGNORECASE is horribly expensive. Converting to lower-case upfront
     content_lower = content.lower()
 
     # all files are parsed for cpp includes
-    incls = re_incl_cpp.findall(content)  # CPP includes (case-sensitiv)
+    incls = re_incl_cpp.findall(content)  # CPP includes (case-sensitive)
 
     mods = []
     uses = []
@@ -217,14 +215,14 @@ def parse_file(parsed_files, fn, src_dir):
         mods += re_module.findall(content_lower)
         prog = True if re_program.search(content_lower) is not None else False
         uses += re_use.findall(content_lower)
-        incls += re_incl_fypp.findall(content)  # Fypp includes (case-sensitiv)
+        incls += re_incl_fypp.findall(content)  # Fypp includes (case-sensitive)
         incl_fort_iter = re_incl_fort.finditer(content_lower)  # fortran includes
         incls += [content[m.start(1) : m.end(1)] for m in incl_fort_iter]
 
     if fn[-2:] == ".c" or fn[-3:] == ".cu":
         prog = (
             True if re_main.search(content) is not None else False
-        )  # C is case-sensitiv
+        )  # C is case-sensitive
 
     # exclude included files from outside the source tree
     def incl_fn(i):
@@ -262,7 +260,7 @@ def read_pkg_manifest(project_name, packages, p):
     if not path.exists(fn):
         error("Could not open PACKAGE manifest: " + fn)
 
-    with open(fn) as fhandle:
+    with open(fn, encoding="utf8") as fhandle:
         content = fhandle.read()
 
     packages[p] = ast.literal_eval(content)
