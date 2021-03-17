@@ -618,26 +618,36 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               if (wgsize <= max_wgsize) { /* SMMs can be potentially handled by device */
                 const char *const env_options = getenv("OPENCL_LIBSMM_SMM_BUILDOPTS");
                 const char *const env_atomics = getenv("OPENCL_LIBSMM_SMM_ATOMICS");
-                const char *atomic_expr = NULL;
+                const char *atomic_expr = NULL, *atomic_expr2 = NULL;
                 if (NULL == env_atomics || '0' != *env_atomics) {
-                  if (NULL == env_atomics) {
+                  const char* extension[] = { "cl_khr_int64_base_atomics" };
+                  if (NULL == env_atomics || '\0' == *env_atomics) {
                     if (cl_intel && !cl_intel_0x4905 && 0 == unified && dbcsr_type_real_4 == datatype) {
                       atomic_ops = "-Dcl_intel_global_float_atomics";
                       atomic_expr = "atomic_add(A,B)";
                     }
                     else if (cl_nonv) {
+                      if (1 < bs && n_max == wgsize && dbcsr_type_real_4 == datatype
+                        && 0 == (n_max & 1) /* remainder handling produces wrong result */
+                        && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_device, extension, 1))
+                      {
+                        atomic_expr2 = "-D\"ATOMIC_ADD2_GLOBAL(A,B)=atomic_add_global_cmpxchg2(A,B)\"";
+                      }
                       atomic_expr = "atomic_add_global_cmpxchg(A,B)";
                     }
-                    else {
-                      atomic_expr = "atomic_add_global_xchg(A,B)";
-                    }
+                    else atomic_expr = "atomic_add_global_xchg(A,B)";
                   }
                   else if (NULL != c_dbcsr_acc_opencl_stristr(env_atomics, "cmpxchg")) {
+                    if (1 < bs && n_max == wgsize && dbcsr_type_real_4 == datatype
+                      && 0 == (n_max & 1) /* remainder handling produces wrong result */
+                      && '2' == env_atomics[strlen(env_atomics)-1]
+                      && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_device, extension, 1))
+                    {
+                      atomic_expr2 = "-D\"ATOMIC_ADD2_GLOBAL(A,B)=atomic_add_global_cmpxchg2(A,B)\"";
+                    }
                     atomic_expr = "atomic_add_global_cmpxchg(A,B)";
                   }
-                  else {
-                    atomic_expr = "atomic_add_global_xchg(A,B)";
-                  }
+                  else atomic_expr = "atomic_add_global_xchg(A,B)";
                 }
                 else {
                   atomic_expr = "*(A)+=(B)";
@@ -646,10 +656,11 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 nchar = ACC_OPENCL_SNPRINTF(build_options, sizeof(build_options),
                   "%s -cl-fast-relaxed-math -cl-no-signed-zeros -cl-denorms-are-zero -DFMA=fma"
                   " -DGLOBAL=%s -DFN=%s -DSM=%i -DSN=%i -DSK=%i -DBM=%i -DBN=%i -DBS=%i -DT=%s"
-                  " %s -D\"ATOMIC_ADD_GLOBAL(A,B)=%s\"",
+                  " %s -D\"ATOMIC_ADD_GLOBAL(A,B)=%s\" %s",
                   (NULL == env_options || '\0' == *env_options) ? "" : env_options,
                   EXIT_SUCCESS != opencl_libsmm_use_cmem(active_device) ? "global" : "constant",
-                  fname, m_max, n_max, k_max, bm, bn, bs, typename, atomic_ops, atomic_expr);
+                  fname, m_max, n_max, k_max, bm, bn, bs, typename, atomic_ops, atomic_expr,
+                  NULL == atomic_expr2 ? "" : atomic_expr2);
                 if (0 >= nchar || (int)sizeof(build_options) <= nchar) result = EXIT_FAILURE;
               }
               else {

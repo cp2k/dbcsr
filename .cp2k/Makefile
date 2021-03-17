@@ -8,7 +8,7 @@
 # For this reason, this Makefile must be compatible with the CP2K compilation.
 #
 # For testing, by default, the Makefile compiles the OpenMP+MPI+CUDA toolchain
-# with GNU compiler on a P100 GPU.
+# with GNU compiler targeting a P100 GPU.
 # Make sure that the env variable ${BLAS_PATH} is set.
 # You can compile DBCSR by running from the DBCSR main directory with:
 #
@@ -30,18 +30,20 @@
 # FCFLAGS  => Fortran compilation flags
 # LDFLAGS  => Linker flags
 # LIBS     => Libraries
-# ACC      => ACC can be nvcc (CUDA) or hipcc (HIP)
+# ACC      => ACC can be nvcc (CUDA), hipcc (HIP), or non-empty string (OpenCL)
 # ACCFLAGS => ACC flags
 # GPUVER   =>
 #          - for CUDA, possible values correspond to NVIDIA GPUs:
 #            possible values are K20X, K40, K80, P100, V100
 #          - for HIP, possible values correspond to NVIDIA and AMD GPUs:
 #            possible values are K20X, K40, K80, P100, V100, Mi50
+#          - for OpenCL, GPUVER is currently not used
+#            (TODO: represent set of tuned parameters)
 #
 # Libraries for accelerator:
-#    - e.g. for CUDA: LIBS += -lstdc++ -lcudart -lnvrtc -lcuda -lcublas
-#    - e.g. for HIP:  LIBS += -lstdc++ -lhiprtc -lhipblas
-#
+#    - e.g. for CUDA:   LIBS += -lstdc++ -lcudart -lnvrtc -lcuda -lcublas
+#    - e.g. for HIP:    LIBS += -lstdc++ -lhiprtc -lhipblas
+#    - e.g. for OpenCL: LIBS += -lOpenCL 
 
 #
 SHELL = /bin/sh
@@ -113,14 +115,9 @@ else ifeq ($(GPUVER),P100)
  ARCH_NUMBER = 60
 else ifeq ($(GPUVER),V100)
  ARCH_NUMBER = 70
-else ifeq ($(GPUVER),) # Default to the P100
- ARCH_NUMBER = 60
-# Remaining ARCH only for HIP
-else ifneq (,$(findstring nvcc,$(ACC)))
- $(error GPUVER requires HIP or not recognized)
 else ifeq ($(GPUVER),Mi50)
  ARCH_NUMBER = gfx906
-else
+else ifneq ($(GPUVER),)
  $(error GPUVER not recognized)
 endif
 
@@ -152,6 +149,15 @@ CXXFLAGS += -D__HIP
 ifeq (,$(findstring --amdgpu-target,$(ACCFLAGS)))
 override ACCFLAGS += --amdgpu-target=$(ARCH_NUMBER)
 endif
+# OpenCL backend
+else
+# OBJ_SRC_FILES already includes all *.c files (OpenCL backend is C based)
+CFLAGS += -D__OPENCL
+LIBXSMMROOT := $(if $(LIBXSMMROOT),$(LIBXSMMROOT),$(wildcard ../../../libxsmm))
+LIBXSMMROOT := $(if $(LIBXSMMROOT),$(LIBXSMMROOT),$(wildcard $(HOME)/libxsmm))
+ifneq (,$(LIBXSMMROOT))
+CFLAGS += -I$(LIBXSMMROOT)/include
+endif
 endif
 endif
 
@@ -169,7 +175,7 @@ endif
          clean version
 
 # Discover files and directories ============================================
-ALL_SRC_DIRS := $(shell find $(SRCDIR) -type d | awk '{printf("%s:",$$1)}')
+ALL_SRC_DIRS       := $(shell find $(SRCDIR) -type d | awk '{printf("%s:",$$1)}')
 LIBSMM_ACC_DIR     := $(shell cd $(SRCDIR) ; find . -type d -name "libsmm_acc")
 LIBSMM_ACC_ABS_DIR := $(shell find $(SRCDIR) -type d -name "libsmm_acc")
 
@@ -179,17 +185,20 @@ OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.c")
 
 # if compiling with GPU acceleration
 ifneq ($(ACC),)
-  # All *.cpp files belong to the accelerator backend
-  OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . ! -name "acc_cuda.cpp" ! -name "acc_hip.cpp" ! -name "hipblas.cpp" -name "*.cpp")
   # if compiling with nvcc
   ifneq (,$(findstring nvcc,$(ACC)))
+    # All *.cpp files belong to the accelerator backend common between CUDA/HIP
+    OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -type f ! -name "acc_cuda.cpp" ! -name "acc_hip.cpp" ! -name "hipblas.cpp" -name "*.cpp")
     OBJ_SRC_FILES += $(LIBSMM_ACC_DIR)/../cuda/acc_cuda.cpp
     # Exclude autotuning files
-    OBJ_SRC_FILES += $(shell cd $(SRCDIR);  find . ! -name "tune_*_exe*_part*.cu" ! -name "tune_*_exe*_main*.cu"  -name "*.cu")
+    OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -type f ! -name "tune_*_exe*_part*.cu" ! -name "tune_*_exe*_main*.cu"  -name "*.cu")
   # if compiling with hipcc
   else ifneq (,$(findstring hipcc,$(ACC)))
+    # All *.cpp files belong to the accelerator backend common between CUDA/HIP
+    OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -type f ! -name "acc_cuda.cpp" ! -name "acc_hip.cpp" ! -name "hipblas.cpp" -name "*.cpp")
     OBJ_SRC_FILES += $(LIBSMM_ACC_DIR)/../hip/acc_hip.cpp
     OBJ_SRC_FILES += $(LIBSMM_ACC_DIR)/../hipblaswrap/hipblas.cpp
+  # OpenCL backend: OBJ_SRC_FILES already includes all *.c files
   endif
 endif
 
@@ -227,14 +236,15 @@ clean:
 	rm -f $(TESTSDIR)/libsmm_acc_timer_multiply.cpp
 	rm -rf $(OBJDIR)
 	rm -f $(LIBSMM_ACC_ABS_DIR)/parameters.h $(LIBSMM_ACC_ABS_DIR)/smm_acc_kernels.h $(LIBSMM_ACC_ABS_DIR)/*.so
+	rm -f $(LIBSMM_ACC_ABS_DIR)/../opencl/smm/opencl_kernels.h
 
 # Libsmm_acc stuff ==========================================================
+ifneq ($(GPUVER),)
 $(LIBSMM_ACC_ABS_DIR)/parameters.h: $(LIBSMM_ACC_ABS_DIR)/generate_parameters.py $(wildcard $(LIBSMM_ACC_ABS_DIR)/parameters_*.txt)
 	cd $(LIBSMM_ACC_ABS_DIR); $(PYTHON) generate_parameters.py --gpu_version=$(GPUVER)
-
 $(LIBSMM_ACC_ABS_DIR)/smm_acc_kernels.h: $(LIBSMM_ACC_ABS_DIR)/generate_kernels.py $(wildcard $(LIBSMM_ACC_ABS_DIR)/kernels/*.h)
 	cd $(LIBSMM_ACC_ABS_DIR); $(PYTHON) generate_kernels.py
-
+endif
 
 # automatic dependency generation ===========================================
 MAKEDEPMODE = "normal"
@@ -242,7 +252,7 @@ ifeq ($(HACKDEP),yes)
 MAKEDEPMODE = "hackdep"
 endif
 
-# this happens on stage 1
+# this happens at stage 1
 makedep: $(ALL_SRC_FILES) $(ALL_PKG_FILES) dirs
 ifeq ($(LD_SHARED),)
 	@echo "Removing stale archives ... "
@@ -251,7 +261,7 @@ endif
 	@echo "Resolving dependencies ... "
 	@$(PYTHON) $(DBCSRCP2K)/makedep.py $(OBJDIR)/all.dep dbcsr $(MODDEPS) $(MAKEDEPMODE) $(ARCHIVE_EXT) $(SRCDIR) $(OBJ_SRC_FILES)
 
-# on stage 2, load the rules generated by makedep.py
+# at stage 2, load the rules generated by makedep.py
 ifeq ($(INCLUDE_DEPS), true)
 include $(OBJDIR)/all.dep
 endif
@@ -287,38 +297,40 @@ FYPPFLAGS ?= -n
 	$(CC) -c $(CFLAGS) $<
 
 # Compile the CUDA/HIP files
-ifneq ($(ACC),)
+ifneq ($(ARCH_NUMBER),)
 %.o: %.cpp
 	$(ACC) -c $(ACCFLAGS) -I'$(SRCDIR)' $<
-
 libsmm_acc.o: libsmm_acc.cpp parameters.h smm_acc_kernels.h
 	$(ACC) -c $(ACCFLAGS) -DARCH_NUMBER=$(ARCH_NUMBER) $<
-
 libsmm_acc_benchmark.o: libsmm_acc_benchmark.cpp parameters.h
 	$(ACC) -c $(ACCFLAGS) -I'$(SRCDIR)' $<
-
 libsmm_acc_init.o: libsmm_acc_init.cpp libsmm_acc_init.h parameters.h
 	$(ACC) -c $(ACCFLAGS) -I'$(SRCDIR)' $<
 endif
 
+# if compiling with nvcc
 ifneq (,$(findstring nvcc,$(ACC)))
 %.o: %.cpp
 	$(ACC) -c $(ACCFLAGS) -I'$(SRCDIR)' $<
-
 acc_cuda.o: acc_cuda.cpp acc_cuda.h
 	$(ACC) -c $(ACCFLAGS) -I'$(SRCDIR)' $<
-
 %.o: %.cu
 	$(ACC) -c $(ACCFLAGS) -I'$(SRCDIR)' $<
+# if compiling with hipcc
 else ifneq (,$(findstring hipcc,$(ACC)))
 %.o: %.cpp
 	$(ACC) -c $(ACCFLAGS) -I'$(SRCDIR)' $<
-
 acc_hip.o: acc_hip.cpp acc_hip.h
 	$(ACC) -c $(ACCFLAGS) -I'$(SRCDIR)' $<
-
 hipblas.o: hipblas.cpp
 	$(ACC) -c $(ACCFLAGS) -I'$(SRCDIR)' $<
+# if compiling OpenCL backend
+else
+OPENCL_KERNELS := $(wildcard $(LIBSMM_ACC_ABS_DIR)/../opencl/smm/kernels/*.cl)
+OPENCL_KRNLGEN := $(LIBSMM_ACC_ABS_DIR)/../opencl/acc_opencl.sh
+$(LIBSMM_ACC_ABS_DIR)/../opencl/smm/opencl_kernels.h: $(OPENCL_KRNLGEN) $(OPENCL_KERNELS)
+	$(OPENCL_KRNLGEN) $(OPENCL_KERNELS) $(LIBSMM_ACC_ABS_DIR)/../opencl/smm/tune_multiply.csv $@
+opencl_libsmm.o: opencl_libsmm.c $(LIBSMM_ACC_ABS_DIR)/../opencl/smm/opencl_kernels.h
 endif
 
 $(LIBDIR)/%:

@@ -15,7 +15,9 @@
 #if defined(__LIBXSMM)
 # include <libxsmm.h>
 #else
-# error OpenCL backend currently depends on LIBXSMM!
+/* OpenCL backend depends on LIBXSMM */
+# include <libxsmm_source.h>
+# define __LIBXSMM
 #endif
 
 #if !defined(OPENCL_LIBSMM_TRANS_INPLACE) && 0
