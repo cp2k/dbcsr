@@ -12,7 +12,8 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-module load daint-gpu cudatoolkit CMake/3.18.4
+module load daint-gpu cudatoolkit
+module load /apps/daint/UES/jenkins/7.0.UP02/gpu/easybuild/modules/all/CMake/3.18.4
 module unload cray-libsci_acc
 # make sure a recent GCC is available as NVCC backend:
 #   nvcc does not automatically use Cray's CC as backend
