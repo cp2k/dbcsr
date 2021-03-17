@@ -17,7 +17,8 @@ endforeach ()
 
 # override -Werror for certain translation units
 if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
-  set_source_files_properties(dbcsr_tensor_example_1.F PROPERTIES COMPILE_FLAGS -Wno-error)
+  set_source_files_properties(dbcsr_tensor_example_1.F PROPERTIES COMPILE_FLAGS
+                                                                  -Wno-error)
 endif ()
 
 # Compile C++ examples

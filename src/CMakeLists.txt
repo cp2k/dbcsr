@@ -137,7 +137,8 @@ endforeach ()
 
 # override -Werror for certain translation units
 if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
-  set_source_files_properties(mpi/dbcsr_mpiwrap.F PROPERTIES COMPILE_FLAGS -Wno-error)
+  set_source_files_properties(mpi/dbcsr_mpiwrap.F PROPERTIES COMPILE_FLAGS
+                                                             -Wno-error)
 endif ()
 
 set(DBCSR_SRCS ${DBCSR_FORTRAN_SRCS})
