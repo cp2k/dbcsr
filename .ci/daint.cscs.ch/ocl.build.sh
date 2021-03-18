@@ -13,7 +13,8 @@ set -o nounset
 set -o pipefail
 
 module swap PrgEnv-cray PrgEnv-gnu
-module load daint-gpu cudatoolkit CMake/3.18.4
+module load daint-gpu cudatoolkit cdt-cuda
+module load /apps/daint/UES/jenkins/7.0.UP02/gpu/easybuild/modules/all/CMake/3.18.4
 module unload cray-libsci_acc
 module list
 
@@ -24,7 +25,7 @@ if [ ! -d "${HOME}/libxsmm" ]; then
 fi
 cd "${HOME}/libxsmm"
 git fetch
-git checkout ecf2ec969ca42756ed3ca9f928d7409126a57161
+git checkout 146dd2685e36e31f06690c5b581373a59540ae31
 make -j
 cd ..
 
