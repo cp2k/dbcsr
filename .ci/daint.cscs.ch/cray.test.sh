@@ -21,7 +21,8 @@ set -o xtrace  # do not set earlier to avoid noise from module
 
 umask 0002  # make sure group members can access the data
 
-mkdir --mode=0775 -p "${SCRATCH}/${BUILD_TAG}.cray"
+mkdir -p "${SCRATCH}/${BUILD_TAG}.cray"
+chmod 0775 "${SCRATCH}/${BUILD_TAG}.cray"
 cd "${SCRATCH}/${BUILD_TAG}.cray"
 
 export CRAY_CUDA_MPS=1 # enable the CUDA proxy for MPI+CUDA

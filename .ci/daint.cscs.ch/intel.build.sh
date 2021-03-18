@@ -22,7 +22,8 @@ set -o xtrace  # do not set earlier to avoid noise from module
 
 umask 0002  # make sure group members can access the data
 
-mkdir --mode=0775 -p "${SCRATCH}/${BUILD_TAG}.intel"
+mkdir -p "${SCRATCH}/${BUILD_TAG}.intel"
+chmod 0775 "${SCRATCH}/${BUILD_TAG}.intel"
 cd "${SCRATCH}/${BUILD_TAG}.intel"
 
 cmake \
@@ -32,8 +33,8 @@ cmake \
     -DBLAS_FOUND=ON -DBLAS_LIBRARIES="-lsci_intel_mpi_mp" \
     -DLAPACK_FOUND=ON -DLAPACK_LIBRARIES="-lsci_intel_mpi_mp" \
     -DMPIEXEC_EXECUTABLE="$(command -v srun)" \
-    -DTEST_MPI_RANKS=${SLURM_NTASKS} \
-    -DTEST_OMP_THREADS=${SLURM_CPUS_PER_TASK} \
+    -DTEST_MPI_RANKS="${SLURM_NTASKS}" \
+    -DTEST_OMP_THREADS="${SLURM_CPUS_PER_TASK}" \
     "${WORKSPACE}" |& tee -a "${STAGE_NAME}.out"
 
 make VERBOSE=1 -j |& tee -a "${STAGE_NAME}.out"
