@@ -16,7 +16,8 @@ foreach (dbcsr_program_src ${DBCSR_PROGRAM_SRCS_FTN})
 endforeach ()
 
 # override -Werror for certain translation units
-if (CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
+if ((CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
+    AND (CMAKE_Fortran_COMPILER_VERSION VERSION_GREATER_EQUAL 10))
   set_source_files_properties(dbcsr_tensor_example_1.F PROPERTIES COMPILE_FLAGS
                                                                   -Wno-error)
 endif ()
