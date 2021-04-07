@@ -83,7 +83,7 @@ class SmmTuner(MeasurementInterface):
         return performance
         """
         config = desired_result.configuration.data
-        run_cmd = "{} CHECK={} {}={} {}={} {}={} {}/{} 0 0 {} {} {}".format(
+        run_cmd = "{} CHECK={} {}={} {}={} {}={} {}/{} 0 {} {} {} {}".format(
             "OMP_PROC_BIND=TRUE",
             self.args.check,
             "OPENCL_LIBSMM_SMM_BATCHSIZE",
@@ -94,6 +94,7 @@ class SmmTuner(MeasurementInterface):
             config["BN"],
             self.exepath,
             self.exename,
+            self.args.r,
             self.args.m,
             self.args.n,
             self.args.k,
@@ -261,6 +262,15 @@ if __name__ == "__main__":
         nargs="?",
         dest="mb",
         help="Maximum (mini-)batch size (BS)",
+    )
+    argparser.add_argument(
+        "-r",
+        "--repetitions",
+        type=int,
+        default=0,
+        nargs="?",
+        dest="r",
+        help="Repetitions per experiment",
     )
     argparser.add_argument(
         "-s",

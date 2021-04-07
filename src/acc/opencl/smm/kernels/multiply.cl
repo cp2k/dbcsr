@@ -29,17 +29,6 @@ inline void atomic_add_global_cmpxchg(global volatile T* dst, T inc)
 }
 
 __attribute__((always_inline))
-inline void atomic_add_global_cmpxchg2(global volatile float2* dst, float2 inc)
-{
-  union { float2 f; long a; } old_val, try_val, new_val = { .f = *dst };
-  do {
-    old_val.a = new_val.a;
-    try_val.f = old_val.f + inc;
-    new_val.a = atom_cmpxchg((global volatile long*)dst, old_val.a, try_val.a);
-  } while (old_val.a != new_val.a);
-}
-
-__attribute__((always_inline))
 inline void atomic_add_global_xchg(global volatile T* dst, T inc)
 {
   union { T f; TA a; } old_val = { .f = inc }, try_val, new_val = { .f = 0 };
@@ -49,6 +38,19 @@ inline void atomic_add_global_xchg(global volatile T* dst, T inc)
     old_val.a = XCHG((global volatile TA*)dst, try_val.a);
   } while (old_val.a != new_val.a);
 }
+
+#if defined(ATOMIC_ADD2_GLOBAL)
+__attribute__((always_inline))
+inline void atomic_add_global_cmpxchg2(global volatile float2* dst, float2 inc)
+{
+  union { float2 f; long a; } old_val, try_val, new_val = { .f = *dst };
+  do {
+    old_val.a = new_val.a;
+    try_val.f = old_val.f + inc;
+    new_val.a = atom_cmpxchg((global volatile long*)dst, old_val.a, try_val.a);
+  } while (old_val.a != new_val.a);
+}
+#endif
 
 #endif
 
@@ -145,7 +147,7 @@ kernel void FN(global T *restrict cmat,
 # if (1 < BS)
           c[m-m0][n-n0] += r;
 # else
-          ATOMIC_ADD_GLOBAL(&cwg[SM*n+m], r);
+          if (0 != r) ATOMIC_ADD_GLOBAL(&cwg[SM*n+m], r);
 # endif
         }
       }
@@ -157,7 +159,7 @@ kernel void FN(global T *restrict cmat,
 # if (1 < BS)
         c[m] += r;
 # else
-        ATOMIC_ADD_GLOBAL(&cwg[SM*n+m], r);
+        if (0 != r) ATOMIC_ADD_GLOBAL(&cwg[SM*n+m], r);
 # endif
       }
 #endif
@@ -168,7 +170,7 @@ kernel void FN(global T *restrict cmat,
 # if (SWG != SN)
       for (int m = 0; m < BM; ++m) for (int n = 0; n < BN; ++n) {
         const int gm = m + m0, gn = n + n0;
-        if (gm < SM && gn < SN) {
+        if (gm < SM && gn < SN && 0 != c[m][n]) {
           ATOMIC_ADD_GLOBAL(&cwg[SM*gn+gm], c[m][n]);
           c[m][n] = 0; /* reset */
         }
@@ -176,13 +178,18 @@ kernel void FN(global T *restrict cmat,
 # else
 #   if defined(ATOMIC_ADD2_GLOBAL)
       for (int m = 0; m < SM; m += 2) {
-        ATOMIC_ADD2_GLOBAL((global volatile float2*)(cwg + SM * n + m), *(const float2*)(c + m));
-        c[m] = c[m+1] = 0; /* reset */
+        float2 *const restrict r = (float2*)(c + m);
+        if (0 != r) {
+          ATOMIC_ADD2_GLOBAL((global volatile float2*)(cwg + SM * n + m), *r);
+          *r = 0; /* reset */
+        }
       }
 #   else
       for (int m = 0; m < SM; ++m) {
-        ATOMIC_ADD_GLOBAL(&cwg[SM*n+m], c[m]);
-        c[m] = 0; /* reset */
+        if (0 != c[m]) {
+          ATOMIC_ADD_GLOBAL(&cwg[SM*n+m], c[m]);
+          c[m] = 0; /* reset */
+        }
       }
 #   endif
 # endif
