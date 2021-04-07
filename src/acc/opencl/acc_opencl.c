@@ -362,14 +362,14 @@ int c_dbcsr_acc_finalize(void)
 #if defined(_OPENMP) && defined(ACC_OPENCL_THREADLOCAL_CONTEXT)
 #   pragma omp parallel
     if (context != c_dbcsr_acc_opencl_context) {
-      ACC_OPENCL_CHECK(clReleaseContext(c_dbcsr_acc_opencl_context),
-        "release context", result);
+      const cl_context thread_context = c_dbcsr_acc_opencl_context;
       c_dbcsr_acc_opencl_context = NULL;
+      clReleaseContext(thread_context); /* quiet error */
     }
 #endif
+    c_dbcsr_acc_opencl_context = NULL;
     ACC_OPENCL_CHECK(clReleaseContext(context),
       "release context", result);
-    c_dbcsr_acc_opencl_context = NULL;
 #if defined(__DBCSR_ACC)
     /* DBCSR may call c_dbcsr_acc_init as well as libsmm_acc_init() since both interface are used.
      * libsmm_acc_init may privately call c_dbcsr_acc_init (as it depends on the ACC interface).
