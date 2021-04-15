@@ -559,7 +559,7 @@ CONTAINS
       REAL(real_4), EXTERNAL                             :: clange, slamch, slange
 #endif
       REAL(real_8)                                       :: a_norm, b_norm, c_norm_dbcsr, c_norm_in, &
-                                                            c_norm_out, eps, residual
+                                                            c_norm_out, eps, eps_norm, residual
       REAL(real_8), ALLOCATABLE, DIMENSION(:)            :: work
       REAL(real_8), EXTERNAL                             :: dlamch, dlange, zlange
 
@@ -749,8 +749,9 @@ CONTAINS
          DBCSR_ABORT("Incorrect or 1-D data type")
       END SELECT
 
+      eps_norm = residual/((a_norm + b_norm + c_norm_in)*REAL(n, real_8)*eps)
       IF (mynode .EQ. 0) THEN
-         IF (residual/((a_norm + b_norm + c_norm_in)*REAL(n, real_8)*eps) .GT. 10.0_real_8) THEN
+         IF (eps_norm .GT. 10.0_real_8) THEN
             success = .FALSE.
          ELSE
             success = .TRUE.
@@ -775,7 +776,7 @@ CONTAINS
                ', c_norm_dbcsr ', c_norm_dbcsr
             WRITE (io_unit, '(A)') ' Checking the norm of the difference against reference GEMM '
             WRITE (io_unit, '(A,E12.5)') ' -- ||C_dbcsr-C_dense||_oo/((||A||_oo+||B||_oo+||C||_oo).N.eps)=', &
-               residual/((a_norm + b_norm + c_norm_in)*n*eps)
+               eps_norm
          END IF
 
       END IF

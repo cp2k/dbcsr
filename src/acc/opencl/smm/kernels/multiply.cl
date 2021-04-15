@@ -66,17 +66,21 @@ kernel void FN(global T *restrict cmat,
   const int gid = get_group_id(0), idx = get_local_id(0);
   GLOBAL const int *const restrict params = param_stack + gid * (3 * BS);
   /* indexes given by param_stack are one-based */
-  int a0 = params[0] - 1, b0 = params[1] - 1, c0 = params[2] - 1;
+  int c0 = params[2] - 1;
+#if (1 < BS)
+  int a1 = -1, b1 = -1;
+#endif
   global T *restrict cwg = cmat + c0;
 
   local T a[SM][SK];
-  T am[SK], bn[SK];
+  T am[SK];
 #if (SWG != SN)
-  local T b[SK][SN];
+  T b[SK][BN];
 # if (1 < BS)
   T c[BM][BN] = {{ 0 }};
 # endif
 #else
+  T bn[SK];
 # if (1 < BS)
   T c[SM] = { 0 };
 # endif
@@ -98,17 +102,11 @@ kernel void FN(global T *restrict cmat,
     const int m0 = idx * bm, m1 = min(m0 + bm, SM);
     const int n = idx;
 #endif
-
 #if (1 < BS)
-    int a1, b1, c1;
-    if (i < (batchsize - 1)) {
-      a1 = params[3*i+3] - 1;
-      b1 = params[3*i+4] - 1;
-      c1 = params[3*i+5] - 1;
-    }
-    else {
-      a1 = b1 = c1 = -1;
-    }
+    const int c1 = (i < (batchsize - 1) ? (params[3*i+5] - 1) : -1);
+    const int a0 = params[3*i+0] - 1, b0 = params[3*i+1] - 1;
+#else
+    const int a0 = params[0] - 1, b0 = params[1] - 1;
 #endif
 
     { /* transpose A-matrix into local buffer */
@@ -117,21 +115,25 @@ kernel void FN(global T *restrict cmat,
         for (int k = 0; k < SK; ++k) a[m][k] = awg[SM*k+m];
       }
 #if (1 < BS)
-      a0 = a1; /* next iteration */
+      a1 = a0;
 #endif
     }
 
-    { /* copy B-matrix into local or private buffer */
+    /* avoiding to load same B-tile seems to be not beneficial */
+#if (1 < BS) && 0
+    if (b0 != b1)
+#endif
+    { /* copy B-matrix into private buffer */
       GLOBAL const T *const restrict bwg = bmat + b0;
       for (int k = 0; k < SK; ++k) {
 #if (SWG != SN)
-        for (int n = n0; n < n1; ++n) b[k][n] = bwg[SN*k+n];
+        for (int n = n0; n < n1; ++n) b[k][n-n0] = bwg[SN*k+n];
 #else
         bn[k] = bwg[SN*k+n];
 #endif
       }
 #if (1 < BS)
-      b0 = b1; /* next iteration */
+      b1 = b0;
 #endif
     }
 
@@ -142,8 +144,7 @@ kernel void FN(global T *restrict cmat,
         for (int k = 0; k < SK; ++k) am[k] = a[m][k];
         for (int n = n0; n < n1; ++n) {
           T r = 0;
-          for (int k = 0; k < SK; ++k) bn[k] = b[k][n];
-          for (int k = 0; k < SK; ++k) r = FMA(am[k], bn[k], r);
+          for (int k = 0; k < SK; ++k) r = FMA(am[k], b[k][n-n0], r);
 # if (1 < BS)
           c[m-m0][n-n0] += r;
 # else
