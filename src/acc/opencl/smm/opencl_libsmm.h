@@ -27,7 +27,7 @@
 # define OPENCL_LIBSMM_PARAMS_DELIMS ";, \t|/"
 #endif
 #if !defined(OPENCL_LIBSMM_DEBUG) && 0
-# define OPENCL_LIBSMM_DEBUG
+# define OPENCL_LIBSMM_DEBUG 1
 #endif
 #if !defined(OPENCL_LIBSMM_CMEM) && 1
 # define OPENCL_LIBSMM_CMEM
