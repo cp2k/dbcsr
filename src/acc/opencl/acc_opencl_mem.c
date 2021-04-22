@@ -15,7 +15,7 @@
 #if defined(_WIN32)
 # include <Windows.h>
 #else
-# if !defined(__linux__)
+# if !defined(__linux__) && defined(__APPLE__) && defined(__MACH__)
 #   include <sys/types.h>
 #   include <sys/sysctl.h>
 # endif
@@ -305,20 +305,20 @@ int c_dbcsr_acc_opencl_info_devmem(cl_device_id device,
 # else
   const long page_size = 4096;
 # endif
+  long pages_free = 0, pages_total = 0;
 # if defined(__linux__)
 #   if defined(_SC_PHYS_PAGES)
-  const long pages_total = sysconf(_SC_PHYS_PAGES);
+  pages_total = sysconf(_SC_PHYS_PAGES);
 #   else
-  const long pages_total = 0;
+  pages_total = 0;
 #   endif
 #   if defined(_SC_AVPHYS_PAGES)
-  const long pages_free = sysconf(_SC_AVPHYS_PAGES);
+  pages_free = sysconf(_SC_AVPHYS_PAGES);
 #   else
-  const long pages_free = pages_total;
+  pages_free = pages_total;
 #   endif
-# else
+# elif defined(__APPLE__) && defined(__MACH__)
   /*const*/ size_t size_pages_free = sizeof(const long), size_pages_total = sizeof(const long);
-  long pages_free = 0, pages_total = 0;
   ACC_OPENCL_EXPECT(0, sysctlbyname("hw.memsize", &pages_total, &size_pages_total, NULL, 0));
   if (0 < page_size) pages_total /= page_size;
   if (0 != sysctlbyname("vm.page_free_count", &pages_free, &size_pages_free, NULL, 0)) {

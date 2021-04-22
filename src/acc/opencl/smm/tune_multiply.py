@@ -22,6 +22,7 @@ import json
 import glob
 import sys
 import re
+import os
 
 
 class SmmTuner(MeasurementInterface):
@@ -171,6 +172,10 @@ class SmmTuner(MeasurementInterface):
                         len(merged), len(filenames), self.args.csvfile
                     )
                 )
+            elif glob.glob(self.args.csvfile):
+                backup = "{}.bak".format(self.args.csvfile)
+                print("Renamed {} to {}.".format(self.args.csvfile, backup))
+                os.rename(self.args.csvfile, backup)
 
     def save_final_config(self, configuration):
         """called at the end of tuning"""

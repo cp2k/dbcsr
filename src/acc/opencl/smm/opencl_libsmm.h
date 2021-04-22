@@ -56,6 +56,7 @@ typedef struct opencl_libsmm_trans_t {
   /* ACC_OPENCL_VERBOSE: perf. counters */
   double membw_sumlog, membw_comp;
   size_t nexec;
+  int size[5];
 } opencl_libsmm_trans_t;
 
 /** Type for querying SMM-kernel configuration. */
@@ -73,14 +74,23 @@ typedef struct opencl_libsmm_smm_t {
   /* ACC_OPENCL_VERBOSE: perf. counters */
   double gflops_sumlog, gflops_comp;
   size_t nexec;
+  int size[5];
 } opencl_libsmm_smm_t;
+
+/** Type to collect statistics about tuned SMM-kernels */
+typedef struct opencl_libsmm_perfest_t {
+  double gf_ai_sratio_max, gf_ai_sratio_sumlog, gf_ai_sratio_kahan;
+  double gf_ai_dratio_max, gf_ai_dratio_sumlog, gf_ai_dratio_kahan;
+  size_t scount, dcount;
+} opencl_libsmm_perfest_t;
 
 /** If buffers are hinted for non-concurrent writes aka "OpenCL constant". */
 int opencl_libsmm_use_cmem(cl_device_id device);
 
 /* Tokenize parambuf and initialize key/value pair. */
 int opencl_libsmm_read_params(char* parambuf,
-  opencl_libsmm_smmkey_t* key, opencl_libsmm_smm_t* value);
+  opencl_libsmm_smmkey_t* key, opencl_libsmm_smm_t* value,
+  opencl_libsmm_perfest_t* perfest);
 
 #if defined(OPENCL_LIBSMM_DEBUG) && defined(_DEBUG)
 void opencl_libsmm_print_matrix(FILE* ostream, const char* label,
