@@ -23,19 +23,19 @@ Runtime settings are made by the means of environment variables (implemented in 
 * `ACC_OPENCL_VERBOSE`: verbosity level (integer) with console output on `stderr`.
     * `ACC_OPENCL_VERBOSE=1`: outputs the number of devices found and the name of the selected device.
     * `ACC_OPENCL_VERBOSE=2`: outputs the duration needed to generate a requested kernel.
-    * `ACC_OPENCL_VERBOSE=3`: outputs device-side performance of kernels (geometric mean).
-    * `ACC_OPENCL_VERBOSE=4`: outputs device-side performance of kernels (every execution).
+    * `ACC_OPENCL_VERBOSE=3`: outputs host-side measured performance of kernels (geometric mean).
+    * `ACC_OPENCL_VERBOSE=4`: outputs device-side performance of kernels (every launch profiled).
 
 For tranposing matrices:
 
 * `OPENCL_LIBSMM_TRANS_BUILDOPTS`: character string with build options (compile and link) supplied to the OpenCL runtime compiler.
-* `OPENCL_LIBSMM_TRANS_INPLACE`: Boolean value (zero or non-zero integer) for inplace matrix transpose not relying on local memory.
+* `OPENCL_LIBSMM_TRANS_INPLACE`: Boolean value (zero or non-zero integer) for inplace matrix transpose (no local memory needed).
 * `OPENCL_LIBSMM_TRANS_BLOCK_M`: non-negative integer number (less/equal than the M-extent) denoting the blocksize in M-direction.
 
 For multiplying matrices:
 
 * `OPENCL_LIBSMM_SMM_BUILDOPTS`: character string with build options (compile and link) supplied to the OpenCL runtime compiler.
-* `OPENCL_LIBSMM_SMM_ATOMICS`: selects the kind of atomic operation used for global memory updates ("cmpxchg", "xchg"), or disables atomic updates ("0"). The latter is to quantify the impact of atomic operations rather than for achieving correct results.
+* `OPENCL_LIBSMM_SMM_ATOMICS`: selects the kind of atomic operation used for global memory updates ("xchg", "cmpxchg", "cmpxchg2"), or disables atomic updates ("0"). The latter is to quantify the impact of atomic operations rather than for achieving correct results.
 * `OPENCL_LIBSMM_SMM_BATCHSIZE`: non-negative integer number denoting the intr-kernel (mini-)batchsize mainly used to amortize atomic updates of data in global/main memory. The remainder with respect to the "stacksize" is handled by the kernel.
 * `OPENCL_LIBSMM_SMM_BLOCK_M`: non-negative integer number (less/equal than the M-extent) denoting the blocksize in M-direction.
 * `OPENCL_LIBSMM_SMM_BLOCK_N`: non-negative integer number (less/equal than the N-extent) denoting the blocksize in N-direction.
