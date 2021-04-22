@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.1.0-28-gfafe19e44</small></a>
+          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.1.0-29-g9bf4cf903</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -153,21 +153,21 @@
 <li><code>ACC_OPENCL_VERBOSE</code>: verbosity level (integer) with console output on <code>stderr</code>.<ul>
 <li><code>ACC_OPENCL_VERBOSE=1</code>: outputs the number of devices found and the name of the selected device.</li>
 <li><code>ACC_OPENCL_VERBOSE=2</code>: outputs the duration needed to generate a requested kernel.</li>
-<li><code>ACC_OPENCL_VERBOSE=3</code>: outputs device-side performance of kernels (geometric mean).</li>
-<li><code>ACC_OPENCL_VERBOSE=4</code>: outputs device-side performance of kernels (every execution).</li>
+<li><code>ACC_OPENCL_VERBOSE=3</code>: outputs host-side measured performance of kernels (geometric mean).</li>
+<li><code>ACC_OPENCL_VERBOSE=4</code>: outputs device-side performance of kernels (every launch profiled).</li>
 </ul>
 </li>
 </ul>
 <p>For tranposing matrices:</p>
 <ul>
 <li><code>OPENCL_LIBSMM_TRANS_BUILDOPTS</code>: character string with build options (compile and link) supplied to the OpenCL runtime compiler.</li>
-<li><code>OPENCL_LIBSMM_TRANS_INPLACE</code>: Boolean value (zero or non-zero integer) for inplace matrix transpose not relying on local memory.</li>
+<li><code>OPENCL_LIBSMM_TRANS_INPLACE</code>: Boolean value (zero or non-zero integer) for inplace matrix transpose (no local memory needed).</li>
 <li><code>OPENCL_LIBSMM_TRANS_BLOCK_M</code>: non-negative integer number (less/equal than the M-extent) denoting the blocksize in M-direction.</li>
 </ul>
 <p>For multiplying matrices:</p>
 <ul>
 <li><code>OPENCL_LIBSMM_SMM_BUILDOPTS</code>: character string with build options (compile and link) supplied to the OpenCL runtime compiler.</li>
-<li><code>OPENCL_LIBSMM_SMM_ATOMICS</code>: selects the kind of atomic operation used for global memory updates ("cmpxchg", "xchg"), or disables atomic updates ("0"). The latter is to quantify the impact of atomic operations rather than for achieving correct results.</li>
+<li><code>OPENCL_LIBSMM_SMM_ATOMICS</code>: selects the kind of atomic operation used for global memory updates ("xchg", "cmpxchg", "cmpxchg2"), or disables atomic updates ("0"). The latter is to quantify the impact of atomic operations rather than for achieving correct results.</li>
 <li><code>OPENCL_LIBSMM_SMM_BATCHSIZE</code>: non-negative integer number denoting the intr-kernel (mini-)batchsize mainly used to amortize atomic updates of data in global/main memory. The remainder with respect to the "stacksize" is handled by the kernel.</li>
 <li><code>OPENCL_LIBSMM_SMM_BLOCK_M</code>: non-negative integer number (less/equal than the M-extent) denoting the blocksize in M-direction.</li>
 <li><code>OPENCL_LIBSMM_SMM_BLOCK_N</code>: non-negative integer number (less/equal than the N-extent) denoting the blocksize in N-direction.</li>
