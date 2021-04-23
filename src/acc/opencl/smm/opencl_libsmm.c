@@ -70,10 +70,10 @@
   : LIBXSMM_MAX(opencl_libsmm_gf_ai_sratio, opencl_libsmm_gf_ai_dratio)))
 
 #define OPENCL_LIBSMM_ISORT(IARR, SIZE) { int opencl_libsmm_isort_i_ = 0; \
-  for (; opencl_libsmm_isort_i_ < ((SIZE) - 1); ++opencl_libsmm_isort_i_) { \
+  for (; opencl_libsmm_isort_i_ < ((int)(SIZE) - 1); ++opencl_libsmm_isort_i_) { \
     int opencl_libsmm_isort_j_ = opencl_libsmm_isort_i_ + 2; \
     int opencl_libsmm_isort_k_ = opencl_libsmm_isort_i_ + 1; \
-    for (; opencl_libsmm_isort_j_ < (SIZE); ++opencl_libsmm_isort_j_) { \
+    for (; opencl_libsmm_isort_j_ < ((int)(SIZE)); ++opencl_libsmm_isort_j_) { \
       if ((IARR)[opencl_libsmm_isort_j_] < (IARR)[opencl_libsmm_isort_k_]) { \
         opencl_libsmm_isort_k_ = opencl_libsmm_isort_j_; \
       } \
@@ -323,8 +323,8 @@ int libsmm_acc_finalize(void)
                 const int size = (int)LIBXSMM_MIN(sizeof(entry->size) / sizeof(*entry->size), entry->nexec);
                 int batchsize; OPENCL_LIBSMM_ISORT(entry->size, size); batchsize = entry->size[size>>1];
                 if (0 == (1 & size)) batchsize = (batchsize + entry->size[(size>>1)-1]) >> 1;
-                fprintf(stderr, "INFO ACC/OpenCL: %i x %ix%i transpose-kernel geo=%.1f GB/s%s\n",
-                  batchsize, desc->m, desc->n, exp(entry->membw_sumlog / entry->nexec),
+                fprintf(stderr, "INFO ACC/OpenCL: %ix%i transpose-kernel bs=%i geo=%.1f GB/s%s\n",
+                  desc->m, desc->n, batchsize, exp(entry->membw_sumlog / entry->nexec),
                   dbcsr_type_real_8 == desc->type ? " (DP)" : (dbcsr_type_real_4 == desc->type ? " (SP)" : ""));
                 entry->nexec = 0; /* reset */
               }
@@ -338,8 +338,8 @@ int libsmm_acc_finalize(void)
                 const int size = (int)LIBXSMM_MIN(sizeof(entry->size) / sizeof(*entry->size), entry->nexec);
                 int batchsize; OPENCL_LIBSMM_ISORT(entry->size, size); batchsize = entry->size[size>>1];
                 if (0 == (1 & size)) batchsize = (batchsize + entry->size[(size>>1)-1]) >> 1;
-                fprintf(stderr, "INFO ACC/OpenCL: %i x %ix%ix%i SMM-kernel geo=%.1f",
-                  batchsize, desc->m, desc->n, desc->k, exp(entry->gflops_sumlog / entry->nexec));
+                fprintf(stderr, "INFO ACC/OpenCL: %ix%ix%i SMM-kernel bs=%i geo=%.1f",
+                  desc->m, desc->n, desc->k, batchsize, exp(entry->gflops_sumlog / entry->nexec));
                 switch (desc->type) {
                   case dbcsr_type_real_8: {
                     const double est = OPENCL_LIBSMM_GFLOPS(desc->m, desc->n, desc->k, sizeof(double));
@@ -550,34 +550,40 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
           config->kernel, 1/*work_dim*/, NULL, &work_size, &config->wgsize, 0, NULL, perf_event),
           "launch transpose kernel", result);
         /* eventually update performance counters inside of locked region */
-        if (NULL != perf_event) {
-          cl_ulong begin = 0, end = 0;
-          clWaitForEvents(1, perf_event);
-          ACC_OPENCL_CHECK(clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_START, sizeof(cl_ulong), &begin, NULL),
-            "query kernel start time", result);
-          ACC_OPENCL_CHECK(clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong), &end, NULL),
-            "query kernel end time", result);
-          if (EXIT_SUCCESS == result) {
-            const double membw = (1E-9 * (1ULL << 30) * stack_size * (typesize * m * n)) / LIBXSMM_DELTA(begin, end);
-# if LIBXSMM_VERSION3(1, 16, 1) <= LIBXSMM_VERSION3(LIBXSMM_VERSION_MAJOR, \
-      LIBXSMM_VERSION_MINOR, LIBXSMM_VERSION_UPDATE) && 1159 <= LIBXSMM_VERSION_PATCH
-            const int size = sizeof(config->size) / sizeof(*config->size);
-            int i = (int)((config->nexec++) % size);
-            libxsmm_kahan_sum(log(membw), &config->membw_sumlog, &config->membw_comp);
-            config->size[i] = stack_size;
-            if ((i + 1) == size) { /* fill config->size with median */
-              int m; OPENCL_LIBSMM_ISORT(config->size, size); m = config->size[size>>1];
-              if (0 == (1 & size) && 0 < size) m = (m + config->size[(size>>1)-1]) >> 1;
-              for (i = 0; i < size; ++i) config->size[i] = m;
-            }
-# endif
 # if !defined(OPENCL_LIBSMM_DEBUG_TRANS)
-            if (4 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
-              fprintf(stderr, "INFO ACC/OpenCL: %i x %ix%i transpose-kernel cur=%.1f GB/s%s\n", stack_size, m, n, membw,
-                dbcsr_type_real_8 == datatype ? " (DP)" : (dbcsr_type_real_4 == datatype ? " (SP)" : ""));
-            }
-# endif
+        if (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
+          if (NULL != perf_event) {
+            cl_ulong begin = 0, end = 0;
+            clWaitForEvents(1, perf_event);
+            ACC_OPENCL_CHECK(clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_START, sizeof(cl_ulong), &begin, NULL),
+              "query kernel start time", result);
+            ACC_OPENCL_CHECK(clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong), &end, NULL),
+              "query kernel end time", result);
+            duration = LIBXSMM_DELTA(begin, end); /* Nanoseconds */
           }
+          else duration = libxsmm_timer_duration(start, libxsmm_timer_tick()) * 1E9; /* Nanoseconds */
+          if (EXIT_SUCCESS == result) {
+            const double membw = (1E-9 * (1ULL << 30) * stack_size * (typesize * m * n)) / duration;
+#   if LIBXSMM_VERSION3(1, 16, 1) <= LIBXSMM_VERSION3(LIBXSMM_VERSION_MAJOR, \
+       LIBXSMM_VERSION_MINOR, LIBXSMM_VERSION_UPDATE) && 1159 <= LIBXSMM_VERSION_PATCH
+            const size_t size = sizeof(config->size) / sizeof(*config->size); assert(2 <= size);
+            libxsmm_kahan_sum(log(membw), &config->membw_sumlog, &config->membw_comp);
+            if (size <= config->nexec) {
+              const int s1 = size - 1, i = (int)((config->nexec++) % s1);
+              config->size[i] = stack_size;
+              if ((i + 1) == s1) { /* fill config->size with median */
+                const int s2 = size >> 1; OPENCL_LIBSMM_ISORT(config->size, size); config->size[s1] = config->size[s2];
+                if (0 == (1 & s1)) config->size[s1] = (config->size[s1] + config->size[s2-1]) >> 1;
+              }
+            }
+            else config->size[config->nexec++] = stack_size;
+#   endif
+            if (4 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
+              fprintf(stderr, "INFO ACC/OpenCL: %ix%i transpose-kernel bs=%i cur=%.1f GB/s%s\n", m, n, stack_size,
+                membw, dbcsr_type_real_8 == datatype ? " (DP)" : (dbcsr_type_real_4 == datatype ? " (SP)" : ""));
+            }
+          }
+# endif
         }
         LIBXSMM_ATOMIC_RELEASE(lock, LIBXSMM_ATOMIC_RELAXED);
       }
@@ -952,52 +958,54 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
           config->kernel, 1/*work_dim*/, NULL, &work_size, &config->wgsize, 0, NULL, perf_event),
           "launch SMM-kernel", result);
         /* eventually update performance counters inside of locked region */
-        if (NULL == perf_event) {
-          duration = libxsmm_timer_duration(start, libxsmm_timer_tick()) * 1E9; /* Nanoseconds */
-        }
-        else {
-          cl_ulong begin = 0, end = 0;
-          clWaitForEvents(1, perf_event);
-          ACC_OPENCL_CHECK(clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_START, sizeof(cl_ulong), &begin, NULL),
-            "query kernel start time", result);
-          ACC_OPENCL_CHECK(clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong), &end, NULL),
-            "query kernel end time", result);
-          duration = LIBXSMM_DELTA(begin, end); /* Nanoseconds */
-        }
-        if (EXIT_SUCCESS == result) {
-          const double gflops = (2.0 * m_max * n_max * k_max * stack_size) / duration;
-# if LIBXSMM_VERSION3(1, 16, 1) <= LIBXSMM_VERSION3(LIBXSMM_VERSION_MAJOR, \
-   LIBXSMM_VERSION_MINOR, LIBXSMM_VERSION_UPDATE) && 1159 <= LIBXSMM_VERSION_PATCH
-          const int size = sizeof(config->size) / sizeof(*config->size);
-          int i = (int)((config->nexec++) % size);
-          libxsmm_kahan_sum(log(gflops), &config->gflops_sumlog, &config->gflops_comp);
-          config->size[i] = stack_size;
-          if ((i + 1) == size) { /* fill config->size with median */
-            int m; OPENCL_LIBSMM_ISORT(config->size, size); m = config->size[size>>1];
-            if (0 == (1 & size) && 0 < size) m = (m + config->size[(size>>1)-1]) >> 1;
-            for (i = 0; i < size; ++i) config->size[i] = m;
-          }
-# endif
 # if !defined(OPENCL_LIBSMM_DEBUG_SMM)
-          if (4 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
-            fprintf(stderr, "INFO ACC/OpenCL: %i x %ix%ix%i SMM-kernel cur=%.1f",
-              stack_size, m_max, n_max, k_max, gflops);
-            switch (datatype) {
-              case dbcsr_type_real_8: {
-                const double est = OPENCL_LIBSMM_GFLOPS(m_max, n_max, k_max, sizeof(double));
-                if (0 < est) fprintf(stderr, " est=%.1f", est);
-                fprintf(stderr, " GFLOPS/s (DP)\n");
-              } break;
-              case dbcsr_type_real_4: {
-                const double est = OPENCL_LIBSMM_GFLOPS(m_max, n_max, k_max, sizeof(float));
-                if (0 < est) fprintf(stderr, " est=%.1f", est);
-                fprintf(stderr, " GFLOPS/s (SP)\n");
-              } break;
-              default: result = EXIT_FAILURE;
+        if (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
+          if (NULL != perf_event) {
+            cl_ulong begin = 0, end = 0;
+            clWaitForEvents(1, perf_event);
+            ACC_OPENCL_CHECK(clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_START, sizeof(cl_ulong), &begin, NULL),
+              "query kernel start time", result);
+            ACC_OPENCL_CHECK(clGetEventProfilingInfo(*perf_event, CL_PROFILING_COMMAND_END, sizeof(cl_ulong), &end, NULL),
+              "query kernel end time", result);
+            duration = LIBXSMM_DELTA(begin, end); /* Nanoseconds */
+          }
+          else duration = libxsmm_timer_duration(start, libxsmm_timer_tick()) * 1E9; /* Nanoseconds */
+          if (EXIT_SUCCESS == result) {
+            const double gflops = (2.0 * m_max * n_max * k_max * stack_size) / duration;
+#   if LIBXSMM_VERSION3(1, 16, 1) <= LIBXSMM_VERSION3(LIBXSMM_VERSION_MAJOR, \
+         LIBXSMM_VERSION_MINOR, LIBXSMM_VERSION_UPDATE) && 1159 <= LIBXSMM_VERSION_PATCH
+            const size_t size = sizeof(config->size) / sizeof(*config->size); assert(2 <= size);
+            libxsmm_kahan_sum(log(gflops), &config->gflops_sumlog, &config->gflops_comp);
+            if (size <= config->nexec) {
+              const int s1 = size - 1, i = (int)((config->nexec++) % s1);
+              config->size[i] = stack_size;
+              if ((i + 1) == s1) { /* fill config->size with median */
+                const int s2 = size >> 1; OPENCL_LIBSMM_ISORT(config->size, size); config->size[s1] = config->size[s2];
+                if (0 == (1 & s1)) config->size[s1] = (config->size[s1] + config->size[s2-1]) >> 1;
+              }
+            }
+            else config->size[config->nexec++] = stack_size;
+#   endif
+            if (4 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
+              fprintf(stderr, "INFO ACC/OpenCL: %ix%ix%i SMM-kernel bs=%i cur=%.1f",
+                m_max, n_max, k_max, stack_size, gflops);
+              switch (datatype) {
+                case dbcsr_type_real_8: {
+                  const double est = OPENCL_LIBSMM_GFLOPS(m_max, n_max, k_max, sizeof(double));
+                  if (0 < est) fprintf(stderr, " est=%.1f", est);
+                  fprintf(stderr, " GFLOPS/s (DP)\n");
+                } break;
+                case dbcsr_type_real_4: {
+                  const double est = OPENCL_LIBSMM_GFLOPS(m_max, n_max, k_max, sizeof(float));
+                  if (0 < est) fprintf(stderr, " est=%.1f", est);
+                  fprintf(stderr, " GFLOPS/s (SP)\n");
+                } break;
+                default: result = EXIT_FAILURE;
+              }
             }
           }
-# endif
         }
+# endif
         LIBXSMM_ATOMIC_RELEASE(lock, LIBXSMM_ATOMIC_RELAXED);
       }
 # if defined(OPENCL_LIBSMM_DEBUG_SMM)

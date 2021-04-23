@@ -23,7 +23,7 @@ Runtime settings are made by the means of environment variables (implemented in 
 * `ACC_OPENCL_VERBOSE`: verbosity level (integer) with console output on `stderr`.
     * `ACC_OPENCL_VERBOSE=1`: outputs the number of devices found and the name of the selected device.
     * `ACC_OPENCL_VERBOSE=2`: outputs the duration needed to generate a requested kernel.
-    * `ACC_OPENCL_VERBOSE=3`: outputs host-side measured performance of kernels (geometric mean).
+    * `ACC_OPENCL_VERBOSE=3`: outputs device-side measured performance of kernels (geometric mean).
     * `ACC_OPENCL_VERBOSE=4`: outputs device-side performance of kernels (every launch profiled).
 
 The OpenCL backend enumerates and orders devices primarily by device-kind (GPU, CPU, and others in that order) and by memory capacity (secondary criterion). Device IDs are zero-based as per ACC interface (and less than what is permitted/returned by `acc_get_ndevices`).
