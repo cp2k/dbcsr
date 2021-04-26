@@ -973,7 +973,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
           if (EXIT_SUCCESS == result) {
             const double gflops = (2.0 * m_max * n_max * k_max * stack_size) / duration;
 #   if LIBXSMM_VERSION3(1, 16, 1) <= LIBXSMM_VERSION3(LIBXSMM_VERSION_MAJOR, \
-         LIBXSMM_VERSION_MINOR, LIBXSMM_VERSION_UPDATE) && 1159 <= LIBXSMM_VERSION_PATCH
+       LIBXSMM_VERSION_MINOR, LIBXSMM_VERSION_UPDATE) && 1159 <= LIBXSMM_VERSION_PATCH
             const size_t size = sizeof(config->size) / sizeof(*config->size); assert(2 <= size);
             libxsmm_kahan_sum(log(gflops), &config->gflops_sumlog, &config->gflops_comp);
             if (size <= config->nexec) {
