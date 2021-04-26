@@ -58,7 +58,7 @@ MODULE dbcsr_tensor
       dbcsr_t_max_nblks_local, dbcsr_t_default_distvec, dbcsr_t_contraction_storage, dbcsr_t_nblks_total, &
       dbcsr_t_distribution_new, dbcsr_t_copy_contraction_storage, dbcsr_t_pgrid_destroy
    USE dbcsr_kinds, ONLY: &
-      real_4, real_8, default_string_length, int_8, dp
+      real_8, real_4, default_string_length, int_8, dp
    USE dbcsr_mpiwrap, ONLY: &
       mp_environ, mp_max, mp_sum, mp_comm_free, mp_cart_create, mp_sync
    USE dbcsr_toollib, ONLY: &
