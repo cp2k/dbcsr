@@ -193,7 +193,7 @@ int c_dbcsr_acc_init(void)
             cl_uint j = 0, n;
             for (; j < ndevices; ++j) {
 #if defined(CL_VERSION_1_2)
-              if ( (NULL == env_device_split || '0' == *env_device_split)
+              if ( (NULL != env_device_split && '0' == *env_device_split)
                 || (c_dbcsr_acc_opencl_ndevices + 1) == ACC_OPENCL_DEVICES_MAXCOUNT
                 || (CL_SUCCESS != clCreateSubDevices(devices[j], properties, 0, NULL, &n)))
 #endif

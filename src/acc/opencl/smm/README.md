@@ -130,4 +130,4 @@ cd src/acc/opencl/smm
 ./tune_multiply.sh 300  8 1  4 10 15, 6 7 8, 23
 ```
 
-The script `tune_multiply.sh` is tuning 1444 kernels by default (`./acc_bench_smm 300 8 1` taking approximately 15 hours per part). If the process is interrupted earlier (per SIGINT or Ctrl-C), the execution terminates for all requested kernels (triplet specification) unless an environment variable `CONTINUE=1` is set (proceeds to the next kernel).
+The script `tune_multiply.sh` is tuning 1266 kernels by default (`./tune_multiply.sh 300 8 1` taking approximately 13 hours per part). If the process is interrupted earlier (per SIGINT or Ctrl-C), the execution terminates for all requested kernels (triplet specification) unless an environment variable `CONTINUE=1` is set (proceeds to the next kernel).

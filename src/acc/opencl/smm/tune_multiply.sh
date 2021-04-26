@@ -73,6 +73,9 @@ if [ "${SED}" ] && [ "${LS}" ] && [ "${RM}" ] && [ "${WC}" ]; then
     SPEC=$(echo "${SPECS}" | ${SED} -e "s/^x//g" -e "s/x$//g" -e "s/x/,/g")
     MNKS="${MNKS} $(eval printf "%s" "{${SPEC}}x{${SPEC}}x{${SPEC}}\" \"" | ${SED} -e "s/{//g" -e "s/}//g")"
   done
+  if [ "$(command -v sort)" ] && [ "$(command -v xargs)" ]; then
+    MNKS=$(echo "${MNKS}" | xargs -n1 | sort -u | xargs)
+  fi
   NTRIPLETS=$(echo "${MNKS}" | wc -w)
   PARTSIZE=$(((NTRIPLETS+NPARTS-1)/NPARTS))
   PARTOFFS=$(((PART-1)*PARTSIZE))
