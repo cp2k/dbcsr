@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.1.0-31-g8a3015516</small></a>
+          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.1.0-32-g0a1ce2e81</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -138,15 +138,15 @@
     <div class="col-md-9 col-md-push-3" id='text'>
       <h1>OpenCL Backend</h1>
 <h2>Overview</h2>
-<p>The OpenCL backend implements the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc.h">ACC interface</a>, which is also exposed in Fortran and used throughout DBCSR's code base to drive (GPU-)accelation based on ACC's device enumeration, data movement, and synchronization functionality. The customizations below below are typically for development, e.g., when attempting to contribute new functionality or features, or meant for debug purpose (and not necessarily settings to be made when using DBCSR or CP2K).</p>
+<p>The OpenCL backend implements the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc.h">ACC interface</a>, which is also exposed in Fortran and used throughout DBCSR's code base to drive (GPU-)acceleration based on ACC's device enumeration, data movement, and synchronization functionality. The customizations below are typically for development, e.g., when attempting to contribute new functionality or features, or meant for debug purpose (and not necessarily settings to be made when using DBCSR or CP2K).</p>
 <h2>Customization</h2>
 <h3>Compile-time Settings</h3>
 <p>Compile-time settings are (implicitly) documented and can be adjusted by editing <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/acc_opencl.h">acc_opencl.h</a> (adjusting the build-line as per <code>-D</code> is possible as well but less convenient). For example, <code>ACC_OPENCL_STREAM_PRIORITIES</code> is enabled by default (and further confirmed at runtime/build-time) but can be disabled, or <code>ACC_OPENCL_DEBUG</code> (which is disabled by default) can be enabled for debug purpose. More sensitive/private compile-time settings may be available within particular translation units like in <code>acc_opencl_mem.c</code>.</p>
-<p>An application of compile-time settings (and perhaps a valuable contribution) might be to call a GPU library in OpenCL-based LIBSMM. In such case, Shared Virtual Memory support (SVM) in OpenCL comes handy and can be enabled per <code>ACC_OPENCL_SVM</code>. The latter allows then to simply take the raw pointer out of an <code>cl_mem</code> object, and pass it into such library/function (which in turn can work across language borders, etc.).</p>
+<p>An application of compile-time settings (and perhaps a valuable contribution) might be to call a GPU library in OpenCL-based LIBSMM. In such case, Shared Virtual Memory support (SVM) in OpenCL comes handy and can be enabled per <code>ACC_OPENCL_SVM</code>. The latter allows then to simply take the raw pointer out of an <code>cl_mem</code> object and pass it into such library/function (which in turn can work across language borders, etc.).</p>
 <h3>Runtime Settings</h3>
-<p>Runtime settings are made by the means of environment variables (implemented in <code>acc_opencl.c</code>). There are variables for chosing an OpenCL device:</p>
+<p>Runtime settings are made by the means of environment variables (implemented in <code>acc_opencl.c</code>):</p>
 <ul>
-<li><code>ACC_OPENCL_DEVSPLIT</code>: integer enabling devices to be split into subdevices (non-zero: enabled, default/zero: disabled).</li>
+<li><code>ACC_OPENCL_DEVSPLIT</code>: integer enabling devices to be split into subdevices (non-zero/default: enabled, zero: disabled).</li>
 <li><code>ACC_OPENCL_DEVTYPE</code>: character string matching the device-kind like "cpu", "gpu", or another kind if neither CPU or GPU.</li>
 <li><code>ACC_OPENCL_DEVICE</code>: non-negative integer number to select a device from the (internally enumerated) list of devices.</li>
 <li><code>ACC_OPENCL_VENDOR</code>: character string matching the vendor of the OpenCL device in an case-insensitive fashion, e.g., "intel".</li>
@@ -158,13 +158,13 @@
 </ul>
 </li>
 </ul>
-<p>The OpenCL backend enumerates and orders devices primarily by device-kind (GPU, CPU, and others in that order) and by memory capacity (secondary criterion). Device IDs are zero-based as per ACC interface (and less than what is permitted/returned by <code>acc_get_ndevices</code>).</p>
+<p>The OpenCL backend enumerates and orders devices by device-kind, i.e., GPU, CPU, and "other" (primary criterion) and by memory capacity (secondary criterion). Device IDs are zero-based as defined by the ACC interface (and less than what is permitted/returned by <code>acc_get_ndevices</code>).</p>
 <p>Other runtime settings include:</p>
 <ul>
 <li><code>ACC_OPENCL_ASYNC_MEMOPS</code>: Boolean value (zero or non-zero integer) for asynchronous data movements.</li>
 <li><code>ACC_OPENCL_SVM</code>: Boolean value (zero or non-zero integer) for Shared Virtual Memory (SVM).</li>
 </ul>
-<p>Please note: some of the above runtime settings depend on compile-time settings in the first place in order to be effective.</p>
+<p><strong>Note</strong>: some of the above runtime settings depend on compile-time settings to take effect.</p>
     </div>
     
     <div class="col-md-3 col-md-pull-9">
