@@ -14,9 +14,9 @@ The `OPENCL_LIBSMM_DEBUG` compile-time setting enables side-by-side validation o
 
 ### Runtime Settings
 
-Runtime settings are made by the means of environment variables (implemented in `opencl_libsmm.c`). There are two categories (for the two major functions) like matrix transpose (`OPENCL_LIBSMM_TRANS_*`) and matrix multiplication (`OPENCL_LIBSMM_SMM_*`). Common settings are (see OpenCL backend documentation for more details):
+Runtime settings are made by the means of environment variables (implemented in `acc_opencl.c`). There are two categories (for the two major functions) like matrix transpose (`OPENCL_LIBSMM_TRANS_*`) and matrix multiplication (`OPENCL_LIBSMM_SMM_*`). Common settings are (see OpenCL backend documentation for more details):
 
-* `ACC_OPENCL_DEVSPLIT`: integer enabling devices to be split into subdevices (non-zero: enabled, default/zero: disabled).
+* `ACC_OPENCL_DEVSPLIT`: integer enabling devices to be split into subdevices (non-zero/default: enabled, zero: disabled).
 * `ACC_OPENCL_DEVTYPE`: character string matching the device-kind like "cpu", "gpu", or another kind if neither CPU or GPU.
 * `ACC_OPENCL_DEVICE`: non-negative integer number to select a device from the (internally enumerated) list of devices.
 * `ACC_OPENCL_VENDOR`: character string matching the vendor of the OpenCL device in an case-insensitive fashion, e.g., "intel".
@@ -26,17 +26,17 @@ Runtime settings are made by the means of environment variables (implemented in 
     * `ACC_OPENCL_VERBOSE=3`: outputs device-side measured performance of kernels (geometric mean).
     * `ACC_OPENCL_VERBOSE=4`: outputs device-side performance of kernels (every launch profiled).
 
-For tranposing matrices:
+For tranposing matrices (implemented in `opencl_libsmm.c`):
 
 * `OPENCL_LIBSMM_TRANS_BUILDOPTS`: character string with build options (compile and link) supplied to the OpenCL runtime compiler.
-* `OPENCL_LIBSMM_TRANS_INPLACE`: Boolean value (zero or non-zero integer) for inplace matrix transpose (no local memory needed).
+* `OPENCL_LIBSMM_TRANS_INPLACE`: Boolean value (zero or non-zero integer) for in-place matrix transpose (no local memory needed).
 * `OPENCL_LIBSMM_TRANS_BLOCK_M`: non-negative integer number (less/equal than the M-extent) denoting the blocksize in M-direction.
 
-For multiplying matrices:
+For multiplying matrices (implemented in `opencl_libsmm.c`):
 
 * `OPENCL_LIBSMM_SMM_BUILDOPTS`: character string with build options (compile and link) supplied to the OpenCL runtime compiler.
 * `OPENCL_LIBSMM_SMM_ATOMICS`: selects the kind of atomic operation used for global memory updates ("xchg", "cmpxchg", "cmpxchg2"), or disables atomic updates ("0"). The latter is to quantify the impact of atomic operations rather than for achieving correct results.
-* `OPENCL_LIBSMM_SMM_BATCHSIZE`: non-negative integer number denoting the intr-kernel (mini-)batchsize mainly used to amortize atomic updates of data in global/main memory. The remainder with respect to the "stacksize" is handled by the kernel.
+* `OPENCL_LIBSMM_SMM_BATCHSIZE`: non-negative integer number denoting the intra-kernel (mini-)batchsize mainly used to amortize atomic updates of data in global/main memory. The remainder with respect to the "stacksize" is handled by the kernel.
 * `OPENCL_LIBSMM_SMM_BLOCK_M`: non-negative integer number (less/equal than the M-extent) denoting the blocksize in M-direction.
 * `OPENCL_LIBSMM_SMM_BLOCK_N`: non-negative integer number (less/equal than the N-extent) denoting the blocksize in N-direction.
 
@@ -70,7 +70,7 @@ The OpenTuner script supports several command line arguments (`tune_multiply.py 
 ./tune_multiply.py 13 5 7 --no-dups
 ```
 
-**NOTE**: If multiple different kernels are tuned using `tune_multiply.py`, it is advisible to delete the `opentuner.db` directory prior to a new kernel otherwise auto-tuning is potentially (mis-)guided by information which was collected for a different kernel (`tune_multiply.sh` does this automatically).
+**NOTE**: If multiple different kernels are tuned using `tune_multiply.py`, it is advisable to delete the `opentuner.db` directory prior to a new kernel otherwise auto-tuning is potentially (mis-)guided by information which was collected for a different kernel (`tune_multiply.sh` does this automatically).
 
 The OpenTuner script implements multiple objectives ("cost"), primarily "accuracy" (maximized) and a secondary objective "size" (minimized). The former represents the achieved performance (GFLOPS/s) while the latter represents an artificial kernel requirement (just to prefer one parameter set over another in case of similar performance). The console output looks like:
 
@@ -82,7 +82,7 @@ The OpenTuner script implements multiple objectives ("cost"), primarily "accurac
 [    67s]    INFO opentuner.search.plugin.DisplayPlugin: tests=53, best {'BS': 48, 'BM': 8, 'BN': 1}, cost accuracy=32.20000000, size=1.0, found by UniformGreedyMutation
 ```
 
-The script finally writes a JSON-file with a filename like `tune_multiply-float-12x12x12-60gflops.json` which is encoding the benchmark (multiply), the precision (float), the kernel (12x12x12), and the achieved performance (60gflops). The script handles SIGINT (like Ctrl-C), and output is still written despite of not terminating normally (can abused to tune interactively). Tuninig starts from an internal default that is supposed to match LIBSMM's internal default parameters. However, tuning can be (re-)started with specific parameters (e.g., `-bs 64`, `-bm 13`, `-bn 1` for `OPENCL_LIBSMM_SMM_BATCHSIZE`, `OPENCL_LIBSMM_SMM_BLOCK_M`, and `OPENCL_LIBSMM_SMM_BLOCK_N` respectively).
+The script finally writes a JSON-file with a filename like `tune_multiply-float-12x12x12-60gflops.json` which is encoding the benchmark (multiply), the precision (float), the kernel (12x12x12), and the achieved performance (60gflops). The script handles SIGINT (like Ctrl-C), and output is still written despite of not terminating normally (can abused to tune interactively). Tuning starts from an internal default that is supposed to match LIBSMM's internal default parameters. However, tuning can be (re-)started with specific parameters (e.g., `-bs 64`, `-bm 13`, `-bn 1` for `OPENCL_LIBSMM_SMM_BATCHSIZE`, `OPENCL_LIBSMM_SMM_BLOCK_M`, and `OPENCL_LIBSMM_SMM_BLOCK_N` respectively).
 
 ## Optimized Kernels
 
@@ -115,7 +115,7 @@ cd src/acc
 OPENCL_LIBSMM_SMM_PARAMS=opencl/smm/tune_multiply.csv ./acc_bench_smm 5 30000 13 5 7
 ```
 
-To tune multiple kernels in a convenient fashion, a triplet specification can be supplied to the [tune_multiply.sh](https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.sh) wrapper script. This script estimates the total runtime for auto-tuning kernels, cleans up intermediate results (`opentuner.db`), allows to specify triplets, and to split work in order to auto-tune in parallel.
+To tune multiple kernels in a convenient fashion, a triplet specification can be supplied to the [tune_multiply.sh](https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.sh) wrapper script. This script estimates the total runtime for auto-tuning kernels, cleans up intermediate results (`opentuner.db`), allows to specify triplets, and to split work to auto-tune in parallel.
 
 Triplets are used to conveniently describe multiple kernels. A triplet specification consists of comma-separated groups of M,N,K-extents, i.e., matrix shapes according to GEMM. For example:
 
@@ -123,7 +123,7 @@ Triplets are used to conveniently describe multiple kernels. A triplet specifica
 4 10 15, 6 7 8, 23
 ```
 
-This triplet specification expands to 55 kernels using the Cartesian product, concatenating the triplets from all expanded groups by combining all values within a comma-separated group. Further, the wrapper script allows to limit the time spent for tuning a single kernel and to partition the amount of kernels to be tuned, e.g., among a cluster of eight systems (below the first partition out of eight would be procesed with five minutes per kernel and about 35 minutes in total per partition).
+This triplet specification expands to 55 kernels using the Cartesian product, concatenating the triplets from all expanded groups by combining all values within a comma-separated group. Further, the wrapper script allows to limit the time spent for tuning a single kernel and to partition the amount of kernels to be tuned, e.g., among a cluster of eight systems (below the first partition out of eight would be processed with five minutes per kernel and about 35 minutes in total per partition).
 
 ```bash
 cd src/acc/opencl/smm
