@@ -23,13 +23,6 @@ CFLAGS := -fPIC \
   -D__OPENCL \
   $(NULL)
 
-ifneq (0,$(DEV))
-  CFLAGS := -std=c89 $(CFLAGS)
-  CFLAGS += -Wno-unused-parameter
-else
-  CFLAGS := -std=c99 $(CFLAGS)
-endif
-
 ifeq (1,$(INTEL))
   CXX := icpc
   CC := icc
@@ -46,6 +39,21 @@ else
   else
     AR := ar
   endif
+endif
+
+ifneq (0,$(DEV))
+  ifeq (1,$(DEV))
+    CFLAGS := -std=c89 $(CFLAGS)
+    CFLAGS += -Wno-unused-parameter
+  else ifeq (clang,$(CC))
+    #LDFLAGS := --analyze $(LDFLAGS)
+    CFLAGS := --analyze $(CFLAGS)
+    CC := clang++
+  else
+    CC := $(CXX)
+  endif
+else
+  CFLAGS := -std=c99 $(CFLAGS)
 endif
 
 ifneq (0,$(DBG))
