@@ -13,6 +13,9 @@ SED=$(command -v gsed)
 CPP=$(command -v cpp)
 RM=$(command -v rm)
 
+# delimiters allowed in CSV-file
+DELIMS=";,\t|/"
+
 # GNU sed is desired (macOS)
 if [ "" = "${SED}" ]; then
   SED=$(command -v sed)
@@ -24,6 +27,7 @@ if [ "${BASENAME}" ] && [ "${SED}" ] && [ "${RM}" ]; then
     # allow for instance /dev/stdout
     if [ "${OFILE##*.}" = "h" ]; then
       truncate -s0 "${OFILE}"
+      HFILE=${OFILE}
     elif [ "${OFILE##*.}" = "cl" ] || [ "${OFILE##*.}" = "csv" ]; then
       >&2 echo "ERROR: no output/header file given!"
       exit 1
@@ -60,36 +64,60 @@ if [ "${BASENAME}" ] && [ "${SED}" ] && [ "${RM}" ]; then
             NFILES_OCL=$((NFILES_OCL+1))
           else
             >&2 echo "ERROR: ${IFILE} does not exist!"
-            rm -f "${OFILE}"
+            if [ "${HFILE}" ]; then ${RM} -f "${OFILE}"; fi
             exit 1
           fi
         elif [ "${IFILE##*.}" = "csv" ]; then
           # non-existence does not trigger an error
           if [ -e "${IFILE}" ]; then
+            DELIM=$(tr -cd "${DELIMS}" < "${IFILE}")
+            SEPAR=${DELIM:0:1}
             SNAME=OPENCL_LIBSMM_STRING_PARAMS_SMM
             VNAME=opencl_libsmm_params_smm
             MNAME=$(echo "${VNAME}" | tr '[:lower:]' '[:upper:]')
+            DEVCOL=0
+            if [ "$(command -v tail)" ] && [ "$(command -v cut)" ] && \
+               [ "$(command -v sort)" ] && [ "$(command -v wc)" ];
+            then
+              DEVICE=$(tail -n+2 "${IFILE}" | cut -d"${SEPAR}" -f1 | sort -u)
+              if [ "$(echo "${DEVICE}" | ${SED} "s/[0-9]//g")" ]; then DEVCOL=1; fi
+              if [ "0" = "${DEVCOL}" ] || [ "1" = "$(echo "${DEVICE}" | wc -l | ${SED} "s/[[:space:]]//g")" ]; then
+                if [ "0" != "${DEVCOL}" ] && [ "${DEVICE}" ]; then
+                  echo "#define OPENCL_LIBSMM_PARAMS_DEVICE \"${DEVICE}\"" >>"${OFILE}"
+                else
+                  echo "#define OPENCL_LIBSMM_PARAMS_DEVICE NULL" >>"${OFILE}"
+                fi
+              else
+                >&2 echo "ERROR: ${IFILE} contains parameters for different devices!"
+                if [ "${HFILE}" ]; then ${RM} -f "${OFILE}"; fi
+                exit 1
+              fi
+            fi
             echo "#define ${MNAME} ${VNAME}" >>"${OFILE}"
             echo "#define ${SNAME} \\" >>"${OFILE}"
-            ${SED} 's/^/  "/;s/$/\\n" \\/;1d' "${IFILE}" >>"${OFILE}"
+            if [ "0" != "${DEVCOL}" ]; then
+              ${SED} "1d;s/^[^${SEPAR}]*${SEPAR}/  \"/;s/[\r]*$/\\\n\" \\\/" "${IFILE}" >>"${OFILE}"
+            else
+              ${SED} "1d;s/^/  \"/;s/[\r]*$/\\\n\" \\\/" "${IFILE}" >>"${OFILE}"
+            fi
             echo "  \"\"" >>"${OFILE}"
             echo "const char ${VNAME}[] = ${SNAME};" >>"${OFILE}"
             NFILES_CSV=$((NFILES_CSV+1))
           fi
         else
           >&2 echo "ERROR: ${IFILE} is not an OpenCL or CSV file!"
-          rm -f "${OFILE}"
+          if [ "${HFILE}" ]; then ${RM} -f "${OFILE}"; fi
           exit 1
         fi
       fi
     done
     if [ "0" = "${NFILES_OCL}" ]; then
       >&2 echo "ERROR: no OpenCL file was given!"
-      rm -f "${OFILE}"
+      if [ "${HFILE}" ]; then ${RM} -f "${OFILE}"; fi
       exit 1
     elif [ "0" != "$((1<NFILES_CSV))" ]; then
       >&2 echo "ERROR: more than one CSV file was given!"
-      rm -f "${OFILE}"
+      if [ "${HFILE}" ]; then ${RM} -f "${OFILE}"; fi
       exit 1
     fi
   else
