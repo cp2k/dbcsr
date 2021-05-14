@@ -669,7 +669,7 @@ class PredictiveParameters:
         return self.get("k") * (self.get("m") + self.get("n"))  # int
 
     def get_ru_tiny_smem_per_block(self):
-        """"Shared memory usage per block (estimate)"""
+        """ "Shared memory usage per block (estimate)"""
         return (self.get("ru_tiny_buf_size") * self.autotuning["sizeof_double"]) + (
             self.autotuning["npars"]
             * self.get("grouping")
