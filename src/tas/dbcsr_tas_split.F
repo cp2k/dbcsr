@@ -174,7 +174,7 @@ CONTAINS
       INTEGER, INTENT(IN)                                :: nsplit
       INTEGER, DIMENSION(2)                              :: dbcsr_tas_mp_dims
 
-      INTEGER                                            :: dbcsr_tas_mp_comm, nsplit_opt
+      INTEGER                                            :: nsplit_opt
       INTEGER                                            :: group_size
       INTEGER, DIMENSION(2)                              :: group_dims
 
