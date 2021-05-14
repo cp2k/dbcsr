@@ -245,7 +245,7 @@ optimized_hyperparameters = {
 # ===============================================================================
 # Printing and dumping helpers
 def get_log_folder(prefitted_model_folder, destination_folder, algo):
-    """Create a unique log folder for this run in which logs, plots etc. will be stored """
+    """Create a unique log folder for this run in which logs, plots etc. will be stored"""
     if len(prefitted_model_folder) == 0:
 
         # Create a new folder for this model
