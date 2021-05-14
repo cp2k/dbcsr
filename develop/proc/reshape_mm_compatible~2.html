@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-32-g0a1ce2e81</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-33-g0a29eaf3c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -125,21 +125,21 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.3% of total for procedures.">183 statements</a>
+    title=" 0.3% of total for procedures.">163 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tas_mm.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_tensor.f.html'>dbcsr_tensor.F</a></li>
+     <li><a href='../sourcefile/dbcsr_tas_mm.f.html'>dbcsr_tas_mm.F</a></li>
     
-     <li><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></li>
+     <li><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></li>
     
   
      <li class="active">reshape_mm_compatible</li>
@@ -192,7 +192,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-private subroutine reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_out, ind1_free, ind1_linked, ind2_free, ind2_linked, trans1, trans2, new1, new2, ref_tensor, nodata1, nodata2, move_data_1, move_data_2, optimize_dist, unit_nr)
+private subroutine reshape_mm_compatible(matrix1_in, matrix2_in, matrix1_out, matrix2_out, new1, new2, trans1, trans2, optimize_dist, nsplit, opt_nsplit, split_rc_1, split_rc_2, nodata1, nodata2, move_data_1, move_data_2, comm_new, unit_nr)
     
     
    
@@ -202,9 +202,8 @@ private subroutine reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_
 
 
     
-    <p>Prepare tensor for contraction: redistribute to a 2d format which can be contracted by
- matrix multiplication. This routine reshapes the two largest of the three tensors. Redistribution
- is avoided if tensors already in a consistent layout.</p>
+    <p>Reshape either matrix1 or matrix2 to make sure that their process grids are compatible with
+ the same split factor.</p>
     
 
     <h3>Arguments</h3>
@@ -225,12 +224,12 @@ private subroutine reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_
   
 <tr>
   
-  <td><span class="anchor" id="variable-tensor1~2"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix1_in"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
   <td>intent(inout),</td>
   <td></td>
   
   <td>TARGET</td><td>::</td>
-  <td><strong>tensor1</strong></td><td><p>tensor 1 in</p></td>
+  <td><strong>matrix1_in</strong></td><td></td>
   
 </tr>
 
@@ -240,12 +239,12 @@ private subroutine reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_
   
 <tr>
   
-  <td><span class="anchor" id="variable-tensor2~2"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix2_in"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
   <td>intent(inout),</td>
   <td></td>
   
   <td>TARGET</td><td>::</td>
-  <td><strong>tensor2</strong></td><td><p>tensor 2 in</p></td>
+  <td><strong>matrix2_in</strong></td><td></td>
   
 </tr>
 
@@ -255,13 +254,12 @@ private subroutine reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_
   
 <tr>
   
-  <td><span class="anchor" id="variable-tensor1_out"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix1_out"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
   <td>intent(out),</td>
   <td></td>
   
   <td>POINTER</td><td>::</td>
-  <td><strong>tensor1_out</strong></td><td><p>tensor 1 out
- tensor 2 out</p></td>
+  <td><strong>matrix1_out</strong></td><td></td>
   
 </tr>
 
@@ -271,107 +269,12 @@ private subroutine reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_
   
 <tr>
   
-  <td><span class="anchor" id="variable-tensor2_out"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix2_out"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
   <td>intent(out),</td>
   <td></td>
   
   <td>POINTER</td><td>::</td>
-  <td><strong>tensor2_out</strong></td><td><p>tensor 1 out
- tensor 2 out</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-ind1_free"></span>integer,</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>ind1_free</strong></td><td><p>indices of tensor 1 that are "free" (not linked to any index of tensor 2)</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-ind1_linked"></span>integer,</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>ind1_linked</strong></td><td><p>indices of tensor 1 that are linked to indices of tensor 2
- 1:1 correspondence with ind1_linked</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-ind2_free"></span>integer,</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>ind2_free</strong></td><td><p>indices of tensor 1 that are "free" (not linked to any index of tensor 2)</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-ind2_linked"></span>integer,</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>DIMENSION(:)</td><td>::</td>
-  <td><strong>ind2_linked</strong></td><td><p>indices of tensor 1 that are linked to indices of tensor 2
- 1:1 correspondence with ind1_linked</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-trans1~2"></span>character(len=1),</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>trans1</strong></td><td><p>transpose flag of matrix rep. of tensor 1
- transpose flag of matrix rep. tensor 2</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-trans2~2"></span>character(len=1),</td>
-  <td>intent(out)</td>
-  <td></td>
-  
-  <td></td><td>::</td>
-  <td><strong>trans2</strong></td><td><p>transpose flag of matrix rep. of tensor 1
- transpose flag of matrix rep. tensor 2</p></td>
+  <td><strong>matrix2_out</strong></td><td></td>
   
 </tr>
 
@@ -386,8 +289,8 @@ private subroutine reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>new1</strong></td><td><p>whether a new tensor 1 was created
- whether a new tensor 2 was created</p></td>
+  <td><strong>new1</strong></td><td><p>Whether matrix1_out is a new matrix or simply pointing to matrix1_in
+ Whether matrix2_out is a new matrix or simply pointing to matrix2_in</p></td>
   
 </tr>
 
@@ -402,8 +305,8 @@ private subroutine reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>new2</strong></td><td><p>whether a new tensor 1 was created
- whether a new tensor 2 was created</p></td>
+  <td><strong>new2</strong></td><td><p>Whether matrix1_out is a new matrix or simply pointing to matrix1_in
+ Whether matrix2_out is a new matrix or simply pointing to matrix2_in</p></td>
   
 </tr>
 
@@ -413,12 +316,13 @@ private subroutine reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_
   
 <tr>
   
-  <td><span class="anchor" id="variable-ref_tensor"></span>integer,</td>
-  <td>intent(out)</td>
+  <td><span class="anchor" id="variable-trans1~2"></span>character(len=1),</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>ref_tensor</strong></td><td></td>
+  <td><strong>trans1</strong></td><td><p>transpose flag of matrix1_in for multiplication
+ transpose flag of matrix2_in for multiplication</p></td>
   
 </tr>
 
@@ -428,61 +332,13 @@ private subroutine reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_
   
 <tr>
   
-  <td><span class="anchor" id="variable-nodata1~2"></span>logical,</td>
-  <td>intent(in),</td>
-  <td>optional</td>
+  <td><span class="anchor" id="variable-trans2~2"></span>character(len=1),</td>
+  <td>intent(inout)</td>
+  <td></td>
   
   <td></td><td>::</td>
-  <td><strong>nodata1</strong></td><td><p>don't copy data of tensor 1
- don't copy data of tensor 2</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-nodata2~2"></span>logical,</td>
-  <td>intent(in),</td>
-  <td>optional</td>
-  
-  <td></td><td>::</td>
-  <td><strong>nodata2</strong></td><td><p>don't copy data of tensor 1
- don't copy data of tensor 2</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-move_data_1~2"></span>logical,</td>
-  <td>intent(inout),</td>
-  <td>optional</td>
-  
-  <td></td><td>::</td>
-  <td><strong>move_data_1</strong></td><td><p>memory optimization: transfer data s.t. tensor1 may be empty on return
- memory optimization: transfer data s.t. tensor2 may be empty on return</p></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-move_data_2~2"></span>logical,</td>
-  <td>intent(inout),</td>
-  <td>optional</td>
-  
-  <td></td><td>::</td>
-  <td><strong>move_data_2</strong></td><td><p>memory optimization: transfer data s.t. tensor1 may be empty on return
- memory optimization: transfer data s.t. tensor2 may be empty on return</p></td>
+  <td><strong>trans2</strong></td><td><p>transpose flag of matrix1_in for multiplication
+ transpose flag of matrix2_in for multiplication</p></td>
   
 </tr>
 
@@ -497,7 +353,7 @@ private subroutine reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>optimize_dist</strong></td><td><p>experimental: optimize distribution</p></td>
+  <td><strong>optimize_dist</strong></td><td><p>experimental: optimize matrix splitting and distribution</p></td>
   
 </tr>
 
@@ -507,7 +363,148 @@ private subroutine reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_
   
 <tr>
   
-  <td><span class="anchor" id="variable-unit_nr~26"></span>integer,</td>
+  <td><span class="anchor" id="variable-nsplit~11"></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>nsplit</strong></td><td><p>Optimal split factor (set to 0 if split factor should not be changed)</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-opt_nsplit~2"></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>opt_nsplit</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-split_rc_1"></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>split_rc_1</strong></td><td><p>Whether to split rows or columns for matrix 1
+ Whether to split rows or columns for matrix 2</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-split_rc_2"></span>integer,</td>
+  <td>intent(inout)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>split_rc_2</strong></td><td><p>Whether to split rows or columns for matrix 1
+ Whether to split rows or columns for matrix 2</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nodata1~3"></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>nodata1</strong></td><td><p>Don't copy matrix data from matrix1_in to matrix1_out
+ Don't copy matrix data from matrix2_in to matrix2_out</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nodata2~3"></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>nodata2</strong></td><td><p>Don't copy matrix data from matrix1_in to matrix1_out
+ Don't copy matrix data from matrix2_in to matrix2_out</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-move_data_1~2"></span>logical,</td>
+  <td>intent(inout),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>move_data_1</strong></td><td><p>memory optimization: move data such that matrix1_in may be empty on return.
+ memory optimization: move data such that matrix2_in may be empty on return.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-move_data_2~2"></span>logical,</td>
+  <td>intent(inout),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>move_data_2</strong></td><td><p>memory optimization: move data such that matrix1_in may be empty on return.
+ memory optimization: move data such that matrix2_in may be empty on return.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-comm_new"></span>integer,</td>
+  <td>intent(out),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>comm_new</strong></td><td><p>returns the new communicator only if optimize_dist</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-unit_nr~30"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   

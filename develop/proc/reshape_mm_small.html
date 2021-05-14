@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-32-g0a1ce2e81</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-33-g0a29eaf3c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -125,21 +125,21 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">46 statements</a>
+    title=" 0.1% of total for procedures.">64 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tas_mm.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_tas_mm.f.html'>dbcsr_tas_mm.F</a></li>
+     <li><a href='../sourcefile/dbcsr_tensor.f.html'>dbcsr_tensor.F</a></li>
     
-     <li><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></li>
+     <li><a href='../module/dbcsr_tensor.html'>dbcsr_tensor</a></li>
     
   
      <li class="active">reshape_mm_small</li>
@@ -192,7 +192,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-private subroutine reshape_mm_small(mp_comm, matrix_in, matrix_out, transposed, trans, nodata, move_data)
+private subroutine reshape_mm_small(tensor_in, ind1, ind2, tensor_out, trans, new, nodata, move_data, unit_nr)
     
     
    
@@ -202,8 +202,8 @@ private subroutine reshape_mm_small(mp_comm, matrix_in, matrix_out, transposed, 
 
 
     
-    <p>Make sure that smallest matrix involved in a multiplication is not split and bring it to
- the same process grid as the other 2 matrices.</p>
+    <p>Prepare tensor for contraction: redistribute to a 2d format which can be contracted by
+ matrix multiplication. This routine reshapes the smallest of the three tensors.</p>
     
 
     <h3>Arguments</h3>
@@ -224,12 +224,12 @@ private subroutine reshape_mm_small(mp_comm, matrix_in, matrix_out, transposed, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-mp_comm~5"></span>integer,</td>
-  <td>intent(in)</td>
+  <td><span class="anchor" id="variable-tensor_in~6"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td>intent(inout),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>mp_comm</strong></td><td><p>communicator that defines Cartesian topology</p></td>
+  <td>TARGET</td><td>::</td>
+  <td><strong>tensor_in</strong></td><td><p>tensor in</p></td>
   
 </tr>
 
@@ -239,12 +239,13 @@ private subroutine reshape_mm_small(mp_comm, matrix_in, matrix_out, transposed, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_in~8"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
-  <td>intent(inout)</td>
+  <td><span class="anchor" id="variable-ind1"></span>integer,</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>matrix_in</strong></td><td></td>
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>ind1</strong></td><td><p>index that should be mapped to first matrix dimension
+ index that should be mapped to second matrix dimension</p></td>
   
 </tr>
 
@@ -254,12 +255,13 @@ private subroutine reshape_mm_small(mp_comm, matrix_in, matrix_out, transposed, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_out~6"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
-  <td>intent(out)</td>
+  <td><span class="anchor" id="variable-ind2"></span>integer,</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>matrix_out</strong></td><td></td>
+  <td>DIMENSION(:)</td><td>::</td>
+  <td><strong>ind2</strong></td><td><p>index that should be mapped to first matrix dimension
+ index that should be mapped to second matrix dimension</p></td>
   
 </tr>
 
@@ -269,12 +271,12 @@ private subroutine reshape_mm_small(mp_comm, matrix_in, matrix_out, transposed, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-transposed~36"></span>logical,</td>
-  <td>intent(in)</td>
+  <td><span class="anchor" id="variable-tensor_out~6"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>),</td>
+  <td>intent(out),</td>
   <td></td>
   
-  <td></td><td>::</td>
-  <td><strong>transposed</strong></td><td><p>Whether matrix_out should be transposed</p></td>
+  <td>POINTER</td><td>::</td>
+  <td><strong>tensor_out</strong></td><td><p>tensor out</p></td>
   
 </tr>
 
@@ -285,11 +287,26 @@ private subroutine reshape_mm_small(mp_comm, matrix_in, matrix_out, transposed, 
 <tr>
   
   <td><span class="anchor" id="variable-trans"></span>character(len=1),</td>
-  <td>intent(inout)</td>
+  <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>trans</strong></td><td><p>update transpose flag for DBCSR mm according to 'transposed' argument</p></td>
+  <td><strong>trans</strong></td><td><p>transpose flag of matrix rep.</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-new"></span>logical,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>new</strong></td><td><p>whether a new tensor was created for tensor_out</p></td>
   
 </tr>
 
@@ -304,8 +321,8 @@ private subroutine reshape_mm_small(mp_comm, matrix_in, matrix_out, transposed, 
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>nodata</strong></td><td><p>Data of matrix_in should not be copied to matrix_out
- memory optimization: move data such that matrix_in is empty on return.</p></td>
+  <td><strong>nodata</strong></td><td><p>don't copy tensor data
+ memory optimization: transfer data s.t. tensor_in may be empty on return</p></td>
   
 </tr>
 
@@ -315,13 +332,28 @@ private subroutine reshape_mm_small(mp_comm, matrix_in, matrix_out, transposed, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-move_data~4"></span>logical,</td>
+  <td><span class="anchor" id="variable-move_data~5"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>move_data</strong></td><td><p>Data of matrix_in should not be copied to matrix_out
- memory optimization: move data such that matrix_in is empty on return.</p></td>
+  <td><strong>move_data</strong></td><td><p>don't copy tensor data
+ memory optimization: transfer data s.t. tensor_in may be empty on return</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-unit_nr~20"></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>unit_nr</strong></td><td><p>output unit</p></td>
   
 </tr>
 
