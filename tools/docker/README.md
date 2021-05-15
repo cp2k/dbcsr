@@ -34,7 +34,7 @@ $ docker build -t dbcsr/build-env-ubuntu-20.04 -f Dockerfile.build-env-ubuntu .
 
 ## ROCm Build Environment
 
-The image is based on Ubuntu 18.04 and contains:
+The image is based on Ubuntu 20.04 and contains:
 
 * GNU Fortran Compiler
 * OpenBLAS

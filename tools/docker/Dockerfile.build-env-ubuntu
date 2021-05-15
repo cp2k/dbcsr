@@ -10,7 +10,18 @@ FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update \
+RUN set -ex && \
+    apt-get update \
+    && apt-get install -y \
+        apt-transport-https \
+        ca-certificates \
+        gnupg \
+        software-properties-common \
+        curl \
+    && curl -LsS https://apt.kitware.com/keys/kitware-archive-latest.asc \
+        | gpg --dearmor - \
+        | tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null \
+    && apt-add-repository 'deb https://apt.kitware.com/ubuntu/ focal main' \
     && apt-get install -y \
         locales \
         gfortran \
@@ -20,13 +31,13 @@ RUN apt-get update \
         mpich \
         libmpich-dev \
         libopenblas-openmp-dev \
+        cmake \
         ninja-build \
         lcov \
         pkg-config \
         git \
         python3-pip \
         unzip \
-        curl \
         rsync \
         valgrind \
     && rm -rf /var/lib/apt/lists/* \
@@ -35,20 +46,13 @@ RUN apt-get update \
 # Make sure we have a proper unicode locale and language
 ENV LANG en_US.utf8
 
-# Many of our tools rely on a `python` executable but are python-3 compatible
-RUN ln -s python3 /usr/bin/python
-
-ARG libxsmm_version=1.16.1
-ARG cmake_version=3.17.0
-
 RUN set -ex && \
     pip3 install \
         pre-commit \
         ford \
         git-archive-all
 
-RUN set -ex && \
-    curl -LsS https://github.com/Kitware/CMake/releases/download/v${cmake_version}/cmake-${cmake_version}-Linux-x86_64.tar.gz | tar --strip-components=1 -xz -C /usr/local
+ARG libxsmm_version=1.16.1
 
 RUN set -ex && \
     curl -LsS https://github.com/hfp/libxsmm/archive/${libxsmm_version}.tar.gz | tar -xz -C /opt \
