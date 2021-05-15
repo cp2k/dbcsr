@@ -1,5 +1,7 @@
 # Docker images
 
+All images are hosted on the [GitHub Container Registry of the CP2K organization](https://github.com/orgs/cp2k/packages).
+
 ## Ubuntu Build Environment
 
 The image is based on Ubuntu 20.04 and contains:
@@ -17,7 +19,7 @@ The image is based on Ubuntu 20.04 and contains:
 
 ```console
 $ cd dbcsr
-$ docker run --rm -it -v $PWD:/app --workdir /app --user $(id -u):$(id -g) dbcsr/build-env-ubuntu-20.04 /bin/bash
+$ docker run --rm -it -v $PWD:/app --workdir /app --user $(id -u):$(id -g) ghcr.io/cp2k/dbcsr-build-env-ubuntu-20.04 /bin/bash
 $ mkdir build && cd build/
 $ cmake -G Ninja ..
 $ cmake --build .
@@ -29,7 +31,7 @@ If you need to rebuild the image, use:
 
 ```console
 $ cd dbcsr/tools/docker
-$ docker build -t dbcsr/build-env-ubuntu-20.04 -f Dockerfile.build-env-ubuntu .
+$ docker build -t dbcsr-build-env-ubuntu-20.04 -f Dockerfile.build-env-ubuntu .
 ```
 
 ## ROCm Build Environment
@@ -41,7 +43,16 @@ The image is based on Ubuntu 20.04 and contains:
 * MPICH
 * CMake (recent version)
 * Ninja (recent version)
-* Git 2.18+
-* ROCm
-* ROCm libraries (rocblas, rocsolver, hipblas)
+* Git
+* ROCm (hip, rocblas, rocsolver, hipblas)
 
+## Latest GCC Build Environment
+
+The image is based on `gcc:latest`, which in turn uses Debian (testing). It contains:
+
+* Latest GNU Fortran Compiler
+* OpenBLAS
+* CMake (recent version)
+* Ninja (recent version)
+* Git
+* **no** MPI
