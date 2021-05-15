@@ -26,6 +26,10 @@ jobs:
             context: tools/docker
             file: Dockerfile.build-env-latest-gcc
             registry: ghcr.io
+          - docker_image: ghcr.io/cp2k/dbcsr-build-env-rocm
+            context: tools/docker
+            file: Dockerfile.build-env-rocm
+            registry: ghcr.io
 
     steps:
       - name: Checkout Repository
