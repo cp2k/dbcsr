@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-43-gb3d2ec121</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-44-gd535e5ab9</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -286,9 +286,9 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
-    
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+    
+    <li><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
     
     <li><a href='../module/dbcsr_machine.html'>dbcsr_machine</a></li>
     
@@ -1119,6 +1119,7 @@ subroutine <a href='../proc/make_random_dbcsr_matrix.html'>make_random_dbcsr_mat
     <h2 id="src">Source Code</h2>
     <div class="highlight"><pre><span></span><span class="k">PROGRAM </span><span class="n">dbcsr_test_csr_conversions</span>
    <span class="c">!! Testing DBCSR to CSR conversion with random matrices</span>
+   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dp</span><span class="p">,</span> <span class="n">real_8</span>
    <span class="k">USE </span><span class="n">dbcsr_api</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="p">&amp;</span>
       <span class="n">dbcsr_convert_csr_to_dbcsr</span><span class="p">,</span> <span class="n">dbcsr_convert_dbcsr_to_csr</span><span class="p">,</span> <span class="p">&amp;</span>
       <span class="n">dbcsr_csr_create_from_dbcsr</span><span class="p">,</span> <span class="n">dbcsr_csr_destroy</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -1128,8 +1129,6 @@ subroutine <a href='../proc/make_random_dbcsr_matrix.html'>make_random_dbcsr_mat
       <span class="n">dbcsr_init_lib</span><span class="p">,</span> <span class="n">dbcsr_nblkcols_total</span><span class="p">,</span> <span class="n">dbcsr_nblkrows_total</span><span class="p">,</span> <span class="n">dbcsr_norm</span><span class="p">,</span> <span class="p">&amp;</span>
       <span class="n">dbcsr_norm_maxabsnorm</span><span class="p">,</span> <span class="n">dbcsr_put_block</span><span class="p">,</span> <span class="n">dbcsr_release</span><span class="p">,</span> <span class="n">dbcsr_to_csr_filter</span><span class="p">,</span> <span class="n">dbcsr_type</span><span class="p">,</span> <span class="p">&amp;</span>
       <span class="n">dbcsr_type_no_symmetry</span><span class="p">,</span> <span class="n">dbcsr_type_real_8</span><span class="p">,</span> <span class="n">dbcsr_print_statistics</span>
-   <span class="k">USE </span><span class="n">dbcsr_kinds</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dp</span><span class="p">,</span> <span class="p">&amp;</span>
-                          <span class="n">real_8</span>
    <span class="k">USE </span><span class="n">dbcsr_machine</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">default_output_unit</span>
    <span class="k">USE </span><span class="n">dbcsr_mpiwrap</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">mp_bcast</span><span class="p">,</span> <span class="p">&amp;</span>
                             <span class="n">mp_cart_create</span><span class="p">,</span> <span class="p">&amp;</span>

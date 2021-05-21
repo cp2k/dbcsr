@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-43-gb3d2ec121</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-44-gd535e5ab9</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -558,7 +558,7 @@ public subroutine acc_transpose_blocks(matrix, trs_stackbuf, row_blk_sizes, col_
                   <span class="n">trs_stack</span><span class="o">=</span><span class="n">trs_stackbuf</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">,</span> <span class="p">&amp;</span>
                   <span class="n">offset</span><span class="o">=</span><span class="n">offsets</span><span class="p">(</span><span class="n">mi</span><span class="p">,</span> <span class="n">ni</span><span class="p">),</span> <span class="p">&amp;</span>
                   <span class="n">nblks</span><span class="o">=</span><span class="n">counters</span><span class="p">(</span><span class="n">mi</span><span class="p">,</span> <span class="n">ni</span><span class="p">),</span> <span class="p">&amp;</span>
-                  <span class="n">datatype</span><span class="o">=</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_type</span><span class="p">,</span> <span class="p">&amp;</span>
+                  <span class="n">data_type</span><span class="o">=</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_type</span><span class="p">,</span> <span class="p">&amp;</span>
                   <span class="n">buffer</span><span class="o">=</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">,</span> <span class="p">&amp;</span>
                   <span class="n">m</span><span class="o">=</span><span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="p">&amp;</span>
                   <span class="n">stream</span><span class="o">=</span><span class="n">trs_stackbuf</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">)</span>

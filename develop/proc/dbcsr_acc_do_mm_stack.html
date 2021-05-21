@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-43-gb3d2ec121</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-44-gd535e5ab9</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -198,7 +198,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-public subroutine dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack_size, datatype, a_data, b_data, c_data, m_max, n_max, k_max, def_mnk, stack_stream, c_stream, success)
+public subroutine dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack_size, data_type, a_data, b_data, c_data, m_max, n_max, k_max, def_mnk, stack_stream, c_stream, success)
     
     
    
@@ -274,12 +274,12 @@ public subroutine dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack
   
 <tr>
   
-  <td><span class="anchor" id="variable-datatype~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type~39"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>datatype</strong></td><td></td>
+  <td><strong>data_type</strong></td><td></td>
   
 </tr>
 
@@ -500,26 +500,25 @@ public subroutine dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_acc_do_mm_stack</span><span class="p">(</span><span class="n">param_stack_host</span><span class="p">,</span> <span class="n">param_stack_dev</span><span class="p">,</span> <span class="n">stack_size</span><span class="p">,</span> <span class="n">datatype</span><span class="p">,</span> <span class="p">&amp;</span>
-      <span class="c">!! Launch an accelerated kernel for processing a stack.</span>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_acc_do_mm_stack</span><span class="p">(</span><span class="n">param_stack_host</span><span class="p">,</span> <span class="n">param_stack_dev</span><span class="p">,</span> <span class="n">stack_size</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="p">&amp;</span>
                                     <span class="n">a_data</span><span class="p">,</span> <span class="n">b_data</span><span class="p">,</span> <span class="n">c_data</span><span class="p">,</span> <span class="n">m_max</span><span class="p">,</span> <span class="n">n_max</span><span class="p">,</span> <span class="n">k_max</span><span class="p">,</span> <span class="n">def_mnk</span><span class="p">,</span> <span class="p">&amp;</span>
                                     <span class="n">stack_stream</span><span class="p">,</span> <span class="n">c_stream</span><span class="p">,</span> <span class="n">success</span><span class="p">)</span>
+      <span class="c">!! Launch an accelerated kernel for processing a stack.</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">TARGET</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">param_stack_host</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">acc_devmem_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>            <span class="kd">::</span> <span class="n">param_stack_dev</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                          <span class="kd">::</span> <span class="n">stack_size</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                          <span class="kd">::</span> <span class="n">datatype</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                          <span class="kd">::</span> <span class="n">data_type</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">acc_devmem_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>            <span class="kd">::</span> <span class="n">a_data</span><span class="p">,</span> <span class="n">b_data</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">acc_devmem_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>         <span class="kd">::</span> <span class="n">c_data</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                          <span class="kd">::</span> <span class="n">m_max</span><span class="p">,</span> <span class="n">n_max</span><span class="p">,</span> <span class="n">k_max</span>
       <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                          <span class="kd">::</span> <span class="n">def_mnk</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">acc_stream_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>            <span class="kd">::</span> <span class="n">stack_stream</span><span class="p">,</span> <span class="n">c_stream</span>
       <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">success</span>
-
 <span class="cp">#if ! defined (__DBCSR_ACC)</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">param_stack_host</span><span class="p">)</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">param_stack_dev</span><span class="p">)</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">stack_size</span><span class="p">)</span>
-      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">datatype</span><span class="p">)</span>
+      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">data_type</span><span class="p">)</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">a_data</span><span class="p">)</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">b_data</span><span class="p">)</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">c_data</span><span class="p">)</span>
@@ -532,7 +531,6 @@ public subroutine dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">success</span><span class="p">)</span>
       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in.&quot;</span><span class="p">)</span>
 <span class="cp">#else</span>
-
       <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_acc_do_mm_stack&#39;</span>
 
       <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">error_handle</span><span class="p">,</span> <span class="n">istat</span>
@@ -552,7 +550,7 @@ public subroutine dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack
                                     <span class="n">acc_devmem_cptr</span><span class="p">(</span><span class="n">param_stack_dev</span><span class="p">),</span> <span class="p">&amp;</span>
                                     <span class="nb">INT</span><span class="p">(</span><span class="n">stack_size</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
                                     <span class="nb">INT</span><span class="p">(</span><span class="n">dbcsr_ps_width</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
-                                    <span class="nb">INT</span><span class="p">(</span><span class="n">datatype</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
+                                    <span class="nb">INT</span><span class="p">(</span><span class="n">data_type</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
                                     <span class="n">acc_devmem_cptr</span><span class="p">(</span><span class="n">a_data</span><span class="p">),</span> <span class="p">&amp;</span>
                                     <span class="n">acc_devmem_cptr</span><span class="p">(</span><span class="n">b_data</span><span class="p">),</span> <span class="p">&amp;</span>
                                     <span class="n">acc_devmem_cptr</span><span class="p">(</span><span class="n">c_data</span><span class="p">),</span> <span class="p">&amp;</span>

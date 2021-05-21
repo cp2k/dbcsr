@@ -24,9 +24,7 @@ MODULE dbcsr_mm_sched
                            has_acc
    USE dbcsr_data_methods, ONLY: dbcsr_data_ensure_size, &
                                  dbcsr_data_get_size
-   USE dbcsr_kinds, ONLY: int_4, &
-                          int_8, &
-                          real_8
+   USE dbcsr_kinds, ONLY: int_4, int_8, real_8
    USE dbcsr_mm_accdrv, ONLY: &
       dbcsr_mm_accdrv_barrier, dbcsr_mm_accdrv_dev2host_init, dbcsr_mm_accdrv_finalize, &
       dbcsr_mm_accdrv_init, dbcsr_mm_accdrv_lib_finalize, dbcsr_mm_accdrv_lib_init, &
@@ -273,8 +271,8 @@ CONTAINS
    END SUBROUTINE dbcsr_mm_sched_barrier
 
    SUBROUTINE dbcsr_mm_sched_process(this, left, right, stack_data, &
-      !! Processes a given stack.
                                      stack_fillcount, stack_descr)
+      !! Processes a given stack.
       TYPE(dbcsr_mm_sched_type), INTENT(INOUT)           :: this
       TYPE(dbcsr_type), INTENT(IN)                       :: left, right
       INTEGER, DIMENSION(:, :), POINTER                  :: stack_data

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-43-gb3d2ec121</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-44-gd535e5ab9</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -737,15 +737,12 @@ subroutine <a href='../proc/dbcsr_test_read_args.html'>dbcsr_test_read_args</a>(
 
    <span class="c">!***************************************************************************************</span>
 
-   <span class="c">!</span>
    <span class="c">! initialize mpi</span>
    <span class="k">CALL </span><span class="n">mp_world_init</span><span class="p">(</span><span class="n">mp_comm</span><span class="p">)</span>
 
-   <span class="c">!</span>
    <span class="c">! Number of nodes and rankid</span>
    <span class="k">CALL </span><span class="n">mp_environ</span><span class="p">(</span><span class="n">numnodes</span><span class="p">,</span> <span class="n">mynode</span><span class="p">,</span> <span class="n">mp_comm</span><span class="p">)</span>
 
-   <span class="c">!</span>
    <span class="c">! read and distribute input args</span>
    <span class="k">IF</span> <span class="p">(</span><span class="n">mynode</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">CALL </span><span class="n">dbcsr_test_read_args</span><span class="p">(</span><span class="n">narg</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
    <span class="k">CALL </span><span class="n">mp_bcast</span><span class="p">(</span><span class="n">narg</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">mp_comm</span><span class="p">)</span>
@@ -753,7 +750,6 @@ subroutine <a href='../proc/dbcsr_test_read_args.html'>dbcsr_test_read_args</a>(
    <span class="k">IF</span> <span class="p">(</span><span class="n">narg</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="mi">1</span><span class="p">)</span> <span class="p">&amp;</span>
       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;nargs not correct&quot;</span><span class="p">)</span>
 
-   <span class="c">!</span>
    <span class="c">! setup the mp environment</span>
    <span class="k">IF</span> <span class="p">(</span><span class="n">atoi</span><span class="p">(</span><span class="n">args</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">      </span><span class="n">npdims</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
@@ -776,12 +772,10 @@ subroutine <a href='../proc/dbcsr_test_read_args.html'>dbcsr_test_read_args</a>(
                      <span class="n">myprow</span><span class="o">=</span><span class="n">myploc</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">mypcol</span><span class="o">=</span><span class="n">myploc</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
    <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">pgrid</span><span class="p">)</span>
 
-   <span class="c">!</span>
    <span class="c">! set standard output parameters</span>
    <span class="n">io_unit</span> <span class="o">=</span> <span class="mi">0</span>
    <span class="k">IF</span> <span class="p">(</span><span class="n">mynode</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">source</span><span class="p">)</span> <span class="n">io_unit</span> <span class="o">=</span> <span class="n">default_output_unit</span>
 
-   <span class="c">!</span>
    <span class="c">! initialize libdbcsr</span>
    <span class="k">CALL </span><span class="n">dbcsr_init_lib</span><span class="p">(</span><span class="n">mp_comm</span><span class="p">,</span> <span class="n">io_unit</span><span class="p">)</span>
 
@@ -791,11 +785,9 @@ subroutine <a href='../proc/dbcsr_test_read_args.html'>dbcsr_test_read_args</a>(
    <span class="c">! Check for MPI-RMA algorithm</span>
    <span class="k">CALL </span><span class="n">dbcsr_set_config</span><span class="p">(</span><span class="n">use_mpi_rma</span><span class="o">=</span><span class="n">atol</span><span class="p">(</span><span class="n">args</span><span class="p">(</span><span class="mi">2</span><span class="p">)))</span>
 
-   <span class="c">!</span>
    <span class="c">! print DBCSR configuration</span>
    <span class="k">CALL </span><span class="n">dbcsr_print_config</span><span class="p">(</span><span class="n">io_unit</span><span class="p">)</span>
 
-   <span class="c">!</span>
    <span class="c">! select the operation</span>
    <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">args</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
    <span class="k">CASE</span> <span class="p">(</span><span class="s1">&#39;dbcsr_multiply&#39;</span><span class="p">)</span>
@@ -804,27 +796,21 @@ subroutine <a href='../proc/dbcsr_test_read_args.html'>dbcsr_test_read_args</a>(
       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;operation not found&quot;</span><span class="p">)</span>
    <span class="k">END SELECT</span>
 
-   <span class="c">!</span>
    <span class="c">! finalize libdbcsr errors</span>
    <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
 
-   <span class="c">!</span>
    <span class="c">! clean mp environment</span>
    <span class="k">CALL </span><span class="n">dbcsr_mp_release</span><span class="p">(</span><span class="n">mp_env</span><span class="p">)</span>
 
-   <span class="c">!</span>
    <span class="c">! free comm</span>
    <span class="k">CALL </span><span class="n">mp_comm_free</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
 
-   <span class="c">!</span>
    <span class="c">! print statistics</span>
    <span class="k">CALL </span><span class="n">dbcsr_print_statistics</span><span class="p">(.</span><span class="n">true</span><span class="p">.,</span> <span class="s2">&quot;test.callgraph&quot;</span><span class="p">)</span>
 
-   <span class="c">!</span>
    <span class="c">! finalize DBCSR</span>
    <span class="k">CALL </span><span class="n">dbcsr_finalize_lib</span><span class="p">()</span>
-   <span class="c">!</span>
-   <span class="c">!</span>
+
    <span class="c">! finalize mpi</span>
    <span class="k">CALL </span><span class="n">mp_world_finalize</span><span class="p">()</span>
 

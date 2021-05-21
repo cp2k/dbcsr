@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-43-gb3d2ec121</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-44-gd535e5ab9</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -198,7 +198,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-public subroutine dbcsr_acc_transpose(trs_stack, offset, nblks, datatype, buffer, m, n, stream)
+public subroutine dbcsr_acc_transpose(trs_stack, offset, nblks, data_type, buffer, m, n, stream)
     
     
    
@@ -274,12 +274,12 @@ public subroutine dbcsr_acc_transpose(trs_stack, offset, nblks, datatype, buffer
   
 <tr>
   
-  <td><span class="anchor" id="variable-datatype~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type~40"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>datatype</strong></td><td></td>
+  <td><strong>data_type</strong></td><td></td>
   
 </tr>
 
@@ -410,28 +410,26 @@ public subroutine dbcsr_acc_transpose(trs_stack, offset, nblks, datatype, buffer
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_acc_transpose</span><span class="p">(</span><span class="n">trs_stack</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">nblks</span><span class="p">,</span> <span class="n">datatype</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">stream</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_acc_transpose</span><span class="p">(</span><span class="n">trs_stack</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">nblks</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">buffer</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">stream</span><span class="p">)</span>
       <span class="c">!! Launch an accelerated transpose kernel</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">acc_devmem_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">trs_stack</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">offset</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">nblks</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">datatype</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">data_type</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">acc_devmem_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">buffer</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">m</span><span class="p">,</span> <span class="n">n</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">acc_stream_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>        <span class="kd">::</span> <span class="n">stream</span>
-
 <span class="cp">#if ! defined (__DBCSR_ACC)</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">trs_stack</span><span class="p">)</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">nblks</span><span class="p">)</span>
-      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">datatype</span><span class="p">)</span>
+      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">data_type</span><span class="p">)</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
       <span class="n">MARK_USED</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
       <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in.&quot;</span><span class="p">)</span>
 <span class="cp">#else</span>
-
       <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_acc_transpose&#39;</span>
 
       <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">error_handle</span><span class="p">,</span> <span class="n">istat</span>
@@ -446,7 +444,7 @@ public subroutine dbcsr_acc_transpose(trs_stack, offset, nblks, datatype, buffer
                                          <span class="nb">INT</span><span class="p">(</span><span class="n">offset</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
                                          <span class="nb">INT</span><span class="p">(</span><span class="n">nblks</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
                                          <span class="n">acc_devmem_cptr</span><span class="p">(</span><span class="n">buffer</span><span class="p">),</span> <span class="p">&amp;</span>
-                                         <span class="nb">INT</span><span class="p">(</span><span class="n">datatype</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
+                                         <span class="nb">INT</span><span class="p">(</span><span class="n">data_type</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
                                          <span class="nb">INT</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
                                          <span class="nb">INT</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
                                          <span class="nb">INT</span><span class="p">(</span><span class="n">max_kernel_dim</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="kt">C_INT</span><span class="p">),</span> <span class="p">&amp;</span>
