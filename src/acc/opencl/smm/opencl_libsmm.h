@@ -26,6 +26,9 @@
 #if !defined(OPENCL_LIBSMM_PARAMS_DELIMS)
 # define OPENCL_LIBSMM_PARAMS_DELIMS ";,\t|/"
 #endif
+#if !defined(OPENCL_LIBSMM_SUITABLE) && 0
+# define OPENCL_LIBSMM_SUITABLE
+#endif
 #if !defined(OPENCL_LIBSMM_DEBUG) && 0
 # define OPENCL_LIBSMM_DEBUG 1
 #endif
@@ -102,6 +105,11 @@ int opencl_libsmm_device(void* stream, cl_device_id* device, const char** config
 void opencl_libsmm_print_matrix(FILE* ostream, const char* label,
   libsmm_acc_data_t type, const void* mat, int m, int n);
 #endif
+
+c_dbcsr_acc_bool_t libsmm_acc_process_suitable(
+  c_dbcsr_acc_bool_t def_mnk, libsmm_acc_data_t datatype,
+  int stack_size, int m_max, int n_max, int k_max,
+  int max_kernel_dim);
 
 #if defined(__cplusplus)
 }
