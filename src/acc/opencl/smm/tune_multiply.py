@@ -35,7 +35,9 @@ class SmmTuner(MeasurementInterface):
         self.exename = "acc_bench_smm"
         run_result = self.call_program(
             # verbosity level to capture device name
-            "ACC_OPENCL_VERBOSE=1 {}/{} 1 1 1".format(self.exepath, self.exename)
+            "ACC_OPENCL_VERBOSE=1 OPENCL_LIBSMM_SMM_PARAMS=0 {}/{} 1 1 1".format(
+                self.exepath, self.exename
+            )
         )
         if 0 == run_result["returncode"]:
             typename = re.search(
@@ -106,7 +108,7 @@ class SmmTuner(MeasurementInterface):
         """
         config = desired_result.configuration.data
         run_cmd = "{} CHECK={} {}={} {}={} {}={} {}/{} 0 {} {} {} {}".format(
-            "OMP_PROC_BIND=TRUE",
+            "OMP_PROC_BIND=TRUE OPENCL_LIBSMM_SMM_PARAMS=0",
             self.args.check,
             "OPENCL_LIBSMM_SMM_BATCHSIZE",
             config["BS"],

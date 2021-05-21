@@ -161,6 +161,9 @@ set_target_properties(dbcsr PROPERTIES VERSION ${dbcsr_VERSION}
 
 if (USE_SMM MATCHES "libxsmm")
   target_compile_definitions(dbcsr PRIVATE __LIBXSMM)
+  if (USE_OPENMP)
+    target_link_libraries(dbcsr PRIVATE PkgConfig::LIBXSMMEXT)
+  endif ()
   target_link_libraries(dbcsr PRIVATE PkgConfig::LIBXSMM)
 endif ()
 

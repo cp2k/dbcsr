@@ -35,10 +35,11 @@ For tranposing matrices (implemented in `opencl_libsmm.c`):
 For multiplying matrices (implemented in `opencl_libsmm.c`):
 
 * `OPENCL_LIBSMM_SMM_BUILDOPTS`: character string with build options (compile and link) supplied to the OpenCL runtime compiler.
-* `OPENCL_LIBSMM_SMM_ATOMICS`: selects the kind of atomic operation used for global memory updates ("xchg", "cmpxchg", "cmpxchg2"), or disables atomic updates ("0"). The latter is to quantify the impact of atomic operations rather than for achieving correct results.
+* `OPENCL_LIBSMM_SMM_ATOMICS`: selects the kind of atomic operation used for global memory updates (`xchg`, `cmpxchg`, `cmpxchg2`), or disables atomic updates (`0`). The latter is to quantify the impact of atomic operations rather than for achieving correct results.
 * `OPENCL_LIBSMM_SMM_BATCHSIZE`: non-negative integer number denoting the intra-kernel (mini-)batchsize mainly used to amortize atomic updates of data in global/main memory. The remainder with respect to the "stacksize" is handled by the kernel.
 * `OPENCL_LIBSMM_SMM_BLOCK_M`: non-negative integer number (less/equal than the M-extent) denoting the blocksize in M-direction.
 * `OPENCL_LIBSMM_SMM_BLOCK_N`: non-negative integer number (less/equal than the N-extent) denoting the blocksize in N-direction.
+* `OPENCL_LIBSMM_SMM_PARAMS`: Disable embedded/auto-tuned parameters (`0`), or load CSV-file (e.g., `path/to/tune_multiply.csv`).
 
 **NOTE**: LIBSMM's tunable runtime settings may be non-smooth in the sense of enabling a distinct code-path depending on a specific value, e.g., `OPENCL_LIBSMM_SMM_BATCHSIZE=1` vs. `OPENCL_LIBSMM_SMM_BATCHSIZE=2`.
 
@@ -48,7 +49,7 @@ Auto tuning code for performance is a practical way to find the "best" setting f
 
 For the OpenCL based LIBSMM, `OPENCL_LIBSMM_SMM_BATCHSIZE`, `OPENCL_LIBSMM_SMM_BLOCK_M`, and `OPENCL_LIBSMM_SMM_BLOCK_N` are explored using [OpenTuner](http://opentuner.org/). The script [tune_multiply.py](https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.py) leverages the `acc_bench_smm` benchmark by parsing console output (timing, data type, etc.). This way, the tuning is implemented without being intermingled with the subject being tuned.
 
-**NOTE**: To toggle between tuning single-precision (SP) and double-precision (DP), the `ELEM_TYPE` in [acc_bench_smm.c](https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_bench_smm.c#L22) can be edited. Auto-tuned parameters for SP and DP can both be embedded into the final application and are picked up correctly at runtime.
+**NOTE**: To toggle between tuning single-precision (SP) and double-precision (DP), the `ELEM_TYPE` in [acc_bench_smm.c](https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_bench_smm.c#L26) can be edited. Auto-tuned parameters for SP and DP can both be embedded into the final application and are picked up correctly at runtime.
 
 To build the benchmarks:
 
