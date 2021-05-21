@@ -42,7 +42,6 @@ PROGRAM dbcsr_unittest_3
 
    !***************************************************************************************
 
-   !
    ! initialize mpi
    CALL mp_world_init(mp_comm)
 
@@ -76,7 +75,6 @@ PROGRAM dbcsr_unittest_3
 
    ! multiply ------------------------------------------------------------------
 
-   ! ...
    CALL dbcsr_test_multiplies("blocks_1_3_4", &
                               group, mp_env, npdims, io_unit, matrix_sizes=(/496, 48, 48/), &
                               sparsities=(/0.5_dp, 0.5_dp, 0.5_dp/), retain_sparsity=.FALSE., &
@@ -122,15 +120,12 @@ PROGRAM dbcsr_unittest_3
 
    ! end of test cases ---------------------------------------------------------
 
-   !
    ! finalize libdbcsr errors
    CALL timestop(handle)
 
-   !
    ! clean mp environment
    CALL dbcsr_mp_release(mp_env)
 
-   !
    ! finalize mpi
    CALL mp_comm_free(group)
 

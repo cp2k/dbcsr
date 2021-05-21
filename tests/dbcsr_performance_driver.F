@@ -43,15 +43,12 @@ PROGRAM dbcsr_performance_driver
 
    !***************************************************************************************
 
-   !
    ! initialize mpi
    CALL mp_world_init(mp_comm)
 
-   !
    ! Number of nodes and rankid
    CALL mp_environ(numnodes, mynode, mp_comm)
 
-   !
    ! read and distribute input args
    IF (mynode .EQ. 0) CALL dbcsr_test_read_args(narg, args)
    CALL mp_bcast(narg, 0, mp_comm)
@@ -59,7 +56,6 @@ PROGRAM dbcsr_performance_driver
    IF (narg .LT. 1) &
       DBCSR_ABORT("nargs not correct")
 
-   !
    ! setup the mp environment
    IF (atoi(args(1)) .LE. 0) THEN
       npdims(:) = 0
@@ -82,12 +78,10 @@ PROGRAM dbcsr_performance_driver
                      myprow=myploc(1), mypcol=myploc(2))
    DEALLOCATE (pgrid)
 
-   !
    ! set standard output parameters
    io_unit = 0
    IF (mynode .EQ. mp_env%mp%source) io_unit = default_output_unit
 
-   !
    ! initialize libdbcsr
    CALL dbcsr_init_lib(mp_comm, io_unit)
 
@@ -97,11 +91,9 @@ PROGRAM dbcsr_performance_driver
    ! Check for MPI-RMA algorithm
    CALL dbcsr_set_config(use_mpi_rma=atol(args(2)))
 
-   !
    ! print DBCSR configuration
    CALL dbcsr_print_config(io_unit)
 
-   !
    ! select the operation
    SELECT CASE (args(3))
    CASE ('dbcsr_multiply')
@@ -110,27 +102,21 @@ PROGRAM dbcsr_performance_driver
       DBCSR_ABORT("operation not found")
    END SELECT
 
-   !
    ! finalize libdbcsr errors
    CALL timestop(handle)
 
-   !
    ! clean mp environment
    CALL dbcsr_mp_release(mp_env)
 
-   !
    ! free comm
    CALL mp_comm_free(group)
 
-   !
    ! print statistics
    CALL dbcsr_print_statistics(.true., "test.callgraph")
 
-   !
    ! finalize DBCSR
    CALL dbcsr_finalize_lib()
-   !
-   !
+
    ! finalize mpi
    CALL mp_world_finalize()
 

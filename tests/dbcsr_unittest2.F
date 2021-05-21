@@ -42,7 +42,6 @@ PROGRAM dbcsr_unittest_2
 
    !***************************************************************************************
 
-   !
    ! initialize mpi
    CALL mp_world_init(mp_comm)
 
@@ -66,7 +65,6 @@ PROGRAM dbcsr_unittest_2
 
    ! initialize libdbcsr
    CALL dbcsr_init_lib(mp_comm, io_unit)
-
 
    ! initialize libdbcsr errors
    CALL timeset(routineN, handle)
@@ -109,15 +107,12 @@ PROGRAM dbcsr_unittest_2
 
    ! end of test cases ---------------------------------------------------------
 
-   !
    ! finalize libdbcsr errors
    CALL timestop(handle)
 
-   !
    ! clean mp environment
    CALL dbcsr_mp_release(mp_env)
 
-   !
    ! finalize mpi
    CALL mp_comm_free(group)
 

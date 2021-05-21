@@ -42,9 +42,6 @@ PROGRAM dbcsr_unittest_1
 
    !***************************************************************************************
 
-   !
-
-   !
    ! initialize mpi
    CALL mp_world_init(mp_comm)
 
@@ -302,11 +299,10 @@ PROGRAM dbcsr_unittest_1
    ! end of test cases ---------------------------------------------------------
 
    CALL timestop(handle)
-   !
+
    ! clean mp environment
    CALL dbcsr_mp_release(mp_env)
 
-   !
    ! finalize mpi
    CALL mp_comm_free(group)
 
@@ -314,8 +310,5 @@ PROGRAM dbcsr_unittest_1
    ! finalize libdbcsr
    CALL dbcsr_finalize_lib()
    CALL mp_world_finalize()
-
-   !
-   ! finalize libdbcsr errors
 
 END PROGRAM dbcsr_unittest_1
