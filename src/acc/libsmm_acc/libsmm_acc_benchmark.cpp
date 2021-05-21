@@ -14,7 +14,7 @@
 #include "libsmm_acc_benchmark.h"
 #include "parameters.h"
 #include "parameters_utils.h"
-#include "../acc_libsmm.h"
+#include "../acc_bench.h"
 
 
 //===========================================================================
