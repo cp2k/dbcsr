@@ -7,14 +7,18 @@
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
 #include "acc_libsmm.h"
-#include <stdlib.h>
+#include "acc_bench.h"
 #include <string.h>
-#include <assert.h>
 #include <stdio.h>
 
 #if defined(__LIBXSMM)
 # include <libxsmm.h>
 # define USE_LIBXSMM
+# if defined(_OPENMP)
+#   define ACC_BENCH_ITRANSBATCH(A, ...) libxsmm_itrans_batch_omp(A, __VA_ARGS__)
+# else
+#   define ACC_BENCH_ITRANSBATCH(A, ...) libxsmm_itrans_batch(A, __VA_ARGS__, 0, 1)
+# endif
 # if !defined(SHUFFLE) && 0
 #   define SHUFFLE
 # endif
@@ -45,8 +49,6 @@
 #if defined(_DEBUG) && defined(USE_LIBXSMM)
 static void print(FILE* ostream, const char* label, const ELEM_TYPE* mat, int m, int n);
 #endif
-
-static void init(int seed, ELEM_TYPE* dst, int m, int n);
 static void swap(int* m, int* n) { int tmp = *m; *m = *n; *n = tmp; }
 
 
@@ -117,15 +119,16 @@ int main(int argc, char* argv[])
   CHECK(c_dbcsr_acc_host_mem_allocate((void**)&mat_hst, sizeof(ELEM_TYPE) * mn * offset_stack_size, stream), &result);
   CHECK(c_dbcsr_acc_host_mem_allocate((void**)&stack_hst, sizeof(int) * offset_stack_size, stream), &result);
   CHECK(c_dbcsr_acc_stream_sync(stream), &result); /* ensure host-data is allocated */
-  for (i = 0; i < offset_stack_size; ++i) { /* initialize matrices */
-    init(i/*seed*/, &mat_hst[i*mn], m, n);
-  }
-  for (i = 0; i < offset_stack_size; ++i) { /* initialize indexes */
+#if defined(_OPENMP)
+# pragma omp parallel for
+#endif
+  for (i = 0; i < offset_stack_size; ++i) { /* initialize matrices and indexes */
 #if defined(SHUFFLE)
     const int j = mn * (int)((shuffle * i) % offset_stack_size);
 #else
     const int j = mn * i;
 #endif
+    INIT_MAT(ELEM_TYPE, i/*seed*/, &mat_hst[i*mn], m, n, 1.0/*scale*/);
     stack_hst[i] = j;
   }
   CHECK(c_dbcsr_acc_dev_mem_allocate((void**)&mat_dev, sizeof(ELEM_TYPE) * mn * offset_stack_size), &result);
@@ -170,7 +173,7 @@ int main(int argc, char* argv[])
     mm = m; nn = n;
     start = libxsmm_timer_tick();
     for (r = 0; r < nodd; ++r) {
-      libxsmm_itrans_batch_omp(mat_hst, sizeof(ELEM_TYPE), mm, nn, mm, nn,
+      ACC_BENCH_ITRANSBATCH(mat_hst, sizeof(ELEM_TYPE), mm, nn, mm, nn,
         0/*index_base*/, sizeof(int)/*index_stride*/, stack_hst + offset, stack_size);
       swap(&mm, &nn);
     }
@@ -187,7 +190,7 @@ int main(int argc, char* argv[])
       for (i = offset; i < offset_stack_size; ++i) {
         ELEM_TYPE gold[MAX_KERNEL_DIM*MAX_KERNEL_DIM];
         const ELEM_TYPE *const test = mat_hst + mn * i;
-        init(i/*seed*/, gold, m, n);
+        INIT_MAT(ELEM_TYPE, i/*seed*/, gold, m, n, 1.0/*scale*/);
         libxsmm_itrans(gold, sizeof(ELEM_TYPE), m, n, m, n);
         for (r = 0; r < (m * n); ++r) {
           if (gold[r] != test[r]) {
@@ -195,7 +198,7 @@ int main(int argc, char* argv[])
 # if defined(_DEBUG)
             print(stderr, "gold = ", gold, n, m);
             print(stderr, "test = ", test, n, m);
-            init(i/*seed*/, gold, m, n);
+            INIT_MAT(ELEM_TYPE, i/*seed*/, gold, m, n, 1.0/*scale*/);
             print(stderr, "orig = ", gold, m, n);
             fprintf(stderr, "\n");
 # endif
@@ -221,17 +224,6 @@ int main(int argc, char* argv[])
     fprintf(stderr, "FAILED\n");
   }
   return result;
-}
-
-
-static void init(int seed, ELEM_TYPE* dst, int m, int n) {
-  int i, j;
-  for (i = 0; i < n; ++i) {
-    for (j = 0; j < m; ++j) {
-      const int k = i * m + j;
-      dst[k] = (ELEM_TYPE)((seed + 1) * (k + 1));
-    }
-  }
 }
 
 

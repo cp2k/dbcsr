@@ -63,7 +63,7 @@ inline void validate_kernel(ACC_DRV(function)& kern_func, ACC_DRV(stream) stream
     memset(h->mat_c, 0, h->n_c * m * n * sizeof(double));
     matInit(h->mat_a, h->n_a, m, k, 42);
     matInit(h->mat_b, h->n_b, k, n, 24);
-    stackInit(h->stack, h->n_stack, h->n_c, h->mat_c, h->n_a, h->mat_a, h->n_b, h->mat_b, m, n, k);
+    stackInit(h->stack, h->n_stack, h->n_c, h->n_a, h->n_b, m, n, k);
 
     stackCalc(h->stack, h->n_stack, h->mat_c, h->mat_a, h->mat_b, m, n, k);
     double sumCPU = checkSum(h->mat_c, h->n_c, m, n);

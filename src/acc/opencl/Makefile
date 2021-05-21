@@ -19,6 +19,7 @@ CFLAGS := -fPIC \
   -Wall -Wextra -pedantic \
   -Wno-overlength-strings \
   -Wno-variadic-macros \
+  -Wno-unused-function \
   -Wno-long-long \
   -D__OPENCL \
   $(NULL)
@@ -74,21 +75,25 @@ ifneq (0,$(SYM))
 endif
 
 ifneq (0,$(OMP))
-ifneq (0,$(INTEL))
-  CFLAGS += -qopenmp
-  LDFLAGS += -qopenmp
-else ifneq (Darwin,$(UNAME))
-  CFLAGS += -fopenmp
-  LDFLAGS += -fopenmp
-else # macOS
-  CFLAGS += -Xpreprocessor -fopenmp
-  LDFLAGS += -lomp
-endif
-endif
-
-ifneq (,$(LIBXSMMROOT))
-  LDFLAGS := -pthread $(LDFLAGS) -L$(LIBXSMMROOT)/lib -lxsmmext -lxsmm -lxsmmnoblas -ldl -lm
-  CFLAGS += -pthread -D__LIBXSMM -I$(LIBXSMMROOT)/include
+  ifneq (0,$(INTEL))
+    CFLAGS += -qopenmp
+    LDFLAGS += -qopenmp
+  else ifneq (Darwin,$(UNAME))
+    CFLAGS += -fopenmp
+    LDFLAGS += -fopenmp
+  else # macOS
+    CFLAGS += -Xpreprocessor -fopenmp
+    LDFLAGS += -lomp
+  endif
+  ifneq (,$(LIBXSMMROOT))
+    LDFLAGS := -pthread $(LDFLAGS) -L$(LIBXSMMROOT)/lib -lxsmmext -lxsmm -lxsmmnoblas -ldl -lm
+    CFLAGS += -pthread -D__LIBXSMM -I$(LIBXSMMROOT)/include
+  endif
+else
+  ifneq (,$(LIBXSMMROOT))
+    LDFLAGS := -pthread $(LDFLAGS) -L$(LIBXSMMROOT)/lib -lxsmm -lxsmmnoblas -ldl -lm
+    CFLAGS += -pthread -D__LIBXSMM -I$(LIBXSMMROOT)/include
+  endif
 endif
 
 ifeq (Darwin,$(UNAME))

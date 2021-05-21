@@ -97,10 +97,10 @@ MODULE dbcsr_config
       INTEGER  :: num_layers_3D = 1
       LOGICAL  :: use_comm_thread = .TRUE.
       INTEGER  :: comm_thread_load = 100
-#if !defined (__DBCSR_ACC)
-      LOGICAL  :: mm_densification = .TRUE.
-#else
+#if defined (__DBCSR_ACC)
       LOGICAL  :: mm_densification = .FALSE.
+#else
+      LOGICAL  :: mm_densification = .TRUE.
 #endif
       INTEGER  :: multrec_limit = 512
       INTEGER  :: accdrv_priority_streams = 4

@@ -52,11 +52,8 @@ MODULE dbcsr_acc_operations
          INTEGER(KIND=C_INT), INTENT(IN), VALUE   :: max_kernel_dim, def_mnk
          TYPE(C_PTR), VALUE                       :: stack_stream_ptr, c_stream_ptr
          INTEGER(KIND=C_INT)                      :: istat
-
       END FUNCTION libsmm_acc_process_cu
-   END INTERFACE
 
-   INTERFACE
       FUNCTION libsmm_acc_transpose_cu(trs_stack, offset, nblks, buffer, &
                                        data_type, m, n, max_kernel_dim, stream_ptr) &
          RESULT(istat) &
@@ -69,33 +66,31 @@ MODULE dbcsr_acc_operations
          INTEGER(KIND=C_INT), INTENT(IN), VALUE   :: max_kernel_dim
          TYPE(C_PTR), VALUE                       :: stream_ptr
          INTEGER(KIND=C_INT)                      :: istat
-
       END FUNCTION libsmm_acc_transpose_cu
    END INTERFACE
 #endif
 
 CONTAINS
 
-   SUBROUTINE dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack_size, datatype, &
-      !! Launch an accelerated kernel for processing a stack.
+   SUBROUTINE dbcsr_acc_do_mm_stack(param_stack_host, param_stack_dev, stack_size, data_type, &
                                     a_data, b_data, c_data, m_max, n_max, k_max, def_mnk, &
                                     stack_stream, c_stream, success)
+      !! Launch an accelerated kernel for processing a stack.
       INTEGER, DIMENSION(:, :), TARGET, INTENT(IN) :: param_stack_host
       TYPE(acc_devmem_type), INTENT(IN)            :: param_stack_dev
       INTEGER, INTENT(IN)                          :: stack_size
-      INTEGER, INTENT(IN)                          :: datatype
+      INTEGER, INTENT(IN)                          :: data_type
       TYPE(acc_devmem_type), INTENT(IN)            :: a_data, b_data
       TYPE(acc_devmem_type), INTENT(INOUT)         :: c_data
       INTEGER, INTENT(IN)                          :: m_max, n_max, k_max
       LOGICAL, INTENT(IN)                          :: def_mnk
       TYPE(acc_stream_type), INTENT(IN)            :: stack_stream, c_stream
       LOGICAL, INTENT(INOUT)                       :: success
-
 #if ! defined (__DBCSR_ACC)
       MARK_USED(param_stack_host)
       MARK_USED(param_stack_dev)
       MARK_USED(stack_size)
-      MARK_USED(datatype)
+      MARK_USED(data_type)
       MARK_USED(a_data)
       MARK_USED(b_data)
       MARK_USED(c_data)
@@ -108,7 +103,6 @@ CONTAINS
       MARK_USED(success)
       DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
-
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_acc_do_mm_stack'
 
       INTEGER                                  :: error_handle, istat
@@ -128,7 +122,7 @@ CONTAINS
                                     acc_devmem_cptr(param_stack_dev), &
                                     INT(stack_size, KIND=C_INT), &
                                     INT(dbcsr_ps_width, KIND=C_INT), &
-                                    INT(datatype, KIND=C_INT), &
+                                    INT(data_type, KIND=C_INT), &
                                     acc_devmem_cptr(a_data), &
                                     acc_devmem_cptr(b_data), &
                                     acc_devmem_cptr(c_data), &
@@ -144,28 +138,26 @@ CONTAINS
 #endif
    END SUBROUTINE dbcsr_acc_do_mm_stack
 
-   SUBROUTINE dbcsr_acc_transpose(trs_stack, offset, nblks, datatype, buffer, m, n, stream)
+   SUBROUTINE dbcsr_acc_transpose(trs_stack, offset, nblks, data_type, buffer, m, n, stream)
       !! Launch an accelerated transpose kernel
       TYPE(acc_devmem_type), INTENT(IN)        :: trs_stack
       INTEGER, INTENT(IN)                      :: offset
       INTEGER, INTENT(IN)                      :: nblks
-      INTEGER, INTENT(IN)                      :: datatype
+      INTEGER, INTENT(IN)                      :: data_type
       TYPE(acc_devmem_type), INTENT(IN)        :: buffer
       INTEGER, INTENT(IN)                      :: m, n
       TYPE(acc_stream_type), INTENT(IN)        :: stream
-
 #if ! defined (__DBCSR_ACC)
       MARK_USED(trs_stack)
       MARK_USED(offset)
       MARK_USED(nblks)
-      MARK_USED(datatype)
+      MARK_USED(data_type)
       MARK_USED(buffer)
       MARK_USED(m)
       MARK_USED(n)
       MARK_USED(stream)
       DBCSR_ABORT("__DBCSR_ACC not compiled in.")
 #else
-
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_acc_transpose'
 
       INTEGER                                  :: error_handle, istat
@@ -180,7 +172,7 @@ CONTAINS
                                          INT(offset, KIND=C_INT), &
                                          INT(nblks, KIND=C_INT), &
                                          acc_devmem_cptr(buffer), &
-                                         INT(datatype, KIND=C_INT), &
+                                         INT(data_type, KIND=C_INT), &
                                          INT(m, KIND=C_INT), &
                                          INT(n, KIND=C_INT), &
                                          INT(max_kernel_dim, KIND=C_INT), &
