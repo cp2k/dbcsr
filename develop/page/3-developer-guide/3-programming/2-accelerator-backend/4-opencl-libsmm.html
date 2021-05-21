@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.1.0-44-gd535e5ab9</small></a>
+          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.1.0-45-g37ff987a1</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -167,16 +167,17 @@
 <p>For multiplying matrices (implemented in <code>opencl_libsmm.c</code>):</p>
 <ul>
 <li><code>OPENCL_LIBSMM_SMM_BUILDOPTS</code>: character string with build options (compile and link) supplied to the OpenCL runtime compiler.</li>
-<li><code>OPENCL_LIBSMM_SMM_ATOMICS</code>: selects the kind of atomic operation used for global memory updates ("xchg", "cmpxchg", "cmpxchg2"), or disables atomic updates ("0"). The latter is to quantify the impact of atomic operations rather than for achieving correct results.</li>
+<li><code>OPENCL_LIBSMM_SMM_ATOMICS</code>: selects the kind of atomic operation used for global memory updates (<code>xchg</code>, <code>cmpxchg</code>, <code>cmpxchg2</code>), or disables atomic updates (<code>0</code>). The latter is to quantify the impact of atomic operations rather than for achieving correct results.</li>
 <li><code>OPENCL_LIBSMM_SMM_BATCHSIZE</code>: non-negative integer number denoting the intra-kernel (mini-)batchsize mainly used to amortize atomic updates of data in global/main memory. The remainder with respect to the "stacksize" is handled by the kernel.</li>
 <li><code>OPENCL_LIBSMM_SMM_BLOCK_M</code>: non-negative integer number (less/equal than the M-extent) denoting the blocksize in M-direction.</li>
 <li><code>OPENCL_LIBSMM_SMM_BLOCK_N</code>: non-negative integer number (less/equal than the N-extent) denoting the blocksize in N-direction.</li>
+<li><code>OPENCL_LIBSMM_SMM_PARAMS</code>: Disable embedded/auto-tuned parameters (<code>0</code>), or load CSV-file (e.g., <code>path/to/tune_multiply.csv</code>).</li>
 </ul>
 <p><strong>NOTE</strong>: LIBSMM's tunable runtime settings may be non-smooth in the sense of enabling a distinct code-path depending on a specific value, e.g., <code>OPENCL_LIBSMM_SMM_BATCHSIZE=1</code> vs. <code>OPENCL_LIBSMM_SMM_BATCHSIZE=2</code>.</p>
 <h2>Auto Tuning</h2>
 <p>Auto tuning code for performance is a practical way to find the "best" setting for parameterized code (e.g., GPU kernels). Introducing effective parameters is a prerequisite, and exploring the (potentially) high-dimensional parameter space in an efficient way is an art. It is desirable to have reasonable defaults even without auto-tuning the parameters. It would be even better to avoid auto-tuning if best performance was possible right away, i.e., if auto-tuning is not able to find better settings.</p>
 <p>For the OpenCL based LIBSMM, <code>OPENCL_LIBSMM_SMM_BATCHSIZE</code>, <code>OPENCL_LIBSMM_SMM_BLOCK_M</code>, and <code>OPENCL_LIBSMM_SMM_BLOCK_N</code> are explored using <a href="http://opentuner.org/">OpenTuner</a>. The script <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.py">tune_multiply.py</a> leverages the <code>acc_bench_smm</code> benchmark by parsing console output (timing, data type, etc.). This way, the tuning is implemented without being intermingled with the subject being tuned.</p>
-<p><strong>NOTE</strong>: To toggle between tuning single-precision (SP) and double-precision (DP), the <code>ELEM_TYPE</code> in <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_bench_smm.c#L22">acc_bench_smm.c</a> can be edited. Auto-tuned parameters for SP and DP can both be embedded into the final application and are picked up correctly at runtime.</p>
+<p><strong>NOTE</strong>: To toggle between tuning single-precision (SP) and double-precision (DP), the <code>ELEM_TYPE</code> in <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_bench_smm.c#L26">acc_bench_smm.c</a> can be edited. Auto-tuned parameters for SP and DP can both be embedded into the final application and are picked up correctly at runtime.</p>
 <p>To build the benchmarks:</p>
 <div class="codehilite"><pre><span></span><code><span class="nb">cd</span> src/acc/opencl
 make <span class="nv">DBG</span><span class="o">=</span><span class="m">0</span>
