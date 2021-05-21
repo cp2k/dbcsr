@@ -58,12 +58,10 @@ PROGRAM dbcsr_unittest
                      myprow=myploc(1), mypcol=myploc(2))
    DEALLOCATE (pgrid)
 
-   !
    ! set standard output parameters
    io_unit = 0
    IF (mynode .EQ. 0) io_unit = default_output_unit
 
-   !
    ! initialize DBCSR
    CALL dbcsr_init_lib(mp_comm, io_unit)
 

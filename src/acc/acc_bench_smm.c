@@ -7,15 +7,19 @@
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
 #include "acc_libsmm.h"
-#include <stdlib.h>
+#include "acc_bench.h"
 #include <string.h>
-#include <assert.h>
 #include <stdio.h>
 #include <math.h>
 
 #if defined(__LIBXSMM)
 # include <libxsmm.h>
 # define USE_LIBXSMM
+# if defined(_OPENMP)
+#   define ACC_BENCH_USEOMP(FUNC) LIBXSMM_USEOMP(FUNC)
+# else
+#   define ACC_BENCH_USEOMP(FUNC) (FUNC)
+# endif
 #endif
 
 #if !defined(ELEM_TYPE)
@@ -37,8 +41,10 @@
 # define WARMUP 2
 #endif
 
-#define MIN(A, B) ((A) < (B) ? (A) : (B))
-#define MAX(A, B) ((B) < (A) ? (A) : (B))
+#define ACC_BENCH_SMM_EPSILON(T) DBCSR_CONCATENATE(ACC_BENCH_SMM_EPSILON_, T)
+#define ACC_BENCH_SMM_EPSILON_double 5E-18
+#define ACC_BENCH_SMM_EPSILON_float 5E-8
+
 #define ROUNDUP2(N, NPOT) ((((unsigned long long)N) + ((NPOT) - 1)) & ~((NPOT) - 1))
 #define CHECK(EXPR, RPTR) if ((NULL != ((const void*)(RPTR)) && EXIT_SUCCESS != *((const int*)(RPTR))) || \
   EXIT_SUCCESS != (NULL != ((const void*)(RPTR)) ? (*((int*)(RPTR)) = (EXPR)) : (EXPR))) assert(0)
@@ -47,11 +53,6 @@
 #if defined(_DEBUG) && defined(USE_LIBXSMM) && defined(VALIDATE) && (0 != VALIDATE)
 static void print(FILE* ostream, const char* label, const ELEM_TYPE* mat, int m, int n);
 #endif
-
-static void init(int seed, ELEM_TYPE* dst, int m, int n, double scale);
-/* for comparison, adopt artificial stack-setup from other DBCSR/ACC benchmarks */
-static void init_stack(int* stack, int stack_size,
-  int mn, int mk, int kn, int nc, int na, int nb);
 
 
 int main(int argc, char* argv[])
@@ -86,16 +87,17 @@ int main(int argc, char* argv[])
 #else
   const int warmup = 0;
 #endif
-#if defined(VALIDATE) && (0 != VALIDATE)
-  const char *const env_check = getenv("CHECK");
-  const double check = (NULL == env_check ? -1 : fabs(atof(env_check)));
-#endif
   int *stack_hst = NULL, *stack_dev = NULL, *trans_hst = NULL, *trans_dev = NULL;
   ELEM_TYPE *amat_hst = NULL, *bmat_hst = NULL, *cmat_hst = NULL;
   ELEM_TYPE *amat_dev = NULL, *bmat_dev = NULL, *cmat_dev = NULL;
   int result = EXIT_SUCCESS, ndevices = 0, r, i;
   void *stream = NULL;
 #if defined(USE_LIBXSMM)
+# if defined(VALIDATE) && (0 != VALIDATE)
+  const char *const env_check = getenv("CHECK");
+  const double check = (NULL == env_check ? -1 : fabs(atof(env_check) * ACC_BENCH_SMM_EPSILON(ELEM_TYPE)));
+  ELEM_TYPE *const gold_hst = (ELEM_TYPE*)(0 != check ? libxsmm_malloc(sizeof(ELEM_TYPE) * mn * nc) : NULL);
+# endif
   libxsmm_timer_tickint start;
 # if defined(TRANSPOSE) && (0 != TRANSPOSE) && defined(VALIDATE) && (0 != VALIDATE)
   double transpose;
@@ -131,12 +133,21 @@ int main(int argc, char* argv[])
   CHECK(c_dbcsr_acc_host_mem_allocate((void**)&trans_hst, sizeof(int) * nb, stream), &result);
   CHECK(c_dbcsr_acc_stream_sync(stream), &result); /* ensure host-data is allocated */
   /* initialize matrices */
-  for (i = 0; i < na; ++i) {
-    init(i/*seed*/ + 42, &amat_hst[i*mk], m, k, 1.0 / (nc * na));
-  }
-  for (i = 0; i < nb; ++i) {
-    init(i/*seed*/ + 24, &bmat_hst[i*kn], k, n, 1.0 / (nc * nb));
-    trans_hst[i] = i * kn;
+#if defined(_OPENMP)
+# pragma omp parallel
+#endif
+  {
+#if defined(_OPENMP)
+#   pragma omp for
+#endif
+    for (i = 0; i < na; ++i) INIT_MAT(ELEM_TYPE, i/*seed*/ + 42, &amat_hst[i*mk], m, k, 1.0 / (nc * na));
+#if defined(_OPENMP)
+#   pragma omp for
+#endif
+    for (i = 0; i < nb; ++i) {
+      INIT_MAT(ELEM_TYPE, i/*seed*/ + 24, &bmat_hst[i*kn], k, n, 1.0 / (nc * nb));
+      trans_hst[i] = i * kn;
+    }
   }
   init_stack(stack_hst, stack_size, mn, mk, kn, nc, na, nb);
   CHECK(c_dbcsr_acc_dev_mem_allocate((void**)&amat_dev, sizeof(ELEM_TYPE) * mk * na), &result);
@@ -198,23 +209,28 @@ int main(int argc, char* argv[])
 #if defined(USE_LIBXSMM)
   CHECK(c_dbcsr_acc_stream_sync(stream), &result);
   duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
+  if (EXIT_SUCCESS == result) {
+# if defined(TRANSPOSE) && (0 != TRANSPOSE)
+    printf("transpose: %.1f ms %.1f GFLOPS/s\n", 1000.0 * (duration + transpose) / nrepeat,
+      1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat) / (duration + transpose));
+# endif
+    printf("device: %.1f ms %.1f GFLOPS/s\n", 1000.0 * duration / nrepeat,
+      1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat) / duration);
+  }
 # if defined(VALIDATE) && (0 != VALIDATE)
-  if (0 != check && EXIT_SUCCESS == result) {
-    ELEM_TYPE *const gold_hst = (ELEM_TYPE*)libxsmm_malloc(sizeof(ELEM_TYPE) * mn * nc);
+  /* determine host's performance independent of current result code/status */
+  if (NULL != gold_hst) {
     const ELEM_TYPE alpha = 1, beta = 1;
     const char transa = 'N';
-#   if !defined(TRANSPOSE) || (0 == TRANSPOSE)
-    const char transb = 'T';
-#   else
+#   if defined(TRANSPOSE) && (0 != TRANSPOSE)
     const char transb = 'N';
-    printf("transpose: %.1f ms %.1f GFLOPS/s\n", 1000.0 * (duration + transpose) / nrepeat,
-      ((size_t)2 * m * n * k) * stack_size / ((duration + transpose) * 1E9 / nrepeat));
+#   else
+    const char transb = 'T';
 #   endif
-    printf("device: %.1f ms %.1f GFLOPS/s\n", 1000.0 * duration / nrepeat,
-      ((size_t)2 * m * n * k) * stack_size / (duration * 1E9 / nrepeat));
     memset(gold_hst, 0, sizeof(ELEM_TYPE) * mn * nc);
     for (r = 0; r < warmup; ++r) {
-      libxsmm_gemm_batch_omp(LIBXSMM_GEMM_PRECISION(ELEM_TYPE), LIBXSMM_GEMM_PRECISION(ELEM_TYPE),
+      ACC_BENCH_USEOMP(libxsmm_gemm_batch)(
+        LIBXSMM_GEMM_PRECISION(ELEM_TYPE), LIBXSMM_GEMM_PRECISION(ELEM_TYPE),
         &transa, &transb, m, n, k, &alpha, amat_hst, &m/*lda*/, bmat_hst, &k/*ldb*/,
         &beta, gold_hst, &m/*ldc*/, 1/*index_base*/, sizeof(int) * 3,
         stack_hst + 0, stack_hst + 1, stack_hst + 2, stack_size);
@@ -223,56 +239,56 @@ int main(int argc, char* argv[])
     start = libxsmm_timer_tick();
     /* CPU-kernel operates on data that is not initialized in NUMA-aware fashion */
     for (r = 0; r < nrepeat; ++r) {
-      libxsmm_gemm_batch_omp(LIBXSMM_GEMM_PRECISION(ELEM_TYPE), LIBXSMM_GEMM_PRECISION(ELEM_TYPE),
+      ACC_BENCH_USEOMP(libxsmm_gemm_batch)(
+        LIBXSMM_GEMM_PRECISION(ELEM_TYPE), LIBXSMM_GEMM_PRECISION(ELEM_TYPE),
         &transa, &transb, m, n, k, &alpha, amat_hst, &m/*lda*/, bmat_hst, &k/*ldb*/,
         &beta, gold_hst, &m/*ldc*/, 1/*index_base*/, sizeof(int) * 3,
         stack_hst + 0, stack_hst + 1, stack_hst + 2, stack_size);
     }
     duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
     printf("host: %.1f ms %.1f GFLOPS/s\n", 1000.0 * duration / nrepeat,
-      ((size_t)2 * m * n * k) * stack_size / (duration * 1E9 / nrepeat));
-    /* transfer result from device to host for validation */
-    CHECK(c_dbcsr_acc_memcpy_d2h(cmat_dev, cmat_hst, sizeof(ELEM_TYPE) * mn * nc, stream), &result);
-    CHECK(c_dbcsr_acc_stream_sync(stream), &result);
+      1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat) / duration);
+    /* validate correctness in case of successful result code/status */
     if (EXIT_SUCCESS == result) {
-      double abserror = 0, relerror = 0;
-      for (i = 0; i < nc; ++i) {
-        const ELEM_TYPE *const gold = gold_hst + mn * i;
-        const ELEM_TYPE *const test = cmat_hst + mn * i;
-        double diff = 0, a = 0, b = 0;
-        for (r = 0; r < (m * n); ++r) {
-          const double ar = (double)gold[r];
-          const double br = (double)test[r];
-          const double d = fabs(ar - br);
-          if (d > diff) {
-            diff = d;
-            a = ar;
-            b = br;
+      /* transfer result from device to host for validation */
+      CHECK(c_dbcsr_acc_memcpy_d2h(cmat_dev, cmat_hst, sizeof(ELEM_TYPE) * mn * nc, stream), &result);
+      CHECK(c_dbcsr_acc_stream_sync(stream), &result);
+      if (EXIT_SUCCESS == result) {
+        double abserror = 0, relerror = 0, a = 0, b = 0;
+        for (i = 0; i < nc; ++i) {
+          const ELEM_TYPE *const gold = gold_hst + mn * i;
+          const ELEM_TYPE *const test = cmat_hst + mn * i;
+          double diff = 0, ai = 0, bi = 0;
+          for (r = 0; r < (m * n); ++r) {
+            const double ar = (double)gold[r];
+            const double br = (double)test[r];
+            const double d = fabs(ar - br);
+            if (diff < d) {
+              diff = d; ai = ar; bi = br;
+            }
           }
-        }
-        if (0 < diff) {
+          if (0 < diff) {
+            const double rd = fabs(0 != ai ? (diff / ai) : (diff / bi));
 #   if defined(_DEBUG)
-          print(stderr, "gold = ", gold, m, n);
-          print(stderr, "test = ", test, m, n);
-          fprintf(stderr, "diff = %g (%g != %g)\n", diff, a, b);
+            print(stderr, "gold = ", gold, m, n);
+            print(stderr, "test = ", test, m, n);
+            fprintf(stderr, "rel = %g (%g != %g)\n", rd, ai, bi);
 #   endif
-          if (abserror < diff) {
-            relerror = fabs(0 != a ? (diff / a) : (diff / b));
-            abserror = diff;
+            if (abserror < diff) {
+              abserror = diff;
+              relerror = rd;
+              a = ai; b = bi;
+            }
           }
         }
+        relerror /= (nc * nrepeat); /* normalize error */
+        printf("max.error: rel=%g (%g != %g)\n", relerror, a, b);
+        if (0 < check && check < relerror) result = EXIT_FAILURE;
       }
-      printf("max.error: abs=%g rel=%g\n", abserror, relerror);
-      if (0 < check && check < relerror) result = EXIT_FAILURE;
     }
     libxsmm_free(gold_hst);
   }
-  else
 # endif
-  if (EXIT_SUCCESS == result) {
-    printf("device: %.1f ms %.1f GFLOPS/s\n", 1000.0 * duration / nrepeat,
-      ((size_t)2 * m * n * k) * stack_size / (duration * 1E9 / nrepeat));
-  }
 #endif
   CHECK(c_dbcsr_acc_host_mem_deallocate(stack_hst, stream), NULL);
   CHECK(c_dbcsr_acc_host_mem_deallocate(trans_hst, stream), NULL);
@@ -293,41 +309,6 @@ int main(int argc, char* argv[])
     fprintf(stderr, "FAILED\n");
   }
   return result;
-}
-
-
-static void init(int seed, ELEM_TYPE* dst, int m, int n, double scale) {
-  const double seed1 = scale * seed + scale;
-  int i, j;
-  for (i = 0; i < n; ++i) {
-    for (j = 0; j < m; ++j) {
-      const int k = i * m + j;
-      dst[k] = (ELEM_TYPE)(seed1 * (k + 1));
-    }
-  }
-}
-
-
-static void init_stack(int* stack, int stack_size,
-  int mn, int mk, int kn, int nc, int na, int nb)
-{
-  /* navg matrix products are accumulated into a C-matrix */
-  int navg = stack_size / nc;
-  int nimb = MAX(1, navg - 4); /* imbalance */
-  int i = 0, c = 0, ntop = 0;
-  assert(0 < nc && nc <= stack_size);
-  while (i < stack_size) {
-    const int next = c + 1;
-    ntop += navg + (rand() % (2 * nimb) - nimb);
-    if (stack_size < ntop) ntop = stack_size;
-    for (;i < ntop; ++i) { /* setup one-based indexes */
-      const int a = rand() % na, b = rand() % nb;
-      *stack++ = a * mk + 1; /* A-index */
-      *stack++ = b * kn + 1; /* B-index */
-      *stack++ = c * mn + 1; /* C-index */
-    }
-    if (next < nc) c = next;
-  }
 }
 
 
