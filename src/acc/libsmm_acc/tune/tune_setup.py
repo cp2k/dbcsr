@@ -406,9 +406,8 @@ def gen_makefile(outdir, compiler, arch):
                 + " -w -o $@ $^ -lcuda -lnvrtc\n\n"
             )
         else:
-            output += (
-                "\thipcc -O3 -D__HIP -w -o $@ $^ /opt/rocm/hip/lib/libhiprtc.so\n\n"
-            )
+            rocm_path = os.getenv("ROCM_PATH", "/opt/rocm")
+            output += f"\thipcc -O3 -D__HIP -w -o $@ $^ {rocm_path}/hip/lib/libamdhip64.so\n\n"
 
     # write Makefile
     writefile(outdir + "/Makefile", output)

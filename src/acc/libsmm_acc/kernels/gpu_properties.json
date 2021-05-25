@@ -134,6 +134,21 @@
         "Stream_Multiprocessors": 3840,
         "Memory_Size_(GB)": 16,
         "Memory_Interface_(bits)": 4096
+    },
+    "gfx908" : {
+        "GPU_Architecture": "Vega20",
+        "Product_Names": ["Instinct MI100"],
+        "Threads_/_Warp" : 64,
+        "Warps_/_Multiprocessor": 32,
+        "Threads_/_Multiprocessor": 2048,
+        "Thread_Blocks_/_Multiprocessor": 16,
+        "Max_Thread_Block_Size": 1024,
+        "Max_Shared_Memory_/_Block_(bytes)": 64000,
+        "Shared_Memory_/_Multiprocessor_(bytes)": 64000,
+        "Compute_Units": 120,
+        "Stream_Multiprocessors": 7860,
+        "Memory_Size_(GB)": 32,
+        "Memory_Interface_(bits)": 4096
     }
 }
 

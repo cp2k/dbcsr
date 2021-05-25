@@ -36,7 +36,7 @@
 #          - for CUDA, possible values correspond to NVIDIA GPUs:
 #            possible values are K20X, K40, K80, P100, V100
 #          - for HIP, possible values correspond to NVIDIA and AMD GPUs:
-#            possible values are K20X, K40, K80, P100, V100, Mi50
+#            possible values are K20X, K40, K80, P100, V100, Mi50, Mi100
 #          - for OpenCL, GPUVER is currently not used
 #            (TODO: represent set of tuned parameters)
 #
@@ -117,6 +117,8 @@ else ifeq ($(GPUVER),V100)
  ARCH_NUMBER = 70
 else ifeq ($(GPUVER),Mi50)
  ARCH_NUMBER = gfx906
+else ifeq ($(GPUVER),Mi100)
+ ARCH_NUMBER = gfx908
 else ifneq ($(GPUVER),)
  $(error GPUVER not recognized)
 endif
@@ -188,16 +190,15 @@ ifneq ($(ACC),)
   # if compiling with nvcc
   ifneq (,$(findstring nvcc,$(ACC)))
     # All *.cpp files belong to the accelerator backend common between CUDA/HIP
-    OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -type f ! -name "acc_cuda.cpp" ! -name "acc_hip.cpp" ! -name "hipblas.cpp" -name "*.cpp")
+    OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -type f ! -name "acc_cuda.cpp" ! -name "acc_hip.cpp" -name "*.cpp")
     OBJ_SRC_FILES += $(LIBSMM_ACC_DIR)/../cuda/acc_cuda.cpp
     # Exclude autotuning files
     OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -type f ! -name "tune_*_exe*_part*.cu" ! -name "tune_*_exe*_main*.cu"  -name "*.cu")
   # if compiling with hipcc
   else ifneq (,$(findstring hipcc,$(ACC)))
     # All *.cpp files belong to the accelerator backend common between CUDA/HIP
-    OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -type f ! -name "acc_cuda.cpp" ! -name "acc_hip.cpp" ! -name "hipblas.cpp" -name "*.cpp")
+    OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -type f ! -name "acc_cuda.cpp" ! -name "acc_hip.cpp" -name "*.cpp")
     OBJ_SRC_FILES += $(LIBSMM_ACC_DIR)/../hip/acc_hip.cpp
-    OBJ_SRC_FILES += $(LIBSMM_ACC_DIR)/../hipblaswrap/hipblas.cpp
   # OpenCL backend: OBJ_SRC_FILES already includes all *.c files
   endif
 endif
@@ -321,8 +322,6 @@ else ifneq (,$(findstring hipcc,$(ACC)))
 %.o: %.cpp
 	$(ACC) -c $(ACCFLAGS) -I'$(SRCDIR)' $<
 acc_hip.o: acc_hip.cpp acc_hip.h
-	$(ACC) -c $(ACCFLAGS) -I'$(SRCDIR)' $<
-hipblas.o: hipblas.cpp
 	$(ACC) -c $(ACCFLAGS) -I'$(SRCDIR)' $<
 # if compiling OpenCL backend
 else
