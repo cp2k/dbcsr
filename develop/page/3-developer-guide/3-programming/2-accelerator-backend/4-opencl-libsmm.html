@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.1.0-47-g9792a8021</small></a>
+          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.1.0-48-gade829577</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -177,7 +177,7 @@
 <h2>Auto Tuning</h2>
 <p>Auto tuning code for performance is a practical way to find the "best" setting for parameterized code (e.g., GPU kernels). Introducing effective parameters is a prerequisite, and exploring the (potentially) high-dimensional parameter space in an efficient way is an art. It is desirable to have reasonable defaults even without auto-tuning the parameters. It would be even better to avoid auto-tuning if best performance was possible right away, i.e., if auto-tuning is not able to find better settings.</p>
 <p>For the OpenCL based LIBSMM, <code>OPENCL_LIBSMM_SMM_BATCHSIZE</code>, <code>OPENCL_LIBSMM_SMM_BLOCK_M</code>, and <code>OPENCL_LIBSMM_SMM_BLOCK_N</code> are explored using <a href="http://opentuner.org/">OpenTuner</a>. The script <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.py">tune_multiply.py</a> leverages the <code>acc_bench_smm</code> benchmark by parsing console output (timing, data type, etc.). This way, the tuning is implemented without being intermingled with the subject being tuned.</p>
-<p><strong>NOTE</strong>: To toggle between tuning single-precision (SP) and double-precision (DP), the <code>ELEM_TYPE</code> in <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_bench_smm.c#L26">acc_bench_smm.c</a> can be edited. Auto-tuned parameters for SP and DP can both be embedded into the final application and are picked up correctly at runtime.</p>
+<p><strong>NOTE</strong>: To toggle between tuning single-precision (SP) and double-precision (DP), the <code>ELEM_TYPE</code> in <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_bench_smm.c#L26">acc_bench_smm.c</a> can be edited or the command to build the backend can be adjusted (<code>make ELEM_TYPE=float</code>). Auto-tuned parameters for SP and DP can both be embedded into the final application and are picked up correctly at runtime.</p>
 <p>To build the benchmarks:</p>
 <div class="codehilite"><pre><span></span><code><span class="nb">cd</span> src/acc/opencl
 make <span class="nv">DBG</span><span class="o">=</span><span class="m">0</span>
@@ -203,7 +203,7 @@ pip install -r requirements.txt
 
 <p>The script finally writes a JSON-file with a filename like <code>tune_multiply-float-12x12x12-60gflops.json</code> which is encoding the benchmark (multiply), the precision (float), the kernel (12x12x12), and the achieved performance (60gflops). The script handles SIGINT (like Ctrl-C), and output is still written despite of not terminating normally (can abused to tune interactively). Tuning starts from an internal default that is supposed to match LIBSMM's internal default parameters. However, tuning can be (re-)started with specific parameters (e.g., <code>-bs 64</code>, <code>-bm 13</code>, <code>-bn 1</code> for <code>OPENCL_LIBSMM_SMM_BATCHSIZE</code>, <code>OPENCL_LIBSMM_SMM_BLOCK_M</code>, and <code>OPENCL_LIBSMM_SMM_BLOCK_N</code> respectively).</p>
 <h2>Optimized Kernels</h2>
-<p>JSON-files in the above mentioned smm-directory are automatically summarized into a CSV-file (can be disabled). Parameters achieved with single-precision (SP) and double-precision (DP) can be safely combined. However, care must be taken to not summarize unrelated results like for different devices or after (major) kernel changes. The CSV-file contains a header-row with column names, and the content is automatically incorporated into LIBSMM by the next clean (re-)build.</p>
+<p>JSON-files in the above mentioned smm-directory are automatically summarized into a CSV-file (can be disabled). Parameters achieved with single-precision (SP), double-precision (DP), or from different devices can be safely combined. However, care must still be taken to not summarize unrelated results, e.g., after (major) source code changes. The CSV-file is automatically incorporated into LIBSMM by the next clean (re-)build. The format of the CSV-file is assumed to contain column names in the first row (header).</p>
 <div class="codehilite"><pre><span></span><code><span class="nb">cd</span> src/acc/opencl
 make realclean
 make <span class="nv">DBG</span><span class="o">=</span><span class="m">0</span>
