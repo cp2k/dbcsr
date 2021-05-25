@@ -282,7 +282,7 @@ int main(int argc, char* argv[])
             }
           }
         }
-        printf("max.error: eps=%g (%g != %g)\n", relerror / nr, a, b);
+        printf("max.error: %g (%g != %g)\n", relerror / nr, a, b);
         if (0 < check && (nr * check) < relerror) result = EXIT_FAILURE;
       }
     }
