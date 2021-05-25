@@ -49,7 +49,7 @@ Auto tuning code for performance is a practical way to find the "best" setting f
 
 For the OpenCL based LIBSMM, `OPENCL_LIBSMM_SMM_BATCHSIZE`, `OPENCL_LIBSMM_SMM_BLOCK_M`, and `OPENCL_LIBSMM_SMM_BLOCK_N` are explored using [OpenTuner](http://opentuner.org/). The script [tune_multiply.py](https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.py) leverages the `acc_bench_smm` benchmark by parsing console output (timing, data type, etc.). This way, the tuning is implemented without being intermingled with the subject being tuned.
 
-**NOTE**: To toggle between tuning single-precision (SP) and double-precision (DP), the `ELEM_TYPE` in [acc_bench_smm.c](https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_bench_smm.c#L26) can be edited. Auto-tuned parameters for SP and DP can both be embedded into the final application and are picked up correctly at runtime.
+**NOTE**: To toggle between tuning single-precision (SP) and double-precision (DP), the `ELEM_TYPE` in [acc_bench_smm.c](https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_bench_smm.c#L26) can be edited or the command to build the backend can be adjusted (`make ELEM_TYPE=float`). Auto-tuned parameters for SP and DP can both be embedded into the final application and are picked up correctly at runtime.
 
 To build the benchmarks:
 
@@ -87,7 +87,7 @@ The script finally writes a JSON-file with a filename like `tune_multiply-float-
 
 ## Optimized Kernels
 
-JSON-files in the above mentioned smm-directory are automatically summarized into a CSV-file (can be disabled). Parameters achieved with single-precision (SP) and double-precision (DP) can be safely combined. However, care must be taken to not summarize unrelated results like for different devices or after (major) kernel changes. The CSV-file contains a header-row with column names, and the content is automatically incorporated into LIBSMM by the next clean (re-)build.
+JSON-files in the above mentioned smm-directory are automatically summarized into a CSV-file (can be disabled). Parameters achieved with single-precision (SP), double-precision (DP), or from different devices can be safely combined. However, care must still be taken to not summarize unrelated results, e.g., after (major) source code changes. The CSV-file is automatically incorporated into LIBSMM by the next clean (re-)build. The format of the CSV-file is assumed to contain column names in the first row (header).
 
 ```bash
 cd src/acc/opencl

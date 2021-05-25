@@ -107,7 +107,7 @@ class SmmTuner(MeasurementInterface):
         return performance
         """
         config = desired_result.configuration.data
-        run_cmd = "{} CHECK={} {}={} {}={} {}={} {}/{} 0 {} {} {} {}".format(
+        run_cmd = "{} CHECK={} {}={} {}={} {}={} {}/{} {} {} {} {} {}".format(
             "OMP_PROC_BIND=TRUE OPENCL_LIBSMM_SMM_PARAMS=0",
             self.args.check,
             "OPENCL_LIBSMM_SMM_BATCHSIZE",
@@ -119,6 +119,7 @@ class SmmTuner(MeasurementInterface):
             self.exepath,
             self.exename,
             self.args.r,
+            self.args.s,
             self.args.m,
             self.args.n,
             self.args.k,
@@ -311,6 +312,15 @@ if __name__ == "__main__":
     )
     argparser.add_argument(
         "-s",
+        "--batchsize",
+        type=int,
+        default=0,
+        nargs="?",
+        dest="s",
+        help='Size of batch ("stacksize")',
+    )
+    argparser.add_argument(
+        "-c",
         "--csv-separator",
         type=(lambda c: c if isinstance(c, str) and 1 == len(c) else False),
         default=";",
@@ -319,7 +329,7 @@ if __name__ == "__main__":
         help="Separator used in CSV-file",
     )
     argparser.add_argument(
-        "-c",
+        "-o",
         "--csv-filename",
         type=str,
         default="tune_multiply.csv",
