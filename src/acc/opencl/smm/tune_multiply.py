@@ -317,7 +317,7 @@ if __name__ == "__main__":
         default=0,
         nargs="?",
         dest="s",
-        help="Size of batch (\"stacksize\")",
+        help='Size of batch ("stacksize")',
     )
     argparser.add_argument(
         "-c",
