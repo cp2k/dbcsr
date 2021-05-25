@@ -73,6 +73,7 @@ int main(int argc, char* argv[])
   const int nc = (0 < inc ? MIN(inc, stack_size) : MAX(stack_size / 16, 1));
   const int na = (0 < ina ? ina : (10 * nc));
   const int nb = (0 < inb ? inb : (10 * nc));
+  const int nr = nrepeat * nc;
 #if defined(ALIGNMENT) && (0 < ALIGNMENT)
   const int ma = (int)ROUNDUP2(sizeof(ELEM_TYPE) * m, ALIGNMENT);
   const int ka = (int)ROUNDUP2(sizeof(ELEM_TYPE) * k, ALIGNMENT);
@@ -140,12 +141,12 @@ int main(int argc, char* argv[])
 #if defined(_OPENMP)
 #   pragma omp for
 #endif
-    for (i = 0; i < na; ++i) INIT_MAT(ELEM_TYPE, i/*seed*/ + 42, &amat_hst[i*mk], m, k, 1.0 / (nc * na));
+    for (i = 0; i < na; ++i) INIT_MAT(ELEM_TYPE, i/*seed*/ + 42, &amat_hst[i*mk], m, k, 1.0 / (nr * na));
 #if defined(_OPENMP)
 #   pragma omp for
 #endif
     for (i = 0; i < nb; ++i) {
-      INIT_MAT(ELEM_TYPE, i/*seed*/ + 24, &bmat_hst[i*kn], k, n, 1.0 / (nc * nb));
+      INIT_MAT(ELEM_TYPE, i/*seed*/ + 24, &bmat_hst[i*kn], k, n, 1.0 / (nr * nb));
       trans_hst[i] = i * kn;
     }
   }
@@ -281,9 +282,8 @@ int main(int argc, char* argv[])
             }
           }
         }
-        relerror /= (nc * nrepeat); /* normalize error */
-        printf("max.error: rel=%g (%g != %g)\n", relerror, a, b);
-        if (0 < check && check < relerror) result = EXIT_FAILURE;
+        printf("max.error: eps=%g (%g != %g)\n", relerror / nr, a, b);
+        if (0 < check && (nr * check) < relerror) result = EXIT_FAILURE;
       }
     }
     libxsmm_free(gold_hst);

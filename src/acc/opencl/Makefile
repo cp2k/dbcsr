@@ -24,6 +24,10 @@ CFLAGS := -fPIC \
   -D__OPENCL \
   $(NULL)
 
+ifneq (,$(ELEM_TYPE))
+  CFLAGS += -DELEM_TYPE=$(ELEM_TYPE)
+endif
+
 ifeq (1,$(INTEL))
   CXX := icpc
   CC := icc
