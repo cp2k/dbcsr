@@ -49,18 +49,27 @@ class SmmTuner(MeasurementInterface):
             )
         else:
             typename = device = None
-        if (typename is not None) and typename.group(1) and typename.group(2):
+        if device and device.group(1):
+            self.device = device.group(1)
+        else:
+            self.device = ""  # unknown
+        if typename and typename.group(1) and typename.group(2):
             self.typename = typename.group(2)
             self.typeid = int(typename.group(1))
+            # construct label used for the database session
+            if not self.args.label:
+                self.args.label = "multiply-{}x{}x{}-{}{}".format(
+                    self.args.m,
+                    self.args.n,
+                    self.args.k,
+                    self.typename,
+                    ["", " " + self.device]["" != self.device],
+                )
         elif not self.args.merge:
             sys.tracebacklimit = 0
             raise RuntimeError(
                 "Setup failed for {}/{}!".format(self.exepath, self.exename)
             )
-        if (device is not None) and device.group(1):
-            self.device = device.group(1)
-        else:
-            self.device = ""  # unknown
         # sanitize input arguments
         self.args.m = max(self.args.m, 1)
         self.args.n = [max(self.args.n, 1), self.args.m][0 == self.args.n]
@@ -70,15 +79,6 @@ class SmmTuner(MeasurementInterface):
         self.args.bm = [max(self.args.bm, 1), self.args.m][0 == self.args.bm]
         self.args.bn = [max(self.args.bn, 1), 1][0 == self.args.bn]
         self.gflops = 0
-        # construct label used for the database session
-        if not self.args.label:
-            self.args.label = "multiply-{}x{}x{}-{}{}".format(
-                self.args.m,
-                self.args.n,
-                self.args.k,
-                self.typename,
-                ["", " " + self.device]["" != self.device],
-            )
         # consider merge-only
         if self.args.merge:
             self.merge_into_csv(glob.glob("*.json"))
@@ -132,7 +132,7 @@ class SmmTuner(MeasurementInterface):
             )
         else:
             performance = None
-        if (performance is not None) and performance.group(1) and performance.group(3):
+        if performance and performance.group(1) and performance.group(3):
             mseconds = float(performance.group(1))
             gflops = float(performance.group(3))
             if self.gflops < gflops:
