@@ -152,8 +152,8 @@ inline void jit_kernel(ACC_DRV(function)& kern_func, libsmm_acc_algo algo, int t
     const char *compileOptions[] = {"-D__CUDA", "-w", ARCH_OPTION};
     size_t nOptions = 3;
 #else
-    const char *compileOptions[] = {"-D__HIP", ARCH_OPTION};
-    size_t nOptions = 2;
+    const char *compileOptions[] = {"-D__HIP"};
+    size_t nOptions = 1;
 #endif
     ACC_RTC_CALL(CompileProgram, (kernel_program, nOptions, compileOptions));
 
@@ -364,8 +364,8 @@ void jit_transpose_handle(ACC_DRV(function)& kern_func, int m, int n){
     const char *compileOptions[] = {"-D__CUDA", "-w", ARCH_OPTION};
     size_t nOptions = 3;
 #else
-    const char *compileOptions[] = {"-D__HIP", ARCH_OPTION};
-    size_t nOptions = 2;
+    const char *compileOptions[] = {"-D__HIP"};
+    size_t nOptions = 1;
 #endif
     ACC_RTC_CALL(CompileProgram, (kernel_program, nOptions, compileOptions));
 
