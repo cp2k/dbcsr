@@ -1,5 +1,6 @@
 !--------------------------------------------------------------------------------------------------!
 ! Copyright (C) by the DBCSR developers group - All rights reserved                                !
+! Copyright(C) 2021 Advanced Micro Devices, Inc. All rights reserved.                              !
 ! This file is part of the DBCSR library.                                                          !
 !                                                                                                  !
 ! For information on the license, see the LICENSE file.                                            !

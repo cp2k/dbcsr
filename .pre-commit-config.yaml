@@ -45,6 +45,7 @@ repos:
         tools/.*|
         .cp2k/.*|
         .cmake-format.py|
+        src/acc/hip/dbcsr_hip_profiling.F|
       )$
   - id: check-doxygen-tags
     name: no doxygen tags present
