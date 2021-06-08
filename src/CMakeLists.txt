@@ -249,8 +249,8 @@ if (USE_ACCEL)
             $<$<BOOL:${WITH_CUDA_PROFILING}>:CUDA::nvToolsExt>
             $<$<STREQUAL:${USE_ACCEL},hip>:roc::hipblas>
             $<$<STREQUAL:${USE_ACCEL},hip>:hip::host>
-            $<$<BOOL:${WITH_HIP_PROFILING}>:roc::roctx64>
-            $<$<BOOL:${WITH_HIP_PROFILING}>:roc::roctracer64>
+            $<$<BOOL:${WITH_HIP_PROFILING}>:roctx64>
+            $<$<BOOL:${WITH_HIP_PROFILING}>:roctracer64>
             $<$<STREQUAL:${USE_ACCEL},opencl>:OpenCL::OpenCL>)
 endif ()
 
