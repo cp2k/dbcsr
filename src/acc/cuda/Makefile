@@ -27,17 +27,21 @@ ifeq (,$(PYTHON))
 endif
 
 ifeq ($(WITH_GPU),K20X)
- ARCH_NUMBER = 35
+  ARCH_NUMBER = 35
 else ifeq ($(WITH_GPU),K40)
- ARCH_NUMBER = 35
+  ARCH_NUMBER = 35
 else ifeq ($(WITH_GPU),K80)
- ARCH_NUMBER = 37
+  ARCH_NUMBER = 37
 else ifeq ($(WITH_GPU),P100)
- ARCH_NUMBER = 60
+  ARCH_NUMBER = 60
 else ifeq ($(WITH_GPU),V100)
- ARCH_NUMBER = 70
+  ARCH_NUMBER = 70
+else ifeq ($(WITH_GPU),A100)
+  # TODO: update when tuned parameters for A100 available
+  override WITH_GPU := V100
+  ARCH_NUMBER = 80
 else ifeq (,$(ARCH_NUMBER))
- $(error Unknown ARCH_NUMBER since WITH_GPU="$(WITH_GPU)" is not recognized)
+  $(error Unknown ARCH_NUMBER since WITH_GPU="$(WITH_GPU)" is not recognized)
 endif
 
 CFLAGS := -fPIC \
