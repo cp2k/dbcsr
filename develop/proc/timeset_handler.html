@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-50-g4bdde70a7</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-51-g52a3d0cfc</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -329,6 +329,9 @@ public subroutine timeset_handler(routineN, handle)
       <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="mi">60</span><span class="p">)</span>                                  <span class="kd">::</span> <span class="n">sformat</span>
       <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=</span><span class="n">default_string_length</span><span class="p">)</span>               <span class="kd">::</span> <span class="n">routine_name_dsl</span>
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">routine_id</span><span class="p">,</span> <span class="n">stack_size</span>
+<span class="cp">#if defined( __HIP_PROFILING )</span>
+      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">ret</span>
+<span class="cp">#endif</span>
       <span class="kt">INTEGER</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">int_8</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">cpumem</span><span class="p">,</span> <span class="n">gpumem_free</span><span class="p">,</span> <span class="n">gpumem_total</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">callstack_entry_type</span><span class="p">)</span>                         <span class="kd">::</span> <span class="n">cs_entry</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">routine_stat_type</span><span class="p">),</span> <span class="k">POINTER</span>                   <span class="kd">::</span> <span class="n">r_stat</span>
@@ -385,6 +388,9 @@ public subroutine timeset_handler(routineN, handle)
 
 <span class="cp">#if defined( __CUDA_PROFILING )</span>
       <span class="k">CALL </span><span class="n">cuda_nvtx_range_push</span><span class="p">(</span><span class="n">routineN</span><span class="p">)</span>
+<span class="cp">#endif</span>
+<span class="cp">#if defined( __HIP_PROFILING )</span>
+      <span class="n">ret</span> <span class="o">=</span> <span class="n">roctxRangePushA</span><span class="p">(</span><span class="n">routineN</span><span class="o">//</span><span class="nb">C_NULL_CHAR</span><span class="p">)</span>
 <span class="cp">#endif</span>
 
 <span class="c">!$OMP END CRITICAL(time_setstop)</span>
