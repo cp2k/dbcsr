@@ -31,12 +31,18 @@ inline void atomic_add_global_cmpxchg(global volatile T* dst, T inc)
 __attribute__((always_inline))
 inline void atomic_add_global_xchg(global volatile T* dst, T inc)
 {
+#if defined(__NV_CL_C_VERSION) && (1 == TN)
+  asm("{ .reg .f32 t; atom.global.add.f32 t, [%0], %1; }" :: "l"(dst), "f"(inc));
+#elif defined(__NV_CL_C_VERSION) && (3 == TN)
+  asm("{ .reg .f64 t; atom.global.add.f64 t, [%0], %1; }" :: "l"(dst), "d"(inc));
+#else
   union { T f; TA a; } old_val = { .f = inc }, try_val, new_val = { .f = 0 };
   do {
     try_val.a = XCHG((global volatile TA*)dst, new_val.a);
     try_val.f += old_val.f;
     old_val.a = XCHG((global volatile TA*)dst, try_val.a);
   } while (old_val.a != new_val.a);
+#endif
 }
 
 #if defined(ATOMIC_ADD2_GLOBAL)
@@ -72,9 +78,8 @@ kernel void FN(global T *restrict cdata,
 #endif
   global T *restrict c = cdata + c0;
 
-  T amk[SK];
 #if (SWG != SN)
-  T bkn[SK][BN];
+  T amk[SK], bkn[SK][BN];
 # if (1 < BS)
   T cmn[BM][BN] = {{ 0 }};
 # endif
@@ -150,14 +155,15 @@ kernel void FN(global T *restrict cdata,
       }
     }
 #else
+# if (1 < SWG)
     barrier(CLK_LOCAL_MEM_FENCE);
+# endif
     for (int m = 0; m < SM; ++m) {
-      T r = 0;
-      for (int k = 0; k < SK; ++k) amk[k] = awg[m][k];
-      for (int k = 0; k < SK; ++k) r = FMA(amk[k], bkn[k], r);
 # if (1 < BS)
-      cmn[m] += r;
+      for (int k = 0; k < SK; ++k) cmn[m] = FMA(awg[m][k], bkn[k], cmn[m]);
 # else
+      T r = 0;
+      for (int k = 0; k < SK; ++k) r = FMA(awg[m][k], bkn[k], r);
       if (0 != r) ATOMIC_ADD_GLOBAL(&c[SM*n+m], r);
 # endif
     }
@@ -176,10 +182,10 @@ kernel void FN(global T *restrict cdata,
 # else
 #   if defined(ATOMIC_ADD2_GLOBAL)
       for (int m = 0; m < SM; m += 2) {
-        float2 *const restrict r = (float2*)(cmn + m);
-        if (0 != r) {
-          ATOMIC_ADD2_GLOBAL((global volatile float2*)(c + SM * n + m), *r);
-          *r = 0; /* reset */
+        /*if (0 != cmn[m] && 0 != cmn[m+1])*/ {
+          const float2 r2 = (float2)(cmn[m], cmn[m+1]);
+          ATOMIC_ADD2_GLOBAL((global volatile float2*)(c + SM * n + m), r2);
+          cmn[m] = cmn[m+1] = 0; /* reset */
         }
       }
 #   else
@@ -195,7 +201,6 @@ kernel void FN(global T *restrict cdata,
       c = cdata + c1;
       c0 = c1;
     }
-    barrier(CLK_LOCAL_MEM_FENCE);
 #endif
   }
 }
