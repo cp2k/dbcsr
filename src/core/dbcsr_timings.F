@@ -35,6 +35,9 @@ MODULE dbcsr_timings
                                       callstack_entry_type, &
                                       routine_stat_type
    USE dbcsr_timings_types, ONLY: timer_env_type
+   USE dbcsr_hip_profiling, ONLY: roctxRangePushA, &
+                                  roctxRangePop
+   USE ISO_C_BINDING, ONLY: C_NULL_CHAR
 #include "base/dbcsr_base_uses.f90"
 
    IMPLICIT NONE
@@ -183,6 +186,9 @@ CONTAINS
       CHARACTER(LEN=60)                                  :: sformat
       CHARACTER(LEN=default_string_length)               :: routine_name_dsl
       INTEGER                                            :: routine_id, stack_size
+#if defined( __HIP_PROFILING )
+      INTEGER                                            :: ret
+#endif
       INTEGER(KIND=int_8)                                :: cpumem, gpumem_free, gpumem_total
       TYPE(callstack_entry_type)                         :: cs_entry
       TYPE(routine_stat_type), POINTER                   :: r_stat
@@ -240,6 +246,9 @@ CONTAINS
 #if defined( __CUDA_PROFILING )
       CALL cuda_nvtx_range_push(routineN)
 #endif
+#if defined( __HIP_PROFILING )
+      ret = roctxRangePushA(routineN//C_NULL_CHAR)
+#endif
 
 !$OMP END CRITICAL(time_setstop)
 !$OMP END MASTER
@@ -268,6 +277,9 @@ CONTAINS
 
 #if defined( __CUDA_PROFILING )
       CALL cuda_nvtx_range_pop()
+#endif
+#if defined( __HIP_PROFILING )
+      CALL roctxRangePop()
 #endif
 
       timer_env => list_peek(timers_stack)

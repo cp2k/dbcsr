@@ -18,6 +18,7 @@ add_fypp_sources(
   acc/dbcsr_acc_stream.F
   acc/dbcsr_acc_timings.F
   acc/hip/dbcsr_hipblas.F
+  acc/hip/dbcsr_hip_profiling.F
   base/dbcsr_base_hooks.F
   base/dbcsr_kinds.F
   base/dbcsr_machine.F
@@ -237,7 +238,8 @@ if (USE_ACCEL)
             $<$<STREQUAL:${USE_ACCEL},cuda>:ARCH_NUMBER=${ACC_ARCH_NUMBER}>
             $<$<STREQUAL:${USE_ACCEL},hip>:__HIP>
             $<$<STREQUAL:${USE_ACCEL},hip>:ARCH_NUMBER=${ACC_ARCH_NUMBER}>
-            $<$<BOOL:${WITH_CUDA_PROFILING}>:__CUDA_PROFILING>)
+            $<$<BOOL:${WITH_CUDA_PROFILING}>:__CUDA_PROFILING>
+            $<$<BOOL:${WITH_HIP_PROFILING}>:__HIP_PROFILING>)
 
   target_link_libraries(
     dbcsr
@@ -247,6 +249,8 @@ if (USE_ACCEL)
             $<$<BOOL:${WITH_CUDA_PROFILING}>:CUDA::nvToolsExt>
             $<$<STREQUAL:${USE_ACCEL},hip>:roc::hipblas>
             $<$<STREQUAL:${USE_ACCEL},hip>:hip::host>
+            $<$<BOOL:${WITH_HIP_PROFILING}>:roctx64>
+            $<$<BOOL:${WITH_HIP_PROFILING}>:roctracer64>
             $<$<STREQUAL:${USE_ACCEL},opencl>:OpenCL::OpenCL>)
 endif ()
 

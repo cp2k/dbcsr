@@ -105,6 +105,7 @@ set_property(CACHE WITH_GPU PROPERTY STRINGS ${SUPPORTED_CUDA_ARCHITECTURES}
                                      ${SUPPORTED_HIP_ARCHITECTURES})
 
 option(WITH_CUDA_PROFILING "Enable profiling within CUDA" OFF)
+option(WITH_HIP_PROFILING "Enable profiling within HIP" OFF)
 
 # =================================================================================================
 # LANGUAGES AND TESTING
@@ -262,6 +263,7 @@ if (USE_ACCEL MATCHES "hip")
   set(ACC_ARCH_NUMBER ${GPU_ARCH_NUMBER_${WITH_GPU}})
   message(STATUS "GPU target architecture: " ${WITH_GPU})
   message(STATUS "GPU architecture number: " ${ACC_ARCH_NUMBER})
+  message(STATUS "GPU profiling enabled: " ${WITH_HIP_PROFILING})
 
   # =================================== BLAS on GPU backend
   find_package(hipblas CONFIG REQUIRED HINTS ${ROCM_PATH})
