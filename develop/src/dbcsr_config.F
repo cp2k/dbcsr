@@ -485,11 +485,13 @@ CONTAINS
       INTEGER, INTENT(IN) :: in_accdrv_active_device_id
 
       ! Abort if device already assigned
-      IF (accdrv_active_device_id .GE. 0) &
-         DBCSR_ABORT("Accelerator device ID already set")
-      IF (in_accdrv_active_device_id .LT. 0 .OR. in_accdrv_active_device_id .GE. dbcsr_acc_get_ndevices()) &
-         DBCSR_ABORT("Invalid accelerator device ID")
-      accdrv_active_device_id = in_accdrv_active_device_id
+      IF (dbcsr_acc_get_ndevices() .GT. 0) THEN
+         IF (accdrv_active_device_id .GE. 0) &
+            DBCSR_ABORT("Accelerator device ID already set")
+         IF (in_accdrv_active_device_id .LT. 0 .OR. in_accdrv_active_device_id .GE. dbcsr_acc_get_ndevices()) &
+            DBCSR_ABORT("Invalid accelerator device ID")
+         accdrv_active_device_id = in_accdrv_active_device_id
+      ENDIF
 
    END SUBROUTINE set_accdrv_active_device_id
 

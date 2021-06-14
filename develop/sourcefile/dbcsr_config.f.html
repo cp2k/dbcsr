@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-53-g3447e461a</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-54-gb1ec95400</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.5% of total for source files.">283 statements</a>
+    title=" 0.5% of total for source files.">285 statements</a>
      </li> 
      
      
@@ -747,19 +747,21 @@
 <a id="ln-485" name="ln-485"></a>      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span> <span class="kd">::</span> <span class="n">in_accdrv_active_device_id</span>
 <a id="ln-486" name="ln-486"></a>
 <a id="ln-487" name="ln-487"></a>      <span class="c">! Abort if device already assigned</span>
-<a id="ln-488" name="ln-488"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">accdrv_active_device_id</span> <span class="p">.</span><span class="n">GE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
-<a id="ln-489" name="ln-489"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Accelerator device ID already set&quot;</span><span class="p">)</span>
-<a id="ln-490" name="ln-490"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">in_accdrv_active_device_id</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">in_accdrv_active_device_id</span> <span class="p">.</span><span class="n">GE</span><span class="p">.</span> <span class="n">dbcsr_acc_get_ndevices</span><span class="p">())</span> <span class="p">&amp;</span>
-<a id="ln-491" name="ln-491"></a>         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid accelerator device ID&quot;</span><span class="p">)</span>
-<a id="ln-492" name="ln-492"></a>      <span class="n">accdrv_active_device_id</span> <span class="o">=</span> <span class="n">in_accdrv_active_device_id</span>
-<a id="ln-493" name="ln-493"></a>
-<a id="ln-494" name="ln-494"></a>   <span class="k">END SUBROUTINE </span><span class="n">set_accdrv_active_device_id</span>
+<a id="ln-488" name="ln-488"></a>      <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_acc_get_ndevices</span><span class="p">()</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<a id="ln-489" name="ln-489"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">accdrv_active_device_id</span> <span class="p">.</span><span class="n">GE</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="p">&amp;</span>
+<a id="ln-490" name="ln-490"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Accelerator device ID already set&quot;</span><span class="p">)</span>
+<a id="ln-491" name="ln-491"></a>         <span class="k">IF</span> <span class="p">(</span><span class="n">in_accdrv_active_device_id</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="mi">0</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">in_accdrv_active_device_id</span> <span class="p">.</span><span class="n">GE</span><span class="p">.</span> <span class="n">dbcsr_acc_get_ndevices</span><span class="p">())</span> <span class="p">&amp;</span>
+<a id="ln-492" name="ln-492"></a>            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Invalid accelerator device ID&quot;</span><span class="p">)</span>
+<a id="ln-493" name="ln-493"></a>         <span class="n">accdrv_active_device_id</span> <span class="o">=</span> <span class="n">in_accdrv_active_device_id</span>
+<a id="ln-494" name="ln-494"></a>      <span class="k">ENDIF</span>
 <a id="ln-495" name="ln-495"></a>
-<a id="ln-496" name="ln-496"></a>   <span class="k">SUBROUTINE </span><span class="n">reset_accdrv_active_device_id</span><span class="p">()</span>
-<a id="ln-497" name="ln-497"></a>      <span class="n">accdrv_active_device_id</span> <span class="o">=</span> <span class="n">default_accdrv_active_device_id</span>
-<a id="ln-498" name="ln-498"></a>   <span class="k">END SUBROUTINE </span><span class="n">reset_accdrv_active_device_id</span>
-<a id="ln-499" name="ln-499"></a>
-<a id="ln-500" name="ln-500"></a><span class="k">END MODULE </span><span class="n">dbcsr_config</span>
+<a id="ln-496" name="ln-496"></a><span class="k">   END SUBROUTINE </span><span class="n">set_accdrv_active_device_id</span>
+<a id="ln-497" name="ln-497"></a>
+<a id="ln-498" name="ln-498"></a>   <span class="k">SUBROUTINE </span><span class="n">reset_accdrv_active_device_id</span><span class="p">()</span>
+<a id="ln-499" name="ln-499"></a>      <span class="n">accdrv_active_device_id</span> <span class="o">=</span> <span class="n">default_accdrv_active_device_id</span>
+<a id="ln-500" name="ln-500"></a>   <span class="k">END SUBROUTINE </span><span class="n">reset_accdrv_active_device_id</span>
+<a id="ln-501" name="ln-501"></a>
+<a id="ln-502" name="ln-502"></a><span class="k">END MODULE </span><span class="n">dbcsr_config</span>
 </pre></div>
 
     </section>
