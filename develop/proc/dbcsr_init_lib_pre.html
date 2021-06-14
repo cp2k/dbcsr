@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-52-gb0e484940</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-53-g3447e461a</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -125,7 +125,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">21 statements</a>
+    title=" 0.0% of total for procedures.">23 statements</a>
      </li> 
      
      
@@ -373,12 +373,14 @@ private subroutine dbcsr_init_lib_pre(mp_comm, io_unit, accdrv_active_device_id)
 <span class="cp">#endif</span>
 
       <span class="c">! Set Acc device</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_active_device_id</span><span class="p">))</span> <span class="k">THEN</span>
-<span class="k">         CALL </span><span class="n">set_accdrv_active_device_id</span><span class="p">(</span><span class="n">accdrv_active_device_id</span><span class="p">)</span>
-      <span class="n">ELSEIF</span> <span class="p">(</span><span class="n">dbcsr_acc_get_ndevices</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
-         <span class="c">! Use round-robin assignment per rank</span>
-         <span class="k">CALL </span><span class="n">set_accdrv_active_device_id</span><span class="p">(</span><span class="nb">MOD</span><span class="p">(</span><span class="n">mynode</span><span class="p">,</span> <span class="n">dbcsr_acc_get_ndevices</span><span class="p">()))</span>
-      <span class="k">ENDIF</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_acc_get_ndevices</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_active_device_id</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">            CALL </span><span class="n">set_accdrv_active_device_id</span><span class="p">(</span><span class="n">accdrv_active_device_id</span><span class="p">)</span>
+         <span class="k">ELSE</span>
+            <span class="c">! Use round-robin assignment per rank</span>
+            <span class="k">CALL </span><span class="n">set_accdrv_active_device_id</span><span class="p">(</span><span class="nb">MOD</span><span class="p">(</span><span class="n">mynode</span><span class="p">,</span> <span class="n">dbcsr_acc_get_ndevices</span><span class="p">()))</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
 <span class="cp">#if defined(__DBCSR_ACC)</span>
       <span class="k">CALL </span><span class="n">dbcsr_acc_set_active_device</span><span class="p">(</span><span class="n">get_accdrv_active_device_id</span><span class="p">())</span>
 

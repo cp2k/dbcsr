@@ -199,11 +199,13 @@ CONTAINS
 #endif
 
       ! Set Acc device
-      IF (PRESENT(accdrv_active_device_id)) THEN
-         CALL set_accdrv_active_device_id(accdrv_active_device_id)
-      ELSEIF (dbcsr_acc_get_ndevices() > 0) THEN
-         ! Use round-robin assignment per rank
-         CALL set_accdrv_active_device_id(MOD(mynode, dbcsr_acc_get_ndevices()))
+      IF (dbcsr_acc_get_ndevices() > 0) THEN
+         IF (PRESENT(accdrv_active_device_id)) THEN
+            CALL set_accdrv_active_device_id(accdrv_active_device_id)
+         ELSE
+            ! Use round-robin assignment per rank
+            CALL set_accdrv_active_device_id(MOD(mynode, dbcsr_acc_get_ndevices()))
+         ENDIF
       ENDIF
 #if defined(__DBCSR_ACC)
       CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
