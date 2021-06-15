@@ -19,6 +19,8 @@ The code for both the OpenCL backends is enabled with a build-time macro (`__OPE
 
 Two stand-alone drivers (only depending on above mentioned interfaces) can be built locally and in a rather self-contained fashion, i.e., no DBCSR library is needed (except runtime libraries such as CUDA, HIP, OpenCL/LIBXSMM). For OpenCL, a folder `libxsmm` parallel to DBCSR's root directory (`dbcsr`) is expected to be present and prebuilt (`make` in LIBXSMM's root directory is enough). To build the driver code, change into the respective backend folder (`cuda` or `opencl`), and invoke `make` (`DBG=0|1|2`, and a few other key-value pairs are optional). When building the code is completed, change back into the parent folder and invoke either `acc_bench_trans` or `acc_bench_smm`.
 
+**NOTE**: To activate a certain device, an environment variable `DEVICE` can be used. For example, `DEVICE=1 ./acc_bench_trans` activates the second device (at least two devices must be discovered).
+
 The drivers support a few command line options (_nrepeat_, _stack_size_, _m_, _n_, ...). Command line arguments are positional but allow `0` as placeholder to access the default value (`acc_bench_smm 0 0 5 13 5` performs the default number of repetitions with the default stacksize when running the 5x13x5-kernel). For example, running the tranpose benchmark may look like:
 
 ```bash

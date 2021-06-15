@@ -17,7 +17,7 @@ An application of compile-time settings (and perhaps a valuable contribution) mi
 Runtime settings are made by the means of environment variables (implemented in `acc_opencl.c`):
 
 * `ACC_OPENCL_DEVSPLIT`: integer enabling devices to be split into subdevices (non-zero/default: enabled, zero: disabled).
-* `ACC_OPENCL_DEVTYPE`: character string matching the device-kind like "cpu", "gpu", or another kind if neither CPU or GPU.
+* `ACC_OPENCL_DEVTYPE`: character string selecting "cpu", "gpu", "all" (unfiltered), or any other string (neither CPU or GPU).
 * `ACC_OPENCL_DEVICE`: non-negative integer number to select a device from the (internally enumerated) list of devices.
 * `ACC_OPENCL_VENDOR`: character string matching the vendor of the OpenCL device in an case-insensitive fashion, e.g., "intel".
 * `ACC_OPENCL_VERBOSE`: verbosity level (integer) with console output on `stderr`.

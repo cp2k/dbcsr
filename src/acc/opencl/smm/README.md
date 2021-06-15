@@ -17,7 +17,7 @@ The `OPENCL_LIBSMM_DEBUG` compile-time setting enables side-by-side validation o
 Runtime settings are made by the means of environment variables (implemented in `acc_opencl.c`). There are two categories (for the two major functions) like matrix transpose (`OPENCL_LIBSMM_TRANS_*`) and matrix multiplication (`OPENCL_LIBSMM_SMM_*`). Common settings are (see OpenCL backend documentation for more details):
 
 * `ACC_OPENCL_DEVSPLIT`: integer enabling devices to be split into subdevices (non-zero/default: enabled, zero: disabled).
-* `ACC_OPENCL_DEVTYPE`: character string matching the device-kind like "cpu", "gpu", or another kind if neither CPU or GPU.
+* `ACC_OPENCL_DEVTYPE`: character string selecting "cpu", "gpu", "all" (unfiltered), or any other string (neither CPU or GPU).
 * `ACC_OPENCL_DEVICE`: non-negative integer number to select a device from the (internally enumerated) list of devices.
 * `ACC_OPENCL_VENDOR`: character string matching the vendor of the OpenCL device in an case-insensitive fashion, e.g., "intel".
 * `ACC_OPENCL_VERBOSE`: verbosity level (integer) with console output on `stderr`.
@@ -26,7 +26,7 @@ Runtime settings are made by the means of environment variables (implemented in 
     * `ACC_OPENCL_VERBOSE=3`: outputs device-side measured performance of kernels (geometric mean).
     * `ACC_OPENCL_VERBOSE=4`: outputs device-side performance of kernels (every launch profiled).
 
-For tranposing matrices (implemented in `opencl_libsmm.c`):
+For transposing matrices (implemented in `opencl_libsmm.c`):
 
 * `OPENCL_LIBSMM_TRANS_BUILDOPTS`: character string with build options (compile and link) supplied to the OpenCL runtime compiler.
 * `OPENCL_LIBSMM_TRANS_INPLACE`: Boolean value (zero or non-zero integer) for in-place matrix transpose (no local memory needed).
