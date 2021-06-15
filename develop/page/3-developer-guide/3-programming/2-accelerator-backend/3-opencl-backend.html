@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.1.0-54-gb1ec95400</small></a>
+          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.1.0-55-g49347fc5a</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -147,7 +147,7 @@
 <p>Runtime settings are made by the means of environment variables (implemented in <code>acc_opencl.c</code>):</p>
 <ul>
 <li><code>ACC_OPENCL_DEVSPLIT</code>: integer enabling devices to be split into subdevices (non-zero/default: enabled, zero: disabled).</li>
-<li><code>ACC_OPENCL_DEVTYPE</code>: character string matching the device-kind like "cpu", "gpu", or another kind if neither CPU or GPU.</li>
+<li><code>ACC_OPENCL_DEVTYPE</code>: character string selecting "cpu", "gpu", "all" (unfiltered), or any other string (neither CPU or GPU).</li>
 <li><code>ACC_OPENCL_DEVICE</code>: non-negative integer number to select a device from the (internally enumerated) list of devices.</li>
 <li><code>ACC_OPENCL_VENDOR</code>: character string matching the vendor of the OpenCL device in an case-insensitive fashion, e.g., "intel".</li>
 <li><code>ACC_OPENCL_VERBOSE</code>: verbosity level (integer) with console output on <code>stderr</code>.<ul>

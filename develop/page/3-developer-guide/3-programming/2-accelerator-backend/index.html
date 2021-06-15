@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.1.0-54-gb1ec95400</small></a>
+          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.1.0-55-g49347fc5a</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -156,6 +156,7 @@ At compile-time either one or the other backend is chosen per macro (<code>__CUD
 <p>The code for both the OpenCL backends is enabled with a build-time macro (<code>__OPENCL</code>).</p>
 <h2>Benchmarks</h2>
 <p>Two stand-alone drivers (only depending on above mentioned interfaces) can be built locally and in a rather self-contained fashion, i.e., no DBCSR library is needed (except runtime libraries such as CUDA, HIP, OpenCL/LIBXSMM). For OpenCL, a folder <code>libxsmm</code> parallel to DBCSR's root directory (<code>dbcsr</code>) is expected to be present and prebuilt (<code>make</code> in LIBXSMM's root directory is enough). To build the driver code, change into the respective backend folder (<code>cuda</code> or <code>opencl</code>), and invoke <code>make</code> (<code>DBG=0|1|2</code>, and a few other key-value pairs are optional). When building the code is completed, change back into the parent folder and invoke either <code>acc_bench_trans</code> or <code>acc_bench_smm</code>.</p>
+<p><strong>NOTE</strong>: To activate a certain device, an environment variable <code>DEVICE</code> can be used. For example, <code>DEVICE=1 ./acc_bench_trans</code> activates the second device (at least two devices must be discovered).</p>
 <p>The drivers support a few command line options (<em>nrepeat</em>, <em>stack_size</em>, <em>m</em>, <em>n</em>, ...). Command line arguments are positional but allow <code>0</code> as placeholder to access the default value (<code>acc_bench_smm 0 0 5 13 5</code> performs the default number of repetitions with the default stacksize when running the 5x13x5-kernel). For example, running the tranpose benchmark may look like:</p>
 <div class="codehilite"><pre><span></span><code>$ <span class="nv">OMP_PROC_BIND</span><span class="o">=</span>TRUE ./acc_bench_trans <span class="m">5</span> <span class="m">30000</span> <span class="m">23</span> <span class="m">23</span>
 ./acc_bench_trans <span class="m">5</span> <span class="m">30000</span> <span class="m">23</span> <span class="m">23</span>
