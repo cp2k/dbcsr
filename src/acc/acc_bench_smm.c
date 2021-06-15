@@ -88,6 +88,8 @@ int main(int argc, char* argv[])
 #else
   const int warmup = 0;
 #endif
+  const char *const env_device = getenv("DEVICE");
+  const int device = ((NULL == env_device || '\0' == *env_device) ? 0 : atoi(env_device));
   int *stack_hst = NULL, *stack_dev = NULL, *trans_hst = NULL, *trans_dev = NULL;
   ELEM_TYPE *amat_hst = NULL, *bmat_hst = NULL, *cmat_hst = NULL;
   ELEM_TYPE *amat_dev = NULL, *bmat_dev = NULL, *cmat_dev = NULL;
@@ -112,13 +114,14 @@ int main(int argc, char* argv[])
   /* note: libsmm_acc_init() may imply acc_init() */
   CHECK(libsmm_acc_init(), &result);
   CHECK(c_dbcsr_acc_get_ndevices(&ndevices), &result);
-  if (0 < ndevices) {
+  if (0 < ndevices && EXIT_SUCCESS == c_dbcsr_acc_set_active_device(device)) {
 #if defined(_DEBUG)
-    fprintf(stderr, "number of devices found: %i\n", ndevices);
+    fprintf(stderr, "Activated device %i of %i.\n", device, ndevices);
 #endif
   }
   else {
-    fprintf(stderr, "No ACC-device found!\n");
+    if (0 < ndevices) fprintf(stderr, "No ACC-device found!\n");
+    else fprintf(stderr, "Failed to activate device %i of %i!\n", device, ndevices);
 #if !defined(__CUDA)
     CHECK(libsmm_acc_finalize(), NULL);
 #endif

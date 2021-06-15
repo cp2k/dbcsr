@@ -287,7 +287,7 @@ if __name__ == "__main__":
         "-bs",
         "--initial-bs",
         type=int,
-        default=32,
+        default=24,
         nargs="?",
         dest="bs",
         help="Initial (mini-)batch size (BS)",

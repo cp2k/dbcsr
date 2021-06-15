@@ -927,7 +927,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 ? getenv("OPENCL_LIBSMM_SMM_BN") : getenv("OPENCL_LIBSMM_SMM_BLOCK_N"));
               /* TODO: load parameters from file (auto-tuned) */
               const int batchsize = ((NULL == env_batchsize || '\0' == *env_batchsize)
-                ? (NULL == config ? 32/*default*/ : config->bs) : atoi(env_batchsize));
+                ? (NULL == config ? 24/*default*/ : config->bs) : atoi(env_batchsize));
               const int blockm = ((NULL == env_blockm || '\0' == *env_blockm)
                 ? (NULL == config ? m_max/*default*/ : config->bm) : atoi(env_blockm));
               const int blockn = ((NULL == env_blockn || '\0' == *env_blockn)

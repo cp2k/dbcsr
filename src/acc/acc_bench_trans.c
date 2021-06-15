@@ -74,14 +74,16 @@ int main(int argc, char* argv[])
 #if defined(SHUFFLE)
   const size_t shuffle = libxsmm_shuffle((unsigned int)offset_stack_size);
 #endif
+#if defined(PRIORITY)
+  int priomin, priomax;
+#endif
 #if defined(WARMUP) && (0 < WARMUP) && !defined(_DEBUG)
   const int warmup = MAX(WARMUP, 2) / 2 * 2;
 #else
   const int warmup = 0;
 #endif
-#if defined(PRIORITY)
-  int priomin, priomax;
-#endif
+  const char *const env_device = getenv("DEVICE");
+  const int device = ((NULL == env_device || '\0' == *env_device) ? 0 : atoi(env_device));
   int *stack_hst = NULL, *stack_dev = NULL;
   ELEM_TYPE *mat_hst = NULL, *mat_dev = NULL;
   int result = EXIT_SUCCESS, ndevices = 0, r, i, mm = m, nn = n;
@@ -96,13 +98,14 @@ int main(int argc, char* argv[])
   /* note: libsmm_acc_init() may imply acc_init() */
   CHECK(libsmm_acc_init(), &result);
   CHECK(c_dbcsr_acc_get_ndevices(&ndevices), &result);
-  if (0 < ndevices) {
+  if (0 < ndevices && EXIT_SUCCESS == c_dbcsr_acc_set_active_device(device)) {
 #if defined(_DEBUG)
-    fprintf(stderr, "number of devices found: %i\n", ndevices);
+    fprintf(stderr, "Activated device %i of %i.\n", device, ndevices);
 #endif
   }
   else {
-    fprintf(stderr, "No ACC-device found!\n");
+    if (0 < ndevices) fprintf(stderr, "No ACC-device found!\n");
+    else fprintf(stderr, "Failed to activate device %i of %i!\n", device, ndevices);
 #if !defined(__CUDA)
     CHECK(libsmm_acc_finalize(), NULL);
 #endif
