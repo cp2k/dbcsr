@@ -51,7 +51,7 @@ if [ "${BASENAME}" ] && [ "${SED}" ] && [ "${RM}" ]; then
             if [ "${CPP}" ] && \
                [ "$(${CPP} -dD -P -fpreprocessed "${IFILE}" 2>/dev/null >/dev/null && echo "OK")" ];
             then
-              ${CPP} -dD -P -fpreprocessed "${IFILE}"
+              ${CPP} -dD -P -fpreprocessed "${IFILE}" 2>/dev/null
             else # fallback to sed
               ${SED} -r ':a;s%(.*)/\*.*\*/%\1%;ta;/\/\*/!b;N;ba' "${IFILE}"
             fi | \

@@ -42,8 +42,8 @@
 #endif
 
 #define ACC_BENCH_SMM_EPSILON(T) DBCSR_CONCATENATE(ACC_BENCH_SMM_EPSILON_, T)
-#define ACC_BENCH_SMM_EPSILON_double 5E-18
-#define ACC_BENCH_SMM_EPSILON_float 5E-8
+#define ACC_BENCH_SMM_EPSILON_double 5E-6
+#define ACC_BENCH_SMM_EPSILON_float 5E-6
 
 #define ROUNDUP2(N, NPOT) ((((unsigned long long)N) + ((NPOT) - 1)) & ~((NPOT) - 1))
 #define CHECK(EXPR, RPTR) if ((NULL != ((const void*)(RPTR)) && EXIT_SUCCESS != *((const int*)(RPTR))) || \
@@ -114,7 +114,7 @@ int main(int argc, char* argv[])
   /* note: libsmm_acc_init() may imply acc_init() */
   CHECK(libsmm_acc_init(), &result);
   CHECK(c_dbcsr_acc_get_ndevices(&ndevices), &result);
-  if (0 < ndevices && EXIT_SUCCESS == c_dbcsr_acc_set_active_device(device)) {
+  if (0 < ndevices && (0 == device || EXIT_SUCCESS == c_dbcsr_acc_set_active_device(device))) {
 #if defined(_DEBUG)
     fprintf(stderr, "Activated device %i of %i.\n", device, ndevices);
 #endif

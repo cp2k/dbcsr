@@ -98,7 +98,7 @@ int main(int argc, char* argv[])
   /* note: libsmm_acc_init() may imply acc_init() */
   CHECK(libsmm_acc_init(), &result);
   CHECK(c_dbcsr_acc_get_ndevices(&ndevices), &result);
-  if (0 < ndevices && EXIT_SUCCESS == c_dbcsr_acc_set_active_device(device)) {
+  if (0 < ndevices && (0 == device || EXIT_SUCCESS == c_dbcsr_acc_set_active_device(device))) {
 #if defined(_DEBUG)
     fprintf(stderr, "Activated device %i of %i.\n", device, ndevices);
 #endif
