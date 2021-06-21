@@ -65,7 +65,7 @@ class SmmTuner(MeasurementInterface):
                     self.typename,
                     ["", " " + self.device]["" != self.device],
                 )
-        elif not self.args.merge:
+        elif not (self.args.merge or self.args.update):
             sys.tracebacklimit = 0
             raise RuntimeError(
                 "Setup failed for {}/{}!".format(self.exepath, self.exename)
@@ -79,9 +79,13 @@ class SmmTuner(MeasurementInterface):
         self.args.bm = [max(self.args.bm, 1), self.args.m][0 == self.args.bm]
         self.args.bn = [max(self.args.bn, 1), 1][0 == self.args.bn]
         self.gflops = 0
-        # consider merge-only
-        if self.args.merge:
-            self.merge_into_csv(glob.glob("*.json"))
+        # consider to update and/or merge JSONS (update first)
+        if self.args.update or self.args.merge:
+            filenames = glob.glob("*.json")
+            if self.args.update:
+                self.update_jsons(filenames)
+            if self.args.merge:
+                self.merge_jsons(filenames)
             exit(0)
         # setup tunable parameters
         manipulator = ConfigurationManipulator()
@@ -147,7 +151,27 @@ class SmmTuner(MeasurementInterface):
         else:  # return non-competitive/bad result in case of an error
             return Result(time=float("inf"), accuracy=0.0, size=100.0)
 
-    def merge_into_csv(self, filenames):
+    def update_jsons(self, filenames):
+        """update device name of all JSONs"""
+        if self.device:
+            for filename in filenames:
+                try:
+                    with open(filename, "r") as file:
+                        data = json.load(file)
+                        device = data["DEVICE"] if "DEVICE" in data else ""
+                        if device != self.device:
+                            data.update({"DEVICE": self.device})
+                            file.close()
+                            with open(filename, "w") as file:
+                                json.dump(data, file)
+                                file.write("\n")
+                                print("Updated {} to {}.".format(filename, self.device))
+                except (json.JSONDecodeError, KeyError):
+                    print("Failed to update {}.".format(filename))
+        else:
+            print("Cannot determine device name.")
+
+    def merge_jsons(self, filenames):
         """merge all JSONs into a single CSV-file"""
         if self.args.csvfile:
             merged = dict()
@@ -240,7 +264,7 @@ class SmmTuner(MeasurementInterface):
             )
             if ofilename not in filenames:
                 filenames.append(ofilename)
-                self.merge_into_csv(filenames)
+                self.merge_jsons(filenames)
 
     def handle_sigint(self, signum, frame):
         """handles SIGINT or CTRL-C"""
@@ -339,11 +363,19 @@ if __name__ == "__main__":
     )
     argparser.add_argument(
         "-m",
-        "--csv-merge-only",
+        "--csv-merge-jsons",
         action="store_true",
         default=False,
         dest="merge",
         help="Merge JSONs into CSV, and terminate",
+    )
+    argparser.add_argument(
+        "-u",
+        "--update-jsons",
+        action="store_true",
+        default=False,
+        dest="update",
+        help="Update JSONs (device), and terminate",
     )
     argparser.add_argument(
         "-v",
