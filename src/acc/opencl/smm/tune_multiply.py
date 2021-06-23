@@ -89,9 +89,22 @@ class SmmTuner(MeasurementInterface):
             exit(0)
         # setup tunable parameters
         manipulator = ConfigurationManipulator()
-        manipulator.add_parameter(IntegerParameter("BS", 1, self.args.mb))
-        manipulator.add_parameter(IntegerParameter("BM", 1, self.args.m))
-        manipulator.add_parameter(IntegerParameter("BN", 1, self.args.n))
+        manipulator.add_parameter(
+            IntegerParameter("BS", self.args.bs, self.args.bs)
+            if os.getenv("OPENCL_LIBSMM_SMM_BS")
+            else IntegerParameter("BS", 1, self.args.mb)
+        )
+
+        manipulator.add_parameter(
+            IntegerParameter("BM", self.args.bm, self.args.bm)
+            if os.getenv("OPENCL_LIBSMM_SMM_BM")
+            else IntegerParameter("BM", 1, self.args.m)
+        )
+        manipulator.add_parameter(
+            IntegerParameter("BN", self.args.bn, self.args.bn)
+            if os.getenv("OPENCL_LIBSMM_SMM_BN")
+            else IntegerParameter("BN", 1, self.args.n)
+        )
         # register signal handler (CTRL-C)
         signal(SIGINT, self.handle_sigint)
         return manipulator
@@ -114,11 +127,11 @@ class SmmTuner(MeasurementInterface):
         run_cmd = "{} CHECK={} {}={} {}={} {}={} {}/{} {} {} {} {} {}".format(
             "OMP_PROC_BIND=TRUE OPENCL_LIBSMM_SMM_PARAMS=0",
             self.args.check,
-            "OPENCL_LIBSMM_SMM_BATCHSIZE",
+            "OPENCL_LIBSMM_SMM_BS",
             config["BS"],
-            "OPENCL_LIBSMM_SMM_BLOCK_M",
+            "OPENCL_LIBSMM_SMM_BM",
             config["BM"],
-            "OPENCL_LIBSMM_SMM_BLOCK_N",
+            "OPENCL_LIBSMM_SMM_BN",
             config["BN"],
             self.exepath,
             self.exename,
@@ -154,6 +167,7 @@ class SmmTuner(MeasurementInterface):
     def update_jsons(self, filenames):
         """update device name of all JSONs"""
         if self.device:
+            updated = False
             for filename in filenames:
                 try:
                     with open(filename, "r") as file:
@@ -166,8 +180,11 @@ class SmmTuner(MeasurementInterface):
                                 json.dump(data, file)
                                 file.write("\n")
                                 print("Updated {} to {}.".format(filename, self.device))
+                                updated = True
                 except (json.JSONDecodeError, KeyError):
                     print("Failed to update {}.".format(filename))
+            if not updated:
+                print("All JSONs target {}.".format(self.device))
         else:
             print("Cannot determine device name.")
 
@@ -293,7 +310,7 @@ if __name__ == "__main__":
         "-bm",
         "--initial-bm",
         type=int,
-        default=0,
+        default=int(os.getenv("OPENCL_LIBSMM_SMM_BM", "0")),
         nargs="?",
         dest="bm",
         help="Initial block/tile size (BM)",
@@ -302,7 +319,7 @@ if __name__ == "__main__":
         "-bn",
         "--initial-bn",
         type=int,
-        default=0,
+        default=int(os.getenv("OPENCL_LIBSMM_SMM_BN", "0")),
         nargs="?",
         dest="bn",
         help="Initial block/tile size (BN)",
@@ -311,7 +328,7 @@ if __name__ == "__main__":
         "-bs",
         "--initial-bs",
         type=int,
-        default=24,
+        default=int(os.getenv("OPENCL_LIBSMM_SMM_BS", "24")),
         nargs="?",
         dest="bs",
         help="Initial (mini-)batch size (BS)",
