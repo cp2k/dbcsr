@@ -7,20 +7,6 @@
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
 
-#if (200/*CL_VERSION_2_0*/ <= __OPENCL_VERSION__)
-# define UNROLL(N) __attribute__((opencl_unroll_hint(N)))
-#else
-# define UNROLL(N)
-#endif
-#if defined(__NV_CL_C_VERSION)
-# define UNROLL_NV(N) UNROLL(N)
-#else
-# define UNROLL_NV(N)
-#endif
-#if 0
-# define COPY_B
-#endif
-
 #define BMN ((SM + SN - 1) / SN)
 /* number of M-blocks */
 #define NBM ((SM + BM - 1) / BM)
@@ -28,6 +14,24 @@
 #define NBN ((SN + BN - 1) / BN)
 /* size of workgroup (WG) */
 #define SWG (NBM * NBN)
+
+#if (200/*CL_VERSION_2_0*/ <= __OPENCL_VERSION__)
+# define UNROLL(N) __attribute__((opencl_unroll_hint(N)))
+#else
+# define UNROLL(N)
+#endif
+#if (SWG != SN)
+# define PRIVATE_A
+#endif
+#if 0
+# define PRIVATE_B
+#endif
+#if 0
+# define TRACK_B
+#endif
+#if 1
+# define TRACK_C
+#endif
 
 
 #if !defined(cl_intel_global_float_atomics)
@@ -86,17 +90,27 @@ kernel void FN(global T *restrict cdata,
 #endif
 {
   const int gid = get_group_id(0), idx = get_local_id(0);
-  GLOBAL const int *const restrict params = param_stack + gid * (3 * BS);
   /* indexes given by param_stack are one-based */
-  int c0 = params[2] - 1;
+  GLOBAL const int *restrict params = param_stack + gid * (3 * BS);
 #if (1 < BS)
+# if defined(TRACK_B)
   int b1 = -1;
+# endif
+#else
+  GLOBAL const T *const restrict a = adata + params[0] - 1;
+  GLOBAL const T *const restrict b = bdata + params[1] - 1;
 #endif
+  int c0 = params[2] - 1;
   global T *restrict c = cdata + c0;
 
+#if !defined(PRIVATE_A)
+  local T awg[SM][SK];
+#endif
 #if (SWG != SN)
+# if defined(PRIVATE_A)
   T amk[SK];
-# if defined(COPY_B)
+# endif
+# if defined(PRIVATE_B)
   T bkn[SK][BN];
 # endif
 # if (1 < BS)
@@ -105,8 +119,7 @@ kernel void FN(global T *restrict cdata,
   const int m0 = (idx / NBN) * BM, m1 = min(m0 + BM, SM);
   const int n0 = (idx % NBN) * BN, n1 = min(n0 + BN, SN);
 #else
-  local T awg[SM][SK];
-# if defined(COPY_B)
+# if defined(PRIVATE_B)
   T bkn[SK];
 # endif
 # if (1 < BS)
@@ -122,17 +135,17 @@ kernel void FN(global T *restrict cdata,
   const int batchsize = min(BS, stack_size - BS * gid);
   UNROLL(1)
   for (int i = 0; i < batchsize; ++i) {
-    const int c1 = (i < (batchsize - 1) ? (params[3*i+5] - 1) : -1);
-    const int a0 = params[3*i+0] - 1, b0 = params[3*i+1] - 1;
-#else
-  { const int a0 = params[0] - 1, b0 = params[1] - 1;
-#endif
+    const int c1 = (i < (batchsize - 1) ? (params[5] - 1) : -1);
+    const int a0 = params[0] - 1, b0 = params[1] - 1;
     GLOBAL const T *const restrict a = adata + a0;
     GLOBAL const T *const restrict b = bdata + b0;
-
+    params += 3; /* next set of indexes */
+#else
+  {
+#endif
     /* transpose A-matrix into local buffer */
-#if (SWG == SN)
-# if (SM != SN)
+#if !defined(PRIVATE_A)
+# if (SM != SN || SWG != SN)
     UNROLL(BMN)
     for (int m = m0; m < m1; ++m) {
 # else
@@ -143,41 +156,56 @@ kernel void FN(global T *restrict cdata,
     }
 #endif
 
-    /* avoiding to load same B-tile seems to be not beneficial */
-#if defined(COPY_B)
-# if (1 < BS) && 0
-    if (b0 != b1)
-# endif
+#if defined(PRIVATE_B)
+# if defined(TRACK_B) && (1 < BS)
+    if (b0 != b1) {
+      b1 = b0;
+# else
     { /* copy B-matrix into private buffer */
+# endif
       UNROLL(SK)
       for (int k = 0; k < SK; ++k) {
 # if (SWG != SN)
-        UNROLL_NV(BN)
+#   if defined(__NV_CL_C_VERSION)
+        UNROLL(BN)
+#   endif
         for (int n = n0; n < n1; ++n) bkn[k][n-n0] = b[SN*k+n];
 # else
         bkn[k] = b[SN*k+idx];
 # endif
       }
-# if (1 < BS)
-      b1 = b0;
-# endif
     }
+#endif
+
+#if !defined(PRIVATE_A) && (1 < SWG)
+    /* finish copy-transpose */
+    barrier(CLK_LOCAL_MEM_FENCE);
 #endif
 
     /* calculate private result-tile */
 #if (SWG != SN)
     /*UNROLL(BM)*/
     for (int m = m0; m < m1; ++m) {
+# if defined(PRIVATE_A)
       UNROLL(SK)
       for (int k = 0; k < SK; ++k) amk[k] = a[SM*k+m];
+# endif
       /*UNROLL(BN)*/
       for (int n = n0; n < n1; ++n) {
         T r = 0;
         UNROLL(SK)
-# if defined(COPY_B)
+# if defined(PRIVATE_B)
+#   if defined(PRIVATE_A)
         for (int k = 0; k < SK; ++k) r = FMA(amk[k], bkn[k][n-n0], r);
+#   else
+        for (int k = 0; k < SK; ++k) r = FMA(awg[m][k], bkn[k][n-n0], r);
+#   endif
 # else
+#   if defined(PRIVATE_A)
         for (int k = 0; k < SK; ++k) r = FMA(amk[k], b[SN*k+n], r);
+#   else
+        for (int k = 0; k < SK; ++k) r = FMA(awg[m][k], b[SN*k+n], r);
+#   endif
 # endif
 # if (1 < BS)
         cmn[m-m0][n-n0] += r;
@@ -187,11 +215,7 @@ kernel void FN(global T *restrict cdata,
       }
     }
 #else
-# if (1 < SWG)
-    /* finish copy-transpose */
-    barrier(CLK_LOCAL_MEM_FENCE);
-# endif
-    UNROLL_NV(SM)
+    UNROLL(SM)
     for (int m = 0; m < SM; ++m) {
 # if (1 < BS)
       T r = cmn[m];
@@ -199,10 +223,18 @@ kernel void FN(global T *restrict cdata,
       T r = 0;
 # endif
       UNROLL(SK)
-# if defined(COPY_B)
+# if defined(PRIVATE_B)
+#   if defined(PRIVATE_A)
+      for (int k = 0; k < SK; ++k) r = FMA(a[SM*k+m], bkn[k], r);
+#   else
       for (int k = 0; k < SK; ++k) r = FMA(awg[m][k], bkn[k], r);
+#   endif
 # else
+#   if defined(PRIVATE_A)
+      for (int k = 0; k < SK; ++k) r = FMA(a[SM*k+m], b[SN*k+idx], r);
+#   else
       for (int k = 0; k < SK; ++k) r = FMA(awg[m][k], b[SN*k+idx], r);
+#   endif
 # endif
 # if (1 < BS)
       cmn[m] = r;
@@ -213,7 +245,10 @@ kernel void FN(global T *restrict cdata,
 #endif
 
 #if (1 < BS)
-    if (c0 != c1) { /* apply private tile to global memory */
+# if defined(TRACK_C)
+    if (c0 != c1)
+# endif
+    { /* atomically commit private C-tile to global memory */
 # if (SWG != SN)
       UNROLL(1)
       for (int m = 0; m < BM; ++m) {

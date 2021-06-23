@@ -988,10 +988,10 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 }
                 assert(1 <= bs && 0 < bm && 0 < bn && NULL != atomic_expr);
                 nchar = ACC_OPENCL_SNPRINTF(build_options, sizeof(build_options),
-                  "%s -cl-fast-relaxed-math -cl-no-signed-zeros -cl-denorms-are-zero -DFMA=fma"
+                  "%s %s -cl-fast-relaxed-math -cl-no-signed-zeros -cl-denorms-are-zero -DFMA=fma"
                   " -DGLOBAL=%s -DFN=%s -DSM=%i -DSN=%i -DSK=%i -DBM=%i -DBN=%i -DBS=%i -DT=%s -DTN=%i"
                   " %s -D\"ATOMIC_ADD_GLOBAL(A,B)=%s\" %s",
-                  (NULL == env_options || '\0' == *env_options) ? "" : env_options,
+                  (NULL == env_options || '\0' == *env_options) ? "" : env_options, cl_intel ? "-DINTEL" : "",
                   EXIT_SUCCESS != opencl_libsmm_use_cmem(active_device) ? "global" : "constant",
                   fname, m_max, n_max, k_max, bm, bn, bs, tname, datatype, atomic_ops, atomic_expr,
                   NULL == atomic_expr2 ? "" : atomic_expr2);
