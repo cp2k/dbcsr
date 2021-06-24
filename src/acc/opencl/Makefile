@@ -56,8 +56,8 @@ ifneq (0,$(DEV))
     CFLAGS += -Wno-unused-parameter
   else ifeq (clang,$(CC))
     #LDFLAGS := --analyze $(LDFLAGS)
-    CFLAGS := --analyze $(CFLAGS)
-    CC := clang++
+    CFLAGS := --analyze -Wno-deprecated $(CFLAGS)
+    override CC := clang++
   else
     CC := $(CXX)
   endif
