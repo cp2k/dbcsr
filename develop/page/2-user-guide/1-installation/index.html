@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../index.html">DBCSR <small>2.1.0-57-g2e88cf697</small></a>
+          <a class="navbar-brand" href="../../../index.html">DBCSR <small>2.1.0-58-gc6046dd64</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -169,10 +169,13 @@
 </ul>
 </li>
 <li>or OpenCL, i.e., development headers (<code>opencl-headers</code>), generic loader "ocl-icd" (<code>ocl-icd-opencl-dev</code>),<ul>
-<li>Vendor specific OpenCL package, e.g., <a href="https://github.com/intel/compute-runtime/releases/latest">Intel Compute Runtime</a>,
+<li>Vendor specific OpenCL package, e.g.,
+  <a href="https://github.com/intel/compute-runtime/releases/latest">Intel Compute Runtime</a>,
   or CUDA Toolkit (includes OpenCL)</li>
-<li>For the OpenCL backend, a plain C compiler is sufficient (C90 standard),</li>
-<li>Optionally <code>clinfo</code> (can be useful to show available devices)</li>
+<li>Nvidia GPU mode shall be <code>DEFAULT</code> (<code>nvidia-smi -c DEFAULT</code>) if MPI puts multiple ranks onto a single GPU;
+  MPS daemon with GPU mode <code>EXCLUSIVE_PROCESS</code> is not an option</li>
+<li>For the OpenCL backend, a plain C compiler is sufficient (C90 standard)</li>
+<li>Optionally, <code>clinfo</code> (can be useful to show available devices)</li>
 </ul>
 </li>
 </ul>
