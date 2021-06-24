@@ -26,6 +26,9 @@
 #if 0
 # define PRIVATE_B
 #endif
+#if !defined(PRIVATE_A)
+# define SHARED_A
+#endif
 #if 0
 # define TRACK_B
 #endif
@@ -35,7 +38,6 @@
 
 
 #if !defined(cl_intel_global_float_atomics)
-
 #if defined(CMPXCHG)
 __attribute__((always_inline))
 inline void atomic_add_global_cmpxchg(global volatile T* dst, T inc)
@@ -80,7 +82,6 @@ inline void atomic_add_global_xchg(global volatile T* dst, T inc)
 # endif
 }
 #endif
-
 #endif
 
 
@@ -107,7 +108,7 @@ kernel void FN(global T *restrict cdata,
   int c0 = params[2] - 1;
   global T *restrict c = cdata + c0;
 
-#if !defined(PRIVATE_A)
+#if defined(SHARED_A)
   local T awg[SM][SK];
 #endif
 #if (SWG != SN)
@@ -147,8 +148,8 @@ kernel void FN(global T *restrict cdata,
 #else
   {
 #endif
-    /* transpose A-matrix into local buffer */
-#if !defined(PRIVATE_A)
+    /* transpose A-matrix into local/shared buffer */
+#if defined(SHARED_A)
 # if (SM != SN || SWG != SN)
     UNROLL(BMN)
     for (int m = m0; m < m1; ++m) {
@@ -181,7 +182,7 @@ kernel void FN(global T *restrict cdata,
     }
 #endif
 
-#if !defined(PRIVATE_A) && (1 < SWG)
+#if defined(SHARED_A) && (1 < SWG)
     /* finish copy-transpose */
     barrier(CLK_LOCAL_MEM_FENCE);
 #endif
@@ -228,13 +229,13 @@ kernel void FN(global T *restrict cdata,
 # endif
       UNROLL(SK)
 # if defined(PRIVATE_B)
-#   if defined(PRIVATE_A)
+#   if defined(PRIVATE_A) || !defined(SHARED_A)
       for (int k = 0; k < SK; ++k) r = FMA(a[SM*k+m], bkn[k], r);
 #   else
       for (int k = 0; k < SK; ++k) r = FMA(awg[m][k], bkn[k], r);
 #   endif
 # else
-#   if defined(PRIVATE_A)
+#   if defined(PRIVATE_A) || !defined(SHARED_A)
       for (int k = 0; k < SK; ++k) r = FMA(a[SM*k+m], b[SN*k+idx], r);
 #   else
       for (int k = 0; k < SK; ++k) r = FMA(awg[m][k], b[SN*k+idx], r);
