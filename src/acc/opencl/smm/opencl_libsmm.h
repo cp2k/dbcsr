@@ -29,6 +29,9 @@
 #if !defined(OPENCL_LIBSMM_SUITABLE) && 0
 # define OPENCL_LIBSMM_SUITABLE
 #endif
+#if !defined(OPENCL_LIBSMM_DEVMATCH) && 0
+# define OPENCL_LIBSMM_DEVMATCH
+#endif
 #if !defined(OPENCL_LIBSMM_DEBUG) && 0
 # define OPENCL_LIBSMM_DEBUG 1
 #endif

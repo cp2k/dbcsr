@@ -211,19 +211,14 @@ int opencl_libsmm_read_params(char* parambuf,
 
 int opencl_libsmm_device(void* stream, cl_device_id* device, const char** config)
 {
-  int result = c_dbcsr_acc_opencl_device(stream, device);
+  int result = c_dbcsr_acc_opencl_device(stream, device), empty = 0, i = 0;
   assert(NULL != config);
   if (EXIT_SUCCESS == result) {
     char buffer[ACC_OPENCL_BUFFERSIZE];
     result = clGetDeviceInfo(*device, CL_DEVICE_NAME,
       ACC_OPENCL_BUFFERSIZE, buffer, NULL);
-#if defined(OPENCL_LIBSMM_PARAMS_DEVICE)
-   *config = OPENCL_LIBSMM_PARAMS_DEVICE;
-#else
-   *config = NULL;
-#endif
+    *config = NULL;
     if (CL_SUCCESS == result) {
-      int empty = 0, i = 0;
       for (; i < ACC_OPENCL_DEVICES_MAXCOUNT; ++i) {
         const char *const name = opencl_libsmm_devices[i];
         if ('\0' == *name) {
@@ -231,6 +226,19 @@ int opencl_libsmm_device(void* stream, cl_device_id* device, const char** config
         }
         else if (0 == strncmp(buffer, name, ACC_OPENCL_BUFFERSIZE)) {
           *config = name; break;
+        }
+      }
+      if (NULL == *config) { /* no matching device */
+#if !defined(OPENCL_LIBSMM_DEVMATCH)
+        if ('\0' != *opencl_libsmm_devices[0]) {
+          *config = opencl_libsmm_devices[0];
+        }
+        else
+#endif
+        {
+#if defined(OPENCL_LIBSMM_PARAMS_DEVICE)
+          *config = OPENCL_LIBSMM_PARAMS_DEVICE;
+#endif
         }
       }
     }
@@ -263,6 +271,7 @@ int libsmm_acc_init(void)
       result = c_dbcsr_acc_init();
     }
 #endif
+    libxsmm_init();
     if (EXIT_SUCCESS == result) {
       const char *const env_params = getenv("OPENCL_LIBSMM_SMM_PARAMS");
       if (NULL == env_params || '0' != *env_params) {
@@ -502,6 +511,17 @@ int libsmm_acc_finalize(void)
       }
     }
     opencl_libsmm_shst = opencl_libsmm_dhst = opencl_libsmm_sacc = opencl_libsmm_dacc = 0;
+# if !defined(__DBCSR_ACC)
+    /* DBCSR shall call c_dbcsr_acc_init as well as libsmm_acc_init (since both interfaces are used).
+     * Also, libsmm_acc_init may privately call c_dbcsr_acc_init (as it depends on the ACC interface).
+     * The implementation of c_dbcsr_acc_init should hence be safe against "over initialization".
+     * However, DBCSR only calls c_dbcsr_acc_init (and expects an implicit libsmm_acc_init).
+     */
+    if (EXIT_SUCCESS == result) {
+      result = c_dbcsr_acc_finalize();
+    }
+# endif
+    libxsmm_finalize();
   }
 #endif
   /* c_dbcsr_acc_finalize is not called since it can be used independently */
@@ -887,7 +907,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
           "x" OPENCL_LIBSMM_KERNELNAME_SMM "%ix%ix%i", m_max, n_max, k_max);
         const char* extensions = NULL;
         if (0 < nchar && (int)sizeof(fname) > nchar) {
-          const char *tname = NULL, *atomic_ops = NULL;
+          const char *tname = NULL, *atomic_ops = "";
           switch (datatype) {
             case dbcsr_type_real_8: {
               extensions = "cl_khr_fp64 cl_khr_int64_base_atomics";
@@ -926,11 +946,11 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               const char *const env_blockn = (NULL == getenv("OPENCL_LIBSMM_SMM_BLOCK_N")
                 ? getenv("OPENCL_LIBSMM_SMM_BN") : getenv("OPENCL_LIBSMM_SMM_BLOCK_N"));
               /* TODO: load parameters from file (auto-tuned) */
-              const int batchsize = ((NULL == env_batchsize || '\0' == *env_batchsize)
+              const int batchsize = ((NULL == env_batchsize || '\0' == *env_batchsize || '0' == *env_batchsize)
                 ? (NULL == config ? 24/*default*/ : config->bs) : atoi(env_batchsize));
-              const int blockm = ((NULL == env_blockm || '\0' == *env_blockm)
+              const int blockm = ((NULL == env_blockm || '\0' == *env_blockm || '0' == *env_blockm)
                 ? (NULL == config ? m_max/*default*/ : config->bm) : atoi(env_blockm));
-              const int blockn = ((NULL == env_blockn || '\0' == *env_blockn)
+              const int blockn = ((NULL == env_blockn || '\0' == *env_blockn || '0' == *env_blockn)
                 ? (NULL == config ? 1/*default*/ : config->bn) : atoi(env_blockn));
               bm = LIBXSMM_CLMP(blockm, 1, m_max);
               bn = LIBXSMM_CLMP(blockn, 1, n_max);
@@ -952,10 +972,10 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               if (wgsize <= max_wgsize) { /* SMMs can be potentially handled by device */
                 const char *const env_options = getenv("OPENCL_LIBSMM_SMM_BUILDOPTS");
                 const char *const env_atomics = getenv("OPENCL_LIBSMM_SMM_ATOMICS");
-                const char *atomic_expr = NULL, *atomic_expr2 = NULL;
+                const char *atomic_expr = NULL, *atomic_expr2 = "";
                 if (NULL == env_atomics || '0' != *env_atomics) {
                   const char* extension[] = { "cl_khr_int64_base_atomics" };
-                  if (NULL == env_atomics || '\0' == *env_atomics) {
+                  if (NULL == env_atomics || '\0' == *env_atomics) { /* no request made */
                     if (cl_intel && !cl_intel_0x4905 && 0 == unified && dbcsr_type_real_4 == datatype) {
                       atomic_ops = "-Dcl_intel_global_float_atomics";
                       atomic_expr = "atomic_add(A,B)";
@@ -969,7 +989,10 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                       }
                       atomic_expr = "atomic_add_global_cmpxchg(A,B)";
                     }
-                    else atomic_expr = "atomic_add_global_xchg(A,B)";
+                    else {
+                      atomic_expr = "atomic_add_global_xchg(A,B)";
+                      atomic_ops = "";
+                    }
                   }
                   else if (NULL != c_dbcsr_acc_opencl_stristr(env_atomics, "cmpxchg")) {
                     if (1 < bs && 2 <= m_max && n_max == wgsize && dbcsr_type_real_4 == datatype
@@ -993,8 +1016,8 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                   " %s -D\"ATOMIC_ADD_GLOBAL(A,B)=%s\" %s",
                   (NULL == env_options || '\0' == *env_options) ? "" : env_options, cl_intel ? "-DINTEL" : "",
                   EXIT_SUCCESS != opencl_libsmm_use_cmem(active_device) ? "global" : "constant",
-                  fname, m_max, n_max, k_max, bm, bn, bs, tname, datatype, atomic_ops, atomic_expr,
-                  NULL == atomic_expr2 ? "" : atomic_expr2);
+                  fname, m_max, n_max, k_max, bm, bn, bs, tname, datatype,
+                  atomic_ops, atomic_expr, atomic_expr2);
                 if (0 >= nchar || (int)sizeof(build_options) <= nchar) result = EXIT_FAILURE;
               }
               else {

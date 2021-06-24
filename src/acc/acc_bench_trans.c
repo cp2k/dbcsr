@@ -104,7 +104,7 @@ int main(int argc, char* argv[])
 #endif
   }
   else {
-    if (0 < ndevices) fprintf(stderr, "No ACC-device found!\n");
+    if (0 >= ndevices) fprintf(stderr, "No ACC-device found!\n");
     else fprintf(stderr, "Failed to activate device %i of %i!\n", device, ndevices);
 #if !defined(__CUDA)
     CHECK(libsmm_acc_finalize(), NULL);

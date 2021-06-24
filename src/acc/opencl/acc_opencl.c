@@ -149,7 +149,7 @@ int c_dbcsr_acc_init(void)
 #else
   int result = EXIT_SUCCESS;
 #endif
-  if (0 == c_dbcsr_acc_opencl_ndevices) { /* avoid to initialize multiple times */
+  if (NULL == c_dbcsr_acc_opencl_context) { /* avoid to initialize multiple times */
     const char *const disable = getenv("ACC_OPENCL_DISABLE");
     if (NULL == disable || '0' == *disable) {
       cl_platform_id platforms[ACC_OPENCL_DEVICES_MAXCOUNT];
@@ -660,6 +660,40 @@ int c_dbcsr_acc_opencl_wgsize(cl_device_id device, cl_kernel kernel,
 }
 
 
+int c_dbcsr_acc_opencl_dump(const char* basename, cl_program program)
+{
+  cl_int result = EXIT_SUCCESS;
+  size_t size;
+  assert(NULL != basename && NULL != program);
+  ACC_OPENCL_CHECK(clGetProgramInfo(program,
+    CL_PROGRAM_BINARY_SIZES, sizeof(size_t), &size, NULL),
+    "query program binary size", result);
+  if (0 < size && size <= ACC_OPENCL_BINARYSIZE) {
+    unsigned char binary[ACC_OPENCL_BINARYSIZE], *binaries = binary;
+    result = clGetProgramInfo(program, CL_PROGRAM_BINARIES,
+      sizeof(unsigned char*), &binaries, NULL);
+    if (CL_SUCCESS == result) {
+      char buffer[ACC_OPENCL_BUFFERSIZE];
+      const int nchar = ACC_OPENCL_SNPRINTF(buffer, sizeof(buffer),
+        "%s.dump", basename);
+      FILE *const file = (0 < nchar && (int)sizeof(buffer) > nchar)
+        ? fopen(buffer, "wb") : NULL;
+      if (NULL != file) {
+        result = (size == fwrite(binary, 1, size, file)
+          ? EXIT_SUCCESS : EXIT_FAILURE);
+        fclose(file);
+      }
+      else result = EXIT_FAILURE;
+    }
+    else {
+      ACC_OPENCL_ERROR("query program binary", result);
+    }
+  }
+  else result = EXIT_FAILURE;
+  ACC_OPENCL_RETURN(result);
+}
+
+
 int c_dbcsr_acc_opencl_kernel(const char* source, const char* build_options,
   const char* kernel_name, cl_kernel* kernel)
 {
@@ -675,11 +709,18 @@ int c_dbcsr_acc_opencl_kernel(const char* source, const char* build_options,
       result = c_dbcsr_acc_opencl_device(NULL/*stream*/, &active_id);
       if (EXIT_SUCCESS == result) {
         result = clBuildProgram(program,
-        1/*num_devices*/, &active_id, build_options,
-        NULL/*callback*/, NULL/*user_data*/);
+          1/*num_devices*/, &active_id, build_options,
+          NULL/*callback*/, NULL/*user_data*/);
         if (CL_SUCCESS == result) {
           *kernel = clCreateKernel(program, kernel_name, &result);
-          if (CL_SUCCESS == result) assert(NULL != *kernel);
+          if (CL_SUCCESS == result) {
+            const char *const env_dump = getenv("ACC_OPENCL_DUMP");
+            const int dump = (NULL == env_dump ? 0 : atoi(env_dump));
+            assert(NULL != *kernel);
+            if (0 != dump) {
+              result = c_dbcsr_acc_opencl_dump(kernel_name, program);
+            }
+          }
           else {
             ACC_OPENCL_ERROR("create kernel", result);
           }

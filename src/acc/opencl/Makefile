@@ -15,6 +15,10 @@ UNAME := $(shell uname)
 INTEL ?= 0
 DEV ?= 0
 
+PARAMS_WITHGPU := smm/params/tune_multiply_$(WITH_GPU).csv
+PARAMS_DEFAULT := smm/tune_multiply.csv
+PARAMS := $(if $(wildcard $(PARAMS_WITHGPU)),$(PARAMS_WITHGPU),$(PARAMS_DEFAULT))
+
 CFLAGS := -fPIC \
   -Wall -Wextra -pedantic \
   -Wno-overlength-strings \
@@ -52,8 +56,8 @@ ifneq (0,$(DEV))
     CFLAGS += -Wno-unused-parameter
   else ifeq (clang,$(CC))
     #LDFLAGS := --analyze $(LDFLAGS)
-    CFLAGS := --analyze $(CFLAGS)
-    CC := clang++
+    CFLAGS := --analyze -Wno-deprecated $(CFLAGS)
+    override CC := clang++
   else
     CC := $(CXX)
   endif
@@ -127,7 +131,7 @@ bench: ../acc_bench_smm ../acc_bench_trans
 test: ../dbcsr_acc_test
 
 smm/opencl_kernels.h: acc_opencl.sh $(KERNEL)
-	./acc_opencl.sh $(KERNEL) smm/tune_multiply.csv $@
+	./acc_opencl.sh $(KERNEL) $(PARAMS) $@
 
 ../dbcsr_acc.a: $(OBJACC)
 	$(AR) -rs $@ $^

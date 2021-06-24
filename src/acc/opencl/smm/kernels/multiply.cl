@@ -26,6 +26,9 @@
 #if 0
 # define PRIVATE_B
 #endif
+#if !defined(PRIVATE_A)
+# define SHARED_A
+#endif
 #if 0
 # define TRACK_B
 #endif
@@ -35,7 +38,7 @@
 
 
 #if !defined(cl_intel_global_float_atomics)
-
+#if defined(CMPXCHG)
 __attribute__((always_inline))
 inline void atomic_add_global_cmpxchg(global volatile T* dst, T inc)
 {
@@ -46,23 +49,7 @@ inline void atomic_add_global_cmpxchg(global volatile T* dst, T inc)
     new_val.a = CMPXCHG((global volatile TA*)dst, old_val.a, try_val.a);
   } while (old_val.a != new_val.a);
 }
-
-__attribute__((always_inline))
-inline void atomic_add_global_xchg(global volatile T* dst, T inc)
-{
-#if defined(__NV_CL_C_VERSION) && (1 == TN)
-  asm("{ .reg .f32 t; atom.global.add.f32 t, [%0], %1; }" :: "l"(dst), "f"(inc));
-#elif defined(__NV_CL_C_VERSION) && (3 == TN)
-  asm("{ .reg .f64 t; atom.global.add.f64 t, [%0], %1; }" :: "l"(dst), "d"(inc));
-#else
-  union { T f; TA a; } old_val = { .f = inc }, try_val, new_val = { .f = 0 };
-  do {
-    try_val.a = XCHG((global volatile TA*)dst, new_val.a);
-    try_val.f += old_val.f;
-    old_val.a = XCHG((global volatile TA*)dst, try_val.a);
-  } while (old_val.a != new_val.a);
 #endif
-}
 
 #if defined(ATOMIC_ADD2_GLOBAL)
 __attribute__((always_inline))
@@ -77,6 +64,24 @@ inline void atomic_add_global_cmpxchg2(global volatile float2* dst, float2 inc)
 }
 #endif
 
+#if defined(__NV_CL_C_VERSION) || defined(XCHG)
+__attribute__((always_inline))
+inline void atomic_add_global_xchg(global volatile T* dst, T inc)
+{
+# if (defined(__NV_CL_C_VERSION) && !defined(XCHG)) && (1 == TN)
+  asm("{ .reg .f32 t; atom.global.add.f32 t, [%0], %1; }" :: "l"(dst), "f"(inc));
+# elif (defined(__NV_CL_C_VERSION) && !defined(XCHG)) && (3 == TN)
+  asm("{ .reg .f64 t; atom.global.add.f64 t, [%0], %1; }" :: "l"(dst), "d"(inc));
+# else
+  union { T f; TA a; } old_val = { .f = inc }, try_val, new_val = { .f = 0 };
+  do {
+    try_val.a = XCHG((global volatile TA*)dst, new_val.a);
+    try_val.f += old_val.f;
+    old_val.a = XCHG((global volatile TA*)dst, try_val.a);
+  } while (old_val.a != new_val.a);
+# endif
+}
+#endif
 #endif
 
 
@@ -103,7 +108,7 @@ kernel void FN(global T *restrict cdata,
   int c0 = params[2] - 1;
   global T *restrict c = cdata + c0;
 
-#if !defined(PRIVATE_A)
+#if defined(SHARED_A)
   local T awg[SM][SK];
 #endif
 #if (SWG != SN)
@@ -143,8 +148,8 @@ kernel void FN(global T *restrict cdata,
 #else
   {
 #endif
-    /* transpose A-matrix into local buffer */
-#if !defined(PRIVATE_A)
+    /* transpose A-matrix into local/shared buffer */
+#if defined(SHARED_A)
 # if (SM != SN || SWG != SN)
     UNROLL(BMN)
     for (int m = m0; m < m1; ++m) {
@@ -177,7 +182,7 @@ kernel void FN(global T *restrict cdata,
     }
 #endif
 
-#if !defined(PRIVATE_A) && (1 < SWG)
+#if defined(SHARED_A) && (1 < SWG)
     /* finish copy-transpose */
     barrier(CLK_LOCAL_MEM_FENCE);
 #endif
@@ -224,13 +229,13 @@ kernel void FN(global T *restrict cdata,
 # endif
       UNROLL(SK)
 # if defined(PRIVATE_B)
-#   if defined(PRIVATE_A)
+#   if defined(PRIVATE_A) || !defined(SHARED_A)
       for (int k = 0; k < SK; ++k) r = FMA(a[SM*k+m], bkn[k], r);
 #   else
       for (int k = 0; k < SK; ++k) r = FMA(awg[m][k], bkn[k], r);
 #   endif
 # else
-#   if defined(PRIVATE_A)
+#   if defined(PRIVATE_A) || !defined(SHARED_A)
       for (int k = 0; k < SK; ++k) r = FMA(a[SM*k+m], b[SN*k+idx], r);
 #   else
       for (int k = 0; k < SK; ++k) r = FMA(awg[m][k], b[SN*k+idx], r);

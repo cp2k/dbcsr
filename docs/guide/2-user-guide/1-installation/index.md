@@ -24,10 +24,13 @@ To build DBCSR's GPU backend:
 * or HIP compiler (targets NVIDIA or AMD GPUs) and hipBLAS (ROCm 3.8 was tested)
     * Host C++ compiler which supports at least C++11 standard
 * or OpenCL, i.e., development headers (`opencl-headers`), generic loader "ocl-icd" (`ocl-icd-opencl-dev`),
-    * Vendor specific OpenCL package, e.g., [Intel Compute Runtime](https://github.com/intel/compute-runtime/releases/latest),
+    * Vendor specific OpenCL package, e.g.,
+      [Intel Compute Runtime](https://github.com/intel/compute-runtime/releases/latest),
       or CUDA Toolkit (includes OpenCL)
-    * For the OpenCL backend, a plain C compiler is sufficient (C90 standard),
-    * Optionally `clinfo` (can be useful to show available devices)
+    * Nvidia GPU mode shall be `DEFAULT` (`nvidia-smi -c DEFAULT`) if MPI puts multiple ranks onto a single GPU;
+      MPS daemon with GPU mode `EXCLUSIVE_PROCESS` is not an option
+    * For the OpenCL backend, a plain C compiler is sufficient (C90 standard)
+    * Optionally, `clinfo` (can be useful to show available devices)
 
 DBCSR is tested against GNU and Intel compilers on Linux systems, and GNU compiler on MacOS systems.
 See a list of supported compilers [here](./3-supported-compilers.html).
