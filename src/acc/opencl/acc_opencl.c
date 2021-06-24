@@ -149,7 +149,7 @@ int c_dbcsr_acc_init(void)
 #else
   int result = EXIT_SUCCESS;
 #endif
-  if (0 == c_dbcsr_acc_opencl_ndevices) { /* avoid to initialize multiple times */
+  if (NULL == c_dbcsr_acc_opencl_context) { /* avoid to initialize multiple times */
     const char *const disable = getenv("ACC_OPENCL_DISABLE");
     if (NULL == disable || '0' == *disable) {
       cl_platform_id platforms[ACC_OPENCL_DEVICES_MAXCOUNT];

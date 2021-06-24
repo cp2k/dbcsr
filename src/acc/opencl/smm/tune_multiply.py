@@ -31,6 +31,15 @@ class SmmTuner(MeasurementInterface):
         Define the search space by creating a
         ConfigurationManipulator
         """
+        # sanitize input arguments
+        self.args.m = max(self.args.m, 1)
+        self.args.n = [max(self.args.n, 1), self.args.m][0 == self.args.n]
+        self.args.k = [max(self.args.k, 1), self.args.m][0 == self.args.k]
+        self.args.mb = max(self.args.mb, 1)
+        self.args.bs = max(min(self.args.bs, self.args.mb), 1)
+        self.args.bm = [max(self.args.bm, 1), self.args.m][0 == self.args.bm]
+        self.args.bn = [max(self.args.bn, 1), 1][0 == self.args.bn]
+        self.gflops = 0
         self.exepath = "../.."
         self.exename = "acc_bench_smm"
         run_result = self.call_program(
@@ -70,15 +79,6 @@ class SmmTuner(MeasurementInterface):
             raise RuntimeError(
                 "Setup failed for {}/{}!".format(self.exepath, self.exename)
             )
-        # sanitize input arguments
-        self.args.m = max(self.args.m, 1)
-        self.args.n = [max(self.args.n, 1), self.args.m][0 == self.args.n]
-        self.args.k = [max(self.args.k, 1), self.args.m][0 == self.args.k]
-        self.args.mb = max(self.args.mb, 1)
-        self.args.bs = max(min(self.args.bs, self.args.mb), 1)
-        self.args.bm = [max(self.args.bm, 1), self.args.m][0 == self.args.bm]
-        self.args.bn = [max(self.args.bn, 1), 1][0 == self.args.bn]
-        self.gflops = 0
         # consider to update and/or merge JSONS (update first)
         if self.args.update or self.args.merge:
             filenames = glob.glob("*.json")
@@ -94,7 +94,6 @@ class SmmTuner(MeasurementInterface):
             if os.getenv("OPENCL_LIBSMM_SMM_BS")
             else IntegerParameter("BS", 1, self.args.mb)
         )
-
         manipulator.add_parameter(
             IntegerParameter("BM", self.args.bm, self.args.bm)
             if os.getenv("OPENCL_LIBSMM_SMM_BM")
@@ -218,7 +217,7 @@ class SmmTuner(MeasurementInterface):
                             ifilename = merged[key][-1]
                             merged[key] = value
                         print(
-                            "Worse result {} ignored when merging CSV-file.".format(
+                            "Worse result {} ignored when merging CSV-file".format(
                                 ifilename
                             )
                         )
@@ -240,7 +239,7 @@ class SmmTuner(MeasurementInterface):
                         ofile.write(strval)
                         ofile.write("\n")
                 print(
-                    "Merged {} of {} JSONs into {}.".format(
+                    "Merged {} of {} JSONs into {}".format(
                         len(merged), len(filenames), self.args.csvfile
                     )
                 )
@@ -266,7 +265,7 @@ class SmmTuner(MeasurementInterface):
             filenames = glob.glob("*.json")
             if not filenames and glob.glob(self.args.csvfile):
                 print(
-                    "WARNING: no JSON file found but (unrelated?) {} exists!".format(
+                    "WARNING: no JSON file found but (unrelated?) {}".format(
                         self.args.csvfile
                     )
                 )
@@ -275,7 +274,7 @@ class SmmTuner(MeasurementInterface):
                 json.dump(config, ofile)
                 ofile.write("\n")  # append newline at EOF
             print(
-                "Result achieving {} GFLOPS/s ({}) was written to {}.".format(
+                "Result achieving {} GFLOPS/s ({}) was written to {}".format(
                     self.gflops, self.typename, ofilename
                 )
             )
@@ -286,7 +285,7 @@ class SmmTuner(MeasurementInterface):
     def handle_sigint(self, signum, frame):
         """handles SIGINT or CTRL-C"""
         print(
-            "\nWARNING: tuning {}x{}x{}-kernel was interrupted.".format(
+            "\nWARNING: tuning {}x{}x{}-kernel was interrupted".format(
                 self.args.m, self.args.n, self.args.k
             )
         )
