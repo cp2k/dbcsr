@@ -6,6 +6,11 @@
  * For further information please visit https://dbcsr.cp2k.org                                    *
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
+#if (200/*CL_VERSION_2_0*/ <= __OPENCL_VERSION__)
+# define UNROLL(N) __attribute__((opencl_unroll_hint(N)))
+#else
+# define UNROLL(N)
+#endif
 
 #define BMN ((SM + SN - 1) / SN)
 /* number of M-blocks */
@@ -15,24 +20,19 @@
 /* size of workgroup (WG) */
 #define SWG (NBM * NBN)
 
-#if (200/*CL_VERSION_2_0*/ <= __OPENCL_VERSION__)
-# define UNROLL(N) __attribute__((opencl_unroll_hint(N)))
-#else
-# define UNROLL(N)
-#endif
-#if (SWG != SN)
+#if !defined(PRIVATE_A) && (SWG != SN)
 # define PRIVATE_A
 #endif
-#if 0
+#if !defined(PRIVATE_B) && 0
 # define PRIVATE_B
 #endif
-#if !defined(PRIVATE_A)
+#if !defined(SHARED_A) && !defined(PRIVATE_A)
 # define SHARED_A
 #endif
-#if 0
+#if !defined(TRACK_B) && 0
 # define TRACK_B
 #endif
-#if 1
+#if !defined(TRACK_C) && 1
 # define TRACK_C
 #endif
 
@@ -109,7 +109,7 @@ kernel void FN(global T *restrict cdata,
   global T *restrict c = cdata + c0;
 
 #if defined(SHARED_A)
-  local T awg[SM][SK];
+  local T awg[SM][SK+BC];
 #endif
 #if (SWG != SN)
 # if defined(PRIVATE_A)

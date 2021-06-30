@@ -46,11 +46,15 @@
 #if !defined(ACC_OPENCL_BUFFERSIZE)
 # define ACC_OPENCL_BUFFERSIZE (8 << 10/*8KB*/)
 #endif
-#if !defined(ACC_OPENCL_BINARYSIZE)
-# define ACC_OPENCL_BINARYSIZE (8 * ACC_OPENCL_BUFFERSIZE)
-#endif
 #if !defined(ACC_OPENCL_DEVICES_MAXCOUNT)
 # define ACC_OPENCL_DEVICES_MAXCOUNT 256
+#endif
+#if !defined(ACC_OPENCL_OVERMALLOC)
+# if defined(__DBCSR_ACC)
+#   define ACC_OPENCL_OVERMALLOC 0
+# else
+#   define ACC_OPENCL_OVERMALLOC 8192
+# endif
 #endif
 
 /* can depend on OpenCL implementation */
@@ -75,7 +79,7 @@
 # define ACC_OPENCL_EVENT(A) ((cl_event*)(A))
 #endif
 
-#if !defined(ACC_OPENCL_THREADLOCAL_CONTEXT) && /*WORKAROUND*/!defined(__DBCSR_ACC) && 0
+#if !defined(ACC_OPENCL_THREADLOCAL_CONTEXT) && 0
 # define ACC_OPENCL_THREADLOCAL_CONTEXT
 #endif
 #if !defined(ACC_OPENCL_STREAM_PRIORITIES) && 1
@@ -223,7 +227,7 @@ int c_dbcsr_acc_opencl_device_vendor(cl_device_id device, const char* vendor);
 int c_dbcsr_acc_opencl_device_name(cl_device_id device, const char* name);
 /** Return the OpenCL support level for the given device. */
 int c_dbcsr_acc_opencl_device_level(cl_device_id device,
-  int* level_major, int* level_minor);
+  int* level_major, int* level_minor, char cl_std[16]);
 /** Check if given device supports the extensions. */
 int c_dbcsr_acc_opencl_device_ext(cl_device_id device,
   const char *const extnames[], int num_exts);
