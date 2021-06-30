@@ -68,7 +68,9 @@ class SmmTuner(MeasurementInterface):
             self.bs = int(params.group(1)) if params and params.group(1) else None
             self.bm = int(params.group(2)) if params and params.group(2) else None
             self.bn = int(params.group(3)) if params and params.group(3) else None
-            self.bc = 0 != int(params.group(4)) if params and params.group(4) else None
+            self.bc = (
+                (0 != int(params.group(4))) if params and params.group(4) else None
+            )
         else:
             self.typename = self.typeid = None
         if self.typename and self.typeid:
@@ -118,7 +120,7 @@ class SmmTuner(MeasurementInterface):
     def launch(self, envs, nrep=None, size=None):
         """Launch executable supplying environment and arguments"""
         return self.call_program(
-            "OMP_PROC_BIND=TRUE {} {} {}".format(
+            "OMP_PROC_BIND=TRUE {} {} {} {}".format(
                 " ".join(map(str, envs)),  # environment variables
                 "{}/{}".format(self.exepath, self.exename),
                 # executable's arguments
@@ -132,10 +134,10 @@ class SmmTuner(MeasurementInterface):
     def seed_configurations(self):
         return [
             {
-                "BS": self.bs if None != self.bs else self.args.bs,
-                "BM": self.bm if None != self.bm else self.args.bm,
-                "BN": self.bn if None != self.bn else self.args.bn,
-                "BC": self.bc if None != self.bc else self.args.bc,
+                "BS": self.bs if self.bs is not None else self.args.bs,
+                "BM": self.bm if self.bm is not None else self.args.bm,
+                "BN": self.bn if self.bn is not None else self.args.bn,
+                "BC": self.bc if self.bc is not None else self.args.bc,
             }
         ]
 
