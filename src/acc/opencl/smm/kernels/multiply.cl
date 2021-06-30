@@ -88,6 +88,7 @@ inline void atomic_add_global_xchg(global volatile T* dst, T inc)
 __attribute__((reqd_work_group_size(SWG, 1, 1)))
 kernel void FN(global T *restrict cdata,
   GLOBAL const T *restrict adata, GLOBAL const T *restrict bdata,
+  /* indexes given by param_stack are one-based (Fortran) */
 #if (1 < BS)
   GLOBAL const int *restrict param_stack, int stack_size)
 #else
@@ -95,7 +96,6 @@ kernel void FN(global T *restrict cdata,
 #endif
 {
   const int gid = get_group_id(0), idx = get_local_id(0);
-  /* indexes given by param_stack are one-based */
   GLOBAL const int *restrict params = param_stack + gid * (3 * BS);
 #if (1 < BS)
 # if defined(TRACK_B)

@@ -313,7 +313,8 @@ int main(int argc, char* argv[])
               }
             }
           }
-          printf("max.error: %g (%g != %g)\n", relerror / nr, a, b);
+          printf("max.error: %g", relerror / nr);
+          if (0 < abserror) printf(" (%g != %g)\n", a, b); else printf("\n");
           if (0 < check && (nr * check) < relerror) result = EXIT_FAILURE;
         }
       }
