@@ -9,8 +9,10 @@ KERNEL := $(wildcard smm/kernels/*.cl)
 
 INCALL := $(INCACC) $(INCSMM)
 
-LIBXSMMROOT ?= $(wildcard ../../../../libxsmm)
-LIBXSMMROOT ?= $(wildcard $(HOME)/libxsmm)
+LIBXSMMROOT := $(wildcard ../../../../libxsmm)
+ifeq (,$(LIBXSMMROOT))
+  LIBXSMMROOT := $(wildcard $(HOME)/libxsmm)
+endif
 UNAME := $(shell uname)
 INTEL ?= 0
 DEV ?= 0
@@ -121,11 +123,11 @@ else
   LDFLAGS += -lOpenCL
 endif
 
-.PHONY: all
-all: ../dbcsr_acc.a ../dbcsr_acc_smm.a bench test
-
 .PHONY: bench
 bench: ../acc_bench_smm ../acc_bench_trans
+
+.PHONY: all
+all: ../dbcsr_acc.a ../dbcsr_acc_smm.a bench test
 
 .PHONY: test
 test: ../dbcsr_acc_test

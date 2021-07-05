@@ -6,6 +6,11 @@
  * For further information please visit https://dbcsr.cp2k.org                                    *
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
+#if (200/*CL_VERSION_2_0*/ <= __OPENCL_VERSION__)
+# define UNROLL(N) __attribute__((opencl_unroll_hint(N)))
+#else
+# define UNROLL(N)
+#endif
 
 #define BMN ((SM + SN - 1) / SN)
 /* number of M-blocks */
@@ -15,24 +20,22 @@
 /* size of workgroup (WG) */
 #define SWG (NBM * NBN)
 
-#if (200/*CL_VERSION_2_0*/ <= __OPENCL_VERSION__)
-# define UNROLL(N) __attribute__((opencl_unroll_hint(N)))
-#else
-# define UNROLL(N)
-#endif
-#if (SWG != SN)
+#if !defined(PRIVATE_A) && (SWG != SN) && 1
 # define PRIVATE_A
 #endif
-#if 0
+#if !defined(PRIVATE_B) && defined(INTEL) && 1
 # define PRIVATE_B
 #endif
-#if !defined(PRIVATE_A)
-# define SHARED_A
+#if !defined(SHARED_A) && !defined(PRIVATE_A) && 1
+# define SHARED_A ((SK % 16) ? 1 : 2)
 #endif
-#if 0
+#if !defined(SHARED_B) && !defined(PRIVATE_B) && 1
+# define SHARED_B ((SN % 16) ? 1 : 2)
+#endif
+#if !defined(TRACK_B) && defined(PRIVATE_B) && 0
 # define TRACK_B
 #endif
-#if 1
+#if !defined(TRACK_C) && 1
 # define TRACK_C
 #endif
 
@@ -88,6 +91,7 @@ inline void atomic_add_global_xchg(global volatile T* dst, T inc)
 __attribute__((reqd_work_group_size(SWG, 1, 1)))
 kernel void FN(global T *restrict cdata,
   GLOBAL const T *restrict adata, GLOBAL const T *restrict bdata,
+  /* indexes given by param_stack are one-based (Fortran) */
 #if (1 < BS)
   GLOBAL const int *restrict param_stack, int stack_size)
 #else
@@ -95,7 +99,6 @@ kernel void FN(global T *restrict cdata,
 #endif
 {
   const int gid = get_group_id(0), idx = get_local_id(0);
-  /* indexes given by param_stack are one-based */
   GLOBAL const int *restrict params = param_stack + gid * (3 * BS);
 #if (1 < BS)
 # if defined(TRACK_B)
@@ -109,7 +112,18 @@ kernel void FN(global T *restrict cdata,
   global T *restrict c = cdata + c0;
 
 #if defined(SHARED_A)
-  local T awg[SM][SK];
+# if (1 < SHARED_A)
+  local T amk[SM][SK+1];
+# else
+  local T amk[SM][SK];
+# endif
+#endif
+#if defined(SHARED_B)
+# if (1 < SHARED_B)
+  local T bkn[SK][SN+1];
+# else
+  local T bkn[SK][SN];
+# endif
 #endif
 #if (SWG != SN)
 # if defined(PRIVATE_A)
@@ -148,8 +162,8 @@ kernel void FN(global T *restrict cdata,
 #else
   {
 #endif
-    /* transpose A-matrix into local/shared buffer */
 #if defined(SHARED_A)
+    /* transpose A-matrix into local/shared buffer */
 # if (SM != SN || SWG != SN)
     UNROLL(BMN)
     for (int m = m0; m < m1; ++m) {
@@ -157,11 +171,25 @@ kernel void FN(global T *restrict cdata,
     { const int m = idx;
 # endif
       UNROLL(SK)
-      for (int k = 0; k < SK; ++k) awg[m][k] = a[SM*k+m];
+      for (int k = 0; k < SK; ++k) amk[m][k] = a[SM*k+m];
     }
 #endif
 
-#if defined(PRIVATE_B)
+#if defined(SHARED_B)
+    UNROLL(SK)
+    for (int k = 0; k < SK; ++k) {
+# if (SM != SN || SWG != SN)
+#   if defined(__NV_CL_C_VERSION)
+      UNROLL(BN)
+#   endif
+      for (int n = n0; n < n1; ++n) {
+# else
+      { const int n = idx;
+# endif
+        bkn[k][n] = b[SN*k+n];
+      }
+    }
+#elif defined(PRIVATE_B)
 # if defined(TRACK_B) && (1 < BS)
     if (b0 != b1) {
       b1 = b0;
@@ -182,8 +210,8 @@ kernel void FN(global T *restrict cdata,
     }
 #endif
 
-#if defined(SHARED_A) && (1 < SWG)
-    /* finish copy-transpose */
+#if (defined(SHARED_A) || defined(SHARED_B)) && (1 < SWG)
+    /* finish transpose/copy */
     barrier(CLK_LOCAL_MEM_FENCE);
 #endif
 
@@ -199,19 +227,22 @@ kernel void FN(global T *restrict cdata,
       for (int n = n0; n < n1; ++n) {
         T r = 0;
         UNROLL(SK)
-# if defined(PRIVATE_B)
-#   if defined(PRIVATE_A)
-        for (int k = 0; k < SK; ++k) r = FMA(amk[k], bkn[k][n-n0], r);
-#   else
-        for (int k = 0; k < SK; ++k) r = FMA(awg[m][k], bkn[k][n-n0], r);
-#   endif
+        for (int k = 0; k < SK; ++k) r = FMA(
+# if defined(SHARED_A)
+          amk[m][k],
+# elif defined(PRIVATE_A)
+          amk[k],
 # else
-#   if defined(PRIVATE_A)
-        for (int k = 0; k < SK; ++k) r = FMA(amk[k], b[SN*k+n], r);
-#   else
-        for (int k = 0; k < SK; ++k) r = FMA(awg[m][k], b[SN*k+n], r);
-#   endif
+          a[SM*k+m],
 # endif
+# if defined(SHARED_B)
+          bkn[k][n],
+# elif defined(PRIVATE_B)
+          bkn[k][n-n0],
+# else
+          b[SN*k+n],
+# endif
+          r);
 # if (1 < BS)
         cmn[m-m0][n-n0] += r;
 # else
@@ -228,19 +259,20 @@ kernel void FN(global T *restrict cdata,
       T r = 0;
 # endif
       UNROLL(SK)
-# if defined(PRIVATE_B)
-#   if defined(PRIVATE_A) || !defined(SHARED_A)
-      for (int k = 0; k < SK; ++k) r = FMA(a[SM*k+m], bkn[k], r);
-#   else
-      for (int k = 0; k < SK; ++k) r = FMA(awg[m][k], bkn[k], r);
-#   endif
+      for (int k = 0; k < SK; ++k) r = FMA(
+# if defined(SHARED_A)
+        amk[m][k],
 # else
-#   if defined(PRIVATE_A) || !defined(SHARED_A)
-      for (int k = 0; k < SK; ++k) r = FMA(a[SM*k+m], b[SN*k+idx], r);
-#   else
-      for (int k = 0; k < SK; ++k) r = FMA(awg[m][k], b[SN*k+idx], r);
-#   endif
+        a[SM*k+m],
 # endif
+# if defined(SHARED_B)
+        bkn[k][idx],
+# elif defined(PRIVATE_B)
+        bkn[k],
+# else
+        b[SN*k+idx],
+# endif
+        r);
 # if (1 < BS)
       cmn[m] = r;
 # else

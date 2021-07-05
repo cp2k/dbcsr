@@ -313,7 +313,7 @@ int c_dbcsr_acc_init(void)
               int level_major = 0;
               c_dbcsr_acc_opencl_config.svm_interop = (NULL == env || 0 != atoi(env)) &&
                 (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_level(active_device,
-                  &level_major, NULL/*level_minor*/) && 2 <= level_major);
+                  &level_major, NULL/*level_minor*/, NULL/*cl_std*/) && 2 <= level_major);
             }
 #else
             c_dbcsr_acc_opencl_config.svm_interop = CL_FALSE;
@@ -474,26 +474,39 @@ int c_dbcsr_acc_opencl_device_name(cl_device_id device, const char* name)
 }
 
 
-int c_dbcsr_acc_opencl_device_level(cl_device_id device, int* level_major, int* level_minor)
+int c_dbcsr_acc_opencl_device_level(cl_device_id device,
+  int* level_major, int* level_minor, char cl_std[16])
 {
   char buffer[ACC_OPENCL_BUFFERSIZE];
-  int result = EXIT_SUCCESS;
-  assert(NULL != device && (NULL != level_major || NULL != level_minor));
-  ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_VERSION,
-    ACC_OPENCL_BUFFERSIZE, buffer, NULL),
-    "retrieve device level", result);
-  if (EXIT_SUCCESS == result) {
+  cl_int result = clGetDeviceInfo(device, CL_DEVICE_VERSION, ACC_OPENCL_BUFFERSIZE, buffer, NULL);
+  assert(NULL != device && (NULL != level_major || NULL != level_minor || NULL != cl_std));
+  if (CL_SUCCESS == result) {
     unsigned int level[2];
     /* input: "OpenCL <level_major>.<level_minor> ..." */
-    if (2 == sscanf(buffer, "%*s %u.%u", level, level+1)) {
+    if (2 == sscanf(buffer, "%*s %u.%u", level, level + 1)) {
       if (NULL != level_major) *level_major = (int)level[0];
       if (NULL != level_minor) *level_minor = (int)level[1];
+      if (NULL != cl_std) {
+        if (1 < level[0]) {
+          const int nchar = ACC_OPENCL_SNPRINTF(cl_std, 16, "-cl-std=CL%u.%u", level[0], level[1]);
+          if (0 >= nchar || 16 <= nchar) result = EXIT_FAILURE;
+        }
+        else *cl_std = '\0';
+      }
     }
     else {
-      result = EXIT_SUCCESS;
+      if (NULL != level_major) *level_major = 0;
+      if (NULL != level_minor) *level_minor = 0;
+      if (NULL != cl_std) *cl_std = '\0';
+      result = EXIT_FAILURE;
     }
   }
-  ACC_OPENCL_RETURN(result);
+  else {
+    if (NULL != level_major) *level_major = 0;
+    if (NULL != level_minor) *level_minor = 0;
+    if (NULL != cl_std) *cl_std = '\0';
+  }
+  return result;
 }
 
 
@@ -662,16 +675,16 @@ int c_dbcsr_acc_opencl_wgsize(cl_device_id device, cl_kernel kernel,
 
 int c_dbcsr_acc_opencl_dump(const char* basename, cl_program program)
 {
-  cl_int result = EXIT_SUCCESS;
+  cl_int result;
+  unsigned char* binary = NULL;
   size_t size;
   assert(NULL != basename && NULL != program);
-  ACC_OPENCL_CHECK(clGetProgramInfo(program,
-    CL_PROGRAM_BINARY_SIZES, sizeof(size_t), &size, NULL),
-    "query program binary size", result);
-  if (0 < size && size <= ACC_OPENCL_BINARYSIZE) {
-    unsigned char binary[ACC_OPENCL_BINARYSIZE], *binaries = binary;
+  binary = (unsigned char*)(CL_SUCCESS == clGetProgramInfo(program,
+      CL_PROGRAM_BINARY_SIZES, sizeof(size_t), &size, NULL)
+    ? malloc(size) : NULL);
+  if (NULL != binary) {
     result = clGetProgramInfo(program, CL_PROGRAM_BINARIES,
-      sizeof(unsigned char*), &binaries, NULL);
+      sizeof(unsigned char*), &binary, NULL);
     if (CL_SUCCESS == result) {
       char buffer[ACC_OPENCL_BUFFERSIZE];
       const int nchar = ACC_OPENCL_SNPRINTF(buffer, sizeof(buffer),
@@ -688,6 +701,7 @@ int c_dbcsr_acc_opencl_dump(const char* basename, cl_program program)
     else {
       ACC_OPENCL_ERROR("query program binary", result);
     }
+    free(binary);
   }
   else result = EXIT_FAILURE;
   ACC_OPENCL_RETURN(result);

@@ -12,8 +12,10 @@ OBJSMM := $(SRCSMM:.cpp=.o)
 
 INCALL := $(INCACC) $(INCSMM)
 
-LIBXSMMROOT ?= $(wildcard ../../../../libxsmm)
-LIBXSMMROOT ?= $(wildcard $(HOME)/libxsmm)
+LIBXSMMROOT := $(wildcard ../../../../libxsmm)
+ifeq (,$(LIBXSMMROOT))
+  LIBXSMMROOT := $(wildcard $(HOME)/libxsmm)
+endif
 NVCC ?= $(shell which nvcc 2>/dev/null)
 CUDA_PATH ?= $(if $(NVCC),$(abspath $(dir $(NVCC))/..))
 UNAME := $(shell uname)
@@ -124,11 +126,11 @@ endif
 LDFLAGS += -lcudart -lcublas -lnvrtc -lcuda
 CFLAGS += -Wno-variadic-macros -Wno-long-long
 
-.PHONY: all
-all: ../dbcsr_acc.a ../dbcsr_acc_smm.a bench test
-
 .PHONY: bench
 bench: ../acc_bench_smm ../acc_bench_trans
+
+.PHONY: all
+all: ../dbcsr_acc.a ../dbcsr_acc_smm.a bench test
 
 .PHONY: test
 test: ../dbcsr_acc_test
