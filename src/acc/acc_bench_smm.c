@@ -133,30 +133,41 @@ int main(int argc, char* argv[])
     double duration;
 #endif
     assert(m <= (mn / n) && 0 == (mn % n) && k <= (mk / k) && 0 == (mk % k) && n <= (kn / n) && 0 == (kn % n));
-    if (EXIT_SUCCESS == result) {
-      printf("%s%s%i %i %i %i %i %i %i %i\n", 0 < argc ? argv[0] : "", 0 < argc ? " " : "",
-        nrepeat, stack_size, m, n, k, nc, na, nb);
-    }
-    else break; /* end of input/argument-file reached */
     CHECK(c_dbcsr_acc_init(), &result);
     /* note: libsmm_acc_init() may imply acc_init() */
     CHECK(libsmm_acc_init(), &result);
-    CHECK(c_dbcsr_acc_get_ndevices(&ndevices), &result);
-    if (0 < ndevices && (0 == device || EXIT_SUCCESS == c_dbcsr_acc_set_active_device(device))) {
+    if (EXIT_SUCCESS == result) {
+      result = c_dbcsr_acc_get_ndevices(&ndevices);
+      if (0 < ndevices && (0 == device || EXIT_SUCCESS == c_dbcsr_acc_set_active_device(device))) {
 #if defined(_DEBUG)
-      fprintf(stderr, "Activated device %i of %i.\n", device, ndevices);
+        fprintf(stderr, "Activated device %i of %i.\n", device, ndevices);
 #endif
+      }
+      else {
+        if (0 >= ndevices) fprintf(stderr, "No ACC-device found!\n");
+        else fprintf(stderr, "Failed to activate device %i of %i!\n", device, ndevices);
+#if !defined(__CUDA)
+        CHECK(libsmm_acc_finalize(), NULL);
+#endif
+        CHECK(c_dbcsr_acc_finalize(), NULL);
+        return result;
+      }
     }
+    else ndevices = 0;
+    if (EXIT_SUCCESS == result) {
+      printf("%s%s%i %i %i %i %i %i %i %i\n", 0 < argc ? argv[0] : "", 0 < argc ? " " : "",
+        nrepeat, stack_size, m, n, k, nc, na, nb);
+      printf("typename (id=%i): %s\n", DBCSR_TYPE(ELEM_TYPE), DBCSR_STRINGIFY(ELEM_TYPE));
+    }
+    else if (0 < ndevices) break; /* end of input/argument-file reached */
     else {
-      if (0 >= ndevices) fprintf(stderr, "No ACC-device found!\n");
-      else fprintf(stderr, "Failed to activate device %i of %i!\n", device, ndevices);
+      fprintf(stderr, "ACC initialization failed!\n");
 #if !defined(__CUDA)
       CHECK(libsmm_acc_finalize(), NULL);
 #endif
       CHECK(c_dbcsr_acc_finalize(), NULL);
       return result;
     }
-    printf("typename (id=%i): %s\n", DBCSR_TYPE(ELEM_TYPE), DBCSR_STRINGIFY(ELEM_TYPE));
     CHECK(c_dbcsr_acc_stream_create(&stream, "stream", -1/*default priority*/), &result);
     CHECK(c_dbcsr_acc_host_mem_allocate((void**)&amat_hst, sizeof(ELEM_TYPE) * mk * na, stream), &result);
     CHECK(c_dbcsr_acc_host_mem_allocate((void**)&bmat_hst, sizeof(ELEM_TYPE) * kn * nb, stream), &result);
