@@ -11,8 +11,19 @@
 #else
 # define UNROLL(N)
 #endif
+#if defined(INTEL)
+# define BC 1
+#else
+# define BC 2
+#endif
+#if (1 == TN)
+# define ZERO 0.f
+#elif (3 == TN)
+# define ZERO 0.0
+#else
+# define ZERO 0
+#endif
 
-#define BMN ((SM + SN - 1) / SN)
 /* number of M-blocks */
 #define NBM ((SM + BM - 1) / BM)
 /* number of N-blocks */
@@ -20,23 +31,39 @@
 /* size of workgroup (WG) */
 #define SWG (NBM * NBN)
 
-#if !defined(PRIVATE_A) && (SWG != SN) && 1
+#if !defined(SHARED_A) && 1
+# define SHARED_A ((SK % 16) ? 1 : BC)
+#endif
+#if !defined(SHARED_B) && !defined(INTEL) && 1
+# define SHARED_B ((SN % 16) ? 1 : BC)
+#endif
+#if !defined(SHARED_C) && 0
+# define SHARED_C ((SN % 16) ? 1 : BC)
+#endif
+#if !defined(SHARED_S) && !defined(INTEL) && 1
+# define SHARED_S
+#endif
+#if !defined(PRIVATE_A) && !defined(SHARED_A)
 # define PRIVATE_A
 #endif
-#if !defined(PRIVATE_B) && defined(INTEL) && 1
+#if !defined(PRIVATE_B) && !defined(SHARED_B)
 # define PRIVATE_B
 #endif
-#if !defined(SHARED_A) && !defined(PRIVATE_A) && 1
-# define SHARED_A ((SK % 16) ? 1 : 2)
+#if !defined(PRIVATE_C) && !defined(SHARED_C)
+# define PRIVATE_C
 #endif
-#if !defined(SHARED_B) && !defined(PRIVATE_B) && 1
-# define SHARED_B ((SN % 16) ? 1 : 2)
+#if !defined(TRACK_B) && (1 < BS) && 0
+# if defined(PRIVATE_B) && !defined(SHARED_B)
+#   define TRACK_B
+# endif
 #endif
-#if !defined(TRACK_B) && defined(PRIVATE_B) && 0
-# define TRACK_B
-#endif
-#if !defined(TRACK_C) && 1
+#if !defined(TRACK_C) && (1 < BS) && 1
 # define TRACK_C
+#endif
+#if defined(SHARED_S) && (1 < BS)
+# define IDXBASE 0
+#else
+# define IDXBASE 1
 #endif
 
 
@@ -99,18 +126,12 @@ kernel void FN(global T *restrict cdata,
 #endif
 {
   const int gid = get_group_id(0), idx = get_local_id(0);
-  GLOBAL const int *restrict params = param_stack + gid * (3 * BS);
-#if (1 < BS)
-# if defined(TRACK_B)
-  int b1 = -1;
-# endif
+  GLOBAL const int *restrict pbase = param_stack + gid * (3 * BS);
+#if defined(SHARED_S) && (1 < BS)
+  local int params[3*BS];
 #else
-  GLOBAL const T *const restrict a = adata + params[0] - 1;
-  GLOBAL const T *const restrict b = bdata + params[1] - 1;
+  GLOBAL const int *restrict params = pbase;
 #endif
-  int c0 = params[2] - 1;
-  global T *restrict c = cdata + c0;
-
 #if defined(SHARED_A)
 # if (1 < SHARED_A)
   local T amk[SM][SK+1];
@@ -126,68 +147,85 @@ kernel void FN(global T *restrict cdata,
 # endif
 #endif
 #if (SWG != SN)
-# if defined(PRIVATE_A)
+# if defined(PRIVATE_A) && !defined(SHARED_A)
   T amk[SK];
 # endif
-# if defined(PRIVATE_B)
+# if defined(PRIVATE_B) && !defined(SHARED_B)
   T bkn[SK][BN];
 # endif
-# if (1 < BS)
+# if defined(PRIVATE_C) && !defined(SHARED_C) && (1 < BS)
   T cmn[BM][BN] = {{ 0 }};
 # endif
   const int m0 = (idx / NBN) * BM, m1 = min(m0 + BM, SM);
   const int n0 = (idx % NBN) * BN, n1 = min(n0 + BN, SN);
 #else
-# if defined(PRIVATE_B)
+# if defined(PRIVATE_B) && !defined(SHARED_B)
   T bkn[SK];
 # endif
-# if (1 < BS)
+# if defined(PRIVATE_C) && !defined(SHARED_C) && (1 < BS)
   T cmn[SM] = { 0 };
 # endif
-# if (SM != SN)
-  const int m0 = idx * BMN, m1 = min(m0 + BMN, SM);
-# endif
+#endif
+#if defined(TRACK_B)
+  int b1 = -1;
 #endif
 
   /* intra-kernel mini-batch of SMMs */
 #if (1 < BS)
   const int batchsize = min(BS, stack_size - BS * gid);
+  global T *restrict c;
+  int c0, i;
+# if defined(SHARED_C)
+#   if (1 < SHARED_C)
+  local T cmn[SM][SN+1];
+#   else
+  local T cmn[SM][SN];
+#   endif
+  for (int m = idx; m < SM; m += SWG) {
+    UNROLL(SN)
+    for (int n = 0; n < SN; ++n) cmn[m][n] = ZERO;
+  }
+# endif
+# if defined(SHARED_S)
+  for (i = idx; i < (3 * batchsize); i += SWG) params[i] = pbase[i] - 1;
+# endif
+# if defined(SHARED_C) || defined(SHARED_S)
+  barrier(CLK_LOCAL_MEM_FENCE);
+# endif
+  c0 = params[2] - IDXBASE;
+  c = cdata + c0;
   UNROLL(1)
-  for (int i = 0; i < batchsize; ++i) {
-    const int c1 = (i < (batchsize - 1) ? (params[5] - 1) : -1);
-    const int a0 = params[0] - 1, b0 = params[1] - 1;
-    GLOBAL const T *const restrict a = adata + a0;
-    GLOBAL const T *const restrict b = bdata + b0;
-    params += 3; /* next set of indexes */
+  for (i = 0; i < batchsize; ++i) {
+    const int a0 = params[3*i] - IDXBASE, b0 = params[3*i+1] - IDXBASE;
+    const int c1 = ((i + 1) < batchsize ? (params[3*i+5] - IDXBASE) : -1);
 #else
   {
+    const int a0 = params[0] - IDXBASE, b0 = params[1] - IDXBASE;
+    global T *restrict c = cdata + params[2] - IDXBASE;
 #endif
+    GLOBAL const T *const restrict a = adata + a0;
+    GLOBAL const T *const restrict b = bdata + b0;
+
 #if defined(SHARED_A)
-    /* transpose A-matrix into local/shared buffer */
+    { /* transpose A-matrix into local/shared buffer */
+      int m = idx;
 # if (SM != SN || SWG != SN)
-    UNROLL(BMN)
-    for (int m = m0; m < m1; ++m) {
-# else
-    { const int m = idx;
+      for (; m < SM; m += SWG)
 # endif
-      UNROLL(SK)
-      for (int k = 0; k < SK; ++k) amk[m][k] = a[SM*k+m];
+      { UNROLL(SK)
+        for (int k = 0; k < SK; ++k) amk[m][k] = a[SM*k+m];
+      }
     }
 #endif
 
 #if defined(SHARED_B)
     UNROLL(SK)
     for (int k = 0; k < SK; ++k) {
+      int n = idx;
 # if (SM != SN || SWG != SN)
-#   if defined(__NV_CL_C_VERSION)
-      UNROLL(BN)
-#   endif
-      for (int n = n0; n < n1; ++n) {
-# else
-      { const int n = idx;
+      for (; n < SN; n += SWG)
 # endif
-        bkn[k][n] = b[SN*k+n];
-      }
+      bkn[k][n] = b[SN*k+n];
     }
 #elif defined(PRIVATE_B)
 # if defined(TRACK_B) && (1 < BS)
@@ -219,13 +257,13 @@ kernel void FN(global T *restrict cdata,
 #if (SWG != SN)
     /*UNROLL(BM)*/
     for (int m = m0; m < m1; ++m) {
-# if defined(PRIVATE_A)
+# if defined(PRIVATE_A) && !defined(SHARED_A)
       UNROLL(SK)
       for (int k = 0; k < SK; ++k) amk[k] = a[SM*k+m];
 # endif
       /*UNROLL(BN)*/
       for (int n = n0; n < n1; ++n) {
-        T r = 0;
+        T r = ZERO;
         UNROLL(SK)
         for (int k = 0; k < SK; ++k) r = FMA(
 # if defined(SHARED_A)
@@ -244,9 +282,13 @@ kernel void FN(global T *restrict cdata,
 # endif
           r);
 # if (1 < BS)
+#   if defined(SHARED_C)
+        cmn[m][n] += r;
+#   else
         cmn[m-m0][n-n0] += r;
+#   endif
 # else
-        if (0 != r) ATOMIC_ADD_GLOBAL(&c[SM*n+m], r);
+        if (ZERO != r) ATOMIC_ADD_GLOBAL(&c[SM*n+m], r);
 # endif
       }
     }
@@ -254,9 +296,13 @@ kernel void FN(global T *restrict cdata,
     UNROLL(SM)
     for (int m = 0; m < SM; ++m) {
 # if (1 < BS)
+#   if defined(SHARED_C)
+      T r = cmn[m][idx];
+#   else
       T r = cmn[m];
+#   endif
 # else
-      T r = 0;
+      T r = ZERO;
 # endif
       UNROLL(SK)
       for (int k = 0; k < SK; ++k) r = FMA(
@@ -274,9 +320,13 @@ kernel void FN(global T *restrict cdata,
 # endif
         r);
 # if (1 < BS)
+#   if defined(SHARED_C)
+      cmn[m][idx] = r;
+#   else
       cmn[m] = r;
+#   endif
 # else
-      if (0 != r) ATOMIC_ADD_GLOBAL(&c[SM*idx+m], r);
+      if (ZERO != r) ATOMIC_ADD_GLOBAL(&c[SM*idx+m], r);
 # endif
     }
 #endif
@@ -292,9 +342,14 @@ kernel void FN(global T *restrict cdata,
         UNROLL(BN)
         for (int n = 0; n < BN; ++n) {
           const int gm = m + m0, gn = n + n0;
-          if (gm < SM && gn < SN && 0 != cmn[m][n]) {
-            ATOMIC_ADD_GLOBAL(&c[SM*gn+gm], cmn[m][n]);
-            cmn[m][n] = 0; /* reset */
+#   if defined(SHARED_C)
+          local T *restrict ci = &cmn[gm][gn];
+#   else
+          private T *restrict ci = &cmn[m][n];
+#   endif
+          if (gm < SM && gn < SN && ZERO != *ci) {
+            ATOMIC_ADD_GLOBAL(&c[SM*gn+gm], *ci);
+            *ci = ZERO; /* reset */
           }
         }
       }
@@ -302,18 +357,30 @@ kernel void FN(global T *restrict cdata,
 #   if defined(ATOMIC_ADD2_GLOBAL)
       UNROLL(SM)
       for (int m = 0; m < SM; m += 2) {
-        /*if (0 != cmn[m] && 0 != cmn[m+1])*/ {
-          const float2 r2 = (float2)(cmn[m], cmn[m+1]);
+#     if defined(SHARED_C)
+        local T *restrict c0 = &cmn[m+0][idx];
+        local T *restrict c1 = &cmn[m+1][idx];
+#     else
+        private T *restrict c0 = &cmn[m+0];
+        private T *restrict c1 = &cmn[m+1];
+#     endif
+        /*if (ZERO != *c0 && ZERO != *c1)*/ {
+          const float2 r2 = (float2)(*c0, *c1);
           ATOMIC_ADD2_GLOBAL((global volatile float2*)(c + SM * idx + m), r2);
-          cmn[m] = cmn[m+1] = 0; /* reset */
+          *c0 = *c1 = ZERO; /* reset */
         }
       }
 #   else
       UNROLL(SM)
       for (int m = 0; m < SM; ++m) {
-        if (0 != cmn[m]) {
-          ATOMIC_ADD_GLOBAL(&c[SM*idx+m], cmn[m]);
-          cmn[m] = 0; /* reset */
+#     if defined(SHARED_C)
+        local T *restrict ci = &cmn[m][idx];
+#     else
+        private T *restrict ci = cmn + m;
+#     endif
+        if (ZERO != *ci) {
+          ATOMIC_ADD_GLOBAL(&c[SM*idx+m], *ci);
+          *ci = ZERO; /* reset */
         }
       }
 #   endif

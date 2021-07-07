@@ -58,11 +58,12 @@ class SmmTuner(MeasurementInterface):
             else:
                 self.device = self.args.update
             params = re.search(
-                "INFO ACC/OpenCL:\\s+{}\\s+{}SMM-kernel{}{}".format(
+                "INFO ACC/OpenCL:\\s+{}\\s+{}SMM-kernel{}{}{}".format(
                     "{}x{}x{}".format(self.args.m, self.args.n, self.args.k),
                     {"float": "S", "double": "D"}.get(self.typename, ""),
                     "\\s+bs=([0-9]+)\\s+bm=([0-9]+)\\s+bn=([0-9]+)",
-                    "\\s+aa=([0-9]+)\\s+ab=([0-9]+)\\s+gen=",
+                    "\\s+aa=([0-9]+)\\s+ab=([0-9]+)\\s+ac=([0-9]+)",
+                    "\\s+ap=([0-9]+)\\s+gen=",
                 ),
                 str(run_result["stderr"]),
             )
@@ -71,6 +72,8 @@ class SmmTuner(MeasurementInterface):
             self.bn = int(params.group(3)) if params and params.group(3) else None
             self.aa = int(params.group(4)) if params and params.group(4) else None
             self.ab = int(params.group(5)) if params and params.group(5) else None
+            self.ac = int(params.group(6)) if params and params.group(6) else None
+            self.ap = int(params.group(7)) if params and params.group(7) else None
         else:
             self.typename = self.typeid = self.device = None
         # consider to update and/or merge JSONS (update first)
@@ -103,9 +106,13 @@ class SmmTuner(MeasurementInterface):
         if not os.getenv("OPENCL_LIBSMM_SMM_BN"):
             params.append(IntegerParameter("BN", 1, self.args.n))
         if not os.getenv("OPENCL_LIBSMM_SMM_AA"):
-            params.append(IntegerParameter("AA", 1, 3))
+            params.append(IntegerParameter("AA", 0, 3))
         if not os.getenv("OPENCL_LIBSMM_SMM_AB"):
-            params.append(IntegerParameter("AB", 1, 3))
+            params.append(IntegerParameter("AB", 0, 3))
+        if not os.getenv("OPENCL_LIBSMM_SMM_AC"):
+            params.append(IntegerParameter("AC", 0, 3))
+        if not os.getenv("OPENCL_LIBSMM_SMM_AP"):
+            params.append(IntegerParameter("AP", 0, 1))
         if not params:
             sys.tracebacklimit = 0
             raise RuntimeError(
@@ -139,6 +146,8 @@ class SmmTuner(MeasurementInterface):
                 "BN": self.bn if self.bn is not None else self.args.bn,
                 "AA": self.aa if self.aa is not None else self.args.aa,
                 "AB": self.ab if self.ab is not None else self.args.ab,
+                "AC": self.ac if self.ac is not None else self.args.ac,
+                "AP": self.ap if self.ap is not None else self.args.ap,
             }
         ]
 
@@ -155,6 +164,8 @@ class SmmTuner(MeasurementInterface):
             "OPENCL_LIBSMM_SMM_BN={}".format(config["BN"]),
             "OPENCL_LIBSMM_SMM_AA={}".format(config["AA"]),
             "OPENCL_LIBSMM_SMM_AB={}".format(config["AB"]),
+            "OPENCL_LIBSMM_SMM_AC={}".format(config["AC"]),
+            "OPENCL_LIBSMM_SMM_AP={}".format(config["AP"]),
         ]
 
     def run(self, desired_result, input, limit):
@@ -224,6 +235,8 @@ class SmmTuner(MeasurementInterface):
                     value = (data["GFLOPS"], data["BS"], data["BM"], data["BN"]) + (
                         data["AA"] if "AA" in data else 0,
                         data["AB"] if "AB" in data else 0,
+                        data["AC"] if "AC" in data else 0,
+                        data["AP"] if "AP" in data else 0,
                         filename,
                     )
                     if key not in merged:
@@ -246,7 +259,7 @@ class SmmTuner(MeasurementInterface):
                             self.args.csvsep.join(["DEVICE", "TYPEID", "M", "N", "K"]),
                             self.args.csvsep,  # separator for value-part
                             self.args.csvsep.join(  # value-part
-                                ["GFLOPS", "BS", "BM", "BN", "AA", "AB"]
+                                ["GFLOPS", "BS", "BM", "BN", "AA", "AB", "AC", "AP"]
                             ),
                         )
                     )
@@ -349,7 +362,7 @@ if __name__ == "__main__":
         type=int,
         default=int(os.getenv("OPENCL_LIBSMM_SMM_AA", "0")),
         dest="aa",
-        help="A-access: auto (0), shared (1), shared-bc (2), private (3)",
+        help="Matrix A: auto (0), shared (1), shared-bc (2), private (3)",
     )
     argparser.add_argument(
         "-ab",
@@ -357,7 +370,23 @@ if __name__ == "__main__":
         type=int,
         default=int(os.getenv("OPENCL_LIBSMM_SMM_AB", "0")),
         dest="ab",
-        help="B-access: auto (0), shared (1), shared-bc (2), private (3)",
+        help="Matrix B: auto (0), shared (1), shared-bc (2), private (3)",
+    )
+    argparser.add_argument(
+        "-ac",
+        "--initial-ac",
+        type=int,
+        default=int(os.getenv("OPENCL_LIBSMM_SMM_AC", "0")),
+        dest="ac",
+        help="Matrix C: auto (0), shared (1), shared-bc (2), private (3)",
+    )
+    argparser.add_argument(
+        "-ap",
+        "--initial-ap",
+        type=int,
+        default=int(os.getenv("OPENCL_LIBSMM_SMM_AP", "0")),
+        dest="ap",
+        help="Params: auto (0), shared (1)",
     )
     argparser.add_argument(
         "-bs",
