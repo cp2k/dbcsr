@@ -30,8 +30,9 @@
 # FCFLAGS  => Fortran compilation flags
 # LDFLAGS  => Linker flags
 # LIBS     => Libraries
-# ACC      => ACC can be nvcc (CUDA), hipcc (HIP), or non-empty string (OpenCL)
+# ACC      => ACC can be nvcc (CUDA), mpicc or g++ (HIP), or non-empty string (OpenCL)
 # ACCFLAGS => ACC flags
+# USE_ACCEL => hip, cuda or non-empty string (OpenCL)
 # GPUVER   =>
 #          - for CUDA, possible values correspond to NVIDIA GPUs:
 #            possible values are K20X, K40, K80, P100, V100
@@ -131,7 +132,7 @@ CXXFLAGS += -D__DBCSR_ACC
 endif
 
 # If compiling with nvcc
-ifneq (,$(findstring nvcc,$(ACC)))
+ifeq (cuda,$(USE_ACCEL))
 override ACCFLAGS += -D__CUDA
 FCFLAGS += -D__CUDA
 CXXFLAGS += -D__CUDA
@@ -143,14 +144,10 @@ ifeq (,$(findstring -Xcompiler,$(ACCFLAGS)))
 override ACCFLAGS += -Xcompiler="$(CXXFLAGS)"
 endif
 # If compiling with hipcc
-else ifneq (,$(findstring hipcc,$(ACC)))
+else ifeq (hip,$(USE_ACCEL))
 override ACCFLAGS += -D__HIP
 FCFLAGS += -D__HIP
 CXXFLAGS += -D__HIP
-#if "--amdgpu-target" has not yet been set in ACCFLAGS
-ifeq (,$(findstring --amdgpu-target,$(ACCFLAGS)))
-override ACCFLAGS += --amdgpu-target=$(ARCH_NUMBER)
-endif
 # OpenCL backend
 else
 # OBJ_SRC_FILES already includes all *.c files (OpenCL backend is C based)
@@ -183,24 +180,24 @@ LIBSMM_ACC_ABS_DIR := $(shell find $(SRCDIR) -type d -name "libsmm_acc")
 
 ALL_PKG_FILES := $(shell find $(SRCDIR) -name "PACKAGE")
 OBJ_SRC_FILES  = $(shell cd $(SRCDIR); find . ! -name "dbcsr_api_c.F" ! -name "dbcsr_tensor_api_c.F" -name "*.F")
-OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -name "*.c")
+OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -path ../src/acc/opencl -prune -type f -name "*.c")
 
 # if compiling with GPU acceleration
 ifneq ($(ACC),)
-  # if compiling with nvcc
-  ifneq (,$(findstring nvcc,$(ACC)))
-    # All *.cpp files belong to the accelerator backend common between CUDA/HIP
-    OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -type f ! -name "acc_cuda.cpp" ! -name "acc_hip.cpp" -name "*.cpp")
-    OBJ_SRC_FILES += $(LIBSMM_ACC_DIR)/../cuda/acc_cuda.cpp
-    # Exclude autotuning files
-    OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -type f ! -name "tune_*_exe*_part*.cu" ! -name "tune_*_exe*_main*.cu"  -name "*.cu")
-  # if compiling with hipcc
-  else ifneq (,$(findstring hipcc,$(ACC)))
-    # All *.cpp files belong to the accelerator backend common between CUDA/HIP
-    OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -type f ! -name "acc_cuda.cpp" ! -name "acc_hip.cpp" -name "*.cpp")
-    OBJ_SRC_FILES += $(LIBSMM_ACC_DIR)/../hip/acc_hip.cpp
-  # OpenCL backend: OBJ_SRC_FILES already includes all *.c files
-  endif
+	ifeq (cuda,$(USE_ACCEL))
+		# All *.cpp files belong to the accelerator backend common between CUDA/HIP
+		OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -type f ! -name "acc_cuda.cpp" ! -name "acc_hip.cpp" -name "*.cpp")
+		OBJ_SRC_FILES += $(LIBSMM_ACC_DIR)/../cuda/acc_cuda.cpp
+		# Exclude autotuning files
+		OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -type f ! -name "tune_*_exe*_part*.cu" ! -name "tune_*_exe*_main*.cu"  -name "*.cu")
+	else ifeq (hip,$(USE_ACCEL))
+		# All *.cpp files belong to the accelerator backend common between CUDA/HIP
+		OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -type f ! -name "acc_cuda.cpp" ! -name "acc_hip.cpp" -name "*.cpp")
+		OBJ_SRC_FILES += $(LIBSMM_ACC_DIR)/../hip/acc_hip.cpp
+	else
+		# OpenCL backend: include *.c files in OBJ_SRC_FILES 
+		OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -path ../src/acc/opencl -name "*.c")
+	endif
 endif
 
 # Include also source files which won't compile into an object file
@@ -298,7 +295,7 @@ FYPPFLAGS ?= -n
 	$(CC) -c $(CFLAGS) $<
 
 # Compile the CUDA/HIP files
-ifneq ($(ARCH_NUMBER),)
+ifneq ($(ACC),)
 %.o: %.cpp
 	$(ACC) -c $(ACCFLAGS) -I'$(SRCDIR)' $<
 libsmm_acc.o: libsmm_acc.cpp parameters.h smm_acc_kernels.h
@@ -309,16 +306,16 @@ libsmm_acc_init.o: libsmm_acc_init.cpp libsmm_acc_init.h parameters.h
 	$(ACC) -c $(ACCFLAGS) -I'$(SRCDIR)' $<
 endif
 
-# if compiling with nvcc
-ifneq (,$(findstring nvcc,$(ACC)))
+# if compiling CUDA backend
+ifeq (cuda,$(USE_ACCEL))
 %.o: %.cpp
 	$(ACC) -c $(ACCFLAGS) -I'$(SRCDIR)' $<
 acc_cuda.o: acc_cuda.cpp acc_cuda.h
 	$(ACC) -c $(ACCFLAGS) -I'$(SRCDIR)' $<
 %.o: %.cu
 	$(ACC) -c $(ACCFLAGS) -I'$(SRCDIR)' $<
-# if compiling with hipcc
-else ifneq (,$(findstring hipcc,$(ACC)))
+# if compiling HIP backend
+else ifeq (hip,$(USE_ACCEL))
 %.o: %.cpp
 	$(ACC) -c $(ACCFLAGS) -I'$(SRCDIR)' $<
 acc_hip.o: acc_hip.cpp acc_hip.h
