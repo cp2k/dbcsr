@@ -184,20 +184,20 @@ OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -path ../src/acc/opencl -prune -ty
 
 # if compiling with GPU acceleration
 ifneq ($(ACC),)
-	ifeq (cuda,$(USE_ACCEL))
-		# All *.cpp files belong to the accelerator backend common between CUDA/HIP
-		OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -type f ! -name "acc_cuda.cpp" ! -name "acc_hip.cpp" -name "*.cpp")
-		OBJ_SRC_FILES += $(LIBSMM_ACC_DIR)/../cuda/acc_cuda.cpp
-		# Exclude autotuning files
-		OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -type f ! -name "tune_*_exe*_part*.cu" ! -name "tune_*_exe*_main*.cu"  -name "*.cu")
-	else ifeq (hip,$(USE_ACCEL))
-		# All *.cpp files belong to the accelerator backend common between CUDA/HIP
-		OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -type f ! -name "acc_cuda.cpp" ! -name "acc_hip.cpp" -name "*.cpp")
-		OBJ_SRC_FILES += $(LIBSMM_ACC_DIR)/../hip/acc_hip.cpp
-	else
-		# OpenCL backend: include *.c files in OBJ_SRC_FILES 
-		OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -path ../src/acc/opencl -name "*.c")
-	endif
+ifeq (cuda,$(USE_ACCEL))
+# All *.cpp files belong to the accelerator backend common between CUDA/HIP
+OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -type f ! -name "acc_cuda.cpp" ! -name "acc_hip.cpp" -name "*.cpp")
+OBJ_SRC_FILES += $(LIBSMM_ACC_DIR)/../cuda/acc_cuda.cpp
+# Exclude autotuning files
+OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -type f ! -name "tune_*_exe*_part*.cu" ! -name "tune_*_exe*_main*.cu"  -name "*.cu")
+else ifeq (hip,$(USE_ACCEL))
+# All *.cpp files belong to the accelerator backend common between CUDA/HIP
+OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -type f ! -name "acc_cuda.cpp" ! -name "acc_hip.cpp" -name "*.cpp")
+OBJ_SRC_FILES += $(LIBSMM_ACC_DIR)/../hip/acc_hip.cpp
+else
+# OpenCL backend: include *.c files in OBJ_SRC_FILES 
+OBJ_SRC_FILES += $(shell cd $(SRCDIR); find . -path ../src/acc/opencl -name "*.c")
+endif
 endif
 
 # Include also source files which won't compile into an object file
