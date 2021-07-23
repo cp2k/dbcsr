@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-60-g87d180b9e</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-61-gaa5eb3c35</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -74,8 +74,11 @@
         
         
             <li><a href="../lists/programs.html">Programs</a></li>
+               
+        
         
             </ul>
+        
             </li>
 
 
@@ -96,6 +99,8 @@
 
 
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
+
+
 
           </ul>
         
@@ -120,26 +125,27 @@
      
      
      
+     
     
     
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">9 statements</a>
+    title=" 0.0% of total for procedures.">27 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_api.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_block_access.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
+     <li><a href='../sourcefile/dbcsr_block_access.f.html'>dbcsr_block_access.F</a></li>
     
-     <li><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
+     <li><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></li>
     
   
      <li class="active">dbcsr_get_block_p_c</li>
@@ -208,6 +214,8 @@ private subroutine dbcsr_get_block_p_c(matrix, row, col, block, tr, found, row_s
 
 
     
+    <p>Gets a 1-d block from a dbcsr matrix</p>
+    
 
     <h3>Arguments</h3>
     
@@ -227,12 +235,12 @@ private subroutine dbcsr_get_block_p_c(matrix, row, col, block, tr, found, row_s
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~99"></span>type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~193"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>matrix</strong></td><td></td>
+  <td><strong>matrix</strong></td><td><p>DBCSR matrix</p></td>
   
 </tr>
 
@@ -242,12 +250,13 @@ private subroutine dbcsr_get_block_p_c(matrix, row, col, block, tr, found, row_s
   
 <tr>
   
-  <td><span class="anchor" id="variable-row~47"></span>integer,</td>
+  <td><span class="anchor" id="variable-row~87"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>row</strong></td><td></td>
+  <td><strong>row</strong></td><td><p>the row
+ the column</p></td>
   
 </tr>
 
@@ -257,12 +266,13 @@ private subroutine dbcsr_get_block_p_c(matrix, row, col, block, tr, found, row_s
   
 <tr>
   
-  <td><span class="anchor" id="variable-col~28"></span>integer,</td>
+  <td><span class="anchor" id="variable-col~53"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>col</strong></td><td></td>
+  <td><strong>col</strong></td><td><p>the row
+ the column</p></td>
   
 </tr>
 
@@ -272,12 +282,12 @@ private subroutine dbcsr_get_block_p_c(matrix, row, col, block, tr, found, row_s
   
 <tr>
   
-  <td><span class="anchor" id="variable-block~44"></span>complex(kind=real_4),</td>
+  <td><span class="anchor" id="variable-block~74"></span>complex(kind=real_4),</td>
   <td></td>
   <td></td>
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>block</strong></td><td></td>
+  <td><strong>block</strong></td><td><p>the block to get (rank-1 array)</p></td>
   
 </tr>
 
@@ -287,12 +297,12 @@ private subroutine dbcsr_get_block_p_c(matrix, row, col, block, tr, found, row_s
   
 <tr>
   
-  <td><span class="anchor" id="variable-tr~14"></span>logical,</td>
+  <td><span class="anchor" id="variable-tr~23"></span>logical,</td>
   <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>tr</strong></td><td></td>
+  <td><strong>tr</strong></td><td><p>whether the data is transposed</p></td>
   
 </tr>
 
@@ -302,12 +312,12 @@ private subroutine dbcsr_get_block_p_c(matrix, row, col, block, tr, found, row_s
   
 <tr>
   
-  <td><span class="anchor" id="variable-found~15"></span>logical,</td>
+  <td><span class="anchor" id="variable-found~28"></span>logical,</td>
   <td>intent(out)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>found</strong></td><td></td>
+  <td><strong>found</strong></td><td><p>whether the block exists in the matrix</p></td>
   
 </tr>
 
@@ -317,12 +327,13 @@ private subroutine dbcsr_get_block_p_c(matrix, row, col, block, tr, found, row_s
   
 <tr>
   
-  <td><span class="anchor" id="variable-row_size~32"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_size~54"></span>integer,</td>
   <td>intent(out),</td>
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>row_size</strong></td><td></td>
+  <td><strong>row_size</strong></td><td><p>logical row size of block
+ logical column size of block</p></td>
   
 </tr>
 
@@ -332,12 +343,13 @@ private subroutine dbcsr_get_block_p_c(matrix, row, col, block, tr, found, row_s
   
 <tr>
   
-  <td><span class="anchor" id="variable-col_size~31"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_size~52"></span>integer,</td>
   <td>intent(out),</td>
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>col_size</strong></td><td></td>
+  <td><strong>col_size</strong></td><td><p>logical row size of block
+ logical column size of block</p></td>
   
 </tr>
 
@@ -408,16 +420,61 @@ private subroutine dbcsr_get_block_p_c(matrix, row, col, block, tr, found, row_s
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_get_block_p_c</span> <span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="k">block</span><span class="p">,</span> <span class="n">tr</span><span class="p">,</span> <span class="n">found</span><span class="p">,</span> <span class="n">row_size</span><span class="p">,</span> <span class="n">col_size</span><span class="p">)</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>              <span class="kd">::</span> <span class="n">matrix</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span>
-      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>            <span class="kd">::</span> <span class="k">block</span>
-<span class="k">      </span><span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">tr</span>
-      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">found</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>            <span class="kd">::</span> <span class="n">row_size</span><span class="p">,</span> <span class="n">col_size</span>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_get_block_p_c</span> <span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="k">block</span><span class="p">,</span> <span class="n">tr</span><span class="p">,</span> <span class="n">found</span><span class="p">,</span> <span class="p">&amp;</span>
+                                               <span class="n">row_size</span><span class="p">,</span> <span class="n">col_size</span><span class="p">)</span>
+     <span class="c">!! Gets a 1-d block from a dbcsr matrix</span>
 
-      <span class="k">CALL </span><span class="n">dbcsr_get_block_p_prv</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="k">block</span><span class="p">,</span> <span class="n">tr</span><span class="p">,</span> <span class="n">found</span><span class="p">,</span> <span class="n">row_size</span><span class="p">,</span> <span class="n">col_size</span><span class="p">)</span>
-   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_get_block_p_c</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>              <span class="kd">::</span> <span class="n">matrix</span>
+        <span class="c">!! DBCSR matrix</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span>
+        <span class="c">!! the row</span>
+        <span class="c">!! the column</span>
+      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>           <span class="kd">::</span> <span class="k">block</span>
+        <span class="c">!! the block to get (rank-1 array)</span>
+      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                     <span class="kd">::</span> <span class="n">tr</span>
+        <span class="c">!! whether the data is transposed</span>
+      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span>                     <span class="kd">::</span> <span class="n">found</span>
+        <span class="c">!! whether the block exists in the matrix</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>           <span class="kd">::</span> <span class="n">row_size</span><span class="p">,</span> <span class="n">col_size</span>
+        <span class="c">!! logical row size of block</span>
+        <span class="c">!! logical column size of block</span>
+
+      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">blk</span><span class="p">,</span> <span class="n">csize</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                  <span class="n">nze</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                  <span class="n">rsize</span><span class="p">,</span> <span class="n">stored_row</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                  <span class="n">stored_col</span>
+      <span class="kt">LOGICAL</span>                                  <span class="kd">::</span> <span class="n">stored_tr</span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+      <span class="k">IF</span> <span class="p">(</span><span class="n">debug_mod</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_type</span> <span class="o">/=</span> <span class="n">dbcsr_type_complex_4</span><span class="p">)</span> <span class="p">&amp;</span>
+            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Data type mismatch for requested block.&quot;</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+
+<span class="k">      CALL </span><span class="n">dbcsr_get_block_index</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">stored_row</span><span class="p">,</span> <span class="n">stored_col</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">stored_tr</span><span class="p">,</span> <span class="n">found</span><span class="p">,</span> <span class="n">blk</span><span class="p">,</span> <span class="n">offset</span><span class="p">)</span>
+      <span class="n">tr</span> <span class="o">=</span> <span class="n">stored_tr</span>
+
+      <span class="n">rsize</span> <span class="o">=</span> <span class="n">dbcsr_blk_row_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">stored_row</span><span class="p">)</span>
+      <span class="n">csize</span> <span class="o">=</span> <span class="n">dbcsr_blk_column_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">stored_col</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">row_size</span><span class="p">))</span> <span class="n">row_size</span> <span class="o">=</span> <span class="n">rsize</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">col_size</span><span class="p">))</span> <span class="n">col_size</span> <span class="o">=</span> <span class="n">csize</span>
+
+      <span class="k">NULLIFY</span> <span class="p">(</span><span class="k">block</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">found</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">nze</span> <span class="o">=</span> <span class="n">rsize</span><span class="o">*</span><span class="n">csize</span>
+         <span class="c">!</span>
+         <span class="k">block</span> <span class="o">=&gt;</span> <span class="n">pointer_view</span><span class="p">(</span> <span class="p">&amp;</span>
+                  <span class="n">dbcsr_get_data_p</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span> <span class="nb">CMPLX</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">real_4</span><span class="p">)),</span> <span class="n">offset</span><span class="p">,</span> <span class="n">offset</span> <span class="o">+</span> <span class="n">nze</span> <span class="o">-</span> <span class="mi">1</span> <span class="p">&amp;</span>
+                  <span class="p">)</span>
+      <span class="n">ELSEIF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_use_mutable</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span> <span class="p">&amp;</span>
+            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Can not retrieve blocks from non-mutable work matrices.&quot;</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_use_mutable</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span> <span class="p">&amp;</span>
+            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Can not retrieve rank-1 block pointers from mutable work matrices.&quot;</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">   END SUBROUTINE </span><span class="n">dbcsr_get_block_p_c</span>
 </pre></div>
 
     </section>
@@ -433,16 +490,17 @@ private subroutine dbcsr_get_block_p_c(matrix, row, col, block, tr, found, row_s
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2021 
-                                          </p></div>
-        <div class="col-xs-6 col-md-4 col-md-push-4">
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+                                          </p>
+        </div>
+        <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
-            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            
             
           </p>
         </div>
-        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> DBCSR was developed by DBCSR Authors</p></div>
       </div>
       <br>
       </div> <!-- /container -->    

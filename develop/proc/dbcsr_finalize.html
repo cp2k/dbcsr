@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-60-g87d180b9e</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-61-gaa5eb3c35</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -74,8 +74,11 @@
         
         
             <li><a href="../lists/programs.html">Programs</a></li>
+               
+        
         
             </ul>
+        
             </li>
 
 
@@ -96,6 +99,8 @@
 
 
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
+
+
 
           </ul>
         
@@ -120,26 +125,27 @@
      
      
      
+     
     
     
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">5 statements</a>
+    title=" 0.2% of total for procedures.">102 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_api.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_work_operations.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
+     <li><a href='../sourcefile/dbcsr_work_operations.f.html'>dbcsr_work_operations.F</a></li>
     
-     <li><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
+     <li><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
     
   
      <li class="active">dbcsr_finalize</li>
@@ -208,6 +214,11 @@ public subroutine dbcsr_finalize(matrix, reshuffle)
 
 
     
+    <p>Creates the final dbcsr_type matrix from the working matrix.
+ Work matrices (array or tree-based) are merged into the base DBCSR matrix.
+ If a matrix is marked as having a valid index, then nothing is done.
+ Deleted blocks are pruned from the index.</p>
+    
 
     <h3>Arguments</h3>
     
@@ -227,12 +238,12 @@ public subroutine dbcsr_finalize(matrix, reshuffle)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~52"></span>type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~146"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>matrix</strong></td><td></td>
+  <td><strong>matrix</strong></td><td><p>final matrix</p></td>
   
 </tr>
 
@@ -242,12 +253,12 @@ public subroutine dbcsr_finalize(matrix, reshuffle)
   
 <tr>
   
-  <td><span class="anchor" id="variable-reshuffle"></span>logical,</td>
+  <td><span class="anchor" id="variable-reshuffle~2"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>reshuffle</strong></td><td></td>
+  <td><strong>reshuffle</strong></td><td><p>whether the data should be reshuffled, default is false</p></td>
   
 </tr>
 
@@ -319,10 +330,212 @@ public subroutine dbcsr_finalize(matrix, reshuffle)
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_finalize</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">reshuffle</span><span class="p">)</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">matrix</span>
-      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">reshuffle</span>
+      <span class="c">!! Creates the final dbcsr_type matrix from the working matrix.</span>
+      <span class="c">!! Work matrices (array or tree-based) are merged into the base DBCSR matrix.</span>
+      <span class="c">!! If a matrix is marked as having a valid index, then nothing is done.</span>
+      <span class="c">!! Deleted blocks are pruned from the index.</span>
 
-      <span class="k">CALL </span><span class="n">dbcsr_finalize_prv</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">reshuffle</span><span class="p">)</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">matrix</span>
+         <span class="c">!! final matrix</span>
+      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">reshuffle</span>
+         <span class="c">!! whether the data should be reshuffled, default is false</span>
+
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_finalize&#39;</span>
+      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">PARAMETER</span>                                 <span class="kd">::</span> <span class="n">dbg</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+
+      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">handle</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">nblks</span><span class="p">,</span> <span class="n">nwms</span><span class="p">,</span> <span class="n">start_offset</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:)</span>                 <span class="kd">::</span> <span class="n">empty_row_p</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span><span class="p">,</span> <span class="k">SAVE</span>               <span class="kd">::</span> <span class="n">old_blk_p</span><span class="p">,</span> <span class="n">old_col_i</span><span class="p">,</span> <span class="n">old_row_p</span>
+      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">can_quick</span><span class="p">,</span> <span class="n">fake_row_p</span><span class="p">,</span> <span class="n">sort_data</span><span class="p">,</span> <span class="n">spawn</span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
+
+      <span class="k">NULLIFY</span> <span class="p">(</span><span class="n">old_blk_p</span><span class="p">,</span> <span class="n">old_col_i</span><span class="p">,</span> <span class="n">old_row_p</span><span class="p">)</span>
+
+<span class="c">!$OMP     BARRIER</span>
+      <span class="c">! If the matrix is not marked as dirty then skip the work.</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_valid_index</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span> <span class="k">THEN</span>
+         <span class="c">!&quot;No need to finalize a valid matrix, skipping.&quot;</span>
+         <span class="c">!</span>
+         <span class="c">! A matrix with a valid index should not have associated work</span>
+         <span class="c">! arrays.  This may happen when this routine is called on a</span>
+         <span class="c">! matrix that was not changed.</span>
+<span class="c">!$OMP        BARRIER</span>
+<span class="c">!$OMP        MASTER</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">))</span> <span class="p">&amp;</span>
+            <span class="k">CALL </span><span class="n">dbcsr_work_destroy_all</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+         <span class="n">matrix</span><span class="p">%</span><span class="n">valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<span class="c">!$OMP        END MASTER</span>
+<span class="c">!$OMP        BARRIER</span>
+         <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+         <span class="k">RETURN</span>
+<span class="k">      ENDIF</span>
+      <span class="c">!</span>
+      <span class="c">! If possible, data copying is avoided.</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">reshuffle</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">sort_data</span> <span class="o">=</span> <span class="n">reshuffle</span>
+      <span class="k">ELSE</span>
+<span class="k">         </span><span class="n">sort_data</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+      <span class="k">ENDIF</span>
+      <span class="c">!</span>
+      <span class="c">! Now make sure that a valid row_p exists. Also clear the row_p if</span>
+      <span class="c">! the matrix is declared to have 0 blocks.</span>
+<span class="c">!$OMP     MASTER</span>
+      <span class="n">fake_row_p</span> <span class="o">=</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">row_p</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">row_p</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">fake_row_p</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">row_p</span><span class="p">)</span> <span class="p">.</span><span class="n">LE</span><span class="p">.</span> <span class="mi">1</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">fake_row_p</span> <span class="o">=</span> <span class="n">fake_row_p</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">matrix</span><span class="p">%</span><span class="n">nblks</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span>
+<span class="c">!$OMP     END MASTER</span>
+      <span class="c">!</span>
+      <span class="c">! See where data will be appended in the main data</span>
+      <span class="c">! area. Alternatively, set to the start if the matrix is declared</span>
+      <span class="c">! to have no data. (This value is ignored if reshuffle is true</span>
+      <span class="c">! because the main data area is always new.)</span>
+      <span class="n">start_offset</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">nze</span>
+      <span class="n">i</span> <span class="o">=</span> <span class="n">dbcsr_get_data_size_used</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+<span class="c">!$OMP     MASTER</span>
+      <span class="n">matrix</span><span class="p">%</span><span class="n">nze</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c">!$OMP     END MASTER</span>
+<span class="c">!$OMP     BARRIER</span>
+<span class="c">!$OMP     ATOMIC</span>
+      <span class="n">matrix</span><span class="p">%</span><span class="n">nze</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">nze</span> <span class="o">+</span> <span class="n">i</span>
+<span class="c">!$OMP     BARRIER</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         WRITE</span> <span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span> <span class="n">routineN</span><span class="o">//</span><span class="s2">&quot; sizes&quot;</span><span class="p">,</span> <span class="n">matrix</span><span class="p">%</span><span class="n">nze</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="p">&amp;</span>
+            <span class="n">dbcsr_data_get_size_referenced</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">),</span> <span class="p">&amp;</span>
+            <span class="n">dbcsr_data_get_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      IF</span> <span class="p">(.</span><span class="n">FALSE</span><span class="p">.</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">dbcsr_data_get_size_referenced</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="p">&amp;</span>
+          <span class="n">matrix</span><span class="p">%</span><span class="n">nze</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">nze</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">dbcsr_data_get_size_referenced</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">))</span> <span class="p">&amp;</span>
+            <span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">&quot;Should reshuffle.&quot;</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">            </span><span class="n">sort_data</span> <span class="o">=</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_wm_use_mutable</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="n">sort_data</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">matrix</span><span class="p">%</span><span class="n">nze</span> <span class="p">.</span><span class="n">GT</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">dbcsr_add_wm_from_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+         <span class="n">matrix</span><span class="p">%</span><span class="n">nze</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="c">!$OMP        MASTER</span>
+         <span class="n">fake_row_p</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<span class="c">!$OMP        END MASTER</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">start_offset</span> <span class="o">=</span> <span class="n">dbcsr_data_get_size_referenced</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">nze</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">)</span> <span class="n">start_offset</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="c">!$OMP     MASTER</span>
+      <span class="n">matrix</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="n">dbcsr_slot_nze</span><span class="p">)</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">nze</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">fake_row_p</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">empty_row_p</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">nblkrows_total</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+         <span class="n">empty_row_p</span><span class="p">(:)</span> <span class="o">=</span> <span class="mi">0</span>
+         <span class="k">CALL </span><span class="n">dbcsr_addto_index_array</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">dbcsr_slot_row_p</span><span class="p">,</span> <span class="p">&amp;</span>
+                                      <span class="k">DATA</span><span class="o">=</span><span class="n">empty_row_p</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_addto_index_array</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">dbcsr_slot_col_i</span><span class="p">,</span> <span class="p">&amp;</span>
+                                      <span class="n">reservation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_addto_index_array</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">dbcsr_slot_blk_p</span><span class="p">,</span> <span class="p">&amp;</span>
+                                      <span class="n">reservation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+         <span class="k">CALL </span><span class="n">dbcsr_repoint_index</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="c">!$OMP     END MASTER</span>
+      <span class="c">!</span>
+<span class="c">!$OMP     BARRIER</span>
+      <span class="n">can_quick</span> <span class="o">=</span> <span class="n">can_quickly_finalize</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+<span class="c">!$OMP     BARRIER</span>
+      <span class="c">! If the matrix, work matrices, and environment fit several</span>
+      <span class="c">! criteria, then a quick O(1) finalization is performed.</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">can_quick</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">sort_data</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">quick_finalize</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+      <span class="k">ELSE</span>
+         <span class="c">!</span>
+<span class="c">!$OMP        MASTER</span>
+         <span class="c">!</span>
+         <span class="c">! Create work matrices if not yet existing</span>
+         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">            </span><span class="n">nwms</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="c">!$          nwms = omp_get_num_threads()</span>
+            <span class="k">CALL </span><span class="n">dbcsr_work_create</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">nwms</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="c">!$OMP        END MASTER</span>
+<span class="c">!$OMP        BARRIER</span>
+         <span class="c">!</span>
+         <span class="c">! Ensure index arrays at least exist.</span>
+<span class="c">!$OMP        DO SCHEDULE (STATIC, 1)</span>
+         <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">)</span>
+            <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">row_i</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">               CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">row_i</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">ENDIF</span>
+<span class="k">            IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">col_i</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">               CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">col_i</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">ENDIF</span>
+<span class="k">            IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">blk_p</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">               CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">blk_p</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">ENDIF</span>
+<span class="k">         ENDDO</span>
+<span class="c">!$OMP        ENDDO</span>
+         <span class="c">!</span>
+         <span class="c">! Check for deleted blocks</span>
+<span class="c">!$OMP        MASTER</span>
+         <span class="n">nblks</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">row_p</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">nblkrows_total</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="nb">ANY</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">blk_p</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nblks</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="mi">0</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">            CALL </span><span class="n">dbcsr_index_prune_deleted</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">         </span><span class="n">old_row_p</span> <span class="o">=&gt;</span> <span class="n">matrix</span><span class="p">%</span><span class="n">row_p</span>
+         <span class="n">old_col_i</span> <span class="o">=&gt;</span> <span class="n">matrix</span><span class="p">%</span><span class="n">col_i</span>
+         <span class="n">old_blk_p</span> <span class="o">=&gt;</span> <span class="n">matrix</span><span class="p">%</span><span class="n">blk_p</span>
+<span class="c">!$OMP        END MASTER</span>
+         <span class="c">!</span>
+<span class="c">!$OMP        BARRIER</span>
+         <span class="c">! Check to see if we will need to create a parallel environment</span>
+         <span class="c">! (needed when there are multiple work matrices but we are not</span>
+         <span class="c">! in an OpenMP parallel section.)</span>
+         <span class="c">!</span>
+         <span class="c">! A parallel section is created is used when the matrix has</span>
+         <span class="c">! more work matrices. It&#39;s a shortcut when the finalize is</span>
+         <span class="c">! called from a non-parallel environment whereas the matrix was</span>
+         <span class="c">! built/modified in a parallel environment</span>
+         <span class="n">nwms</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">)</span>
+         <span class="n">spawn</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<span class="c">!$       IF (.NOT. OMP_IN_PARALLEL()) THEN</span>
+<span class="c">!$          IF (nwms .GT. 1) spawn = .TRUE.</span>
+<span class="c">!$       ENDIF</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">spawn</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="c">!$OMP           PARALLEL IF (spawn) &amp;</span>
+<span class="c">!$OMP                    DEFAULT (NONE) &amp;</span>
+<span class="c">!$OMP                    SHARED (matrix, old_row_p, old_col_i, old_blk_p,&amp;</span>
+<span class="c">!$OMP                            start_offset, sort_data)</span>
+            <span class="k">CALL </span><span class="n">dbcsr_merge_all</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">old_row_p</span><span class="p">,</span> <span class="n">old_col_i</span><span class="p">,</span> <span class="n">old_blk_p</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">sort_data</span><span class="o">=</span><span class="n">sort_data</span><span class="p">)</span>
+<span class="c">!$OMP           END PARALLEL</span>
+         <span class="k">ELSE</span>
+<span class="k">            CALL </span><span class="n">dbcsr_merge_all</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">old_row_p</span><span class="p">,</span> <span class="n">old_col_i</span><span class="p">,</span> <span class="n">old_blk_p</span><span class="p">,</span> <span class="p">&amp;</span>
+                                 <span class="n">sort_data</span><span class="o">=</span><span class="n">sort_data</span><span class="p">)</span>
+         <span class="k">ENDIF</span>
+<span class="k">      ENDIF</span>
+<span class="c">!$OMP BARRIER</span>
+<span class="c">!$OMP MASTER</span>
+      <span class="c">! Clean up.</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         CALL </span><span class="n">dbcsr_work_destroy_all</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="k">      </span><span class="n">matrix</span><span class="p">%</span><span class="n">valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+<span class="c">!$OMP END MASTER</span>
+<span class="c">!$OMP BARRIER</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">dbg</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="c">!$OMP        SINGLE</span>
+         <span class="k">CALL </span><span class="n">dbcsr_verify_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+<span class="c">!$OMP        END SINGLE</span>
+      <span class="k">ENDIF</span>
+<span class="c">!$OMP MASTER</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">fake_row_p</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         DEALLOCATE</span> <span class="p">(</span><span class="n">empty_row_p</span><span class="p">)</span>
+      <span class="k">ENDIF</span>
+<span class="c">!$OMP END MASTER</span>
+<span class="c">!$OMP BARRIER</span>
+      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_finalize</span>
 </pre></div>
 
@@ -339,16 +552,17 @@ public subroutine dbcsr_finalize(matrix, reshuffle)
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2021 
-                                          </p></div>
-        <div class="col-xs-6 col-md-4 col-md-push-4">
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+                                          </p>
+        </div>
+        <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
-            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            
             
           </p>
         </div>
-        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> DBCSR was developed by DBCSR Authors</p></div>
       </div>
       <br>
       </div> <!-- /container -->    

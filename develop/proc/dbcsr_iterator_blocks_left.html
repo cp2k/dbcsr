@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-60-g87d180b9e</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-61-gaa5eb3c35</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -74,8 +74,11 @@
         
         
             <li><a href="../lists/programs.html">Programs</a></li>
+               
+        
         
             </ul>
+        
             </li>
 
 
@@ -96,6 +99,8 @@
 
 
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
+
+
 
           </ul>
         
@@ -120,6 +125,7 @@
      
      
      
+     
     
     
      <li><i class="fa fa-list-ol"></i>
@@ -130,16 +136,16 @@
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_api.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_iterator_operations.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
+     <li><a href='../sourcefile/dbcsr_iterator_operations.f.html'>dbcsr_iterator_operations.F</a></li>
     
-     <li><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
+     <li><a href='../module/dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
     
   
      <li class="active">dbcsr_iterator_blocks_left</li>
@@ -208,6 +214,8 @@ public pure function dbcsr_iterator_blocks_left(iterator) result(blocks_left)
 
 
     
+    <p>Returns whether there any blocks left in the iterator.</p>
+    
 
     <h3>Arguments</h3>
     
@@ -227,12 +235,12 @@ public pure function dbcsr_iterator_blocks_left(iterator) result(blocks_left)
   
 <tr>
   
-  <td><span class="anchor" id="variable-iterator"></span>type(<a href='../type/dbcsr_iterator_type.html'>dbcsr_iterator_type</a>),</td>
+  <td><span class="anchor" id="variable-iterator~21"></span>type(<a href='../type/dbcsr_iterator.html'>dbcsr_iterator</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>iterator</strong></td><td></td>
+  <td><strong>iterator</strong></td><td><p>the iterator</p></td>
   
 </tr>
 
@@ -246,7 +254,7 @@ public pure function dbcsr_iterator_blocks_left(iterator) result(blocks_left)
     
     
     
-   <h3>Return Value <small><span class="anchor" id="variable-blocks_left"></span>logical
+   <h3>Return Value <small><span class="anchor" id="variable-blocks_left~2"></span>logical
   </small></h3>
     
     
@@ -313,10 +321,13 @@ public pure function dbcsr_iterator_blocks_left(iterator) result(blocks_left)
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span>   <span class="k">PURE FUNCTION </span><span class="n">dbcsr_iterator_blocks_left</span><span class="p">(</span><span class="n">iterator</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">blocks_left</span><span class="p">)</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_iterator_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>              <span class="kd">::</span> <span class="n">iterator</span>
+      <span class="c">!! Returns whether there any blocks left in the iterator.</span>
+
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_iterator</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">iterator</span>
+         <span class="c">!! the iterator</span>
       <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">blocks_left</span>
 
-      <span class="n">blocks_left</span> <span class="o">=</span> <span class="n">dbcsr_iterator_blocks_left_prv</span><span class="p">(</span><span class="n">iterator</span><span class="p">%</span><span class="n">prv</span><span class="p">)</span>
+      <span class="n">blocks_left</span> <span class="o">=</span> <span class="n">iterator</span><span class="p">%</span><span class="n">pos</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="mi">0</span>
    <span class="k">END FUNCTION </span><span class="n">dbcsr_iterator_blocks_left</span>
 </pre></div>
 
@@ -333,16 +344,17 @@ public pure function dbcsr_iterator_blocks_left(iterator) result(blocks_left)
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2021 
-                                          </p></div>
-        <div class="col-xs-6 col-md-4 col-md-push-4">
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+                                          </p>
+        </div>
+        <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
-            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            
             
           </p>
         </div>
-        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> DBCSR was developed by DBCSR Authors</p></div>
       </div>
       <br>
       </div> <!-- /container -->    

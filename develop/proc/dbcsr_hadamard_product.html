@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-60-g87d180b9e</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-61-gaa5eb3c35</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -74,8 +74,11 @@
         
         
             <li><a href="../lists/programs.html">Programs</a></li>
+               
+        
         
             </ul>
+        
             </li>
 
 
@@ -96,6 +99,8 @@
 
 
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
+
+
 
           </ul>
         
@@ -120,26 +125,27 @@
      
      
      
+     
     
     
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">6 statements</a>
+    title=" 0.1% of total for procedures.">82 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_api.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_operations.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
+     <li><a href='../sourcefile/dbcsr_operations.f.html'>dbcsr_operations.F</a></li>
     
-     <li><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
+     <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
     
   
      <li class="active">dbcsr_hadamard_product</li>
@@ -208,6 +214,9 @@ public subroutine dbcsr_hadamard_product(matrix_a, matrix_b, matrix_c, b_assume_
 
 
     
+    <p>Hadamard product
+ C = A . B (C needs to be different from A and B)</p>
+    
 
     <h3>Arguments</h3>
     
@@ -227,12 +236,13 @@ public subroutine dbcsr_hadamard_product(matrix_a, matrix_b, matrix_c, b_assume_
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_a~5"></span>type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_a~48"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>matrix_a</strong></td><td></td>
+  <td><strong>matrix_a</strong></td><td><p>DBCSR matrix
+ DBCSR matrix</p></td>
   
 </tr>
 
@@ -242,12 +252,13 @@ public subroutine dbcsr_hadamard_product(matrix_a, matrix_b, matrix_c, b_assume_
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_b~4"></span>type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_b~30"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>matrix_b</strong></td><td></td>
+  <td><strong>matrix_b</strong></td><td><p>DBCSR matrix
+ DBCSR matrix</p></td>
   
 </tr>
 
@@ -257,12 +268,12 @@ public subroutine dbcsr_hadamard_product(matrix_a, matrix_b, matrix_c, b_assume_
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_c"></span>type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_c~11"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>matrix_c</strong></td><td></td>
+  <td><strong>matrix_c</strong></td><td><p>DBCSR matrix</p></td>
   
 </tr>
 
@@ -272,7 +283,7 @@ public subroutine dbcsr_hadamard_product(matrix_a, matrix_b, matrix_c, b_assume_
   
 <tr>
   
-  <td><span class="anchor" id="variable-b_assume_value"></span>real(kind=dp),</td>
+  <td><span class="anchor" id="variable-b_assume_value~2"></span>real(kind=dp),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -348,12 +359,121 @@ public subroutine dbcsr_hadamard_product(matrix_a, matrix_b, matrix_c, b_assume_
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_hadamard_product</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">,</span> <span class="n">matrix_b</span><span class="p">,</span> <span class="n">matrix_c</span><span class="p">,</span> <span class="n">b_assume_value</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_hadamard_product</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">,</span> <span class="n">matrix_b</span><span class="p">,</span> <span class="n">matrix_c</span><span class="p">,</span> <span class="p">&amp;</span>
+                                     <span class="n">b_assume_value</span><span class="p">)</span>
+      <span class="c">!! Hadamard product</span>
+      <span class="c">!! C = A . B (C needs to be different from A and B)</span>
+
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">matrix_a</span><span class="p">,</span> <span class="n">matrix_b</span>
+         <span class="c">!! DBCSR matrix</span>
+         <span class="c">!! DBCSR matrix</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">matrix_c</span>
+         <span class="c">!! DBCSR matrix</span>
       <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                <span class="kd">::</span> <span class="n">b_assume_value</span>
 
-      <span class="k">CALL </span><span class="n">dbcsr_hadamard_product_prv</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">matrix_b</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">matrix_c</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">b_assume_value</span><span class="p">)</span>
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_hadamard_product&#39;</span>
+
+      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">blk</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">col_size</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                            <span class="n">nze</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">row_size</span>
+      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">assume_blocks_in_b</span><span class="p">,</span> <span class="n">found</span><span class="p">,</span> <span class="n">tr_a</span><span class="p">,</span> <span class="n">tr_b</span>
+      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">)</span>                                      <span class="kd">::</span> <span class="n">assumed_b_value</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_obj</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">a_data</span><span class="p">,</span> <span class="n">b_data</span><span class="p">,</span> <span class="n">c_data</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_iterator</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">iter</span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">b_assume_value</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">assume_blocks_in_b</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+         <span class="n">assumed_b_value</span> <span class="o">=</span> <span class="n">b_assume_value</span>
+      <span class="k">ELSE</span>
+<span class="k">         </span><span class="n">assume_blocks_in_b</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+         <span class="n">assumed_b_value</span> <span class="o">=</span> <span class="mf">0.0_dp</span>
+      <span class="k">ENDIF</span>
+
+<span class="k">      CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">)</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="p">&amp;</span>
+          <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">))</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;data types not consistent, need to fix that&quot;</span><span class="p">)</span>
+
+      <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_nblkrows_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">dbcsr_nblkrows_total</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">)</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="p">&amp;</span>
+          <span class="n">dbcsr_nblkrows_total</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">dbcsr_nblkrows_total</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">))</span> <span class="p">&amp;</span>
+         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;matrices not consistent&quot;</span><span class="p">)</span>
+
+      <span class="n">data_type</span> <span class="o">=</span> <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">c_data</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="n">c_data</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="p">&amp;</span>
+                          <span class="n">data_size</span><span class="o">=</span><span class="n">dbcsr_max_row_size</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span><span class="o">*</span><span class="n">dbcsr_max_col_size</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">))</span>
+      <span class="k">CALL </span><span class="n">dbcsr_zero</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">a_data</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="n">a_data</span><span class="p">,</span> <span class="n">data_type</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_init</span><span class="p">(</span><span class="n">b_data</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_new</span><span class="p">(</span><span class="n">b_data</span><span class="p">,</span> <span class="n">data_type</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_iterator_start</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span> <span class="n">matrix_a</span><span class="p">)</span>
+      <span class="k">DO WHILE</span> <span class="p">(</span><span class="n">dbcsr_iterator_blocks_left</span><span class="p">(</span><span class="n">iter</span><span class="p">))</span>
+         <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">))</span>
+            <span class="c">!CASE (dbcsr_type_real_4)</span>
+         <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
+            <span class="k">CALL </span><span class="n">dbcsr_iterator_next_block</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">a_data</span><span class="p">,</span> <span class="n">tr_a</span><span class="p">,</span> <span class="n">blk</span><span class="p">,</span> <span class="p">&amp;</span>
+                                           <span class="n">row_size</span><span class="o">=</span><span class="n">row_size</span><span class="p">,</span> <span class="n">col_size</span><span class="o">=</span><span class="n">col_size</span><span class="p">)</span>
+            <span class="n">nze</span> <span class="o">=</span> <span class="n">row_size</span><span class="o">*</span><span class="n">col_size</span>
+            <span class="k">CALL </span><span class="n">dbcsr_get_block_p</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">b_data</span><span class="p">,</span> <span class="n">tr_b</span><span class="p">,</span> <span class="n">found</span><span class="p">)</span>
+            <span class="k">IF</span> <span class="p">(</span><span class="n">tr_a</span> <span class="p">.</span><span class="n">NEQV</span><span class="p">.</span> <span class="n">tr_b</span><span class="p">)</span> <span class="p">&amp;</span>
+               <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;tr not consistent, need to fix that&quot;</span><span class="p">)</span>
+            <span class="k">IF</span> <span class="p">(</span><span class="n">found</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">               SELECT CASE</span> <span class="p">(</span><span class="n">data_type</span><span class="p">)</span>
+               <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
+                  <span class="n">c_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">)</span> <span class="o">=</span> <span class="n">a_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">)</span><span class="o">*</span><span class="n">b_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">)</span>
+                  <span class="k">CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">c_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">),</span> <span class="n">transposed</span><span class="o">=</span><span class="n">tr_a</span><span class="p">,</span> <span class="p">&amp;</span>
+                                       <span class="n">summation</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
+               <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
+                  <span class="n">c_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">)</span> <span class="o">=</span> <span class="n">a_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">)</span><span class="o">*</span><span class="n">b_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">)</span>
+                  <span class="k">CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">c_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">),</span> <span class="n">transposed</span><span class="o">=</span><span class="n">tr_a</span><span class="p">,</span> <span class="p">&amp;</span>
+                                       <span class="n">summation</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
+               <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
+                  <span class="n">c_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">)</span> <span class="o">=</span> <span class="n">a_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">)</span><span class="o">*</span><span class="n">b_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">)</span>
+                  <span class="k">CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">c_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">),</span> <span class="n">transposed</span><span class="o">=</span><span class="n">tr_a</span><span class="p">,</span> <span class="p">&amp;</span>
+                                       <span class="n">summation</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
+               <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
+                  <span class="n">c_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">)</span> <span class="o">=</span> <span class="n">a_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">)</span><span class="o">*</span><span class="n">b_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">)</span>
+                  <span class="k">CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">c_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">),</span> <span class="n">transposed</span><span class="o">=</span><span class="n">tr_a</span><span class="p">,</span> <span class="p">&amp;</span>
+                                       <span class="n">summation</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
+               <span class="k">END SELECT</span>
+<span class="k">            ELSE</span>
+<span class="k">               IF</span> <span class="p">(</span><span class="n">assume_blocks_in_b</span><span class="p">)</span> <span class="k">THEN</span> <span class="c">! this makes not too much sense, to delete ?</span>
+                  <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">data_type</span><span class="p">)</span>
+                  <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
+                     <span class="n">c_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">)</span> <span class="o">=</span> <span class="n">a_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">)</span><span class="o">*</span><span class="kt">REAL</span><span class="p">(</span><span class="n">assumed_b_value</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">sp</span><span class="p">)</span>
+                     <span class="k">CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">c_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_sp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">),</span> <span class="n">transposed</span><span class="o">=</span><span class="n">tr_a</span><span class="p">,</span> <span class="p">&amp;</span>
+                                          <span class="n">summation</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
+                  <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
+                     <span class="n">c_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">)</span> <span class="o">=</span> <span class="n">a_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">)</span><span class="o">*</span><span class="n">assumed_b_value</span>
+                     <span class="k">CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">c_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">r_dp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">),</span> <span class="n">transposed</span><span class="o">=</span><span class="n">tr_a</span><span class="p">,</span> <span class="p">&amp;</span>
+                                          <span class="n">summation</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
+                  <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
+                     <span class="n">c_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">)</span> <span class="o">=</span> <span class="n">a_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">)</span><span class="o">*</span><span class="kt">REAL</span><span class="p">(</span><span class="n">assumed_b_value</span><span class="p">,</span> <span class="nb">KIND</span><span class="o">=</span><span class="n">sp</span><span class="p">)</span>
+                     <span class="k">CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">c_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_sp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">),</span> <span class="n">transposed</span><span class="o">=</span><span class="n">tr_a</span><span class="p">,</span> <span class="p">&amp;</span>
+                                          <span class="n">summation</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
+                  <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
+                     <span class="n">c_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">)</span> <span class="o">=</span> <span class="n">a_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">)</span><span class="o">*</span><span class="n">assumed_b_value</span>
+                     <span class="k">CALL </span><span class="n">dbcsr_put_block</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">c_data</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">c_dp</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">nze</span><span class="p">),</span> <span class="n">transposed</span><span class="o">=</span><span class="n">tr_a</span><span class="p">,</span> <span class="p">&amp;</span>
+                                          <span class="n">summation</span><span class="o">=</span><span class="p">.</span><span class="n">FALSE</span><span class="p">.)</span>
+                  <span class="k">END SELECT</span>
+<span class="k">               ENDIF</span>
+<span class="k">            ENDIF</span>
+            <span class="c">!CASE (dbcsr_type_complex_4)</span>
+            <span class="c">!CASE (dbcsr_type_complex_8)</span>
+         <span class="k">CASE </span><span class="n">DEFAULT</span>
+            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Only real double precision&quot;</span><span class="p">)</span>
+         <span class="k">END SELECT</span>
+<span class="k">      ENDDO</span>
+<span class="k">      CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_finalize</span><span class="p">(</span><span class="n">matrix_c</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_clear_pointer</span><span class="p">(</span><span class="n">a_data</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_clear_pointer</span><span class="p">(</span><span class="n">b_data</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">c_data</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">a_data</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_data_release</span><span class="p">(</span><span class="n">b_data</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_hadamard_product</span>
 </pre></div>
 
@@ -370,16 +490,17 @@ public subroutine dbcsr_hadamard_product(matrix_a, matrix_b, matrix_c, b_assume_
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2021 
-                                          </p></div>
-        <div class="col-xs-6 col-md-4 col-md-push-4">
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+                                          </p>
+        </div>
+        <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
-            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            
             
           </p>
         </div>
-        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> DBCSR was developed by DBCSR Authors</p></div>
       </div>
       <br>
       </div> <!-- /container -->    

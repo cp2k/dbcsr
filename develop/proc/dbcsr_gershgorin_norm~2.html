@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-60-g87d180b9e</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-61-gaa5eb3c35</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -74,8 +74,11 @@
         
         
             <li><a href="../lists/programs.html">Programs</a></li>
+               
+        
         
             </ul>
+        
             </li>
 
 
@@ -96,6 +99,8 @@
 
 
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
+
+
 
           </ul>
         
@@ -120,26 +125,27 @@
      
      
      
+     
     
     
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">65 statements</a>
+    title=" 0.0% of total for procedures.">5 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_operations.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_api.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_operations.f.html'>dbcsr_operations.F</a></li>
+     <li><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
     
-     <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
+     <li><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
     
   
      <li class="active">dbcsr_gershgorin_norm</li>
@@ -208,8 +214,6 @@ public function dbcsr_gershgorin_norm(matrix) result(norm)
 
 
     
-    <p>compute a norm of a dbcsr matrix</p>
-    
 
     <h3>Arguments</h3>
     
@@ -229,12 +233,12 @@ public function dbcsr_gershgorin_norm(matrix) result(norm)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~252"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~6"></span>type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>matrix</strong></td><td><p>the matrix</p></td>
+  <td><strong>matrix</strong></td><td></td>
   
 </tr>
 
@@ -248,7 +252,7 @@ public function dbcsr_gershgorin_norm(matrix) result(norm)
     
     
     
-   <h3>Return Value <small><span class="anchor" id="variable-norm~4"></span>real(kind=real_8)
+   <h3>Return Value <small><span class="anchor" id="variable-norm"></span>real(kind=real_8)
   </small></h3>
     
     
@@ -315,94 +319,10 @@ public function dbcsr_gershgorin_norm(matrix) result(norm)
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span>   <span class="k">FUNCTION </span><span class="n">dbcsr_gershgorin_norm</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span> <span class="k">RESULT</span><span class="p">(</span><span class="n">norm</span><span class="p">)</span>
-      <span class="c">!! compute a norm of a dbcsr matrix</span>
-
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">matrix</span>
-         <span class="c">!! the matrix</span>
       <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">)</span>                                  <span class="kd">::</span> <span class="n">norm</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_gershgorin_norm&#39;</span>
-
-      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">POINTER</span>     <span class="kd">::</span> <span class="n">data_c</span>
-      <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">POINTER</span>     <span class="kd">::</span> <span class="n">data_z</span>
-      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">blk</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">col_offset</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">nc</span><span class="p">,</span> <span class="p">&amp;</span>
-                                                            <span class="n">nr</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">row_offset</span>
-      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">any_sym</span><span class="p">,</span> <span class="n">tr</span>
-      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">POINTER</span>        <span class="kd">::</span> <span class="n">data_r</span>
-      <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">real_8</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">POINTER</span>        <span class="kd">::</span> <span class="n">data_d</span>
-      <span class="kt">REAL</span><span class="p">(</span><span class="n">real_8</span><span class="p">),</span> <span class="k">ALLOCATABLE</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:)</span>            <span class="kd">::</span> <span class="n">buff_d</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_iterator</span><span class="p">)</span>                               <span class="kd">::</span> <span class="n">iter</span>
-
-      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
-
-      <span class="n">nr</span> <span class="o">=</span> <span class="n">dbcsr_nfullrows_total</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
-      <span class="n">nc</span> <span class="o">=</span> <span class="n">dbcsr_nfullcols_total</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
-
-      <span class="n">any_sym</span> <span class="o">=</span> <span class="n">dbcsr_get_matrix_type</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">dbcsr_type_symmetric</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="p">&amp;</span>
-                <span class="n">dbcsr_get_matrix_type</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">dbcsr_type_antisymmetric</span>
-
-      <span class="k">IF</span> <span class="p">(</span><span class="n">nr</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">nc</span><span class="p">)</span> <span class="p">&amp;</span>
-         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;not a square matrix&quot;</span><span class="p">)</span>
-
-      <span class="n">norm</span> <span class="o">=</span> <span class="mf">0.0_dp</span>
-      <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">buff_d</span><span class="p">(</span><span class="n">nr</span><span class="p">))</span>
-      <span class="n">buff_d</span> <span class="o">=</span> <span class="mf">0.0_dp</span>
-      <span class="k">CALL </span><span class="n">dbcsr_iterator_start</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span> <span class="n">matrix</span><span class="p">)</span>
-      <span class="k">DO WHILE</span> <span class="p">(</span><span class="n">dbcsr_iterator_blocks_left</span><span class="p">(</span><span class="n">iter</span><span class="p">))</span>
-         <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span>
-         <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
-            <span class="k">CALL </span><span class="n">dbcsr_iterator_next_block</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">data_r</span><span class="p">,</span> <span class="n">tr</span><span class="p">,</span> <span class="n">blk</span><span class="p">,</span> <span class="p">&amp;</span>
-                                           <span class="n">row_offset</span><span class="o">=</span><span class="n">row_offset</span><span class="p">,</span> <span class="n">col_offset</span><span class="o">=</span><span class="n">col_offset</span><span class="p">)</span>
-            <span class="k">DO </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">data_r</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-            <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">data_r</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-               <span class="n">buff_d</span><span class="p">(</span><span class="n">row_offset</span> <span class="o">+</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">buff_d</span><span class="p">(</span><span class="n">row_offset</span> <span class="o">+</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">ABS</span><span class="p">(</span><span class="n">data_r</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
-               <span class="k">IF</span> <span class="p">(</span><span class="n">any_sym</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">row</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">col</span><span class="p">)</span> <span class="p">&amp;</span>
-                  <span class="n">buff_d</span><span class="p">(</span><span class="n">col_offset</span> <span class="o">+</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">buff_d</span><span class="p">(</span><span class="n">col_offset</span> <span class="o">+</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">ABS</span><span class="p">(</span><span class="n">data_r</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
-            <span class="k">ENDDO</span>
-<span class="k">            ENDDO</span>
-<span class="k">         CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
-            <span class="k">CALL </span><span class="n">dbcsr_iterator_next_block</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">data_d</span><span class="p">,</span> <span class="n">tr</span><span class="p">,</span> <span class="n">blk</span><span class="p">,</span> <span class="p">&amp;</span>
-                                           <span class="n">row_offset</span><span class="o">=</span><span class="n">row_offset</span><span class="p">,</span> <span class="n">col_offset</span><span class="o">=</span><span class="n">col_offset</span><span class="p">)</span>
-            <span class="k">DO </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">data_d</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-            <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">data_d</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-               <span class="n">buff_d</span><span class="p">(</span><span class="n">row_offset</span> <span class="o">+</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">buff_d</span><span class="p">(</span><span class="n">row_offset</span> <span class="o">+</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">ABS</span><span class="p">(</span><span class="n">data_d</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
-               <span class="k">IF</span> <span class="p">(</span><span class="n">any_sym</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">row</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">col</span><span class="p">)</span> <span class="p">&amp;</span>
-                  <span class="n">buff_d</span><span class="p">(</span><span class="n">col_offset</span> <span class="o">+</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">buff_d</span><span class="p">(</span><span class="n">col_offset</span> <span class="o">+</span> <span class="n">j</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">ABS</span><span class="p">(</span><span class="n">data_d</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
-            <span class="k">ENDDO</span>
-<span class="k">            ENDDO</span>
-<span class="k">         CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
-            <span class="k">CALL </span><span class="n">dbcsr_iterator_next_block</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">data_c</span><span class="p">,</span> <span class="n">tr</span><span class="p">,</span> <span class="n">blk</span><span class="p">,</span> <span class="p">&amp;</span>
-                                           <span class="n">row_offset</span><span class="o">=</span><span class="n">row_offset</span><span class="p">,</span> <span class="n">col_offset</span><span class="o">=</span><span class="n">col_offset</span><span class="p">)</span>
-            <span class="k">DO </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">data_c</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-            <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">data_c</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-               <span class="n">buff_d</span><span class="p">(</span><span class="n">row_offset</span> <span class="o">+</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">buff_d</span><span class="p">(</span><span class="n">row_offset</span> <span class="o">+</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">ABS</span><span class="p">(</span><span class="n">data_c</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
-               <span class="k">IF</span> <span class="p">(</span><span class="n">any_sym</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">row</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">col</span><span class="p">)</span> <span class="p">&amp;</span>
-                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Only nonsymmetric matrix so far&quot;</span><span class="p">)</span>
-               <span class="c">!     buff_d(col_offset+j-1) = buff_d(col_offset+j-1) + ABS(data_c(i,j))</span>
-            <span class="k">ENDDO</span>
-<span class="k">            ENDDO</span>
-<span class="k">         CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
-            <span class="k">CALL </span><span class="n">dbcsr_iterator_next_block</span><span class="p">(</span><span class="n">iter</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">data_z</span><span class="p">,</span> <span class="n">tr</span><span class="p">,</span> <span class="n">blk</span><span class="p">,</span> <span class="p">&amp;</span>
-                                           <span class="n">row_offset</span><span class="o">=</span><span class="n">row_offset</span><span class="p">,</span> <span class="n">col_offset</span><span class="o">=</span><span class="n">col_offset</span><span class="p">)</span>
-            <span class="k">DO </span><span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">data_z</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-            <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">data_z</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-               <span class="n">buff_d</span><span class="p">(</span><span class="n">row_offset</span> <span class="o">+</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">=</span> <span class="n">buff_d</span><span class="p">(</span><span class="n">row_offset</span> <span class="o">+</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">ABS</span><span class="p">(</span><span class="n">data_z</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">))</span>
-               <span class="k">IF</span> <span class="p">(</span><span class="n">any_sym</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">row</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">col</span><span class="p">)</span> <span class="p">&amp;</span>
-                  <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Only nonsymmetric matrix so far&quot;</span><span class="p">)</span>
-               <span class="c">!     buff_d(col_offset+j-1) = buff_d(col_offset+j-1) + ABS(data_z(i,j))</span>
-            <span class="k">ENDDO</span>
-<span class="k">            ENDDO</span>
-<span class="k">         CASE </span><span class="n">DEFAULT</span>
-            <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Wrong data type&quot;</span><span class="p">)</span>
-         <span class="k">END SELECT</span>
-<span class="k">      ENDDO</span>
-<span class="k">      CALL </span><span class="n">dbcsr_iterator_stop</span><span class="p">(</span><span class="n">iter</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">mp_sum</span><span class="p">(</span><span class="n">buff_d</span><span class="p">,</span> <span class="n">dbcsr_mp_group</span><span class="p">(</span><span class="n">dbcsr_distribution_mp</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">dist</span><span class="p">)))</span>
-      <span class="n">norm</span> <span class="o">=</span> <span class="nb">MAXVAL</span><span class="p">(</span><span class="n">buff_d</span><span class="p">)</span>
-      <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">buff_d</span><span class="p">)</span>
-
-      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
-
+      <span class="n">norm</span> <span class="o">=</span> <span class="n">dbcsr_gershgorin_norm_prv</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">prv</span><span class="p">)</span>
    <span class="k">END FUNCTION </span><span class="n">dbcsr_gershgorin_norm</span>
 </pre></div>
 
@@ -419,16 +339,17 @@ public function dbcsr_gershgorin_norm(matrix) result(norm)
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2021 
-                                          </p></div>
-        <div class="col-xs-6 col-md-4 col-md-push-4">
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+                                          </p>
+        </div>
+        <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
-            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            
             
           </p>
         </div>
-        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> DBCSR was developed by DBCSR Authors</p></div>
       </div>
       <br>
       </div> <!-- /container -->    

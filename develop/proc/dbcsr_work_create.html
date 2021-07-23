@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-60-g87d180b9e</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-61-gaa5eb3c35</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -74,8 +74,11 @@
         
         
             <li><a href="../lists/programs.html">Programs</a></li>
+               
+        
         
             </ul>
+        
             </li>
 
 
@@ -96,6 +99,8 @@
 
 
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
+
+
 
           </ul>
         
@@ -120,26 +125,27 @@
      
      
      
+     
     
     
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">6 statements</a>
+    title=" 0.1% of total for procedures.">45 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_api.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_work_operations.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
+     <li><a href='../sourcefile/dbcsr_work_operations.f.html'>dbcsr_work_operations.F</a></li>
     
-     <li><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
+     <li><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
     
   
      <li class="active">dbcsr_work_create</li>
@@ -198,7 +204,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-public subroutine dbcsr_work_create(matrix, nblks_guess, sizedata_guess, n, work_mutable)
+public subroutine dbcsr_work_create(matrix, nblks_guess, sizedata_guess, n, work_mutable, memory_type)
     
     
    
@@ -207,6 +213,8 @@ public subroutine dbcsr_work_create(matrix, nblks_guess, sizedata_guess, n, work
   
 
 
+    
+    <p>Creates a the working matrix(es) for a DBCSR matrix.</p>
     
 
     <h3>Arguments</h3>
@@ -227,12 +235,12 @@ public subroutine dbcsr_work_create(matrix, nblks_guess, sizedata_guess, n, work
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~53"></span>type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~145"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>matrix</strong></td><td></td>
+  <td><strong>matrix</strong></td><td><p>new matrix</p></td>
   
 </tr>
 
@@ -242,12 +250,14 @@ public subroutine dbcsr_work_create(matrix, nblks_guess, sizedata_guess, n, work
   
 <tr>
   
-  <td><span class="anchor" id="variable-nblks_guess"></span>integer,</td>
+  <td><span class="anchor" id="variable-nblks_guess~3"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>nblks_guess</strong></td><td></td>
+  <td><strong>nblks_guess</strong></td><td><p>estimated number of blocks
+ estimated size of data
+ number work matrices to create, default is 1</p></td>
   
 </tr>
 
@@ -257,12 +267,14 @@ public subroutine dbcsr_work_create(matrix, nblks_guess, sizedata_guess, n, work
   
 <tr>
   
-  <td><span class="anchor" id="variable-sizedata_guess"></span>integer,</td>
+  <td><span class="anchor" id="variable-sizedata_guess~3"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>sizedata_guess</strong></td><td></td>
+  <td><strong>sizedata_guess</strong></td><td><p>estimated number of blocks
+ estimated size of data
+ number work matrices to create, default is 1</p></td>
   
 </tr>
 
@@ -272,12 +284,14 @@ public subroutine dbcsr_work_create(matrix, nblks_guess, sizedata_guess, n, work
   
 <tr>
   
-  <td><span class="anchor" id="variable-n~7"></span>integer,</td>
+  <td><span class="anchor" id="variable-n~8"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>n</strong></td><td></td>
+  <td><strong>n</strong></td><td><p>estimated number of blocks
+ estimated size of data
+ number work matrices to create, default is 1</p></td>
   
 </tr>
 
@@ -287,12 +301,27 @@ public subroutine dbcsr_work_create(matrix, nblks_guess, sizedata_guess, n, work
   
 <tr>
   
-  <td><span class="anchor" id="variable-work_mutable~2"></span>logical,</td>
+  <td><span class="anchor" id="variable-work_mutable~3"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>work_mutable</strong></td><td></td>
+  <td><strong>work_mutable</strong></td><td><p>use mutable work type, default is what was specified in create</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-memory_type~5"></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>memory_type</strong></td><td></td>
   
 </tr>
 
@@ -363,12 +392,79 @@ public subroutine dbcsr_work_create(matrix, nblks_guess, sizedata_guess, n, work
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_work_create</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">nblks_guess</span><span class="p">,</span> <span class="n">sizedata_guess</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">work_mutable</span><span class="p">)</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">matrix</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">nblks_guess</span><span class="p">,</span> <span class="n">sizedata_guess</span><span class="p">,</span> <span class="n">n</span>
-      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">work_mutable</span>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_work_create</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">nblks_guess</span><span class="p">,</span> <span class="n">sizedata_guess</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="p">&amp;</span>
+                                <span class="n">work_mutable</span><span class="p">,</span> <span class="n">memory_type</span><span class="p">)</span>
+      <span class="c">!! Creates a the working matrix(es) for a DBCSR matrix.</span>
 
-      <span class="k">CALL </span><span class="n">dbcsr_work_create_prv</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">nblks_guess</span><span class="p">,</span> <span class="n">sizedata_guess</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">work_mutable</span><span class="p">)</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">matrix</span>
+         <span class="c">!! new matrix</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">nblks_guess</span><span class="p">,</span> <span class="n">sizedata_guess</span><span class="p">,</span> <span class="n">n</span>
+         <span class="c">!! estimated number of blocks</span>
+         <span class="c">!! estimated size of data</span>
+         <span class="c">!! number work matrices to create, default is 1</span>
+      <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">in</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">work_mutable</span>
+         <span class="c">!! use mutable work type, default is what was specified in create</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_memtype_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>     <span class="kd">::</span> <span class="n">memory_type</span>
+
+      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_work_create&#39;</span>
+
+      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">handle</span><span class="p">,</span> <span class="n">iw</span><span class="p">,</span> <span class="n">nw</span><span class="p">,</span> <span class="n">ow</span>
+      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">wms_new</span><span class="p">,</span> <span class="n">wms_realloc</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_work_type</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">POINTER</span>       <span class="kd">::</span> <span class="n">wms</span>
+
+<span class="c">!   ---------------------------------------------------------------------------</span>
+
+      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">n</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">nw</span> <span class="o">=</span> <span class="n">n</span>
+      <span class="k">ELSE</span>
+<span class="k">         </span><span class="n">nw</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="c">!$       IF (omp_in_parallel()) THEN</span>
+<span class="c">!$          nw = omp_get_num_threads()</span>
+<span class="c">!$       ELSE</span>
+<span class="c">!$          nw = omp_get_max_threads()</span>
+<span class="c">!$       ENDIF</span>
+      <span class="k">ENDIF</span>
+<span class="c">!$OMP     MASTER</span>
+      <span class="n">wms_new</span> <span class="o">=</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">)</span>
+      <span class="n">wms_realloc</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">ow</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">ow</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">nw</span><span class="p">)</span> <span class="p">&amp;</span>
+            <span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">&quot;Number of work matrices less than threads.&quot;</span><span class="p">)</span>
+         <span class="k">IF</span> <span class="p">(</span><span class="n">ow</span> <span class="p">.</span><span class="n">LT</span><span class="p">.</span> <span class="n">nw</span><span class="p">)</span> <span class="n">wms_realloc</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
+      <span class="k">ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">work_mutable</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         </span><span class="n">matrix</span><span class="p">%</span><span class="n">work_mutable</span> <span class="o">=</span> <span class="n">work_mutable</span>
+      <span class="k">ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="n">wms_realloc</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">wms</span><span class="p">(</span><span class="n">nw</span><span class="p">))</span>
+         <span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">ow</span><span class="p">)</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">ow</span><span class="p">)</span>
+         <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">)</span>
+         <span class="n">matrix</span><span class="p">%</span><span class="n">wms</span> <span class="o">=&gt;</span> <span class="n">wms</span>
+         <span class="k">DO </span><span class="n">iw</span> <span class="o">=</span> <span class="n">ow</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nw</span>
+            <span class="k">CALL </span><span class="n">dbcsr_init_wm</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">),</span> <span class="n">matrix</span><span class="p">%</span><span class="n">data_type</span><span class="p">,</span> <span class="p">&amp;</span>
+                               <span class="n">nblks_guess</span><span class="o">=</span><span class="n">nblks_guess</span><span class="p">,</span> <span class="n">sizedata_guess</span><span class="o">=</span><span class="n">sizedata_guess</span><span class="p">,</span> <span class="p">&amp;</span>
+                               <span class="n">memory_type</span><span class="o">=</span><span class="n">memory_type</span><span class="p">)</span>
+            <span class="k">IF</span> <span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">work_mutable</span><span class="p">)</span> <span class="p">&amp;</span>
+               <span class="k">CALL </span><span class="n">dbcsr_mutable_new</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">mutable</span><span class="p">,</span> <span class="p">&amp;</span>
+                                      <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span>
+         <span class="k">END DO</span>
+<span class="k">      ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="n">wms_new</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">nw</span><span class="p">))</span>
+         <span class="k">DO </span><span class="n">iw</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nw</span>
+            <span class="k">CALL </span><span class="n">dbcsr_init_wm</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">),</span> <span class="n">matrix</span><span class="p">%</span><span class="n">data_type</span><span class="p">,</span> <span class="p">&amp;</span>
+                               <span class="n">nblks_guess</span><span class="o">=</span><span class="n">nblks_guess</span><span class="p">,</span> <span class="n">sizedata_guess</span><span class="o">=</span><span class="n">sizedata_guess</span><span class="p">,</span> <span class="p">&amp;</span>
+                               <span class="n">memory_type</span><span class="o">=</span><span class="n">memory_type</span><span class="p">)</span>
+            <span class="k">IF</span> <span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">work_mutable</span><span class="p">)</span> <span class="p">&amp;</span>
+               <span class="k">CALL </span><span class="n">dbcsr_mutable_new</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">wms</span><span class="p">(</span><span class="n">iw</span><span class="p">)%</span><span class="n">mutable</span><span class="p">,</span> <span class="p">&amp;</span>
+                                      <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span>
+         <span class="k">END DO</span>
+<span class="k">      ENDIF</span>
+<span class="k">      </span><span class="n">matrix</span><span class="p">%</span><span class="n">valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
+<span class="c">!$OMP     END MASTER</span>
+      <span class="k">CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_work_create</span>
 </pre></div>
 
@@ -385,16 +481,17 @@ public subroutine dbcsr_work_create(matrix, nblks_guess, sizedata_guess, n, work
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2021 
-                                          </p></div>
-        <div class="col-xs-6 col-md-4 col-md-push-4">
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+                                          </p>
+        </div>
+        <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
-            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            
             
           </p>
         </div>
-        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> DBCSR was developed by DBCSR Authors</p></div>
       </div>
       <br>
       </div> <!-- /container -->    

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-60-g87d180b9e</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-61-gaa5eb3c35</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -74,8 +74,11 @@
         
         
             <li><a href="../lists/programs.html">Programs</a></li>
+               
+        
         
             </ul>
+        
             </li>
 
 
@@ -96,6 +99,8 @@
 
 
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
+
+
 
           </ul>
         
@@ -120,26 +125,27 @@
      
      
      
+     
     
     
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">11 statements</a>
+    title=" 0.0% of total for procedures.">26 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_api.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_dist_methods.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
+     <li><a href='../sourcefile/dbcsr_dist_methods.f.html'>dbcsr_dist_methods.F</a></li>
     
-     <li><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
+     <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
     
   
      <li class="active">dbcsr_distribution_get</li>
@@ -208,6 +214,8 @@ public subroutine dbcsr_distribution_get(dist, row_dist, col_dist, nrows, ncols,
 
 
     
+    <p>Get distribution parameters</p>
+    
 
     <h3>Arguments</h3>
     
@@ -227,7 +235,7 @@ public subroutine dbcsr_distribution_get(dist, row_dist, col_dist, nrows, ncols,
   
 <tr>
   
-  <td><span class="anchor" id="variable-dist~12"></span>type(<a href='../type/dbcsr_distribution_type~2.html'>dbcsr_distribution_type</a>),</td>
+  <td><span class="anchor" id="variable-dist~63"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -242,7 +250,7 @@ public subroutine dbcsr_distribution_get(dist, row_dist, col_dist, nrows, ncols,
   
 <tr>
   
-  <td><span class="anchor" id="variable-row_dist~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-row_dist~8"></span>integer,</td>
   <td></td>
   <td>optional</td>
   
@@ -257,7 +265,7 @@ public subroutine dbcsr_distribution_get(dist, row_dist, col_dist, nrows, ncols,
   
 <tr>
   
-  <td><span class="anchor" id="variable-col_dist~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-col_dist~8"></span>integer,</td>
   <td></td>
   <td>optional</td>
   
@@ -272,7 +280,7 @@ public subroutine dbcsr_distribution_get(dist, row_dist, col_dist, nrows, ncols,
   
 <tr>
   
-  <td><span class="anchor" id="variable-nrows"></span>integer,</td>
+  <td><span class="anchor" id="variable-nrows~12"></span>integer,</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -287,7 +295,7 @@ public subroutine dbcsr_distribution_get(dist, row_dist, col_dist, nrows, ncols,
   
 <tr>
   
-  <td><span class="anchor" id="variable-ncols"></span>integer,</td>
+  <td><span class="anchor" id="variable-ncols~4"></span>integer,</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -302,7 +310,7 @@ public subroutine dbcsr_distribution_get(dist, row_dist, col_dist, nrows, ncols,
   
 <tr>
   
-  <td><span class="anchor" id="variable-has_threads"></span>logical,</td>
+  <td><span class="anchor" id="variable-has_threads~2"></span>logical,</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -317,7 +325,7 @@ public subroutine dbcsr_distribution_get(dist, row_dist, col_dist, nrows, ncols,
   
 <tr>
   
-  <td><span class="anchor" id="variable-group~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-group~35"></span>integer,</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -332,7 +340,7 @@ public subroutine dbcsr_distribution_get(dist, row_dist, col_dist, nrows, ncols,
   
 <tr>
   
-  <td><span class="anchor" id="variable-mynode~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-mynode~5"></span>integer,</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -347,7 +355,7 @@ public subroutine dbcsr_distribution_get(dist, row_dist, col_dist, nrows, ncols,
   
 <tr>
   
-  <td><span class="anchor" id="variable-numnodes~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-numnodes~9"></span>integer,</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -362,7 +370,7 @@ public subroutine dbcsr_distribution_get(dist, row_dist, col_dist, nrows, ncols,
   
 <tr>
   
-  <td><span class="anchor" id="variable-nprows"></span>integer,</td>
+  <td><span class="anchor" id="variable-nprows~4"></span>integer,</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -377,7 +385,7 @@ public subroutine dbcsr_distribution_get(dist, row_dist, col_dist, nrows, ncols,
   
 <tr>
   
-  <td><span class="anchor" id="variable-npcols"></span>integer,</td>
+  <td><span class="anchor" id="variable-npcols~4"></span>integer,</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -392,7 +400,7 @@ public subroutine dbcsr_distribution_get(dist, row_dist, col_dist, nrows, ncols,
   
 <tr>
   
-  <td><span class="anchor" id="variable-myprow~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-myprow~5"></span>integer,</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -407,7 +415,7 @@ public subroutine dbcsr_distribution_get(dist, row_dist, col_dist, nrows, ncols,
   
 <tr>
   
-  <td><span class="anchor" id="variable-mypcol~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-mypcol~5"></span>integer,</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -422,7 +430,7 @@ public subroutine dbcsr_distribution_get(dist, row_dist, col_dist, nrows, ncols,
   
 <tr>
   
-  <td><span class="anchor" id="variable-pgrid~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-pgrid~21"></span>integer,</td>
   <td></td>
   <td>optional</td>
   
@@ -437,7 +445,7 @@ public subroutine dbcsr_distribution_get(dist, row_dist, col_dist, nrows, ncols,
   
 <tr>
   
-  <td><span class="anchor" id="variable-subgroups_defined~2"></span>logical,</td>
+  <td><span class="anchor" id="variable-subgroups_defined~3"></span>logical,</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -452,7 +460,7 @@ public subroutine dbcsr_distribution_get(dist, row_dist, col_dist, nrows, ncols,
   
 <tr>
   
-  <td><span class="anchor" id="variable-prow_group~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-prow_group~3"></span>integer,</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -467,7 +475,7 @@ public subroutine dbcsr_distribution_get(dist, row_dist, col_dist, nrows, ncols,
   
 <tr>
   
-  <td><span class="anchor" id="variable-pcol_group~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-pcol_group~3"></span>integer,</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -544,10 +552,11 @@ public subroutine dbcsr_distribution_get(dist, row_dist, col_dist, nrows, ncols,
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_distribution_get</span><span class="p">(</span><span class="n">dist</span><span class="p">,</span> <span class="n">row_dist</span><span class="p">,</span> <span class="n">col_dist</span><span class="p">,</span> <span class="p">&amp;</span>
+      <span class="c">!! Get distribution parameters</span>
                                      <span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">,</span> <span class="n">has_threads</span><span class="p">,</span> <span class="p">&amp;</span>
                                      <span class="n">group</span><span class="p">,</span> <span class="n">mynode</span><span class="p">,</span> <span class="n">numnodes</span><span class="p">,</span> <span class="n">nprows</span><span class="p">,</span> <span class="n">npcols</span><span class="p">,</span> <span class="n">myprow</span><span class="p">,</span> <span class="n">mypcol</span><span class="p">,</span> <span class="n">pgrid</span><span class="p">,</span> <span class="p">&amp;</span>
                                      <span class="n">subgroups_defined</span><span class="p">,</span> <span class="n">prow_group</span><span class="p">,</span> <span class="n">pcol_group</span><span class="p">)</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>          <span class="kd">::</span> <span class="n">dist</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_distribution_obj</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>          <span class="kd">::</span> <span class="n">dist</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">DIMENSION</span><span class="p">(:),</span> <span class="k">OPTIONAL</span><span class="p">,</span> <span class="k">POINTER</span>           <span class="kd">::</span> <span class="n">row_dist</span><span class="p">,</span> <span class="n">col_dist</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span>
       <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">has_threads</span>
@@ -557,10 +566,24 @@ public subroutine dbcsr_distribution_get(dist, row_dist, col_dist, nrows, ncols,
       <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">subgroups_defined</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">),</span> <span class="k">OPTIONAL</span>                     <span class="kd">::</span> <span class="n">prow_group</span><span class="p">,</span> <span class="n">pcol_group</span>
 
-      <span class="k">call </span><span class="n">dbcsr_distribution_get_prv</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">row_dist</span><span class="p">,</span> <span class="n">col_dist</span><span class="p">,</span> <span class="p">&amp;</span>
-                                      <span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">,</span> <span class="n">has_threads</span><span class="p">,</span> <span class="p">&amp;</span>
-                                      <span class="n">group</span><span class="p">,</span> <span class="n">mynode</span><span class="p">,</span> <span class="n">numnodes</span><span class="p">,</span> <span class="n">nprows</span><span class="p">,</span> <span class="n">npcols</span><span class="p">,</span> <span class="n">myprow</span><span class="p">,</span> <span class="n">mypcol</span><span class="p">,</span> <span class="n">pgrid</span><span class="p">,</span> <span class="p">&amp;</span>
-                                      <span class="n">subgroups_defined</span><span class="p">,</span> <span class="n">prow_group</span><span class="p">,</span> <span class="n">pcol_group</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">row_dist</span><span class="p">))</span> <span class="n">row_dist</span> <span class="o">=&gt;</span> <span class="n">array_data</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">row_dist_block</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">col_dist</span><span class="p">))</span> <span class="n">col_dist</span> <span class="o">=&gt;</span> <span class="n">array_data</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">col_dist_block</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nrows</span><span class="p">))</span> <span class="n">nrows</span> <span class="o">=</span> <span class="n">array_size</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">row_dist_block</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">ncols</span><span class="p">))</span> <span class="n">ncols</span> <span class="o">=</span> <span class="n">array_size</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">col_dist_block</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">has_threads</span><span class="p">))</span> <span class="n">has_threads</span> <span class="o">=</span> <span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">has_thread_dist</span>
+
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">group</span><span class="p">))</span> <span class="n">group</span> <span class="o">=</span> <span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mp_group</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mynode</span><span class="p">))</span> <span class="n">mynode</span> <span class="o">=</span> <span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mynode</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">numnodes</span><span class="p">))</span> <span class="n">numnodes</span> <span class="o">=</span> <span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">numnodes</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">nprows</span><span class="p">))</span> <span class="n">nprows</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">pgrid</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">npcols</span><span class="p">))</span> <span class="n">npcols</span> <span class="o">=</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">pgrid</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">myprow</span><span class="p">))</span> <span class="n">myprow</span> <span class="o">=</span> <span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">myprow</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mypcol</span><span class="p">))</span> <span class="n">mypcol</span> <span class="o">=</span> <span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">mypcol</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">prow_group</span><span class="p">))</span> <span class="n">prow_group</span> <span class="o">=</span> <span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">prow_group</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">pcol_group</span><span class="p">))</span> <span class="n">pcol_group</span> <span class="o">=</span> <span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">pcol_group</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">pgrid</span><span class="p">))</span> <span class="n">pgrid</span> <span class="o">=&gt;</span> <span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">pgrid</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">subgroups_defined</span><span class="p">))</span> <span class="n">subgroups_defined</span> <span class="o">=</span> <span class="n">dist</span><span class="p">%</span><span class="n">d</span><span class="p">%</span><span class="n">mp_env</span><span class="p">%</span><span class="n">mp</span><span class="p">%</span><span class="n">subgroups_defined</span>
+
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_distribution_get</span>
 </pre></div>
 
@@ -577,16 +600,17 @@ public subroutine dbcsr_distribution_get(dist, row_dist, col_dist, nrows, ncols,
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2021 
-                                          </p></div>
-        <div class="col-xs-6 col-md-4 col-md-push-4">
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+                                          </p>
+        </div>
+        <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
-            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            
             
           </p>
         </div>
-        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> DBCSR was developed by DBCSR Authors</p></div>
       </div>
       <br>
       </div> <!-- /container -->    

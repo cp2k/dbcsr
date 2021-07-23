@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-60-g87d180b9e</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-61-gaa5eb3c35</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -74,8 +74,11 @@
         
         
             <li><a href="../lists/programs.html">Programs</a></li>
+               
+        
         
             </ul>
+        
             </li>
 
 
@@ -96,6 +99,8 @@
 
 
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
+
+
 
           </ul>
         
@@ -120,26 +125,27 @@
      
      
      
+     
     
     
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">18 statements</a>
+    title=" 0.0% of total for procedures.">6 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_operations.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_api.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_operations.f.html'>dbcsr_operations.F</a></li>
+     <li><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
     
-     <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
+     <li><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
     
   
      <li class="active">dbcsr_scale_c</li>
@@ -208,8 +214,6 @@ private subroutine dbcsr_scale_c(matrix_a, alpha_scalar, last_column)
 
 
     
-    <p>Interface for matrix scaling by a scalar</p>
-    
 
     <h3>Arguments</h3>
     
@@ -229,7 +233,7 @@ private subroutine dbcsr_scale_c(matrix_a, alpha_scalar, last_column)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_a~77"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_a~28"></span>type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -244,7 +248,7 @@ private subroutine dbcsr_scale_c(matrix_a, alpha_scalar, last_column)
   
 <tr>
   
-  <td><span class="anchor" id="variable-alpha_scalar~22"></span>complex(kind=real_4),</td>
+  <td><span class="anchor" id="variable-alpha_scalar~10"></span>complex(kind=real_4),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -259,7 +263,7 @@ private subroutine dbcsr_scale_c(matrix_a, alpha_scalar, last_column)
   
 <tr>
   
-  <td><span class="anchor" id="variable-last_column~12"></span>integer,</td>
+  <td><span class="anchor" id="variable-last_column~8"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -336,28 +340,11 @@ private subroutine dbcsr_scale_c(matrix_a, alpha_scalar, last_column)
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_scale_c</span> <span class="p">(</span><span class="n">matrix_a</span><span class="p">,</span> <span class="n">alpha_scalar</span><span class="p">,</span> <span class="n">last_column</span><span class="p">)</span>
-      <span class="c">!! Interface for matrix scaling by a scalar</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>           <span class="kd">::</span> <span class="n">matrix_a</span>
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>          <span class="kd">::</span> <span class="n">matrix_a</span>
       <span class="kt">COMPLEX</span><span class="p">(</span><span class="nb">kind</span><span class="o">=</span><span class="n">real_4</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                      <span class="kd">::</span> <span class="n">alpha_scalar</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>            <span class="kd">::</span> <span class="n">last_column</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_scale_c&#39;</span>
-
-      <span class="kt">INTEGER</span>                                  <span class="kd">::</span> <span class="n">error_handler</span>
-      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_scalar_type</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">sc</span>
-
-      <span class="n">sc</span> <span class="o">=</span> <span class="n">dbcsr_scalar</span><span class="p">(</span><span class="n">alpha_scalar</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">dbcsr_scalar_fill_all</span><span class="p">(</span><span class="n">sc</span><span class="p">)</span>
-      <span class="n">sc</span><span class="p">%</span><span class="n">data_type</span> <span class="o">=</span> <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">error_handler</span><span class="p">)</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">last_column</span><span class="p">))</span> <span class="k">THEN</span>
-<span class="k">         CALL </span><span class="n">dbcsr_scale_anytype</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">,</span> <span class="p">&amp;</span>
-                                  <span class="n">alpha_scalar</span><span class="o">=</span><span class="n">sc</span><span class="p">,</span> <span class="p">&amp;</span>
-                                  <span class="n">limits</span><span class="o">=</span><span class="p">(</span><span class="o">/</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">last_column</span><span class="o">/</span><span class="p">))</span>
-      <span class="k">ELSE</span>
-<span class="k">         CALL </span><span class="n">dbcsr_scale_anytype</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">,</span> <span class="n">alpha_scalar</span><span class="o">=</span><span class="n">sc</span><span class="p">)</span>
-      <span class="k">ENDIF</span>
-<span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handler</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_scale_prv</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">alpha_scalar</span><span class="p">,</span> <span class="n">last_column</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_scale_c</span>
 </pre></div>
 
@@ -374,16 +361,17 @@ private subroutine dbcsr_scale_c(matrix_a, alpha_scalar, last_column)
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2021 
-                                          </p></div>
-        <div class="col-xs-6 col-md-4 col-md-push-4">
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+                                          </p>
+        </div>
+        <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
-            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            
             
           </p>
         </div>
-        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> DBCSR was developed by DBCSR Authors</p></div>
       </div>
       <br>
       </div> <!-- /container -->    

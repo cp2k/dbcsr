@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-60-g87d180b9e</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-61-gaa5eb3c35</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -74,8 +74,11 @@
         
         
             <li><a href="../lists/programs.html">Programs</a></li>
+               
+        
         
             </ul>
+        
             </li>
 
 
@@ -96,6 +99,8 @@
 
 
 <li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
+
+
 
           </ul>
         
@@ -120,26 +125,27 @@
      
      
      
+     
     
     
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">62 statements</a>
+    title=" 0.0% of total for procedures.">8 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_operations.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_api.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_operations.f.html'>dbcsr_operations.F</a></li>
+     <li><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
     
-     <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
+     <li><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
     
   
      <li class="active">dbcsr_copy</li>
@@ -208,8 +214,6 @@ public subroutine dbcsr_copy(matrix_b, matrix_a, name, keep_sparsity, shallow_da
 
 
     
-    <p>copy a matrix</p>
-    
 
     <h3>Arguments</h3>
     
@@ -229,12 +233,12 @@ public subroutine dbcsr_copy(matrix_b, matrix_a, name, keep_sparsity, shallow_da
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_b~31"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_b"></span>type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>matrix_b</strong></td><td><p>target DBCSR matrix</p></td>
+  <td><strong>matrix_b</strong></td><td></td>
   
 </tr>
 
@@ -244,12 +248,12 @@ public subroutine dbcsr_copy(matrix_b, matrix_a, name, keep_sparsity, shallow_da
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_a~49"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_a"></span>type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>matrix_a</strong></td><td><p>source DBCSR matrix</p></td>
+  <td><strong>matrix_a</strong></td><td></td>
   
 </tr>
 
@@ -259,12 +263,12 @@ public subroutine dbcsr_copy(matrix_b, matrix_a, name, keep_sparsity, shallow_da
   
 <tr>
   
-  <td><span class="anchor" id="variable-name~23"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-name~7"></span>character(len=*),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>name</strong></td><td><p>name of the new matrix</p></td>
+  <td><strong>name</strong></td><td></td>
   
 </tr>
 
@@ -274,15 +278,12 @@ public subroutine dbcsr_copy(matrix_b, matrix_a, name, keep_sparsity, shallow_da
   
 <tr>
   
-  <td><span class="anchor" id="variable-keep_sparsity~6"></span>logical,</td>
+  <td><span class="anchor" id="variable-keep_sparsity~4"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>keep_sparsity</strong></td><td><p>keep the target matrix sparsity; default is False.
- shallow data copy
- when copy from complex to real,&amp; the default is to keep only the real part; if this flag is set, the imaginary part is
- used</p></td>
+  <td><strong>keep_sparsity</strong></td><td></td>
   
 </tr>
 
@@ -292,15 +293,12 @@ public subroutine dbcsr_copy(matrix_b, matrix_a, name, keep_sparsity, shallow_da
   
 <tr>
   
-  <td><span class="anchor" id="variable-shallow_data~2"></span>logical,</td>
+  <td><span class="anchor" id="variable-shallow_data"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>shallow_data</strong></td><td><p>keep the target matrix sparsity; default is False.
- shallow data copy
- when copy from complex to real,&amp; the default is to keep only the real part; if this flag is set, the imaginary part is
- used</p></td>
+  <td><strong>shallow_data</strong></td><td></td>
   
 </tr>
 
@@ -310,15 +308,12 @@ public subroutine dbcsr_copy(matrix_b, matrix_a, name, keep_sparsity, shallow_da
   
 <tr>
   
-  <td><span class="anchor" id="variable-keep_imaginary~2"></span>logical,</td>
+  <td><span class="anchor" id="variable-keep_imaginary"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>keep_imaginary</strong></td><td><p>keep the target matrix sparsity; default is False.
- shallow data copy
- when copy from complex to real,&amp; the default is to keep only the real part; if this flag is set, the imaginary part is
- used</p></td>
+  <td><strong>keep_imaginary</strong></td><td></td>
   
 </tr>
 
@@ -328,12 +323,12 @@ public subroutine dbcsr_copy(matrix_b, matrix_a, name, keep_sparsity, shallow_da
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_type~11"></span>character,</td>
+  <td><span class="anchor" id="variable-matrix_type~5"></span>character,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>matrix_type</strong></td><td><p>'N' for normal, 'T' for transposed, 'S' for symmetric, and 'A' for antisymmetric</p></td>
+  <td><strong>matrix_type</strong></td><td></td>
   
 </tr>
 
@@ -406,105 +401,15 @@ public subroutine dbcsr_copy(matrix_b, matrix_a, name, keep_sparsity, shallow_da
     <h2><span class="anchor" id="src"></span>Source Code</h2>
     <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_copy</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">,</span> <span class="n">matrix_a</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">keep_sparsity</span><span class="p">,</span> <span class="p">&amp;</span>
                          <span class="n">shallow_data</span><span class="p">,</span> <span class="n">keep_imaginary</span><span class="p">,</span> <span class="n">matrix_type</span><span class="p">)</span>
-      <span class="c">!! copy a matrix</span>
-
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">matrix_b</span>
-         <span class="c">!! target DBCSR matrix</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">matrix_a</span>
-         <span class="c">!! source DBCSR matrix</span>
       <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">LEN</span><span class="o">=*</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>             <span class="kd">::</span> <span class="n">name</span>
-         <span class="c">!! name of the new matrix</span>
       <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">keep_sparsity</span><span class="p">,</span> <span class="n">shallow_data</span><span class="p">,</span> <span class="p">&amp;</span>
                                                             <span class="n">keep_imaginary</span>
-         <span class="c">!! keep the target matrix sparsity; default is False.</span>
-         <span class="c">!! shallow data copy</span>
-         <span class="c">!! when copy from complex to real,&amp; the default is to keep only the real part; if this flag is set, the imaginary part is</span>
-         <span class="c">!! used</span>
       <span class="kt">CHARACTER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                    <span class="kd">::</span> <span class="n">matrix_type</span>
-         <span class="c">!! &#39;N&#39; for normal, &#39;T&#39; for transposed, &#39;S&#39; for symmetric, and &#39;A&#39; for antisymmetric</span>
 
-      <span class="kt">CHARACTER</span><span class="p">(</span><span class="nb">len</span><span class="o">=*</span><span class="p">),</span> <span class="k">PARAMETER</span> <span class="kd">::</span> <span class="n">routineN</span> <span class="o">=</span> <span class="s1">&#39;dbcsr_copy&#39;</span>
-      <span class="kt">CHARACTER</span>                                          <span class="kd">::</span> <span class="n">new_matrix_type</span><span class="p">,</span> <span class="n">repl_type</span>
-      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">handle</span><span class="p">,</span> <span class="n">new_type</span>
-      <span class="kt">LOGICAL</span>                                            <span class="kd">::</span> <span class="n">keep_sparse</span><span class="p">,</span> <span class="n">shallow</span>
-
-<span class="c">!   ---------------------------------------------------------------------------</span>
-
-      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineN</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
-      <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">symmetry_consistent</span><span class="p">(</span><span class="n">dbcsr_get_matrix_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)))</span> <span class="p">&amp;</span>
-         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Source matrix symmetry not consistent with its data type.&quot;</span><span class="p">)</span>
-      <span class="n">shallow</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.;</span> <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">shallow_data</span><span class="p">))</span> <span class="n">shallow</span> <span class="o">=</span> <span class="n">shallow_data</span>
-      <span class="n">keep_sparse</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">keep_sparsity</span><span class="p">))</span> <span class="n">keep_sparse</span> <span class="o">=</span> <span class="n">keep_sparsity</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">keep_sparse</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="p">.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">dbcsr_valid_index</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">))</span> <span class="p">&amp;</span>
-         <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Target matrix must be valid to keep its sparsity&quot;</span><span class="p">)</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">keep_sparse</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">shallow</span><span class="p">)</span> <span class="p">&amp;</span>
-         <span class="n">DBCSR_WARN</span><span class="p">(</span><span class="s2">&quot;Shallow copy not compatibly with sparsity retainment&quot;</span><span class="p">)</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="n">keep_sparse</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">         IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">name</span><span class="p">))</span> <span class="n">matrix_b</span><span class="p">%</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
-         <span class="k">CALL </span><span class="n">dbcsr_copy_into_existing</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">,</span> <span class="n">matrix_a</span><span class="p">)</span>
-      <span class="k">ELSE</span>
-<span class="k">         IF</span> <span class="p">(</span><span class="n">dbcsr_valid_index</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">))</span> <span class="k">THEN</span>
-<span class="k">            </span><span class="n">new_type</span> <span class="o">=</span> <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">)</span>
-            <span class="n">repl_type</span> <span class="o">=</span> <span class="n">dbcsr_get_replication_type</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">)</span>
-         <span class="k">ELSE</span>
-<span class="k">            </span><span class="n">new_type</span> <span class="o">=</span> <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span>
-            <span class="n">repl_type</span> <span class="o">=</span> <span class="n">dbcsr_get_replication_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span>
-         <span class="k">ENDIF</span>
-<span class="k">         </span><span class="n">new_matrix_type</span> <span class="o">=</span> <span class="n">dbcsr_get_matrix_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">matrix_type</span><span class="p">))</span> <span class="k">THEN</span>
-<span class="k">            IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">symmetry_compatible</span><span class="p">(</span><span class="n">dbcsr_get_matrix_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">),</span> <span class="n">matrix_type</span><span class="p">))</span> <span class="p">&amp;</span>
-               <span class="k">CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span> <span class="s2">&quot;Specified target matrix symmetry &quot;</span><span class="o">//</span><span class="n">matrix_type</span><span class="o">//</span> <span class="p">&amp;</span>
-                                <span class="s2">&quot; not compatible with source matrix type &quot;</span><span class="o">//</span><span class="n">dbcsr_get_matrix_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">))</span>
-            <span class="n">new_matrix_type</span> <span class="o">=</span> <span class="n">matrix_type</span>
-         <span class="k">END IF</span>
-<span class="k">         IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">symmetry_consistent</span><span class="p">(</span><span class="n">new_matrix_type</span><span class="p">,</span> <span class="n">new_type</span><span class="p">))</span> <span class="p">&amp;</span>
-            <span class="k">CALL </span><span class="n">dbcsr_abort</span><span class="p">(</span><span class="err">__</span><span class="n">LOCATION__</span><span class="p">,</span> <span class="s2">&quot;Target matrix symmetry &quot;</span><span class="o">//</span> <span class="p">&amp;</span>
-                             <span class="n">new_matrix_type</span><span class="o">//</span><span class="s2">&quot; not consistent with its data type.&quot;</span><span class="p">)</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">name</span><span class="p">))</span> <span class="k">THEN</span>
-<span class="k">            CALL </span><span class="n">dbcsr_create</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="nb">TRIM</span><span class="p">(</span><span class="n">name</span><span class="p">),</span> <span class="p">&amp;</span>
-                              <span class="n">template</span><span class="o">=</span><span class="n">matrix_a</span><span class="p">,</span> <span class="p">&amp;</span>
-                              <span class="n">matrix_type</span><span class="o">=</span><span class="n">new_matrix_type</span><span class="p">,</span> <span class="p">&amp;</span>
-                              <span class="n">data_type</span><span class="o">=</span><span class="n">new_type</span><span class="p">)</span>
-         <span class="k">ELSE</span>
-<span class="k">            CALL </span><span class="n">dbcsr_create</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">,</span> <span class="p">&amp;</span>
-                              <span class="n">data_type</span><span class="o">=</span><span class="n">new_type</span><span class="p">,</span> <span class="p">&amp;</span>
-                              <span class="n">matrix_type</span><span class="o">=</span><span class="n">new_matrix_type</span><span class="p">,</span> <span class="p">&amp;</span>
-                              <span class="n">template</span><span class="o">=</span><span class="n">matrix_a</span><span class="p">)</span>
-         <span class="k">ENDIF</span>
-<span class="k">         CALL </span><span class="n">ensure_array_size</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">%</span><span class="nb">index</span><span class="p">,</span> <span class="n">ub</span><span class="o">=</span><span class="n">SIZE</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">%</span><span class="nb">index</span><span class="p">),</span> <span class="p">&amp;</span>
-                                <span class="n">memory_type</span><span class="o">=</span><span class="n">dbcsr_get_index_memory_type</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">))</span>
-         <span class="c">!</span>
-         <span class="c">! copy index and data</span>
-         <span class="n">matrix_b</span><span class="p">%</span><span class="nb">index</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">SIZE</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">%</span><span class="nb">index</span><span class="p">))</span> <span class="o">=</span> <span class="n">matrix_a</span><span class="p">%</span><span class="nb">index</span><span class="p">(:)</span>
-         <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">shallow</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">            IF</span> <span class="p">(</span><span class="n">matrix_a</span><span class="p">%</span><span class="n">nze</span> <span class="o">&gt;</span> <span class="n">dbcsr_get_data_size</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">))</span> <span class="p">&amp;</span>
-               <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Source matrix sizes not consistent!&quot;</span><span class="p">)</span>
-            <span class="k">CALL </span><span class="n">dbcsr_data_ensure_size</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span> <span class="p">&amp;</span>
-                                        <span class="n">dbcsr_data_get_size_referenced</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">%</span><span class="n">data_area</span><span class="p">))</span>
-            <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">))</span> <span class="p">&amp;</span>
-               <span class="k">THEN</span>
-<span class="k">               CALL </span><span class="n">dbcsr_data_copyall</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span> <span class="p">&amp;</span>
-                                       <span class="n">matrix_a</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span>
-            <span class="k">ELSE</span>
-<span class="k">               CALL </span><span class="n">dbcsr_data_convert</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span> <span class="p">&amp;</span>
-                                       <span class="n">matrix_a</span><span class="p">%</span><span class="n">data_area</span><span class="p">,</span> <span class="n">drop_real</span><span class="o">=</span><span class="n">keep_imaginary</span><span class="p">)</span>
-            <span class="k">ENDIF</span>
-<span class="k">         ELSE</span>
-<span class="k">            IF</span> <span class="p">(</span><span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_a</span><span class="p">)</span> <span class="p">.</span><span class="n">NE</span><span class="p">.</span> <span class="n">dbcsr_get_data_type</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">))</span> <span class="p">&amp;</span>
-               <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;Shallow copy only possible when retaining data type.&quot;</span><span class="p">)</span>
-            <span class="k">CALL </span><span class="n">dbcsr_switch_data_area</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">,</span> <span class="n">matrix_a</span><span class="p">%</span><span class="n">data_area</span><span class="p">)</span>
-         <span class="k">ENDIF</span>
-         <span class="c">!</span>
-         <span class="c">! the row_p, col_i and blk_p ...</span>
-         <span class="k">CALL </span><span class="n">dbcsr_repoint_index</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">)</span>
-         <span class="n">matrix_b</span><span class="p">%</span><span class="n">nze</span> <span class="o">=</span> <span class="n">matrix_a</span><span class="p">%</span><span class="n">nze</span>
-         <span class="n">matrix_b</span><span class="p">%</span><span class="n">nblks</span> <span class="o">=</span> <span class="n">matrix_b</span><span class="p">%</span><span class="n">nblks</span>
-         <span class="n">matrix_b</span><span class="p">%</span><span class="n">valid</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
-
-         <span class="n">matrix_b</span><span class="p">%</span><span class="n">sparsity_id</span> <span class="o">=</span> <span class="n">matrix_a</span><span class="p">%</span><span class="n">sparsity_id</span>
-      <span class="k">ENDIF</span>
-<span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_copy_prv</span><span class="p">(</span><span class="n">matrix_b</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">matrix_a</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">keep_sparsity</span><span class="p">,</span> <span class="p">&amp;</span>
+                          <span class="n">shallow_data</span><span class="p">,</span> <span class="n">keep_imaginary</span><span class="p">,</span> <span class="n">matrix_type</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_copy</span>
 </pre></div>
 
@@ -521,16 +426,17 @@ public subroutine dbcsr_copy(matrix_b, matrix_a, name, keep_sparsity, shallow_da
     <footer>
       <div class="container">
       <div class="row">
-        <div class="col-xs-6 col-md-4"><p>&copy; 2021 
-                                          </p></div>
-        <div class="col-xs-6 col-md-4 col-md-push-4">
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+                                          </p>
+        </div>
+        <div class="col-xs-6 col-md-6">
           <p class="text-right">
             Documentation generated by 
-            <a href="https://github.com/cmacmackin/ford">FORD</a>
+            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            
             
           </p>
         </div>
-        <div class="col-xs-12 col-md-4 col-md-pull-4"><p class="text-center"> DBCSR was developed by DBCSR Authors</p></div>
       </div>
       <br>
       </div> <!-- /container -->    
