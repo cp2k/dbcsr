@@ -71,7 +71,7 @@
 #define NBK (NBM * NBN)
 
 
-#if !defined(cl_intel_global_float_atomics)
+#if !defined(cl_intel_global_float_atomics) || (1 != TN)
 #if defined(CMPXCHG)
 __attribute__((always_inline))
 inline void atomic_add_global_cmpxchg(global volatile T* dst, T inc)
