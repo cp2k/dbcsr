@@ -36,20 +36,20 @@ For multiplying matrices (implemented in `opencl_libsmm.c`):
 
 * `OPENCL_LIBSMM_SMM_BUILDOPTS`: character string with build options (compile and link) supplied to the OpenCL runtime compiler.
 * `OPENCL_LIBSMM_SMM_ATOMICS`: selects the kind of atomic operation used for global memory updates (`xchg`, `cmpxchg`, `cmpxchg2`), or disables atomic updates (`0`). The latter is to quantify the impact of atomic operations rather than for achieving correct results.
-* `OPENCL_LIBSMM_SMM_BATCHSIZE`: non-negative integer number denoting the intra-kernel (mini-)batchsize mainly used to amortize atomic updates of data in global/main memory. The remainder with respect to the "stacksize" is handled by the kernel.
-* `OPENCL_LIBSMM_SMM_BLOCK_M`: non-negative integer number (less/equal than the M-extent) denoting the blocksize in M-direction.
-* `OPENCL_LIBSMM_SMM_BLOCK_N`: non-negative integer number (less/equal than the N-extent) denoting the blocksize in N-direction.
+* `OPENCL_LIBSMM_SMM_BS`: non-negative integer number denoting the intra-kernel (mini-)batchsize mainly used to amortize atomic updates of data in global/main memory. The remainder with respect to the "stacksize" is handled by the kernel.
+* `OPENCL_LIBSMM_SMM_BM`: non-negative integer number (less/equal than the M-extent) denoting the blocksize in M-direction.
+* `OPENCL_LIBSMM_SMM_BN`: non-negative integer number (less/equal than the N-extent) denoting the blocksize in N-direction.
 * `OPENCL_LIBSMM_SMM_PARAMS`: Disable embedded/auto-tuned parameters (`0`), or load CSV-file (e.g., `path/to/tune_multiply.csv`).
 
-**NOTE**: LIBSMM's tunable runtime settings may be non-smooth in the sense of enabling a distinct code-path depending on a specific value, e.g., `OPENCL_LIBSMM_SMM_BATCHSIZE=1` vs. `OPENCL_LIBSMM_SMM_BATCHSIZE=2`.
+**NOTE**: LIBSMM's tunable runtime settings may be non-smooth in the sense of enabling a distinct code-path depending on a specific value, e.g., `OPENCL_LIBSMM_SMM_BS=1` vs. `OPENCL_LIBSMM_SMM_BS=2`.
 
 ## Auto Tuning
 
 Auto tuning code for performance is a practical way to find the "best" setting for parameterized code (e.g., GPU kernels). Introducing effective parameters is a prerequisite, and exploring the (potentially) high-dimensional parameter space in an efficient way is an art. It is desirable to have reasonable defaults even without auto-tuning the parameters. It would be even better to avoid auto-tuning if best performance was possible right away, i.e., if auto-tuning is not able to find better settings.
 
-For the OpenCL based LIBSMM, `OPENCL_LIBSMM_SMM_BATCHSIZE` (`OPENCL_LIBSMM_SMM_BS`), `OPENCL_LIBSMM_SMM_BLOCK_M` (`OPENCL_LIBSMM_SMM_BM`), and `OPENCL_LIBSMM_SMM_BLOCK_N` (`OPENCL_LIBSMM_SMM_BN`) are explored using [OpenTuner](http://opentuner.org/). The script [tune_multiply.py](https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.py) (or tune_multiply.sh) leverages the `acc_bench_smm` benchmark by parsing console output (timing, data type, etc.). This way, the tuning is implemented without being intermingled with the subject being tuned.
+For the OpenCL based LIBSMM, `OPENCL_LIBSMM_SMM_BS`, `OPENCL_LIBSMM_SMM_BM`, and `OPENCL_LIBSMM_SMM_BN` are explored using [OpenTuner](http://opentuner.org/). The script [tune_multiply.py](https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.py) (or tune_multiply.sh) leverages the `acc_bench_smm` benchmark by parsing console output (timing, data type, etc.). This way, the tuning is implemented without being intermingled with the subject being tuned.
 
-**NOTE**: If `tune_multiply.py` (or `tune_multiply.sh`) are called with `OPENCL_LIBSMM_SMM_BATCHSIZE` (`OPENCL_LIBSMM_SMM_BS`), `OPENCL_LIBSMM_SMM_BLOCK_M` (`OPENCL_LIBSMM_SMM_BM`), or `OPENCL_LIBSMM_SMM_BLOCK_N` (`OPENCL_LIBSMM_SMM_BN`) already set, the respective parameter is considered fixed (and not auto-tuned).
+**NOTE**: If `tune_multiply.py` (or `tune_multiply.sh`) are called with `OPENCL_LIBSMM_SMM_BS`, `OPENCL_LIBSMM_SMM_BM`, or `OPENCL_LIBSMM_SMM_BN` already set, the respective parameter is considered fixed (and not auto-tuned).
 
 To toggle the benchmarks between tuning single-precision (SP) and double-precision (DP), `make ELEM_TYPE=float` can be used when building the benchmark drivers (backend). However, the `ELEM_TYPE` can be also directly edited in [acc_bench_smm.c](https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_bench_smm.c#L26). Auto-tuned parameters for SP and DP can be embedded into the same final application and are considered correctly at runtime.
 
@@ -92,7 +92,7 @@ The OpenTuner script implements multiple objectives ("cost"), primarily "accurac
 [    67s]    INFO opentuner.search.plugin.DisplayPlugin: tests=53, best {'BS': 48, 'BM': 8, 'BN': 1}, cost accuracy=32.20000000, size=1.0, found by UniformGreedyMutation
 ```
 
-The script finally writes a JSON-file with a filename like `tune_multiply-float-12x12x12-60gflops.json` which is encoding the benchmark (multiply), the precision (float), the kernel (12x12x12), and the achieved performance (60gflops). The script handles SIGINT (like Ctrl-C), and output is still written despite of not terminating normally (can be abused to tune interactively). Tuning starts from an internal default that is supposed to match LIBSMM's internal default parameters. However, tuning can be (re-)started with specific parameters (e.g., `-bs 64`, `-bm 13`, `-bn 1` for `OPENCL_LIBSMM_SMM_BATCHSIZE`, `OPENCL_LIBSMM_SMM_BLOCK_M`, and `OPENCL_LIBSMM_SMM_BLOCK_N` respectively).
+The script finally writes a JSON-file with a filename like `tune_multiply-float-12x12x12-60gflops.json` which is encoding the benchmark (multiply), the precision (float), the kernel (12x12x12), and the achieved performance (60gflops). The script handles SIGINT (like Ctrl-C), and output is still written despite of not terminating normally (can be abused to tune interactively). Tuning starts from an internal default that is supposed to match LIBSMM's internal default parameters. However, tuning can be (re-)started with specific parameters (e.g., `-bs 64`, `-bm 13`, `-bn 1` for `OPENCL_LIBSMM_SMM_BS`, `OPENCL_LIBSMM_SMM_BM`, and `OPENCL_LIBSMM_SMM_BN` respectively).
 
 **NOTE**: The `acc_bench_smm` executable is potentially started many times during auto-tuning parameters, therefore it is advisable to keep the state of the GPU driver stack persistent (if the setup would otherwise unload the driver configuration), e.g., `nvidia-smi -pm ENABLED`. This can happen in cases where the GPU is not used other than for compute (e.g., in case of a "headless" system).
 

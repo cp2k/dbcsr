@@ -68,6 +68,7 @@ else
 endif
 
 ifneq (0,$(DBG))
+  CPPFLAGS += -CC
   ifeq (,$(DBG))
     CFLAGS += -O2
   else
@@ -120,7 +121,11 @@ else
     CFLAGS += -I$(CUDATOOLKIT_HOME)/include
     LDFLAGS += -L$(CUDATOOLKIT_HOME)/lib64
   endif
-  LDFLAGS += -lOpenCL
+  ifneq (,$(wildcard $(LIBOPENCL)))
+    LDFLAGS += $(LIBOPENCL)
+  else
+    LDFLAGS += -lOpenCL
+  endif
 endif
 
 .PHONY: bench
@@ -133,7 +138,7 @@ all: ../dbcsr_acc.a ../dbcsr_acc_smm.a bench test
 test: ../dbcsr_acc_test
 
 smm/opencl_kernels.h: acc_opencl.sh $(KERNEL)
-	./acc_opencl.sh $(KERNEL) $(PARAMS) $@
+	CPPFLAGS=$(CPPFLAGS) ./acc_opencl.sh $(KERNEL) $(PARAMS) $@
 
 ../dbcsr_acc.a: $(OBJACC)
 	$(AR) -rs $@ $^

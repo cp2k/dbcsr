@@ -7,6 +7,7 @@
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
 
+__attribute__((reqd_work_group_size(SWG, 1, 1)))
 kernel void FN(GLOBAL const int *restrict trs_stack, int trs_offset, global T *restrict matrix)
 {
   /* offset in the transpose-stack that this block ID should handle */
@@ -38,16 +39,14 @@ kernel void FN(GLOBAL const int *restrict trs_stack, int trs_offset, global T *r
 # endif
 #else
   T prv[SN]; /* private buffer */
-  const int msize = (SM + SWG - 1) / SWG;
-  const int m0 = index * msize, m1 = min(m0 + msize, SM);
 # if (SM != SN) || (0 == INPLACE)
   /* copy matrix elements into local buffer */
-  for (int m = m0; m < m1; ++m) {
+  for (int m = idx; m < SM; m += SWG) {
     for (int n = 0; n < SN; ++n) buf[m][n] = mat[SM*n+m];
   }
   barrier(CLK_LOCAL_MEM_FENCE);
 # endif
-  for (int m = m0; m < m1; ++m) {
+  for (int m = idx; m < SM; m += SWG) {
 # if (SM != SN) || (0 == INPLACE)
     for (int n = 0; n < SN; ++n) prv[n] = buf[m][n];
     /* overwrite matrix elements (gather) */

@@ -36,12 +36,17 @@ class SmmTuner(MeasurementInterface):
         self.args.bs = max(min(self.args.bs, self.args.mb), 1)
         self.args.bm = [max(self.args.bm, 1), self.args.m][0 == self.args.bm]
         self.args.bn = [max(self.args.bn, 1), 1][0 == self.args.bn]
+        self.config = None
         self.gflops = 0
         self.exepath = "../.."
         self.exename = "acc_bench_smm"
-        # verbosity level to capture device name and tuned parameters
-        run_result = self.launch(["ACC_OPENCL_VERBOSE=2", "CHECK=0"], 1, 1)
-        if 0 == run_result["returncode"]:
+        run_result = (  # verbosity to capture device name and tuned parameters
+            self.launch(["ACC_OPENCL_VERBOSE=2", "CHECK=0"], nrep=1, size=1)
+            if not self.args.merge
+            and (self.args.update is None or "" == self.args.update)
+            else None
+        )
+        if run_result and 0 == run_result["returncode"]:
             typename = re.search(
                 "typename \\(id=([0-9]+)\\):\\s+(\\w+)", str(run_result["stdout"])
             )
@@ -58,22 +63,26 @@ class SmmTuner(MeasurementInterface):
             else:
                 self.device = self.args.update
             params = re.search(
-                "INFO ACC/OpenCL:\\s+{}\\s+{}SMM-kernel{}{}{}".format(
+                "INFO ACC/OpenCL:\\s+{}\\s+{}SMM-kernel{}{}{}{}".format(
                     "{}x{}x{}".format(self.args.m, self.args.n, self.args.k),
                     {"float": "S", "double": "D"}.get(self.typename, ""),
                     "\\s+bs=([0-9]+)\\s+bm=([0-9]+)\\s+bn=([0-9]+)",
-                    "\\s+aa=([0-9]+)\\s+ab=([0-9]+)\\s+ac=([0-9]+)",
-                    "\\s+ap=([0-9]+)\\s+gen=",
+                    "\\s+wg=([0-9]+)\\s+nz=([0-9]+)\\s+lu=([0-9]+)",
+                    "\\s+ap=([0-9]+)\\s+aa=([0-9]+)\\s+ab=([0-9]+)",
+                    "\\s+ac=([0-9]+)\\s+gen=",
                 ),
                 str(run_result["stderr"]),
             )
             self.bs = int(params.group(1)) if params and params.group(1) else None
             self.bm = int(params.group(2)) if params and params.group(2) else None
             self.bn = int(params.group(3)) if params and params.group(3) else None
-            self.aa = int(params.group(4)) if params and params.group(4) else None
-            self.ab = int(params.group(5)) if params and params.group(5) else None
-            self.ac = int(params.group(6)) if params and params.group(6) else None
+            self.wg = int(params.group(4)) if params and params.group(4) else None
+            self.nz = int(params.group(5)) if params and params.group(5) else None
+            self.lu = int(params.group(6)) if params and params.group(6) else None
             self.ap = int(params.group(7)) if params and params.group(7) else None
+            self.aa = int(params.group(8)) if params and params.group(8) else None
+            self.ab = int(params.group(9)) if params and params.group(9) else None
+            self.ac = int(params.group(10)) if params and params.group(10) else None
         else:
             self.typename = self.typeid = self.device = None
         # consider to update and/or merge JSONS (update first)
@@ -105,14 +114,20 @@ class SmmTuner(MeasurementInterface):
             params.append(IntegerParameter("BM", 1, self.args.m))
         if not os.getenv("OPENCL_LIBSMM_SMM_BN"):
             params.append(IntegerParameter("BN", 1, self.args.n))
+        if not os.getenv("OPENCL_LIBSMM_SMM_WG"):
+            params.append(IntegerParameter("WG", 0, 2))
+        if not os.getenv("OPENCL_LIBSMM_SMM_NZ"):
+            params.append(IntegerParameter("NZ", 0, 1))
+        if not os.getenv("OPENCL_LIBSMM_SMM_LU"):
+            params.append(IntegerParameter("LU", 0, 1))
+        if not os.getenv("OPENCL_LIBSMM_SMM_AP"):
+            params.append(IntegerParameter("AP", 0, 1))
         if not os.getenv("OPENCL_LIBSMM_SMM_AA"):
             params.append(IntegerParameter("AA", 0, 3))
         if not os.getenv("OPENCL_LIBSMM_SMM_AB"):
             params.append(IntegerParameter("AB", 0, 3))
         if not os.getenv("OPENCL_LIBSMM_SMM_AC"):
             params.append(IntegerParameter("AC", 0, 3))
-        if not os.getenv("OPENCL_LIBSMM_SMM_AP"):
-            params.append(IntegerParameter("AP", 0, 1))
         if not params:
             sys.tracebacklimit = 0
             raise RuntimeError(
@@ -121,18 +136,22 @@ class SmmTuner(MeasurementInterface):
         for param in params:
             manipulator.add_parameter(param)
         # register signal handler (CTRL-C)
-        signal(SIGINT, self.handle_sigint)
+        self.default_sigint = signal(SIGINT, self.handle_sigint)
         return manipulator
 
-    def launch(self, envs, nrep=None, size=None):
+    def launch(self, envs, nrep=None, size=None, verbose=None):
         """Launch executable supplying environment and arguments"""
+        envstrs = " ".join(map(str, envs))
+        if verbose is not None and 0 != int(verbose):
+            print(envstrs.replace("OPENCL_LIBSMM_SMM_", "").replace(" CHECK=0", ""))
         return self.call_program(
             "OMP_PROC_BIND=TRUE {} {} {} {}".format(
-                " ".join(map(str, envs)),  # environment variables
+                envstrs,  # environment variables
                 "{}/{}".format(self.exepath, self.exename),
                 # executable's arguments
                 "{} {}".format(
-                    self.args.r if None else nrep, self.args.s if None else size
+                    self.args.r if nrep is None else nrep,
+                    self.args.s if size is None else size,
                 ),
                 "{} {} {}".format(self.args.m, self.args.n, self.args.k),
             )
@@ -144,10 +163,13 @@ class SmmTuner(MeasurementInterface):
                 "BS": self.bs if self.bs is not None else self.args.bs,
                 "BM": self.bm if self.bm is not None else self.args.bm,
                 "BN": self.bn if self.bn is not None else self.args.bn,
+                "WG": self.wg if self.wg is not None else self.args.wg,
+                "NZ": self.nz if self.nz is not None else self.args.nz,
+                "LU": self.lu if self.lu is not None else self.args.lu,
+                "AP": self.ap if self.ap is not None else self.args.ap,
                 "AA": self.aa if self.aa is not None else self.args.aa,
                 "AB": self.ab if self.ab is not None else self.args.ab,
                 "AC": self.ac if self.ac is not None else self.args.ac,
-                "AP": self.ap if self.ap is not None else self.args.ap,
             }
         ]
 
@@ -162,17 +184,21 @@ class SmmTuner(MeasurementInterface):
             "OPENCL_LIBSMM_SMM_BS={}".format(config["BS"]),
             "OPENCL_LIBSMM_SMM_BM={}".format(config["BM"]),
             "OPENCL_LIBSMM_SMM_BN={}".format(config["BN"]),
+            "OPENCL_LIBSMM_SMM_WG={}".format(config["WG"]),
+            "OPENCL_LIBSMM_SMM_NZ={}".format(config["NZ"]),
+            "OPENCL_LIBSMM_SMM_LU={}".format(config["LU"]),
+            "OPENCL_LIBSMM_SMM_AP={}".format(config["AP"]),
             "OPENCL_LIBSMM_SMM_AA={}".format(config["AA"]),
             "OPENCL_LIBSMM_SMM_AB={}".format(config["AB"]),
             "OPENCL_LIBSMM_SMM_AC={}".format(config["AC"]),
-            "OPENCL_LIBSMM_SMM_AP={}".format(config["AP"]),
         ]
 
     def run(self, desired_result, input, limit):
         """Run a configuration and return performance"""
         config = desired_result.configuration.data
         run_result = self.launch(
-            self.environment(config) + ["CHECK={}".format(self.args.check)]
+            self.environment(config) + ["CHECK={}".format(self.args.check)],
+            verbose=self.args.verbose,
         )
         if 0 == run_result["returncode"]:
             performance = re.search(
@@ -233,10 +259,13 @@ class SmmTuner(MeasurementInterface):
                     device = data["DEVICE"] if "DEVICE" in data else self.device
                     key = (device, data["TYPEID"], data["M"], data["N"], data["K"])
                     value = (data["GFLOPS"], data["BS"], data["BM"], data["BN"]) + (
+                        data["WG"] if "WG" in data else 0,
+                        data["NZ"] if "NZ" in data else 0,
+                        data["LU"] if "LU" in data else 0,
+                        data["AP"] if "AP" in data else 0,
                         data["AA"] if "AA" in data else 0,
                         data["AB"] if "AB" in data else 0,
                         data["AC"] if "AC" in data else 0,
-                        data["AP"] if "AP" in data else 0,
                         filename,
                     )
                     if key not in merged:
@@ -255,11 +284,13 @@ class SmmTuner(MeasurementInterface):
             if bool(merged):
                 with open(self.args.csvfile, "w") as file:
                     file.write(  # CSV header line with termination/newline
-                        "{}{}{}\n".format(  # key-part
+                        "{}{}{}{}{}\n".format(  # key-part
                             self.args.csvsep.join(["DEVICE", "TYPEID", "M", "N", "K"]),
                             self.args.csvsep,  # separator for value-part
-                            self.args.csvsep.join(  # value-part
-                                ["GFLOPS", "BS", "BM", "BN", "AA", "AB", "AC", "AP"]
+                            self.args.csvsep.join(["GFLOPS", "BS", "BM", "BN"]),
+                            self.args.csvsep,
+                            self.args.csvsep.join(
+                                ["WG", "NZ", "LU", "AP", "AA", "AB", "AC"]
                             ),
                         )
                     )
@@ -279,7 +310,7 @@ class SmmTuner(MeasurementInterface):
 
     def save_final_config(self, configuration):
         """Called at termination"""
-        if 0 < self.gflops:
+        if 0 < self.gflops and configuration:
             filename = "tune_multiply-{}-{}x{}x{}-{}gflops.json".format(
                 self.typename, self.args.m, self.args.n, self.args.k, round(self.gflops)
             )
@@ -317,6 +348,7 @@ class SmmTuner(MeasurementInterface):
 
     def handle_sigint(self, signum, frame):
         """Handle SIGINT or CTRL-C"""
+        signal(SIGINT, self.default_sigint)
         print(
             "\nWARNING: tuning {}x{}x{}-kernel was interrupted".format(
                 self.args.m, self.args.n, self.args.k
@@ -357,6 +389,38 @@ if __name__ == "__main__":
         help="Block/tile size (BN)",
     )
     argparser.add_argument(
+        "-wg",
+        "--initial-wg",
+        type=int,
+        default=int(os.getenv("OPENCL_LIBSMM_SMM_WG", "0")),
+        dest="wg",
+        help="Size of WG: tight (0), round-up (1), PoT (2)",
+    )
+    argparser.add_argument(
+        "-nz",
+        "--initial-nz",
+        type=int,
+        default=int(os.getenv("OPENCL_LIBSMM_SMM_NZ", "0")),
+        dest="nz",
+        help="Check atomic increment to be non-zero (1)",
+    )
+    argparser.add_argument(
+        "-lu",
+        "--initial-lu",
+        type=int,
+        default=int(os.getenv("OPENCL_LIBSMM_SMM_LU", "0")),
+        dest="lu",
+        help="Limit (1) or try to fully (0) unroll loops",
+    )
+    argparser.add_argument(
+        "-ap",
+        "--initial-ap",
+        type=int,
+        default=int(os.getenv("OPENCL_LIBSMM_SMM_AP", "0")),
+        dest="ap",
+        help="Params: auto (0), shared (1)",
+    )
+    argparser.add_argument(
         "-aa",
         "--initial-aa",
         type=int,
@@ -381,14 +445,6 @@ if __name__ == "__main__":
         help="Matrix C: auto (0), shared (1), shared-bc (2), private (3)",
     )
     argparser.add_argument(
-        "-ap",
-        "--initial-ap",
-        type=int,
-        default=int(os.getenv("OPENCL_LIBSMM_SMM_AP", "0")),
-        dest="ap",
-        help="Params: auto (0), shared (1)",
-    )
-    argparser.add_argument(
         "-bs",
         "--initial-bs",
         type=int,
@@ -401,7 +457,7 @@ if __name__ == "__main__":
         "-mb",
         "--max-bs",
         type=int,
-        default=256,
+        default=128,
         nargs="?",
         dest="mb",
         help="Maximum (mini-)batch size (BS)",
@@ -425,7 +481,7 @@ if __name__ == "__main__":
         help='Size of batch ("stacksize")',
     )
     argparser.add_argument(
-        "-c",
+        "-e",
         "--csv-separator",
         type=(lambda c: c if isinstance(c, str) and 1 == len(c) else False),
         default=";",
@@ -460,13 +516,21 @@ if __name__ == "__main__":
         help="Update JSONs (device), and terminate",
     )
     argparser.add_argument(
-        "-v",
+        "-c",
         "--check",
         type=float,
         default=0,
         nargs="?",
         dest="check",
         help="Validate kernel (epsilon)",
+    )
+    argparser.add_argument(
+        "-v",
+        "--verbose",
+        action="store_true",
+        default=False,
+        dest="verbose",
+        help="Verbose output",
     )
     argparser.add_argument(
         "-p",
