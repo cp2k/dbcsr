@@ -7,11 +7,15 @@
 # For further information please visit https://dbcsr.cp2k.org                                      #
 # SPDX-License-Identifier: GPL-2.0+                                                                #
 ####################################################################################################
+# shellcheck disable=SC2129
 
 BASENAME=$(command -v basename)
 SED=$(command -v gsed)
 CPP=$(command -v cpp)
 RM=$(command -v rm)
+
+# flags used to control preprocessor
+CPPBASEFLAGS="-dD -P -fpreprocessed"
 
 # delimiters allowed in CSV-file
 DELIMS=";,\t|/"
@@ -23,6 +27,16 @@ fi
 
 if [ "${BASENAME}" ] && [ "${SED}" ] && [ "${RM}" ]; then
   for OFILE in "$@"; do :; done
+  while test $# -gt 0; do
+    case "$1" in
+    -h|--help)
+      shift $#;;
+    -c|-d|--debug|--comments)
+      CPPFLAGS+=" -CC"
+      shift;;
+    *) break;;
+    esac
+  done
   if [ "$#" -gt 1 ]; then
     # allow for instance /dev/stdout
     if [ "${OFILE##*.}" = "h" ]; then
@@ -49,9 +63,15 @@ if [ "${BASENAME}" ] && [ "${SED}" ] && [ "${RM}" ]; then
             echo "#define ${MNAME} ${VNAME}" >>"${OFILE}"
             echo "#define ${SNAME} \\" >>"${OFILE}"
             if [ "${CPP}" ] && \
-               [ "$(${CPP} -dD -P -fpreprocessed "${IFILE}" 2>/dev/null >/dev/null && echo "OK")" ];
+               [ "$(eval "${CPP} ${CPPBASEFLAGS} ${IFILE}" 2>/dev/null >/dev/null && echo "OK")" ];
             then
-              ${CPP} -dD -P -fpreprocessed "${IFILE}" 2>/dev/null
+              if [ "" != "${CPPFLAGS}" ] && \
+                 [ "$(eval "${CPP} ${CPPFLAGS} ${CPPBASEFLAGS} ${IFILE}" 2>/dev/null >/dev/null && echo "OK")" ];
+              then
+                eval "${CPP} ${CPPFLAGS} ${CPPBASEFLAGS} ${IFILE}" 2>/dev/null
+              else
+                eval "${CPP} ${CPPBASEFLAGS} ${IFILE}" 2>/dev/null
+              fi
             else # fallback to sed
               ${SED} -r ':a;s%(.*)/\*.*\*/%\1%;ta;/\/\*/!b;N;ba' "${IFILE}"
             fi | \
