@@ -6,7 +6,7 @@
  * For further information please visit https://dbcsr.cp2k.org                                    *
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
-#if (200/*CL_VERSION_2_0*/ <= __OPENCL_VERSION__)
+#if (200/*CL_VERSION_2_0*/ <= __OPENCL_VERSION__) || defined(__NV_CL_C_VERSION)
 # define UNROLL(N) __attribute__((opencl_unroll_hint(N)))
 #else
 # define UNROLL(N)

@@ -630,9 +630,6 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
             ? m/*TODO*/ : atoi(env_blockm));
           const int bm = LIBXSMM_CLMP(blockm, 1, m);
           int wgsize = 0, wgsize_max;
-          char cl_std[16];
-          ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_device_level(active_device,
-            NULL/*level_major*/, NULL/*level_minor*/, cl_std));
           result = c_dbcsr_acc_opencl_wgsize(active_device,
             NULL/*kernel*/, &wgsize_max, NULL/*prefmult*/);
           if (EXIT_SUCCESS == result) {
@@ -648,9 +645,10 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
               default: assert('\0' == *tname);
             }
             wgsize = LIBXSMM_MIN((m == bm || 0 == (m % bm)) ? bm : m, wgsize_max);
-            nchar = ACC_OPENCL_SNPRINTF(build_options, sizeof(build_options), "%s %s",
-              (NULL == env_options || '\0' == *env_options) ? "" : env_options, cl_std);
-            if (0 < nchar && (int)sizeof(build_options) > nchar) {
+            nchar = ACC_OPENCL_SNPRINTF(build_options, sizeof(build_options),
+              "%s" /* can finally be an empty string hence "<=" (nchar) */,
+              (NULL == env_options || '\0' == *env_options) ? "" : env_options);
+            if (0 <=/*<*/ nchar && (int)sizeof(build_options) > nchar) {
               nchar = ACC_OPENCL_SNPRINTF(build_params, sizeof(build_params),
                 param_format, cmem, inplace, fname, m, n, wgsize, tname);
             }
@@ -1049,7 +1047,6 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 const char *const env_options = getenv("OPENCL_LIBSMM_SMM_BUILDOPTS");
                 const char *const env_atomics = getenv("OPENCL_LIBSMM_SMM_ATOMICS");
                 const char *atomic_expr = NULL, *atomic_expr2 = "";
-                char cl_std[16];
                 if (NULL == env_atomics || '0' != *env_atomics) {
                   const char* extension[] = { "cl_khr_int64_base_atomics" };
                   if (NULL == env_atomics || '\0' == *env_atomics) { /* no request made */
@@ -1087,8 +1084,6 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                   atomic_expr = "*(A)+=(B)";
                 }
                 assert(NULL != atomic_expr);
-                ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_device_level(
-                  active_device, NULL/*level_major*/, NULL/*level_minor*/, cl_std));
                 /* compose build parameters and flags */
                 nchar = ACC_OPENCL_SNPRINTF(build_params, sizeof(build_params),
                   "-DFMA=fma -DGLOBAL=%s -DINTEL=%i -DSWG=%i -DFN=%s "
@@ -1103,8 +1098,8 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                   atomic_ops, atomic_expr, atomic_expr2);
                 if (0 < nchar && (int)sizeof(build_params) > nchar) {
                   nchar = ACC_OPENCL_SNPRINTF(build_options, sizeof(build_options),
-                    "%s %s %s -cl-fast-relaxed-math -cl-no-signed-zeros -cl-denorms-are-zero",
-                    (NULL == env_options || '\0' == *env_options) ? "" : env_options, cl_std, cl_debug);
+                    "%s %s -cl-fast-relaxed-math -cl-no-signed-zeros -cl-denorms-are-zero",
+                    (NULL == env_options || '\0' == *env_options) ? "" : env_options, cl_debug);
                   if (0 >= nchar || (int)sizeof(build_options) <= nchar) result = EXIT_FAILURE;
                 }
                 else result = EXIT_FAILURE;
