@@ -706,11 +706,18 @@ int c_dbcsr_acc_opencl_kernel(const char source[],
   const char build_options[], const char build_params[],
   const char kernel_name[], cl_kernel* kernel)
 {
-  char buffer[ACC_OPENCL_BUFFERSIZE] = "";
-  cl_int result = EXIT_SUCCESS;
+  char buffer[ACC_OPENCL_BUFFERSIZE] = "", cl_std[16];
+  cl_device_id active_id = NULL;
+  cl_int result = (NULL != c_dbcsr_acc_opencl_context
+    ? c_dbcsr_acc_opencl_device(NULL/*stream*/, &active_id)
+    : EXIT_FAILURE);
+  int level_major, level_minor;
   assert(NULL != source && NULL != kernel);
   assert(NULL != kernel_name && '\0' != *kernel_name);
-  if (NULL != c_dbcsr_acc_opencl_context) {
+  if (EXIT_SUCCESS == result) {
+    result = c_dbcsr_acc_opencl_device_level(active_id, &level_major, &level_minor, cl_std);
+  }
+  if (EXIT_SUCCESS == result) {
     cl_program program = NULL;
     /* consider preprocessing kernel for analysis (cpp); failure does not matter (result) */
     if (0 != c_dbcsr_acc_opencl_config.dump) {
@@ -725,7 +732,8 @@ int c_dbcsr_acc_opencl_kernel(const char source[],
             const size_t size_src = strlen(source);
             if (size_src == fwrite(source, 1, size_src, file_src) && EXIT_SUCCESS == fclose(file_src)) {
               nchar = ACC_OPENCL_SNPRINTF(buffer, sizeof(buffer), ACC_OPENCL_CPPBIN
-                " -P -CC -nostdinc -D__OPENCL_VERSION__=%u %s %s -o %s.cl", CL_TARGET_OPENCL_VERSION,
+                " -P -CC -nostdinc -D__OPENCL_VERSION__=%u %s %s %s -o %s.cl", 100 * level_major + 10 * level_minor,
+                EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(active_id, "nvidia") ? "" : "-D__NV_CL_C_VERSION",
                 NULL != build_params ? build_params : "", name_src, kernel_name);
               if (0 < nchar && (int)sizeof(buffer) > nchar) {
                 if (EXIT_SUCCESS == system(buffer)) {
@@ -762,72 +770,60 @@ int c_dbcsr_acc_opencl_kernel(const char source[],
         1/*nlines*/, &source, NULL, &result);
     }
     if (NULL != program) {
-      cl_device_id active_id = NULL;
+      int nchar = ACC_OPENCL_SNPRINTF(buffer, sizeof(buffer), "%s %s %s", cl_std,
+        NULL != build_options ? build_options : "",
+        NULL != build_params ? build_params : "");
       assert(CL_SUCCESS == result);
-      result = c_dbcsr_acc_opencl_device(NULL/*stream*/, &active_id);
-      if (EXIT_SUCCESS == result) {
-        int nchar = ACC_OPENCL_SNPRINTF(buffer, sizeof(buffer), "%s %s",
-          NULL != build_options ? build_options : "",
-          NULL != build_params ? build_params : "");
-        result = clBuildProgram(program, 1/*num_devices*/, &active_id,
-          buffer, NULL/*callback*/, NULL/*user_data*/);
-        buffer[0] = '\0'; /* reset to empty */
+      result = clBuildProgram(program, 1/*num_devices*/, &active_id,
+        buffer, NULL/*callback*/, NULL/*user_data*/);
+      buffer[0] = '\0'; /* reset to empty */
+      if (CL_SUCCESS == result) {
+        *kernel = clCreateKernel(program, kernel_name, &result);
         if (CL_SUCCESS == result) {
-          *kernel = clCreateKernel(program, kernel_name, &result);
-          if (CL_SUCCESS == result) {
-            assert(NULL != *kernel);
-            if (2 <= c_dbcsr_acc_opencl_config.dump || 0 > c_dbcsr_acc_opencl_config.dump) {
-              unsigned char* binary = NULL;
-              size_t size;
-              binary = (unsigned char*)(CL_SUCCESS == clGetProgramInfo(program,
-                  CL_PROGRAM_BINARY_SIZES, sizeof(size_t), &size, NULL)
-                ? malloc(size) : NULL);
-              if (NULL != binary) {
-                result = clGetProgramInfo(program, CL_PROGRAM_BINARIES,
-                  sizeof(unsigned char*), &binary, NULL);
-                if (CL_SUCCESS == result) {
-                  FILE* file;
-                  nchar = ACC_OPENCL_SNPRINTF(buffer, sizeof(buffer), "%s.dump", kernel_name);
-                  file = (0 < nchar && (int)sizeof(buffer) > nchar) ? fopen(buffer, "wb") : NULL;
-                  buffer[0] = '\0'; /* reset to empty */
-                  if (NULL != file) {
-                    result = (size == fwrite(binary, 1, size, file) ? EXIT_SUCCESS : EXIT_FAILURE);
-                    fclose(file);
-                  }
-                  else result = EXIT_FAILURE;
+          assert(NULL != *kernel);
+          if (2 <= c_dbcsr_acc_opencl_config.dump || 0 > c_dbcsr_acc_opencl_config.dump) {
+            unsigned char* binary = NULL;
+            size_t size;
+            binary = (unsigned char*)(CL_SUCCESS == clGetProgramInfo(program,
+                CL_PROGRAM_BINARY_SIZES, sizeof(size_t), &size, NULL)
+              ? malloc(size) : NULL);
+            if (NULL != binary) {
+              result = clGetProgramInfo(program, CL_PROGRAM_BINARIES,
+                sizeof(unsigned char*), &binary, NULL);
+              if (CL_SUCCESS == result) {
+                FILE* file;
+                nchar = ACC_OPENCL_SNPRINTF(buffer, sizeof(buffer), "%s.dump", kernel_name);
+                file = (0 < nchar && (int)sizeof(buffer) > nchar) ? fopen(buffer, "wb") : NULL;
+                buffer[0] = '\0'; /* reset to empty */
+                if (NULL != file) {
+                  result = (size == fwrite(binary, 1, size, file) ? EXIT_SUCCESS : EXIT_FAILURE);
+                  fclose(file);
                 }
-                else {
-                  ACC_OPENCL_ERROR("query program binary", result);
-                }
-                free(binary);
+                else result = EXIT_FAILURE;
               }
-              else result = EXIT_FAILURE;
+              else {
+                ACC_OPENCL_ERROR("query program binary", result);
+              }
+              free(binary);
             }
-          }
-          else {
-            ACC_OPENCL_ERROR("create kernel", result);
+            else result = EXIT_FAILURE;
           }
         }
-        else {
-          clGetProgramBuildInfo(program, active_id, CL_PROGRAM_BUILD_LOG,
-            ACC_OPENCL_BUFFERSIZE, buffer, NULL); /* ignore retval */
-          *kernel = NULL;
-        }
+        else ACC_OPENCL_ERROR("create kernel", result);
       }
       else {
-        *kernel = NULL;
+        clGetProgramBuildInfo(program, active_id, CL_PROGRAM_BUILD_LOG,
+          ACC_OPENCL_BUFFERSIZE, buffer, NULL); /* ignore retval */
       }
     }
     else {
       assert(CL_SUCCESS != result);
       ACC_OPENCL_ERROR("create program", result);
-      *kernel = NULL;
     }
   }
-  else {
-    result = EXIT_FAILURE;
-    *kernel = NULL;
-  }
+#if !defined(NDEBUG)
+  if (EXIT_SUCCESS != result) *kernel = NULL;
+#endif
   ACC_OPENCL_RETURN_CAUSE(result, buffer);
 }
 
