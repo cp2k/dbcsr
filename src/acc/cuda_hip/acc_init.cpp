@@ -8,7 +8,7 @@
  *------------------------------------------------------------------------------------------------*/
 
 #if defined(__CUDA)
-# include "acc_cuda.h"
+# include "../cuda/acc_cuda.h"
 #elif defined(__HIP)
 # include "../hip/acc_hip.h"
 #endif

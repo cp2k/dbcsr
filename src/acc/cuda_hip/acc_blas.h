@@ -7,48 +7,29 @@
  * SPDX-License-Identifier: GPL-2.0+                                                              *
  *------------------------------------------------------------------------------------------------*/
 
-#if defined(__CUDA)
-# include "acc_cuda.h"
-#elif defined(__HIP)
-# include "../hip/acc_hip.h"
-#endif
+#ifndef ACC_BLAS_H
+#define ACC_BLAS_H
 
-#include "acc_error.h"
-#include "../acc.h"
+#if defined(__CUDA)
+ #include "../cuda/acc_cuda.h"
+#elif defined(__HIP)
+ #include "../hip/acc_hip.h"
+#endif
 
 #include <stdio.h>
-#include <math.h>
-
-// for debug purpose
-static const int verbose_print = 1;
+#include "acc_error.h"
 
 /****************************************************************************/
-extern "C" int c_dbcsr_acc_get_ndevices(int *n_devices){
-  ACC_API_CALL(GetDeviceCount, (n_devices));
-  return 0;
-}
-
+int acc_blas_create(ACC_BLAS(Handle_t) **handle);
 
 /****************************************************************************/
-extern "C" int c_dbcsr_acc_set_active_device(int device_id){
-  int myDevice, runtimeVersion;
+int acc_blas_destroy(ACC_BLAS(Handle_t) *handle);
 
-  ACC_API_CALL(RuntimeGetVersion, (&runtimeVersion));
-  ACC_API_CALL(SetDevice, (device_id));
-  ACC_API_CALL(GetDevice, (&myDevice));
+/****************************************************************************/
+int acc_blas_dgemm(ACC_BLAS(Handle_t) *handle, char transa, char transb,
+                   int m, int n, int k,
+                   int a_offset, int b_offset, int c_offset,
+                   const double *a_data, const double *b_data, double *c_data,
+                   double alpha, double beta, ACC(Stream_t) *stream);
 
-  if (myDevice != device_id)
-    return -1;
-
-  // establish context
-  ACC_API_CALL(Free, (0));
-
-#if defined(__HIP_PLATFORM_NVCC__)
-  if (verbose_print){
-    ACC_API_CALL(DeviceSetLimit, (ACC(LimitPrintfFifoSize), (size_t) 1000000000));
-  }
-#endif
-
-  return 0;
-}
-
+#endif /* ACC_BLAS_H */
