@@ -10,7 +10,7 @@
 #ifndef LIBSMM_ACC_INIT_H
 #define LIBSMM_ACC_INIT_H
 
-#include "../cuda/acc_blas.h"
+#include "../cuda_hip/acc_blas.h"
 
 #include <vector>
 #include <string>
