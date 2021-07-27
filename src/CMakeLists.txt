@@ -17,7 +17,6 @@ add_fypp_sources(
   acc/dbcsr_acc_init.F
   acc/dbcsr_acc_stream.F
   acc/dbcsr_acc_timings.F
-  acc/hip/dbcsr_hipblas.F
   acc/hip/dbcsr_hip_profiling.F
   base/dbcsr_base_hooks.F
   base/dbcsr_kinds.F
@@ -110,13 +109,13 @@ set(DBCSR_HIP_AND_CUDA_SRCS
     acc/libsmm_acc/libsmm_acc_benchmark.cpp
     acc/libsmm_acc/libsmm_acc_init.cpp
     acc/libsmm_acc/libsmm_acc.cpp
-    acc/cuda/acc_cublas.cpp
-    acc/cuda/acc_dev.cpp
-    acc/cuda/acc_error.cpp
-    acc/cuda/acc_event.cpp
-    acc/cuda/acc_init.cpp
-    acc/cuda/acc_mem.cpp
-    acc/cuda/acc_stream.cpp)
+    acc/cuda_hip/acc_blas.cpp
+    acc/cuda_hip/acc_dev.cpp
+    acc/cuda_hip/acc_error.cpp
+    acc/cuda_hip/acc_event.cpp
+    acc/cuda_hip/acc_init.cpp
+    acc/cuda_hip/acc_mem.cpp
+    acc/cuda_hip/acc_stream.cpp)
 
 set(DBCSR_CUDA_SRCS ${DBCSR_HIP_AND_CUDA_SRCS} acc/cuda/acc_cuda.cpp
                     acc/cuda/dbcsr_cuda_nvtx_cu.cpp)
