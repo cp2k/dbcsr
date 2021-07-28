@@ -5,18 +5,14 @@
 ############################################################
 # CP2K team will update it, following the compilation flags suggested in the
 # CP2K installation file.
-# For this reason, this Makefile must be compatible with the CP2K compilation.
+# For this reason, this Makefile must be compatible with the CP2K
+# compilation and tested within CP2K.
 #
-# For testing, by default, the Makefile compiles the OpenMP+MPI+CUDA toolchain
-# with GNU compiler targeting a P100 GPU.
-# Make sure that the env variable ${BLAS_PATH} is set.
 # You can compile DBCSR by running from the DBCSR main directory with:
 #
-# > make -f .cp2k/Makefile
+# > make -f .cp2k/Makefile ARCH=<CP2K ARCH file>
 #
-# Alternatively, you can provide an ARCH file as described in the CP2K installation:
-#
-# > make -f .cp2k/Makefile INCLUDEMAKE=<CP2K ARCH file>
+# where we provide an ARCH file as described in the CP2K installation.
 #
 # The ARCH file can set the variables:
 #
@@ -44,7 +40,7 @@
 # Libraries for accelerator:
 #    - e.g. for CUDA:   LIBS += -lstdc++ -lcudart -lnvrtc -lcuda -lcublas
 #    - e.g. for HIP:    LIBS += -lstdc++ -lhiprtc -lhipblas
-#    - e.g. for OpenCL: LIBS += -lOpenCL 
+#    - e.g. for OpenCL: LIBS += -lOpenCL
 
 #
 SHELL = /bin/sh
@@ -60,7 +56,7 @@ TOOLSDIR     := $(DBCSRHOME)/tools
 FYPPEXE      := $(TOOLSDIR)/build_utils/fypp/bin/fypp
 SRCDIR       := $(DBCSRHOME)/src
 TESTSDIR     := $(DBCSRHOME)/tests
-INCLUDEMAKE  :=
+ARCH         :=
 
 PYTHON       := /usr/bin/env python3
 
@@ -69,33 +65,11 @@ LIBNAME      := dbcsr
 LIBRARY      := lib$(LIBNAME)
 default_target: $(LIBRARY)
 
-# Set default values and read the configuration (if provided) ===============
-MODDEPS = "lower"
-CXX       = mpicxx
-CC        = mpicc
-FC        = mpif90
-LD        = mpif90
-AR        = ar -r
-CXXFLAGS  = -O3 -g -std=c++11 -fopenmp
-CFLAGS    = -O3 -g
-FCFLAGS   = -D__parallel -O3 -g -fopenmp -std=f2008ts -ffree-form -fimplicit-none -ffree-line-length-512 -fno-omit-frame-pointer -funroll-loops \
-            -Werror=aliasing -Werror=ampersand -Werror=c-binding-type \
-            -Werror=intrinsic-shadow -Werror=intrinsics-std \
-            -Werror=line-truncation \
-            -Werror=tabs -Werror=target-lifetime \
-            -Werror=underflow \
-            -Werror=unused-but-set-variable -Werror=unused-variable \
-            -Werror=unused-dummy-argument -Werror=conversion \
-            -Werror=uninitialized -Wno-maybe-uninitialized
-LDFLAGS   = $(FCFLAGS)
-LIBS      = -L${BLAS_PATH}/lib -lblas -lstdc++ -lcudart -lnvrtc -lcuda
-ACC       = nvcc
-ACCFLAGS  = -O3 -g -w --std=c++11
-GPUVER    = P100
-
-ifneq (,$(INCLUDEMAKE))
-include $(INCLUDEMAKE)
+# Read the configuration
+ifeq (,$(ARCH))
+$(error ARCH file must be provided: ARCH=<CP2K ARCH file>!)
 endif
+include $(ARCH)
 
 # Read the version ==========================================================
 include $(DBCSRHOME)/VERSION
@@ -122,13 +96,6 @@ else ifeq ($(GPUVER),Mi100)
  ARCH_NUMBER = gfx908
 else ifneq ($(GPUVER),)
  $(error GPUVER not recognized)
-endif
-
-# enable ACC compilation
-ifeq (,$(INCLUDEMAKE))
-FCFLAGS  += -D__DBCSR_ACC
-CFLAGS   += -D__DBCSR_ACC
-CXXFLAGS += -D__DBCSR_ACC
 endif
 
 # If compiling with nvcc
@@ -242,6 +209,7 @@ $(LIBSMM_ACC_ABS_DIR)/smm_acc_kernels.h: $(LIBSMM_ACC_ABS_DIR)/generate_kernels.
 endif
 
 # automatic dependency generation ===========================================
+MODDEPS     = "lower"
 MAKEDEPMODE = "normal"
 ifeq ($(HACKDEP),yes)
 MAKEDEPMODE = "hackdep"
