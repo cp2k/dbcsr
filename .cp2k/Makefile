@@ -65,17 +65,20 @@ LIBNAME      := dbcsr
 LIBRARY      := lib$(LIBNAME)
 default_target: $(LIBRARY)
 
-# Read the configuration
-ifeq (,$(ARCH))
-$(error ARCH file must be provided: ARCH=<CP2K ARCH file>!)
-endif
-include $(ARCH)
-
 # Read the version ==========================================================
 include $(DBCSRHOME)/VERSION
 ifeq ($(DATE),)
 DATE = "Development Version"
 endif
+
+# Read the configuration ====================================================
+ifeq (,$(ARCH))
+$(error ARCH file must be provided: ARCH=<CP2K ARCH file>)
+endif
+ifeq (, $(wildcard $(ARCH)))
+$(error ARCH file `$(ARCH)` not found)
+endif
+include $(ARCH)
 
 # Set the compute version and ACCFLAGS =======================================
 ifneq ($(ACC),)
@@ -188,7 +191,7 @@ else
 
 # Check if FYPP is available  ===============================================
 ifeq (, $(shell which $(FYPPEXE) 2>/dev/null ))
-$(error "No FYPP submodule available, please read README.md on how to properly download DBCSR")
+$(error No FYPP submodule available, please read README.md on how to properly download DBCSR)
 endif
 
 endif
