@@ -817,7 +817,7 @@ CONTAINS
          use_absolute = c_use_absolute
          CALL dbcsr_t_filter(tensor, c_eps, c_method, use_absolute)
       ELSE
-         CALL dbcsr_t_filter(tensor, c_eps, c_method, use_absolute)
+         CALL dbcsr_t_filter(tensor, c_eps, c_method)
       ENDIF
 
    END SUBROUTINE
