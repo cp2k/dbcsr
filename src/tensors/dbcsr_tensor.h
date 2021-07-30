@@ -17,6 +17,7 @@
 #:set ndims = range(2, maxrank + 1)
 #:set ddims = range(1, maxrank + 1)
 
+typedef void* dbcsr_matrix;
 typedef void* dbcsr_t_tensor;
 typedef void* dbcsr_t_distribution;
 typedef void* dbcsr_t_pgrid;
