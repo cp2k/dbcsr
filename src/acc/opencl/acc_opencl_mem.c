@@ -83,6 +83,7 @@ int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t nbytes, void* stream)
       clSVMAlloc(c_dbcsr_acc_opencl_context, CL_MEM_READ_WRITE, size, sizeof(void*)/*minimal alignment*/), &result) :
 #endif
     clCreateBuffer(c_dbcsr_acc_opencl_context, CL_MEM_ALLOC_HOST_PTR, size, NULL/*host_ptr*/, &result));
+  assert(CL_SUCCESS == result || NULL == buffer);
   assert(NULL != host_mem && NULL != stream);
   if (NULL != buffer) {
     const cl_command_queue queue = *ACC_OPENCL_STREAM(stream);

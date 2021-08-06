@@ -36,26 +36,6 @@ if [ "$1" ]; then
 else
   PART=1
 fi
-if [ "$1" ]; then
-  TRIPLETS="$*"
-else
-  TRIPLETS=" \
-    4 5 7 9 13 25 26 28 32 45, \
-    13 14 25 26 32, \
-    5 32 13 24 26, \
-    14 16 29, \
-    14 32 29, \
-    16 29 55, \
-    32 29 55, \
-    9 32 22, \
-    4 10 15, \
-    6 7 8, \
-    23, \
-    64, \
-    78, \
-    12, \
-    6"
-fi
 
 if [ "0" != "$((NPARTS<PART))" ]; then
   >&2 echo "ERROR: part-number ${PART} is larger than the requested ${NPARTS} parts!"
@@ -63,18 +43,19 @@ if [ "0" != "$((NPARTS<PART))" ]; then
 fi
 
 if [ "${SED}" ] && [ "${LS}" ] && [ "${RM}" ] && [ "${WC}" ]; then
-  echo "Usage: $0 [seconds-per-kernel [num-parts [part [triplet-spec]]]]"
+  echo "Usage: $0 [seconds-per-kernel [num-parts [part [<triplet-spec>]]]]"
   echo "       num-parts and part (one-based), e.g., 12 3"
   echo "         for this session being the 3rd of 12 sessions"
-  echo "       triplet-spec, e.g.,"
+  echo "       <triplet-spec>, e.g., 134 kernels"
   echo "         23, 5 32 13 24 26, 4 9"
   echo
-  for SPECS in $(echo "${TRIPLETS}" | ${SED} -e "s/[[:space:]][[:space:]]*/x/g" -e "s/,/ /g"); do
-    SPEC=$(echo "${SPECS}" | ${SED} -e "s/^x//g" -e "s/x$//g" -e "s/x/,/g")
-    MNKS="${MNKS} $(eval printf "%s" "{${SPEC}}x{${SPEC}}x{${SPEC}}\" \"" | ${SED} -e "s/{//g" -e "s/}//g")"
-  done
-  if [ "$(command -v sort)" ] && [ "$(command -v xargs)" ]; then
-    MNKS=$(echo "${MNKS}" | xargs -n1 | sort -u | xargs)
+  if [ "$1" ]; then
+    MNKS=$("${HERE}/../../acc_triplets.sh" "$@")
+  else
+    if [ "" != "${MAXEXT}" ]; then MAXEXT="-m ${MAXEXT}"; fi
+    if [ "" != "${MAXNUM}" ]; then MAXNUM="-n ${MAXNUM}"; fi
+    if [ "" == "${SPECID}" ]; then SPECID=10; fi
+    MNKS=$("${HERE}/../acc_triplets.sh" -s ${SPECID} "${LIMIT}" "${MAXNUM}")
   fi
   NTRIPLETS=$(echo "${MNKS}" | wc -w)
   PARTSIZE=$(((NTRIPLETS+NPARTS-1)/NPARTS))

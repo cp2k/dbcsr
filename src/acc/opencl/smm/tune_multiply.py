@@ -106,34 +106,54 @@ class SmmTuner(MeasurementInterface):
             raise RuntimeError(
                 "Setup failed for {}/{}!".format(self.exepath, self.exename)
             )
-        # setup tunable parameters
-        manipulator, params = ConfigurationManipulator(), []
-        if not os.getenv("OPENCL_LIBSMM_SMM_BS"):
-            params.append(IntegerParameter("BS", 1, self.args.mb))
-        if not os.getenv("OPENCL_LIBSMM_SMM_BM"):
-            params.append(IntegerParameter("BM", 1, self.args.m))
-        if not os.getenv("OPENCL_LIBSMM_SMM_BN"):
-            params.append(IntegerParameter("BN", 1, self.args.n))
-        if not os.getenv("OPENCL_LIBSMM_SMM_WG"):
-            params.append(IntegerParameter("WG", 0, 2))
-        if not os.getenv("OPENCL_LIBSMM_SMM_NZ"):
-            params.append(IntegerParameter("NZ", 0, 1))
-        if not os.getenv("OPENCL_LIBSMM_SMM_LU"):
-            params.append(IntegerParameter("LU", 0, 1))
-        if not os.getenv("OPENCL_LIBSMM_SMM_AP"):
-            params.append(IntegerParameter("AP", 0, 1))
-        if not os.getenv("OPENCL_LIBSMM_SMM_AA"):
-            params.append(IntegerParameter("AA", 0, 3))
-        if not os.getenv("OPENCL_LIBSMM_SMM_AB"):
-            params.append(IntegerParameter("AB", 0, 3))
-        if not os.getenv("OPENCL_LIBSMM_SMM_AC"):
-            params.append(IntegerParameter("AC", 0, 3))
-        if not params:
+        # setup fixed and tunable parameters
+        manipulator, params, paramt = ConfigurationManipulator(), [], []
+        if os.getenv("OPENCL_LIBSMM_SMM_BS"):
+            params.append(IntegerParameter("BS", self.args.bs, self.args.bs))
+        else:
+            paramt.append(IntegerParameter("BS", 1, self.args.mb))
+        if os.getenv("OPENCL_LIBSMM_SMM_BM"):
+            params.append(IntegerParameter("BM", self.args.bm, self.args.bm))
+        else:
+            paramt.append(IntegerParameter("BM", 1, self.args.m))
+        if os.getenv("OPENCL_LIBSMM_SMM_BN"):
+            params.append(IntegerParameter("BN", self.args.bn, self.args.bn))
+        else:
+            paramt.append(IntegerParameter("BN", 1, self.args.n))
+        if os.getenv("OPENCL_LIBSMM_SMM_WG"):
+            params.append(IntegerParameter("WG", self.args.wg, self.args.wg))
+        else:
+            paramt.append(IntegerParameter("WG", 0, 2))
+        if os.getenv("OPENCL_LIBSMM_SMM_NZ"):
+            params.append(IntegerParameter("NZ", self.args.nz, self.args.nz))
+        else:
+            paramt.append(IntegerParameter("NZ", 0, 1))
+        if os.getenv("OPENCL_LIBSMM_SMM_LU"):
+            params.append(IntegerParameter("LU", self.args.lu, self.args.lu))
+        else:
+            paramt.append(IntegerParameter("LU", 0, 1))
+        if os.getenv("OPENCL_LIBSMM_SMM_AP"):
+            params.append(IntegerParameter("AP", self.args.ap, self.args.ap))
+        else:
+            paramt.append(IntegerParameter("AP", 0, 1))
+        if os.getenv("OPENCL_LIBSMM_SMM_AA"):
+            params.append(IntegerParameter("AA", self.args.aa, self.args.aa))
+        else:
+            paramt.append(IntegerParameter("AA", 0, 3))
+        if os.getenv("OPENCL_LIBSMM_SMM_AB"):
+            params.append(IntegerParameter("AB", self.args.ab, self.args.ab))
+        else:
+            paramt.append(IntegerParameter("AB", 0, 3))
+        if os.getenv("OPENCL_LIBSMM_SMM_AC"):
+            params.append(IntegerParameter("AC", self.args.ac, self.args.ac))
+        else:
+            paramt.append(IntegerParameter("AC", 0, 2))
+        if not paramt:
             sys.tracebacklimit = 0
             raise RuntimeError(
                 "All tunable parameters are fixed with environment variables!"
             )
-        for param in params:
+        for param in params + paramt:
             manipulator.add_parameter(param)
         # register signal handler (CTRL-C)
         self.default_sigint = signal(SIGINT, self.handle_sigint)
@@ -442,7 +462,7 @@ if __name__ == "__main__":
         type=int,
         default=int(os.getenv("OPENCL_LIBSMM_SMM_AC", "0")),
         dest="ac",
-        help="Matrix C: auto (0), shared (1), shared-bc (2), private (3)",
+        help="Matrix C: private (0), shared (1), shared-bc (2)",
     )
     argparser.add_argument(
         "-bs",

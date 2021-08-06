@@ -32,7 +32,7 @@ if [ "${BASENAME}" ] && [ "${SED}" ] && [ "${RM}" ]; then
     -h|--help)
       shift $#;;
     -c|-d|--debug|--comments)
-      CPPFLAGS+=" -CC"
+      CPPFLAGS+=" -C"
       shift;;
     *) break;;
     esac
@@ -145,6 +145,7 @@ if [ "${BASENAME}" ] && [ "${SED}" ] && [ "${RM}" ]; then
     echo "       At least one OpenCL file must be supplied."
     echo "       Parameters per CSV file are optional."
     echo "       The CSV file can be at any position."
+    echo "       -c|-d|--debug|--comments: keep comments"
   fi
 else
   >&2 echo "ERROR: missing prerequisites!"

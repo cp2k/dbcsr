@@ -54,11 +54,16 @@ static void swap(int* m, int* n) { int tmp = *m; *m = *n; *n = tmp; }
 
 int main(int argc, char* argv[])
 {
-  const int inr = (1 < argc ? atoi(argv[1]) : 0);
-  const int iss = (2 < argc ? atoi(argv[2]) : 0);
-  const int ism = (3 < argc ? atoi(argv[3]) : 0);
-  const int isn = (4 < argc ? atoi(argv[4]) : 0);
-  const int iof = (5 < argc ? atoi(argv[5]) : 0);
+  int arg = 1;
+  const char *const x1 = (arg < argc ? strchr(argv[arg], 'x') : NULL);
+  const int inr = ((arg < argc && NULL == x1) ? atoi(argv[arg++]) : 0);
+  const int iss = ((arg < argc && NULL == x1) ? atoi(argv[arg++]) : 0);
+  const char *const x2 = ((arg < argc && NULL == x1) ? strchr(argv[arg], 'x') : NULL);
+  const int ism = (arg < argc ? atoi(argv[arg++]) : 0);
+  const int isn = ((NULL == x1 && NULL == x2) ? (arg < argc
+    /* accept "M N K" as well as "MxNxK" */
+    ? atoi(argv[arg++]) : 0) : atoi((NULL != x1 ? x1 : x2) + 1));
+  const int iof = (arg < argc ? atoi(argv[arg++]) : 0);
   const int nrepeat = (0 < inr ? inr : 5);
   const int nodd = (0 < nrepeat ? ((nrepeat & 1/*odd*/) ? nrepeat : (nrepeat - 1)) : 1);
   const int stack_size = (0 < iss ? iss : 30000);
@@ -123,6 +128,10 @@ int main(int argc, char* argv[])
   }
   printf("%s%s%i %i %i %i\n", 0 < argc ? argv[0] : "", 0 < argc ? " " : "", nrepeat, stack_size, m, n);
   printf("typename (id=%i): %s\n", DBCSR_TYPE(ELEM_TYPE), DBCSR_STRINGIFY(ELEM_TYPE));
+  if (MAX_KERNEL_DIM < m || MAX_KERNEL_DIM < n) {
+    fprintf(stderr, "Matrix shape exceeds MAX_KERNEL_DIM!\n");
+    result = EXIT_FAILURE;
+  }
 #if defined(PRIORITY)
   CHECK(c_dbcsr_acc_stream_priority_range(&priomin, &priomax), &result);
   CHECK(c_dbcsr_acc_stream_create(&stream, "stream", (priomin + priomax) / 2), &result);
@@ -132,17 +141,19 @@ int main(int argc, char* argv[])
   CHECK(c_dbcsr_acc_host_mem_allocate((void**)&mat_hst, sizeof(ELEM_TYPE) * mn * offset_stack_size, stream), &result);
   CHECK(c_dbcsr_acc_host_mem_allocate((void**)&stack_hst, sizeof(int) * offset_stack_size, stream), &result);
   CHECK(c_dbcsr_acc_stream_sync(stream), &result); /* ensure host-data is allocated */
+  if (NULL != mat_hst && NULL != stack_hst) {
 #if defined(_OPENMP)
-# pragma omp parallel for
+#   pragma omp parallel for
 #endif
-  for (i = 0; i < offset_stack_size; ++i) { /* initialize matrices and indexes */
+    for (i = 0; i < offset_stack_size; ++i) { /* initialize matrices and indexes */
 #if defined(SHUFFLE)
-    const int j = mn * (int)((shuffle * i) % offset_stack_size);
+      const int j = mn * (int)((shuffle * i) % offset_stack_size);
 #else
-    const int j = mn * i;
+      const int j = mn * i;
 #endif
-    INIT_MAT(ELEM_TYPE, i/*seed*/, &mat_hst[i*mn], m, n, 1.0/*scale*/);
-    stack_hst[i] = j;
+      INIT_MAT(ELEM_TYPE, i/*seed*/, &mat_hst[i*mn], m, n, 1.0/*scale*/);
+      stack_hst[i] = j;
+    }
   }
   CHECK(c_dbcsr_acc_dev_mem_allocate((void**)&mat_dev, sizeof(ELEM_TYPE) * mn * offset_stack_size), &result);
   CHECK(c_dbcsr_acc_dev_mem_allocate((void**)&stack_dev, sizeof(int) * offset_stack_size), &result);
@@ -154,10 +165,12 @@ int main(int argc, char* argv[])
   CHECK(c_dbcsr_acc_memcpy_h2d(stack_hst, stack_dev, sizeof(int) * offset_stack_size, stream), &result);
 #if defined(USE_LIBXSMM)
   CHECK(c_dbcsr_acc_stream_sync(stream), &result);
-  duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
-  printf("copy-in: %.1f ms %.1f GB/s\n", 1000.0 * duration,
-    (sizeof(ELEM_TYPE) * mn + sizeof(int))
-      * offset_stack_size / (duration * (1ULL << 30)));
+  if (NULL != mat_hst && NULL != stack_hst) {
+    duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
+    printf("copy-in: %.1f ms %.1f GB/s\n", 1000.0 * duration,
+      (sizeof(ELEM_TYPE) * mn + sizeof(int))
+        * offset_stack_size / (duration * (1ULL << 30)));
+  }
 #endif
   /* warmup execution and prebuild JIT kernels */
   for (r = 0; r < warmup / 2; ++r) {

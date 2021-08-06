@@ -65,11 +65,11 @@ int main(int argc, char* argv[])
   const int nthreads = ((0 < cli_nthreads && cli_nthreads <= max_nthreads) ? cli_nthreads : max_nthreads);
   int priority[ACC_STREAM_MAXCOUNT], priomin, priomax, priospan;
   int randnums[ACC_EVENT_MAXCOUNT], ndevices, i, nt;
-  void *stream[ACC_STREAM_MAXCOUNT], *s;
+  void *stream[ACC_STREAM_MAXCOUNT], *s = NULL;
   void *event[ACC_EVENT_MAXCOUNT];
   const size_t mem_alloc = (16/*MB*/ << 20);
   size_t mem_free, mem_total, mem_chunk;
-  void *host_mem, *dev_mem;
+  void *host_mem = NULL, *dev_mem = NULL;
 
   for (i = 0; i < ACC_EVENT_MAXCOUNT; ++i) {
     randnums[i] = rand();
@@ -139,32 +139,33 @@ int main(int argc, char* argv[])
   }
 
   ACC_CHECK(c_dbcsr_acc_event_destroy(NULL));
+  if (0 < ndevices) {
 #if defined(_OPENMP)
-# pragma omp parallel for num_threads(nthreads) private(i)
+#   pragma omp parallel for num_threads(nthreads) private(i)
 #endif
-  for (i = 0; i < ACC_EVENT_MAXCOUNT; ++i) {
-    const int r = randnums[i] % ACC_EVENT_MAXCOUNT;
-    ACC_CHECK(c_dbcsr_acc_event_create(event + i));
-    if (ACC_EVENT_MAXNTH_DESTROY * r < ACC_EVENT_MAXCOUNT) {
-      void *const ei = event[i]; event[i] = NULL;
-      ACC_CHECK(c_dbcsr_acc_event_destroy(ei));
-    }
-  }
-
-#if defined(_OPENMP)
-# pragma omp parallel for num_threads(nthreads) private(i)
-#endif
-  for (i = 0; i < ACC_EVENT_MAXCOUNT; ++i) {
-    if (NULL == event[i]) {
+    for (i = 0; i < ACC_EVENT_MAXCOUNT; ++i) {
+      const int r = randnums[i] % ACC_EVENT_MAXCOUNT;
       ACC_CHECK(c_dbcsr_acc_event_create(event + i));
+      if (ACC_EVENT_MAXNTH_DESTROY * r < ACC_EVENT_MAXCOUNT) {
+        void *const ei = event[i]; event[i] = NULL;
+        ACC_CHECK(c_dbcsr_acc_event_destroy(ei));
+      }
     }
-    ACC_CHECK(c_dbcsr_acc_event_destroy(event[i]));
+#if defined(_OPENMP)
+#   pragma omp parallel for num_threads(nthreads) private(i)
+#endif
+    for (i = 0; i < ACC_EVENT_MAXCOUNT; ++i) {
+      if (NULL == event[i]) {
+        ACC_CHECK(c_dbcsr_acc_event_create(event + i));
+      }
+      ACC_CHECK(c_dbcsr_acc_event_destroy(event[i]));
+    }
+#if defined(_OPENMP)
+#   pragma omp parallel for num_threads(nthreads) private(i)
+#endif
+    for (i = 0; i < ACC_EVENT_MAXCOUNT; ++i) ACC_CHECK(c_dbcsr_acc_event_create(event + i));
   }
 
-#if defined(_OPENMP)
-# pragma omp parallel for num_threads(nthreads) private(i)
-#endif
-  for (i = 0; i < ACC_EVENT_MAXCOUNT; ++i) ACC_CHECK(c_dbcsr_acc_event_create(event + i));
   for (i = 0; i < ACC_EVENT_MAXCOUNT; ++i) {
     c_dbcsr_acc_bool_t has_occurred = 0;
     ACC_CHECK(c_dbcsr_acc_event_query(event[i], &has_occurred));
@@ -172,44 +173,48 @@ int main(int argc, char* argv[])
   }
 
   ACC_CHECK(c_dbcsr_acc_stream_create(&s, "stream", priomax));
-  ACC_CHECK(c_dbcsr_acc_host_mem_allocate(&host_mem, mem_alloc, s));
-  ACC_CHECK(c_dbcsr_acc_dev_mem_allocate(&dev_mem, mem_alloc));
-  ACC_CHECK(c_dbcsr_acc_stream_sync(s)); /* wait for completion */
-  memset(host_mem, 0xFF, mem_alloc); /* non-zero pattern */
+  if (NULL != s) {
+    ACC_CHECK(c_dbcsr_acc_host_mem_allocate(&host_mem, mem_alloc, s));
+    ACC_CHECK(c_dbcsr_acc_stream_sync(s)); /* wait for completion */
+    memset(host_mem, 0xFF, mem_alloc); /* non-zero pattern */
+  }
 
-  nt = (nthreads < ACC_EVENT_MAXCOUNT ? nthreads : ACC_EVENT_MAXCOUNT);
-  mem_chunk = (mem_alloc + nt - 1) / nt;
+  if (0 < ndevices) {
+    ACC_CHECK(c_dbcsr_acc_dev_mem_allocate(&dev_mem, mem_alloc));
+    nt = (nthreads < ACC_EVENT_MAXCOUNT ? nthreads : ACC_EVENT_MAXCOUNT);
+    mem_chunk = (mem_alloc + nt - 1) / nt;
 #if defined(_OPENMP)
-# pragma omp parallel num_threads(nt)
+#   pragma omp parallel num_threads(nt)
 #endif
-  {
+    {
 #if defined(_OPENMP)
-    const int tid = omp_get_thread_num();
+      const int tid = omp_get_thread_num();
 #else
-    const int tid = 0;
+      const int tid = 0;
 #endif
-    const size_t offset = tid * mem_chunk, mem_rest = mem_alloc - offset;
-    const size_t size = (mem_chunk <= mem_rest ? mem_chunk : mem_rest);
-    c_dbcsr_acc_bool_t has_occurred = 0;
-    ACC_CHECK(c_dbcsr_acc_memset_zero(dev_mem, offset, size, s));
-    /* can enqueue multiple/duplicate copies for the same memory region */
-    ACC_CHECK(c_dbcsr_acc_memcpy_d2h(dev_mem, host_mem, mem_alloc, s));
-    ACC_CHECK(c_dbcsr_acc_event_query(event[tid], &has_occurred));
-    /* unrecorded event has no work to wait for, hence it occurred */
-    ACC_CHECK(has_occurred ? EXIT_SUCCESS : EXIT_FAILURE);
-    ACC_CHECK(c_dbcsr_acc_event_record(event[tid], s));
-    ACC_CHECK(c_dbcsr_acc_stream_wait_event(s, event[tid]));
-    ACC_CHECK(c_dbcsr_acc_event_synchronize(event[tid]));
-    ACC_CHECK(c_dbcsr_acc_event_query(event[tid], &has_occurred));
-    ACC_CHECK(has_occurred ? EXIT_SUCCESS : EXIT_FAILURE);
+      const size_t offset = tid * mem_chunk, mem_rest = mem_alloc - offset;
+      const size_t size = (mem_chunk <= mem_rest ? mem_chunk : mem_rest);
+      c_dbcsr_acc_bool_t has_occurred = 0;
+      ACC_CHECK(c_dbcsr_acc_memset_zero(dev_mem, offset, size, s));
+      /* can enqueue multiple/duplicate copies for the same memory region */
+      ACC_CHECK(c_dbcsr_acc_memcpy_d2h(dev_mem, host_mem, mem_alloc, s));
+      ACC_CHECK(c_dbcsr_acc_event_query(event[tid], &has_occurred));
+      /* unrecorded event has no work to wait for, hence it occurred */
+      ACC_CHECK(has_occurred ? EXIT_SUCCESS : EXIT_FAILURE);
+      ACC_CHECK(c_dbcsr_acc_event_record(event[tid], s));
+      ACC_CHECK(c_dbcsr_acc_stream_wait_event(s, event[tid]));
+      ACC_CHECK(c_dbcsr_acc_event_synchronize(event[tid]));
+      ACC_CHECK(c_dbcsr_acc_event_query(event[tid], &has_occurred));
+      ACC_CHECK(has_occurred ? EXIT_SUCCESS : EXIT_FAILURE);
+    }
+    /* validate backwards from where the last transfers occurred */
+    for (i = (int)(mem_alloc - 1); 0 <= i; --i) {
+      ACC_CHECK(0 == ((char*)host_mem)[i] ? EXIT_SUCCESS : EXIT_FAILURE);
+    }
   }
 
-  /* validate backwards from where the last transfers occurred */
-  for (i = (int)(mem_alloc - 1); 0 <= i; --i) {
-    ACC_CHECK(0 == ((char*)host_mem)[i] ? EXIT_SUCCESS : EXIT_FAILURE);
-  }
   ACC_CHECK(c_dbcsr_acc_dev_mem_deallocate(dev_mem));
-  ACC_CHECK(c_dbcsr_acc_host_mem_deallocate(host_mem, s));
+  if (NULL != s) ACC_CHECK(c_dbcsr_acc_host_mem_deallocate(host_mem, s));
   ACC_CHECK(c_dbcsr_acc_stream_destroy(s));
 
 #if defined(_OPENMP)
