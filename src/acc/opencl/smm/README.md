@@ -49,18 +49,18 @@ Auto tuning code for performance is a practical way to find the "best" setting f
 
 For the OpenCL based LIBSMM, `OPENCL_LIBSMM_SMM_BS`, `OPENCL_LIBSMM_SMM_BM`, and `OPENCL_LIBSMM_SMM_BN` are explored using [OpenTuner](http://opentuner.org/). The script [tune_multiply.py](https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.py) (or tune_multiply.sh) leverages the `acc_bench_smm` benchmark by parsing console output (timing, data type, etc.). This way, the tuning is implemented without being intermingled with the subject being tuned.
 
-**NOTE**: If `tune_multiply.py` (or `tune_multiply.sh`) are called with `OPENCL_LIBSMM_SMM_BS`, `OPENCL_LIBSMM_SMM_BM`, or `OPENCL_LIBSMM_SMM_BN` already set, the respective parameter is considered fixed (and not auto-tuned).
+**NOTE**: If `tune_multiply.py` (or `tune_multiply.sh`) are called with `OPENCL_LIBSMM_SMM_BS`, `OPENCL_LIBSMM_SMM_BM`, or `OPENCL_LIBSMM_SMM_BN` already set, the respective parameter is considered fixed (and not tuned automatically).
 
-To toggle the benchmarks between tuning single-precision (SP) and double-precision (DP), `make ELEM_TYPE=float` can be used when building the benchmark drivers (backend). However, the `ELEM_TYPE` can be also directly edited in [acc_bench_smm.c](https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_bench_smm.c#L26). Auto-tuned parameters for SP and DP can be embedded into the same final application and are considered correctly at runtime.
+To toggle the benchmarks between tuning single precision (SP) and double precision (DP), `make ELEM_TYPE=float` can be used when building the benchmark drivers (backend). However, the `ELEM_TYPE` can be also directly edited in [acc_bench_smm.c](https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_bench_smm.c#L26). Auto-tuned parameters for SP and DP can be embedded into the same final application and are considered correctly at runtime.
 
-To build the benchmarks in double-precision (`ELEM_TYPE=double` is default):
+To build the benchmarks in double precision (`ELEM_TYPE=double` is default):
 
 ```bash
 cd src/acc/opencl
 make DBG=0
 ```
 
-To build the benchmarks in single-precision (SP):
+To build the benchmarks in single precision (SP):
 
 ```bash
 cd src/acc/opencl
@@ -100,7 +100,7 @@ The script finally writes a JSON-file with a filename like `tune_multiply-float-
 
 JSON-files in the above mentioned smm-directory are automatically summarized into a CSV-file (can be disabled). Further and beyond actual auto-tuning kernels, [tune_multiply.py](https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.py) can be used to perform some basic operations on collected data: explicitly merging all JSON-files into a CSV-file (`tune_multiply.py -m`), and updating the device name in all JSON-files according to current driver version (`tune_multiply.py -u`).
 
-Collected or auto-tuned parameters achieved with single-precision (SP), double-precision (DP), or from different devices can be safely combined. However, care must still be taken to not summarize unrelated results, e.g., after (major) source code changes. The CSV-file is automatically incorporated into LIBSMM by the next clean (re-)build. The format of the CSV-file is assumed to contain column names in the first row (header).
+Collected or auto-tuned parameters achieved with single precision (SP), double precision (DP), or from different devices can be safely combined. However, care must still be taken to not summarize unrelated results, e.g., after (major) source code changes. The CSV-file is automatically incorporated into LIBSMM by the next clean (re-)build. The format of the CSV-file is assumed to contain column names in the first row (header).
 
 ```bash
 cd src/acc/opencl
@@ -137,7 +137,7 @@ Triplets are used to conveniently describe multiple kernels. A triplet specifica
 4 10 15, 6 7 8, 23
 ```
 
-This triplet specification expands to 55 kernels using the Cartesian product, concatenating the triplets from all expanded groups by combining all values within a comma-separated group. Further, the wrapper script allows to limit the time spent for tuning a single kernel and to partition the amount of kernels to be tuned, e.g., among a cluster of eight systems (below the first partition out of eight would be processed with five minutes per kernel and about 35 minutes in total per partition).
+This triplet specification expands to 55 kernels using the Cartesian product, concatenating the triplets from all expanded groups by combining all values within a comma-separated group. Further, the wrapper script allows to limit the time spent for tuning a single kernel and to partition the number of kernels to be tuned, e.g., among a cluster of eight systems (below the first partition out of eight would be processed with five minutes per kernel and about 35 minutes in total per partition).
 
 ```bash
 cd src/acc/opencl/smm
