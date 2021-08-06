@@ -988,7 +988,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
             const int ab = ((NULL == env_ab || '\0' == *env_ab || '0' == *env_ab)
               ? (NULL == config ? 0/*default*/ : config->ab) : LIBXSMM_CLMP(atoi(env_ab), 0, 3));
             const int ac = ((NULL == env_ac || '\0' == *env_ac || '0' == *env_ac)
-              ? (NULL == config ? 0/*default*/ : config->ac) : LIBXSMM_CLMP(atoi(env_ac), 0, 3));
+              ? (NULL == config ? 0/*default*/ : config->ac) : LIBXSMM_CLMP(atoi(env_ac), 0, 2));
             int wgsize_max, wgsize_prf, wgsize, bs, bm, bn, nbm, nbn;
             result = c_dbcsr_acc_opencl_info_devmem(active_device, NULL, NULL, NULL, &unified);
             if (EXIT_SUCCESS == result) {
@@ -1188,7 +1188,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
           && 0 <= config->ap && 1 >= config->ap
           && 0 <= config->aa && 3 >= config->aa
           && 0 <= config->ab && 3 >= config->ab
-          && 0 <= config->ac && 3 >= config->ac));
+          && 0 <= config->ac && 2 >= config->ac));
       if (EXIT_SUCCESS == result) {
         cl_event event, *const perf_event = ((0 <= c_dbcsr_acc_opencl_config.verbosity
           && 3 > c_dbcsr_acc_opencl_config.verbosity) ? NULL : &event);

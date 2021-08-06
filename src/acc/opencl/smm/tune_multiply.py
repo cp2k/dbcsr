@@ -147,7 +147,7 @@ class SmmTuner(MeasurementInterface):
         if os.getenv("OPENCL_LIBSMM_SMM_AC"):
             params.append(IntegerParameter("AC", self.args.ac, self.args.ac))
         else:
-            paramt.append(IntegerParameter("AC", 0, 3))
+            paramt.append(IntegerParameter("AC", 0, 2))
         if not paramt:
             sys.tracebacklimit = 0
             raise RuntimeError(
@@ -462,7 +462,7 @@ if __name__ == "__main__":
         type=int,
         default=int(os.getenv("OPENCL_LIBSMM_SMM_AC", "0")),
         dest="ac",
-        help="Matrix C: auto (0), shared (1), shared-bc (2), private (3)",
+        help="Matrix C: private (0), shared (1), shared-bc (2)",
     )
     argparser.add_argument(
         "-bs",
