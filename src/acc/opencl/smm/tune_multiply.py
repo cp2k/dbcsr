@@ -54,14 +54,11 @@ class SmmTuner(MeasurementInterface):
             self.typeid = (
                 int(typename.group(1)) if typename and typename.group(1) else 0
             )
-            if self.args.update is None or "" == self.args.update:
-                device = re.search(
-                    'INFO ACC/OpenCL:\\s+ndevices=[0-9]+\\s+device[0-9]+="(.+)"',
-                    str(run_result["stderr"]),
-                )
-                self.device = device.group(1) if device and device.group(1) else ""
-            else:
-                self.device = self.args.update
+            device = re.search(
+                'INFO ACC/OpenCL:\\s+ndevices=[0-9]+\\s+device[0-9]+="(.+)"',
+                str(run_result["stderr"]),
+            )
+            self.device = device.group(1) if device and device.group(1) else ""
             params = re.search(
                 "INFO ACC/OpenCL:\\s+{}\\s+{}SMM-kernel{}{}{}{}".format(
                     "{}x{}x{}".format(self.args.m, self.args.n, self.args.k),
@@ -83,6 +80,8 @@ class SmmTuner(MeasurementInterface):
             self.aa = int(params.group(8)) if params and params.group(8) else None
             self.ab = int(params.group(9)) if params and params.group(9) else None
             self.ac = int(params.group(10)) if params and params.group(10) else None
+        elif self.args.update is not None and "" != self.args.update:
+            self.device = self.args.update
         else:
             self.typename = self.typeid = self.device = None
         # consider to update and/or merge JSONS (update first)
@@ -436,25 +435,25 @@ if __name__ == "__main__":
         "-ap",
         "--initial-ap",
         type=int,
-        default=int(os.getenv("OPENCL_LIBSMM_SMM_AP", "0")),
+        default=int(os.getenv("OPENCL_LIBSMM_SMM_AP", "1")),
         dest="ap",
-        help="Params: auto (0), shared (1)",
+        help="Params: global (0), shared (1)",
     )
     argparser.add_argument(
         "-aa",
         "--initial-aa",
         type=int,
-        default=int(os.getenv("OPENCL_LIBSMM_SMM_AA", "0")),
+        default=int(os.getenv("OPENCL_LIBSMM_SMM_AA", "1")),
         dest="aa",
-        help="Matrix A: auto (0), shared (1), shared-bc (2), private (3)",
+        help="Matrix A: global (0), shared (1), shared-bc (2), private (3)",
     )
     argparser.add_argument(
         "-ab",
         "--initial-ab",
         type=int,
-        default=int(os.getenv("OPENCL_LIBSMM_SMM_AB", "0")),
+        default=int(os.getenv("OPENCL_LIBSMM_SMM_AB", "3")),
         dest="ab",
-        help="Matrix B: auto (0), shared (1), shared-bc (2), private (3)",
+        help="Matrix B: global (0), shared (1), shared-bc (2), private (3)",
     )
     argparser.add_argument(
         "-ac",

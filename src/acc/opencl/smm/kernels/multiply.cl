@@ -15,49 +15,12 @@
 # define UNROLL_SM UNROLL(SM)
 #endif
 
-#if defined(BC) && (0 == BC)
-# undef BC
-#endif
-#if !defined(BC)
-# if (0 != INTEL)
-#   define BC 1
-# else
-#   define BC 2
-# endif
-#endif
 #if (1 == TN)
 # define ZERO 0.f
 #elif (3 == TN)
 # define ZERO 0.0
 #else
 # define ZERO 0
-#endif
-
-#if defined(CONFIG)
-# if !defined(SHARED_A) && 1
-#   define SHARED_A ((SK % 16) ? 1 : BC)
-# endif
-# if !defined(SHARED_B) && (0 == INTEL) && 1
-#   define SHARED_B ((SN % 16) ? 1 : BC)
-# endif
-# if !defined(SHARED_C) && (0x20a == INTEL) && 1
-#   define SHARED_C ((SN % 16) ? 1 : BC)
-# endif
-# if !defined(SHARED_S) && (0 == INTEL) && 1
-#   define SHARED_S
-# endif
-# if !defined(PRIVATE_A) && !defined(SHARED_A) && 1
-#   define PRIVATE_A
-# endif
-# if !defined(PRIVATE_B) && !defined(SHARED_B) && 1
-#   define PRIVATE_B
-# endif
-# if !defined(PRIVATE_C) && !defined(SHARED_C) && 1
-#   define PRIVATE_C
-# endif
-# if !defined(ATOMIC_INC_NZ) && 0
-#   define ATOMIC_INC_NZ
-# endif
 #endif
 
 #if !defined(TRACK_B) && (1 < BS) && 0

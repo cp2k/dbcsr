@@ -619,15 +619,15 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
           const char *const cmem = (EXIT_SUCCESS != opencl_libsmm_use_cmem(active_device) ? "global" : "constant");
           const char *const env_options = getenv("OPENCL_LIBSMM_TRANS_BUILDOPTS"), *tname = "";
           const char *const env_inplace = getenv("OPENCL_LIBSMM_TRANS_INPLACE");
-          const char *const env_blockm = getenv("OPENCL_LIBSMM_TRANS_BLOCK_M");
+          const char *const env_bm = getenv("OPENCL_LIBSMM_TRANS_BLOCK_M");
           const int inplace = ((m == n) && ((NULL == env_inplace || '\0' == *env_inplace)
 # if defined(OPENCL_LIBSMM_TRANS_INPLACE)
             ? 1 : ('0' != *env_inplace)));
 # else
             ? 0 : ('0' != *env_inplace)));
 # endif
-          const int blockm = ((NULL == env_blockm || '\0' == *env_blockm)
-            ? m/*TODO*/ : atoi(env_blockm));
+          const int blockm = ((NULL == env_bm || '\0' == *env_bm)
+            ? m/*TODO*/ : atoi(env_bm));
           const int bm = LIBXSMM_CLMP(blockm, 1, m);
           int wgsize = 0, wgsize_max;
           result = c_dbcsr_acc_opencl_wgsize(active_device,
@@ -973,22 +973,23 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
             const int cl_nonv = ((EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(active_device, "intel")
                                && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_id(active_device, "%[^[][0x%xi]", &cl_intel_id))
                                || EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(active_device, "nvidia"));
-            const int wg = ((NULL == env_wg || '\0' == *env_wg || '0' == *env_wg)
-              ? (NULL == config ? 0/*default*/ : config->wg) : LIBXSMM_CLMP(atoi(env_wg), 0, 2));
-            const int nz = ((NULL == env_nz || '\0' == *env_nz || '0' == *env_nz)
-              ? (NULL == config ? 0/*default*/ : config->nz) : LIBXSMM_CLMP(atoi(env_nz), 0, 1));
-            const int lu = ((NULL == env_lu || '\0' == *env_lu || '0' == *env_lu)
-              ? (NULL == config ? 0/*default*/ : config->lu) : LIBXSMM_CLMP(atoi(env_lu), 0, 1));
-            const int bc = ((NULL == env_bc || '\0' == *env_bc || '0' == *env_bc)
-              ? 0/*default*/ : LIBXSMM_CLMP(atoi(env_bc), 0, 2));
-            const int ap = ((NULL == env_ap || '\0' == *env_ap || '0' == *env_ap)
-              ? (NULL == config ? 0/*default*/ : config->ap) : LIBXSMM_CLMP(atoi(env_ap), 0, 1));
-            const int aa = ((NULL == env_aa || '\0' == *env_aa || '0' == *env_aa)
-              ? (NULL == config ? 0/*default*/ : config->aa) : LIBXSMM_CLMP(atoi(env_aa), 0, 3));
-            const int ab = ((NULL == env_ab || '\0' == *env_ab || '0' == *env_ab)
-              ? (NULL == config ? 0/*default*/ : config->ab) : LIBXSMM_CLMP(atoi(env_ab), 0, 3));
-            const int ac = ((NULL == env_ac || '\0' == *env_ac || '0' == *env_ac)
-              ? (NULL == config ? 0/*default*/ : config->ac) : LIBXSMM_CLMP(atoi(env_ac), 0, 2));
+            const int wg = ((NULL == env_wg || '\0' == *env_wg)
+              ? (NULL == config ? /*default*/0 : config->wg) : LIBXSMM_CLMP(atoi(env_wg), 0, 2));
+            const int nz = ((NULL == env_nz || '\0' == *env_nz)
+              ? (NULL == config ? /*default*/0 : config->nz) : LIBXSMM_CLMP(atoi(env_nz), 0, 1));
+            const int lu = ((NULL == env_lu || '\0' == *env_lu)
+              ? (NULL == config ? /*default*/0 : config->lu) : LIBXSMM_CLMP(atoi(env_lu), 0, 1));
+            const int bc = ((NULL == env_bc || '\0' == *env_bc)
+              ? /*default*/(0 != cl_intel_id ? 1 : 2) : LIBXSMM_CLMP(atoi(env_bc), 1, 2));
+            const int ap = ((NULL == env_ap || '\0' == *env_ap)
+              ? (NULL == config ? /*default*/1 : config->ap) : LIBXSMM_CLMP(atoi(env_ap), 0, 1));
+            const int aa = ((NULL == env_aa || '\0' == *env_aa)
+              ? (NULL == config ? /*default*/((k_max % 16) ? 1 : bc) : config->aa)
+                                : LIBXSMM_CLMP(atoi(env_aa), 0, 3));
+            const int ab = ((NULL == env_ab || '\0' == *env_ab)
+              ? (NULL == config ? /*default*/3 : config->ab) : LIBXSMM_CLMP(atoi(env_ab), 0, 3));
+            const int ac = ((NULL == env_ac || '\0' == *env_ac)
+              ? (NULL == config ? /*default*/0 : config->ac) : LIBXSMM_CLMP(atoi(env_ac), 0, 2));
             int wgsize_max, wgsize_prf, wgsize, bs, bm, bn, nbm, nbn;
             result = c_dbcsr_acc_opencl_info_devmem(active_device, NULL, NULL, NULL, &unified);
             if (EXIT_SUCCESS == result) {
@@ -997,19 +998,19 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               assert(0 < wgsize_prf);
             }
             if (EXIT_SUCCESS == result) {
-              const char *const env_batchsize = (NULL == getenv("OPENCL_LIBSMM_SMM_BATCHSIZE")
-                ? getenv("OPENCL_LIBSMM_SMM_BS") : getenv("OPENCL_LIBSMM_SMM_BATCHSIZE"));
-              const char *const env_blockm = (NULL == getenv("OPENCL_LIBSMM_SMM_BLOCK_M")
-                ? getenv("OPENCL_LIBSMM_SMM_BM") : getenv("OPENCL_LIBSMM_SMM_BLOCK_M"));
-              const char *const env_blockn = (NULL == getenv("OPENCL_LIBSMM_SMM_BLOCK_N")
-                ? getenv("OPENCL_LIBSMM_SMM_BN") : getenv("OPENCL_LIBSMM_SMM_BLOCK_N"));
-              const int batchsize = ((NULL == env_batchsize || '\0' == *env_batchsize || '0' == *env_batchsize)
-                ? (NULL == config ? 24/*default*/ : config->bs) : atoi(env_batchsize));
+              const char *const env_bs = (NULL == getenv("OPENCL_LIBSMM_SMM_BATCHSIZE")
+                ? getenv("OPENCL_LIBSMM_SMM_BS") :getenv("OPENCL_LIBSMM_SMM_BATCHSIZE"));
+              const char *const env_bm = (NULL == getenv("OPENCL_LIBSMM_SMM_BLOCK_M")
+                ? getenv("OPENCL_LIBSMM_SMM_BM") :getenv("OPENCL_LIBSMM_SMM_BLOCK_M"));
+              const char *const env_bn = (NULL == getenv("OPENCL_LIBSMM_SMM_BLOCK_N")
+                ? getenv("OPENCL_LIBSMM_SMM_BN") :getenv("OPENCL_LIBSMM_SMM_BLOCK_N"));
+              const int batchsize = ((NULL == env_bs || '\0' == *env_bs)
+                ? (NULL == config ? /*default*/24 : config->bs) : atoi(env_bs));
               /* default: decompose C-matrix into column-vectors */
-              const int blockm = ((NULL == env_blockm || '\0' == *env_blockm || '0' == *env_blockm)
-                ? (NULL == config ? m_max/*default*/ : config->bm) : atoi(env_blockm));
-              const int blockn = ((NULL == env_blockn || '\0' == *env_blockn || '0' == *env_blockn)
-                ? (NULL == config ? 1/*default*/ : config->bn) : atoi(env_blockn));
+              const int blockm = ((NULL == env_bm || '\0' == *env_bm)
+                ? (NULL == config ? /*default*/m_max : config->bm) : atoi(env_bm));
+              const int blockn = ((NULL == env_bn || '\0' == *env_bn)
+                ? (NULL == config ? /*default*/1 : config->bn) : atoi(env_bn));
               bm = LIBXSMM_MIN(1 < blockm ? blockm : 1, m_max);
               bn = LIBXSMM_MIN(1 < blockn ? blockn : 1, n_max);
               bs = LIBXSMM_MAX(batchsize, 1);
@@ -1090,13 +1091,13 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 nchar = ACC_OPENCL_SNPRINTF(build_params, sizeof(build_params),
                   "-DFMA=fma -DINTEL=%i -DGLOBAL=%s -DBC=%i -DSWG=%i -DFN=%s "
                   "-DSM=%i -DSN=%i -DSK=%i -DBS=%i -DBM=%i -DBN=%i -DT=%s -DTN=%i "
-                  "%s %s %s %s %s %s %s %s -D\"ATOMIC_ADD_GLOBAL(A,B)=%s\" %s",
+                  "%s %s %s %s %s %s %s -D\"ATOMIC_ADD_GLOBAL(A,B)=%s\" %s",
                   cl_intel_id, cmem, bc, wgsize, fname, m_max, n_max, k_max, bs, bm, bn, tname, datatype,
                   0 == aa ? "" : (1 == aa ? "-DSHARED_A=1" : (2 == aa ? "-DSHARED_A=2" : "-DPRIVATE_A")),
                   0 == ab ? "" : (1 == ab ? "-DSHARED_B=1" : (2 == ab ? "-DSHARED_B=2" : "-DPRIVATE_B")),
                   0 == ac ? "" : (1 == ac ? "-DSHARED_C=1" : (2 == ac ? "-DSHARED_C=2" : "-DPRIVATE_C")),
                   0 == ap ? "" : "-DSHARED_S", 0 == nz ? "" : "-DATOMIC_INC_NZ",
-                  0 == lu ? "" : "-D\"UNROLL_SM=UNROLL(1)\"", NULL == config ? "-DCONFIG" : "",
+                  0 == lu ? "" : "-D\"UNROLL_SM=UNROLL(1)\"",
                   atomic_ops, atomic_expr, atomic_expr2);
                 if (0 < nchar && (int)sizeof(build_params) > nchar) {
                   nchar = ACC_OPENCL_SNPRINTF(build_options, sizeof(build_options),
