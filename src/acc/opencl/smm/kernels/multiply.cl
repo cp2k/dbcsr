@@ -15,10 +15,15 @@
 # define UNROLL_SM UNROLL(SM)
 #endif
 
-#if (0 != INTEL)
-# define BC 1
-#else
-# define BC 2
+#if defined(BC) && (0 == BC)
+# undef BC
+#endif
+#if !defined(BC)
+# if (0 != INTEL)
+#   define BC 1
+# else
+#   define BC 2
+# endif
 #endif
 #if (1 == TN)
 # define ZERO 0.f
@@ -28,27 +33,33 @@
 # define ZERO 0
 #endif
 
-#if !defined(SHARED_A) && 1
-# define SHARED_A ((SK % 16) ? 1 : BC)
+#if defined(CONFIG)
+# if !defined(SHARED_A) && 1
+#   define SHARED_A ((SK % 16) ? 1 : BC)
+# endif
+# if !defined(SHARED_B) && (0 == INTEL) && 1
+#   define SHARED_B ((SN % 16) ? 1 : BC)
+# endif
+# if !defined(SHARED_C) && (0x20a == INTEL) && 1
+#   define SHARED_C ((SN % 16) ? 1 : BC)
+# endif
+# if !defined(SHARED_S) && (0 == INTEL) && 1
+#   define SHARED_S
+# endif
+# if !defined(PRIVATE_A) && !defined(SHARED_A) && 1
+#   define PRIVATE_A
+# endif
+# if !defined(PRIVATE_B) && !defined(SHARED_B) && 1
+#   define PRIVATE_B
+# endif
+# if !defined(PRIVATE_C) && !defined(SHARED_C) && 1
+#   define PRIVATE_C
+# endif
+# if !defined(ATOMIC_INC_NZ) && 0
+#   define ATOMIC_INC_NZ
+# endif
 #endif
-#if !defined(SHARED_B) && (0 == INTEL) && 1
-# define SHARED_B ((SN % 16) ? 1 : BC)
-#endif
-#if !defined(SHARED_C) && (0x20a == INTEL) && 1
-# define SHARED_C ((SN % 16) ? 1 : BC)
-#endif
-#if !defined(SHARED_S) && (0 == INTEL) && 1
-# define SHARED_S
-#endif
-#if !defined(PRIVATE_A) && !defined(SHARED_A) && 1
-# define PRIVATE_A
-#endif
-#if !defined(PRIVATE_B) && !defined(SHARED_B) && 1
-# define PRIVATE_B
-#endif
-#if !defined(PRIVATE_C) && !defined(SHARED_C) && 1
-# define PRIVATE_C
-#endif
+
 #if !defined(TRACK_B) && (1 < BS) && 0
 # if defined(PRIVATE_B) && !defined(SHARED_B)
 #   define TRACK_B
@@ -57,9 +68,7 @@
 #if !defined(TRACK_C) && (1 < BS) && 1
 # define TRACK_C
 #endif
-#if !defined(ATOMIC_INC_NZ) && 0
-# define ATOMIC_INC_NZ
-#endif
+
 #if defined(SHARED_S) && (1 < BS)
 # define IDXBASE 0
 #else
@@ -76,25 +85,25 @@
 __attribute__((always_inline))
 inline void atomic_add_global_cmpxchg(global volatile T* dst, T inc)
 {
-  union { T f; TA a; } old_val, try_val, new_val = { .f = *dst };
+  union { T f; TA a; } exp_val, try_val, cur_val = { .f = *dst };
   do {
-    old_val.a = new_val.a;
-    try_val.f = old_val.f + inc;
-    new_val.a = CMPXCHG((global volatile TA*)dst, old_val.a, try_val.a);
-  } while (old_val.a != new_val.a);
+    exp_val.a = cur_val.a;
+    try_val.f = exp_val.f + inc;
+    cur_val.a = CMPXCHG((global volatile TA*)dst, exp_val.a, try_val.a);
+  } while (cur_val.a != exp_val.a);
 }
 #endif
 
 #if defined(ATOMIC_ADD2_GLOBAL)
 __attribute__((always_inline))
-inline void atomic_add_global_cmpxchg2(global volatile float2* dst, float2 inc)
+inline void atomic_add_global_cmpxchg2(global volatile float* dst, float2 inc)
 {
-  union { float2 f; long a; } old_val, try_val, new_val = { .f = *dst };
+  union { float2 f; long a; } exp_val, try_val, cur_val = { .f = (float2)(dst[0], dst[1]) };
   do {
-    old_val.a = new_val.a;
-    try_val.f = old_val.f + inc;
-    new_val.a = atom_cmpxchg((global volatile long*)dst, old_val.a, try_val.a);
-  } while (old_val.a != new_val.a);
+    exp_val.a = cur_val.a;
+    try_val.f = exp_val.f + inc;
+    cur_val.a = atom_cmpxchg((global volatile long*)dst, exp_val.a, try_val.a);
+  } while (cur_val.a != exp_val.a);
 }
 #endif
 
@@ -107,12 +116,12 @@ inline void atomic_add_global_xchg(global volatile T* dst, T inc)
 # elif (defined(__NV_CL_C_VERSION) && !defined(XCHG)) && (3 == TN)
   asm("{ .reg .f64 t; atom.global.add.f64 t, [%0], %1; }" :: "l"(dst), "d"(inc));
 # else
-  union { T f; TA a; } old_val = { .f = inc }, try_val, new_val = { .f = 0 };
+  union { T f; TA a; } exp_val = { .f = inc }, try_val, cur_val = { .f = 0 };
   do {
-    try_val.a = XCHG((global volatile TA*)dst, new_val.a);
-    try_val.f += old_val.f;
-    old_val.a = XCHG((global volatile TA*)dst, try_val.a);
-  } while (old_val.a != new_val.a);
+    try_val.a = XCHG((global volatile TA*)dst, cur_val.a);
+    try_val.f += exp_val.f;
+    exp_val.a = XCHG((global volatile TA*)dst, try_val.a);
+  } while (cur_val.a != exp_val.a);
 # endif
 }
 #endif
@@ -149,7 +158,7 @@ kernel void FN(global T *restrict cdata,
 # if defined(PRIVATE_B) && !defined(SHARED_B)
   T bkn[SK][BN];
 # endif
-# if defined(PRIVATE_C) && !defined(SHARED_C) && (1 < BS)
+# if !defined(SHARED_C) && (1 < BS)
   T cmn[BM][BN] = {{ 0 }};
 # endif
   const int m0 = (idx / NBN) * BM, n0 = (idx % NBN) * BN;
@@ -157,7 +166,7 @@ kernel void FN(global T *restrict cdata,
 # if defined(PRIVATE_B) && !defined(SHARED_B)
   T bkn[SK];
 # endif
-# if defined(PRIVATE_C) && !defined(SHARED_C) && (1 < BS)
+# if !defined(SHARED_C) && (1 < BS)
   T cmn[SM] = { 0 };
 # endif
 #endif
@@ -397,9 +406,9 @@ kernel void FN(global T *restrict cdata,
       }
 # else
     { /* atomically commit C-column to global memory */
+      int m = 0;
 #   if defined(ATOMIC_ADD2_GLOBAL)
-      UNROLL(SM)
-      for (int m = 0; m < SM; m += 2) {
+      for (; m < (SM - 1); m += 2) {
 #     if defined(SHARED_C)
         local T *restrict r0 = &cmn[m+0][idx];
         local T *restrict r1 = &cmn[m+1][idx];
@@ -412,13 +421,12 @@ kernel void FN(global T *restrict cdata,
 #     endif
         {
           const float2 r2 = (float2)(*r0, *r1);
-          ATOMIC_ADD2_GLOBAL((global volatile float2*)(c + SM * idx + m), r2);
+          ATOMIC_ADD2_GLOBAL(&c[SM*idx+m], r2);
           *r0 = *r1 = ZERO; /* reset */
         }
       }
-#   else
-      UNROLL(SM)
-      for (int m = 0; m < SM; ++m) {
+#   endif
+      for (; m < SM; ++m) {
 #     if defined(SHARED_C)
         local T *restrict r = &cmn[m][idx];
 #     else
@@ -432,7 +440,6 @@ kernel void FN(global T *restrict cdata,
           *r = ZERO; /* reset */
         }
       }
-#   endif
 # endif
       /* next iteration */
       c = cdata + c1;

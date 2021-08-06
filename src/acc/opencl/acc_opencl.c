@@ -28,6 +28,9 @@
 #if !defined(ACC_OPENCL_CPPBIN)
 # define ACC_OPENCL_CPPBIN "/usr/bin/cpp"
 #endif
+#if !defined(ACC_OPENCL_SEDBIN)
+# define ACC_OPENCL_SEDBIN "/usr/bin/sed"
+#endif
 #if !defined(ACC_OPENCL_DELIMS)
 # define ACC_OPENCL_DELIMS " \t;,:"
 #endif
@@ -725,16 +728,20 @@ int c_dbcsr_acc_opencl_kernel(const char source[],
       int nchar = ACC_OPENCL_SNPRINTF(name_src, sizeof(name_src), "/tmp/.%s.cl", kernel_name);
       if (0 < nchar && (int)sizeof(name_src) > nchar) {
         FILE *const file_cpp = fopen(ACC_OPENCL_CPPBIN, "rb");
+        FILE *const file_sed = fopen(ACC_OPENCL_SEDBIN, "rb");
+        if (NULL != file_sed) fclose(file_sed); /* existence-check */
         if (NULL != file_cpp) {
           FILE *const file_src = fopen(name_src, "w");
-          fclose(file_cpp); /* file only used as an existence-check */
+          fclose(file_cpp); /* existence-check */
           if (NULL != file_src) {
             const size_t size_src = strlen(source);
             if (size_src == fwrite(source, 1, size_src, file_src) && EXIT_SUCCESS == fclose(file_src)) {
               nchar = ACC_OPENCL_SNPRINTF(buffer, sizeof(buffer), ACC_OPENCL_CPPBIN
-                " -P -CC -nostdinc -D__OPENCL_VERSION__=%u %s %s %s -o %s.cl", 100 * level_major + 10 * level_minor,
+                " -P -C -nostdinc -D__OPENCL_VERSION__=%u %s %s %s %s > %s.cl", 100 * level_major + 10 * level_minor,
                 EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(active_id, "nvidia") ? "" : "-D__NV_CL_C_VERSION",
-                NULL != build_params ? build_params : "", name_src, kernel_name);
+                NULL != build_params ? build_params : "", name_src,
+                NULL != file_sed ? "| " ACC_OPENCL_SEDBIN " '/^[[:space:]]*$/d'" : "",
+                kernel_name);
               if (0 < nchar && (int)sizeof(buffer) > nchar) {
                 if (EXIT_SUCCESS == system(buffer)) {
                   nchar = ACC_OPENCL_SNPRINTF(buffer, sizeof(buffer), "%s.cl", kernel_name);
