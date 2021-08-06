@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.1.0-64-g135b71fd1</small></a>
+          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.1.0-65-g5a5c4c485</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -182,14 +182,14 @@
 <h2>Auto Tuning</h2>
 <p>Auto tuning code for performance is a practical way to find the "best" setting for parameterized code (e.g., GPU kernels). Introducing effective parameters is a prerequisite, and exploring the (potentially) high-dimensional parameter space in an efficient way is an art. It is desirable to have reasonable defaults even without auto-tuning the parameters. It would be even better to avoid auto-tuning if best performance was possible right away, i.e., if auto-tuning is not able to find better settings.</p>
 <p>For the OpenCL based LIBSMM, <code>OPENCL_LIBSMM_SMM_BS</code>, <code>OPENCL_LIBSMM_SMM_BM</code>, and <code>OPENCL_LIBSMM_SMM_BN</code> are explored using <a href="http://opentuner.org/">OpenTuner</a>. The script <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.py">tune_multiply.py</a> (or tune_multiply.sh) leverages the <code>acc_bench_smm</code> benchmark by parsing console output (timing, data type, etc.). This way, the tuning is implemented without being intermingled with the subject being tuned.</p>
-<p><strong>NOTE</strong>: If <code>tune_multiply.py</code> (or <code>tune_multiply.sh</code>) are called with <code>OPENCL_LIBSMM_SMM_BS</code>, <code>OPENCL_LIBSMM_SMM_BM</code>, or <code>OPENCL_LIBSMM_SMM_BN</code> already set, the respective parameter is considered fixed (and not auto-tuned).</p>
-<p>To toggle the benchmarks between tuning single-precision (SP) and double-precision (DP), <code>make ELEM_TYPE=float</code> can be used when building the benchmark drivers (backend). However, the <code>ELEM_TYPE</code> can be also directly edited in <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_bench_smm.c#L26">acc_bench_smm.c</a>. Auto-tuned parameters for SP and DP can be embedded into the same final application and are considered correctly at runtime.</p>
-<p>To build the benchmarks in double-precision (<code>ELEM_TYPE=double</code> is default):</p>
+<p><strong>NOTE</strong>: If <code>tune_multiply.py</code> (or <code>tune_multiply.sh</code>) are called with <code>OPENCL_LIBSMM_SMM_BS</code>, <code>OPENCL_LIBSMM_SMM_BM</code>, or <code>OPENCL_LIBSMM_SMM_BN</code> already set, the respective parameter is considered fixed (and not tuned automatically).</p>
+<p>To toggle the benchmarks between tuning single precision (SP) and double precision (DP), <code>make ELEM_TYPE=float</code> can be used when building the benchmark drivers (backend). However, the <code>ELEM_TYPE</code> can be also directly edited in <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_bench_smm.c#L26">acc_bench_smm.c</a>. Auto-tuned parameters for SP and DP can be embedded into the same final application and are considered correctly at runtime.</p>
+<p>To build the benchmarks in double precision (<code>ELEM_TYPE=double</code> is default):</p>
 <div class="codehilite"><pre><span></span><code><span class="nb">cd</span> src/acc/opencl
 make <span class="nv">DBG</span><span class="o">=</span><span class="m">0</span>
 </code></pre></div>
 
-<p>To build the benchmarks in single-precision (SP):</p>
+<p>To build the benchmarks in single precision (SP):</p>
 <div class="codehilite"><pre><span></span><code><span class="nb">cd</span> src/acc/opencl
 make <span class="nv">DBG</span><span class="o">=</span><span class="m">0</span> <span class="nv">ELEM_TYPE</span><span class="o">=</span>float
 </code></pre></div>
@@ -216,7 +216,7 @@ pip install -r requirements.txt
 <p><strong>NOTE</strong>: The <code>acc_bench_smm</code> executable is potentially started many times during auto-tuning parameters, therefore it is advisable to keep the state of the GPU driver stack persistent (if the setup would otherwise unload the driver configuration), e.g., <code>nvidia-smi -pm ENABLED</code>. This can happen in cases where the GPU is not used other than for compute (e.g., in case of a "headless" system).</p>
 <h2>Optimized Kernels</h2>
 <p>JSON-files in the above mentioned smm-directory are automatically summarized into a CSV-file (can be disabled). Further and beyond actual auto-tuning kernels, <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.py">tune_multiply.py</a> can be used to perform some basic operations on collected data: explicitly merging all JSON-files into a CSV-file (<code>tune_multiply.py -m</code>), and updating the device name in all JSON-files according to current driver version (<code>tune_multiply.py -u</code>).</p>
-<p>Collected or auto-tuned parameters achieved with single-precision (SP), double-precision (DP), or from different devices can be safely combined. However, care must still be taken to not summarize unrelated results, e.g., after (major) source code changes. The CSV-file is automatically incorporated into LIBSMM by the next clean (re-)build. The format of the CSV-file is assumed to contain column names in the first row (header).</p>
+<p>Collected or auto-tuned parameters achieved with single precision (SP), double precision (DP), or from different devices can be safely combined. However, care must still be taken to not summarize unrelated results, e.g., after (major) source code changes. The CSV-file is automatically incorporated into LIBSMM by the next clean (re-)build. The format of the CSV-file is assumed to contain column names in the first row (header).</p>
 <div class="codehilite"><pre><span></span><code><span class="nb">cd</span> src/acc/opencl
 make realclean
 make <span class="nv">DBG</span><span class="o">=</span><span class="m">0</span>
@@ -242,7 +242,7 @@ make <span class="nv">DBG</span><span class="o">=</span><span class="m">0</span>
 <div class="codehilite"><pre><span></span><code>4 10 15, 6 7 8, 23
 </code></pre></div>
 
-<p>This triplet specification expands to 55 kernels using the Cartesian product, concatenating the triplets from all expanded groups by combining all values within a comma-separated group. Further, the wrapper script allows to limit the time spent for tuning a single kernel and to partition the amount of kernels to be tuned, e.g., among a cluster of eight systems (below the first partition out of eight would be processed with five minutes per kernel and about 35 minutes in total per partition).</p>
+<p>This triplet specification expands to 55 kernels using the Cartesian product, concatenating the triplets from all expanded groups by combining all values within a comma-separated group. Further, the wrapper script allows to limit the time spent for tuning a single kernel and to partition the number of kernels to be tuned, e.g., among a cluster of eight systems (below the first partition out of eight would be processed with five minutes per kernel and about 35 minutes in total per partition).</p>
 <div class="codehilite"><pre><span></span><code><span class="nb">cd</span> src/acc/opencl/smm
 ./tune_multiply.sh <span class="m">300</span>  <span class="m">8</span> <span class="m">1</span>  <span class="m">4</span> <span class="m">10</span> <span class="m">15</span>, <span class="m">6</span> <span class="m">7</span> <span class="m">8</span>, <span class="m">23</span>
 </code></pre></div>
