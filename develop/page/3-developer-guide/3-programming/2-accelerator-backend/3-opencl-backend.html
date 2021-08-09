@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.1.0-65-g5a5c4c485</small></a>
+          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.1.0-66-g64982e098</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -149,7 +149,7 @@
 <p>Compile-time settings are (implicitly) documented and can be adjusted by editing <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/acc_opencl.h">acc_opencl.h</a> (adjusting the build-line as per <code>-D</code> is possible as well but less convenient). For example, <code>ACC_OPENCL_STREAM_PRIORITIES</code> is enabled by default (and further confirmed at runtime/build-time) but can be disabled, or <code>ACC_OPENCL_DEBUG</code> (which is disabled by default) can be enabled for debug purpose.</p>
 <p>An application of compile-time settings (and perhaps a valuable contribution) might be to call a GPU library in OpenCL-based LIBSMM. In such case, Shared Virtual Memory support (SVM) in OpenCL comes handy and can be enabled per <code>ACC_OPENCL_SVM</code>. The latter allows then to simply take the raw pointer out of an <code>cl_mem</code> object and pass it into such library/function (which in turn can work across language borders, etc.).</p>
 <h3>Runtime Settings</h3>
-<p>Runtime settings are made by the means of environment variables. The OpenCL backend provides <code>acc_getenv.sh</code> to list all occurrences of <code>getenv</code> categorized into "OpenCL Backend environment variables" (implemented in <code>acc_opencl.c</code>, etc.) and "OpenCL LIBSMM environment variables". Relevant backend related environment variables are:</p>
+<p>Runtime settings are made by the means of environment variables. The OpenCL backend provides <code>acc_getenv.sh</code> to list all occurrences of <code>getenv</code> categorized into "OpenCL Backend environment variables" and "OpenCL LIBSMM environment variables". Common backend related settings are:</p>
 <ul>
 <li><code>ACC_OPENCL_DEVSPLIT</code>: integer enabling devices to be split into subdevices (non-zero/default: subdevices, zero: aggregated).</li>
 <li><code>ACC_OPENCL_DEVTYPE</code>: character string selecting "cpu", "gpu", "all" (unfiltered), or any other string (neither CPU or GPU).</li>
