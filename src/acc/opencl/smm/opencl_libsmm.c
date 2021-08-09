@@ -1096,7 +1096,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                   0 == aa ? "" : (1 == aa ? "-DSHARED_A=1" : (2 == aa ? "-DSHARED_A=2" : "-DPRIVATE_A")),
                   0 == ab ? "" : (1 == ab ? "-DSHARED_B=1" : (2 == ab ? "-DSHARED_B=2" : "-DPRIVATE_B")),
                   0 == ac ? "" : (1 == ac ? "-DSHARED_C=1" : (2 == ac ? "-DSHARED_C=2" : "-DPRIVATE_C")),
-                  0 == ap ? "" : "-DSHARED_S", 0 == nz ? "" : "-DATOMIC_INC_NZ",
+                  0 == ap ? "" : "-DSHARED_P", 0 == nz ? "" : "-DATOMIC_INC_NZ",
                   0 == lu ? "" : "-D\"UNROLL_SM=UNROLL(1)\"",
                   atomic_ops, atomic_expr, atomic_expr2);
                 if (0 < nchar && (int)sizeof(build_params) > nchar) {

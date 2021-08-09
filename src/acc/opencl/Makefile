@@ -38,7 +38,7 @@ endif
 
 PARAMS_WITHGPU := $(MAKDIR)/smm/params/tune_multiply_$(WITH_GPU).csv
 PARAMS_DEFAULT := $(MAKDIR)/smm/tune_multiply.csv
-PARAMS := $(if $(wildcard $(PARAMS_WITHGPU)),$(PARAMS_WITHGPU),$(PARAMS_DEFAULT))
+PARAMS := $(if $(wildcard $(PARAMS_WITHGPU)),$(PARAMS_WITHGPU),$(wildcard $(PARAMS_DEFAULT)))
 
 CFLAGS := -fPIC \
   -Wall -Wextra -pedantic \
@@ -211,7 +211,7 @@ endif
 	@echo "mean: $$(sed -n "/device:/p" $< | datamash -W -R 1 mean 4) GFLOPS/s"
 endif
 
-$(MAKDIR)/smm/opencl_kernels.h: $(MAKDIR)/acc_opencl.sh $(KERNEL)
+$(MAKDIR)/smm/opencl_kernels.h: $(MAKDIR)/acc_opencl.sh $(KERNEL) $(PARAMS)
 	@CPPFLAGS=$(CPP_OPENCL_FLAGS) $(MAKDIR)/acc_opencl.sh $(KERNEL) $(PARAMS) $@
 
 $(MAKDIR)/../dbcsr_acc.a: $(OBJACC)
