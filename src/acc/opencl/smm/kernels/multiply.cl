@@ -32,7 +32,7 @@
 # define TRACK_C
 #endif
 
-#if defined(SHARED_S) && (1 < BS)
+#if defined(SHARED_P) && (1 < BS)
 # define IDXBASE 0
 #else
 # define IDXBASE 1
@@ -103,7 +103,7 @@ kernel void FN(global T *restrict cdata,
 {
   const int gid = get_group_id(0), idx = get_local_id(0);
   GLOBAL const int *restrict pbase = param_stack + gid * (3 * BS);
-#if defined(SHARED_S) && (1 < BS)
+#if defined(SHARED_P) && (1 < BS)
   local int params[3*BS];
 #else
   GLOBAL const int *restrict params = pbase;
@@ -149,10 +149,10 @@ kernel void FN(global T *restrict cdata,
     for (int n = 0; n < SN; ++n) cmn[m][n] = ZERO;
   }
 # endif
-# if defined(SHARED_S)
+# if defined(SHARED_P)
   for (i = idx; i < (3 * batchsize); i += SWG) params[i] = pbase[i] - 1;
 # endif
-# if defined(SHARED_C) || defined(SHARED_S)
+# if defined(SHARED_C) || defined(SHARED_P)
   barrier(CLK_LOCAL_MEM_FENCE);
 # endif
 # if (defined(SHARED_A) || defined(SHARED_B)) && (NBK < SWG)
