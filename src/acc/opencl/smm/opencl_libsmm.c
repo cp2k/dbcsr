@@ -619,7 +619,8 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
           const char *const cmem = (EXIT_SUCCESS != opencl_libsmm_use_cmem(active_device) ? "global" : "constant");
           const char *const env_options = getenv("OPENCL_LIBSMM_TRANS_BUILDOPTS"), *tname = "";
           const char *const env_inplace = getenv("OPENCL_LIBSMM_TRANS_INPLACE");
-          const char *const env_bm = getenv("OPENCL_LIBSMM_TRANS_BLOCK_M");
+          const char *const env_bm = (NULL    == getenv("OPENCL_LIBSMM_TRANS_BLOCK_M")
+            ? getenv("OPENCL_LIBSMM_TRANS_BM") : getenv("OPENCL_LIBSMM_TRANS_BLOCK_M"));
           const int inplace = ((m == n) && ((NULL == env_inplace || '\0' == *env_inplace)
 # if defined(OPENCL_LIBSMM_TRANS_INPLACE)
             ? 1 : ('0' != *env_inplace)));
