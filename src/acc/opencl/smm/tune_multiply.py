@@ -379,7 +379,9 @@ class SmmTuner(MeasurementInterface):
 
 if __name__ == "__main__":
     argparser = opentuner.default_argparser()
-    # additional arguments
+    # adjust default value of existing arguments
+    argparser.set_defaults(no_dups=True)
+    # add primary arguments (parsed first)
     argparser.add_argument(
         "m", type=int, default=23, nargs="?", help="Shape of SMM-kernel (M)"
     )
@@ -389,6 +391,101 @@ if __name__ == "__main__":
     argparser.add_argument(
         "k", type=int, default=0, nargs="?", help="Shape of SMM-kernel (K)"
     )
+    argparser.add_argument(
+        "-r",
+        "--repetitions",
+        type=int,
+        default=0,
+        nargs="?",
+        dest="r",
+        help="Repetitions per experiment",
+    )
+    argparser.add_argument(
+        "-e",
+        "--csv-separator",
+        type=(lambda c: c if isinstance(c, str) and 1 == len(c) else False),
+        default=";",
+        nargs="?",
+        dest="csvsep",
+        help="Separator used in CSV-file",
+    )
+    argparser.add_argument(
+        "-o",
+        "--csv-filename",
+        type=str,
+        default="tune_multiply.csv",
+        nargs="?",
+        dest="csvfile",
+        help="Generate CSV-file",
+    )
+    argparser.add_argument(
+        "-m",
+        "--csv-merge-jsons",
+        action="store_true",
+        default=False,
+        dest="merge",
+        help="Merge JSONs into CSV, and terminate",
+    )
+    argparser.add_argument(
+        "-u",
+        "--update-jsons",
+        type=str,
+        default="",
+        nargs="?",
+        dest="update",
+        help="Update JSONs (device), and terminate",
+    )
+    argparser.add_argument(
+        "-c",
+        "--check",
+        type=float,
+        default=0,
+        nargs="?",
+        dest="check",
+        help="Validate kernel (epsilon)",
+    )
+    argparser.add_argument(
+        "-v",
+        "--verbose",
+        action="store_true",
+        default=False,
+        dest="verbose",
+        help="Verbose output",
+    )
+    argparser.add_argument(
+        "-p",
+        "--primary-objective",
+        action="store_true",
+        default=False,
+        dest="primary",
+        help="Primary objective only",
+    )
+    argparser.add_argument(
+        "-a",
+        "--tuning-level",
+        type=int,
+        default=-1,
+        nargs="?",
+        dest="tlevel",
+        help="Tunables: (0) all, (1) most, (2) some, (3) least",
+    )
+    # parse primary arguments and defaults
+    args = argparser.parse_args()
+    m = max(args.m, 1)
+    default_mb = 128
+    # fix tunables according to level of tuning
+    if 1 <= args.tlevel or 0 > args.tlevel:
+        os.environ["OPENCL_LIBSMM_SMM_BM"] = "0"
+        os.environ["OPENCL_LIBSMM_SMM_BN"] = "0"
+        default_mb = 64
+    if 2 <= args.tlevel:
+        os.environ["OPENCL_LIBSMM_SMM_LU"] = "0" if 24 >= m else "1"
+        os.environ["OPENCL_LIBSMM_SMM_NZ"] = "0"
+    if 3 <= args.tlevel:
+        os.environ["OPENCL_LIBSMM_SMM_AP"] = "0" if 24 >= m else "1"
+        os.environ["OPENCL_LIBSMM_SMM_AC"] = "0"
+        os.environ["OPENCL_LIBSMM_SMM_WG"] = "1"
+    # additional/depending arguments
     argparser.add_argument(
         "-bm",
         "--initial-bm",
@@ -476,19 +573,10 @@ if __name__ == "__main__":
         "-mb",
         "--max-bs",
         type=int,
-        default=128,
+        default=default_mb,
         nargs="?",
         dest="mb",
         help="Maximum (mini-)batch size (BS)",
-    )
-    argparser.add_argument(
-        "-r",
-        "--repetitions",
-        type=int,
-        default=0,
-        nargs="?",
-        dest="r",
-        help="Repetitions per experiment",
     )
     argparser.add_argument(
         "-s",
@@ -499,66 +587,4 @@ if __name__ == "__main__":
         dest="s",
         help='Size of batch ("stacksize")',
     )
-    argparser.add_argument(
-        "-e",
-        "--csv-separator",
-        type=(lambda c: c if isinstance(c, str) and 1 == len(c) else False),
-        default=";",
-        nargs="?",
-        dest="csvsep",
-        help="Separator used in CSV-file",
-    )
-    argparser.add_argument(
-        "-o",
-        "--csv-filename",
-        type=str,
-        default="tune_multiply.csv",
-        nargs="?",
-        dest="csvfile",
-        help="Generate CSV-file",
-    )
-    argparser.add_argument(
-        "-m",
-        "--csv-merge-jsons",
-        action="store_true",
-        default=False,
-        dest="merge",
-        help="Merge JSONs into CSV, and terminate",
-    )
-    argparser.add_argument(
-        "-u",
-        "--update-jsons",
-        type=str,
-        default="",
-        nargs="?",
-        dest="update",
-        help="Update JSONs (device), and terminate",
-    )
-    argparser.add_argument(
-        "-c",
-        "--check",
-        type=float,
-        default=0,
-        nargs="?",
-        dest="check",
-        help="Validate kernel (epsilon)",
-    )
-    argparser.add_argument(
-        "-v",
-        "--verbose",
-        action="store_true",
-        default=False,
-        dest="verbose",
-        help="Verbose output",
-    )
-    argparser.add_argument(
-        "-p",
-        "--primary-objective",
-        action="store_true",
-        default=False,
-        dest="primary",
-        help="Primary objective only",
-    )
-    # adjust default value of existing arguments
-    argparser.set_defaults(no_dups=True)
     SmmTuner.main(argparser.parse_args())

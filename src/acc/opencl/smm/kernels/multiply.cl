@@ -389,6 +389,7 @@ kernel void FN(global T *restrict cdata,
         }
       }
 #   endif
+#   if !defined(ATOMIC_ADD2_GLOBAL) || (SM & 1)
       for (; m < SM; ++m) {
 #     if defined(SHARED_C)
         local T *restrict r = &cmn[m][idx];
@@ -403,6 +404,7 @@ kernel void FN(global T *restrict cdata,
           *r = ZERO; /* reset */
         }
       }
+#   endif
 # endif
       /* next iteration */
       c = cdata + c1;
