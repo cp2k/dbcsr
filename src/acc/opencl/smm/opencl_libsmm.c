@@ -619,14 +619,15 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
           const char *const cmem = (EXIT_SUCCESS != opencl_libsmm_use_cmem(active_device) ? "global" : "constant");
           const char *const env_options = getenv("OPENCL_LIBSMM_TRANS_BUILDOPTS"), *tname = "";
           const char *const env_inplace = getenv("OPENCL_LIBSMM_TRANS_INPLACE");
-          const char *const env_bm = getenv("OPENCL_LIBSMM_TRANS_BLOCK_M");
+          const char *const env_bm = (NULL    == getenv("OPENCL_LIBSMM_TRANS_BLOCK_M")
+            ? getenv("OPENCL_LIBSMM_TRANS_BM") : getenv("OPENCL_LIBSMM_TRANS_BLOCK_M"));
           const int inplace = ((m == n) && ((NULL == env_inplace || '\0' == *env_inplace)
 # if defined(OPENCL_LIBSMM_TRANS_INPLACE)
             ? 1 : ('0' != *env_inplace)));
 # else
             ? 0 : ('0' != *env_inplace)));
 # endif
-          const int blockm = ((NULL == env_bm || '\0' == *env_bm)
+          const int blockm = ((NULL == env_bm || '\0' == *env_bm || '0' == *env_bm)
             ? m/*TODO*/ : atoi(env_bm));
           const int bm = LIBXSMM_CLMP(blockm, 1, m);
           int wgsize = 0, wgsize_max;
@@ -944,12 +945,13 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
           "x" OPENCL_LIBSMM_KERNELNAME_SMM "%ix%ix%i", m_max, n_max, k_max);
         const char* extensions = NULL;
         if (0 < nchar && (int)sizeof(fname) > nchar) {
-          const char *tname = NULL, *atomic_ops = "";
+          const char *tname = NULL, *atomic_type = "";
+          const char *atomic_ops = "";
           switch (datatype) {
             case dbcsr_type_real_8: {
               extensions = "cl_khr_fp64 cl_khr_int64_base_atomics";
               if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_device, &extensions, 1)) {
-                atomic_ops = "-DTA=long -DCMPXCHG=atom_cmpxchg -DXCHG=atom_xchg";
+                atomic_type = "-DTA=long";
                 tname = "double";
                 fname[0] = 'd';
               }
@@ -957,7 +959,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
             case dbcsr_type_real_4: {
               extensions = "cl_khr_global_int32_base_atomics";
               if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_device, &extensions, 1)) {
-                atomic_ops = "-DTA=int -DCMPXCHG=atomic_cmpxchg -DXCHG=atomic_xchg";
+                atomic_type = "-DTA=int";
                 tname = "float";
                 fname[0] = 's';
               }
@@ -1004,12 +1006,12 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 ? getenv("OPENCL_LIBSMM_SMM_BM") :getenv("OPENCL_LIBSMM_SMM_BLOCK_M"));
               const char *const env_bn = (NULL == getenv("OPENCL_LIBSMM_SMM_BLOCK_N")
                 ? getenv("OPENCL_LIBSMM_SMM_BN") :getenv("OPENCL_LIBSMM_SMM_BLOCK_N"));
-              const int batchsize = ((NULL == env_bs || '\0' == *env_bs)
+              const int batchsize = ((NULL == env_bs || '\0' == *env_bs || '0' == *env_bs)
                 ? (NULL == config ? /*default*/24 : config->bs) : atoi(env_bs));
               /* default: decompose C-matrix into column-vectors */
-              const int blockm = ((NULL == env_bm || '\0' == *env_bm)
+              const int blockm = ((NULL == env_bm || '\0' == *env_bm || '0' == *env_bm)
                 ? (NULL == config ? /*default*/m_max : config->bm) : atoi(env_bm));
-              const int blockn = ((NULL == env_bn || '\0' == *env_bn)
+              const int blockn = ((NULL == env_bn || '\0' == *env_bn || '0' == *env_bn)
                 ? (NULL == config ? /*default*/1 : config->bn) : atoi(env_bn));
               bm = LIBXSMM_MIN(1 < blockm ? blockm : 1, m_max);
               bn = LIBXSMM_MIN(1 < blockn ? blockn : 1, n_max);
@@ -1049,13 +1051,19 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
 # endif
                 const char *const env_options = getenv("OPENCL_LIBSMM_SMM_BUILDOPTS");
                 const char *const env_atomics = getenv("OPENCL_LIBSMM_SMM_ATOMICS");
-                const char *atomic_expr = NULL, *atomic_expr2 = "";
+                const char *atomic_exp = NULL, *atomic_expr2 = "";
                 if (NULL == env_atomics || '0' != *env_atomics) {
                   const char* extension[] = { "cl_khr_int64_base_atomics" };
                   if (NULL == env_atomics || '\0' == *env_atomics) { /* no request made */
-                    if (0 != cl_intel_id && 0x4905 != cl_intel_id && 0 == unified && dbcsr_type_real_4 == datatype) {
-                      atomic_ops = "-Dcl_intel_global_float_atomics";
-                      atomic_expr = "atomic_add(A, B)";
+                    if (0 != cl_intel_id && 0x4905 != cl_intel_id && 0 == unified) {
+                      if (dbcsr_type_real_4 == datatype) {
+                        atomic_ops = "-Dcl_intel_global_float_atomics";
+                        atomic_exp = "atomic_add(A, B)";
+                      }
+                      else {
+                        atomic_exp = "atomic_add_global_cmpxchg(A, B)";
+                        atomic_ops = "-DCMPXCHG=atom_cmpxchg";
+                      }
                     }
                     else if (cl_nonv) {
                       if (1 < bs && dbcsr_type_real_4 == datatype && 1 == bn && bm >= m_max
@@ -1064,10 +1072,13 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                       {
                         atomic_expr2 = "-D\"ATOMIC_ADD2_GLOBAL(A,B)=atomic_add_global_cmpxchg2(A, B)\"";
                       }
-                      atomic_expr = "atomic_add_global_cmpxchg(A, B)";
+                      atomic_exp = "atomic_add_global_cmpxchg(A, B)";
+                      atomic_ops = (dbcsr_type_real_4 == datatype
+                        ? "-DCMPXCHG=atomic_cmpxchg"
+                        : "-DCMPXCHG=atom_cmpxchg");
                     }
                     else {
-                      atomic_expr = "atomic_add_global_xchg(A, B)";
+                      atomic_exp = "atomic_add_global_xchg(A, B)";
                       atomic_ops = "";
                     }
                   }
@@ -1079,26 +1090,34 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                     {
                       atomic_expr2 = "-D\"ATOMIC_ADD2_GLOBAL(A,B)=atomic_add_global_cmpxchg2(A, B)\"";
                     }
-                    atomic_expr = "atomic_add_global_cmpxchg(A, B)";
+                    atomic_exp = "atomic_add_global_cmpxchg(A, B)";
+                    atomic_ops = (dbcsr_type_real_4 == datatype
+                      ? "-DCMPXCHG=atomic_cmpxchg"
+                      : "-DCMPXCHG=atom_cmpxchg");
                   }
-                  else atomic_expr = "atomic_add_global_xchg(A, B)";
+                  else {
+                    atomic_exp = "atomic_add_global_xchg(A, B)";
+                    atomic_ops = (dbcsr_type_real_4 == datatype
+                      ? "-DXCHG=atomic_xchg"
+                      : "-DXCHG=atom_xchg");
+                  }
                 }
                 else {
-                  atomic_expr = "*(A) += (B)";
+                  atomic_exp = "*(A) += (B)";
                 }
-                assert(NULL != atomic_expr);
+                assert(NULL != atomic_exp);
                 /* compose build parameters and flags */
                 nchar = ACC_OPENCL_SNPRINTF(build_params, sizeof(build_params),
                   "-DFMA=fma -DINTEL=%i -DGLOBAL=%s -DBC=%i -DSWG=%i -DFN=%s "
                   "-DSM=%i -DSN=%i -DSK=%i -DBS=%i -DBM=%i -DBN=%i -DT=%s -DTN=%i "
-                  "%s %s %s %s %s %s %s -D\"ATOMIC_ADD_GLOBAL(A,B)=%s\" %s",
+                  "%s %s %s %s %s %s %s %s -D\"ATOMIC_ADD_GLOBAL(A,B)=%s\" %s",
                   cl_intel_id, cmem, bc, wgsize, fname, m_max, n_max, k_max, bs, bm, bn, tname, datatype,
                   0 == aa ? "" : (1 == aa ? "-DSHARED_A=1" : (2 == aa ? "-DSHARED_A=2" : "-DPRIVATE_A")),
                   0 == ab ? "" : (1 == ab ? "-DSHARED_B=1" : (2 == ab ? "-DSHARED_B=2" : "-DPRIVATE_B")),
                   0 == ac ? "" : (1 == ac ? "-DSHARED_C=1" : (2 == ac ? "-DSHARED_C=2" : "-DPRIVATE_C")),
                   0 == ap ? "" : "-DSHARED_P", 0 == nz ? "" : "-DATOMIC_INC_NZ",
                   0 == lu ? "" : "-D\"UNROLL_SM=UNROLL(1)\"",
-                  atomic_ops, atomic_expr, atomic_expr2);
+                  atomic_type, atomic_ops, atomic_exp, atomic_expr2);
                 if (0 < nchar && (int)sizeof(build_params) > nchar) {
                   nchar = ACC_OPENCL_SNPRINTF(build_options, sizeof(build_options),
                     "%s %s -cl-fast-relaxed-math -cl-no-signed-zeros -cl-denorms-are-zero",
