@@ -968,8 +968,8 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
           }
           if (NULL != tname) {
             int cl_intel_id = 0, unified = 0;
-            const char *const env_wg = getenv("OPENCL_LIBSMM_SMM_WG"), *const env_nz = getenv("OPENCL_LIBSMM_SMM_NZ");
-            const char *const env_lu = getenv("OPENCL_LIBSMM_SMM_LU"), *const env_bc = getenv("OPENCL_LIBSMM_SMM_BC");
+            const char *const env_wg = getenv("OPENCL_LIBSMM_SMM_WG");
+            const char *const env_nz = getenv("OPENCL_LIBSMM_SMM_NZ"), *const env_lu = getenv("OPENCL_LIBSMM_SMM_LU");
             const char *const env_ap = getenv("OPENCL_LIBSMM_SMM_AP"), *const env_aa = getenv("OPENCL_LIBSMM_SMM_AA");
             const char *const env_ab = getenv("OPENCL_LIBSMM_SMM_AB"), *const env_ac = getenv("OPENCL_LIBSMM_SMM_AC");
             const int cl_nonv = ((EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(active_device, "intel")
@@ -981,12 +981,10 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               ? (NULL == config ? /*default*/0 : config->nz) : LIBXSMM_CLMP(atoi(env_nz), 0, 1));
             const int lu = ((NULL == env_lu || '\0' == *env_lu)
               ? (NULL == config ? /*default*/0 : config->lu) : LIBXSMM_CLMP(atoi(env_lu), 0, 1));
-            const int bc = ((NULL == env_bc || '\0' == *env_bc)
-              ? /*default*/(0 != cl_intel_id ? 1 : 2) : LIBXSMM_CLMP(atoi(env_bc), 1, 2));
             const int ap = ((NULL == env_ap || '\0' == *env_ap)
               ? (NULL == config ? /*default*/1 : config->ap) : LIBXSMM_CLMP(atoi(env_ap), 0, 1));
             const int aa = ((NULL == env_aa || '\0' == *env_aa)
-              ? (NULL == config ? /*default*/((k_max % 16) ? 1 : bc) : config->aa)
+              ? (NULL == config ? /*default*/((k_max % 16) ? 1 : 2) : config->aa)
                                 : LIBXSMM_CLMP(atoi(env_aa), 0, 3));
             const int ab = ((NULL == env_ab || '\0' == *env_ab)
               ? (NULL == config ? /*default*/3 : config->ab) : LIBXSMM_CLMP(atoi(env_ab), 0, 3));
@@ -1108,10 +1106,10 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 assert(NULL != atomic_exp);
                 /* compose build parameters and flags */
                 nchar = ACC_OPENCL_SNPRINTF(build_params, sizeof(build_params),
-                  "-DFMA=fma -DINTEL=%i -DGLOBAL=%s -DBC=%i -DSWG=%i -DFN=%s "
+                  "-DFMA=fma -DINTEL=%i -DGLOBAL=%s -DSWG=%i -DFN=%s "
                   "-DSM=%i -DSN=%i -DSK=%i -DBS=%i -DBM=%i -DBN=%i -DT=%s -DTN=%i "
                   "%s %s %s %s %s %s %s %s -D\"ATOMIC_ADD_GLOBAL(A,B)=%s\" %s",
-                  cl_intel_id, cmem, bc, wgsize, fname, m_max, n_max, k_max, bs, bm, bn, tname, datatype,
+                  cl_intel_id, cmem, wgsize, fname, m_max, n_max, k_max, bs, bm, bn, tname, datatype,
                   0 == aa ? "" : (1 == aa ? "-DSHARED_A=1" : (2 == aa ? "-DSHARED_A=2" : "-DPRIVATE_A")),
                   0 == ab ? "" : (1 == ab ? "-DSHARED_B=1" : (2 == ab ? "-DSHARED_B=2" : "-DPRIVATE_B")),
                   0 == ac ? "" : (1 == ac ? "-DSHARED_C=1" : (2 == ac ? "-DSHARED_C=2" : "-DPRIVATE_C")),

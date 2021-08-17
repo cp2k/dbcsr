@@ -50,12 +50,12 @@ if [ "${SED}" ] && [ "${LS}" ] && [ "${RM}" ] && [ "${WC}" ]; then
   echo "         23, 5 32 13 24 26, 4 9"
   echo
   if [ "$1" ]; then
-    MNKS=$("${HERE}/../../acc_triplets.sh" "$@")
+    MNKS=$(eval "${HERE}/../../acc_triplets.sh $@")
   else
     if [ "" != "${MAXEXT}" ]; then MAXEXT="-m ${MAXEXT}"; fi
     if [ "" != "${MAXNUM}" ]; then MAXNUM="-n ${MAXNUM}"; fi
     if [ "" == "${SPECID}" ]; then SPECID=10; fi
-    MNKS=$("${HERE}/../acc_triplets.sh" -s ${SPECID} "${LIMIT}" "${MAXNUM}")
+    MNKS=$(eval "${HERE}/../../acc_triplets.sh -s ${SPECID} ${MAXEXT} ${MAXNUM}")
   fi
   NTRIPLETS=$(echo "${MNKS}" | wc -w)
   PARTSIZE=$(((NTRIPLETS+NPARTS-1)/NPARTS))

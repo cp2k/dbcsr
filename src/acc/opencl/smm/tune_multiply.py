@@ -17,7 +17,7 @@ from opentuner.search.manipulator import IntegerParameter
 from opentuner import ConfigurationManipulator
 from opentuner import MeasurementInterface
 from opentuner import Result
-from signal import signal, SIGINT
+from signal import signal, getsignal, SIGINT
 import json
 import glob
 import sys
@@ -155,7 +155,7 @@ class SmmTuner(MeasurementInterface):
         for param in params + paramt:
             manipulator.add_parameter(param)
         # register signal handler (CTRL-C)
-        self.default_sigint = signal(SIGINT, self.handle_sigint)
+        signal(SIGINT, self.handle_sigint)
         return manipulator
 
     def launch(self, envs, nrep=None, size=None, verbose=None):
@@ -360,14 +360,14 @@ class SmmTuner(MeasurementInterface):
                     self.gflops, self.typename, filename
                 )
             )
-            if 0 == self.args.check:
+            # no validation in SIGINT (user may fired signal due to apps misbehavior)
+            if 0 == self.args.check and self.handle_sigint != getsignal(SIGINT):
                 run_result = self.launch(self.environment(config) + ["CHECK=1"])
                 if 0 != run_result["returncode"]:
                     print("WARNING: tuned result seems to be incorrect!")
 
     def handle_sigint(self, signum, frame):
         """Handle SIGINT or CTRL-C"""
-        signal(SIGINT, self.default_sigint)
         print(
             "\nWARNING: tuning {}x{}x{}-kernel was interrupted".format(
                 self.args.m, self.args.n, self.args.k
