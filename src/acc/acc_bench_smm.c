@@ -47,7 +47,7 @@
 
 #define ROUNDUP2(N, NPOT) ((((unsigned long long)N) + ((NPOT) - 1)) & ~((NPOT) - 1))
 #define CHECK(EXPR, RPTR) if ((NULL != ((const void*)(RPTR)) && EXIT_SUCCESS != *((const int*)(RPTR))) || \
-  EXIT_SUCCESS != (NULL != ((const void*)(RPTR)) ? (*((int*)(RPTR)) = (EXPR)) : (EXPR))) assert(0)
+  EXIT_SUCCESS != (NULL != ((const void*)(RPTR)) ? (*((int*)(RPTR)) = (EXPR)) : (EXPR))) assert(-1 == *((int*)(RPTR)))
 
 
 static void parse_params(int argc, char* argv[], FILE** file,
@@ -373,6 +373,10 @@ int main(int argc, char* argv[])
       if (NULL != file) printf("\n"); else break;
     }
   }
+#if !defined(__CUDA)
+  CHECK(libsmm_acc_finalize(), NULL);
+#endif
+  CHECK(c_dbcsr_acc_finalize(), NULL);
   if (EXIT_SUCCESS == result) {
 #if defined(USE_LIBXSMM) && defined(VALIDATE) && (0 != VALIDATE)
     if (1 < nok) printf("\nmax.error: %g\n", maxerror);
@@ -380,11 +384,13 @@ int main(int argc, char* argv[])
   }
   else {
     if (NULL != file) fclose(file);
-    fprintf(stderr, "FAILED\n");
+    if (-1 != result) {
+      fprintf(stderr, "FAILED\n");
+    }
+    else {
+      fprintf(stderr, "Kernel not suitable!\n");
+      result = EXIT_SUCCESS;
+    }
   }
-#if !defined(__CUDA)
-  CHECK(libsmm_acc_finalize(), NULL);
-#endif
-  CHECK(c_dbcsr_acc_finalize(), NULL);
   return result;
 }

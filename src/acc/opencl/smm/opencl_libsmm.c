@@ -298,12 +298,15 @@ int libsmm_acc_init(void)
     libxsmm_init();
     if (EXIT_SUCCESS == result) {
       const char *const env_params = getenv("OPENCL_LIBSMM_SMM_PARAMS");
+#if defined(OPENCL_LIBSMM_SUITABLE)
+      const char *const env_suitable = getenv("OPENCL_LIBSMM_SUITABLE");
+#endif
+      opencl_libsmm_perfest_t perfest;
+      memset(&perfest, 0, sizeof(perfest));
       if (NULL == env_params || '0' != *env_params) {
         char buffer[ACC_OPENCL_BUFFERSIZE];
-        opencl_libsmm_perfest_t perfest;
         opencl_libsmm_smm_t config;
         opencl_libsmm_smmkey_t key;
-        memset(&perfest, 0, sizeof(perfest));
         /* zeroing config (tuned parameters are setup below) */
         memset(&config, 0, sizeof(config));
         /* potentially heterogeneous key-data */
@@ -343,10 +346,12 @@ int libsmm_acc_init(void)
             else result = EXIT_FAILURE; /* invalid header */
             fclose(file);
           }
-          else result = EXIT_FAILURE; /* invalid file */
+          else if (0 != c_dbcsr_acc_opencl_config.verbosity) {
+            fprintf(stderr, "WARNING LIBSMM: failed to open parameter file!\n");
+          }
         }
 #if defined(OPENCL_LIBSMM_PARAMS_SMM)
-        else {
+        if (EXIT_SUCCESS == result && 0 == perfest.scount && 0 == perfest.dcount) {
           const char* line = OPENCL_LIBSMM_PARAMS_SMM, *next;
 # if defined(OPENCL_LIBSMM_PARAMS_DEVICE)
           key.device = OPENCL_LIBSMM_PARAMS_DEVICE;
@@ -372,94 +377,94 @@ int libsmm_acc_init(void)
           } while (NULL != next);
         }
 #endif
-#if defined(OPENCL_LIBSMM_SUITABLE)
-        if (EXIT_SUCCESS == result) {
-          const int stack_size = 30000, nrepeat = 100;
-          const int nc = MAX(stack_size / 16, 1), na = 10 * nc, nb = 10 * nc;
-          const int m = 8, n = 8, k = 8, mn = m * n, mk = m * k, kn = k * n;
-          const size_t scratch_size = /*stack*/stack_size * 3 * sizeof(int)
-            + (/*a*/na * mk + /*b*/nb * kn + /*c*/nc * mn) * /*max.typesize*/sizeof(double)
-            + 3 * (LIBXSMM_ALIGNMENT - 1)/*alignments*/;
-          void *const scratch = libxsmm_aligned_scratch(scratch_size, LIBXSMM_ALIGNMENT);
-          int *const s = (int*)scratch, i;
-          libxsmm_timer_tickint start;
-          const char notrans = 'N';
-          if (0 != perfest.scount) {
-            if (NULL != scratch) {
-              float *const a = (float*)LIBXSMM_UP2((uintptr_t)s + sizeof(int) * stack_size * 3, LIBXSMM_ALIGNMENT);
-              float *const b = (float*)LIBXSMM_UP2((uintptr_t)a + sizeof(float) * na * mk, LIBXSMM_ALIGNMENT);
-              float *const c = (float*)LIBXSMM_UP2((uintptr_t)b + sizeof(float) * nb * kn, LIBXSMM_ALIGNMENT);
-              const float alpha = 1, beta = 1;
-              init_stack(s, stack_size, mn, mk, kn, nc, na, nb);
-# if defined(_OPENMP)
-#             pragma omp parallel
-# endif
-              {
-# if defined(_OPENMP)
-#               pragma omp for
-# endif
-                for (i = 0; i < na; ++i) INIT_MAT(float, i + 42, &a[i*mk], m, k, 1.0 / (nc * na));
-# if defined(_OPENMP)
-#               pragma omp for
-# endif
-                for (i = 0; i < nb; ++i) INIT_MAT(float, i + 24, &b[i*kn], k, n, 1.0 / (nc * nb));
-              }
-              memset(c, 0, sizeof(float) * nc * mn);
-              start = libxsmm_timer_tick();
-              for (i = 0; i < nrepeat; ++i) {
-                OPENCL_LIBSMM_USEOMP(libxsmm_gemm_batch)(
-                  LIBXSMM_GEMM_PRECISION_F32, LIBXSMM_GEMM_PRECISION_F32,
-                  &notrans, &notrans, m, n, k, &alpha, a, &m/*lda*/, b, &k/*ldb*/,
-                  &beta, c, &m/*ldc*/, 1/*index_base*/, sizeof(int) * 3,
-                  s + 0, s + 1, s + 2, stack_size);
-              }
-              opencl_libsmm_shst = 1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat) / (
-                  libxsmm_timer_duration(start, libxsmm_timer_tick())
-                * OPENCL_LIBSMM_AI(m, n, k, sizeof(float)));
-            }
-            opencl_libsmm_sacc = (/*sqrt(perfest.gf_ai_sratio_max **/
-              exp(perfest.gf_ai_sratio_sumlog / perfest.scount));
-          }
-          if (0 != perfest.dcount) {
-            if (NULL != scratch) {
-              double *const a = (double*)LIBXSMM_UP2((uintptr_t)s + sizeof(int) * stack_size * 3, LIBXSMM_ALIGNMENT);
-              double *const b = (double*)LIBXSMM_UP2((uintptr_t)a + sizeof(double) * na * mk, LIBXSMM_ALIGNMENT);
-              double *const c = (double*)LIBXSMM_UP2((uintptr_t)b + sizeof(double) * nb * kn, LIBXSMM_ALIGNMENT);
-              const double alpha = 1, beta = 1;
-              init_stack(s, stack_size, mn, mk, kn, nc, na, nb);
-# if defined(_OPENMP)
-#             pragma omp parallel
-# endif
-              {
-# if defined(_OPENMP)
-#               pragma omp for
-# endif
-                for (i = 0; i < na; ++i) INIT_MAT(double, i + 42, &a[i*mk], m, k, 1.0 / (nc * na));
-# if defined(_OPENMP)
-#               pragma omp for
-# endif
-                for (i = 0; i < nb; ++i) INIT_MAT(double, i + 24, &b[i*kn], k, n, 1.0 / (nc * nb));
-              }
-              memset(c, 0, sizeof(double) * nc * mn);
-              start = libxsmm_timer_tick();
-              for (i = 0; i < nrepeat; ++i) {
-                OPENCL_LIBSMM_USEOMP(libxsmm_gemm_batch)(
-                  LIBXSMM_GEMM_PRECISION_F64, LIBXSMM_GEMM_PRECISION_F64,
-                  &notrans, &notrans, m, n, k, &alpha, a, &m/*lda*/, b, &k/*ldb*/,
-                  &beta, c, &m/*ldc*/, 1/*index_base*/, sizeof(int) * 3,
-                  s + 0, s + 1, s + 2, stack_size);
-              }
-              opencl_libsmm_dhst = 1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat) / (
-                  libxsmm_timer_duration(start, libxsmm_timer_tick())
-                * OPENCL_LIBSMM_AI(m, n, k, sizeof(double)));
-            }
-            opencl_libsmm_dacc = (/*sqrt(perfest.gf_ai_dratio_max **/
-              exp(perfest.gf_ai_dratio_sumlog / perfest.dcount));
-          }
-          libxsmm_free(scratch);
-        }
-#endif
       }
+#if defined(OPENCL_LIBSMM_SUITABLE)
+      if (EXIT_SUCCESS == result && (NULL == env_suitable || '0' != *env_suitable)) {
+        const int stack_size = 30000, nrepeat = 100;
+        const int nc = MAX(stack_size / 16, 1), na = 10 * nc, nb = 10 * nc;
+        const int m = 8, n = 8, k = 8, mn = m * n, mk = m * k, kn = k * n;
+        const size_t scratch_size = /*stack*/stack_size * 3 * sizeof(int)
+          + (/*a*/na * mk + /*b*/nb * kn + /*c*/nc * mn) * /*max.typesize*/sizeof(double)
+          + 3 * (LIBXSMM_ALIGNMENT - 1)/*alignments*/;
+        void *const scratch = libxsmm_aligned_scratch(scratch_size, LIBXSMM_ALIGNMENT);
+        int *const s = (int*)scratch, i;
+        libxsmm_timer_tickint start;
+        const char notrans = 'N';
+        if (0 != perfest.scount) {
+          if (NULL != scratch) {
+            float *const a = (float*)LIBXSMM_UP2((uintptr_t)s + sizeof(int) * stack_size * 3, LIBXSMM_ALIGNMENT);
+            float *const b = (float*)LIBXSMM_UP2((uintptr_t)a + sizeof(float) * na * mk, LIBXSMM_ALIGNMENT);
+            float *const c = (float*)LIBXSMM_UP2((uintptr_t)b + sizeof(float) * nb * kn, LIBXSMM_ALIGNMENT);
+            const float alpha = 1, beta = 1;
+            init_stack(s, stack_size, mn, mk, kn, nc, na, nb);
+# if defined(_OPENMP)
+#           pragma omp parallel
+# endif
+            {
+# if defined(_OPENMP)
+#             pragma omp for
+# endif
+              for (i = 0; i < na; ++i) INIT_MAT(float, i + 42, &a[i*mk], m, k, 1.0 / (nc * na));
+# if defined(_OPENMP)
+#             pragma omp for
+# endif
+              for (i = 0; i < nb; ++i) INIT_MAT(float, i + 24, &b[i*kn], k, n, 1.0 / (nc * nb));
+            }
+            memset(c, 0, sizeof(float) * nc * mn);
+            start = libxsmm_timer_tick();
+            for (i = 0; i < nrepeat; ++i) {
+              OPENCL_LIBSMM_USEOMP(libxsmm_gemm_batch)(
+                LIBXSMM_GEMM_PRECISION_F32, LIBXSMM_GEMM_PRECISION_F32,
+                &notrans, &notrans, m, n, k, &alpha, a, &m/*lda*/, b, &k/*ldb*/,
+                &beta, c, &m/*ldc*/, 1/*index_base*/, sizeof(int) * 3,
+                s + 0, s + 1, s + 2, stack_size);
+            }
+            opencl_libsmm_shst = 1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat) / (
+                libxsmm_timer_duration(start, libxsmm_timer_tick())
+              * OPENCL_LIBSMM_AI(m, n, k, sizeof(float)));
+          }
+          opencl_libsmm_sacc = (/*sqrt(perfest.gf_ai_sratio_max **/
+            exp(perfest.gf_ai_sratio_sumlog / perfest.scount));
+        }
+        if (0 != perfest.dcount) {
+          if (NULL != scratch) {
+            double *const a = (double*)LIBXSMM_UP2((uintptr_t)s + sizeof(int) * stack_size * 3, LIBXSMM_ALIGNMENT);
+            double *const b = (double*)LIBXSMM_UP2((uintptr_t)a + sizeof(double) * na * mk, LIBXSMM_ALIGNMENT);
+            double *const c = (double*)LIBXSMM_UP2((uintptr_t)b + sizeof(double) * nb * kn, LIBXSMM_ALIGNMENT);
+            const double alpha = 1, beta = 1;
+            init_stack(s, stack_size, mn, mk, kn, nc, na, nb);
+# if defined(_OPENMP)
+#           pragma omp parallel
+# endif
+            {
+# if defined(_OPENMP)
+#             pragma omp for
+# endif
+              for (i = 0; i < na; ++i) INIT_MAT(double, i + 42, &a[i*mk], m, k, 1.0 / (nc * na));
+# if defined(_OPENMP)
+#             pragma omp for
+# endif
+              for (i = 0; i < nb; ++i) INIT_MAT(double, i + 24, &b[i*kn], k, n, 1.0 / (nc * nb));
+            }
+            memset(c, 0, sizeof(double) * nc * mn);
+            start = libxsmm_timer_tick();
+            for (i = 0; i < nrepeat; ++i) {
+              OPENCL_LIBSMM_USEOMP(libxsmm_gemm_batch)(
+                LIBXSMM_GEMM_PRECISION_F64, LIBXSMM_GEMM_PRECISION_F64,
+                &notrans, &notrans, m, n, k, &alpha, a, &m/*lda*/, b, &k/*ldb*/,
+                &beta, c, &m/*ldc*/, 1/*index_base*/, sizeof(int) * 3,
+                s + 0, s + 1, s + 2, stack_size);
+            }
+            opencl_libsmm_dhst = 1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat) / (
+                libxsmm_timer_duration(start, libxsmm_timer_tick())
+              * OPENCL_LIBSMM_AI(m, n, k, sizeof(double)));
+          }
+          opencl_libsmm_dacc = (/*sqrt(perfest.gf_ai_dratio_max **/
+            exp(perfest.gf_ai_dratio_sumlog / perfest.dcount));
+        }
+        libxsmm_free(scratch);
+      }
+#endif
     }
   }
   ACC_OPENCL_RETURN(result);

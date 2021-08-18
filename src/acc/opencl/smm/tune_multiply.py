@@ -36,8 +36,8 @@ class SmmTuner(MeasurementInterface):
         self.args.bs = max(min(self.args.bs, self.args.mb), 1)
         self.args.bm = [max(self.args.bm, 1), self.args.m][0 == self.args.bm]
         self.args.bn = [max(self.args.bn, 1), 1][0 == self.args.bn]
+        self.gfbase = self.gflops = 0
         self.config = None
-        self.gflops = 0
         self.exepath = "../.."
         self.exename = "acc_bench_smm"
         run_result = (  # verbosity to capture device name and tuned parameters
@@ -229,6 +229,8 @@ class SmmTuner(MeasurementInterface):
         if performance and performance.group(1) and performance.group(3):
             mseconds = float(performance.group(1))
             gflops = float(performance.group(3))
+            if 0 == self.gflops:  # seed configuration
+                self.gfbase = gflops
             if self.gflops < gflops:
                 # keep best configuration in case of an early exit
                 self.config = desired_result.configuration
@@ -355,9 +357,11 @@ class SmmTuner(MeasurementInterface):
             if filename not in filenames:
                 filenames.append(filename)
                 self.merge_jsons(filenames)
+            speedup = round((self.gflops / self.gfbase) if 0 < self.gfbase else 0, 1)
             print(
-                "Result achieving {} GFLOPS/s ({}) was written to {}".format(
-                    self.gflops, self.typename, filename
+                "Result{} was written to {}".format(
+                    " ({}x over seed)".format(speedup) if 1 < speedup else "",
+                    filename,
                 )
             )
             # no validation in SIGINT (user may fired signal due to apps misbehavior)
