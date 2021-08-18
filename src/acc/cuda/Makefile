@@ -177,8 +177,8 @@ test-interface: $(MAKDIR)/../dbcsr_acc_test
 
 .PHONY: test-trans
 test-trans: bench
-	$(eval SHAPES = $(shell $(MAKDIR)/../acc_triplets.sh -l -s $(SPECID) -m $(MAXEXT) -n $(NTRANS) -a))
-	@echo "--- DBCSR OpenCL Transposes ($(words $(SHAPES)))"
+	$(eval SHAPES = $(shell $(MAKDIR)/../acc_triplets.sh -s $(SPECID) -m $(MAXEXT) -n $(NTRANS) -a))
+	@echo "--- DBCSR CUDA Transposes ($(words $(SHAPES)))"
 	@echo "runtime libraries:"
 	@ldd $(MAKDIR)/../acc_bench_trans
 	@echo "hostname: $$(hostname)"
@@ -189,12 +189,13 @@ test-trans: bench
 	done
 
 $(MAKDIR)/test-smm.log: bench
-	@echo "--- DBCSR OpenCL SMMs"
+	$(eval SHAPES = $(shell $(MAKDIR)/../acc_triplets.sh -s $(SPECID) -m $(MAXEXT) -n $(NSMMS)))
+	@echo "--- DBCSR CUDA SMMs ($(words $(SHAPES)))"
 	@echo "runtime libraries:"
 	@ldd $(MAKDIR)/../acc_bench_smm
 	@echo "hostname: $$(hostname)"
 	@echo
-	@$(MAKDIR)/../acc_triplets.sh -l -s $(SPECID) -m $(MAXEXT) -n $(NSMMS) | \
+	@echo "$(SHAPES)" | xargs -n1 | \
 		(CHECK=1 stdbuf --output=L $(MAKDIR)/../acc_bench_smm /dev/stdin \
 			2>$(MAKDIR)/test-smm.err && rm $(MAKDIR)/test-smm.err) | tee $@
 	@if [ -s $(MAKDIR)/test-smm.err ]; then cat $(MAKDIR)/test-smm.err && exit 1; fi

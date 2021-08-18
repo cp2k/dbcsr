@@ -40,6 +40,13 @@ PARAMS_WITHGPU := $(MAKDIR)/smm/params/tune_multiply_$(WITH_GPU).csv
 PARAMS_DEFAULT := $(MAKDIR)/smm/tune_multiply.csv
 PARAMS := $(if $(wildcard $(PARAMS_WITHGPU)),$(PARAMS_WITHGPU),$(wildcard $(PARAMS_DEFAULT)))
 
+#PARAMS_DIR ?= $(MAKDIR)/smm/params
+ifeq (,$(PARAMS))
+ifneq (,$(wildcard $(PARAMS_DIR)))
+  WITH_GPUS := $(shell ls -1 $(PARAMS_DIR)/*.csv | cut -d. -f1 | rev | cut -d_ -f1 | rev)
+endif
+endif
+
 CFLAGS := -fPIC \
   -Wall -Wextra -pedantic \
   -Wno-overlength-strings \
@@ -177,9 +184,10 @@ test-interface: $(MAKDIR)/../dbcsr_acc_test
 
 .PHONY: test-trans
 test-trans: bench
-	$(eval SHAPES = $(shell $(MAKDIR)/../acc_triplets.sh -l -s $(SPECID) -m $(MAXEXT) -n $(NTRANS) -a))
+	$(eval SHAPES = $(shell $(MAKDIR)/../acc_triplets.sh -s $(SPECID) -m $(MAXEXT) -n $(NTRANS) -a))
+	$(eval DEVICE = $(shell ACC_OPENCL_VERBOSE=1 CHECK=0 $(MAKDIR)/../acc_bench_smm 1 1 1 2>&1 >/dev/null))
 	@echo "--- DBCSR OpenCL Transposes ($(words $(SHAPES)))"
-	@ACC_OPENCL_VERBOSE=1 CHECK=0 $(MAKDIR)/../acc_bench_trans 2>&1 >/dev/null
+	@echo "$(DEVICE)"
 	@echo "runtime libraries:"
 	@ldd $(MAKDIR)/../acc_bench_trans
 	@echo "hostname: $$(hostname)"
@@ -190,14 +198,19 @@ test-trans: bench
 	done
 
 $(MAKDIR)/test-smm.log: bench
-	@echo "--- DBCSR OpenCL SMMs"
-	@ACC_OPENCL_VERBOSE=1 CHECK=0 $(MAKDIR)/../acc_bench_smm 2>&1 >/dev/null
+	$(eval SHAPES = $(shell $(MAKDIR)/../acc_triplets.sh -s $(SPECID) -m $(MAXEXT) -n $(NSMMS)))
+	$(eval DEVICE = "$(shell LIBXSMM_VERBOSE=0 ACC_OPENCL_VERBOSE=1 CHECK=0 $(MAKDIR)/../acc_bench_smm 1 1 1 2>&1 >/dev/null)")
+	$(eval WITH_GPU = $(firstword $(foreach GPU,$(WITH_GPUS),$(findstring $(GPU),$(DEVICE)))))
+	$(eval PARAMS = $(firstword $(wildcard $(PARAMS_DIR)/tune_multiply_*$(WITH_GPU).csv)))
+	$(eval GPUENV = $(if $(PARAMS),OPENCL_LIBSMM_SMM_PARAMS=$(PARAMS)))
+	@echo "--- DBCSR OpenCL SMMs ($(words $(SHAPES)))"
+	@echo "$(DEVICE)"
 	@echo "runtime libraries:"
 	@ldd $(MAKDIR)/../acc_bench_smm
 	@echo "hostname: $$(hostname)"
 	@echo
-	@$(MAKDIR)/../acc_triplets.sh -l -s $(SPECID) -m $(MAXEXT) -n $(NSMMS) | \
-		(CHECK=1 stdbuf --output=L $(MAKDIR)/../acc_bench_smm /dev/stdin \
+	@echo "$(SHAPES)" | xargs -n1 | \
+		($(GPUENV) CHECK=1 stdbuf --output=L $(MAKDIR)/../acc_bench_smm /dev/stdin \
 			2>$(MAKDIR)/test-smm.err && rm $(MAKDIR)/test-smm.err) | tee $@
 	@if [ -s $(MAKDIR)/test-smm.err ]; then cat $(MAKDIR)/test-smm.err && exit 1; fi
 

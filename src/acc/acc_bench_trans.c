@@ -43,12 +43,9 @@
 #define MAX(A, B) ((B) < (A) ? (A) : (B))
 #define ROUNDUP2(N, NPOT) ((((unsigned long long)N) + ((NPOT) - 1)) & ~((NPOT) - 1))
 #define CHECK(EXPR, RPTR) if ((NULL != ((const void*)(RPTR)) && EXIT_SUCCESS != *((const int*)(RPTR))) || \
-  EXIT_SUCCESS != (NULL != ((const void*)(RPTR)) ? (*((int*)(RPTR)) = (EXPR)) : (EXPR))) assert(0)
+  EXIT_SUCCESS != (NULL != ((const void*)(RPTR)) ? (*((int*)(RPTR)) = (EXPR)) : (EXPR))) assert(-1 == *((int*)(RPTR)))
 
 
-#if defined(_DEBUG) && defined(USE_LIBXSMM)
-static void print(FILE* ostream, const char* label, const ELEM_TYPE* mat, int m, int n);
-#endif
 static void swap(int* m, int* n) { int tmp = *m; *m = *n; *n = tmp; }
 
 
@@ -220,15 +217,7 @@ int main(int argc, char* argv[])
         libxsmm_itrans(gold, sizeof(ELEM_TYPE), m, n, m, n);
         for (r = 0; r < (m * n); ++r) {
           if (gold[r] != test[r]) {
-            ++nerrors;
-# if defined(_DEBUG)
-            print(stderr, "gold = ", gold, n, m);
-            print(stderr, "test = ", test, n, m);
-            INIT_MAT(ELEM_TYPE, i/*seed*/, gold, m, n, 1.0/*scale*/);
-            print(stderr, "orig = ", gold, m, n);
-            fprintf(stderr, "\n");
-# endif
-            break;
+            ++nerrors; break;
           }
         }
       }
@@ -247,24 +236,13 @@ int main(int argc, char* argv[])
 #endif
   CHECK(c_dbcsr_acc_finalize(), NULL);
   if (EXIT_SUCCESS != result) {
-    fprintf(stderr, "FAILED\n");
+    if (-1 != result) {
+      fprintf(stderr, "FAILED\n");
+    }
+    else {
+      fprintf(stderr, "Kernel not suitable!\n");
+      result = EXIT_SUCCESS;
+    }
   }
   return result;
 }
-
-
-#if defined(_DEBUG) && defined(USE_LIBXSMM)
-static void print(FILE* ostream, const char* label, const ELEM_TYPE* mat, int m, int n)
-{
-  int i, j;
-  const char *const s = (NULL != label ? label : "");
-  const int len = (int)strlen(s);
-  for (i = 0; i < n; ++i) {
-    if (0 < i) fprintf(ostream, "%*s", len, " "); else fprintf(ostream, "%s", s);
-    for (j = 0; j < m; ++j) {
-      fprintf(ostream, "%.2f ", mat[i*m+j]);
-    }
-    fprintf(ostream, "\n");
-  }
-}
-#endif
