@@ -296,10 +296,10 @@ class SmmTuner(MeasurementInterface):
                         merged[key] = value
                     else:
                         filename2 = merged[key][-1]
-                        if merged[key][0] < value[0]:
+                        if merged[key][0] <= value[0]:
                             merged[key] = value
                         else:
-                            filename2 = value[-1]
+                            filename2 = filename
                         if key in worse:
                             worse[key].append(filename2)
                         else:
