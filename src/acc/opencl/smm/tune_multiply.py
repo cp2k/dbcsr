@@ -486,10 +486,9 @@ if __name__ == "__main__":
         os.environ["OPENCL_LIBSMM_SMM_BN"] = "0"
         default_mb = 64
     if 2 <= args.tlevel:
-        os.environ["OPENCL_LIBSMM_SMM_LU"] = "0" if 24 >= m else "1"
+        os.environ["OPENCL_LIBSMM_SMM_AP"] = "0" if 24 >= m else "1"
         os.environ["OPENCL_LIBSMM_SMM_NZ"] = "0"
     if 3 <= args.tlevel:
-        os.environ["OPENCL_LIBSMM_SMM_AP"] = "0" if 24 >= m else "1"
         os.environ["OPENCL_LIBSMM_SMM_AC"] = "0"
         os.environ["OPENCL_LIBSMM_SMM_WG"] = "1"
     # additional/depending arguments
