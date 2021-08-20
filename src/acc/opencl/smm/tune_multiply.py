@@ -28,6 +28,7 @@ import os
 class SmmTuner(MeasurementInterface):
     def manipulator(self):
         """Setup common state and define search space"""
+        manipulator = ConfigurationManipulator()
         # sanitize input arguments
         self.args.m = max(self.args.m, 1)
         self.args.n = [max(self.args.n, 1), self.args.m][0 == self.args.n]
@@ -36,6 +37,8 @@ class SmmTuner(MeasurementInterface):
         self.args.bs = max(min(self.args.bs, self.args.mb), 1)
         self.args.bm = [max(self.args.bm, 1), self.args.m][0 == self.args.bm]
         self.args.bn = [max(self.args.bn, 1), 1][0 == self.args.bn]
+        self.bs = self.bm = self.bn = self.wg = self.nz = self.lu = None
+        self.ap = self.aa = self.ab = self.ac = None
         self.gfbase = self.gflops = 0
         self.config = None
         self.exepath = "../.."
@@ -59,7 +62,7 @@ class SmmTuner(MeasurementInterface):
                 str(run_result["stderr"]),
             )
             self.device = device.group(1) if device and device.group(1) else ""
-            params = re.search(
+            seed = re.search(
                 "INFO ACC/OpenCL:\\s+{}\\s+{}SMM-kernel{}{}{}{}".format(
                     "{}x{}x{}".format(self.args.m, self.args.n, self.args.k),
                     {"float": "S", "double": "D"}.get(self.typename, ""),
@@ -70,16 +73,65 @@ class SmmTuner(MeasurementInterface):
                 ),
                 str(run_result["stderr"]),
             )
-            self.bs = int(params.group(1)) if params and params.group(1) else None
-            self.bm = int(params.group(2)) if params and params.group(2) else None
-            self.bn = int(params.group(3)) if params and params.group(3) else None
-            self.wg = int(params.group(4)) if params and params.group(4) else None
-            self.lu = int(params.group(5)) if params and params.group(5) else None
-            self.nz = int(params.group(6)) if params and params.group(6) else None
-            self.ap = int(params.group(7)) if params and params.group(7) else None
-            self.aa = int(params.group(8)) if params and params.group(8) else None
-            self.ab = int(params.group(9)) if params and params.group(9) else None
-            self.ac = int(params.group(10)) if params and params.group(10) else None
+            # setup fixed and tunable parameters
+            params, paramt = [], []
+            if os.getenv("OPENCL_LIBSMM_SMM_BS"):
+                params.append(IntegerParameter("BS", self.args.bs, self.args.bs))
+            else:
+                self.bs = int(seed.group(1)) if seed and seed.group(1) else None
+                paramt.append(IntegerParameter("BS", 1, self.args.mb))
+            if os.getenv("OPENCL_LIBSMM_SMM_BM"):
+                params.append(IntegerParameter("BM", self.args.bm, self.args.bm))
+            else:
+                self.bm = int(seed.group(2)) if seed and seed.group(2) else None
+                paramt.append(IntegerParameter("BM", 1, self.args.m))
+            if os.getenv("OPENCL_LIBSMM_SMM_BN"):
+                params.append(IntegerParameter("BN", self.args.bn, self.args.bn))
+            else:
+                self.bn = int(seed.group(3)) if seed and seed.group(3) else None
+                paramt.append(IntegerParameter("BN", 1, self.args.n))
+            if os.getenv("OPENCL_LIBSMM_SMM_WG"):
+                params.append(IntegerParameter("WG", self.args.wg, self.args.wg))
+            else:
+                self.wg = int(seed.group(4)) if seed and seed.group(4) else None
+                paramt.append(IntegerParameter("WG", 0, 2))
+            if os.getenv("OPENCL_LIBSMM_SMM_LU"):
+                params.append(IntegerParameter("LU", self.args.lu, self.args.lu))
+            else:
+                self.lu = int(seed.group(5)) if seed and seed.group(5) else None
+                paramt.append(IntegerParameter("LU", 0, 2))
+            if os.getenv("OPENCL_LIBSMM_SMM_NZ"):
+                params.append(IntegerParameter("NZ", self.args.nz, self.args.nz))
+            else:
+                self.nz = int(seed.group(6)) if seed and seed.group(6) else None
+                paramt.append(IntegerParameter("NZ", 0, 1))
+            if os.getenv("OPENCL_LIBSMM_SMM_AP"):
+                params.append(IntegerParameter("AP", self.args.ap, self.args.ap))
+            else:
+                self.ap = int(seed.group(7)) if seed and seed.group(7) else None
+                paramt.append(IntegerParameter("AP", 0, 1))
+            if os.getenv("OPENCL_LIBSMM_SMM_AA"):
+                params.append(IntegerParameter("AA", self.args.aa, self.args.aa))
+            else:
+                self.aa = int(seed.group(8)) if seed and seed.group(8) else None
+                paramt.append(IntegerParameter("AA", 0, 3))
+            if os.getenv("OPENCL_LIBSMM_SMM_AB"):
+                params.append(IntegerParameter("AB", self.args.ab, self.args.ab))
+            else:
+                self.ab = int(seed.group(9)) if seed and seed.group(9) else None
+                paramt.append(IntegerParameter("AB", 0, 3))
+            if os.getenv("OPENCL_LIBSMM_SMM_AC"):
+                params.append(IntegerParameter("AC", self.args.ac, self.args.ac))
+            else:
+                self.ac = int(seed.group(10)) if seed and seed.group(10) else None
+                paramt.append(IntegerParameter("AC", 0, 2))
+            if not paramt:
+                sys.tracebacklimit = 0
+                raise RuntimeError(
+                    "All tunable parameters are fixed with environment variables!"
+                )
+            for param in params + paramt:
+                manipulator.add_parameter(param)
         elif self.args.update is not None and "" != self.args.update:
             self.device = self.args.update
         else:
@@ -105,55 +157,6 @@ class SmmTuner(MeasurementInterface):
             raise RuntimeError(
                 "Setup failed for {}/{}!".format(self.exepath, self.exename)
             )
-        # setup fixed and tunable parameters
-        manipulator, params, paramt = ConfigurationManipulator(), [], []
-        if os.getenv("OPENCL_LIBSMM_SMM_BS"):
-            params.append(IntegerParameter("BS", self.args.bs, self.args.bs))
-        else:
-            paramt.append(IntegerParameter("BS", 1, self.args.mb))
-        if os.getenv("OPENCL_LIBSMM_SMM_BM"):
-            params.append(IntegerParameter("BM", self.args.bm, self.args.bm))
-        else:
-            paramt.append(IntegerParameter("BM", 1, self.args.m))
-        if os.getenv("OPENCL_LIBSMM_SMM_BN"):
-            params.append(IntegerParameter("BN", self.args.bn, self.args.bn))
-        else:
-            paramt.append(IntegerParameter("BN", 1, self.args.n))
-        if os.getenv("OPENCL_LIBSMM_SMM_WG"):
-            params.append(IntegerParameter("WG", self.args.wg, self.args.wg))
-        else:
-            paramt.append(IntegerParameter("WG", 0, 2))
-        if os.getenv("OPENCL_LIBSMM_SMM_LU"):
-            params.append(IntegerParameter("LU", self.args.lu, self.args.lu))
-        else:
-            paramt.append(IntegerParameter("LU", 0, 2))
-        if os.getenv("OPENCL_LIBSMM_SMM_NZ"):
-            params.append(IntegerParameter("NZ", self.args.nz, self.args.nz))
-        else:
-            paramt.append(IntegerParameter("NZ", 0, 1))
-        if os.getenv("OPENCL_LIBSMM_SMM_AP"):
-            params.append(IntegerParameter("AP", self.args.ap, self.args.ap))
-        else:
-            paramt.append(IntegerParameter("AP", 0, 1))
-        if os.getenv("OPENCL_LIBSMM_SMM_AA"):
-            params.append(IntegerParameter("AA", self.args.aa, self.args.aa))
-        else:
-            paramt.append(IntegerParameter("AA", 0, 3))
-        if os.getenv("OPENCL_LIBSMM_SMM_AB"):
-            params.append(IntegerParameter("AB", self.args.ab, self.args.ab))
-        else:
-            paramt.append(IntegerParameter("AB", 0, 3))
-        if os.getenv("OPENCL_LIBSMM_SMM_AC"):
-            params.append(IntegerParameter("AC", self.args.ac, self.args.ac))
-        else:
-            paramt.append(IntegerParameter("AC", 0, 2))
-        if not paramt:
-            sys.tracebacklimit = 0
-            raise RuntimeError(
-                "All tunable parameters are fixed with environment variables!"
-            )
-        for param in params + paramt:
-            manipulator.add_parameter(param)
         # register signal handler (CTRL-C)
         signal(SIGINT, self.handle_sigint)
         return manipulator
