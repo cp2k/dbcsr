@@ -291,9 +291,10 @@ class SmmTuner(MeasurementInterface):
                     )
                     if key not in merged:
                         merged[key] = value
-                    elif merged[key][0] < value[0]:
+                    else:
+                        if merged[key][0] < value[0]:
+                            merged[key] = value
                         filename2 = merged[key][-1]
-                        merged[key] = value
                         if key in worse:
                             worse[key].append(filename2)
                         else:
