@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-69-g0cfe080a7</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-70-g532624f87</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -131,7 +131,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for source files.">35 statements</a>
+    title=" 0.0% of total for source files.">31 statements</a>
      </li> 
      
      
@@ -307,11 +307,11 @@
 <a id="ln-39" name="ln-39"></a>         <span class="n">routineName</span><span class="p">(</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="p">)</span> <span class="o">=</span> <span class="n">a</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
 <a id="ln-40" name="ln-40"></a>      <span class="k">END DO</span>
 <a id="ln-41" name="ln-41"></a>
-<a id="ln-42" name="ln-42"></a><span class="cp">#if ! defined (__DBCSR_ACC)</span>
-<a id="ln-43" name="ln-43"></a>      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">handle</span><span class="p">)</span>
-<a id="ln-44" name="ln-44"></a>      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in.&quot;</span><span class="p">)</span>
-<a id="ln-45" name="ln-45"></a><span class="cp">#else</span>
-<a id="ln-46" name="ln-46"></a>      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineName</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
+<a id="ln-42" name="ln-42"></a><span class="cp">#if defined (__DBCSR_ACC)</span>
+<a id="ln-43" name="ln-43"></a>      <span class="k">CALL </span><span class="n">timeset</span><span class="p">(</span><span class="n">routineName</span><span class="p">,</span> <span class="n">handle</span><span class="p">)</span>
+<a id="ln-44" name="ln-44"></a><span class="cp">#else</span>
+<a id="ln-45" name="ln-45"></a>      <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;__DBCSR_ACC not compiled in.&quot;</span><span class="p">)</span>
+<a id="ln-46" name="ln-46"></a>      <span class="n">handle</span> <span class="o">=</span> <span class="mi">0</span>
 <a id="ln-47" name="ln-47"></a><span class="cp">#endif</span>
 <a id="ln-48" name="ln-48"></a>
 <a id="ln-49" name="ln-49"></a>   <span class="k">END SUBROUTINE </span><span class="n">dbcsr_timeset_F</span>

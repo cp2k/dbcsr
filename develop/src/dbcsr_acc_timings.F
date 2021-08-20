@@ -39,11 +39,11 @@ CONTAINS
          routineName(i:i) = a(i)
       END DO
 
-#if ! defined (__DBCSR_ACC)
-      MARK_USED(handle)
-      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
-#else
+#if defined (__DBCSR_ACC)
       CALL timeset(routineName, handle)
+#else
+      DBCSR_ABORT("__DBCSR_ACC not compiled in.")
+      handle = 0
 #endif
 
    END SUBROUTINE dbcsr_timeset_F
