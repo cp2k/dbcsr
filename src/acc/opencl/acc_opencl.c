@@ -506,11 +506,9 @@ int c_dbcsr_acc_opencl_device_level(cl_device_id device,
   int* level_major, int* level_minor, char cl_std[16])
 {
   char buffer[ACC_OPENCL_BUFFERSIZE], skip[ACC_OPENCL_BUFFERSIZE];
-#if 0
-  cl_int result = clGetDeviceInfo(device, CL_DEVICE_VERSION, ACC_OPENCL_BUFFERSIZE, buffer, NULL);
-#else
-  cl_int result = clGetDeviceInfo(device, CL_DEVICE_OPENCL_C_VERSION, ACC_OPENCL_BUFFERSIZE, buffer, NULL);
-#endif
+  cl_int result = (EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(device, "nvidia")
+    ? clGetDeviceInfo(device, CL_DEVICE_VERSION, ACC_OPENCL_BUFFERSIZE, buffer, NULL)
+    : clGetDeviceInfo(device, CL_DEVICE_OPENCL_C_VERSION, ACC_OPENCL_BUFFERSIZE, buffer, NULL));
   assert(NULL != device && (NULL != level_major || NULL != level_minor || NULL != cl_std));
   if (CL_SUCCESS == result) {
     unsigned int level[2];
