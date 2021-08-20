@@ -193,7 +193,7 @@ class SmmTuner(MeasurementInterface):
         ]
 
     def objective(self):
-        if not self.args.primary:
+        if 0 == args.tlevel:
             return opentuner.search.objective.MaximizeAccuracyMinimizeSize()
         else:
             return opentuner.search.objective.MaximizeAccuracy()
@@ -466,14 +466,6 @@ if __name__ == "__main__":
         default=False,
         dest="verbose",
         help="Verbose output",
-    )
-    argparser.add_argument(
-        "-p",
-        "--primary-objective",
-        action="store_true",
-        default=False,
-        dest="primary",
-        help="Primary objective only",
     )
     argparser.add_argument(
         "-a",
