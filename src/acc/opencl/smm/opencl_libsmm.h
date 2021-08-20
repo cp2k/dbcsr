@@ -78,7 +78,7 @@ typedef struct opencl_libsmm_smm_t {
   cl_kernel kernel; /* must be the 1st data member */
   size_t wgsize;
   /* parameters (either pretuned or determined) */
-  int bs, bm, bn, wg, nz, lu, ap, aa, ab, ac;
+  int bs, bm, bn, wg, lu, nz, ap, aa, ab, ac;
   /* ACC_OPENCL_VERBOSE: perf. counters */
   double gflops_sumlog, gflops_comp;
   size_t nexec;

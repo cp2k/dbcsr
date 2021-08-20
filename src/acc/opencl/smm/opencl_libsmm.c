@@ -188,10 +188,10 @@ int opencl_libsmm_read_params(char* parambuf,
         value->wg = i; ++consumed;
       } break;
       case 10: if (1 == sscanf(s, "%i", &i)) {
-        value->nz = i; ++consumed;
+        value->lu = i; ++consumed;
       } break;
       case 11: if (1 == sscanf(s, "%i", &i)) {
-        value->lu = i; ++consumed;
+        value->nz = i; ++consumed;
       } break;
       case 12: if (1 == sscanf(s, "%i", &i)) {
         value->ap = i; ++consumed;
@@ -974,7 +974,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
           if (NULL != tname) {
             int cl_intel_id = 0, unified = 0;
             const char *const env_wg = getenv("OPENCL_LIBSMM_SMM_WG");
-            const char *const env_nz = getenv("OPENCL_LIBSMM_SMM_NZ"), *const env_lu = getenv("OPENCL_LIBSMM_SMM_LU");
+            const char *const env_lu = getenv("OPENCL_LIBSMM_SMM_LU"), *const env_nz = getenv("OPENCL_LIBSMM_SMM_NZ");
             const char *const env_ap = getenv("OPENCL_LIBSMM_SMM_AP"), *const env_aa = getenv("OPENCL_LIBSMM_SMM_AA");
             const char *const env_ab = getenv("OPENCL_LIBSMM_SMM_AB"), *const env_ac = getenv("OPENCL_LIBSMM_SMM_AC");
             const int cl_nonv = ((EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(active_device, "intel")
@@ -982,10 +982,10 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                                || EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(active_device, "nvidia"));
             const int wg = ((NULL == env_wg || '\0' == *env_wg)
               ? (NULL == config ? /*default*/0 : config->wg) : LIBXSMM_CLMP(atoi(env_wg), 0, 2));
+            const int lu = ((NULL == env_lu || '\0' == *env_lu)
+              ? (NULL == config ? /*default*/0 : config->lu) : LIBXSMM_CLMP(atoi(env_lu), 0, 2));
             const int nz = ((NULL == env_nz || '\0' == *env_nz)
               ? (NULL == config ? /*default*/0 : config->nz) : LIBXSMM_CLMP(atoi(env_nz), 0, 1));
-            const int lu = ((NULL == env_lu || '\0' == *env_lu)
-              ? (NULL == config ? /*default*/0 : config->lu) : LIBXSMM_CLMP(atoi(env_lu), 0, 1));
             const int ap = ((NULL == env_ap || '\0' == *env_ap)
               ? (NULL == config ? /*default*/1 : config->ap) : LIBXSMM_CLMP(atoi(env_ap), 0, 1));
             const int aa = ((NULL == env_aa || '\0' == *env_aa)
@@ -1119,7 +1119,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                   0 == ab ? "" : (1 == ab ? "-DSHARED_B=1" : (2 == ab ? "-DSHARED_B=2" : "-DPRIVATE_B")),
                   0 == ac ? "" : (1 == ac ? "-DSHARED_C=1" : (2 == ac ? "-DSHARED_C=2" : "-DPRIVATE_C")),
                   0 == ap ? "" : "-DSHARED_P", 0 == nz ? "" : "-DATOMIC_INC_NZ",
-                  0 == lu ? "" : "-D\"UNROLL_SM=UNROLL(1)\"",
+                  0 == lu ? "" : (1 == lu ? "-D\"UNROLL_SM=UNROLL_FORCE(1)\"" : "-D\"UNROLL(N)=UNROLL_FORCE(N)\""),
                   atomic_type, atomic_ops, atomic_exp, atomic_expr2);
                 if (0 < nchar && (int)sizeof(build_params) > nchar) {
                   nchar = ACC_OPENCL_SNPRINTF(build_options, sizeof(build_options),
@@ -1161,7 +1161,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                     if (NULL != config) {
                       config->wgsize = (size_t)wgsize;
                       config->bs = bs; config->bm = bm; config->bn = bn;
-                      config->wg = wg; config->nz = nz; config->lu = lu;
+                      config->wg = wg; config->lu = lu; config->nz = nz;
                       config->ap = ap; config->aa = aa; config->ab = ab;
                       config->ac = ac;
                       config->kernel = new_config.kernel;
@@ -1169,9 +1169,9 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                       if (2 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
                         duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
                         fprintf(stderr, "INFO ACC/OpenCL: %ix%ix%i %sSMM-kernel "
-                          "bs=%i bm=%i bn=%i wg=%i nz=%i lu=%i ap=%i aa=%i ab=%i ac=%i gen=%.1f ms\n", m_max, n_max, k_max,
+                          "bs=%i bm=%i bn=%i wg=%i lu=%i nz=%i ap=%i aa=%i ab=%i ac=%i gen=%.1f ms\n", m_max, n_max, k_max,
                           dbcsr_type_real_8 == datatype ? "D" : (dbcsr_type_real_4 == datatype ? "S" : ""),
-                          bs, bm, bn, wg, nz, lu, ap, aa, ab, ac, 1000.0 * duration);
+                          bs, bm, bn, wg, lu, nz, ap, aa, ab, ac, 1000.0 * duration);
                       }
 # endif
                     }
@@ -1206,8 +1206,8 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
           && 0 < config->bn && config->bn <= n_max
           && 1 <= config->bs && 0 < config->wgsize
           && 0 <= config->wg && 2 >= config->wg
+          && 0 <= config->lu && 2 >= config->lu
           && 0 <= config->nz && 1 >= config->nz
-          && 0 <= config->lu && 1 >= config->lu
           && 0 <= config->ap && 1 >= config->ap
           && 0 <= config->aa && 3 >= config->aa
           && 0 <= config->ab && 3 >= config->ab
