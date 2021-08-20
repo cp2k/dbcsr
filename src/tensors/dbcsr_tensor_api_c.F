@@ -599,14 +599,14 @@ CONTAINS
       INTEGER(kind=c_int), INTENT(IN) :: c_ind(${ndim}$)
       TYPE(c_ptr), INTENT(INOUT) :: c_block
       LOGICAL(kind=c_bool), INTENT(INOUT) :: c_found
-            
+
       TYPE(dbcsr_t_type), POINTER :: tensor
       INTEGER, DIMENSION(${ndim}$) :: ind
       LOGICAL :: found, tr
-      
+
       INTEGER(KIND=int_8), DIMENSION(2) :: ind_2d
       ${dtype}$, DIMENSION(:, :), POINTER, CONTIGUOUS :: block_2d_ptr
-      
+
       CALL c_f_pointer(c_tensor, tensor)
       ind = c_ind + 1
 
@@ -615,7 +615,7 @@ CONTAINS
       ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
 
       CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
-      
+
       c_found = found
       c_block = c_loc(block_2d_ptr)
 
