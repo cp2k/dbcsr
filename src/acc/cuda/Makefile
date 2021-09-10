@@ -1,3 +1,6 @@
+# This makefile builds the transpose and SMM benchmark drivers without building DBCSR.
+# It is for tests and comparison to other implementation (ie. OpenCL).
+
 MAKDIR := $(subst //,,$(dir $(firstword $(MAKEFILE_LIST)))/)
 INCACC := $(wildcard $(MAKDIR)/*.h*) $(MAKDIR)/../acc.h
 SRCACC := $(wildcard $(MAKDIR)/*.cpp)
