@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-74-g3df93e435</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-81-g392754357</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -344,7 +344,7 @@
   
   <td><span class="anchor" id="variable-nrows_total"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nrows_total</strong></td><td></td><td></td><td><p>total number of rows
  total number of columns
@@ -362,7 +362,7 @@
   
   <td><span class="anchor" id="variable-ncols_total"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>ncols_total</strong></td><td></td><td></td><td><p>total number of rows
  total number of columns
@@ -380,7 +380,7 @@
   
   <td><span class="anchor" id="variable-nze_local"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nze_local</strong></td><td></td><td></td><td><p>total number of rows
  total number of columns
@@ -398,7 +398,7 @@
   
   <td><span class="anchor" id="variable-nrows_local"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nrows_local</strong></td><td></td><td></td><td><p>total number of rows
  total number of columns
@@ -416,7 +416,7 @@
   
   <td><span class="anchor" id="variable-mp_group~2"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>mp_group</strong></td><td></td><td></td><td><p>total number of rows
  total number of columns
@@ -434,7 +434,7 @@
   
   <td><span class="anchor" id="variable-nze_total"></span>integer(kind=int_8),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nze_total</strong></td><td></td><td></td><td><p>total number of nonzero elements</p></td>
   
@@ -448,7 +448,7 @@
   
   <td><span class="anchor" id="variable-rowptr_local"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>rowptr_local</strong></td><td>=> </td><td>NULL()</td><td><p>indices of elements inside nzval_local starting a row
  column indices of elements inside nzval_local</p></td>
@@ -463,7 +463,7 @@
   
   <td><span class="anchor" id="variable-colind_local"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>colind_local</strong></td><td>=> </td><td>NULL()</td><td><p>indices of elements inside nzval_local starting a row
  column indices of elements inside nzval_local</p></td>
@@ -478,7 +478,7 @@
   
   <td><span class="anchor" id="variable-nzerow_local"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>nzerow_local</strong></td><td>=> </td><td>NULL()</td><td><p>indices of elements inside nzval_local starting a row
  column indices of elements inside nzval_local</p></td>
@@ -493,7 +493,7 @@
   
   <td><span class="anchor" id="variable-nzval_local"></span>type(<a href='../type/csr_data_area_type.html'>csr_data_area_type</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nzval_local</strong></td><td></td><td></td><td><p>values of local non-zero elements, row-wise ordering.</p></td>
   
@@ -507,7 +507,7 @@
   
   <td><span class="anchor" id="variable-dbcsr_mapping"></span>type(<a href='../type/csr_mapping_data.html'>csr_mapping_data</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>dbcsr_mapping</strong></td><td></td><td></td><td><p>mapping data relating indices of nzval_local to indices of a block-row distributed DBCSR matrix</p></td>
   
@@ -521,7 +521,7 @@
   
   <td><span class="anchor" id="variable-has_mapping"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>has_mapping</strong></td><td> =</td><td>.FALSE.</td><td><p>whether dbcsr_mapping is defined</p></td>
   
@@ -535,7 +535,7 @@
   
   <td><span class="anchor" id="variable-valid~2"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>valid</strong></td><td> =</td><td>.FALSE.</td><td><p>whether essential data (excluding dbcsr_mapping) is completely allocated</p></td>
   
@@ -549,7 +549,7 @@
   
   <td><span class="anchor" id="variable-has_indices"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>has_indices</strong></td><td> =</td><td>.FALSE.</td><td><p>whether rowptr_local and colind_local are defined</p></td>
   

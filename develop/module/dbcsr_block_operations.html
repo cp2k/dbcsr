@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-74-g3df93e435</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-81-g392754357</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -174,11 +174,11 @@
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_block_operations.html#variable-modulen~69">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_block_operations.html#variable-modulen~37">moduleN</a>
       
-      <a class="list-group-item" href="../module/dbcsr_block_operations.html#variable-debug_mod~10">debug_mod</a>
+      <a class="list-group-item" href="../module/dbcsr_block_operations.html#variable-debug_mod~2">debug_mod</a>
       
-      <a class="list-group-item" href="../module/dbcsr_block_operations.html#variable-careful_mod~18">careful_mod</a>
+      <a class="list-group-item" href="../module/dbcsr_block_operations.html#variable-careful_mod~4">careful_mod</a>
       
     </div>
   </div>
@@ -402,15 +402,15 @@
     
     <li><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
     
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
     
     <li><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></li>
     
-    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
     <li><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></li>
     
-    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
   </ul>
       </li>
@@ -438,11 +438,11 @@
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_block_operations.html#variable-modulen~69">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_block_operations.html#variable-modulen~37">moduleN</a>
       
-      <a class="list-group-item" href="../module/dbcsr_block_operations.html#variable-debug_mod~10">debug_mod</a>
+      <a class="list-group-item" href="../module/dbcsr_block_operations.html#variable-debug_mod~2">debug_mod</a>
       
-      <a class="list-group-item" href="../module/dbcsr_block_operations.html#variable-careful_mod~18">careful_mod</a>
+      <a class="list-group-item" href="../module/dbcsr_block_operations.html#variable-careful_mod~4">careful_mod</a>
       
     </div>
   </div>
@@ -670,7 +670,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-modulen~69"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-modulen~37"></span>character(len=*),</td>
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
@@ -684,7 +684,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-debug_mod~10"></span>logical,</td>
+  <td><span class="anchor" id="variable-debug_mod~2"></span>logical,</td>
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
@@ -698,7 +698,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-careful_mod~18"></span>logical,</td>
+  <td><span class="anchor" id="variable-careful_mod~4"></span>logical,</td>
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
@@ -2608,7 +2608,7 @@ private subroutine <a href='../proc/dbcsr_block_transpose_a.html'>dbcsr_block_tr
     
     
     <h3>
-private subroutine <a href='../proc/block_copy_2d1d_s.html'>block_copy_2d1d_s</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_2d1d_s.html'>block_copy_2d1d_s</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -2711,7 +2711,7 @@ private subroutine <a href='../proc/block_copy_2d1d_s.html'>block_copy_2d1d_s</a
     
     
     <h3>
-private subroutine <a href='../proc/block_copy_2d1d_d.html'>block_copy_2d1d_d</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_2d1d_d.html'>block_copy_2d1d_d</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -2814,7 +2814,7 @@ private subroutine <a href='../proc/block_copy_2d1d_d.html'>block_copy_2d1d_d</a
     
     
     <h3>
-private subroutine <a href='../proc/block_copy_2d1d_c.html'>block_copy_2d1d_c</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_2d1d_c.html'>block_copy_2d1d_c</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -2917,7 +2917,7 @@ private subroutine <a href='../proc/block_copy_2d1d_c.html'>block_copy_2d1d_c</a
     
     
     <h3>
-private subroutine <a href='../proc/block_copy_2d1d_z.html'>block_copy_2d1d_z</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_2d1d_z.html'>block_copy_2d1d_z</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -3020,7 +3020,7 @@ private subroutine <a href='../proc/block_copy_2d1d_z.html'>block_copy_2d1d_z</a
     
     
     <h3>
-private subroutine <a href='../proc/block_copy_1d2d_s.html'>block_copy_1d2d_s</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_1d2d_s.html'>block_copy_1d2d_s</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -3123,7 +3123,7 @@ private subroutine <a href='../proc/block_copy_1d2d_s.html'>block_copy_1d2d_s</a
     
     
     <h3>
-private subroutine <a href='../proc/block_copy_1d2d_d.html'>block_copy_1d2d_d</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_1d2d_d.html'>block_copy_1d2d_d</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -3226,7 +3226,7 @@ private subroutine <a href='../proc/block_copy_1d2d_d.html'>block_copy_1d2d_d</a
     
     
     <h3>
-private subroutine <a href='../proc/block_copy_1d2d_c.html'>block_copy_1d2d_c</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_1d2d_c.html'>block_copy_1d2d_c</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -3329,7 +3329,7 @@ private subroutine <a href='../proc/block_copy_1d2d_c.html'>block_copy_1d2d_c</a
     
     
     <h3>
-private subroutine <a href='../proc/block_copy_1d2d_z.html'>block_copy_1d2d_z</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_1d2d_z.html'>block_copy_1d2d_z</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -3432,7 +3432,7 @@ private subroutine <a href='../proc/block_copy_1d2d_z.html'>block_copy_1d2d_z</a
     
     
     <h3>
-private subroutine <a href='../proc/block_copy_1d1d_s.html'>block_copy_1d1d_s</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_1d1d_s.html'>block_copy_1d1d_s</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -3535,7 +3535,7 @@ private subroutine <a href='../proc/block_copy_1d1d_s.html'>block_copy_1d1d_s</a
     
     
     <h3>
-private subroutine <a href='../proc/block_copy_1d1d_d.html'>block_copy_1d1d_d</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_1d1d_d.html'>block_copy_1d1d_d</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -3638,7 +3638,7 @@ private subroutine <a href='../proc/block_copy_1d1d_d.html'>block_copy_1d1d_d</a
     
     
     <h3>
-private subroutine <a href='../proc/block_copy_1d1d_c.html'>block_copy_1d1d_c</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_1d1d_c.html'>block_copy_1d1d_c</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -3741,7 +3741,7 @@ private subroutine <a href='../proc/block_copy_1d1d_c.html'>block_copy_1d1d_c</a
     
     
     <h3>
-private subroutine <a href='../proc/block_copy_1d1d_z.html'>block_copy_1d1d_z</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_1d1d_z.html'>block_copy_1d1d_z</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -3844,7 +3844,7 @@ private subroutine <a href='../proc/block_copy_1d1d_z.html'>block_copy_1d1d_z</a
     
     
     <h3>
-private subroutine <a href='../proc/block_copy_2d2d_s.html'>block_copy_2d2d_s</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_2d2d_s.html'>block_copy_2d2d_s</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -3947,7 +3947,7 @@ private subroutine <a href='../proc/block_copy_2d2d_s.html'>block_copy_2d2d_s</a
     
     
     <h3>
-private subroutine <a href='../proc/block_copy_2d2d_d.html'>block_copy_2d2d_d</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_2d2d_d.html'>block_copy_2d2d_d</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -4050,7 +4050,7 @@ private subroutine <a href='../proc/block_copy_2d2d_d.html'>block_copy_2d2d_d</a
     
     
     <h3>
-private subroutine <a href='../proc/block_copy_2d2d_c.html'>block_copy_2d2d_c</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_2d2d_c.html'>block_copy_2d2d_c</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -4153,7 +4153,7 @@ private subroutine <a href='../proc/block_copy_2d2d_c.html'>block_copy_2d2d_c</a
     
     
     <h3>
-private subroutine <a href='../proc/block_copy_2d2d_z.html'>block_copy_2d2d_z</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_2d2d_z.html'>block_copy_2d2d_z</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -6072,7 +6072,7 @@ private subroutine <a href='../proc/block_add_anytype_bounds.html'>block_add_any
     
     
     <h3>
-private subroutine <a href='../proc/block_add_s.html'>block_add_s</a>(block_a, block_b, len)
+private pure subroutine <a href='../proc/block_add_s.html'>block_add_s</a>(block_a, block_b, len)
     
     
    
@@ -6150,7 +6150,7 @@ private subroutine <a href='../proc/block_add_s.html'>block_add_s</a>(block_a, b
     
     
     <h3>
-private subroutine <a href='../proc/block_add_d.html'>block_add_d</a>(block_a, block_b, len)
+private pure subroutine <a href='../proc/block_add_d.html'>block_add_d</a>(block_a, block_b, len)
     
     
    
@@ -6228,7 +6228,7 @@ private subroutine <a href='../proc/block_add_d.html'>block_add_d</a>(block_a, b
     
     
     <h3>
-private subroutine <a href='../proc/block_add_c.html'>block_add_c</a>(block_a, block_b, len)
+private pure subroutine <a href='../proc/block_add_c.html'>block_add_c</a>(block_a, block_b, len)
     
     
    
@@ -6306,7 +6306,7 @@ private subroutine <a href='../proc/block_add_c.html'>block_add_c</a>(block_a, b
     
     
     <h3>
-private subroutine <a href='../proc/block_add_z.html'>block_add_z</a>(block_a, block_b, len)
+private pure subroutine <a href='../proc/block_add_z.html'>block_add_z</a>(block_a, block_b, len)
     
     
    
@@ -9323,7 +9323,7 @@ private subroutine <a href='../proc/block_partial_copy_2d2d_d.html'>block_partia
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-block_copy_d"></span><h3>
-public subroutine <a href='../proc/block_copy_d.html'>block_copy_d</a>(extent_out, extent_in, n, out_fe, in_fe)
+public pure subroutine <a href='../proc/block_copy_d.html'>block_copy_d</a>(extent_out, extent_in, n, out_fe, in_fe)
     
     
    
@@ -9554,7 +9554,7 @@ private subroutine <a href='../proc/block_transpose_copy_d.html'>block_transpose
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-block_copy_2d1d_d"></span><h3>
-private subroutine <a href='../proc/block_copy_2d1d_d.html'>block_copy_2d1d_d</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_2d1d_d.html'>block_copy_2d1d_d</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -9660,7 +9660,7 @@ private subroutine <a href='../proc/block_copy_2d1d_d.html'>block_copy_2d1d_d</a
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-block_copy_1d1d_d"></span><h3>
-private subroutine <a href='../proc/block_copy_1d1d_d.html'>block_copy_1d1d_d</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_1d1d_d.html'>block_copy_1d1d_d</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -9766,7 +9766,7 @@ private subroutine <a href='../proc/block_copy_1d1d_d.html'>block_copy_1d1d_d</a
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-block_copy_2d2d_d"></span><h3>
-private subroutine <a href='../proc/block_copy_2d2d_d.html'>block_copy_2d2d_d</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_2d2d_d.html'>block_copy_2d2d_d</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -9978,7 +9978,7 @@ private subroutine <a href='../proc/block_transpose_copy_2d1d_d.html'>block_tran
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-block_copy_1d2d_d"></span><h3>
-private subroutine <a href='../proc/block_copy_1d2d_d.html'>block_copy_1d2d_d</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_1d2d_d.html'>block_copy_1d2d_d</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -10403,7 +10403,7 @@ private subroutine <a href='../proc/dbcsr_data_set_ad.html'>dbcsr_data_set_ad</a
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-block_add_d"></span><h3>
-private subroutine <a href='../proc/block_add_d.html'>block_add_d</a>(block_a, block_b, len)
+private pure subroutine <a href='../proc/block_add_d.html'>block_add_d</a>(block_a, block_b, len)
     
     
    
@@ -11444,7 +11444,7 @@ private subroutine <a href='../proc/block_partial_copy_2d2d_s.html'>block_partia
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-block_copy_s"></span><h3>
-public subroutine <a href='../proc/block_copy_s.html'>block_copy_s</a>(extent_out, extent_in, n, out_fe, in_fe)
+public pure subroutine <a href='../proc/block_copy_s.html'>block_copy_s</a>(extent_out, extent_in, n, out_fe, in_fe)
     
     
    
@@ -11675,7 +11675,7 @@ private subroutine <a href='../proc/block_transpose_copy_s.html'>block_transpose
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-block_copy_2d1d_s"></span><h3>
-private subroutine <a href='../proc/block_copy_2d1d_s.html'>block_copy_2d1d_s</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_2d1d_s.html'>block_copy_2d1d_s</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -11781,7 +11781,7 @@ private subroutine <a href='../proc/block_copy_2d1d_s.html'>block_copy_2d1d_s</a
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-block_copy_1d1d_s"></span><h3>
-private subroutine <a href='../proc/block_copy_1d1d_s.html'>block_copy_1d1d_s</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_1d1d_s.html'>block_copy_1d1d_s</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -11887,7 +11887,7 @@ private subroutine <a href='../proc/block_copy_1d1d_s.html'>block_copy_1d1d_s</a
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-block_copy_2d2d_s"></span><h3>
-private subroutine <a href='../proc/block_copy_2d2d_s.html'>block_copy_2d2d_s</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_2d2d_s.html'>block_copy_2d2d_s</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -12099,7 +12099,7 @@ private subroutine <a href='../proc/block_transpose_copy_2d1d_s.html'>block_tran
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-block_copy_1d2d_s"></span><h3>
-private subroutine <a href='../proc/block_copy_1d2d_s.html'>block_copy_1d2d_s</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_1d2d_s.html'>block_copy_1d2d_s</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -12524,7 +12524,7 @@ private subroutine <a href='../proc/dbcsr_data_set_as.html'>dbcsr_data_set_as</a
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-block_add_s"></span><h3>
-private subroutine <a href='../proc/block_add_s.html'>block_add_s</a>(block_a, block_b, len)
+private pure subroutine <a href='../proc/block_add_s.html'>block_add_s</a>(block_a, block_b, len)
     
     
    
@@ -13565,7 +13565,7 @@ private subroutine <a href='../proc/block_partial_copy_2d2d_z.html'>block_partia
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-block_copy_z"></span><h3>
-public subroutine <a href='../proc/block_copy_z.html'>block_copy_z</a>(extent_out, extent_in, n, out_fe, in_fe)
+public pure subroutine <a href='../proc/block_copy_z.html'>block_copy_z</a>(extent_out, extent_in, n, out_fe, in_fe)
     
     
    
@@ -13796,7 +13796,7 @@ private subroutine <a href='../proc/block_transpose_copy_z.html'>block_transpose
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-block_copy_2d1d_z"></span><h3>
-private subroutine <a href='../proc/block_copy_2d1d_z.html'>block_copy_2d1d_z</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_2d1d_z.html'>block_copy_2d1d_z</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -13902,7 +13902,7 @@ private subroutine <a href='../proc/block_copy_2d1d_z.html'>block_copy_2d1d_z</a
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-block_copy_1d1d_z"></span><h3>
-private subroutine <a href='../proc/block_copy_1d1d_z.html'>block_copy_1d1d_z</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_1d1d_z.html'>block_copy_1d1d_z</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -14008,7 +14008,7 @@ private subroutine <a href='../proc/block_copy_1d1d_z.html'>block_copy_1d1d_z</a
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-block_copy_2d2d_z"></span><h3>
-private subroutine <a href='../proc/block_copy_2d2d_z.html'>block_copy_2d2d_z</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_2d2d_z.html'>block_copy_2d2d_z</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -14220,7 +14220,7 @@ private subroutine <a href='../proc/block_transpose_copy_2d1d_z.html'>block_tran
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-block_copy_1d2d_z"></span><h3>
-private subroutine <a href='../proc/block_copy_1d2d_z.html'>block_copy_1d2d_z</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_1d2d_z.html'>block_copy_1d2d_z</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -14645,7 +14645,7 @@ private subroutine <a href='../proc/dbcsr_data_set_az.html'>dbcsr_data_set_az</a
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-block_add_z"></span><h3>
-private subroutine <a href='../proc/block_add_z.html'>block_add_z</a>(block_a, block_b, len)
+private pure subroutine <a href='../proc/block_add_z.html'>block_add_z</a>(block_a, block_b, len)
     
     
    
@@ -15686,7 +15686,7 @@ private subroutine <a href='../proc/block_partial_copy_2d2d_c.html'>block_partia
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-block_copy_c"></span><h3>
-public subroutine <a href='../proc/block_copy_c.html'>block_copy_c</a>(extent_out, extent_in, n, out_fe, in_fe)
+public pure subroutine <a href='../proc/block_copy_c.html'>block_copy_c</a>(extent_out, extent_in, n, out_fe, in_fe)
     
     
    
@@ -15917,7 +15917,7 @@ private subroutine <a href='../proc/block_transpose_copy_c.html'>block_transpose
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-block_copy_2d1d_c"></span><h3>
-private subroutine <a href='../proc/block_copy_2d1d_c.html'>block_copy_2d1d_c</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_2d1d_c.html'>block_copy_2d1d_c</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -16023,7 +16023,7 @@ private subroutine <a href='../proc/block_copy_2d1d_c.html'>block_copy_2d1d_c</a
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-block_copy_1d1d_c"></span><h3>
-private subroutine <a href='../proc/block_copy_1d1d_c.html'>block_copy_1d1d_c</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_1d1d_c.html'>block_copy_1d1d_c</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -16129,7 +16129,7 @@ private subroutine <a href='../proc/block_copy_1d1d_c.html'>block_copy_1d1d_c</a
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-block_copy_2d2d_c"></span><h3>
-private subroutine <a href='../proc/block_copy_2d2d_c.html'>block_copy_2d2d_c</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_2d2d_c.html'>block_copy_2d2d_c</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -16341,7 +16341,7 @@ private subroutine <a href='../proc/block_transpose_copy_2d1d_c.html'>block_tran
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-block_copy_1d2d_c"></span><h3>
-private subroutine <a href='../proc/block_copy_1d2d_c.html'>block_copy_1d2d_c</a>(extent_out, extent_in, rows, columns)
+private pure subroutine <a href='../proc/block_copy_1d2d_c.html'>block_copy_1d2d_c</a>(extent_out, extent_in, rows, columns)
     
     
    
@@ -16766,7 +16766,7 @@ private subroutine <a href='../proc/dbcsr_data_set_ac.html'>dbcsr_data_set_ac</a
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-block_add_c"></span><h3>
-private subroutine <a href='../proc/block_add_c.html'>block_add_c</a>(block_a, block_b, len)
+private pure subroutine <a href='../proc/block_add_c.html'>block_add_c</a>(block_a, block_b, len)
     
     
    

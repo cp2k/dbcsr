@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-74-g3df93e435</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-81-g392754357</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -174,7 +174,7 @@
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_types.html#variable-modulen~25">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_types.html#variable-modulen~35">moduleN</a>
       
       <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_filter_frobenius">dbcsr_filter_frobenius</a>
       
@@ -384,13 +384,13 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_btree.html'>dbcsr_btree</a></li>
+    <li><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
     
     <li><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
     
-    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+    <li><a href='../module/dbcsr_btree.html'>dbcsr_btree</a></li>
     
-    <li><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
+    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
   </ul>
       </li>
@@ -418,7 +418,7 @@
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_types.html#variable-modulen~25">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_types.html#variable-modulen~35">moduleN</a>
       
       <a class="list-group-item" href="../module/dbcsr_types.html#variable-dbcsr_filter_frobenius">dbcsr_filter_frobenius</a>
       
@@ -634,7 +634,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-modulen~25"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-modulen~35"></span>character(len=*),</td>
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
@@ -1501,7 +1501,7 @@
   
   <td><span class="anchor" id="variable-mynode"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>mynode</strong></td><td> =</td><td>-1</td><td><p>my processor/node (process) number</p></td>
   
@@ -1515,7 +1515,7 @@
   
   <td><span class="anchor" id="variable-numnodes"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>numnodes</strong></td><td> =</td><td>-1</td><td><p>number of processors/nodes (processes)</p></td>
   
@@ -1529,7 +1529,7 @@
   
   <td><span class="anchor" id="variable-myprow"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>myprow</strong></td><td> =</td><td>-1</td><td><p>my process grid row</p></td>
   
@@ -1543,7 +1543,7 @@
   
   <td><span class="anchor" id="variable-mypcol"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>mypcol</strong></td><td> =</td><td>-1</td><td><p>my process grid column</p></td>
   
@@ -1557,7 +1557,7 @@
   
   <td><span class="anchor" id="variable-mp_group"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>mp_group</strong></td><td> =</td><td>-1</td><td><p>message-passing group ID</p></td>
   
@@ -1571,7 +1571,7 @@
   
   <td><span class="anchor" id="variable-pgrid"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:, :), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>pgrid</strong></td><td>=> </td><td>Null()</td><td><p>processor grid</p></td>
   
@@ -1583,9 +1583,9 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-refcount"></span>integer,</td>
+  <td><span class="anchor" id="variable-refcount~2"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>refcount</strong></td><td> =</td><td>0</td><td><p>reference counter</p></td>
   
@@ -1599,7 +1599,7 @@
   
   <td><span class="anchor" id="variable-subgroups_defined"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>subgroups_defined</strong></td><td> =</td><td>.FALSE.</td><td><p>whether the subgroups are defined</p></td>
   
@@ -1613,7 +1613,7 @@
   
   <td><span class="anchor" id="variable-prow_group"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>prow_group</strong></td><td> =</td><td>-1</td><td><p>per-process-row communicator</p></td>
   
@@ -1627,7 +1627,7 @@
   
   <td><span class="anchor" id="variable-pcol_group"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>pcol_group</strong></td><td> =</td><td>-1</td><td><p>pre-process-column communicator</p></td>
   
@@ -1641,7 +1641,7 @@
   
   <td><span class="anchor" id="variable-source"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>source</strong></td><td> =</td><td>-1</td><td></td>
   
@@ -1688,7 +1688,7 @@
   
   <td><span class="anchor" id="variable-mp"></span>type(<a href='../type/dbcsr_mp_type.html'>dbcsr_mp_type</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>POINTER</td><td>::</td>
   <td><strong>mp</strong></td><td>=> </td><td>Null()</td><td><p>pointer to a dbcsr_mp_type instance</p></td>
   
@@ -1735,7 +1735,7 @@
   
   <td><span class="anchor" id="variable-row_dist_block"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>row_dist_block</strong></td><td></td><td></td><td><p>standard row distributions of matrix elements' rows into processor grid rows
  standard column distributions of matrix elements' columns into processor grid columns</p></td>
@@ -1750,7 +1750,7 @@
   
   <td><span class="anchor" id="variable-col_dist_block"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>col_dist_block</strong></td><td></td><td></td><td><p>standard row distributions of matrix elements' rows into processor grid rows
  standard column distributions of matrix elements' columns into processor grid columns</p></td>
@@ -1765,7 +1765,7 @@
   
   <td><span class="anchor" id="variable-local_rows"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>local_rows</strong></td><td></td><td></td><td><p>list of rows local to the processor grid row
  list of columns local to the processor grid column</p></td>
@@ -1780,7 +1780,7 @@
   
   <td><span class="anchor" id="variable-local_cols"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>local_cols</strong></td><td></td><td></td><td><p>list of rows local to the processor grid row
  list of columns local to the processor grid column</p></td>
@@ -1795,7 +1795,7 @@
   
   <td><span class="anchor" id="variable-max_row_dist"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>max_row_dist</strong></td><td></td><td></td><td></td>
   
@@ -1809,7 +1809,7 @@
   
   <td><span class="anchor" id="variable-max_col_dist"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>max_col_dist</strong></td><td></td><td></td><td></td>
   
@@ -1823,7 +1823,7 @@
   
   <td><span class="anchor" id="variable-other_l_rows"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>other_l_rows</strong></td><td>=> </td><td>Null()</td><td><p>local rows for each process row</p></td>
   
@@ -1837,7 +1837,7 @@
   
   <td><span class="anchor" id="variable-other_l_cols"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>other_l_cols</strong></td><td>=> </td><td>Null()</td><td><p>local columns for each process column</p></td>
   
@@ -1851,7 +1851,7 @@
   
   <td><span class="anchor" id="variable-has_other_l_rows"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>has_other_l_rows</strong></td><td> =</td><td>.FALSE.</td><td><p>other_rows is defined</p></td>
   
@@ -1865,7 +1865,7 @@
   
   <td><span class="anchor" id="variable-has_other_l_cols"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>has_other_l_cols</strong></td><td> =</td><td>.FALSE.</td><td><p>other_cols is defined</p></td>
   
@@ -1879,7 +1879,7 @@
   
   <td><span class="anchor" id="variable-global_row_map"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>global_row_map</strong></td><td></td><td></td><td><p>mapping from rows to sequence in local rows (global to local mapping)</p></td>
   
@@ -1893,7 +1893,7 @@
   
   <td><span class="anchor" id="variable-global_col_map"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>global_col_map</strong></td><td></td><td></td><td><p>mapping from rows to sequence in local columns (global to local mapping)</p></td>
   
@@ -1907,7 +1907,7 @@
   
   <td><span class="anchor" id="variable-has_global_row_map"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>has_global_row_map</strong></td><td> =</td><td>.FALSE.</td><td><p>whether other_row_map is defined</p></td>
   
@@ -1921,7 +1921,7 @@
   
   <td><span class="anchor" id="variable-has_global_col_map"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>has_global_col_map</strong></td><td> =</td><td>.FALSE.</td><td><p>whether other_col_map is defined</p></td>
   
@@ -1935,7 +1935,7 @@
   
   <td><span class="anchor" id="variable-row_map"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>row_map</strong></td><td></td><td></td><td><p>distribution map for rows</p></td>
   
@@ -1949,7 +1949,7 @@
   
   <td><span class="anchor" id="variable-col_map"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>col_map</strong></td><td></td><td></td><td><p>distribution map for columns</p></td>
   
@@ -1963,7 +1963,7 @@
   
   <td><span class="anchor" id="variable-has_thread_dist"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>has_thread_dist</strong></td><td> =</td><td>.FALSE.</td><td></td>
   
@@ -1977,7 +1977,7 @@
   
   <td><span class="anchor" id="variable-thread_dist"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>thread_dist</strong></td><td></td><td></td><td><p>thread distribution (of the rows)</p></td>
   
@@ -1991,7 +1991,7 @@
   
   <td><span class="anchor" id="variable-num_threads"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>num_threads</strong></td><td> =</td><td>-1</td><td><p>number of threads in the environment</p></td>
   
@@ -2003,9 +2003,9 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-mp_env"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
+  <td><span class="anchor" id="variable-mp_env~2"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>mp_env</strong></td><td></td><td></td><td><p>multiprocessor environment on which the distribution is based</p></td>
   
@@ -2017,9 +2017,9 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-refcount~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-refcount~3"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>refcount</strong></td><td> =</td><td>0</td><td><p>reference counter</p></td>
   
@@ -2061,9 +2061,9 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-d"></span>type(<a href='../type/dbcsr_distribution_type.html'>dbcsr_distribution_type</a>),</td>
+  <td><span class="anchor" id="variable-d~2"></span>type(<a href='../type/dbcsr_distribution_type.html'>dbcsr_distribution_type</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>POINTER</td><td>::</td>
   <td><strong>d</strong></td><td>=> </td><td>Null()</td><td></td>
   
@@ -2115,7 +2115,7 @@
   
   <td><span class="anchor" id="variable-main"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>main</strong></td><td></td><td></td><td><p>the main distribution</p></td>
   
@@ -2129,7 +2129,7 @@
   
   <td><span class="anchor" id="variable-row_image"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>row_image</strong></td><td></td><td></td><td><p>distribution of matrix elements' rows into image  rows</p></td>
   
@@ -2143,7 +2143,7 @@
   
   <td><span class="anchor" id="variable-col_image"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>col_image</strong></td><td></td><td></td><td><p>distribution of matrix elements' columns into image columns</p></td>
   
@@ -2157,7 +2157,7 @@
   
   <td><span class="anchor" id="variable-row_decimation"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>row_decimation</strong></td><td> =</td><td>-1</td><td><p>Number of imaged rows mapped to a real row</p></td>
   
@@ -2171,7 +2171,7 @@
   
   <td><span class="anchor" id="variable-col_decimation"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>col_decimation</strong></td><td> =</td><td>-1</td><td><p>Number of imaged columns mapped to a real column</p></td>
   
@@ -2185,7 +2185,7 @@
   
   <td><span class="anchor" id="variable-row_multiplicity"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>row_multiplicity</strong></td><td> =</td><td>-1</td><td><p>Number of real rows mapped to a virtual row</p></td>
   
@@ -2199,7 +2199,7 @@
   
   <td><span class="anchor" id="variable-col_multiplicity"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>col_multiplicity</strong></td><td> =</td><td>-1</td><td><p>Number of real columns mapped to a virtual column</p></td>
   
@@ -2213,7 +2213,7 @@
   
   <td><span class="anchor" id="variable-vrow_dist"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>vrow_dist</strong></td><td></td><td></td><td></td>
   
@@ -2227,7 +2227,7 @@
   
   <td><span class="anchor" id="variable-vcol_dist"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>vcol_dist</strong></td><td></td><td></td><td></td>
   
@@ -2241,7 +2241,7 @@
   
   <td><span class="anchor" id="variable-other_vl_rows"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>other_vl_rows</strong></td><td>=> </td><td>Null()</td><td></td>
   
@@ -2255,7 +2255,7 @@
   
   <td><span class="anchor" id="variable-other_vl_cols"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>other_vl_cols</strong></td><td>=> </td><td>Null()</td><td></td>
   
@@ -2269,7 +2269,7 @@
   
   <td><span class="anchor" id="variable-global_vrow_map"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>global_vrow_map</strong></td><td></td><td></td><td></td>
   
@@ -2283,7 +2283,7 @@
   
   <td><span class="anchor" id="variable-global_vcol_map"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>global_vcol_map</strong></td><td></td><td></td><td></td>
   
@@ -2297,7 +2297,7 @@
   
   <td><span class="anchor" id="variable-has_other_vl_rows"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>has_other_vl_rows</strong></td><td> =</td><td>.FALSE.</td><td></td>
   
@@ -2311,7 +2311,7 @@
   
   <td><span class="anchor" id="variable-has_other_vl_cols"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>has_other_vl_cols</strong></td><td> =</td><td>.FALSE.</td><td></td>
   
@@ -2325,7 +2325,7 @@
   
   <td><span class="anchor" id="variable-has_global_vrow_map"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>has_global_vrow_map</strong></td><td> =</td><td>.FALSE.</td><td></td>
   
@@ -2339,7 +2339,7 @@
   
   <td><span class="anchor" id="variable-has_global_vcol_map"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>has_global_vcol_map</strong></td><td> =</td><td>.FALSE.</td><td></td>
   
@@ -2351,9 +2351,9 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-id"></span>integer,</td>
+  <td><span class="anchor" id="variable-id~2"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>id</strong></td><td> =</td><td>-1</td><td></td>
   
@@ -2365,9 +2365,9 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-refcount~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-refcount~4"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>refcount</strong></td><td> =</td><td>0</td><td><p>count of references</p></td>
   
@@ -2411,7 +2411,7 @@
   
   <td><span class="anchor" id="variable-i"></span>type(<a href='../type/dbcsr_imagedistribution_type.html'>dbcsr_imagedistribution_type</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>POINTER</td><td>::</td>
   <td><strong>i</strong></td><td>=> </td><td>Null()</td><td></td>
   
@@ -2456,9 +2456,9 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-refcount~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-refcount~5"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>refcount</strong></td><td> =</td><td>0</td><td><p>Reference counter</p></td>
   
@@ -2472,7 +2472,7 @@
   
   <td><span class="anchor" id="variable-dirty"></span>logical,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>dirty</strong></td><td>=> </td><td>Null()</td><td><p>Whether any buffers are dirty</p></td>
   
@@ -2486,7 +2486,7 @@
   
   <td><span class="anchor" id="variable-buffers"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>buffers</strong></td><td>=> </td><td>Null()</td><td><p>Buffers</p></td>
   
@@ -2500,7 +2500,7 @@
   
   <td><span class="anchor" id="variable-rcb"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:, :), POINTER</td><td>::</td>
   <td><strong>rcb</strong></td><td>=> </td><td>Null()</td><td><p>Row and column and offset and dimensions of data in the buffer</p></td>
   
@@ -2514,7 +2514,7 @@
   
   <td><span class="anchor" id="variable-main~2"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>main</strong></td><td></td><td></td><td><p>Main memory</p></td>
   
@@ -2528,7 +2528,7 @@
   
   <td><span class="anchor" id="variable-backing"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>backing</strong></td><td>=> </td><td>Null()</td><td><p>Backing memory (in lieu of main memory)</p></td>
   
@@ -2540,9 +2540,9 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-data_type"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type~3"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>data_type</strong></td><td> =</td><td>-1</td><td><p>Data type used for the buffers</p></td>
   
@@ -2589,7 +2589,7 @@
   
   <td><span class="anchor" id="variable-b"></span>type(<a href='../type/dbcsr_block_buffer_type.html'>dbcsr_block_buffer_type</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>POINTER</td><td>::</td>
   <td><strong>b</strong></td><td>=> </td><td>Null()</td><td><p>Block buffer</p></td>
   
@@ -2637,7 +2637,7 @@
   
   <td><span class="anchor" id="variable-matrix"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>POINTER</td><td>::</td>
   <td><strong>matrix</strong></td><td>=> </td><td>Null()</td><td><p>the matrix</p></td>
   
@@ -2651,7 +2651,7 @@
   
   <td><span class="anchor" id="variable-buffer_2d"></span>type(<a href='../type/dbcsr_block_buffer_obj.html'>dbcsr_block_buffer_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>buffer_2d</strong></td><td></td><td></td><td><p>Buffers for repointing 2d pointers (1 per thread)</p></td>
   
@@ -2665,7 +2665,7 @@
   
   <td><span class="anchor" id="variable-pos"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>pos</strong></td><td> =</td><td>-1</td><td><p>Current position (per thread)</p></td>
   
@@ -2679,7 +2679,7 @@
   
   <td><span class="anchor" id="variable-row"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>row</strong></td><td> =</td><td>-1</td><td><p>Current row (per thread)</p></td>
   
@@ -2693,7 +2693,7 @@
   
   <td><span class="anchor" id="variable-row_size"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>row_size</strong></td><td> =</td><td>-1</td><td><p>Size of current row</p></td>
   
@@ -2707,7 +2707,7 @@
   
   <td><span class="anchor" id="variable-row_offset"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>row_offset</strong></td><td> =</td><td>-1</td><td></td>
   
@@ -2721,7 +2721,7 @@
   
   <td><span class="anchor" id="variable-rbs"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>rbs</strong></td><td>=> </td><td>Null()</td><td><p>Pointer to row size array</p></td>
   
@@ -2735,7 +2735,7 @@
   
   <td><span class="anchor" id="variable-cbs"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>cbs</strong></td><td>=> </td><td>Null()</td><td><p>Pointer to column size array</p></td>
   
@@ -2749,7 +2749,7 @@
   
   <td><span class="anchor" id="variable-roff"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>roff</strong></td><td>=> </td><td>Null()</td><td><p>Pointer to row offset array</p></td>
   
@@ -2763,7 +2763,7 @@
   
   <td><span class="anchor" id="variable-coff"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>coff</strong></td><td>=> </td><td>Null()</td><td><p>Pointer to column offset array</p></td>
   
@@ -2777,7 +2777,7 @@
   
   <td><span class="anchor" id="variable-local_indexing"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>local_indexing</strong></td><td> =</td><td>.FALSE.</td><td><p>The matrix has local indexing</p></td>
   
@@ -2791,7 +2791,7 @@
   
   <td><span class="anchor" id="variable-contiguous_pointers"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>contiguous_pointers</strong></td><td> =</td><td>.FALSE.</td><td><p>Whether pointers to data should be contiguous in memory.</p></td>
   
@@ -2805,7 +2805,7 @@
   
   <td><span class="anchor" id="variable-transpose"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>transpose</strong></td><td> =</td><td>.FALSE.</td><td></td>
   
@@ -2819,7 +2819,7 @@
   
   <td><span class="anchor" id="variable-read_only"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>read_only</strong></td><td> =</td><td>.FALSE.</td><td></td>
   
@@ -2833,7 +2833,7 @@
   
   <td><span class="anchor" id="variable-shared"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>shared</strong></td><td> =</td><td>.FALSE.</td><td><p>Iterators share matrix</p></td>
   
@@ -2847,7 +2847,7 @@
   
   <td><span class="anchor" id="variable-dynamic"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>dynamic</strong></td><td> =</td><td>.FALSE.</td><td><p>Ignores the thread distribution (FCFS by block)</p></td>
   
@@ -2861,7 +2861,7 @@
   
   <td><span class="anchor" id="variable-dynamic_byrows"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>dynamic_byrows</strong></td><td> =</td><td>.FALSE.</td><td><p>Ignores the thread distribution (FCFS by row)</p></td>
   
@@ -2875,7 +2875,7 @@
   
   <td><span class="anchor" id="variable-common_pos"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>POINTER</td><td>::</td>
   <td><strong>common_pos</strong></td><td>=> </td><td>Null()</td><td><p>Position when in mixed mode (row or block depending in dynamic_byrows</p></td>
   
@@ -2889,7 +2889,7 @@
   
   <td><span class="anchor" id="variable-nblks~2"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nblks</strong></td><td> =</td><td>-1</td><td></td>
   
@@ -2903,7 +2903,7 @@
   
   <td><span class="anchor" id="variable-nblkrows_total~2"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nblkrows_total</strong></td><td> =</td><td>-1</td><td></td>
   
@@ -2917,7 +2917,7 @@
   
   <td><span class="anchor" id="variable-row_p~2"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>row_p</strong></td><td>=> </td><td>Null()</td><td></td>
   
@@ -2931,7 +2931,7 @@
   
   <td><span class="anchor" id="variable-col_i~3"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>col_i</strong></td><td>=> </td><td>Null()</td><td></td>
   
@@ -2945,7 +2945,7 @@
   
   <td><span class="anchor" id="variable-blk_p~3"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>blk_p</strong></td><td>=> </td><td>Null()</td><td></td>
   
@@ -2959,7 +2959,7 @@
   
   <td><span class="anchor" id="variable-tdist"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>tdist</strong></td><td>=> </td><td>Null()</td><td></td>
   
@@ -2973,7 +2973,7 @@
   
   <td><span class="anchor" id="variable-local_rows~2"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>local_rows</strong></td><td>=> </td><td>Null()</td><td><p>Mapping of local rows to global rows (if local indexing is enabled)</p></td>
   
@@ -2987,7 +2987,7 @@
   
   <td><span class="anchor" id="variable-global_rows"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>global_rows</strong></td><td>=> </td><td>Null()</td><td><p>Mapping of global rows to local rows (if local indexing is enabled)</p></td>
   
@@ -3001,7 +3001,7 @@
   
   <td><span class="anchor" id="variable-data_area~2"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>data_area</strong></td><td></td><td></td><td></td>
   
@@ -3048,7 +3048,7 @@
   
   <td><span class="anchor" id="variable-btree_s"></span>type(<a href='../type/btree_i8_sp2d.html'>btree_i8_sp2d</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>btree_s</strong></td><td></td><td></td><td><p>Data types for the various types</p></td>
   
@@ -3062,7 +3062,7 @@
   
   <td><span class="anchor" id="variable-btree_d"></span>type(<a href='../type/btree_i8_dp2d.html'>btree_i8_dp2d</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>btree_d</strong></td><td></td><td></td><td><p>Data types for the various types</p></td>
   
@@ -3076,7 +3076,7 @@
   
   <td><span class="anchor" id="variable-btree_c"></span>type(<a href='../type/btree_i8_cp2d.html'>btree_i8_cp2d</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>btree_c</strong></td><td></td><td></td><td><p>Data types for the various types</p></td>
   
@@ -3090,7 +3090,7 @@
   
   <td><span class="anchor" id="variable-btree_z"></span>type(<a href='../type/btree_i8_zp2d.html'>btree_i8_zp2d</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>btree_z</strong></td><td></td><td></td><td><p>Data types for the various types</p></td>
   
@@ -3102,9 +3102,9 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-refcount~5"></span>integer,</td>
+  <td><span class="anchor" id="variable-refcount~6"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>refcount</strong></td><td> =</td><td>0</td><td><p>Reference counter</p></td>
   
@@ -3116,9 +3116,9 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-data_type~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type~4"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>data_type</strong></td><td> =</td><td>-1</td><td><p>The data type that is stored</p></td>
   
@@ -3165,7 +3165,7 @@
   
   <td><span class="anchor" id="variable-m"></span>type(<a href='../type/dbcsr_mutable_type.html'>dbcsr_mutable_type</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>POINTER</td><td>::</td>
   <td><strong>m</strong></td><td>=> </td><td>Null()</td><td></td>
   
@@ -3212,7 +3212,7 @@
   
   <td><span class="anchor" id="variable-data_area"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>data_area</strong></td><td></td><td></td><td><p>holds actual values.</p></td>
   
@@ -3226,7 +3226,7 @@
   
   <td><span class="anchor" id="variable-row_i"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>row_i</strong></td><td>=> </td><td>Null()</td><td><p>the row index of all of the blocks.</p></td>
   
@@ -3240,7 +3240,7 @@
   
   <td><span class="anchor" id="variable-col_i"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>col_i</strong></td><td>=> </td><td>Null()</td><td><p>the column index of all of the blocks.</p></td>
   
@@ -3254,7 +3254,7 @@
   
   <td><span class="anchor" id="variable-blk_p"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>blk_p</strong></td><td>=> </td><td>Null()</td><td><p>the pointer into the data array of this block.</p></td>
   
@@ -3268,7 +3268,7 @@
   
   <td><span class="anchor" id="variable-lastblk"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>lastblk</strong></td><td> =</td><td>-1</td><td><p>index of the last block entered into the row_i, col_i, and blk_p data structures</p></td>
   
@@ -3282,7 +3282,7 @@
   
   <td><span class="anchor" id="variable-datasize"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>datasize</strong></td><td> =</td><td>-1</td><td><p>the actual size of data present in the data element</p></td>
   
@@ -3296,7 +3296,7 @@
   
   <td><span class="anchor" id="variable-datasize_after_filtering"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>datasize_after_filtering</strong></td><td> =</td><td>-1</td><td><p>tree used to index data blocks (alternative to the row_i, col_i, and blk_p indices when index is scattered).</p></td>
   
@@ -3310,7 +3310,7 @@
   
   <td><span class="anchor" id="variable-mutable"></span>type(<a href='../type/dbcsr_mutable_obj.html'>dbcsr_mutable_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>mutable</strong></td><td></td><td></td><td><p>the final bcsr matrix</p></td>
   
@@ -3357,7 +3357,7 @@
   
   <td><span class="anchor" id="variable-serial_number"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>serial_number</strong></td><td> =</td><td>-1</td><td><p>a unique number of each created matrix</p></td>
   
@@ -3371,7 +3371,7 @@
   
   <td><span class="anchor" id="variable-valid"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>valid</strong></td><td> =</td><td>.FALSE.</td><td><p>whether the matrix is valid (consistent)</p></td>
   
@@ -3385,7 +3385,7 @@
   
   <td><span class="anchor" id="variable-name"></span>character(len=default_string_length),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>name</strong></td><td> =</td><td>""</td><td><p>name of the matrix</p></td>
   
@@ -3399,7 +3399,7 @@
   
   <td><span class="anchor" id="variable-data_area~3"></span>type(<a href='../type/dbcsr_data_obj.html'>dbcsr_data_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>data_area</strong></td><td> =</td><td>dbcsr_data_obj()</td><td></td>
   
@@ -3413,7 +3413,7 @@
   
   <td><span class="anchor" id="variable-index"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>index</strong></td><td>=> </td><td>Null()</td><td><p>agglomeration of the indices and offsets of pointers into this array.</p></td>
   
@@ -3427,7 +3427,7 @@
   
   <td><span class="anchor" id="variable-row_p"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>row_p</strong></td><td>=> </td><td>Null()</td><td><p>points into the col_i and blk_p arrays, each element (1:nblkrows_total+1) points to the previous row's last element. So
  each rows has elements row_p(row)+1:row_p(row+1).</p></td>
@@ -3442,7 +3442,7 @@
   
   <td><span class="anchor" id="variable-col_i~2"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>col_i</strong></td><td>=> </td><td>Null()</td><td><p>the global blocked column number of this block.</p></td>
   
@@ -3456,7 +3456,7 @@
   
   <td><span class="anchor" id="variable-blk_p~2"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>blk_p</strong></td><td>=> </td><td>Null()</td><td><p>the pointer into the data array of this block.</p></td>
   
@@ -3470,7 +3470,7 @@
   
   <td><span class="anchor" id="variable-thr_c"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>thr_c</strong></td><td>=> </td><td>Null()</td><td><p>elements/thread for list index</p></td>
   
@@ -3484,7 +3484,7 @@
   
   <td><span class="anchor" id="variable-coo_l"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>coo_l</strong></td><td>=> </td><td>Null()</td><td><p>coordinate list (used for direct indexing)</p></td>
   
@@ -3498,7 +3498,7 @@
   
   <td><span class="anchor" id="variable-row_blk_size"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>row_blk_size</strong></td><td> =</td><td>array_i1d_obj()</td><td><p>sizes (rows in a block) of blocked rows</p></td>
   
@@ -3512,7 +3512,7 @@
   
   <td><span class="anchor" id="variable-col_blk_size"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>col_blk_size</strong></td><td> =</td><td>array_i1d_obj()</td><td><p>sizes (columns in a block) of blocked columns</p></td>
   
@@ -3526,7 +3526,7 @@
   
   <td><span class="anchor" id="variable-row_blk_offset"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>row_blk_offset</strong></td><td> =</td><td>array_i1d_obj()</td><td><p>row offset (size = nrow+1)</p></td>
   
@@ -3540,7 +3540,7 @@
   
   <td><span class="anchor" id="variable-col_blk_offset"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>col_blk_offset</strong></td><td> =</td><td>array_i1d_obj()</td><td><p>col offset (size = ncol+1)</p></td>
   
@@ -3554,7 +3554,7 @@
   
   <td><span class="anchor" id="variable-local_rows~3"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>local_rows</strong></td><td> =</td><td>array_i1d_obj()</td><td><p>Map of global to local rows when local indexing is enabled</p></td>
   
@@ -3568,7 +3568,7 @@
   
   <td><span class="anchor" id="variable-global_rows~2"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>global_rows</strong></td><td> =</td><td>array_i1d_obj()</td><td></td>
   
@@ -3582,7 +3582,7 @@
   
   <td><span class="anchor" id="variable-local_cols~2"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>local_cols</strong></td><td> =</td><td>array_i1d_obj()</td><td></td>
   
@@ -3596,7 +3596,7 @@
   
   <td><span class="anchor" id="variable-global_cols"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>global_cols</strong></td><td> =</td><td>array_i1d_obj()</td><td></td>
   
@@ -3610,7 +3610,7 @@
   
   <td><span class="anchor" id="variable-has_local_rows"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>has_local_rows</strong></td><td> =</td><td>.FALSE.</td><td></td>
   
@@ -3624,7 +3624,7 @@
   
   <td><span class="anchor" id="variable-has_global_rows"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>has_global_rows</strong></td><td> =</td><td>.FALSE.</td><td></td>
   
@@ -3638,7 +3638,7 @@
   
   <td><span class="anchor" id="variable-has_local_cols"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>has_local_cols</strong></td><td> =</td><td>.FALSE.</td><td></td>
   
@@ -3652,7 +3652,7 @@
   
   <td><span class="anchor" id="variable-has_global_cols"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>has_global_cols</strong></td><td> =</td><td>.FALSE.</td><td></td>
   
@@ -3666,7 +3666,7 @@
   
   <td><span class="anchor" id="variable-max_rbs"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>max_rbs</strong></td><td> =</td><td>-1</td><td><p>maximal row sizes</p></td>
   
@@ -3680,7 +3680,7 @@
   
   <td><span class="anchor" id="variable-max_cbs"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>max_cbs</strong></td><td> =</td><td>-1</td><td><p>maximal column sizes</p></td>
   
@@ -3694,7 +3694,7 @@
   
   <td><span class="anchor" id="variable-sparsity_id"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>sparsity_id</strong></td><td> =</td><td>-1</td><td></td>
   
@@ -3706,9 +3706,9 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-id_nr~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-id_nr~2"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>id_nr</strong></td><td> =</td><td>-1</td><td></td>
   
@@ -3722,7 +3722,7 @@
   
   <td><span class="anchor" id="variable-nblks"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nblks</strong></td><td> =</td><td>-1</td><td><p>number of blocks locally present</p></td>
   
@@ -3736,7 +3736,7 @@
   
   <td><span class="anchor" id="variable-nze"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nze</strong></td><td> =</td><td>-1</td><td><p>number of non-zero elements locally present</p></td>
   
@@ -3750,7 +3750,7 @@
   
   <td><span class="anchor" id="variable-nblkrows_total"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nblkrows_total</strong></td><td> =</td><td>-1</td><td><p>size of entire matrix in blocked rows</p></td>
   
@@ -3764,7 +3764,7 @@
   
   <td><span class="anchor" id="variable-nblkcols_total"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nblkcols_total</strong></td><td> =</td><td>-1</td><td><p>size of entire matrix in blocked columns</p></td>
   
@@ -3778,7 +3778,7 @@
   
   <td><span class="anchor" id="variable-nfullrows_total"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nfullrows_total</strong></td><td> =</td><td>-1</td><td><p>size of entire matrix in full rows</p></td>
   
@@ -3792,7 +3792,7 @@
   
   <td><span class="anchor" id="variable-nfullcols_total"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nfullcols_total</strong></td><td> =</td><td>-1</td><td><p>size of entire matrix in full columns</p></td>
   
@@ -3806,7 +3806,7 @@
   
   <td><span class="anchor" id="variable-nblkrows_local"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nblkrows_local</strong></td><td> =</td><td>-1</td><td><p>size of local part of matrix in blocked rows</p></td>
   
@@ -3820,7 +3820,7 @@
   
   <td><span class="anchor" id="variable-nblkcols_local"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nblkcols_local</strong></td><td> =</td><td>-1</td><td><p>size of local part of matrix in blocked columns</p></td>
   
@@ -3834,7 +3834,7 @@
   
   <td><span class="anchor" id="variable-nfullrows_local"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nfullrows_local</strong></td><td> =</td><td>-1</td><td><p>size of local part of matrix in full rows</p></td>
   
@@ -3848,7 +3848,7 @@
   
   <td><span class="anchor" id="variable-nfullcols_local"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nfullcols_local</strong></td><td> =</td><td>-1</td><td><p>size of local part of matrix in full columns</p></td>
   
@@ -3860,9 +3860,9 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-data_type~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type~5"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>data_type</strong></td><td> =</td><td>-1</td><td><p>'r'/'R' for single/double precision real or 'c'/'C' for single/double precision complex data</p></td>
   
@@ -3876,7 +3876,7 @@
   
   <td><span class="anchor" id="variable-replication_type"></span>character,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>replication_type</strong></td><td> =</td><td>""</td><td><p>multi-process replication used in the matrix</p></td>
   
@@ -3890,7 +3890,7 @@
   
   <td><span class="anchor" id="variable-symmetry"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>symmetry</strong></td><td> =</td><td>.FALSE.</td><td><p>matrix has symmetry</p></td>
   
@@ -3904,7 +3904,7 @@
   
   <td><span class="anchor" id="variable-negate_real"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>negate_real</strong></td><td> =</td><td>.FALSE.</td><td><p>symmetry is realized by negating the real part</p></td>
   
@@ -3918,7 +3918,7 @@
   
   <td><span class="anchor" id="variable-negate_imaginary"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>negate_imaginary</strong></td><td> =</td><td>.FALSE.</td><td><p>symmetry is realized by negating complex part (i.e., antisymmetric)</p></td>
   
@@ -3932,7 +3932,7 @@
   
   <td><span class="anchor" id="variable-bcsc"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>bcsc</strong></td><td> =</td><td>.FALSE.</td><td><p>BCS Column instead of BCS Row</p></td>
   
@@ -3946,7 +3946,7 @@
   
   <td><span class="anchor" id="variable-local_indexing~2"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>local_indexing</strong></td><td> =</td><td>.FALSE.</td><td><p>Local indexing of rows instead of global indexing.</p></td>
   
@@ -3960,7 +3960,7 @@
   
   <td><span class="anchor" id="variable-list_indexing"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>list_indexing</strong></td><td> =</td><td>.FALSE.</td><td></td>
   
@@ -3974,7 +3974,7 @@
   
   <td><span class="anchor" id="variable-data_memory_type"></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>data_memory_type</strong></td><td> =</td><td>dbcsr_memtype_type()</td><td><p>memory type for data</p></td>
   
@@ -3988,7 +3988,7 @@
   
   <td><span class="anchor" id="variable-index_memory_type"></span>type(<a href='../type/dbcsr_memtype_type.html'>dbcsr_memtype_type</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>index_memory_type</strong></td><td> =</td><td>dbcsr_memtype_type()</td><td><p>memory type for the index</p></td>
   
@@ -4002,7 +4002,7 @@
   
   <td><span class="anchor" id="variable-buffers~2"></span>type(<a href='../type/dbcsr_block_buffer_obj.html'>dbcsr_block_buffer_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>buffers</strong></td><td> =</td><td>dbcsr_block_buffer_obj()</td><td><p>Block buffers</p></td>
   
@@ -4016,7 +4016,7 @@
   
   <td><span class="anchor" id="variable-wms"></span>type(<a href='../type/dbcsr_work_type.html'>dbcsr_work_type</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>wms</strong></td><td>=> </td><td>Null()</td><td></td>
   
@@ -4030,7 +4030,7 @@
   
   <td><span class="anchor" id="variable-dist"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>dist</strong></td><td> =</td><td>dbcsr_distribution_obj()</td><td><p>distribution used by this matrix</p></td>
   
@@ -4042,9 +4042,9 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-refcount~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-refcount~7"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>refcount</strong></td><td> =</td><td>0</td><td><p>reference count</p></td>
   
@@ -4058,7 +4058,7 @@
   
   <td><span class="anchor" id="variable-work_mutable"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>work_mutable</strong></td><td> =</td><td>.FALSE.</td><td><p>uses the mutable data for working and not the append-only data</p></td>
   
@@ -4105,7 +4105,7 @@
   
   <td><span class="anchor" id="variable-w"></span>type(<a href='../type/dbcsr_work_type.html'>dbcsr_work_type</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>POINTER</td><td>::</td>
   <td><strong>w</strong></td><td>=> </td><td>Null()</td><td><p>the work matrix</p></td>
   
@@ -4152,7 +4152,7 @@
   
   <td><span class="anchor" id="variable-matrix~2"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>POINTER</td><td>::</td>
   <td><strong>matrix</strong></td><td>=> </td><td>Null()</td><td><p>the dbcsr_typeect</p></td>
   
@@ -4199,7 +4199,7 @@
   
   <td><span class="anchor" id="variable-mats"></span>type(<a href='../type/dbcsr_type_p.html'>dbcsr_type_p</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>mats</strong></td><td>=> </td><td>Null()</td><td><p>the array of matrices</p></td>
   
@@ -4246,7 +4246,7 @@
   
   <td><span class="anchor" id="variable-mats~2"></span>type(<a href='../type/dbcsr_type_p.html'>dbcsr_type_p</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:, :), POINTER</td><td>::</td>
   <td><strong>mats</strong></td><td>=> </td><td>Null()</td><td><p>the array of matrices</p></td>
   
@@ -4293,7 +4293,7 @@
   
   <td><span class="anchor" id="variable-mats~3"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>mats</strong></td><td>=> </td><td>Null()</td><td><p>the matrices</p></td>
   
@@ -4307,7 +4307,7 @@
   
   <td><span class="anchor" id="variable-image_dist"></span>type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>image_dist</strong></td><td></td><td></td><td><p>image distribution</p></td>
   
@@ -4354,7 +4354,7 @@
   
   <td><span class="anchor" id="variable-mats~4"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:, :), POINTER</td><td>::</td>
   <td><strong>mats</strong></td><td>=> </td><td>Null()</td><td><p>the matrices</p></td>
   
@@ -4368,7 +4368,7 @@
   
   <td><span class="anchor" id="variable-image_dist~2"></span>type(<a href='../type/dbcsr_imagedistribution_obj.html'>dbcsr_imagedistribution_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>image_dist</strong></td><td></td><td></td><td><p>image distribution</p></td>
   
@@ -4415,7 +4415,7 @@
   
   <td><span class="anchor" id="variable-last_mpi_ranks_used"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>last_mpi_ranks_used</strong></td><td> =</td><td>-1</td><td></td>
   
@@ -4429,7 +4429,7 @@
   
   <td><span class="anchor" id="variable-nimages"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nimages</strong></td><td> =</td><td>-1</td><td></td>
   
@@ -4443,7 +4443,7 @@
   
   <td><span class="anchor" id="variable-nexchanged"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nexchanged</strong></td><td> =</td><td>-1</td><td></td>
   
@@ -4457,7 +4457,7 @@
   
   <td><span class="anchor" id="variable-nfiltered"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nfiltered</strong></td><td> =</td><td>-1</td><td></td>
   
@@ -4471,7 +4471,7 @@
   
   <td><span class="anchor" id="variable-data_size"></span>real,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(2, 3)</td><td>::</td>
   <td><strong>data_size</strong></td><td> =</td><td>0.0</td><td></td>
   
@@ -4485,7 +4485,7 @@
   
   <td><span class="anchor" id="variable-data_size_breakdown"></span>integer(kind=int_8),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(SIZE(dbcsr_mpi_size_limits) + 1, 2, 2)</td><td>::</td>
   <td><strong>data_size_breakdown</strong></td><td> =</td><td>-1</td><td></td>
   

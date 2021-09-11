@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-74-g3df93e435</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-81-g392754357</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -210,9 +210,9 @@
       
       <a class="list-group-item" href="../type/dbcsr_imagedistribution_type.html#variable-has_global_vcol_map">has_global_vcol_map</a>
       
-      <a class="list-group-item" href="../type/dbcsr_imagedistribution_type.html#variable-id">id</a>
+      <a class="list-group-item" href="../type/dbcsr_imagedistribution_type.html#variable-id~2">id</a>
       
-      <a class="list-group-item" href="../type/dbcsr_imagedistribution_type.html#variable-refcount~3">refcount</a>
+      <a class="list-group-item" href="../type/dbcsr_imagedistribution_type.html#variable-refcount~4">refcount</a>
       
     </div>
   </div>
@@ -309,9 +309,9 @@
       
       <a class="list-group-item" href="../type/dbcsr_imagedistribution_type.html#variable-has_global_vcol_map">has_global_vcol_map</a>
       
-      <a class="list-group-item" href="../type/dbcsr_imagedistribution_type.html#variable-id">id</a>
+      <a class="list-group-item" href="../type/dbcsr_imagedistribution_type.html#variable-id~2">id</a>
       
-      <a class="list-group-item" href="../type/dbcsr_imagedistribution_type.html#variable-refcount~3">refcount</a>
+      <a class="list-group-item" href="../type/dbcsr_imagedistribution_type.html#variable-refcount~4">refcount</a>
       
     </div>
   </div>
@@ -369,7 +369,7 @@
   
   <td><span class="anchor" id="variable-main"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>main</strong></td><td></td><td></td><td><p>the main distribution</p></td>
   
@@ -383,7 +383,7 @@
   
   <td><span class="anchor" id="variable-row_image"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>row_image</strong></td><td></td><td></td><td><p>distribution of matrix elements' rows into image  rows</p></td>
   
@@ -397,7 +397,7 @@
   
   <td><span class="anchor" id="variable-col_image"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>col_image</strong></td><td></td><td></td><td><p>distribution of matrix elements' columns into image columns</p></td>
   
@@ -411,7 +411,7 @@
   
   <td><span class="anchor" id="variable-row_decimation"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>row_decimation</strong></td><td> =</td><td>-1</td><td><p>Number of imaged rows mapped to a real row</p></td>
   
@@ -425,7 +425,7 @@
   
   <td><span class="anchor" id="variable-col_decimation"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>col_decimation</strong></td><td> =</td><td>-1</td><td><p>Number of imaged columns mapped to a real column</p></td>
   
@@ -439,7 +439,7 @@
   
   <td><span class="anchor" id="variable-row_multiplicity"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>row_multiplicity</strong></td><td> =</td><td>-1</td><td><p>Number of real rows mapped to a virtual row</p></td>
   
@@ -453,7 +453,7 @@
   
   <td><span class="anchor" id="variable-col_multiplicity"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>col_multiplicity</strong></td><td> =</td><td>-1</td><td><p>Number of real columns mapped to a virtual column</p></td>
   
@@ -467,7 +467,7 @@
   
   <td><span class="anchor" id="variable-vrow_dist"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>vrow_dist</strong></td><td></td><td></td><td></td>
   
@@ -481,7 +481,7 @@
   
   <td><span class="anchor" id="variable-vcol_dist"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>vcol_dist</strong></td><td></td><td></td><td></td>
   
@@ -495,7 +495,7 @@
   
   <td><span class="anchor" id="variable-other_vl_rows"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>other_vl_rows</strong></td><td>=> </td><td>Null()</td><td></td>
   
@@ -509,7 +509,7 @@
   
   <td><span class="anchor" id="variable-other_vl_cols"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>other_vl_cols</strong></td><td>=> </td><td>Null()</td><td></td>
   
@@ -523,7 +523,7 @@
   
   <td><span class="anchor" id="variable-global_vrow_map"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>global_vrow_map</strong></td><td></td><td></td><td></td>
   
@@ -537,7 +537,7 @@
   
   <td><span class="anchor" id="variable-global_vcol_map"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>global_vcol_map</strong></td><td></td><td></td><td></td>
   
@@ -551,7 +551,7 @@
   
   <td><span class="anchor" id="variable-has_other_vl_rows"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>has_other_vl_rows</strong></td><td> =</td><td>.FALSE.</td><td></td>
   
@@ -565,7 +565,7 @@
   
   <td><span class="anchor" id="variable-has_other_vl_cols"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>has_other_vl_cols</strong></td><td> =</td><td>.FALSE.</td><td></td>
   
@@ -579,7 +579,7 @@
   
   <td><span class="anchor" id="variable-has_global_vrow_map"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>has_global_vrow_map</strong></td><td> =</td><td>.FALSE.</td><td></td>
   
@@ -593,7 +593,7 @@
   
   <td><span class="anchor" id="variable-has_global_vcol_map"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>has_global_vcol_map</strong></td><td> =</td><td>.FALSE.</td><td></td>
   
@@ -605,9 +605,9 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-id"></span>integer,</td>
+  <td><span class="anchor" id="variable-id~2"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>id</strong></td><td> =</td><td>-1</td><td></td>
   
@@ -619,9 +619,9 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-refcount~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-refcount~4"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>refcount</strong></td><td> =</td><td>0</td><td><p>count of references</p></td>
   

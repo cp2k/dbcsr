@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-74-g3df93e435</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-81-g392754357</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -174,7 +174,7 @@
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_io.html#variable-modulen~37">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_io.html#variable-modulen~52">moduleN</a>
       
       <a class="list-group-item" href="../module/dbcsr_io.html#variable-bcsr_debug">bcsr_debug</a>
       
@@ -270,31 +270,31 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
-    
-    <li><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></li>
-    
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
     
     <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
     
-    <li><a href='../module/dbcsr_mp_operations.html'>dbcsr_mp_operations</a></li>
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
-    <li><a href='../module/dbcsr_machine.html'>dbcsr_machine</a></li>
-    
-    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
+    <li><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></li>
     
     <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
     
-    <li><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
+    <li><a href='../module/dbcsr_mp_operations.html'>dbcsr_mp_operations</a></li>
     
     <li><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
     
+    <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
+    
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
-    <li><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
+    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
     
-    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+    <li><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
+    
+    <li><a href='../module/dbcsr_machine.html'>dbcsr_machine</a></li>
+    
+    <li><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
     
   </ul>
       </li>
@@ -322,7 +322,7 @@
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_io.html#variable-modulen~37">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_io.html#variable-modulen~52">moduleN</a>
       
       <a class="list-group-item" href="../module/dbcsr_io.html#variable-bcsr_debug">bcsr_debug</a>
       
@@ -424,7 +424,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-modulen~37"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-modulen~52"></span>character(len=*),</td>
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
@@ -598,7 +598,7 @@ private subroutine <a href='../proc/printmat_s.html'>printmat_s</a>(matrix, rows
   
 <tr>
   
-  <td><span class="anchor" ></span>character(len=*),</td>
+  <td><span class="anchor" ></span>character,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -721,7 +721,7 @@ private subroutine <a href='../proc/printmat_d.html'>printmat_d</a>(matrix, rows
   
 <tr>
   
-  <td><span class="anchor" ></span>character(len=*),</td>
+  <td><span class="anchor" ></span>character,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -844,7 +844,7 @@ private subroutine <a href='../proc/printmat_c.html'>printmat_c</a>(matrix, rows
   
 <tr>
   
-  <td><span class="anchor" ></span>character(len=*),</td>
+  <td><span class="anchor" ></span>character,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -967,7 +967,7 @@ private subroutine <a href='../proc/printmat_z.html'>printmat_z</a>(matrix, rows
   
 <tr>
   
-  <td><span class="anchor" ></span>character(len=*),</td>
+  <td><span class="anchor" ></span>character,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -1877,7 +1877,7 @@ private subroutine <a href='../proc/printmat_s.html'>printmat_s</a>(matrix, rows
   
 <tr>
   
-  <td><span class="anchor" ></span>character(len=*),</td>
+  <td><span class="anchor" ></span>character,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -2003,7 +2003,7 @@ private subroutine <a href='../proc/printmat_d.html'>printmat_d</a>(matrix, rows
   
 <tr>
   
-  <td><span class="anchor" ></span>character(len=*),</td>
+  <td><span class="anchor" ></span>character,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -2129,7 +2129,7 @@ private subroutine <a href='../proc/printmat_c.html'>printmat_c</a>(matrix, rows
   
 <tr>
   
-  <td><span class="anchor" ></span>character(len=*),</td>
+  <td><span class="anchor" ></span>character,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -2255,7 +2255,7 @@ private subroutine <a href='../proc/printmat_z.html'>printmat_z</a>(matrix, rows
   
 <tr>
   
-  <td><span class="anchor" ></span>character(len=*),</td>
+  <td><span class="anchor" ></span>character,</td>
   <td>intent(in),</td>
   <td>optional</td>
   

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-74-g3df93e435</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-81-g392754357</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -176,11 +176,11 @@
       
       <a class="list-group-item" href="../module/dbcsr_mm_dist_operations.html#variable-idid">idid</a>
       
-      <a class="list-group-item" href="../module/dbcsr_mm_dist_operations.html#variable-modulen~41">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_mm_dist_operations.html#variable-modulen~62">moduleN</a>
       
-      <a class="list-group-item" href="../module/dbcsr_mm_dist_operations.html#variable-careful_mod~5">careful_mod</a>
+      <a class="list-group-item" href="../module/dbcsr_mm_dist_operations.html#variable-careful_mod~16">careful_mod</a>
       
-      <a class="list-group-item" href="../module/dbcsr_mm_dist_operations.html#variable-debug_mod~2">debug_mod</a>
+      <a class="list-group-item" href="../module/dbcsr_mm_dist_operations.html#variable-debug_mod~8">debug_mod</a>
       
     </div>
   </div>
@@ -274,21 +274,21 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
+    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
     
     <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
-    <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
+    <li><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
+    
+    <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
     
     <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
     
+    <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
+    
     <li><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
     
-    <li><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
-    
     <li><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
-    
-    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
     
   </ul>
       </li>
@@ -318,11 +318,11 @@
       
       <a class="list-group-item" href="../module/dbcsr_mm_dist_operations.html#variable-idid">idid</a>
       
-      <a class="list-group-item" href="../module/dbcsr_mm_dist_operations.html#variable-modulen~41">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_mm_dist_operations.html#variable-modulen~62">moduleN</a>
       
-      <a class="list-group-item" href="../module/dbcsr_mm_dist_operations.html#variable-careful_mod~5">careful_mod</a>
+      <a class="list-group-item" href="../module/dbcsr_mm_dist_operations.html#variable-careful_mod~16">careful_mod</a>
       
-      <a class="list-group-item" href="../module/dbcsr_mm_dist_operations.html#variable-debug_mod~2">debug_mod</a>
+      <a class="list-group-item" href="../module/dbcsr_mm_dist_operations.html#variable-debug_mod~8">debug_mod</a>
       
     </div>
   </div>
@@ -436,7 +436,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-modulen~41"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-modulen~62"></span>character(len=*),</td>
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
@@ -450,7 +450,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-careful_mod~5"></span>logical,</td>
+  <td><span class="anchor" id="variable-careful_mod~16"></span>logical,</td>
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
@@ -464,7 +464,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-debug_mod~2"></span>logical,</td>
+  <td><span class="anchor" id="variable-debug_mod~8"></span>logical,</td>
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
@@ -2347,7 +2347,7 @@ private subroutine <a href='../proc/dbcsr_get_global_vcol_map.html'>dbcsr_get_gl
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-map_all_local_elements"></span><h3>
-private subroutine <a href='../proc/map_all_local_elements.html'>map_all_local_elements</a>(global_elements, bin_distribution, nbins)
+private pure subroutine <a href='../proc/map_all_local_elements.html'>map_all_local_elements</a>(global_elements, bin_distribution, nbins)
     
     
    
@@ -2547,7 +2547,7 @@ private subroutine <a href='../proc/reimage_distribution.html'>reimage_distribut
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-make_vdistribution"></span><h3>
-private subroutine <a href='../proc/make_vdistribution.html'>make_vdistribution</a>(nelements, vbins, bins, decimation, images)
+private pure subroutine <a href='../proc/make_vdistribution.html'>make_vdistribution</a>(nelements, vbins, bins, decimation, images)
     
     
    

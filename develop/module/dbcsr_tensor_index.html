@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-74-g3df93e435</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-81-g392754357</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -174,7 +174,7 @@
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#variable-modulen~9">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#variable-modulen~16">moduleN</a>
       
     </div>
   </div>
@@ -282,11 +282,11 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
+    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+    
     <li><a href='../module/dbcsr_allocate_wrap.html'>dbcsr_allocate_wrap</a></li>
     
     <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-    
-    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
   </ul>
       </li>
@@ -314,7 +314,7 @@
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#variable-modulen~9">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_tensor_index.html#variable-modulen~16">moduleN</a>
       
     </div>
   </div>
@@ -428,7 +428,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-modulen~9"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-modulen~16"></span>character(len=*),</td>
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
@@ -480,7 +480,7 @@
   
   <td><span class="anchor" id="variable-ndim_nd"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>ndim_nd</strong></td><td></td><td></td><td></td>
   
@@ -494,7 +494,7 @@
   
   <td><span class="anchor" id="variable-ndim1_2d"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>ndim1_2d</strong></td><td></td><td></td><td></td>
   
@@ -508,7 +508,7 @@
   
   <td><span class="anchor" id="variable-ndim2_2d"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>ndim2_2d</strong></td><td></td><td></td><td></td>
   
@@ -522,7 +522,7 @@
   
   <td><span class="anchor" id="variable-dims_nd"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
   <td><strong>dims_nd</strong></td><td></td><td></td><td></td>
   
@@ -536,7 +536,7 @@
   
   <td><span class="anchor" id="variable-dims_2d"></span>integer(kind=int_8),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>dims_2d</strong></td><td></td><td></td><td></td>
   
@@ -550,7 +550,7 @@
   
   <td><span class="anchor" id="variable-dims1_2d"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
   <td><strong>dims1_2d</strong></td><td></td><td></td><td></td>
   
@@ -564,7 +564,7 @@
   
   <td><span class="anchor" id="variable-dims2_2d"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
   <td><strong>dims2_2d</strong></td><td></td><td></td><td></td>
   
@@ -578,7 +578,7 @@
   
   <td><span class="anchor" id="variable-map1_2d"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
   <td><strong>map1_2d</strong></td><td></td><td></td><td></td>
   
@@ -592,7 +592,7 @@
   
   <td><span class="anchor" id="variable-map2_2d"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
   <td><strong>map2_2d</strong></td><td></td><td></td><td></td>
   
@@ -606,7 +606,7 @@
   
   <td><span class="anchor" id="variable-map_nd"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
   <td><strong>map_nd</strong></td><td></td><td></td><td></td>
   
@@ -620,7 +620,7 @@
   
   <td><span class="anchor" id="variable-base"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>base</strong></td><td></td><td></td><td></td>
   
@@ -634,7 +634,7 @@
   
   <td><span class="anchor" id="variable-col_major"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>col_major</strong></td><td></td><td></td><td></td>
   
@@ -1793,7 +1793,7 @@ public subroutine <a href='../proc/destroy_nd_to_2d_mapping.html'>destroy_nd_to_
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_t_get_mapping_info"></span><h3>
-public subroutine <a href='../proc/dbcsr_t_get_mapping_info.html'>dbcsr_t_get_mapping_info</a>(map, ndim_nd, ndim1_2d, ndim2_2d, dims_2d_i8, dims_2d, dims_nd, dims1_2d, dims2_2d, map1_2d, map2_2d, map_nd, base, col_major)
+public pure subroutine <a href='../proc/dbcsr_t_get_mapping_info.html'>dbcsr_t_get_mapping_info</a>(map, ndim_nd, ndim1_2d, ndim2_2d, dims_2d_i8, dims_2d, dims_nd, dims1_2d, dims2_2d, map1_2d, map2_2d, map_nd, base, col_major)
     
     
    

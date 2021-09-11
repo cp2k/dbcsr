@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-74-g3df93e435</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-81-g392754357</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -744,7 +744,7 @@ private subroutine <a href='../proc/array_release_i1d.html'>array_release_i1d</a
     
     
     <h3>
-private subroutine <a href='../proc/array_nullify_i1d.html'>array_nullify_i1d</a>(array)
+private pure subroutine <a href='../proc/array_nullify_i1d.html'>array_nullify_i1d</a>(array)
     
     
    
@@ -1364,7 +1364,7 @@ private pure function <a href='../proc/array_get_i1.html'>array_get_i1</a>(array
   
   <td><span class="anchor" id="variable-data~5"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER, CONTIGUOUS</td><td>::</td>
   <td><strong>DATA</strong></td><td>=> </td><td>Null()</td><td></td>
   
@@ -1378,7 +1378,7 @@ private pure function <a href='../proc/array_get_i1.html'>array_get_i1</a>(array
   
   <td><span class="anchor" id="variable-refcount~11"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>refcount</strong></td><td> =</td><td>0</td><td></td>
   
@@ -1422,7 +1422,7 @@ private pure function <a href='../proc/array_get_i1.html'>array_get_i1</a>(array
   
   <td><span class="anchor" id="variable-low"></span>type(<a href='../type/array_i1d_type.html'>array_i1d_type</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>POINTER</td><td>::</td>
   <td><strong>low</strong></td><td>=> </td><td>Null()</td><td></td>
   
@@ -2202,7 +2202,7 @@ private subroutine <a href='../proc/array_release_i1d.html'>array_release_i1d</a
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-array_nullify_i1d"></span><h3>
-private subroutine <a href='../proc/array_nullify_i1d.html'>array_nullify_i1d</a>(array)
+private pure subroutine <a href='../proc/array_nullify_i1d.html'>array_nullify_i1d</a>(array)
     
     
    

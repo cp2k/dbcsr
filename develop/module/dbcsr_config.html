@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-74-g3df93e435</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-81-g392754357</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -174,7 +174,7 @@
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_config.html#variable-modulen~30">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_config.html#variable-modulen~31">moduleN</a>
       
       <a class="list-group-item" href="../module/dbcsr_config.html#variable-default_resize_factor">default_resize_factor</a>
       
@@ -306,15 +306,15 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-    
     <li><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
+    
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
     <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
     
-    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-    
     <li><a href='../module/dbcsr_acc_device.html'>dbcsr_acc_device</a></li>
+    
+    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
   </ul>
       </li>
@@ -342,7 +342,7 @@
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_config.html#variable-modulen~30">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_config.html#variable-modulen~31">moduleN</a>
       
       <a class="list-group-item" href="../module/dbcsr_config.html#variable-default_resize_factor">default_resize_factor</a>
       
@@ -480,7 +480,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-modulen~30"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-modulen~31"></span>character(len=*),</td>
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
@@ -840,7 +840,7 @@
   
   <td><span class="anchor" id="variable-mm_driver"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>mm_driver</strong></td><td> =</td><td>mm_default_driver</td><td></td>
   
@@ -854,7 +854,7 @@
   
   <td><span class="anchor" id="variable-mm_stack_size"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>mm_stack_size</strong></td><td> =</td><td>mm_stack_default_size</td><td></td>
   
@@ -868,7 +868,7 @@
   
   <td><span class="anchor" id="variable-avg_elements_images"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>avg_elements_images</strong></td><td> =</td><td>-1</td><td></td>
   
@@ -882,7 +882,7 @@
   
   <td><span class="anchor" id="variable-num_mult_images"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>num_mult_images</strong></td><td> =</td><td>1</td><td></td>
   
@@ -896,7 +896,7 @@
   
   <td><span class="anchor" id="variable-nm_stacks"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nm_stacks</strong></td><td> =</td><td>3</td><td></td>
   
@@ -910,7 +910,7 @@
   
   <td><span class="anchor" id="variable-nn_stacks"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nn_stacks</strong></td><td> =</td><td>3</td><td></td>
   
@@ -924,7 +924,7 @@
   
   <td><span class="anchor" id="variable-nk_stacks"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nk_stacks</strong></td><td> =</td><td>3</td><td></td>
   
@@ -938,7 +938,7 @@
   
   <td><span class="anchor" id="variable-use_mpi_rma"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>use_mpi_rma</strong></td><td> =</td><td>.FALSE.</td><td></td>
   
@@ -952,7 +952,7 @@
   
   <td><span class="anchor" id="variable-num_layers_3d"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>num_layers_3D</strong></td><td> =</td><td>1</td><td></td>
   
@@ -966,7 +966,7 @@
   
   <td><span class="anchor" id="variable-use_comm_thread"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>use_comm_thread</strong></td><td> =</td><td>.TRUE.</td><td></td>
   
@@ -980,7 +980,7 @@
   
   <td><span class="anchor" id="variable-comm_thread_load"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>comm_thread_load</strong></td><td> =</td><td>100</td><td></td>
   
@@ -994,7 +994,7 @@
   
   <td><span class="anchor" id="variable-mm_densification"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>mm_densification</strong></td><td> =</td><td>.TRUE.</td><td></td>
   
@@ -1008,7 +1008,7 @@
   
   <td><span class="anchor" id="variable-multrec_limit"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>multrec_limit</strong></td><td> =</td><td>512</td><td></td>
   
@@ -1022,7 +1022,7 @@
   
   <td><span class="anchor" id="variable-accdrv_priority_streams"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>accdrv_priority_streams</strong></td><td> =</td><td>4</td><td></td>
   
@@ -1036,7 +1036,7 @@
   
   <td><span class="anchor" id="variable-accdrv_priority_buffers"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>accdrv_priority_buffers</strong></td><td> =</td><td>40</td><td></td>
   
@@ -1050,7 +1050,7 @@
   
   <td><span class="anchor" id="variable-accdrv_posterior_streams"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>accdrv_posterior_streams</strong></td><td> =</td><td>4</td><td></td>
   
@@ -1064,7 +1064,7 @@
   
   <td><span class="anchor" id="variable-accdrv_posterior_buffers"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>accdrv_posterior_buffers</strong></td><td> =</td><td>80</td><td></td>
   
@@ -1078,7 +1078,7 @@
   
   <td><span class="anchor" id="variable-accdrv_avoid_after_busy"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>accdrv_avoid_after_busy</strong></td><td> =</td><td>.FALSE.</td><td></td>
   
@@ -1092,7 +1092,7 @@
   
   <td><span class="anchor" id="variable-accdrv_min_flop_process"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>accdrv_min_flop_process</strong></td><td> =</td><td>0</td><td></td>
   
@@ -1106,7 +1106,7 @@
   
   <td><span class="anchor" id="variable-accdrv_stack_sort"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>accdrv_stack_sort</strong></td><td> =</td><td>.TRUE.</td><td></td>
   
@@ -1120,7 +1120,7 @@
   
   <td><span class="anchor" id="variable-accdrv_min_flop_sort"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>accdrv_min_flop_sort</strong></td><td> =</td><td>4000</td><td></td>
   
@@ -1134,7 +1134,7 @@
   
   <td><span class="anchor" id="variable-accdrv_do_inhomogenous"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>accdrv_do_inhomogenous</strong></td><td> =</td><td>.TRUE.</td><td></td>
   
@@ -1148,7 +1148,7 @@
   
   <td><span class="anchor" id="variable-accdrv_binning_nbins"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>accdrv_binning_nbins</strong></td><td> =</td><td>4096</td><td></td>
   
@@ -1162,7 +1162,7 @@
   
   <td><span class="anchor" id="variable-accdrv_binning_binsize"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>accdrv_binning_binsize</strong></td><td> =</td><td>16</td><td></td>
   
@@ -1176,7 +1176,7 @@
   
   <td><span class="anchor" id="variable-use_mempools_cpu"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>use_mempools_cpu</strong></td><td> =</td><td>.FALSE.</td><td></td>
   
@@ -1190,7 +1190,7 @@
   
   <td><span class="anchor" id="variable-tas_split_factor"></span>real(kind=real_8),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>tas_split_factor</strong></td><td> =</td><td>1.0_real_8</td><td></td>
   

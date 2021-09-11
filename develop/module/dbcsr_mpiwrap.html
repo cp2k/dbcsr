@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-74-g3df93e435</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-81-g392754357</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -218,13 +218,13 @@
       
       <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#variable-mpi_integer_size">mpi_integer_size</a>
       
-      <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#variable-modulen~21">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#variable-modulen~73">moduleN</a>
       
       <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#variable-max_perf">MAX_PERF</a>
       
       <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#variable-max_stack_size">max_stack_size</a>
       
-      <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#variable-stack_pointer">stack_pointer</a>
+      <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#variable-stack_pointer~2">stack_pointer</a>
       
       <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#variable-mp_perf_stack">mp_perf_stack</a>
       
@@ -1372,13 +1372,13 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_machine.html'>dbcsr_machine</a></li>
-    
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-    
     <li><a href="http://fortranwiki.org/fortran/show/iso_c_binding">iso_c_binding</a></li>
     
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+    
+    <li><a href='../module/dbcsr_machine.html'>dbcsr_machine</a></li>
+    
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
   </ul>
       </li>
@@ -1450,13 +1450,13 @@
       
       <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#variable-mpi_integer_size">mpi_integer_size</a>
       
-      <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#variable-modulen~21">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#variable-modulen~73">moduleN</a>
       
       <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#variable-max_perf">MAX_PERF</a>
       
       <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#variable-max_stack_size">max_stack_size</a>
       
-      <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#variable-stack_pointer">stack_pointer</a>
+      <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#variable-stack_pointer~2">stack_pointer</a>
       
       <a class="list-group-item" href="../module/dbcsr_mpiwrap.html#variable-mp_perf_stack">mp_perf_stack</a>
       
@@ -2918,7 +2918,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-modulen~21"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-modulen~73"></span>character(len=*),</td>
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
@@ -2960,7 +2960,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-stack_pointer"></span>integer,</td>
+  <td><span class="anchor" id="variable-stack_pointer~2"></span>integer,</td>
   
   <td>private</td>
   <td></td><td>::</td>
@@ -3093,7 +3093,7 @@
     
     
     <h3>
-private subroutine <a href='../proc/mp_environ_l.html'>mp_environ_l</a>(numtask, taskid, groupid)
+private recursive subroutine <a href='../proc/mp_environ_l.html'>mp_environ_l</a>(numtask, taskid, groupid)
     
     
    
@@ -46772,9 +46772,9 @@ private subroutine <a href='../proc/mp_file_read_at_all_ch.html'>mp_file_read_at
   
 <tr>
   
-  <td><span class="anchor" id="variable-index~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-index~3"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>index</strong></td><td></td><td></td><td></td>
   
@@ -46788,7 +46788,7 @@ private subroutine <a href='../proc/mp_file_read_at_all_ch.html'>mp_file_read_at
   
   <td><span class="anchor" id="variable-chunks"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>chunks</strong></td><td></td><td></td><td></td>
   
@@ -46832,7 +46832,7 @@ private subroutine <a href='../proc/mp_file_read_at_all_ch.html'>mp_file_read_at
   
   <td><span class="anchor" id="variable-type_handle"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>type_handle</strong></td><td></td><td></td><td></td>
   
@@ -46846,7 +46846,7 @@ private subroutine <a href='../proc/mp_file_read_at_all_ch.html'>mp_file_read_at
   
   <td><span class="anchor" id="variable-length"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>length</strong></td><td></td><td></td><td></td>
   
@@ -46860,7 +46860,7 @@ private subroutine <a href='../proc/mp_file_read_at_all_ch.html'>mp_file_read_at
   
   <td><span class="anchor" id="variable-data_i"></span>integer(kind=int_4),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>data_i</strong></td><td></td><td></td><td></td>
   
@@ -46874,7 +46874,7 @@ private subroutine <a href='../proc/mp_file_read_at_all_ch.html'>mp_file_read_at
   
   <td><span class="anchor" id="variable-data_l"></span>integer(kind=int_8),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>data_l</strong></td><td></td><td></td><td></td>
   
@@ -46888,7 +46888,7 @@ private subroutine <a href='../proc/mp_file_read_at_all_ch.html'>mp_file_read_at
   
   <td><span class="anchor" id="variable-data_r"></span>real(kind=real_4),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>data_r</strong></td><td></td><td></td><td></td>
   
@@ -46902,7 +46902,7 @@ private subroutine <a href='../proc/mp_file_read_at_all_ch.html'>mp_file_read_at
   
   <td><span class="anchor" id="variable-data_d"></span>real(kind=real_8),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>data_d</strong></td><td></td><td></td><td></td>
   
@@ -46916,7 +46916,7 @@ private subroutine <a href='../proc/mp_file_read_at_all_ch.html'>mp_file_read_at
   
   <td><span class="anchor" id="variable-data_c"></span>complex(kind=real_4),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>data_c</strong></td><td></td><td></td><td></td>
   
@@ -46930,7 +46930,7 @@ private subroutine <a href='../proc/mp_file_read_at_all_ch.html'>mp_file_read_at
   
   <td><span class="anchor" id="variable-data_z"></span>complex(kind=real_8),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>data_z</strong></td><td></td><td></td><td></td>
   
@@ -46944,7 +46944,7 @@ private subroutine <a href='../proc/mp_file_read_at_all_ch.html'>mp_file_read_at
   
   <td><span class="anchor" id="variable-subtype"></span>type(<a href='../type/mp_type_descriptor_type.html'>mp_type_descriptor_type</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>subtype</strong></td><td></td><td></td><td></td>
   
@@ -46958,7 +46958,7 @@ private subroutine <a href='../proc/mp_file_read_at_all_ch.html'>mp_file_read_at
   
   <td><span class="anchor" id="variable-vector_descriptor"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>vector_descriptor</strong>(2)</td><td></td><td></td><td></td>
   
@@ -46972,7 +46972,7 @@ private subroutine <a href='../proc/mp_file_read_at_all_ch.html'>mp_file_read_at
   
   <td><span class="anchor" id="variable-has_indexing"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>has_indexing</strong></td><td></td><td></td><td></td>
   
@@ -46986,7 +46986,7 @@ private subroutine <a href='../proc/mp_file_read_at_all_ch.html'>mp_file_read_at
   
   <td><span class="anchor" id="variable-index_descriptor"></span>type(<a href='../type/mp_indexing_meta_type.html'>mp_indexing_meta_type</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>index_descriptor</strong></td><td></td><td></td><td></td>
   
@@ -47028,9 +47028,9 @@ private subroutine <a href='../proc/mp_file_read_at_all_ch.html'>mp_file_read_at
   
 <tr>
   
-  <td><span class="anchor" id="variable-index~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-index~4"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>index</strong></td><td></td><td></td><td></td>
   
@@ -47044,7 +47044,7 @@ private subroutine <a href='../proc/mp_file_read_at_all_ch.html'>mp_file_read_at
   
   <td><span class="anchor" id="variable-chunks~2"></span>integer(kind=address_kind),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>chunks</strong></td><td></td><td></td><td></td>
   
@@ -47088,7 +47088,7 @@ private subroutine <a href='../proc/mp_file_read_at_all_ch.html'>mp_file_read_at
   
   <td><span class="anchor" id="variable-name~3"></span>character(len=20),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>name</strong></td><td></td><td></td><td></td>
   
@@ -47102,7 +47102,7 @@ private subroutine <a href='../proc/mp_file_read_at_all_ch.html'>mp_file_read_at
   
   <td><span class="anchor" id="variable-count"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>count</strong></td><td></td><td></td><td></td>
   
@@ -47116,7 +47116,7 @@ private subroutine <a href='../proc/mp_file_read_at_all_ch.html'>mp_file_read_at
   
   <td><span class="anchor" id="variable-msg_size"></span>real(kind=dp),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>msg_size</strong></td><td></td><td></td><td></td>
   
@@ -47158,9 +47158,9 @@ private subroutine <a href='../proc/mp_file_read_at_all_ch.html'>mp_file_read_at
   
 <tr>
   
-  <td><span class="anchor" id="variable-ref_count~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-ref_count~4"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>ref_count</strong></td><td></td><td></td><td></td>
   
@@ -47172,9 +47172,9 @@ private subroutine <a href='../proc/mp_file_read_at_all_ch.html'>mp_file_read_at
   
 <tr>
   
-  <td><span class="anchor" id="variable-id_nr~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-id_nr~4"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>id_nr</strong></td><td></td><td></td><td></td>
   
@@ -47188,7 +47188,7 @@ private subroutine <a href='../proc/mp_file_read_at_all_ch.html'>mp_file_read_at
   
   <td><span class="anchor" id="variable-mp_perfs"></span>type(<a href='../type/mp_perf_type.html'>mp_perf_type</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(MAX_PERF)</td><td>::</td>
   <td><strong>mp_perfs</strong></td><td></td><td></td><td></td>
   
@@ -47232,7 +47232,7 @@ private subroutine <a href='../proc/mp_file_read_at_all_ch.html'>mp_file_read_at
   
   <td><span class="anchor" id="variable-mp_perf_env"></span>type(<a href='../type/mp_perf_env_type.html'>mp_perf_env_type</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>POINTER</td><td>::</td>
   <td><strong>mp_perf_env</strong></td><td>=> </td><td>Null()</td><td></td>
   
@@ -49381,7 +49381,7 @@ public subroutine <a href='../proc/mp_isync.html'>mp_isync</a>(group, request)
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-mp_environ_l"></span><h3>
-private subroutine <a href='../proc/mp_environ_l.html'>mp_environ_l</a>(numtask, taskid, groupid)
+private recursive subroutine <a href='../proc/mp_environ_l.html'>mp_environ_l</a>(numtask, taskid, groupid)
     
     
    
@@ -53070,7 +53070,7 @@ public subroutine <a href='../proc/mp_type_size.html'>mp_type_size</a>(type_desc
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-mp_type_free_m"></span><h3>
-private subroutine <a href='../proc/mp_type_free_m.html'>mp_type_free_m</a>(type_descriptor)
+private recursive subroutine <a href='../proc/mp_type_free_m.html'>mp_type_free_m</a>(type_descriptor)
     
     
    

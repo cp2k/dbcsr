@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-74-g3df93e435</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-81-g392754357</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -174,11 +174,11 @@
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_index_operations.html#variable-modulen~70">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_index_operations.html#variable-modulen~40">moduleN</a>
       
-      <a class="list-group-item" href="../module/dbcsr_index_operations.html#variable-careful_mod~19">careful_mod</a>
+      <a class="list-group-item" href="../module/dbcsr_index_operations.html#variable-careful_mod~7">careful_mod</a>
       
-      <a class="list-group-item" href="../module/dbcsr_index_operations.html#variable-debug_mod~11">debug_mod</a>
+      <a class="list-group-item" href="../module/dbcsr_index_operations.html#variable-debug_mod~4">debug_mod</a>
       
     </div>
   </div>
@@ -306,25 +306,25 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
-    
     <li><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
     
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
     
     <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
     
-    <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
-    
-    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
-    
-    <li><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
     <li><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
     
+    <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
+    
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
-    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
+    
+    <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
+    
+    <li><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
     
   </ul>
       </li>
@@ -352,11 +352,11 @@
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_index_operations.html#variable-modulen~70">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_index_operations.html#variable-modulen~40">moduleN</a>
       
-      <a class="list-group-item" href="../module/dbcsr_index_operations.html#variable-careful_mod~19">careful_mod</a>
+      <a class="list-group-item" href="../module/dbcsr_index_operations.html#variable-careful_mod~7">careful_mod</a>
       
-      <a class="list-group-item" href="../module/dbcsr_index_operations.html#variable-debug_mod~11">debug_mod</a>
+      <a class="list-group-item" href="../module/dbcsr_index_operations.html#variable-debug_mod~4">debug_mod</a>
       
     </div>
   </div>
@@ -490,7 +490,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-modulen~70"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-modulen~40"></span>character(len=*),</td>
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
@@ -504,7 +504,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-careful_mod~19"></span>logical,</td>
+  <td><span class="anchor" id="variable-careful_mod~7"></span>logical,</td>
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
@@ -518,7 +518,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-debug_mod~11"></span>logical,</td>
+  <td><span class="anchor" id="variable-debug_mod~4"></span>logical,</td>
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
@@ -553,7 +553,7 @@
     
     
     <h3>
-private subroutine <a href='../proc/dbcsr_count_row_index_copy.html'>dbcsr_count_row_index_copy</a>(rows, counts, nrows)
+private pure subroutine <a href='../proc/dbcsr_count_row_index_copy.html'>dbcsr_count_row_index_copy</a>(rows, counts, nrows)
     
     
    
@@ -639,7 +639,7 @@ private subroutine <a href='../proc/dbcsr_count_row_index_copy.html'>dbcsr_count
     
     
     <h3>
-private subroutine <a href='../proc/dbcsr_count_row_index_inplace.html'>dbcsr_count_row_index_inplace</a>(rows, nrows)
+private pure subroutine <a href='../proc/dbcsr_count_row_index_inplace.html'>dbcsr_count_row_index_inplace</a>(rows, nrows)
     
     
    
@@ -725,7 +725,7 @@ private subroutine <a href='../proc/dbcsr_count_row_index_inplace.html'>dbcsr_co
     
     
     <h3>
-private subroutine <a href='../proc/dbcsr_build_row_index_copy.html'>dbcsr_build_row_index_copy</a>(counts, rows, nrows)
+private pure subroutine <a href='../proc/dbcsr_build_row_index_copy.html'>dbcsr_build_row_index_copy</a>(counts, rows, nrows)
     
     
    
@@ -811,7 +811,7 @@ private subroutine <a href='../proc/dbcsr_build_row_index_copy.html'>dbcsr_build
     
     
     <h3>
-private subroutine <a href='../proc/dbcsr_build_row_index_inplace.html'>dbcsr_build_row_index_inplace</a>(rows, nrows)
+private pure subroutine <a href='../proc/dbcsr_build_row_index_inplace.html'>dbcsr_build_row_index_inplace</a>(rows, nrows)
     
     
    
@@ -1368,7 +1368,7 @@ public subroutine <a href='../proc/dbcsr_make_dbcsr_index.html'>dbcsr_make_dbcsr
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_expand_row_index"></span><h3>
-public subroutine <a href='../proc/dbcsr_expand_row_index.html'>dbcsr_expand_row_index</a>(row_p, row_i, nrows, nblks)
+public pure subroutine <a href='../proc/dbcsr_expand_row_index.html'>dbcsr_expand_row_index</a>(row_p, row_i, nrows, nblks)
     
     
    
@@ -1472,7 +1472,7 @@ public subroutine <a href='../proc/dbcsr_expand_row_index.html'>dbcsr_expand_row
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_expand_row_index_2d"></span><h3>
-private subroutine <a href='../proc/dbcsr_expand_row_index_2d.html'>dbcsr_expand_row_index_2d</a>(row_p, row_i, nrows, dst_i)
+private pure subroutine <a href='../proc/dbcsr_expand_row_index_2d.html'>dbcsr_expand_row_index_2d</a>(row_p, row_i, nrows, dst_i)
     
     
    
@@ -1576,7 +1576,7 @@ private subroutine <a href='../proc/dbcsr_expand_row_index_2d.html'>dbcsr_expand
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_count_row_index_inplace"></span><h3>
-private subroutine <a href='../proc/dbcsr_count_row_index_inplace.html'>dbcsr_count_row_index_inplace</a>(rows, nrows)
+private pure subroutine <a href='../proc/dbcsr_count_row_index_inplace.html'>dbcsr_count_row_index_inplace</a>(rows, nrows)
     
     
    
@@ -1650,7 +1650,7 @@ private subroutine <a href='../proc/dbcsr_count_row_index_inplace.html'>dbcsr_co
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_count_row_index_copy"></span><h3>
-private subroutine <a href='../proc/dbcsr_count_row_index_copy.html'>dbcsr_count_row_index_copy</a>(rows, counts, nrows)
+private pure subroutine <a href='../proc/dbcsr_count_row_index_copy.html'>dbcsr_count_row_index_copy</a>(rows, counts, nrows)
     
     
    
@@ -1739,7 +1739,7 @@ private subroutine <a href='../proc/dbcsr_count_row_index_copy.html'>dbcsr_count
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_build_row_index_inplace"></span><h3>
-private subroutine <a href='../proc/dbcsr_build_row_index_inplace.html'>dbcsr_build_row_index_inplace</a>(rows, nrows)
+private pure subroutine <a href='../proc/dbcsr_build_row_index_inplace.html'>dbcsr_build_row_index_inplace</a>(rows, nrows)
     
     
    
@@ -1813,7 +1813,7 @@ private subroutine <a href='../proc/dbcsr_build_row_index_inplace.html'>dbcsr_bu
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_build_row_index_copy"></span><h3>
-private subroutine <a href='../proc/dbcsr_build_row_index_copy.html'>dbcsr_build_row_index_copy</a>(counts, rows, nrows)
+private pure subroutine <a href='../proc/dbcsr_build_row_index_copy.html'>dbcsr_build_row_index_copy</a>(counts, rows, nrows)
     
     
    

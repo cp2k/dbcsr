@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-74-g3df93e435</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-81-g392754357</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -131,7 +131,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 1.1% of total for derived types.</p>Including implementation: 159 statements, 12.2% of total for derived types.">8 statements</a>
+    title="<p> 1.1% of total for derived types.</p>Including implementation: 159 statements, 12.3% of total for derived types.">8 statements</a>
      </li> 
      
      
@@ -176,10 +176,6 @@
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../type/dbcsr_tas_dist_t.html#variable-nprowcol">nprowcol</a>
-      
-      <a class="list-group-item" href="../type/dbcsr_tas_dist_t.html#variable-nmrowcol">nmrowcol</a>
-      
       <a class="list-group-item" href="../type/dbcsr_tas_dist_t.html#variable-dims">dims</a>
       
       <a class="list-group-item" href="../type/dbcsr_tas_dist_t.html#variable-dims_grid">dims_grid</a>
@@ -222,9 +218,9 @@
   <div id="boundprocs-0" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../type/dbcsr_tas_dist_t.html#boundprocedure-dist~3">dist</a>
+      <a class="list-group-item" href="../type/dbcsr_tas_dist_t.html#boundprocedure-dist~9">dist</a>
       
-      <a class="list-group-item" href="../type/dbcsr_tas_dist_t.html#boundprocedure-rowcols">rowcols</a>
+      <a class="list-group-item" href="../type/dbcsr_tas_dist_t.html#boundprocedure-rowcols~5">rowcols</a>
       
     </div>
   </div>
@@ -239,7 +235,7 @@
     </div>
     
     <div class="col-md-9" id='text'>
-      <h2>type, private, extends(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>) :: dbcsr_tas_dist_t</h2>
+      <h2>type, public, extends(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>) :: dbcsr_tas_dist_t</h2>
     
     
     
@@ -257,10 +253,6 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
-      
-      <a class="list-group-item" href="../type/dbcsr_tas_dist_t.html#variable-nprowcol">nprowcol</a>
-      
-      <a class="list-group-item" href="../type/dbcsr_tas_dist_t.html#variable-nmrowcol">nmrowcol</a>
       
       <a class="list-group-item" href="../type/dbcsr_tas_dist_t.html#variable-dims">dims</a>
       
@@ -304,9 +296,9 @@
   <div id="boundprocs-1" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../type/dbcsr_tas_dist_t.html#boundprocedure-dist~3">dist</a>
+      <a class="list-group-item" href="../type/dbcsr_tas_dist_t.html#boundprocedure-dist~9">dist</a>
       
-      <a class="list-group-item" href="../type/dbcsr_tas_dist_t.html#boundprocedure-rowcols">rowcols</a>
+      <a class="list-group-item" href="../type/dbcsr_tas_dist_t.html#boundprocedure-rowcols~5">rowcols</a>
       
     </div>
   </div>
@@ -338,37 +330,9 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-nprowcol"></span>integer,</td>
-  
-  <td>public</td>
-  <td></td><td>::</td>
-  <td><strong>nprowcol</strong></td><td></td><td></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-nmrowcol"></span>integer(kind=int_8),</td>
-  
-  <td>public</td>
-  <td></td><td>::</td>
-  <td><strong>nmrowcol</strong></td><td></td><td></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
   <td><span class="anchor" id="variable-dims"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
   <td><strong>dims</strong></td><td></td><td></td><td></td>
   
@@ -382,7 +346,7 @@
   
   <td><span class="anchor" id="variable-dims_grid"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
   <td><strong>dims_grid</strong></td><td></td><td></td><td></td>
   
@@ -396,7 +360,7 @@
   
   <td><span class="anchor" id="variable-nd_dist~3"></span>type(<a href='../type/array_list.html'>array_list</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nd_dist</strong></td><td></td><td></td><td></td>
   
@@ -415,7 +379,7 @@
      
      
 <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="interface-dbcsr_tas_dist_t"></span><h3>private interface <a href='../interface/dbcsr_tas_dist_t.html'>dbcsr_tas_dist_t</a>
+  <div class="panel-heading codesum"><span class="anchor" id="interface-dbcsr_tas_dist_t"></span><h3>public interface <a href='../interface/dbcsr_tas_dist_t.html'>dbcsr_tas_dist_t</a>
     
   </h3></div>
   
@@ -553,7 +517,7 @@ private function <a href='../proc/new_dbcsr_tas_dist_t.html'>new_dbcsr_tas_dist_
     
      
 <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-dist~3"></span><h3>procedure, public :: <strong>dist</strong>  => <a href='../proc/tas_dist_t.html'>tas_dist_t</a> 
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-dist~9"></span><h3>procedure, public :: <strong>dist</strong>  => <a href='../proc/tas_dist_t.html'>tas_dist_t</a> 
     
   </h3></div>
   
@@ -641,7 +605,7 @@ private function <a href='../proc/tas_dist_t.html'>tas_dist_t</a>(t, rowcol)
     
      
 <div class="panel panel-default">
-  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-rowcols"></span><h3>procedure, public :: <strong>rowcols</strong>  => <a href='../proc/tas_rowcols_t.html'>tas_rowcols_t</a> 
+  <div class="panel-heading codesum"><span class="anchor" id="boundprocedure-rowcols~5"></span><h3>procedure, public :: <strong>rowcols</strong>  => <a href='../proc/tas_rowcols_t.html'>tas_rowcols_t</a> 
     
   </h3></div>
   

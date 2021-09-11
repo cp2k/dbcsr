@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-74-g3df93e435</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-81-g392754357</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -174,7 +174,7 @@
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_tas_types.html#variable-modulen~15">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_tas_types.html#variable-modulen~4">moduleN</a>
       
     </div>
   </div>
@@ -239,15 +239,15 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
     
     <li><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></li>
+    
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
     <li><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
-    
-    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
     
   </ul>
       </li>
@@ -275,7 +275,7 @@
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_tas_types.html#variable-modulen~15">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_tas_types.html#variable-modulen~4">moduleN</a>
       
     </div>
   </div>
@@ -345,7 +345,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-modulen~15"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-modulen~4"></span>character(len=*),</td>
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
@@ -397,7 +397,7 @@
   
   <td><span class="anchor" id="variable-mp_comm"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>mp_comm</strong></td><td></td><td></td><td></td>
   
@@ -411,7 +411,7 @@
   
   <td><span class="anchor" id="variable-pdims"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>pdims</strong></td><td></td><td></td><td></td>
   
@@ -425,7 +425,7 @@
   
   <td><span class="anchor" id="variable-igroup"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>igroup</strong></td><td></td><td></td><td></td>
   
@@ -439,7 +439,7 @@
   
   <td><span class="anchor" id="variable-ngroup"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>ngroup</strong></td><td></td><td></td><td></td>
   
@@ -453,7 +453,7 @@
   
   <td><span class="anchor" id="variable-split_rowcol"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>split_rowcol</strong></td><td></td><td></td><td></td>
   
@@ -467,7 +467,7 @@
   
   <td><span class="anchor" id="variable-pgrid_split_size"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>pgrid_split_size</strong></td><td></td><td></td><td></td>
   
@@ -481,7 +481,7 @@
   
   <td><span class="anchor" id="variable-group_size"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>group_size</strong></td><td></td><td></td><td></td>
   
@@ -495,7 +495,7 @@
   
   <td><span class="anchor" id="variable-mp_comm_group"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>mp_comm_group</strong></td><td></td><td></td><td></td>
   
@@ -509,7 +509,7 @@
   
   <td><span class="anchor" id="variable-ngroup_opt"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>ALLOCATABLE</td><td>::</td>
   <td><strong>ngroup_opt</strong></td><td></td><td></td><td></td>
   
@@ -523,7 +523,7 @@
   
   <td><span class="anchor" id="variable-strict_split"></span>logical,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>strict_split</strong></td><td> =</td><td>[.FALSE., .FALSE.]</td><td></td>
   
@@ -535,9 +535,9 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-refcount~10"></span>integer,</td>
+  <td><span class="anchor" id="variable-refcount~8"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>POINTER</td><td>::</td>
   <td><strong>refcount</strong></td><td>=> </td><td>NULL()</td><td></td>
   
@@ -581,7 +581,7 @@
   
   <td><span class="anchor" id="variable-info"></span>type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>info</strong></td><td></td><td></td><td></td>
   
@@ -595,7 +595,7 @@
   
   <td><span class="anchor" id="variable-dbcsr_dist"></span>type(<a href='../type/dbcsr_distribution_obj.html'>dbcsr_distribution_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>dbcsr_dist</strong></td><td></td><td></td><td></td>
   
@@ -609,7 +609,7 @@
   
   <td><span class="anchor" id="variable-row_dist"></span>class(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>ALLOCATABLE</td><td>::</td>
   <td><strong>row_dist</strong></td><td></td><td></td><td></td>
   
@@ -623,7 +623,7 @@
   
   <td><span class="anchor" id="variable-col_dist"></span>class(<a href='../type/dbcsr_tas_distribution.html'>dbcsr_tas_distribution</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>ALLOCATABLE</td><td>::</td>
   <td><strong>col_dist</strong></td><td></td><td></td><td></td>
   
@@ -637,7 +637,7 @@
   
   <td><span class="anchor" id="variable-local_rowcols"></span>integer(kind=int_8),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>ALLOCATABLE, DIMENSION(:)</td><td>::</td>
   <td><strong>local_rowcols</strong></td><td></td><td></td><td></td>
   
@@ -681,7 +681,7 @@
   
   <td><span class="anchor" id="variable-store_batched"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>POINTER</td><td>::</td>
   <td><strong>store_batched</strong></td><td>=> </td><td>NULL()</td><td></td>
   
@@ -695,7 +695,7 @@
   
   <td><span class="anchor" id="variable-store_batched_repl"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>POINTER</td><td>::</td>
   <td><strong>store_batched_repl</strong></td><td>=> </td><td>NULL()</td><td></td>
   
@@ -709,7 +709,7 @@
   
   <td><span class="anchor" id="variable-batched_out"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>batched_out</strong></td><td></td><td></td><td></td>
   
@@ -723,7 +723,7 @@
   
   <td><span class="anchor" id="variable-batched_trans"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>batched_trans</strong></td><td></td><td></td><td></td>
   
@@ -737,7 +737,7 @@
   
   <td><span class="anchor" id="variable-batched_beta"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>batched_beta</strong></td><td></td><td></td><td></td>
   
@@ -779,9 +779,9 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-dist~4"></span>type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),</td>
+  <td><span class="anchor" id="variable-dist~2"></span>type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>dist</strong></td><td></td><td></td><td></td>
   
@@ -795,7 +795,7 @@
   
   <td><span class="anchor" id="variable-row_blk_size~2"></span>class(<a href='../type/dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>ALLOCATABLE</td><td>::</td>
   <td><strong>row_blk_size</strong></td><td></td><td></td><td></td>
   
@@ -809,7 +809,7 @@
   
   <td><span class="anchor" id="variable-col_blk_size~2"></span>class(<a href='../type/dbcsr_tas_rowcol_data.html'>dbcsr_tas_rowcol_data</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>ALLOCATABLE</td><td>::</td>
   <td><strong>col_blk_size</strong></td><td></td><td></td><td></td>
   
@@ -823,7 +823,7 @@
   
   <td><span class="anchor" id="variable-matrix~4"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>matrix</strong></td><td></td><td></td><td></td>
   
@@ -837,7 +837,7 @@
   
   <td><span class="anchor" id="variable-nblkrows"></span>integer(kind=int_8),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nblkrows</strong></td><td></td><td></td><td></td>
   
@@ -851,7 +851,7 @@
   
   <td><span class="anchor" id="variable-nblkcols"></span>integer(kind=int_8),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nblkcols</strong></td><td></td><td></td><td></td>
   
@@ -865,7 +865,7 @@
   
   <td><span class="anchor" id="variable-nblkrowscols_split"></span>integer(kind=int_8),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nblkrowscols_split</strong></td><td></td><td></td><td></td>
   
@@ -879,7 +879,7 @@
   
   <td><span class="anchor" id="variable-nfullrows"></span>integer(kind=int_8),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nfullrows</strong></td><td></td><td></td><td></td>
   
@@ -893,7 +893,7 @@
   
   <td><span class="anchor" id="variable-nfullcols"></span>integer(kind=int_8),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nfullcols</strong></td><td></td><td></td><td></td>
   
@@ -905,9 +905,9 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-valid~4"></span>logical,</td>
+  <td><span class="anchor" id="variable-valid~3"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>valid</strong></td><td> =</td><td>.FALSE.</td><td></td>
   
@@ -921,7 +921,7 @@
   
   <td><span class="anchor" id="variable-do_batched"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>do_batched</strong></td><td> =</td><td>0</td><td></td>
   
@@ -935,7 +935,7 @@
   
   <td><span class="anchor" id="variable-mm_storage"></span>type(<a href='../type/dbcsr_tas_mm_storage.html'>dbcsr_tas_mm_storage</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>ALLOCATABLE</td><td>::</td>
   <td><strong>mm_storage</strong></td><td></td><td></td><td></td>
   
@@ -949,7 +949,7 @@
   
   <td><span class="anchor" id="variable-has_opt_pgrid"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>has_opt_pgrid</strong></td><td> =</td><td>.FALSE.</td><td></td>
   
@@ -993,7 +993,7 @@
   
   <td><span class="anchor" id="variable-info~2"></span>type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>info</strong></td><td></td><td></td><td></td>
   
@@ -1005,9 +1005,9 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-dist~5"></span>type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),</td>
+  <td><span class="anchor" id="variable-dist~3"></span>type(<a href='../type/dbcsr_tas_distribution_type.html'>dbcsr_tas_distribution_type</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>dist</strong></td><td></td><td></td><td></td>
   
@@ -1019,9 +1019,9 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-iter~2"></span>type(<a href='../type/dbcsr_iterator.html'>dbcsr_iterator</a>),</td>
+  <td><span class="anchor" id="variable-iter"></span>type(<a href='../type/dbcsr_iterator.html'>dbcsr_iterator</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>iter</strong></td><td></td><td></td><td></td>
   

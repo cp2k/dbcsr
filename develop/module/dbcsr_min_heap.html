@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-74-g3df93e435</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-81-g392754357</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -284,9 +284,9 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-    
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+    
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
   </ul>
       </li>
@@ -496,7 +496,7 @@
   
   <td><span class="anchor" id="variable-key~5"></span>integer(kind=keyt),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>key</strong></td><td></td><td></td><td></td>
   
@@ -510,7 +510,7 @@
   
   <td><span class="anchor" id="variable-value~9"></span>integer(kind=valt),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>value</strong></td><td></td><td></td><td></td>
   
@@ -554,7 +554,7 @@
   
   <td><span class="anchor" id="variable-node~5"></span>type(<a href='../type/dbcsr_heap_node.html'>dbcsr_heap_node</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>node</strong></td><td></td><td></td><td></td>
   
@@ -596,9 +596,9 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-n~6"></span>integer,</td>
+  <td><span class="anchor" id="variable-n~5"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>n</strong></td><td></td><td></td><td></td>
   
@@ -610,9 +610,9 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-index~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-index~2"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>index</strong></td><td></td><td></td><td></td>
   
@@ -626,7 +626,7 @@
   
   <td><span class="anchor" id="variable-nodes"></span>type(<a href='../type/dbcsr_heap_node_e.html'>dbcsr_heap_node_e</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>nodes</strong></td><td></td><td></td><td></td>
   
@@ -1421,7 +1421,7 @@ public subroutine <a href='../proc/dbcsr_heap_reset_first.html'>dbcsr_heap_reset
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_heap_swap"></span><h3>
-private subroutine <a href='../proc/dbcsr_heap_swap.html'>dbcsr_heap_swap</a>(heap, e1, e2)
+private pure subroutine <a href='../proc/dbcsr_heap_swap.html'>dbcsr_heap_swap</a>(heap, e1, e2)
     
     
    
@@ -1502,7 +1502,7 @@ private subroutine <a href='../proc/dbcsr_heap_swap.html'>dbcsr_heap_swap</a>(he
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_heap_copy_node"></span><h3>
-private subroutine <a href='../proc/dbcsr_heap_copy_node.html'>dbcsr_heap_copy_node</a>(heap, e1, e2)
+private pure subroutine <a href='../proc/dbcsr_heap_copy_node.html'>dbcsr_heap_copy_node</a>(heap, e1, e2)
     
     
    

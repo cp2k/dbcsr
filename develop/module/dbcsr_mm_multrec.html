@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-74-g3df93e435</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-81-g392754357</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -174,9 +174,9 @@
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_mm_multrec.html#variable-modulen~51">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_mm_multrec.html#variable-modulen~70">moduleN</a>
       
-      <a class="list-group-item" href="../module/dbcsr_mm_multrec.html#variable-careful_mod~13">careful_mod</a>
+      <a class="list-group-item" href="../module/dbcsr_mm_multrec.html#variable-careful_mod~21">careful_mod</a>
       
     </div>
   </div>
@@ -298,21 +298,21 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
-    
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-    
     <li><a href='../module/dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
-    
-    <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
-    
-    <li><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
-    
-    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
     <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
     
+    <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
+    
     <li><a href='../module/dbcsr_mm_csr.html'>dbcsr_mm_csr</a></li>
+    
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    
+    <li><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
+    
+    <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
+    
+    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
   </ul>
       </li>
@@ -340,9 +340,9 @@
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_mm_multrec.html#variable-modulen~51">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_mm_multrec.html#variable-modulen~70">moduleN</a>
       
-      <a class="list-group-item" href="../module/dbcsr_mm_multrec.html#variable-careful_mod~13">careful_mod</a>
+      <a class="list-group-item" href="../module/dbcsr_mm_multrec.html#variable-careful_mod~21">careful_mod</a>
       
     </div>
   </div>
@@ -464,7 +464,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-modulen~51"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-modulen~70"></span>character(len=*),</td>
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
@@ -478,7 +478,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-careful_mod~13"></span>logical,</td>
+  <td><span class="anchor" id="variable-careful_mod~21"></span>logical,</td>
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
@@ -2094,7 +2094,7 @@ public subroutine <a href='../proc/dbcsr_mm_multrec_red3d.html'>dbcsr_mm_multrec
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-sparse_multrec"></span><h3>
-private subroutine <a href='../proc/sparse_multrec.html'>sparse_multrec</a>(this, left, right, mi, mf, ni, nf, ki, kf, ai, af, a_index, bi, bf, b_index, d)
+private recursive subroutine <a href='../proc/sparse_multrec.html'>sparse_multrec</a>(this, left, right, mi, mf, ni, nf, ki, kf, ai, af, a_index, bi, bf, b_index, d)
     
     
    
@@ -2378,7 +2378,7 @@ private subroutine <a href='../proc/sparse_multrec.html'>sparse_multrec</a>(this
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-remap_local2global"></span><h3>
-private subroutine <a href='../proc/remap_local2global.html'>remap_local2global</a>(row_i, col_i, local_rows, local_cols, first, last)
+private pure subroutine <a href='../proc/remap_local2global.html'>remap_local2global</a>(row_i, col_i, local_rows, local_cols, first, last)
     
     
    
@@ -2512,7 +2512,7 @@ private subroutine <a href='../proc/remap_local2global.html'>remap_local2global<
     
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-local_filter_sp"></span><h3>
-private subroutine <a href='../proc/local_filter_sp.html'>local_filter_sp</a>(full_data, nle, local_elements, local_data)
+private pure subroutine <a href='../proc/local_filter_sp.html'>local_filter_sp</a>(full_data, nle, local_elements, local_data)
     
     
    

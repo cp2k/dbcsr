@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-74-g3df93e435</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-81-g392754357</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -196,7 +196,7 @@
       
       <a class="list-group-item" href="../type/dbcsr_logger_type.html#variable-global_filename">global_filename</a>
       
-      <a class="list-group-item" href="../type/dbcsr_logger_type.html#variable-mp_env~2">mp_env</a>
+      <a class="list-group-item" href="../type/dbcsr_logger_type.html#variable-mp_env">mp_env</a>
       
       <a class="list-group-item" href="../type/dbcsr_logger_type.html#variable-iter_info">iter_info</a>
       
@@ -284,7 +284,7 @@
       
       <a class="list-group-item" href="../type/dbcsr_logger_type.html#variable-global_filename">global_filename</a>
       
-      <a class="list-group-item" href="../type/dbcsr_logger_type.html#variable-mp_env~2">mp_env</a>
+      <a class="list-group-item" href="../type/dbcsr_logger_type.html#variable-mp_env">mp_env</a>
       
       <a class="list-group-item" href="../type/dbcsr_logger_type.html#variable-iter_info">iter_info</a>
       
@@ -344,7 +344,7 @@
   
   <td><span class="anchor" id="variable-id_nr"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>id_nr</strong></td><td></td><td></td><td><p>unique number to identify the logger
  reference count (see cp2k/doc/ReferenceCounting.html)</p></td>
@@ -359,7 +359,7 @@
   
   <td><span class="anchor" id="variable-ref_count"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>ref_count</strong></td><td></td><td></td><td><p>unique number to identify the logger
  reference count (see cp2k/doc/ReferenceCounting.html)</p></td>
@@ -374,7 +374,7 @@
   
   <td><span class="anchor" id="variable-print_level"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>print_level</strong></td><td></td><td></td><td><p>the level starting at which something gets printed</p></td>
   
@@ -388,7 +388,7 @@
   
   <td><span class="anchor" id="variable-default_local_unit_nr"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>default_local_unit_nr</strong></td><td></td><td></td><td><p>default unit for local logging (-1 if not yet initialized). Local logging guarantee to each task its own file.</p></td>
   
@@ -402,7 +402,7 @@
   
   <td><span class="anchor" id="variable-default_global_unit_nr"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>default_global_unit_nr</strong></td><td></td><td></td><td><p>default unit for global logging (-1 if not yet initialized). This unit is valid only on the processor with
  %mp_env%mp%mynode==%mv_env%mp%source.</p></td>
@@ -417,7 +417,7 @@
   
   <td><span class="anchor" id="variable-close_local_unit_on_dealloc"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>close_local_unit_on_dealloc</strong></td><td></td><td></td><td><p>if the local unit should be closed when this logger is deallocated
  whether the global unit should be closed when this logger is deallocated</p></td>
@@ -432,7 +432,7 @@
   
   <td><span class="anchor" id="variable-close_global_unit_on_dealloc"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>close_global_unit_on_dealloc</strong></td><td></td><td></td><td><p>if the local unit should be closed when this logger is deallocated
  whether the global unit should be closed when this logger is deallocated</p></td>
@@ -447,7 +447,7 @@
   
   <td><span class="anchor" id="variable-suffix"></span>character(len=default_string_length),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>suffix</strong></td><td></td><td></td><td><p>a short string that is used as suffix in all the filenames created by this logger. Can be used to guarantee the
  uniqueness of generated filename</p></td>
@@ -462,7 +462,7 @@
   
   <td><span class="anchor" id="variable-local_filename"></span>character(len=default_path_length),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>local_filename</strong></td><td></td><td></td><td><p>the root of the name of the file used for local logging (can be different from the name of the file corresponding to
  default_local_unit_nr, only the one used if the unit needs to be opened)
@@ -479,7 +479,7 @@
   
   <td><span class="anchor" id="variable-global_filename"></span>character(len=default_path_length),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>global_filename</strong></td><td></td><td></td><td><p>the root of the name of the file used for local logging (can be different from the name of the file corresponding to
  default_local_unit_nr, only the one used if the unit needs to be opened)
@@ -494,9 +494,9 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-mp_env~2"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
+  <td><span class="anchor" id="variable-mp_env"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>mp_env</strong></td><td></td><td></td><td><p>the parallel environment for the output.</p></td>
   
@@ -510,7 +510,7 @@
   
   <td><span class="anchor" id="variable-iter_info"></span>type(<a href='../type/dbcsr_iteration_info_type.html'>dbcsr_iteration_info_type</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>POINTER</td><td>::</td>
   <td><strong>iter_info</strong></td><td></td><td></td><td></td>
   

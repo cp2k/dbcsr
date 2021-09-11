@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-74-g3df93e435</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-81-g392754357</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -214,9 +214,9 @@
       
       <a class="list-group-item" href="../type/dbcsr_distribution_type.html#variable-num_threads">num_threads</a>
       
-      <a class="list-group-item" href="../type/dbcsr_distribution_type.html#variable-mp_env">mp_env</a>
+      <a class="list-group-item" href="../type/dbcsr_distribution_type.html#variable-mp_env~2">mp_env</a>
       
-      <a class="list-group-item" href="../type/dbcsr_distribution_type.html#variable-refcount~2">refcount</a>
+      <a class="list-group-item" href="../type/dbcsr_distribution_type.html#variable-refcount~3">refcount</a>
       
     </div>
   </div>
@@ -312,9 +312,9 @@
       
       <a class="list-group-item" href="../type/dbcsr_distribution_type.html#variable-num_threads">num_threads</a>
       
-      <a class="list-group-item" href="../type/dbcsr_distribution_type.html#variable-mp_env">mp_env</a>
+      <a class="list-group-item" href="../type/dbcsr_distribution_type.html#variable-mp_env~2">mp_env</a>
       
-      <a class="list-group-item" href="../type/dbcsr_distribution_type.html#variable-refcount~2">refcount</a>
+      <a class="list-group-item" href="../type/dbcsr_distribution_type.html#variable-refcount~3">refcount</a>
       
     </div>
   </div>
@@ -372,7 +372,7 @@
   
   <td><span class="anchor" id="variable-row_dist_block"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>row_dist_block</strong></td><td></td><td></td><td><p>standard row distributions of matrix elements' rows into processor grid rows
  standard column distributions of matrix elements' columns into processor grid columns</p></td>
@@ -387,7 +387,7 @@
   
   <td><span class="anchor" id="variable-col_dist_block"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>col_dist_block</strong></td><td></td><td></td><td><p>standard row distributions of matrix elements' rows into processor grid rows
  standard column distributions of matrix elements' columns into processor grid columns</p></td>
@@ -402,7 +402,7 @@
   
   <td><span class="anchor" id="variable-local_rows"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>local_rows</strong></td><td></td><td></td><td><p>list of rows local to the processor grid row
  list of columns local to the processor grid column</p></td>
@@ -417,7 +417,7 @@
   
   <td><span class="anchor" id="variable-local_cols"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>local_cols</strong></td><td></td><td></td><td><p>list of rows local to the processor grid row
  list of columns local to the processor grid column</p></td>
@@ -432,7 +432,7 @@
   
   <td><span class="anchor" id="variable-max_row_dist"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>max_row_dist</strong></td><td></td><td></td><td></td>
   
@@ -446,7 +446,7 @@
   
   <td><span class="anchor" id="variable-max_col_dist"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>max_col_dist</strong></td><td></td><td></td><td></td>
   
@@ -460,7 +460,7 @@
   
   <td><span class="anchor" id="variable-other_l_rows"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>other_l_rows</strong></td><td>=> </td><td>Null()</td><td><p>local rows for each process row</p></td>
   
@@ -474,7 +474,7 @@
   
   <td><span class="anchor" id="variable-other_l_cols"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>other_l_cols</strong></td><td>=> </td><td>Null()</td><td><p>local columns for each process column</p></td>
   
@@ -488,7 +488,7 @@
   
   <td><span class="anchor" id="variable-has_other_l_rows"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>has_other_l_rows</strong></td><td> =</td><td>.FALSE.</td><td><p>other_rows is defined</p></td>
   
@@ -502,7 +502,7 @@
   
   <td><span class="anchor" id="variable-has_other_l_cols"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>has_other_l_cols</strong></td><td> =</td><td>.FALSE.</td><td><p>other_cols is defined</p></td>
   
@@ -516,7 +516,7 @@
   
   <td><span class="anchor" id="variable-global_row_map"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>global_row_map</strong></td><td></td><td></td><td><p>mapping from rows to sequence in local rows (global to local mapping)</p></td>
   
@@ -530,7 +530,7 @@
   
   <td><span class="anchor" id="variable-global_col_map"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>global_col_map</strong></td><td></td><td></td><td><p>mapping from rows to sequence in local columns (global to local mapping)</p></td>
   
@@ -544,7 +544,7 @@
   
   <td><span class="anchor" id="variable-has_global_row_map"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>has_global_row_map</strong></td><td> =</td><td>.FALSE.</td><td><p>whether other_row_map is defined</p></td>
   
@@ -558,7 +558,7 @@
   
   <td><span class="anchor" id="variable-has_global_col_map"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>has_global_col_map</strong></td><td> =</td><td>.FALSE.</td><td><p>whether other_col_map is defined</p></td>
   
@@ -572,7 +572,7 @@
   
   <td><span class="anchor" id="variable-row_map"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>row_map</strong></td><td></td><td></td><td><p>distribution map for rows</p></td>
   
@@ -586,7 +586,7 @@
   
   <td><span class="anchor" id="variable-col_map"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>col_map</strong></td><td></td><td></td><td><p>distribution map for columns</p></td>
   
@@ -600,7 +600,7 @@
   
   <td><span class="anchor" id="variable-has_thread_dist"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>has_thread_dist</strong></td><td> =</td><td>.FALSE.</td><td></td>
   
@@ -614,7 +614,7 @@
   
   <td><span class="anchor" id="variable-thread_dist"></span>type(<a href='../type/array_i1d_obj.html'>array_i1d_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>thread_dist</strong></td><td></td><td></td><td><p>thread distribution (of the rows)</p></td>
   
@@ -628,7 +628,7 @@
   
   <td><span class="anchor" id="variable-num_threads"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>num_threads</strong></td><td> =</td><td>-1</td><td><p>number of threads in the environment</p></td>
   
@@ -640,9 +640,9 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-mp_env"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
+  <td><span class="anchor" id="variable-mp_env~2"></span>type(<a href='../type/dbcsr_mp_obj.html'>dbcsr_mp_obj</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>mp_env</strong></td><td></td><td></td><td><p>multiprocessor environment on which the distribution is based</p></td>
   
@@ -654,9 +654,9 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-refcount~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-refcount~3"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>refcount</strong></td><td> =</td><td>0</td><td><p>reference counter</p></td>
   

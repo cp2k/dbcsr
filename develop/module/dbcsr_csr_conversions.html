@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-74-g3df93e435</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-81-g392754357</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -174,9 +174,9 @@
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-modulen~36">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-modulen~55">moduleN</a>
       
-      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-careful_mod~2">careful_mod</a>
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-careful_mod~10">careful_mod</a>
       
       <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-csr_dbcsr_blkrow_dist">csr_dbcsr_blkrow_dist</a>
       
@@ -312,31 +312,31 @@
     
     <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
     
-    <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
+    <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
     
-    <li><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></li>
+    <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
     
     <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
-    <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
-    
-    <li><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
-    
-    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
+    <li><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></li>
     
     <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
     
-    <li><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></li>
+    <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
+    
+    <li><a href='../module/dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
     
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+    
+    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
+    
+    <li><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></li>
+    
+    <li><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
     
     <li><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
     
     <li><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
-    
-    <li><a href='../module/dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
-    
-    <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
     
   </ul>
       </li>
@@ -364,9 +364,9 @@
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-modulen~36">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-modulen~55">moduleN</a>
       
-      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-careful_mod~2">careful_mod</a>
+      <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-careful_mod~10">careful_mod</a>
       
       <a class="list-group-item" href="../module/dbcsr_csr_conversions.html#variable-csr_dbcsr_blkrow_dist">csr_dbcsr_blkrow_dist</a>
       
@@ -506,7 +506,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-modulen~36"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-modulen~55"></span>character(len=*),</td>
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
@@ -520,7 +520,7 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-careful_mod~2"></span>logical,</td>
+  <td><span class="anchor" id="variable-careful_mod~10"></span>logical,</td>
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
@@ -1078,9 +1078,9 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   
 <tr>
   
-  <td><span class="anchor" id="variable-r_sp"></span>real(kind=real_4),</td>
+  <td><span class="anchor" id="variable-r_sp~3"></span>real(kind=real_4),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>r_sp</strong></td><td>=> </td><td>Null()</td><td><p>real, single precision data array</p></td>
   
@@ -1092,9 +1092,9 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   
 <tr>
   
-  <td><span class="anchor" id="variable-r_dp"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-r_dp~3"></span>real(kind=real_8),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>r_dp</strong></td><td>=> </td><td>Null()</td><td><p>real, double precision data array</p></td>
   
@@ -1106,9 +1106,9 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   
 <tr>
   
-  <td><span class="anchor" id="variable-c_sp"></span>complex(kind=real_4),</td>
+  <td><span class="anchor" id="variable-c_sp~3"></span>complex(kind=real_4),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>c_sp</strong></td><td>=> </td><td>Null()</td><td><p>complex, double precision data array</p></td>
   
@@ -1122,7 +1122,7 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   
   <td><span class="anchor" id="variable-c_dp~4"></span>complex(kind=real_8),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>c_dp</strong></td><td>=> </td><td>Null()</td><td></td>
   
@@ -1134,9 +1134,9 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   
 <tr>
   
-  <td><span class="anchor" id="variable-data_type~4"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type~6"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>data_type</strong></td><td> =</td><td>-1</td><td><p>data type of CSR matrix</p></td>
   
@@ -1183,7 +1183,7 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   
   <td><span class="anchor" id="variable-nrows_total"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nrows_total</strong></td><td></td><td></td><td><p>total number of rows
  total number of columns
@@ -1201,7 +1201,7 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   
   <td><span class="anchor" id="variable-ncols_total"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>ncols_total</strong></td><td></td><td></td><td><p>total number of rows
  total number of columns
@@ -1219,7 +1219,7 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   
   <td><span class="anchor" id="variable-nze_local"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nze_local</strong></td><td></td><td></td><td><p>total number of rows
  total number of columns
@@ -1237,7 +1237,7 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   
   <td><span class="anchor" id="variable-nrows_local"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nrows_local</strong></td><td></td><td></td><td><p>total number of rows
  total number of columns
@@ -1255,7 +1255,7 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   
   <td><span class="anchor" id="variable-mp_group~2"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>mp_group</strong></td><td></td><td></td><td><p>total number of rows
  total number of columns
@@ -1273,7 +1273,7 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   
   <td><span class="anchor" id="variable-nze_total"></span>integer(kind=int_8),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nze_total</strong></td><td></td><td></td><td><p>total number of nonzero elements</p></td>
   
@@ -1287,7 +1287,7 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   
   <td><span class="anchor" id="variable-rowptr_local"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>rowptr_local</strong></td><td>=> </td><td>NULL()</td><td><p>indices of elements inside nzval_local starting a row
  column indices of elements inside nzval_local</p></td>
@@ -1302,7 +1302,7 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   
   <td><span class="anchor" id="variable-colind_local"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>colind_local</strong></td><td>=> </td><td>NULL()</td><td><p>indices of elements inside nzval_local starting a row
  column indices of elements inside nzval_local</p></td>
@@ -1317,7 +1317,7 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   
   <td><span class="anchor" id="variable-nzerow_local"></span>integer,</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>nzerow_local</strong></td><td>=> </td><td>NULL()</td><td><p>indices of elements inside nzval_local starting a row
  column indices of elements inside nzval_local</p></td>
@@ -1332,7 +1332,7 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   
   <td><span class="anchor" id="variable-nzval_local"></span>type(<a href='../type/csr_data_area_type.html'>csr_data_area_type</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nzval_local</strong></td><td></td><td></td><td><p>values of local non-zero elements, row-wise ordering.</p></td>
   
@@ -1346,7 +1346,7 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   
   <td><span class="anchor" id="variable-dbcsr_mapping"></span>type(<a href='../type/csr_mapping_data.html'>csr_mapping_data</a>),</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>dbcsr_mapping</strong></td><td></td><td></td><td><p>mapping data relating indices of nzval_local to indices of a block-row distributed DBCSR matrix</p></td>
   
@@ -1360,7 +1360,7 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   
   <td><span class="anchor" id="variable-has_mapping"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>has_mapping</strong></td><td> =</td><td>.FALSE.</td><td><p>whether dbcsr_mapping is defined</p></td>
   
@@ -1374,7 +1374,7 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   
   <td><span class="anchor" id="variable-valid~2"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>valid</strong></td><td> =</td><td>.FALSE.</td><td><p>whether essential data (excluding dbcsr_mapping) is completely allocated</p></td>
   
@@ -1388,7 +1388,7 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   
   <td><span class="anchor" id="variable-has_indices"></span>logical,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>has_indices</strong></td><td> =</td><td>.FALSE.</td><td><p>whether rowptr_local and colind_local are defined</p></td>
   
@@ -1432,7 +1432,7 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   
   <td><span class="anchor" id="variable-csr_mat"></span>type(<a href='../type/csr_type.html'>csr_type</a>),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>POINTER</td><td>::</td>
   <td><strong>csr_mat</strong></td><td></td><td></td><td></td>
   

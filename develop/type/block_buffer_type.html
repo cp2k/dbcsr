@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-74-g3df93e435</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-81-g392754357</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -131,21 +131,21 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 1.1% of total for derived types.</p>Including implementation: 11 statements,  0.8% of total for derived types.">11 statements</a>
+    title="<p> 1.0% of total for derived types.</p>Including implementation: 10 statements,  0.8% of total for derived types.">10 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor_reshape.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tas_reshape_ops.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_tensor_reshape.f.html'>dbcsr_tensor_reshape.F</a></li>
+     <li><a href='../sourcefile/dbcsr_tas_reshape_ops.f.html'>dbcsr_tas_reshape_ops.F</a></li>
     
-     <li><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></li>
+     <li><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></li>
     
   
      <li class="active">block_buffer_type</li>
@@ -175,8 +175,6 @@
   <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
-      
-      <a class="list-group-item" href="../type/block_buffer_type.html#variable-ndim">ndim</a>
       
       <a class="list-group-item" href="../type/block_buffer_type.html#variable-nblock">nblock</a>
       
@@ -242,8 +240,6 @@
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../type/block_buffer_type.html#variable-ndim">ndim</a>
-      
       <a class="list-group-item" href="../type/block_buffer_type.html#variable-nblock">nblock</a>
       
       <a class="list-group-item" href="../type/block_buffer_type.html#variable-indx">indx</a>
@@ -306,23 +302,9 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-ndim"></span>integer,</td>
-  
-  <td>public</td>
-  <td></td><td>::</td>
-  <td><strong>ndim</strong></td><td> =</td><td>-1</td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
   <td><span class="anchor" id="variable-nblock"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>nblock</strong></td><td> =</td><td>-1</td><td></td>
   
@@ -334,9 +316,9 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-indx"></span>integer,</td>
+  <td><span class="anchor" id="variable-indx"></span>integer(kind=int_8),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:, :), ALLOCATABLE</td><td>::</td>
   <td><strong>indx</strong></td><td></td><td></td><td></td>
   
@@ -350,7 +332,7 @@
   
   <td><span class="anchor" id="variable-msg_r_dp"></span>real(kind=real_8),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
   <td><strong>msg_r_dp</strong></td><td></td><td></td><td></td>
   
@@ -364,7 +346,7 @@
   
   <td><span class="anchor" id="variable-msg_r_sp"></span>real(kind=real_4),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
   <td><strong>msg_r_sp</strong></td><td></td><td></td><td></td>
   
@@ -378,7 +360,7 @@
   
   <td><span class="anchor" id="variable-msg_c_dp"></span>complex(kind=real_8),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
   <td><strong>msg_c_dp</strong></td><td></td><td></td><td></td>
   
@@ -392,7 +374,7 @@
   
   <td><span class="anchor" id="variable-msg_c_sp"></span>complex(kind=real_4),</td>
   
-  <td>public,</td>
+  <td>private,</td>
   <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
   <td><strong>msg_c_sp</strong></td><td></td><td></td><td></td>
   
@@ -406,7 +388,7 @@
   
   <td><span class="anchor" id="variable-data_type~7"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>data_type</strong></td><td> =</td><td>-1</td><td></td>
   
@@ -420,7 +402,7 @@
   
   <td><span class="anchor" id="variable-endpos"></span>integer,</td>
   
-  <td>public</td>
+  <td>private</td>
   <td></td><td>::</td>
   <td><strong>endpos</strong></td><td> =</td><td>-1</td><td></td>
   
