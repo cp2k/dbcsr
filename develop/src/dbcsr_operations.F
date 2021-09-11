@@ -198,7 +198,7 @@ CONTAINS
 
 # 11 "/__w/dbcsr/dbcsr/src/ops/../data/dbcsr.fypp"
 
-# 45 "/__w/dbcsr/dbcsr/src/ops/../data/dbcsr.fypp"
+# 169 "/__w/dbcsr/dbcsr/src/ops/../data/dbcsr.fypp"
 # 196 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F" 2
 # 197 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
    FUNCTION make_conformant_scalar_d (scalar, matrix) RESULT(encapsulated)
@@ -2698,7 +2698,7 @@ CONTAINS
 
 # 11 "/__w/dbcsr/dbcsr/src/ops/../data/dbcsr.fypp"
 
-# 45 "/__w/dbcsr/dbcsr/src/ops/../data/dbcsr.fypp"
+# 169 "/__w/dbcsr/dbcsr/src/ops/../data/dbcsr.fypp"
 # 2624 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F" 2
 # 2625 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
    SUBROUTINE dbcsr_trace_d (matrix_a, trace)

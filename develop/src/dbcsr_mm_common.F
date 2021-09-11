@@ -570,7 +570,7 @@ CONTAINS
 
 # 11 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
 
-# 45 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
+# 169 "/__w/dbcsr/dbcsr/src/mm/../data/dbcsr.fypp"
 # 568 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F" 2
 # 569 "/__w/dbcsr/dbcsr/src/mm/dbcsr_mm_common.F"
    SUBROUTINE calc_norms_d (norms, nblks, &

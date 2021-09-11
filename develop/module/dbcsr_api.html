@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-81-g392754357</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-82-ga41d895f6</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -131,7 +131,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 2.3% of total for modules and submodules.">1392 statements</a>
+    title=" 2.2% of total for modules and submodules.">1404 statements</a>
      </li> 
      
      
@@ -283,6 +283,10 @@
       <a class="list-group-item" href="../module/dbcsr_api.html#proc-dbcsr_nblkrows_total">dbcsr_nblkrows_total</a>
       
       <a class="list-group-item" href="../module/dbcsr_api.html#proc-dbcsr_nblkcols_total">dbcsr_nblkcols_total</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_api.html#proc-dbcsr_nblkrows_local">dbcsr_nblkrows_local</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_api.html#proc-dbcsr_nblkcols_local">dbcsr_nblkcols_local</a>
       
       <a class="list-group-item" href="../module/dbcsr_api.html#proc-dbcsr_nfullrows_total">dbcsr_nfullrows_total</a>
       
@@ -629,23 +633,33 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
+    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+    
+    <li><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
+    
+    <li><a href='../module/dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
+    
+    <li><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
+    
     <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
     
-    <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
+    <li><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
     
-    <li><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></li>
+    <li><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
+    
+    <li><a href='../module/dbcsr_csr_conversions.html'>dbcsr_csr_conversions</a></li>
     
     <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
     
-    <li><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
+    <li><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
     
     <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
     
     <li><a href='../module/dbcsr_test_methods.html'>dbcsr_test_methods</a></li>
     
-    <li><a href='../module/dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
-    
     <li><a href='../module/dbcsr_tests.html'>dbcsr_tests</a></li>
+    
+    <li><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></li>
     
     <li><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></li>
     
@@ -659,23 +673,13 @@
     
     <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
     
-    <li><a href='../module/dbcsr_multiply_api.html'>dbcsr_multiply_api</a></li>
-    
-    <li><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
-    
-    <li><a href='../module/dbcsr_io.html'>dbcsr_io</a></li>
-    
-    <li><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
+    <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
     
     <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
     
-    <li><a href='../module/dbcsr_csr_conversions.html'>dbcsr_csr_conversions</a></li>
+    <li><a href='../module/dbcsr_multiply_api.html'>dbcsr_multiply_api</a></li>
     
-    <li><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
-    
-    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-    
-    <li><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
+    <li><a href='../module/dbcsr_io.html'>dbcsr_io</a></li>
     
   </ul>
       </li>
@@ -812,6 +816,10 @@
       <a class="list-group-item" href="../module/dbcsr_api.html#proc-dbcsr_nblkrows_total">dbcsr_nblkrows_total</a>
       
       <a class="list-group-item" href="../module/dbcsr_api.html#proc-dbcsr_nblkcols_total">dbcsr_nblkcols_total</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_api.html#proc-dbcsr_nblkrows_local">dbcsr_nblkrows_local</a>
+      
+      <a class="list-group-item" href="../module/dbcsr_api.html#proc-dbcsr_nblkcols_local">dbcsr_nblkcols_local</a>
       
       <a class="list-group-item" href="../module/dbcsr_api.html#proc-dbcsr_nfullrows_total">dbcsr_nfullrows_total</a>
       
@@ -14368,6 +14376,126 @@ public function <a href='../proc/dbcsr_nblkrows_total.html'>dbcsr_nblkrows_total
   <div class="panel panel-default">
   <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_nblkcols_total"></span><h3>
 public function <a href='../proc/dbcsr_nblkcols_total.html'>dbcsr_nblkcols_total</a>(matrix) result(nblkcols_total)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>matrix</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_nblkrows_local"></span><h3>
+public function <a href='../proc/dbcsr_nblkrows_local.html'>dbcsr_nblkrows_local</a>(matrix) result(nblkrows_local)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>matrix</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-dbcsr_nblkcols_local"></span><h3>
+public function <a href='../proc/dbcsr_nblkcols_local.html'>dbcsr_nblkcols_local</a>(matrix) result(nblkcols_local)
     
     
    

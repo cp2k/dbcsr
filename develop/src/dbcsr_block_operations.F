@@ -1451,7 +1451,7 @@ CONTAINS
 
 # 11 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp"
 
-# 45 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp"
+# 169 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp"
 # 1449 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F" 2
 # 1450 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
    PURE_BLOCKOPS SUBROUTINE block_partial_copy_d (dst, dst_rs, dst_cs, dst_tr, &

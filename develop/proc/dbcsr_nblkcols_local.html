@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-81-g392754357</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-82-ga41d895f6</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -136,16 +136,16 @@
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_methods.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_api.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_methods.f.html'>dbcsr_methods.F</a></li>
+     <li><a href='../sourcefile/dbcsr_api.f.html'>dbcsr_api.F</a></li>
     
-     <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
+     <li><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
     
   
      <li class="active">dbcsr_nblkcols_local</li>
@@ -233,7 +233,7 @@ public function dbcsr_nblkcols_local(matrix) result(nblkcols_local)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~161"></span>type(<a href='../type/dbcsr_type.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~18"></span>type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -252,7 +252,7 @@ public function dbcsr_nblkcols_local(matrix) result(nblkcols_local)
     
     
     
-   <h3>Return Value <small><span class="anchor" id="variable-nblkcols_local~5"></span>integer
+   <h3>Return Value <small><span class="anchor" id="variable-nblkcols_local~2"></span>integer
   </small></h3>
     
     
@@ -322,7 +322,7 @@ public function dbcsr_nblkcols_local(matrix) result(nblkcols_local)
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                       <span class="kd">::</span> <span class="n">matrix</span>
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">nblkcols_local</span>
 
-      <span class="n">nblkcols_local</span> <span class="o">=</span> <span class="n">matrix</span><span class="p">%</span><span class="n">nblkcols_local</span>
+      <span class="n">nblkcols_local</span> <span class="o">=</span> <span class="n">dbcsr_nblkcols_local_prv</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">prv</span><span class="p">)</span>
    <span class="k">END FUNCTION </span><span class="n">dbcsr_nblkcols_local</span>
 </pre></div>
 

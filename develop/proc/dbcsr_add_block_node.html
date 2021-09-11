@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-81-g392754357</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-82-ga41d895f6</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -238,7 +238,7 @@ public subroutine dbcsr_add_block_node(matrix, block_row, block_col, block)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~60"></span>type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~62"></span>type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -285,7 +285,7 @@ public subroutine dbcsr_add_block_node(matrix, block_row, block_col, block)
   
 <tr>
   
-  <td><span class="anchor" id="variable-block~2"></span>real(kind=dp),</td>
+  <td><span class="anchor" id="variable-block"></span>real(kind=dp),</td>
   <td></td>
   <td></td>
   
@@ -368,12 +368,12 @@ public subroutine dbcsr_add_block_node(matrix, block_row, block_col, block)
       <span class="c">!! block. Currently it only and always uses the mutable data.</span>
 
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">matrix</span>
-         <span class="c">!! DBCSR matrix</span>
+      <span class="c">!! DBCSR matrix</span>
       <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                                <span class="kd">::</span> <span class="n">block_row</span><span class="p">,</span> <span class="n">block_col</span>
-         <span class="c">!! the row</span>
-         <span class="c">!! the column</span>
+      <span class="c">!! the row</span>
+      <span class="c">!! the column</span>
       <span class="kt">REAL</span><span class="p">(</span><span class="nb">KIND</span><span class="o">=</span><span class="n">dp</span><span class="p">),</span> <span class="k">DIMENSION</span><span class="p">(:,</span> <span class="p">:),</span> <span class="k">POINTER</span>            <span class="kd">::</span> <span class="k">block</span>
-         <span class="c">!! the block to put</span>
+      <span class="c">!! the block to put</span>
 
       <span class="k">call </span><span class="n">dbcsr_add_block_node_prv</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">block_row</span><span class="p">,</span> <span class="n">block_col</span><span class="p">,</span> <span class="k">block</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_add_block_node</span>

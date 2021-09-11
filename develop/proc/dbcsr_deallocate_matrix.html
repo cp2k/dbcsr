@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-81-g392754357</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-82-ga41d895f6</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -235,7 +235,7 @@ public subroutine dbcsr_deallocate_matrix(matrix)
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix~59"></span>type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix~61"></span>type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>),</td>
   <td></td>
   <td></td>
   
@@ -315,7 +315,7 @@ public subroutine dbcsr_deallocate_matrix(matrix)
       <span class="c">!! Deallocates a DBCSR matrix for compatibility with CP2K</span>
 
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">POINTER</span>                          <span class="kd">::</span> <span class="n">matrix</span>
-         <span class="c">!! DBCSR matrix</span>
+      <span class="c">!! DBCSR matrix</span>
 
       <span class="k">CALL </span><span class="n">dbcsr_release</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="n">dbcsr_valid_index</span><span class="p">(</span><span class="n">matrix</span><span class="p">))</span> <span class="p">&amp;</span>

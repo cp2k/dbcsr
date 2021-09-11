@@ -10,7 +10,7 @@
     <meta name="author" content="DBCSR Authors" >
     <link rel="icon" href="../favicon.png">
 
-    <title>c_dbcsr_put_block_d &ndash; DBCSR</title>
+    <title>c_dbcsr_get_diag_c &ndash; DBCSR</title>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/pygments.css" rel="stylesheet">
@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-81-g392754357</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-82-ga41d895f6</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -112,7 +112,7 @@
     
   
   <div class="row">
-    <h1>c_dbcsr_put_block_d
+    <h1>c_dbcsr_get_diag_c
       <small>Subroutine</small>
     
     </h1>
@@ -148,7 +148,7 @@
      <li><a href='../module/dbcsr_api_c.html'>dbcsr_api_c</a></li>
     
   
-     <li class="active">c_dbcsr_put_block_d</li>
+     <li class="active">c_dbcsr_get_diag_c</li>
   </ol>
 </div>
 </div>
@@ -198,7 +198,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-private subroutine c_dbcsr_put_block_d(c_matrix, row, col, block, block_length) bind(C, name="0")
+private subroutine c_dbcsr_get_diag_c(c_matrix, c_diag, c_diag_size) bind(C, name="0")
     
     
    
@@ -227,11 +227,11 @@ private subroutine c_dbcsr_put_block_d(c_matrix, row, col, block, block_length) 
   
 <tr>
   
-  <td><span class="anchor" id="variable-c_matrix~6"></span>type(c_ptr),</td>
+  <td><span class="anchor" id="variable-c_matrix~43"></span>type(c_ptr),</td>
   <td>intent(in),</td>
   <td></td>
   
-  <td>value</td><td>::</td>
+  <td>VALUE</td><td>::</td>
   <td><strong>c_matrix</strong></td><td></td>
   
 </tr>
@@ -242,42 +242,12 @@ private subroutine c_dbcsr_put_block_d(c_matrix, row, col, block, block_length) 
   
 <tr>
   
-  <td><span class="anchor" id="variable-row~3"></span>integer(kind=c_int),</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>value</td><td>::</td>
-  <td><strong>row</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-col~2"></span>integer(kind=c_int),</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>value</td><td>::</td>
-  <td><strong>col</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-block"></span>real(kind=c_double),</td>
-  <td>intent(in)</td>
+  <td><span class="anchor" id="variable-c_diag~8"></span>complex(kind=c_float_complex),</td>
+  <td>intent(inout)</td>
   <td></td>
   
   <td></td><td>::</td>
-  <td><strong>block</strong>(block_length)</td><td></td>
+  <td><strong>c_diag</strong>(c_diag_size)</td><td></td>
   
 </tr>
 
@@ -287,12 +257,12 @@ private subroutine c_dbcsr_put_block_d(c_matrix, row, col, block, block_length) 
   
 <tr>
   
-  <td><span class="anchor" id="variable-block_length"></span>integer(kind=c_int),</td>
+  <td><span class="anchor" id="variable-c_diag_size~8"></span>integer(kind=c_int),</td>
   <td>intent(in),</td>
   <td></td>
   
-  <td>value</td><td>::</td>
-  <td><strong>block_length</strong></td><td></td>
+  <td>VALUE</td><td>::</td>
+  <td><strong>c_diag_size</strong></td><td></td>
   
 </tr>
 

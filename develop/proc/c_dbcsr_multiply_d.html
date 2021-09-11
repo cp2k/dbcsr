@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-81-g392754357</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-82-ga41d895f6</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -131,7 +131,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">19 statements</a>
+    title=" 0.1% of total for procedures.">57 statements</a>
      </li> 
      
      
@@ -198,7 +198,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-private subroutine c_dbcsr_multiply_d(transa, transb, alpha, c_matrix_a, c_matrix_b, beta, c_matrix_c, retain_sparsity) bind(C, name="0")
+private subroutine c_dbcsr_multiply_d(c_transa, c_transb, c_alpha, c_matrix_a, c_matrix_b, c_beta, c_matrix_c, c_first_row, c_last_row, c_first_column, c_last_column, c_first_k, c_last_k, c_retain_sparsity, c_filter_eps, c_flop) bind(C, name="0")
     
     
    
@@ -227,12 +227,12 @@ private subroutine c_dbcsr_multiply_d(transa, transb, alpha, c_matrix_a, c_matri
   
 <tr>
   
-  <td><span class="anchor" id="variable-transa"></span>character(kind=c_char),</td>
+  <td><span class="anchor" id="variable-c_transa"></span>character(kind=c_char),</td>
   <td>intent(in),</td>
   <td></td>
   
   <td>value</td><td>::</td>
-  <td><strong>transa</strong></td><td></td>
+  <td><strong>c_transa</strong></td><td></td>
   
 </tr>
 
@@ -242,12 +242,12 @@ private subroutine c_dbcsr_multiply_d(transa, transb, alpha, c_matrix_a, c_matri
   
 <tr>
   
-  <td><span class="anchor" id="variable-transb"></span>character(kind=c_char),</td>
+  <td><span class="anchor" id="variable-c_transb"></span>character(kind=c_char),</td>
   <td>intent(in),</td>
   <td></td>
   
   <td>value</td><td>::</td>
-  <td><strong>transb</strong></td><td></td>
+  <td><strong>c_transb</strong></td><td></td>
   
 </tr>
 
@@ -257,12 +257,12 @@ private subroutine c_dbcsr_multiply_d(transa, transb, alpha, c_matrix_a, c_matri
   
 <tr>
   
-  <td><span class="anchor" id="variable-alpha~3"></span>real(kind=c_double),</td>
+  <td><span class="anchor" id="variable-c_alpha~3"></span>real(kind=c_double),</td>
   <td>intent(in),</td>
   <td></td>
   
   <td>value</td><td>::</td>
-  <td><strong>alpha</strong></td><td></td>
+  <td><strong>c_alpha</strong></td><td></td>
   
 </tr>
 
@@ -272,11 +272,11 @@ private subroutine c_dbcsr_multiply_d(transa, transb, alpha, c_matrix_a, c_matri
   
 <tr>
   
-  <td><span class="anchor" id="variable-c_matrix_a"></span>type(c_ptr),</td>
-  <td>intent(in)</td>
+  <td><span class="anchor" id="variable-c_matrix_a~4"></span>type(c_ptr),</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>VALUE</td><td>::</td>
   <td><strong>c_matrix_a</strong></td><td></td>
   
 </tr>
@@ -287,11 +287,11 @@ private subroutine c_dbcsr_multiply_d(transa, transb, alpha, c_matrix_a, c_matri
   
 <tr>
   
-  <td><span class="anchor" id="variable-c_matrix_b"></span>type(c_ptr),</td>
-  <td>intent(in)</td>
+  <td><span class="anchor" id="variable-c_matrix_b~2"></span>type(c_ptr),</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>VALUE</td><td>::</td>
   <td><strong>c_matrix_b</strong></td><td></td>
   
 </tr>
@@ -302,12 +302,12 @@ private subroutine c_dbcsr_multiply_d(transa, transb, alpha, c_matrix_a, c_matri
   
 <tr>
   
-  <td><span class="anchor" id="variable-beta~3"></span>real(kind=c_double),</td>
+  <td><span class="anchor" id="variable-c_beta"></span>real(kind=c_double),</td>
   <td>intent(in),</td>
   <td></td>
   
   <td>value</td><td>::</td>
-  <td><strong>beta</strong></td><td></td>
+  <td><strong>c_beta</strong></td><td></td>
   
 </tr>
 
@@ -318,10 +318,10 @@ private subroutine c_dbcsr_multiply_d(transa, transb, alpha, c_matrix_a, c_matri
 <tr>
   
   <td><span class="anchor" id="variable-c_matrix_c"></span>type(c_ptr),</td>
-  <td>intent(inout)</td>
+  <td>intent(in),</td>
   <td></td>
   
-  <td></td><td>::</td>
+  <td>VALUE</td><td>::</td>
   <td><strong>c_matrix_c</strong></td><td></td>
   
 </tr>
@@ -332,12 +332,132 @@ private subroutine c_dbcsr_multiply_d(transa, transb, alpha, c_matrix_a, c_matri
   
 <tr>
   
-  <td><span class="anchor" id="variable-retain_sparsity"></span>logical(kind=c_bool),</td>
+  <td><span class="anchor" id="variable-c_first_row"></span>integer(kind=c_int),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>retain_sparsity</strong></td><td></td>
+  <td><strong>c_first_row</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-c_last_row"></span>integer(kind=c_int),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>c_last_row</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-c_first_column"></span>integer(kind=c_int),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>c_first_column</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-c_last_column~2"></span>integer(kind=c_int),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>c_last_column</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-c_first_k"></span>integer(kind=c_int),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>c_first_k</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-c_last_k"></span>integer(kind=c_int),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>c_last_k</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-c_retain_sparsity"></span>logical(kind=c_bool),</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>c_retain_sparsity</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-c_filter_eps"></span>real(kind=c_double),</td>
+  <td></td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>c_filter_eps</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-c_flop"></span>integer(kind=c_long_long),</td>
+  <td></td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>c_flop</strong></td><td></td>
   
 </tr>
 
