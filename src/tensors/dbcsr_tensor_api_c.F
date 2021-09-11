@@ -27,7 +27,11 @@ MODULE dbcsr_tensor_api_c
    USE dbcsr_machine, ONLY: default_output_unit
    USE dbcsr_tensor_index, ONLY: &
       dbcsr_t_get_mapping_info, ndims_mapping, nd_to_2d_mapping
-   USE dbcsr_tensor_types, ONLY: dbcsr_t_create
+   USE dbcsr_tensor_types, ONLY: dbcsr_t_create, dbcsr_t_type
+   USE dbcsr_tas_types, ONLY: dbcsr_tas_type
+   USE dbcsr_tas_base, ONLY: dbcsr_tas_get_block_p
+   USE dbcsr_tensor_index, ONLY: get_2d_indices_tensor
+   USE dbcsr_data_methods, ONLY: dbcsr_get_data_p
 
    IMPLICIT NONE
    PRIVATE
@@ -437,6 +441,12 @@ CONTAINS
       IF (ALLOCATED(bounds_${dim}$)) DEALLOCATE (bounds_${dim}$)
 #:endfor
 
+      IF (PRESENT(c_unit_nr)) THEN
+         IF (c_unit_nr .GE. 0) THEN
+            flush (c_unit_nr)
+         ENDIF
+      ENDIF
+
    END SUBROUTINE
 
    SUBROUTINE c_dbcsr_t_contract_index_${dsuffix}$ (c_alpha, c_tensor_1, &
@@ -575,6 +585,39 @@ CONTAINS
          CALL dbcsr_t_put_block(tensor, c_ind + 1, c_sizes, &
                                 c_block, scale=c_scale)
       ENDIF
+
+   END SUBROUTINE
+#:endfor
+#:endfor
+
+#:for dparam, dtype, dsuffix, basetype, cftype in cf_dtype_float_list
+#:for ndim in ndims
+   SUBROUTINE c_dbcsr_t_get_${ndim}$d_block_p_${dsuffix}$ (c_tensor, c_ind, c_block, c_found) &
+      BIND(C, name="c_dbcsr_t_get_${ndim}$d_block_p_${dsuffix}$")
+
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
+      INTEGER(kind=c_int), INTENT(IN) :: c_ind(${ndim}$)
+      TYPE(c_ptr), INTENT(INOUT) :: c_block
+      LOGICAL(kind=c_bool), INTENT(INOUT) :: c_found
+
+      TYPE(dbcsr_t_type), POINTER :: tensor
+      INTEGER, DIMENSION(${ndim}$) :: ind
+      LOGICAL :: found, tr
+
+      INTEGER(KIND=int_8), DIMENSION(2) :: ind_2d
+      ${dtype}$, DIMENSION(:, :), POINTER, CONTIGUOUS :: block_2d_ptr
+
+      CALL c_f_pointer(c_tensor, tensor)
+      ind = c_ind + 1
+
+      NULLIFY (block_2d_ptr)
+
+      ind_2d(:) = get_2d_indices_tensor(tensor%nd_index_blk, ind)
+
+      CALL dbcsr_tas_get_block_p(tensor%matrix_rep, ind_2d(1), ind_2d(2), block_2d_ptr, tr, found)
+
+      c_found = found
+      c_block = c_loc(block_2d_ptr)
 
    END SUBROUTINE
 #:endfor
@@ -774,7 +817,7 @@ CONTAINS
          use_absolute = c_use_absolute
          CALL dbcsr_t_filter(tensor, c_eps, c_method, use_absolute)
       ELSE
-         CALL dbcsr_t_filter(tensor, c_eps, c_method, use_absolute)
+         CALL dbcsr_t_filter(tensor, c_eps, c_method)
       ENDIF
 
    END SUBROUTINE
@@ -1229,5 +1272,74 @@ CONTAINS
 
       max_blks = dbcsr_t_max_nblks_local(tensor)
    END FUNCTION
+
+#:for dparam, dtype, dsuffix, basetype, cftype in cf_dtype_float_list
+   SUBROUTINE c_dbcsr_t_get_data_${dsuffix}$ (c_tensor, c_data, c_data_size, &
+                                              c_select_data_type, c_lb, c_ub) BIND(C, name="c_dbcsr_t_get_data_${dsuffix}$")
+
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
+      TYPE(c_ptr), INTENT(INOUT) :: c_data
+      INTEGER(kind=c_long_long), INTENT(INOUT) :: c_data_size
+      ${basetype}$ (kind=${cftype}$), INTENT(IN), VALUE :: c_select_data_type
+      INTEGER(kind=c_int), INTENT(IN), OPTIONAL :: c_lb, c_ub
+
+      TYPE(dbcsr_t_type), POINTER :: tensor
+      ${basetype}$ (kind=${cftype}$), DIMENSION(:), POINTER :: DATA
+      INTEGER, POINTER :: lb, ub
+
+      CALL c_f_pointer(c_tensor, tensor)
+
+      NULLIFY (lb)
+      IF (PRESENT(c_lb)) THEN
+         ALLOCATE (lb)
+         lb = c_lb + 1
+      ENDIF
+
+      NULLIFY (ub)
+      IF (PRESENT(c_ub)) THEN
+         ALLOCATE (ub)
+         ub = ub + 1
+      ENDIF
+
+      DATA => dbcsr_get_data_p(tensor%matrix_rep%matrix%data_area, &
+                               c_select_data_type, lb, ub)
+
+      c_data = c_loc(DATA)
+      c_data_size = SIZE(DATA)
+
+      IF (ASSOCIATED(lb)) DEALLOCATE (lb)
+      IF (ASSOCIATED(ub)) DEALLOCATE (ub)
+
+   END SUBROUTINE
+#:endfor
+
+   SUBROUTINE c_dbcsr_t_batched_contract_init(c_tensor) &
+      BIND(C, name="c_dbcsr_t_batched_contract_init")
+
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
+      TYPE(dbcsr_t_type), POINTER :: tensor
+
+      CALL c_f_pointer(c_tensor, tensor)
+
+      CALL dbcsr_t_batched_contract_init(tensor)
+
+   END SUBROUTINE
+
+   SUBROUTINE c_dbcsr_t_batched_contract_finalize(c_tensor, c_unit_nr) &
+      BIND(C, name="c_dbcsr_t_batched_contract_finalize")
+
+      TYPE(c_ptr), INTENT(IN), VALUE :: c_tensor
+      INTEGER(kind=c_int), OPTIONAL :: c_unit_nr
+
+      TYPE(dbcsr_t_type), POINTER :: tensor
+
+      CALL c_f_pointer(c_tensor, tensor)
+      IF (PRESENT(c_unit_nr)) THEN
+         CALL dbcsr_t_batched_contract_finalize(tensor, c_unit_nr)
+      ELSE
+         CALL dbcsr_t_batched_contract_finalize(tensor)
+      ENDIF
+
+   END SUBROUTINE
 
 END MODULE
