@@ -1,5 +1,5 @@
 {
 "description": "CUDA/HIP-accelerated library for small matrix multiplications",
 "archive": "libdbcsr",
-"requires": ["..", "../cuda", "../hip"]
+"requires": ["..", "../cuda", "../hip", "../cuda_hip"]
 }
