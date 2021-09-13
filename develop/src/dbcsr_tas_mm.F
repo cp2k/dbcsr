@@ -1156,7 +1156,7 @@ CONTAINS
             is_new = .FALSE.
             RETURN
          ELSE
-            DBCSR_ABORT("should not happen")
+            nsplit_prv = 1
          ENDIF
       ELSE
          nsplit_prv = nsplit
