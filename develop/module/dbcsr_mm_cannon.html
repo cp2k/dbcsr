@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -262,12 +262,12 @@
     
     <div class="col-md-9" id='text'>
     <p>First layer of the dbcsr matrix-matrix multiplication.
- It performs the MPI parallelization according to Cannon's algorithm.
- <b>Modification history:</b>
- - 2010-02-23 Moved from dbcsr_operations
- - 2011-11    Moved parameter-stack processing routines to
- dbcsr_mm_methods.
- - 2013-01    reorganized code (Ole Schuett)</p>
+It performs the MPI parallelization according to Cannon's algorithm.
+<b>Modification history:</b>
+- 2010-02-23 Moved from dbcsr_operations
+- 2011-11    Moved parameter-stack processing routines to
+dbcsr_mm_methods.
+- 2013-01    reorganized code (Ole Schuett)</p>
       <br>
     
   
@@ -280,17 +280,27 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></li>
-    
-    <li><a href='../module/dbcsr_mem_methods.html'>dbcsr_mem_methods</a></li>
+    <li><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
     
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+    
+    <li><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></li>
+    
+    <li><a href='../module/dbcsr_mm_common.html'>dbcsr_mm_common</a></li>
+    
+    <li><a href='../module/dbcsr_acc_event.html'>dbcsr_acc_event</a></li>
+    
+    <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
+    
+    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+    
+    <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
+    
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
     <li><a href='../module/dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
     
     <li><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
-    
-    <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
     
     <li><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
     
@@ -298,41 +308,31 @@
     
     <li><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
     
+    <li><a href='../module/dbcsr_io.html'>dbcsr_io</a></li>
+    
     <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
     
     <li><a href='../module/dbcsr_mp_operations.html'>dbcsr_mp_operations</a></li>
+    
+    <li><a href='../module/dbcsr_mm_multrec.html'>dbcsr_mm_multrec</a></li>
+    
+    <li><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></li>
     
     <li><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
     
     <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
     
-    <li><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></li>
-    
     <li><a href='../module/dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
     
-    <li><a href='../module/dbcsr_mm_dist_operations.html'>dbcsr_mm_dist_operations</a></li>
+    <li><a href='../module/dbcsr_mem_methods.html'>dbcsr_mem_methods</a></li>
     
     <li><a href='../module/dbcsr_machine.html'>dbcsr_machine</a></li>
     
-    <li><a href='../module/dbcsr_mm_multrec.html'>dbcsr_mm_multrec</a></li>
-    
-    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
-    
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-    
-    <li><a href='../module/dbcsr_io.html'>dbcsr_io</a></li>
-    
-    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
-    
-    <li><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
-    
     <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
     
-    <li><a href='../module/dbcsr_acc_event.html'>dbcsr_acc_event</a></li>
+    <li><a href='../module/dbcsr_mm_dist_operations.html'>dbcsr_mm_dist_operations</a></li>
     
-    <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
-    
-    <li><a href='../module/dbcsr_mm_common.html'>dbcsr_mm_common</a></li>
+    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
     
   </ul>
       </li>
@@ -1317,7 +1317,7 @@ private subroutine <a href='../proc/dbcsr_make_images_dense.html'>dbcsr_make_ima
 
 
 <p>Makes dense matrices for the image matrices.
- </p><a href="../proc/dbcsr_make_images_dense.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+</p><a href="../proc/dbcsr_make_images_dense.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -1374,7 +1374,7 @@ private subroutine <a href='../proc/dbcsr_make_images_dense.html'>dbcsr_make_ima
   
   <td></td><td>::</td>
   <td><strong>row_map</strong></td><td><p>mapping of current (undense) rows to dense rows
- mapping of current (undense) columns to dense columns</p></td>
+mapping of current (undense) columns to dense columns</p></td>
   
 </tr>
 
@@ -1390,7 +1390,7 @@ private subroutine <a href='../proc/dbcsr_make_images_dense.html'>dbcsr_make_ima
   
   <td></td><td>::</td>
   <td><strong>col_map</strong></td><td><p>mapping of current (undense) rows to dense rows
- mapping of current (undense) columns to dense columns</p></td>
+mapping of current (undense) columns to dense columns</p></td>
   
 </tr>
 
@@ -1406,7 +1406,7 @@ private subroutine <a href='../proc/dbcsr_make_images_dense.html'>dbcsr_make_ima
   
   <td></td><td>::</td>
   <td><strong>join_cols</strong></td><td><p>make columns dense, default is yes
- make rows dense, default is yes</p></td>
+make rows dense, default is yes</p></td>
   
 </tr>
 
@@ -1422,7 +1422,7 @@ private subroutine <a href='../proc/dbcsr_make_images_dense.html'>dbcsr_make_ima
   
   <td></td><td>::</td>
   <td><strong>join_rows</strong></td><td><p>make columns dense, default is yes
- make rows dense, default is yes</p></td>
+make rows dense, default is yes</p></td>
   
 </tr>
 
@@ -1497,7 +1497,7 @@ public subroutine <a href='../proc/multiply_cannon.html'>multiply_cannon</a>(lef
   
   <td>POINTER</td><td>::</td>
   <td><strong>left_set</strong></td><td><p>set of imaged left matrices
- set of imaged right matrices</p></td>
+set of imaged right matrices</p></td>
   
 </tr>
 
@@ -1513,7 +1513,7 @@ public subroutine <a href='../proc/multiply_cannon.html'>multiply_cannon</a>(lef
   
   <td>POINTER</td><td>::</td>
   <td><strong>right_set</strong></td><td><p>set of imaged left matrices
- set of imaged right matrices</p></td>
+set of imaged right matrices</p></td>
   
 </tr>
 
@@ -1733,12 +1733,12 @@ private subroutine <a href='../proc/buffer_matrices_ensure_size.html'>buffer_mat
 
 
 <p>Enlarge left_set and right_set to hold any a/b-panel.
- left_set and right_set are created by make_images to hold the a/b-panels
- used for the initial cannon-tick. This routine ensures that these buffers
- can hold any a/b-panel occurring during a matrix multiply and makes them
- therefore suitable as buffers for the entire cannon algorithm.
- This saves memory since no separate buffers for the first cannon-tick
- have to be allocated.</p>
+left_set and right_set are created by make_images to hold the a/b-panels
+used for the initial cannon-tick. This routine ensures that these buffers
+can hold any a/b-panel occurring during a matrix multiply and makes them
+therefore suitable as buffers for the entire cannon algorithm.
+This saves memory since no separate buffers for the first cannon-tick
+have to be allocated.</p>
     
     <h4>Arguments</h4>
     

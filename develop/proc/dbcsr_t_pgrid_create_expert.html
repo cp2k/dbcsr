@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -209,16 +209,16 @@ public subroutine dbcsr_t_pgrid_create_expert(mp_comm, dims, pgrid, map1_2d, map
 
     
     <p>Create an n-dimensional process grid.
- We can not use a n-dimensional MPI cartesian grid for tensors since the mapping between
- n-dim. and 2-dim. index allows for an arbitrary reordering of tensor index. Therefore we can not
- use n-dim. MPI Cartesian grid because it may not be consistent with the respective 2d grid.
- The 2d Cartesian MPI grid is the reference grid (since tensor data is stored as DBCSR matrix)
- and this routine creates an object that is a n-dim. interface to this grid.
- map1_2d and map2_2d don't need to be specified (correctly), grid may be redefined in dbcsr_t_distribution_new
- Note that pgrid is equivalent to a MPI cartesian grid only if map1_2d and map2_2d don't reorder indices
- (which is the case if [map1_2d, map2_2d] == [1, 2, ..., ndims]). Otherwise the mapping of grid
- coordinates to processes depends on the ordering of the indices and is not equivalent to a MPI
- cartesian grid.</p>
+We can not use a n-dimensional MPI cartesian grid for tensors since the mapping between
+n-dim. and 2-dim. index allows for an arbitrary reordering of tensor index. Therefore we can not
+use n-dim. MPI Cartesian grid because it may not be consistent with the respective 2d grid.
+The 2d Cartesian MPI grid is the reference grid (since tensor data is stored as DBCSR matrix)
+and this routine creates an object that is a n-dim. interface to this grid.
+map1_2d and map2_2d don't need to be specified (correctly), grid may be redefined in dbcsr_t_distribution_new
+Note that pgrid is equivalent to a MPI cartesian grid only if map1_2d and map2_2d don't reorder indices
+(which is the case if [map1_2d, map2_2d] == [1, 2, ..., ndims]). Otherwise the mapping of grid
+coordinates to processes depends on the ordering of the indices and is not equivalent to a MPI
+cartesian grid.</p>
     
 
     <h3>Arguments</h3>
@@ -290,7 +290,7 @@ public subroutine dbcsr_t_pgrid_create_expert(mp_comm, dims, pgrid, map1_2d, map
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>map1_2d</strong></td><td><p>which nd-indices map to first matrix index and in which order
- which nd-indices map to first matrix index and in which order</p></td>
+which nd-indices map to first matrix index and in which order</p></td>
   
 </tr>
 
@@ -306,7 +306,7 @@ public subroutine dbcsr_t_pgrid_create_expert(mp_comm, dims, pgrid, map1_2d, map
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>map2_2d</strong></td><td><p>which nd-indices map to first matrix index and in which order
- which nd-indices map to first matrix index and in which order</p></td>
+which nd-indices map to first matrix index and in which order</p></td>
   
 </tr>
 
@@ -322,8 +322,8 @@ public subroutine dbcsr_t_pgrid_create_expert(mp_comm, dims, pgrid, map1_2d, map
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>tensor_dims</strong></td><td><p>tensor block dimensions. If present, process grid dimensions are created such that good
- load balancing is ensured even if some of the tensor dimensions are small (i.e. on the same order
- or smaller than nproc**(1/ndim) where ndim is the tensor rank)</p></td>
+load balancing is ensured even if some of the tensor dimensions are small (i.e. on the same order
+or smaller than nproc**(1/ndim) where ndim is the tensor rank)</p></td>
   
 </tr>
 
@@ -339,7 +339,7 @@ public subroutine dbcsr_t_pgrid_create_expert(mp_comm, dims, pgrid, map1_2d, map
   
   <td></td><td>::</td>
   <td><strong>nsplit</strong></td><td><p>impose a constant split factor
- which matrix dimension to split</p></td>
+which matrix dimension to split</p></td>
   
 </tr>
 
@@ -355,7 +355,7 @@ public subroutine dbcsr_t_pgrid_create_expert(mp_comm, dims, pgrid, map1_2d, map
   
   <td></td><td>::</td>
   <td><strong>dimsplit</strong></td><td><p>impose a constant split factor
- which matrix dimension to split</p></td>
+which matrix dimension to split</p></td>
   
 </tr>
 

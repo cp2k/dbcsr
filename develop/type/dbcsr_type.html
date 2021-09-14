@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -318,8 +318,8 @@
       <h2>type, public :: dbcsr_type</h2>
     <p>The BCSR sparse matrix type.</p>
 <p>arrays data and index hold the bulk of the data.
- </p><div class="alert alert-info" role="alert"><h4>Note</h4><p>the pointers row_p, col_i, blk_p point into the index array.
- </p></div>
+</p><div class="alert alert-info" role="alert"><h4>Note</h4><p>the pointers row_p, col_i, blk_p point into the index array.
+</p></div>
 <p>
     
     
@@ -569,7 +569,7 @@
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>row_p</strong></td><td>=> </td><td>Null()</td><td><p>points into the col_i and blk_p arrays, each element (1:nblkrows_total+1) points to the previous row's last element. So
- each rows has elements row_p(row)+1:row_p(row+1).</p></td>
+each rows has elements row_p(row)+1:row_p(row+1).</p></td>
   
 </tr>
 

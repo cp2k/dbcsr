@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -388,8 +388,6 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-    
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
     <li><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></li>
@@ -397,6 +395,8 @@
     <li><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
     
     <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    
+    <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
     
   </ul>
       </li>
@@ -822,7 +822,7 @@ private subroutine <a href='../proc/ensure_array_size_i.html'>ensure_array_size_
   
   <td></td><td>::</td>
   <td><strong>nocopy</strong></td><td><p>copy array on enlargement; default is to copy
- zero new allocations; default is to write nothing</p></td>
+zero new allocations; default is to write nothing</p></td>
   
 </tr>
 
@@ -853,7 +853,7 @@ private subroutine <a href='../proc/ensure_array_size_i.html'>ensure_array_size_
   
   <td></td><td>::</td>
   <td><strong>zero_pad</strong></td><td><p>copy array on enlargement; default is to copy
- zero new allocations; default is to write nothing</p></td>
+zero new allocations; default is to write nothing</p></td>
   
 </tr>
 
@@ -985,7 +985,7 @@ private subroutine <a href='../proc/ensure_array_size_l.html'>ensure_array_size_
   
   <td></td><td>::</td>
   <td><strong>nocopy</strong></td><td><p>copy array on enlargement; default is to copy
- zero new allocations; default is to write nothing</p></td>
+zero new allocations; default is to write nothing</p></td>
   
 </tr>
 
@@ -1016,7 +1016,7 @@ private subroutine <a href='../proc/ensure_array_size_l.html'>ensure_array_size_
   
   <td></td><td>::</td>
   <td><strong>zero_pad</strong></td><td><p>copy array on enlargement; default is to copy
- zero new allocations; default is to write nothing</p></td>
+zero new allocations; default is to write nothing</p></td>
   
 </tr>
 
@@ -1148,7 +1148,7 @@ private subroutine <a href='../proc/ensure_array_size_s.html'>ensure_array_size_
   
   <td></td><td>::</td>
   <td><strong>nocopy</strong></td><td><p>copy array on enlargement; default is to copy
- zero new allocations; default is to write nothing</p></td>
+zero new allocations; default is to write nothing</p></td>
   
 </tr>
 
@@ -1179,7 +1179,7 @@ private subroutine <a href='../proc/ensure_array_size_s.html'>ensure_array_size_
   
   <td></td><td>::</td>
   <td><strong>zero_pad</strong></td><td><p>copy array on enlargement; default is to copy
- zero new allocations; default is to write nothing</p></td>
+zero new allocations; default is to write nothing</p></td>
   
 </tr>
 
@@ -1311,7 +1311,7 @@ private subroutine <a href='../proc/ensure_array_size_d.html'>ensure_array_size_
   
   <td></td><td>::</td>
   <td><strong>nocopy</strong></td><td><p>copy array on enlargement; default is to copy
- zero new allocations; default is to write nothing</p></td>
+zero new allocations; default is to write nothing</p></td>
   
 </tr>
 
@@ -1342,7 +1342,7 @@ private subroutine <a href='../proc/ensure_array_size_d.html'>ensure_array_size_
   
   <td></td><td>::</td>
   <td><strong>zero_pad</strong></td><td><p>copy array on enlargement; default is to copy
- zero new allocations; default is to write nothing</p></td>
+zero new allocations; default is to write nothing</p></td>
   
 </tr>
 
@@ -1474,7 +1474,7 @@ private subroutine <a href='../proc/ensure_array_size_c.html'>ensure_array_size_
   
   <td></td><td>::</td>
   <td><strong>nocopy</strong></td><td><p>copy array on enlargement; default is to copy
- zero new allocations; default is to write nothing</p></td>
+zero new allocations; default is to write nothing</p></td>
   
 </tr>
 
@@ -1505,7 +1505,7 @@ private subroutine <a href='../proc/ensure_array_size_c.html'>ensure_array_size_
   
   <td></td><td>::</td>
   <td><strong>zero_pad</strong></td><td><p>copy array on enlargement; default is to copy
- zero new allocations; default is to write nothing</p></td>
+zero new allocations; default is to write nothing</p></td>
   
 </tr>
 
@@ -1637,7 +1637,7 @@ private subroutine <a href='../proc/ensure_array_size_z.html'>ensure_array_size_
   
   <td></td><td>::</td>
   <td><strong>nocopy</strong></td><td><p>copy array on enlargement; default is to copy
- zero new allocations; default is to write nothing</p></td>
+zero new allocations; default is to write nothing</p></td>
   
 </tr>
 
@@ -1668,7 +1668,7 @@ private subroutine <a href='../proc/ensure_array_size_z.html'>ensure_array_size_
   
   <td></td><td>::</td>
   <td><strong>zero_pad</strong></td><td><p>copy array on enlargement; default is to copy
- zero new allocations; default is to write nothing</p></td>
+zero new allocations; default is to write nothing</p></td>
   
 </tr>
 
@@ -1740,7 +1740,7 @@ private function <a href='../proc/pointer_view_s.html'>pointer_view_s</a>(origin
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>original</strong></td><td><p>original data pointer
- new pointer</p></td>
+new pointer</p></td>
   
 </tr>
 
@@ -1756,7 +1756,7 @@ private function <a href='../proc/pointer_view_s.html'>pointer_view_s</a>(origin
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower and upper bound for the new pointer view
- lower and upper bound for the new pointer view</p></td>
+lower and upper bound for the new pointer view</p></td>
   
 </tr>
 
@@ -1772,7 +1772,7 @@ private function <a href='../proc/pointer_view_s.html'>pointer_view_s</a>(origin
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower and upper bound for the new pointer view
- lower and upper bound for the new pointer view</p></td>
+lower and upper bound for the new pointer view</p></td>
   
 </tr>
 
@@ -1790,7 +1790,7 @@ private function <a href='../proc/pointer_view_s.html'>pointer_view_s</a>(origin
      <h4>Return Value <small>real(kind=real_4),
   DIMENSION(:), POINTER</small></h4>
   <p>original data pointer
- new pointer</p>
+new pointer</p>
     
 
     </li>
@@ -1839,7 +1839,7 @@ private function <a href='../proc/pointer_view_d.html'>pointer_view_d</a>(origin
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>original</strong></td><td><p>original data pointer
- new pointer</p></td>
+new pointer</p></td>
   
 </tr>
 
@@ -1855,7 +1855,7 @@ private function <a href='../proc/pointer_view_d.html'>pointer_view_d</a>(origin
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower and upper bound for the new pointer view
- lower and upper bound for the new pointer view</p></td>
+lower and upper bound for the new pointer view</p></td>
   
 </tr>
 
@@ -1871,7 +1871,7 @@ private function <a href='../proc/pointer_view_d.html'>pointer_view_d</a>(origin
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower and upper bound for the new pointer view
- lower and upper bound for the new pointer view</p></td>
+lower and upper bound for the new pointer view</p></td>
   
 </tr>
 
@@ -1889,7 +1889,7 @@ private function <a href='../proc/pointer_view_d.html'>pointer_view_d</a>(origin
      <h4>Return Value <small>real(kind=real_8),
   DIMENSION(:), POINTER</small></h4>
   <p>original data pointer
- new pointer</p>
+new pointer</p>
     
 
     </li>
@@ -1938,7 +1938,7 @@ private function <a href='../proc/pointer_view_c.html'>pointer_view_c</a>(origin
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>original</strong></td><td><p>original data pointer
- new pointer</p></td>
+new pointer</p></td>
   
 </tr>
 
@@ -1954,7 +1954,7 @@ private function <a href='../proc/pointer_view_c.html'>pointer_view_c</a>(origin
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower and upper bound for the new pointer view
- lower and upper bound for the new pointer view</p></td>
+lower and upper bound for the new pointer view</p></td>
   
 </tr>
 
@@ -1970,7 +1970,7 @@ private function <a href='../proc/pointer_view_c.html'>pointer_view_c</a>(origin
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower and upper bound for the new pointer view
- lower and upper bound for the new pointer view</p></td>
+lower and upper bound for the new pointer view</p></td>
   
 </tr>
 
@@ -1988,7 +1988,7 @@ private function <a href='../proc/pointer_view_c.html'>pointer_view_c</a>(origin
      <h4>Return Value <small>complex(kind=real_4),
   DIMENSION(:), POINTER</small></h4>
   <p>original data pointer
- new pointer</p>
+new pointer</p>
     
 
     </li>
@@ -2037,7 +2037,7 @@ private function <a href='../proc/pointer_view_z.html'>pointer_view_z</a>(origin
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>original</strong></td><td><p>original data pointer
- new pointer</p></td>
+new pointer</p></td>
   
 </tr>
 
@@ -2053,7 +2053,7 @@ private function <a href='../proc/pointer_view_z.html'>pointer_view_z</a>(origin
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower and upper bound for the new pointer view
- lower and upper bound for the new pointer view</p></td>
+lower and upper bound for the new pointer view</p></td>
   
 </tr>
 
@@ -2069,7 +2069,7 @@ private function <a href='../proc/pointer_view_z.html'>pointer_view_z</a>(origin
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower and upper bound for the new pointer view
- lower and upper bound for the new pointer view</p></td>
+lower and upper bound for the new pointer view</p></td>
   
 </tr>
 
@@ -2087,7 +2087,7 @@ private function <a href='../proc/pointer_view_z.html'>pointer_view_z</a>(origin
      <h4>Return Value <small>complex(kind=real_8),
   DIMENSION(:), POINTER</small></h4>
   <p>original data pointer
- new pointer</p>
+new pointer</p>
     
 
     </li>
@@ -2136,7 +2136,7 @@ private function <a href='../proc/pointer_view_i.html'>pointer_view_i</a>(origin
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>original</strong></td><td><p>original data pointer
- new pointer</p></td>
+new pointer</p></td>
   
 </tr>
 
@@ -2152,7 +2152,7 @@ private function <a href='../proc/pointer_view_i.html'>pointer_view_i</a>(origin
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower and upper bound for the new pointer view
- lower and upper bound for the new pointer view</p></td>
+lower and upper bound for the new pointer view</p></td>
   
 </tr>
 
@@ -2168,7 +2168,7 @@ private function <a href='../proc/pointer_view_i.html'>pointer_view_i</a>(origin
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower and upper bound for the new pointer view
- lower and upper bound for the new pointer view</p></td>
+lower and upper bound for the new pointer view</p></td>
   
 </tr>
 
@@ -2186,7 +2186,7 @@ private function <a href='../proc/pointer_view_i.html'>pointer_view_i</a>(origin
      <h4>Return Value <small>integer(kind=int_4),
   DIMENSION(:), POINTER</small></h4>
   <p>original data pointer
- new pointer</p>
+new pointer</p>
     
 
     </li>
@@ -2235,7 +2235,7 @@ private function <a href='../proc/pointer_view_l.html'>pointer_view_l</a>(origin
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>original</strong></td><td><p>original data pointer
- new pointer</p></td>
+new pointer</p></td>
   
 </tr>
 
@@ -2251,7 +2251,7 @@ private function <a href='../proc/pointer_view_l.html'>pointer_view_l</a>(origin
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower and upper bound for the new pointer view
- lower and upper bound for the new pointer view</p></td>
+lower and upper bound for the new pointer view</p></td>
   
 </tr>
 
@@ -2267,7 +2267,7 @@ private function <a href='../proc/pointer_view_l.html'>pointer_view_l</a>(origin
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower and upper bound for the new pointer view
- lower and upper bound for the new pointer view</p></td>
+lower and upper bound for the new pointer view</p></td>
   
 </tr>
 
@@ -2285,7 +2285,7 @@ private function <a href='../proc/pointer_view_l.html'>pointer_view_l</a>(origin
      <h4>Return Value <small>integer(kind=int_8),
   DIMENSION(:), POINTER</small></h4>
   <p>original data pointer
- new pointer</p>
+new pointer</p>
     
 
     </li>
@@ -2433,7 +2433,7 @@ private subroutine <a href='../proc/pointer_s_rank_remap2.html'>pointer_s_rank_r
 
 
 <p>Sets a rank-2 pointer to rank-1 data using Fortran 2003 pointer
- rank remapping.</p>
+rank remapping.</p>
     
     <h4>Arguments</h4>
     
@@ -2535,7 +2535,7 @@ private subroutine <a href='../proc/pointer_d_rank_remap2.html'>pointer_d_rank_r
 
 
 <p>Sets a rank-2 pointer to rank-1 data using Fortran 2003 pointer
- rank remapping.</p>
+rank remapping.</p>
     
     <h4>Arguments</h4>
     
@@ -2637,7 +2637,7 @@ private subroutine <a href='../proc/pointer_c_rank_remap2.html'>pointer_c_rank_r
 
 
 <p>Sets a rank-2 pointer to rank-1 data using Fortran 2003 pointer
- rank remapping.</p>
+rank remapping.</p>
     
     <h4>Arguments</h4>
     
@@ -2739,7 +2739,7 @@ private subroutine <a href='../proc/pointer_z_rank_remap2.html'>pointer_z_rank_r
 
 
 <p>Sets a rank-2 pointer to rank-1 data using Fortran 2003 pointer
- rank remapping.</p>
+rank remapping.</p>
     
     <h4>Arguments</h4>
     
@@ -2841,7 +2841,7 @@ private subroutine <a href='../proc/pointer_l_rank_remap2.html'>pointer_l_rank_r
 
 
 <p>Sets a rank-2 pointer to rank-1 data using Fortran 2003 pointer
- rank remapping.</p>
+rank remapping.</p>
     
     <h4>Arguments</h4>
     
@@ -2943,7 +2943,7 @@ private subroutine <a href='../proc/pointer_i_rank_remap2.html'>pointer_i_rank_r
 
 
 <p>Sets a rank-2 pointer to rank-1 data using Fortran 2003 pointer
- rank remapping.</p>
+rank remapping.</p>
     
     <h4>Arguments</h4>
     
@@ -6138,7 +6138,7 @@ private function <a href='../proc/pointer_view_d.html'>pointer_view_d</a>(origin
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>original</strong></td><td><p>original data pointer
- new pointer</p></td>
+new pointer</p></td>
   
 </tr>
 
@@ -6154,7 +6154,7 @@ private function <a href='../proc/pointer_view_d.html'>pointer_view_d</a>(origin
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower and upper bound for the new pointer view
- lower and upper bound for the new pointer view</p></td>
+lower and upper bound for the new pointer view</p></td>
   
 </tr>
 
@@ -6170,7 +6170,7 @@ private function <a href='../proc/pointer_view_d.html'>pointer_view_d</a>(origin
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower and upper bound for the new pointer view
- lower and upper bound for the new pointer view</p></td>
+lower and upper bound for the new pointer view</p></td>
   
 </tr>
 
@@ -6188,7 +6188,7 @@ private function <a href='../proc/pointer_view_d.html'>pointer_view_d</a>(origin
      <h4>Return Value <small>real(kind=real_8),
   DIMENSION(:), POINTER</small></h4>
   <p>original data pointer
- new pointer</p>
+new pointer</p>
     
 
   </div>
@@ -6240,7 +6240,7 @@ private function <a href='../proc/pointer_view_s.html'>pointer_view_s</a>(origin
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>original</strong></td><td><p>original data pointer
- new pointer</p></td>
+new pointer</p></td>
   
 </tr>
 
@@ -6256,7 +6256,7 @@ private function <a href='../proc/pointer_view_s.html'>pointer_view_s</a>(origin
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower and upper bound for the new pointer view
- lower and upper bound for the new pointer view</p></td>
+lower and upper bound for the new pointer view</p></td>
   
 </tr>
 
@@ -6272,7 +6272,7 @@ private function <a href='../proc/pointer_view_s.html'>pointer_view_s</a>(origin
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower and upper bound for the new pointer view
- lower and upper bound for the new pointer view</p></td>
+lower and upper bound for the new pointer view</p></td>
   
 </tr>
 
@@ -6290,7 +6290,7 @@ private function <a href='../proc/pointer_view_s.html'>pointer_view_s</a>(origin
      <h4>Return Value <small>real(kind=real_4),
   DIMENSION(:), POINTER</small></h4>
   <p>original data pointer
- new pointer</p>
+new pointer</p>
     
 
   </div>
@@ -6342,7 +6342,7 @@ private function <a href='../proc/pointer_view_z.html'>pointer_view_z</a>(origin
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>original</strong></td><td><p>original data pointer
- new pointer</p></td>
+new pointer</p></td>
   
 </tr>
 
@@ -6358,7 +6358,7 @@ private function <a href='../proc/pointer_view_z.html'>pointer_view_z</a>(origin
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower and upper bound for the new pointer view
- lower and upper bound for the new pointer view</p></td>
+lower and upper bound for the new pointer view</p></td>
   
 </tr>
 
@@ -6374,7 +6374,7 @@ private function <a href='../proc/pointer_view_z.html'>pointer_view_z</a>(origin
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower and upper bound for the new pointer view
- lower and upper bound for the new pointer view</p></td>
+lower and upper bound for the new pointer view</p></td>
   
 </tr>
 
@@ -6392,7 +6392,7 @@ private function <a href='../proc/pointer_view_z.html'>pointer_view_z</a>(origin
      <h4>Return Value <small>complex(kind=real_8),
   DIMENSION(:), POINTER</small></h4>
   <p>original data pointer
- new pointer</p>
+new pointer</p>
     
 
   </div>
@@ -6444,7 +6444,7 @@ private function <a href='../proc/pointer_view_c.html'>pointer_view_c</a>(origin
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>original</strong></td><td><p>original data pointer
- new pointer</p></td>
+new pointer</p></td>
   
 </tr>
 
@@ -6460,7 +6460,7 @@ private function <a href='../proc/pointer_view_c.html'>pointer_view_c</a>(origin
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower and upper bound for the new pointer view
- lower and upper bound for the new pointer view</p></td>
+lower and upper bound for the new pointer view</p></td>
   
 </tr>
 
@@ -6476,7 +6476,7 @@ private function <a href='../proc/pointer_view_c.html'>pointer_view_c</a>(origin
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower and upper bound for the new pointer view
- lower and upper bound for the new pointer view</p></td>
+lower and upper bound for the new pointer view</p></td>
   
 </tr>
 
@@ -6494,7 +6494,7 @@ private function <a href='../proc/pointer_view_c.html'>pointer_view_c</a>(origin
      <h4>Return Value <small>complex(kind=real_4),
   DIMENSION(:), POINTER</small></h4>
   <p>original data pointer
- new pointer</p>
+new pointer</p>
     
 
   </div>
@@ -6546,7 +6546,7 @@ private function <a href='../proc/pointer_view_i.html'>pointer_view_i</a>(origin
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>original</strong></td><td><p>original data pointer
- new pointer</p></td>
+new pointer</p></td>
   
 </tr>
 
@@ -6562,7 +6562,7 @@ private function <a href='../proc/pointer_view_i.html'>pointer_view_i</a>(origin
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower and upper bound for the new pointer view
- lower and upper bound for the new pointer view</p></td>
+lower and upper bound for the new pointer view</p></td>
   
 </tr>
 
@@ -6578,7 +6578,7 @@ private function <a href='../proc/pointer_view_i.html'>pointer_view_i</a>(origin
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower and upper bound for the new pointer view
- lower and upper bound for the new pointer view</p></td>
+lower and upper bound for the new pointer view</p></td>
   
 </tr>
 
@@ -6596,7 +6596,7 @@ private function <a href='../proc/pointer_view_i.html'>pointer_view_i</a>(origin
      <h4>Return Value <small>integer(kind=int_4),
   DIMENSION(:), POINTER</small></h4>
   <p>original data pointer
- new pointer</p>
+new pointer</p>
     
 
   </div>
@@ -6648,7 +6648,7 @@ private function <a href='../proc/pointer_view_l.html'>pointer_view_l</a>(origin
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>original</strong></td><td><p>original data pointer
- new pointer</p></td>
+new pointer</p></td>
   
 </tr>
 
@@ -6664,7 +6664,7 @@ private function <a href='../proc/pointer_view_l.html'>pointer_view_l</a>(origin
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower and upper bound for the new pointer view
- lower and upper bound for the new pointer view</p></td>
+lower and upper bound for the new pointer view</p></td>
   
 </tr>
 
@@ -6680,7 +6680,7 @@ private function <a href='../proc/pointer_view_l.html'>pointer_view_l</a>(origin
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower and upper bound for the new pointer view
- lower and upper bound for the new pointer view</p></td>
+lower and upper bound for the new pointer view</p></td>
   
 </tr>
 
@@ -6698,7 +6698,7 @@ private function <a href='../proc/pointer_view_l.html'>pointer_view_l</a>(origin
      <h4>Return Value <small>integer(kind=int_8),
   DIMENSION(:), POINTER</small></h4>
   <p>original data pointer
- new pointer</p>
+new pointer</p>
     
 
   </div>
@@ -6833,7 +6833,7 @@ private subroutine <a href='../proc/ensure_array_size_d.html'>ensure_array_size_
   
   <td></td><td>::</td>
   <td><strong>nocopy</strong></td><td><p>copy array on enlargement; default is to copy
- zero new allocations; default is to write nothing</p></td>
+zero new allocations; default is to write nothing</p></td>
   
 </tr>
 
@@ -6864,7 +6864,7 @@ private subroutine <a href='../proc/ensure_array_size_d.html'>ensure_array_size_
   
   <td></td><td>::</td>
   <td><strong>zero_pad</strong></td><td><p>copy array on enlargement; default is to copy
- zero new allocations; default is to write nothing</p></td>
+zero new allocations; default is to write nothing</p></td>
   
 </tr>
 
@@ -7387,7 +7387,7 @@ private subroutine <a href='../proc/pointer_d_rank_remap2.html'>pointer_d_rank_r
 
 
 <p>Sets a rank-2 pointer to rank-1 data using Fortran 2003 pointer
- rank remapping.</p>
+rank remapping.</p>
     
     <h4>Arguments</h4>
     
@@ -7593,7 +7593,7 @@ private subroutine <a href='../proc/ensure_array_size_s.html'>ensure_array_size_
   
   <td></td><td>::</td>
   <td><strong>nocopy</strong></td><td><p>copy array on enlargement; default is to copy
- zero new allocations; default is to write nothing</p></td>
+zero new allocations; default is to write nothing</p></td>
   
 </tr>
 
@@ -7624,7 +7624,7 @@ private subroutine <a href='../proc/ensure_array_size_s.html'>ensure_array_size_
   
   <td></td><td>::</td>
   <td><strong>zero_pad</strong></td><td><p>copy array on enlargement; default is to copy
- zero new allocations; default is to write nothing</p></td>
+zero new allocations; default is to write nothing</p></td>
   
 </tr>
 
@@ -8147,7 +8147,7 @@ private subroutine <a href='../proc/pointer_s_rank_remap2.html'>pointer_s_rank_r
 
 
 <p>Sets a rank-2 pointer to rank-1 data using Fortran 2003 pointer
- rank remapping.</p>
+rank remapping.</p>
     
     <h4>Arguments</h4>
     
@@ -8353,7 +8353,7 @@ private subroutine <a href='../proc/ensure_array_size_z.html'>ensure_array_size_
   
   <td></td><td>::</td>
   <td><strong>nocopy</strong></td><td><p>copy array on enlargement; default is to copy
- zero new allocations; default is to write nothing</p></td>
+zero new allocations; default is to write nothing</p></td>
   
 </tr>
 
@@ -8384,7 +8384,7 @@ private subroutine <a href='../proc/ensure_array_size_z.html'>ensure_array_size_
   
   <td></td><td>::</td>
   <td><strong>zero_pad</strong></td><td><p>copy array on enlargement; default is to copy
- zero new allocations; default is to write nothing</p></td>
+zero new allocations; default is to write nothing</p></td>
   
 </tr>
 
@@ -8907,7 +8907,7 @@ private subroutine <a href='../proc/pointer_z_rank_remap2.html'>pointer_z_rank_r
 
 
 <p>Sets a rank-2 pointer to rank-1 data using Fortran 2003 pointer
- rank remapping.</p>
+rank remapping.</p>
     
     <h4>Arguments</h4>
     
@@ -9113,7 +9113,7 @@ private subroutine <a href='../proc/ensure_array_size_c.html'>ensure_array_size_
   
   <td></td><td>::</td>
   <td><strong>nocopy</strong></td><td><p>copy array on enlargement; default is to copy
- zero new allocations; default is to write nothing</p></td>
+zero new allocations; default is to write nothing</p></td>
   
 </tr>
 
@@ -9144,7 +9144,7 @@ private subroutine <a href='../proc/ensure_array_size_c.html'>ensure_array_size_
   
   <td></td><td>::</td>
   <td><strong>zero_pad</strong></td><td><p>copy array on enlargement; default is to copy
- zero new allocations; default is to write nothing</p></td>
+zero new allocations; default is to write nothing</p></td>
   
 </tr>
 
@@ -9667,7 +9667,7 @@ private subroutine <a href='../proc/pointer_c_rank_remap2.html'>pointer_c_rank_r
 
 
 <p>Sets a rank-2 pointer to rank-1 data using Fortran 2003 pointer
- rank remapping.</p>
+rank remapping.</p>
     
     <h4>Arguments</h4>
     
@@ -9873,7 +9873,7 @@ private subroutine <a href='../proc/ensure_array_size_i.html'>ensure_array_size_
   
   <td></td><td>::</td>
   <td><strong>nocopy</strong></td><td><p>copy array on enlargement; default is to copy
- zero new allocations; default is to write nothing</p></td>
+zero new allocations; default is to write nothing</p></td>
   
 </tr>
 
@@ -9904,7 +9904,7 @@ private subroutine <a href='../proc/ensure_array_size_i.html'>ensure_array_size_
   
   <td></td><td>::</td>
   <td><strong>zero_pad</strong></td><td><p>copy array on enlargement; default is to copy
- zero new allocations; default is to write nothing</p></td>
+zero new allocations; default is to write nothing</p></td>
   
 </tr>
 
@@ -10427,7 +10427,7 @@ private subroutine <a href='../proc/pointer_i_rank_remap2.html'>pointer_i_rank_r
 
 
 <p>Sets a rank-2 pointer to rank-1 data using Fortran 2003 pointer
- rank remapping.</p>
+rank remapping.</p>
     
     <h4>Arguments</h4>
     
@@ -10633,7 +10633,7 @@ private subroutine <a href='../proc/ensure_array_size_l.html'>ensure_array_size_
   
   <td></td><td>::</td>
   <td><strong>nocopy</strong></td><td><p>copy array on enlargement; default is to copy
- zero new allocations; default is to write nothing</p></td>
+zero new allocations; default is to write nothing</p></td>
   
 </tr>
 
@@ -10664,7 +10664,7 @@ private subroutine <a href='../proc/ensure_array_size_l.html'>ensure_array_size_
   
   <td></td><td>::</td>
   <td><strong>zero_pad</strong></td><td><p>copy array on enlargement; default is to copy
- zero new allocations; default is to write nothing</p></td>
+zero new allocations; default is to write nothing</p></td>
   
 </tr>
 
@@ -11187,7 +11187,7 @@ private subroutine <a href='../proc/pointer_l_rank_remap2.html'>pointer_l_rank_r
 
 
 <p>Sets a rank-2 pointer to rank-1 data using Fortran 2003 pointer
- rank remapping.</p>
+rank remapping.</p>
     
     <h4>Arguments</h4>
     

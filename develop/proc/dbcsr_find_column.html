@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -215,12 +215,12 @@ public pure subroutine dbcsr_find_column(find_col, frst_blk, last_blk, col_i, bl
 
     
     <p>Finds the block that has the given column.
- If the block having the queried column is found, the blk parameter
- is set to this block number and the found parameter is true.
- Otherwise found is false and the block number is invalid.</p>
+If the block having the queried column is found, the blk parameter
+is set to this block number and the found parameter is true.
+Otherwise found is false and the block number is invalid.</p>
 <p>Index validity
- The blk_p array of block pointers is a required parameter to enable
- the detection of deleted blocks.</p>
+The blk_p array of block pointers is a required parameter to enable
+the detection of deleted blocks.</p>
     
 
     <h3>Arguments</h3>
@@ -247,8 +247,8 @@ public pure subroutine dbcsr_find_column(find_col, frst_blk, last_blk, col_i, bl
   
   <td></td><td>::</td>
   <td><strong>find_col</strong></td><td><p>column to find
- first block number in row
- last block number in row</p></td>
+first block number in row
+last block number in row</p></td>
   
 </tr>
 
@@ -264,8 +264,8 @@ public pure subroutine dbcsr_find_column(find_col, frst_blk, last_blk, col_i, bl
   
   <td></td><td>::</td>
   <td><strong>frst_blk</strong></td><td><p>column to find
- first block number in row
- last block number in row</p></td>
+first block number in row
+last block number in row</p></td>
   
 </tr>
 
@@ -281,8 +281,8 @@ public pure subroutine dbcsr_find_column(find_col, frst_blk, last_blk, col_i, bl
   
   <td></td><td>::</td>
   <td><strong>last_blk</strong></td><td><p>column to find
- first block number in row
- last block number in row</p></td>
+first block number in row
+last block number in row</p></td>
   
 </tr>
 
@@ -298,7 +298,7 @@ public pure subroutine dbcsr_find_column(find_col, frst_blk, last_blk, col_i, bl
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>col_i</strong></td><td><p>col indices
- block pointers</p></td>
+block pointers</p></td>
   
 </tr>
 
@@ -314,7 +314,7 @@ public pure subroutine dbcsr_find_column(find_col, frst_blk, last_blk, col_i, bl
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>blk_p</strong></td><td><p>col indices
- block pointers</p></td>
+block pointers</p></td>
   
 </tr>
 

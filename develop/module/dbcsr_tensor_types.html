@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -386,7 +386,7 @@
     
     <div class="col-md-9" id='text'>
     <p>DBCSR tensor framework for block-sparse tensor contraction: Types and create/destroy
- routines.</p>
+routines.</p>
       <br>
     
   
@@ -399,35 +399,35 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_array_list_methods.html'>dbcsr_array_list_methods</a></li>
+    <li><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
     
-    <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
     <li><a href='../module/dbcsr_tas_base.html'>dbcsr_tas_base</a></li>
     
-    <li><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></li>
-    
-    <li><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
-    
-    <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
-    
     <li><a href='../module/dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
-    
-    <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
-    
-    <li><a href='../module/dbcsr_tensor_index.html'>dbcsr_tensor_index</a></li>
-    
-    <li><a href='../module/dbcsr_allocate_wrap.html'>dbcsr_allocate_wrap</a></li>
     
     <li><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></li>
     
+    <li><a href='../module/dbcsr_allocate_wrap.html'>dbcsr_allocate_wrap</a></li>
+    
+    <li><a href='../module/dbcsr_tas_mm.html'>dbcsr_tas_mm</a></li>
+    
     <li><a href='../module/dbcsr_tas_split.html'>dbcsr_tas_split</a></li>
+    
+    <li><a href='../module/dbcsr_tensor_index.html'>dbcsr_tensor_index</a></li>
+    
+    <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
     
     <li><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
     
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
+    
+    <li><a href='../module/dbcsr_array_list_methods.html'>dbcsr_array_list_methods</a></li>
+    
+    <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
     
   </ul>
       </li>
@@ -734,8 +734,8 @@ private subroutine <a href='../proc/dbcsr_t_create_new.html'>dbcsr_t_create_new<
 
 
 <p>create a tensor.
- For performance, the arguments map1_2d and map2_2d (controlling matrix representation of tensor) should be
- consistent with the the contraction to be performed (see documentation of dbcsr_t_contract).</p>
+For performance, the arguments map1_2d and map2_2d (controlling matrix representation of tensor) should be
+consistent with the the contraction to be performed (see documentation of dbcsr_t_contract).</p>
     
     <h4>Arguments</h4>
     
@@ -1189,7 +1189,7 @@ private function <a href='../proc/new_dbcsr_tas_dist_t.html'>new_dbcsr_tas_dist_
 
 
 <p>Create distribution object for one matrix dimension
- \return distribution object</p>
+\return distribution object</p>
     
     <h4>Arguments</h4>
     
@@ -1231,7 +1231,7 @@ private function <a href='../proc/new_dbcsr_tas_dist_t.html'>new_dbcsr_tas_dist_
   
   <td></td><td>::</td>
   <td><strong>map_blks</strong></td><td><p>tensor to matrix mapping object for blocks
- tensor to matrix mapping object for process grid</p></td>
+tensor to matrix mapping object for process grid</p></td>
   
 </tr>
 
@@ -1247,7 +1247,7 @@ private function <a href='../proc/new_dbcsr_tas_dist_t.html'>new_dbcsr_tas_dist_
   
   <td></td><td>::</td>
   <td><strong>map_grid</strong></td><td><p>tensor to matrix mapping object for blocks
- tensor to matrix mapping object for process grid</p></td>
+tensor to matrix mapping object for process grid</p></td>
   
 </tr>
 
@@ -1317,7 +1317,7 @@ private function <a href='../proc/new_dbcsr_tas_blk_size_t.html'>new_dbcsr_tas_b
 
 
 <p>Create block size object for one matrix dimension
- \return block size object</p>
+\return block size object</p>
     
     <h4>Arguments</h4>
     
@@ -2703,7 +2703,7 @@ private subroutine <a href='../proc/dbcsr_t_filter_c_sp.html'>dbcsr_t_filter_c_s
              
              
              <tr><td>private  function <strong><a href='../proc/new_dbcsr_tas_dist_t.html'>new_dbcsr_tas_dist_t</a></strong>(nd_dist, map_blks, map_grid, which_dim)</td><td><p>Create distribution object for one matrix dimension
- \return distribution object</p></td></tr>
+\return distribution object</p></td></tr>
              
         
        </tbody>
@@ -2791,7 +2791,7 @@ private subroutine <a href='../proc/dbcsr_t_filter_c_sp.html'>dbcsr_t_filter_c_s
              
              
              <tr><td>private  function <strong><a href='../proc/new_dbcsr_tas_blk_size_t.html'>new_dbcsr_tas_blk_size_t</a></strong>(blk_size, map_blks, which_dim)</td><td><p>Create block size object for one matrix dimension
- \return block size object</p></td></tr>
+\return block size object</p></td></tr>
              
         
        </tbody>
@@ -2840,7 +2840,7 @@ private function <a href='../proc/new_dbcsr_tas_dist_t.html'>new_dbcsr_tas_dist_
 
 
 <p>Create distribution object for one matrix dimension
- \return distribution object</p>
+\return distribution object</p>
     
     <h4>Arguments</h4>
     
@@ -2882,7 +2882,7 @@ private function <a href='../proc/new_dbcsr_tas_dist_t.html'>new_dbcsr_tas_dist_
   
   <td></td><td>::</td>
   <td><strong>map_blks</strong></td><td><p>tensor to matrix mapping object for blocks
- tensor to matrix mapping object for process grid</p></td>
+tensor to matrix mapping object for process grid</p></td>
   
 </tr>
 
@@ -2898,7 +2898,7 @@ private function <a href='../proc/new_dbcsr_tas_dist_t.html'>new_dbcsr_tas_dist_
   
   <td></td><td>::</td>
   <td><strong>map_grid</strong></td><td><p>tensor to matrix mapping object for blocks
- tensor to matrix mapping object for process grid</p></td>
+tensor to matrix mapping object for process grid</p></td>
   
 </tr>
 
@@ -3106,7 +3106,7 @@ private function <a href='../proc/new_dbcsr_tas_blk_size_t.html'>new_dbcsr_tas_b
 
 
 <p>Create block size object for one matrix dimension
- \return block size object</p>
+\return block size object</p>
     
     <h4>Arguments</h4>
     
@@ -3280,10 +3280,10 @@ public function <a href='../proc/dbcsr_t_nd_mp_comm.html'>dbcsr_t_nd_mp_comm</a>
 
 
 <p>Create a default nd process topology that is consistent with a given 2d topology.
- Purpose: a nd tensor defined on the returned process grid can be represented as a DBCSR
- matrix with the given 2d topology.
- This is needed to enable contraction of 2 tensors (must have the same 2d process grid).
- \return with nd cartesian grid</p>
+Purpose: a nd tensor defined on the returned process grid can be represented as a DBCSR
+matrix with the given 2d topology.
+This is needed to enable contraction of 2 tensors (must have the same 2d process grid).
+\return with nd cartesian grid</p>
     
     <h4>Arguments</h4>
     
@@ -3325,7 +3325,7 @@ public function <a href='../proc/dbcsr_t_nd_mp_comm.html'>dbcsr_t_nd_mp_comm</a>
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>map1_2d</strong></td><td><p>which nd-indices map to first matrix index and in which order
- which nd-indices map to second matrix index and in which order</p></td>
+which nd-indices map to second matrix index and in which order</p></td>
   
 </tr>
 
@@ -3341,7 +3341,7 @@ public function <a href='../proc/dbcsr_t_nd_mp_comm.html'>dbcsr_t_nd_mp_comm</a>
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>map2_2d</strong></td><td><p>which nd-indices map to first matrix index and in which order
- which nd-indices map to second matrix index and in which order</p></td>
+which nd-indices map to second matrix index and in which order</p></td>
   
 </tr>
 
@@ -3417,8 +3417,8 @@ public function <a href='../proc/dbcsr_t_nd_mp_comm.html'>dbcsr_t_nd_mp_comm</a>
   
   <td>DIMENSION(SIZE(map1_2d) + SIZE(map2_2d))</td><td>::</td>
   <td><strong>tdims</strong></td><td><p>tensor block dimensions. If present, process grid dimensions are created such that good
- load balancing is ensured even if some of the tensor dimensions are small (i.e. on the same order
- or smaller than nproc**(1/ndim) where ndim is the tensor rank)</p></td>
+load balancing is ensured even if some of the tensor dimensions are small (i.e. on the same order
+or smaller than nproc**(1/ndim) where ndim is the tensor rank)</p></td>
   
 </tr>
 
@@ -3491,7 +3491,7 @@ private pure function <a href='../proc/accept_pdims_loadbalancing.html'>accept_p
 
 
 <p>load balancing criterion whether to accept process grid dimension based on total number of
- cores and tensor dimension</p>
+cores and tensor dimension</p>
     
     <h4>Arguments</h4>
     
@@ -3605,7 +3605,7 @@ public function <a href='../proc/dbcsr_t_distribution.html'>dbcsr_t_distribution
 
 
 <p>get distribution from tensor
- \return distribution</p>
+\return distribution</p>
     
     <h4>Arguments</h4>
     
@@ -4534,9 +4534,9 @@ public pure function <a href='../proc/dbcsr_t_max_nblks_local.html'>dbcsr_t_max_
 
 
 <p>returns an estimate of maximum number of local blocks in tensor
- (irrespective of the actual number of currently present blocks)
- this estimate is based on the following assumption: tensor data is dense and
- load balancing is within a factor of 2</p>
+(irrespective of the actual number of currently present blocks)
+this estimate is based on the following assumption: tensor data is dense and
+load balancing is within a factor of 2</p>
     
     <h4>Arguments</h4>
     
@@ -4613,8 +4613,8 @@ public recursive subroutine <a href='../proc/dbcsr_t_mp_dims_create.html'>dbcsr_
 
 
 <p>Create process grid dimensions corresponding to one dimension of the matrix representation
- of a tensor, imposing that no process grid dimension is greater than the corresponding
- tensor dimension.</p>
+of a tensor, imposing that no process grid dimension is greater than the corresponding
+tensor dimension.</p>
     
     <h4>Arguments</h4>
     
@@ -5150,7 +5150,7 @@ private subroutine <a href='../proc/dbcsr_t_distribution_hold.html'>dbcsr_t_dist
 
 
 <p>reference counting for distribution (only needed for communicator handle that must be freed
- when no longer needed)</p>
+when no longer needed)</p>
     
     <h4>Arguments</h4>
     
@@ -5210,8 +5210,8 @@ private subroutine <a href='../proc/dbcsr_t_create_new.html'>dbcsr_t_create_new<
 
 
 <p>create a tensor.
- For performance, the arguments map1_2d and map2_2d (controlling matrix representation of tensor) should be
- consistent with the the contraction to be performed (see documentation of dbcsr_t_contract).</p>
+For performance, the arguments map1_2d and map2_2d (controlling matrix representation of tensor) should be
+consistent with the the contraction to be performed (see documentation of dbcsr_t_contract).</p>
     
     <h4>Arguments</h4>
     
@@ -5406,7 +5406,7 @@ public subroutine <a href='../proc/dbcsr_t_hold.html'>dbcsr_t_hold</a>(tensor)
 
 
 <p>reference counting for tensors (only needed for communicator handle that must be freed
- when no longer needed)</p>
+when no longer needed)</p>
     
     <h4>Arguments</h4>
     
@@ -6289,16 +6289,16 @@ public subroutine <a href='../proc/dbcsr_t_pgrid_create_expert.html'>dbcsr_t_pgr
 
 
 <p>Create an n-dimensional process grid.
- We can not use a n-dimensional MPI cartesian grid for tensors since the mapping between
- n-dim. and 2-dim. index allows for an arbitrary reordering of tensor index. Therefore we can not
- use n-dim. MPI Cartesian grid because it may not be consistent with the respective 2d grid.
- The 2d Cartesian MPI grid is the reference grid (since tensor data is stored as DBCSR matrix)
- and this routine creates an object that is a n-dim. interface to this grid.
- map1_2d and map2_2d don't need to be specified (correctly), grid may be redefined in dbcsr_t_distribution_new
- Note that pgrid is equivalent to a MPI cartesian grid only if map1_2d and map2_2d don't reorder indices
- (which is the case if [map1_2d, map2_2d] == [1, 2, ..., ndims]). Otherwise the mapping of grid
- coordinates to processes depends on the ordering of the indices and is not equivalent to a MPI
- cartesian grid.</p>
+We can not use a n-dimensional MPI cartesian grid for tensors since the mapping between
+n-dim. and 2-dim. index allows for an arbitrary reordering of tensor index. Therefore we can not
+use n-dim. MPI Cartesian grid because it may not be consistent with the respective 2d grid.
+The 2d Cartesian MPI grid is the reference grid (since tensor data is stored as DBCSR matrix)
+and this routine creates an object that is a n-dim. interface to this grid.
+map1_2d and map2_2d don't need to be specified (correctly), grid may be redefined in dbcsr_t_distribution_new
+Note that pgrid is equivalent to a MPI cartesian grid only if map1_2d and map2_2d don't reorder indices
+(which is the case if [map1_2d, map2_2d] == [1, 2, ..., ndims]). Otherwise the mapping of grid
+coordinates to processes depends on the ordering of the indices and is not equivalent to a MPI
+cartesian grid.</p>
     
     <h4>Arguments</h4>
     
@@ -6370,7 +6370,7 @@ public subroutine <a href='../proc/dbcsr_t_pgrid_create_expert.html'>dbcsr_t_pgr
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>map1_2d</strong></td><td><p>which nd-indices map to first matrix index and in which order
- which nd-indices map to first matrix index and in which order</p></td>
+which nd-indices map to first matrix index and in which order</p></td>
   
 </tr>
 
@@ -6386,7 +6386,7 @@ public subroutine <a href='../proc/dbcsr_t_pgrid_create_expert.html'>dbcsr_t_pgr
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>map2_2d</strong></td><td><p>which nd-indices map to first matrix index and in which order
- which nd-indices map to first matrix index and in which order</p></td>
+which nd-indices map to first matrix index and in which order</p></td>
   
 </tr>
 
@@ -6402,8 +6402,8 @@ public subroutine <a href='../proc/dbcsr_t_pgrid_create_expert.html'>dbcsr_t_pgr
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>tensor_dims</strong></td><td><p>tensor block dimensions. If present, process grid dimensions are created such that good
- load balancing is ensured even if some of the tensor dimensions are small (i.e. on the same order
- or smaller than nproc**(1/ndim) where ndim is the tensor rank)</p></td>
+load balancing is ensured even if some of the tensor dimensions are small (i.e. on the same order
+or smaller than nproc**(1/ndim) where ndim is the tensor rank)</p></td>
   
 </tr>
 
@@ -6419,7 +6419,7 @@ public subroutine <a href='../proc/dbcsr_t_pgrid_create_expert.html'>dbcsr_t_pgr
   
   <td></td><td>::</td>
   <td><strong>nsplit</strong></td><td><p>impose a constant split factor
- which matrix dimension to split</p></td>
+which matrix dimension to split</p></td>
   
 </tr>
 
@@ -6435,7 +6435,7 @@ public subroutine <a href='../proc/dbcsr_t_pgrid_create_expert.html'>dbcsr_t_pgr
   
   <td></td><td>::</td>
   <td><strong>dimsplit</strong></td><td><p>impose a constant split factor
- which matrix dimension to split</p></td>
+which matrix dimension to split</p></td>
   
 </tr>
 
@@ -6643,7 +6643,7 @@ private subroutine <a href='../proc/dbcsr_t_pgrid_remap.html'>dbcsr_t_pgrid_rema
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>map1_2d</strong></td><td><p>new mapping
- new mapping</p></td>
+new mapping</p></td>
   
 </tr>
 
@@ -6659,7 +6659,7 @@ private subroutine <a href='../proc/dbcsr_t_pgrid_remap.html'>dbcsr_t_pgrid_rema
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>map2_2d</strong></td><td><p>new mapping
- new mapping</p></td>
+new mapping</p></td>
   
 </tr>
 
@@ -8172,7 +8172,7 @@ public subroutine <a href='../proc/dbcsr_t_finalize.html'>dbcsr_t_finalize</a>(t
 
 
 <p>Finalize tensor, as dbcsr_finalize. This should be taken care of internally in dbcsr tensors,
- there should not be any need to call this routine outside of dbcsr tensors.</p>
+there should not be any need to call this routine outside of dbcsr tensors.</p>
     
     <h4>Arguments</h4>
     

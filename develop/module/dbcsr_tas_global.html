@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -326,10 +326,10 @@
     
     <div class="col-md-9" id='text'>
     <p>Global data (distribution and block sizes) for tall-and-skinny matrices
- For very sparse matrices with one very large dimension, storing array data of the same size
- as the matrix dimensions may require too much memory and we need to compute them on the fly for a
- given row or column. Hence global array data such as distribution and block sizes are specified as
- function objects, leaving up to the caller how to efficiently store global data.</p>
+For very sparse matrices with one very large dimension, storing array data of the same size
+as the matrix dimensions may require too much memory and we need to compute them on the fly for a
+given row or column. Hence global array data such as distribution and block sizes are specified as
+function objects, leaving up to the caller how to efficiently store global data.</p>
       <br>
     
   
@@ -2928,9 +2928,9 @@ public function <a href='../proc/dbcsr_tas_dist_arb_default.html'>dbcsr_tas_dist
 
 
 <p>Distribution that is more or less cyclic (round robin) and load balanced with different
- weights for each element.
- This is used for creating adhoc distributions whenever matrices are mapped to new grids.
- Only for small dimensions since distribution is created as an array</p>
+weights for each element.
+This is used for creating adhoc distributions whenever matrices are mapped to new grids.
+Only for small dimensions since distribution is created as an array</p>
     
     <h4>Arguments</h4>
     
@@ -3411,8 +3411,8 @@ private subroutine <a href='../proc/distribute_lpt_random.html'>distribute_lpt_r
 
 
 <p>distribute <code>nel</code> elements with weights <code>weights</code> over <code>nbin</code> bins.
- load balanced distribution is obtained by using LPT algorithm together with randomization over equivalent bins
- (i.e. randomization over all bins with the smallest accumulated weight)</p>
+load balanced distribution is obtained by using LPT algorithm together with randomization over equivalent bins
+(i.e. randomization over all bins with the smallest accumulated weight)</p>
     
     <h4>Arguments</h4>
     

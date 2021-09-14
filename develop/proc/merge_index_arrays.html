@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -216,12 +216,12 @@ public subroutine merge_index_arrays(new_row_i, new_col_i, new_blk_p, new_size, 
     
     <p>Merges two indices</p>
 <p>Added sizes
- added_size_offset and added_sizes can be optionally
- specified. This is meant for cases where the added blocks may
- be duplicates of existing blocks. In this way it is possible
- to recalculate new block pointers to avoid wasted space.
- </p><div class="alert alert-info" role="alert"><h4>Note</h4><p>Used in local multiply
- Assumes they are both pre-sorted</p></div>
+added_size_offset and added_sizes can be optionally
+specified. This is meant for cases where the added blocks may
+be duplicates of existing blocks. In this way it is possible
+to recalculate new block pointers to avoid wasted space.
+</p><div class="alert alert-info" role="alert"><h4>Note</h4><p>Used in local multiply
+Assumes they are both pre-sorted</p></div>
     
 
     <h3>Arguments</h3>
@@ -248,8 +248,8 @@ public subroutine merge_index_arrays(new_row_i, new_col_i, new_blk_p, new_size, 
   
   <td>DIMENSION(new_size)</td><td>::</td>
   <td><strong>new_row_i</strong></td><td><p>merged result
- merged result
- merged result</p></td>
+merged result
+merged result</p></td>
   
 </tr>
 
@@ -265,8 +265,8 @@ public subroutine merge_index_arrays(new_row_i, new_col_i, new_blk_p, new_size, 
   
   <td>DIMENSION(new_size)</td><td>::</td>
   <td><strong>new_col_i</strong></td><td><p>merged result
- merged result
- merged result</p></td>
+merged result
+merged result</p></td>
   
 </tr>
 
@@ -282,8 +282,8 @@ public subroutine merge_index_arrays(new_row_i, new_col_i, new_blk_p, new_size, 
   
   <td>DIMENSION(new_size)</td><td>::</td>
   <td><strong>new_blk_p</strong></td><td><p>merged result
- merged result
- merged result</p></td>
+merged result
+merged result</p></td>
   
 </tr>
 
@@ -314,8 +314,8 @@ public subroutine merge_index_arrays(new_row_i, new_col_i, new_blk_p, new_size, 
   
   <td>DIMENSION(old_size)</td><td>::</td>
   <td><strong>old_row_i</strong></td><td><p>current index
- current index
- current index</p></td>
+current index
+current index</p></td>
   
 </tr>
 
@@ -331,8 +331,8 @@ public subroutine merge_index_arrays(new_row_i, new_col_i, new_blk_p, new_size, 
   
   <td>DIMENSION(old_size)</td><td>::</td>
   <td><strong>old_col_i</strong></td><td><p>current index
- current index
- current index</p></td>
+current index
+current index</p></td>
   
 </tr>
 
@@ -348,8 +348,8 @@ public subroutine merge_index_arrays(new_row_i, new_col_i, new_blk_p, new_size, 
   
   <td>DIMENSION(old_size)</td><td>::</td>
   <td><strong>old_blk_p</strong></td><td><p>current index
- current index
- current index</p></td>
+current index
+current index</p></td>
   
 </tr>
 
@@ -470,7 +470,7 @@ public subroutine merge_index_arrays(new_row_i, new_col_i, new_blk_p, new_size, 
   
   <td></td><td>::</td>
   <td><strong>added_size</strong></td><td><p>counts number of sizes of added blocks
- actual number of new elements</p></td>
+actual number of new elements</p></td>
   
 </tr>
 
@@ -486,7 +486,7 @@ public subroutine merge_index_arrays(new_row_i, new_col_i, new_blk_p, new_size, 
   
   <td></td><td>::</td>
   <td><strong>added_nblks</strong></td><td><p>counts number of sizes of added blocks
- actual number of new elements</p></td>
+actual number of new elements</p></td>
   
 </tr>
 

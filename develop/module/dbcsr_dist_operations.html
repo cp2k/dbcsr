@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -274,11 +274,11 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-    
     <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
     
-    <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    
+    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
     <li><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
     
@@ -288,7 +288,7 @@
     
     <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
     
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
     
   </ul>
       </li>
@@ -522,7 +522,7 @@ public elemental function <a href='../proc/checker_tr.html'>checker_tr</a>(row, 
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>The absolute matrix row.
- The absolute matrix column.</p></td>
+The absolute matrix column.</p></td>
   
 </tr>
 
@@ -538,7 +538,7 @@ public elemental function <a href='../proc/checker_tr.html'>checker_tr</a>(row, 
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>The absolute matrix row.
- The absolute matrix column.</p></td>
+The absolute matrix column.</p></td>
   
 </tr>
 
@@ -581,7 +581,7 @@ public pure function <a href='../proc/checker_square_proc.html'>checker_square_p
 
 
 <p>Determines the home process for a given logical matrix element.
- </p><a href="../proc/checker_square_proc.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+</p><a href="../proc/checker_square_proc.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -608,7 +608,7 @@ public pure function <a href='../proc/checker_square_proc.html'>checker_square_p
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>logical row
- logical column</p></td>
+logical column</p></td>
   
 </tr>
 
@@ -624,7 +624,7 @@ public pure function <a href='../proc/checker_square_proc.html'>checker_square_p
   
   <td></td><td>::</td>
   <td><strong>col</strong></td><td><p>logical row
- logical column</p></td>
+logical column</p></td>
   
 </tr>
 
@@ -655,7 +655,7 @@ public pure function <a href='../proc/checker_square_proc.html'>checker_square_p
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>row_dist</strong></td><td><p>row distribution
- column distribution</p></td>
+column distribution</p></td>
   
 </tr>
 
@@ -671,7 +671,7 @@ public pure function <a href='../proc/checker_square_proc.html'>checker_square_p
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>col_dist</strong></td><td><p>row distribution
- column distribution</p></td>
+column distribution</p></td>
   
 </tr>
 
@@ -714,7 +714,7 @@ private pure function <a href='../proc/mostly_non_transposed.html'>mostly_non_tr
 
 
 <p>Determines whether most blocks are stored transposed in normally.
- </p><a href="../proc/mostly_non_transposed.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+</p><a href="../proc/mostly_non_transposed.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -791,8 +791,8 @@ public pure subroutine <a href='../proc/dbcsr_get_stored_coordinates.html'>dbcsr
 
 
 <p>Sets the correct source matrix, row, column and possible data
- transposition for a given matrix and matrix logical row and
- column.</p>
+transposition for a given matrix and matrix logical row and
+column.</p>
     
     <h4>Arguments</h4>
     
@@ -834,7 +834,7 @@ public pure subroutine <a href='../proc/dbcsr_get_stored_coordinates.html'>dbcsr
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>input is logical row
- input is logical column</p></td>
+input is logical column</p></td>
   
 </tr>
 
@@ -850,7 +850,7 @@ public pure subroutine <a href='../proc/dbcsr_get_stored_coordinates.html'>dbcsr
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>input is logical row
- input is logical column</p></td>
+input is logical column</p></td>
   
 </tr>
 
@@ -1059,7 +1059,7 @@ public pure subroutine <a href='../proc/dbcsr_get_block_index.html'>dbcsr_get_bl
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>logical row
- logical column</p></td>
+logical column</p></td>
   
 </tr>
 
@@ -1075,7 +1075,7 @@ public pure subroutine <a href='../proc/dbcsr_get_block_index.html'>dbcsr_get_bl
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>logical row
- logical column</p></td>
+logical column</p></td>
   
 </tr>
 
@@ -1091,7 +1091,7 @@ public pure subroutine <a href='../proc/dbcsr_get_block_index.html'>dbcsr_get_bl
   
   <td></td><td>::</td>
   <td><strong>stored_row</strong></td><td><p>row where block is actually stored
- column where block is actually stored</p></td>
+column where block is actually stored</p></td>
   
 </tr>
 
@@ -1107,7 +1107,7 @@ public pure subroutine <a href='../proc/dbcsr_get_block_index.html'>dbcsr_get_bl
   
   <td></td><td>::</td>
   <td><strong>stored_column</strong></td><td><p>row where block is actually stored
- column where block is actually stored</p></td>
+column where block is actually stored</p></td>
   
 </tr>
 
@@ -1123,7 +1123,7 @@ public pure subroutine <a href='../proc/dbcsr_get_block_index.html'>dbcsr_get_bl
   
   <td></td><td>::</td>
   <td><strong>transpose</strong></td><td><p>whether the data must be transposed
- whether the block was found</p></td>
+whether the block was found</p></td>
   
 </tr>
 
@@ -1139,7 +1139,7 @@ public pure subroutine <a href='../proc/dbcsr_get_block_index.html'>dbcsr_get_bl
   
   <td></td><td>::</td>
   <td><strong>found</strong></td><td><p>whether the data must be transposed
- whether the block was found</p></td>
+whether the block was found</p></td>
   
 </tr>
 
@@ -1203,7 +1203,7 @@ public pure subroutine <a href='../proc/dbcsr_get_stored_block_info.html'>dbcsr_
 
 
 <p>Returns the index to a queried block, given a real (stored) row and
- column</p>
+column</p>
     
     <h4>Arguments</h4>
     
@@ -1245,7 +1245,7 @@ public pure subroutine <a href='../proc/dbcsr_get_stored_block_info.html'>dbcsr_
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>input is logical row, output is lookup row
- input is logical column, output is lookup column</p></td>
+input is logical column, output is lookup column</p></td>
   
 </tr>
 
@@ -1261,7 +1261,7 @@ public pure subroutine <a href='../proc/dbcsr_get_stored_block_info.html'>dbcsr_
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>input is logical row, output is lookup row
- input is logical column, output is lookup column</p></td>
+input is logical column, output is lookup column</p></td>
   
 </tr>
 
@@ -1544,7 +1544,7 @@ public subroutine <a href='../proc/rebin_distribution.html'>rebin_distribution</
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>new_bins</strong></td><td><p>new real distribution
- new image distribution</p></td>
+new image distribution</p></td>
   
 </tr>
 
@@ -1560,7 +1560,7 @@ public subroutine <a href='../proc/rebin_distribution.html'>rebin_distribution</
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>images</strong></td><td><p>new real distribution
- new image distribution</p></td>
+new image distribution</p></td>
   
 </tr>
 
@@ -1591,8 +1591,8 @@ public subroutine <a href='../proc/rebin_distribution.html'>rebin_distribution</
   
   <td></td><td>::</td>
   <td><strong>nbins</strong></td><td><p>number of bins in the new real distribution
- multiplicity
- number of images in the new distribution</p></td>
+multiplicity
+number of images in the new distribution</p></td>
   
 </tr>
 
@@ -1608,8 +1608,8 @@ public subroutine <a href='../proc/rebin_distribution.html'>rebin_distribution</
   
   <td></td><td>::</td>
   <td><strong>multiplicity</strong></td><td><p>number of bins in the new real distribution
- multiplicity
- number of images in the new distribution</p></td>
+multiplicity
+number of images in the new distribution</p></td>
   
 </tr>
 
@@ -1625,8 +1625,8 @@ public subroutine <a href='../proc/rebin_distribution.html'>rebin_distribution</
   
   <td></td><td>::</td>
   <td><strong>nimages</strong></td><td><p>number of bins in the new real distribution
- multiplicity
- number of images in the new distribution</p></td>
+multiplicity
+number of images in the new distribution</p></td>
   
 </tr>
 
@@ -1731,7 +1731,7 @@ public subroutine <a href='../proc/dbcsr_reblocking_targets.html'>dbcsr_reblocki
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>src_sizes</strong></td><td><p>sizes of source blocks
- sizes of target blocks</p></td>
+sizes of target blocks</p></td>
   
 </tr>
 
@@ -1747,7 +1747,7 @@ public subroutine <a href='../proc/dbcsr_reblocking_targets.html'>dbcsr_reblocki
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>dst_sizes</strong></td><td><p>sizes of source blocks
- sizes of target blocks</p></td>
+sizes of target blocks</p></td>
   
 </tr>
 
@@ -1781,9 +1781,9 @@ public pure subroutine <a href='../proc/dbcsr_find_column.html'>dbcsr_find_colum
 
 
 <p>Finds the block that has the given column.
- If the block having the queried column is found, the blk parameter
- is set to this block number and the found parameter is true.
- Otherwise found is false and the block number is invalid.</p><a href="../proc/dbcsr_find_column.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+If the block having the queried column is found, the blk parameter
+is set to this block number and the found parameter is true.
+Otherwise found is false and the block number is invalid.</p><a href="../proc/dbcsr_find_column.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -1810,8 +1810,8 @@ public pure subroutine <a href='../proc/dbcsr_find_column.html'>dbcsr_find_colum
   
   <td></td><td>::</td>
   <td><strong>find_col</strong></td><td><p>column to find
- first block number in row
- last block number in row</p></td>
+first block number in row
+last block number in row</p></td>
   
 </tr>
 
@@ -1827,8 +1827,8 @@ public pure subroutine <a href='../proc/dbcsr_find_column.html'>dbcsr_find_colum
   
   <td></td><td>::</td>
   <td><strong>frst_blk</strong></td><td><p>column to find
- first block number in row
- last block number in row</p></td>
+first block number in row
+last block number in row</p></td>
   
 </tr>
 
@@ -1844,8 +1844,8 @@ public pure subroutine <a href='../proc/dbcsr_find_column.html'>dbcsr_find_colum
   
   <td></td><td>::</td>
   <td><strong>last_blk</strong></td><td><p>column to find
- first block number in row
- last block number in row</p></td>
+first block number in row
+last block number in row</p></td>
   
 </tr>
 
@@ -1861,7 +1861,7 @@ public pure subroutine <a href='../proc/dbcsr_find_column.html'>dbcsr_find_colum
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>col_i</strong></td><td><p>col indices
- block pointers</p></td>
+block pointers</p></td>
   
 </tr>
 
@@ -1877,7 +1877,7 @@ public pure subroutine <a href='../proc/dbcsr_find_column.html'>dbcsr_find_colum
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>blk_p</strong></td><td><p>col indices
- block pointers</p></td>
+block pointers</p></td>
   
 </tr>
 
@@ -1941,10 +1941,10 @@ public subroutine <a href='../proc/find_all_local_elements.html'>find_all_local_
 
 
 <p>Finds the local virtual elements
- All elements are mapped at once.  Therefore an entry in the
- resulting array can be used as a lookup index for any of the local
- element arrays.  The distribution itself tells into which array to
- look.</p>
+All elements are mapped at once.  Therefore an entry in the
+resulting array can be used as a lookup index for any of the local
+element arrays.  The distribution itself tells into which array to
+look.</p>
     
     <h4>Arguments</h4>
     
@@ -2253,7 +2253,7 @@ public subroutine <a href='../proc/dbcsr_dist_bin.html'>dbcsr_dist_bin</a>(bin_d
   
   <td></td><td>::</td>
   <td><strong>nelements</strong></td><td><p>Number of elements
- Number of bins</p></td>
+Number of bins</p></td>
   
 </tr>
 
@@ -2269,7 +2269,7 @@ public subroutine <a href='../proc/dbcsr_dist_bin.html'>dbcsr_dist_bin</a>(bin_d
   
   <td></td><td>::</td>
   <td><strong>nbins</strong></td><td><p>Number of elements
- Number of bins</p></td>
+Number of bins</p></td>
   
 </tr>
 

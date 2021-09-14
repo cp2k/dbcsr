@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -215,24 +215,24 @@ public subroutine dbcsr_function_of_elements(matrix_a, func, a0, a1, a2)
 
     
     <p>Computes various functions (defined by func) of matrix elements
- </p><div class="alert alert-info" role="alert"><h4>Note</h4><p>sign(A,B) returns the value of A with the sign of B
- dbcsr_func_inverse:   1/(a1<em>x+a0)
- fails if the inversion produces infinite numbers
- dbcsr_func_inverse_special: 1/(x+sign(a0,x))
- safe inverse: if a0&gt;0 then the denominator is never zero
- dbcsr_func_tanh:    tanh(a1</em>x+a0)
- dbcsr_func_dtanh:   d(tanh(a1<em>x+a0)) / dx
- dbcsr_func_ddtanh:  d2(tanh(a1</em>x+a0)) / dx2
- dbcsr_func_artanh:  artanh(a1<em>x+a0)=ln[(1+(a1</em>x+a0))/(1-(a1<em>x+a0))]/2
- fails if |a1</em>x+a0| &gt;= 1
- dbcsr_func_sread_from_zero:  if |x|&lt;|a0| then x=sign(a0,x)
- dbcsr_func_truncate:  if |x|&gt;|a0| then x=sign(a0,x)
- dbcsr_func_sin:     sin(a1<em>x+a0)
- dbcsr_func_cos:     cos(a1</em>x+a0)
- dbcsr_func_dsin:    d(sin(a1<em>x+a0)) / dx = a1</em>cos(a1<em>x+a0)
- dbcsr_func_ddsin:   d2(sin(a1</em>x+a0)) / dx2 = -a1<em>a1</em>sin(a1<em>x+a0)
- dbcsr_func_asin:    asin(a1</em>x+a0)
- fails if |a1*x+a0| &gt; 1</p></div>
+</p><div class="alert alert-info" role="alert"><h4>Note</h4><p>sign(A,B) returns the value of A with the sign of B
+dbcsr_func_inverse:   1/(a1<em>x+a0)
+fails if the inversion produces infinite numbers
+dbcsr_func_inverse_special: 1/(x+sign(a0,x))
+safe inverse: if a0&gt;0 then the denominator is never zero
+dbcsr_func_tanh:    tanh(a1</em>x+a0)
+dbcsr_func_dtanh:   d(tanh(a1<em>x+a0)) / dx
+dbcsr_func_ddtanh:  d2(tanh(a1</em>x+a0)) / dx2
+dbcsr_func_artanh:  artanh(a1<em>x+a0)=ln[(1+(a1</em>x+a0))/(1-(a1<em>x+a0))]/2
+fails if |a1</em>x+a0| &gt;= 1
+dbcsr_func_sread_from_zero:  if |x|&lt;|a0| then x=sign(a0,x)
+dbcsr_func_truncate:  if |x|&gt;|a0| then x=sign(a0,x)
+dbcsr_func_sin:     sin(a1<em>x+a0)
+dbcsr_func_cos:     cos(a1</em>x+a0)
+dbcsr_func_dsin:    d(sin(a1<em>x+a0)) / dx = a1</em>cos(a1<em>x+a0)
+dbcsr_func_ddsin:   d2(sin(a1</em>x+a0)) / dx2 = -a1<em>a1</em>sin(a1<em>x+a0)
+dbcsr_func_asin:    asin(a1</em>x+a0)
+fails if |a1*x+a0| &gt; 1</p></div>
     
 
     <h3>Arguments</h3>

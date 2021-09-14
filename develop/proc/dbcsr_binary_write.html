@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -215,21 +215,21 @@ public subroutine dbcsr_binary_write(matrix, filepath)
 
     
     <p>Writes a DBCSR matrix in a file
- file's header consists of 3 sub-headers:
- sub-header1 contains:
- 1 string: (of length version_len) the current version of this routine,
- 1 string: (of length default_string_length) matrix_name,
- 1 character: matrix_type,
- 4 integers: numnodes, data_type, nblkrows_total, nblkcols_total,
- 2 vectors:  row_blk_size (length = nblkrows_total),
- col_blk_size (length = nblkcols_total),
- sub-header2 contains:
- 2 integers: nblks, data_area_size,
- sub-header3 contains:
- 3 vectors:  row_p (length = nblkrows_total+1),
- col_i (length = nblks),
- blk_p (length = nblks);
- and the file's body contains the block data</p>
+file's header consists of 3 sub-headers:
+sub-header1 contains:
+1 string: (of length version_len) the current version of this routine,
+1 string: (of length default_string_length) matrix_name,
+1 character: matrix_type,
+4 integers: numnodes, data_type, nblkrows_total, nblkcols_total,
+2 vectors:  row_blk_size (length = nblkrows_total),
+col_blk_size (length = nblkcols_total),
+sub-header2 contains:
+2 integers: nblks, data_area_size,
+sub-header3 contains:
+3 vectors:  row_p (length = nblkrows_total+1),
+col_i (length = nblks),
+blk_p (length = nblks);
+and the file's body contains the block data</p>
     
 
     <h3>Arguments</h3>

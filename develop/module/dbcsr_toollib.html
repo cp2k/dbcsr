@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -274,9 +274,9 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-    
     <li><a href='../module/dbcsr_array_sort.html'>dbcsr_array_sort</a></li>
+    
+    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
     <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
@@ -487,7 +487,7 @@ private elemental subroutine <a href='../proc/iswap.html'>iswap</a>(a, b)
   
   <td></td><td>::</td>
   <td><strong>a</strong></td><td><p>Integers to swap
- Integers to swap</p></td>
+Integers to swap</p></td>
   
 </tr>
 
@@ -503,7 +503,7 @@ private elemental subroutine <a href='../proc/iswap.html'>iswap</a>(a, b)
   
   <td></td><td>::</td>
   <td><strong>b</strong></td><td><p>Integers to swap
- Integers to swap</p></td>
+Integers to swap</p></td>
   
 </tr>
 
@@ -560,7 +560,7 @@ private elemental subroutine <a href='../proc/bswap.html'>bswap</a>(a, b)
   
   <td></td><td>::</td>
   <td><strong>a</strong></td><td><p>Logicals to swap
- Logicals to swap</p></td>
+Logicals to swap</p></td>
   
 </tr>
 
@@ -576,7 +576,7 @@ private elemental subroutine <a href='../proc/bswap.html'>bswap</a>(a, b)
   
   <td></td><td>::</td>
   <td><strong>b</strong></td><td><p>Logicals to swap
- Logicals to swap</p></td>
+Logicals to swap</p></td>
   
 </tr>
 
@@ -622,7 +622,7 @@ public subroutine <a href='../proc/dbcsr_1d_i4_sort.html'>dbcsr_1d_i4_sort</a>(a
 
 
 <p>Sorts an array inplace using a combination of merge- and bubble-sort.
- It also returns the indices, which the elements had before the sort.</p>
+It also returns the indices, which the elements had before the sort.</p>
     
     <h4>Arguments</h4>
     
@@ -709,7 +709,7 @@ public subroutine <a href='../proc/dbcsr_1d_i8_sort.html'>dbcsr_1d_i8_sort</a>(a
 
 
 <p>Sorts an array inplace using a combination of merge- and bubble-sort.
- It also returns the indices, which the elements had before the sort.</p>
+It also returns the indices, which the elements had before the sort.</p>
     
     <h4>Arguments</h4>
     
@@ -796,7 +796,7 @@ public subroutine <a href='../proc/dbcsr_1d_s_sort.html'>dbcsr_1d_s_sort</a>(arr
 
 
 <p>Sorts an array inplace using a combination of merge- and bubble-sort.
- It also returns the indices, which the elements had before the sort.</p>
+It also returns the indices, which the elements had before the sort.</p>
     
     <h4>Arguments</h4>
     
@@ -883,7 +883,7 @@ public subroutine <a href='../proc/dbcsr_1d_d_sort.html'>dbcsr_1d_d_sort</a>(arr
 
 
 <p>Sorts an array inplace using a combination of merge- and bubble-sort.
- It also returns the indices, which the elements had before the sort.</p>
+It also returns the indices, which the elements had before the sort.</p>
     
     <h4>Arguments</h4>
     
@@ -1213,7 +1213,7 @@ public function <a href='../proc/joaat_hash.html'>joaat_hash</a>(key) result(has
 
 
 <p>generates the hash of a string and the index in the table
- </p><a href="../proc/joaat_hash.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+</p><a href="../proc/joaat_hash.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -1496,7 +1496,7 @@ private elemental subroutine <a href='../proc/iswap.html'>iswap</a>(a, b)
   
   <td></td><td>::</td>
   <td><strong>a</strong></td><td><p>Integers to swap
- Integers to swap</p></td>
+Integers to swap</p></td>
   
 </tr>
 
@@ -1512,7 +1512,7 @@ private elemental subroutine <a href='../proc/iswap.html'>iswap</a>(a, b)
   
   <td></td><td>::</td>
   <td><strong>b</strong></td><td><p>Integers to swap
- Integers to swap</p></td>
+Integers to swap</p></td>
   
 </tr>
 
@@ -1572,7 +1572,7 @@ private elemental subroutine <a href='../proc/bswap.html'>bswap</a>(a, b)
   
   <td></td><td>::</td>
   <td><strong>a</strong></td><td><p>Logicals to swap
- Logicals to swap</p></td>
+Logicals to swap</p></td>
   
 </tr>
 
@@ -1588,7 +1588,7 @@ private elemental subroutine <a href='../proc/bswap.html'>bswap</a>(a, b)
   
   <td></td><td>::</td>
   <td><strong>b</strong></td><td><p>Logicals to swap
- Logicals to swap</p></td>
+Logicals to swap</p></td>
   
 </tr>
 
@@ -1663,7 +1663,7 @@ public subroutine <a href='../proc/dbcsr_unpack_i8_2i4.html'>dbcsr_unpack_i8_2i4
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>array_upper</strong></td><td><p>array to fill with the upper bytes of the merged values
- array to fill with the lower bytes of the merged values</p></td>
+array to fill with the lower bytes of the merged values</p></td>
   
 </tr>
 
@@ -1679,7 +1679,7 @@ public subroutine <a href='../proc/dbcsr_unpack_i8_2i4.html'>dbcsr_unpack_i8_2i4
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>array_lower</strong></td><td><p>array to fill with the upper bytes of the merged values
- array to fill with the lower bytes of the merged values</p></td>
+array to fill with the lower bytes of the merged values</p></td>
   
 </tr>
 

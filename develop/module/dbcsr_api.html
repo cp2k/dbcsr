@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -616,11 +616,11 @@
     
     <div class="col-md-9" id='text'>
     <p>This is the start of a dbcsr_api, all publicly needed functions
- are exported here. The others remain private to the library.
- Currently, this is the CP2K used set.
- Ultimately, a reduced subset and well defined api will remain,
- possibly grouped in to standard and expert api.
- Currently, this is work in progress.</p>
+are exported here. The others remain private to the library.
+Currently, this is the CP2K used set.
+Ultimately, a reduced subset and well defined api will remain,
+possibly grouped in to standard and expert api.
+Currently, this is work in progress.</p>
       <br>
     
   
@@ -633,21 +633,35 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
+    <li><a href='../module/dbcsr_string_utilities.html'>dbcsr_string_utilities</a></li>
+    
+    <li><a href='../module/dbcsr_lib.html'>dbcsr_lib</a></li>
+    
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
-    <li><a href='../module/dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
+    <li><a href='../module/dbcsr_tests.html'>dbcsr_tests</a></li>
+    
+    <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
+    
+    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+    
+    <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
+    
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
     <li><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
     
-    <li><a href='../module/dbcsr_multiply_api.html'>dbcsr_multiply_api</a></li>
+    <li><a href='../module/dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
+    
+    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
     
     <li><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
     
     <li><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
     
-    <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
-    
     <li><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
+    
+    <li><a href='../module/dbcsr_io.html'>dbcsr_io</a></li>
     
     <li><a href='../module/dbcsr_csr_conversions.html'>dbcsr_csr_conversions</a></li>
     
@@ -659,27 +673,13 @@
     
     <li><a href='../module/dbcsr_test_methods.html'>dbcsr_test_methods</a></li>
     
-    <li><a href='../module/dbcsr_tests.html'>dbcsr_tests</a></li>
-    
-    <li><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></li>
-    
     <li><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></li>
     
-    <li><a href='../module/dbcsr_lib.html'>dbcsr_lib</a></li>
-    
-    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
-    
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-    
-    <li><a href='../module/dbcsr_string_utilities.html'>dbcsr_string_utilities</a></li>
-    
-    <li><a href='../module/dbcsr_io.html'>dbcsr_io</a></li>
-    
-    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
+    <li><a href='../module/dbcsr_multiply_api.html'>dbcsr_multiply_api</a></li>
     
     <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
     
-    <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
+    <li><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></li>
     
   </ul>
       </li>
@@ -8850,8 +8850,8 @@ private subroutine <a href='../proc/dbcsr_iterator_next_block_index.html'>dbcsr_
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>row of the data block
- column of the data block
- block number</p></td>
+column of the data block
+block number</p></td>
   
 </tr>
 
@@ -8867,8 +8867,8 @@ private subroutine <a href='../proc/dbcsr_iterator_next_block_index.html'>dbcsr_
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>row of the data block
- column of the data block
- block number</p></td>
+column of the data block
+block number</p></td>
   
 </tr>
 
@@ -8884,8 +8884,8 @@ private subroutine <a href='../proc/dbcsr_iterator_next_block_index.html'>dbcsr_
   
   <td></td><td>::</td>
   <td><strong>blk</strong></td><td><p>row of the data block
- column of the data block
- block number</p></td>
+column of the data block
+block number</p></td>
   
 </tr>
 
@@ -12302,7 +12302,7 @@ public subroutine <a href='../proc/csr_create_new.html'>csr_create_new</a>(csr_m
   
   <td></td><td>::</td>
   <td><strong>nrows_total</strong></td><td><p>total number of rows
- total number of columns</p></td>
+total number of columns</p></td>
   
 </tr>
 
@@ -12318,7 +12318,7 @@ public subroutine <a href='../proc/csr_create_new.html'>csr_create_new</a>(csr_m
   
   <td></td><td>::</td>
   <td><strong>ncols_total</strong></td><td><p>total number of rows
- total number of columns</p></td>
+total number of columns</p></td>
   
 </tr>
 
@@ -12349,7 +12349,7 @@ public subroutine <a href='../proc/csr_create_new.html'>csr_create_new</a>(csr_m
   
   <td></td><td>::</td>
   <td><strong>nze_local</strong></td><td><p>local number of non-zero elements
- local number of rows</p></td>
+local number of rows</p></td>
   
 </tr>
 
@@ -12365,7 +12365,7 @@ public subroutine <a href='../proc/csr_create_new.html'>csr_create_new</a>(csr_m
   
   <td></td><td>::</td>
   <td><strong>nrows_local</strong></td><td><p>local number of non-zero elements
- local number of rows</p></td>
+local number of rows</p></td>
   
 </tr>
 
@@ -12381,7 +12381,7 @@ public subroutine <a href='../proc/csr_create_new.html'>csr_create_new</a>(csr_m
   
   <td></td><td>::</td>
   <td><strong>mp_group</strong></td><td><p>local number of non-zero elements
- local number of rows</p></td>
+local number of rows</p></td>
   
 </tr>
 
@@ -12427,7 +12427,7 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
 
 
 <p>Create a new CSR matrix and allocate all internal data using
- an existing CSR matrix. Copies the indices but no actual matrix data.</p>
+an existing CSR matrix. Copies the indices but no actual matrix data.</p>
     
     <h4>Arguments</h4>
     
@@ -16822,8 +16822,8 @@ private subroutine <a href='../proc/dbcsr_iterator_next_block_index.html'>dbcsr_
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>row of the data block
- column of the data block
- block number</p></td>
+column of the data block
+block number</p></td>
   
 </tr>
 
@@ -16839,8 +16839,8 @@ private subroutine <a href='../proc/dbcsr_iterator_next_block_index.html'>dbcsr_
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>row of the data block
- column of the data block
- block number</p></td>
+column of the data block
+block number</p></td>
   
 </tr>
 
@@ -16856,8 +16856,8 @@ private subroutine <a href='../proc/dbcsr_iterator_next_block_index.html'>dbcsr_
   
   <td></td><td>::</td>
   <td><strong>blk</strong></td><td><p>row of the data block
- column of the data block
- block number</p></td>
+column of the data block
+block number</p></td>
   
 </tr>
 
@@ -20574,7 +20574,7 @@ public subroutine <a href='../proc/dbcsr_to_csr_filter.html'>dbcsr_to_csr_filter
 
 
 <p>Apply filtering threshold eps to DBCSR blocks in order to improve
- CSR sparsity (currently only used for testing purposes)</p>
+CSR sparsity (currently only used for testing purposes)</p>
     
     <h4>Arguments</h4>
     
@@ -20723,9 +20723,9 @@ public subroutine <a href='../proc/dbcsr_add_block_node.html'>dbcsr_add_block_no
 
 
 <p>Emulation of sparse_matrix_types/add_block_node mapped
- to add_real_matrix_block.... should not be used any longer
- It adds a block to the dbcsr matrix and returns a rank-2 pointer to the
- block. Currently it only and always uses the mutable data.</p>
+to add_real_matrix_block.... should not be used any longer
+It adds a block to the dbcsr matrix and returns a rank-2 pointer to the
+block. Currently it only and always uses the mutable data.</p>
     
     <h4>Arguments</h4>
     
@@ -20767,7 +20767,7 @@ public subroutine <a href='../proc/dbcsr_add_block_node.html'>dbcsr_add_block_no
   
   <td></td><td>::</td>
   <td><strong>block_row</strong></td><td><p>the row
- the column</p></td>
+the column</p></td>
   
 </tr>
 
@@ -20783,7 +20783,7 @@ public subroutine <a href='../proc/dbcsr_add_block_node.html'>dbcsr_add_block_no
   
   <td></td><td>::</td>
   <td><strong>block_col</strong></td><td><p>the row
- the column</p></td>
+the column</p></td>
   
 </tr>
 

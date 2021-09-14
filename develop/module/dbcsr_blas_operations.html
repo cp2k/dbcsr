@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -232,11 +232,11 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
     
   </ul>
       </li>
@@ -376,10 +376,10 @@ public subroutine <a href='../proc/set_larnv_seed.html'>set_larnv_seed</a>(irow,
 
 
 <p>generate a seed respecting the lapack constraints,
- - values between 0..4095 (2**12-1)
- - iseed(4) odd
- also try to avoid iseed that are zero.
- Have but with a unique 2D mapping (irow,icol), and a 'mini-seed' ival</p>
+- values between 0..4095 (2**12-1)
+- iseed(4) odd
+also try to avoid iseed that are zero.
+Have but with a unique 2D mapping (irow,icol), and a 'mini-seed' ival</p>
     
     <h4>Arguments</h4>
     
@@ -406,10 +406,10 @@ public subroutine <a href='../proc/set_larnv_seed.html'>set_larnv_seed</a>(irow,
   
   <td></td><td>::</td>
   <td><strong>irow</strong></td><td><p>1..nrow
- nrow
- 1..ncol
- ncol
- mini-seed</p></td>
+nrow
+1..ncol
+ncol
+mini-seed</p></td>
   
 </tr>
 
@@ -425,10 +425,10 @@ public subroutine <a href='../proc/set_larnv_seed.html'>set_larnv_seed</a>(irow,
   
   <td></td><td>::</td>
   <td><strong>nrow</strong></td><td><p>1..nrow
- nrow
- 1..ncol
- ncol
- mini-seed</p></td>
+nrow
+1..ncol
+ncol
+mini-seed</p></td>
   
 </tr>
 
@@ -444,10 +444,10 @@ public subroutine <a href='../proc/set_larnv_seed.html'>set_larnv_seed</a>(irow,
   
   <td></td><td>::</td>
   <td><strong>icol</strong></td><td><p>1..nrow
- nrow
- 1..ncol
- ncol
- mini-seed</p></td>
+nrow
+1..ncol
+ncol
+mini-seed</p></td>
   
 </tr>
 
@@ -463,10 +463,10 @@ public subroutine <a href='../proc/set_larnv_seed.html'>set_larnv_seed</a>(irow,
   
   <td></td><td>::</td>
   <td><strong>ncol</strong></td><td><p>1..nrow
- nrow
- 1..ncol
- ncol
- mini-seed</p></td>
+nrow
+1..ncol
+ncol
+mini-seed</p></td>
   
 </tr>
 
@@ -482,10 +482,10 @@ public subroutine <a href='../proc/set_larnv_seed.html'>set_larnv_seed</a>(irow,
   
   <td></td><td>::</td>
   <td><strong>ival</strong></td><td><p>1..nrow
- nrow
- 1..ncol
- ncol
- mini-seed</p></td>
+nrow
+1..ncol
+ncol
+mini-seed</p></td>
   
 </tr>
 

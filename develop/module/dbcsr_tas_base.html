@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -370,11 +370,11 @@
     
     <div class="col-md-9" id='text'>
     <p>Tall-and-skinny matrices: base routines similar to DBCSR API, mostly wrappers around existing
- DBCSR routines.</p>
+DBCSR routines.</p>
 <p>As dbcsr_put_block
- As dbcsr_put_block
- As dbcsr_put_block
- As dbcsr_put_block</p>
+As dbcsr_put_block
+As dbcsr_put_block
+As dbcsr_put_block</p>
       <br>
     
   
@@ -387,29 +387,23 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-    
-    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
     
     <li><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
     
     <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
     
-    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    
+    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
     <li><a href='../module/dbcsr_data_methods_low.html'>dbcsr_data_methods_low</a></li>
     
-    <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
+    <li><a href='../module/dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
     
     <li><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></li>
     
-    <li><a href='../module/dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
-    
     <li><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></li>
-    
-    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
-    
-    <li><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></li>
     
     <li><a href='../module/dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
     
@@ -417,9 +411,15 @@
     
     <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
     
+    <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+    
     <li><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
     
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
+    
+    <li><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></li>
+    
+    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
     
   </ul>
       </li>
@@ -710,8 +710,8 @@ private subroutine <a href='../proc/dbcsr_tas_create_new.html'>dbcsr_tas_create_
 
 
 <p>Create new tall-and-skinny matrix.
- Exactly like dbcsr_create_new but with custom types for row_blk_size and col_blk_size instead of
- arrays.</p>
+Exactly like dbcsr_create_new but with custom types for row_blk_size and col_blk_size instead of
+arrays.</p>
     
     <h4>Arguments</h4>
     
@@ -1311,7 +1311,7 @@ private subroutine <a href='../proc/dbcsr_tas_reserve_blocks_template.html'>dbcs
 
 
 <p>Make sure that matrix_out has same blocks reserved as matrix_in. This assumes that both
- matrices have same number of block rows and block columns.</p>
+matrices have same number of block rows and block columns.</p>
     
     <h4>Arguments</h4>
     
@@ -1686,7 +1686,7 @@ private subroutine <a href='../proc/dbcsr_tas_iterator_next_block_index.html'>db
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>global block row
- global block column</p></td>
+global block column</p></td>
   
 </tr>
 
@@ -1702,7 +1702,7 @@ private subroutine <a href='../proc/dbcsr_tas_iterator_next_block_index.html'>db
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>global block row
- global block column</p></td>
+global block column</p></td>
   
 </tr>
 
@@ -5341,8 +5341,8 @@ private subroutine <a href='../proc/dbcsr_tas_create_new.html'>dbcsr_tas_create_
 
 
 <p>Create new tall-and-skinny matrix.
- Exactly like dbcsr_create_new but with custom types for row_blk_size and col_blk_size instead of
- arrays.</p>
+Exactly like dbcsr_create_new but with custom types for row_blk_size and col_blk_size instead of
+arrays.</p>
     
     <h4>Arguments</h4>
     
@@ -5736,7 +5736,7 @@ private subroutine <a href='../proc/dbcsr_tas_reserve_blocks_template.html'>dbcs
 
 
 <p>Make sure that matrix_out has same blocks reserved as matrix_in. This assumes that both
- matrices have same number of block rows and block columns.</p>
+matrices have same number of block rows and block columns.</p>
     
     <h4>Arguments</h4>
     
@@ -5862,8 +5862,8 @@ public subroutine <a href='../proc/dbcsr_tas_distribution_new.html'>dbcsr_tas_di
 
 
 <p>create new distribution.
- Exactly like dbcsr_distribution_new but with custom types for row_dist and col_dist instead of
- arrays.</p>
+Exactly like dbcsr_distribution_new but with custom types for row_dist and col_dist instead of
+arrays.</p>
     
     <h4>Arguments</h4>
     
@@ -6090,7 +6090,7 @@ public subroutine <a href='../proc/dbcsr_tas_get_stored_coordinates.html'>dbcsr_
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>global matrix blocked row
- global matrix blocked column</p></td>
+global matrix blocked column</p></td>
   
 </tr>
 
@@ -6106,7 +6106,7 @@ public subroutine <a href='../proc/dbcsr_tas_get_stored_coordinates.html'>dbcsr_
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>global matrix blocked row
- global matrix blocked column</p></td>
+global matrix blocked column</p></td>
   
 </tr>
 
@@ -6155,7 +6155,7 @@ public subroutine <a href='../proc/dbcsr_repl_get_stored_coordinates.html'>dbcsr
 
 
 <p>Get all processors for a given row/col combination if matrix is replicated on each process
- subgroup.</p>
+subgroup.</p>
     
     <h4>Arguments</h4>
     
@@ -6197,7 +6197,7 @@ public subroutine <a href='../proc/dbcsr_repl_get_stored_coordinates.html'>dbcsr
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>row of a submatrix
- column of a submatrix</p></td>
+column of a submatrix</p></td>
   
 </tr>
 
@@ -6213,7 +6213,7 @@ public subroutine <a href='../proc/dbcsr_repl_get_stored_coordinates.html'>dbcsr
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>row of a submatrix
- column of a submatrix</p></td>
+column of a submatrix</p></td>
   
 </tr>
 
@@ -6262,7 +6262,7 @@ public subroutine <a href='../proc/dbcsr_tas_convert_to_dbcsr.html'>dbcsr_tas_co
 
 
 <p>Convert a tall-and-skinny matrix into a normal DBCSR matrix.
- This is not recommended for matrices with a very large dimension.</p>
+This is not recommended for matrices with a very large dimension.</p>
     
     <h4>Arguments</h4>
     
@@ -6764,7 +6764,7 @@ private subroutine <a href='../proc/dbcsr_tas_iterator_next_block_index.html'>db
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>global block row
- global block column</p></td>
+global block column</p></td>
   
 </tr>
 
@@ -6780,7 +6780,7 @@ private subroutine <a href='../proc/dbcsr_tas_iterator_next_block_index.html'>db
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>global block row
- global block column</p></td>
+global block column</p></td>
   
 </tr>
 

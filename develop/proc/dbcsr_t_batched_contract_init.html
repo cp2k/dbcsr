@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -210,31 +210,31 @@ public subroutine dbcsr_t_batched_contract_init(tensor, batch_range_1, batch_ran
     
     <p>Initialize batched contraction for this tensor.</p>
 <p>Explanation: A batched contraction is a contraction performed in several consecutive steps by
- specification of bounds in dbcsr_t_contract. This can be used to reduce memory by a large factor.
- The routines dbcsr_t_batched_contract_init and dbcsr_t_batched_contract_finalize should be
- called to define the scope of a batched contraction as this enables important optimizations
- (adapting communication scheme to batches and adapting process grid to multiplication algorithm).
- The routines dbcsr_t_batched_contract_init and dbcsr_t_batched_contract_finalize must be called
- before the first and after the last contraction step on all 3 tensors.</p>
+specification of bounds in dbcsr_t_contract. This can be used to reduce memory by a large factor.
+The routines dbcsr_t_batched_contract_init and dbcsr_t_batched_contract_finalize should be
+called to define the scope of a batched contraction as this enables important optimizations
+(adapting communication scheme to batches and adapting process grid to multiplication algorithm).
+The routines dbcsr_t_batched_contract_init and dbcsr_t_batched_contract_finalize must be called
+before the first and after the last contraction step on all 3 tensors.</p>
 <p>Requirements:
- - the tensors are in a compatible matrix layout (see documentation of <code>dbcsr_t_contract</code>, note 2 &amp; 3).
-   If they are not, process grid optimizations are disabled and a warning is issued.
- - within the scope of a batched contraction, it is not allowed to access or change tensor data
-   except by calling the routines dbcsr_t_contract &amp; dbcsr_t_copy.
- - the bounds affecting indices of the smallest tensor must not change in the course of a batched
-   contraction (todo: get rid of this requirement).</p>
+- the tensors are in a compatible matrix layout (see documentation of <code>dbcsr_t_contract</code>, note 2 &amp; 3).
+  If they are not, process grid optimizations are disabled and a warning is issued.
+- within the scope of a batched contraction, it is not allowed to access or change tensor data
+  except by calling the routines dbcsr_t_contract &amp; dbcsr_t_copy.
+- the bounds affecting indices of the smallest tensor must not change in the course of a batched
+  contraction (todo: get rid of this requirement).</p>
 <p>Side effects:
- - the parallel layout (process grid and distribution) of all tensors may change. In order to
-   disable the process grid optimization including this side effect, call this routine only on the
-   smallest of the 3 tensors.</p>
+- the parallel layout (process grid and distribution) of all tensors may change. In order to
+  disable the process grid optimization including this side effect, call this routine only on the
+  smallest of the 3 tensors.</p>
 <p></p><div class="alert alert-info" role="alert"><h4>Note</h4><p>Note 1: for an example of batched contraction see <code>examples/dbcsr_tensor_example.F</code>.
- (todo: the example is outdated and should be updated).</p>
+(todo: the example is outdated and should be updated).</p>
 <p>Note 2: it is meaningful to use this feature if the contraction consists of one batch only
- but if multiple contractions involving the same 3 tensors are performed
- (batched_contract_init and batched_contract_finalize must then be called before/after each
- contraction call). The process grid is then optimized after the first contraction
- and future contraction may profit from this optimization.
- </p></div>
+but if multiple contractions involving the same 3 tensors are performed
+(batched_contract_init and batched_contract_finalize must then be called before/after each
+contraction call). The process grid is then optimized after the first contraction
+and future contraction may profit from this optimization.
+</p></div>
 <p>
     
 
@@ -277,10 +277,10 @@ public subroutine dbcsr_t_batched_contract_init(tensor, batch_range_1, batch_ran
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>batch_range_1</strong></td><td><p>For internal load balancing optimizations, optionally specify the index ranges of
- batched contraction.
- batch_range_i refers to the ith tensor dimension and contains all block indices starting
- a new range. The size should be the number of ranges plus one, the last element being the
- block index plus one of the last block in the last range.</p></td>
+batched contraction.
+batch_range_i refers to the ith tensor dimension and contains all block indices starting
+a new range. The size should be the number of ranges plus one, the last element being the
+block index plus one of the last block in the last range.</p></td>
   
 </tr>
 
@@ -296,10 +296,10 @@ public subroutine dbcsr_t_batched_contract_init(tensor, batch_range_1, batch_ran
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>batch_range_2</strong></td><td><p>For internal load balancing optimizations, optionally specify the index ranges of
- batched contraction.
- batch_range_i refers to the ith tensor dimension and contains all block indices starting
- a new range. The size should be the number of ranges plus one, the last element being the
- block index plus one of the last block in the last range.</p></td>
+batched contraction.
+batch_range_i refers to the ith tensor dimension and contains all block indices starting
+a new range. The size should be the number of ranges plus one, the last element being the
+block index plus one of the last block in the last range.</p></td>
   
 </tr>
 
@@ -315,10 +315,10 @@ public subroutine dbcsr_t_batched_contract_init(tensor, batch_range_1, batch_ran
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>batch_range_3</strong></td><td><p>For internal load balancing optimizations, optionally specify the index ranges of
- batched contraction.
- batch_range_i refers to the ith tensor dimension and contains all block indices starting
- a new range. The size should be the number of ranges plus one, the last element being the
- block index plus one of the last block in the last range.</p></td>
+batched contraction.
+batch_range_i refers to the ith tensor dimension and contains all block indices starting
+a new range. The size should be the number of ranges plus one, the last element being the
+block index plus one of the last block in the last range.</p></td>
   
 </tr>
 
@@ -334,10 +334,10 @@ public subroutine dbcsr_t_batched_contract_init(tensor, batch_range_1, batch_ran
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>batch_range_4</strong></td><td><p>For internal load balancing optimizations, optionally specify the index ranges of
- batched contraction.
- batch_range_i refers to the ith tensor dimension and contains all block indices starting
- a new range. The size should be the number of ranges plus one, the last element being the
- block index plus one of the last block in the last range.</p></td>
+batched contraction.
+batch_range_i refers to the ith tensor dimension and contains all block indices starting
+a new range. The size should be the number of ranges plus one, the last element being the
+block index plus one of the last block in the last range.</p></td>
   
 </tr>
 

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -310,23 +310,19 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-    
-    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
     
     <li><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
     
     <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
     
-    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    
+    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
     <li><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></li>
     
-    <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
-    
     <li><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></li>
-    
-    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
     
     <li><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
     
@@ -336,7 +332,11 @@
     
     <li><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
     
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
+    
+    <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+    
+    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
     
   </ul>
       </li>
@@ -652,7 +652,7 @@ public subroutine <a href='../proc/csr_create_new.html'>csr_create_new</a>(csr_m
   
   <td></td><td>::</td>
   <td><strong>nrows_total</strong></td><td><p>total number of rows
- total number of columns</p></td>
+total number of columns</p></td>
   
 </tr>
 
@@ -668,7 +668,7 @@ public subroutine <a href='../proc/csr_create_new.html'>csr_create_new</a>(csr_m
   
   <td></td><td>::</td>
   <td><strong>ncols_total</strong></td><td><p>total number of rows
- total number of columns</p></td>
+total number of columns</p></td>
   
 </tr>
 
@@ -699,7 +699,7 @@ public subroutine <a href='../proc/csr_create_new.html'>csr_create_new</a>(csr_m
   
   <td></td><td>::</td>
   <td><strong>nze_local</strong></td><td><p>local number of non-zero elements
- local number of rows</p></td>
+local number of rows</p></td>
   
 </tr>
 
@@ -715,7 +715,7 @@ public subroutine <a href='../proc/csr_create_new.html'>csr_create_new</a>(csr_m
   
   <td></td><td>::</td>
   <td><strong>nrows_local</strong></td><td><p>local number of non-zero elements
- local number of rows</p></td>
+local number of rows</p></td>
   
 </tr>
 
@@ -731,7 +731,7 @@ public subroutine <a href='../proc/csr_create_new.html'>csr_create_new</a>(csr_m
   
   <td></td><td>::</td>
   <td><strong>mp_group</strong></td><td><p>local number of non-zero elements
- local number of rows</p></td>
+local number of rows</p></td>
   
 </tr>
 
@@ -777,7 +777,7 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
 
 
 <p>Create a new CSR matrix and allocate all internal data using
- an existing CSR matrix. Copies the indices but no actual matrix data.</p>
+an existing CSR matrix. Copies the indices but no actual matrix data.</p>
     
     <h4>Arguments</h4>
     
@@ -855,8 +855,8 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
     
     
     <p>Mapping data relating local CSR indices to local indices of a block-row
- distributed (BRD) DBCSR matrix, and containing the block structure
- of the original DBCSR matrix from which the CSR matrix was created.</p>
+distributed (BRD) DBCSR matrix, and containing the block structure
+of the original DBCSR matrix from which the CSR matrix was created.</p>
     
      
      <h4>Components</h4>
@@ -881,10 +881,10 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>csr_to_brd_ind</strong></td><td>=> </td><td>NULL()</td><td><p>csr_to_brd_ind(csr_ind) gives the location of a matrix element with CSR index csr_ind (location in nzval_local) inside
- the data_area of the corresponding BRD matrix. If an element of the DBCSR matrix is treated as 0 in the CSR format, the
- index of this value is not in csr_to_brd_ind.
- same as csr_to_brd_ind but inverse mapping. If a given DBCSR index dbcsr_ind points to a zero element, then
- brd_to_csr_ind(dbcsr_ind) is -1.</p></td>
+the data_area of the corresponding BRD matrix. If an element of the DBCSR matrix is treated as 0 in the CSR format, the
+index of this value is not in csr_to_brd_ind.
+same as csr_to_brd_ind but inverse mapping. If a given DBCSR index dbcsr_ind points to a zero element, then
+brd_to_csr_ind(dbcsr_ind) is -1.</p></td>
   
 </tr>
 
@@ -899,10 +899,10 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>brd_to_csr_ind</strong></td><td>=> </td><td>NULL()</td><td><p>csr_to_brd_ind(csr_ind) gives the location of a matrix element with CSR index csr_ind (location in nzval_local) inside
- the data_area of the corresponding BRD matrix. If an element of the DBCSR matrix is treated as 0 in the CSR format, the
- index of this value is not in csr_to_brd_ind.
- same as csr_to_brd_ind but inverse mapping. If a given DBCSR index dbcsr_ind points to a zero element, then
- brd_to_csr_ind(dbcsr_ind) is -1.</p></td>
+the data_area of the corresponding BRD matrix. If an element of the DBCSR matrix is treated as 0 in the CSR format, the
+index of this value is not in csr_to_brd_ind.
+same as csr_to_brd_ind but inverse mapping. If a given DBCSR index dbcsr_ind points to a zero element, then
+brd_to_csr_ind(dbcsr_ind) is -1.</p></td>
   
 </tr>
 
@@ -945,7 +945,7 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   <td>private</td>
   <td></td><td>::</td>
   <td><strong>dbcsr_nblkcols_total</strong></td><td></td><td></td><td><p>data from original DBCSR matrix (not block-row distributed),
- representing the original block structure.</p></td>
+representing the original block structure.</p></td>
   
 </tr>
 
@@ -960,7 +960,7 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   <td>private</td>
   <td></td><td>::</td>
   <td><strong>dbcsr_nblkrows_total</strong></td><td></td><td></td><td><p>data from original DBCSR matrix (not block-row distributed),
- representing the original block structure.</p></td>
+representing the original block structure.</p></td>
   
 </tr>
 
@@ -975,7 +975,7 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   <td>private</td>
   <td></td><td>::</td>
   <td><strong>dbcsr_nblks_local</strong></td><td></td><td></td><td><p>data from original DBCSR matrix (not block-row distributed),
- representing the original block structure.</p></td>
+representing the original block structure.</p></td>
   
 </tr>
 
@@ -990,7 +990,7 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>dbcsr_row_p</strong></td><td></td><td></td><td><p>data from original DBCSR matrix (not block-row distributed),
- representing the original block structure.</p></td>
+representing the original block structure.</p></td>
   
 </tr>
 
@@ -1005,7 +1005,7 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>dbcsr_col_i</strong></td><td></td><td></td><td><p>data from original DBCSR matrix (not block-row distributed),
- representing the original block structure.</p></td>
+representing the original block structure.</p></td>
   
 </tr>
 
@@ -1020,7 +1020,7 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>dbcsr_row_blk_size</strong></td><td></td><td></td><td><p>data from original DBCSR matrix (not block-row distributed),
- representing the original block structure.</p></td>
+representing the original block structure.</p></td>
   
 </tr>
 
@@ -1035,7 +1035,7 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>dbcsr_col_blk_size</strong></td><td></td><td></td><td><p>data from original DBCSR matrix (not block-row distributed),
- representing the original block structure.</p></td>
+representing the original block structure.</p></td>
   
 </tr>
 
@@ -1186,10 +1186,10 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   <td>private</td>
   <td></td><td>::</td>
   <td><strong>nrows_total</strong></td><td></td><td></td><td><p>total number of rows
- total number of columns
- local number of nonzero elements
- local number of rows
- message-passing group ID</p></td>
+total number of columns
+local number of nonzero elements
+local number of rows
+message-passing group ID</p></td>
   
 </tr>
 
@@ -1204,10 +1204,10 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   <td>private</td>
   <td></td><td>::</td>
   <td><strong>ncols_total</strong></td><td></td><td></td><td><p>total number of rows
- total number of columns
- local number of nonzero elements
- local number of rows
- message-passing group ID</p></td>
+total number of columns
+local number of nonzero elements
+local number of rows
+message-passing group ID</p></td>
   
 </tr>
 
@@ -1222,10 +1222,10 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   <td>private</td>
   <td></td><td>::</td>
   <td><strong>nze_local</strong></td><td></td><td></td><td><p>total number of rows
- total number of columns
- local number of nonzero elements
- local number of rows
- message-passing group ID</p></td>
+total number of columns
+local number of nonzero elements
+local number of rows
+message-passing group ID</p></td>
   
 </tr>
 
@@ -1240,10 +1240,10 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   <td>private</td>
   <td></td><td>::</td>
   <td><strong>nrows_local</strong></td><td></td><td></td><td><p>total number of rows
- total number of columns
- local number of nonzero elements
- local number of rows
- message-passing group ID</p></td>
+total number of columns
+local number of nonzero elements
+local number of rows
+message-passing group ID</p></td>
   
 </tr>
 
@@ -1258,10 +1258,10 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   <td>private</td>
   <td></td><td>::</td>
   <td><strong>mp_group</strong></td><td></td><td></td><td><p>total number of rows
- total number of columns
- local number of nonzero elements
- local number of rows
- message-passing group ID</p></td>
+total number of columns
+local number of nonzero elements
+local number of rows
+message-passing group ID</p></td>
   
 </tr>
 
@@ -1290,7 +1290,7 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>rowptr_local</strong></td><td>=> </td><td>NULL()</td><td><p>indices of elements inside nzval_local starting a row
- column indices of elements inside nzval_local</p></td>
+column indices of elements inside nzval_local</p></td>
   
 </tr>
 
@@ -1305,7 +1305,7 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>colind_local</strong></td><td>=> </td><td>NULL()</td><td><p>indices of elements inside nzval_local starting a row
- column indices of elements inside nzval_local</p></td>
+column indices of elements inside nzval_local</p></td>
   
 </tr>
 
@@ -1320,7 +1320,7 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>nzerow_local</strong></td><td>=> </td><td>NULL()</td><td><p>indices of elements inside nzval_local starting a row
- column indices of elements inside nzval_local</p></td>
+column indices of elements inside nzval_local</p></td>
   
 </tr>
 
@@ -1476,7 +1476,7 @@ private function <a href='../proc/dbcsr_has_same_block_structure.html'>dbcsr_has
 
 
 <p>Helper function to assert that two DBCSR matrices have the same block
- structure and same sparsity pattern</p>
+structure and same sparsity pattern</p>
     
     <h4>Arguments</h4>
     
@@ -1609,7 +1609,7 @@ public subroutine <a href='../proc/csr_create_new.html'>csr_create_new</a>(csr_m
   
   <td></td><td>::</td>
   <td><strong>nrows_total</strong></td><td><p>total number of rows
- total number of columns</p></td>
+total number of columns</p></td>
   
 </tr>
 
@@ -1625,7 +1625,7 @@ public subroutine <a href='../proc/csr_create_new.html'>csr_create_new</a>(csr_m
   
   <td></td><td>::</td>
   <td><strong>ncols_total</strong></td><td><p>total number of rows
- total number of columns</p></td>
+total number of columns</p></td>
   
 </tr>
 
@@ -1656,7 +1656,7 @@ public subroutine <a href='../proc/csr_create_new.html'>csr_create_new</a>(csr_m
   
   <td></td><td>::</td>
   <td><strong>nze_local</strong></td><td><p>local number of non-zero elements
- local number of rows</p></td>
+local number of rows</p></td>
   
 </tr>
 
@@ -1672,7 +1672,7 @@ public subroutine <a href='../proc/csr_create_new.html'>csr_create_new</a>(csr_m
   
   <td></td><td>::</td>
   <td><strong>nrows_local</strong></td><td><p>local number of non-zero elements
- local number of rows</p></td>
+local number of rows</p></td>
   
 </tr>
 
@@ -1688,7 +1688,7 @@ public subroutine <a href='../proc/csr_create_new.html'>csr_create_new</a>(csr_m
   
   <td></td><td>::</td>
   <td><strong>mp_group</strong></td><td><p>local number of non-zero elements
- local number of rows</p></td>
+local number of rows</p></td>
   
 </tr>
 
@@ -1737,7 +1737,7 @@ public subroutine <a href='../proc/csr_create_template.html'>csr_create_template
 
 
 <p>Create a new CSR matrix and allocate all internal data using
- an existing CSR matrix. Copies the indices but no actual matrix data.</p>
+an existing CSR matrix. Copies the indices but no actual matrix data.</p>
     
     <h4>Arguments</h4>
     
@@ -1812,7 +1812,7 @@ private subroutine <a href='../proc/csr_create_nzerow.html'>csr_create_nzerow</a
 
 
 <p>create a vector containing the number of non-zero elements in each
- row of a CSR matrix</p>
+row of a CSR matrix</p>
     
     <h4>Arguments</h4>
     
@@ -1946,7 +1946,7 @@ private subroutine <a href='../proc/csr_create_from_brd.html'>csr_create_from_br
 
 
 <p>Allocate the internals of a CSR matrix using data from a block-row
- distributed DBCSR matrix</p>
+distributed DBCSR matrix</p>
     
     <h4>Arguments</h4>
     
@@ -2036,7 +2036,7 @@ private subroutine <a href='../proc/csr_get_dbcsr_mapping.html'>csr_get_dbcsr_ma
 
 
 <p>create the mapping information between a block-row distributed DBCSR
- matrix and the corresponding CSR matrix</p>
+matrix and the corresponding CSR matrix</p>
     
     <h4>Arguments</h4>
     
@@ -2078,7 +2078,7 @@ private subroutine <a href='../proc/csr_get_dbcsr_mapping.html'>csr_get_dbcsr_ma
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>dbcsr_index</strong></td><td><p>csr to dbcsr index mapping
- dbcsr to csr index mapping</p></td>
+dbcsr to csr index mapping</p></td>
   
 </tr>
 
@@ -2094,7 +2094,7 @@ private subroutine <a href='../proc/csr_get_dbcsr_mapping.html'>csr_get_dbcsr_ma
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>csr_index</strong></td><td><p>csr to dbcsr index mapping
- dbcsr to csr index mapping</p></td>
+dbcsr to csr index mapping</p></td>
   
 </tr>
 
@@ -2158,7 +2158,7 @@ private subroutine <a href='../proc/convert_csr_to_brd.html'>convert_csr_to_brd<
 
 
 <p>Copies data from a CSR matrix to a block-row distributed DBCSR matrix.
- The DBCSR matrix must have a block structure consistent with the CSR matrix.</p>
+The DBCSR matrix must have a block structure consistent with the CSR matrix.</p>
     
     <h4>Arguments</h4>
     
@@ -2233,7 +2233,7 @@ private subroutine <a href='../proc/convert_brd_to_csr.html'>convert_brd_to_csr<
 
 
 <p>Convert a block-row distributed DBCSR matrix to a CSR matrix
- The DBCSR matrix must have a block structure consistent with the CSR matrix.</p>
+The DBCSR matrix must have a block structure consistent with the CSR matrix.</p>
     
     <h4>Arguments</h4>
     
@@ -2308,7 +2308,7 @@ public subroutine <a href='../proc/csr_create_from_dbcsr.html'>csr_create_from_d
 
 
 <p>create CSR matrix including dbcsr_mapping from arbitrary DBCSR matrix
- in order to prepare conversion.</p>
+in order to prepare conversion.</p>
     
     <h4>Arguments</h4>
     
@@ -2365,8 +2365,8 @@ public subroutine <a href='../proc/csr_create_from_dbcsr.html'>csr_create_from_d
   
   <td></td><td>::</td>
   <td><strong>dist_format</strong></td><td><p>how to distribute CSR rows over processes: csr_dbcsr_blkrow_dist: the number of rows per process is adapted to the row
- block sizes in the DBCSR format such that blocks are not split over different processes. csr_eqrow_ceil_dist: each
- process holds ceiling(N/P) CSR rows. csr_eqrow_floor_dist: each process holds floor(N/P) CSR rows.</p></td>
+block sizes in the DBCSR format such that blocks are not split over different processes. csr_eqrow_ceil_dist: each
+process holds ceiling(N/P) CSR rows. csr_eqrow_floor_dist: each process holds floor(N/P) CSR rows.</p></td>
   
 </tr>
 
@@ -2382,7 +2382,7 @@ public subroutine <a href='../proc/csr_create_from_dbcsr.html'>csr_create_from_d
   
   <td></td><td>::</td>
   <td><strong>csr_sparsity</strong></td><td><p>DBCSR matrix containing 0 and 1, representing CSR sparsity pattern 1: non-zero element 0: zero element (not present in
- CSR format) Note: matrix must be of data_type dbcsr_type_real_4 or dbcsr_type_real_8 (integer types not supported)</p></td>
+CSR format) Note: matrix must be of data_type dbcsr_type_real_4 or dbcsr_type_real_8 (integer types not supported)</p></td>
   
 </tr>
 
@@ -2431,7 +2431,7 @@ private subroutine <a href='../proc/csr_assert_consistency_with_dbcsr.html'>csr_
 
 
 <p>Helper function to assert that a given CSR matrix and a given DBCSR
- matrix are consistent before doing the conversion</p>
+matrix are consistent before doing the conversion</p>
     
     <h4>Arguments</h4>
     
@@ -2654,7 +2654,7 @@ public subroutine <a href='../proc/dbcsr_to_csr_filter~2.html'>dbcsr_to_csr_filt
 
 
 <p>Apply filtering threshold eps to DBCSR blocks in order to improve
- CSR sparsity (currently only used for testing purposes)</p>
+CSR sparsity (currently only used for testing purposes)</p>
     
     <h4>Arguments</h4>
     
@@ -2993,7 +2993,7 @@ private subroutine <a href='../proc/dbcsr_create_brd.html'>dbcsr_create_brd</a>(
   
   <td></td><td>::</td>
   <td><strong>equal_dist</strong></td><td><p>see documentation of csr_create_from_dbcsr
- see documentation of csr_create_from_dbcsr</p></td>
+see documentation of csr_create_from_dbcsr</p></td>
   
 </tr>
 
@@ -3009,7 +3009,7 @@ private subroutine <a href='../proc/dbcsr_create_brd.html'>dbcsr_create_brd</a>(
   
   <td></td><td>::</td>
   <td><strong>floor_dist</strong></td><td><p>see documentation of csr_create_from_dbcsr
- see documentation of csr_create_from_dbcsr</p></td>
+see documentation of csr_create_from_dbcsr</p></td>
   
 </tr>
 

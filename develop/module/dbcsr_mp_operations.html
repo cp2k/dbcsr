@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -284,21 +284,21 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+    <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
     
-    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
     <li><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
     
-    <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
-    
-    <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
+    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
     <li><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
     
+    <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
+    
     <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
     
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
     
   </ul>
       </li>
@@ -622,8 +622,8 @@ public subroutine <a href='../proc/hybrid_alltoall_s1.html'>hybrid_alltoall_s1</
   
   <td></td><td>::</td>
   <td><strong>most_ptp</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 
@@ -639,8 +639,8 @@ public subroutine <a href='../proc/hybrid_alltoall_s1.html'>hybrid_alltoall_s1</
   
   <td></td><td>::</td>
   <td><strong>remainder_ptp</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 
@@ -656,8 +656,8 @@ public subroutine <a href='../proc/hybrid_alltoall_s1.html'>hybrid_alltoall_s1</
   
   <td></td><td>::</td>
   <td><strong>no_hybrid</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 
@@ -819,8 +819,8 @@ public subroutine <a href='../proc/hybrid_alltoall_d1.html'>hybrid_alltoall_d1</
   
   <td></td><td>::</td>
   <td><strong>most_ptp</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 
@@ -836,8 +836,8 @@ public subroutine <a href='../proc/hybrid_alltoall_d1.html'>hybrid_alltoall_d1</
   
   <td></td><td>::</td>
   <td><strong>remainder_ptp</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 
@@ -853,8 +853,8 @@ public subroutine <a href='../proc/hybrid_alltoall_d1.html'>hybrid_alltoall_d1</
   
   <td></td><td>::</td>
   <td><strong>no_hybrid</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 
@@ -1016,8 +1016,8 @@ public subroutine <a href='../proc/hybrid_alltoall_c1.html'>hybrid_alltoall_c1</
   
   <td></td><td>::</td>
   <td><strong>most_ptp</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 
@@ -1033,8 +1033,8 @@ public subroutine <a href='../proc/hybrid_alltoall_c1.html'>hybrid_alltoall_c1</
   
   <td></td><td>::</td>
   <td><strong>remainder_ptp</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 
@@ -1050,8 +1050,8 @@ public subroutine <a href='../proc/hybrid_alltoall_c1.html'>hybrid_alltoall_c1</
   
   <td></td><td>::</td>
   <td><strong>no_hybrid</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 
@@ -1213,8 +1213,8 @@ public subroutine <a href='../proc/hybrid_alltoall_z1.html'>hybrid_alltoall_z1</
   
   <td></td><td>::</td>
   <td><strong>most_ptp</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 
@@ -1230,8 +1230,8 @@ public subroutine <a href='../proc/hybrid_alltoall_z1.html'>hybrid_alltoall_z1</
   
   <td></td><td>::</td>
   <td><strong>remainder_ptp</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 
@@ -1247,8 +1247,8 @@ public subroutine <a href='../proc/hybrid_alltoall_z1.html'>hybrid_alltoall_z1</
   
   <td></td><td>::</td>
   <td><strong>no_hybrid</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 
@@ -1410,8 +1410,8 @@ public subroutine <a href='../proc/hybrid_alltoall_i1.html'>hybrid_alltoall_i1</
   
   <td></td><td>::</td>
   <td><strong>most_ptp</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 
@@ -1427,8 +1427,8 @@ public subroutine <a href='../proc/hybrid_alltoall_i1.html'>hybrid_alltoall_i1</
   
   <td></td><td>::</td>
   <td><strong>remainder_ptp</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 
@@ -1444,8 +1444,8 @@ public subroutine <a href='../proc/hybrid_alltoall_i1.html'>hybrid_alltoall_i1</
   
   <td></td><td>::</td>
   <td><strong>no_hybrid</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 
@@ -2070,8 +2070,8 @@ public subroutine <a href='../proc/hybrid_alltoall_i1.html'>hybrid_alltoall_i1</
   
   <td></td><td>::</td>
   <td><strong>most_ptp</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 
@@ -2087,8 +2087,8 @@ public subroutine <a href='../proc/hybrid_alltoall_i1.html'>hybrid_alltoall_i1</
   
   <td></td><td>::</td>
   <td><strong>remainder_ptp</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 
@@ -2104,8 +2104,8 @@ public subroutine <a href='../proc/hybrid_alltoall_i1.html'>hybrid_alltoall_i1</
   
   <td></td><td>::</td>
   <td><strong>no_hybrid</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 
@@ -2139,7 +2139,7 @@ public subroutine <a href='../proc/dbcsr_sendrecv_any.html'>dbcsr_sendrecv_any</
 
 
 <p>sendrecv of encapsulated data.
- </p><a href="../proc/dbcsr_sendrecv_any.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+</p><a href="../proc/dbcsr_sendrecv_any.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -2259,7 +2259,7 @@ public subroutine <a href='../proc/dbcsr_isend_any.html'>dbcsr_isend_any</a>(msg
 
 
 <p>Non-blocking send of encapsulated data.
- </p><a href="../proc/dbcsr_isend_any.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+</p><a href="../proc/dbcsr_isend_any.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -2379,7 +2379,7 @@ public subroutine <a href='../proc/dbcsr_irecv_any.html'>dbcsr_irecv_any</a>(msg
 
 
 <p>Non-blocking recv of encapsulated data.
- </p><a href="../proc/dbcsr_irecv_any.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+</p><a href="../proc/dbcsr_irecv_any.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -3333,7 +3333,7 @@ public subroutine <a href='../proc/dbcsr_allgatherv.html'>dbcsr_allgatherv</a>(s
 
 
 <p>Allgather of encapsulated data
- </p><a href="../proc/dbcsr_allgatherv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+</p><a href="../proc/dbcsr_allgatherv.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -3599,8 +3599,8 @@ public subroutine <a href='../proc/hybrid_alltoall_d1.html'>hybrid_alltoall_d1</
   
   <td></td><td>::</td>
   <td><strong>most_ptp</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 
@@ -3616,8 +3616,8 @@ public subroutine <a href='../proc/hybrid_alltoall_d1.html'>hybrid_alltoall_d1</
   
   <td></td><td>::</td>
   <td><strong>remainder_ptp</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 
@@ -3633,8 +3633,8 @@ public subroutine <a href='../proc/hybrid_alltoall_d1.html'>hybrid_alltoall_d1</
   
   <td></td><td>::</td>
   <td><strong>no_hybrid</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 
@@ -3799,8 +3799,8 @@ public subroutine <a href='../proc/hybrid_alltoall_s1.html'>hybrid_alltoall_s1</
   
   <td></td><td>::</td>
   <td><strong>most_ptp</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 
@@ -3816,8 +3816,8 @@ public subroutine <a href='../proc/hybrid_alltoall_s1.html'>hybrid_alltoall_s1</
   
   <td></td><td>::</td>
   <td><strong>remainder_ptp</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 
@@ -3833,8 +3833,8 @@ public subroutine <a href='../proc/hybrid_alltoall_s1.html'>hybrid_alltoall_s1</
   
   <td></td><td>::</td>
   <td><strong>no_hybrid</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 
@@ -3999,8 +3999,8 @@ public subroutine <a href='../proc/hybrid_alltoall_z1.html'>hybrid_alltoall_z1</
   
   <td></td><td>::</td>
   <td><strong>most_ptp</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 
@@ -4016,8 +4016,8 @@ public subroutine <a href='../proc/hybrid_alltoall_z1.html'>hybrid_alltoall_z1</
   
   <td></td><td>::</td>
   <td><strong>remainder_ptp</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 
@@ -4033,8 +4033,8 @@ public subroutine <a href='../proc/hybrid_alltoall_z1.html'>hybrid_alltoall_z1</
   
   <td></td><td>::</td>
   <td><strong>no_hybrid</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 
@@ -4199,8 +4199,8 @@ public subroutine <a href='../proc/hybrid_alltoall_c1.html'>hybrid_alltoall_c1</
   
   <td></td><td>::</td>
   <td><strong>most_ptp</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 
@@ -4216,8 +4216,8 @@ public subroutine <a href='../proc/hybrid_alltoall_c1.html'>hybrid_alltoall_c1</
   
   <td></td><td>::</td>
   <td><strong>remainder_ptp</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 
@@ -4233,8 +4233,8 @@ public subroutine <a href='../proc/hybrid_alltoall_c1.html'>hybrid_alltoall_c1</
   
   <td></td><td>::</td>
   <td><strong>no_hybrid</strong></td><td><p>Use point-to-point for row/column; default is no
- Use point-to-point for remaining; default is no
- Use regular global collective; default is no</p></td>
+Use point-to-point for remaining; default is no
+Use regular global collective; default is no</p></td>
   
 </tr>
 

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -470,23 +470,33 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></li>
+    <li><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
     
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
-    <li><a href='../module/dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
+    <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
+    
+    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+    
+    <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
+    
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
     <li><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
+    
+    <li><a href='../module/dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
     
     <li><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
     
     <li><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
     
-    <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
-    
     <li><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
     
+    <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
+    
     <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+    
+    <li><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></li>
     
     <li><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
     
@@ -498,19 +508,9 @@
     
     <li><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></li>
     
-    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
-    
     <li><a href='../module/dbcsr_data_operations.html'>dbcsr_data_operations</a></li>
     
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-    
     <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
-    
-    <li><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
-    
-    <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
-    
-    <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
     
   </ul>
       </li>
@@ -1057,7 +1057,7 @@ private function <a href='../proc/make_conformant_scalar_d.html'>make_conformant
 
 
 <p>Encapsulates a given scalar value and makes it conform with the
- type of the matrix.</p>
+type of the matrix.</p>
     
     <h4>Arguments</h4>
     
@@ -1138,7 +1138,7 @@ private function <a href='../proc/make_conformant_scalar_s.html'>make_conformant
 
 
 <p>Encapsulates a given scalar value and makes it conform with the
- type of the matrix.</p>
+type of the matrix.</p>
     
     <h4>Arguments</h4>
     
@@ -1219,7 +1219,7 @@ private function <a href='../proc/make_conformant_scalar_c.html'>make_conformant
 
 
 <p>Encapsulates a given scalar value and makes it conform with the
- type of the matrix.</p>
+type of the matrix.</p>
     
     <h4>Arguments</h4>
     
@@ -1300,7 +1300,7 @@ private function <a href='../proc/make_conformant_scalar_z.html'>make_conformant
 
 
 <p>Encapsulates a given scalar value and makes it conform with the
- type of the matrix.</p>
+type of the matrix.</p>
     
     <h4>Arguments</h4>
     
@@ -1721,7 +1721,7 @@ private subroutine <a href='../proc/dbcsr_dot_s.html'>dbcsr_dot_s</a>(matrix_a, 
   
   <td></td><td>::</td>
   <td><strong>matrix_a</strong></td><td><p>DBCSR matrices
- DBCSR matrices</p></td>
+DBCSR matrices</p></td>
   
 </tr>
 
@@ -1737,7 +1737,7 @@ private subroutine <a href='../proc/dbcsr_dot_s.html'>dbcsr_dot_s</a>(matrix_a, 
   
   <td></td><td>::</td>
   <td><strong>matrix_b</strong></td><td><p>DBCSR matrices
- DBCSR matrices</p></td>
+DBCSR matrices</p></td>
   
 </tr>
 
@@ -1783,7 +1783,7 @@ private subroutine <a href='../proc/dbcsr_dot_sd.html'>dbcsr_dot_sd</a>(matrix_a
 
 
 <p>Dot product of DBCSR matrices
- \result    the dot product of the matrices</p>
+\result    the dot product of the matrices</p>
     
     <h4>Arguments</h4>
     
@@ -1810,7 +1810,7 @@ private subroutine <a href='../proc/dbcsr_dot_sd.html'>dbcsr_dot_sd</a>(matrix_a
   
   <td></td><td>::</td>
   <td><strong>matrix_a</strong></td><td><p>DBCSR matrices
- DBCSR matrices</p></td>
+DBCSR matrices</p></td>
   
 </tr>
 
@@ -1826,7 +1826,7 @@ private subroutine <a href='../proc/dbcsr_dot_sd.html'>dbcsr_dot_sd</a>(matrix_a
   
   <td></td><td>::</td>
   <td><strong>matrix_b</strong></td><td><p>DBCSR matrices
- DBCSR matrices</p></td>
+DBCSR matrices</p></td>
   
 </tr>
 
@@ -1898,7 +1898,7 @@ private subroutine <a href='../proc/dbcsr_dot_c.html'>dbcsr_dot_c</a>(matrix_a, 
   
   <td></td><td>::</td>
   <td><strong>matrix_a</strong></td><td><p>DBCSR matrices
- DBCSR matrices</p></td>
+DBCSR matrices</p></td>
   
 </tr>
 
@@ -1914,7 +1914,7 @@ private subroutine <a href='../proc/dbcsr_dot_c.html'>dbcsr_dot_c</a>(matrix_a, 
   
   <td></td><td>::</td>
   <td><strong>matrix_b</strong></td><td><p>DBCSR matrices
- DBCSR matrices</p></td>
+DBCSR matrices</p></td>
   
 </tr>
 
@@ -1986,7 +1986,7 @@ private subroutine <a href='../proc/dbcsr_dot_z.html'>dbcsr_dot_z</a>(matrix_a, 
   
   <td></td><td>::</td>
   <td><strong>matrix_a</strong></td><td><p>DBCSR matrices
- DBCSR matrices</p></td>
+DBCSR matrices</p></td>
   
 </tr>
 
@@ -2002,7 +2002,7 @@ private subroutine <a href='../proc/dbcsr_dot_z.html'>dbcsr_dot_z</a>(matrix_a, 
   
   <td></td><td>::</td>
   <td><strong>matrix_b</strong></td><td><p>DBCSR matrices
- DBCSR matrices</p></td>
+DBCSR matrices</p></td>
   
 </tr>
 
@@ -3252,7 +3252,7 @@ private subroutine <a href='../proc/dbcsr_add_anytype.html'>dbcsr_add_anytype</a
 
 
 <p>add and scale matrices
- A = alpha<em>A + beta</em>B or</p>
+A = alpha<em>A + beta</em>B or</p>
     
     <h4>Arguments</h4>
     
@@ -5155,7 +5155,7 @@ private function <a href='../proc/make_conformant_scalar_d.html'>make_conformant
 
 
 <p>Encapsulates a given scalar value and makes it conform with the
- type of the matrix.</p>
+type of the matrix.</p>
     
     <h4>Arguments</h4>
     
@@ -5239,7 +5239,7 @@ private function <a href='../proc/make_conformant_scalar_s.html'>make_conformant
 
 
 <p>Encapsulates a given scalar value and makes it conform with the
- type of the matrix.</p>
+type of the matrix.</p>
     
     <h4>Arguments</h4>
     
@@ -5323,7 +5323,7 @@ private function <a href='../proc/make_conformant_scalar_z.html'>make_conformant
 
 
 <p>Encapsulates a given scalar value and makes it conform with the
- type of the matrix.</p>
+type of the matrix.</p>
     
     <h4>Arguments</h4>
     
@@ -5407,7 +5407,7 @@ private function <a href='../proc/make_conformant_scalar_c.html'>make_conformant
 
 
 <p>Encapsulates a given scalar value and makes it conform with the
- type of the matrix.</p>
+type of the matrix.</p>
     
     <h4>Arguments</h4>
     
@@ -5491,7 +5491,7 @@ private function <a href='../proc/symmetry_consistent.html'>symmetry_consistent<
 
 
 <p>checks if matrix symmetry and data_type are consistent
- \brief note: does not check the symmetry of the data itself</p>
+\brief note: does not check the symmetry of the data itself</p>
     
     <h4>Arguments</h4>
     
@@ -5575,7 +5575,7 @@ private function <a href='../proc/symmetry_compatible.html'>symmetry_compatible<
 
 
 <p>checks if symmetries of two matrices are compatible for copying
- \brief data from matrix_a(source) to matrix_b(target)</p>
+\brief data from matrix_a(source) to matrix_b(target)</p>
     
     <h4>Arguments</h4>
     
@@ -6263,9 +6263,9 @@ public subroutine <a href='../proc/dbcsr_add_block_node~2.html'>dbcsr_add_block_
 
 
 <p>Emulation of sparse_matrix_types/add_block_node mapped
- to add_real_matrix_block.... should not be used any longer
- It adds a block to the dbcsr matrix and returns a rank-2 pointer to the
- block. Currently it only and always uses the mutable data.</p>
+to add_real_matrix_block.... should not be used any longer
+It adds a block to the dbcsr matrix and returns a rank-2 pointer to the
+block. Currently it only and always uses the mutable data.</p>
     
     <h4>Arguments</h4>
     
@@ -6307,7 +6307,7 @@ public subroutine <a href='../proc/dbcsr_add_block_node~2.html'>dbcsr_add_block_
   
   <td></td><td>::</td>
   <td><strong>block_row</strong></td><td><p>the row
- the column</p></td>
+the column</p></td>
   
 </tr>
 
@@ -6323,7 +6323,7 @@ public subroutine <a href='../proc/dbcsr_add_block_node~2.html'>dbcsr_add_block_
   
   <td></td><td>::</td>
   <td><strong>block_col</strong></td><td><p>the row
- the column</p></td>
+the column</p></td>
   
 </tr>
 
@@ -6605,9 +6605,9 @@ private elemental subroutine <a href='../proc/frame_block_limit.html'>frame_bloc
   
   <td></td><td>::</td>
   <td><strong>block_size</strong></td><td><p>size of block
- global offset of block
- lower limit
- upper limit</p></td>
+global offset of block
+lower limit
+upper limit</p></td>
   
 </tr>
 
@@ -6623,9 +6623,9 @@ private elemental subroutine <a href='../proc/frame_block_limit.html'>frame_bloc
   
   <td></td><td>::</td>
   <td><strong>block_offset</strong></td><td><p>size of block
- global offset of block
- lower limit
- upper limit</p></td>
+global offset of block
+lower limit
+upper limit</p></td>
   
 </tr>
 
@@ -6641,9 +6641,9 @@ private elemental subroutine <a href='../proc/frame_block_limit.html'>frame_bloc
   
   <td></td><td>::</td>
   <td><strong>first_limit</strong></td><td><p>size of block
- global offset of block
- lower limit
- upper limit</p></td>
+global offset of block
+lower limit
+upper limit</p></td>
   
 </tr>
 
@@ -6659,9 +6659,9 @@ private elemental subroutine <a href='../proc/frame_block_limit.html'>frame_bloc
   
   <td></td><td>::</td>
   <td><strong>last_limit</strong></td><td><p>size of block
- global offset of block
- lower limit
- upper limit</p></td>
+global offset of block
+lower limit
+upper limit</p></td>
   
 </tr>
 
@@ -6677,7 +6677,7 @@ private elemental subroutine <a href='../proc/frame_block_limit.html'>frame_bloc
   
   <td></td><td>::</td>
   <td><strong>frame_size</strong></td><td><p>size of block region within the limits
- starting position of the block region that is within the limits</p></td>
+starting position of the block region that is within the limits</p></td>
   
 </tr>
 
@@ -6693,7 +6693,7 @@ private elemental subroutine <a href='../proc/frame_block_limit.html'>frame_bloc
   
   <td></td><td>::</td>
   <td><strong>frame_offset</strong></td><td><p>size of block region within the limits
- starting position of the block region that is within the limits</p></td>
+starting position of the block region that is within the limits</p></td>
   
 </tr>
 
@@ -6816,7 +6816,7 @@ private subroutine <a href='../proc/dbcsr_add_anytype.html'>dbcsr_add_anytype</a
 
 
 <p>add and scale matrices
- A = alpha<em>A + beta</em>B or</p>
+A = alpha<em>A + beta</em>B or</p>
     
     <h4>Arguments</h4>
     
@@ -7394,7 +7394,7 @@ public subroutine <a href='../proc/dbcsr_function_of_elements.html'>dbcsr_functi
 
 
 <p>Computes various functions (defined by func) of matrix elements
- </p><a href="../proc/dbcsr_function_of_elements.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+</p><a href="../proc/dbcsr_function_of_elements.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -7514,7 +7514,7 @@ public subroutine <a href='../proc/dbcsr_hadamard_product.html'>dbcsr_hadamard_p
 
 
 <p>Hadamard product
- C = A . B (C needs to be different from A and B)</p>
+C = A . B (C needs to be different from A and B)</p>
     
     <h4>Arguments</h4>
     
@@ -7541,7 +7541,7 @@ public subroutine <a href='../proc/dbcsr_hadamard_product.html'>dbcsr_hadamard_p
   
   <td></td><td>::</td>
   <td><strong>matrix_a</strong></td><td><p>DBCSR matrix
- DBCSR matrix</p></td>
+DBCSR matrix</p></td>
   
 </tr>
 
@@ -7557,7 +7557,7 @@ public subroutine <a href='../proc/dbcsr_hadamard_product.html'>dbcsr_hadamard_p
   
   <td></td><td>::</td>
   <td><strong>matrix_b</strong></td><td><p>DBCSR matrix
- DBCSR matrix</p></td>
+DBCSR matrix</p></td>
   
 </tr>
 
@@ -7840,9 +7840,9 @@ public subroutine <a href='../proc/dbcsr_copy.html'>dbcsr_copy</a>(matrix_b, mat
   
   <td></td><td>::</td>
   <td><strong>keep_sparsity</strong></td><td><p>keep the target matrix sparsity; default is False.
- shallow data copy
- when copy from complex to real,&amp; the default is to keep only the real part; if this flag is set, the imaginary part is
- used</p></td>
+shallow data copy
+when copy from complex to real,&amp; the default is to keep only the real part; if this flag is set, the imaginary part is
+used</p></td>
   
 </tr>
 
@@ -7858,9 +7858,9 @@ public subroutine <a href='../proc/dbcsr_copy.html'>dbcsr_copy</a>(matrix_b, mat
   
   <td></td><td>::</td>
   <td><strong>shallow_data</strong></td><td><p>keep the target matrix sparsity; default is False.
- shallow data copy
- when copy from complex to real,&amp; the default is to keep only the real part; if this flag is set, the imaginary part is
- used</p></td>
+shallow data copy
+when copy from complex to real,&amp; the default is to keep only the real part; if this flag is set, the imaginary part is
+used</p></td>
   
 </tr>
 
@@ -7876,9 +7876,9 @@ public subroutine <a href='../proc/dbcsr_copy.html'>dbcsr_copy</a>(matrix_b, mat
   
   <td></td><td>::</td>
   <td><strong>keep_imaginary</strong></td><td><p>keep the target matrix sparsity; default is False.
- shallow data copy
- when copy from complex to real,&amp; the default is to keep only the real part; if this flag is set, the imaginary part is
- used</p></td>
+shallow data copy
+when copy from complex to real,&amp; the default is to keep only the real part; if this flag is set, the imaginary part is
+used</p></td>
   
 </tr>
 
@@ -8146,7 +8146,7 @@ private subroutine <a href='../proc/dbcsr_copy_submatrix.html'>dbcsr_copy_submat
   
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>block_row_bounds</strong></td><td><p>rows to extract (array of size 2 holding the lower and upper inclusive bounds)
- columns to extract (array of size 2 holding the lower and upper inclusive bounds)</p></td>
+columns to extract (array of size 2 holding the lower and upper inclusive bounds)</p></td>
   
 </tr>
 
@@ -8162,7 +8162,7 @@ private subroutine <a href='../proc/dbcsr_copy_submatrix.html'>dbcsr_copy_submat
   
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>block_column_bounds</strong></td><td><p>rows to extract (array of size 2 holding the lower and upper inclusive bounds)
- columns to extract (array of size 2 holding the lower and upper inclusive bounds)</p></td>
+columns to extract (array of size 2 holding the lower and upper inclusive bounds)</p></td>
   
 </tr>
 
@@ -8267,7 +8267,7 @@ public subroutine <a href='../proc/dbcsr_crop_matrix.html'>dbcsr_crop_matrix</a>
   
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>full_row_bounds</strong></td><td><p>rows to extract (array of size 2 holding the lower and upper inclusive bounds)
- columns to extract (array of size 2 holding the lower and upper inclusive bounds)</p></td>
+columns to extract (array of size 2 holding the lower and upper inclusive bounds)</p></td>
   
 </tr>
 
@@ -8283,7 +8283,7 @@ public subroutine <a href='../proc/dbcsr_crop_matrix.html'>dbcsr_crop_matrix</a>
   
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>full_column_bounds</strong></td><td><p>rows to extract (array of size 2 holding the lower and upper inclusive bounds)
- columns to extract (array of size 2 holding the lower and upper inclusive bounds)</p></td>
+columns to extract (array of size 2 holding the lower and upper inclusive bounds)</p></td>
   
 </tr>
 
@@ -9380,7 +9380,7 @@ private subroutine <a href='../proc/dbcsr_dot_sd.html'>dbcsr_dot_sd</a>(matrix_a
 
 
 <p>Dot product of DBCSR matrices
- \result    the dot product of the matrices</p>
+\result    the dot product of the matrices</p>
     
     <h4>Arguments</h4>
     
@@ -9407,7 +9407,7 @@ private subroutine <a href='../proc/dbcsr_dot_sd.html'>dbcsr_dot_sd</a>(matrix_a
   
   <td></td><td>::</td>
   <td><strong>matrix_a</strong></td><td><p>DBCSR matrices
- DBCSR matrices</p></td>
+DBCSR matrices</p></td>
   
 </tr>
 
@@ -9423,7 +9423,7 @@ private subroutine <a href='../proc/dbcsr_dot_sd.html'>dbcsr_dot_sd</a>(matrix_a
   
   <td></td><td>::</td>
   <td><strong>matrix_b</strong></td><td><p>DBCSR matrices
- DBCSR matrices</p></td>
+DBCSR matrices</p></td>
   
 </tr>
 
@@ -9572,7 +9572,7 @@ private subroutine <a href='../proc/dbcsr_dot_d.html'>dbcsr_dot_d</a>(matrix_a, 
   
   <td></td><td>::</td>
   <td><strong>matrix_a</strong></td><td><p>DBCSR matrices
- DBCSR matrices</p></td>
+DBCSR matrices</p></td>
   
 </tr>
 
@@ -9588,7 +9588,7 @@ private subroutine <a href='../proc/dbcsr_dot_d.html'>dbcsr_dot_d</a>(matrix_a, 
   
   <td></td><td>::</td>
   <td><strong>matrix_b</strong></td><td><p>DBCSR matrices
- DBCSR matrices</p></td>
+DBCSR matrices</p></td>
   
 </tr>
 
@@ -10634,7 +10634,7 @@ private subroutine <a href='../proc/dbcsr_dot_s.html'>dbcsr_dot_s</a>(matrix_a, 
   
   <td></td><td>::</td>
   <td><strong>matrix_a</strong></td><td><p>DBCSR matrices
- DBCSR matrices</p></td>
+DBCSR matrices</p></td>
   
 </tr>
 
@@ -10650,7 +10650,7 @@ private subroutine <a href='../proc/dbcsr_dot_s.html'>dbcsr_dot_s</a>(matrix_a, 
   
   <td></td><td>::</td>
   <td><strong>matrix_b</strong></td><td><p>DBCSR matrices
- DBCSR matrices</p></td>
+DBCSR matrices</p></td>
   
 </tr>
 
@@ -11696,7 +11696,7 @@ private subroutine <a href='../proc/dbcsr_dot_z.html'>dbcsr_dot_z</a>(matrix_a, 
   
   <td></td><td>::</td>
   <td><strong>matrix_a</strong></td><td><p>DBCSR matrices
- DBCSR matrices</p></td>
+DBCSR matrices</p></td>
   
 </tr>
 
@@ -11712,7 +11712,7 @@ private subroutine <a href='../proc/dbcsr_dot_z.html'>dbcsr_dot_z</a>(matrix_a, 
   
   <td></td><td>::</td>
   <td><strong>matrix_b</strong></td><td><p>DBCSR matrices
- DBCSR matrices</p></td>
+DBCSR matrices</p></td>
   
 </tr>
 
@@ -12758,7 +12758,7 @@ private subroutine <a href='../proc/dbcsr_dot_c.html'>dbcsr_dot_c</a>(matrix_a, 
   
   <td></td><td>::</td>
   <td><strong>matrix_a</strong></td><td><p>DBCSR matrices
- DBCSR matrices</p></td>
+DBCSR matrices</p></td>
   
 </tr>
 
@@ -12774,7 +12774,7 @@ private subroutine <a href='../proc/dbcsr_dot_c.html'>dbcsr_dot_c</a>(matrix_a, 
   
   <td></td><td>::</td>
   <td><strong>matrix_b</strong></td><td><p>DBCSR matrices
- DBCSR matrices</p></td>
+DBCSR matrices</p></td>
   
 </tr>
 

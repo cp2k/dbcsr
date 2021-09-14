@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -280,12 +280,12 @@
     
     <div class="col-md-9" id='text'>
     <p>Second layer of the dbcsr matrix-matrix multiplication.
- It divides the multiplication in a cache-oblivious manner.
- <b>Modification history:</b>
- - 2010-02-23 Moved from dbcsr_operations
- - 2011-11    Moved parameter-stack processing routines to
- dbcsr_mm_methods.
- - 2013-01    extensive refactoring (Ole Schuett)</p>
+It divides the multiplication in a cache-oblivious manner.
+<b>Modification history:</b>
+- 2010-02-23 Moved from dbcsr_operations
+- 2011-11    Moved parameter-stack processing routines to
+dbcsr_mm_methods.
+- 2013-01    extensive refactoring (Ole Schuett)</p>
       <br>
     
   
@@ -298,21 +298,21 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
+    <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
+    
+    <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
+    
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    
     <li><a href='../module/dbcsr_mm_csr.html'>dbcsr_mm_csr</a></li>
     
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-    
-    <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
     
     <li><a href='../module/dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
     
     <li><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
     
-    <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
-    
     <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
-    
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
   </ul>
       </li>
@@ -512,7 +512,7 @@
     
     
     <p>Used to carry data among the various calls.  Each thread has
- its own private copy.</p>
+its own private copy.</p>
     
      
      <h4>Components</h4>
@@ -537,8 +537,8 @@
   <td>private</td>
   <td></td><td>::</td>
   <td><strong>c_has_symmetry</strong></td><td></td><td></td><td><p>The product matrix has symmetry
- Sparsity of C matrix should be kept
- Use on-the-fly filtering</p></td>
+Sparsity of C matrix should be kept
+Use on-the-fly filtering</p></td>
   
 </tr>
 
@@ -553,8 +553,8 @@
   <td>private</td>
   <td></td><td>::</td>
   <td><strong>keep_sparsity</strong></td><td></td><td></td><td><p>The product matrix has symmetry
- Sparsity of C matrix should be kept
- Use on-the-fly filtering</p></td>
+Sparsity of C matrix should be kept
+Use on-the-fly filtering</p></td>
   
 </tr>
 
@@ -569,8 +569,8 @@
   <td>private</td>
   <td></td><td>::</td>
   <td><strong>use_eps</strong></td><td></td><td></td><td><p>The product matrix has symmetry
- Sparsity of C matrix should be kept
- Use on-the-fly filtering</p></td>
+Sparsity of C matrix should be kept
+Use on-the-fly filtering</p></td>
   
 </tr>
 
@@ -585,8 +585,8 @@
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>m_sizes</strong></td><td></td><td></td><td><p>Block sizes of A and C matrix rows, indexed locally
- Block sizes of B and C matrix columns, indexed locally
- Block sizes of A matrix columns and B matrix rows, indexed locally</p></td>
+Block sizes of B and C matrix columns, indexed locally
+Block sizes of A matrix columns and B matrix rows, indexed locally</p></td>
   
 </tr>
 
@@ -601,8 +601,8 @@
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>n_sizes</strong></td><td></td><td></td><td><p>Block sizes of A and C matrix rows, indexed locally
- Block sizes of B and C matrix columns, indexed locally
- Block sizes of A matrix columns and B matrix rows, indexed locally</p></td>
+Block sizes of B and C matrix columns, indexed locally
+Block sizes of A matrix columns and B matrix rows, indexed locally</p></td>
   
 </tr>
 
@@ -617,8 +617,8 @@
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>k_sizes</strong></td><td></td><td></td><td><p>Block sizes of A and C matrix rows, indexed locally
- Block sizes of B and C matrix columns, indexed locally
- Block sizes of A matrix columns and B matrix rows, indexed locally</p></td>
+Block sizes of B and C matrix columns, indexed locally
+Block sizes of A matrix columns and B matrix rows, indexed locally</p></td>
   
 </tr>
 
@@ -661,10 +661,10 @@
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>c_local_rows</strong></td><td></td><td></td><td><p>C and A matrix local rows.  Map from local row (index) to global row (value).
- C and B matrix local columns.  Map from local column (index) to global column (value).
- A matrix local columns and B matrix local rows.  Map from local row/column (index) to global row/column (value).
- C and A matrix global rows.  Map from global rows (index) to local rows (value).
- C and B matrix global columns.  Map from global columns (index) to local columns (value).</p></td>
+C and B matrix local columns.  Map from local column (index) to global column (value).
+A matrix local columns and B matrix local rows.  Map from local row/column (index) to global row/column (value).
+C and A matrix global rows.  Map from global rows (index) to local rows (value).
+C and B matrix global columns.  Map from global columns (index) to local columns (value).</p></td>
   
 </tr>
 
@@ -679,10 +679,10 @@
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>c_local_cols</strong></td><td></td><td></td><td><p>C and A matrix local rows.  Map from local row (index) to global row (value).
- C and B matrix local columns.  Map from local column (index) to global column (value).
- A matrix local columns and B matrix local rows.  Map from local row/column (index) to global row/column (value).
- C and A matrix global rows.  Map from global rows (index) to local rows (value).
- C and B matrix global columns.  Map from global columns (index) to local columns (value).</p></td>
+C and B matrix local columns.  Map from local column (index) to global column (value).
+A matrix local columns and B matrix local rows.  Map from local row/column (index) to global row/column (value).
+C and A matrix global rows.  Map from global rows (index) to local rows (value).
+C and B matrix global columns.  Map from global columns (index) to local columns (value).</p></td>
   
 </tr>
 
@@ -697,10 +697,10 @@
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>k_locals</strong></td><td></td><td></td><td><p>C and A matrix local rows.  Map from local row (index) to global row (value).
- C and B matrix local columns.  Map from local column (index) to global column (value).
- A matrix local columns and B matrix local rows.  Map from local row/column (index) to global row/column (value).
- C and A matrix global rows.  Map from global rows (index) to local rows (value).
- C and B matrix global columns.  Map from global columns (index) to local columns (value).</p></td>
+C and B matrix local columns.  Map from local column (index) to global column (value).
+A matrix local columns and B matrix local rows.  Map from local row/column (index) to global row/column (value).
+C and A matrix global rows.  Map from global rows (index) to local rows (value).
+C and B matrix global columns.  Map from global columns (index) to local columns (value).</p></td>
   
 </tr>
 
@@ -715,10 +715,10 @@
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>c_global_rows</strong></td><td></td><td></td><td><p>C and A matrix local rows.  Map from local row (index) to global row (value).
- C and B matrix local columns.  Map from local column (index) to global column (value).
- A matrix local columns and B matrix local rows.  Map from local row/column (index) to global row/column (value).
- C and A matrix global rows.  Map from global rows (index) to local rows (value).
- C and B matrix global columns.  Map from global columns (index) to local columns (value).</p></td>
+C and B matrix local columns.  Map from local column (index) to global column (value).
+A matrix local columns and B matrix local rows.  Map from local row/column (index) to global row/column (value).
+C and A matrix global rows.  Map from global rows (index) to local rows (value).
+C and B matrix global columns.  Map from global columns (index) to local columns (value).</p></td>
   
 </tr>
 
@@ -733,10 +733,10 @@
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>c_global_cols</strong></td><td></td><td></td><td><p>C and A matrix local rows.  Map from local row (index) to global row (value).
- C and B matrix local columns.  Map from local column (index) to global column (value).
- A matrix local columns and B matrix local rows.  Map from local row/column (index) to global row/column (value).
- C and A matrix global rows.  Map from global rows (index) to local rows (value).
- C and B matrix global columns.  Map from global columns (index) to local columns (value).</p></td>
+C and B matrix local columns.  Map from local column (index) to global column (value).
+A matrix local columns and B matrix local rows.  Map from local row/column (index) to global row/column (value).
+C and A matrix global rows.  Map from global rows (index) to local rows (value).
+C and B matrix global columns.  Map from global columns (index) to local columns (value).</p></td>
   
 </tr>
 
@@ -751,8 +751,8 @@
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>row_max_epss</strong></td><td></td><td></td><td><p>Maximum eps to be used for one row.
- Norms of A matrix blocks.
- Norms of B matrix blocks.</p></td>
+Norms of A matrix blocks.
+Norms of B matrix blocks.</p></td>
   
 </tr>
 
@@ -767,8 +767,8 @@
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>a_norms</strong></td><td></td><td></td><td><p>Maximum eps to be used for one row.
- Norms of A matrix blocks.
- Norms of B matrix blocks.</p></td>
+Norms of A matrix blocks.
+Norms of B matrix blocks.</p></td>
   
 </tr>
 
@@ -783,8 +783,8 @@
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>b_norms</strong></td><td></td><td></td><td><p>Maximum eps to be used for one row.
- Norms of A matrix blocks.
- Norms of B matrix blocks.</p></td>
+Norms of A matrix blocks.
+Norms of B matrix blocks.</p></td>
   
 </tr>
 
@@ -1379,7 +1379,7 @@ public subroutine <a href='../proc/dbcsr_mm_multrec_init.html'>dbcsr_mm_multrec_
   
   <td></td><td>::</td>
   <td><strong>left</strong></td><td><p>left DBCSR matrix
- right DBCSR matrix</p></td>
+right DBCSR matrix</p></td>
   
 </tr>
 
@@ -1395,7 +1395,7 @@ public subroutine <a href='../proc/dbcsr_mm_multrec_init.html'>dbcsr_mm_multrec_
   
   <td></td><td>::</td>
   <td><strong>right</strong></td><td><p>left DBCSR matrix
- right DBCSR matrix</p></td>
+right DBCSR matrix</p></td>
   
 </tr>
 
@@ -1564,14 +1564,7 @@ public subroutine <a href='../proc/dbcsr_mm_multrec_multiply.html'>dbcsr_mm_mult
 
 
 <p>Multiplies two DBCSR matrices using recursive algorithm
- This routine sets up the multiplication.  Specifically, it <ul>
- 
-<li> verifies input sanity
- <li> converts everything into "local indexing"
- </ul>
-
-
-</p>
+This routine sets up the multiplication.  Specifically, it <ul></p><a href="../proc/dbcsr_mm_multrec_multiply.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -1613,7 +1606,7 @@ public subroutine <a href='../proc/dbcsr_mm_multrec_multiply.html'>dbcsr_mm_mult
   
   <td></td><td>::</td>
   <td><strong>left</strong></td><td><p>left DBCSR matrix
- right DBCSR matrix</p></td>
+right DBCSR matrix</p></td>
   
 </tr>
 
@@ -1629,7 +1622,7 @@ public subroutine <a href='../proc/dbcsr_mm_multrec_multiply.html'>dbcsr_mm_mult
   
   <td></td><td>::</td>
   <td><strong>right</strong></td><td><p>left DBCSR matrix
- right DBCSR matrix</p></td>
+right DBCSR matrix</p></td>
   
 </tr>
 
@@ -1660,7 +1653,7 @@ public subroutine <a href='../proc/dbcsr_mm_multrec_multiply.html'>dbcsr_mm_mult
   
   <td>DIMENSION(:), TARGET</td><td>::</td>
   <td><strong>a_norms</strong></td><td><p>norms of left-matrix blocks
- norms of right-matrix blocks</p></td>
+norms of right-matrix blocks</p></td>
   
 </tr>
 
@@ -1676,7 +1669,7 @@ public subroutine <a href='../proc/dbcsr_mm_multrec_multiply.html'>dbcsr_mm_mult
   
   <td>DIMENSION(:), TARGET</td><td>::</td>
   <td><strong>b_norms</strong></td><td><p>norms of left-matrix blocks
- norms of right-matrix blocks</p></td>
+norms of right-matrix blocks</p></td>
   
 </tr>
 
@@ -2528,7 +2521,7 @@ private pure subroutine <a href='../proc/local_filter_sp.html'>local_filter_sp</
 
 
 <p>Gathers the local elements from all data (full_data) for
- single precision elements.</p>
+single precision elements.</p>
     
     <h4>Arguments</h4>
     
@@ -2633,7 +2626,7 @@ private subroutine <a href='../proc/multrec_filtering_d.html'>multrec_filtering_
 
 
 <p>Applying in-place filtering on the workspace.
- \brief Use Frobenius norm</p>
+\brief Use Frobenius norm</p>
     
     <h4>Arguments</h4>
     
@@ -2813,7 +2806,7 @@ private subroutine <a href='../proc/multrec_filtering_s.html'>multrec_filtering_
 
 
 <p>Applying in-place filtering on the workspace.
- \brief Use Frobenius norm</p>
+\brief Use Frobenius norm</p>
     
     <h4>Arguments</h4>
     
@@ -2993,7 +2986,7 @@ private subroutine <a href='../proc/multrec_filtering_z.html'>multrec_filtering_
 
 
 <p>Applying in-place filtering on the workspace.
- \brief Use Frobenius norm</p>
+\brief Use Frobenius norm</p>
     
     <h4>Arguments</h4>
     
@@ -3173,7 +3166,7 @@ private subroutine <a href='../proc/multrec_filtering_c.html'>multrec_filtering_
 
 
 <p>Applying in-place filtering on the workspace.
- \brief Use Frobenius norm</p>
+\brief Use Frobenius norm</p>
     
     <h4>Arguments</h4>
     

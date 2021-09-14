@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -216,11 +216,11 @@ public subroutine dbcsr_sort_indices(n, row_i, col_i, blk_p, blk_d)
     
     <p>Sorts the rows &amp; columns of a work matrix</p>
 <p>Description
- Sorts the row and column indices so that the rows monotonically
- increase and the columns monotonically increase within each row.
- Passing the blk_p array rearranges the block pointers accordingly.
- This must be done if they are pointing to valid data, otherwise
- they become invalid.</p>
+Sorts the row and column indices so that the rows monotonically
+increase and the columns monotonically increase within each row.
+Passing the blk_p array rearranges the block pointers accordingly.
+This must be done if they are pointing to valid data, otherwise
+they become invalid.</p>
     
 
     <h3>Arguments</h3>
@@ -262,7 +262,7 @@ public subroutine dbcsr_sort_indices(n, row_i, col_i, blk_p, blk_d)
   
   <td>DIMENSION(1:)</td><td>::</td>
   <td><strong>row_i</strong></td><td><p>row indices
- column indices</p></td>
+column indices</p></td>
   
 </tr>
 
@@ -278,7 +278,7 @@ public subroutine dbcsr_sort_indices(n, row_i, col_i, blk_p, blk_d)
   
   <td>DIMENSION(1:)</td><td>::</td>
   <td><strong>col_i</strong></td><td><p>row indices
- column indices</p></td>
+column indices</p></td>
   
 </tr>
 
@@ -294,7 +294,7 @@ public subroutine dbcsr_sort_indices(n, row_i, col_i, blk_p, blk_d)
   
   <td>DIMENSION(1:)</td><td>::</td>
   <td><strong>blk_p</strong></td><td><p>block pointers
- data storage</p></td>
+data storage</p></td>
   
 </tr>
 
@@ -310,7 +310,7 @@ public subroutine dbcsr_sort_indices(n, row_i, col_i, blk_p, blk_d)
   
   <td>DIMENSION(1:)</td><td>::</td>
   <td><strong>blk_d</strong></td><td><p>block pointers
- data storage</p></td>
+data storage</p></td>
   
 </tr>
 

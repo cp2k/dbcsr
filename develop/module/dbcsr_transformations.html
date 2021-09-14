@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -260,13 +260,19 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></li>
-    
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
-    <li><a href='../module/dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
+    <li><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
+    
+    <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
+    
+    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+    
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
     <li><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
+    
+    <li><a href='../module/dbcsr_iterator_operations.html'>dbcsr_iterator_operations</a></li>
     
     <li><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
     
@@ -274,9 +280,13 @@
     
     <li><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
     
+    <li><a href='../module/dbcsr_data_operations.html'>dbcsr_data_operations</a></li>
+    
     <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
     
     <li><a href='../module/dbcsr_mp_operations.html'>dbcsr_mp_operations</a></li>
+    
+    <li><a href='../module/dbcsr_index_operations.html'>dbcsr_index_operations</a></li>
     
     <li><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
     
@@ -286,19 +296,9 @@
     
     <li><a href='../module/dbcsr_block_access.html'>dbcsr_block_access</a></li>
     
-    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
-    
-    <li><a href='../module/dbcsr_data_operations.html'>dbcsr_data_operations</a></li>
-    
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-    
-    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
-    
-    <li><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
-    
     <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
     
-    <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
+    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
     
   </ul>
       </li>
@@ -536,9 +536,9 @@ public subroutine <a href='../proc/dbcsr_new_transposed.html'>dbcsr_new_transpos
   
   <td></td><td>::</td>
   <td><strong>shallow_data_copy</strong></td><td><p>only shallow data_copy; default is no; if set, the transpose_data option is ignored
- transpose data blocks, default is True
- transpose the distribution from the input matrix, default is True
- transpose the index (default=yes) or turn it into BCSC</p></td>
+transpose data blocks, default is True
+transpose the distribution from the input matrix, default is True
+transpose the index (default=yes) or turn it into BCSC</p></td>
   
 </tr>
 
@@ -554,9 +554,9 @@ public subroutine <a href='../proc/dbcsr_new_transposed.html'>dbcsr_new_transpos
   
   <td></td><td>::</td>
   <td><strong>transpose_data</strong></td><td><p>only shallow data_copy; default is no; if set, the transpose_data option is ignored
- transpose data blocks, default is True
- transpose the distribution from the input matrix, default is True
- transpose the index (default=yes) or turn it into BCSC</p></td>
+transpose data blocks, default is True
+transpose the distribution from the input matrix, default is True
+transpose the index (default=yes) or turn it into BCSC</p></td>
   
 </tr>
 
@@ -572,9 +572,9 @@ public subroutine <a href='../proc/dbcsr_new_transposed.html'>dbcsr_new_transpos
   
   <td></td><td>::</td>
   <td><strong>transpose_distribution</strong></td><td><p>only shallow data_copy; default is no; if set, the transpose_data option is ignored
- transpose data blocks, default is True
- transpose the distribution from the input matrix, default is True
- transpose the index (default=yes) or turn it into BCSC</p></td>
+transpose data blocks, default is True
+transpose the distribution from the input matrix, default is True
+transpose the index (default=yes) or turn it into BCSC</p></td>
   
 </tr>
 
@@ -590,9 +590,9 @@ public subroutine <a href='../proc/dbcsr_new_transposed.html'>dbcsr_new_transpos
   
   <td></td><td>::</td>
   <td><strong>transpose_index</strong></td><td><p>only shallow data_copy; default is no; if set, the transpose_data option is ignored
- transpose data blocks, default is True
- transpose the distribution from the input matrix, default is True
- transpose the index (default=yes) or turn it into BCSC</p></td>
+transpose data blocks, default is True
+transpose the distribution from the input matrix, default is True
+transpose the index (default=yes) or turn it into BCSC</p></td>
   
 </tr>
 
@@ -790,8 +790,8 @@ public subroutine <a href='../proc/dbcsr_desymmetrize_deep.html'>dbcsr_desymmetr
 
 
 <p>Duplicates data in symmetric matrix to make it normal (w.r.t. data
- structure. Can handle symmetric/antisymmetric/hermitian/skewhermitian
- matrices</p>
+structure. Can handle symmetric/antisymmetric/hermitian/skewhermitian
+matrices</p>
     
     <h4>Arguments</h4>
     
@@ -1014,7 +1014,7 @@ public subroutine <a href='../proc/dbcsr_make_dense.html'>dbcsr_make_dense</a>(m
 
 
 <p>Makes a dense matrix, inplace.
- </p><a href="../proc/dbcsr_make_dense.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+</p><a href="../proc/dbcsr_make_dense.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -1164,7 +1164,7 @@ public subroutine <a href='../proc/dbcsr_make_dense_low.html'>dbcsr_make_dense_l
 
 
 <p>Copies a matrix and makes its data dense.
- </p><a href="../proc/dbcsr_make_dense_low.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+</p><a href="../proc/dbcsr_make_dense_low.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -1221,15 +1221,15 @@ public subroutine <a href='../proc/dbcsr_make_dense_low.html'>dbcsr_make_dense_l
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>und_local_rows</strong></td><td><p>The process-grid local rows of the non-dense und_matrix
- The process-grid local columns of the non-dense und_matrix
- The block offsets of the rows of the non-dense matrix
- The block offsets of the columns of the non-dense matrix
- The process-grid local rows of the dense matrix
- The process-grid local columns of the dense matrix
- The block offsets of the rows of the dense matrix
- The block offsets of the columns of the dense matrix
- Mapping of non-dense rows to dense rows
- Mapping of non-dense columns to dense columns</p></td>
+The process-grid local columns of the non-dense und_matrix
+The block offsets of the rows of the non-dense matrix
+The block offsets of the columns of the non-dense matrix
+The process-grid local rows of the dense matrix
+The process-grid local columns of the dense matrix
+The block offsets of the rows of the dense matrix
+The block offsets of the columns of the dense matrix
+Mapping of non-dense rows to dense rows
+Mapping of non-dense columns to dense columns</p></td>
   
 </tr>
 
@@ -1245,15 +1245,15 @@ public subroutine <a href='../proc/dbcsr_make_dense_low.html'>dbcsr_make_dense_l
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>und_local_cols</strong></td><td><p>The process-grid local rows of the non-dense und_matrix
- The process-grid local columns of the non-dense und_matrix
- The block offsets of the rows of the non-dense matrix
- The block offsets of the columns of the non-dense matrix
- The process-grid local rows of the dense matrix
- The process-grid local columns of the dense matrix
- The block offsets of the rows of the dense matrix
- The block offsets of the columns of the dense matrix
- Mapping of non-dense rows to dense rows
- Mapping of non-dense columns to dense columns</p></td>
+The process-grid local columns of the non-dense und_matrix
+The block offsets of the rows of the non-dense matrix
+The block offsets of the columns of the non-dense matrix
+The process-grid local rows of the dense matrix
+The process-grid local columns of the dense matrix
+The block offsets of the rows of the dense matrix
+The block offsets of the columns of the dense matrix
+Mapping of non-dense rows to dense rows
+Mapping of non-dense columns to dense columns</p></td>
   
 </tr>
 
@@ -1269,15 +1269,15 @@ public subroutine <a href='../proc/dbcsr_make_dense_low.html'>dbcsr_make_dense_l
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>und_row_blk_offsets</strong></td><td><p>The process-grid local rows of the non-dense und_matrix
- The process-grid local columns of the non-dense und_matrix
- The block offsets of the rows of the non-dense matrix
- The block offsets of the columns of the non-dense matrix
- The process-grid local rows of the dense matrix
- The process-grid local columns of the dense matrix
- The block offsets of the rows of the dense matrix
- The block offsets of the columns of the dense matrix
- Mapping of non-dense rows to dense rows
- Mapping of non-dense columns to dense columns</p></td>
+The process-grid local columns of the non-dense und_matrix
+The block offsets of the rows of the non-dense matrix
+The block offsets of the columns of the non-dense matrix
+The process-grid local rows of the dense matrix
+The process-grid local columns of the dense matrix
+The block offsets of the rows of the dense matrix
+The block offsets of the columns of the dense matrix
+Mapping of non-dense rows to dense rows
+Mapping of non-dense columns to dense columns</p></td>
   
 </tr>
 
@@ -1293,15 +1293,15 @@ public subroutine <a href='../proc/dbcsr_make_dense_low.html'>dbcsr_make_dense_l
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>und_col_blk_offsets</strong></td><td><p>The process-grid local rows of the non-dense und_matrix
- The process-grid local columns of the non-dense und_matrix
- The block offsets of the rows of the non-dense matrix
- The block offsets of the columns of the non-dense matrix
- The process-grid local rows of the dense matrix
- The process-grid local columns of the dense matrix
- The block offsets of the rows of the dense matrix
- The block offsets of the columns of the dense matrix
- Mapping of non-dense rows to dense rows
- Mapping of non-dense columns to dense columns</p></td>
+The process-grid local columns of the non-dense und_matrix
+The block offsets of the rows of the non-dense matrix
+The block offsets of the columns of the non-dense matrix
+The process-grid local rows of the dense matrix
+The process-grid local columns of the dense matrix
+The block offsets of the rows of the dense matrix
+The block offsets of the columns of the dense matrix
+Mapping of non-dense rows to dense rows
+Mapping of non-dense columns to dense columns</p></td>
   
 </tr>
 
@@ -1317,15 +1317,15 @@ public subroutine <a href='../proc/dbcsr_make_dense_low.html'>dbcsr_make_dense_l
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>dense_local_rows</strong></td><td><p>The process-grid local rows of the non-dense und_matrix
- The process-grid local columns of the non-dense und_matrix
- The block offsets of the rows of the non-dense matrix
- The block offsets of the columns of the non-dense matrix
- The process-grid local rows of the dense matrix
- The process-grid local columns of the dense matrix
- The block offsets of the rows of the dense matrix
- The block offsets of the columns of the dense matrix
- Mapping of non-dense rows to dense rows
- Mapping of non-dense columns to dense columns</p></td>
+The process-grid local columns of the non-dense und_matrix
+The block offsets of the rows of the non-dense matrix
+The block offsets of the columns of the non-dense matrix
+The process-grid local rows of the dense matrix
+The process-grid local columns of the dense matrix
+The block offsets of the rows of the dense matrix
+The block offsets of the columns of the dense matrix
+Mapping of non-dense rows to dense rows
+Mapping of non-dense columns to dense columns</p></td>
   
 </tr>
 
@@ -1341,15 +1341,15 @@ public subroutine <a href='../proc/dbcsr_make_dense_low.html'>dbcsr_make_dense_l
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>dense_local_cols</strong></td><td><p>The process-grid local rows of the non-dense und_matrix
- The process-grid local columns of the non-dense und_matrix
- The block offsets of the rows of the non-dense matrix
- The block offsets of the columns of the non-dense matrix
- The process-grid local rows of the dense matrix
- The process-grid local columns of the dense matrix
- The block offsets of the rows of the dense matrix
- The block offsets of the columns of the dense matrix
- Mapping of non-dense rows to dense rows
- Mapping of non-dense columns to dense columns</p></td>
+The process-grid local columns of the non-dense und_matrix
+The block offsets of the rows of the non-dense matrix
+The block offsets of the columns of the non-dense matrix
+The process-grid local rows of the dense matrix
+The process-grid local columns of the dense matrix
+The block offsets of the rows of the dense matrix
+The block offsets of the columns of the dense matrix
+Mapping of non-dense rows to dense rows
+Mapping of non-dense columns to dense columns</p></td>
   
 </tr>
 
@@ -1365,15 +1365,15 @@ public subroutine <a href='../proc/dbcsr_make_dense_low.html'>dbcsr_make_dense_l
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>dense_row_blk_offsets</strong></td><td><p>The process-grid local rows of the non-dense und_matrix
- The process-grid local columns of the non-dense und_matrix
- The block offsets of the rows of the non-dense matrix
- The block offsets of the columns of the non-dense matrix
- The process-grid local rows of the dense matrix
- The process-grid local columns of the dense matrix
- The block offsets of the rows of the dense matrix
- The block offsets of the columns of the dense matrix
- Mapping of non-dense rows to dense rows
- Mapping of non-dense columns to dense columns</p></td>
+The process-grid local columns of the non-dense und_matrix
+The block offsets of the rows of the non-dense matrix
+The block offsets of the columns of the non-dense matrix
+The process-grid local rows of the dense matrix
+The process-grid local columns of the dense matrix
+The block offsets of the rows of the dense matrix
+The block offsets of the columns of the dense matrix
+Mapping of non-dense rows to dense rows
+Mapping of non-dense columns to dense columns</p></td>
   
 </tr>
 
@@ -1389,15 +1389,15 @@ public subroutine <a href='../proc/dbcsr_make_dense_low.html'>dbcsr_make_dense_l
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>dense_col_blk_offsets</strong></td><td><p>The process-grid local rows of the non-dense und_matrix
- The process-grid local columns of the non-dense und_matrix
- The block offsets of the rows of the non-dense matrix
- The block offsets of the columns of the non-dense matrix
- The process-grid local rows of the dense matrix
- The process-grid local columns of the dense matrix
- The block offsets of the rows of the dense matrix
- The block offsets of the columns of the dense matrix
- Mapping of non-dense rows to dense rows
- Mapping of non-dense columns to dense columns</p></td>
+The process-grid local columns of the non-dense und_matrix
+The block offsets of the rows of the non-dense matrix
+The block offsets of the columns of the non-dense matrix
+The process-grid local rows of the dense matrix
+The process-grid local columns of the dense matrix
+The block offsets of the rows of the dense matrix
+The block offsets of the columns of the dense matrix
+Mapping of non-dense rows to dense rows
+Mapping of non-dense columns to dense columns</p></td>
   
 </tr>
 
@@ -1413,15 +1413,15 @@ public subroutine <a href='../proc/dbcsr_make_dense_low.html'>dbcsr_make_dense_l
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>row_map</strong></td><td><p>The process-grid local rows of the non-dense und_matrix
- The process-grid local columns of the non-dense und_matrix
- The block offsets of the rows of the non-dense matrix
- The block offsets of the columns of the non-dense matrix
- The process-grid local rows of the dense matrix
- The process-grid local columns of the dense matrix
- The block offsets of the rows of the dense matrix
- The block offsets of the columns of the dense matrix
- Mapping of non-dense rows to dense rows
- Mapping of non-dense columns to dense columns</p></td>
+The process-grid local columns of the non-dense und_matrix
+The block offsets of the rows of the non-dense matrix
+The block offsets of the columns of the non-dense matrix
+The process-grid local rows of the dense matrix
+The process-grid local columns of the dense matrix
+The block offsets of the rows of the dense matrix
+The block offsets of the columns of the dense matrix
+Mapping of non-dense rows to dense rows
+Mapping of non-dense columns to dense columns</p></td>
   
 </tr>
 
@@ -1437,15 +1437,15 @@ public subroutine <a href='../proc/dbcsr_make_dense_low.html'>dbcsr_make_dense_l
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>col_map</strong></td><td><p>The process-grid local rows of the non-dense und_matrix
- The process-grid local columns of the non-dense und_matrix
- The block offsets of the rows of the non-dense matrix
- The block offsets of the columns of the non-dense matrix
- The process-grid local rows of the dense matrix
- The process-grid local columns of the dense matrix
- The block offsets of the rows of the dense matrix
- The block offsets of the columns of the dense matrix
- Mapping of non-dense rows to dense rows
- Mapping of non-dense columns to dense columns</p></td>
+The process-grid local columns of the non-dense und_matrix
+The block offsets of the rows of the non-dense matrix
+The block offsets of the columns of the non-dense matrix
+The process-grid local rows of the dense matrix
+The process-grid local columns of the dense matrix
+The block offsets of the rows of the dense matrix
+The block offsets of the columns of the dense matrix
+Mapping of non-dense rows to dense rows
+Mapping of non-dense columns to dense columns</p></td>
   
 </tr>
 
@@ -1461,7 +1461,7 @@ public subroutine <a href='../proc/dbcsr_make_dense_low.html'>dbcsr_make_dense_l
   
   <td></td><td>::</td>
   <td><strong>join_rows</strong></td><td><p>Make rows dense
- Make columns dense</p></td>
+Make columns dense</p></td>
   
 </tr>
 
@@ -1477,7 +1477,7 @@ public subroutine <a href='../proc/dbcsr_make_dense_low.html'>dbcsr_make_dense_l
   
   <td></td><td>::</td>
   <td><strong>join_cols</strong></td><td><p>Make rows dense
- Make columns dense</p></td>
+Make columns dense</p></td>
   
 </tr>
 
@@ -1511,7 +1511,7 @@ public subroutine <a href='../proc/dbcsr_make_undense.html'>dbcsr_make_undense</
 
 
 <p>Makes a blocked matrix from a dense matrix, inplace
- </p><a href="../proc/dbcsr_make_undense.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+</p><a href="../proc/dbcsr_make_undense.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -1583,11 +1583,11 @@ public subroutine <a href='../proc/dbcsr_make_undense.html'>dbcsr_make_undense</
   
   <td></td><td>::</td>
   <td><strong>row_blk_offsets</strong></td><td><p>non-dense row block offsets
- non-dense column block offsets
- non-dense row block sizes
- non-dense column block sizes
- mapping from non-dense rows
- mapping from non-dense columns</p></td>
+non-dense column block offsets
+non-dense row block sizes
+non-dense column block sizes
+mapping from non-dense rows
+mapping from non-dense columns</p></td>
   
 </tr>
 
@@ -1603,11 +1603,11 @@ public subroutine <a href='../proc/dbcsr_make_undense.html'>dbcsr_make_undense</
   
   <td></td><td>::</td>
   <td><strong>col_blk_offsets</strong></td><td><p>non-dense row block offsets
- non-dense column block offsets
- non-dense row block sizes
- non-dense column block sizes
- mapping from non-dense rows
- mapping from non-dense columns</p></td>
+non-dense column block offsets
+non-dense row block sizes
+non-dense column block sizes
+mapping from non-dense rows
+mapping from non-dense columns</p></td>
   
 </tr>
 
@@ -1623,11 +1623,11 @@ public subroutine <a href='../proc/dbcsr_make_undense.html'>dbcsr_make_undense</
   
   <td></td><td>::</td>
   <td><strong>row_blk_sizes</strong></td><td><p>non-dense row block offsets
- non-dense column block offsets
- non-dense row block sizes
- non-dense column block sizes
- mapping from non-dense rows
- mapping from non-dense columns</p></td>
+non-dense column block offsets
+non-dense row block sizes
+non-dense column block sizes
+mapping from non-dense rows
+mapping from non-dense columns</p></td>
   
 </tr>
 
@@ -1643,11 +1643,11 @@ public subroutine <a href='../proc/dbcsr_make_undense.html'>dbcsr_make_undense</
   
   <td></td><td>::</td>
   <td><strong>col_blk_sizes</strong></td><td><p>non-dense row block offsets
- non-dense column block offsets
- non-dense row block sizes
- non-dense column block sizes
- mapping from non-dense rows
- mapping from non-dense columns</p></td>
+non-dense column block offsets
+non-dense row block sizes
+non-dense column block sizes
+mapping from non-dense rows
+mapping from non-dense columns</p></td>
   
 </tr>
 
@@ -1663,11 +1663,11 @@ public subroutine <a href='../proc/dbcsr_make_undense.html'>dbcsr_make_undense</
   
   <td></td><td>::</td>
   <td><strong>row_map</strong></td><td><p>non-dense row block offsets
- non-dense column block offsets
- non-dense row block sizes
- non-dense column block sizes
- mapping from non-dense rows
- mapping from non-dense columns</p></td>
+non-dense column block offsets
+non-dense row block sizes
+non-dense column block sizes
+mapping from non-dense rows
+mapping from non-dense columns</p></td>
   
 </tr>
 
@@ -1683,11 +1683,11 @@ public subroutine <a href='../proc/dbcsr_make_undense.html'>dbcsr_make_undense</
   
   <td></td><td>::</td>
   <td><strong>col_map</strong></td><td><p>non-dense row block offsets
- non-dense column block offsets
- non-dense row block sizes
- non-dense column block sizes
- mapping from non-dense rows
- mapping from non-dense columns</p></td>
+non-dense column block offsets
+non-dense row block sizes
+non-dense column block sizes
+mapping from non-dense rows
+mapping from non-dense columns</p></td>
   
 </tr>
 
@@ -1721,7 +1721,7 @@ private subroutine <a href='../proc/make_dense_data.html'>make_dense_data</a>(ma
 
 
 <p>Shuffles the data from blocked to standard dense form
- </p><a href="../proc/make_dense_data.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+</p><a href="../proc/make_dense_data.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -1778,7 +1778,7 @@ private subroutine <a href='../proc/make_dense_data.html'>make_dense_data</a>(ma
   
   <td></td><td>::</td>
   <td><strong>nfullrows</strong></td><td><p>size of new data
- size of new data</p></td>
+size of new data</p></td>
   
 </tr>
 
@@ -1794,7 +1794,7 @@ private subroutine <a href='../proc/make_dense_data.html'>make_dense_data</a>(ma
   
   <td></td><td>::</td>
   <td><strong>nfullcols</strong></td><td><p>size of new data
- size of new data</p></td>
+size of new data</p></td>
   
 </tr>
 
@@ -1930,8 +1930,8 @@ private subroutine <a href='../proc/make_dense_data.html'>make_dense_data</a>(ma
   
   <td></td><td>::</td>
   <td><strong>join_rows</strong></td><td><p>make rows dense, default is yes
- make columns dense, default is yes
- make the dense blocks transposed</p></td>
+make columns dense, default is yes
+make the dense blocks transposed</p></td>
   
 </tr>
 
@@ -1947,8 +1947,8 @@ private subroutine <a href='../proc/make_dense_data.html'>make_dense_data</a>(ma
   
   <td></td><td>::</td>
   <td><strong>join_cols</strong></td><td><p>make rows dense, default is yes
- make columns dense, default is yes
- make the dense blocks transposed</p></td>
+make columns dense, default is yes
+make the dense blocks transposed</p></td>
   
 </tr>
 
@@ -1964,8 +1964,8 @@ private subroutine <a href='../proc/make_dense_data.html'>make_dense_data</a>(ma
   
   <td></td><td>::</td>
   <td><strong>make_tr</strong></td><td><p>make rows dense, default is yes
- make columns dense, default is yes
- make the dense blocks transposed</p></td>
+make columns dense, default is yes
+make the dense blocks transposed</p></td>
   
 </tr>
 
@@ -1999,7 +1999,7 @@ private subroutine <a href='../proc/make_undense_data.html'>make_undense_data</a
 
 
 <p>Shuffles the data from standard dense to blocked form
- </p><a href="../proc/make_undense_data.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+</p><a href="../proc/make_undense_data.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -2056,7 +2056,7 @@ private subroutine <a href='../proc/make_undense_data.html'>make_undense_data</a
   
   <td></td><td>::</td>
   <td><strong>nfullrows</strong></td><td><p>number of full rows in local submatrix
- number of full columns in local submatrix</p></td>
+number of full columns in local submatrix</p></td>
   
 </tr>
 
@@ -2072,7 +2072,7 @@ private subroutine <a href='../proc/make_undense_data.html'>make_undense_data</a
   
   <td></td><td>::</td>
   <td><strong>nfullcols</strong></td><td><p>number of full rows in local submatrix
- number of full columns in local submatrix</p></td>
+number of full columns in local submatrix</p></td>
   
 </tr>
 
@@ -2088,9 +2088,9 @@ private subroutine <a href='../proc/make_undense_data.html'>make_undense_data</a
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>dense_row_blk_offsets</strong></td><td><p>row block offsets for dense data
- column block offsets for dense data
- mapping from undense to dense rows
- mapping from undense to dense rows</p></td>
+column block offsets for dense data
+mapping from undense to dense rows
+mapping from undense to dense rows</p></td>
   
 </tr>
 
@@ -2106,9 +2106,9 @@ private subroutine <a href='../proc/make_undense_data.html'>make_undense_data</a
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>dense_col_blk_offsets</strong></td><td><p>row block offsets for dense data
- column block offsets for dense data
- mapping from undense to dense rows
- mapping from undense to dense rows</p></td>
+column block offsets for dense data
+mapping from undense to dense rows
+mapping from undense to dense rows</p></td>
   
 </tr>
 
@@ -2124,9 +2124,9 @@ private subroutine <a href='../proc/make_undense_data.html'>make_undense_data</a
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>row_map</strong></td><td><p>row block offsets for dense data
- column block offsets for dense data
- mapping from undense to dense rows
- mapping from undense to dense rows</p></td>
+column block offsets for dense data
+mapping from undense to dense rows
+mapping from undense to dense rows</p></td>
   
 </tr>
 
@@ -2142,9 +2142,9 @@ private subroutine <a href='../proc/make_undense_data.html'>make_undense_data</a
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>col_map</strong></td><td><p>row block offsets for dense data
- column block offsets for dense data
- mapping from undense to dense rows
- mapping from undense to dense rows</p></td>
+column block offsets for dense data
+mapping from undense to dense rows
+mapping from undense to dense rows</p></td>
   
 </tr>
 
@@ -2160,9 +2160,9 @@ private subroutine <a href='../proc/make_undense_data.html'>make_undense_data</a
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>row_internal_offsets</strong></td><td><p>row block offsets for dense data
- column block offsets for dense data
- mapping from undense to dense rows
- mapping from undense to dense rows</p></td>
+column block offsets for dense data
+mapping from undense to dense rows
+mapping from undense to dense rows</p></td>
   
 </tr>
 
@@ -2178,9 +2178,9 @@ private subroutine <a href='../proc/make_undense_data.html'>make_undense_data</a
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>col_internal_offsets</strong></td><td><p>row block offsets for dense data
- column block offsets for dense data
- mapping from undense to dense rows
- mapping from undense to dense rows</p></td>
+column block offsets for dense data
+mapping from undense to dense rows
+mapping from undense to dense rows</p></td>
   
 </tr>
 
@@ -2314,7 +2314,7 @@ private subroutine <a href='../proc/dbcsr_replicate.html'>dbcsr_replicate</a>(ma
   
   <td></td><td>::</td>
   <td><strong>replicate_rows</strong></td><td><p>Row should be replicated among all processors
- Column should be replicated among all processors</p></td>
+Column should be replicated among all processors</p></td>
   
 </tr>
 
@@ -2330,7 +2330,7 @@ private subroutine <a href='../proc/dbcsr_replicate.html'>dbcsr_replicate</a>(ma
   
   <td></td><td>::</td>
   <td><strong>replicate_columns</strong></td><td><p>Row should be replicated among all processors
- Column should be replicated among all processors</p></td>
+Column should be replicated among all processors</p></td>
   
 </tr>
 
@@ -2379,9 +2379,9 @@ public subroutine <a href='../proc/dbcsr_complete_redistribute.html'>dbcsr_compl
 
 
 <p>Fully redistributes a DBCSR matrix.
- The new distribution may be arbitrary as long as the total
- number full rows and columns matches that of the existing
- matrix.</p>
+The new distribution may be arbitrary as long as the total
+number full rows and columns matches that of the existing
+matrix.</p>
     
     <h4>Arguments</h4>
     
@@ -2438,7 +2438,7 @@ public subroutine <a href='../proc/dbcsr_complete_redistribute.html'>dbcsr_compl
   
   <td></td><td>::</td>
   <td><strong>keep_sparsity</strong></td><td><p>retains the sparsity of the redist matrix
- sum blocks with identical row and col from different processes</p></td>
+sum blocks with identical row and col from different processes</p></td>
   
 </tr>
 
@@ -2454,7 +2454,7 @@ public subroutine <a href='../proc/dbcsr_complete_redistribute.html'>dbcsr_compl
   
   <td></td><td>::</td>
   <td><strong>summation</strong></td><td><p>retains the sparsity of the redist matrix
- sum blocks with identical row and col from different processes</p></td>
+sum blocks with identical row and col from different processes</p></td>
   
 </tr>
 
@@ -2563,8 +2563,8 @@ public subroutine <a href='../proc/dbcsr_datablock_redistribute.html'>dbcsr_data
 
 
 <p>Redistributes data blocks of a DBCSR matrix read from a file.
- This routine should be used with dbcsr_binary_read in the module
- dbcsr_io.F</p>
+This routine should be used with dbcsr_binary_read in the module
+dbcsr_io.F</p>
     
     <h4>Arguments</h4>
     
@@ -2606,12 +2606,12 @@ public subroutine <a href='../proc/dbcsr_datablock_redistribute.html'>dbcsr_data
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>row_p</strong></td><td><p>row_p of the DBCSR matrix that the current node possesses after reading the data file
- col_i of the DBCSR matrix that the current node possesses after reading the data file
- blk_p of the DBCSR matrix that the current node possesses after reading the data file
- 1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
- current node of the present mp environment
- 1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
- read by the current node of the present mp environment</p></td>
+col_i of the DBCSR matrix that the current node possesses after reading the data file
+blk_p of the DBCSR matrix that the current node possesses after reading the data file
+1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
+current node of the present mp environment
+1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
+read by the current node of the present mp environment</p></td>
   
 </tr>
 
@@ -2627,12 +2627,12 @@ public subroutine <a href='../proc/dbcsr_datablock_redistribute.html'>dbcsr_data
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>col_i</strong></td><td><p>row_p of the DBCSR matrix that the current node possesses after reading the data file
- col_i of the DBCSR matrix that the current node possesses after reading the data file
- blk_p of the DBCSR matrix that the current node possesses after reading the data file
- 1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
- current node of the present mp environment
- 1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
- read by the current node of the present mp environment</p></td>
+col_i of the DBCSR matrix that the current node possesses after reading the data file
+blk_p of the DBCSR matrix that the current node possesses after reading the data file
+1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
+current node of the present mp environment
+1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
+read by the current node of the present mp environment</p></td>
   
 </tr>
 
@@ -2648,12 +2648,12 @@ public subroutine <a href='../proc/dbcsr_datablock_redistribute.html'>dbcsr_data
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>blk_p</strong></td><td><p>row_p of the DBCSR matrix that the current node possesses after reading the data file
- col_i of the DBCSR matrix that the current node possesses after reading the data file
- blk_p of the DBCSR matrix that the current node possesses after reading the data file
- 1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
- current node of the present mp environment
- 1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
- read by the current node of the present mp environment</p></td>
+col_i of the DBCSR matrix that the current node possesses after reading the data file
+blk_p of the DBCSR matrix that the current node possesses after reading the data file
+1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
+current node of the present mp environment
+1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
+read by the current node of the present mp environment</p></td>
   
 </tr>
 
@@ -2669,12 +2669,12 @@ public subroutine <a href='../proc/dbcsr_datablock_redistribute.html'>dbcsr_data
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>proc_nblks</strong></td><td><p>row_p of the DBCSR matrix that the current node possesses after reading the data file
- col_i of the DBCSR matrix that the current node possesses after reading the data file
- blk_p of the DBCSR matrix that the current node possesses after reading the data file
- 1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
- current node of the present mp environment
- 1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
- read by the current node of the present mp environment</p></td>
+col_i of the DBCSR matrix that the current node possesses after reading the data file
+blk_p of the DBCSR matrix that the current node possesses after reading the data file
+1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
+current node of the present mp environment
+1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
+read by the current node of the present mp environment</p></td>
   
 </tr>
 
@@ -2690,12 +2690,12 @@ public subroutine <a href='../proc/dbcsr_datablock_redistribute.html'>dbcsr_data
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>proc_darea_sizes</strong></td><td><p>row_p of the DBCSR matrix that the current node possesses after reading the data file
- col_i of the DBCSR matrix that the current node possesses after reading the data file
- blk_p of the DBCSR matrix that the current node possesses after reading the data file
- 1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
- current node of the present mp environment
- 1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
- read by the current node of the present mp environment</p></td>
+col_i of the DBCSR matrix that the current node possesses after reading the data file
+blk_p of the DBCSR matrix that the current node possesses after reading the data file
+1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
+current node of the present mp environment
+1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
+read by the current node of the present mp environment</p></td>
   
 </tr>
 

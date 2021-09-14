@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -316,10 +316,10 @@
     
     <div class="col-md-9" id='text'>
     <p>A dictionary (also known as hashtable or hashmap).
- Internally the dictionary uses an array to holds its data.
- If this array reaches a load-factor of 75%, a new array with twice the
- size will be allocated and the items are then copied over.
- This ensures that the dictionary will perform operations in O(1).</p>
+Internally the dictionary uses an array to holds its data.
+If this array reaches a load-factor of 75%, a new array with twice the
+size will be allocated and the items are then copied over.
+This ensures that the dictionary will perform operations in O(1).</p>
       <br>
     
   
@@ -1092,8 +1092,8 @@ private function <a href='../proc/dict_str_i4_get.html'>dict_str_i4_get</a>(dict
 
 
 <p>Gets a value for a given key from the dictionary.
- If the key is not found the default_value will be returned.
- If the key is not found and default_value was not provided the program stops.</p>
+If the key is not found the default_value will be returned.
+If the key is not found and default_value was not provided the program stops.</p>
     
     <h4>Arguments</h4>
     
@@ -1189,8 +1189,8 @@ private function <a href='../proc/dict_i4tuple_callstat_get.html'>dict_i4tuple_c
 
 
 <p>Gets a value for a given key from the dictionary.
- If the key is not found the default_value will be returned.
- If the key is not found and default_value was not provided the program stops.</p>
+If the key is not found the default_value will be returned.
+If the key is not found and default_value was not provided the program stops.</p>
     
     <h4>Arguments</h4>
     
@@ -1301,7 +1301,7 @@ private function <a href='../proc/dict_str_i4_items.html'>dict_str_i4_items</a>(
 
 
 <p>Returns a pointer to an array of all key/value-items stored in the dictionary.
- Caution: The caller is responsible for deallocating targeted array after usage.</p>
+Caution: The caller is responsible for deallocating targeted array after usage.</p>
     
     <h4>Arguments</h4>
     
@@ -1367,7 +1367,7 @@ private function <a href='../proc/dict_i4tuple_callstat_items.html'>dict_i4tuple
 
 
 <p>Returns a pointer to an array of all key/value-items stored in the dictionary.
- Caution: The caller is responsible for deallocating targeted array after usage.</p>
+Caution: The caller is responsible for deallocating targeted array after usage.</p>
     
     <h4>Arguments</h4>
     
@@ -1593,8 +1593,8 @@ private subroutine <a href='../proc/dict_str_i4_destroy.html'>dict_str_i4_destro
 
 
 <p>Deallocated the internal data-structures if the given dictionary.
- Caution: If the stored keys or values are pointers, their targets will
- not get deallocated by this routine.</p>
+Caution: If the stored keys or values are pointers, their targets will
+not get deallocated by this routine.</p>
     
     <h4>Arguments</h4>
     
@@ -1651,8 +1651,8 @@ private subroutine <a href='../proc/dict_i4tuple_callstat_destroy.html'>dict_i4t
 
 
 <p>Deallocated the internal data-structures if the given dictionary.
- Caution: If the stored keys or values are pointers, their targets will
- not get deallocated by this routine.</p>
+Caution: If the stored keys or values are pointers, their targets will
+not get deallocated by this routine.</p>
     
     <h4>Arguments</h4>
     
@@ -2225,7 +2225,7 @@ private function <a href='../proc/hash_str.html'>hash_str</a>(key) result(hash)
 
 
 <p>This is joaat_hash from string_table.F, generates the hash of a given string
- </p><a href="../proc/hash_str.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+</p><a href="../proc/hash_str.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -2354,8 +2354,8 @@ private function <a href='../proc/dict_str_i4_get.html'>dict_str_i4_get</a>(dict
 
 
 <p>Gets a value for a given key from the dictionary.
- If the key is not found the default_value will be returned.
- If the key is not found and default_value was not provided the program stops.</p>
+If the key is not found the default_value will be returned.
+If the key is not found and default_value was not provided the program stops.</p>
     
     <h4>Arguments</h4>
     
@@ -2605,7 +2605,7 @@ private function <a href='../proc/dict_str_i4_items.html'>dict_str_i4_items</a>(
 
 
 <p>Returns a pointer to an array of all key/value-items stored in the dictionary.
- Caution: The caller is responsible for deallocating targeted array after usage.</p>
+Caution: The caller is responsible for deallocating targeted array after usage.</p>
     
     <h4>Arguments</h4>
     
@@ -2674,8 +2674,8 @@ private function <a href='../proc/dict_i4tuple_callstat_get.html'>dict_i4tuple_c
 
 
 <p>Gets a value for a given key from the dictionary.
- If the key is not found the default_value will be returned.
- If the key is not found and default_value was not provided the program stops.</p>
+If the key is not found the default_value will be returned.
+If the key is not found and default_value was not provided the program stops.</p>
     
     <h4>Arguments</h4>
     
@@ -2925,7 +2925,7 @@ private function <a href='../proc/dict_i4tuple_callstat_items.html'>dict_i4tuple
 
 
 <p>Returns a pointer to an array of all key/value-items stored in the dictionary.
- Caution: The caller is responsible for deallocating targeted array after usage.</p>
+Caution: The caller is responsible for deallocating targeted array after usage.</p>
     
     <h4>Arguments</h4>
     
@@ -3076,8 +3076,8 @@ private subroutine <a href='../proc/dict_str_i4_destroy.html'>dict_str_i4_destro
 
 
 <p>Deallocated the internal data-structures if the given dictionary.
- Caution: If the stored keys or values are pointers, their targets will
- not get deallocated by this routine.</p>
+Caution: If the stored keys or values are pointers, their targets will
+not get deallocated by this routine.</p>
     
     <h4>Arguments</h4>
     
@@ -3478,8 +3478,8 @@ private subroutine <a href='../proc/dict_i4tuple_callstat_destroy.html'>dict_i4t
 
 
 <p>Deallocated the internal data-structures if the given dictionary.
- Caution: If the stored keys or values are pointers, their targets will
- not get deallocated by this routine.</p>
+Caution: If the stored keys or values are pointers, their targets will
+not get deallocated by this routine.</p>
     
     <h4>Arguments</h4>
     

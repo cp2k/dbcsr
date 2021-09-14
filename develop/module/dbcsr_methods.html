@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -358,21 +358,21 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-    
-    <li><a href='../module/dbcsr_btree.html'>dbcsr_btree</a></li>
     
     <li><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
     
     <li><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
     
-    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
-    
     <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
     
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+    
+    <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+    
+    <li><a href='../module/dbcsr_btree.html'>dbcsr_btree</a></li>
     
   </ul>
       </li>
@@ -1947,7 +1947,7 @@ public pure function <a href='../proc/dbcsr_blk_row_size.html'>dbcsr_blk_row_siz
 
 
 <p>Returns the blocked row size of a row
- This routine is optimized for speed and no checks are performed.</p>
+This routine is optimized for speed and no checks are performed.</p>
     
     <h4>Arguments</h4>
     
@@ -2106,7 +2106,7 @@ public pure function <a href='../proc/dbcsr_blk_column_size.html'>dbcsr_blk_colu
 
 
 <p>Returns the blocked column size of a column
- This routine is optimized for speed and no checks are performed.</p>
+This routine is optimized for speed and no checks are performed.</p>
     
     <h4>Arguments</h4>
     
@@ -2605,7 +2605,7 @@ public function <a href='../proc/dbcsr_get_data_memory_type.html'>dbcsr_get_data
 
 
 <p>Returns the type of memory used for data in the matrix
- </p><a href="../proc/dbcsr_get_data_memory_type.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+</p><a href="../proc/dbcsr_get_data_memory_type.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -3014,7 +3014,7 @@ public pure function <a href='../proc/dbcsr_mutable_instantiated.html'>dbcsr_mut
 
 
 <p>Unregisters a reference to the mutable data type
- The object is destroy when there is no reference to it left.</p>
+The object is destroy when there is no reference to it left.</p>
     
     <h4>Arguments</h4>
     
@@ -3091,7 +3091,7 @@ public recursive subroutine <a href='../proc/dbcsr_release.html'>dbcsr_release</
 
 
 <p>Releases a reference for a DBCSR matrix
- If there are no references left, the matrix is destroyed.</p>
+If there are no references left, the matrix is destroyed.</p>
     
     <h4>Arguments</h4>
     
@@ -3688,7 +3688,7 @@ public subroutine <a href='../proc/dbcsr_image_dist_release.html'>dbcsr_image_di
 
 
 <p>Releases a reference to and possible deallocates an image
- distribution</p>
+distribution</p>
     
     <h4>Arguments</h4>
     
@@ -3866,7 +3866,7 @@ private subroutine <a href='../proc/dbcsr_destroy_image_dist.html'>dbcsr_destroy
 
 
 <p>Destroys a DBCSR distribution for a matrix multiplication based on
- the right matrix</p>
+the right matrix</p>
     
     <h4>Arguments</h4>
     
@@ -4044,7 +4044,7 @@ public subroutine <a href='../proc/dbcsr_mutable_release.html'>dbcsr_mutable_rel
 
 
 <p>Unregisters a reference to the mutable data type
- The object is destroy when there is no reference to it left.</p>
+The object is destroy when there is no reference to it left.</p>
     
     <h4>Arguments</h4>
     

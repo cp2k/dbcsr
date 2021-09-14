@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -288,17 +288,17 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_mm_types.html'>dbcsr_mm_types</a></li>
+    <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
+    
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
+    <li><a href='../module/dbcsr_mm_types.html'>dbcsr_mm_types</a></li>
+    
     <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
     
-    <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
-    
     <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
-    
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
   </ul>
       </li>
@@ -761,7 +761,7 @@ public subroutine <a href='../proc/dbcsr_mm_hostdrv_process.html'>dbcsr_mm_hostd
   
   <td></td><td>::</td>
   <td><strong>left</strong></td><td><p>Left-matrix data
- Right-matrix data</p></td>
+Right-matrix data</p></td>
   
 </tr>
 
@@ -777,7 +777,7 @@ public subroutine <a href='../proc/dbcsr_mm_hostdrv_process.html'>dbcsr_mm_hostd
   
   <td></td><td>::</td>
   <td><strong>right</strong></td><td><p>Left-matrix data
- Right-matrix data</p></td>
+Right-matrix data</p></td>
   
 </tr>
 
@@ -1001,7 +1001,7 @@ private subroutine <a href='../proc/blas_process_mm_stack_d.html'>blas_process_m
   
   <td>DIMENSION(*)</td><td>::</td>
   <td><strong>a_data</strong></td><td><p>Left-matrix data
- Right-matrix data</p></td>
+Right-matrix data</p></td>
   
 </tr>
 
@@ -1017,7 +1017,7 @@ private subroutine <a href='../proc/blas_process_mm_stack_d.html'>blas_process_m
   
   <td>DIMENSION(*)</td><td>::</td>
   <td><strong>b_data</strong></td><td><p>Left-matrix data
- Right-matrix data</p></td>
+Right-matrix data</p></td>
   
 </tr>
 
@@ -1122,7 +1122,7 @@ private subroutine <a href='../proc/internal_process_mm_stack_d.html'>internal_p
   
   <td>DIMENSION(*)</td><td>::</td>
   <td><strong>a_data</strong></td><td><p>Left-matrix data
- Right-matrix data</p></td>
+Right-matrix data</p></td>
   
 </tr>
 
@@ -1138,7 +1138,7 @@ private subroutine <a href='../proc/internal_process_mm_stack_d.html'>internal_p
   
   <td>DIMENSION(*)</td><td>::</td>
   <td><strong>b_data</strong></td><td><p>Left-matrix data
- Right-matrix data</p></td>
+Right-matrix data</p></td>
   
 </tr>
 
@@ -1258,7 +1258,7 @@ private subroutine <a href='../proc/smm_process_mm_stack_d.html'>smm_process_mm_
   
   <td>DIMENSION(*)</td><td>::</td>
   <td><strong>a_data</strong></td><td><p>Left-matrix data
- Right-matrix data</p></td>
+Right-matrix data</p></td>
   
 </tr>
 
@@ -1274,7 +1274,7 @@ private subroutine <a href='../proc/smm_process_mm_stack_d.html'>smm_process_mm_
   
   <td>DIMENSION(*)</td><td>::</td>
   <td><strong>b_data</strong></td><td><p>Left-matrix data
- Right-matrix data</p></td>
+Right-matrix data</p></td>
   
 </tr>
 
@@ -1520,7 +1520,7 @@ private subroutine <a href='../proc/blas_process_mm_stack_s.html'>blas_process_m
   
   <td>DIMENSION(*)</td><td>::</td>
   <td><strong>a_data</strong></td><td><p>Left-matrix data
- Right-matrix data</p></td>
+Right-matrix data</p></td>
   
 </tr>
 
@@ -1536,7 +1536,7 @@ private subroutine <a href='../proc/blas_process_mm_stack_s.html'>blas_process_m
   
   <td>DIMENSION(*)</td><td>::</td>
   <td><strong>b_data</strong></td><td><p>Left-matrix data
- Right-matrix data</p></td>
+Right-matrix data</p></td>
   
 </tr>
 
@@ -1641,7 +1641,7 @@ private subroutine <a href='../proc/internal_process_mm_stack_s.html'>internal_p
   
   <td>DIMENSION(*)</td><td>::</td>
   <td><strong>a_data</strong></td><td><p>Left-matrix data
- Right-matrix data</p></td>
+Right-matrix data</p></td>
   
 </tr>
 
@@ -1657,7 +1657,7 @@ private subroutine <a href='../proc/internal_process_mm_stack_s.html'>internal_p
   
   <td>DIMENSION(*)</td><td>::</td>
   <td><strong>b_data</strong></td><td><p>Left-matrix data
- Right-matrix data</p></td>
+Right-matrix data</p></td>
   
 </tr>
 
@@ -1777,7 +1777,7 @@ private subroutine <a href='../proc/smm_process_mm_stack_s.html'>smm_process_mm_
   
   <td>DIMENSION(*)</td><td>::</td>
   <td><strong>a_data</strong></td><td><p>Left-matrix data
- Right-matrix data</p></td>
+Right-matrix data</p></td>
   
 </tr>
 
@@ -1793,7 +1793,7 @@ private subroutine <a href='../proc/smm_process_mm_stack_s.html'>smm_process_mm_
   
   <td>DIMENSION(*)</td><td>::</td>
   <td><strong>b_data</strong></td><td><p>Left-matrix data
- Right-matrix data</p></td>
+Right-matrix data</p></td>
   
 </tr>
 
@@ -2039,7 +2039,7 @@ private subroutine <a href='../proc/blas_process_mm_stack_z.html'>blas_process_m
   
   <td>DIMENSION(*)</td><td>::</td>
   <td><strong>a_data</strong></td><td><p>Left-matrix data
- Right-matrix data</p></td>
+Right-matrix data</p></td>
   
 </tr>
 
@@ -2055,7 +2055,7 @@ private subroutine <a href='../proc/blas_process_mm_stack_z.html'>blas_process_m
   
   <td>DIMENSION(*)</td><td>::</td>
   <td><strong>b_data</strong></td><td><p>Left-matrix data
- Right-matrix data</p></td>
+Right-matrix data</p></td>
   
 </tr>
 
@@ -2160,7 +2160,7 @@ private subroutine <a href='../proc/internal_process_mm_stack_z.html'>internal_p
   
   <td>DIMENSION(*)</td><td>::</td>
   <td><strong>a_data</strong></td><td><p>Left-matrix data
- Right-matrix data</p></td>
+Right-matrix data</p></td>
   
 </tr>
 
@@ -2176,7 +2176,7 @@ private subroutine <a href='../proc/internal_process_mm_stack_z.html'>internal_p
   
   <td>DIMENSION(*)</td><td>::</td>
   <td><strong>b_data</strong></td><td><p>Left-matrix data
- Right-matrix data</p></td>
+Right-matrix data</p></td>
   
 </tr>
 
@@ -2296,7 +2296,7 @@ private subroutine <a href='../proc/smm_process_mm_stack_z.html'>smm_process_mm_
   
   <td>DIMENSION(*)</td><td>::</td>
   <td><strong>a_data</strong></td><td><p>Left-matrix data
- Right-matrix data</p></td>
+Right-matrix data</p></td>
   
 </tr>
 
@@ -2312,7 +2312,7 @@ private subroutine <a href='../proc/smm_process_mm_stack_z.html'>smm_process_mm_
   
   <td>DIMENSION(*)</td><td>::</td>
   <td><strong>b_data</strong></td><td><p>Left-matrix data
- Right-matrix data</p></td>
+Right-matrix data</p></td>
   
 </tr>
 
@@ -2558,7 +2558,7 @@ private subroutine <a href='../proc/blas_process_mm_stack_c.html'>blas_process_m
   
   <td>DIMENSION(*)</td><td>::</td>
   <td><strong>a_data</strong></td><td><p>Left-matrix data
- Right-matrix data</p></td>
+Right-matrix data</p></td>
   
 </tr>
 
@@ -2574,7 +2574,7 @@ private subroutine <a href='../proc/blas_process_mm_stack_c.html'>blas_process_m
   
   <td>DIMENSION(*)</td><td>::</td>
   <td><strong>b_data</strong></td><td><p>Left-matrix data
- Right-matrix data</p></td>
+Right-matrix data</p></td>
   
 </tr>
 
@@ -2679,7 +2679,7 @@ private subroutine <a href='../proc/internal_process_mm_stack_c.html'>internal_p
   
   <td>DIMENSION(*)</td><td>::</td>
   <td><strong>a_data</strong></td><td><p>Left-matrix data
- Right-matrix data</p></td>
+Right-matrix data</p></td>
   
 </tr>
 
@@ -2695,7 +2695,7 @@ private subroutine <a href='../proc/internal_process_mm_stack_c.html'>internal_p
   
   <td>DIMENSION(*)</td><td>::</td>
   <td><strong>b_data</strong></td><td><p>Left-matrix data
- Right-matrix data</p></td>
+Right-matrix data</p></td>
   
 </tr>
 
@@ -2815,7 +2815,7 @@ private subroutine <a href='../proc/smm_process_mm_stack_c.html'>smm_process_mm_
   
   <td>DIMENSION(*)</td><td>::</td>
   <td><strong>a_data</strong></td><td><p>Left-matrix data
- Right-matrix data</p></td>
+Right-matrix data</p></td>
   
 </tr>
 
@@ -2831,7 +2831,7 @@ private subroutine <a href='../proc/smm_process_mm_stack_c.html'>smm_process_mm_
   
   <td>DIMENSION(*)</td><td>::</td>
   <td><strong>b_data</strong></td><td><p>Left-matrix data
- Right-matrix data</p></td>
+Right-matrix data</p></td>
   
 </tr>
 

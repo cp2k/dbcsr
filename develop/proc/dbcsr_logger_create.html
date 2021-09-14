@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -215,9 +215,9 @@ public subroutine dbcsr_logger_create(logger, mp_env, print_level, default_globa
 
     
     <p>initializes a logger
- </p><div class="alert alert-info" role="alert"><h4>Note</h4><p>the handling of <em><em>filename, default</em></em><em>unit_nr, close</em>*_unit_on_dealloc
- tries to take the right decision with different inputs, and thus is a
- little complex.</p></div>
+</p><div class="alert alert-info" role="alert"><h4>Note</h4><p>the handling of <em><em>filename, default</em></em><em>unit_nr, close</em>*_unit_on_dealloc
+tries to take the right decision with different inputs, and thus is a
+little complex.</p></div>
     
 
     <h3>Arguments</h3>
@@ -274,8 +274,8 @@ public subroutine dbcsr_logger_create(logger, mp_env, print_level, default_globa
   
   <td></td><td>::</td>
   <td><strong>print_level</strong></td><td><p>the level starting with which something is written (defaults to dbcsr_note_level)
- the default unit_nr for output (if not given, and no file is given defaults to the standard output)
- the default unit number for local (i.e. task) output. If not given defaults to a out.taskid file created upon</p></td>
+the default unit_nr for output (if not given, and no file is given defaults to the standard output)
+the default unit number for local (i.e. task) output. If not given defaults to a out.taskid file created upon</p></td>
   
 </tr>
 
@@ -291,8 +291,8 @@ public subroutine dbcsr_logger_create(logger, mp_env, print_level, default_globa
   
   <td></td><td>::</td>
   <td><strong>default_global_unit_nr</strong></td><td><p>the level starting with which something is written (defaults to dbcsr_note_level)
- the default unit_nr for output (if not given, and no file is given defaults to the standard output)
- the default unit number for local (i.e. task) output. If not given defaults to a out.taskid file created upon</p></td>
+the default unit_nr for output (if not given, and no file is given defaults to the standard output)
+the default unit number for local (i.e. task) output. If not given defaults to a out.taskid file created upon</p></td>
   
 </tr>
 
@@ -308,8 +308,8 @@ public subroutine dbcsr_logger_create(logger, mp_env, print_level, default_globa
   
   <td></td><td>::</td>
   <td><strong>default_local_unit_nr</strong></td><td><p>the level starting with which something is written (defaults to dbcsr_note_level)
- the default unit_nr for output (if not given, and no file is given defaults to the standard output)
- the default unit number for local (i.e. task) output. If not given defaults to a out.taskid file created upon</p></td>
+the default unit_nr for output (if not given, and no file is given defaults to the standard output)
+the default unit number for local (i.e. task) output. If not given defaults to a out.taskid file created upon</p></td>
   
 </tr>
 
@@ -325,8 +325,8 @@ public subroutine dbcsr_logger_create(logger, mp_env, print_level, default_globa
   
   <td></td><td>::</td>
   <td><strong>global_filename</strong></td><td><p>a new file to open (can be given instead of the global_unit_nr)
- a new file to open (with suffix and mp_env%mp%mynode appended). Can be given instead of the default_local_unit_nr). the
- file is created only upon the first local logging request</p></td>
+a new file to open (with suffix and mp_env%mp%mynode appended). Can be given instead of the default_local_unit_nr). the
+file is created only upon the first local logging request</p></td>
   
 </tr>
 
@@ -342,8 +342,8 @@ public subroutine dbcsr_logger_create(logger, mp_env, print_level, default_globa
   
   <td></td><td>::</td>
   <td><strong>local_filename</strong></td><td><p>a new file to open (can be given instead of the global_unit_nr)
- a new file to open (with suffix and mp_env%mp%mynode appended). Can be given instead of the default_local_unit_nr). the
- file is created only upon the first local logging request</p></td>
+a new file to open (with suffix and mp_env%mp%mynode appended). Can be given instead of the default_local_unit_nr). the
+file is created only upon the first local logging request</p></td>
   
 </tr>
 
@@ -359,7 +359,7 @@ public subroutine dbcsr_logger_create(logger, mp_env, print_level, default_globa
   
   <td></td><td>::</td>
   <td><strong>close_global_unit_on_dealloc</strong></td><td><p>if the unit should be closed when the logger is deallocated (defaults to true if a local_filename is given, to false
- otherwise)</p></td>
+otherwise)</p></td>
   
 </tr>
 

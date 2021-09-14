@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -296,7 +296,7 @@ public subroutine <a href='../proc/dbcsr_multiply_generic.html'>dbcsr_multiply_g
 
 
 <p>Performs a multiplication of two dbcsr_type matrices,
- as  C := alpha * op( A ) * op( B ) + beta * C.</p><a href="../proc/dbcsr_multiply_generic.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+as  C := alpha * op( A ) * op( B ) + beta * C.</p><a href="../proc/dbcsr_multiply_generic.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -323,9 +323,9 @@ public subroutine <a href='../proc/dbcsr_multiply_generic.html'>dbcsr_multiply_g
   
   <td></td><td>::</td>
   <td><strong>transa</strong></td><td><p>specifies the form of op( A ) to be used in the matrix multiplication transa = 'N' or 'n',  op( A ) = A. transa = 'T' or
- 't',  op( A ) = transpose(A). transa = 'C' or 'c',  op( A ) = transpose(conjg(A)).
- specifies the form of op( B ) to be used in the matrix multiplication transb = 'N' or 'n',  op( B ) = B. transb = 'T' or
- 't',  op( B ) = transpose(B). transb = 'C' or 'c',  op( B ) = transpose(conjg(B)).</p></td>
+'t',  op( A ) = transpose(A). transa = 'C' or 'c',  op( A ) = transpose(conjg(A)).
+specifies the form of op( B ) to be used in the matrix multiplication transb = 'N' or 'n',  op( B ) = B. transb = 'T' or
+'t',  op( B ) = transpose(B). transb = 'C' or 'c',  op( B ) = transpose(conjg(B)).</p></td>
   
 </tr>
 
@@ -341,9 +341,9 @@ public subroutine <a href='../proc/dbcsr_multiply_generic.html'>dbcsr_multiply_g
   
   <td></td><td>::</td>
   <td><strong>transb</strong></td><td><p>specifies the form of op( A ) to be used in the matrix multiplication transa = 'N' or 'n',  op( A ) = A. transa = 'T' or
- 't',  op( A ) = transpose(A). transa = 'C' or 'c',  op( A ) = transpose(conjg(A)).
- specifies the form of op( B ) to be used in the matrix multiplication transb = 'N' or 'n',  op( B ) = B. transb = 'T' or
- 't',  op( B ) = transpose(B). transb = 'C' or 'c',  op( B ) = transpose(conjg(B)).</p></td>
+'t',  op( A ) = transpose(A). transa = 'C' or 'c',  op( A ) = transpose(conjg(A)).
+specifies the form of op( B ) to be used in the matrix multiplication transb = 'N' or 'n',  op( B ) = B. transb = 'T' or
+'t',  op( B ) = transpose(B). transb = 'C' or 'c',  op( B ) = transpose(conjg(B)).</p></td>
   
 </tr>
 
@@ -374,7 +374,7 @@ public subroutine <a href='../proc/dbcsr_multiply_generic.html'>dbcsr_multiply_g
   
   <td></td><td>::</td>
   <td><strong>matrix_a</strong></td><td><p>left BCSR matrix
- right BCSR matrix</p></td>
+right BCSR matrix</p></td>
   
 </tr>
 
@@ -390,7 +390,7 @@ public subroutine <a href='../proc/dbcsr_multiply_generic.html'>dbcsr_multiply_g
   
   <td></td><td>::</td>
   <td><strong>matrix_b</strong></td><td><p>left BCSR matrix
- right BCSR matrix</p></td>
+right BCSR matrix</p></td>
   
 </tr>
 
@@ -436,11 +436,11 @@ public subroutine <a href='../proc/dbcsr_multiply_generic.html'>dbcsr_multiply_g
   
   <td></td><td>::</td>
   <td><strong>first_row</strong></td><td><p>first full row of limiting submatrix
- last full row of limiting submatrix
- first full column of limiting submatrix
- last full column of limiting submatrix
- first full column of limiting inner product
- last full column of limiting inner product</p></td>
+last full row of limiting submatrix
+first full column of limiting submatrix
+last full column of limiting submatrix
+first full column of limiting inner product
+last full column of limiting inner product</p></td>
   
 </tr>
 
@@ -456,11 +456,11 @@ public subroutine <a href='../proc/dbcsr_multiply_generic.html'>dbcsr_multiply_g
   
   <td></td><td>::</td>
   <td><strong>last_row</strong></td><td><p>first full row of limiting submatrix
- last full row of limiting submatrix
- first full column of limiting submatrix
- last full column of limiting submatrix
- first full column of limiting inner product
- last full column of limiting inner product</p></td>
+last full row of limiting submatrix
+first full column of limiting submatrix
+last full column of limiting submatrix
+first full column of limiting inner product
+last full column of limiting inner product</p></td>
   
 </tr>
 
@@ -476,11 +476,11 @@ public subroutine <a href='../proc/dbcsr_multiply_generic.html'>dbcsr_multiply_g
   
   <td></td><td>::</td>
   <td><strong>first_column</strong></td><td><p>first full row of limiting submatrix
- last full row of limiting submatrix
- first full column of limiting submatrix
- last full column of limiting submatrix
- first full column of limiting inner product
- last full column of limiting inner product</p></td>
+last full row of limiting submatrix
+first full column of limiting submatrix
+last full column of limiting submatrix
+first full column of limiting inner product
+last full column of limiting inner product</p></td>
   
 </tr>
 
@@ -496,11 +496,11 @@ public subroutine <a href='../proc/dbcsr_multiply_generic.html'>dbcsr_multiply_g
   
   <td></td><td>::</td>
   <td><strong>last_column</strong></td><td><p>first full row of limiting submatrix
- last full row of limiting submatrix
- first full column of limiting submatrix
- last full column of limiting submatrix
- first full column of limiting inner product
- last full column of limiting inner product</p></td>
+last full row of limiting submatrix
+first full column of limiting submatrix
+last full column of limiting submatrix
+first full column of limiting inner product
+last full column of limiting inner product</p></td>
   
 </tr>
 
@@ -516,11 +516,11 @@ public subroutine <a href='../proc/dbcsr_multiply_generic.html'>dbcsr_multiply_g
   
   <td></td><td>::</td>
   <td><strong>first_k</strong></td><td><p>first full row of limiting submatrix
- last full row of limiting submatrix
- first full column of limiting submatrix
- last full column of limiting submatrix
- first full column of limiting inner product
- last full column of limiting inner product</p></td>
+last full row of limiting submatrix
+first full column of limiting submatrix
+last full column of limiting submatrix
+first full column of limiting inner product
+last full column of limiting inner product</p></td>
   
 </tr>
 
@@ -536,11 +536,11 @@ public subroutine <a href='../proc/dbcsr_multiply_generic.html'>dbcsr_multiply_g
   
   <td></td><td>::</td>
   <td><strong>last_k</strong></td><td><p>first full row of limiting submatrix
- last full row of limiting submatrix
- first full column of limiting submatrix
- last full column of limiting submatrix
- first full column of limiting inner product
- last full column of limiting inner product</p></td>
+last full row of limiting submatrix
+first full column of limiting submatrix
+last full column of limiting submatrix
+first full column of limiting inner product
+last full column of limiting inner product</p></td>
   
 </tr>
 

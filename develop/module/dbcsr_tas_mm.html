@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -256,12 +256,12 @@
     
     <div class="col-md-9" id='text'>
     <p>Matrix multiplication for tall-and-skinny matrices. This uses the k-split (non-recursive) CARMA
- algorithm that is communication-optimal as long as the two smaller dimensions have
- the same size.
- Submatrices are obtained by splitting a dimension of the process grid. Multiplication of
- submatrices uses DBCSR Cannon algorithm. Due to unknown sparsity pattern of result matrix, parameters
- (group sizes and process grid dimensions) can not be derived from matrix dimensions and need to be
- set manually.</p>
+algorithm that is communication-optimal as long as the two smaller dimensions have
+the same size.
+Submatrices are obtained by splitting a dimension of the process grid. Multiplication of
+submatrices uses DBCSR Cannon algorithm. Due to unknown sparsity pattern of result matrix, parameters
+(group sizes and process grid dimensions) can not be derived from matrix dimensions and need to be
+set manually.</p>
       <br>
     
   
@@ -278,15 +278,23 @@
     
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
-    <li><a href='../module/dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
+    <li><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></li>
+    
+    <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
+    
+    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+    
+    <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
     
     <li><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></li>
     
-    <li><a href='../module/dbcsr_multiply_api.html'>dbcsr_multiply_api</a></li>
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    
+    <li><a href='../module/dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
+    
+    <li><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></li>
     
     <li><a href='../module/dbcsr_tas_io.html'>dbcsr_tas_io</a></li>
-    
-    <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
     
     <li><a href='../module/dbcsr_tas_split.html'>dbcsr_tas_split</a></li>
     
@@ -298,21 +306,13 @@
     
     <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
     
-    <li><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></li>
-    
-    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
-    
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-    
-    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
-    
-    <li><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></li>
+    <li><a href='../module/dbcsr_multiply_api.html'>dbcsr_multiply_api</a></li>
     
     <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
     
     <li><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></li>
     
-    <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
+    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
     
   </ul>
       </li>
@@ -614,10 +614,10 @@ private function <a href='../proc/split_factor_estimate.html'>split_factor_estim
 
 
 <p>Estimate optimal split factor for AxB=C from occupancies (number of non-zero elements)
- This estimate is based on the minimization of communication volume whereby
- the communication of CARMA n-split step and CANNON-multiplication of submatrices are
- considered.
- \result estimated split factor</p>
+This estimate is based on the minimization of communication volume whereby
+the communication of CARMA n-split step and CANNON-multiplication of submatrices are
+considered.
+\result estimated split factor</p>
     
     <h4>Arguments</h4>
     
@@ -659,8 +659,8 @@ private function <a href='../proc/split_factor_estimate.html'>split_factor_estim
   
   <td></td><td>::</td>
   <td><strong>nze_a</strong></td><td><p>number of non-zeroes in A
- number of non-zeroes in B
- number of non-zeroes in C</p></td>
+number of non-zeroes in B
+number of non-zeroes in C</p></td>
   
 </tr>
 
@@ -676,8 +676,8 @@ private function <a href='../proc/split_factor_estimate.html'>split_factor_estim
   
   <td></td><td>::</td>
   <td><strong>nze_b</strong></td><td><p>number of non-zeroes in A
- number of non-zeroes in B
- number of non-zeroes in C</p></td>
+number of non-zeroes in B
+number of non-zeroes in C</p></td>
   
 </tr>
 
@@ -693,8 +693,8 @@ private function <a href='../proc/split_factor_estimate.html'>split_factor_estim
   
   <td></td><td>::</td>
   <td><strong>nze_c</strong></td><td><p>number of non-zeroes in A
- number of non-zeroes in B
- number of non-zeroes in C</p></td>
+number of non-zeroes in B
+number of non-zeroes in C</p></td>
   
 </tr>
 
@@ -760,7 +760,7 @@ public recursive subroutine <a href='../proc/dbcsr_tas_multiply.html'>dbcsr_tas_
 
 
 <p>tall-and-skinny matrix-matrix multiplication. Undocumented dummy arguments are identical to
- arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
+arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
     
     <h4>Arguments</h4>
     
@@ -907,7 +907,7 @@ public recursive subroutine <a href='../proc/dbcsr_tas_multiply.html'>dbcsr_tas_
   
   <td></td><td>::</td>
   <td><strong>optimize_dist</strong></td><td><p>Whether distribution should be optimized internally. In the current implementation this guarantees optimal parameters
- only for dense matrices.</p></td>
+only for dense matrices.</p></td>
   
 </tr>
 
@@ -923,7 +923,7 @@ public recursive subroutine <a href='../proc/dbcsr_tas_multiply.html'>dbcsr_tas_
   
   <td></td><td>::</td>
   <td><strong>split_opt</strong></td><td><p>optionally return split info containing optimal grid and split parameters. This can be used to choose optimal process
- grids for subsequent matrix multiplications with matrices of similar shape and sparsity.</p></td>
+grids for subsequent matrix multiplications with matrices of similar shape and sparsity.</p></td>
   
 </tr>
 
@@ -969,8 +969,8 @@ public recursive subroutine <a href='../proc/dbcsr_tas_multiply.html'>dbcsr_tas_
   
   <td></td><td>::</td>
   <td><strong>move_data_a</strong></td><td><p>memory optimization: move data to matrix_c such that matrix_a is empty on return
- memory optimization: move data to matrix_c such that matrix_b is empty on return
- for internal use only</p></td>
+memory optimization: move data to matrix_c such that matrix_b is empty on return
+for internal use only</p></td>
   
 </tr>
 
@@ -986,8 +986,8 @@ public recursive subroutine <a href='../proc/dbcsr_tas_multiply.html'>dbcsr_tas_
   
   <td></td><td>::</td>
   <td><strong>move_data_b</strong></td><td><p>memory optimization: move data to matrix_c such that matrix_a is empty on return
- memory optimization: move data to matrix_c such that matrix_b is empty on return
- for internal use only</p></td>
+memory optimization: move data to matrix_c such that matrix_b is empty on return
+for internal use only</p></td>
   
 </tr>
 
@@ -1003,8 +1003,8 @@ public recursive subroutine <a href='../proc/dbcsr_tas_multiply.html'>dbcsr_tas_
   
   <td></td><td>::</td>
   <td><strong>retain_sparsity</strong></td><td><p>memory optimization: move data to matrix_c such that matrix_a is empty on return
- memory optimization: move data to matrix_c such that matrix_b is empty on return
- for internal use only</p></td>
+memory optimization: move data to matrix_c such that matrix_b is empty on return
+for internal use only</p></td>
   
 </tr>
 
@@ -1020,8 +1020,8 @@ public recursive subroutine <a href='../proc/dbcsr_tas_multiply.html'>dbcsr_tas_
   
   <td></td><td>::</td>
   <td><strong>simple_split</strong></td><td><p>memory optimization: move data to matrix_c such that matrix_a is empty on return
- memory optimization: move data to matrix_c such that matrix_b is empty on return
- for internal use only</p></td>
+memory optimization: move data to matrix_c such that matrix_b is empty on return
+for internal use only</p></td>
   
 </tr>
 
@@ -1196,7 +1196,7 @@ private subroutine <a href='../proc/reshape_mm_small.html'>reshape_mm_small</a>(
 
 
 <p>Make sure that smallest matrix involved in a multiplication is not split and bring it to
- the same process grid as the other 2 matrices.</p>
+the same process grid as the other 2 matrices.</p>
     
     <h4>Arguments</h4>
     
@@ -1298,7 +1298,7 @@ private subroutine <a href='../proc/reshape_mm_small.html'>reshape_mm_small</a>(
   
   <td></td><td>::</td>
   <td><strong>nodata</strong></td><td><p>Data of matrix_in should not be copied to matrix_out
- memory optimization: move data such that matrix_in is empty on return.</p></td>
+memory optimization: move data such that matrix_in is empty on return.</p></td>
   
 </tr>
 
@@ -1314,7 +1314,7 @@ private subroutine <a href='../proc/reshape_mm_small.html'>reshape_mm_small</a>(
   
   <td></td><td>::</td>
   <td><strong>move_data</strong></td><td><p>Data of matrix_in should not be copied to matrix_out
- memory optimization: move data such that matrix_in is empty on return.</p></td>
+memory optimization: move data such that matrix_in is empty on return.</p></td>
   
 </tr>
 
@@ -1348,7 +1348,7 @@ private subroutine <a href='../proc/reshape_mm_compatible.html'>reshape_mm_compa
 
 
 <p>Reshape either matrix1 or matrix2 to make sure that their process grids are compatible with
- the same split factor.</p>
+the same split factor.</p>
     
     <h4>Arguments</h4>
     
@@ -1435,7 +1435,7 @@ private subroutine <a href='../proc/reshape_mm_compatible.html'>reshape_mm_compa
   
   <td></td><td>::</td>
   <td><strong>new1</strong></td><td><p>Whether matrix1_out is a new matrix or simply pointing to matrix1_in
- Whether matrix2_out is a new matrix or simply pointing to matrix2_in</p></td>
+Whether matrix2_out is a new matrix or simply pointing to matrix2_in</p></td>
   
 </tr>
 
@@ -1451,7 +1451,7 @@ private subroutine <a href='../proc/reshape_mm_compatible.html'>reshape_mm_compa
   
   <td></td><td>::</td>
   <td><strong>new2</strong></td><td><p>Whether matrix1_out is a new matrix or simply pointing to matrix1_in
- Whether matrix2_out is a new matrix or simply pointing to matrix2_in</p></td>
+Whether matrix2_out is a new matrix or simply pointing to matrix2_in</p></td>
   
 </tr>
 
@@ -1467,7 +1467,7 @@ private subroutine <a href='../proc/reshape_mm_compatible.html'>reshape_mm_compa
   
   <td></td><td>::</td>
   <td><strong>trans1</strong></td><td><p>transpose flag of matrix1_in for multiplication
- transpose flag of matrix2_in for multiplication</p></td>
+transpose flag of matrix2_in for multiplication</p></td>
   
 </tr>
 
@@ -1483,7 +1483,7 @@ private subroutine <a href='../proc/reshape_mm_compatible.html'>reshape_mm_compa
   
   <td></td><td>::</td>
   <td><strong>trans2</strong></td><td><p>transpose flag of matrix1_in for multiplication
- transpose flag of matrix2_in for multiplication</p></td>
+transpose flag of matrix2_in for multiplication</p></td>
   
 </tr>
 
@@ -1544,7 +1544,7 @@ private subroutine <a href='../proc/reshape_mm_compatible.html'>reshape_mm_compa
   
   <td></td><td>::</td>
   <td><strong>split_rc_1</strong></td><td><p>Whether to split rows or columns for matrix 1
- Whether to split rows or columns for matrix 2</p></td>
+Whether to split rows or columns for matrix 2</p></td>
   
 </tr>
 
@@ -1560,7 +1560,7 @@ private subroutine <a href='../proc/reshape_mm_compatible.html'>reshape_mm_compa
   
   <td></td><td>::</td>
   <td><strong>split_rc_2</strong></td><td><p>Whether to split rows or columns for matrix 1
- Whether to split rows or columns for matrix 2</p></td>
+Whether to split rows or columns for matrix 2</p></td>
   
 </tr>
 
@@ -1576,7 +1576,7 @@ private subroutine <a href='../proc/reshape_mm_compatible.html'>reshape_mm_compa
   
   <td></td><td>::</td>
   <td><strong>nodata1</strong></td><td><p>Don't copy matrix data from matrix1_in to matrix1_out
- Don't copy matrix data from matrix2_in to matrix2_out</p></td>
+Don't copy matrix data from matrix2_in to matrix2_out</p></td>
   
 </tr>
 
@@ -1592,7 +1592,7 @@ private subroutine <a href='../proc/reshape_mm_compatible.html'>reshape_mm_compa
   
   <td></td><td>::</td>
   <td><strong>nodata2</strong></td><td><p>Don't copy matrix data from matrix1_in to matrix1_out
- Don't copy matrix data from matrix2_in to matrix2_out</p></td>
+Don't copy matrix data from matrix2_in to matrix2_out</p></td>
   
 </tr>
 
@@ -1608,7 +1608,7 @@ private subroutine <a href='../proc/reshape_mm_compatible.html'>reshape_mm_compa
   
   <td></td><td>::</td>
   <td><strong>move_data_1</strong></td><td><p>memory optimization: move data such that matrix1_in may be empty on return.
- memory optimization: move data such that matrix2_in may be empty on return.</p></td>
+memory optimization: move data such that matrix2_in may be empty on return.</p></td>
   
 </tr>
 
@@ -1624,7 +1624,7 @@ private subroutine <a href='../proc/reshape_mm_compatible.html'>reshape_mm_compa
   
   <td></td><td>::</td>
   <td><strong>move_data_2</strong></td><td><p>memory optimization: move data such that matrix1_in may be empty on return.
- memory optimization: move data such that matrix2_in may be empty on return.</p></td>
+memory optimization: move data such that matrix2_in may be empty on return.</p></td>
   
 </tr>
 
@@ -2001,7 +2001,7 @@ public subroutine <a href='../proc/dbcsr_tas_result_index.html'>dbcsr_tas_result
 
 
 <p>Estimate sparsity pattern of C resulting from A x B = C by multiplying the block norms of A and B
- Same dummy arguments as dbcsr_tas_multiply</p>
+Same dummy arguments as dbcsr_tas_multiply</p>
     
     <h4>Arguments</h4>
     
@@ -2371,7 +2371,7 @@ private subroutine <a href='../proc/convert_to_new_pgrid.html'>convert_to_new_pg
   
   <td></td><td>::</td>
   <td><strong>move_data</strong></td><td><p>memory optimization: move data such that matrix_in is empty on return.
- Data of matrix_in should not be copied to matrix_out</p></td>
+Data of matrix_in should not be copied to matrix_out</p></td>
   
 </tr>
 
@@ -2387,7 +2387,7 @@ private subroutine <a href='../proc/convert_to_new_pgrid.html'>convert_to_new_pg
   
   <td></td><td>::</td>
   <td><strong>nodata</strong></td><td><p>memory optimization: move data such that matrix_in is empty on return.
- Data of matrix_in should not be copied to matrix_out</p></td>
+Data of matrix_in should not be copied to matrix_out</p></td>
   
 </tr>
 

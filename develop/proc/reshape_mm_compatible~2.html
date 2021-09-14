@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -209,8 +209,8 @@ private subroutine reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_
 
     
     <p>Prepare tensor for contraction: redistribute to a 2d format which can be contracted by
- matrix multiplication. This routine reshapes the two largest of the three tensors. Redistribution
- is avoided if tensors already in a consistent layout.</p>
+matrix multiplication. This routine reshapes the two largest of the three tensors. Redistribution
+is avoided if tensors already in a consistent layout.</p>
     
 
     <h3>Arguments</h3>
@@ -267,7 +267,7 @@ private subroutine reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_
   
   <td>POINTER</td><td>::</td>
   <td><strong>tensor1_out</strong></td><td><p>tensor 1 out
- tensor 2 out</p></td>
+tensor 2 out</p></td>
   
 </tr>
 
@@ -283,7 +283,7 @@ private subroutine reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_
   
   <td>POINTER</td><td>::</td>
   <td><strong>tensor2_out</strong></td><td><p>tensor 1 out
- tensor 2 out</p></td>
+tensor 2 out</p></td>
   
 </tr>
 
@@ -314,7 +314,7 @@ private subroutine reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>ind1_linked</strong></td><td><p>indices of tensor 1 that are linked to indices of tensor 2
- 1:1 correspondence with ind1_linked</p></td>
+1:1 correspondence with ind1_linked</p></td>
   
 </tr>
 
@@ -345,7 +345,7 @@ private subroutine reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>ind2_linked</strong></td><td><p>indices of tensor 1 that are linked to indices of tensor 2
- 1:1 correspondence with ind1_linked</p></td>
+1:1 correspondence with ind1_linked</p></td>
   
 </tr>
 
@@ -361,7 +361,7 @@ private subroutine reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_
   
   <td></td><td>::</td>
   <td><strong>trans1</strong></td><td><p>transpose flag of matrix rep. of tensor 1
- transpose flag of matrix rep. tensor 2</p></td>
+transpose flag of matrix rep. tensor 2</p></td>
   
 </tr>
 
@@ -377,7 +377,7 @@ private subroutine reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_
   
   <td></td><td>::</td>
   <td><strong>trans2</strong></td><td><p>transpose flag of matrix rep. of tensor 1
- transpose flag of matrix rep. tensor 2</p></td>
+transpose flag of matrix rep. tensor 2</p></td>
   
 </tr>
 
@@ -393,7 +393,7 @@ private subroutine reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_
   
   <td></td><td>::</td>
   <td><strong>new1</strong></td><td><p>whether a new tensor 1 was created
- whether a new tensor 2 was created</p></td>
+whether a new tensor 2 was created</p></td>
   
 </tr>
 
@@ -409,7 +409,7 @@ private subroutine reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_
   
   <td></td><td>::</td>
   <td><strong>new2</strong></td><td><p>whether a new tensor 1 was created
- whether a new tensor 2 was created</p></td>
+whether a new tensor 2 was created</p></td>
   
 </tr>
 
@@ -440,7 +440,7 @@ private subroutine reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_
   
   <td></td><td>::</td>
   <td><strong>nodata1</strong></td><td><p>don't copy data of tensor 1
- don't copy data of tensor 2</p></td>
+don't copy data of tensor 2</p></td>
   
 </tr>
 
@@ -456,7 +456,7 @@ private subroutine reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_
   
   <td></td><td>::</td>
   <td><strong>nodata2</strong></td><td><p>don't copy data of tensor 1
- don't copy data of tensor 2</p></td>
+don't copy data of tensor 2</p></td>
   
 </tr>
 
@@ -472,7 +472,7 @@ private subroutine reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_
   
   <td></td><td>::</td>
   <td><strong>move_data_1</strong></td><td><p>memory optimization: transfer data s.t. tensor1 may be empty on return
- memory optimization: transfer data s.t. tensor2 may be empty on return</p></td>
+memory optimization: transfer data s.t. tensor2 may be empty on return</p></td>
   
 </tr>
 
@@ -488,7 +488,7 @@ private subroutine reshape_mm_compatible(tensor1, tensor2, tensor1_out, tensor2_
   
   <td></td><td>::</td>
   <td><strong>move_data_2</strong></td><td><p>memory optimization: transfer data s.t. tensor1 may be empty on return
- memory optimization: transfer data s.t. tensor2 may be empty on return</p></td>
+memory optimization: transfer data s.t. tensor2 may be empty on return</p></td>
   
 </tr>
 

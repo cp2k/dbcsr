@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -306,25 +306,25 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+    <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
     
     <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
     
-    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    
+    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
     <li><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
     
-    <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
-    
     <li><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
-    
-    <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
     
     <li><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
     
     <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
     
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
+    
+    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
     
   </ul>
       </li>
@@ -1989,7 +1989,7 @@ public subroutine <a href='../proc/dbcsr_addto_index_array.html'>dbcsr_addto_ind
   
   <td></td><td>::</td>
   <td><strong>reservation</strong></td><td><p>only reserve space for subsequent array
- reserve extra space for later additions</p></td>
+reserve extra space for later additions</p></td>
   
 </tr>
 
@@ -2005,7 +2005,7 @@ public subroutine <a href='../proc/dbcsr_addto_index_array.html'>dbcsr_addto_ind
   
   <td></td><td>::</td>
   <td><strong>extra</strong></td><td><p>only reserve space for subsequent array
- reserve extra space for later additions</p></td>
+reserve extra space for later additions</p></td>
   
 </tr>
 
@@ -2279,7 +2279,7 @@ public subroutine <a href='../proc/dbcsr_sort_indices.html'>dbcsr_sort_indices</
   
   <td>DIMENSION(1:)</td><td>::</td>
   <td><strong>row_i</strong></td><td><p>row indices
- column indices</p></td>
+column indices</p></td>
   
 </tr>
 
@@ -2295,7 +2295,7 @@ public subroutine <a href='../proc/dbcsr_sort_indices.html'>dbcsr_sort_indices</
   
   <td>DIMENSION(1:)</td><td>::</td>
   <td><strong>col_i</strong></td><td><p>row indices
- column indices</p></td>
+column indices</p></td>
   
 </tr>
 
@@ -2311,7 +2311,7 @@ public subroutine <a href='../proc/dbcsr_sort_indices.html'>dbcsr_sort_indices</
   
   <td>DIMENSION(1:)</td><td>::</td>
   <td><strong>blk_p</strong></td><td><p>block pointers
- data storage</p></td>
+data storage</p></td>
   
 </tr>
 
@@ -2327,7 +2327,7 @@ public subroutine <a href='../proc/dbcsr_sort_indices.html'>dbcsr_sort_indices</
   
   <td>DIMENSION(1:)</td><td>::</td>
   <td><strong>blk_d</strong></td><td><p>block pointers
- data storage</p></td>
+data storage</p></td>
   
 </tr>
 
@@ -2446,7 +2446,7 @@ public subroutine <a href='../proc/transpose_index_local.html'>transpose_index_l
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>new_col_p</strong></td><td><p>new column pointer
- new row index</p></td>
+new row index</p></td>
   
 </tr>
 
@@ -2462,7 +2462,7 @@ public subroutine <a href='../proc/transpose_index_local.html'>transpose_index_l
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>new_row_i</strong></td><td><p>new column pointer
- new row index</p></td>
+new row index</p></td>
   
 </tr>
 
@@ -2478,7 +2478,7 @@ public subroutine <a href='../proc/transpose_index_local.html'>transpose_index_l
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>old_row_p</strong></td><td><p>old row pointer
- old column index</p></td>
+old column index</p></td>
   
 </tr>
 
@@ -2494,7 +2494,7 @@ public subroutine <a href='../proc/transpose_index_local.html'>transpose_index_l
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>old_col_i</strong></td><td><p>old row pointer
- old column index</p></td>
+old column index</p></td>
   
 </tr>
 
@@ -2632,7 +2632,7 @@ public subroutine <a href='../proc/make_dense_index.html'>make_dense_index</a>(r
 
 
 <p>Makes the index for a dense matrix
- </p><a href="../proc/make_dense_index.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+</p><a href="../proc/make_dense_index.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -2674,7 +2674,7 @@ public subroutine <a href='../proc/make_dense_index.html'>make_dense_index</a>(r
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>col_i</strong></td><td><p>Storage for new index
- Storage for new index</p></td>
+Storage for new index</p></td>
   
 </tr>
 
@@ -2690,7 +2690,7 @@ public subroutine <a href='../proc/make_dense_index.html'>make_dense_index</a>(r
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>blk_p</strong></td><td><p>Storage for new index
- Storage for new index</p></td>
+Storage for new index</p></td>
   
 </tr>
 
@@ -2736,7 +2736,7 @@ public subroutine <a href='../proc/make_dense_index.html'>make_dense_index</a>(r
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>myblkrows</strong></td><td><p>List of blocked rows in my process row
- List of blocked columns in my process column</p></td>
+List of blocked columns in my process column</p></td>
   
 </tr>
 
@@ -2752,7 +2752,7 @@ public subroutine <a href='../proc/make_dense_index.html'>make_dense_index</a>(r
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>myblkcols</strong></td><td><p>List of blocked rows in my process row
- List of blocked columns in my process column</p></td>
+List of blocked columns in my process column</p></td>
   
 </tr>
 
@@ -2768,7 +2768,7 @@ public subroutine <a href='../proc/make_dense_index.html'>make_dense_index</a>(r
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>row_blk_offsets</strong></td><td><p>List of blocked rows in my process row
- List of blocked columns in my process column</p></td>
+List of blocked columns in my process column</p></td>
   
 </tr>
 
@@ -2784,7 +2784,7 @@ public subroutine <a href='../proc/make_dense_index.html'>make_dense_index</a>(r
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>col_blk_offsets</strong></td><td><p>List of blocked rows in my process row
- List of blocked columns in my process column</p></td>
+List of blocked columns in my process column</p></td>
   
 </tr>
 
@@ -2848,7 +2848,7 @@ public subroutine <a href='../proc/make_undense_index.html'>make_undense_index</
 
 
 <p>Makes a blocked index from a dense matrix
- </p><a href="../proc/make_undense_index.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+</p><a href="../proc/make_undense_index.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -2875,8 +2875,8 @@ public subroutine <a href='../proc/make_undense_index.html'>make_undense_index</
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>row_p</strong></td><td><p>Storage for new index
- Storage for new index
- Storage for new index</p></td>
+Storage for new index
+Storage for new index</p></td>
   
 </tr>
 
@@ -2892,8 +2892,8 @@ public subroutine <a href='../proc/make_undense_index.html'>make_undense_index</
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>col_i</strong></td><td><p>Storage for new index
- Storage for new index
- Storage for new index</p></td>
+Storage for new index
+Storage for new index</p></td>
   
 </tr>
 
@@ -2909,8 +2909,8 @@ public subroutine <a href='../proc/make_undense_index.html'>make_undense_index</
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>blk_p</strong></td><td><p>Storage for new index
- Storage for new index
- Storage for new index</p></td>
+Storage for new index
+Storage for new index</p></td>
   
 </tr>
 
@@ -3030,8 +3030,8 @@ public subroutine <a href='../proc/merge_index_arrays.html'>merge_index_arrays</
   
   <td>DIMENSION(new_size)</td><td>::</td>
   <td><strong>new_row_i</strong></td><td><p>merged result
- merged result
- merged result</p></td>
+merged result
+merged result</p></td>
   
 </tr>
 
@@ -3047,8 +3047,8 @@ public subroutine <a href='../proc/merge_index_arrays.html'>merge_index_arrays</
   
   <td>DIMENSION(new_size)</td><td>::</td>
   <td><strong>new_col_i</strong></td><td><p>merged result
- merged result
- merged result</p></td>
+merged result
+merged result</p></td>
   
 </tr>
 
@@ -3064,8 +3064,8 @@ public subroutine <a href='../proc/merge_index_arrays.html'>merge_index_arrays</
   
   <td>DIMENSION(new_size)</td><td>::</td>
   <td><strong>new_blk_p</strong></td><td><p>merged result
- merged result
- merged result</p></td>
+merged result
+merged result</p></td>
   
 </tr>
 
@@ -3096,8 +3096,8 @@ public subroutine <a href='../proc/merge_index_arrays.html'>merge_index_arrays</
   
   <td>DIMENSION(old_size)</td><td>::</td>
   <td><strong>old_row_i</strong></td><td><p>current index
- current index
- current index</p></td>
+current index
+current index</p></td>
   
 </tr>
 
@@ -3113,8 +3113,8 @@ public subroutine <a href='../proc/merge_index_arrays.html'>merge_index_arrays</
   
   <td>DIMENSION(old_size)</td><td>::</td>
   <td><strong>old_col_i</strong></td><td><p>current index
- current index
- current index</p></td>
+current index
+current index</p></td>
   
 </tr>
 
@@ -3130,8 +3130,8 @@ public subroutine <a href='../proc/merge_index_arrays.html'>merge_index_arrays</
   
   <td>DIMENSION(old_size)</td><td>::</td>
   <td><strong>old_blk_p</strong></td><td><p>current index
- current index
- current index</p></td>
+current index
+current index</p></td>
   
 </tr>
 
@@ -3252,7 +3252,7 @@ public subroutine <a href='../proc/merge_index_arrays.html'>merge_index_arrays</
   
   <td></td><td>::</td>
   <td><strong>added_size</strong></td><td><p>counts number of sizes of added blocks
- actual number of new elements</p></td>
+actual number of new elements</p></td>
   
 </tr>
 
@@ -3268,7 +3268,7 @@ public subroutine <a href='../proc/merge_index_arrays.html'>merge_index_arrays</
   
   <td></td><td>::</td>
   <td><strong>added_nblks</strong></td><td><p>counts number of sizes of added blocks
- actual number of new elements</p></td>
+actual number of new elements</p></td>
   
 </tr>
 

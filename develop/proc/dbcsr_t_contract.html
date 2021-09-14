@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -209,27 +209,27 @@ public subroutine dbcsr_t_contract(alpha, tensor_1, tensor_2, beta, tensor_3, co
 
     
     <p>Contract tensors by multiplying matrix representations.
- tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
- * tensor_2(contract_2, notcontract_2)
- + beta * tensor_3(map_1, map_2)</p>
+tensor_3(map_1, map_2) := alpha * tensor_1(notcontract_1, contract_1)
+* tensor_2(contract_2, notcontract_2)
++ beta * tensor_3(map_1, map_2)</p>
 <p></p><div class="alert alert-info" role="alert"><h4>Note</h4><p>note 1: block sizes of the corresponding indices need to be the same in all tensors.</p>
 <p>note 2: for best performance the tensors should have been created in matrix layouts
- compatible with the contraction, e.g. tensor_1 should have been created with either
- map1_2d == contract_1 and map2_2d == notcontract_1 or map1_2d == notcontract_1 and
- map2_2d == contract_1 (the same with tensor_2 and contract_2 / notcontract_2 and with
- tensor_3 and map_1 / map_2).
- Furthermore the two largest tensors involved in the contraction should map both to either
- tall or short matrices: the largest matrix dimension should be "on the same side"
- and should have identical distribution (which is always the case if the distributions were
- obtained with dbcsr_t_default_distvec).</p>
+compatible with the contraction, e.g. tensor_1 should have been created with either
+map1_2d == contract_1 and map2_2d == notcontract_1 or map1_2d == notcontract_1 and
+map2_2d == contract_1 (the same with tensor_2 and contract_2 / notcontract_2 and with
+tensor_3 and map_1 / map_2).
+Furthermore the two largest tensors involved in the contraction should map both to either
+tall or short matrices: the largest matrix dimension should be "on the same side"
+and should have identical distribution (which is always the case if the distributions were
+obtained with dbcsr_t_default_distvec).</p>
 <p>note 3: if the same tensor occurs in multiple contractions, a different tensor object should
- be created for each contraction and the data should be copied between the tensors by use of
- dbcsr_t_copy. If the same tensor object is used in multiple contractions, matrix layouts are
- not compatible for all contractions (see note 2).</p>
+be created for each contraction and the data should be copied between the tensors by use of
+dbcsr_t_copy. If the same tensor object is used in multiple contractions, matrix layouts are
+not compatible for all contractions (see note 2).</p>
 <p>note 4: automatic optimizations are enabled by using the feature of batched contraction, see
- dbcsr_t_batched_contract_init, dbcsr_t_batched_contract_finalize. The arguments bounds_1,
- bounds_2, bounds_3 give the index ranges of the batches.
- </p></div>
+dbcsr_t_batched_contract_init, dbcsr_t_batched_contract_finalize. The arguments bounds_1,
+bounds_2, bounds_3 give the index ranges of the batches.
+</p></div>
 <p>
     
 
@@ -422,7 +422,7 @@ public subroutine dbcsr_t_contract(alpha, tensor_1, tensor_2, beta, tensor_3, co
   
   <td>DIMENSION(2, SIZE(contract_1))</td><td>::</td>
   <td><strong>bounds_1</strong></td><td><p>bounds corresponding to contract_1 AKA contract_2: start and end index of an index range over
- which to contract. For use in batched contraction.</p></td>
+which to contract. For use in batched contraction.</p></td>
   
 </tr>
 
@@ -438,7 +438,7 @@ public subroutine dbcsr_t_contract(alpha, tensor_1, tensor_2, beta, tensor_3, co
   
   <td>DIMENSION(2, SIZE(notcontract_1))</td><td>::</td>
   <td><strong>bounds_2</strong></td><td><p>bounds corresponding to notcontract_1: start and end index of an index range.
- For use in batched contraction.</p></td>
+For use in batched contraction.</p></td>
   
 </tr>
 
@@ -454,7 +454,7 @@ public subroutine dbcsr_t_contract(alpha, tensor_1, tensor_2, beta, tensor_3, co
   
   <td>DIMENSION(2, SIZE(notcontract_2))</td><td>::</td>
   <td><strong>bounds_3</strong></td><td><p>bounds corresponding to notcontract_2: start and end index of an index range.
- For use in batched contraction.</p></td>
+For use in batched contraction.</p></td>
   
 </tr>
 
@@ -470,7 +470,7 @@ public subroutine dbcsr_t_contract(alpha, tensor_1, tensor_2, beta, tensor_3, co
   
   <td></td><td>::</td>
   <td><strong>optimize_dist</strong></td><td><p>Whether distribution should be optimized internally. In the current implementation this guarantees optimal parameters
- only for dense matrices.</p></td>
+only for dense matrices.</p></td>
   
 </tr>
 
@@ -486,8 +486,8 @@ public subroutine dbcsr_t_contract(alpha, tensor_1, tensor_2, beta, tensor_3, co
   
   <td>POINTER</td><td>::</td>
   <td><strong>pgrid_opt_1</strong></td><td><p>Optionally return optimal process grid for tensor_1. This can be used to choose optimal process grids for subsequent
- tensor contractions with tensors of similar shape and sparsity. Under some conditions, pgrid_opt_1 can not be returned,
- in this case the pointer is not associated.</p></td>
+tensor contractions with tensors of similar shape and sparsity. Under some conditions, pgrid_opt_1 can not be returned,
+in this case the pointer is not associated.</p></td>
   
 </tr>
 
@@ -593,8 +593,8 @@ public subroutine dbcsr_t_contract(alpha, tensor_1, tensor_2, beta, tensor_3, co
   
   <td></td><td>::</td>
   <td><strong>unit_nr</strong></td><td><p>output unit for logging
- set it to -1 on ranks that should not write (and any valid unit number on ranks that should write output)
- if 0 on ALL ranks, no output is written</p></td>
+set it to -1 on ranks that should not write (and any valid unit number on ranks that should write output)
+if 0 on ALL ranks, no output is written</p></td>
   
 </tr>
 

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -268,27 +268,27 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_timings_base_type.html'>dbcsr_timings_base_type</a></li>
-    
-    <li><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></li>
-    
-    <li><a href='../module/dbcsr_list.html'>dbcsr_list</a></li>
+    <li><a href='../module/dbcsr_cuda_profiling.html'>dbcsr_cuda_profiling</a></li>
     
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
-    <li><a href='../module/dbcsr_cuda_profiling.html'>dbcsr_cuda_profiling</a></li>
-    
-    <li><a href="http://fortranwiki.org/fortran/show/iso_c_binding">iso_c_binding</a></li>
-    
     <li><a href='../module/dbcsr_machine.html'>dbcsr_machine</a></li>
     
-    <li><a href='../module/dbcsr_dict.html'>dbcsr_dict</a></li>
+    <li><a href='../module/dbcsr_timings_base_type.html'>dbcsr_timings_base_type</a></li>
     
     <li><a href='../module/dbcsr_timings_types.html'>dbcsr_timings_types</a></li>
     
     <li><a href='../module/dbcsr_hip_profiling.html'>dbcsr_hip_profiling</a></li>
     
     <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    
+    <li><a href='../module/dbcsr_dict.html'>dbcsr_dict</a></li>
+    
+    <li><a href="http://fortranwiki.org/fortran/show/iso_c_binding">iso_c_binding</a></li>
+    
+    <li><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></li>
+    
+    <li><a href='../module/dbcsr_list.html'>dbcsr_list</a></li>
     
   </ul>
       </li>
@@ -543,8 +543,8 @@ private function <a href='../proc/routine_name2id.html'>routine_name2id</a>(rout
 
 
 <p>Internal routine used by timeset_handler and timings_setup_tracing.
- If no routine with given name is found in timer_env%routine_names
- then a new entry is created.</p>
+If no routine with given name is found in timer_env%routine_names
+then a new entry is created.</p>
     
     <h4>Arguments</h4>
     
@@ -651,7 +651,7 @@ public subroutine <a href='../proc/add_timer_env.html'>add_timer_env</a>(timer_e
 
 
 <p>adds the given timer_env to the top of the stack
- </p><a href="../proc/add_timer_env.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+</p><a href="../proc/add_timer_env.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -770,7 +770,7 @@ public subroutine <a href='../proc/rm_timer_env.html'>rm_timer_env</a>()
 
 
 <p>removes the current timer env from the stack
- </p><a href="../proc/rm_timer_env.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+</p><a href="../proc/rm_timer_env.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -1078,7 +1078,7 @@ public subroutine <a href='../proc/timings_setup_tracing.html'>timings_setup_tra
   
   <td></td><td>::</td>
   <td><strong>trace_max</strong></td><td><p>maximum number of calls reported per routine. Setting this to zero disables tracing.
- output unit used for printing the trace-messages</p></td>
+output unit used for printing the trace-messages</p></td>
   
 </tr>
 
@@ -1094,7 +1094,7 @@ public subroutine <a href='../proc/timings_setup_tracing.html'>timings_setup_tra
   
   <td></td><td>::</td>
   <td><strong>unit_nr</strong></td><td><p>maximum number of calls reported per routine. Setting this to zero disables tracing.
- output unit used for printing the trace-messages</p></td>
+output unit used for printing the trace-messages</p></td>
   
 </tr>
 

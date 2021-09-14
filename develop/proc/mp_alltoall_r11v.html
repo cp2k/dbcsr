@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -216,12 +216,12 @@ private subroutine mp_alltoall_r11v(sb, scount, sdispl, rb, rcount, rdispl, grou
     
     <p>All-to-all data exchange, rank-1 data of different sizes</p>
 <p>MPI mapping
- mpi_alltoallv</p>
+mpi_alltoallv</p>
 <p>Array sizes
- The scount, rcount, and the sdispl and rdispl arrays have a
- size equal to the number of processes.</p>
+The scount, rcount, and the sdispl and rdispl arrays have a
+size equal to the number of processes.</p>
 <p>Offsets
- Values in sdispl and rdispl start with 0.</p>
+Values in sdispl and rdispl start with 0.</p>
     
 
     <h3>Arguments</h3>
@@ -263,7 +263,7 @@ private subroutine mp_alltoall_r11v(sb, scount, sdispl, rb, rcount, rdispl, grou
   
   <td>CONTIGUOUS</td><td>::</td>
   <td><strong>scount</strong>(:)</td><td><p>Data counts for data sent to other processes
- Respective data offsets for data sent to process</p></td>
+Respective data offsets for data sent to process</p></td>
   
 </tr>
 
@@ -279,7 +279,7 @@ private subroutine mp_alltoall_r11v(sb, scount, sdispl, rb, rcount, rdispl, grou
   
   <td>CONTIGUOUS</td><td>::</td>
   <td><strong>sdispl</strong>(:)</td><td><p>Data counts for data sent to other processes
- Respective data offsets for data sent to process</p></td>
+Respective data offsets for data sent to process</p></td>
   
 </tr>
 
@@ -310,7 +310,7 @@ private subroutine mp_alltoall_r11v(sb, scount, sdispl, rb, rcount, rdispl, grou
   
   <td>CONTIGUOUS</td><td>::</td>
   <td><strong>rcount</strong>(:)</td><td><p>Data counts for data received from other processes
- Respective data offsets for data received from other processes</p></td>
+Respective data offsets for data received from other processes</p></td>
   
 </tr>
 
@@ -326,7 +326,7 @@ private subroutine mp_alltoall_r11v(sb, scount, sdispl, rb, rcount, rdispl, grou
   
   <td>CONTIGUOUS</td><td>::</td>
   <td><strong>rdispl</strong>(:)</td><td><p>Data counts for data received from other processes
- Respective data offsets for data received from other processes</p></td>
+Respective data offsets for data received from other processes</p></td>
   
 </tr>
 

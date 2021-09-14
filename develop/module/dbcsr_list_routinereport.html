@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -632,7 +632,7 @@ public function <a href='../proc/list_routinereport_peek.html'>list_routinerepor
 
 
 <p>Returns the last element in the list.
- Is equivalent to: list_routinereport_get(list, list_routinereport_size(list))</p>
+Is equivalent to: list_routinereport_get(list, list_routinereport_size(list))</p>
     
     <h4>Arguments</h4>
     
@@ -701,9 +701,9 @@ public function <a href='../proc/list_routinereport_pop.html'>list_routinereport
 
 
 <p>Returns the last element in the list and removes it.
- Is equivialent to:
- value = list_routinereport_get(list, list_routinereport_size(list))
- call list_routinereport_del(list, list_routinereport_size(list))</p>
+Is equivialent to:
+value = list_routinereport_get(list, list_routinereport_size(list))
+call list_routinereport_del(list, list_routinereport_size(list))</p>
     
     <h4>Arguments</h4>
     
@@ -931,8 +931,8 @@ public subroutine <a href='../proc/list_routinereport_init.html'>list_routinerep
 
 
 <p>Allocates the internal data-structures of the given list.
- This has to be called before any of the other routines.
- For deallocation call list_[valuetype]_destroy.</p>
+This has to be called before any of the other routines.
+For deallocation call list_[valuetype]_destroy.</p>
     
     <h4>Arguments</h4>
     
@@ -1007,8 +1007,8 @@ public subroutine <a href='../proc/list_routinereport_destroy.html'>list_routine
 
 
 <p>Deallocated the internal data-structures of the given list.
- Caution: If the stored values are pointers, their targets will
- not get deallocated by this routine.</p>
+Caution: If the stored values are pointers, their targets will
+not get deallocated by this routine.</p>
     
     <h4>Arguments</h4>
     
@@ -1068,8 +1068,8 @@ public subroutine <a href='../proc/list_routinereport_set.html'>list_routinerepo
 
 
 <p>Assings the given value to the given position in the list.
- Thereby, the former value at that position gets overwritten.
- If the position is out of bounds, the program stops.</p>
+Thereby, the former value at that position gets overwritten.
+If the position is out of bounds, the program stops.</p>
     
     <h4>Arguments</h4>
     
@@ -1233,7 +1233,7 @@ public subroutine <a href='../proc/list_routinereport_insert.html'>list_routiner
 
 
 <p>Inserts the given value at the given position within the list.
- Values which lay behind the insertion-position move one position up.</p>
+Values which lay behind the insertion-position move one position up.</p>
     
     <h4>Arguments</h4>
     

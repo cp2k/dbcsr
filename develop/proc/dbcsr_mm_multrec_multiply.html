@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -215,14 +215,10 @@ public subroutine dbcsr_mm_multrec_multiply(this, left, right, flop, a_norms, b_
 
     
     <p>Multiplies two DBCSR matrices using recursive algorithm
- This routine sets up the multiplication.  Specifically, it <ul>
- 
+This routine sets up the multiplication.  Specifically, it <ul></p>
 <li> verifies input sanity
- <li> converts everything into "local indexing"
- </ul>
-
-
-</p>
+<li> converts everything into "local indexing"
+</ul>
     
 
     <h3>Arguments</h3>
@@ -264,7 +260,7 @@ public subroutine dbcsr_mm_multrec_multiply(this, left, right, flop, a_norms, b_
   
   <td></td><td>::</td>
   <td><strong>left</strong></td><td><p>left DBCSR matrix
- right DBCSR matrix</p></td>
+right DBCSR matrix</p></td>
   
 </tr>
 
@@ -280,7 +276,7 @@ public subroutine dbcsr_mm_multrec_multiply(this, left, right, flop, a_norms, b_
   
   <td></td><td>::</td>
   <td><strong>right</strong></td><td><p>left DBCSR matrix
- right DBCSR matrix</p></td>
+right DBCSR matrix</p></td>
   
 </tr>
 
@@ -311,7 +307,7 @@ public subroutine dbcsr_mm_multrec_multiply(this, left, right, flop, a_norms, b_
   
   <td>DIMENSION(:), TARGET</td><td>::</td>
   <td><strong>a_norms</strong></td><td><p>norms of left-matrix blocks
- norms of right-matrix blocks</p></td>
+norms of right-matrix blocks</p></td>
   
 </tr>
 
@@ -327,7 +323,7 @@ public subroutine dbcsr_mm_multrec_multiply(this, left, right, flop, a_norms, b_
   
   <td>DIMENSION(:), TARGET</td><td>::</td>
   <td><strong>b_norms</strong></td><td><p>norms of left-matrix blocks
- norms of right-matrix blocks</p></td>
+norms of right-matrix blocks</p></td>
   
 </tr>
 

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -209,14 +209,14 @@ public subroutine dbcsr_t_copy(tensor_in, tensor_out, order, summation, bounds, 
 
     
     <p>Copy tensor data.
- Redistributes tensor data according to distributions of target and source tensor.
- Permutes tensor index according to <code>order</code> argument (if present).
- Source and target tensor formats are arbitrary as long as the following requirements are met:
- * source and target tensors have the same rank and the same sizes in each dimension in terms
-   of tensor elements (block sizes don't need to be the same).
-   If <code>order</code> argument is present, sizes must match after index permutation.
- OR
- * target tensor is not yet created, in this case an exact copy of source tensor is returned.</p>
+Redistributes tensor data according to distributions of target and source tensor.
+Permutes tensor index according to <code>order</code> argument (if present).
+Source and target tensor formats are arbitrary as long as the following requirements are met:
+* source and target tensors have the same rank and the same sizes in each dimension in terms
+  of tensor elements (block sizes don't need to be the same).
+  If <code>order</code> argument is present, sizes must match after index permutation.
+OR
+* target tensor is not yet created, in this case an exact copy of source tensor is returned.</p>
     
 
     <h3>Arguments</h3>
@@ -243,7 +243,7 @@ public subroutine dbcsr_t_copy(tensor_in, tensor_out, order, summation, bounds, 
   
   <td>TARGET</td><td>::</td>
   <td><strong>tensor_in</strong></td><td><p>Source
- Target</p></td>
+Target</p></td>
   
 </tr>
 
@@ -259,7 +259,7 @@ public subroutine dbcsr_t_copy(tensor_in, tensor_out, order, summation, bounds, 
   
   <td>TARGET</td><td>::</td>
   <td><strong>tensor_out</strong></td><td><p>Source
- Target</p></td>
+Target</p></td>
   
 </tr>
 

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -215,8 +215,8 @@ public subroutine dbcsr_datablock_redistribute(dblk, row_p, col_i, blk_p, proc_n
 
     
     <p>Redistributes data blocks of a DBCSR matrix read from a file.
- This routine should be used with dbcsr_binary_read in the module
- dbcsr_io.F</p>
+This routine should be used with dbcsr_binary_read in the module
+dbcsr_io.F</p>
     
 
     <h3>Arguments</h3>
@@ -258,12 +258,12 @@ public subroutine dbcsr_datablock_redistribute(dblk, row_p, col_i, blk_p, proc_n
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>row_p</strong></td><td><p>row_p of the DBCSR matrix that the current node possesses after reading the data file
- col_i of the DBCSR matrix that the current node possesses after reading the data file
- blk_p of the DBCSR matrix that the current node possesses after reading the data file
- 1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
- current node of the present mp environment
- 1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
- read by the current node of the present mp environment</p></td>
+col_i of the DBCSR matrix that the current node possesses after reading the data file
+blk_p of the DBCSR matrix that the current node possesses after reading the data file
+1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
+current node of the present mp environment
+1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
+read by the current node of the present mp environment</p></td>
   
 </tr>
 
@@ -279,12 +279,12 @@ public subroutine dbcsr_datablock_redistribute(dblk, row_p, col_i, blk_p, proc_n
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>col_i</strong></td><td><p>row_p of the DBCSR matrix that the current node possesses after reading the data file
- col_i of the DBCSR matrix that the current node possesses after reading the data file
- blk_p of the DBCSR matrix that the current node possesses after reading the data file
- 1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
- current node of the present mp environment
- 1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
- read by the current node of the present mp environment</p></td>
+col_i of the DBCSR matrix that the current node possesses after reading the data file
+blk_p of the DBCSR matrix that the current node possesses after reading the data file
+1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
+current node of the present mp environment
+1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
+read by the current node of the present mp environment</p></td>
   
 </tr>
 
@@ -300,12 +300,12 @@ public subroutine dbcsr_datablock_redistribute(dblk, row_p, col_i, blk_p, proc_n
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>blk_p</strong></td><td><p>row_p of the DBCSR matrix that the current node possesses after reading the data file
- col_i of the DBCSR matrix that the current node possesses after reading the data file
- blk_p of the DBCSR matrix that the current node possesses after reading the data file
- 1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
- current node of the present mp environment
- 1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
- read by the current node of the present mp environment</p></td>
+col_i of the DBCSR matrix that the current node possesses after reading the data file
+blk_p of the DBCSR matrix that the current node possesses after reading the data file
+1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
+current node of the present mp environment
+1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
+read by the current node of the present mp environment</p></td>
   
 </tr>
 
@@ -321,12 +321,12 @@ public subroutine dbcsr_datablock_redistribute(dblk, row_p, col_i, blk_p, proc_n
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>proc_nblks</strong></td><td><p>row_p of the DBCSR matrix that the current node possesses after reading the data file
- col_i of the DBCSR matrix that the current node possesses after reading the data file
- blk_p of the DBCSR matrix that the current node possesses after reading the data file
- 1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
- current node of the present mp environment
- 1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
- read by the current node of the present mp environment</p></td>
+col_i of the DBCSR matrix that the current node possesses after reading the data file
+blk_p of the DBCSR matrix that the current node possesses after reading the data file
+1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
+current node of the present mp environment
+1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
+read by the current node of the present mp environment</p></td>
   
 </tr>
 
@@ -342,12 +342,12 @@ public subroutine dbcsr_datablock_redistribute(dblk, row_p, col_i, blk_p, proc_n
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>proc_darea_sizes</strong></td><td><p>row_p of the DBCSR matrix that the current node possesses after reading the data file
- col_i of the DBCSR matrix that the current node possesses after reading the data file
- blk_p of the DBCSR matrix that the current node possesses after reading the data file
- 1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
- current node of the present mp environment
- 1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
- read by the current node of the present mp environment</p></td>
+col_i of the DBCSR matrix that the current node possesses after reading the data file
+blk_p of the DBCSR matrix that the current node possesses after reading the data file
+1D array holding nblks of those nodes of the mp environment, that created the file, whose contents have been read by the
+current node of the present mp environment
+1D array holding data_area_size of those nodes of the mp environment, that created the file, whose contents have been
+read by the current node of the present mp environment</p></td>
   
 </tr>
 

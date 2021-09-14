@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -216,9 +216,9 @@ private subroutine dbcsr_replicate(matrix, replicate_rows, replicate_columns, re
     
     <p>Replicates a DBCSR matrix among process rows and columns</p>
 <p>Direction definition
- Row replication means that all processors in a process grid sharing
- the same row get the data of the entire row. (In a 1-column grid the
- operation has no effect.) Similar logic applies to column replication.</p>
+Row replication means that all processors in a process grid sharing
+the same row get the data of the entire row. (In a 1-column grid the
+operation has no effect.) Similar logic applies to column replication.</p>
     
 
     <h3>Arguments</h3>
@@ -260,7 +260,7 @@ private subroutine dbcsr_replicate(matrix, replicate_rows, replicate_columns, re
   
   <td></td><td>::</td>
   <td><strong>replicate_rows</strong></td><td><p>Row should be replicated among all processors
- Column should be replicated among all processors</p></td>
+Column should be replicated among all processors</p></td>
   
 </tr>
 
@@ -276,7 +276,7 @@ private subroutine dbcsr_replicate(matrix, replicate_rows, replicate_columns, re
   
   <td></td><td>::</td>
   <td><strong>replicate_columns</strong></td><td><p>Row should be replicated among all processors
- Column should be replicated among all processors</p></td>
+Column should be replicated among all processors</p></td>
   
 </tr>
 

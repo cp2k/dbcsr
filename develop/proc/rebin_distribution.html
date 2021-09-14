@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -216,29 +216,29 @@ public subroutine rebin_distribution(new_bins, images, source_bins, nbins, multi
     
     <p>Makes new distribution with decimation and multiplicity</p>
 <p>Definition of multiplicity and nimages
- Multiplicity and decimation (number of images) are used to
- match process grid coordinates on non-square process
- grids. Given source_nbins and target_nbins, their relation is
- source_nbins * target_multiplicity
- = target_nbins * target_nimages.
- It is best when both multiplicity and nimages are small. To
- get these two factors, then, one can use the following formulas:
- nimages      = lcm(source_nbins, target_nbins) / target_nbins
- multiplicity = target_nbins / gcd(source_nbins, target_nbins)
- from the target's point of view (nimages = target_nimages).</p>
+Multiplicity and decimation (number of images) are used to
+match process grid coordinates on non-square process
+grids. Given source_nbins and target_nbins, their relation is
+source_nbins * target_multiplicity
+= target_nbins * target_nimages.
+It is best when both multiplicity and nimages are small. To
+get these two factors, then, one can use the following formulas:
+nimages      = lcm(source_nbins, target_nbins) / target_nbins
+multiplicity = target_nbins / gcd(source_nbins, target_nbins)
+from the target's point of view (nimages = target_nimages).</p>
 <p>Mapping
- The new distribution comprises of real bins and images within
- bins. These can be view as target_nbins<em>nimages virtual
- columns. These same virtual columns are also
- source_nbins</em>multiplicity in number. Therefore these virtual
- columns are mapped from source_nbins<em>multiplicity onto
- target_bins</em>nimages (each target bin has nimages images):
- Source 4: |1 2 3|4 5 6|7 8 9|A B C| (4<em>3)
- Target 6: |1 2|3 4|5 6|7 8|9 A|B C| (6</em>2)
- multiplicity=3, nimages=2, 12 virtual columns (1-C).
- Source bin elements are evenly mapped into one of multiplicity
- virtual columns. Other (non-even, block-size aware) mappings
- could be better.</p>
+The new distribution comprises of real bins and images within
+bins. These can be view as target_nbins<em>nimages virtual
+columns. These same virtual columns are also
+source_nbins</em>multiplicity in number. Therefore these virtual
+columns are mapped from source_nbins<em>multiplicity onto
+target_bins</em>nimages (each target bin has nimages images):
+Source 4: |1 2 3|4 5 6|7 8 9|A B C| (4<em>3)
+Target 6: |1 2|3 4|5 6|7 8|9 A|B C| (6</em>2)
+multiplicity=3, nimages=2, 12 virtual columns (1-C).
+Source bin elements are evenly mapped into one of multiplicity
+virtual columns. Other (non-even, block-size aware) mappings
+could be better.</p>
     
 
     <h3>Arguments</h3>
@@ -265,7 +265,7 @@ public subroutine rebin_distribution(new_bins, images, source_bins, nbins, multi
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>new_bins</strong></td><td><p>new real distribution
- new image distribution</p></td>
+new image distribution</p></td>
   
 </tr>
 
@@ -281,7 +281,7 @@ public subroutine rebin_distribution(new_bins, images, source_bins, nbins, multi
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>images</strong></td><td><p>new real distribution
- new image distribution</p></td>
+new image distribution</p></td>
   
 </tr>
 
@@ -312,8 +312,8 @@ public subroutine rebin_distribution(new_bins, images, source_bins, nbins, multi
   
   <td></td><td>::</td>
   <td><strong>nbins</strong></td><td><p>number of bins in the new real distribution
- multiplicity
- number of images in the new distribution</p></td>
+multiplicity
+number of images in the new distribution</p></td>
   
 </tr>
 
@@ -329,8 +329,8 @@ public subroutine rebin_distribution(new_bins, images, source_bins, nbins, multi
   
   <td></td><td>::</td>
   <td><strong>multiplicity</strong></td><td><p>number of bins in the new real distribution
- multiplicity
- number of images in the new distribution</p></td>
+multiplicity
+number of images in the new distribution</p></td>
   
 </tr>
 
@@ -346,8 +346,8 @@ public subroutine rebin_distribution(new_bins, images, source_bins, nbins, multi
   
   <td></td><td>::</td>
   <td><strong>nimages</strong></td><td><p>number of bins in the new real distribution
- multiplicity
- number of images in the new distribution</p></td>
+multiplicity
+number of images in the new distribution</p></td>
   
 </tr>
 

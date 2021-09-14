@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -215,12 +215,12 @@ public subroutine mp_comm_split(comm, sub_comm, ngroups, group_distribution, sub
 
     
     <p>splits the given communicator in group in subgroups trying to organize
- them in a way that the communication within each subgroup is
- efficient (but not necessarily the communication between subgroups)
- </p><div class="alert alert-info" role="alert"><h4>Note</h4><p>at least one of subgroup_min_size and n_subgroups is needed,
- the other default to the value needed to use most processors.
- if less cpus are present than needed for subgroup min size, n_subgroups,
- just one comm is created that contains all cpus</p></div>
+them in a way that the communication within each subgroup is
+efficient (but not necessarily the communication between subgroups)
+</p><div class="alert alert-info" role="alert"><h4>Note</h4><p>at least one of subgroup_min_size and n_subgroups is needed,
+the other default to the value needed to use most processors.
+if less cpus are present than needed for subgroup min size, n_subgroups,
+just one comm is created that contains all cpus</p></div>
     
 
     <h3>Arguments</h3>
@@ -262,7 +262,7 @@ public subroutine mp_comm_split(comm, sub_comm, ngroups, group_distribution, sub
   
   <td></td><td>::</td>
   <td><strong>sub_comm</strong></td><td><p>the communicator for the subgroup (created, needs to be freed later)
- actual number of groups</p></td>
+actual number of groups</p></td>
   
 </tr>
 
@@ -278,7 +278,7 @@ public subroutine mp_comm_split(comm, sub_comm, ngroups, group_distribution, sub
   
   <td></td><td>::</td>
   <td><strong>ngroups</strong></td><td><p>the communicator for the subgroup (created, needs to be freed later)
- actual number of groups</p></td>
+actual number of groups</p></td>
   
 </tr>
 
@@ -309,7 +309,7 @@ public subroutine mp_comm_split(comm, sub_comm, ngroups, group_distribution, sub
   
   <td></td><td>::</td>
   <td><strong>subgroup_min_size</strong></td><td><p>the minimum size of the subgroup
- the number of subgroups wanted</p></td>
+the number of subgroups wanted</p></td>
   
 </tr>
 
@@ -325,7 +325,7 @@ public subroutine mp_comm_split(comm, sub_comm, ngroups, group_distribution, sub
   
   <td></td><td>::</td>
   <td><strong>n_subgroups</strong></td><td><p>the minimum size of the subgroup
- the number of subgroups wanted</p></td>
+the number of subgroups wanted</p></td>
   
 </tr>
 
@@ -341,7 +341,7 @@ public subroutine mp_comm_split(comm, sub_comm, ngroups, group_distribution, sub
   
   <td>DIMENSION(0:)</td><td>::</td>
   <td><strong>group_partition</strong></td><td><p>n_subgroups sized array containing the number of cpus wanted per group. should match the total number of cpus (only used
- if present and associated) (0..ngroups-1)</p></td>
+if present and associated) (0..ngroups-1)</p></td>
   
 </tr>
 

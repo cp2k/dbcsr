@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -216,43 +216,41 @@ public subroutine dbcsr_iterator_start(iterator, matrix, shared, dynamic, dynami
     
     <p>Sets up an iterator</p>
 <p>Contiguous pointers
- Contiguous pointers may incur reallocation penalties but enable quick
- passing of arrays to routines with unspecified interfaces (i.e., direct
- calls to BLACS or MPI).</p>
+Contiguous pointers may incur reallocation penalties but enable quick
+passing of arrays to routines with unspecified interfaces (i.e., direct
+calls to BLACS or MPI).</p>
 <p>Threading
- The TYPE(dbcsr_iterator) variable should be thread-private.</p>
+The TYPE(dbcsr_iterator) variable should be thread-private.</p>
 <p>The iterator has several modes of operation when used with
- OpenMP. Two options can be set to influence the behavior.</p>
+OpenMP. Two options can be set to influence the behavior.</p>
 <p>Threading: shared vs. non-shared
- The "shared" flag specifies that several threads will be
- iterating through the same matrix.
- - Sharing is the default when called from an active parallel
- region. In the shared mode no two threads will receive the
- same block; i.e., the work is split among the threads.
- - If each (or one) thread needs to iterator through all blocks
- then shared should be set to .FALSE.. (E.g., when called
- from an enclosing MASTER region or when each thread has its
- own matrix.)
- - It is safe to use an iterator in non-shared mode with only
- one thread.  No thread synchronization constructs are used
- in this case)</p>
+The "shared" flag specifies that several threads will be
+iterating through the same matrix.
+- Sharing is the default when called from an active parallel
+region. In the shared mode no two threads will receive the
+same block; i.e., the work is split among the threads.
+- If each (or one) thread needs to iterator through all blocks
+then shared should be set to .FALSE.. (E.g., when called
+from an enclosing MASTER region or when each thread has its
+own matrix.)
+- It is safe to use an iterator in non-shared mode with only
+one thread.  No thread synchronization constructs are used
+in this case)</p>
 <p>Threading in shared mode
- When in shared mode there are three possibilities to select
- how the blocks are distributed to the threads.
- 
+When in shared mode there are three possibilities to select
+how the blocks are distributed to the threads.</p>
 <DL>
- <DT>Thread distribution</DT>
- <DD>The default is to use the thread distribution. The thread
- distribution statically maps rows to threads and should be
- used whenever retaining a consistent mapping among
- subsequent iterations is important.</DD>
- <DT>Dynamic scheduling</DT>
- <DD>If the dynamic flag is .TRUE., then blocks are given to
- threads dynamically. By default the assignment is grouped
- by rows (to minimize synchronization); however, if the
- dynamic_byrows flag is .FALSE. then every block is
- assigned dynamically.</DD></DL>
-</p>
+<DT>Thread distribution</DT>
+<DD>The default is to use the thread distribution. The thread
+distribution statically maps rows to threads and should be
+used whenever retaining a consistent mapping among
+subsequent iterations is important.</DD>
+<DT>Dynamic scheduling</DT>
+<DD>If the dynamic flag is .TRUE., then blocks are given to
+threads dynamically. By default the assignment is grouped
+by rows (to minimize synchronization); however, if the
+dynamic_byrows flag is .FALSE. then every block is
+assigned dynamically.</DD></DL>
     
 
     <h3>Arguments</h3>
@@ -309,10 +307,10 @@ public subroutine dbcsr_iterator_start(iterator, matrix, shared, dynamic, dynami
   
   <td></td><td>::</td>
   <td><strong>shared</strong></td><td><p>The matrix is shared between several iterators. Default is .TRUE.
- Threads are given blocks regardless of the thread distribution; default is .FALSE.
- Threads are given blocks regardless of the thread distribution, but still grouped by rows; default is .FALSE.
- Whether returned pointers need to be contiguous; default is FALSE.
- User promises not to change returned data; default is FALSE</p></td>
+Threads are given blocks regardless of the thread distribution; default is .FALSE.
+Threads are given blocks regardless of the thread distribution, but still grouped by rows; default is .FALSE.
+Whether returned pointers need to be contiguous; default is FALSE.
+User promises not to change returned data; default is FALSE</p></td>
   
 </tr>
 
@@ -328,10 +326,10 @@ public subroutine dbcsr_iterator_start(iterator, matrix, shared, dynamic, dynami
   
   <td></td><td>::</td>
   <td><strong>dynamic</strong></td><td><p>The matrix is shared between several iterators. Default is .TRUE.
- Threads are given blocks regardless of the thread distribution; default is .FALSE.
- Threads are given blocks regardless of the thread distribution, but still grouped by rows; default is .FALSE.
- Whether returned pointers need to be contiguous; default is FALSE.
- User promises not to change returned data; default is FALSE</p></td>
+Threads are given blocks regardless of the thread distribution; default is .FALSE.
+Threads are given blocks regardless of the thread distribution, but still grouped by rows; default is .FALSE.
+Whether returned pointers need to be contiguous; default is FALSE.
+User promises not to change returned data; default is FALSE</p></td>
   
 </tr>
 
@@ -347,10 +345,10 @@ public subroutine dbcsr_iterator_start(iterator, matrix, shared, dynamic, dynami
   
   <td></td><td>::</td>
   <td><strong>dynamic_byrows</strong></td><td><p>The matrix is shared between several iterators. Default is .TRUE.
- Threads are given blocks regardless of the thread distribution; default is .FALSE.
- Threads are given blocks regardless of the thread distribution, but still grouped by rows; default is .FALSE.
- Whether returned pointers need to be contiguous; default is FALSE.
- User promises not to change returned data; default is FALSE</p></td>
+Threads are given blocks regardless of the thread distribution; default is .FALSE.
+Threads are given blocks regardless of the thread distribution, but still grouped by rows; default is .FALSE.
+Whether returned pointers need to be contiguous; default is FALSE.
+User promises not to change returned data; default is FALSE</p></td>
   
 </tr>
 
@@ -366,10 +364,10 @@ public subroutine dbcsr_iterator_start(iterator, matrix, shared, dynamic, dynami
   
   <td></td><td>::</td>
   <td><strong>contiguous_pointers</strong></td><td><p>The matrix is shared between several iterators. Default is .TRUE.
- Threads are given blocks regardless of the thread distribution; default is .FALSE.
- Threads are given blocks regardless of the thread distribution, but still grouped by rows; default is .FALSE.
- Whether returned pointers need to be contiguous; default is FALSE.
- User promises not to change returned data; default is FALSE</p></td>
+Threads are given blocks regardless of the thread distribution; default is .FALSE.
+Threads are given blocks regardless of the thread distribution, but still grouped by rows; default is .FALSE.
+Whether returned pointers need to be contiguous; default is FALSE.
+User promises not to change returned data; default is FALSE</p></td>
   
 </tr>
 
@@ -385,10 +383,10 @@ public subroutine dbcsr_iterator_start(iterator, matrix, shared, dynamic, dynami
   
   <td></td><td>::</td>
   <td><strong>read_only</strong></td><td><p>The matrix is shared between several iterators. Default is .TRUE.
- Threads are given blocks regardless of the thread distribution; default is .FALSE.
- Threads are given blocks regardless of the thread distribution, but still grouped by rows; default is .FALSE.
- Whether returned pointers need to be contiguous; default is FALSE.
- User promises not to change returned data; default is FALSE</p></td>
+Threads are given blocks regardless of the thread distribution; default is .FALSE.
+Threads are given blocks regardless of the thread distribution, but still grouped by rows; default is .FALSE.
+Whether returned pointers need to be contiguous; default is FALSE.
+User promises not to change returned data; default is FALSE</p></td>
   
 </tr>
 

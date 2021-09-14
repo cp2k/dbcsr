@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -261,7 +261,7 @@
     <div class="col-md-9" id='text'>
       <h2>type, public :: dbcsr_mm_multrec_type</h2>
     <p>Used to carry data among the various calls.  Each thread has
- its own private copy.</p>
+its own private copy.</p>
     
     
     
@@ -384,8 +384,8 @@
   <td>private</td>
   <td></td><td>::</td>
   <td><strong>c_has_symmetry</strong></td><td></td><td></td><td><p>The product matrix has symmetry
- Sparsity of C matrix should be kept
- Use on-the-fly filtering</p></td>
+Sparsity of C matrix should be kept
+Use on-the-fly filtering</p></td>
   
 </tr>
 
@@ -400,8 +400,8 @@
   <td>private</td>
   <td></td><td>::</td>
   <td><strong>keep_sparsity</strong></td><td></td><td></td><td><p>The product matrix has symmetry
- Sparsity of C matrix should be kept
- Use on-the-fly filtering</p></td>
+Sparsity of C matrix should be kept
+Use on-the-fly filtering</p></td>
   
 </tr>
 
@@ -416,8 +416,8 @@
   <td>private</td>
   <td></td><td>::</td>
   <td><strong>use_eps</strong></td><td></td><td></td><td><p>The product matrix has symmetry
- Sparsity of C matrix should be kept
- Use on-the-fly filtering</p></td>
+Sparsity of C matrix should be kept
+Use on-the-fly filtering</p></td>
   
 </tr>
 
@@ -432,8 +432,8 @@
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>m_sizes</strong></td><td></td><td></td><td><p>Block sizes of A and C matrix rows, indexed locally
- Block sizes of B and C matrix columns, indexed locally
- Block sizes of A matrix columns and B matrix rows, indexed locally</p></td>
+Block sizes of B and C matrix columns, indexed locally
+Block sizes of A matrix columns and B matrix rows, indexed locally</p></td>
   
 </tr>
 
@@ -448,8 +448,8 @@
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>n_sizes</strong></td><td></td><td></td><td><p>Block sizes of A and C matrix rows, indexed locally
- Block sizes of B and C matrix columns, indexed locally
- Block sizes of A matrix columns and B matrix rows, indexed locally</p></td>
+Block sizes of B and C matrix columns, indexed locally
+Block sizes of A matrix columns and B matrix rows, indexed locally</p></td>
   
 </tr>
 
@@ -464,8 +464,8 @@
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>k_sizes</strong></td><td></td><td></td><td><p>Block sizes of A and C matrix rows, indexed locally
- Block sizes of B and C matrix columns, indexed locally
- Block sizes of A matrix columns and B matrix rows, indexed locally</p></td>
+Block sizes of B and C matrix columns, indexed locally
+Block sizes of A matrix columns and B matrix rows, indexed locally</p></td>
   
 </tr>
 
@@ -508,10 +508,10 @@
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>c_local_rows</strong></td><td></td><td></td><td><p>C and A matrix local rows.  Map from local row (index) to global row (value).
- C and B matrix local columns.  Map from local column (index) to global column (value).
- A matrix local columns and B matrix local rows.  Map from local row/column (index) to global row/column (value).
- C and A matrix global rows.  Map from global rows (index) to local rows (value).
- C and B matrix global columns.  Map from global columns (index) to local columns (value).</p></td>
+C and B matrix local columns.  Map from local column (index) to global column (value).
+A matrix local columns and B matrix local rows.  Map from local row/column (index) to global row/column (value).
+C and A matrix global rows.  Map from global rows (index) to local rows (value).
+C and B matrix global columns.  Map from global columns (index) to local columns (value).</p></td>
   
 </tr>
 
@@ -526,10 +526,10 @@
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>c_local_cols</strong></td><td></td><td></td><td><p>C and A matrix local rows.  Map from local row (index) to global row (value).
- C and B matrix local columns.  Map from local column (index) to global column (value).
- A matrix local columns and B matrix local rows.  Map from local row/column (index) to global row/column (value).
- C and A matrix global rows.  Map from global rows (index) to local rows (value).
- C and B matrix global columns.  Map from global columns (index) to local columns (value).</p></td>
+C and B matrix local columns.  Map from local column (index) to global column (value).
+A matrix local columns and B matrix local rows.  Map from local row/column (index) to global row/column (value).
+C and A matrix global rows.  Map from global rows (index) to local rows (value).
+C and B matrix global columns.  Map from global columns (index) to local columns (value).</p></td>
   
 </tr>
 
@@ -544,10 +544,10 @@
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>k_locals</strong></td><td></td><td></td><td><p>C and A matrix local rows.  Map from local row (index) to global row (value).
- C and B matrix local columns.  Map from local column (index) to global column (value).
- A matrix local columns and B matrix local rows.  Map from local row/column (index) to global row/column (value).
- C and A matrix global rows.  Map from global rows (index) to local rows (value).
- C and B matrix global columns.  Map from global columns (index) to local columns (value).</p></td>
+C and B matrix local columns.  Map from local column (index) to global column (value).
+A matrix local columns and B matrix local rows.  Map from local row/column (index) to global row/column (value).
+C and A matrix global rows.  Map from global rows (index) to local rows (value).
+C and B matrix global columns.  Map from global columns (index) to local columns (value).</p></td>
   
 </tr>
 
@@ -562,10 +562,10 @@
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>c_global_rows</strong></td><td></td><td></td><td><p>C and A matrix local rows.  Map from local row (index) to global row (value).
- C and B matrix local columns.  Map from local column (index) to global column (value).
- A matrix local columns and B matrix local rows.  Map from local row/column (index) to global row/column (value).
- C and A matrix global rows.  Map from global rows (index) to local rows (value).
- C and B matrix global columns.  Map from global columns (index) to local columns (value).</p></td>
+C and B matrix local columns.  Map from local column (index) to global column (value).
+A matrix local columns and B matrix local rows.  Map from local row/column (index) to global row/column (value).
+C and A matrix global rows.  Map from global rows (index) to local rows (value).
+C and B matrix global columns.  Map from global columns (index) to local columns (value).</p></td>
   
 </tr>
 
@@ -580,10 +580,10 @@
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>c_global_cols</strong></td><td></td><td></td><td><p>C and A matrix local rows.  Map from local row (index) to global row (value).
- C and B matrix local columns.  Map from local column (index) to global column (value).
- A matrix local columns and B matrix local rows.  Map from local row/column (index) to global row/column (value).
- C and A matrix global rows.  Map from global rows (index) to local rows (value).
- C and B matrix global columns.  Map from global columns (index) to local columns (value).</p></td>
+C and B matrix local columns.  Map from local column (index) to global column (value).
+A matrix local columns and B matrix local rows.  Map from local row/column (index) to global row/column (value).
+C and A matrix global rows.  Map from global rows (index) to local rows (value).
+C and B matrix global columns.  Map from global columns (index) to local columns (value).</p></td>
   
 </tr>
 
@@ -598,8 +598,8 @@
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>row_max_epss</strong></td><td></td><td></td><td><p>Maximum eps to be used for one row.
- Norms of A matrix blocks.
- Norms of B matrix blocks.</p></td>
+Norms of A matrix blocks.
+Norms of B matrix blocks.</p></td>
   
 </tr>
 
@@ -614,8 +614,8 @@
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>a_norms</strong></td><td></td><td></td><td><p>Maximum eps to be used for one row.
- Norms of A matrix blocks.
- Norms of B matrix blocks.</p></td>
+Norms of A matrix blocks.
+Norms of B matrix blocks.</p></td>
   
 </tr>
 
@@ -630,8 +630,8 @@
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>b_norms</strong></td><td></td><td></td><td><p>Maximum eps to be used for one row.
- Norms of A matrix blocks.
- Norms of B matrix blocks.</p></td>
+Norms of A matrix blocks.
+Norms of B matrix blocks.</p></td>
   
 </tr>
 

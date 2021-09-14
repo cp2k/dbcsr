@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -209,7 +209,7 @@ public recursive subroutine dbcsr_tas_multiply(transa, transb, transc, alpha, ma
 
     
     <p>tall-and-skinny matrix-matrix multiplication. Undocumented dummy arguments are identical to
- arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
+arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
     
 
     <h3>Arguments</h3>
@@ -356,7 +356,7 @@ public recursive subroutine dbcsr_tas_multiply(transa, transb, transc, alpha, ma
   
   <td></td><td>::</td>
   <td><strong>optimize_dist</strong></td><td><p>Whether distribution should be optimized internally. In the current implementation this guarantees optimal parameters
- only for dense matrices.</p></td>
+only for dense matrices.</p></td>
   
 </tr>
 
@@ -372,7 +372,7 @@ public recursive subroutine dbcsr_tas_multiply(transa, transb, transc, alpha, ma
   
   <td></td><td>::</td>
   <td><strong>split_opt</strong></td><td><p>optionally return split info containing optimal grid and split parameters. This can be used to choose optimal process
- grids for subsequent matrix multiplications with matrices of similar shape and sparsity.</p></td>
+grids for subsequent matrix multiplications with matrices of similar shape and sparsity.</p></td>
   
 </tr>
 
@@ -418,8 +418,8 @@ public recursive subroutine dbcsr_tas_multiply(transa, transb, transc, alpha, ma
   
   <td></td><td>::</td>
   <td><strong>move_data_a</strong></td><td><p>memory optimization: move data to matrix_c such that matrix_a is empty on return
- memory optimization: move data to matrix_c such that matrix_b is empty on return
- for internal use only</p></td>
+memory optimization: move data to matrix_c such that matrix_b is empty on return
+for internal use only</p></td>
   
 </tr>
 
@@ -435,8 +435,8 @@ public recursive subroutine dbcsr_tas_multiply(transa, transb, transc, alpha, ma
   
   <td></td><td>::</td>
   <td><strong>move_data_b</strong></td><td><p>memory optimization: move data to matrix_c such that matrix_a is empty on return
- memory optimization: move data to matrix_c such that matrix_b is empty on return
- for internal use only</p></td>
+memory optimization: move data to matrix_c such that matrix_b is empty on return
+for internal use only</p></td>
   
 </tr>
 
@@ -452,8 +452,8 @@ public recursive subroutine dbcsr_tas_multiply(transa, transb, transc, alpha, ma
   
   <td></td><td>::</td>
   <td><strong>retain_sparsity</strong></td><td><p>memory optimization: move data to matrix_c such that matrix_a is empty on return
- memory optimization: move data to matrix_c such that matrix_b is empty on return
- for internal use only</p></td>
+memory optimization: move data to matrix_c such that matrix_b is empty on return
+for internal use only</p></td>
   
 </tr>
 
@@ -469,8 +469,8 @@ public recursive subroutine dbcsr_tas_multiply(transa, transb, transc, alpha, ma
   
   <td></td><td>::</td>
   <td><strong>simple_split</strong></td><td><p>memory optimization: move data to matrix_c such that matrix_a is empty on return
- memory optimization: move data to matrix_c such that matrix_b is empty on return
- for internal use only</p></td>
+memory optimization: move data to matrix_c such that matrix_b is empty on return
+for internal use only</p></td>
   
 </tr>
 

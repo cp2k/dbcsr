@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -215,12 +215,12 @@ private subroutine buffer_matrices_ensure_size(buffer_set, index_size, data_size
 
     
     <p>Enlarge left_set and right_set to hold any a/b-panel.
- left_set and right_set are created by make_images to hold the a/b-panels
- used for the initial cannon-tick. This routine ensures that these buffers
- can hold any a/b-panel occurring during a matrix multiply and makes them
- therefore suitable as buffers for the entire cannon algorithm.
- This saves memory since no separate buffers for the first cannon-tick
- have to be allocated.</p>
+left_set and right_set are created by make_images to hold the a/b-panels
+used for the initial cannon-tick. This routine ensures that these buffers
+can hold any a/b-panel occurring during a matrix multiply and makes them
+therefore suitable as buffers for the entire cannon algorithm.
+This saves memory since no separate buffers for the first cannon-tick
+have to be allocated.</p>
     
 
     <h3>Arguments</h3>

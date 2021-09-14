@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -238,29 +238,21 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-    
-    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
     
     <li><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
     
     <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
     
-    <li><a href='../module/dbcsr_multiply_api.html'>dbcsr_multiply_api</a></li>
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
     <li><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
     
+    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+    
     <li><a href='../module/dbcsr_test_methods.html'>dbcsr_test_methods</a></li>
     
-    <li><a href='../module/dbcsr_io.html'>dbcsr_io</a></li>
-    
-    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
-    
     <li><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></li>
-    
-    <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
-    
-    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
     
     <li><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
     
@@ -268,9 +260,17 @@
     
     <li><a href='../module/dbcsr_dist_operations.html'>dbcsr_dist_operations</a></li>
     
+    <li><a href='../module/dbcsr_multiply_api.html'>dbcsr_multiply_api</a></li>
+    
     <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
     
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    <li><a href='../module/dbcsr_operations.html'>dbcsr_operations</a></li>
+    
+    <li><a href='../module/dbcsr_io.html'>dbcsr_io</a></li>
+    
+    <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+    
+    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
     
   </ul>
       </li>
@@ -444,7 +444,7 @@ public subroutine <a href='../proc/dbcsr_run_tests.html'>dbcsr_run_tests</a>(mp_
 
 
 <p>Performs a variety of matrix multiplies of same matrices on different
- processor grids</p>
+processor grids</p>
     
     <h4>Arguments</h4>
     
@@ -471,7 +471,7 @@ public subroutine <a href='../proc/dbcsr_run_tests.html'>dbcsr_run_tests</a>(mp_
   
   <td></td><td>::</td>
   <td><strong>mp_group</strong></td><td><p>MPI communicator
- which unit to write to, if not negative</p></td>
+which unit to write to, if not negative</p></td>
   
 </tr>
 
@@ -487,7 +487,7 @@ public subroutine <a href='../proc/dbcsr_run_tests.html'>dbcsr_run_tests</a>(mp_
   
   <td></td><td>::</td>
   <td><strong>io_unit</strong></td><td><p>MPI communicator
- which unit to write to, if not negative</p></td>
+which unit to write to, if not negative</p></td>
   
 </tr>
 
@@ -548,8 +548,8 @@ public subroutine <a href='../proc/dbcsr_run_tests.html'>dbcsr_run_tests</a>(mp_
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>bs_m</strong></td><td><p>block sizes of the 3 dimensions
- block sizes of the 3 dimensions
- block sizes of the 3 dimensions</p></td>
+block sizes of the 3 dimensions
+block sizes of the 3 dimensions</p></td>
   
 </tr>
 
@@ -565,8 +565,8 @@ public subroutine <a href='../proc/dbcsr_run_tests.html'>dbcsr_run_tests</a>(mp_
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>bs_n</strong></td><td><p>block sizes of the 3 dimensions
- block sizes of the 3 dimensions
- block sizes of the 3 dimensions</p></td>
+block sizes of the 3 dimensions
+block sizes of the 3 dimensions</p></td>
   
 </tr>
 
@@ -582,8 +582,8 @@ public subroutine <a href='../proc/dbcsr_run_tests.html'>dbcsr_run_tests</a>(mp_
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>bs_k</strong></td><td><p>block sizes of the 3 dimensions
- block sizes of the 3 dimensions
- block sizes of the 3 dimensions</p></td>
+block sizes of the 3 dimensions
+block sizes of the 3 dimensions</p></td>
   
 </tr>
 
@@ -614,7 +614,7 @@ public subroutine <a href='../proc/dbcsr_run_tests.html'>dbcsr_run_tests</a>(mp_
   
   <td></td><td>::</td>
   <td><strong>alpha</strong></td><td><p>alpha value to use in multiply
- beta value to use in multiply</p></td>
+beta value to use in multiply</p></td>
   
 </tr>
 
@@ -630,7 +630,7 @@ public subroutine <a href='../proc/dbcsr_run_tests.html'>dbcsr_run_tests</a>(mp_
   
   <td></td><td>::</td>
   <td><strong>beta</strong></td><td><p>alpha value to use in multiply
- beta value to use in multiply</p></td>
+beta value to use in multiply</p></td>
   
 </tr>
 
@@ -646,7 +646,7 @@ public subroutine <a href='../proc/dbcsr_run_tests.html'>dbcsr_run_tests</a>(mp_
   
   <td></td><td>::</td>
   <td><strong>data_type</strong></td><td><p>matrix data type
- number of repetition for each multiplication</p></td>
+number of repetition for each multiplication</p></td>
   
 </tr>
 
@@ -662,7 +662,7 @@ public subroutine <a href='../proc/dbcsr_run_tests.html'>dbcsr_run_tests</a>(mp_
   
   <td></td><td>::</td>
   <td><strong>test_type</strong></td><td><p>matrix data type
- number of repetition for each multiplication</p></td>
+number of repetition for each multiplication</p></td>
   
 </tr>
 
@@ -678,7 +678,7 @@ public subroutine <a href='../proc/dbcsr_run_tests.html'>dbcsr_run_tests</a>(mp_
   
   <td></td><td>::</td>
   <td><strong>n_loops</strong></td><td><p>matrix data type
- number of repetition for each multiplication</p></td>
+number of repetition for each multiplication</p></td>
   
 </tr>
 
@@ -831,7 +831,7 @@ private subroutine <a href='../proc/test_multiplies_multiproc.html'>test_multipl
 
 
 <p>Performs a variety of matrix multiplies of same matrices on different
- processor grids</p>
+processor grids</p>
     
     <h4>Arguments</h4>
     
@@ -873,8 +873,8 @@ private subroutine <a href='../proc/test_multiplies_multiproc.html'>test_multipl
   
   <td></td><td>::</td>
   <td><strong>matrix_a</strong></td><td><p>matrices to multiply
- matrices to multiply
- matrices to multiply</p></td>
+matrices to multiply
+matrices to multiply</p></td>
   
 </tr>
 
@@ -890,8 +890,8 @@ private subroutine <a href='../proc/test_multiplies_multiproc.html'>test_multipl
   
   <td></td><td>::</td>
   <td><strong>matrix_b</strong></td><td><p>matrices to multiply
- matrices to multiply
- matrices to multiply</p></td>
+matrices to multiply
+matrices to multiply</p></td>
   
 </tr>
 
@@ -907,8 +907,8 @@ private subroutine <a href='../proc/test_multiplies_multiproc.html'>test_multipl
   
   <td></td><td>::</td>
   <td><strong>matrix_c</strong></td><td><p>matrices to multiply
- matrices to multiply
- matrices to multiply</p></td>
+matrices to multiply
+matrices to multiply</p></td>
   
 </tr>
 

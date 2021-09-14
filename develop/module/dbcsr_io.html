@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -270,23 +270,17 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-    
-    <li><a href='../module/dbcsr_mp_operations.html'>dbcsr_mp_operations</a></li>
-    
-    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-    
     <li><a href='../module/dbcsr_work_operations.html'>dbcsr_work_operations</a></li>
     
     <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
     
-    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
-    <li><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></li>
+    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
     <li><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
     
-    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+    <li><a href='../module/dbcsr_transformations.html'>dbcsr_transformations</a></li>
     
     <li><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
     
@@ -294,7 +288,13 @@
     
     <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
     
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+    
+    <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+    
+    <li><a href='../module/dbcsr_mp_operations.html'>dbcsr_mp_operations</a></li>
+    
+    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
     
   </ul>
       </li>
@@ -556,7 +556,7 @@ private subroutine <a href='../proc/printmat_s.html'>printmat_s</a>(matrix, rows
   
   <td></td><td>::</td>
   <td><strong>rows</strong></td><td><p>the logical (possibly detransposed) matrix size, not the stored size
- the logical (possibly detransposed) matrix size, not the stored size</p></td>
+the logical (possibly detransposed) matrix size, not the stored size</p></td>
   
 </tr>
 
@@ -572,7 +572,7 @@ private subroutine <a href='../proc/printmat_s.html'>printmat_s</a>(matrix, rows
   
   <td></td><td>::</td>
   <td><strong>cols</strong></td><td><p>the logical (possibly detransposed) matrix size, not the stored size
- the logical (possibly detransposed) matrix size, not the stored size</p></td>
+the logical (possibly detransposed) matrix size, not the stored size</p></td>
   
 </tr>
 
@@ -588,7 +588,7 @@ private subroutine <a href='../proc/printmat_s.html'>printmat_s</a>(matrix, rows
   
   <td></td><td>::</td>
   <td><strong>iunit</strong></td><td><p>the logical (possibly detransposed) matrix size, not the stored size
- the logical (possibly detransposed) matrix size, not the stored size</p></td>
+the logical (possibly detransposed) matrix size, not the stored size</p></td>
   
 </tr>
 
@@ -1198,7 +1198,7 @@ private subroutine <a href='../proc/dbcsr_printmat_matlab_d.html'>dbcsr_printmat
   
   <td></td><td>::</td>
   <td><strong>rows</strong></td><td><p>the logical (possibly detransposed) matrix size, not the stored size
- the logical (possibly detransposed) matrix size, not the stored size</p></td>
+the logical (possibly detransposed) matrix size, not the stored size</p></td>
   
 </tr>
 
@@ -1214,7 +1214,7 @@ private subroutine <a href='../proc/dbcsr_printmat_matlab_d.html'>dbcsr_printmat
   
   <td></td><td>::</td>
   <td><strong>cols</strong></td><td><p>the logical (possibly detransposed) matrix size, not the stored size
- the logical (possibly detransposed) matrix size, not the stored size</p></td>
+the logical (possibly detransposed) matrix size, not the stored size</p></td>
   
 </tr>
 
@@ -1230,7 +1230,7 @@ private subroutine <a href='../proc/dbcsr_printmat_matlab_d.html'>dbcsr_printmat
   
   <td></td><td>::</td>
   <td><strong>r_offset</strong></td><td><p>the logical (possibly detransposed) matrix size, not the stored size
- the logical (possibly detransposed) matrix size, not the stored size</p></td>
+the logical (possibly detransposed) matrix size, not the stored size</p></td>
   
 </tr>
 
@@ -1246,7 +1246,7 @@ private subroutine <a href='../proc/dbcsr_printmat_matlab_d.html'>dbcsr_printmat
   
   <td></td><td>::</td>
   <td><strong>c_offset</strong></td><td><p>the logical (possibly detransposed) matrix size, not the stored size
- the logical (possibly detransposed) matrix size, not the stored size</p></td>
+the logical (possibly detransposed) matrix size, not the stored size</p></td>
   
 </tr>
 
@@ -1262,7 +1262,7 @@ private subroutine <a href='../proc/dbcsr_printmat_matlab_d.html'>dbcsr_printmat
   
   <td></td><td>::</td>
   <td><strong>iunit</strong></td><td><p>the logical (possibly detransposed) matrix size, not the stored size
- the logical (possibly detransposed) matrix size, not the stored size</p></td>
+the logical (possibly detransposed) matrix size, not the stored size</p></td>
   
 </tr>
 
@@ -1835,7 +1835,7 @@ private subroutine <a href='../proc/printmat_s.html'>printmat_s</a>(matrix, rows
   
   <td></td><td>::</td>
   <td><strong>rows</strong></td><td><p>the logical (possibly detransposed) matrix size, not the stored size
- the logical (possibly detransposed) matrix size, not the stored size</p></td>
+the logical (possibly detransposed) matrix size, not the stored size</p></td>
   
 </tr>
 
@@ -1851,7 +1851,7 @@ private subroutine <a href='../proc/printmat_s.html'>printmat_s</a>(matrix, rows
   
   <td></td><td>::</td>
   <td><strong>cols</strong></td><td><p>the logical (possibly detransposed) matrix size, not the stored size
- the logical (possibly detransposed) matrix size, not the stored size</p></td>
+the logical (possibly detransposed) matrix size, not the stored size</p></td>
   
 </tr>
 
@@ -1867,7 +1867,7 @@ private subroutine <a href='../proc/printmat_s.html'>printmat_s</a>(matrix, rows
   
   <td></td><td>::</td>
   <td><strong>iunit</strong></td><td><p>the logical (possibly detransposed) matrix size, not the stored size
- the logical (possibly detransposed) matrix size, not the stored size</p></td>
+the logical (possibly detransposed) matrix size, not the stored size</p></td>
   
 </tr>
 
@@ -2309,21 +2309,21 @@ public subroutine <a href='../proc/dbcsr_binary_write.html'>dbcsr_binary_write</
 
 
 <p>Writes a DBCSR matrix in a file
- file's header consists of 3 sub-headers:
- sub-header1 contains:
- 1 string: (of length version_len) the current version of this routine,
- 1 string: (of length default_string_length) matrix_name,
- 1 character: matrix_type,
- 4 integers: numnodes, data_type, nblkrows_total, nblkcols_total,
- 2 vectors:  row_blk_size (length = nblkrows_total),
- col_blk_size (length = nblkcols_total),
- sub-header2 contains:
- 2 integers: nblks, data_area_size,
- sub-header3 contains:
- 3 vectors:  row_p (length = nblkrows_total+1),
- col_i (length = nblks),
- blk_p (length = nblks);
- and the file's body contains the block data</p>
+file's header consists of 3 sub-headers:
+sub-header1 contains:
+1 string: (of length version_len) the current version of this routine,
+1 string: (of length default_string_length) matrix_name,
+1 character: matrix_type,
+4 integers: numnodes, data_type, nblkrows_total, nblkcols_total,
+2 vectors:  row_blk_size (length = nblkrows_total),
+col_blk_size (length = nblkcols_total),
+sub-header2 contains:
+2 integers: nblks, data_area_size,
+sub-header3 contains:
+3 vectors:  row_p (length = nblkrows_total+1),
+col_i (length = nblks),
+blk_p (length = nblks);
+and the file's body contains the block data</p>
     
     <h4>Arguments</h4>
     

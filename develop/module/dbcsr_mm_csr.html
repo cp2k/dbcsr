@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -286,15 +286,15 @@
     
     <div class="col-md-9" id='text'>
     <p>Third layer of the dbcsr matrix-matrix multiplication.
- It collects the full matrix blocks, which need to be multiplied,
- and stores their parameters in various stacks.
- After a certain amount of parameters is collected it dispatches
- the filled stacks to either the CPU or the accelerator device.
- <b>Modification history:</b>
- - 2010-02-23 Moved from dbcsr_operations
- - 2011-11    Moved parameter-stack processing routines to
- dbcsr_mm_methods.
- - 2013-01    extensive refactoring (Ole Schuett)</p>
+It collects the full matrix blocks, which need to be multiplied,
+and stores their parameters in various stacks.
+After a certain amount of parameters is collected it dispatches
+the filled stacks to either the CPU or the accelerator device.
+<b>Modification history:</b>
+- 2010-02-23 Moved from dbcsr_operations
+- 2011-11    Moved parameter-stack processing routines to
+dbcsr_mm_methods.
+- 2013-01    extensive refactoring (Ole Schuett)</p>
       <br>
     
   
@@ -307,11 +307,15 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
+    <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
+    
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    
+    <li><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
+    
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
     <li><a href='../module/dbcsr_mm_types.html'>dbcsr_mm_types</a></li>
-    
-    <li><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
     
     <li><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
     
@@ -319,17 +323,13 @@
     
     <li><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
     
-    <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
-    
     <li><a href='../module/dbcsr_mm_sched.html'>dbcsr_mm_sched</a></li>
-    
-    <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
-    
-    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
     
     <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
     
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+    
+    <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
     
   </ul>
       </li>
@@ -1050,7 +1050,7 @@ private elemental function <a href='../proc/my_checker_tr.html'>my_checker_tr</a
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>The absolute matrix row.
- The absolute matrix column.</p></td>
+The absolute matrix column.</p></td>
   
 </tr>
 
@@ -1066,7 +1066,7 @@ private elemental function <a href='../proc/my_checker_tr.html'>my_checker_tr</a
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>The absolute matrix row.
- The absolute matrix column.</p></td>
+The absolute matrix column.</p></td>
   
 </tr>
 
@@ -3490,7 +3490,7 @@ private subroutine <a href='../proc/hash_table_create.html'>hash_table_create</a
 
 
 <p>create a hash_table of given initial size.
- the hash table will expand as needed (but this requires rehashing)</p>
+the hash table will expand as needed (but this requires rehashing)</p>
     
     <h4>Arguments</h4>
     
@@ -3657,7 +3657,7 @@ private recursive subroutine <a href='../proc/hash_table_add.html'>hash_table_ad
   
   <td></td><td>::</td>
   <td><strong>c</strong></td><td><p>this value is being hashed
- this is being stored</p></td>
+this is being stored</p></td>
   
 </tr>
 
@@ -3673,7 +3673,7 @@ private recursive subroutine <a href='../proc/hash_table_add.html'>hash_table_ad
   
   <td></td><td>::</td>
   <td><strong>p</strong></td><td><p>this value is being hashed
- this is being stored</p></td>
+this is being stored</p></td>
   
 </tr>
 

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -396,17 +396,17 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></li>
+    <li><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
     
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-    
-    <li><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
     
     <li><a href='../module/dbcsr_acc_event.html'>dbcsr_acc_event</a></li>
     
     <li><a href='../module/dbcsr_data_types.html'>dbcsr_data_types</a></li>
     
     <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    
+    <li><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></li>
     
   </ul>
       </li>
@@ -1891,8 +1891,8 @@ private subroutine <a href='../proc/set_data_area_area.html'>set_data_area_area<
 
 
 <p>Points data area data pointers to another data area
- Assumes that no memory will be lost when repointing the pointer in the data
- area and that the area is initialized.</p>
+Assumes that no memory will be lost when repointing the pointer in the data
+area and that the area is initialized.</p>
     
     <h4>Arguments</h4>
     
@@ -1934,7 +1934,7 @@ private subroutine <a href='../proc/set_data_area_area.html'>set_data_area_area<
   
   <td></td><td>::</td>
   <td><strong>rsize</strong></td><td><p>size of data area to point to
- size of data area to point to</p></td>
+size of data area to point to</p></td>
   
 </tr>
 
@@ -1950,7 +1950,7 @@ private subroutine <a href='../proc/set_data_area_area.html'>set_data_area_area<
   
   <td></td><td>::</td>
   <td><strong>csize</strong></td><td><p>size of data area to point to
- size of data area to point to</p></td>
+size of data area to point to</p></td>
   
 </tr>
 
@@ -2082,7 +2082,7 @@ private subroutine <a href='../proc/get_data_s.html'>get_data_s</a>(area, DATA, 
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -2098,7 +2098,7 @@ private subroutine <a href='../proc/get_data_s.html'>get_data_s</a>(area, DATA, 
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -2185,7 +2185,7 @@ private subroutine <a href='../proc/get_data_d.html'>get_data_d</a>(area, DATA, 
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -2201,7 +2201,7 @@ private subroutine <a href='../proc/get_data_d.html'>get_data_d</a>(area, DATA, 
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -2288,7 +2288,7 @@ private subroutine <a href='../proc/get_data_c.html'>get_data_c</a>(area, DATA, 
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -2304,7 +2304,7 @@ private subroutine <a href='../proc/get_data_c.html'>get_data_c</a>(area, DATA, 
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -2391,7 +2391,7 @@ private subroutine <a href='../proc/get_data_z.html'>get_data_z</a>(area, DATA, 
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -2407,7 +2407,7 @@ private subroutine <a href='../proc/get_data_z.html'>get_data_z</a>(area, DATA, 
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -2494,7 +2494,7 @@ private subroutine <a href='../proc/get_data_2d_s.html'>get_data_2d_s</a>(area, 
   
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -2510,7 +2510,7 @@ private subroutine <a href='../proc/get_data_2d_s.html'>get_data_2d_s</a>(area, 
   
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -2597,7 +2597,7 @@ private subroutine <a href='../proc/get_data_2d_d.html'>get_data_2d_d</a>(area, 
   
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -2613,7 +2613,7 @@ private subroutine <a href='../proc/get_data_2d_d.html'>get_data_2d_d</a>(area, 
   
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -2700,7 +2700,7 @@ private subroutine <a href='../proc/get_data_2d_c.html'>get_data_2d_c</a>(area, 
   
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -2716,7 +2716,7 @@ private subroutine <a href='../proc/get_data_2d_c.html'>get_data_2d_c</a>(area, 
   
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -2803,7 +2803,7 @@ private subroutine <a href='../proc/get_data_2d_z.html'>get_data_2d_z</a>(area, 
   
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -2819,7 +2819,7 @@ private subroutine <a href='../proc/get_data_2d_z.html'>get_data_2d_z</a>(area, 
   
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -2921,7 +2921,7 @@ private function <a href='../proc/dbcsr_get_data_c_s.html'>dbcsr_get_data_c_s</a
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -2937,7 +2937,7 @@ private function <a href='../proc/dbcsr_get_data_c_s.html'>dbcsr_get_data_c_s</a
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -3033,7 +3033,7 @@ private function <a href='../proc/dbcsr_get_data_c_c.html'>dbcsr_get_data_c_c</a
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -3049,7 +3049,7 @@ private function <a href='../proc/dbcsr_get_data_c_c.html'>dbcsr_get_data_c_c</a
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -3145,7 +3145,7 @@ private function <a href='../proc/dbcsr_get_data_c_d.html'>dbcsr_get_data_c_d</a
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -3161,7 +3161,7 @@ private function <a href='../proc/dbcsr_get_data_c_d.html'>dbcsr_get_data_c_d</a
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -3257,7 +3257,7 @@ private function <a href='../proc/dbcsr_get_data_c_z.html'>dbcsr_get_data_c_z</a
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -3273,7 +3273,7 @@ private function <a href='../proc/dbcsr_get_data_c_z.html'>dbcsr_get_data_c_z</a
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -3384,7 +3384,7 @@ private function <a href='../proc/dbcsr_get_data_c_s.html'>dbcsr_get_data_c_s</a
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -3400,7 +3400,7 @@ private function <a href='../proc/dbcsr_get_data_c_s.html'>dbcsr_get_data_c_s</a
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -3496,7 +3496,7 @@ private function <a href='../proc/dbcsr_get_data_c_c.html'>dbcsr_get_data_c_c</a
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -3512,7 +3512,7 @@ private function <a href='../proc/dbcsr_get_data_c_c.html'>dbcsr_get_data_c_c</a
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -3608,7 +3608,7 @@ private function <a href='../proc/dbcsr_get_data_c_d.html'>dbcsr_get_data_c_d</a
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -3624,7 +3624,7 @@ private function <a href='../proc/dbcsr_get_data_c_d.html'>dbcsr_get_data_c_d</a
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -3720,7 +3720,7 @@ private function <a href='../proc/dbcsr_get_data_c_z.html'>dbcsr_get_data_c_z</a
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -3736,7 +3736,7 @@ private function <a href='../proc/dbcsr_get_data_c_z.html'>dbcsr_get_data_c_z</a
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -4004,7 +4004,7 @@ private subroutine <a href='../proc/dbcsr_data_get_sizes_2.html'>dbcsr_data_get_
   
   <td></td><td>::</td>
   <td><strong>row_size</strong></td><td><p>row size
- column size</p></td>
+column size</p></td>
   
 </tr>
 
@@ -4020,7 +4020,7 @@ private subroutine <a href='../proc/dbcsr_data_get_sizes_2.html'>dbcsr_data_get_
   
   <td></td><td>::</td>
   <td><strong>col_size</strong></td><td><p>row size
- column size</p></td>
+column size</p></td>
   
 </tr>
 
@@ -4578,7 +4578,7 @@ public elemental function <a href='../proc/dbcsr_scalar_are_equal.html'>dbcsr_sc
   
   <td></td><td>::</td>
   <td><strong>s1</strong></td><td><p>one value
- another value</p></td>
+another value</p></td>
   
 </tr>
 
@@ -4594,7 +4594,7 @@ public elemental function <a href='../proc/dbcsr_scalar_are_equal.html'>dbcsr_sc
   
   <td></td><td>::</td>
   <td><strong>s2</strong></td><td><p>one value
- another value</p></td>
+another value</p></td>
   
 </tr>
 
@@ -4848,7 +4848,7 @@ public pure function <a href='../proc/dbcsr_type_is_2d.html'>dbcsr_type_is_2d</a
 
 
 <p>Checks whether the data type is 2-D.
- \return Data type is 2-D.</p>
+\return Data type is 2-D.</p>
     
     <h4>Arguments</h4>
     
@@ -4917,7 +4917,7 @@ public pure function <a href='../proc/dbcsr_type_2d_to_1d.html'>dbcsr_type_2d_to
 
 
 <p>Returns 1-d data type corresponding to the given 2-D one.
- \return 1-D data type</p>
+\return 1-D data type</p>
     
     <h4>Arguments</h4>
     
@@ -4986,7 +4986,7 @@ public pure function <a href='../proc/dbcsr_type_1d_to_2d.html'>dbcsr_type_1d_to
 
 
 <p>Returns 2-D data type corresponding to the given 1-D one.
- \return 2-D data type</p>
+\return 2-D data type</p>
     
     <h4>Arguments</h4>
     
@@ -5179,7 +5179,7 @@ private function <a href='../proc/dbcsr_get_data_c_d.html'>dbcsr_get_data_c_d</a
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -5195,7 +5195,7 @@ private function <a href='../proc/dbcsr_get_data_c_d.html'>dbcsr_get_data_c_d</a
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -5238,7 +5238,7 @@ public function <a href='../proc/dbcsr_get_data_p_d.html'>dbcsr_get_data_p_d</a>
 
 
 <p>Returns the single/double precision real/complex data
- \brief dbcsr_get_data_c_d</p><a href="../proc/dbcsr_get_data_p_d.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+\brief dbcsr_get_data_c_d</p><a href="../proc/dbcsr_get_data_p_d.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -5280,7 +5280,7 @@ public function <a href='../proc/dbcsr_get_data_p_d.html'>dbcsr_get_data_p_d</a>
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -5296,7 +5296,7 @@ public function <a href='../proc/dbcsr_get_data_p_d.html'>dbcsr_get_data_p_d</a>
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -5339,7 +5339,7 @@ public function <a href='../proc/dbcsr_get_data_p_2d_d.html'>dbcsr_get_data_p_2d
 
 
 <p>Returns the single/double precision real/complex data
- \brief dbcsr_get_data_c_d</p><a href="../proc/dbcsr_get_data_p_2d_d.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+\brief dbcsr_get_data_c_d</p><a href="../proc/dbcsr_get_data_p_2d_d.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -5381,7 +5381,7 @@ public function <a href='../proc/dbcsr_get_data_p_2d_d.html'>dbcsr_get_data_p_2d
   
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -5397,7 +5397,7 @@ public function <a href='../proc/dbcsr_get_data_p_2d_d.html'>dbcsr_get_data_p_2d
   
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -5564,7 +5564,7 @@ private function <a href='../proc/dbcsr_get_data_c_s.html'>dbcsr_get_data_c_s</a
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -5580,7 +5580,7 @@ private function <a href='../proc/dbcsr_get_data_c_s.html'>dbcsr_get_data_c_s</a
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -5623,7 +5623,7 @@ public function <a href='../proc/dbcsr_get_data_p_s.html'>dbcsr_get_data_p_s</a>
 
 
 <p>Returns the single/double precision real/complex data
- \brief dbcsr_get_data_c_s</p><a href="../proc/dbcsr_get_data_p_s.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+\brief dbcsr_get_data_c_s</p><a href="../proc/dbcsr_get_data_p_s.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -5665,7 +5665,7 @@ public function <a href='../proc/dbcsr_get_data_p_s.html'>dbcsr_get_data_p_s</a>
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -5681,7 +5681,7 @@ public function <a href='../proc/dbcsr_get_data_p_s.html'>dbcsr_get_data_p_s</a>
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -5724,7 +5724,7 @@ public function <a href='../proc/dbcsr_get_data_p_2d_s.html'>dbcsr_get_data_p_2d
 
 
 <p>Returns the single/double precision real/complex data
- \brief dbcsr_get_data_c_s</p><a href="../proc/dbcsr_get_data_p_2d_s.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+\brief dbcsr_get_data_c_s</p><a href="../proc/dbcsr_get_data_p_2d_s.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -5766,7 +5766,7 @@ public function <a href='../proc/dbcsr_get_data_p_2d_s.html'>dbcsr_get_data_p_2d
   
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -5782,7 +5782,7 @@ public function <a href='../proc/dbcsr_get_data_p_2d_s.html'>dbcsr_get_data_p_2d
   
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -5949,7 +5949,7 @@ private function <a href='../proc/dbcsr_get_data_c_z.html'>dbcsr_get_data_c_z</a
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -5965,7 +5965,7 @@ private function <a href='../proc/dbcsr_get_data_c_z.html'>dbcsr_get_data_c_z</a
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -6008,7 +6008,7 @@ public function <a href='../proc/dbcsr_get_data_p_z.html'>dbcsr_get_data_p_z</a>
 
 
 <p>Returns the single/double precision real/complex data
- \brief dbcsr_get_data_c_z</p><a href="../proc/dbcsr_get_data_p_z.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+\brief dbcsr_get_data_c_z</p><a href="../proc/dbcsr_get_data_p_z.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -6050,7 +6050,7 @@ public function <a href='../proc/dbcsr_get_data_p_z.html'>dbcsr_get_data_p_z</a>
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -6066,7 +6066,7 @@ public function <a href='../proc/dbcsr_get_data_p_z.html'>dbcsr_get_data_p_z</a>
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -6109,7 +6109,7 @@ public function <a href='../proc/dbcsr_get_data_p_2d_z.html'>dbcsr_get_data_p_2d
 
 
 <p>Returns the single/double precision real/complex data
- \brief dbcsr_get_data_c_z</p><a href="../proc/dbcsr_get_data_p_2d_z.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+\brief dbcsr_get_data_c_z</p><a href="../proc/dbcsr_get_data_p_2d_z.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -6151,7 +6151,7 @@ public function <a href='../proc/dbcsr_get_data_p_2d_z.html'>dbcsr_get_data_p_2d
   
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -6167,7 +6167,7 @@ public function <a href='../proc/dbcsr_get_data_p_2d_z.html'>dbcsr_get_data_p_2d
   
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -6334,7 +6334,7 @@ private function <a href='../proc/dbcsr_get_data_c_c.html'>dbcsr_get_data_c_c</a
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -6350,7 +6350,7 @@ private function <a href='../proc/dbcsr_get_data_c_c.html'>dbcsr_get_data_c_c</a
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -6393,7 +6393,7 @@ public function <a href='../proc/dbcsr_get_data_p_c.html'>dbcsr_get_data_p_c</a>
 
 
 <p>Returns the single/double precision real/complex data
- \brief dbcsr_get_data_c_c</p><a href="../proc/dbcsr_get_data_p_c.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+\brief dbcsr_get_data_c_c</p><a href="../proc/dbcsr_get_data_p_c.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -6435,7 +6435,7 @@ public function <a href='../proc/dbcsr_get_data_p_c.html'>dbcsr_get_data_p_c</a>
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -6451,7 +6451,7 @@ public function <a href='../proc/dbcsr_get_data_p_c.html'>dbcsr_get_data_p_c</a>
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -6494,7 +6494,7 @@ public function <a href='../proc/dbcsr_get_data_p_2d_c.html'>dbcsr_get_data_p_2d
 
 
 <p>Returns the single/double precision real/complex data
- \brief dbcsr_get_data_c_c</p><a href="../proc/dbcsr_get_data_p_2d_c.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+\brief dbcsr_get_data_c_c</p><a href="../proc/dbcsr_get_data_p_2d_c.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -6536,7 +6536,7 @@ public function <a href='../proc/dbcsr_get_data_p_2d_c.html'>dbcsr_get_data_p_2d
   
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -6552,7 +6552,7 @@ public function <a href='../proc/dbcsr_get_data_p_2d_c.html'>dbcsr_get_data_p_2d
   
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -6981,8 +6981,8 @@ private subroutine <a href='../proc/set_data_area_area.html'>set_data_area_area<
 
 
 <p>Points data area data pointers to another data area
- Assumes that no memory will be lost when repointing the pointer in the data
- area and that the area is initialized.</p>
+Assumes that no memory will be lost when repointing the pointer in the data
+area and that the area is initialized.</p>
     
     <h4>Arguments</h4>
     
@@ -7024,7 +7024,7 @@ private subroutine <a href='../proc/set_data_area_area.html'>set_data_area_area<
   
   <td></td><td>::</td>
   <td><strong>rsize</strong></td><td><p>size of data area to point to
- size of data area to point to</p></td>
+size of data area to point to</p></td>
   
 </tr>
 
@@ -7040,7 +7040,7 @@ private subroutine <a href='../proc/set_data_area_area.html'>set_data_area_area<
   
   <td></td><td>::</td>
   <td><strong>csize</strong></td><td><p>size of data area to point to
- size of data area to point to</p></td>
+size of data area to point to</p></td>
   
 </tr>
 
@@ -7145,7 +7145,7 @@ public subroutine <a href='../proc/dbcsr_data_verify_bounds.html'>dbcsr_data_ver
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bounds
- upper bounds</p></td>
+upper bounds</p></td>
   
 </tr>
 
@@ -7161,7 +7161,7 @@ public subroutine <a href='../proc/dbcsr_data_verify_bounds.html'>dbcsr_data_ver
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bounds
- upper bounds</p></td>
+upper bounds</p></td>
   
 </tr>
 
@@ -7195,7 +7195,7 @@ public subroutine <a href='../proc/dbcsr_data_zero.html'>dbcsr_data_zero</a>(are
 
 
 <p>Clears a part of the data area
- </p><a href="../proc/dbcsr_data_zero.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+</p><a href="../proc/dbcsr_data_zero.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -7415,7 +7415,7 @@ private subroutine <a href='../proc/dbcsr_data_get_sizes_2.html'>dbcsr_data_get_
   
   <td></td><td>::</td>
   <td><strong>row_size</strong></td><td><p>row size
- column size</p></td>
+column size</p></td>
   
 </tr>
 
@@ -7431,7 +7431,7 @@ private subroutine <a href='../proc/dbcsr_data_get_sizes_2.html'>dbcsr_data_get_
   
   <td></td><td>::</td>
   <td><strong>col_size</strong></td><td><p>row size
- column size</p></td>
+column size</p></td>
   
 </tr>
 
@@ -7980,7 +7980,7 @@ private subroutine <a href='../proc/get_data_d.html'>get_data_d</a>(area, DATA, 
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -7996,7 +7996,7 @@ private subroutine <a href='../proc/get_data_d.html'>get_data_d</a>(area, DATA, 
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -8086,7 +8086,7 @@ private subroutine <a href='../proc/get_data_2d_d.html'>get_data_2d_d</a>(area, 
   
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -8102,7 +8102,7 @@ private subroutine <a href='../proc/get_data_2d_d.html'>get_data_2d_d</a>(area, 
   
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -8414,7 +8414,7 @@ private subroutine <a href='../proc/get_data_s.html'>get_data_s</a>(area, DATA, 
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -8430,7 +8430,7 @@ private subroutine <a href='../proc/get_data_s.html'>get_data_s</a>(area, DATA, 
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -8520,7 +8520,7 @@ private subroutine <a href='../proc/get_data_2d_s.html'>get_data_2d_s</a>(area, 
   
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -8536,7 +8536,7 @@ private subroutine <a href='../proc/get_data_2d_s.html'>get_data_2d_s</a>(area, 
   
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -8848,7 +8848,7 @@ private subroutine <a href='../proc/get_data_z.html'>get_data_z</a>(area, DATA, 
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -8864,7 +8864,7 @@ private subroutine <a href='../proc/get_data_z.html'>get_data_z</a>(area, DATA, 
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -8954,7 +8954,7 @@ private subroutine <a href='../proc/get_data_2d_z.html'>get_data_2d_z</a>(area, 
   
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -8970,7 +8970,7 @@ private subroutine <a href='../proc/get_data_2d_z.html'>get_data_2d_z</a>(area, 
   
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -9282,7 +9282,7 @@ private subroutine <a href='../proc/get_data_c.html'>get_data_c</a>(area, DATA, 
   
   <td></td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -9298,7 +9298,7 @@ private subroutine <a href='../proc/get_data_c.html'>get_data_c</a>(area, DATA, 
   
   <td></td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -9388,7 +9388,7 @@ private subroutine <a href='../proc/get_data_2d_c.html'>get_data_2d_c</a>(area, 
   
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>lb</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 
@@ -9404,7 +9404,7 @@ private subroutine <a href='../proc/get_data_2d_c.html'>get_data_2d_c</a>(area, 
   
   <td>DIMENSION(2)</td><td>::</td>
   <td><strong>ub</strong></td><td><p>lower bound for pointer
- upper bound for pointer</p></td>
+upper bound for pointer</p></td>
   
 </tr>
 

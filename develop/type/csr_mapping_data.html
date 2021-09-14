@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -229,8 +229,8 @@
     <div class="col-md-9" id='text'>
       <h2>type, private :: csr_mapping_data</h2>
     <p>Mapping data relating local CSR indices to local indices of a block-row
- distributed (BRD) DBCSR matrix, and containing the block structure
- of the original DBCSR matrix from which the CSR matrix was created.</p>
+distributed (BRD) DBCSR matrix, and containing the block structure
+of the original DBCSR matrix from which the CSR matrix was created.</p>
     
     
     
@@ -321,10 +321,10 @@
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>csr_to_brd_ind</strong></td><td>=> </td><td>NULL()</td><td><p>csr_to_brd_ind(csr_ind) gives the location of a matrix element with CSR index csr_ind (location in nzval_local) inside
- the data_area of the corresponding BRD matrix. If an element of the DBCSR matrix is treated as 0 in the CSR format, the
- index of this value is not in csr_to_brd_ind.
- same as csr_to_brd_ind but inverse mapping. If a given DBCSR index dbcsr_ind points to a zero element, then
- brd_to_csr_ind(dbcsr_ind) is -1.</p></td>
+the data_area of the corresponding BRD matrix. If an element of the DBCSR matrix is treated as 0 in the CSR format, the
+index of this value is not in csr_to_brd_ind.
+same as csr_to_brd_ind but inverse mapping. If a given DBCSR index dbcsr_ind points to a zero element, then
+brd_to_csr_ind(dbcsr_ind) is -1.</p></td>
   
 </tr>
 
@@ -339,10 +339,10 @@
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>brd_to_csr_ind</strong></td><td>=> </td><td>NULL()</td><td><p>csr_to_brd_ind(csr_ind) gives the location of a matrix element with CSR index csr_ind (location in nzval_local) inside
- the data_area of the corresponding BRD matrix. If an element of the DBCSR matrix is treated as 0 in the CSR format, the
- index of this value is not in csr_to_brd_ind.
- same as csr_to_brd_ind but inverse mapping. If a given DBCSR index dbcsr_ind points to a zero element, then
- brd_to_csr_ind(dbcsr_ind) is -1.</p></td>
+the data_area of the corresponding BRD matrix. If an element of the DBCSR matrix is treated as 0 in the CSR format, the
+index of this value is not in csr_to_brd_ind.
+same as csr_to_brd_ind but inverse mapping. If a given DBCSR index dbcsr_ind points to a zero element, then
+brd_to_csr_ind(dbcsr_ind) is -1.</p></td>
   
 </tr>
 
@@ -385,7 +385,7 @@
   <td>private</td>
   <td></td><td>::</td>
   <td><strong>dbcsr_nblkcols_total</strong></td><td></td><td></td><td><p>data from original DBCSR matrix (not block-row distributed),
- representing the original block structure.</p></td>
+representing the original block structure.</p></td>
   
 </tr>
 
@@ -400,7 +400,7 @@
   <td>private</td>
   <td></td><td>::</td>
   <td><strong>dbcsr_nblkrows_total</strong></td><td></td><td></td><td><p>data from original DBCSR matrix (not block-row distributed),
- representing the original block structure.</p></td>
+representing the original block structure.</p></td>
   
 </tr>
 
@@ -415,7 +415,7 @@
   <td>private</td>
   <td></td><td>::</td>
   <td><strong>dbcsr_nblks_local</strong></td><td></td><td></td><td><p>data from original DBCSR matrix (not block-row distributed),
- representing the original block structure.</p></td>
+representing the original block structure.</p></td>
   
 </tr>
 
@@ -430,7 +430,7 @@
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>dbcsr_row_p</strong></td><td></td><td></td><td><p>data from original DBCSR matrix (not block-row distributed),
- representing the original block structure.</p></td>
+representing the original block structure.</p></td>
   
 </tr>
 
@@ -445,7 +445,7 @@
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>dbcsr_col_i</strong></td><td></td><td></td><td><p>data from original DBCSR matrix (not block-row distributed),
- representing the original block structure.</p></td>
+representing the original block structure.</p></td>
   
 </tr>
 
@@ -460,7 +460,7 @@
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>dbcsr_row_blk_size</strong></td><td></td><td></td><td><p>data from original DBCSR matrix (not block-row distributed),
- representing the original block structure.</p></td>
+representing the original block structure.</p></td>
   
 </tr>
 
@@ -475,7 +475,7 @@
   <td>private,</td>
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>dbcsr_col_blk_size</strong></td><td></td><td></td><td><p>data from original DBCSR matrix (not block-row distributed),
- representing the original block structure.</p></td>
+representing the original block structure.</p></td>
   
 </tr>
 

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -240,13 +240,13 @@
     
     <div class="col-md-9" id='text'>
     <p>An array-based list which grows on demand.
- When the internal array is full, a new array of twice the size will be
- allocated and the items are copied over.
- This list can also be used as a stack.
- Have look at list_push(), list_pop() and list_peek().
- </p><div class="alert alert-info" role="alert"><h4>Note</h4><p>it's not possible to put all templates in a single module because this would lead to circular
- dependencies (timer_env_type contains list_routinestat_type and list_callstackentry_type, and
- list_timerenv_type contains timer_env_type)</p></div>
+When the internal array is full, a new array of twice the size will be
+allocated and the items are copied over.
+This list can also be used as a stack.
+Have look at list_push(), list_pop() and list_peek().
+</p><div class="alert alert-info" role="alert"><h4>Note</h4><p>it's not possible to put all templates in a single module because this would lead to circular
+dependencies (timer_env_type contains list_routinestat_type and list_callstackentry_type, and
+list_timerenv_type contains timer_env_type)</p></div>
       <br>
     
   
@@ -259,13 +259,13 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_list_routinestat.html'>dbcsr_list_routinestat</a></li>
-    
     <li><a href='../module/dbcsr_list_timerenv.html'>dbcsr_list_timerenv</a></li>
     
     <li><a href='../module/dbcsr_list_routinereport.html'>dbcsr_list_routinereport</a></li>
     
     <li><a href='../module/dbcsr_timings_base_type.html'>dbcsr_timings_base_type</a></li>
+    
+    <li><a href='../module/dbcsr_list_routinestat.html'>dbcsr_list_routinestat</a></li>
     
     <li><a href='../module/dbcsr_list_callstackentry.html'>dbcsr_list_callstackentry</a></li>
     
@@ -430,8 +430,8 @@ public subroutine <a href='../proc/list_timerenv_init.html'>list_timerenv_init</
 
 
 <p>Allocates the internal data-structures of the given list.
- This has to be called before any of the other routines.
- For deallocation call list_[valuetype]_destroy.</p>
+This has to be called before any of the other routines.
+For deallocation call list_[valuetype]_destroy.</p>
     
     <h4>Arguments</h4>
     
@@ -503,8 +503,8 @@ public subroutine <a href='../proc/list_routinestat_init.html'>list_routinestat_
 
 
 <p>Allocates the internal data-structures of the given list.
- This has to be called before any of the other routines.
- For deallocation call list_[valuetype]_destroy.</p>
+This has to be called before any of the other routines.
+For deallocation call list_[valuetype]_destroy.</p>
     
     <h4>Arguments</h4>
     
@@ -576,8 +576,8 @@ public subroutine <a href='../proc/list_routinereport_init.html'>list_routinerep
 
 
 <p>Allocates the internal data-structures of the given list.
- This has to be called before any of the other routines.
- For deallocation call list_[valuetype]_destroy.</p>
+This has to be called before any of the other routines.
+For deallocation call list_[valuetype]_destroy.</p>
     
     <h4>Arguments</h4>
     
@@ -649,8 +649,8 @@ public subroutine <a href='../proc/list_callstackentry_init.html'>list_callstack
 
 
 <p>Allocates the internal data-structures of the given list.
- This has to be called before any of the other routines.
- For deallocation call list_[valuetype]_destroy.</p>
+This has to be called before any of the other routines.
+For deallocation call list_[valuetype]_destroy.</p>
     
     <h4>Arguments</h4>
     
@@ -1311,9 +1311,9 @@ public function <a href='../proc/list_timerenv_pop.html'>list_timerenv_pop</a>(l
 
 
 <p>Returns the last element in the list and removes it.
- Is equivialent to:
- value = list_timerenv_get(list, list_timerenv_size(list))
- call list_timerenv_del(list, list_timerenv_size(list))</p>
+Is equivialent to:
+value = list_timerenv_get(list, list_timerenv_size(list))
+call list_timerenv_del(list, list_timerenv_size(list))</p>
     
     <h4>Arguments</h4>
     
@@ -1379,9 +1379,9 @@ public function <a href='../proc/list_routinestat_pop.html'>list_routinestat_pop
 
 
 <p>Returns the last element in the list and removes it.
- Is equivialent to:
- value = list_routinestat_get(list, list_routinestat_size(list))
- call list_routinestat_del(list, list_routinestat_size(list))</p>
+Is equivialent to:
+value = list_routinestat_get(list, list_routinestat_size(list))
+call list_routinestat_del(list, list_routinestat_size(list))</p>
     
     <h4>Arguments</h4>
     
@@ -1447,9 +1447,9 @@ public function <a href='../proc/list_routinereport_pop.html'>list_routinereport
 
 
 <p>Returns the last element in the list and removes it.
- Is equivialent to:
- value = list_routinereport_get(list, list_routinereport_size(list))
- call list_routinereport_del(list, list_routinereport_size(list))</p>
+Is equivialent to:
+value = list_routinereport_get(list, list_routinereport_size(list))
+call list_routinereport_del(list, list_routinereport_size(list))</p>
     
     <h4>Arguments</h4>
     
@@ -1515,9 +1515,9 @@ public function <a href='../proc/list_callstackentry_pop.html'>list_callstackent
 
 
 <p>Returns the last element in the list and removes it.
- Is equivialent to:
- value = list_callstackentry_get(list, list_callstackentry_size(list))
- call list_callstackentry_del(list, list_callstackentry_size(list))</p>
+Is equivialent to:
+value = list_callstackentry_get(list, list_callstackentry_size(list))
+call list_callstackentry_del(list, list_callstackentry_size(list))</p>
     
     <h4>Arguments</h4>
     
@@ -1598,7 +1598,7 @@ public function <a href='../proc/list_timerenv_peek.html'>list_timerenv_peek</a>
 
 
 <p>Returns the last element in the list.
- Is equivalent to: list_timerenv_get(list, list_timerenv_size(list))</p>
+Is equivalent to: list_timerenv_get(list, list_timerenv_size(list))</p>
     
     <h4>Arguments</h4>
     
@@ -1664,7 +1664,7 @@ public function <a href='../proc/list_routinestat_peek.html'>list_routinestat_pe
 
 
 <p>Returns the last element in the list.
- Is equivalent to: list_routinestat_get(list, list_routinestat_size(list))</p>
+Is equivalent to: list_routinestat_get(list, list_routinestat_size(list))</p>
     
     <h4>Arguments</h4>
     
@@ -1730,7 +1730,7 @@ public function <a href='../proc/list_routinereport_peek.html'>list_routinerepor
 
 
 <p>Returns the last element in the list.
- Is equivalent to: list_routinereport_get(list, list_routinereport_size(list))</p>
+Is equivalent to: list_routinereport_get(list, list_routinereport_size(list))</p>
     
     <h4>Arguments</h4>
     
@@ -1796,7 +1796,7 @@ public function <a href='../proc/list_callstackentry_peek.html'>list_callstacken
 
 
 <p>Returns the last element in the list.
- Is equivalent to: list_callstackentry_get(list, list_callstackentry_size(list))</p>
+Is equivalent to: list_callstackentry_get(list, list_callstackentry_size(list))</p>
     
     <h4>Arguments</h4>
     
@@ -1877,7 +1877,7 @@ public subroutine <a href='../proc/list_timerenv_insert.html'>list_timerenv_inse
 
 
 <p>Inserts the given value at the given position within the list.
- Values which lay behind the insertion-position move one position up.</p>
+Values which lay behind the insertion-position move one position up.</p>
     
     <h4>Arguments</h4>
     
@@ -1964,7 +1964,7 @@ public subroutine <a href='../proc/list_routinestat_insert.html'>list_routinesta
 
 
 <p>Inserts the given value at the given position within the list.
- Values which lay behind the insertion-position move one position up.</p>
+Values which lay behind the insertion-position move one position up.</p>
     
     <h4>Arguments</h4>
     
@@ -2051,7 +2051,7 @@ public subroutine <a href='../proc/list_routinereport_insert.html'>list_routiner
 
 
 <p>Inserts the given value at the given position within the list.
- Values which lay behind the insertion-position move one position up.</p>
+Values which lay behind the insertion-position move one position up.</p>
     
     <h4>Arguments</h4>
     
@@ -2138,7 +2138,7 @@ public subroutine <a href='../proc/list_callstackentry_insert.html'>list_callsta
 
 
 <p>Inserts the given value at the given position within the list.
- Values which lay behind the insertion-position move one position up.</p>
+Values which lay behind the insertion-position move one position up.</p>
     
     <h4>Arguments</h4>
     
@@ -2240,8 +2240,8 @@ public subroutine <a href='../proc/list_timerenv_set.html'>list_timerenv_set</a>
 
 
 <p>Assings the given value to the given position in the list.
- Thereby, the former value at that position gets overwritten.
- If the position is out of bounds, the program stops.</p>
+Thereby, the former value at that position gets overwritten.
+If the position is out of bounds, the program stops.</p>
     
     <h4>Arguments</h4>
     
@@ -2328,8 +2328,8 @@ public subroutine <a href='../proc/list_routinestat_set.html'>list_routinestat_s
 
 
 <p>Assings the given value to the given position in the list.
- Thereby, the former value at that position gets overwritten.
- If the position is out of bounds, the program stops.</p>
+Thereby, the former value at that position gets overwritten.
+If the position is out of bounds, the program stops.</p>
     
     <h4>Arguments</h4>
     
@@ -2416,8 +2416,8 @@ public subroutine <a href='../proc/list_routinereport_set.html'>list_routinerepo
 
 
 <p>Assings the given value to the given position in the list.
- Thereby, the former value at that position gets overwritten.
- If the position is out of bounds, the program stops.</p>
+Thereby, the former value at that position gets overwritten.
+If the position is out of bounds, the program stops.</p>
     
     <h4>Arguments</h4>
     
@@ -2504,8 +2504,8 @@ public subroutine <a href='../proc/list_callstackentry_set.html'>list_callstacke
 
 
 <p>Assings the given value to the given position in the list.
- Thereby, the former value at that position gets overwritten.
- If the position is out of bounds, the program stops.</p>
+Thereby, the former value at that position gets overwritten.
+If the position is out of bounds, the program stops.</p>
     
     <h4>Arguments</h4>
     
@@ -3755,8 +3755,8 @@ public subroutine <a href='../proc/list_timerenv_destroy.html'>list_timerenv_des
 
 
 <p>Deallocated the internal data-structures of the given list.
- Caution: If the stored values are pointers, their targets will
- not get deallocated by this routine.</p>
+Caution: If the stored values are pointers, their targets will
+not get deallocated by this routine.</p>
     
     <h4>Arguments</h4>
     
@@ -3813,8 +3813,8 @@ public subroutine <a href='../proc/list_routinestat_destroy.html'>list_routinest
 
 
 <p>Deallocated the internal data-structures of the given list.
- Caution: If the stored values are pointers, their targets will
- not get deallocated by this routine.</p>
+Caution: If the stored values are pointers, their targets will
+not get deallocated by this routine.</p>
     
     <h4>Arguments</h4>
     
@@ -3871,8 +3871,8 @@ public subroutine <a href='../proc/list_routinereport_destroy.html'>list_routine
 
 
 <p>Deallocated the internal data-structures of the given list.
- Caution: If the stored values are pointers, their targets will
- not get deallocated by this routine.</p>
+Caution: If the stored values are pointers, their targets will
+not get deallocated by this routine.</p>
     
     <h4>Arguments</h4>
     
@@ -3929,8 +3929,8 @@ public subroutine <a href='../proc/list_callstackentry_destroy.html'>list_callst
 
 
 <p>Deallocated the internal data-structures of the given list.
- Caution: If the stored values are pointers, their targets will
- not get deallocated by this routine.</p>
+Caution: If the stored values are pointers, their targets will
+not get deallocated by this routine.</p>
     
     <h4>Arguments</h4>
     

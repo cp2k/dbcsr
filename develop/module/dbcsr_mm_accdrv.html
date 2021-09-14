@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -276,14 +276,14 @@
     
     <div class="col-md-9" id='text'>
     <p>Fourth layer of the dbcsr matrix-matrix multiplication.
- It hides the differences between performing calculations on the
- accelerator device or on the CPU.
- <b>Modification history:</b>
- - 2010-02-23 Moved from dbcsr_operations
- - 2011-11    Moved parameter-stack processing routines to
- dbcsr_mm_methods.
- - 2013-01    extensive refactoring (Ole Schuett)
- - 2014-04    generalized into acc-framework (Ole Schuett)</p>
+It hides the differences between performing calculations on the
+accelerator device or on the CPU.
+<b>Modification history:</b>
+- 2010-02-23 Moved from dbcsr_operations
+- 2011-11    Moved parameter-stack processing routines to
+dbcsr_mm_methods.
+- 2013-01    extensive refactoring (Ole Schuett)
+- 2014-04    generalized into acc-framework (Ole Schuett)</p>
       <br>
     
   
@@ -296,33 +296,33 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></li>
+    <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
+    
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
-    <li><a href='../module/dbcsr_mem_methods.html'>dbcsr_mem_methods</a></li>
+    <li><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></li>
     
     <li><a href='../module/dbcsr_mm_types.html'>dbcsr_mm_types</a></li>
     
-    <li><a href='../module/dbcsr_acc_operations.html'>dbcsr_acc_operations</a></li>
-    
     <li><a href='../module/dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
     
-    <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
+    <li><a href='../module/dbcsr_mem_methods.html'>dbcsr_mem_methods</a></li>
     
-    <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
-    
-    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+    <li><a href='../module/dbcsr_acc_operations.html'>dbcsr_acc_operations</a></li>
     
     <li><a href='../module/dbcsr_acc_event.html'>dbcsr_acc_event</a></li>
-    
-    <li><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></li>
     
     <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
     
     <li><a href='../module/dbcsr_acc_stream.html'>dbcsr_acc_stream</a></li>
     
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+    
+    <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
+    
+    <li><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></li>
     
   </ul>
       </li>
@@ -1666,7 +1666,7 @@ public subroutine <a href='../proc/dbcsr_mm_accdrv_barrier.html'>dbcsr_mm_accdrv
 
 
 <p>After being called by ALL threads, it installs a special barrier that
- forces the priority-streams to wait for the normal-streams.</p>
+forces the priority-streams to wait for the normal-streams.</p>
     
     <h4>Arguments</h4>
     

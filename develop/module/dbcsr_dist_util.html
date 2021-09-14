@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -274,25 +274,25 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+    <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
+    
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
-    <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
-    
-    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
-    
-    <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
-    
     <li><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
-    
-    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
     
     <li><a href='../module/dbcsr_mp_methods.html'>dbcsr_mp_methods</a></li>
     
     <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
     
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+    
+    <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+    
+    <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
+    
+    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
     
   </ul>
       </li>
@@ -500,8 +500,8 @@ public pure function <a href='../proc/nfull_elements.html'>nfull_elements</a>(al
 
 
 <p>The sum of a subset of rows/columns
- \return sum of sizes of local elements
- </p><a href="../proc/nfull_elements.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+\return sum of sizes of local elements
+</p><a href="../proc/nfull_elements.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -528,7 +528,7 @@ public pure function <a href='../proc/nfull_elements.html'>nfull_elements</a>(al
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>all_offsets</strong></td><td><p>ordered offsets of all the elements
- enumerated local elements</p></td>
+enumerated local elements</p></td>
   
 </tr>
 
@@ -544,7 +544,7 @@ public pure function <a href='../proc/nfull_elements.html'>nfull_elements</a>(al
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>local_elements</strong></td><td><p>ordered offsets of all the elements
- enumerated local elements</p></td>
+enumerated local elements</p></td>
   
 </tr>
 
@@ -718,7 +718,7 @@ public function <a href='../proc/dbcsr_checksum.html'>dbcsr_checksum</a>(matrix,
   
   <td></td><td>::</td>
   <td><strong>local</strong></td><td><p>no global communication
- position-dependent checksum</p></td>
+position-dependent checksum</p></td>
   
 </tr>
 
@@ -734,7 +734,7 @@ public function <a href='../proc/dbcsr_checksum.html'>dbcsr_checksum</a>(matrix,
   
   <td></td><td>::</td>
   <td><strong>pos</strong></td><td><p>no global communication
- position-dependent checksum</p></td>
+position-dependent checksum</p></td>
   
 </tr>
 
@@ -1128,8 +1128,8 @@ public pure subroutine <a href='../proc/convert_offsets_to_sizes.html'>convert_o
 
 
 <p>Converts offsets to sizes
- If the offsets of ends are not given, then the array of sizes is assumed
- to be one greater than the desired sizes.</p>
+If the offsets of ends are not given, then the array of sizes is assumed
+to be one greater than the desired sizes.</p>
     
     <h4>Arguments</h4>
     
@@ -1245,7 +1245,7 @@ public subroutine <a href='../proc/global_offsets_to_local.html'>global_offsets_
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>global_offsets</strong></td><td><p>Offsets of elements in the global grid
- Which elements are local</p></td>
+Which elements are local</p></td>
   
 </tr>
 
@@ -1261,7 +1261,7 @@ public subroutine <a href='../proc/global_offsets_to_local.html'>global_offsets_
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>local_elements</strong></td><td><p>Offsets of elements in the global grid
- Which elements are local</p></td>
+Which elements are local</p></td>
   
 </tr>
 
@@ -1310,8 +1310,8 @@ public subroutine <a href='../proc/get_internal_offsets.html'>get_internal_offse
 
 
 <p>Finds internal offsets
- For all local blocks in blk_local_els, it calculates its offset in
- the dense block to which it belongs.</p>
+For all local blocks in blk_local_els, it calculates its offset in
+the dense block to which it belongs.</p>
     
     <h4>Arguments</h4>
     
@@ -1487,8 +1487,8 @@ public subroutine <a href='../proc/dbcsr_calc_block_sizes.html'>dbcsr_calc_block
   
   <td>DIMENSION(*)</td><td>::</td>
   <td><strong>col_i</strong></td><td><p>index structure
- row block sizes
- column block sizes</p></td>
+row block sizes
+column block sizes</p></td>
   
 </tr>
 
@@ -1504,8 +1504,8 @@ public subroutine <a href='../proc/dbcsr_calc_block_sizes.html'>dbcsr_calc_block
   
   <td>DIMENSION(*)</td><td>::</td>
   <td><strong>rbs</strong></td><td><p>index structure
- row block sizes
- column block sizes</p></td>
+row block sizes
+column block sizes</p></td>
   
 </tr>
 
@@ -1521,8 +1521,8 @@ public subroutine <a href='../proc/dbcsr_calc_block_sizes.html'>dbcsr_calc_block
   
   <td>DIMENSION(*)</td><td>::</td>
   <td><strong>cbs</strong></td><td><p>index structure
- row block sizes
- column block sizes</p></td>
+row block sizes
+column block sizes</p></td>
   
 </tr>
 
@@ -1612,7 +1612,7 @@ public subroutine <a href='../proc/meta_from_dist.html'>meta_from_dist</a>(meta,
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>row_blk_size</strong></td><td><p>row block sizes
- column block sizes</p></td>
+column block sizes</p></td>
   
 </tr>
 
@@ -1628,7 +1628,7 @@ public subroutine <a href='../proc/meta_from_dist.html'>meta_from_dist</a>(meta,
   
   <td>DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>col_blk_size</strong></td><td><p>row block sizes
- column block sizes</p></td>
+column block sizes</p></td>
   
 </tr>
 
@@ -1851,7 +1851,7 @@ public subroutine <a href='../proc/dbcsr_verify_matrix.html'>dbcsr_verify_matrix
   
   <td></td><td>::</td>
   <td><strong>verbosity</strong></td><td><p>how detailed errors are; 0=nothing; 1=summary at end if matrix not consistent; 2=also individual errors; 3=always print
- info about matrix; &gt;3=even more info</p></td>
+info about matrix; &gt;3=even more info</p></td>
   
 </tr>
 

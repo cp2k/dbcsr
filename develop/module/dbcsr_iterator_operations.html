@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -324,25 +324,25 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-    
     <li><a href='../module/dbcsr_dist_methods.html'>dbcsr_dist_methods</a></li>
     
     <li><a href='../module/dbcsr_string_utilities.html'>dbcsr_string_utilities</a></li>
     
     <li><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
     
-    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
+    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
-    <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
     <li><a href='../module/dbcsr_array_types.html'>dbcsr_array_types</a></li>
     
-    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
-    
     <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
     
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+    
+    <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
+    
+    <li><a href='../module/dbcsr_methods.html'>dbcsr_methods</a></li>
     
   </ul>
       </li>
@@ -756,8 +756,8 @@ private subroutine <a href='../proc/iterator_next_block_index.html'>iterator_nex
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>row of the data block
- column of the data block
- block number</p></td>
+column of the data block
+block number</p></td>
   
 </tr>
 
@@ -773,8 +773,8 @@ private subroutine <a href='../proc/iterator_next_block_index.html'>iterator_nex
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>row of the data block
- column of the data block
- block number</p></td>
+column of the data block
+block number</p></td>
   
 </tr>
 
@@ -790,8 +790,8 @@ private subroutine <a href='../proc/iterator_next_block_index.html'>iterator_nex
   
   <td></td><td>::</td>
   <td><strong>blk</strong></td><td><p>row of the data block
- column of the data block
- block number</p></td>
+column of the data block
+block number</p></td>
   
 </tr>
 
@@ -822,10 +822,10 @@ private subroutine <a href='../proc/iterator_next_block_index.html'>iterator_nex
   
   <td></td><td>::</td>
   <td><strong>blk_p</strong></td><td><p>index into block data array
- logical row size of block
- logical column size of block
- logical row offset of block
- logical column offset of block</p></td>
+logical row size of block
+logical column size of block
+logical row offset of block
+logical column offset of block</p></td>
   
 </tr>
 
@@ -841,10 +841,10 @@ private subroutine <a href='../proc/iterator_next_block_index.html'>iterator_nex
   
   <td></td><td>::</td>
   <td><strong>row_size</strong></td><td><p>index into block data array
- logical row size of block
- logical column size of block
- logical row offset of block
- logical column offset of block</p></td>
+logical row size of block
+logical column size of block
+logical row offset of block
+logical column offset of block</p></td>
   
 </tr>
 
@@ -860,10 +860,10 @@ private subroutine <a href='../proc/iterator_next_block_index.html'>iterator_nex
   
   <td></td><td>::</td>
   <td><strong>col_size</strong></td><td><p>index into block data array
- logical row size of block
- logical column size of block
- logical row offset of block
- logical column offset of block</p></td>
+logical row size of block
+logical column size of block
+logical row offset of block
+logical column offset of block</p></td>
   
 </tr>
 
@@ -879,10 +879,10 @@ private subroutine <a href='../proc/iterator_next_block_index.html'>iterator_nex
   
   <td></td><td>::</td>
   <td><strong>row_offset</strong></td><td><p>index into block data array
- logical row size of block
- logical column size of block
- logical row offset of block
- logical column offset of block</p></td>
+logical row size of block
+logical column size of block
+logical row offset of block
+logical column offset of block</p></td>
   
 </tr>
 
@@ -898,10 +898,10 @@ private subroutine <a href='../proc/iterator_next_block_index.html'>iterator_nex
   
   <td></td><td>::</td>
   <td><strong>col_offset</strong></td><td><p>index into block data array
- logical row size of block
- logical column size of block
- logical row offset of block
- logical column offset of block</p></td>
+logical row size of block
+logical column size of block
+logical row offset of block
+logical column offset of block</p></td>
   
 </tr>
 
@@ -973,7 +973,7 @@ private subroutine <a href='../proc/iterator_next_area_block.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -989,7 +989,7 @@ private subroutine <a href='../proc/iterator_next_area_block.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -1035,10 +1035,10 @@ private subroutine <a href='../proc/iterator_next_area_block.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>block_number</strong></td><td><p>block number
- logical row size of block
- logical column size of block
- logical row offset of block
- logical column offset of block</p></td>
+logical row size of block
+logical column size of block
+logical row offset of block
+logical column offset of block</p></td>
   
 </tr>
 
@@ -1054,10 +1054,10 @@ private subroutine <a href='../proc/iterator_next_area_block.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_size</strong></td><td><p>block number
- logical row size of block
- logical column size of block
- logical row offset of block
- logical column offset of block</p></td>
+logical row size of block
+logical column size of block
+logical row offset of block
+logical column offset of block</p></td>
   
 </tr>
 
@@ -1073,10 +1073,10 @@ private subroutine <a href='../proc/iterator_next_area_block.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_size</strong></td><td><p>block number
- logical row size of block
- logical column size of block
- logical row offset of block
- logical column offset of block</p></td>
+logical row size of block
+logical column size of block
+logical row offset of block
+logical column offset of block</p></td>
   
 </tr>
 
@@ -1092,10 +1092,10 @@ private subroutine <a href='../proc/iterator_next_area_block.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_offset</strong></td><td><p>block number
- logical row size of block
- logical column size of block
- logical row offset of block
- logical column offset of block</p></td>
+logical row size of block
+logical column size of block
+logical row offset of block
+logical column offset of block</p></td>
   
 </tr>
 
@@ -1111,10 +1111,10 @@ private subroutine <a href='../proc/iterator_next_area_block.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_offset</strong></td><td><p>block number
- logical row size of block
- logical column size of block
- logical row offset of block
- logical column offset of block</p></td>
+logical row size of block
+logical column size of block
+logical row offset of block
+logical column offset of block</p></td>
   
 </tr>
 
@@ -1186,7 +1186,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_d.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -1202,7 +1202,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_d.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -1263,7 +1263,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_d.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -1279,7 +1279,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_d.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -1295,7 +1295,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_d.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -1311,7 +1311,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_d.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -1383,7 +1383,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_s.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -1399,7 +1399,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_s.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -1460,7 +1460,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_s.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -1476,7 +1476,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_s.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -1492,7 +1492,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_s.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -1508,7 +1508,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_s.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -1580,7 +1580,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_c.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -1596,7 +1596,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_c.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -1657,7 +1657,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_c.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -1673,7 +1673,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_c.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -1689,7 +1689,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_c.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -1705,7 +1705,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_c.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -1777,7 +1777,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_z.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -1793,7 +1793,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_z.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -1854,7 +1854,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_z.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -1870,7 +1870,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_z.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -1886,7 +1886,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_z.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -1902,7 +1902,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_z.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -1974,7 +1974,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_d.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -1990,7 +1990,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_d.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -2051,7 +2051,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_d.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -2067,7 +2067,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_d.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -2083,7 +2083,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_d.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -2099,7 +2099,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_d.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -2171,7 +2171,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_s.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -2187,7 +2187,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_s.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -2248,7 +2248,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_s.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -2264,7 +2264,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_s.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -2280,7 +2280,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_s.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -2296,7 +2296,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_s.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -2368,7 +2368,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_c.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -2384,7 +2384,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_c.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -2445,7 +2445,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_c.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -2461,7 +2461,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_c.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -2477,7 +2477,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_c.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -2493,7 +2493,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_c.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -2565,7 +2565,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_z.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -2581,7 +2581,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_z.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -2642,7 +2642,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_z.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -2658,7 +2658,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_z.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -2674,7 +2674,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_z.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -2690,7 +2690,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_z.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -3105,10 +3105,10 @@ public subroutine <a href='../proc/dbcsr_iterator_start.html'>dbcsr_iterator_sta
   
   <td></td><td>::</td>
   <td><strong>shared</strong></td><td><p>The matrix is shared between several iterators. Default is .TRUE.
- Threads are given blocks regardless of the thread distribution; default is .FALSE.
- Threads are given blocks regardless of the thread distribution, but still grouped by rows; default is .FALSE.
- Whether returned pointers need to be contiguous; default is FALSE.
- User promises not to change returned data; default is FALSE</p></td>
+Threads are given blocks regardless of the thread distribution; default is .FALSE.
+Threads are given blocks regardless of the thread distribution, but still grouped by rows; default is .FALSE.
+Whether returned pointers need to be contiguous; default is FALSE.
+User promises not to change returned data; default is FALSE</p></td>
   
 </tr>
 
@@ -3124,10 +3124,10 @@ public subroutine <a href='../proc/dbcsr_iterator_start.html'>dbcsr_iterator_sta
   
   <td></td><td>::</td>
   <td><strong>dynamic</strong></td><td><p>The matrix is shared between several iterators. Default is .TRUE.
- Threads are given blocks regardless of the thread distribution; default is .FALSE.
- Threads are given blocks regardless of the thread distribution, but still grouped by rows; default is .FALSE.
- Whether returned pointers need to be contiguous; default is FALSE.
- User promises not to change returned data; default is FALSE</p></td>
+Threads are given blocks regardless of the thread distribution; default is .FALSE.
+Threads are given blocks regardless of the thread distribution, but still grouped by rows; default is .FALSE.
+Whether returned pointers need to be contiguous; default is FALSE.
+User promises not to change returned data; default is FALSE</p></td>
   
 </tr>
 
@@ -3143,10 +3143,10 @@ public subroutine <a href='../proc/dbcsr_iterator_start.html'>dbcsr_iterator_sta
   
   <td></td><td>::</td>
   <td><strong>dynamic_byrows</strong></td><td><p>The matrix is shared between several iterators. Default is .TRUE.
- Threads are given blocks regardless of the thread distribution; default is .FALSE.
- Threads are given blocks regardless of the thread distribution, but still grouped by rows; default is .FALSE.
- Whether returned pointers need to be contiguous; default is FALSE.
- User promises not to change returned data; default is FALSE</p></td>
+Threads are given blocks regardless of the thread distribution; default is .FALSE.
+Threads are given blocks regardless of the thread distribution, but still grouped by rows; default is .FALSE.
+Whether returned pointers need to be contiguous; default is FALSE.
+User promises not to change returned data; default is FALSE</p></td>
   
 </tr>
 
@@ -3162,10 +3162,10 @@ public subroutine <a href='../proc/dbcsr_iterator_start.html'>dbcsr_iterator_sta
   
   <td></td><td>::</td>
   <td><strong>contiguous_pointers</strong></td><td><p>The matrix is shared between several iterators. Default is .TRUE.
- Threads are given blocks regardless of the thread distribution; default is .FALSE.
- Threads are given blocks regardless of the thread distribution, but still grouped by rows; default is .FALSE.
- Whether returned pointers need to be contiguous; default is FALSE.
- User promises not to change returned data; default is FALSE</p></td>
+Threads are given blocks regardless of the thread distribution; default is .FALSE.
+Threads are given blocks regardless of the thread distribution, but still grouped by rows; default is .FALSE.
+Whether returned pointers need to be contiguous; default is FALSE.
+User promises not to change returned data; default is FALSE</p></td>
   
 </tr>
 
@@ -3181,10 +3181,10 @@ public subroutine <a href='../proc/dbcsr_iterator_start.html'>dbcsr_iterator_sta
   
   <td></td><td>::</td>
   <td><strong>read_only</strong></td><td><p>The matrix is shared between several iterators. Default is .TRUE.
- Threads are given blocks regardless of the thread distribution; default is .FALSE.
- Threads are given blocks regardless of the thread distribution, but still grouped by rows; default is .FALSE.
- Whether returned pointers need to be contiguous; default is FALSE.
- User promises not to change returned data; default is FALSE</p></td>
+Threads are given blocks regardless of the thread distribution; default is .FALSE.
+Threads are given blocks regardless of the thread distribution, but still grouped by rows; default is .FALSE.
+Whether returned pointers need to be contiguous; default is FALSE.
+User promises not to change returned data; default is FALSE</p></td>
   
 </tr>
 
@@ -3277,7 +3277,7 @@ private pure subroutine <a href='../proc/find_first_valid_block.html'>find_first
 
 
 <p>Finds the first valid block, inclusive from the current position.
- If there is no valid block, pos is set to 0</p>
+If there is no valid block, pos is set to 0</p>
     
     <h4>Arguments</h4>
     
@@ -3367,7 +3367,7 @@ private pure subroutine <a href='../proc/find_proper_row.html'>find_proper_row</
 
 
 <p>Finds the row to which the current block belongs
- If there is no valid block, pos is set to 0</p>
+If there is no valid block, pos is set to 0</p>
     
     <h4>Arguments</h4>
     
@@ -3472,8 +3472,8 @@ private pure subroutine <a href='../proc/find_proper_position.html'>find_proper_
 
 
 <p>Finds the next proper position accounting for threads
- First time: pos and row are set to 0.
- If there is no valid block, pos is set to 0</p>
+First time: pos and row are set to 0.
+If there is no valid block, pos is set to 0</p>
     
     <h4>Arguments</h4>
     
@@ -3500,7 +3500,7 @@ private pure subroutine <a href='../proc/find_proper_position.html'>find_proper_
   
   <td></td><td>::</td>
   <td><strong>pos</strong></td><td><p>current position and updated position
- input: current row; output: the row corresponding to the next proper position</p></td>
+input: current row; output: the row corresponding to the next proper position</p></td>
   
 </tr>
 
@@ -3516,7 +3516,7 @@ private pure subroutine <a href='../proc/find_proper_position.html'>find_proper_
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>current position and updated position
- input: current row; output: the row corresponding to the next proper position</p></td>
+input: current row; output: the row corresponding to the next proper position</p></td>
   
 </tr>
 
@@ -3532,7 +3532,7 @@ private pure subroutine <a href='../proc/find_proper_position.html'>find_proper_
   
   <td></td><td>::</td>
   <td><strong>maxpos</strong></td><td><p>maximum allowable position
- maxmimum row</p></td>
+maxmimum row</p></td>
   
 </tr>
 
@@ -3548,7 +3548,7 @@ private pure subroutine <a href='../proc/find_proper_position.html'>find_proper_
   
   <td></td><td>::</td>
   <td><strong>maxrows</strong></td><td><p>maximum allowable position
- maxmimum row</p></td>
+maxmimum row</p></td>
   
 </tr>
 
@@ -3564,7 +3564,7 @@ private pure subroutine <a href='../proc/find_proper_position.html'>find_proper_
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>blk_p</strong></td><td><p>block pointercs
- row pointers</p></td>
+row pointers</p></td>
   
 </tr>
 
@@ -3580,7 +3580,7 @@ private pure subroutine <a href='../proc/find_proper_position.html'>find_proper_
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>row_p</strong></td><td><p>block pointercs
- row pointers</p></td>
+row pointers</p></td>
   
 </tr>
 
@@ -3784,7 +3784,7 @@ private pure subroutine <a href='../proc/update_row_info.html'>update_row_info</
 
 
 <p>Updates the row info stored in the iterator
- </p><a href="../proc/update_row_info.html" class="pull-right"><emph>Read more&hellip;</emph></a>
+</p><a href="../proc/update_row_info.html" class="pull-right"><emph>Read more&hellip;</emph></a>
     
     <h4>Arguments</h4>
     
@@ -3959,8 +3959,8 @@ private subroutine <a href='../proc/iterator_next_block_index.html'>iterator_nex
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>row of the data block
- column of the data block
- block number</p></td>
+column of the data block
+block number</p></td>
   
 </tr>
 
@@ -3976,8 +3976,8 @@ private subroutine <a href='../proc/iterator_next_block_index.html'>iterator_nex
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>row of the data block
- column of the data block
- block number</p></td>
+column of the data block
+block number</p></td>
   
 </tr>
 
@@ -3993,8 +3993,8 @@ private subroutine <a href='../proc/iterator_next_block_index.html'>iterator_nex
   
   <td></td><td>::</td>
   <td><strong>blk</strong></td><td><p>row of the data block
- column of the data block
- block number</p></td>
+column of the data block
+block number</p></td>
   
 </tr>
 
@@ -4025,10 +4025,10 @@ private subroutine <a href='../proc/iterator_next_block_index.html'>iterator_nex
   
   <td></td><td>::</td>
   <td><strong>blk_p</strong></td><td><p>index into block data array
- logical row size of block
- logical column size of block
- logical row offset of block
- logical column offset of block</p></td>
+logical row size of block
+logical column size of block
+logical row offset of block
+logical column offset of block</p></td>
   
 </tr>
 
@@ -4044,10 +4044,10 @@ private subroutine <a href='../proc/iterator_next_block_index.html'>iterator_nex
   
   <td></td><td>::</td>
   <td><strong>row_size</strong></td><td><p>index into block data array
- logical row size of block
- logical column size of block
- logical row offset of block
- logical column offset of block</p></td>
+logical row size of block
+logical column size of block
+logical row offset of block
+logical column offset of block</p></td>
   
 </tr>
 
@@ -4063,10 +4063,10 @@ private subroutine <a href='../proc/iterator_next_block_index.html'>iterator_nex
   
   <td></td><td>::</td>
   <td><strong>col_size</strong></td><td><p>index into block data array
- logical row size of block
- logical column size of block
- logical row offset of block
- logical column offset of block</p></td>
+logical row size of block
+logical column size of block
+logical row offset of block
+logical column offset of block</p></td>
   
 </tr>
 
@@ -4082,10 +4082,10 @@ private subroutine <a href='../proc/iterator_next_block_index.html'>iterator_nex
   
   <td></td><td>::</td>
   <td><strong>row_offset</strong></td><td><p>index into block data array
- logical row size of block
- logical column size of block
- logical row offset of block
- logical column offset of block</p></td>
+logical row size of block
+logical column size of block
+logical row offset of block
+logical column offset of block</p></td>
   
 </tr>
 
@@ -4101,10 +4101,10 @@ private subroutine <a href='../proc/iterator_next_block_index.html'>iterator_nex
   
   <td></td><td>::</td>
   <td><strong>col_offset</strong></td><td><p>index into block data array
- logical row size of block
- logical column size of block
- logical row offset of block
- logical column offset of block</p></td>
+logical row size of block
+logical column size of block
+logical row offset of block
+logical column offset of block</p></td>
   
 </tr>
 
@@ -4179,7 +4179,7 @@ private subroutine <a href='../proc/iterator_next_area_block.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -4195,7 +4195,7 @@ private subroutine <a href='../proc/iterator_next_area_block.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -4241,10 +4241,10 @@ private subroutine <a href='../proc/iterator_next_area_block.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>block_number</strong></td><td><p>block number
- logical row size of block
- logical column size of block
- logical row offset of block
- logical column offset of block</p></td>
+logical row size of block
+logical column size of block
+logical row offset of block
+logical column offset of block</p></td>
   
 </tr>
 
@@ -4260,10 +4260,10 @@ private subroutine <a href='../proc/iterator_next_area_block.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_size</strong></td><td><p>block number
- logical row size of block
- logical column size of block
- logical row offset of block
- logical column offset of block</p></td>
+logical row size of block
+logical column size of block
+logical row offset of block
+logical column offset of block</p></td>
   
 </tr>
 
@@ -4279,10 +4279,10 @@ private subroutine <a href='../proc/iterator_next_area_block.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_size</strong></td><td><p>block number
- logical row size of block
- logical column size of block
- logical row offset of block
- logical column offset of block</p></td>
+logical row size of block
+logical column size of block
+logical row offset of block
+logical column offset of block</p></td>
   
 </tr>
 
@@ -4298,10 +4298,10 @@ private subroutine <a href='../proc/iterator_next_area_block.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_offset</strong></td><td><p>block number
- logical row size of block
- logical column size of block
- logical row offset of block
- logical column offset of block</p></td>
+logical row size of block
+logical column size of block
+logical row offset of block
+logical column offset of block</p></td>
   
 </tr>
 
@@ -4317,10 +4317,10 @@ private subroutine <a href='../proc/iterator_next_area_block.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_offset</strong></td><td><p>block number
- logical row size of block
- logical column size of block
- logical row offset of block
- logical column offset of block</p></td>
+logical row size of block
+logical column size of block
+logical row offset of block
+logical column offset of block</p></td>
   
 </tr>
 
@@ -4395,7 +4395,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_d.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -4411,7 +4411,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_d.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -4472,7 +4472,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_d.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -4488,7 +4488,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_d.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -4504,7 +4504,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_d.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -4520,7 +4520,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_d.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -4595,7 +4595,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_d.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -4611,7 +4611,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_d.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -4672,7 +4672,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_d.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -4688,7 +4688,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_d.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -4704,7 +4704,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_d.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -4720,7 +4720,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_d.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -4795,7 +4795,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_s.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -4811,7 +4811,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_s.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -4872,7 +4872,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_s.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -4888,7 +4888,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_s.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -4904,7 +4904,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_s.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -4920,7 +4920,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_s.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -4995,7 +4995,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_s.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -5011,7 +5011,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_s.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -5072,7 +5072,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_s.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -5088,7 +5088,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_s.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -5104,7 +5104,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_s.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -5120,7 +5120,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_s.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -5195,7 +5195,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_z.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -5211,7 +5211,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_z.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -5272,7 +5272,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_z.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -5288,7 +5288,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_z.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -5304,7 +5304,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_z.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -5320,7 +5320,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_z.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -5395,7 +5395,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_z.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -5411,7 +5411,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_z.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -5472,7 +5472,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_z.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -5488,7 +5488,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_z.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -5504,7 +5504,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_z.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -5520,7 +5520,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_z.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -5595,7 +5595,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_c.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -5611,7 +5611,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_c.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -5672,7 +5672,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_c.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -5688,7 +5688,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_c.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -5704,7 +5704,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_c.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -5720,7 +5720,7 @@ private subroutine <a href='../proc/iterator_next_1d_block_c.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -5795,7 +5795,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_c.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -5811,7 +5811,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_c.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>row of the data block
- column of the data block</p></td>
+column of the data block</p></td>
   
 </tr>
 
@@ -5872,7 +5872,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_c.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -5888,7 +5888,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_c.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_size</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -5904,7 +5904,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_c.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>row_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 
@@ -5920,7 +5920,7 @@ private subroutine <a href='../proc/iterator_next_2d_block_c.html'>iterator_next
   
   <td></td><td>::</td>
   <td><strong>col_offset</strong></td><td><p>logical row size of block
- logical column size of block</p></td>
+logical column size of block</p></td>
   
 </tr>
 

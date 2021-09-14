@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -215,7 +215,7 @@ public subroutine csr_create_from_dbcsr(dbcsr_mat, csr_mat, dist_format, csr_spa
 
     
     <p>create CSR matrix including dbcsr_mapping from arbitrary DBCSR matrix
- in order to prepare conversion.</p>
+in order to prepare conversion.</p>
     
 
     <h3>Arguments</h3>
@@ -272,8 +272,8 @@ public subroutine csr_create_from_dbcsr(dbcsr_mat, csr_mat, dist_format, csr_spa
   
   <td></td><td>::</td>
   <td><strong>dist_format</strong></td><td><p>how to distribute CSR rows over processes: csr_dbcsr_blkrow_dist: the number of rows per process is adapted to the row
- block sizes in the DBCSR format such that blocks are not split over different processes. csr_eqrow_ceil_dist: each
- process holds ceiling(N/P) CSR rows. csr_eqrow_floor_dist: each process holds floor(N/P) CSR rows.</p></td>
+block sizes in the DBCSR format such that blocks are not split over different processes. csr_eqrow_ceil_dist: each
+process holds ceiling(N/P) CSR rows. csr_eqrow_floor_dist: each process holds floor(N/P) CSR rows.</p></td>
   
 </tr>
 
@@ -289,7 +289,7 @@ public subroutine csr_create_from_dbcsr(dbcsr_mat, csr_mat, dist_format, csr_spa
   
   <td></td><td>::</td>
   <td><strong>csr_sparsity</strong></td><td><p>DBCSR matrix containing 0 and 1, representing CSR sparsity pattern 1: non-zero element 0: zero element (not present in
- CSR format) Note: matrix must be of data_type dbcsr_type_real_4 or dbcsr_type_real_8 (integer types not supported)</p></td>
+CSR format) Note: matrix must be of data_type dbcsr_type_real_4 or dbcsr_type_real_8 (integer types not supported)</p></td>
   
 </tr>
 

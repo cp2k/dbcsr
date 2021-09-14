@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -280,7 +280,7 @@
     
     <div class="col-md-9" id='text'>
     <p>methods to split tall-and-skinny matrices along longest dimension.
- Basically, we are splitting process grid and each subgrid holds its own DBCSR matrix.</p>
+Basically, we are splitting process grid and each subgrid holds its own DBCSR matrix.</p>
       <br>
     
   
@@ -293,19 +293,19 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
-    
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-    
-    <li><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></li>
     
     <li><a href='../module/dbcsr_tas_types.html'>dbcsr_tas_types</a></li>
     
-    <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
+    <li><a href='../module/dbcsr_tas_util.html'>dbcsr_tas_util</a></li>
+    
+    <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
+    
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
     <li><a href='../module/dbcsr_tas_global.html'>dbcsr_tas_global</a></li>
     
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
     
   </ul>
       </li>
@@ -581,7 +581,7 @@ private function <a href='../proc/dbcsr_tas_mp_comm_from_matrix_sizes.html'>dbcs
 
 
 <p>Derive optimal cartesian process grid from matrix sizes. This ensures optimality for
- dense matrices only</p>
+dense matrices only</p>
     
     <h4>Arguments</h4>
     
@@ -623,7 +623,7 @@ private function <a href='../proc/dbcsr_tas_mp_comm_from_matrix_sizes.html'>dbcs
   
   <td></td><td>::</td>
   <td><strong>nblkrows</strong></td><td><p>total number of block rows
- total number of block columns</p></td>
+total number of block columns</p></td>
   
 </tr>
 
@@ -639,7 +639,7 @@ private function <a href='../proc/dbcsr_tas_mp_comm_from_matrix_sizes.html'>dbcs
   
   <td></td><td>::</td>
   <td><strong>nblkcols</strong></td><td><p>total number of block rows
- total number of block columns</p></td>
+total number of block columns</p></td>
   
 </tr>
 
@@ -697,8 +697,8 @@ public function <a href='../proc/dbcsr_tas_mp_comm.html'>dbcsr_tas_mp_comm</a>(m
 
 
 <p>Create default cartesian process grid that is consistent with default split heuristic
- of dbcsr_tas_create_split
- \return new communicator</p>
+of dbcsr_tas_create_split
+\return new communicator</p>
     
     <h4>Arguments</h4>
     
@@ -895,7 +895,7 @@ private function <a href='../proc/get_opt_nsplit.html'>get_opt_nsplit</a>(numpro
 
 
 <p>Heuristic to get good split factor for a given process grid OR a given number of processes
- \return split factor consistent with process grid or number of processes</p>
+\return split factor consistent with process grid or number of processes</p>
     
     <h4>Arguments</h4>
     
@@ -922,7 +922,7 @@ private function <a href='../proc/get_opt_nsplit.html'>get_opt_nsplit</a>(numpro
   
   <td></td><td>::</td>
   <td><strong>numproc</strong></td><td><p>total number of processes or (if split_pgrid) process grid dimension to split
- Desired split factor</p></td>
+Desired split factor</p></td>
   
 </tr>
 
@@ -938,7 +938,7 @@ private function <a href='../proc/get_opt_nsplit.html'>get_opt_nsplit</a>(numpro
   
   <td></td><td>::</td>
   <td><strong>nsplit</strong></td><td><p>total number of processes or (if split_pgrid) process grid dimension to split
- Desired split factor</p></td>
+Desired split factor</p></td>
   
 </tr>
 
@@ -1011,7 +1011,7 @@ private function <a href='../proc/dbcsr_tas_mp_comm_from_matrix_sizes.html'>dbcs
 
 
 <p>Derive optimal cartesian process grid from matrix sizes. This ensures optimality for
- dense matrices only</p>
+dense matrices only</p>
     
     <h4>Arguments</h4>
     
@@ -1053,7 +1053,7 @@ private function <a href='../proc/dbcsr_tas_mp_comm_from_matrix_sizes.html'>dbcs
   
   <td></td><td>::</td>
   <td><strong>nblkrows</strong></td><td><p>total number of block rows
- total number of block columns</p></td>
+total number of block columns</p></td>
   
 </tr>
 
@@ -1069,7 +1069,7 @@ private function <a href='../proc/dbcsr_tas_mp_comm_from_matrix_sizes.html'>dbcs
   
   <td></td><td>::</td>
   <td><strong>nblkcols</strong></td><td><p>total number of block rows
- total number of block columns</p></td>
+total number of block columns</p></td>
   
 </tr>
 
@@ -1387,7 +1387,7 @@ public subroutine <a href='../proc/dbcsr_tas_create_split_rows_or_cols.html'>dbc
   
   <td></td><td>::</td>
   <td><strong>igroup</strong></td><td><p>my group ID
- split rows or columns</p></td>
+split rows or columns</p></td>
   
 </tr>
 
@@ -1403,7 +1403,7 @@ public subroutine <a href='../proc/dbcsr_tas_create_split_rows_or_cols.html'>dbc
   
   <td></td><td>::</td>
   <td><strong>split_rowcol</strong></td><td><p>my group ID
- split rows or columns</p></td>
+split rows or columns</p></td>
   
 </tr>
 
@@ -1627,10 +1627,10 @@ public subroutine <a href='../proc/dbcsr_tas_get_split_info.html'>dbcsr_tas_get_
   
   <td></td><td>::</td>
   <td><strong>mp_comm</strong></td><td><p>communicator (global process grid)
- split factor
- which group do I belong to
- subgroup communicator (group-local process grid)
- split rows or columns</p></td>
+split factor
+which group do I belong to
+subgroup communicator (group-local process grid)
+split rows or columns</p></td>
   
 </tr>
 
@@ -1646,10 +1646,10 @@ public subroutine <a href='../proc/dbcsr_tas_get_split_info.html'>dbcsr_tas_get_
   
   <td></td><td>::</td>
   <td><strong>nsplit</strong></td><td><p>communicator (global process grid)
- split factor
- which group do I belong to
- subgroup communicator (group-local process grid)
- split rows or columns</p></td>
+split factor
+which group do I belong to
+subgroup communicator (group-local process grid)
+split rows or columns</p></td>
   
 </tr>
 
@@ -1665,10 +1665,10 @@ public subroutine <a href='../proc/dbcsr_tas_get_split_info.html'>dbcsr_tas_get_
   
   <td></td><td>::</td>
   <td><strong>igroup</strong></td><td><p>communicator (global process grid)
- split factor
- which group do I belong to
- subgroup communicator (group-local process grid)
- split rows or columns</p></td>
+split factor
+which group do I belong to
+subgroup communicator (group-local process grid)
+split rows or columns</p></td>
   
 </tr>
 
@@ -1684,10 +1684,10 @@ public subroutine <a href='../proc/dbcsr_tas_get_split_info.html'>dbcsr_tas_get_
   
   <td></td><td>::</td>
   <td><strong>mp_comm_group</strong></td><td><p>communicator (global process grid)
- split factor
- which group do I belong to
- subgroup communicator (group-local process grid)
- split rows or columns</p></td>
+split factor
+which group do I belong to
+subgroup communicator (group-local process grid)
+split rows or columns</p></td>
   
 </tr>
 
@@ -1703,10 +1703,10 @@ public subroutine <a href='../proc/dbcsr_tas_get_split_info.html'>dbcsr_tas_get_
   
   <td></td><td>::</td>
   <td><strong>split_rowcol</strong></td><td><p>communicator (global process grid)
- split factor
- which group do I belong to
- subgroup communicator (group-local process grid)
- split rows or columns</p></td>
+split factor
+which group do I belong to
+subgroup communicator (group-local process grid)
+split rows or columns</p></td>
   
 </tr>
 
@@ -1913,7 +1913,7 @@ public subroutine <a href='../proc/world_to_group_proc_map.html'>world_to_group_
   
   <td></td><td>::</td>
   <td><strong>split_rowcol</strong></td><td><p>split rows or column
- how many process rows/cols per group</p></td>
+how many process rows/cols per group</p></td>
   
 </tr>
 
@@ -1929,7 +1929,7 @@ public subroutine <a href='../proc/world_to_group_proc_map.html'>world_to_group_
   
   <td></td><td>::</td>
   <td><strong>pgrid_split_size</strong></td><td><p>split rows or column
- how many process rows/cols per group</p></td>
+how many process rows/cols per group</p></td>
   
 </tr>
 
@@ -2064,9 +2064,9 @@ public subroutine <a href='../proc/group_to_world_proc_map.html'>group_to_world_
   
   <td></td><td>::</td>
   <td><strong>split_rowcol</strong></td><td><p>split rows or column
- how many process rows/cols per group
- group ID
- local process ID</p></td>
+how many process rows/cols per group
+group ID
+local process ID</p></td>
   
 </tr>
 
@@ -2082,9 +2082,9 @@ public subroutine <a href='../proc/group_to_world_proc_map.html'>group_to_world_
   
   <td></td><td>::</td>
   <td><strong>pgrid_split_size</strong></td><td><p>split rows or column
- how many process rows/cols per group
- group ID
- local process ID</p></td>
+how many process rows/cols per group
+group ID
+local process ID</p></td>
   
 </tr>
 
@@ -2100,9 +2100,9 @@ public subroutine <a href='../proc/group_to_world_proc_map.html'>group_to_world_
   
   <td></td><td>::</td>
   <td><strong>igroup</strong></td><td><p>split rows or column
- how many process rows/cols per group
- group ID
- local process ID</p></td>
+how many process rows/cols per group
+group ID
+local process ID</p></td>
   
 </tr>
 
@@ -2118,9 +2118,9 @@ public subroutine <a href='../proc/group_to_world_proc_map.html'>group_to_world_
   
   <td></td><td>::</td>
   <td><strong>iproc_group</strong></td><td><p>split rows or column
- how many process rows/cols per group
- group ID
- local process ID</p></td>
+how many process rows/cols per group
+group ID
+local process ID</p></td>
   
 </tr>
 
@@ -2210,7 +2210,7 @@ public subroutine <a href='../proc/block_index_local_to_global.html'>block_index
   
   <td></td><td>::</td>
   <td><strong>row_group</strong></td><td><p>group local row block index
- group local column block index</p></td>
+group local column block index</p></td>
   
 </tr>
 
@@ -2226,7 +2226,7 @@ public subroutine <a href='../proc/block_index_local_to_global.html'>block_index
   
   <td></td><td>::</td>
   <td><strong>column_group</strong></td><td><p>group local row block index
- group local column block index</p></td>
+group local column block index</p></td>
   
 </tr>
 
@@ -2242,7 +2242,7 @@ public subroutine <a href='../proc/block_index_local_to_global.html'>block_index
   
   <td></td><td>::</td>
   <td><strong>row</strong></td><td><p>global block row
- global block column</p></td>
+global block column</p></td>
   
 </tr>
 
@@ -2258,7 +2258,7 @@ public subroutine <a href='../proc/block_index_local_to_global.html'>block_index
   
   <td></td><td>::</td>
   <td><strong>column</strong></td><td><p>global block row
- global block column</p></td>
+global block column</p></td>
   
 </tr>
 

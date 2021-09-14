@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-85-g1f535555b</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-86-gc4efd5c7c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -238,17 +238,17 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
     <li><a href='../module/dbcsr_dist_util.html'>dbcsr_dist_util</a></li>
+    
+    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
     <li><a href='../module/dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
     
     <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
     
     <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
-    
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
   </ul>
       </li>
@@ -628,7 +628,7 @@ public subroutine <a href='../proc/dbcsr_data_convert.html'>dbcsr_data_convert</
   
   <td></td><td>::</td>
   <td><strong>drop_real</strong></td><td><p>drops real part of complex numbers instead of the imaginary part; default is false
- converts real to complex by placing into imaginary instead of real part</p></td>
+converts real to complex by placing into imaginary instead of real part</p></td>
   
 </tr>
 
@@ -644,7 +644,7 @@ public subroutine <a href='../proc/dbcsr_data_convert.html'>dbcsr_data_convert</
   
   <td></td><td>::</td>
   <td><strong>multiply_by_i</strong></td><td><p>drops real part of complex numbers instead of the imaginary part; default is false
- converts real to complex by placing into imaginary instead of real part</p></td>
+converts real to complex by placing into imaginary instead of real part</p></td>
   
 </tr>
 
@@ -678,8 +678,8 @@ public subroutine <a href='../proc/dbcsr_copy_sort_data.html'>dbcsr_copy_sort_da
 
 
 <p>Sorts the data in a matrix so that the data blocks follow
- sequentially and does various transposing options.
- As opposed to dbcsr_sort_data, this routine calculates block sizes</p>
+sequentially and does various transposing options.
+As opposed to dbcsr_sort_data, this routine calculates block sizes</p>
     
     <h4>Arguments</h4>
     
@@ -721,10 +721,10 @@ public subroutine <a href='../proc/dbcsr_copy_sort_data.html'>dbcsr_copy_sort_da
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>old_blk_p</strong></td><td><p>current block pointers
- index
- index
- sizes of the blocked rows
- sizes of the blocked columns</p></td>
+index
+index
+sizes of the blocked rows
+sizes of the blocked columns</p></td>
   
 </tr>
 
@@ -740,10 +740,10 @@ public subroutine <a href='../proc/dbcsr_copy_sort_data.html'>dbcsr_copy_sort_da
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>row_p</strong></td><td><p>current block pointers
- index
- index
- sizes of the blocked rows
- sizes of the blocked columns</p></td>
+index
+index
+sizes of the blocked rows
+sizes of the blocked columns</p></td>
   
 </tr>
 
@@ -759,10 +759,10 @@ public subroutine <a href='../proc/dbcsr_copy_sort_data.html'>dbcsr_copy_sort_da
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>col_i</strong></td><td><p>current block pointers
- index
- index
- sizes of the blocked rows
- sizes of the blocked columns</p></td>
+index
+index
+sizes of the blocked rows
+sizes of the blocked columns</p></td>
   
 </tr>
 
@@ -778,10 +778,10 @@ public subroutine <a href='../proc/dbcsr_copy_sort_data.html'>dbcsr_copy_sort_da
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>rbs</strong></td><td><p>current block pointers
- index
- index
- sizes of the blocked rows
- sizes of the blocked columns</p></td>
+index
+index
+sizes of the blocked rows
+sizes of the blocked columns</p></td>
   
 </tr>
 
@@ -797,10 +797,10 @@ public subroutine <a href='../proc/dbcsr_copy_sort_data.html'>dbcsr_copy_sort_da
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>cbs</strong></td><td><p>current block pointers
- index
- index
- sizes of the blocked rows
- sizes of the blocked columns</p></td>
+index
+index
+sizes of the blocked rows
+sizes of the blocked columns</p></td>
   
 </tr>
 
@@ -846,7 +846,7 @@ public subroutine <a href='../proc/dbcsr_copy_sort_data.html'>dbcsr_copy_sort_da
   
   <td></td><td>::</td>
   <td><strong>mark_transposed</strong></td><td><p>mark data as transposed by negating the blk_p index entries
- transpose data blocks</p></td>
+transpose data blocks</p></td>
   
 </tr>
 
@@ -862,7 +862,7 @@ public subroutine <a href='../proc/dbcsr_copy_sort_data.html'>dbcsr_copy_sort_da
   
   <td></td><td>::</td>
   <td><strong>transpose_blocks</strong></td><td><p>mark data as transposed by negating the blk_p index entries
- transpose data blocks</p></td>
+transpose data blocks</p></td>
   
 </tr>
 
@@ -896,7 +896,7 @@ public subroutine <a href='../proc/dbcsr_sort_data.html'>dbcsr_sort_data</a>(blk
 
 
 <p>Sorts the data in a matrix so that the data blocks follow
- sequentially.</p>
+sequentially.</p>
     
     <h4>Arguments</h4>
     
@@ -938,7 +938,7 @@ public subroutine <a href='../proc/dbcsr_sort_data.html'>dbcsr_sort_data</a>(blk
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>old_blk_p</strong></td><td><p>current block pointers
- sizes of the data blocks</p></td>
+sizes of the data blocks</p></td>
   
 </tr>
 
@@ -954,7 +954,7 @@ public subroutine <a href='../proc/dbcsr_sort_data.html'>dbcsr_sort_data</a>(blk
   
   <td>DIMENSION(:)</td><td>::</td>
   <td><strong>sizes</strong></td><td><p>current block pointers
- sizes of the data blocks</p></td>
+sizes of the data blocks</p></td>
   
 </tr>
 
