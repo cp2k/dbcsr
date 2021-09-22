@@ -662,8 +662,9 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
           if ('\0' != *tname && 0 < nchar && (int)sizeof(build_params) > nchar) {
             opencl_libsmm_trans_t new_config;
             memset(&new_config, 0, sizeof(new_config));
-            result = c_dbcsr_acc_opencl_kernel(OPENCL_LIBSMM_SOURCE_TRANSPOSE,
-              build_options, build_params, fname, &new_config.kernel);
+            result = c_dbcsr_acc_opencl_kernel(OPENCL_LIBSMM_SOURCE_TRANSPOSE, fname,
+              build_params, build_options, NULL/*try*/, NULL/*try_ok*/,
+              &new_config.kernel);
             if (EXIT_SUCCESS == result) {
               result = c_dbcsr_acc_opencl_wgsize(active_device,
                 new_config.kernel, &wgsize_max, NULL/*prefmult*/);
@@ -674,8 +675,9 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
                   nchar = ACC_OPENCL_SNPRINTF(build_params, sizeof(build_params),
                     param_format, cmem, inplace, fname, m, n, wgsize, tname);
                   if (0 < nchar && (int)sizeof(build_params) > nchar) {
-                    result = c_dbcsr_acc_opencl_kernel(OPENCL_LIBSMM_SOURCE_TRANSPOSE,
-                      build_options, build_params, fname, &new_config.kernel);
+                    result = c_dbcsr_acc_opencl_kernel(OPENCL_LIBSMM_SOURCE_TRANSPOSE, fname,
+                      build_params, build_options, NULL/*try*/, NULL/*try_ok*/,
+                      &new_config.kernel);
                   }
                   else result = EXIT_FAILURE;
                 }
@@ -972,6 +974,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
             default: assert(NULL == tname);
           }
           if (NULL != tname) {
+            static int cl_try_ok = EXIT_SUCCESS;
             int cl_intel_id = 0, unified = 0;
             const char *const env_wg = getenv("OPENCL_LIBSMM_SMM_WG");
             const char *const env_lu = getenv("OPENCL_LIBSMM_SMM_LU"), *const env_nz = getenv("OPENCL_LIBSMM_SMM_NZ");
@@ -980,6 +983,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
             const int cl_nonv = ((EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(active_device, "intel")
                                && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_id(active_device, "%[^[][0x%xi]", &cl_intel_id))
                                || EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(active_device, "nvidia"));
+            const char *const cl_try = ((EXIT_SUCCESS == cl_try_ok && 0 != cl_intel_id) ? "-cl-intel-disable-a64WA" : "");
             const int wg = ((NULL == env_wg || '\0' == *env_wg)
               ? (NULL == config ? /*default*/0 : config->wg) : LIBXSMM_CLMP(atoi(env_wg), 0, 2));
             const int lu = ((NULL == env_lu || '\0' == *env_lu)
@@ -1123,7 +1127,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                   atomic_type, atomic_ops, atomic_exp, atomic_expr2);
                 if (0 < nchar && (int)sizeof(build_params) > nchar) {
                   nchar = ACC_OPENCL_SNPRINTF(build_options, sizeof(build_options),
-                    "%s %s -cl-fast-relaxed-math -cl-no-signed-zeros -cl-denorms-are-zero",
+                    "%s %s -cl-fast-relaxed-math -cl-denorms-are-zero",
                     (NULL == env_options || '\0' == *env_options) ? "" : env_options, cl_debug);
                   if (0 >= nchar || (int)sizeof(build_options) <= nchar) result = EXIT_FAILURE;
                 }
@@ -1145,8 +1149,9 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 (cl_nonv)
                   ? (OPENCL_LIBSMM_SOURCE_MULTIPLY)
                   : ("#pragma OPENCL EXTENSION all: enable\n"
-                     OPENCL_LIBSMM_STRING_MULTIPLY)),
-                build_options, build_params, fname, &new_config.kernel);
+                     OPENCL_LIBSMM_STRING_MULTIPLY)), fname,
+                build_params, build_options, cl_try, &cl_try_ok,
+                &new_config.kernel);
               if (EXIT_SUCCESS == result) {
                 result = c_dbcsr_acc_opencl_wgsize(active_device,
                   new_config.kernel, &wgsize_max, NULL/*prefmult*/);
