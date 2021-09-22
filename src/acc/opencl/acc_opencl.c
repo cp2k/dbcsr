@@ -703,16 +703,17 @@ int c_dbcsr_acc_opencl_wgsize(cl_device_id device, cl_kernel kernel,
 }
 
 
-int c_dbcsr_acc_opencl_kernel(const char source[],
-  const char build_options[], const char build_params[],
-  const char kernel_name[], cl_kernel* kernel)
+int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[],
+  const char build_params[], const char build_options[],
+  const char try_build_options[], int* try_ok,
+  cl_kernel* kernel)
 {
   char buffer[ACC_OPENCL_BUFFERSIZE] = "", cl_std[16];
   cl_device_id active_id = NULL;
   cl_int result = (NULL != c_dbcsr_acc_opencl_context
     ? c_dbcsr_acc_opencl_device(NULL/*stream*/, &active_id)
     : EXIT_FAILURE);
-  int level_major, level_minor;
+  int level_major, level_minor, ok = EXIT_SUCCESS;
   assert(NULL != source && NULL != kernel);
   assert(NULL != kernel_name && '\0' != *kernel_name);
   if (EXIT_SUCCESS == result) {
@@ -775,12 +776,25 @@ int c_dbcsr_acc_opencl_kernel(const char source[],
         1/*nlines*/, &source, NULL, &result);
     }
     if (NULL != program) {
-      int nchar = ACC_OPENCL_SNPRINTF(buffer, sizeof(buffer), "%s %s %s", cl_std,
-        NULL != build_options ? build_options : "",
+      int nchar = ACC_OPENCL_SNPRINTF(buffer, sizeof(buffer), "%s %s %s %s",
+        cl_std, NULL != build_options ? build_options : "",
+        NULL != try_build_options ? try_build_options : "",
         NULL != build_params ? build_params : "");
       assert(CL_SUCCESS == result);
-      result = clBuildProgram(program, 1/*num_devices*/, &active_id,
-        buffer, NULL/*callback*/, NULL/*user_data*/);
+      result = ((0 < nchar && (int)sizeof(buffer) > nchar)
+        ? clBuildProgram(program, 1/*num_devices*/, &active_id,
+            buffer, NULL/*callback*/, NULL/*user_data*/)
+        : EXIT_FAILURE);
+      if (CL_SUCCESS != result && NULL != try_build_options && '\0' != *try_build_options) {
+        nchar = ACC_OPENCL_SNPRINTF(buffer, sizeof(buffer), "%s %s %s", cl_std,
+          NULL != build_options ? build_options : "",
+          NULL != build_params ? build_params : "");
+        result = ((0 < nchar && (int)sizeof(buffer) > nchar)
+          ? clBuildProgram(program, 1/*num_devices*/, &active_id,
+              buffer, NULL/*callback*/, NULL/*user_data*/)
+          : EXIT_FAILURE);
+        ok = EXIT_FAILURE;
+      }
       buffer[0] = '\0'; /* reset to empty */
       if (CL_SUCCESS == result) {
         *kernel = clCreateKernel(program, kernel_name, &result);
@@ -829,6 +843,7 @@ int c_dbcsr_acc_opencl_kernel(const char source[],
 #if !defined(NDEBUG)
   if (EXIT_SUCCESS != result) *kernel = NULL;
 #endif
+  if (NULL != try_ok) *try_ok = result | ok;
   ACC_OPENCL_RETURN_CAUSE(result, buffer);
 }
 

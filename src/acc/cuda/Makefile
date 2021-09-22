@@ -3,7 +3,9 @@
 
 MAKDIR := $(subst //,,$(dir $(firstword $(MAKEFILE_LIST)))/)
 INCACC := $(wildcard $(MAKDIR)/*.h*) $(MAKDIR)/../acc.h
-SRCACC := $(wildcard $(MAKDIR)/*.cpp)
+SRCACC := $(wildcard $(MAKDIR)/../cuda_hip/*.cpp) \
+          $(wildcard $(MAKDIR)/*.cpp) \
+          $(NULL)
 OBJACC := $(SRCACC:.cpp=.o)
 
 GPUSMM := $(wildcard $(MAKDIR)/../libsmm_acc/kernels/*.h*)
@@ -168,7 +170,7 @@ CXXFLAGS += -std=c++11 $(CFLAGS)
 bench: $(MAKDIR)/../acc_bench_smm $(MAKDIR)/../acc_bench_trans
 
 .PHONY: all
-all: $(MAKDIR)/../dbcsr_acc.a $(MAKDIR)/../dbcsr_acc_smm.a bench test
+all: $(MAKDIR)/../dbcsr_acc.a $(MAKDIR)/../dbcsr_acc_smm.a bench
 
 .PHONY: test
 test: test-interface test-trans test-smm

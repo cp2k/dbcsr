@@ -248,9 +248,10 @@ int c_dbcsr_acc_opencl_wgsize(cl_device_id device, cl_kernel kernel,
  * The build_params are meant to instantiate the kernel (-D) whereas build_options
  * are are meant to be compiler-flags.
  */
-int c_dbcsr_acc_opencl_kernel(const char source[],
-  const char build_options[], const char build_params[],
-  const char kernel_name[], cl_kernel* kernel);
+int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[],
+  const char build_params[], const char build_options[],
+  const char try_build_options[], int* try_ok,
+  cl_kernel* kernel);
 /** Create command queue (stream). */
 int c_dbcsr_acc_opencl_stream_create(cl_command_queue* stream_p, const char name[],
   const ACC_OPENCL_COMMAND_QUEUE_PROPERTIES* properties);
