@@ -27,6 +27,10 @@ if [ "${XARGS}" ] &&  [ "${SORT}" ] && [ "${HEAD}" ] && [ "${SED}" ] && [ "${CUT
     -l|--lines)
       LINES=1
       shift;;
+    -r|--bound)
+      BOUNDL=$2
+      BOUNDU=$3
+      shift 3;;
     -m|--limit)
       LIMIT=$2
       shift 2;;
@@ -92,12 +96,21 @@ if [ "${XARGS}" ] &&  [ "${SORT}" ] && [ "${HEAD}" ] && [ "${SED}" ] && [ "${CUT
       MNKS="${MNKS} $(eval printf "%s" "{${SPEC}}x{${SPEC}}x{${SPEC}}\" \"" | ${SED} -e "s/{//g" -e "s/}//g")"
     done
     if [ "${MNKS}" ]; then
+      if [ "${BOUNDL}" ] && [ "${BOUNDU}" ]; then
+        for MNK in $(echo "${MNKS}" | ${SED} "s/x/*/g"); do
+          S=$((MNK))
+          if [ "0" != "$((BOUNDL**3<S&&S<=BOUNDU**3))" ]; then
+            TMP="${TMP} ${MNK}"
+          fi
+        done
+        MNKS=$(echo "${TMP}" | ${SED} "s/*/x/g")
+      fi
       if [ "${CUTSEL}" ]; then
         MNK=$(echo "${MNKS}" | ${XARGS} -n1 | ${CUT} -dx ${CUTSEL} | ${SORT} -u -n -tx -k1 -k2 -k3 | \
-          if [ "0" != "$((0<SIZE))" ]; then ${HEAD} -n${SIZE}; else cat; fi)
+          if [ "0" != "$((0<SIZE))" ]; then ${HEAD} -n"${SIZE}"; else cat; fi)
       else
         MNK=$(echo "${MNKS}" | ${XARGS} -n1 | ${SORT} -u -n -tx -k1 -k2 -k3 | \
-          if [ "0" != "$((0<SIZE))" ]; then ${HEAD} -n${SIZE}; else cat; fi)
+          if [ "0" != "$((0<SIZE))" ]; then ${HEAD} -n"${SIZE}"; else cat; fi)
       fi
       if [ "0" = "${LINES}" ]; then
         echo "${MNK}" | ${XARGS}
@@ -109,6 +122,7 @@ if [ "${XARGS}" ] &&  [ "${SORT}" ] && [ "${HEAD}" ] && [ "${SED}" ] && [ "${CUT
     echo "Usage: $0 [options] [<triplet-spec>]"
     echo "       Options must precede triplet specification"
     echo "       -l|--lines: lines instead of list of words"
+    echo "       -r|--bound L U: limit L**3 < MNK <= U**3"
     echo "       -m|--limit N: limit shape extents to N"
     echo "       -n|--size  N: limit number of elements"
     echo "       -a|--amat: select MxK instead of MxNxK"
