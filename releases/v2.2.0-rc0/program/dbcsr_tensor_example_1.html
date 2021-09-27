@@ -1,0 +1,2906 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="">
+    
+    <meta name="author" content="DBCSR Authors" >
+    <link rel="icon" href="../favicon.png">
+
+    <title>dbcsr_tensor_example_1 &ndash; DBCSR</title>
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/pygments.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/local.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../js/jquery-2.1.3.min.js"></script>
+    <script src="../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.1.0-90-ga221523a5</small></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../page/index.html'>Guide</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../lists/types.html">Derived Types</a></li>
+        
+        
+            <li><a href="../lists/programs.html">Programs</a></li>
+               
+        
+        
+            </ul>
+        
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/types.html">Derived Types</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../lists/programs.html">Programs</a></li>
+
+
+
+          </ul>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  
+  <div class="row">
+    <h1>dbcsr_tensor_example_1
+    <small>Program</small>
+    
+    </h1>
+    
+<div class="row">
+  <div class="col-lg-12">
+<div class="well well-sm">
+  <ul class="list-inline" style="margin-bottom:0px;display:inline">
+     
+     
+     
+     
+     
+    
+    
+     <li><i class="fa fa-list-ol"></i>
+       <a data-toggle="tooltip"
+    data-placement="bottom" data-html="true"
+    title="30.1% of total for programs.">513 statements</a>
+     </li> 
+     
+     
+     
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor_example_1.F"> Source File</a></li>
+     
+     
+  </ul>
+  <ol class="breadcrumb in-well text-right">
+  
+    
+     <li><a href='../sourcefile/dbcsr_tensor_example_1.f.html'>dbcsr_tensor_example_1.F</a></li>
+    
+  
+     <li class="active">dbcsr_tensor_example_1</li>
+  </ol>
+</div>
+</div>
+</div>
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
+
+  </div>
+  
+  <div class="row">
+    <div class="col-md-3 hidden-xs hidden-sm visible-md visible-lg">
+    
+<div id="sidebar">
+  
+<h3>Contents</h3>
+ 
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-0">Variables</a></h3></div>
+  <div id="vars-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-example_type">example_type</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-filter_eps~24">filter_eps</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-nbatch~2">nbatch</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-alpha~53">alpha</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-beta~19">beta</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-gamma">gamma</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-max_bsize">max_bsize</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-nel~3">nel</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-scale_exp">scale_exp</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-contract_direct">contract_direct</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-contract_batched">contract_batched</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-verbosity~3">verbosity</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-ierr~3">ierr</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-numnodes~19">numnodes</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-mynode~15">mynode</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-node_holds_blk~2">node_holds_blk</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-io_unit~20">io_unit</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-io_unit_dbcsr">io_unit_dbcsr</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-ind~50">ind</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-row~125">row</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-col~75">col</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk~15">blk</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-group~47">group</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-i~7">i</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-j">j</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-k~5">k</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-l">l</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-n~56">n</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-o">o</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-i_arr">i_arr</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-j_arr">j_arr</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-k_arr">k_arr</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-l_arr">l_arr</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-n_arr">n_arr</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-o_arr">o_arr</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_size~9">blk_size</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-min_exp">min_exp</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-min_exp_ij">min_exp_ij</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-min_exp_ik">min_exp_ik</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-min_exp_jk">min_exp_jk</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-min_exp_il">min_exp_il</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-min_exp_in">min_exp_in</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-min_exp_ln">min_exp_ln</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-ibatch~2">ibatch</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-jbatch">jbatch</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-lbatch">lbatch</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-mbatch">mbatch</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-offset_i">offset_i</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-offset_j">offset_j</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-offset_l">offset_l</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-offset_k">offset_k</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-offset_n">offset_n</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-tmp">tmp</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-start_batch_i">start_batch_i</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-start_batch_j">start_batch_j</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-start_batch_l">start_batch_l</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-start_batch_m">start_batch_m</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-end_batch_i">end_batch_i</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-end_batch_j">end_batch_j</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-end_batch_l">end_batch_l</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-end_batch_m">end_batch_m</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_ind_1~5">blk_ind_1</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_ind_2~5">blk_ind_2</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_ind_3~5">blk_ind_3</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_size_i">blk_size_i</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_size_j">blk_size_j</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_size_k">blk_size_k</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_size_l">blk_size_l</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_size_m">blk_size_m</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_size_n">blk_size_n</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_size_o">blk_size_o</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-dist_1">dist_1</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-dist_2">dist_2</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-dist_3">dist_3</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-dist_4">dist_4</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-bounds_1~7">bounds_1</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-bounds_2~7">bounds_2</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-bounds_3~6">bounds_3</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-row_dist~16">row_dist</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-col_dist~16">col_dist</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-row_blk_size~13">row_blk_size</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-col_blk_size~13">col_blk_size</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-row_offset~29">row_offset</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-col_offset~28">col_offset</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-shape_2d">shape_2d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_ind_2d">blk_ind_2d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_size_2d">blk_size_2d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_offset_2d">blk_offset_2d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-pdims_2d~3">pdims_2d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_ind_3d">blk_ind_3d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-pdims_3d~2">pdims_3d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-shape_3d">shape_3d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_size_3d">blk_size_3d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_offset_3d">blk_offset_3d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-shape_4d">shape_4d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-pdims_4d~2">pdims_4d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-shape_ijklmno">shape_ijklmno</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-nflop_sum">nflop_sum</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-nflop">nflop</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-cs">cs</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-t1">t1</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-t0">t0</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-time">time</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-flop_rate">flop_rate</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_values_2d">blk_values_2d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_values_3d">blk_values_3d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-tr~38">tr</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-period~2">period</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-c_matrix~89">c_matrix</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-dist_matrix">dist_matrix</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-iter_matrix">iter_matrix</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-pgrid_3d~2">pgrid_3d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-pgrid_4d~2">pgrid_4d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-dist_tensor">dist_tensor</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-a_ijk">a_ijk</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-a_lmk">a_lmk</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-b_iln">b_iln</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-c_no">c_no</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-d_ijlm">d_ijlm</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-e_jmn">e_jmn</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-f_jmo">f_jmo</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-iter_tensor">iter_tensor</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-0">Functions</a></h3></div>
+  <div id="funcs-0" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#proc-block_minabsdiff">block_minabsdiff</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-0">Subroutines</a></h3></div>
+  <div class="list-group">
+    <div id="subs-0" class="panel-collapse collapse">
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#proc-random_blk_sizes">random_blk_sizes</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#proc-create_batches">create_batches</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+</div>
+
+    </div>
+    
+    <div class="col-md-9" id='text'>
+    
+  
+    <div class="panel panel-default">
+      <div class="panel-heading">
+  <h3 class="panel-title">Uses</h3>
+      </div>
+      <ul class="list-group">
+      
+      <li class="list-group-item">
+  <ul class="list-inline">
+    
+    <li><a href="http://www.mpi-forum.org/docs/mpi-3.1/mpi31-report/node410.htm">mpi</a></li>
+    
+    <li><a href="http://fortranwiki.org/fortran/show/iso_fortran_env">iso_fortran_env</a></li>
+    
+    <li><a href='../module/dbcsr_tensor_api.html'>dbcsr_tensor_api</a></li>
+    
+    <li><a href='../module/dbcsr_api.html'>dbcsr_api</a></li>
+    
+  </ul>
+      </li>
+      
+      
+      
+      </ul>
+    </div>
+    
+
+    <p>Sparse tensor contraction example</p>
+    
+    <br>
+
+     <section class="visible-xs visible-sm hidden-md">
+       
+<h3>Contents</h3>
+ 
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#vars-1">Variables</a></h3></div>
+  <div id="vars-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-example_type">example_type</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-filter_eps~24">filter_eps</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-nbatch~2">nbatch</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-alpha~53">alpha</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-beta~19">beta</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-gamma">gamma</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-max_bsize">max_bsize</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-nel~3">nel</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-scale_exp">scale_exp</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-contract_direct">contract_direct</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-contract_batched">contract_batched</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-verbosity~3">verbosity</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-ierr~3">ierr</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-numnodes~19">numnodes</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-mynode~15">mynode</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-node_holds_blk~2">node_holds_blk</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-io_unit~20">io_unit</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-io_unit_dbcsr">io_unit_dbcsr</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-ind~50">ind</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-row~125">row</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-col~75">col</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk~15">blk</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-group~47">group</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-i~7">i</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-j">j</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-k~5">k</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-l">l</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-n~56">n</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-o">o</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-i_arr">i_arr</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-j_arr">j_arr</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-k_arr">k_arr</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-l_arr">l_arr</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-n_arr">n_arr</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-o_arr">o_arr</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_size~9">blk_size</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-min_exp">min_exp</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-min_exp_ij">min_exp_ij</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-min_exp_ik">min_exp_ik</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-min_exp_jk">min_exp_jk</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-min_exp_il">min_exp_il</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-min_exp_in">min_exp_in</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-min_exp_ln">min_exp_ln</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-ibatch~2">ibatch</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-jbatch">jbatch</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-lbatch">lbatch</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-mbatch">mbatch</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-offset_i">offset_i</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-offset_j">offset_j</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-offset_l">offset_l</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-offset_k">offset_k</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-offset_n">offset_n</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-tmp">tmp</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-start_batch_i">start_batch_i</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-start_batch_j">start_batch_j</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-start_batch_l">start_batch_l</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-start_batch_m">start_batch_m</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-end_batch_i">end_batch_i</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-end_batch_j">end_batch_j</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-end_batch_l">end_batch_l</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-end_batch_m">end_batch_m</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_ind_1~5">blk_ind_1</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_ind_2~5">blk_ind_2</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_ind_3~5">blk_ind_3</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_size_i">blk_size_i</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_size_j">blk_size_j</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_size_k">blk_size_k</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_size_l">blk_size_l</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_size_m">blk_size_m</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_size_n">blk_size_n</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_size_o">blk_size_o</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-dist_1">dist_1</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-dist_2">dist_2</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-dist_3">dist_3</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-dist_4">dist_4</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-bounds_1~7">bounds_1</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-bounds_2~7">bounds_2</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-bounds_3~6">bounds_3</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-row_dist~16">row_dist</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-col_dist~16">col_dist</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-row_blk_size~13">row_blk_size</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-col_blk_size~13">col_blk_size</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-row_offset~29">row_offset</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-col_offset~28">col_offset</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-shape_2d">shape_2d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_ind_2d">blk_ind_2d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_size_2d">blk_size_2d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_offset_2d">blk_offset_2d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-pdims_2d~3">pdims_2d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_ind_3d">blk_ind_3d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-pdims_3d~2">pdims_3d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-shape_3d">shape_3d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_size_3d">blk_size_3d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_offset_3d">blk_offset_3d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-shape_4d">shape_4d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-pdims_4d~2">pdims_4d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-shape_ijklmno">shape_ijklmno</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-nflop_sum">nflop_sum</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-nflop">nflop</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-cs">cs</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-t1">t1</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-t0">t0</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-time">time</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-flop_rate">flop_rate</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_values_2d">blk_values_2d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-blk_values_3d">blk_values_3d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-tr~38">tr</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-period~2">period</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-c_matrix~89">c_matrix</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-dist_matrix">dist_matrix</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-iter_matrix">iter_matrix</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-pgrid_3d~2">pgrid_3d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-pgrid_4d~2">pgrid_4d</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-dist_tensor">dist_tensor</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-a_ijk">a_ijk</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-a_lmk">a_lmk</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-b_iln">b_iln</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-c_no">c_no</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-d_ijlm">d_ijlm</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-e_jmn">e_jmn</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-f_jmo">f_jmo</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#variable-iter_tensor">iter_tensor</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#funcs-1">Functions</a></h3></div>
+  <div id="funcs-1" class="panel-collapse collapse">
+    <div class="list-group">
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#proc-block_minabsdiff">block_minabsdiff</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title"><a data-toggle="collapse" href="#subs-1">Subroutines</a></h3></div>
+  <div class="list-group">
+    <div id="subs-1" class="panel-collapse collapse">
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#proc-random_blk_sizes">random_blk_sizes</a>
+      
+      <a class="list-group-item" href="../program/dbcsr_tensor_example_1.html#proc-create_batches">create_batches</a>
+      
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+     </section>
+     <br class="visible-xs visible-sm hidden-md">
+
+     
+
+    
+    <section>
+    <h2>Variables</h2>
+    
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+
+<th>Attributes</th><th></th><th>Name</th><th></th><th>Initial</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-example_type"></span>integer,</td>
+  
+  
+  <td>parameter</td><td>::</td>
+  <td><strong>example_type</strong></td><td> =</td><td>2</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-filter_eps~24"></span>real(kind=real64),</td>
+  
+  
+  <td>parameter</td><td>::</td>
+  <td><strong>filter_eps</strong></td><td> =</td><td>1.0e-08_real64</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nbatch~2"></span>integer,</td>
+  
+  
+  <td>parameter</td><td>::</td>
+  <td><strong>nbatch</strong></td><td> =</td><td>8</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-alpha~53"></span>real(kind=real64)</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>alpha</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-beta~19"></span>real(kind=real64)</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>beta</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-gamma"></span>real(kind=real64)</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>gamma</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-max_bsize"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>max_bsize</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nel~3"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>nel</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-scale_exp"></span>real(kind=real64)</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>scale_exp</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-contract_direct"></span>logical</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>contract_direct</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-contract_batched"></span>logical</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>contract_batched</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-verbosity~3"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>verbosity</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-ierr~3"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>ierr</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-numnodes~19"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>numnodes</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-mynode~15"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>mynode</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-node_holds_blk~2"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>node_holds_blk</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-io_unit~20"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>io_unit</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-io_unit_dbcsr"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>io_unit_dbcsr</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-ind~50"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>ind</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-row~125"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>row</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-col~75"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>col</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-blk~15"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>blk</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-group~47"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>group</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-i~7"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>i</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-j"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>j</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-k~5"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>k</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-l"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>l</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-n~56"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>n</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-o"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>o</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-i_arr"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>i_arr</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-j_arr"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>j_arr</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-k_arr"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>k_arr</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-l_arr"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>l_arr</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-n_arr"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>n_arr</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-o_arr"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>o_arr</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-blk_size~9"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>blk_size</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-min_exp"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>min_exp</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-min_exp_ij"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>min_exp_ij</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-min_exp_ik"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>min_exp_ik</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-min_exp_jk"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>min_exp_jk</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-min_exp_il"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>min_exp_il</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-min_exp_in"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>min_exp_in</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-min_exp_ln"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>min_exp_ln</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-ibatch~2"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>ibatch</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-jbatch"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>jbatch</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-lbatch"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>lbatch</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-mbatch"></span>integer</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>mbatch</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-offset_i"></span>integer,</td>
+  
+  
+  <td>dimension(:), allocatable</td><td>::</td>
+  <td><strong>offset_i</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-offset_j"></span>integer,</td>
+  
+  
+  <td>dimension(:), allocatable</td><td>::</td>
+  <td><strong>offset_j</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-offset_l"></span>integer,</td>
+  
+  
+  <td>dimension(:), allocatable</td><td>::</td>
+  <td><strong>offset_l</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-offset_k"></span>integer,</td>
+  
+  
+  <td>dimension(:), allocatable</td><td>::</td>
+  <td><strong>offset_k</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-offset_n"></span>integer,</td>
+  
+  
+  <td>dimension(:), allocatable</td><td>::</td>
+  <td><strong>offset_n</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-tmp"></span>integer,</td>
+  
+  
+  <td>dimension(:), allocatable</td><td>::</td>
+  <td><strong>tmp</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-start_batch_i"></span>integer,</td>
+  
+  
+  <td>dimension(:), allocatable</td><td>::</td>
+  <td><strong>start_batch_i</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-start_batch_j"></span>integer,</td>
+  
+  
+  <td>dimension(:), allocatable</td><td>::</td>
+  <td><strong>start_batch_j</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-start_batch_l"></span>integer,</td>
+  
+  
+  <td>dimension(:), allocatable</td><td>::</td>
+  <td><strong>start_batch_l</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-start_batch_m"></span>integer,</td>
+  
+  
+  <td>dimension(:), allocatable</td><td>::</td>
+  <td><strong>start_batch_m</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-end_batch_i"></span>integer,</td>
+  
+  
+  <td>dimension(:), allocatable</td><td>::</td>
+  <td><strong>end_batch_i</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-end_batch_j"></span>integer,</td>
+  
+  
+  <td>dimension(:), allocatable</td><td>::</td>
+  <td><strong>end_batch_j</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-end_batch_l"></span>integer,</td>
+  
+  
+  <td>dimension(:), allocatable</td><td>::</td>
+  <td><strong>end_batch_l</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-end_batch_m"></span>integer,</td>
+  
+  
+  <td>dimension(:), allocatable</td><td>::</td>
+  <td><strong>end_batch_m</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-blk_ind_1~5"></span>integer,</td>
+  
+  
+  <td>dimension(:), allocatable, target</td><td>::</td>
+  <td><strong>blk_ind_1</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-blk_ind_2~5"></span>integer,</td>
+  
+  
+  <td>dimension(:), allocatable, target</td><td>::</td>
+  <td><strong>blk_ind_2</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-blk_ind_3~5"></span>integer,</td>
+  
+  
+  <td>dimension(:), allocatable, target</td><td>::</td>
+  <td><strong>blk_ind_3</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-blk_size_i"></span>integer,</td>
+  
+  
+  <td>dimension(:), allocatable, target</td><td>::</td>
+  <td><strong>blk_size_i</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-blk_size_j"></span>integer,</td>
+  
+  
+  <td>dimension(:), allocatable, target</td><td>::</td>
+  <td><strong>blk_size_j</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-blk_size_k"></span>integer,</td>
+  
+  
+  <td>dimension(:), allocatable, target</td><td>::</td>
+  <td><strong>blk_size_k</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-blk_size_l"></span>integer,</td>
+  
+  
+  <td>dimension(:), allocatable, target</td><td>::</td>
+  <td><strong>blk_size_l</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-blk_size_m"></span>integer,</td>
+  
+  
+  <td>dimension(:), allocatable, target</td><td>::</td>
+  <td><strong>blk_size_m</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-blk_size_n"></span>integer,</td>
+  
+  
+  <td>dimension(:), allocatable, target</td><td>::</td>
+  <td><strong>blk_size_n</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-blk_size_o"></span>integer,</td>
+  
+  
+  <td>dimension(:), allocatable, target</td><td>::</td>
+  <td><strong>blk_size_o</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dist_1"></span>integer,</td>
+  
+  
+  <td>dimension(:), allocatable, target</td><td>::</td>
+  <td><strong>dist_1</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dist_2"></span>integer,</td>
+  
+  
+  <td>dimension(:), allocatable, target</td><td>::</td>
+  <td><strong>dist_2</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dist_3"></span>integer,</td>
+  
+  
+  <td>dimension(:), allocatable, target</td><td>::</td>
+  <td><strong>dist_3</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dist_4"></span>integer,</td>
+  
+  
+  <td>dimension(:), allocatable, target</td><td>::</td>
+  <td><strong>dist_4</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-bounds_1~7"></span>integer,</td>
+  
+  
+  <td>dimension(:, :), allocatable</td><td>::</td>
+  <td><strong>bounds_1</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-bounds_2~7"></span>integer,</td>
+  
+  
+  <td>dimension(:, :), allocatable</td><td>::</td>
+  <td><strong>bounds_2</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-bounds_3~6"></span>integer,</td>
+  
+  
+  <td>dimension(:, :), allocatable</td><td>::</td>
+  <td><strong>bounds_3</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-row_dist~16"></span>integer,</td>
+  
+  
+  <td>dimension(:), pointer</td><td>::</td>
+  <td><strong>row_dist</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-col_dist~16"></span>integer,</td>
+  
+  
+  <td>dimension(:), pointer</td><td>::</td>
+  <td><strong>col_dist</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-row_blk_size~13"></span>integer,</td>
+  
+  
+  <td>dimension(:), pointer</td><td>::</td>
+  <td><strong>row_blk_size</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-col_blk_size~13"></span>integer,</td>
+  
+  
+  <td>dimension(:), pointer</td><td>::</td>
+  <td><strong>col_blk_size</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-row_offset~29"></span>integer,</td>
+  
+  
+  <td>dimension(:), pointer</td><td>::</td>
+  <td><strong>row_offset</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-col_offset~28"></span>integer,</td>
+  
+  
+  <td>dimension(:), pointer</td><td>::</td>
+  <td><strong>col_offset</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-shape_2d"></span>integer,</td>
+  
+  
+  <td>dimension(2)</td><td>::</td>
+  <td><strong>shape_2d</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-blk_ind_2d"></span>integer,</td>
+  
+  
+  <td>dimension(2)</td><td>::</td>
+  <td><strong>blk_ind_2d</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-blk_size_2d"></span>integer,</td>
+  
+  
+  <td>dimension(2)</td><td>::</td>
+  <td><strong>blk_size_2d</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-blk_offset_2d"></span>integer,</td>
+  
+  
+  <td>dimension(2)</td><td>::</td>
+  <td><strong>blk_offset_2d</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-pdims_2d~3"></span>integer,</td>
+  
+  
+  <td>dimension(2)</td><td>::</td>
+  <td><strong>pdims_2d</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-blk_ind_3d"></span>integer,</td>
+  
+  
+  <td>dimension(3)</td><td>::</td>
+  <td><strong>blk_ind_3d</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-pdims_3d~2"></span>integer,</td>
+  
+  
+  <td>dimension(3)</td><td>::</td>
+  <td><strong>pdims_3d</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-shape_3d"></span>integer,</td>
+  
+  
+  <td>dimension(3)</td><td>::</td>
+  <td><strong>shape_3d</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-blk_size_3d"></span>integer,</td>
+  
+  
+  <td>dimension(3)</td><td>::</td>
+  <td><strong>blk_size_3d</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-blk_offset_3d"></span>integer,</td>
+  
+  
+  <td>dimension(3)</td><td>::</td>
+  <td><strong>blk_offset_3d</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-shape_4d"></span>integer,</td>
+  
+  
+  <td>dimension(4)</td><td>::</td>
+  <td><strong>shape_4d</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-pdims_4d~2"></span>integer,</td>
+  
+  
+  <td>dimension(4)</td><td>::</td>
+  <td><strong>pdims_4d</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-shape_ijklmno"></span>integer,</td>
+  
+  
+  <td>dimension(7)</td><td>::</td>
+  <td><strong>shape_ijklmno</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nflop_sum"></span>integer(kind=int64)</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>nflop_sum</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-nflop"></span>integer(kind=int64)</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>nflop</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-cs"></span>real(kind=real64)</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>cs</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-t1"></span>real(kind=real64)</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>t1</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-t0"></span>real(kind=real64)</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>t0</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-time"></span>real(kind=real64)</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>time</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-flop_rate"></span>real(kind=real64)</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>flop_rate</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-blk_values_2d"></span>real(kind=real64),</td>
+  
+  
+  <td>dimension(:, :), pointer</td><td>::</td>
+  <td><strong>blk_values_2d</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-blk_values_3d"></span>real(kind=real64),</td>
+  
+  
+  <td>dimension(:, :, :), allocatable</td><td>::</td>
+  <td><strong>blk_values_3d</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-tr~38"></span>logical</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>tr</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-period~2"></span>logical,</td>
+  
+  
+  <td>dimension(2)</td><td>::</td>
+  <td><strong>period</strong></td><td> =</td><td>.true.</td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-c_matrix~89"></span>type(<a href='../type/dbcsr_type~2.html'>dbcsr_type</a>)</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>c_matrix</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dist_matrix"></span>type(<a href='../type/dbcsr_distribution_type~2.html'>dbcsr_distribution_type</a>)</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>dist_matrix</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-iter_matrix"></span>type(<a href='../type/dbcsr_iterator_type.html'>dbcsr_iterator_type</a>)</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>iter_matrix</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-pgrid_3d~2"></span>type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>)</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>pgrid_3d</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-pgrid_4d~2"></span>type(<a href='../type/dbcsr_t_pgrid_type.html'>dbcsr_t_pgrid_type</a>)</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>pgrid_4d</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-dist_tensor"></span>type(<a href='../type/dbcsr_t_distribution_type.html'>dbcsr_t_distribution_type</a>)</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>dist_tensor</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-a_ijk"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>)</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>a_ijk</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-a_lmk"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>)</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>a_lmk</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-b_iln"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>)</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>b_iln</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-c_no"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>)</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>c_no</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-d_ijlm"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>)</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>d_ijlm</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-e_jmn"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>)</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>e_jmn</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-f_jmo"></span>type(<a href='../type/dbcsr_t_type.html'>dbcsr_t_type</a>)</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>f_jmo</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-iter_tensor"></span>type(<a href='../type/dbcsr_t_iterator_type.html'>dbcsr_t_iterator_type</a>)</td>
+  
+  
+  <td></td><td>::</td>
+  <td><strong>iter_tensor</strong></td><td></td><td></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+    </section>
+    <br>
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+     
+    <section>
+    <h2>Functions</h2>
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-block_minabsdiff"></span><h3>
+function <a href='../proc/block_minabsdiff.html'>block_minabsdiff</a>(offset_1, offset_2, size_1, size_2)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>offset_1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>offset_2</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>size_1</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>size_2</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  
+  
+  
+  
+     <h4>Return Value <small>integer
+  </small></h4>
+  
+    
+
+  </div>
+  </div>
+
+    
+    </section>
+    <br>
+    
+
+
+    
+    <section>
+    <h2>Subroutines</h2>
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-random_blk_sizes"></span><h3>
+subroutine <a href='../proc/random_blk_sizes.html'>random_blk_sizes</a>(total_size, nblk, blk_sizes)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>total_size</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nblk</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>allocatable</td><td>::</td>
+  <td><strong>blk_sizes</strong>(:)</td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    
+  <div class="panel panel-default">
+  <div class="panel-heading codesum"><span class="anchor" id="proc-create_batches"></span><h3>
+subroutine <a href='../proc/create_batches.html'>create_batches</a>(blk_sizes, nbatch, start_batch, end_batch)
+    
+    
+   
+</h3></div>
+  <div class="panel-body">
+       
+    
+    
+    <h4>Arguments</h4>
+    
+      
+      
+<table class="table table-striped varlist">
+<thead><tr><th>Type</th>
+<th>Intent</th><th>Optional</th>
+<th>Attributes</th><th></th><th>Name</th><th></th></thead>
+
+
+
+<tbody>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>dimension(:)</td><td>::</td>
+  <td><strong>blk_sizes</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>nbatch</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>dimension(:), allocatable</td><td>::</td>
+  <td><strong>start_batch</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" ></span>integer,</td>
+  <td>intent(out),</td>
+  <td></td>
+  
+  <td>dimension(:), allocatable</td><td>::</td>
+  <td><strong>end_batch</strong></td><td></td>
+  
+</tr>
+
+</tbody>
+</table>
+
+      
+    
+    
+
+  </div>
+  </div>
+
+    
+    </section>    
+    
+    
+    
+    
+    </div>
+  </div>
+
+  
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+                                          </p>
+        </div>
+        <div class="col-xs-6 col-md-6">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            
+            
+          </p>
+        </div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    
+  </body>
+</html>

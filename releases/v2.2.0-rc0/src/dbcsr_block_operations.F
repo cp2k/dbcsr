@@ -1,0 +1,3654 @@
+# 1 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F" 1
+!--------------------------------------------------------------------------------------------------!
+! Copyright (C) by the DBCSR developers group - All rights reserved                                !
+! This file is part of the DBCSR library.                                                          !
+!                                                                                                  !
+! For information on the license, see the LICENSE file.                                            !
+! For further information please visit https://dbcsr.cp2k.org                                      !
+! SPDX-License-Identifier: GPL-2.0+                                                                !
+!--------------------------------------------------------------------------------------------------!
+
+MODULE dbcsr_block_operations
+   !! Routines for basic block transformations.
+
+   USE dbcsr_acc_devmem, ONLY: acc_devmem_allocated, &
+                               acc_devmem_setzero_bytes
+   USE dbcsr_data_methods_low, ONLY: dbcsr_data_exists, &
+                                     dbcsr_data_get_size, &
+                                     dbcsr_data_get_size_referenced, &
+                                     dbcsr_data_get_type, &
+                                     dbcsr_data_verify_bounds, &
+                                     dbcsr_type_2d_to_1d, &
+                                     dbcsr_type_is_2d
+   USE dbcsr_ptr_util, ONLY: memory_copy
+   USE dbcsr_types, ONLY: &
+      dbcsr_data_obj, dbcsr_datatype_sizeof, dbcsr_scalar_type, dbcsr_type_complex_4, &
+      dbcsr_type_complex_4_2d, dbcsr_type_complex_8, dbcsr_type_complex_8_2d, dbcsr_type_real_4, &
+      dbcsr_type_real_4_2d, dbcsr_type_real_8, dbcsr_type_real_8_2d
+   USE dbcsr_kinds, ONLY: dp, &
+                          real_4, &
+                          real_8, &
+                          sp
+#include "base/dbcsr_base_uses.f90"
+
+!$ USE OMP_LIB, ONLY: omp_get_max_threads, omp_get_thread_num, omp_get_num_threads
+   IMPLICIT NONE
+#if defined(__LIBXSMM) && TO_VERSION(1, 10) < TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
+#  define __LIBXSMM_BLOCKOPS
+#endif
+#if defined(__LIBXSMM) && TO_VERSION(1, 10) <= TO_VERSION(LIBXSMM_CONFIG_VERSION_MAJOR, LIBXSMM_CONFIG_VERSION_MINOR)
+#  define __LIBXSMM_TRANS
+#endif
+#if defined(__MKL) || defined(__LIBXSMM_TRANS) || defined(__LIBXSMM_BLOCKOPS) || !defined(NDEBUG)
+!  MKL: mkl_trans.fi header is obsolescent (use implicit "interface")
+#  define PURE_BLOCKOPS
+#else
+!  MKL: routines are impure, LIBXSMM: C_LOC is impure (F-standard mistake)
+#  define PURE_BLOCKOPS PURE
+#endif
+   PRIVATE
+
+   CHARACTER(len=*), PARAMETER, PRIVATE :: moduleN = 'dbcsr_block_operations'
+
+   PUBLIC :: dbcsr_block_transpose, dbcsr_block_transpose_aa, dbcsr_data_set
+   PUBLIC :: dbcsr_block_copy_aa, dbcsr_block_partial_copy
+   PUBLIC :: dbcsr_data_clear
+   PUBLIC :: dbcsr_block_scale, dbcsr_block_conjg, dbcsr_block_real_neg
+
+   PUBLIC :: dbcsr_data_copy
+
+   PUBLIC :: block_add
+
+   ! For quick access
+   PUBLIC :: block_copy_s, block_copy_d, &
+             block_copy_c, block_copy_z
+
+   INTERFACE dbcsr_block_transpose
+      MODULE PROCEDURE block_transpose_inplace_s, block_transpose_inplace_d, &
+         block_transpose_inplace_c, block_transpose_inplace_z
+      MODULE PROCEDURE block_transpose_copy_d, block_transpose_copy_s, &
+         block_transpose_copy_z, block_transpose_copy_c
+      MODULE PROCEDURE block_transpose_copy_2d1d_d, &
+         block_transpose_copy_2d1d_s, &
+         block_transpose_copy_2d1d_z, &
+         block_transpose_copy_2d1d_c
+      MODULE PROCEDURE block_transpose_copy_1d2d_d, &
+         block_transpose_copy_1d2d_s, &
+         block_transpose_copy_1d2d_z, &
+         block_transpose_copy_1d2d_c
+      MODULE PROCEDURE dbcsr_block_transpose_aa, dbcsr_block_transpose_a
+   END INTERFACE
+
+   INTERFACE dbcsr_block_copy
+      MODULE PROCEDURE block_copy_2d1d_s, block_copy_2d1d_d, &
+         block_copy_2d1d_c, block_copy_2d1d_z
+      MODULE PROCEDURE block_copy_1d2d_s, block_copy_1d2d_d, &
+         block_copy_1d2d_c, block_copy_1d2d_z
+      MODULE PROCEDURE block_copy_1d1d_s, block_copy_1d1d_d, &
+         block_copy_1d1d_c, block_copy_1d1d_z
+      MODULE PROCEDURE block_copy_2d2d_s, block_copy_2d2d_d, &
+         block_copy_2d2d_c, block_copy_2d2d_z
+   END INTERFACE
+
+   INTERFACE dbcsr_data_clear
+      MODULE PROCEDURE dbcsr_data_clear_nt
+      MODULE PROCEDURE dbcsr_data_clear0
+   END INTERFACE
+
+   ! Supports copy between two data areas, or to a data area from a
+   ! given explicit array.
+   INTERFACE dbcsr_data_set
+      MODULE PROCEDURE dbcsr_data_copy_aa, dbcsr_data_set_as, &
+         dbcsr_data_set_ad, dbcsr_data_set_ac, dbcsr_data_set_az
+   END INTERFACE
+
+   INTERFACE dbcsr_data_copy
+      MODULE PROCEDURE dbcsr_data_copy_aa2, dbcsr_data_set_as, &
+         dbcsr_data_set_ad, dbcsr_data_set_ac, dbcsr_data_set_az
+   END INTERFACE
+
+   INTERFACE block_add
+      MODULE PROCEDURE block_add_anytype
+      MODULE PROCEDURE block_add_anytype_bounds
+      MODULE PROCEDURE block_add_s, block_add_d, block_add_c, block_add_z
+   END INTERFACE block_add
+
+   LOGICAL, PARAMETER :: debug_mod = .FALSE.
+   LOGICAL, PARAMETER :: careful_mod = .FALSE.
+
+CONTAINS
+
+   SUBROUTINE dbcsr_block_transpose_aa(dst, src, &
+                                       row_size, col_size, lb, source_lb, scale, lb2, source_lb2)
+      !! Copy data from one data area to another.
+      !! There are no checks done for correctness!
+
+      TYPE(dbcsr_data_obj), INTENT(INOUT)                :: dst
+         !! destination data area
+      TYPE(dbcsr_data_obj), INTENT(IN)                   :: src
+         !! source data area
+      INTEGER, INTENT(IN)                                :: row_size, col_size
+         !! row size of existing block
+         !! column size of existing block
+      INTEGER, INTENT(IN), OPTIONAL                      :: lb, source_lb
+         !! lower bound for destination (and source if not given explicitly)
+         !! lower bound of source
+      TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: scale
+         !! scale data
+      INTEGER, INTENT(IN), OPTIONAL                      :: lb2, source_lb2
+         !! lower bound of 2nd dimension for target
+         !! lower bound of 2nd dimension for source
+
+      INTEGER                                            :: data_size, lb2_s, lb2_t, lb_s, lb_t, &
+                                                            ub_s, ub_t
+!     ---------------------------------------------------------------------------
+      IF (debug_mod) THEN
+         IF (.NOT. ASSOCIATED(dst%d) .OR. .NOT. ASSOCIATED(src%d)) &
+            DBCSR_ABORT("Data areas must be setup.")
+         IF (dst%d%data_type /= src%d%data_type) &
+            DBCSR_ABORT("Data type must be the same.")
+         IF (dst%d%data_type .NE. dbcsr_type_real_8 &
+             .AND. dst%d%data_type .NE. dbcsr_type_real_4 &
+             .AND. dst%d%data_type .NE. dbcsr_type_complex_8 &
+             .AND. dst%d%data_type .NE. dbcsr_type_complex_4 &
+             .AND. dst%d%data_type .NE. dbcsr_type_real_8_2d &
+             .AND. dst%d%data_type .NE. dbcsr_type_real_4_2d &
+             .AND. dst%d%data_type .NE. dbcsr_type_complex_8_2d &
+             .AND. dst%d%data_type .NE. dbcsr_type_complex_4_2d) &
+            DBCSR_WARN("Incorrect data type.")
+         IF (PRESENT(scale)) THEN
+            IF (dbcsr_type_is_2d(src%d%data_type)) THEN
+               IF (scale%data_type /= dbcsr_type_2d_to_1d(src%d%data_type)) &
+                  DBCSR_ABORT("Incompatible data types")
+            ELSE
+               IF (scale%data_type /= src%d%data_type) &
+                  DBCSR_ABORT("Incompatible data types")
+            ENDIF
+         ENDIF
+      ENDIF
+      data_size = row_size*col_size
+      lb_t = 1
+      IF (PRESENT(lb)) lb_t = lb
+      ub_t = lb_t + data_size - 1
+      IF (PRESENT(source_lb)) THEN
+         lb_s = source_lb
+         ub_s = source_lb + data_size - 1
+      ELSE
+         lb_s = lb_t
+         ub_s = ub_t
+      ENDIF
+      lb2_t = 1
+      IF (PRESENT(lb2)) lb2_t = lb2
+      IF (PRESENT(source_lb2)) THEN
+         lb2_s = source_lb2
+      ELSE
+         lb2_s = lb2_t
+      ENDIF
+      SELECT CASE (src%d%data_type)
+      CASE (dbcsr_type_real_8)
+         IF (PRESENT(scale)) THEN
+            CALL dbcsr_block_transpose(dst%d%r_dp(lb_t:ub_t), &
+                                       src%d%r_dp(lb_s:ub_s)*scale%r_dp, &
+                                       row_size, col_size)
+         ELSE
+            CALL dbcsr_block_transpose(dst%d%r_dp(lb_t:ub_t), &
+                                       src%d%r_dp(lb_s:ub_s), &
+                                       row_size, col_size)
+         ENDIF
+      CASE (dbcsr_type_real_4)
+         IF (PRESENT(scale)) THEN
+            CALL dbcsr_block_transpose(dst%d%r_sp(lb_t:ub_t), &
+                                       src%d%r_sp(lb_s:ub_s)*scale%r_sp, &
+                                       row_size, col_size)
+         ELSE
+            CALL dbcsr_block_transpose(dst%d%r_sp(lb_t:ub_t), &
+                                       src%d%r_sp(lb_s:ub_s), &
+                                       row_size, col_size)
+         ENDIF
+      CASE (dbcsr_type_complex_8)
+         IF (PRESENT(scale)) THEN
+            CALL dbcsr_block_transpose(dst%d%c_dp(lb_t:ub_t), &
+                                       src%d%c_dp(lb_s:ub_s)*scale%c_dp, &
+                                       row_size, col_size)
+         ELSE
+            CALL dbcsr_block_transpose(dst%d%c_dp(lb_t:ub_t), &
+                                       src%d%c_dp(lb_s:ub_s), &
+                                       row_size, col_size)
+         ENDIF
+      CASE (dbcsr_type_complex_4)
+         IF (PRESENT(scale)) THEN
+            CALL dbcsr_block_transpose(dst%d%c_sp(lb_t:ub_t), &
+                                       src%d%c_sp(lb_s:ub_s)*scale%c_sp, &
+                                       row_size, col_size)
+         ELSE
+            CALL dbcsr_block_transpose(dst%d%c_sp(lb_t:ub_t), &
+                                       src%d%c_sp(lb_s:ub_s), &
+                                       row_size, col_size)
+         ENDIF
+      CASE (dbcsr_type_real_8_2d)
+         IF (PRESENT(scale)) THEN
+            dst%d%r2_dp(lb_t:lb_t + col_size - 1, lb2_t:lb2_t + row_size - 1) = &
+               TRANSPOSE( &
+               src%d%r2_dp(lb_s:lb_s + row_size - 1, lb2_s:lb2_s + col_size - 1) &
+               *scale%r_dp)
+         ELSE
+            dst%d%r2_dp(lb_t:lb_t + col_size - 1, lb2_t:lb2_t + row_size - 1) = &
+               TRANSPOSE( &
+               src%d%r2_dp(lb_s:lb_s + row_size - 1, lb2_s:lb2_s + col_size - 1))
+         ENDIF
+      CASE (dbcsr_type_real_4_2d)
+         IF (PRESENT(scale)) THEN
+            dst%d%r2_sp(lb_t:lb_t + col_size - 1, lb2_t:lb2_t + row_size - 1) = &
+               TRANSPOSE( &
+               src%d%r2_sp(lb_s:lb_s + row_size - 1, lb2_s:lb2_s + col_size - 1) &
+               *scale%r_sp)
+         ELSE
+            dst%d%r2_sp(lb_t:lb_t + col_size - 1, lb2_t:lb2_t + row_size - 1) = &
+               TRANSPOSE( &
+               src%d%r2_sp(lb_s:lb_s + row_size - 1, lb2_s:lb2_s + col_size - 1))
+         ENDIF
+      CASE (dbcsr_type_complex_8_2d)
+         IF (PRESENT(scale)) THEN
+            dst%d%c2_dp(lb_t:lb_t + col_size - 1, lb2_t:lb2_t + row_size - 1) = &
+               TRANSPOSE( &
+               src%d%c2_dp(lb_s:lb_s + row_size - 1, lb2_s:lb2_s + col_size - 1) &
+               *scale%c_dp)
+         ELSE
+            dst%d%c2_dp(lb_t:lb_t + col_size - 1, lb2_t:lb2_t + row_size - 1) = &
+               TRANSPOSE( &
+               src%d%c2_dp(lb_s:lb_s + row_size - 1, lb2_s:lb2_s + col_size - 1))
+         ENDIF
+      CASE (dbcsr_type_complex_4_2d)
+         IF (PRESENT(scale)) THEN
+            dst%d%c2_sp(lb_t:lb_t + col_size - 1, lb2_t:lb2_t + row_size - 1) = &
+               TRANSPOSE( &
+               src%d%c2_sp(lb_s:lb_s + row_size - 1, lb2_s:lb2_s + col_size - 1) &
+               *scale%c_sp)
+         ELSE
+            dst%d%c2_sp(lb_t:lb_t + col_size - 1, lb2_t:lb2_t + row_size - 1) = &
+               TRANSPOSE( &
+               src%d%c2_sp(lb_s:lb_s + row_size - 1, lb2_s:lb2_s + col_size - 1))
+         ENDIF
+      CASE default
+         DBCSR_ABORT("Incorrect data type.")
+      END SELECT
+   END SUBROUTINE dbcsr_block_transpose_aa
+
+   SUBROUTINE dbcsr_block_copy_aa(dst, src, &
+                                  row_size, col_size, lb, source_lb, scale)
+      !! Copy data from one data area to another.
+      !! There are no checks done for correctness!
+
+      TYPE(dbcsr_data_obj), INTENT(INOUT)                :: dst
+         !! destination data area
+      TYPE(dbcsr_data_obj), INTENT(IN)                   :: src
+         !! source data area
+      INTEGER, INTENT(IN)                                :: row_size, col_size
+         !! row size of existing block
+         !! column size of existing block
+      INTEGER, INTENT(IN), OPTIONAL                      :: lb, source_lb
+         !! lower bound for destination (and source if not given explicitly)
+         !! lower bound of source
+      TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: scale
+         !! scale data
+
+      INTEGER                                            :: data_size, lb_s, lb_t, ub_s, ub_t
+
+!     ---------------------------------------------------------------------------
+      IF (debug_mod) THEN
+         IF (.NOT. ASSOCIATED(dst%d) .OR. .NOT. ASSOCIATED(src%d)) &
+            DBCSR_ABORT("Data areas must be setup.")
+         IF (dst%d%data_type /= src%d%data_type) &
+            DBCSR_ABORT("Data type must be the same.")
+         IF (dst%d%data_type .NE. dbcsr_type_real_8 &
+             .AND. dst%d%data_type .NE. dbcsr_type_real_4 &
+             .AND. dst%d%data_type .NE. dbcsr_type_complex_8 &
+             .AND. dst%d%data_type .NE. dbcsr_type_complex_4) &
+            DBCSR_WARN("Incorrect data type.")
+         IF (PRESENT(scale)) THEN
+            IF (dbcsr_type_is_2d(src%d%data_type)) THEN
+               IF (scale%data_type /= dbcsr_type_2d_to_1d(src%d%data_type)) &
+                  DBCSR_ABORT("Incompatible data types")
+            ELSE
+               IF (scale%data_type /= src%d%data_type) &
+                  DBCSR_ABORT("Incompatible data types")
+            ENDIF
+         ENDIF
+      ENDIF
+      data_size = row_size*col_size
+      lb_t = 1
+      IF (PRESENT(lb)) lb_t = lb
+      ub_t = lb_t + data_size - 1
+      IF (PRESENT(source_lb)) THEN
+         lb_s = source_lb
+         ub_s = source_lb + data_size - 1
+      ELSE
+         lb_s = lb_t
+         ub_s = ub_t
+      ENDIF
+      SELECT CASE (src%d%data_type)
+      CASE (dbcsr_type_real_8)
+         IF (PRESENT(scale)) THEN
+            CALL dbcsr_block_copy(dst%d%r_dp(lb_t:ub_t), &
+                                  src%d%r_dp(lb_s:ub_s)*scale%r_dp, &
+                                  row_size, col_size)
+         ELSE
+            CALL dbcsr_block_copy(dst%d%r_dp(lb_t:ub_t), &
+                                  src%d%r_dp(lb_s:ub_s), &
+                                  row_size, col_size)
+         ENDIF
+      CASE (dbcsr_type_real_4)
+         IF (PRESENT(scale)) THEN
+            CALL dbcsr_block_copy(dst%d%r_sp(lb_t:ub_t), &
+                                  src%d%r_sp(lb_s:ub_s)*scale%r_sp, &
+                                  row_size, col_size)
+         ELSE
+            CALL dbcsr_block_copy(dst%d%r_sp(lb_t:ub_t), &
+                                  src%d%r_sp(lb_s:ub_s), &
+                                  row_size, col_size)
+         ENDIF
+      CASE (dbcsr_type_complex_8)
+         IF (PRESENT(scale)) THEN
+            CALL dbcsr_block_copy(dst%d%c_dp(lb_t:ub_t), &
+                                  src%d%c_dp(lb_s:ub_s)*scale%c_dp, &
+                                  row_size, col_size)
+         ELSE
+            CALL dbcsr_block_copy(dst%d%c_dp(lb_t:ub_t), &
+                                  src%d%c_dp(lb_s:ub_s), &
+                                  row_size, col_size)
+         ENDIF
+      CASE (dbcsr_type_complex_4)
+         IF (PRESENT(scale)) THEN
+            CALL dbcsr_block_copy(dst%d%c_sp(lb_t:ub_t), &
+                                  src%d%c_sp(lb_s:ub_s)*scale%c_sp, &
+                                  row_size, col_size)
+         ELSE
+            CALL dbcsr_block_copy(dst%d%c_sp(lb_t:ub_t), &
+                                  src%d%c_sp(lb_s:ub_s), &
+                                  row_size, col_size)
+         ENDIF
+      CASE default
+         DBCSR_ABORT("Incorrect data type.")
+      END SELECT
+   END SUBROUTINE dbcsr_block_copy_aa
+
+   SUBROUTINE dbcsr_block_scale(dst, scale, &
+                                row_size, col_size, lb, lb2)
+      !! Scale a data area.
+      !! There are no checks done for correctness!
+      !!
+      !! History
+      !! - 2010-09 [??] Copied from block_transpose?
+      !! - 2010-09-20 [UB] Swaps/corrects row/column definitions for 2-D bounds
+
+      TYPE(dbcsr_data_obj), INTENT(INOUT)                :: dst
+      TYPE(dbcsr_scalar_type), INTENT(IN)                :: scale
+         !! scale data
+      INTEGER, INTENT(IN)                                :: row_size, col_size
+         !! row size of existing block
+         !! column size of existing block
+      INTEGER, INTENT(IN), OPTIONAL                      :: lb, lb2
+         !! lower bound for destination (and source if not given explicitly)
+         !! lower bound of 2nd dimension for target
+
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_block_scale'
+
+      INTEGER                                            :: data_size, handle, lb2_t, lb_t, ub_t
+!     ---------------------------------------------------------------------------
+      IF (careful_mod) CALL timeset(routineN, handle)
+      IF (debug_mod) THEN
+         IF (.NOT. ASSOCIATED(dst%d)) &
+            DBCSR_ABORT("Data area must be setup.")
+         IF (dst%d%data_type .NE. dbcsr_type_real_8 &
+             .AND. dst%d%data_type .NE. dbcsr_type_real_4 &
+             .AND. dst%d%data_type .NE. dbcsr_type_complex_8 &
+             .AND. dst%d%data_type .NE. dbcsr_type_complex_4 &
+             .AND. dst%d%data_type .NE. dbcsr_type_real_8_2d &
+             .AND. dst%d%data_type .NE. dbcsr_type_real_4_2d &
+             .AND. dst%d%data_type .NE. dbcsr_type_complex_8_2d &
+             .AND. dst%d%data_type .NE. dbcsr_type_complex_4_2d) &
+            DBCSR_WARN("Incorrect data type.")
+      ENDIF
+      IF (scale%data_type /= dbcsr_type_2d_to_1d(dst%d%data_type)) &
+         DBCSR_ABORT("Incompatible data types")
+
+      data_size = row_size*col_size
+      lb_t = 1
+      IF (PRESENT(lb)) lb_t = lb
+      ub_t = lb_t + data_size - 1
+      lb2_t = 1
+      IF (PRESENT(lb2)) lb2_t = lb2
+      SELECT CASE (dst%d%data_type)
+      CASE (dbcsr_type_real_8)
+         dst%d%r_dp(lb_t:ub_t) = dst%d%r_dp(lb_t:ub_t)*scale%r_dp
+      CASE (dbcsr_type_real_4)
+         dst%d%r_sp(lb_t:ub_t) = dst%d%r_sp(lb_t:ub_t)*scale%r_sp
+      CASE (dbcsr_type_complex_8)
+         dst%d%c_dp(lb_t:ub_t) = dst%d%c_dp(lb_t:ub_t)*scale%c_dp
+      CASE (dbcsr_type_complex_4)
+         dst%d%c_sp(lb_t:ub_t) = dst%d%c_sp(lb_t:ub_t)*scale%c_sp
+      CASE (dbcsr_type_real_8_2d)
+         dst%d%r2_dp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1) = &
+            dst%d%r2_dp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1)*scale%r_dp
+      CASE (dbcsr_type_real_4_2d)
+         dst%d%r2_sp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1) = &
+            dst%d%r2_sp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1)*scale%r_sp
+      CASE (dbcsr_type_complex_8_2d)
+         dst%d%c2_dp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1) = &
+            dst%d%c2_dp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1)*scale%c_dp
+      CASE (dbcsr_type_complex_4_2d)
+         dst%d%c2_sp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1) = &
+            dst%d%c2_sp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1)*scale%c_sp
+      CASE default
+         DBCSR_ABORT("Incorrect data type.")
+      END SELECT
+      IF (careful_mod) CALL timestop(handle)
+   END SUBROUTINE dbcsr_block_scale
+
+   SUBROUTINE dbcsr_block_real_neg(dst, &
+                                   row_size, col_size, lb, lb2)
+      !! Negates the real part of a block
+      !! There are no checks done for correctness!
+      !!
+      !! History
+      !! - 2010-09 [??] Copied from block_transpose?
+      !! - 2010-09-20 [UB] Swaps/corrects row/column definitions for 2-D bounds
+
+      TYPE(dbcsr_data_obj), INTENT(INOUT)                :: dst
+      INTEGER, INTENT(IN)                                :: row_size, col_size
+         !! row size of existing block
+         !! column size of existing block
+      INTEGER, INTENT(IN), OPTIONAL                      :: lb, lb2
+         !! lower bound for destination (and source if not given explicitly)
+         !! lower bound of 2nd dimension for target
+
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_block_real_neg'
+
+      INTEGER                                            :: data_size, handle, lb2_t, lb_t, ub_t
+!     ---------------------------------------------------------------------------
+      IF (careful_mod) CALL timeset(routineN, handle)
+      IF (debug_mod) THEN
+         IF (.NOT. ASSOCIATED(dst%d)) &
+            DBCSR_ABORT("Data area must be setup.")
+         IF (dst%d%data_type .NE. dbcsr_type_real_8 &
+             .AND. dst%d%data_type .NE. dbcsr_type_real_4 &
+             .AND. dst%d%data_type .NE. dbcsr_type_complex_8 &
+             .AND. dst%d%data_type .NE. dbcsr_type_complex_4 &
+             .AND. dst%d%data_type .NE. dbcsr_type_real_8_2d &
+             .AND. dst%d%data_type .NE. dbcsr_type_real_4_2d &
+             .AND. dst%d%data_type .NE. dbcsr_type_complex_8_2d &
+             .AND. dst%d%data_type .NE. dbcsr_type_complex_4_2d) &
+            DBCSR_WARN("Incorrect data type.")
+      ENDIF
+
+      data_size = row_size*col_size
+      lb_t = 1
+      IF (PRESENT(lb)) lb_t = lb
+      ub_t = lb_t + data_size - 1
+      lb2_t = 1
+      IF (PRESENT(lb2)) lb2_t = lb2
+      SELECT CASE (dst%d%data_type)
+      CASE (dbcsr_type_real_8)
+         dst%d%r_dp(lb_t:ub_t) = -dst%d%r_dp(lb_t:ub_t)
+      CASE (dbcsr_type_real_4)
+         dst%d%r_sp(lb_t:ub_t) = -dst%d%r_sp(lb_t:ub_t)
+      CASE (dbcsr_type_complex_8)
+         dst%d%c_dp(lb_t:ub_t) = CMPLX( &
+                                 -REAL(dst%d%c_dp(lb_t:ub_t), KIND=real_8), &
+                                 AIMAG(dst%d%c_dp(lb_t:ub_t)), &
+                                 KIND=real_8)
+      CASE (dbcsr_type_complex_4)
+         dst%d%c_sp(lb_t:ub_t) = CMPLX( &
+                                 -REAL(dst%d%c_sp(lb_t:ub_t), KIND=real_4), &
+                                 AIMAG(dst%d%c_sp(lb_t:ub_t)), &
+                                 KIND=real_4)
+      CASE (dbcsr_type_real_8_2d)
+         dst%d%r2_dp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1) = &
+            -dst%d%r2_dp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1)
+      CASE (dbcsr_type_real_4_2d)
+         dst%d%r2_sp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1) = &
+            -dst%d%r2_sp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1)
+      CASE (dbcsr_type_complex_8_2d)
+         dst%d%c2_dp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1) = &
+            CMPLX( &
+            -REAL(dst%d%c2_dp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1), KIND=real_8), &
+            AIMAG(dst%d%c2_dp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1)), &
+            KIND=real_8)
+      CASE (dbcsr_type_complex_4_2d)
+         dst%d%c2_sp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1) = &
+            CMPLX( &
+            -REAL(dst%d%c2_sp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1), KIND=real_4), &
+            AIMAG(dst%d%c2_sp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1)), &
+            KIND=real_4)
+      CASE default
+         DBCSR_ABORT("Incorrect data type.")
+      END SELECT
+      IF (careful_mod) CALL timestop(handle)
+   END SUBROUTINE dbcsr_block_real_neg
+
+   SUBROUTINE dbcsr_block_conjg(dst, &
+                                row_size, col_size, lb, lb2)
+      !! Conjugate a data area.
+      !! There are no checks done for correctness!
+      !!
+      !! History
+      !! - 2010-09 [??] Copied from block_transpose?
+      !! - 2010-09-20 [UB] Swaps/corrects row/column definitions for 2-D bounds
+
+      TYPE(dbcsr_data_obj), INTENT(INOUT)                :: dst
+      INTEGER, INTENT(IN)                                :: row_size, col_size
+         !! row size of existing block
+         !! column size of existing block
+      INTEGER, INTENT(IN), OPTIONAL                      :: lb, lb2
+         !! lower bound for destination (and source if not given explicitly)
+         !! lower bound of 2nd dimension for target
+
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_block_conjg'
+
+      INTEGER                                            :: data_size, handle, lb2_t, lb_t, ub_t
+!     ---------------------------------------------------------------------------
+      IF (careful_mod) CALL timeset(routineN, handle)
+      IF (debug_mod) THEN
+         IF (.NOT. ASSOCIATED(dst%d)) &
+            DBCSR_ABORT("Data area must be setup.")
+         IF (dst%d%data_type .NE. dbcsr_type_real_8 &
+             .AND. dst%d%data_type .NE. dbcsr_type_real_4 &
+             .AND. dst%d%data_type .NE. dbcsr_type_complex_8 &
+             .AND. dst%d%data_type .NE. dbcsr_type_complex_4 &
+             .AND. dst%d%data_type .NE. dbcsr_type_real_8_2d &
+             .AND. dst%d%data_type .NE. dbcsr_type_real_4_2d &
+             .AND. dst%d%data_type .NE. dbcsr_type_complex_8_2d &
+             .AND. dst%d%data_type .NE. dbcsr_type_complex_4_2d) &
+            DBCSR_WARN("Incorrect data type.")
+      ENDIF
+
+      data_size = row_size*col_size
+      lb_t = 1
+      IF (PRESENT(lb)) lb_t = lb
+      ub_t = lb_t + data_size - 1
+      lb2_t = 1
+      IF (PRESENT(lb2)) lb2_t = lb2
+      SELECT CASE (dst%d%data_type)
+      CASE (dbcsr_type_real_8)
+         dst%d%r_dp(lb_t:ub_t) = dst%d%r_dp(lb_t:ub_t)
+      CASE (dbcsr_type_real_4)
+         dst%d%r_sp(lb_t:ub_t) = dst%d%r_sp(lb_t:ub_t)
+      CASE (dbcsr_type_complex_8)
+         dst%d%c_dp(lb_t:ub_t) = CONJG(dst%d%c_dp(lb_t:ub_t))
+      CASE (dbcsr_type_complex_4)
+         dst%d%c_sp(lb_t:ub_t) = CONJG(dst%d%c_sp(lb_t:ub_t))
+      CASE (dbcsr_type_real_8_2d)
+         dst%d%r2_dp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1) = &
+            dst%d%r2_dp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1)
+      CASE (dbcsr_type_real_4_2d)
+         dst%d%r2_sp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1) = &
+            dst%d%r2_sp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1)
+      CASE (dbcsr_type_complex_8_2d)
+         dst%d%c2_dp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1) = &
+            CONJG(dst%d%c2_dp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1))
+      CASE (dbcsr_type_complex_4_2d)
+         dst%d%c2_sp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1) = &
+            CONJG(dst%d%c2_sp(lb_t:lb_t + row_size - 1, lb2_t:lb2_t + col_size - 1))
+      CASE default
+         DBCSR_ABORT("Incorrect data type.")
+      END SELECT
+      IF (careful_mod) CALL timestop(handle)
+   END SUBROUTINE dbcsr_block_conjg
+
+   SUBROUTINE dbcsr_block_transpose_a(area, row_size, col_size)
+      !! In-place transpose of encapsulated data
+      !! There are no checks done for correctness!
+
+      TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
+         !! encapsulated data area
+      INTEGER, INTENT(IN)                                :: row_size, col_size
+         !! number of rows in existing block
+         !! number of columns in existing block
+
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_block_transpose_a'
+
+      INTEGER                                            :: handle
+!     ---------------------------------------------------------------------------
+      IF (careful_mod) &
+         CALL timeset(routineN, handle)
+      SELECT CASE (area%d%data_type)
+      CASE (dbcsr_type_real_8)
+         CALL dbcsr_block_transpose(area%d%r_dp, &
+                                    row_size, col_size)
+      CASE (dbcsr_type_real_4)
+         CALL dbcsr_block_transpose(area%d%r_sp, &
+                                    row_size, col_size)
+      CASE (dbcsr_type_complex_8)
+         CALL dbcsr_block_transpose(area%d%c_dp, &
+                                    row_size, col_size)
+      CASE (dbcsr_type_complex_4)
+         CALL dbcsr_block_transpose(area%d%c_sp, &
+                                    row_size, col_size)
+      CASE default
+         DBCSR_ABORT("Invalid data type")
+      END SELECT
+      IF (careful_mod) &
+         CALL timestop(handle)
+   END SUBROUTINE dbcsr_block_transpose_a
+
+   SUBROUTINE dbcsr_data_copy_aa(dst, lb, data_size, src, source_lb, scale, &
+                                 lb2, data_size2, source_lb2)
+      !! Copy data from one data area to another.
+      !! There are no checks done for correctness!
+
+      TYPE(dbcsr_data_obj), INTENT(INOUT)                :: dst
+         !! destination data area
+      INTEGER, INTENT(IN)                                :: lb, data_size
+         !! lower bound for destination (and source if not given explicitly)
+         !! number of elements to copy
+      TYPE(dbcsr_data_obj), INTENT(IN)                   :: src
+         !! source data area
+      INTEGER, INTENT(IN), OPTIONAL                      :: source_lb
+         !! lower bound of source
+      TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: scale
+         !! scale by this factor
+      INTEGER, INTENT(IN), OPTIONAL                      :: lb2, data_size2, source_lb2
+         !! 2nd dimension lower bound
+         !! 2nd dimension data size
+         !! 2nd dimension lower bound for source
+
+      INTEGER                                            :: lb2_s, lb_s, ub, ub2, ub2_s, ub_s
+!     ---------------------------------------------------------------------------
+
+      lb2_s = 0
+      ub2_s = 0
+      IF (debug_mod) THEN
+         IF (.NOT. ASSOCIATED(dst%d) .OR. .NOT. ASSOCIATED(src%d)) &
+            DBCSR_ABORT("Data areas must be setup.")
+         IF (dst%d%data_type .NE. src%d%data_type) &
+            DBCSR_ABORT("Data type must be the same.")
+      ENDIF
+      IF (PRESENT(scale) .AND. careful_mod) THEN
+         IF (dbcsr_type_is_2d(src%d%data_type)) THEN
+            IF (scale%data_type .NE. dbcsr_type_2d_to_1d(src%d%data_type)) &
+               DBCSR_ABORT("Incomptable data types")
+         ELSE
+            IF (scale%data_type .NE. src%d%data_type) &
+               DBCSR_ABORT("Incomptable data types")
+         ENDIF
+      ENDIF
+      ub = lb + data_size - 1
+      IF (PRESENT(source_lb)) THEN
+         lb_s = source_lb
+         ub_s = source_lb + data_size - 1
+      ELSE
+         lb_s = lb
+         ub_s = ub
+      ENDIF
+      IF (careful_mod) THEN
+         IF (dbcsr_type_is_2d(src%d%data_type) .AND. .NOT. PRESENT(lb2)) &
+            DBCSR_ABORT("Must specify lb2 for 2-D data area")
+         IF (dbcsr_type_is_2d(src%d%data_type) .AND. .NOT. PRESENT(data_size2)) &
+            DBCSR_ABORT("Must specify data_size2 for 2-D data area")
+      ENDIF
+      IF (PRESENT(lb2)) THEN
+         IF (careful_mod) THEN
+            IF (.NOT. dbcsr_type_is_2d(src%d%data_type)) &
+               DBCSR_WARN("Should not specify lb2 for 1-D data")
+         ENDIF
+         ub2 = lb2 + data_size2 - 1
+         IF (PRESENT(source_lb2)) THEN
+            lb2_s = source_lb2
+            ub2_s = source_lb2 + data_size2 - 1
+         ELSE
+            lb2_s = lb2
+            ub2_s = ub2
+         ENDIF
+      ENDIF
+      SELECT CASE (src%d%data_type)
+      CASE (dbcsr_type_real_4)
+         IF (debug_mod) THEN
+            IF (.NOT. ASSOCIATED(dst%d%r_sp)) &
+               DBCSR_ABORT("associated(dst%d%r_sp)")
+            IF (.NOT. ASSOCIATED(src%d%r_sp)) &
+               DBCSR_ABORT("associated(src%d%r_sp)")
+            IF (lb < LBOUND(dst%d%r_sp, 1)) &
+               DBCSR_ABORT("lb dst%d%r_sp")
+            IF (ub > UBOUND(dst%d%r_sp, 1)) &
+               DBCSR_ABORT("ub dst%d%r_sp")
+            IF (lb_s < LBOUND(src%d%r_sp, 1)) &
+               DBCSR_ABORT("lb src%d%r_sp")
+            IF (ub_s > UBOUND(src%d%r_sp, 1)) &
+               DBCSR_ABORT("ub src%d%r_sp")
+         ENDIF
+         IF (PRESENT(scale)) THEN
+            dst%d%r_sp(lb:ub) = scale%r_sp*src%d%r_sp(lb_s:ub_s)
+         ELSE
+            dst%d%r_sp(lb:ub) = src%d%r_sp(lb_s:ub_s)
+         ENDIF
+      CASE (dbcsr_type_real_8)
+         IF (debug_mod) THEN
+            IF (.NOT. ASSOCIATED(dst%d%r_dp)) &
+               DBCSR_ABORT("associated(dst%d%r_dp)")
+            IF (.NOT. ASSOCIATED(src%d%r_dp)) &
+               DBCSR_ABORT("associated(src%d%r_dp)")
+            IF (lb < LBOUND(dst%d%r_dp, 1)) &
+               DBCSR_ABORT("lb dst%d%r_dp")
+            IF (ub > UBOUND(dst%d%r_dp, 1)) &
+               DBCSR_ABORT("ub dst%d%r_dp")
+            IF (lb_s < LBOUND(src%d%r_dp, 1)) &
+               DBCSR_ABORT("lb src%d%r_dp")
+            IF (ub_s > UBOUND(src%d%r_dp, 1)) &
+               DBCSR_ABORT("ub src%d%r_dp")
+         ENDIF
+         IF (PRESENT(scale)) THEN
+            dst%d%r_dp(lb:ub) = scale%r_dp*src%d%r_dp(lb_s:ub_s)
+         ELSE
+            dst%d%r_dp(lb:ub) = src%d%r_dp(lb_s:ub_s)
+         ENDIF
+      CASE (dbcsr_type_complex_4)
+         IF (debug_mod) THEN
+            IF (.NOT. ASSOCIATED(dst%d%c_sp)) &
+               DBCSR_ABORT("associated(dst%d%c_sp)")
+            IF (.NOT. ASSOCIATED(src%d%c_sp)) &
+               DBCSR_ABORT("associated(src%d%c_sp)")
+            IF (lb < LBOUND(dst%d%c_sp, 1)) &
+               DBCSR_ABORT("lb dst%d%c_sp")
+            IF (ub > UBOUND(dst%d%c_sp, 1)) &
+               DBCSR_ABORT("ub dst%d%c_sp")
+            IF (lb_s < LBOUND(src%d%c_sp, 1)) &
+               DBCSR_ABORT("lb src%d%c_sp")
+            IF (ub_s > UBOUND(src%d%c_sp, 1)) &
+               DBCSR_ABORT("ub src%d%c_sp")
+         ENDIF
+         IF (PRESENT(scale)) THEN
+            dst%d%c_sp(lb:ub) = scale%c_sp*src%d%c_sp(lb_s:ub_s)
+         ELSE
+            dst%d%c_sp(lb:ub) = src%d%c_sp(lb_s:ub_s)
+         ENDIF
+      CASE (dbcsr_type_complex_8)
+         IF (debug_mod) THEN
+            IF (.NOT. ASSOCIATED(dst%d%c_dp)) &
+               DBCSR_ABORT("associated(dst%d%c_dp)")
+            IF (.NOT. ASSOCIATED(src%d%c_dp)) &
+               DBCSR_ABORT("associated(src%d%c_dp)")
+            IF (lb < LBOUND(dst%d%c_dp, 1)) &
+               DBCSR_ABORT("lb dst%d%c_dp")
+            IF (ub > UBOUND(dst%d%c_dp, 1)) &
+               DBCSR_ABORT("ub dst%d%c_dp")
+            IF (lb_s < LBOUND(src%d%c_dp, 1)) &
+               DBCSR_ABORT("lb src%d%c_dp")
+            IF (ub_s > UBOUND(src%d%c_dp, 1)) &
+               DBCSR_ABORT("ub src%d%c_dp")
+         ENDIF
+         IF (PRESENT(scale)) THEN
+            dst%d%c_dp(lb:ub) = scale%c_dp*src%d%c_dp(lb_s:ub_s)
+         ELSE
+            dst%d%c_dp(lb:ub) = src%d%c_dp(lb_s:ub_s)
+         ENDIF
+      CASE (dbcsr_type_real_4_2d)
+         IF (PRESENT(scale)) THEN
+            dst%d%r2_sp(lb:ub, lb2:ub2) = &
+               scale%r_sp*src%d%r2_sp(lb_s:ub_s, lb2_s:ub2_s)
+         ELSE
+            dst%d%r2_sp(lb:ub, lb2:ub2) = src%d%r2_sp(lb_s:ub_s, lb2_s:ub2_s)
+         ENDIF
+      CASE (dbcsr_type_real_8_2d)
+         IF (PRESENT(scale)) THEN
+            dst%d%r2_dp(lb:ub, lb2:ub2) = &
+               scale%r_dp*src%d%r2_dp(lb_s:ub_s, lb2_s:ub2_s)
+         ELSE
+            dst%d%r2_dp(lb:ub, lb2:ub2) = src%d%r2_dp(lb_s:ub_s, lb2_s:ub2_s)
+         ENDIF
+      CASE (dbcsr_type_complex_4_2d)
+         IF (PRESENT(scale)) THEN
+            dst%d%c2_sp(lb:ub, lb2:ub2) = &
+               scale%c_sp*src%d%c2_sp(lb_s:ub_s, lb2_s:ub2_s)
+         ELSE
+            dst%d%c2_sp(lb:ub, lb2:ub2) = src%d%c2_sp(lb_s:ub_s, lb2_s:ub2_s)
+         ENDIF
+      CASE (dbcsr_type_complex_8_2d)
+         IF (PRESENT(scale)) THEN
+            dst%d%c2_dp(lb:ub, lb2:ub2) = &
+               scale%c_dp*src%d%c2_dp(lb_s:ub_s, lb2_s:ub2_s)
+         ELSE
+            dst%d%c2_dp(lb:ub, lb2:ub2) = src%d%c2_dp(lb_s:ub_s, lb2_s:ub2_s)
+         ENDIF
+      CASE default
+         DBCSR_ABORT("Invalid data type")
+      END SELECT
+   END SUBROUTINE dbcsr_data_copy_aa
+
+   SUBROUTINE dbcsr_data_copy_aa2(dst, dst_lb, dst_sizes, &
+                                  src, src_lb, src_sizes)
+      !! Copy data from one data area to another, the most basic form.
+      !! There are no checks done for correctness!
+
+      TYPE(dbcsr_data_obj), INTENT(INOUT)                :: dst
+         !! destination data area
+      INTEGER, DIMENSION(:), INTENT(IN)                  :: dst_lb, dst_sizes
+         !! lower bounds for destination
+         !! sizes for destination
+      TYPE(dbcsr_data_obj), INTENT(IN)                   :: src
+         !! source data area
+      INTEGER, DIMENSION(:), INTENT(IN)                  :: src_lb, src_sizes
+         !! lower bounds for source
+         !! sizes for source
+
+      CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_data_copy_aa2'
+
+      INTEGER                                            :: dst_d, dst_dt, handle, src_d, src_dt
+      INTEGER, DIMENSION(2)                              :: dst_ub, src_ub
+!     ---------------------------------------------------------------------------
+      CALL timeset(routineN, handle)
+      !
+      src_dt = dbcsr_data_get_type(src)
+      dst_dt = dbcsr_data_get_type(dst)
+      IF (dbcsr_type_is_2d(src_dt)) THEN
+         src_d = 2
+      ELSE
+         src_d = 1
+      ENDIF
+      IF (dbcsr_type_is_2d(dst_dt)) THEN
+         dst_d = 2
+      ELSE
+         dst_d = 1
+      ENDIF
+      src_ub(1:src_d) = src_lb(1:src_d) + src_sizes(1:src_d) - 1
+      dst_ub(1:dst_d) = dst_lb(1:dst_d) + dst_sizes(1:dst_d) - 1
+      IF (careful_mod) THEN
+         IF (.NOT. dbcsr_data_exists(dst)) &
+            DBCSR_ABORT("Invalid target data area")
+         IF (.NOT. dbcsr_data_exists(src)) &
+            DBCSR_ABORT("Invalid source data area")
+         IF (dbcsr_type_2d_to_1d(src_dt) /= dbcsr_type_2d_to_1d(dst_dt)) &
+            DBCSR_ABORT("Data types must be comptable: ")
+         IF (dbcsr_type_is_2d(dst_dt)) THEN
+            IF (SIZE(dst_lb) /= 2) &
+               DBCSR_ABORT("size must be 2 for 2-d dst_lb")
+            IF (SIZE(dst_sizes) /= 2) &
+               DBCSR_ABORT("size must be 2 for 2-d dst_sizes")
+         ELSE
+            IF (SIZE(dst_lb) /= 1) &
+               DBCSR_ABORT("size must be 1 for 1-d dst_lb")
+            IF (SIZE(dst_sizes) /= 1) &
+               DBCSR_ABORT("size must be 1 for 1-d dst_sizes")
+         ENDIF
+         IF (dbcsr_type_is_2d(src_dt)) THEN
+            IF (SIZE(src_lb) /= 2) &
+               DBCSR_ABORT("size must be 2 for 2-d src_lb")
+            IF (SIZE(src_sizes) /= 2) &
+               DBCSR_ABORT("size must be 2 for 2-d src_sizes")
+         ELSE
+            IF (SIZE(src_lb) /= 1) &
+               DBCSR_ABORT("size must be 1 for 1-d src_lb")
+            IF (SIZE(src_sizes) /= 1) &
+               DBCSR_ABORT("size must be 1 for 1-d src_sizes")
+         ENDIF
+         IF (debug_mod) THEN
+            CALL dbcsr_data_verify_bounds(dst, dst_lb(1:dst_d), dst_ub(1:dst_d))
+            CALL dbcsr_data_verify_bounds(src, src_lb(1:src_d), src_ub(1:src_d))
+         ENDIF
+      ENDIF
+      !
+      SELECT CASE (src_dt)
+      CASE (dbcsr_type_real_4)
+         IF (dbcsr_type_is_2d(dst_dt)) THEN
+            CALL dbcsr_block_copy(dst%d%r2_sp(dst_lb(1):dst_ub(1), &
+                                              dst_lb(2):dst_ub(2)), &
+                                  src%d%r_sp(src_lb(1):src_ub(1)), &
+                                  src_sizes(1), 1)
+         ELSE
+            CALL dbcsr_block_copy(dst%d%r_sp(dst_lb(1):dst_ub(1)), &
+                                  src%d%r_sp(src_lb(1):src_ub(1)), &
+                                  src_sizes(1), 1)
+         ENDIF
+      CASE (dbcsr_type_real_8)
+         IF (dbcsr_type_is_2d(dst_dt)) THEN
+            CALL dbcsr_block_copy(dst%d%r2_dp(dst_lb(1):dst_ub(1), &
+                                              dst_lb(2):dst_ub(2)), &
+                                  src%d%r_dp(src_lb(1):src_ub(1)), &
+                                  src_sizes(1), 1)
+         ELSE
+            CALL dbcsr_block_copy(dst%d%r_dp(dst_lb(1):dst_ub(1)), &
+                                  src%d%r_dp(src_lb(1):src_ub(1)), &
+                                  src_sizes(1), 1)
+         ENDIF
+      CASE (dbcsr_type_complex_4)
+         IF (dbcsr_type_is_2d(dst_dt)) THEN
+            CALL dbcsr_block_copy(dst%d%c2_sp(dst_lb(1):dst_ub(1), &
+                                              dst_lb(2):dst_ub(2)), &
+                                  src%d%c_sp(src_lb(1):src_ub(1)), &
+                                  src_sizes(1), 1)
+         ELSE
+            CALL dbcsr_block_copy(dst%d%c_sp(dst_lb(1):dst_ub(1)), &
+                                  src%d%c_sp(src_lb(1):src_ub(1)), &
+                                  src_sizes(1), 1)
+         ENDIF
+      CASE (dbcsr_type_complex_8)
+         IF (dbcsr_type_is_2d(dst_dt)) THEN
+            CALL dbcsr_block_copy(dst%d%c2_dp(dst_lb(1):dst_ub(1), &
+                                              dst_lb(2):dst_ub(2)), &
+                                  src%d%c_dp(src_lb(1):src_ub(1)), &
+                                  src_sizes(1), 1)
+         ELSE
+            CALL dbcsr_block_copy(dst%d%c_dp(dst_lb(1):dst_ub(1)), &
+                                  src%d%c_dp(src_lb(1):src_ub(1)), &
+                                  src_sizes(1), 1)
+         ENDIF
+      CASE (dbcsr_type_real_4_2d)
+         IF (dbcsr_type_is_2d(dst_dt)) THEN
+            CALL dbcsr_block_copy(dst%d%r2_sp(dst_lb(1):dst_ub(1), &
+                                              dst_lb(2):dst_ub(2)), &
+                                  src%d%r2_sp(src_lb(1):src_ub(1), &
+                                              src_lb(2):src_ub(2)), &
+                                  dst_sizes(1), dst_sizes(2))
+         ELSE
+            CALL dbcsr_block_copy(dst%d%r_sp(dst_lb(1):dst_ub(1)), &
+                                  src%d%r2_sp(src_lb(1):src_ub(1), &
+                                              src_lb(2):src_ub(2)), &
+                                  dst_sizes(1), dst_sizes(2))
+         ENDIF
+      CASE (dbcsr_type_real_8_2d)
+         IF (dbcsr_type_is_2d(dst_dt)) THEN
+            CALL dbcsr_block_copy(dst%d%r2_dp(dst_lb(1):dst_ub(1), &
+                                              dst_lb(2):dst_ub(2)), &
+                                  src%d%r2_dp(src_lb(1):src_ub(1), &
+                                              src_lb(2):src_ub(2)), &
+                                  dst_sizes(1), dst_sizes(2))
+         ELSE
+            CALL dbcsr_block_copy(dst%d%r_dp(dst_lb(1):dst_ub(1)), &
+                                  src%d%r2_dp(src_lb(1):src_ub(1), &
+                                              src_lb(2):src_ub(2)), &
+                                  dst_sizes(1), dst_sizes(2))
+         ENDIF
+      CASE (dbcsr_type_complex_4_2d)
+         IF (dbcsr_type_is_2d(dst_dt)) THEN
+            CALL dbcsr_block_copy(dst%d%c2_sp(dst_lb(1):dst_ub(1), &
+                                              dst_lb(2):dst_ub(2)), &
+                                  src%d%c2_sp(src_lb(1):src_ub(1), &
+                                              src_lb(2):src_ub(2)), &
+                                  dst_sizes(1), dst_sizes(2))
+         ELSE
+            CALL dbcsr_block_copy(dst%d%c_sp(dst_lb(1):dst_ub(1)), &
+                                  src%d%c2_sp(src_lb(1):src_ub(1), &
+                                              src_lb(2):src_ub(2)), &
+                                  dst_sizes(1), dst_sizes(2))
+         ENDIF
+      CASE (dbcsr_type_complex_8_2d)
+         IF (dbcsr_type_is_2d(dst_dt)) THEN
+            CALL dbcsr_block_copy(dst%d%c2_dp(dst_lb(1):dst_ub(1), &
+                                              dst_lb(2):dst_ub(2)), &
+                                  src%d%c2_dp(src_lb(1):src_ub(1), &
+                                              src_lb(2):src_ub(2)), &
+                                  dst_sizes(1), dst_sizes(2))
+         ELSE
+            CALL dbcsr_block_copy(dst%d%c_dp(dst_lb(1):dst_ub(1)), &
+                                  src%d%c2_dp(src_lb(1):src_ub(1), &
+                                              src_lb(2):src_ub(2)), &
+                                  dst_sizes(1), dst_sizes(2))
+         ENDIF
+      CASE default
+         DBCSR_ABORT("Invalid data type")
+      END SELECT
+      CALL timestop(handle)
+   END SUBROUTINE dbcsr_data_copy_aa2
+
+   SUBROUTINE dbcsr_data_clear_nt(area, lb, ub, value, lb2, ub2, tr)
+      !! Clears a data area, possibly transposed.
+      TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
+      INTEGER, INTENT(IN), OPTIONAL                      :: lb, ub
+      TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: value
+      INTEGER, INTENT(IN), OPTIONAL                      :: lb2, ub2
+      LOGICAL, INTENT(in)                                :: tr
+
+!     ---------------------------------------------------------------------------
+      IF (tr) THEN
+         CALL dbcsr_data_clear0(area, lb=lb2, ub=ub2, value=value, lb2=lb, ub2=ub)
+      ELSE
+         CALL dbcsr_data_clear0(area, lb=lb, ub=ub, value=value, lb2=lb2, ub2=ub2)
+      ENDIF
+   END SUBROUTINE dbcsr_data_clear_nt
+
+   SUBROUTINE dbcsr_data_clear0(area, lb, ub, value, lb2, ub2)
+      !! Clears a data area
+
+      TYPE(dbcsr_data_obj), INTENT(INOUT)                :: area
+         !! area with encapsulated data
+      INTEGER, INTENT(IN), OPTIONAL                      :: lb, ub
+         !! lower bound for clearing
+         !! lower bound for clearing
+      TYPE(dbcsr_scalar_type), INTENT(IN), OPTIONAL      :: value
+         !! value to use for clearing
+      INTEGER, INTENT(IN), OPTIONAL                      :: lb2, ub2
+         !! upper bound for clearing
+         !! upper bound for clearing
+
+      INTEGER                                            :: l, l2, s, u, u2
+!     ---------------------------------------------------------------------------
+      IF (.NOT. ASSOCIATED(area%d)) &
+         DBCSR_ABORT("Data area must be setup.")
+      IF (PRESENT(value)) THEN
+         IF (area%d%data_type .NE. value%data_type) &
+            DBCSR_ABORT("Incompatible data types")
+      ENDIF
+
+      l = 0
+      u = 0
+      SELECT CASE (area%d%data_type)
+      CASE (dbcsr_type_real_4)
+         l = LBOUND(area%d%r_sp, 1)
+         u = UBOUND(area%d%r_sp, 1)
+         IF (PRESENT(lb)) THEN
+            IF (lb < l) DBCSR_ABORT("lower bound too low")
+            l = lb
+         ENDIF
+         IF (PRESENT(ub)) THEN
+            IF (ub > u) DBCSR_ABORT("upper bound too high")
+            u = ub
+         ENDIF
+         IF (PRESENT(value)) THEN
+            area%d%r_sp(l:u) = value%r_sp
+         ELSE
+            area%d%r_sp(l:u) = 0.0_real_4
+         ENDIF
+      CASE (dbcsr_type_real_8)
+         l = LBOUND(area%d%r_dp, 1)
+         u = UBOUND(area%d%r_dp, 1)
+         IF (PRESENT(lb)) THEN
+            IF (lb < l) DBCSR_ABORT("lower bound too low")
+            l = lb
+         ENDIF
+         IF (PRESENT(ub)) THEN
+            IF (ub > u) DBCSR_ABORT("upper bound too high")
+            u = ub
+         ENDIF
+         IF (PRESENT(value)) THEN
+            area%d%r_dp(l:u) = value%r_dp
+         ELSE
+            area%d%r_dp(l:u) = 0.0_real_8
+         ENDIF
+      CASE (dbcsr_type_complex_4)
+         l = LBOUND(area%d%c_sp, 1)
+         u = UBOUND(area%d%c_sp, 1)
+         IF (PRESENT(lb)) THEN
+            IF (lb < l) DBCSR_ABORT("lower bound too low")
+            l = lb
+         ENDIF
+         IF (PRESENT(ub)) THEN
+            IF (ub > u) DBCSR_ABORT("upper bound too high")
+            u = ub
+         ENDIF
+         IF (PRESENT(value)) THEN
+            area%d%c_sp(l:u) = value%c_sp
+         ELSE
+            area%d%c_sp(l:u) = CMPLX(0.0, 0.0, real_4)
+         ENDIF
+      CASE (dbcsr_type_complex_8)
+         l = LBOUND(area%d%c_dp, 1)
+         u = UBOUND(area%d%c_dp, 1)
+         IF (PRESENT(lb)) THEN
+            IF (lb < l) DBCSR_ABORT("lower bound too low")
+            l = lb
+         ENDIF
+         IF (PRESENT(ub)) THEN
+            IF (ub > u) DBCSR_ABORT("upper bound too high")
+            u = ub
+         ENDIF
+         IF (PRESENT(value)) THEN
+            area%d%c_dp(l:u) = value%c_dp
+         ELSE
+            area%d%c_dp(l:u) = CMPLX(0.0, 0.0, real_8)
+         ENDIF
+      CASE (dbcsr_type_real_4_2d)
+         l = LBOUND(area%d%r2_sp, 1)
+         u = UBOUND(area%d%r2_sp, 1)
+         l2 = LBOUND(area%d%r2_sp, 2)
+         u2 = UBOUND(area%d%r2_sp, 2)
+         IF (PRESENT(lb)) THEN
+            IF (lb < l) DBCSR_ABORT("lower bound too low")
+            l = lb
+         ENDIF
+         IF (PRESENT(ub)) THEN
+            IF (ub > u) DBCSR_ABORT("upper bound too high")
+            u = ub
+         ENDIF
+         IF (PRESENT(lb2)) THEN
+            IF (lb2 < l2) DBCSR_ABORT("lower2 bound too low")
+            l2 = lb2
+         ENDIF
+         IF (PRESENT(ub2)) THEN
+            IF (ub2 > u2) DBCSR_ABORT("upper2 bound too high")
+            u2 = ub2
+         ENDIF
+         IF (PRESENT(value)) THEN
+            area%d%r2_sp(l:u, l2:u2) = value%r_sp
+         ELSE
+            area%d%r2_sp(l:u, l2:u2) = 0.0_real_4
+         ENDIF
+      CASE (dbcsr_type_real_8_2d)
+         l = LBOUND(area%d%r2_dp, 1)
+         u = UBOUND(area%d%r2_dp, 1)
+         l2 = LBOUND(area%d%r2_dp, 2)
+         u2 = UBOUND(area%d%r2_dp, 2)
+         IF (PRESENT(lb)) THEN
+            IF (lb < l) DBCSR_ABORT("lower bound too low")
+            l = lb
+         ENDIF
+         IF (PRESENT(ub)) THEN
+            IF (ub > u) DBCSR_ABORT("upper bound too high")
+            u = ub
+         ENDIF
+         IF (PRESENT(lb2)) THEN
+            IF (lb2 < l2) DBCSR_ABORT("lower2 bound too low")
+            l2 = lb2
+         ENDIF
+         IF (PRESENT(ub2)) THEN
+            IF (ub2 > u2) DBCSR_ABORT("upper2 bound too high")
+            u2 = ub2
+         ENDIF
+         IF (PRESENT(value)) THEN
+            area%d%r2_dp(l:u, l2:u2) = value%r_dp
+         ELSE
+            area%d%r2_dp(l:u, l2:u2) = 0.0_real_8
+         ENDIF
+      CASE (dbcsr_type_complex_4_2d)
+         l = LBOUND(area%d%c2_sp, 1)
+         u = UBOUND(area%d%c2_sp, 1)
+         l2 = LBOUND(area%d%c2_sp, 2)
+         u2 = UBOUND(area%d%c2_sp, 2)
+         IF (PRESENT(lb)) THEN
+            IF (lb < l) DBCSR_ABORT("lower bound too low")
+            l = lb
+         ENDIF
+         IF (PRESENT(ub)) THEN
+            IF (ub > u) DBCSR_ABORT("upper bound too high")
+            u = ub
+         ENDIF
+         IF (PRESENT(lb2)) THEN
+            IF (lb2 < l2) DBCSR_ABORT("lower2 bound too low")
+            l2 = lb2
+         ENDIF
+         IF (PRESENT(ub2)) THEN
+            IF (ub2 > u2) DBCSR_ABORT("upper2 bound too high")
+            u2 = ub2
+         ENDIF
+         IF (PRESENT(value)) THEN
+            area%d%c2_sp(l:u, l2:u2) = value%c_sp
+         ELSE
+            area%d%c2_sp(l:u, l2:u2) = CMPLX(0.0, 0.0, real_4)
+         ENDIF
+      CASE (dbcsr_type_complex_8_2d)
+         l = LBOUND(area%d%c2_dp, 1)
+         u = UBOUND(area%d%c2_dp, 1)
+         l2 = LBOUND(area%d%c2_dp, 2)
+         u2 = UBOUND(area%d%c2_dp, 2)
+         IF (PRESENT(lb)) THEN
+            IF (lb < l) DBCSR_ABORT("lower bound too low")
+            l = lb
+         ENDIF
+         IF (PRESENT(ub)) THEN
+            IF (ub > u) DBCSR_ABORT("upper bound too high")
+            u = ub
+         ENDIF
+         IF (PRESENT(lb2)) THEN
+            IF (lb2 < l2) DBCSR_ABORT("lower2 bound too low")
+            l2 = lb2
+         ENDIF
+         IF (PRESENT(ub2)) THEN
+            IF (ub2 > u2) DBCSR_ABORT("upper2 bound too high")
+            u2 = ub2
+         ENDIF
+         IF (PRESENT(value)) THEN
+            area%d%c2_dp(l:u, l2:u2) = value%c_dp
+         ELSE
+            area%d%c2_dp(l:u, l2:u2) = CMPLX(0.0, 0.0, real_8)
+         ENDIF
+      CASE default
+         DBCSR_ABORT("Invalid or unsupported data type.")
+      END SELECT
+
+      IF (acc_devmem_allocated(area%d%acc_devmem)) THEN
+         IF (PRESENT(value)) &
+            DBCSR_ABORT("dbcsr_data_clear0 with value not implemented for acc_devmem")
+         s = dbcsr_datatype_sizeof(area%d%data_type)
+         CALL acc_devmem_setzero_bytes(area%d%acc_devmem, s*l, s*u, area%d%memory_type%acc_stream)
+      END IF
+
+      ! CALL timestop(handle)
+
+   END SUBROUTINE dbcsr_data_clear0
+
+   SUBROUTINE dbcsr_block_partial_copy(dst, dst_rs, dst_cs, dst_tr, &
+                                       src, src_rs, src_cs, src_tr, &
+                                       dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
+                                       dst_offset, src_offset)
+      !! Copies a block subset
+
+      TYPE(dbcsr_data_obj), INTENT(INOUT)                :: dst
+         !! target data area
+      INTEGER, INTENT(IN)                                :: dst_rs, dst_cs
+         !! target block row size (logical)
+         !! target block column size (logical)
+      LOGICAL                                            :: dst_tr
+         !! whether target block is transposed
+      TYPE(dbcsr_data_obj), INTENT(IN)                   :: src
+         !! source data area
+      INTEGER, INTENT(IN)                                :: src_rs, src_cs
+         !! source block row size (logical)
+         !! source block column size (logical)
+      LOGICAL                                            :: src_tr
+         !! whether source block is transposed
+      INTEGER, INTENT(IN)                                :: dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, &
+                                                            nrow, ncol
+         !! first row in target
+         !! first column in target
+         !! first_row in source
+         !! first column in target
+         !! number of rows to copy
+         !! number of columns to copy
+      INTEGER, INTENT(IN), OPTIONAL                      :: dst_offset, src_offset
+         !! offset in target
+         !! offset in source
+
+      LOGICAL, PARAMETER                                 :: verification = careful_mod
+
+      INTEGER                                            :: dst_o, src_o
+      LOGICAL                                            :: src_is_2d
+!     ---------------------------------------------------------------------------
+      IF (careful_mod) THEN
+         IF (dbcsr_type_2d_to_1d(dbcsr_data_get_type(dst)) /= dbcsr_type_2d_to_1d(dbcsr_data_get_type(src))) &
+            DBCSR_ABORT("Incompatible data types.")
+      ENDIF
+      dst_o = 0; src_o = 0
+      IF (PRESENT(dst_offset)) dst_o = dst_offset
+      IF (PRESENT(src_offset)) src_o = src_offset
+      IF (verification) THEN
+         IF (dst_r_lb + nrow - 1 > dst_rs) &
+            DBCSR_ABORT("Incompatible dst row sizes")
+         IF (dst_c_lb + ncol - 1 > dst_cs) &
+            DBCSR_ABORT("Incompatible dst col sizes")
+         IF (src_r_lb + nrow - 1 > src_rs) &
+            DBCSR_ABORT("Incompatible src row sizes")
+         IF (src_c_lb + ncol - 1 > src_cs) &
+            DBCSR_ABORT("Incompatible src col sizes")
+      ENDIF
+      !
+      src_is_2d = dbcsr_type_is_2d(dbcsr_data_get_type(src))
+      SELECT CASE (dbcsr_data_get_type(dst))
+      CASE (dbcsr_type_real_4)
+         IF (src_is_2d) THEN
+            CALL block_partial_copy_1d2d_s(dst%d%r_sp, dst_rs, dst_cs, dst_tr, &
+                                           src%d%r2_sp, src_tr, &
+                                           dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
+                                           dst_offset=dst_o)
+         ELSE
+            CALL block_partial_copy_s(dst%d%r_sp, dst_rs, dst_cs, dst_tr, &
+                                      src%d%r_sp, src_rs, src_cs, src_tr, &
+                                      dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
+                                      dst_offset=dst_o, src_offset=src_o)
+         ENDIF
+      CASE (dbcsr_type_real_8)
+         IF (src_is_2d) THEN
+            CALL block_partial_copy_1d2d_d(dst%d%r_dp, dst_rs, dst_cs, dst_tr, &
+                                           src%d%r2_dp, src_tr, &
+                                           dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
+                                           dst_offset=dst_o)
+         ELSE
+            CALL block_partial_copy_d(dst%d%r_dp, dst_rs, dst_cs, dst_tr, &
+                                      src%d%r_dp, src_rs, src_cs, src_tr, &
+                                      dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
+                                      dst_offset=dst_o, src_offset=src_o)
+         ENDIF
+      CASE (dbcsr_type_complex_4)
+         IF (src_is_2d) THEN
+            CALL block_partial_copy_1d2d_c(dst%d%c_sp, dst_rs, dst_cs, dst_tr, &
+                                           src%d%c2_sp, src_tr, &
+                                           dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
+                                           dst_offset=dst_o)
+         ELSE
+            CALL block_partial_copy_c(dst%d%c_sp, dst_rs, dst_cs, dst_tr, &
+                                      src%d%c_sp, src_rs, src_cs, src_tr, &
+                                      dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
+                                      dst_offset=dst_o, src_offset=src_o)
+         ENDIF
+      CASE (dbcsr_type_complex_8)
+         IF (src_is_2d) THEN
+            CALL block_partial_copy_1d2d_z(dst%d%c_dp, dst_rs, dst_cs, dst_tr, &
+                                           src%d%c2_dp, src_tr, &
+                                           dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
+                                           dst_offset=dst_o)
+         ELSE
+            CALL block_partial_copy_z(dst%d%c_dp, dst_rs, dst_cs, dst_tr, &
+                                      src%d%c_dp, src_rs, src_cs, src_tr, &
+                                      dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
+                                      dst_offset=dst_o, src_offset=src_o)
+         ENDIF
+      CASE (dbcsr_type_real_4_2d)
+         IF (src_is_2d) THEN
+            CALL block_partial_copy_2d2d_s(dst%d%r2_sp, dst_tr, &
+                                           src%d%r2_sp, src_tr, &
+                                           dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol)
+         ELSE
+            CALL block_partial_copy_2d1d_s(dst%d%r2_sp, dst_tr, &
+                                           src%d%r_sp, src_rs, src_cs, src_tr, &
+                                           dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
+                                           src_offset=src_o)
+         ENDIF
+      CASE (dbcsr_type_real_8_2d)
+         IF (src_is_2d) THEN
+            CALL block_partial_copy_2d2d_d(dst%d%r2_dp, dst_tr, &
+                                           src%d%r2_dp, src_tr, &
+                                           dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol)
+         ELSE
+            CALL block_partial_copy_2d1d_d(dst%d%r2_dp, dst_tr, &
+                                           src%d%r_dp, src_rs, src_cs, src_tr, &
+                                           dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
+                                           src_offset=src_o)
+         ENDIF
+      CASE (dbcsr_type_complex_4_2d)
+         IF (src_is_2d) THEN
+            CALL block_partial_copy_2d2d_c(dst%d%c2_sp, dst_tr, &
+                                           src%d%c2_sp, src_tr, &
+                                           dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol)
+         ELSE
+            CALL block_partial_copy_2d1d_c(dst%d%c2_sp, dst_tr, &
+                                           src%d%c_sp, src_rs, src_cs, src_tr, &
+                                           dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
+                                           src_offset=src_o)
+         ENDIF
+      CASE (dbcsr_type_complex_8_2d)
+         IF (src_is_2d) THEN
+            CALL block_partial_copy_2d2d_z(dst%d%c2_dp, dst_tr, &
+                                           src%d%c2_dp, src_tr, &
+                                           dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol)
+         ELSE
+            CALL block_partial_copy_2d1d_z(dst%d%c2_dp, dst_tr, &
+                                           src%d%c_dp, src_rs, src_cs, src_tr, &
+                                           dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
+                                           src_offset=src_o)
+         ENDIF
+      CASE default
+         DBCSR_ABORT("Invalid data type.")
+      END SELECT
+   END SUBROUTINE dbcsr_block_partial_copy
+
+   SUBROUTINE block_add_anytype(block_a, block_b, len)
+      !! Adds two blocks
+
+      TYPE(dbcsr_data_obj), INTENT(INOUT)                :: block_a
+         !! Block to add to
+      TYPE(dbcsr_data_obj), INTENT(IN)                   :: block_b
+         !! Block to add to block_a
+      INTEGER, INTENT(IN), OPTIONAL                      :: len
+
+      INTEGER                                            :: n
+!     ---------------------------------------------------------------------------
+      IF (careful_mod) THEN
+         IF (dbcsr_data_get_type(block_a) /= dbcsr_data_get_type(block_a)) &
+            DBCSR_ABORT("Mismatched data types.")
+      ENDIF
+      IF (PRESENT(len)) THEN
+         n = len
+         IF (dbcsr_data_get_size(block_b) < n) &
+            DBCSR_ABORT("Block B too small.")
+      ELSE
+         n = dbcsr_data_get_size_referenced(block_b)
+      ENDIF
+      IF (dbcsr_data_get_size(block_a) < n) &
+         DBCSR_ABORT("Block A too small.")
+      SELECT CASE (dbcsr_data_get_type(block_a))
+      CASE (dbcsr_type_real_4)
+         CALL block_add_s(block_a%d%r_sp, block_b%d%r_sp, n)
+      CASE (dbcsr_type_real_8)
+         CALL block_add_d(block_a%d%r_dp, block_b%d%r_dp, n)
+      CASE (dbcsr_type_complex_4)
+         CALL block_add_c(block_a%d%c_sp, block_b%d%c_sp, n)
+      CASE (dbcsr_type_complex_8)
+         CALL block_add_z(block_a%d%c_dp, block_b%d%c_dp, n)
+      CASE (dbcsr_type_real_4_2d)
+         CALL block_add_s(block_a%d%r2_sp, block_b%d%r2_sp, n)
+      CASE (dbcsr_type_real_8_2d)
+         CALL block_add_d(block_a%d%r2_dp, block_b%d%r2_dp, n)
+      CASE (dbcsr_type_complex_4_2d)
+         CALL block_add_c(block_a%d%c2_sp, block_b%d%c2_sp, n)
+      CASE (dbcsr_type_complex_8_2d)
+         CALL block_add_z(block_a%d%c2_dp, block_b%d%c2_dp, n)
+      CASE default
+         DBCSR_ABORT("Invalid data type!")
+      END SELECT
+   END SUBROUTINE block_add_anytype
+
+   SUBROUTINE block_add_anytype_bounds(block_a, block_b, lb_a, lb_b, len)
+      !! Adds two blocks
+
+      TYPE(dbcsr_data_obj), INTENT(INOUT)                :: block_a
+         !! Block to add to
+      TYPE(dbcsr_data_obj), INTENT(IN)                   :: block_b
+         !! Block to add to block_a
+      INTEGER, INTENT(IN)                                :: lb_a, lb_b, len
+
+!     ---------------------------------------------------------------------------
+      IF (careful_mod) THEN
+         IF (dbcsr_data_get_type(block_a) /= dbcsr_data_get_type(block_a)) &
+            DBCSR_ABORT("Mismatched data types.")
+      ENDIF
+      IF (dbcsr_data_get_size(block_b) < lb_b + len - 1) &
+         DBCSR_ABORT("Block B too small.")
+      IF (dbcsr_data_get_size(block_a) < lb_a + len - 1) &
+         DBCSR_ABORT("Block A too small.")
+      SELECT CASE (dbcsr_data_get_type(block_a))
+      CASE (dbcsr_type_real_4)
+         CALL block_add_s(block_a%d%r_sp(lb_a:), block_b%d%r_sp(lb_b:), len)
+      CASE (dbcsr_type_real_8)
+         CALL block_add_d(block_a%d%r_dp(lb_a:), block_b%d%r_dp(lb_b:), len)
+      CASE (dbcsr_type_complex_4)
+         CALL block_add_c(block_a%d%c_sp(lb_a:), block_b%d%c_sp(lb_b:), len)
+      CASE (dbcsr_type_complex_8)
+         CALL block_add_z(block_a%d%c_dp(lb_a:), block_b%d%c_dp(lb_b:), len)
+      CASE default
+         DBCSR_ABORT("Invalid data type!")
+      END SELECT
+   END SUBROUTINE block_add_anytype_bounds
+
+# 1 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp" 1
+# 9 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp"
+
+# 11 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp"
+
+# 169 "/__w/dbcsr/dbcsr/src/block/../data/dbcsr.fypp"
+# 1449 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F" 2
+# 1450 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
+   PURE_BLOCKOPS SUBROUTINE block_partial_copy_d (dst, dst_rs, dst_cs, dst_tr, &
+                                                              src, src_rs, src_cs, src_tr, &
+                                                              dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
+                                                              dst_offset, src_offset)
+     !! Copies a block subset
+     !! @note see block_partial_copy_a
+
+#if defined(__LIBXSMM_BLOCKOPS)
+      USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
+#endif
+      REAL(kind=real_8), DIMENSION(:), &
+         INTENT(INOUT)                         :: dst
+      INTEGER, INTENT(IN)                      :: dst_rs, dst_cs
+      INTEGER, INTENT(IN)                      :: src_offset, dst_offset
+      LOGICAL, INTENT(IN)                      :: dst_tr
+      REAL(kind=real_8), DIMENSION(:), &
+         INTENT(IN)                            :: src
+      INTEGER, INTENT(IN)                      :: src_rs, src_cs
+      LOGICAL, INTENT(IN)                      :: src_tr
+      INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
+                                                  src_c_lb, nrow, ncol
+
+      INTEGER                                  :: col, row
+!    ---------------------------------------------------------------------------
+!    Factors out the 4 combinations to remove branches from the inner loop.
+!    rs is the logical row size so it always remains the leading dimension.
+      IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_offset + dst_r_lb + (dst_c_lb - 1)*dst_rs)), &
+                                 libxsmm_ptr0(src(src_offset + src_r_lb + (src_c_lb - 1)*src_rs)), &
+                                 8, nrow, ncol, src_rs, dst_rs)
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_r_lb + row + (dst_c_lb + col - 1)*dst_rs) &
+                  = src(src_offset + src_r_lb + row + (src_c_lb + col - 1)*src_rs)
+            END DO
+         END DO
+#endif
+      ELSEIF (dst_tr .AND. .NOT. src_tr) THEN
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_c_lb + col + (dst_r_lb + row - 1)*dst_cs) &
+                  = src(src_offset + src_r_lb + row + (src_c_lb + col - 1)*src_rs)
+            END DO
+         END DO
+      ELSEIF (.NOT. dst_tr .AND. src_tr) THEN
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_r_lb + row + (dst_c_lb + col - 1)*dst_rs) &
+                  = src(src_offset + src_c_lb + col + (src_r_lb + row - 1)*src_cs)
+            END DO
+         END DO
+      ELSE
+         DBCSR_ASSERT(dst_tr .AND. src_tr)
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_offset + dst_c_lb + (dst_r_lb - 1)*dst_cs)), &
+                                 libxsmm_ptr0(src(src_offset + src_c_lb + (src_r_lb - 1)*src_cs)), &
+                                 8, nrow, ncol, src_cs, dst_cs)
+         END IF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_c_lb + col + (dst_r_lb + row - 1)*dst_cs) &
+                  = src(src_offset + src_c_lb + col + (src_r_lb + row - 1)*src_cs)
+            END DO
+         END DO
+#endif
+      ENDIF
+   END SUBROUTINE block_partial_copy_d
+
+   PURE_BLOCKOPS SUBROUTINE block_partial_copy_1d2d_d (dst, dst_rs, dst_cs, dst_tr, &
+                                                                   src, src_tr, &
+                                                                   dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
+                                                                   dst_offset)
+     !! Copies a block subset
+     !! @note see block_partial_copy_a
+
+#if defined(__LIBXSMM_BLOCKOPS)
+      USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
+#else
+      INTEGER                                  :: col, row
+#endif
+      REAL(kind=real_8), DIMENSION(:), &
+         INTENT(INOUT)                         :: dst
+      INTEGER, INTENT(IN)                      :: dst_rs, dst_cs
+      INTEGER, INTENT(IN)                      :: dst_offset
+      LOGICAL, INTENT(IN)                      :: dst_tr
+      REAL(kind=real_8), DIMENSION(:, :), &
+         INTENT(IN)                            :: src
+      LOGICAL, INTENT(IN)                      :: src_tr
+      INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
+                                                  src_c_lb, nrow, ncol
+
+!    ---------------------------------------------------------------------------
+!    Factors out the 4 combinations to remove branches from the inner loop.
+!    rs is the logical row size so it always remains the leading dimension.
+      IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_offset + dst_r_lb + (dst_c_lb - 1)*dst_rs)), &
+                                 libxsmm_ptr0(src(src_r_lb, src_c_lb)), &
+                                 8, nrow, ncol, SIZE(src, 1), dst_rs)
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_r_lb + row + (dst_c_lb + col - 1)*dst_rs) &
+                  = src(src_r_lb + row, src_c_lb + col)
+            END DO
+         END DO
+#endif
+      ELSEIF (dst_tr .AND. .NOT. src_tr) THEN
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_otrans(libxsmm_ptr0(dst(dst_offset + dst_c_lb + (dst_r_lb - 1)*dst_cs)), &
+                                libxsmm_ptr0(src(src_r_lb, src_c_lb)), &
+                                8, nrow, ncol, SIZE(src, 1), dst_cs)
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_c_lb + col + (dst_r_lb + row - 1)*dst_cs) &
+                  = src(src_r_lb + row, src_c_lb + col)
+            END DO
+         END DO
+#endif
+      ELSEIF (.NOT. dst_tr .AND. src_tr) THEN
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_otrans(libxsmm_ptr0(dst(dst_offset + dst_r_lb + (dst_c_lb - 1)*dst_rs)), &
+                                libxsmm_ptr0(src(src_c_lb, src_r_lb)), &
+                                8, nrow, ncol, SIZE(src, 2), dst_rs)
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_r_lb + row + (dst_c_lb + col - 1)*dst_rs) &
+                  = src(src_c_lb + col, src_r_lb + row)
+            END DO
+         END DO
+#endif
+      ELSE
+         DBCSR_ASSERT(dst_tr .AND. src_tr)
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_offset + dst_c_lb + (dst_r_lb - 1)*dst_cs)), &
+                                 libxsmm_ptr0(src(src_c_lb, src_r_lb)), &
+                                 8, nrow, ncol, SIZE(src, 2), dst_cs)
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_c_lb + col + (dst_r_lb + row - 1)*dst_cs) &
+                  = src(src_c_lb + col, src_r_lb + row)
+            END DO
+         END DO
+#endif
+      ENDIF
+   END SUBROUTINE block_partial_copy_1d2d_d
+
+   PURE_BLOCKOPS SUBROUTINE block_partial_copy_2d1d_d (dst, dst_tr, &
+                                                                   src, src_rs, src_cs, src_tr, &
+                                                                   dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
+                                                                   src_offset)
+     !! Copies a block subset
+     !! @note see block_partial_copy_a
+
+#if defined(__LIBXSMM_BLOCKOPS)
+      USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
+#endif
+      REAL(kind=real_8), DIMENSION(:, :), &
+         INTENT(INOUT)                         :: dst
+      INTEGER, INTENT(IN)                      :: src_offset
+      LOGICAL, INTENT(IN)                      :: dst_tr
+      REAL(kind=real_8), DIMENSION(:), &
+         INTENT(IN)                            :: src
+      INTEGER, INTENT(IN)                      :: src_rs, src_cs
+      LOGICAL, INTENT(IN)                      :: src_tr
+      INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
+                                                  src_c_lb, nrow, ncol
+
+      INTEGER                                  :: col, row
+!    ---------------------------------------------------------------------------
+!    Factors out the 4 combinations to remove branches from the inner loop.
+!    rs is the logical row size so it always remains the leading dimension.
+      IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_r_lb + row, dst_c_lb + col) &
+                  = src(src_offset + src_r_lb + row + (src_c_lb + col - 1)*src_rs)
+            END DO
+         END DO
+      ELSEIF (dst_tr .AND. .NOT. src_tr) THEN
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_c_lb + col, dst_r_lb + row) &
+                  = src(src_offset + src_r_lb + row + (src_c_lb + col - 1)*src_rs)
+            END DO
+         END DO
+      ELSEIF (.NOT. dst_tr .AND. src_tr) THEN
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_r_lb + row, dst_c_lb + col) &
+                  = src(src_offset + src_c_lb + col + (src_r_lb + row - 1)*src_cs)
+            END DO
+         END DO
+      ELSE
+         DBCSR_ASSERT(dst_tr .AND. src_tr)
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_c_lb + col, dst_r_lb + row) &
+                  = src(src_offset + src_c_lb + col + (src_r_lb + row - 1)*src_cs)
+            END DO
+         END DO
+      ENDIF
+   END SUBROUTINE block_partial_copy_2d1d_d
+
+   PURE_BLOCKOPS SUBROUTINE block_partial_copy_2d2d_d (dst, dst_tr, &
+                                                                   src, src_tr, &
+                                                                   dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol)
+     !! Copies a block subset
+     !! @note see block_partial_copy_a
+
+#if defined(__LIBXSMM_BLOCKOPS)
+      USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
+#else
+      INTEGER                                  :: col, row
+#endif
+      REAL(kind=real_8), DIMENSION(:, :), &
+         INTENT(INOUT)                         :: dst
+      LOGICAL, INTENT(IN)                      :: dst_tr
+      REAL(kind=real_8), DIMENSION(:, :), &
+         INTENT(IN)                            :: src
+      LOGICAL, INTENT(IN)                      :: src_tr
+      INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
+                                                  src_c_lb, nrow, ncol
+
+!    ---------------------------------------------------------------------------
+!    Factors out the 4 combinations to remove branches from the inner loop.
+!    rs is the logical row size so it always remains the leading dimension.
+      IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_r_lb, dst_c_lb)), &
+                                 libxsmm_ptr0(src(src_r_lb, src_c_lb)), &
+                                 8, nrow, ncol, &
+                                 SIZE(src, 1), SIZE(dst, 1))
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_r_lb + row, dst_c_lb + col) &
+                  = src(src_r_lb + row, src_c_lb + col)
+            END DO
+         END DO
+#endif
+      ELSEIF (dst_tr .AND. .NOT. src_tr) THEN
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_otrans(libxsmm_ptr0(dst(dst_c_lb, dst_r_lb)), &
+                                libxsmm_ptr0(src(src_r_lb, src_c_lb)), &
+                                8, nrow, ncol, &
+                                SIZE(src, 1), SIZE(dst, 2))
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_c_lb + col, dst_r_lb + row) &
+                  = src(src_r_lb + row, src_c_lb + col)
+            END DO
+         END DO
+#endif
+      ELSEIF (.NOT. dst_tr .AND. src_tr) THEN
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_otrans(libxsmm_ptr0(dst(dst_r_lb, dst_c_lb)), &
+                                libxsmm_ptr0(src(src_c_lb, src_r_lb)), &
+                                8, nrow, ncol, &
+                                SIZE(src, 2), SIZE(dst, 1))
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_r_lb + row, dst_c_lb + col) &
+                  = src(src_c_lb + col, src_r_lb + row)
+            END DO
+         END DO
+#endif
+      ELSE
+         DBCSR_ASSERT(dst_tr .AND. src_tr)
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_c_lb, dst_r_lb)), &
+                                 libxsmm_ptr0(src(src_c_lb, src_r_lb)), &
+                                 8, nrow, ncol, &
+                                 SIZE(src, 2), SIZE(dst, 2))
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_c_lb + col, dst_r_lb + row) &
+                  = src(src_c_lb + col, src_r_lb + row)
+            END DO
+         END DO
+#endif
+      ENDIF
+   END SUBROUTINE block_partial_copy_2d2d_d
+
+   PURE SUBROUTINE block_copy_d (extent_out, extent_in, n, out_fe, in_fe)
+     !! Copy a block
+
+      INTEGER, INTENT(IN) :: n, out_fe, in_fe
+        !! number of elements to copy
+        !! first element of output
+        !! first element of input
+      REAL(kind=real_8), DIMENSION(*), INTENT(OUT) :: extent_out
+        !! output data
+      REAL(kind=real_8), DIMENSION(*), INTENT(IN)  :: extent_in
+        !! input data
+
+!    ---------------------------------------------------------------------------
+      extent_out(out_fe:out_fe + n - 1) = extent_in(in_fe:in_fe + n - 1)
+   END SUBROUTINE block_copy_d
+
+   PURE_BLOCKOPS SUBROUTINE block_transpose_copy_d (extent_out, extent_in, &
+                                                                rows, columns)
+     !! Copy and transpose block.
+
+#if defined(__LIBXSMM_TRANS)
+      USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1
+#endif
+      REAL(kind=real_8), DIMENSION(:), INTENT(OUT), TARGET :: extent_out
+        !! output matrix in the form of a 1-d array
+      REAL(kind=real_8), DIMENSION(:), INTENT(IN)          :: extent_in
+        !! input matrix in the form of a 1-d array
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+
+!    ---------------------------------------------------------------------------
+#if defined(__LIBXSMM_TRANS)
+      CALL libxsmm_otrans(libxsmm_ptr1(extent_out), libxsmm_ptr1(extent_in), &
+                          8, rows, columns, rows, columns)
+#elif defined(__MKL)
+      CALL mkl_domatcopy('C', 'T', rows, columns, 1.0_real_8, extent_in, rows, extent_out, columns)
+#else
+      extent_out(1:rows*columns) = RESHAPE(TRANSPOSE( &
+                                           RESHAPE(extent_in(1:rows*columns), (/rows, columns/))), (/rows*columns/))
+#endif
+   END SUBROUTINE block_transpose_copy_d
+
+   PURE SUBROUTINE block_copy_2d1d_d (extent_out, extent_in, &
+                                                  rows, columns)
+     !! Copy a block
+
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+      REAL(kind=real_8), DIMENSION(rows, columns), INTENT(OUT) :: extent_out
+        !! output matrix in the form of a 2-d array
+      REAL(kind=real_8), DIMENSION(:), INTENT(IN)             :: extent_in
+        !! input matrix in the form of a 1-d array
+
+!    ---------------------------------------------------------------------------
+      extent_out = RESHAPE(extent_in, (/rows, columns/))
+   END SUBROUTINE block_copy_2d1d_d
+
+   PURE SUBROUTINE block_copy_1d1d_d (extent_out, extent_in, &
+                                                  rows, columns)
+     !! Copy a block
+
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+      REAL(kind=real_8), DIMENSION(rows*columns), INTENT(OUT) :: extent_out
+        !! output matrix in the form of a 1-d array
+      REAL(kind=real_8), DIMENSION(rows*columns), INTENT(IN)  :: extent_in
+        !! input matrix in the form of a 1-d array
+
+!    ---------------------------------------------------------------------------
+      extent_out(:) = extent_in(:)
+   END SUBROUTINE block_copy_1d1d_d
+
+   PURE SUBROUTINE block_copy_2d2d_d (extent_out, extent_in, &
+                                                  rows, columns)
+     !! Copy a block
+
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+      REAL(kind=real_8), DIMENSION(rows, columns), INTENT(OUT) :: extent_out
+        !! output matrix in the form of a 2-d array
+      REAL(kind=real_8), DIMENSION(rows, columns), INTENT(IN)  :: extent_in
+        !! input matrix in the form of a 2-d array
+
+!    ---------------------------------------------------------------------------
+      extent_out(:, :) = extent_in(:, :)
+   END SUBROUTINE block_copy_2d2d_d
+
+   PURE_BLOCKOPS SUBROUTINE block_transpose_copy_2d1d_d (extent_out, extent_in, &
+                                                                     rows, columns)
+     !! Copy and transpose block.
+
+#if defined(__LIBXSMM_TRANS)
+      USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1, libxsmm_ptr2
+#endif
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+      REAL(kind=real_8), DIMENSION(columns, rows), INTENT(OUT), TARGET :: extent_out
+        !! output matrix in the form of a 2-d array
+      REAL(kind=real_8), DIMENSION(:), INTENT(IN)                      :: extent_in
+        !! input matrix in the form of a 1-d array
+
+!    ---------------------------------------------------------------------------
+#if defined(__LIBXSMM_TRANS)
+      CALL libxsmm_otrans(libxsmm_ptr2(extent_out), libxsmm_ptr1(extent_in), &
+                          8, rows, columns, rows, columns)
+#elif defined(__MKL)
+      CALL mkl_domatcopy('C', 'T', rows, columns, 1.0_real_8, extent_in, rows, extent_out, columns)
+#else
+      extent_out = TRANSPOSE(RESHAPE(extent_in, (/rows, columns/)))
+#endif
+   END SUBROUTINE block_transpose_copy_2d1d_d
+
+   PURE SUBROUTINE block_copy_1d2d_d (extent_out, extent_in, &
+                                                  rows, columns)
+     !! Copy and transpose block.
+
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+      REAL(kind=real_8), DIMENSION(:), INTENT(OUT)            :: extent_out
+        !! output matrix in the form of a 1-d array
+      REAL(kind=real_8), DIMENSION(rows, columns), INTENT(IN) :: extent_in
+        !! input matrix in the form of a 2-d array
+
+!    ---------------------------------------------------------------------------
+      extent_out = RESHAPE(extent_in, (/rows*columns/))
+   END SUBROUTINE block_copy_1d2d_d
+
+   PURE_BLOCKOPS SUBROUTINE block_transpose_copy_1d2d_d (extent_out, extent_in, &
+                                                                     rows, columns)
+     !! Copy and transpose block.
+
+#if defined(__LIBXSMM_TRANS)
+      USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1, libxsmm_ptr2
+#endif
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+      REAL(kind=real_8), DIMENSION(:), INTENT(OUT), TARGET    :: extent_out
+        !! output matrix in the form of a 1-d array
+      REAL(kind=real_8), DIMENSION(rows, columns), INTENT(IN) :: extent_in
+        !! input matrix in the form of a 2-d array
+
+!    ---------------------------------------------------------------------------
+#if defined(__LIBXSMM_TRANS)
+      CALL libxsmm_otrans(libxsmm_ptr1(extent_out), libxsmm_ptr2(extent_in), &
+                          8, rows, columns, rows, columns)
+#elif defined(__MKL)
+      CALL mkl_domatcopy('C', 'T', rows, columns, 1.0_real_8, extent_in, rows, extent_out, columns)
+#else
+      extent_out = RESHAPE(TRANSPOSE(extent_in), (/rows*columns/))
+#endif
+   END SUBROUTINE block_transpose_copy_1d2d_d
+
+   PURE_BLOCKOPS SUBROUTINE block_transpose_inplace_d (extent, rows, columns)
+     !! In-place block transpose.
+
+#if defined(__LIBXSMM_TRANS) && 0
+      USE libxsmm, ONLY: libxsmm_itrans, libxsmm_ptr1
+#endif
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+      REAL(kind=real_8), DIMENSION(rows*columns), INTENT(INOUT) :: extent
+        !! Matrix in the form of a 1-d array
+
+!    ---------------------------------------------------------------------------
+#if defined(__LIBXSMM_TRANS) && 0
+      CALL libxsmm_itrans(libxsmm_ptr1(extent), 8, rows, columns, rows)
+#elif defined(__MKL)
+      CALL mkl_dimatcopy('C', 'T', rows, columns, 1.0_real_8, extent, rows, columns)
+#else
+      REAL(kind=real_8), DIMENSION(rows*columns) :: extent_tr
+      INTEGER :: r, c
+      DO r = 1, columns
+         DO c = 1, rows
+            extent_tr(r + (c - 1)*columns) = extent(c + (r - 1)*rows)
+         END DO
+      END DO
+      DO r = 1, columns
+         DO c = 1, rows
+            extent(r + (c - 1)*columns) = extent_tr(r + (c - 1)*columns)
+         END DO
+      END DO
+#endif
+   END SUBROUTINE block_transpose_inplace_d
+
+   SUBROUTINE dbcsr_data_set_ad (dst, lb, data_size, src, source_lb)
+     !! Copy data from a double real array to a data area
+     !! There are no checks done for correctness!
+
+      TYPE(dbcsr_data_obj), INTENT(INOUT)      :: dst
+        !! destination data area
+      INTEGER, INTENT(IN)                      :: lb, data_size
+        !! lower bound for destination (and source if not given explicitly)
+        !! number of elements to copy
+      REAL(kind=real_8), DIMENSION(:), INTENT(IN), CONTIGUOUS :: src
+        !! source data array
+      INTEGER, INTENT(IN), OPTIONAL            :: source_lb
+        !! lower bound of source
+      INTEGER                                  :: lb_s, ub, ub_s
+
+      REAL(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: cont_data
+
+!    ---------------------------------------------------------------------------
+      IF (debug_mod) THEN
+         IF (.NOT. ASSOCIATED(dst%d)) &
+            DBCSR_ABORT("Target data area must be setup.")
+         IF (SIZE(src) .LT. data_size) &
+            DBCSR_ABORT("Not enough source data.")
+         IF (dst%d%data_type .NE. dbcsr_type_real_8) &
+            DBCSR_ABORT("Data type mismatch.")
+      ENDIF
+      ub = lb + data_size - 1
+      IF (PRESENT(source_lb)) THEN
+         lb_s = source_lb
+         ub_s = source_lb + data_size - 1
+      ELSE
+         lb_s = lb
+         ub_s = ub
+      ENDIF
+      cont_data => dst%d%r_dp (lb:ub)
+      CALL memory_copy(cont_data, src(lb_s:ub_s), data_size)
+   END SUBROUTINE dbcsr_data_set_ad
+
+   PURE SUBROUTINE block_add_d (block_a, block_b, len)
+      INTEGER, INTENT(IN) :: len
+      REAL(kind=real_8), DIMENSION(len), INTENT(INOUT) :: block_a
+      REAL(kind=real_8), DIMENSION(len), INTENT(IN)    :: block_b
+      block_a(1:len) = block_a(1:len) + block_b(1:len)
+   END SUBROUTINE block_add_d
+# 1450 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
+   PURE_BLOCKOPS SUBROUTINE block_partial_copy_s (dst, dst_rs, dst_cs, dst_tr, &
+                                                              src, src_rs, src_cs, src_tr, &
+                                                              dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
+                                                              dst_offset, src_offset)
+     !! Copies a block subset
+     !! @note see block_partial_copy_a
+
+#if defined(__LIBXSMM_BLOCKOPS)
+      USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
+#endif
+      REAL(kind=real_4), DIMENSION(:), &
+         INTENT(INOUT)                         :: dst
+      INTEGER, INTENT(IN)                      :: dst_rs, dst_cs
+      INTEGER, INTENT(IN)                      :: src_offset, dst_offset
+      LOGICAL, INTENT(IN)                      :: dst_tr
+      REAL(kind=real_4), DIMENSION(:), &
+         INTENT(IN)                            :: src
+      INTEGER, INTENT(IN)                      :: src_rs, src_cs
+      LOGICAL, INTENT(IN)                      :: src_tr
+      INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
+                                                  src_c_lb, nrow, ncol
+
+      INTEGER                                  :: col, row
+!    ---------------------------------------------------------------------------
+!    Factors out the 4 combinations to remove branches from the inner loop.
+!    rs is the logical row size so it always remains the leading dimension.
+      IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_offset + dst_r_lb + (dst_c_lb - 1)*dst_rs)), &
+                                 libxsmm_ptr0(src(src_offset + src_r_lb + (src_c_lb - 1)*src_rs)), &
+                                 4, nrow, ncol, src_rs, dst_rs)
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_r_lb + row + (dst_c_lb + col - 1)*dst_rs) &
+                  = src(src_offset + src_r_lb + row + (src_c_lb + col - 1)*src_rs)
+            END DO
+         END DO
+#endif
+      ELSEIF (dst_tr .AND. .NOT. src_tr) THEN
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_c_lb + col + (dst_r_lb + row - 1)*dst_cs) &
+                  = src(src_offset + src_r_lb + row + (src_c_lb + col - 1)*src_rs)
+            END DO
+         END DO
+      ELSEIF (.NOT. dst_tr .AND. src_tr) THEN
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_r_lb + row + (dst_c_lb + col - 1)*dst_rs) &
+                  = src(src_offset + src_c_lb + col + (src_r_lb + row - 1)*src_cs)
+            END DO
+         END DO
+      ELSE
+         DBCSR_ASSERT(dst_tr .AND. src_tr)
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_offset + dst_c_lb + (dst_r_lb - 1)*dst_cs)), &
+                                 libxsmm_ptr0(src(src_offset + src_c_lb + (src_r_lb - 1)*src_cs)), &
+                                 4, nrow, ncol, src_cs, dst_cs)
+         END IF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_c_lb + col + (dst_r_lb + row - 1)*dst_cs) &
+                  = src(src_offset + src_c_lb + col + (src_r_lb + row - 1)*src_cs)
+            END DO
+         END DO
+#endif
+      ENDIF
+   END SUBROUTINE block_partial_copy_s
+
+   PURE_BLOCKOPS SUBROUTINE block_partial_copy_1d2d_s (dst, dst_rs, dst_cs, dst_tr, &
+                                                                   src, src_tr, &
+                                                                   dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
+                                                                   dst_offset)
+     !! Copies a block subset
+     !! @note see block_partial_copy_a
+
+#if defined(__LIBXSMM_BLOCKOPS)
+      USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
+#else
+      INTEGER                                  :: col, row
+#endif
+      REAL(kind=real_4), DIMENSION(:), &
+         INTENT(INOUT)                         :: dst
+      INTEGER, INTENT(IN)                      :: dst_rs, dst_cs
+      INTEGER, INTENT(IN)                      :: dst_offset
+      LOGICAL, INTENT(IN)                      :: dst_tr
+      REAL(kind=real_4), DIMENSION(:, :), &
+         INTENT(IN)                            :: src
+      LOGICAL, INTENT(IN)                      :: src_tr
+      INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
+                                                  src_c_lb, nrow, ncol
+
+!    ---------------------------------------------------------------------------
+!    Factors out the 4 combinations to remove branches from the inner loop.
+!    rs is the logical row size so it always remains the leading dimension.
+      IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_offset + dst_r_lb + (dst_c_lb - 1)*dst_rs)), &
+                                 libxsmm_ptr0(src(src_r_lb, src_c_lb)), &
+                                 4, nrow, ncol, SIZE(src, 1), dst_rs)
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_r_lb + row + (dst_c_lb + col - 1)*dst_rs) &
+                  = src(src_r_lb + row, src_c_lb + col)
+            END DO
+         END DO
+#endif
+      ELSEIF (dst_tr .AND. .NOT. src_tr) THEN
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_otrans(libxsmm_ptr0(dst(dst_offset + dst_c_lb + (dst_r_lb - 1)*dst_cs)), &
+                                libxsmm_ptr0(src(src_r_lb, src_c_lb)), &
+                                4, nrow, ncol, SIZE(src, 1), dst_cs)
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_c_lb + col + (dst_r_lb + row - 1)*dst_cs) &
+                  = src(src_r_lb + row, src_c_lb + col)
+            END DO
+         END DO
+#endif
+      ELSEIF (.NOT. dst_tr .AND. src_tr) THEN
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_otrans(libxsmm_ptr0(dst(dst_offset + dst_r_lb + (dst_c_lb - 1)*dst_rs)), &
+                                libxsmm_ptr0(src(src_c_lb, src_r_lb)), &
+                                4, nrow, ncol, SIZE(src, 2), dst_rs)
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_r_lb + row + (dst_c_lb + col - 1)*dst_rs) &
+                  = src(src_c_lb + col, src_r_lb + row)
+            END DO
+         END DO
+#endif
+      ELSE
+         DBCSR_ASSERT(dst_tr .AND. src_tr)
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_offset + dst_c_lb + (dst_r_lb - 1)*dst_cs)), &
+                                 libxsmm_ptr0(src(src_c_lb, src_r_lb)), &
+                                 4, nrow, ncol, SIZE(src, 2), dst_cs)
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_c_lb + col + (dst_r_lb + row - 1)*dst_cs) &
+                  = src(src_c_lb + col, src_r_lb + row)
+            END DO
+         END DO
+#endif
+      ENDIF
+   END SUBROUTINE block_partial_copy_1d2d_s
+
+   PURE_BLOCKOPS SUBROUTINE block_partial_copy_2d1d_s (dst, dst_tr, &
+                                                                   src, src_rs, src_cs, src_tr, &
+                                                                   dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
+                                                                   src_offset)
+     !! Copies a block subset
+     !! @note see block_partial_copy_a
+
+#if defined(__LIBXSMM_BLOCKOPS)
+      USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
+#endif
+      REAL(kind=real_4), DIMENSION(:, :), &
+         INTENT(INOUT)                         :: dst
+      INTEGER, INTENT(IN)                      :: src_offset
+      LOGICAL, INTENT(IN)                      :: dst_tr
+      REAL(kind=real_4), DIMENSION(:), &
+         INTENT(IN)                            :: src
+      INTEGER, INTENT(IN)                      :: src_rs, src_cs
+      LOGICAL, INTENT(IN)                      :: src_tr
+      INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
+                                                  src_c_lb, nrow, ncol
+
+      INTEGER                                  :: col, row
+!    ---------------------------------------------------------------------------
+!    Factors out the 4 combinations to remove branches from the inner loop.
+!    rs is the logical row size so it always remains the leading dimension.
+      IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_r_lb + row, dst_c_lb + col) &
+                  = src(src_offset + src_r_lb + row + (src_c_lb + col - 1)*src_rs)
+            END DO
+         END DO
+      ELSEIF (dst_tr .AND. .NOT. src_tr) THEN
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_c_lb + col, dst_r_lb + row) &
+                  = src(src_offset + src_r_lb + row + (src_c_lb + col - 1)*src_rs)
+            END DO
+         END DO
+      ELSEIF (.NOT. dst_tr .AND. src_tr) THEN
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_r_lb + row, dst_c_lb + col) &
+                  = src(src_offset + src_c_lb + col + (src_r_lb + row - 1)*src_cs)
+            END DO
+         END DO
+      ELSE
+         DBCSR_ASSERT(dst_tr .AND. src_tr)
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_c_lb + col, dst_r_lb + row) &
+                  = src(src_offset + src_c_lb + col + (src_r_lb + row - 1)*src_cs)
+            END DO
+         END DO
+      ENDIF
+   END SUBROUTINE block_partial_copy_2d1d_s
+
+   PURE_BLOCKOPS SUBROUTINE block_partial_copy_2d2d_s (dst, dst_tr, &
+                                                                   src, src_tr, &
+                                                                   dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol)
+     !! Copies a block subset
+     !! @note see block_partial_copy_a
+
+#if defined(__LIBXSMM_BLOCKOPS)
+      USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
+#else
+      INTEGER                                  :: col, row
+#endif
+      REAL(kind=real_4), DIMENSION(:, :), &
+         INTENT(INOUT)                         :: dst
+      LOGICAL, INTENT(IN)                      :: dst_tr
+      REAL(kind=real_4), DIMENSION(:, :), &
+         INTENT(IN)                            :: src
+      LOGICAL, INTENT(IN)                      :: src_tr
+      INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
+                                                  src_c_lb, nrow, ncol
+
+!    ---------------------------------------------------------------------------
+!    Factors out the 4 combinations to remove branches from the inner loop.
+!    rs is the logical row size so it always remains the leading dimension.
+      IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_r_lb, dst_c_lb)), &
+                                 libxsmm_ptr0(src(src_r_lb, src_c_lb)), &
+                                 4, nrow, ncol, &
+                                 SIZE(src, 1), SIZE(dst, 1))
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_r_lb + row, dst_c_lb + col) &
+                  = src(src_r_lb + row, src_c_lb + col)
+            END DO
+         END DO
+#endif
+      ELSEIF (dst_tr .AND. .NOT. src_tr) THEN
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_otrans(libxsmm_ptr0(dst(dst_c_lb, dst_r_lb)), &
+                                libxsmm_ptr0(src(src_r_lb, src_c_lb)), &
+                                4, nrow, ncol, &
+                                SIZE(src, 1), SIZE(dst, 2))
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_c_lb + col, dst_r_lb + row) &
+                  = src(src_r_lb + row, src_c_lb + col)
+            END DO
+         END DO
+#endif
+      ELSEIF (.NOT. dst_tr .AND. src_tr) THEN
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_otrans(libxsmm_ptr0(dst(dst_r_lb, dst_c_lb)), &
+                                libxsmm_ptr0(src(src_c_lb, src_r_lb)), &
+                                4, nrow, ncol, &
+                                SIZE(src, 2), SIZE(dst, 1))
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_r_lb + row, dst_c_lb + col) &
+                  = src(src_c_lb + col, src_r_lb + row)
+            END DO
+         END DO
+#endif
+      ELSE
+         DBCSR_ASSERT(dst_tr .AND. src_tr)
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_c_lb, dst_r_lb)), &
+                                 libxsmm_ptr0(src(src_c_lb, src_r_lb)), &
+                                 4, nrow, ncol, &
+                                 SIZE(src, 2), SIZE(dst, 2))
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_c_lb + col, dst_r_lb + row) &
+                  = src(src_c_lb + col, src_r_lb + row)
+            END DO
+         END DO
+#endif
+      ENDIF
+   END SUBROUTINE block_partial_copy_2d2d_s
+
+   PURE SUBROUTINE block_copy_s (extent_out, extent_in, n, out_fe, in_fe)
+     !! Copy a block
+
+      INTEGER, INTENT(IN) :: n, out_fe, in_fe
+        !! number of elements to copy
+        !! first element of output
+        !! first element of input
+      REAL(kind=real_4), DIMENSION(*), INTENT(OUT) :: extent_out
+        !! output data
+      REAL(kind=real_4), DIMENSION(*), INTENT(IN)  :: extent_in
+        !! input data
+
+!    ---------------------------------------------------------------------------
+      extent_out(out_fe:out_fe + n - 1) = extent_in(in_fe:in_fe + n - 1)
+   END SUBROUTINE block_copy_s
+
+   PURE_BLOCKOPS SUBROUTINE block_transpose_copy_s (extent_out, extent_in, &
+                                                                rows, columns)
+     !! Copy and transpose block.
+
+#if defined(__LIBXSMM_TRANS)
+      USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1
+#endif
+      REAL(kind=real_4), DIMENSION(:), INTENT(OUT), TARGET :: extent_out
+        !! output matrix in the form of a 1-d array
+      REAL(kind=real_4), DIMENSION(:), INTENT(IN)          :: extent_in
+        !! input matrix in the form of a 1-d array
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+
+!    ---------------------------------------------------------------------------
+#if defined(__LIBXSMM_TRANS)
+      CALL libxsmm_otrans(libxsmm_ptr1(extent_out), libxsmm_ptr1(extent_in), &
+                          4, rows, columns, rows, columns)
+#elif defined(__MKL)
+      CALL mkl_somatcopy('C', 'T', rows, columns, 1.0_real_4, extent_in, rows, extent_out, columns)
+#else
+      extent_out(1:rows*columns) = RESHAPE(TRANSPOSE( &
+                                           RESHAPE(extent_in(1:rows*columns), (/rows, columns/))), (/rows*columns/))
+#endif
+   END SUBROUTINE block_transpose_copy_s
+
+   PURE SUBROUTINE block_copy_2d1d_s (extent_out, extent_in, &
+                                                  rows, columns)
+     !! Copy a block
+
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+      REAL(kind=real_4), DIMENSION(rows, columns), INTENT(OUT) :: extent_out
+        !! output matrix in the form of a 2-d array
+      REAL(kind=real_4), DIMENSION(:), INTENT(IN)             :: extent_in
+        !! input matrix in the form of a 1-d array
+
+!    ---------------------------------------------------------------------------
+      extent_out = RESHAPE(extent_in, (/rows, columns/))
+   END SUBROUTINE block_copy_2d1d_s
+
+   PURE SUBROUTINE block_copy_1d1d_s (extent_out, extent_in, &
+                                                  rows, columns)
+     !! Copy a block
+
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+      REAL(kind=real_4), DIMENSION(rows*columns), INTENT(OUT) :: extent_out
+        !! output matrix in the form of a 1-d array
+      REAL(kind=real_4), DIMENSION(rows*columns), INTENT(IN)  :: extent_in
+        !! input matrix in the form of a 1-d array
+
+!    ---------------------------------------------------------------------------
+      extent_out(:) = extent_in(:)
+   END SUBROUTINE block_copy_1d1d_s
+
+   PURE SUBROUTINE block_copy_2d2d_s (extent_out, extent_in, &
+                                                  rows, columns)
+     !! Copy a block
+
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+      REAL(kind=real_4), DIMENSION(rows, columns), INTENT(OUT) :: extent_out
+        !! output matrix in the form of a 2-d array
+      REAL(kind=real_4), DIMENSION(rows, columns), INTENT(IN)  :: extent_in
+        !! input matrix in the form of a 2-d array
+
+!    ---------------------------------------------------------------------------
+      extent_out(:, :) = extent_in(:, :)
+   END SUBROUTINE block_copy_2d2d_s
+
+   PURE_BLOCKOPS SUBROUTINE block_transpose_copy_2d1d_s (extent_out, extent_in, &
+                                                                     rows, columns)
+     !! Copy and transpose block.
+
+#if defined(__LIBXSMM_TRANS)
+      USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1, libxsmm_ptr2
+#endif
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+      REAL(kind=real_4), DIMENSION(columns, rows), INTENT(OUT), TARGET :: extent_out
+        !! output matrix in the form of a 2-d array
+      REAL(kind=real_4), DIMENSION(:), INTENT(IN)                      :: extent_in
+        !! input matrix in the form of a 1-d array
+
+!    ---------------------------------------------------------------------------
+#if defined(__LIBXSMM_TRANS)
+      CALL libxsmm_otrans(libxsmm_ptr2(extent_out), libxsmm_ptr1(extent_in), &
+                          4, rows, columns, rows, columns)
+#elif defined(__MKL)
+      CALL mkl_somatcopy('C', 'T', rows, columns, 1.0_real_4, extent_in, rows, extent_out, columns)
+#else
+      extent_out = TRANSPOSE(RESHAPE(extent_in, (/rows, columns/)))
+#endif
+   END SUBROUTINE block_transpose_copy_2d1d_s
+
+   PURE SUBROUTINE block_copy_1d2d_s (extent_out, extent_in, &
+                                                  rows, columns)
+     !! Copy and transpose block.
+
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+      REAL(kind=real_4), DIMENSION(:), INTENT(OUT)            :: extent_out
+        !! output matrix in the form of a 1-d array
+      REAL(kind=real_4), DIMENSION(rows, columns), INTENT(IN) :: extent_in
+        !! input matrix in the form of a 2-d array
+
+!    ---------------------------------------------------------------------------
+      extent_out = RESHAPE(extent_in, (/rows*columns/))
+   END SUBROUTINE block_copy_1d2d_s
+
+   PURE_BLOCKOPS SUBROUTINE block_transpose_copy_1d2d_s (extent_out, extent_in, &
+                                                                     rows, columns)
+     !! Copy and transpose block.
+
+#if defined(__LIBXSMM_TRANS)
+      USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1, libxsmm_ptr2
+#endif
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+      REAL(kind=real_4), DIMENSION(:), INTENT(OUT), TARGET    :: extent_out
+        !! output matrix in the form of a 1-d array
+      REAL(kind=real_4), DIMENSION(rows, columns), INTENT(IN) :: extent_in
+        !! input matrix in the form of a 2-d array
+
+!    ---------------------------------------------------------------------------
+#if defined(__LIBXSMM_TRANS)
+      CALL libxsmm_otrans(libxsmm_ptr1(extent_out), libxsmm_ptr2(extent_in), &
+                          4, rows, columns, rows, columns)
+#elif defined(__MKL)
+      CALL mkl_somatcopy('C', 'T', rows, columns, 1.0_real_4, extent_in, rows, extent_out, columns)
+#else
+      extent_out = RESHAPE(TRANSPOSE(extent_in), (/rows*columns/))
+#endif
+   END SUBROUTINE block_transpose_copy_1d2d_s
+
+   PURE_BLOCKOPS SUBROUTINE block_transpose_inplace_s (extent, rows, columns)
+     !! In-place block transpose.
+
+#if defined(__LIBXSMM_TRANS) && 0
+      USE libxsmm, ONLY: libxsmm_itrans, libxsmm_ptr1
+#endif
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+      REAL(kind=real_4), DIMENSION(rows*columns), INTENT(INOUT) :: extent
+        !! Matrix in the form of a 1-d array
+
+!    ---------------------------------------------------------------------------
+#if defined(__LIBXSMM_TRANS) && 0
+      CALL libxsmm_itrans(libxsmm_ptr1(extent), 4, rows, columns, rows)
+#elif defined(__MKL)
+      CALL mkl_simatcopy('C', 'T', rows, columns, 1.0_real_4, extent, rows, columns)
+#else
+      REAL(kind=real_4), DIMENSION(rows*columns) :: extent_tr
+      INTEGER :: r, c
+      DO r = 1, columns
+         DO c = 1, rows
+            extent_tr(r + (c - 1)*columns) = extent(c + (r - 1)*rows)
+         END DO
+      END DO
+      DO r = 1, columns
+         DO c = 1, rows
+            extent(r + (c - 1)*columns) = extent_tr(r + (c - 1)*columns)
+         END DO
+      END DO
+#endif
+   END SUBROUTINE block_transpose_inplace_s
+
+   SUBROUTINE dbcsr_data_set_as (dst, lb, data_size, src, source_lb)
+     !! Copy data from a double real array to a data area
+     !! There are no checks done for correctness!
+
+      TYPE(dbcsr_data_obj), INTENT(INOUT)      :: dst
+        !! destination data area
+      INTEGER, INTENT(IN)                      :: lb, data_size
+        !! lower bound for destination (and source if not given explicitly)
+        !! number of elements to copy
+      REAL(kind=real_4), DIMENSION(:), INTENT(IN), CONTIGUOUS :: src
+        !! source data array
+      INTEGER, INTENT(IN), OPTIONAL            :: source_lb
+        !! lower bound of source
+      INTEGER                                  :: lb_s, ub, ub_s
+
+      REAL(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: cont_data
+
+!    ---------------------------------------------------------------------------
+      IF (debug_mod) THEN
+         IF (.NOT. ASSOCIATED(dst%d)) &
+            DBCSR_ABORT("Target data area must be setup.")
+         IF (SIZE(src) .LT. data_size) &
+            DBCSR_ABORT("Not enough source data.")
+         IF (dst%d%data_type .NE. dbcsr_type_real_4) &
+            DBCSR_ABORT("Data type mismatch.")
+      ENDIF
+      ub = lb + data_size - 1
+      IF (PRESENT(source_lb)) THEN
+         lb_s = source_lb
+         ub_s = source_lb + data_size - 1
+      ELSE
+         lb_s = lb
+         ub_s = ub
+      ENDIF
+      cont_data => dst%d%r_sp (lb:ub)
+      CALL memory_copy(cont_data, src(lb_s:ub_s), data_size)
+   END SUBROUTINE dbcsr_data_set_as
+
+   PURE SUBROUTINE block_add_s (block_a, block_b, len)
+      INTEGER, INTENT(IN) :: len
+      REAL(kind=real_4), DIMENSION(len), INTENT(INOUT) :: block_a
+      REAL(kind=real_4), DIMENSION(len), INTENT(IN)    :: block_b
+      block_a(1:len) = block_a(1:len) + block_b(1:len)
+   END SUBROUTINE block_add_s
+# 1450 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
+   PURE_BLOCKOPS SUBROUTINE block_partial_copy_z (dst, dst_rs, dst_cs, dst_tr, &
+                                                              src, src_rs, src_cs, src_tr, &
+                                                              dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
+                                                              dst_offset, src_offset)
+     !! Copies a block subset
+     !! @note see block_partial_copy_a
+
+#if defined(__LIBXSMM_BLOCKOPS)
+      USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
+#endif
+      COMPLEX(kind=real_8), DIMENSION(:), &
+         INTENT(INOUT)                         :: dst
+      INTEGER, INTENT(IN)                      :: dst_rs, dst_cs
+      INTEGER, INTENT(IN)                      :: src_offset, dst_offset
+      LOGICAL, INTENT(IN)                      :: dst_tr
+      COMPLEX(kind=real_8), DIMENSION(:), &
+         INTENT(IN)                            :: src
+      INTEGER, INTENT(IN)                      :: src_rs, src_cs
+      LOGICAL, INTENT(IN)                      :: src_tr
+      INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
+                                                  src_c_lb, nrow, ncol
+
+      INTEGER                                  :: col, row
+!    ---------------------------------------------------------------------------
+!    Factors out the 4 combinations to remove branches from the inner loop.
+!    rs is the logical row size so it always remains the leading dimension.
+      IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_offset + dst_r_lb + (dst_c_lb - 1)*dst_rs)), &
+                                 libxsmm_ptr0(src(src_offset + src_r_lb + (src_c_lb - 1)*src_rs)), &
+                                 16, nrow, ncol, src_rs, dst_rs)
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_r_lb + row + (dst_c_lb + col - 1)*dst_rs) &
+                  = src(src_offset + src_r_lb + row + (src_c_lb + col - 1)*src_rs)
+            END DO
+         END DO
+#endif
+      ELSEIF (dst_tr .AND. .NOT. src_tr) THEN
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_c_lb + col + (dst_r_lb + row - 1)*dst_cs) &
+                  = src(src_offset + src_r_lb + row + (src_c_lb + col - 1)*src_rs)
+            END DO
+         END DO
+      ELSEIF (.NOT. dst_tr .AND. src_tr) THEN
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_r_lb + row + (dst_c_lb + col - 1)*dst_rs) &
+                  = src(src_offset + src_c_lb + col + (src_r_lb + row - 1)*src_cs)
+            END DO
+         END DO
+      ELSE
+         DBCSR_ASSERT(dst_tr .AND. src_tr)
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_offset + dst_c_lb + (dst_r_lb - 1)*dst_cs)), &
+                                 libxsmm_ptr0(src(src_offset + src_c_lb + (src_r_lb - 1)*src_cs)), &
+                                 16, nrow, ncol, src_cs, dst_cs)
+         END IF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_c_lb + col + (dst_r_lb + row - 1)*dst_cs) &
+                  = src(src_offset + src_c_lb + col + (src_r_lb + row - 1)*src_cs)
+            END DO
+         END DO
+#endif
+      ENDIF
+   END SUBROUTINE block_partial_copy_z
+
+   PURE_BLOCKOPS SUBROUTINE block_partial_copy_1d2d_z (dst, dst_rs, dst_cs, dst_tr, &
+                                                                   src, src_tr, &
+                                                                   dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
+                                                                   dst_offset)
+     !! Copies a block subset
+     !! @note see block_partial_copy_a
+
+#if defined(__LIBXSMM_BLOCKOPS)
+      USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
+#else
+      INTEGER                                  :: col, row
+#endif
+      COMPLEX(kind=real_8), DIMENSION(:), &
+         INTENT(INOUT)                         :: dst
+      INTEGER, INTENT(IN)                      :: dst_rs, dst_cs
+      INTEGER, INTENT(IN)                      :: dst_offset
+      LOGICAL, INTENT(IN)                      :: dst_tr
+      COMPLEX(kind=real_8), DIMENSION(:, :), &
+         INTENT(IN)                            :: src
+      LOGICAL, INTENT(IN)                      :: src_tr
+      INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
+                                                  src_c_lb, nrow, ncol
+
+!    ---------------------------------------------------------------------------
+!    Factors out the 4 combinations to remove branches from the inner loop.
+!    rs is the logical row size so it always remains the leading dimension.
+      IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_offset + dst_r_lb + (dst_c_lb - 1)*dst_rs)), &
+                                 libxsmm_ptr0(src(src_r_lb, src_c_lb)), &
+                                 16, nrow, ncol, SIZE(src, 1), dst_rs)
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_r_lb + row + (dst_c_lb + col - 1)*dst_rs) &
+                  = src(src_r_lb + row, src_c_lb + col)
+            END DO
+         END DO
+#endif
+      ELSEIF (dst_tr .AND. .NOT. src_tr) THEN
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_otrans(libxsmm_ptr0(dst(dst_offset + dst_c_lb + (dst_r_lb - 1)*dst_cs)), &
+                                libxsmm_ptr0(src(src_r_lb, src_c_lb)), &
+                                16, nrow, ncol, SIZE(src, 1), dst_cs)
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_c_lb + col + (dst_r_lb + row - 1)*dst_cs) &
+                  = src(src_r_lb + row, src_c_lb + col)
+            END DO
+         END DO
+#endif
+      ELSEIF (.NOT. dst_tr .AND. src_tr) THEN
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_otrans(libxsmm_ptr0(dst(dst_offset + dst_r_lb + (dst_c_lb - 1)*dst_rs)), &
+                                libxsmm_ptr0(src(src_c_lb, src_r_lb)), &
+                                16, nrow, ncol, SIZE(src, 2), dst_rs)
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_r_lb + row + (dst_c_lb + col - 1)*dst_rs) &
+                  = src(src_c_lb + col, src_r_lb + row)
+            END DO
+         END DO
+#endif
+      ELSE
+         DBCSR_ASSERT(dst_tr .AND. src_tr)
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_offset + dst_c_lb + (dst_r_lb - 1)*dst_cs)), &
+                                 libxsmm_ptr0(src(src_c_lb, src_r_lb)), &
+                                 16, nrow, ncol, SIZE(src, 2), dst_cs)
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_c_lb + col + (dst_r_lb + row - 1)*dst_cs) &
+                  = src(src_c_lb + col, src_r_lb + row)
+            END DO
+         END DO
+#endif
+      ENDIF
+   END SUBROUTINE block_partial_copy_1d2d_z
+
+   PURE_BLOCKOPS SUBROUTINE block_partial_copy_2d1d_z (dst, dst_tr, &
+                                                                   src, src_rs, src_cs, src_tr, &
+                                                                   dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
+                                                                   src_offset)
+     !! Copies a block subset
+     !! @note see block_partial_copy_a
+
+#if defined(__LIBXSMM_BLOCKOPS)
+      USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
+#endif
+      COMPLEX(kind=real_8), DIMENSION(:, :), &
+         INTENT(INOUT)                         :: dst
+      INTEGER, INTENT(IN)                      :: src_offset
+      LOGICAL, INTENT(IN)                      :: dst_tr
+      COMPLEX(kind=real_8), DIMENSION(:), &
+         INTENT(IN)                            :: src
+      INTEGER, INTENT(IN)                      :: src_rs, src_cs
+      LOGICAL, INTENT(IN)                      :: src_tr
+      INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
+                                                  src_c_lb, nrow, ncol
+
+      INTEGER                                  :: col, row
+!    ---------------------------------------------------------------------------
+!    Factors out the 4 combinations to remove branches from the inner loop.
+!    rs is the logical row size so it always remains the leading dimension.
+      IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_r_lb + row, dst_c_lb + col) &
+                  = src(src_offset + src_r_lb + row + (src_c_lb + col - 1)*src_rs)
+            END DO
+         END DO
+      ELSEIF (dst_tr .AND. .NOT. src_tr) THEN
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_c_lb + col, dst_r_lb + row) &
+                  = src(src_offset + src_r_lb + row + (src_c_lb + col - 1)*src_rs)
+            END DO
+         END DO
+      ELSEIF (.NOT. dst_tr .AND. src_tr) THEN
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_r_lb + row, dst_c_lb + col) &
+                  = src(src_offset + src_c_lb + col + (src_r_lb + row - 1)*src_cs)
+            END DO
+         END DO
+      ELSE
+         DBCSR_ASSERT(dst_tr .AND. src_tr)
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_c_lb + col, dst_r_lb + row) &
+                  = src(src_offset + src_c_lb + col + (src_r_lb + row - 1)*src_cs)
+            END DO
+         END DO
+      ENDIF
+   END SUBROUTINE block_partial_copy_2d1d_z
+
+   PURE_BLOCKOPS SUBROUTINE block_partial_copy_2d2d_z (dst, dst_tr, &
+                                                                   src, src_tr, &
+                                                                   dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol)
+     !! Copies a block subset
+     !! @note see block_partial_copy_a
+
+#if defined(__LIBXSMM_BLOCKOPS)
+      USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
+#else
+      INTEGER                                  :: col, row
+#endif
+      COMPLEX(kind=real_8), DIMENSION(:, :), &
+         INTENT(INOUT)                         :: dst
+      LOGICAL, INTENT(IN)                      :: dst_tr
+      COMPLEX(kind=real_8), DIMENSION(:, :), &
+         INTENT(IN)                            :: src
+      LOGICAL, INTENT(IN)                      :: src_tr
+      INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
+                                                  src_c_lb, nrow, ncol
+
+!    ---------------------------------------------------------------------------
+!    Factors out the 4 combinations to remove branches from the inner loop.
+!    rs is the logical row size so it always remains the leading dimension.
+      IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_r_lb, dst_c_lb)), &
+                                 libxsmm_ptr0(src(src_r_lb, src_c_lb)), &
+                                 16, nrow, ncol, &
+                                 SIZE(src, 1), SIZE(dst, 1))
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_r_lb + row, dst_c_lb + col) &
+                  = src(src_r_lb + row, src_c_lb + col)
+            END DO
+         END DO
+#endif
+      ELSEIF (dst_tr .AND. .NOT. src_tr) THEN
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_otrans(libxsmm_ptr0(dst(dst_c_lb, dst_r_lb)), &
+                                libxsmm_ptr0(src(src_r_lb, src_c_lb)), &
+                                16, nrow, ncol, &
+                                SIZE(src, 1), SIZE(dst, 2))
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_c_lb + col, dst_r_lb + row) &
+                  = src(src_r_lb + row, src_c_lb + col)
+            END DO
+         END DO
+#endif
+      ELSEIF (.NOT. dst_tr .AND. src_tr) THEN
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_otrans(libxsmm_ptr0(dst(dst_r_lb, dst_c_lb)), &
+                                libxsmm_ptr0(src(src_c_lb, src_r_lb)), &
+                                16, nrow, ncol, &
+                                SIZE(src, 2), SIZE(dst, 1))
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_r_lb + row, dst_c_lb + col) &
+                  = src(src_c_lb + col, src_r_lb + row)
+            END DO
+         END DO
+#endif
+      ELSE
+         DBCSR_ASSERT(dst_tr .AND. src_tr)
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_c_lb, dst_r_lb)), &
+                                 libxsmm_ptr0(src(src_c_lb, src_r_lb)), &
+                                 16, nrow, ncol, &
+                                 SIZE(src, 2), SIZE(dst, 2))
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_c_lb + col, dst_r_lb + row) &
+                  = src(src_c_lb + col, src_r_lb + row)
+            END DO
+         END DO
+#endif
+      ENDIF
+   END SUBROUTINE block_partial_copy_2d2d_z
+
+   PURE SUBROUTINE block_copy_z (extent_out, extent_in, n, out_fe, in_fe)
+     !! Copy a block
+
+      INTEGER, INTENT(IN) :: n, out_fe, in_fe
+        !! number of elements to copy
+        !! first element of output
+        !! first element of input
+      COMPLEX(kind=real_8), DIMENSION(*), INTENT(OUT) :: extent_out
+        !! output data
+      COMPLEX(kind=real_8), DIMENSION(*), INTENT(IN)  :: extent_in
+        !! input data
+
+!    ---------------------------------------------------------------------------
+      extent_out(out_fe:out_fe + n - 1) = extent_in(in_fe:in_fe + n - 1)
+   END SUBROUTINE block_copy_z
+
+   PURE_BLOCKOPS SUBROUTINE block_transpose_copy_z (extent_out, extent_in, &
+                                                                rows, columns)
+     !! Copy and transpose block.
+
+#if defined(__LIBXSMM_TRANS)
+      USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1
+#endif
+      COMPLEX(kind=real_8), DIMENSION(:), INTENT(OUT), TARGET :: extent_out
+        !! output matrix in the form of a 1-d array
+      COMPLEX(kind=real_8), DIMENSION(:), INTENT(IN)          :: extent_in
+        !! input matrix in the form of a 1-d array
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+
+!    ---------------------------------------------------------------------------
+#if defined(__LIBXSMM_TRANS)
+      CALL libxsmm_otrans(libxsmm_ptr1(extent_out), libxsmm_ptr1(extent_in), &
+                          16, rows, columns, rows, columns)
+#elif defined(__MKL)
+      CALL mkl_zomatcopy('C', 'T', rows, columns, CMPLX(1.0, 0.0, real_8), extent_in, rows, extent_out, columns)
+#else
+      extent_out(1:rows*columns) = RESHAPE(TRANSPOSE( &
+                                           RESHAPE(extent_in(1:rows*columns), (/rows, columns/))), (/rows*columns/))
+#endif
+   END SUBROUTINE block_transpose_copy_z
+
+   PURE SUBROUTINE block_copy_2d1d_z (extent_out, extent_in, &
+                                                  rows, columns)
+     !! Copy a block
+
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+      COMPLEX(kind=real_8), DIMENSION(rows, columns), INTENT(OUT) :: extent_out
+        !! output matrix in the form of a 2-d array
+      COMPLEX(kind=real_8), DIMENSION(:), INTENT(IN)             :: extent_in
+        !! input matrix in the form of a 1-d array
+
+!    ---------------------------------------------------------------------------
+      extent_out = RESHAPE(extent_in, (/rows, columns/))
+   END SUBROUTINE block_copy_2d1d_z
+
+   PURE SUBROUTINE block_copy_1d1d_z (extent_out, extent_in, &
+                                                  rows, columns)
+     !! Copy a block
+
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+      COMPLEX(kind=real_8), DIMENSION(rows*columns), INTENT(OUT) :: extent_out
+        !! output matrix in the form of a 1-d array
+      COMPLEX(kind=real_8), DIMENSION(rows*columns), INTENT(IN)  :: extent_in
+        !! input matrix in the form of a 1-d array
+
+!    ---------------------------------------------------------------------------
+      extent_out(:) = extent_in(:)
+   END SUBROUTINE block_copy_1d1d_z
+
+   PURE SUBROUTINE block_copy_2d2d_z (extent_out, extent_in, &
+                                                  rows, columns)
+     !! Copy a block
+
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+      COMPLEX(kind=real_8), DIMENSION(rows, columns), INTENT(OUT) :: extent_out
+        !! output matrix in the form of a 2-d array
+      COMPLEX(kind=real_8), DIMENSION(rows, columns), INTENT(IN)  :: extent_in
+        !! input matrix in the form of a 2-d array
+
+!    ---------------------------------------------------------------------------
+      extent_out(:, :) = extent_in(:, :)
+   END SUBROUTINE block_copy_2d2d_z
+
+   PURE_BLOCKOPS SUBROUTINE block_transpose_copy_2d1d_z (extent_out, extent_in, &
+                                                                     rows, columns)
+     !! Copy and transpose block.
+
+#if defined(__LIBXSMM_TRANS)
+      USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1, libxsmm_ptr2
+#endif
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+      COMPLEX(kind=real_8), DIMENSION(columns, rows), INTENT(OUT), TARGET :: extent_out
+        !! output matrix in the form of a 2-d array
+      COMPLEX(kind=real_8), DIMENSION(:), INTENT(IN)                      :: extent_in
+        !! input matrix in the form of a 1-d array
+
+!    ---------------------------------------------------------------------------
+#if defined(__LIBXSMM_TRANS)
+      CALL libxsmm_otrans(libxsmm_ptr2(extent_out), libxsmm_ptr1(extent_in), &
+                          16, rows, columns, rows, columns)
+#elif defined(__MKL)
+      CALL mkl_zomatcopy('C', 'T', rows, columns, CMPLX(1.0, 0.0, real_8), extent_in, rows, extent_out, columns)
+#else
+      extent_out = TRANSPOSE(RESHAPE(extent_in, (/rows, columns/)))
+#endif
+   END SUBROUTINE block_transpose_copy_2d1d_z
+
+   PURE SUBROUTINE block_copy_1d2d_z (extent_out, extent_in, &
+                                                  rows, columns)
+     !! Copy and transpose block.
+
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+      COMPLEX(kind=real_8), DIMENSION(:), INTENT(OUT)            :: extent_out
+        !! output matrix in the form of a 1-d array
+      COMPLEX(kind=real_8), DIMENSION(rows, columns), INTENT(IN) :: extent_in
+        !! input matrix in the form of a 2-d array
+
+!    ---------------------------------------------------------------------------
+      extent_out = RESHAPE(extent_in, (/rows*columns/))
+   END SUBROUTINE block_copy_1d2d_z
+
+   PURE_BLOCKOPS SUBROUTINE block_transpose_copy_1d2d_z (extent_out, extent_in, &
+                                                                     rows, columns)
+     !! Copy and transpose block.
+
+#if defined(__LIBXSMM_TRANS)
+      USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1, libxsmm_ptr2
+#endif
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+      COMPLEX(kind=real_8), DIMENSION(:), INTENT(OUT), TARGET    :: extent_out
+        !! output matrix in the form of a 1-d array
+      COMPLEX(kind=real_8), DIMENSION(rows, columns), INTENT(IN) :: extent_in
+        !! input matrix in the form of a 2-d array
+
+!    ---------------------------------------------------------------------------
+#if defined(__LIBXSMM_TRANS)
+      CALL libxsmm_otrans(libxsmm_ptr1(extent_out), libxsmm_ptr2(extent_in), &
+                          16, rows, columns, rows, columns)
+#elif defined(__MKL)
+      CALL mkl_zomatcopy('C', 'T', rows, columns, CMPLX(1.0, 0.0, real_8), extent_in, rows, extent_out, columns)
+#else
+      extent_out = RESHAPE(TRANSPOSE(extent_in), (/rows*columns/))
+#endif
+   END SUBROUTINE block_transpose_copy_1d2d_z
+
+   PURE_BLOCKOPS SUBROUTINE block_transpose_inplace_z (extent, rows, columns)
+     !! In-place block transpose.
+
+#if defined(__LIBXSMM_TRANS) && 0
+      USE libxsmm, ONLY: libxsmm_itrans, libxsmm_ptr1
+#endif
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+      COMPLEX(kind=real_8), DIMENSION(rows*columns), INTENT(INOUT) :: extent
+        !! Matrix in the form of a 1-d array
+
+!    ---------------------------------------------------------------------------
+#if defined(__LIBXSMM_TRANS) && 0
+      CALL libxsmm_itrans(libxsmm_ptr1(extent), 16, rows, columns, rows)
+#elif defined(__MKL)
+      CALL mkl_zimatcopy('C', 'T', rows, columns, CMPLX(1.0, 0.0, real_8), extent, rows, columns)
+#else
+      COMPLEX(kind=real_8), DIMENSION(rows*columns) :: extent_tr
+      INTEGER :: r, c
+      DO r = 1, columns
+         DO c = 1, rows
+            extent_tr(r + (c - 1)*columns) = extent(c + (r - 1)*rows)
+         END DO
+      END DO
+      DO r = 1, columns
+         DO c = 1, rows
+            extent(r + (c - 1)*columns) = extent_tr(r + (c - 1)*columns)
+         END DO
+      END DO
+#endif
+   END SUBROUTINE block_transpose_inplace_z
+
+   SUBROUTINE dbcsr_data_set_az (dst, lb, data_size, src, source_lb)
+     !! Copy data from a double real array to a data area
+     !! There are no checks done for correctness!
+
+      TYPE(dbcsr_data_obj), INTENT(INOUT)      :: dst
+        !! destination data area
+      INTEGER, INTENT(IN)                      :: lb, data_size
+        !! lower bound for destination (and source if not given explicitly)
+        !! number of elements to copy
+      COMPLEX(kind=real_8), DIMENSION(:), INTENT(IN), CONTIGUOUS :: src
+        !! source data array
+      INTEGER, INTENT(IN), OPTIONAL            :: source_lb
+        !! lower bound of source
+      INTEGER                                  :: lb_s, ub, ub_s
+
+      COMPLEX(kind=real_8), DIMENSION(:), POINTER, CONTIGUOUS :: cont_data
+
+!    ---------------------------------------------------------------------------
+      IF (debug_mod) THEN
+         IF (.NOT. ASSOCIATED(dst%d)) &
+            DBCSR_ABORT("Target data area must be setup.")
+         IF (SIZE(src) .LT. data_size) &
+            DBCSR_ABORT("Not enough source data.")
+         IF (dst%d%data_type .NE. dbcsr_type_complex_8) &
+            DBCSR_ABORT("Data type mismatch.")
+      ENDIF
+      ub = lb + data_size - 1
+      IF (PRESENT(source_lb)) THEN
+         lb_s = source_lb
+         ub_s = source_lb + data_size - 1
+      ELSE
+         lb_s = lb
+         ub_s = ub
+      ENDIF
+      cont_data => dst%d%c_dp (lb:ub)
+      CALL memory_copy(cont_data, src(lb_s:ub_s), data_size)
+   END SUBROUTINE dbcsr_data_set_az
+
+   PURE SUBROUTINE block_add_z (block_a, block_b, len)
+      INTEGER, INTENT(IN) :: len
+      COMPLEX(kind=real_8), DIMENSION(len), INTENT(INOUT) :: block_a
+      COMPLEX(kind=real_8), DIMENSION(len), INTENT(IN)    :: block_b
+      block_a(1:len) = block_a(1:len) + block_b(1:len)
+   END SUBROUTINE block_add_z
+# 1450 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
+   PURE_BLOCKOPS SUBROUTINE block_partial_copy_c (dst, dst_rs, dst_cs, dst_tr, &
+                                                              src, src_rs, src_cs, src_tr, &
+                                                              dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
+                                                              dst_offset, src_offset)
+     !! Copies a block subset
+     !! @note see block_partial_copy_a
+
+#if defined(__LIBXSMM_BLOCKOPS)
+      USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
+#endif
+      COMPLEX(kind=real_4), DIMENSION(:), &
+         INTENT(INOUT)                         :: dst
+      INTEGER, INTENT(IN)                      :: dst_rs, dst_cs
+      INTEGER, INTENT(IN)                      :: src_offset, dst_offset
+      LOGICAL, INTENT(IN)                      :: dst_tr
+      COMPLEX(kind=real_4), DIMENSION(:), &
+         INTENT(IN)                            :: src
+      INTEGER, INTENT(IN)                      :: src_rs, src_cs
+      LOGICAL, INTENT(IN)                      :: src_tr
+      INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
+                                                  src_c_lb, nrow, ncol
+
+      INTEGER                                  :: col, row
+!    ---------------------------------------------------------------------------
+!    Factors out the 4 combinations to remove branches from the inner loop.
+!    rs is the logical row size so it always remains the leading dimension.
+      IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_offset + dst_r_lb + (dst_c_lb - 1)*dst_rs)), &
+                                 libxsmm_ptr0(src(src_offset + src_r_lb + (src_c_lb - 1)*src_rs)), &
+                                 8, nrow, ncol, src_rs, dst_rs)
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_r_lb + row + (dst_c_lb + col - 1)*dst_rs) &
+                  = src(src_offset + src_r_lb + row + (src_c_lb + col - 1)*src_rs)
+            END DO
+         END DO
+#endif
+      ELSEIF (dst_tr .AND. .NOT. src_tr) THEN
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_c_lb + col + (dst_r_lb + row - 1)*dst_cs) &
+                  = src(src_offset + src_r_lb + row + (src_c_lb + col - 1)*src_rs)
+            END DO
+         END DO
+      ELSEIF (.NOT. dst_tr .AND. src_tr) THEN
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_r_lb + row + (dst_c_lb + col - 1)*dst_rs) &
+                  = src(src_offset + src_c_lb + col + (src_r_lb + row - 1)*src_cs)
+            END DO
+         END DO
+      ELSE
+         DBCSR_ASSERT(dst_tr .AND. src_tr)
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_offset + dst_c_lb + (dst_r_lb - 1)*dst_cs)), &
+                                 libxsmm_ptr0(src(src_offset + src_c_lb + (src_r_lb - 1)*src_cs)), &
+                                 8, nrow, ncol, src_cs, dst_cs)
+         END IF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_c_lb + col + (dst_r_lb + row - 1)*dst_cs) &
+                  = src(src_offset + src_c_lb + col + (src_r_lb + row - 1)*src_cs)
+            END DO
+         END DO
+#endif
+      ENDIF
+   END SUBROUTINE block_partial_copy_c
+
+   PURE_BLOCKOPS SUBROUTINE block_partial_copy_1d2d_c (dst, dst_rs, dst_cs, dst_tr, &
+                                                                   src, src_tr, &
+                                                                   dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
+                                                                   dst_offset)
+     !! Copies a block subset
+     !! @note see block_partial_copy_a
+
+#if defined(__LIBXSMM_BLOCKOPS)
+      USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
+#else
+      INTEGER                                  :: col, row
+#endif
+      COMPLEX(kind=real_4), DIMENSION(:), &
+         INTENT(INOUT)                         :: dst
+      INTEGER, INTENT(IN)                      :: dst_rs, dst_cs
+      INTEGER, INTENT(IN)                      :: dst_offset
+      LOGICAL, INTENT(IN)                      :: dst_tr
+      COMPLEX(kind=real_4), DIMENSION(:, :), &
+         INTENT(IN)                            :: src
+      LOGICAL, INTENT(IN)                      :: src_tr
+      INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
+                                                  src_c_lb, nrow, ncol
+
+!    ---------------------------------------------------------------------------
+!    Factors out the 4 combinations to remove branches from the inner loop.
+!    rs is the logical row size so it always remains the leading dimension.
+      IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_offset + dst_r_lb + (dst_c_lb - 1)*dst_rs)), &
+                                 libxsmm_ptr0(src(src_r_lb, src_c_lb)), &
+                                 8, nrow, ncol, SIZE(src, 1), dst_rs)
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_r_lb + row + (dst_c_lb + col - 1)*dst_rs) &
+                  = src(src_r_lb + row, src_c_lb + col)
+            END DO
+         END DO
+#endif
+      ELSEIF (dst_tr .AND. .NOT. src_tr) THEN
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_otrans(libxsmm_ptr0(dst(dst_offset + dst_c_lb + (dst_r_lb - 1)*dst_cs)), &
+                                libxsmm_ptr0(src(src_r_lb, src_c_lb)), &
+                                8, nrow, ncol, SIZE(src, 1), dst_cs)
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_c_lb + col + (dst_r_lb + row - 1)*dst_cs) &
+                  = src(src_r_lb + row, src_c_lb + col)
+            END DO
+         END DO
+#endif
+      ELSEIF (.NOT. dst_tr .AND. src_tr) THEN
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_otrans(libxsmm_ptr0(dst(dst_offset + dst_r_lb + (dst_c_lb - 1)*dst_rs)), &
+                                libxsmm_ptr0(src(src_c_lb, src_r_lb)), &
+                                8, nrow, ncol, SIZE(src, 2), dst_rs)
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_r_lb + row + (dst_c_lb + col - 1)*dst_rs) &
+                  = src(src_c_lb + col, src_r_lb + row)
+            END DO
+         END DO
+#endif
+      ELSE
+         DBCSR_ASSERT(dst_tr .AND. src_tr)
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_offset + dst_c_lb + (dst_r_lb - 1)*dst_cs)), &
+                                 libxsmm_ptr0(src(src_c_lb, src_r_lb)), &
+                                 8, nrow, ncol, SIZE(src, 2), dst_cs)
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_offset + dst_c_lb + col + (dst_r_lb + row - 1)*dst_cs) &
+                  = src(src_c_lb + col, src_r_lb + row)
+            END DO
+         END DO
+#endif
+      ENDIF
+   END SUBROUTINE block_partial_copy_1d2d_c
+
+   PURE_BLOCKOPS SUBROUTINE block_partial_copy_2d1d_c (dst, dst_tr, &
+                                                                   src, src_rs, src_cs, src_tr, &
+                                                                   dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol, &
+                                                                   src_offset)
+     !! Copies a block subset
+     !! @note see block_partial_copy_a
+
+#if defined(__LIBXSMM_BLOCKOPS)
+      USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
+#endif
+      COMPLEX(kind=real_4), DIMENSION(:, :), &
+         INTENT(INOUT)                         :: dst
+      INTEGER, INTENT(IN)                      :: src_offset
+      LOGICAL, INTENT(IN)                      :: dst_tr
+      COMPLEX(kind=real_4), DIMENSION(:), &
+         INTENT(IN)                            :: src
+      INTEGER, INTENT(IN)                      :: src_rs, src_cs
+      LOGICAL, INTENT(IN)                      :: src_tr
+      INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
+                                                  src_c_lb, nrow, ncol
+
+      INTEGER                                  :: col, row
+!    ---------------------------------------------------------------------------
+!    Factors out the 4 combinations to remove branches from the inner loop.
+!    rs is the logical row size so it always remains the leading dimension.
+      IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_r_lb + row, dst_c_lb + col) &
+                  = src(src_offset + src_r_lb + row + (src_c_lb + col - 1)*src_rs)
+            END DO
+         END DO
+      ELSEIF (dst_tr .AND. .NOT. src_tr) THEN
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_c_lb + col, dst_r_lb + row) &
+                  = src(src_offset + src_r_lb + row + (src_c_lb + col - 1)*src_rs)
+            END DO
+         END DO
+      ELSEIF (.NOT. dst_tr .AND. src_tr) THEN
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_r_lb + row, dst_c_lb + col) &
+                  = src(src_offset + src_c_lb + col + (src_r_lb + row - 1)*src_cs)
+            END DO
+         END DO
+      ELSE
+         DBCSR_ASSERT(dst_tr .AND. src_tr)
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_c_lb + col, dst_r_lb + row) &
+                  = src(src_offset + src_c_lb + col + (src_r_lb + row - 1)*src_cs)
+            END DO
+         END DO
+      ENDIF
+   END SUBROUTINE block_partial_copy_2d1d_c
+
+   PURE_BLOCKOPS SUBROUTINE block_partial_copy_2d2d_c (dst, dst_tr, &
+                                                                   src, src_tr, &
+                                                                   dst_r_lb, dst_c_lb, src_r_lb, src_c_lb, nrow, ncol)
+     !! Copies a block subset
+     !! @note see block_partial_copy_a
+
+#if defined(__LIBXSMM_BLOCKOPS)
+      USE libxsmm, ONLY: libxsmm_matcopy, libxsmm_otrans, libxsmm_ptr0
+#else
+      INTEGER                                  :: col, row
+#endif
+      COMPLEX(kind=real_4), DIMENSION(:, :), &
+         INTENT(INOUT)                         :: dst
+      LOGICAL, INTENT(IN)                      :: dst_tr
+      COMPLEX(kind=real_4), DIMENSION(:, :), &
+         INTENT(IN)                            :: src
+      LOGICAL, INTENT(IN)                      :: src_tr
+      INTEGER, INTENT(IN)                      :: dst_r_lb, dst_c_lb, src_r_lb, &
+                                                  src_c_lb, nrow, ncol
+
+!    ---------------------------------------------------------------------------
+!    Factors out the 4 combinations to remove branches from the inner loop.
+!    rs is the logical row size so it always remains the leading dimension.
+      IF (.NOT. dst_tr .AND. .NOT. src_tr) THEN
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_r_lb, dst_c_lb)), &
+                                 libxsmm_ptr0(src(src_r_lb, src_c_lb)), &
+                                 8, nrow, ncol, &
+                                 SIZE(src, 1), SIZE(dst, 1))
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_r_lb + row, dst_c_lb + col) &
+                  = src(src_r_lb + row, src_c_lb + col)
+            END DO
+         END DO
+#endif
+      ELSEIF (dst_tr .AND. .NOT. src_tr) THEN
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_otrans(libxsmm_ptr0(dst(dst_c_lb, dst_r_lb)), &
+                                libxsmm_ptr0(src(src_r_lb, src_c_lb)), &
+                                8, nrow, ncol, &
+                                SIZE(src, 1), SIZE(dst, 2))
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_c_lb + col, dst_r_lb + row) &
+                  = src(src_r_lb + row, src_c_lb + col)
+            END DO
+         END DO
+#endif
+      ELSEIF (.NOT. dst_tr .AND. src_tr) THEN
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_otrans(libxsmm_ptr0(dst(dst_r_lb, dst_c_lb)), &
+                                libxsmm_ptr0(src(src_c_lb, src_r_lb)), &
+                                8, nrow, ncol, &
+                                SIZE(src, 2), SIZE(dst, 1))
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_r_lb + row, dst_c_lb + col) &
+                  = src(src_c_lb + col, src_r_lb + row)
+            END DO
+         END DO
+#endif
+      ELSE
+         DBCSR_ASSERT(dst_tr .AND. src_tr)
+#if defined(__LIBXSMM_BLOCKOPS)
+         IF ((0 .LT. ncol) .AND. (0 .LT. nrow)) THEN
+            CALL libxsmm_matcopy(libxsmm_ptr0(dst(dst_c_lb, dst_r_lb)), &
+                                 libxsmm_ptr0(src(src_c_lb, src_r_lb)), &
+                                 8, nrow, ncol, &
+                                 SIZE(src, 2), SIZE(dst, 2))
+         ENDIF
+#else
+         DO col = 0, ncol - 1
+            DO row = 0, nrow - 1
+               dst(dst_c_lb + col, dst_r_lb + row) &
+                  = src(src_c_lb + col, src_r_lb + row)
+            END DO
+         END DO
+#endif
+      ENDIF
+   END SUBROUTINE block_partial_copy_2d2d_c
+
+   PURE SUBROUTINE block_copy_c (extent_out, extent_in, n, out_fe, in_fe)
+     !! Copy a block
+
+      INTEGER, INTENT(IN) :: n, out_fe, in_fe
+        !! number of elements to copy
+        !! first element of output
+        !! first element of input
+      COMPLEX(kind=real_4), DIMENSION(*), INTENT(OUT) :: extent_out
+        !! output data
+      COMPLEX(kind=real_4), DIMENSION(*), INTENT(IN)  :: extent_in
+        !! input data
+
+!    ---------------------------------------------------------------------------
+      extent_out(out_fe:out_fe + n - 1) = extent_in(in_fe:in_fe + n - 1)
+   END SUBROUTINE block_copy_c
+
+   PURE_BLOCKOPS SUBROUTINE block_transpose_copy_c (extent_out, extent_in, &
+                                                                rows, columns)
+     !! Copy and transpose block.
+
+#if defined(__LIBXSMM_TRANS)
+      USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1
+#endif
+      COMPLEX(kind=real_4), DIMENSION(:), INTENT(OUT), TARGET :: extent_out
+        !! output matrix in the form of a 1-d array
+      COMPLEX(kind=real_4), DIMENSION(:), INTENT(IN)          :: extent_in
+        !! input matrix in the form of a 1-d array
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+
+!    ---------------------------------------------------------------------------
+#if defined(__LIBXSMM_TRANS)
+      CALL libxsmm_otrans(libxsmm_ptr1(extent_out), libxsmm_ptr1(extent_in), &
+                          8, rows, columns, rows, columns)
+#elif defined(__MKL)
+      CALL mkl_comatcopy('C', 'T', rows, columns, CMPLX(1.0, 0.0, real_4), extent_in, rows, extent_out, columns)
+#else
+      extent_out(1:rows*columns) = RESHAPE(TRANSPOSE( &
+                                           RESHAPE(extent_in(1:rows*columns), (/rows, columns/))), (/rows*columns/))
+#endif
+   END SUBROUTINE block_transpose_copy_c
+
+   PURE SUBROUTINE block_copy_2d1d_c (extent_out, extent_in, &
+                                                  rows, columns)
+     !! Copy a block
+
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+      COMPLEX(kind=real_4), DIMENSION(rows, columns), INTENT(OUT) :: extent_out
+        !! output matrix in the form of a 2-d array
+      COMPLEX(kind=real_4), DIMENSION(:), INTENT(IN)             :: extent_in
+        !! input matrix in the form of a 1-d array
+
+!    ---------------------------------------------------------------------------
+      extent_out = RESHAPE(extent_in, (/rows, columns/))
+   END SUBROUTINE block_copy_2d1d_c
+
+   PURE SUBROUTINE block_copy_1d1d_c (extent_out, extent_in, &
+                                                  rows, columns)
+     !! Copy a block
+
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+      COMPLEX(kind=real_4), DIMENSION(rows*columns), INTENT(OUT) :: extent_out
+        !! output matrix in the form of a 1-d array
+      COMPLEX(kind=real_4), DIMENSION(rows*columns), INTENT(IN)  :: extent_in
+        !! input matrix in the form of a 1-d array
+
+!    ---------------------------------------------------------------------------
+      extent_out(:) = extent_in(:)
+   END SUBROUTINE block_copy_1d1d_c
+
+   PURE SUBROUTINE block_copy_2d2d_c (extent_out, extent_in, &
+                                                  rows, columns)
+     !! Copy a block
+
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+      COMPLEX(kind=real_4), DIMENSION(rows, columns), INTENT(OUT) :: extent_out
+        !! output matrix in the form of a 2-d array
+      COMPLEX(kind=real_4), DIMENSION(rows, columns), INTENT(IN)  :: extent_in
+        !! input matrix in the form of a 2-d array
+
+!    ---------------------------------------------------------------------------
+      extent_out(:, :) = extent_in(:, :)
+   END SUBROUTINE block_copy_2d2d_c
+
+   PURE_BLOCKOPS SUBROUTINE block_transpose_copy_2d1d_c (extent_out, extent_in, &
+                                                                     rows, columns)
+     !! Copy and transpose block.
+
+#if defined(__LIBXSMM_TRANS)
+      USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1, libxsmm_ptr2
+#endif
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+      COMPLEX(kind=real_4), DIMENSION(columns, rows), INTENT(OUT), TARGET :: extent_out
+        !! output matrix in the form of a 2-d array
+      COMPLEX(kind=real_4), DIMENSION(:), INTENT(IN)                      :: extent_in
+        !! input matrix in the form of a 1-d array
+
+!    ---------------------------------------------------------------------------
+#if defined(__LIBXSMM_TRANS)
+      CALL libxsmm_otrans(libxsmm_ptr2(extent_out), libxsmm_ptr1(extent_in), &
+                          8, rows, columns, rows, columns)
+#elif defined(__MKL)
+      CALL mkl_comatcopy('C', 'T', rows, columns, CMPLX(1.0, 0.0, real_4), extent_in, rows, extent_out, columns)
+#else
+      extent_out = TRANSPOSE(RESHAPE(extent_in, (/rows, columns/)))
+#endif
+   END SUBROUTINE block_transpose_copy_2d1d_c
+
+   PURE SUBROUTINE block_copy_1d2d_c (extent_out, extent_in, &
+                                                  rows, columns)
+     !! Copy and transpose block.
+
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+      COMPLEX(kind=real_4), DIMENSION(:), INTENT(OUT)            :: extent_out
+        !! output matrix in the form of a 1-d array
+      COMPLEX(kind=real_4), DIMENSION(rows, columns), INTENT(IN) :: extent_in
+        !! input matrix in the form of a 2-d array
+
+!    ---------------------------------------------------------------------------
+      extent_out = RESHAPE(extent_in, (/rows*columns/))
+   END SUBROUTINE block_copy_1d2d_c
+
+   PURE_BLOCKOPS SUBROUTINE block_transpose_copy_1d2d_c (extent_out, extent_in, &
+                                                                     rows, columns)
+     !! Copy and transpose block.
+
+#if defined(__LIBXSMM_TRANS)
+      USE libxsmm, ONLY: libxsmm_otrans, libxsmm_ptr1, libxsmm_ptr2
+#endif
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+      COMPLEX(kind=real_4), DIMENSION(:), INTENT(OUT), TARGET    :: extent_out
+        !! output matrix in the form of a 1-d array
+      COMPLEX(kind=real_4), DIMENSION(rows, columns), INTENT(IN) :: extent_in
+        !! input matrix in the form of a 2-d array
+
+!    ---------------------------------------------------------------------------
+#if defined(__LIBXSMM_TRANS)
+      CALL libxsmm_otrans(libxsmm_ptr1(extent_out), libxsmm_ptr2(extent_in), &
+                          8, rows, columns, rows, columns)
+#elif defined(__MKL)
+      CALL mkl_comatcopy('C', 'T', rows, columns, CMPLX(1.0, 0.0, real_4), extent_in, rows, extent_out, columns)
+#else
+      extent_out = RESHAPE(TRANSPOSE(extent_in), (/rows*columns/))
+#endif
+   END SUBROUTINE block_transpose_copy_1d2d_c
+
+   PURE_BLOCKOPS SUBROUTINE block_transpose_inplace_c (extent, rows, columns)
+     !! In-place block transpose.
+
+#if defined(__LIBXSMM_TRANS) && 0
+      USE libxsmm, ONLY: libxsmm_itrans, libxsmm_ptr1
+#endif
+      INTEGER, INTENT(IN) :: rows, columns
+        !! input matrix size
+        !! input matrix size
+      COMPLEX(kind=real_4), DIMENSION(rows*columns), INTENT(INOUT) :: extent
+        !! Matrix in the form of a 1-d array
+
+!    ---------------------------------------------------------------------------
+#if defined(__LIBXSMM_TRANS) && 0
+      CALL libxsmm_itrans(libxsmm_ptr1(extent), 8, rows, columns, rows)
+#elif defined(__MKL)
+      CALL mkl_cimatcopy('C', 'T', rows, columns, CMPLX(1.0, 0.0, real_4), extent, rows, columns)
+#else
+      COMPLEX(kind=real_4), DIMENSION(rows*columns) :: extent_tr
+      INTEGER :: r, c
+      DO r = 1, columns
+         DO c = 1, rows
+            extent_tr(r + (c - 1)*columns) = extent(c + (r - 1)*rows)
+         END DO
+      END DO
+      DO r = 1, columns
+         DO c = 1, rows
+            extent(r + (c - 1)*columns) = extent_tr(r + (c - 1)*columns)
+         END DO
+      END DO
+#endif
+   END SUBROUTINE block_transpose_inplace_c
+
+   SUBROUTINE dbcsr_data_set_ac (dst, lb, data_size, src, source_lb)
+     !! Copy data from a double real array to a data area
+     !! There are no checks done for correctness!
+
+      TYPE(dbcsr_data_obj), INTENT(INOUT)      :: dst
+        !! destination data area
+      INTEGER, INTENT(IN)                      :: lb, data_size
+        !! lower bound for destination (and source if not given explicitly)
+        !! number of elements to copy
+      COMPLEX(kind=real_4), DIMENSION(:), INTENT(IN), CONTIGUOUS :: src
+        !! source data array
+      INTEGER, INTENT(IN), OPTIONAL            :: source_lb
+        !! lower bound of source
+      INTEGER                                  :: lb_s, ub, ub_s
+
+      COMPLEX(kind=real_4), DIMENSION(:), POINTER, CONTIGUOUS :: cont_data
+
+!    ---------------------------------------------------------------------------
+      IF (debug_mod) THEN
+         IF (.NOT. ASSOCIATED(dst%d)) &
+            DBCSR_ABORT("Target data area must be setup.")
+         IF (SIZE(src) .LT. data_size) &
+            DBCSR_ABORT("Not enough source data.")
+         IF (dst%d%data_type .NE. dbcsr_type_complex_4) &
+            DBCSR_ABORT("Data type mismatch.")
+      ENDIF
+      ub = lb + data_size - 1
+      IF (PRESENT(source_lb)) THEN
+         lb_s = source_lb
+         ub_s = source_lb + data_size - 1
+      ELSE
+         lb_s = lb
+         ub_s = ub
+      ENDIF
+      cont_data => dst%d%c_sp (lb:ub)
+      CALL memory_copy(cont_data, src(lb_s:ub_s), data_size)
+   END SUBROUTINE dbcsr_data_set_ac
+
+   PURE SUBROUTINE block_add_c (block_a, block_b, len)
+      INTEGER, INTENT(IN) :: len
+      COMPLEX(kind=real_4), DIMENSION(len), INTENT(INOUT) :: block_a
+      COMPLEX(kind=real_4), DIMENSION(len), INTENT(IN)    :: block_b
+      block_a(1:len) = block_a(1:len) + block_b(1:len)
+   END SUBROUTINE block_add_c
+# 1999 "/__w/dbcsr/dbcsr/src/block/dbcsr_block_operations.F"
+
+END MODULE dbcsr_block_operations
