@@ -1,7 +1,7 @@
 MAJOR = 2
-MINOR = 1
-PATCH = 0
+MINOR = 2
+PATCH = 0-rc0
 # A specific DATE (YYYY-MM-DD) fixes an official release, otherwise
 # it is considered Development version.
-DATE  = 2020-12-09
+DATE  = 2021-09-27
 
