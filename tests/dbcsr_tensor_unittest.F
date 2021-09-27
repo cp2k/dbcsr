@@ -811,7 +811,6 @@ PROGRAM dbcsr_tensor_unittest
    ! finalize libdbcsr
    CALL dbcsr_finalize_lib()
 
-   !
    ! finalize mpi
    CALL mp_world_finalize()
 

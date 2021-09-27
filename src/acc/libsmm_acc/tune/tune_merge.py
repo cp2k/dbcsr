@@ -62,7 +62,7 @@ if __name__ == "__main__":
         as defined in the new parameter file.
 
         This script is part of the workflow for autotuning optimal libsmm_acc parameters.
-        For more details, see README.md#autotuning-procedure.
+        For more details, see README.md.
         """,
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )

@@ -40,7 +40,6 @@ PROGRAM dbcsr_unittest
 
    CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_unittest'
 
-   !
    ! initialize mpi
    CALL mp_world_init(mp_comm)
 
@@ -58,12 +57,10 @@ PROGRAM dbcsr_unittest
                      myprow=myploc(1), mypcol=myploc(2))
    DEALLOCATE (pgrid)
 
-   !
    ! set standard output parameters
    io_unit = 0
    IF (mynode .EQ. 0) io_unit = default_output_unit
 
-   !
    ! initialize DBCSR
    CALL dbcsr_init_lib(mp_comm, io_unit)
 
@@ -92,11 +89,10 @@ PROGRAM dbcsr_unittest
                                          sparsity=0.0_dp, bs_m=[1, 4], bs_n=[1, 4], do_exact_comparison=.TRUE.) &
              .AND. success
    CALL timestop(handle)
-   !
+
    ! clean mp environment
    CALL dbcsr_mp_release(mp_env)
 
-   !
    ! finalize mpi
    CALL mp_comm_free(group)
 
@@ -105,7 +101,6 @@ PROGRAM dbcsr_unittest
    CALL dbcsr_finalize_lib()
    CALL mp_world_finalize()
 
-   !
    ! finalize libdbcsr errors
    IF (.NOT. success) &
       ERROR STOP "one or more tests failed"

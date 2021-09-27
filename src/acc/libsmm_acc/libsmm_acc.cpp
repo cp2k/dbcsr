@@ -11,7 +11,7 @@
 #include "parameters_utils.h"
 #include "libsmm_acc.h"
 #include "libsmm_acc_benchmark.h"
-#include "../cuda/acc_blas.h"
+#include "../cuda_hip/acc_blas.h"
 #include "smm_acc_kernels.h"
 
 #include <sstream>
@@ -28,17 +28,15 @@
 // MACRO HELPERS
 #define STRINGIFY_NX(x) #x
 #define STRINGIFY(x) STRINGIFY_NX(x)
-#define CONCAT_NX(A, B) A ## B
-#define CONCAT(A, B) CONCAT_NX(A, B)
 
 // The macro ARCH_OPTION, when expanded, is a string literal containing the
 // jit compiler option specifying the target architecture
 #if defined(__CUDA) || defined(__HIP_PLATFORM_NVCC__)
-#define ARCH_OPTION_NAME --gpu-architecture=compute_
+#define ARCH_OPTION_NAME "--gpu-architecture=compute_"
 #else
-#define ARCH_OPTION_NAME --amdgpu-target=
+#define ARCH_OPTION_NAME "--gpu-architecture="
 #endif
-#define ARCH_OPTION STRINGIFY(CONCAT(ARCH_OPTION_NAME, ARCH_NUMBER))
+#define ARCH_OPTION ARCH_OPTION_NAME STRINGIFY(ARCH_NUMBER)
 
 
 //===========================================================================
@@ -65,7 +63,7 @@ inline void validate_kernel(ACC_DRV(function)& kern_func, ACC_DRV(stream) stream
     memset(h->mat_c, 0, h->n_c * m * n * sizeof(double));
     matInit(h->mat_a, h->n_a, m, k, 42);
     matInit(h->mat_b, h->n_b, k, n, 24);
-    stackInit(h->stack, h->n_stack, h->n_c, h->mat_c, h->n_a, h->mat_a, h->n_b, h->mat_b, m, n, k);
+    stackInit(h->stack, h->n_stack, h->n_c, h->n_a, h->n_b, m, n, k);
 
     stackCalc(h->stack, h->n_stack, h->mat_c, h->mat_a, h->mat_b, m, n, k);
     double sumCPU = checkSum(h->mat_c, h->n_c, m, n);
@@ -144,7 +142,7 @@ inline void jit_kernel(ACC_DRV(function)& kern_func, libsmm_acc_algo algo, int t
 
     // Create JIT program
     ACC_RTC(Program) kernel_program;
-    ACC_RTC_CALL(CreateProgram, (&kernel_program, kernel_code.c_str(), "smm_acc_kernel.cpp", 0, NULL, NULL));
+    ACC_RTC_CALL(CreateProgram, (&kernel_program, kernel_code.c_str(), "smm_acc_kernel.cu", 0, NULL, NULL));
 
     // Add lowered name
     ACC_RTC_CALL(AddNameExpression, (kernel_program, kernel_name.c_str()));
@@ -355,7 +353,7 @@ void jit_transpose_handle(ACC_DRV(function)& kern_func, int m, int n){
     // Create nvrtcProgram
     ACC_RTC(Program) kernel_program;
     std::string transpose_code = smm_acc_common + smm_acc_transpose;
-    ACC_RTC_CALL(CreateProgram, (&kernel_program, transpose_code.c_str(), "transpose_kernel.cpp", 0, NULL, NULL));
+    ACC_RTC_CALL(CreateProgram, (&kernel_program, transpose_code.c_str(), "transpose_kernel.cu", 0, NULL, NULL));
 
     // Add lowered name
     std::string kernel_name = "transpose_d<" + std::to_string(m) + ", " + std::to_string(n) + ">";

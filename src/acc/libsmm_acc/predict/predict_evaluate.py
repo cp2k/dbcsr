@@ -24,9 +24,6 @@ from predict_helpers import (
 # ===============================================================================
 def main(file, file_baseline):
     """
-    This script is part of the workflow for predictive modelling of optimal libsmm_acc parameters.
-    For more details, see predict.md
-
     Given a file containing the results of the LBSMM_ACC performance test, perform evaluation of the predictive model.
     """
     # ===============================================================================
@@ -150,6 +147,7 @@ if __name__ == "__main__":
         description="""
         Given a file containing the results of the LIBSMM_ACC performance test, perform evaluation of the predictive
         model.
+
         This script is part of the workflow for predictive modelling of optimal libsmm_acc parameters.
         For more details, see README.md.
         """,

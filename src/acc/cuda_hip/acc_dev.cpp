@@ -8,25 +8,46 @@
  *------------------------------------------------------------------------------------------------*/
 
 #if defined(__CUDA)
-# include "acc_cuda.h"
+# include "../cuda/acc_cuda.h"
 #elif defined(__HIP)
 # include "../hip/acc_hip.h"
 #endif
 
 #include "acc_error.h"
+#include "../acc.h"
 
 #include <stdio.h>
 #include <math.h>
 
+// for debug purpose
+static const int verbose_print = 1;
+
 /****************************************************************************/
-int acc_error_check (ACC(Error_t) error){
-  if (error != ACC(Success)){
-      printf (BACKEND" error: %s\n", ACC(GetErrorString)(error));
-      return -1;
-    }
+extern "C" int c_dbcsr_acc_get_ndevices(int *n_devices){
+  ACC_API_CALL(GetDeviceCount, (n_devices));
   return 0;
 }
 
-extern "C" void acc_clear_errors () {
-  ACC(GetLastError)();
+
+/****************************************************************************/
+extern "C" int c_dbcsr_acc_set_active_device(int device_id){
+  int myDevice, runtimeVersion;
+
+  ACC_API_CALL(RuntimeGetVersion, (&runtimeVersion));
+  ACC_API_CALL(SetDevice, (device_id));
+  ACC_API_CALL(GetDevice, (&myDevice));
+
+  if (myDevice != device_id)
+    return -1;
+
+  // establish context
+  ACC_API_CALL(Free, (0));
+
+#if defined(__HIP_PLATFORM_NVCC__)
+  if (verbose_print){
+    ACC_API_CALL(DeviceSetLimit, (ACC(LimitPrintfFifoSize), (size_t) 1000000000));
+  }
+#endif
+
+  return 0;
 }

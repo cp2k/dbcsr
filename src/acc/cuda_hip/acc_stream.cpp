@@ -8,7 +8,7 @@
  *------------------------------------------------------------------------------------------------*/
 
 #if defined(__CUDA)
-# include "acc_cuda.h"
+# include "../cuda/acc_cuda.h"
 #elif defined(__HIP)
 # include "../hip/acc_hip.h"
 #endif
@@ -27,7 +27,7 @@ static const int verbose_print = 0;
 
 
 /****************************************************************************/
-extern "C" int acc_stream_priority_range(int* least, int* greatest){
+extern "C" int c_dbcsr_acc_stream_priority_range(int* least, int* greatest){
   *least = -1;
   *greatest = -1;
   ACC_API_CALL(DeviceGetStreamPriorityRange, (least, greatest));
@@ -37,7 +37,7 @@ extern "C" int acc_stream_priority_range(int* least, int* greatest){
 
 
 /****************************************************************************/
-extern "C" int acc_stream_create(void** stream_p, const char* name, int priority){
+extern "C" int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority){
   ACC(Error_t) cErr;
   *stream_p = malloc(sizeof(ACC(Stream_t)));
 
@@ -63,7 +63,7 @@ extern "C" int acc_stream_create(void** stream_p, const char* name, int priority
 
 
 /****************************************************************************/
-extern "C" int acc_stream_destroy(void* stream){
+extern "C" int c_dbcsr_acc_stream_destroy(void* stream){
     ACC(Stream_t)* acc_stream = (ACC(Stream_t)*) stream;
 
     if(verbose_print) printf("StreamDestroy called\n");
@@ -76,7 +76,7 @@ extern "C" int acc_stream_destroy(void* stream){
 }
 
 /****************************************************************************/
-extern "C" int acc_stream_sync(void* stream)
+extern "C" int c_dbcsr_acc_stream_sync(void* stream)
 {
   ACC(Stream_t)* acc_stream = (ACC(Stream_t)*) stream;
   ACC_API_CALL(StreamSynchronize, (*acc_stream));

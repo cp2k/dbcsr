@@ -444,7 +444,7 @@ CONTAINS
                   trs_stack=trs_stackbuf%d%acc_devmem, &
                   offset=offsets(mi, ni), &
                   nblks=counters(mi, ni), &
-                  datatype=matrix%data_type, &
+                  data_type=matrix%data_type, &
                   buffer=matrix%data_area%d%acc_devmem, &
                   m=m, n=n, &
                   stream=trs_stackbuf%d%memory_type%acc_stream)

@@ -8,42 +8,25 @@
  *------------------------------------------------------------------------------------------------*/
 
 #if defined(__CUDA)
-# include "acc_cuda.h"
+# include "../cuda/acc_cuda.h"
 #elif defined(__HIP)
 # include "../hip/acc_hip.h"
 #endif
 
-#include "../acc.h"
-#include "../acc_libsmm.h"
+#include "acc_error.h"
 
 #include <stdio.h>
-
-#if defined(__CUDA_PROFILING)
-# include <nvToolsExtCudaRt.h>
-#endif
+#include <math.h>
 
 /****************************************************************************/
-extern "C" int acc_init(){
-  int myDevice;
-  // Driver boilerplate
-  ACC_DRV_CALL(Init, (0));
-  ACC_DRV(device) acc_device;
-  ACC_API_CALL(GetDevice, (&myDevice));
-  ACC_DRV_CALL(DeviceGet, (&acc_device, myDevice));
-  ACC_DRV(context) ctx;
-  ACC_DRV_CALL(DevicePrimaryCtxRetain, (&ctx, acc_device));
-
-  // Initialize libsmm_acc, DBCSR's GPU backend
-  return libsmm_acc_init();
+int acc_error_check (ACC(Error_t) error){
+  if (error != ACC(Success)){
+      printf (BACKEND" error: %s\n", ACC(GetErrorString)(error));
+      return -1;
+    }
+  return 0;
 }
 
-/****************************************************************************/
-extern "C" int acc_finalize(){
-  int myDevice;
-  // Release driver resources
-  ACC_DRV(device) acc_device;
-  ACC_API_CALL(GetDevice, (&myDevice));
-  ACC_DRV_CALL(DeviceGet, (&acc_device, myDevice));
-  ACC_DRV_CALL(DevicePrimaryCtxRelease, (acc_device));
-  return libsmm_acc_finalize();
+extern "C" void c_dbcsr_acc_clear_errors () {
+  ACC(GetLastError)();
 }

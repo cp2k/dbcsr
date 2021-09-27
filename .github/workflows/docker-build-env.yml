@@ -1,5 +1,5 @@
 ---
-name: Publish DBCSR Build Environments to GitHub Registry
+name: Publish DBCSR Build Environments to the GitHub Contrainer Registry
 
 on:
   push:
@@ -10,34 +10,69 @@ on:
     - '.github/workflows/docker-build-env.yml'
   schedule:  # runs on the last commit of the repo's default branch
     - cron: '45 23 * * *'
+  workflow_dispatch:
 
 jobs:
-  docker-build-env-ubuntu:
+  docker-build-env:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-      - name: Publish Gitlab Image
-        uses: elgohr/Publish-Docker-Github-Action@2.12
-        with:
-          name: dbcsr/build-env-ubuntu-20.04
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          workdir: tools/docker
-          dockerfile: Dockerfile.build-env-ubuntu
-          tags: "latest"
+    strategy:
+      matrix:
+        include:
+          - docker_image: ghcr.io/cp2k/dbcsr-build-env-ubuntu-20.04
+            context: tools/docker
+            file: Dockerfile.build-env-ubuntu
+            registry: ghcr.io
+          - docker_image: ghcr.io/cp2k/dbcsr-build-env-latest-gcc
+            context: tools/docker
+            file: Dockerfile.build-env-latest-gcc
+            registry: ghcr.io
+          - docker_image: ghcr.io/cp2k/dbcsr-build-env-rocm
+            context: tools/docker
+            file: Dockerfile.build-env-rocm
+            registry: ghcr.io
 
-  docker-build-env-gcc:
-    runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-      - name: Publish Gitlab Image
-        uses: elgohr/Publish-Docker-Github-Action@2.12
+
+      - name: Prepare
+        id: prep
+        run: |
+          DOCKER_IMAGE=${{ matrix.docker_image }}
+          VERSION=latest
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            VERSION=${GITHUB_REF#refs/tags/}
+          elif [[ $GITHUB_REF == refs/heads/* ]]; then
+            VERSION=$(echo ${GITHUB_REF#refs/heads/} | sed -r 's#/+#-#g')
+          elif [[ $GITHUB_REF == refs/pull/* ]]; then
+            VERSION=pr-${{ github.event.number }}
+          fi
+          TAGS="${DOCKER_IMAGE}:${VERSION}"
+          if [ "${{ github.event_name }}" = "push" ]; then
+            TAGS="$TAGS,${DOCKER_IMAGE}:sha-${GITHUB_SHA::8}"
+          fi
+          echo ::set-output name=version::${VERSION}
+          echo ::set-output name=tags::${TAGS}
+          echo ::set-output name=created::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to Container registry
+        uses: docker/login-action@v1
         with:
-          name: dbcsr/build-env-latest-gcc
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_PASSWORD }}
-          workdir: tools/docker
-          dockerfile: Dockerfile.build-env-latest-gcc
-          tags: "latest"
+          registry: ${{ matrix.registry }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push container image
+        uses: docker/build-push-action@v2
+        with:
+          context: ${{ matrix.context }}
+          file: ${{ matrix.context }}/${{ matrix.file }}
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.prep.outputs.tags }}
+          labels: |
+            org.opencontainers.image.source=${{ github.event.repository.html_url }}
+            org.opencontainers.image.created=${{ steps.prep.outputs.created }}
+            org.opencontainers.image.revision=${{ github.sha }}

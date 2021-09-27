@@ -11,13 +11,13 @@
 #define ACC_BLAS_H
 
 #if defined(__CUDA)
- #include "acc_cuda.h"
+ #include "../cuda/acc_cuda.h"
 #elif defined(__HIP)
  #include "../hip/acc_hip.h"
 #endif
 
 #include <stdio.h>
-#include "../cuda/acc_error.h"
+#include "acc_error.h"
 
 /****************************************************************************/
 int acc_blas_create(ACC_BLAS(Handle_t) **handle);

@@ -10,11 +10,12 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     container:
-      image: dbcsr/build-env-latest-gcc:latest
+      image: ghcr.io/cp2k/dbcsr-build-env-latest-gcc:develop
 
     steps:
     - uses: actions/checkout@v2
       with:
+        fetch-depth: 0
         submodules: true
 
     - name: Configure

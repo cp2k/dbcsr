@@ -41,7 +41,7 @@ It is MPI and OpenMP parallel and can exploit Nvidia and AMD GPUs via CUDA and H
 
 To get started with DBCSR, go to
 
-- [Installation guide](page/2-user-guide/1-installation/1-install.html)
+- [Installation guide](page/2-user-guide/1-installation/index.html)
 - [User guide](page/2-user-guide/index.html)
 - [Developer guide](page/3-developer-guide/index.html)
 

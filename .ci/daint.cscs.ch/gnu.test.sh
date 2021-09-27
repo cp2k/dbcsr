@@ -1,20 +1,20 @@
 #!/bin/bash -l
 
 #SBATCH --export=ALL
-#SBATCH --exclusive
 #SBATCH --constraint="gpu"
 #SBATCH --partition="cscsci"
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=4
 #SBATCH --cpus-per-task=3
-#SBATCH --ntasks-per-core=1 # 1=no HT, 2=HT
+#SBATCH --hint=nomultithread
 
 set -o errexit
 set -o nounset
 set -o pipefail
 
 module swap PrgEnv-cray PrgEnv-gnu
-module load daint-gpu cudatoolkit CMake/3.14.5
+module load daint-gpu cudatoolkit cdt-cuda
+module load /apps/daint/UES/jenkins/7.0.UP02/gpu/easybuild/modules/all/CMake/3.18.4
 module unload cray-libsci_acc
 module list
 
@@ -22,7 +22,8 @@ set -o xtrace  # do not set earlier to avoid noise from module
 
 umask 0002  # make sure group members can access the data
 
-mkdir --mode=0775 -p "${SCRATCH}/${BUILD_TAG}.gnu"
+mkdir -p "${SCRATCH}/${BUILD_TAG}.gnu"
+chmod 0775 "${SCRATCH}/${BUILD_TAG}.gnu"
 cd "${SCRATCH}/${BUILD_TAG}.gnu"
 
 export CRAY_CUDA_MPS=1 # enable the CUDA proxy for MPI+CUDA
@@ -32,4 +33,4 @@ export OMP_PROC_BIND=TRUE # set thread affinity
 # document the current environment
 env |& tee -a "${STAGE_NAME}.out"
 
-env CTEST_OUTPUT_ON_FAILURE=1 make test ARGS="--timeout 900" |& tee -a "${STAGE_NAME}.out"
+env CTEST_OUTPUT_ON_FAILURE=1 make test ARGS="--timeout 1200" |& tee -a "${STAGE_NAME}.out"

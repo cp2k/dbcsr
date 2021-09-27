@@ -729,11 +729,6 @@ def write_derived_data(data_path, algorithm, arch, n_jobs, chunk_size):
 
 # ===============================================================================
 def main(data_path, algorithms_to_prep, arch, n_jobs, chunk_size, skip_derived_data):
-    """
-    This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
-    For more details, see predict.md
-
-    """
     # ===============================================================================
     # Write baseline and maximum performance records
     for algorithm in algorithms_to_prep:
@@ -762,6 +757,10 @@ if __name__ == "__main__":
         - Record maximum and baseline performances of (m,n,k)-triplets in JSON files
         - Compute derived training data and write it to a CSV file
         - Compress training data csv files to parquet file format
+
+
+        This script is part of the workflow for predictive modelling of optimal libcusmm parameters.
+        For more details, see predict.md
         """,
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )

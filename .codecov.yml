@@ -1,3 +1,7 @@
 coverage:
   precision: 1
   round: down
+  range: 60..100
+comment:
+  require_changes: true
+  after_n_builds: 12

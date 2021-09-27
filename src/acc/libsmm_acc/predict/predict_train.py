@@ -50,9 +50,8 @@ def main(
     run_intermediate_evaluation,
 ):
     """
-    This script is part of the workflow for predictive modelling of optimal libsmm_acc parameters.
-    For more details, see predict.md
-
+    Train a Machine Learning model on autotuning data to predict a kernel's performance given
+    its template parameters
     """
     # ===============================================================================
     # Create folder to store results of this training and start a log
@@ -246,7 +245,7 @@ optimized_hyperparameters = {
 # ===============================================================================
 # Printing and dumping helpers
 def get_log_folder(prefitted_model_folder, destination_folder, algo):
-    """Create a unique log folder for this run in which logs, plots etc. will be stored """
+    """Create a unique log folder for this run in which logs, plots etc. will be stored"""
     if len(prefitted_model_folder) == 0:
 
         # Create a new folder for this model
@@ -1597,7 +1596,9 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(
         description="""
-        Train predictive model on autotuning data
+        Train a Machine Learning model on autotuning data to predict a kernel's performance given
+        its template parameters
+
 
         This script is part of the workflow for predictive modelling of optimal libsmm_acc parameters.
         For more details, see README.md.

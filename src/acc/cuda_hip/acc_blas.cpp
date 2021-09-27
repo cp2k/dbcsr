@@ -10,7 +10,7 @@
 #include <stdio.h>
 
 #include "acc_blas.h"
-#include "../cuda/acc_error.h"
+#include "acc_error.h"
 
 
 /****************************************************************************/
@@ -49,10 +49,10 @@ int acc_blas_dgemm(ACC_BLAS(Handle_t) *handle, char transa, char transb,
   ACC_BLAS_CALL(SetStream, (*handle, *stream));
 
   ACC_BLAS_CALL(Dgemm, (*handle, cTransa, cTransb,
-				    m, n, k,
-				    &alpha, &a_data[a_offset], lda,
-				    &b_data[ b_offset], ldb,
-				    &beta, &c_data[ c_offset], lda));
+                m, n, k,
+                &alpha, &a_data[a_offset], lda,
+                &b_data[ b_offset], ldb,
+                &beta, &c_data[ c_offset], lda));
 
   return(0);
 }

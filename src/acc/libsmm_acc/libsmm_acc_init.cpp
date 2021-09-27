@@ -23,11 +23,11 @@ std::vector<ACC_BLAS(Handle_t)*> acc_blashandles;
 void timeset(const std::string& routine_name, int& handle){
     const char* routine_name_ = routine_name.c_str();
     int routine_name_length  = routine_name.length();
-    dbcsr_timeset(&routine_name_, &routine_name_length, &handle);
+    c_dbcsr_timeset(&routine_name_, &routine_name_length, &handle);
 }
 
 void timestop(int handle){
-    dbcsr_timestop(&handle);
+    c_dbcsr_timestop(&handle);
 }
 #endif
 

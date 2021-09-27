@@ -88,3 +88,8 @@ Please open an issue at https://github.com/cp2k/dbcsr/issues with the reported c
   message("-- CMAKE_CXX_COMPILER_ID: " ${CMAKE_CXX_COMPILER_ID})
   message("-- CMAKE_CXX_COMPILER full path: " ${CMAKE_CXX_COMPILER})
 endif ()
+
+# inherit C flags from CXX
+set(CMAKE_C_FLAGS_RELEASE ${CMAKE_CXX_FLAGS_RELEASE})
+set(CMAKE_C_FLAGS_COVERAGE ${CMAKE_CXX_FLAGS_COVERAGE})
+set(CMAKE_C_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG})

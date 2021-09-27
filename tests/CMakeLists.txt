@@ -15,16 +15,11 @@ endif ()
 
 # =================================== DBCSR PERF TESTS
 set(DBCSR_PERF_SRCS dbcsr_performance_driver.F dbcsr_performance_multiply.F)
-if (USE_HIP)
-  hip_add_executable(dbcsr_perf ${DBCSR_PERF_SRCS})
-else ()
-  add_executable(dbcsr_perf ${DBCSR_PERF_SRCS})
-endif ()
+add_executable(dbcsr_perf ${DBCSR_PERF_SRCS})
 target_link_libraries(dbcsr_perf dbcsr)
 set_target_properties(dbcsr_perf PROPERTIES LINKER_LANGUAGE Fortran)
-if (OpenMP_FOUND)
-  target_link_libraries(dbcsr_perf OpenMP::OpenMP_Fortran)
-endif ()
+target_link_libraries(dbcsr_perf
+                      $<$<BOOL:${USE_OPENMP}>:OpenMP::OpenMP_Fortran>)
 
 file(
   GLOB DBCSR_PERF_TESTS
@@ -66,8 +61,12 @@ set(DBCSR_TESTS_FTN
     dbcsr_tas_unittest
     dbcsr_test_csr_conversions)
 
+if (USE_ACCEL)
+  set(DBCSR_TESTS_C dbcsr_acc_test_c)
+endif ()
+
 if (NOT (CMAKE_Fortran_COMPILER_ID STREQUAL "Cray"))
-  set(DBCSR_TESTS_SRCS_CPP dbcsr_tensor_test.cpp)
+  set(DBCSR_TESTS_SRCS_CPP dbcsr_test.cpp dbcsr_tensor_test.cpp)
 endif ()
 
 # For each test, set a variable testname_SRCS defining the sources of that test
@@ -78,7 +77,9 @@ set(dbcsr_unittest4_SRCS dbcsr_unittest4.F dbcsr_test_scale_by_vector.F)
 set(dbcsr_tensor_unittest_SRCS dbcsr_tensor_unittest.F)
 set(dbcsr_tas_unittest_SRCS dbcsr_tas_unittest.F)
 set(dbcsr_test_csr_conversions_SRCS dbcsr_test_csr_conversions.F)
+set(dbcsr_test_cpp_SRCS dbcsr_test.cpp)
 set(dbcsr_tensor_test_cpp_SRCS dbcsr_tensor_test.cpp)
+set(dbcsr_acc_test_c_SRCS dbcsr_acc_test.c)
 
 # Make a list of the source files of fortran tests
 set(DBCSR_TESTS_SRCS_FTN)
@@ -106,11 +107,7 @@ target_link_libraries(dbcsr_unittest_common PUBLIC dbcsr)
 
 # Compile Fortran tests
 foreach (dbcsr_test ${DBCSR_TESTS_FTN})
-  if (USE_HIP)
-    hip_add_executable(${dbcsr_test} ${${dbcsr_test}_SRCS})
-  else ()
-    add_executable(${dbcsr_test} ${${dbcsr_test}_SRCS})
-  endif ()
+  add_executable(${dbcsr_test} ${${dbcsr_test}_SRCS})
   target_link_libraries(${dbcsr_test} dbcsr_unittest_common)
   set_target_properties(${dbcsr_test} PROPERTIES LINKER_LANGUAGE Fortran)
   # register unittest executable with CMake
@@ -162,6 +159,26 @@ if (WITH_C_API)
                                           OMP_NUM_THREADS=${TEST_OMP_THREADS})
     endif ()
   endforeach ()
+
+  foreach (dbcsr_test_c ${DBCSR_TESTS_C})
+    add_executable(${dbcsr_test_c} ${${dbcsr_test_c}_SRCS})
+    target_link_libraries(${dbcsr_test_c} dbcsr_c dbcsr)
+    # register unittest executable with CMake
+    if (USE_MPI)
+      separate_arguments(MPIEXEC_PREFLAGS)
+      add_test(
+        NAME ${dbcsr_test_c}
+        COMMAND ${MPIEXEC_EXECUTABLE} ${MPIEXEC_NUMPROC_FLAG} ${num_ranks}
+                ${MPIEXEC_PREFLAGS} ./${dbcsr_test_c} ${MPIEXEC_POSTFLAGS})
+    else ()
+      add_test(NAME ${dbcsr_test_c} COMMAND ./${dbcsr_test_c})
+    endif ()
+    if (OpenMP_FOUND)
+      set_tests_properties(
+        ${dbcsr_test_c} PROPERTIES ENVIRONMENT
+                                   OMP_NUM_THREADS=${TEST_OMP_THREADS})
+    endif ()
+  endforeach ()
 endif ()
 
 # =================================== GPU BACKEND TESTS (CUDA / HIP)
@@ -172,8 +189,8 @@ file(RELATIVE_PATH CURRENT_BINARY_DIR_RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/..
      ${CMAKE_CURRENT_BINARY_DIR})
 
 # libsmm_acc_unittest_multiply
-add_custom_command(
-  OUTPUT libsmm_acc_unittest_multiply.cpp
+add_custom_target(
+  generate_libsmm_acc_unittest_multiply_test_cpp
   COMMAND
     ${Python_EXECUTABLE}
     ${CMAKE_CURRENT_SOURCE_DIR}/generate_libsmm_acc_unittest_multiply.py
@@ -181,13 +198,12 @@ add_custom_command(
     ${CURRENT_BINARY_DIR_RELATIVE} --gpu_version=${WITH_GPU}
   DEPENDS libsmm_acc_unittest_multiply.cpp.template
           generate_libsmm_acc_unittest_multiply.py
+  BYPRODUCTS libsmm_acc_unittest_multiply.cpp
   COMMENT "Generate tests/libsmm_acc_unittest_multiply.cpp")
-add_custom_target(generate_libsmm_acc_unittest_multiply_test_cpp
-                  DEPENDS libsmm_acc_unittest_multiply.cpp)
 
 # libsmm_acc_timer_multiply
-add_custom_command(
-  OUTPUT libsmm_acc_timer_multiply.cpp
+add_custom_target(
+  generate_libsmm_acc_timer_multiply_test_cpp
   COMMAND
     ${Python_EXECUTABLE}
     ${CMAKE_CURRENT_SOURCE_DIR}/generate_libsmm_acc_timer_multiply.py --base_dir
@@ -195,11 +211,10 @@ add_custom_command(
     --gpu_version=${WITH_GPU}
   DEPENDS libsmm_acc_timer_multiply.cpp.template
           generate_libsmm_acc_timer_multiply.py
-  COMMENT "Generate tests/libsmm_acc_unittest_transpose.cpp")
-add_custom_target(generate_libsmm_acc_timer_multiply_test_cpp
-                  DEPENDS libsmm_acc_timer_multiply.cpp)
+  BYPRODUCTS libsmm_acc_timer_multiply.cpp
+  COMMENT "Generate tests/generate_libsmm_acc_timer_multiply.cpp")
 
-if (USE_CUDA OR USE_HIP)
+if (USE_ACCEL MATCHES "cuda|hip")
 
   # All libsmm_acc tests
   set(LIBSMM_ACC_TESTS_SRCS
@@ -207,73 +222,21 @@ if (USE_CUDA OR USE_HIP)
       ${CMAKE_CURRENT_BINARY_DIR}/libsmm_acc_timer_multiply.cpp
       libsmm_acc_unittest_transpose.cpp)
 
-  # Tests that need no additional arguments to be run
-  set(LIBSMM_ACC_NOARG_TESTS libsmm_acc_unittest_multiply
-                             libsmm_acc_unittest_transpose)
-
   # Add executables for all libsmm_acc tests
-  if (USE_CUDA)
-
-    foreach (libsmm_acc_test ${LIBSMM_ACC_TESTS_SRCS})
-
-      get_filename_component(libsmm_acc_test_name ${libsmm_acc_test} NAME_WE)
-
-      add_executable(${libsmm_acc_test_name} ${libsmm_acc_test})
-      target_compile_definitions(${libsmm_acc_test_name} PRIVATE __CUDA)
-      target_include_directories(
-        ${libsmm_acc_test_name}
-        PRIVATE ${CMAKE_CUDA_TOOLKIT_INCLUDE_DIRECTORIES})
-
-      target_link_libraries(${libsmm_acc_test_name} dbcsr)
-
-      if (OpenMP_FOUND)
-        target_link_libraries(${libsmm_acc_test_name} OpenMP::OpenMP_CXX)
-      endif ()
-
-    endforeach ()
-
-  else () # i.e. USE_HIP
-
-    foreach (libsmm_acc_test ${LIBSMM_ACC_TESTS_SRCS})
-      set_source_files_properties(${libsmm_acc_test}
-                                  PROPERTIES HIP_SOURCE_PROPERTY_FORMAT 1)
-
-      get_filename_component(libsmm_acc_test_name ${libsmm_acc_test} NAME_WE)
-
-      hip_add_executable(${libsmm_acc_test_name} ${libsmm_acc_test})
-      target_link_options(${libsmm_acc_test_name} PRIVATE ${HIP_ARCH_FLAGS})
-
-      target_link_libraries(${libsmm_acc_test_name} dbcsr)
-      target_compile_definitions(${libsmm_acc_test_name} PRIVATE __HIP)
-
-    endforeach ()
-
-    # Workaround issue in hip_add_library: explicitely write dependency between
-    # the test executable and the generated test c++ source file
-    add_dependencies(libsmm_acc_unittest_multiply
-                     generate_libsmm_acc_unittest_multiply_test_cpp)
-    add_dependencies(libsmm_acc_timer_multiply
-                     generate_libsmm_acc_timer_multiply_test_cpp)
-
-    foreach (libsmm_acc_test ${LIBSMM_ACC_TESTS_SRCS})
-
-      get_filename_component(libsmm_acc_test_name ${libsmm_acc_test} NAME_WE)
-      target_compile_definitions(${libsmm_acc_test_name} PRIVATE __HIP)
-      target_include_directories(${libsmm_acc_test_name}
-                                 PRIVATE ${HIP_PATH}/../include)
-
-      target_link_libraries(${libsmm_acc_test_name} dbcsr)
-
-    endforeach ()
-
-  endif ()
-
-  # Add tests that do not need additional arguments
-  foreach (libsmm_acc_test ${LIBSMM_ACC_NOARG_TESTS})
-    add_test(NAME ${libsmm_acc_test} COMMAND ${libsmm_acc_test})
+  foreach (libsmm_acc_test ${LIBSMM_ACC_TESTS_SRCS})
+    get_filename_component(libsmm_acc_test_name ${libsmm_acc_test} NAME_WE)
+    add_executable(${libsmm_acc_test_name} ${libsmm_acc_test})
+    target_compile_definitions(
+      ${libsmm_acc_test_name} PRIVATE $<$<STREQUAL:${USE_ACCEL},hip>:__HIP>
+                                      $<$<STREQUAL:${USE_ACCEL},cuda>:__CUDA>)
+    target_link_libraries(${libsmm_acc_test_name} dbcsr
+                          $<$<STREQUAL:${USE_ACCEL},hip>:hip::host> libsmm_acc)
   endforeach ()
 
-  # Add tests needing additional arguments:
+  add_test(NAME libsmm_acc_unittest_multiply
+           COMMAND libsmm_acc_unittest_multiply)
+  add_test(NAME libsmm_acc_unittest_transpose
+           COMMAND libsmm_acc_unittest_transpose)
   add_test(NAME libsmm_acc_timer_multiply-autotuned
            COMMAND libsmm_acc_timer_multiply autotuned)
   add_test(NAME libsmm_acc_timer_multiply-predicted

@@ -14,6 +14,7 @@
 #include "libsmm_acc_benchmark.h"
 #include "parameters.h"
 #include "parameters_utils.h"
+#include "../acc_bench.h"
 
 
 //===========================================================================
@@ -111,41 +112,10 @@ void matInit(double* mat, int mat_n, int x, int y, int seed){
 //===========================================================================
 // initialize the task list ("stack" in DBCSR lingo)
 // for each of the result matrices we have a random number
-void stackInit(int *stack, int n_stack, int n_c, double* mat_c,
-               int n_a, double * mat_a, int n_b, double* mat_b,
+void stackInit(int *stack, int n_stack, int n_c, int n_a, int n_b,
                int mat_m, int mat_n, int mat_k){
 
-  if(n_stack < n_c){
-    printf("Error: n_stack < n_c\n");
-    exit(1);
-  }
-
-  // on average, we have n_avg matrix products contributing to a result mat_c
-  int n_avg = n_stack / n_c;
-
-  int n_imbalance = std::max(1, n_avg-4);
-
-  int c = 0;
-  int n_top = 0;
-  int p = 0;
-
- int* s = stack;
-  while( p < n_stack ){
-    if(c >= n_c) c = n_c-1;
-
-    n_top += n_avg + (rand() % (2*n_imbalance) - n_imbalance);
-    if(n_top > n_stack) n_top = n_stack;
-
-    for(;p < n_top; p++){
-     int a = rand() % n_a;
-     int b = rand() % n_b;
-
-     *s++ =  a * mat_m * mat_k + 1;        // A_src
-     *s++ =  b * mat_k * mat_n + 1;        // B_src
-     *s++ =  c * mat_m * mat_n + 1;        // C_dst
-    }
-    c++;
- }
+  init_stack(stack, n_stack, mat_m * mat_n, mat_m * mat_k, mat_k * mat_n, n_c, n_a, n_b);
 }
 
 
@@ -298,7 +268,7 @@ int libsmm_acc_benchmark(libsmm_acc_benchmark_t* h,
 
  if(h->mode == tune)
      printf("Initializing ...\n");
- stackInit(h->stack, h->n_stack, h->n_c, h->mat_c, h->n_a, h->mat_a, h->n_b, h->mat_b, mat_m, mat_n, mat_k);
+ stackInit(h->stack, h->n_stack, h->n_c, h->n_a, h->n_b, mat_m, mat_n, mat_k);
 
  // Actually, we would have to calculate the stack n_iter times.
  // We cheat by simply scaling the results of a single stack calculation.
@@ -350,9 +320,12 @@ int libsmm_acc_benchmark(libsmm_acc_benchmark_t* h,
            best_gflops = gflops;
            best_kernel = ikern;
        }
-    } else {
+    }
+#if !defined(NDEBUG)
+    else {
        printf("%sOK %s\n", msg_prefix, descr);
     }
+#endif
  }
 
  if(h->mode == tune){
@@ -427,10 +400,12 @@ int libsmm_acc_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
  if(sumGPU != sumCPU){
      printf("%sERROR %s checksum_diff: %g\n", msg_prefix, descr, sumGPU-sumCPU);
      error_counter++;
- } else {
+ }
+#if !defined(NDEBUG)
+ else {
      printf("%sOK %s\n", msg_prefix, descr);
  }
-
+#endif
  return error_counter;
 
 }

@@ -6,11 +6,7 @@ set(DBCSR_PROGRAM_SRCS_CPP dbcsr_example_3.cpp dbcsr_tensor_example_2.cpp)
 # Compile Fortran examples
 foreach (dbcsr_program_src ${DBCSR_PROGRAM_SRCS_FTN})
   get_filename_component(dbcsr_program_name ${dbcsr_program_src} NAME_WE)
-  if (USE_HIP)
-    hip_add_executable(${dbcsr_program_name} ${dbcsr_program_src})
-  else ()
-    add_executable(${dbcsr_program_name} ${dbcsr_program_src})
-  endif ()
+  add_executable(${dbcsr_program_name} ${dbcsr_program_src})
   target_link_libraries(${dbcsr_program_name} dbcsr)
 
   # with the Intel compiler CMake 3.12 seems to forget that the source is
@@ -19,16 +15,19 @@ foreach (dbcsr_program_src ${DBCSR_PROGRAM_SRCS_FTN})
                                                          Fortran)
 endforeach ()
 
+# override -Werror for certain translation units
+if ((CMAKE_Fortran_COMPILER_ID STREQUAL "GNU")
+    AND (CMAKE_Fortran_COMPILER_VERSION VERSION_GREATER_EQUAL 10))
+  set_source_files_properties(dbcsr_tensor_example_1.F PROPERTIES COMPILE_FLAGS
+                                                                  -Wno-error)
+endif ()
+
 # Compile C++ examples
 if (WITH_C_API)
   foreach (dbcsr_program_src ${DBCSR_PROGRAM_SRCS_CPP})
     get_filename_component(dbcsr_program_name ${dbcsr_program_src} NAME_WE)
     set(dbcsr_program_name ${dbcsr_program_name}_cpp)
-    if (USE_HIP)
-      hip_add_executable(${dbcsr_program_name} ${dbcsr_program_src})
-    else ()
-      add_executable(${dbcsr_program_name} ${dbcsr_program_src})
-    endif ()
+    add_executable(${dbcsr_program_name} ${dbcsr_program_src})
     target_link_libraries(${dbcsr_program_name} dbcsr_c MPI::MPI_CXX)
 
     if (CMAKE_CXX_COMPILER_ID STREQUAL "Cray")

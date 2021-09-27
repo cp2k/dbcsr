@@ -15,7 +15,7 @@ add_custom_target(
   COMMAND "${FORD_EXE}" "${FORD_PROJECT_FILE}"
   VERBATIM)
 add_dependencies(doc doc_copy_tests)
-if (WITH_C_API)
+if (WITH_C_API AND WITH_EXAMPLES)
   add_dependencies(doc doc_copy_examples)
 endif ()
 add_dependencies(doc fypp) # only depend on the fypp step to avoid building

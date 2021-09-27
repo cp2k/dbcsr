@@ -1,5 +1,5 @@
 {
 "description": "HIP backend for accelerator API",
 "archive":"libdbcsr",
-"requires": ["../../base", "..", "../cuda"]
+"requires": ["../../base"]
 }

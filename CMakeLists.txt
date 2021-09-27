@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.17)
 
 # include our cmake snippets
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
@@ -90,18 +90,13 @@ set(USE_SMM
           "Small Matrix Multiplication implementation to use (default: blas)")
 set_property(CACHE USE_SMM PROPERTY STRINGS blas libxsmm)
 
-option(USE_CUDA "Build with CUDA support" OFF)
-option(USE_HIP "Build with HIP support" OFF)
-# USE_CUDA and USE_HIP are mutually exclusive options: we either compile with
-# nvcc OR with hipcc
-if (USE_CUDA AND USE_HIP)
-  message(
-    FATAL_ERROR
-      "USE_CUDA and USE_HIP options are mutually exclusive. Please choose one.")
-endif ()
+set(USE_ACCEL
+    ""
+    CACHE STRING "Build with acceleration support (default: none)")
+set_property(CACHE USE_ACCEL PROPERTY STRINGS "" opencl cuda hip)
 
 set(SUPPORTED_CUDA_ARCHITECTURES K20X K40 K80 P100 V100)
-set(SUPPORTED_HIP_ARCHITECTURES Mi50)
+set(SUPPORTED_HIP_ARCHITECTURES Mi50 Mi100)
 set(WITH_GPU
     "P100"
     CACHE STRING
@@ -110,6 +105,7 @@ set_property(CACHE WITH_GPU PROPERTY STRINGS ${SUPPORTED_CUDA_ARCHITECTURES}
                                      ${SUPPORTED_HIP_ARCHITECTURES})
 
 option(WITH_CUDA_PROFILING "Enable profiling within CUDA" OFF)
+option(WITH_HIP_PROFILING "Enable profiling within HIP" OFF)
 
 # =================================================================================================
 # LANGUAGES AND TESTING
@@ -117,21 +113,40 @@ enable_language(Fortran)
 
 if (WITH_C_API AND WITH_EXAMPLES)
   enable_language(CXX)
+  enable_language(C)
 endif ()
 
-# we're always using at least C++11
+# always use at least C++11
 set(CMAKE_CXX_STANDARD 11)
 
-# =================================================================================================
-# PACKAGE DISCOVERY (compiler configuration can impact package discovery)
-
-# =================================== OpenMP and OpenMP/offload backend
+# =================================== OpenMP
 if (USE_OPENMP)
   find_package(OpenMP REQUIRED)
 endif ()
 
+if ((USE_ACCEL MATCHES "opencl") AND (NOT USE_SMM MATCHES "libxsmm"))
+  message(FATAL_ERROR "OpenCL requires USE_SMM=libxsmm")
+endif ()
+
+# =================================== SMM (Small Matrix-Matrix multiplication)
+if (USE_SMM MATCHES "blas")
+  message(STATUS "Using BLAS for Small Matrix Multiplication")
+elseif (USE_SMM MATCHES "libxsmm")
+  message(STATUS "Using libxsmm for Small Matrix Multiplication")
+else ()
+  message(FATAL_ERROR "Unknown SMM library specified")
+endif ()
+
+# =================================== LIBXSMM (rely on pkg-config)
+if (USE_SMM MATCHES "libxsmm")
+  find_package(PkgConfig REQUIRED)
+  if (USE_OPENMP)
+    pkg_check_modules(LIBXSMMEXT REQUIRED IMPORTED_TARGET GLOBAL libxsmmext)
+  endif ()
+  pkg_check_modules(LIBXSMM REQUIRED IMPORTED_TARGET GLOBAL libxsmmf)
+endif ()
+
 # =================================== BLAS & LAPACK, PkgConfig
-find_package(PkgConfig)
 find_package(LAPACK REQUIRED) # needed for some of the integrated test routines,
                               # also calls find_package(BLAS)
 
@@ -141,8 +156,7 @@ find_package(LAPACK REQUIRED) # needed for some of the integrated test routines,
 # environment for a python interpreter before searching elsewhere in the system.
 # In CMake <3.15, the system is searched before the virtual environment.
 if (NOT Python_EXECUTABLE)
-  # If the python interpreter isn't specified as a command line option, look for
-  # it:
+  # If the python interpreter is not specified (command line), try finding it:
   find_package(
     Python
     COMPONENTS Interpreter
@@ -152,8 +166,6 @@ endif ()
 # =================================== MPI
 if (USE_MPI)
   get_property(REQUIRED_MPI_COMPONENTS GLOBAL PROPERTY ENABLED_LANGUAGES)
-  list(REMOVE_ITEM REQUIRED_MPI_COMPONENTS CUDA) # CUDA does not have an MPI
-                                                 # component
   if (NOT CMAKE_CROSSCOMPILING) # when cross compiling, assume the users know
                                 # what they are doing
     set(MPI_DETERMINE_LIBRARY_VERSION TRUE)
@@ -181,19 +193,13 @@ Intel MPI compiler wrappers. Check the INSTALL.md for more information.")
   endif ()
 endif ()
 
-# =================================== SMM (Small Matrix-Matrix multiplication)
-if (USE_SMM MATCHES "blas")
-  message("-- Using BLAS for Small Matrix Multiplication")
-elseif (USE_SMM MATCHES "libxsmm")
-  # rely on pkg-config in order to link against libxsmm
-  pkg_check_modules(deps REQUIRED IMPORTED_TARGET GLOBAL libxsmmf)
-  message("-- Using libxsmm for Small Matrix Multiplication")
-else ()
-  message(FATAL_ERROR "Unknown SMM library specified")
+# =================================== GPU backends
+if (USE_ACCEL MATCHES "opencl")
+  find_package(OpenCL REQUIRED)
+  enable_language(C)
 endif ()
 
-# =================================== GPU backend
-if (USE_CUDA OR USE_HIP)
+if (USE_ACCEL MATCHES "cuda|hip")
   enable_language(CXX)
   set(GPU_ARCH_NUMBER_K20X 35)
   set(GPU_ARCH_NUMBER_K40 35)
@@ -201,12 +207,13 @@ if (USE_CUDA OR USE_HIP)
   set(GPU_ARCH_NUMBER_P100 60)
   set(GPU_ARCH_NUMBER_V100 70)
   set(GPU_ARCH_NUMBER_Mi50 gfx906)
+  set(GPU_ARCH_NUMBER_Mi100 gfx908)
 endif ()
 
-if (USE_CUDA)
+if (USE_ACCEL MATCHES "cuda")
+  find_package(CUDAToolkit REQUIRED)
 
-  enable_language(CUDA)
-  if (CMAKE_CUDA_COMPILER_VERSION LESS 5.5)
+  if (CUDAToolkit_VERSION LESS 5.5)
     message(FATAL_ERROR "CUDA version >= 5.5 is required.")
   endif ()
 
@@ -214,74 +221,29 @@ if (USE_CUDA)
   list(FIND SUPPORTED_CUDA_ARCHITECTURES ${WITH_GPU} GPU_SUPPORTED)
   if (GPU_SUPPORTED EQUAL -1)
     message(
-      FATAL_ERROR
-        "GPU architecture requested (${WITH_GPU}) is not supported. Please choose from: ${SUPPORTED_CUDA_ARCHITECTURES}"
-    )
+      FATAL_ERROR "GPU architecture requested (${WITH_GPU}) is not supported. "
+                  "Please choose from: ${SUPPORTED_CUDA_ARCHITECTURES}")
   endif ()
-
-  # assume that the backend compiler for nvcc understands the -std=c++11
-  set(CMAKE_CUDA_STANDARD 11)
-  set(CMAKE_CUDA_STANDARD_REQUIRED ON)
 
   # set cuda architecture number and compilation flags
   set(ACC_ARCH_NUMBER ${GPU_ARCH_NUMBER_${WITH_GPU}})
-  # TODO: use CMAKE_CUDA_RUNTIME_LIBRARY with CMake 3.17+ and CUDA_ARCHITECTURES
-  # with CMake 3.18+
-  string(APPEND CMAKE_CUDA_FLAGS " -arch=sm_${ACC_ARCH_NUMBER} --cudart static")
-  add_compile_definitions($<$<COMPILE_LANGUAGE:CUDA>:__CUDA>)
+
   message(STATUS "GPU target architecture: " ${WITH_GPU})
   message(STATUS "GPU architecture number: " ${ACC_ARCH_NUMBER})
   message(STATUS "GPU profiling enabled: " ${WITH_CUDA_PROFILING})
-
-  # =================================== BLAS on GPU backend
-  find_library(CUBLAS cublas HINT ${CMAKE_CUDA_IMPLICIT_LINK_DIRECTORIES})
-  if (NOT CUBLAS)
-    message(
-      FATAL_ERROR
-        "cuBLAS library not found but support required for DBCSR's CUDA backend"
-    )
-  else ()
-    message(STATUS "Found cuBLAS: ${CUBLAS}")
-  endif ()
-
-  if (WITH_CUDA_PROFILING)
-    find_library(
-      CUDA_NVTOOLSEXT nvToolsExt
-      PATHS ${CMAKE_CUDA_IMPLICIT_LINK_DIRECTORIES}
-      DOC "Building with CUDA profiling requires the nvToolsExt CUDA library"
-          REQUIRED)
-    message(STATUS "Found nvToolsExt: ${CUDA_NVTOOLSEXT}")
-  endif ()
-
 endif ()
 
-# inspired from
-# https://github.com/ROCm-Developer-Tools/HIP/tree/master/samples/2_Cookbook/12_cmake_hip_add_executable
-if (USE_HIP)
-
+if (USE_ACCEL MATCHES "hip")
   # Make sure the GPU required is supported
   list(FIND SUPPORTED_HIP_ARCHITECTURES ${WITH_GPU} GPU_SUPPORTED)
   if (GPU_SUPPORTED EQUAL -1)
     message(
-      FATAL_ERROR
-        "GPU architecture requested (${WITH_GPU}) is not supported. Please choose from: ${SUPPORTED_HIP_ARCHITECTURES}"
-    )
+      FATAL_ERROR "GPU architecture requested (${WITH_GPU}) is not supported. "
+                  "Please choose from: ${SUPPORTED_HIP_ARCHITECTURES}")
   endif ()
 
-  # Set path to HIP installation, include HIP cmake utilities
-  if (NOT DEFINED HIP_PATH)
-    if (NOT DEFINED ENV{HIP_PATH})
-      set(HIP_PATH
-          "/opt/rocm/hip"
-          CACHE PATH "Path to HIP installation")
-    else ()
-      set(HIP_PATH
-          $ENV{HIP_PATH}
-          CACHE PATH "Path to HIP installation")
-    endif ()
-  endif ()
-  set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${HIP_PATH}/cmake")
-
+  # ROCm is typically installed in /opt/rocm; otherwise let the user set
+  # ROCM_PATH as an environment variable or define.
   if (NOT DEFINED ROCM_PATH)
     if (NOT DEFINED ENV{ROCM_PATH})
       set(ROCM_PATH
@@ -294,60 +256,17 @@ if (USE_HIP)
     endif ()
   endif ()
 
-  # Find HIP package
-  find_package(HIP)
-  if (HIP_FOUND)
-    message(STATUS "Found HIP: " ${HIP_VERSION})
-  else ()
-    message(
-      FATAL_ERROR
-        "Could not find HIP. Ensure that HIP is either installed in /opt/rocm/hip or the variable HIP_PATH is set to point to the right location."
-    )
-  endif ()
+  # Notice: this is not FindHIP.cmake for hip language support, but
+  # hip-config.cmake which contains targets like hip::host for jitting.
+  find_package(hip CONFIG REQUIRED HINTS ${ROCM_PATH})
 
-  # Find hiprtc library (adds support for JIT-ing in HIP)
-  find_library(ROCM_HIPRTC_LIB amdhip64 HINTS ${HIP_PATH}/lib)
-  if (NOT ROCM_HIPRTC_LIB)
-    message(
-      FATAL_ERROR "HIPRTC (HIP library for just-in-time compilation) not found")
-  endif ()
-  set(ENV{HIP_PATH} /opt/rocm/hip) # workaround bug in hiprtc.cpp
-
-  # Set platform to compile for (NVIDIA-nvcc or ROCm-hcc) as well as
-  # corresponding architecture and flags adapted from:
-  # https://github.com/ROCmSoftwarePlatform/hipDNN/blob/master/CMakeLists.txt
-  execute_process(COMMAND ${HIP_PATH}/bin/hipconfig -P
-                  OUTPUT_VARIABLE HIP_PLATFORM)
-  message(STATUS "Compiling for platform: " ${HIP_PLATFORM})
-
-  # set appropriate compilation flags depending on platform
   set(ACC_ARCH_NUMBER ${GPU_ARCH_NUMBER_${WITH_GPU}})
-  set(HIP_HIPCC_FLAGS "${HIP_HIPCC_FLAGS} -D__HIP -O3")
-  if (${HIP_PLATFORM} STREQUAL "nvcc")
-    set(HIP_HIPCC_FLAGS
-        "${HIP_HIPCC_FLAGS} -std=c++11 -arch=sm_${ACC_ARCH_NUMBER} --cudart static"
-    )
-  else ()
-    set(HIP_HIPCC_FLAGS "${HIP_HIPCC_FLAGS} -fPIC")
-  endif ()
   message(STATUS "GPU target architecture: " ${WITH_GPU})
   message(STATUS "GPU architecture number: " ${ACC_ARCH_NUMBER})
-  message(STATUS "HIPCC flags: " ${HIP_HIPCC_FLAGS})
-  if (USE_OPENMP)
-    set(HIP_OpenMP_FLAGS "-L${ROCM_PATH}/llvm/lib -lomp")
-    message(STATUS "HIP OpenMP linking flags: ${HIP_OpenMP_FLAGS}")
-  endif ()
+  message(STATUS "GPU profiling enabled: " ${WITH_HIP_PROFILING})
 
   # =================================== BLAS on GPU backend
-  find_library(HIPBLAS hipblas HINTS ${HIP_PATH}/../lib) # /opt/rocm/lib
-  if (NOT HIPBLAS)
-    message(
-      FATAL_ERROR
-        "hipBLAS library not found but support required for DBCSR's HIP backend"
-    )
-  else ()
-    message(STATUS "Found hipBLAS: ${HIPBLAS}")
-  endif ()
+  find_package(hipblas CONFIG REQUIRED HINTS ${ROCM_PATH})
 endif ()
 
 # =================================================================================================

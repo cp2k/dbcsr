@@ -61,6 +61,7 @@ gpu_architectures = {
     "parameters_V100.json": "sm_70",
     "parameters_Vega10.json": "gfx900",
     "parameters_Mi50.json": "gfx906",
+    "parameters_Mi100.json": "gfx908",
 }
 
 
@@ -669,7 +670,7 @@ class PredictiveParameters:
         return self.get("k") * (self.get("m") + self.get("n"))  # int
 
     def get_ru_tiny_smem_per_block(self):
-        """"Shared memory usage per block (estimate)"""
+        """Shared memory usage per block (estimate)"""
         return (self.get("ru_tiny_buf_size") * self.autotuning["sizeof_double"]) + (
             self.autotuning["npars"]
             * self.get("grouping")
