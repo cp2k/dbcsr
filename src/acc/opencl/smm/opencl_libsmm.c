@@ -664,7 +664,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
             memset(&new_config, 0, sizeof(new_config));
             result = c_dbcsr_acc_opencl_kernel(OPENCL_LIBSMM_SOURCE_TRANSPOSE, fname,
               build_params, build_options, NULL/*try*/, NULL/*try_ok*/,
-              &new_config.kernel);
+              NULL/*extnames*/, 0/*num_exts*/, &new_config.kernel);
             if (EXIT_SUCCESS == result) {
               result = c_dbcsr_acc_opencl_wgsize(active_device,
                 new_config.kernel, &wgsize_max, NULL/*prefmult*/);
@@ -677,7 +677,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
                   if (0 < nchar && (int)sizeof(build_params) > nchar) {
                     result = c_dbcsr_acc_opencl_kernel(OPENCL_LIBSMM_SOURCE_TRANSPOSE, fname,
                       build_params, build_options, NULL/*try*/, NULL/*try_ok*/,
-                      &new_config.kernel);
+                      NULL/*extnames*/, 0/*num_exts*/, &new_config.kernel);
                   }
                   else result = EXIT_FAILURE;
                 }
@@ -947,28 +947,53 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
       if (NULL == config || NULL == config->kernel) {
         char build_options[ACC_OPENCL_BUFFERSIZE], build_params[ACC_OPENCL_BUFFERSIZE];
         char fname[ACC_OPENCL_KERNELNAME_MAXSIZE];
-        int nchar = ACC_OPENCL_SNPRINTF(fname, sizeof(fname),
+        int cl_level_major, nchar = ACC_OPENCL_SNPRINTF(fname, sizeof(fname),
           /* kernel name are meant to be unambiguous (BLAS-typeprefix and kernelsize) */
           "x" OPENCL_LIBSMM_KERNELNAME_SMM "%ix%ix%i", m_max, n_max, k_max);
-        const char* extensions = NULL;
-        if (0 < nchar && (int)sizeof(fname) > nchar) {
+        const char* extensions[] = { NULL, NULL };
+        if (0 < nchar && (int)sizeof(fname) > nchar
+          && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_level(active_device,
+            &cl_level_major, NULL/*level_minor*/, NULL/*cl_std*/))
+        {
           const char *tname = NULL, *atomic_type = "";
           const char *atomic_ops = "";
           switch (datatype) {
             case dbcsr_type_real_8: {
-              extensions = "cl_khr_fp64 cl_khr_int64_base_atomics";
-              if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_device, &extensions, 1)) {
-                atomic_type = "-DTA=long";
+              extensions[0] = "cl_khr_fp64 cl_khr_int64_base_atomics cl_khr_int64_extended_atomics";
+              if (2 <= cl_level_major
+                && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_device, extensions, 1))
+              {
+                atomic_type = "-DTA=long -DTM=atomic_long";
                 tname = "double";
                 fname[0] = 'd';
               }
+              else {
+                extensions[0] = "cl_khr_fp64 cl_khr_int64_base_atomics";
+                if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_device, extensions, 1)) {
+                  atomic_type = "-DTA=long";
+                  tname = "double";
+                  fname[0] = 'd';
+                }
+              }
             } break;
             case dbcsr_type_real_4: {
-              extensions = "cl_khr_global_int32_base_atomics";
-              if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_device, &extensions, 1)) {
-                atomic_type = "-DTA=int";
+              extensions[0] = "cl_khr_global_int32_base_atomics cl_khr_global_int32_extended_atomics";
+              if (2 <= cl_level_major
+                && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_device, extensions, 1))
+              {
+                extensions[1] = "cl_khr_int64_base_atomics cl_khr_int64_extended_atomics";
+                atomic_type = "-DTA=int -DTM=atomic_int";
                 tname = "float";
                 fname[0] = 's';
+              }
+              else {
+                extensions[0] = "cl_khr_global_int32_base_atomics";
+                if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_device, extensions, 1)) {
+                  extensions[1] = "cl_khr_int64_base_atomics";
+                  atomic_type = "-DTA=int";
+                  tname = "float";
+                  fname[0] = 's';
+                }
               }
             } break;
             default: assert(NULL == tname);
@@ -987,7 +1012,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
             const int wg = ((NULL == env_wg || '\0' == *env_wg)
               ? (NULL == config ? /*default*/0 : config->wg) : LIBXSMM_CLMP(atoi(env_wg), 0, 2));
             const int lu = ((NULL == env_lu || '\0' == *env_lu)
-              ? (NULL == config ? /*default*/0 : config->lu) : LIBXSMM_CLMP(atoi(env_lu), 0, 2));
+              ? (NULL == config ? /*default*/0 : config->lu) : LIBXSMM_CLMP(atoi(env_lu), -1, 2));
             const int nz = ((NULL == env_nz || '\0' == *env_nz)
               ? (NULL == config ? /*default*/0 : config->nz) : LIBXSMM_CLMP(atoi(env_nz), 0, 1));
             const int ap = ((NULL == env_ap || '\0' == *env_ap)
@@ -1051,7 +1076,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               }
               if (wgsize <= wgsize_max) { /* SMMs can be potentially handled by device */
                 const char *const cmem = (EXIT_SUCCESS != opencl_libsmm_use_cmem(active_device) ? "global" : "constant");
-# if !defined(NDEBUG)
+# if !defined(NDBGDEV)
                 const char *const cl_debug = (0 != cl_intel_id ? "-gline-tables-only" : "");
 # else
                 const char *const cl_debug = "";
@@ -1059,8 +1084,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 const char *const env_options = getenv("OPENCL_LIBSMM_SMM_BUILDOPTS");
                 const char *const env_atomics = getenv("OPENCL_LIBSMM_SMM_ATOMICS");
                 const char *atomic_exp = NULL, *atomic_expr2 = "";
-                if (NULL == env_atomics || '0' != *env_atomics) {
-                  const char* extension[] = { "cl_khr_int64_base_atomics" };
+                if (NULL == env_atomics || ('0' != *env_atomics && '-' != *env_atomics)) {
                   if (NULL == env_atomics || '\0' == *env_atomics) { /* no request made */
                     if (0 != cl_intel_id && 0x4905 != cl_intel_id && 0 == unified) {
                       if (dbcsr_type_real_4 == datatype) {
@@ -1073,10 +1097,11 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                       }
                     }
                     else if (cl_nonv) {
-                      if (1 < bs && dbcsr_type_real_4 == datatype && 1 == bn && bm >= m_max
+                      if (NULL != extensions[1] && 1 < bs && 1 == bn && bm >= m_max
                         && (0 == (m_max & 1) || (0 == cl_intel_id /*&& cl_nonv*/)) /* TODO */
-                        && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_device, extension, 1))
+                        && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_device, extensions + 1, 1))
                       {
+                        assert(dbcsr_type_real_4 == datatype);
                         atomic_expr2 = "-D\"ATOMIC_ADD2_GLOBAL(A,B)=atomic_add_global_cmpxchg2(A, B)\"";
                       }
                       atomic_exp = "atomic_add_global_cmpxchg(A, B)";
@@ -1085,16 +1110,17 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                         : "-DCMPXCHG=atom_cmpxchg");
                     }
                     else {
+                      assert(NULL != atomic_ops && '\0' == *atomic_ops);
                       atomic_exp = "atomic_add_global_xchg(A, B)";
-                      atomic_ops = "";
                     }
                   }
                   else if (NULL != c_dbcsr_acc_opencl_stristr(env_atomics, "cmpxchg")) {
-                    if (1 < bs && dbcsr_type_real_4 == datatype && 1 == bn && bm >= m_max
+                    if (NULL != extensions[1] && 1 < bs && 1 == bn && bm >= m_max
                       && (0 == (m_max & 1) || (0 == cl_intel_id && cl_nonv)) /* TODO */
                       && '2' == env_atomics[strlen(env_atomics)-1]
-                      && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_device, extension, 1))
+                      && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_device, extensions + 1, 1))
                     {
+                      assert(dbcsr_type_real_4 == datatype);
                       atomic_expr2 = "-D\"ATOMIC_ADD2_GLOBAL(A,B)=atomic_add_global_cmpxchg2(A, B)\"";
                     }
                     atomic_exp = "atomic_add_global_cmpxchg(A, B)";
@@ -1109,8 +1135,10 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                       : "-DXCHG=atom_xchg");
                   }
                 }
-                else {
-                  atomic_exp = "*(A) += (B)";
+                else { /* unsynchronized */
+                  assert(NULL != env_atomics);
+                  if ('-' == *env_atomics) atomic_ops = "-DNOBARRIER";
+                  atomic_exp = "*(A) += (B)"; /* non-atomic update */
                 }
                 assert(NULL != atomic_exp);
                 /* compose build parameters and flags */
@@ -1123,7 +1151,9 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                   0 == ab ? "" : (1 == ab ? "-DSHARED_B=1" : (2 == ab ? "-DSHARED_B=2" : "-DPRIVATE_B")),
                   0 == ac ? "" : (1 == ac ? "-DSHARED_C=1" : (2 == ac ? "-DSHARED_C=2" : "-DPRIVATE_C")),
                   0 == ap ? "" : "-DSHARED_P", 0 == nz ? "" : "-DATOMIC_INC_NZ",
-                  0 == lu ? "" : (1 == lu ? "-D\"UNROLL_SM=UNROLL_FORCE(1)\"" : "-D\"UNROLL(N)=UNROLL_FORCE(N)\""),
+                  0 == lu ? "-D\"UNROLL_SM=UNROLL_FORCE(SM)\"" : (1 == lu ? "-D\"UNROLL_SM=UNROLL_FORCE(1)\""
+                                                               : (0  < lu  ? "-D\"UNROLL(N)=UNROLL_FORCE(N)\""
+                                                               : "")),
                   atomic_type, atomic_ops, atomic_exp, atomic_expr2);
                 if (0 < nchar && (int)sizeof(build_params) > nchar) {
                   nchar = ACC_OPENCL_SNPRINTF(build_options, sizeof(build_options),
@@ -1142,15 +1172,10 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               opencl_libsmm_smm_t new_config;
               memset(&new_config, 0, sizeof(new_config));
               result = c_dbcsr_acc_opencl_kernel(
-                (NULL != strstr(atomic_ops, "cl_intel_global_float_atomics"))
-                  ? ("#pragma OPENCL EXTENSION cl_intel_global_float_atomics: enable\n"
-                     OPENCL_LIBSMM_STRING_MULTIPLY)
-                  : (/*non-Intel device*/
-                (cl_nonv)
-                  ? (OPENCL_LIBSMM_SOURCE_MULTIPLY)
-                  : ("#pragma OPENCL EXTENSION all: enable\n"
-                     OPENCL_LIBSMM_STRING_MULTIPLY)), fname,
-                build_params, build_options, cl_try, &cl_try_ok,
+                NULL == strstr(atomic_ops, "cl_intel_global_float_atomics") ? OPENCL_LIBSMM_SOURCE_MULTIPLY :
+                  ("#pragma OPENCL EXTENSION cl_intel_global_float_atomics: enable\n" OPENCL_LIBSMM_STRING_MULTIPLY),
+                fname, build_params, build_options, cl_try, &cl_try_ok,
+                extensions, sizeof(extensions) / sizeof(*extensions),
                 &new_config.kernel);
               if (EXIT_SUCCESS == result) {
                 result = c_dbcsr_acc_opencl_wgsize(active_device,
@@ -1207,16 +1232,16 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
       }
       assert(EXIT_SUCCESS != result || /* otherwise config must be valid */
         (NULL != config && NULL != config->kernel
-          && 0 < config->bm && config->bm <= m_max
-          && 0 < config->bn && config->bn <= n_max
-          && 1 <= config->bs && 0 < config->wgsize
-          && 0 <= config->wg && 2 >= config->wg
-          && 0 <= config->lu && 2 >= config->lu
-          && 0 <= config->nz && 1 >= config->nz
-          && 0 <= config->ap && 1 >= config->ap
-          && 0 <= config->aa && 3 >= config->aa
-          && 0 <= config->ab && 3 >= config->ab
-          && 0 <= config->ac && 2 >= config->ac));
+          &&  0 < config->bm && config->bm <= m_max
+          &&  0 < config->bn && config->bn <= n_max
+          &&  1 <= config->bs && 0 < config->wgsize
+          &&  0 <= config->wg && 2 >= config->wg
+          && -1 <= config->lu && 2 >= config->lu
+          &&  0 <= config->nz && 1 >= config->nz
+          &&  0 <= config->ap && 1 >= config->ap
+          &&  0 <= config->aa && 3 >= config->aa
+          &&  0 <= config->ab && 3 >= config->ab
+          &&  0 <= config->ac && 2 >= config->ac));
       if (EXIT_SUCCESS == result) {
         cl_event event, *const perf_event = ((0 <= c_dbcsr_acc_opencl_config.verbosity
           && 3 > c_dbcsr_acc_opencl_config.verbosity) ? NULL : &event);

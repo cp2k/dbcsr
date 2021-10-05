@@ -119,8 +119,8 @@ int c_dbcsr_acc_opencl_order_devices(const void* dev_a, const void* dev_b)
     }
     else if (CL_DEVICE_TYPE_GPU & type_b) return 1;
     else {
-      if (CL_DEVICE_TYPE_ACCELERATOR & type_a) {
-        if (CL_DEVICE_TYPE_ACCELERATOR & type_b) {
+      if (CL_DEVICE_TYPE_CPU & type_a) {
+        if (CL_DEVICE_TYPE_CPU & type_b) {
           size_t size_a, size_b;
           ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*a, NULL, &size_a, NULL, NULL));
           ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*b, NULL, &size_b, NULL, NULL));
@@ -128,7 +128,7 @@ int c_dbcsr_acc_opencl_order_devices(const void* dev_a, const void* dev_b)
         }
         else return -1;
       }
-      else if (CL_DEVICE_TYPE_ACCELERATOR & type_b) return 1;
+      else if (CL_DEVICE_TYPE_CPU & type_b) return 1;
       else {
         size_t size_a, size_b;
         ACC_OPENCL_EXPECT(EXIT_SUCCESS, c_dbcsr_acc_opencl_info_devmem(*a, NULL, &size_a, NULL, NULL));
@@ -550,11 +550,7 @@ int c_dbcsr_acc_opencl_device_ext(cl_device_id device, const char *const extname
     "retrieve device extensions", result);
   if (EXIT_SUCCESS == result) {
     do {
-      --num_exts;
-      if (NULL == extnames[num_exts]) {
-        return EXIT_FAILURE;
-      }
-      else {
+      if (NULL != extnames[--num_exts]) {
         char *const exts = strncpy(buffer, extnames[num_exts], ACC_OPENCL_BUFFERSIZE - 1);
         const char* ext = strtok(exts, ACC_OPENCL_DELIMS);
         for (; NULL != ext; ext = strtok(NULL, ACC_OPENCL_DELIMS)) {
@@ -706,6 +702,7 @@ int c_dbcsr_acc_opencl_wgsize(cl_device_id device, cl_kernel kernel,
 int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[],
   const char build_params[], const char build_options[],
   const char try_build_options[], int* try_ok,
+  const char *const extnames[], int num_exts,
   cl_kernel* kernel)
 {
   char buffer[ACC_OPENCL_BUFFERSIZE] = "", cl_std[16];
@@ -720,7 +717,39 @@ int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[],
     result = c_dbcsr_acc_opencl_device_level(active_id, &level_major, &level_minor, cl_std);
   }
   if (EXIT_SUCCESS == result) {
+    const char* ext_source = source;
+    size_t size_src = strlen(source);
     cl_program program = NULL;
+    if (NULL != extnames) {
+      int n = num_exts, nflat = 0;
+      size_t size_ext = 0;
+      for (; 0 < n; --n) if (NULL != extnames[n-1]) {
+        char *const exts = strncpy(buffer, extnames[n-1], ACC_OPENCL_BUFFERSIZE - 1);
+        const char* ext = strtok(exts, ACC_OPENCL_DELIMS);
+        for (; NULL != ext; ext = strtok(NULL, ACC_OPENCL_DELIMS), ++nflat) size_ext += strlen(ext);
+      }
+      if (0 < size_ext && 0 < nflat) {
+        const char *const enable_ext = "#pragma OPENCL EXTENSION %s : enable\n";
+        const size_t size_src_ext = size_src + size_ext + nflat * (strlen(enable_ext) - 2/*%s*/);
+        char *const ext_source_buffer = (char*)malloc(size_src_ext + 1/*terminator*/);
+        if (NULL != ext_source_buffer) {
+          for (n = 0; 0 < num_exts; --num_exts) if (NULL != extnames[num_exts-1]) {
+            char *const exts = strncpy(buffer, extnames[num_exts-1], ACC_OPENCL_BUFFERSIZE - 1);
+            const char* ext = strtok(exts, ACC_OPENCL_DELIMS);
+            for (; NULL != ext; ext = strtok(NULL, ACC_OPENCL_DELIMS)) {
+              n += ACC_OPENCL_SNPRINTF(ext_source_buffer + n, size_src_ext + 1/*terminator*/ - n,
+                enable_ext, ext);
+            }
+          }
+          assert((size_src + n) == size_src_ext);
+          memcpy(ext_source_buffer + n, source, size_src);
+          ext_source_buffer[size_src+n] = '\0';
+          ext_source = ext_source_buffer;
+          size_src = size_src_ext;
+        }
+      }
+      buffer[0] = '\0'; /* reset to empty */
+    }
     /* consider preprocessing kernel for analysis (cpp); failure does not matter (result) */
     if (0 != c_dbcsr_acc_opencl_config.dump) {
       char name_src[ACC_OPENCL_KERNELNAME_MAXSIZE*2];
@@ -733,8 +762,7 @@ int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[],
           FILE *const file_src = fopen(name_src, "w");
           fclose(file_cpp); /* existence-check */
           if (NULL != file_src) {
-            const size_t size_src = strlen(source);
-            if (size_src == fwrite(source, 1, size_src, file_src) && EXIT_SUCCESS == fclose(file_src)) {
+            if (size_src == fwrite(ext_source, 1, size_src, file_src) && EXIT_SUCCESS == fclose(file_src)) {
               nchar = ACC_OPENCL_SNPRINTF(buffer, sizeof(buffer), ACC_OPENCL_CPPBIN
                 " -P -C -nostdinc -D__OPENCL_VERSION__=%u %s %s %s %s > %s.cl", 100 * level_major + 10 * level_minor,
                 EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(active_id, "nvidia") ? "" : "-D__NV_CL_C_VERSION",
@@ -773,8 +801,9 @@ int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[],
     }
     if (NULL == program) {
       program = clCreateProgramWithSource(c_dbcsr_acc_opencl_context,
-        1/*nlines*/, &source, NULL, &result);
+        1/*nlines*/, &ext_source, NULL, &result);
     }
+    if (source != ext_source) free((void*)ext_source);
     if (NULL != program) {
       int nchar = ACC_OPENCL_SNPRINTF(buffer, sizeof(buffer), "%s %s %s %s",
         cl_std, NULL != build_options ? build_options : "",
