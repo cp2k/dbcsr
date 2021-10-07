@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-1-gc24c3be06</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-2-g2c29cf6dbb</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -230,7 +230,7 @@ arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
   
 <tr>
   
-  <td><span class="anchor" id="variable-transa~7"></span>character(len=1),</td>
+  <td><span class="anchor" id="variable-transa~10"></span>character(len=1),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -245,7 +245,7 @@ arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
   
 <tr>
   
-  <td><span class="anchor" id="variable-transb~7"></span>character(len=1),</td>
+  <td><span class="anchor" id="variable-transb~10"></span>character(len=1),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -260,7 +260,7 @@ arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
   
 <tr>
   
-  <td><span class="anchor" id="variable-transc~3"></span>character(len=1),</td>
+  <td><span class="anchor" id="variable-transc"></span>character(len=1),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -275,7 +275,7 @@ arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
   
 <tr>
   
-  <td><span class="anchor" id="variable-alpha~24"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-alpha~22"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -290,7 +290,7 @@ arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_a~32"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_a~35"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
   <td>intent(inout),</td>
   <td></td>
   
@@ -305,7 +305,7 @@ arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_b~19"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_b~22"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
   <td>intent(inout),</td>
   <td></td>
   
@@ -320,7 +320,7 @@ arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
   
 <tr>
   
-  <td><span class="anchor" id="variable-beta~11"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
+  <td><span class="anchor" id="variable-beta~12"></span>type(<a href='../type/dbcsr_scalar_type.html'>dbcsr_scalar_type</a>),</td>
   <td>intent(in)</td>
   <td></td>
   
@@ -335,7 +335,7 @@ arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
   
 <tr>
   
-  <td><span class="anchor" id="variable-matrix_c~8"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
+  <td><span class="anchor" id="variable-matrix_c~11"></span>type(<a href='../type/dbcsr_tas_type.html'>dbcsr_tas_type</a>),</td>
   <td>intent(inout),</td>
   <td></td>
   
@@ -350,7 +350,7 @@ arguments of dbcsr_multiply (see dbcsr_mm, dbcsr_multiply_generic).</p>
   
 <tr>
   
-  <td><span class="anchor" id="variable-optimize_dist~4"></span>logical,</td>
+  <td><span class="anchor" id="variable-optimize_dist"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -366,7 +366,7 @@ only for dense matrices.</p></td>
   
 <tr>
   
-  <td><span class="anchor" id="variable-split_opt~2"></span>type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),</td>
+  <td><span class="anchor" id="variable-split_opt"></span>type(<a href='../type/dbcsr_tas_split_info.html'>dbcsr_tas_split_info</a>),</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -382,7 +382,7 @@ grids for subsequent matrix multiplications with matrices of similar shape and s
   
 <tr>
   
-  <td><span class="anchor" id="variable-filter_eps~10"></span>real(kind=real_8),</td>
+  <td><span class="anchor" id="variable-filter_eps~16"></span>real(kind=real_8),</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -397,7 +397,7 @@ grids for subsequent matrix multiplications with matrices of similar shape and s
   
 <tr>
   
-  <td><span class="anchor" id="variable-flop~17"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-flop~18"></span>integer(kind=int_8),</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -446,7 +446,7 @@ for internal use only</p></td>
   
 <tr>
   
-  <td><span class="anchor" id="variable-retain_sparsity~7"></span>logical,</td>
+  <td><span class="anchor" id="variable-retain_sparsity~12"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -480,7 +480,7 @@ for internal use only</p></td>
   
 <tr>
   
-  <td><span class="anchor" id="variable-result_index~3"></span>integer(kind=int_8),</td>
+  <td><span class="anchor" id="variable-result_index"></span>integer(kind=int_8),</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -495,7 +495,7 @@ for internal use only</p></td>
   
 <tr>
   
-  <td><span class="anchor" id="variable-unit_nr~25"></span>integer,</td>
+  <td><span class="anchor" id="variable-unit_nr~4"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -510,7 +510,7 @@ for internal use only</p></td>
   
 <tr>
   
-  <td><span class="anchor" id="variable-log_verbose~5"></span>logical,</td>
+  <td><span class="anchor" id="variable-log_verbose"></span>logical,</td>
   <td>intent(in),</td>
   <td>optional</td>
   

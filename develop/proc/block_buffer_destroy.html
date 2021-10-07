@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-1-gc24c3be06</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-2-g2c29cf6dbb</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -131,21 +131,21 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">18 statements</a>
+    title=" 0.0% of total for procedures.">17 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor_reshape.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tas_reshape_ops.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_tensor_reshape.f.html'>dbcsr_tensor_reshape.F</a></li>
+     <li><a href='../sourcefile/dbcsr_tas_reshape_ops.f.html'>dbcsr_tas_reshape_ops.F</a></li>
     
-     <li><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></li>
+     <li><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></li>
     
   
      <li class="active">block_buffer_destroy</li>
@@ -233,7 +233,7 @@ private subroutine block_buffer_destroy(buffer)
   
 <tr>
   
-  <td><span class="anchor" id="variable-buffer~4"></span>type(<a href='../type/block_buffer_type.html'>block_buffer_type</a>),</td>
+  <td><span class="anchor" id="variable-buffer~11"></span>type(<a href='../type/block_buffer_type.html'>block_buffer_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -313,24 +313,23 @@ private subroutine block_buffer_destroy(buffer)
       <span class="k">TYPE</span><span class="p">(</span><span class="n">block_buffer_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">buffer</span>
 
       <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">data_type</span><span class="p">)</span>
-<span class="cp"># 211 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F&quot;</span>
+<span class="cp"># 672 &quot;/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F&quot;</span>
       <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
          <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">msg_r_dp</span><span class="p">)</span>
-<span class="cp"># 211 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F&quot;</span>
+<span class="cp"># 672 &quot;/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F&quot;</span>
       <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
          <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">msg_r_sp</span><span class="p">)</span>
-<span class="cp"># 211 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F&quot;</span>
+<span class="cp"># 672 &quot;/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F&quot;</span>
       <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
          <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">msg_c_dp</span><span class="p">)</span>
-<span class="cp"># 211 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F&quot;</span>
+<span class="cp"># 672 &quot;/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F&quot;</span>
       <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
          <span class="k">DEALLOCATE</span> <span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">msg_c_sp</span><span class="p">)</span>
-<span class="cp"># 214 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F&quot;</span>
+<span class="cp"># 675 &quot;/__w/dbcsr/dbcsr/src/tas/dbcsr_tas_reshape_ops.F&quot;</span>
       <span class="k">END SELECT</span>
 <span class="k">      DEALLOCATE</span> <span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">indx</span><span class="p">)</span>
       <span class="n">buffer</span><span class="p">%</span><span class="n">nblock</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
       <span class="n">buffer</span><span class="p">%</span><span class="n">data_type</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-      <span class="n">buffer</span><span class="p">%</span><span class="n">ndim</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
       <span class="n">buffer</span><span class="p">%</span><span class="n">endpos</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
    <span class="k">END SUBROUTINE </span><span class="n">block_buffer_destroy</span>
 </pre></div>

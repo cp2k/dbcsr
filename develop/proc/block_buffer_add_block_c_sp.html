@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-1-gc24c3be06</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-2-g2c29cf6dbb</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -131,21 +131,21 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">23 statements</a>
+    title=" 0.1% of total for procedures.">40 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor_reshape.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tas_reshape_ops.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_tensor_reshape.f.html'>dbcsr_tensor_reshape.F</a></li>
+     <li><a href='../sourcefile/dbcsr_tas_reshape_ops.f.html'>dbcsr_tas_reshape_ops.F</a></li>
     
-     <li><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></li>
+     <li><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></li>
     
   
      <li class="active">block_buffer_add_block_c_sp</li>
@@ -198,7 +198,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-private subroutine block_buffer_add_block_c_sp(buffer, ndata, index, block)
+private subroutine block_buffer_add_block_c_sp(buffer, index, block, transposed)
     
     
    
@@ -208,7 +208,7 @@ private subroutine block_buffer_add_block_c_sp(buffer, ndata, index, block)
 
 
     
-    <p>add block to buffer.</p>
+    <p>insert a block into block buffer (at current iterator position)</p>
     
 
     <h3>Arguments</h3>
@@ -229,7 +229,7 @@ private subroutine block_buffer_add_block_c_sp(buffer, ndata, index, block)
   
 <tr>
   
-  <td><span class="anchor" id="variable-buffer~11"></span>type(<a href='../type/block_buffer_type.html'>block_buffer_type</a>),</td>
+  <td><span class="anchor" id="variable-buffer~17"></span>type(<a href='../type/block_buffer_type.html'>block_buffer_type</a>),</td>
   <td>intent(inout)</td>
   <td></td>
   
@@ -244,42 +244,42 @@ private subroutine block_buffer_add_block_c_sp(buffer, ndata, index, block)
   
 <tr>
   
-  <td><span class="anchor" id="variable-ndata~6"></span>integer,</td>
-  <td>intent(in)</td>
+  <td><span class="anchor" id="variable-index~13"></span>integer(kind=int_8),</td>
+  <td>intent(in),</td>
   <td></td>
+  
+  <td>DIMENSION(2)</td><td>::</td>
+  <td><strong>index</strong></td><td><p>index of block</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-block~66"></span>complex(kind=real_4),</td>
+  <td>intent(in),</td>
+  <td></td>
+  
+  <td>DIMENSION(:, :)</td><td>::</td>
+  <td><strong>block</strong></td><td><p>block</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-transposed~36"></span>logical,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
   
   <td></td><td>::</td>
-  <td><strong>ndata</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-index~13"></span>integer,</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>DIMENSION(ndims_buffer(buffer))</td><td>::</td>
-  <td><strong>index</strong></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-block~82"></span>complex(kind=real_4),</td>
-  <td>intent(in),</td>
-  <td></td>
-  
-  <td>DIMENSION(ndata)</td><td>::</td>
-  <td><strong>block</strong></td><td></td>
+  <td><strong>transposed</strong></td><td></td>
   
 </tr>
 
