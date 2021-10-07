@@ -99,7 +99,7 @@ class SmmTuner(MeasurementInterface):
                 params.append(IntegerParameter("LU", self.args.lu, self.args.lu))
             else:
                 self.lu = int(seed.group(5)) if seed and seed.group(5) else None
-                paramt.append(IntegerParameter("LU", 0, 2))
+                paramt.append(IntegerParameter("LU", -1, 2))
             if os.getenv("OPENCL_LIBSMM_SMM_NZ"):
                 params.append(IntegerParameter("NZ", self.args.nz, self.args.nz))
             else:
@@ -529,7 +529,7 @@ if __name__ == "__main__":
         type=int,
         default=int(os.getenv("OPENCL_LIBSMM_SMM_LU", "0")),
         dest="lu",
-        help="Loop unroll (0) default, (1) limited, (2) full",
+        help="Loop unroll (-1) no hints, (0) default, (1) limited, (2) full",
     )
     argparser.add_argument(
         "-nz",

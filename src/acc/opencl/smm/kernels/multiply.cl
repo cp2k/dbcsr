@@ -15,7 +15,7 @@
 # define UNROLL(N)
 #endif
 #if !defined(UNROLL_SM)
-# define UNROLL_SM UNROLL_FORCE(SM)
+# define UNROLL_SM UNROLL(SM)
 #endif
 
 #if (1 == TN)
@@ -53,9 +53,13 @@ inline void atomic_add_global_cmpxchg(global volatile T* dst, T inc)
 {
   union { T f; TA a; } exp_val, try_val, cur_val = { .f = *dst };
   do {
-    exp_val.a = cur_val.a;
-    try_val.f = exp_val.f + inc;
+    exp_val.a = cur_val.a; try_val.f = exp_val.f + inc;
+# if defined(TM)
+    if (0 == atomic_compare_exchange_weak_explicit((global volatile TM*)dst, &cur_val.a, try_val.a,
+      memory_order_relaxed, memory_order_relaxed, memory_scope_work_group)) continue;
+# else
     cur_val.a = CMPXCHG((global volatile TA*)dst, exp_val.a, try_val.a);
+# endif
   } while (cur_val.a != exp_val.a);
 }
 #endif
@@ -66,14 +70,18 @@ inline void atomic_add_global_cmpxchg2(global volatile float* dst, float2 inc)
 {
   union { float2 f; long a; } exp_val, try_val, cur_val = { .f = (float2)(dst[0], dst[1]) };
   do {
-    exp_val.a = cur_val.a;
-    try_val.f = exp_val.f + inc;
+    exp_val.a = cur_val.a; try_val.f = exp_val.f + inc;
+# if defined(TM)
+    if (0 == atomic_compare_exchange_weak_explicit((global volatile atomic_long*)dst, &cur_val.a, try_val.a,
+      memory_order_relaxed, memory_order_relaxed, memory_scope_work_group)) continue;
+# else
     cur_val.a = atom_cmpxchg((global volatile long*)dst, exp_val.a, try_val.a);
+# endif
   } while (cur_val.a != exp_val.a);
 }
 #endif
 
-#if defined(__NV_CL_C_VERSION) || defined(XCHG)
+#if defined(XCHG) || (defined(__NV_CL_C_VERSION) && !defined(CMPXCHG))
 __attribute__((always_inline))
 inline void atomic_add_global_xchg(global volatile T* dst, T inc)
 {
@@ -155,7 +163,7 @@ kernel void FN(global T *restrict cdata,
 # if defined(SHARED_P)
   for (i = idx; i < (3 * batchsize); i += SWG) params[i] = pbase[i] - 1;
 # endif
-# if defined(SHARED_C) || defined(SHARED_P)
+# if (defined(SHARED_C) || defined(SHARED_P)) && !defined(NOBARRIER)
   barrier(CLK_LOCAL_MEM_FENCE);
 # endif
 # if (defined(SHARED_A) || defined(SHARED_B)) && (NBK < SWG)
@@ -163,7 +171,7 @@ kernel void FN(global T *restrict cdata,
 # endif
   c0 = params[2] - IDXBASE;
   c = cdata + c0;
-  UNROLL(1)
+  UNROLL_FORCE(1)
   for (i = 0; i < batchsize; ++i) {
     const int a0 = params[3*i] - IDXBASE, b0 = params[3*i+1] - IDXBASE;
     const int c1 = ((i + 1) < batchsize ? (params[3*i+5] - IDXBASE) : -1);
@@ -224,7 +232,7 @@ kernel void FN(global T *restrict cdata,
     }
 #endif
 
-#if (defined(SHARED_A) || defined(SHARED_B)) && (1 < NBK)
+#if (defined(SHARED_A) || defined(SHARED_B)) && (1 < NBK) && !defined(NOBARRIER)
     /* finish transpose/copy */
     barrier(CLK_LOCAL_MEM_FENCE);
 #endif
@@ -258,7 +266,7 @@ kernel void FN(global T *restrict cdata,
 # else
             T r = ZERO;
 # endif
-            UNROLL(SK)
+            UNROLL_FORCE(SK)
             for (int k = 0; k < SK; ++k) r = FMA(
 # if defined(SHARED_A)
               amk[m][k],
@@ -304,7 +312,7 @@ kernel void FN(global T *restrict cdata,
 # else
       T r = ZERO;
 # endif
-      UNROLL(SK)
+      UNROLL_FORCE(SK)
       for (int k = 0; k < SK; ++k) r = FMA(
 # if defined(SHARED_A)
         amk[m][k],

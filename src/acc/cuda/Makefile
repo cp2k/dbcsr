@@ -24,7 +24,7 @@ ifeq (,$(LIBXSMMROOT))
   LIBXSMMROOT := $(wildcard $(HOME)/libxsmm)
 endif
 UNAME := $(shell uname)
-WITH_GPU ?= P100
+WITH_GPU := $(if $(WITH_GPU),$(WITH_GPU),$(if $(GPUVER),$(GPUVER),P100))
 INTEL ?= 0
 DEV ?= 0
 
@@ -109,7 +109,7 @@ endif
 
 ifneq (0,$(DBG))
   ifeq (,$(DBG))
-    CFLAGS += -O2
+    CFLAGS += -O2 -DNDEBUG
   else
     ifneq (1,$(DBG))
       CFLAGS += -D_DEBUG
@@ -117,7 +117,7 @@ ifneq (0,$(DBG))
     CFLAGS += -O0
   endif
 else
-  CFLAGS += -O2 -DNDEBUG
+  CFLAGS += -O2 -DNDEBUG -DNDBGDEV
   SYM := 0
 endif
 ifneq (0,$(SYM))

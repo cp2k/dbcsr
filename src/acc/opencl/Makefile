@@ -36,6 +36,7 @@ else
   which = $(shell which $(firstword $1) 2>/dev/null)
 endif
 
+WITH_GPU := $(if $(WITH_GPU),$(WITH_GPU),$(GPUVER))
 PARAMS_WITHGPU := $(MAKDIR)/smm/params/tune_multiply_$(WITH_GPU).csv
 PARAMS_DEFAULT := $(MAKDIR)/smm/tune_multiply.csv
 PARAMS := $(if $(wildcard $(PARAMS_WITHGPU)),$(PARAMS_WITHGPU),$(wildcard $(PARAMS_DEFAULT)))
@@ -82,12 +83,14 @@ ifneq (0,$(DEV))
   ifeq (1,$(DEV))
     CFLAGS := -std=c89 $(CFLAGS)
     CFLAGS += -Wno-unused-parameter
-  else ifeq (clang,$(CC))
-    #LDFLAGS := --analyze $(LDFLAGS)
-    CFLAGS := --analyze -Wno-deprecated $(CFLAGS)
-    override CC := clang++
   else
-    CC := $(CXX)
+    CFLAGS := -Wno-deprecated -Werror $(CFLAGS)
+    ifneq (,$(findstring clang,$(CC) $(CXX)))
+      override CC := clang++ --analyze
+    else
+      CC := $(CXX)
+    endif
+    OMP := 0
   endif
 else
   CFLAGS := -std=c99 $(CFLAGS)
@@ -96,7 +99,7 @@ endif
 ifneq (0,$(DBG))
   CPP_OPENCL_FLAGS += -C
   ifeq (,$(DBG))
-    CFLAGS += -O2
+    CFLAGS += -O2 -DNDEBUG
   else
     ifneq (1,$(DBG))
       CFLAGS += -D_DEBUG
@@ -104,7 +107,7 @@ ifneq (0,$(DBG))
     CFLAGS += -O0
   endif
 else
-  CFLAGS += -O2 -DNDEBUG
+  CFLAGS += -O2 -DNDEBUG -DNDBGDEV
   SYM := 0
 endif
 ifneq (0,$(SYM))
@@ -242,8 +245,13 @@ ifneq (0,$(LIBXSMM))
 else
 	$(CC) $(CFLAGS) -c $< -o $@
 endif
+
 $(MAKDIR)/../acc_bench_smm: $(MAKDIR)/acc_bench_smm.o $(MAKDIR)/../dbcsr_acc_smm.a $(MAKDIR)/../dbcsr_acc.a
+ifneq (,$(filter 0 1,$(DEV)))
 	$(CC) $^ $(LDFLAGS) -o $@
+else
+.PHONY: $(MAKDIR)/../acc_bench_smm
+endif
 
 $(MAKDIR)/acc_bench_trans.o: $(MAKDIR)/../acc_bench_trans.c $(MAKDIR)/Makefile
 ifneq (0,$(LIBXSMM))
@@ -251,13 +259,23 @@ ifneq (0,$(LIBXSMM))
 else
 	$(CC) $(CFLAGS) -c $< -o $@
 endif
+
 $(MAKDIR)/../acc_bench_trans: $(MAKDIR)/acc_bench_trans.o $(MAKDIR)/../dbcsr_acc_smm.a $(MAKDIR)/../dbcsr_acc.a
+ifneq (,$(filter 0 1,$(DEV)))
 	$(CC) $^ $(LDFLAGS) -o $@
+else
+.PHONY: $(MAKDIR)/../acc_bench_trans
+endif
 
 $(MAKDIR)/dbcsr_acc_test.o: $(MAKDIR)/../../../tests/dbcsr_acc_test.c $(MAKDIR)/Makefile
 	$(CC) $(CFLAGS) -I$(MAKDIR)/../.. -c $< -o $@
+
 $(MAKDIR)/../dbcsr_acc_test: $(MAKDIR)/dbcsr_acc_test.o $(MAKDIR)/../dbcsr_acc.a
+ifneq (,$(filter 0 1,$(DEV)))
 	$(CC) $^ $(LDFLAGS) -o $@
+else
+.PHONY: $(MAKDIR)/../dbcsr_acc_test
+endif
 
 .PHONY: clean
 clean:
