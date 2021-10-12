@@ -64,7 +64,7 @@ inline void atomic_add_global_cmpxchg(global volatile T* dst, T inc)
 }
 #endif
 
-#if defined(ATOMIC_ADD2_GLOBAL)
+#if defined(ATOMIC_ADD2_GLOBAL) && (1 == TN)
 __attribute__((always_inline))
 inline void atomic_add_global_cmpxchg2(global volatile float* dst, float2 inc)
 {
@@ -92,9 +92,19 @@ inline void atomic_add_global_xchg(global volatile T* dst, T inc)
 # else
   union { T f; TA a; } exp_val = { .f = inc }, try_val, cur_val = { .f = 0 };
   do {
+#   if defined(TM)
+    try_val.a = atomic_exchange_explicit((global volatile TM*)dst, cur_val.a,
+      memory_order_relaxed, memory_scope_work_group);
+#   else
     try_val.a = XCHG((global volatile TA*)dst, cur_val.a);
+#   endif
     try_val.f += exp_val.f;
+#   if defined(TM)
+    exp_val.a = atomic_exchange_explicit((global volatile TM*)dst, try_val.a,
+      memory_order_relaxed, memory_scope_work_group);
+#   else
     exp_val.a = XCHG((global volatile TA*)dst, try_val.a);
+#   endif
   } while (cur_val.a != exp_val.a);
 # endif
 }
@@ -121,14 +131,13 @@ kernel void FN(global T *restrict cdata,
 #endif
 #if defined(SHARED_A)
   local T amk[SM][SK+SHARED_A-1];
+#elif defined(PRIVATE_A)
+  T amk[SK];
 #endif
 #if defined(SHARED_B)
   local T bkn[SK][SN+SHARED_B-1];
 #endif
 #if (BM < SM || 1 != BN)
-# if defined(PRIVATE_A) && !defined(SHARED_A)
-  T amk[SK];
-# endif
 # if defined(PRIVATE_B) && !defined(SHARED_B)
   T bkn[SK][BN];
 # endif
@@ -166,7 +175,7 @@ kernel void FN(global T *restrict cdata,
 # if (defined(SHARED_C) || defined(SHARED_P)) && !defined(NOBARRIER)
   barrier(CLK_LOCAL_MEM_FENCE);
 # endif
-# if (defined(SHARED_A) || defined(SHARED_B)) && (NBK < SWG)
+# if (NBK < SWG)
   if (NBK <= idx) return;
 # endif
   c0 = params[2] - IDXBASE;
@@ -176,7 +185,7 @@ kernel void FN(global T *restrict cdata,
     const int a0 = params[3*i] - IDXBASE, b0 = params[3*i+1] - IDXBASE;
     const int c1 = ((i + 1) < batchsize ? (params[3*i+5] - IDXBASE) : -1);
 #else
-# if (defined(SHARED_A) || defined(SHARED_B)) && (NBK < SWG)
+# if (NBK < SWG)
   if (NBK > idx)
 # endif
   {
@@ -312,10 +321,16 @@ kernel void FN(global T *restrict cdata,
 # else
       T r = ZERO;
 # endif
+# if defined(PRIVATE_A) && !defined(SHARED_A)
+      UNROLL(SK)
+      for (int k = 0; k < SK; ++k) amk[k] = a[SM*k+m];
+# endif
       UNROLL_FORCE(SK)
       for (int k = 0; k < SK; ++k) r = FMA(
 # if defined(SHARED_A)
         amk[m][k],
+# elif defined(PRIVATE_A)
+        amk[k],
 # else
         a[SM*k+m],
 # endif
