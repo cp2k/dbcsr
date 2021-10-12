@@ -575,7 +575,7 @@ if __name__ == "__main__":
         "-bs",
         "--initial-bs",
         type=int,
-        default=int(os.getenv("OPENCL_LIBSMM_SMM_BS", "24")),
+        default=int(os.getenv("OPENCL_LIBSMM_SMM_BS", "16")),
         nargs="?",
         dest="bs",
         help="Minibatch size (BS)",

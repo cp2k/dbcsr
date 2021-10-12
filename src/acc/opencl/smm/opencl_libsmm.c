@@ -960,19 +960,36 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
           switch (datatype) {
             case dbcsr_type_real_8: {
               extensions[0] = "cl_khr_fp64 cl_khr_int64_base_atomics cl_khr_int64_extended_atomics";
+              tname = "double";
+              fname[0] = 'd';
               if (2 <= cl_level_major
                 && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_device, extensions, 1))
               {
                 atomic_type = "-DTA=long -DTM=atomic_long";
-                tname = "double";
-                fname[0] = 'd';
               }
               else {
                 extensions[0] = "cl_khr_fp64 cl_khr_int64_base_atomics";
                 if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_device, extensions, 1)) {
                   atomic_type = "-DTA=long";
-                  tname = "double";
-                  fname[0] = 'd';
+                }
+                else { /* TODO: fallback */
+# if 0
+                  extensions[0] = "cl_khr_fp64 cl_khr_global_int32_base_atomics cl_khr_global_int32_extended_atomics";
+                  if (2 <= cl_level_major
+                    && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_device, extensions, 1))
+                  {
+                    atomic_type = "-DTA=int -DTM=atomic_int";
+                  }
+                  else {
+                    extensions[0] = "cl_khr_fp64 cl_khr_global_int32_base_atomics";
+                    if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_device, extensions, 1)) {
+                      atomic_type = "-DTA=int";
+                    }
+                    else tname = NULL;
+                  }
+# else
+                  tname = NULL;
+# endif
                 }
               }
             } break;
@@ -1039,7 +1056,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               const char *const env_bn = (NULL == getenv("OPENCL_LIBSMM_SMM_BLOCK_N")
                 ? getenv("OPENCL_LIBSMM_SMM_BN") :getenv("OPENCL_LIBSMM_SMM_BLOCK_N"));
               const int batchsize = ((NULL == env_bs || '\0' == *env_bs || '0' == *env_bs)
-                ? (NULL == config ? /*default*/24 : config->bs) : atoi(env_bs));
+                ? (NULL == config ? /*default*/16 : config->bs) : atoi(env_bs));
               /* default: decompose C-matrix into column-vectors */
               const int blockm = ((NULL == env_bm || '\0' == *env_bm || '0' == *env_bm)
                 ? (NULL == config ? /*default*/m_max : config->bm) : atoi(env_bm));

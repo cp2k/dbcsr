@@ -505,21 +505,38 @@ int c_dbcsr_acc_opencl_device_id(cl_device_id device, const char format[], int* 
 int c_dbcsr_acc_opencl_device_level(cl_device_id device,
   int* level_major, int* level_minor, char cl_std[16])
 {
-  char buffer[ACC_OPENCL_BUFFERSIZE], skip[ACC_OPENCL_BUFFERSIZE];
-  cl_int result = (EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(device, "nvidia")
-    ? clGetDeviceInfo(device, CL_DEVICE_VERSION, ACC_OPENCL_BUFFERSIZE, buffer, NULL)
-    : clGetDeviceInfo(device, CL_DEVICE_OPENCL_C_VERSION, ACC_OPENCL_BUFFERSIZE, buffer, NULL));
+  char buffer[ACC_OPENCL_BUFFERSIZE];
+  unsigned int cl_std_level[2];
+  cl_int result = clGetDeviceInfo(device, CL_DEVICE_VERSION, ACC_OPENCL_BUFFERSIZE, buffer, NULL);
   assert(NULL != device && (NULL != level_major || NULL != level_minor || NULL != cl_std));
   if (CL_SUCCESS == result) {
-    unsigned int level[2];
-    /* input: "OpenCL <level_major>.<level_minor> ..." */
-    if (3 == sscanf(buffer, "%[^0123456789]%u.%u", skip, level, level + 1)) {
-      if (NULL != level_major) *level_major = (int)level[0];
-      if (NULL != level_minor) *level_minor = (int)level[1];
+    if (2 == sscanf(buffer, "OpenCL %u.%u", cl_std_level, cl_std_level + 1)) {
+      if (NULL != level_major) *level_major = (int)cl_std_level[0];
+      if (NULL != level_minor) *level_minor = (int)cl_std_level[1];
       if (NULL != cl_std) {
-        if (1 < level[0]) {
-          const int nchar = ACC_OPENCL_SNPRINTF(cl_std, 16, "-cl-std=CL%u.%u", level[0], level[1]);
+        if (2 <= cl_std_level[0]) {
+          const int nchar = ACC_OPENCL_SNPRINTF(cl_std, 16, "-cl-std=CL%u.0", cl_std_level[0]);
           if (0 >= nchar || 16 <= nchar) result = EXIT_FAILURE;
+        }
+        else if (1 <= cl_std_level[0]) {
+          if (1 <= cl_std_level[1]) {
+            const int nchar = ACC_OPENCL_SNPRINTF(cl_std, 16, "-cl-std=CL%u.%u", cl_std_level[0], cl_std_level[1]);
+            if (0 >= nchar || 16 <= nchar) result = EXIT_FAILURE;
+          }
+          else {
+            result = clGetDeviceInfo(device, CL_DEVICE_OPENCL_C_VERSION, ACC_OPENCL_BUFFERSIZE, buffer, NULL);
+            if (CL_SUCCESS == result) {
+              if (2 == sscanf(buffer, "OpenCL C %u.%u", cl_std_level, cl_std_level + 1)) {
+                const int nchar = ACC_OPENCL_SNPRINTF(cl_std, 16, "-cl-std=CL%u.%u", cl_std_level[0], cl_std_level[1]);
+                if (0 >= nchar || 16 <= nchar) result = EXIT_FAILURE;
+              }
+              else {
+                result = EXIT_FAILURE;
+                *cl_std = '\0';
+              }
+            }
+            else *cl_std = '\0';
+          }
         }
         else *cl_std = '\0';
       }
