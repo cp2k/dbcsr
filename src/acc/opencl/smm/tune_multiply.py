@@ -62,17 +62,15 @@ class SmmTuner(MeasurementInterface):
                 str(run_result["stderr"]),
             )
             self.device = device.group(1) if device and device.group(1) else ""
-            seed = re.search(
-                "INFO ACC/OpenCL:\\s+{}\\s+{}SMM-kernel{}{}{}{}".format(
-                    "{}x{}x{}".format(self.args.m, self.args.n, self.args.k),
-                    {"float": "S", "double": "D"}.get(self.typename, ""),
-                    "\\s+bs=([0-9]+)\\s+bm=([0-9]+)\\s+bn=([0-9]+)",
-                    "\\s+wg=([0-9]+)\\s+lu=([0-9]+)\\s+nz=([0-9]+)",
-                    "\\s+ap=([0-9]+)\\s+aa=([0-9]+)\\s+ab=([0-9]+)",
-                    "\\s+ac=([0-9]+)\\s+gen=",
-                ),
-                str(run_result["stderr"]),
+            seedpat = "INFO ACC/OpenCL:\\s+{}\\s+{}SMM-kernel{}{}{}{}".format(
+                "{}x{}x{}".format(self.args.m, self.args.n, self.args.k),
+                {"float": "S", "double": "D"}.get(self.typename, ""),
+                "\\s+bs=([0-9]+)\\s+bm=([0-9]+)\\s+bn=([0-9]+)",
+                "\\s+wg=([0-9]+)\\s+lu=(-*[0-9]+)\\s+nz=([0-9]+)",
+                "\\s+ap=([0-9]+)\\s+aa=([0-9]+)\\s+ab=([0-9]+)",
+                "\\s+ac=([0-9]+)\\s+gen=",
             )
+            seed = re.search(seedpat, str(run_result["stderr"]))
             # setup fixed and tunable parameters
             params, paramt = [], []
             if os.getenv("OPENCL_LIBSMM_SMM_BS"):
@@ -553,7 +551,7 @@ if __name__ == "__main__":
         type=int,
         default=int(os.getenv("OPENCL_LIBSMM_SMM_AA", "1")),
         dest="aa",
-        help="Matrix A: global (0), shared (1), shared-bc (2), private (3)",
+        help="Matrix A: global (0), shared (1), shared-bc (2), register (3)",
     )
     argparser.add_argument(
         "-ab",
@@ -561,7 +559,7 @@ if __name__ == "__main__":
         type=int,
         default=int(os.getenv("OPENCL_LIBSMM_SMM_AB", "3")),
         dest="ab",
-        help="Matrix B: global (0), shared (1), shared-bc (2), private (3)",
+        help="Matrix B: global (0), shared (1), shared-bc (2), register (3)",
     )
     argparser.add_argument(
         "-ac",
@@ -569,7 +567,7 @@ if __name__ == "__main__":
         type=int,
         default=int(os.getenv("OPENCL_LIBSMM_SMM_AC", "0")),
         dest="ac",
-        help="Matrix C: private (0), shared (1), shared-bc (2)",
+        help="Matrix C: register (0), shared (1), shared-bc (2)",
     )
     argparser.add_argument(
         "-bs",

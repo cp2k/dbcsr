@@ -157,15 +157,31 @@ int c_dbcsr_acc_host_mem_deallocate(void* host_mem, void* stream)
 int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes)
 {
   cl_int result;
-  const cl_mem buffer = (
+  const int try_flag = ((0 != c_dbcsr_acc_opencl_config.unified ||
+        (0x4905 != c_dbcsr_acc_opencl_config.intel_id
+      && 0x020a != c_dbcsr_acc_opencl_config.intel_id
+      && 0x0bd5 != c_dbcsr_acc_opencl_config.intel_id))
+    ? 0 : (1u << 22));
+  cl_mem buffer = (
 #if defined(ACC_OPENCL_SVM)
     c_dbcsr_acc_opencl_config.svm_interop ? clCreateBuffer(c_dbcsr_acc_opencl_context, CL_MEM_USE_HOST_PTR,
-      nbytes + ACC_OPENCL_OVERMALLOC, clSVMAlloc(c_dbcsr_acc_opencl_context, CL_MEM_READ_WRITE,
+      nbytes + ACC_OPENCL_OVERMALLOC, clSVMAlloc(c_dbcsr_acc_opencl_context, (cl_mem_flags)(CL_MEM_READ_WRITE | try_flag),
       nbytes + ACC_OPENCL_OVERMALLOC, 0/*default alignment*/), &result) :
 #endif
-    clCreateBuffer(c_dbcsr_acc_opencl_context, CL_MEM_READ_WRITE,
+    clCreateBuffer(c_dbcsr_acc_opencl_context, (cl_mem_flags)(CL_MEM_READ_WRITE | try_flag),
       nbytes + ACC_OPENCL_OVERMALLOC, NULL/*host_ptr*/, &result));
   assert(NULL != dev_mem && 0 <= ACC_OPENCL_OVERMALLOC);
+  if (0 != try_flag && NULL == buffer) { /* retry without try_flag */
+    assert(CL_SUCCESS != result);
+    buffer = (
+#if defined(ACC_OPENCL_SVM)
+      c_dbcsr_acc_opencl_config.svm_interop ? clCreateBuffer(c_dbcsr_acc_opencl_context, CL_MEM_USE_HOST_PTR,
+        nbytes + ACC_OPENCL_OVERMALLOC, clSVMAlloc(c_dbcsr_acc_opencl_context, CL_MEM_READ_WRITE,
+        nbytes + ACC_OPENCL_OVERMALLOC, 0/*default alignment*/), &result) :
+#endif
+      clCreateBuffer(c_dbcsr_acc_opencl_context, CL_MEM_READ_WRITE,
+        nbytes + ACC_OPENCL_OVERMALLOC, NULL/*host_ptr*/, &result));
+  }
   if (NULL != buffer) {
 #if defined(ACC_OPENCL_MEM_NOALLOC)
     assert(sizeof(void*) >= sizeof(cl_mem));
@@ -174,7 +190,7 @@ int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes)
     *dev_mem = malloc(sizeof(cl_mem));
     if (NULL != *dev_mem) {
       *(cl_mem*)*dev_mem = buffer;
-      result = EXIT_SUCCESS;
+      assert(EXIT_SUCCESS == result);
     }
     else {
 #if defined(ACC_OPENCL_SVM)
@@ -343,15 +359,15 @@ int c_dbcsr_acc_opencl_info_devmem(cl_device_id device,
       "retrieve amount of global memory", result);
     ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_TYPE,
       sizeof(cl_device_local_mem_type), &cl_local_type, NULL),
-      "retrieve amount of local memory", result);
+      "retrieve kind of local memory", result);
     if (CL_LOCAL == cl_local_type) {
       ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_LOCAL_MEM_SIZE,
         sizeof(cl_ulong), &cl_size_local, NULL),
-        "retrieve amount of local device memory", result);
+        "retrieve amount of local memory", result);
     }
     ACC_OPENCL_CHECK(clGetDeviceInfo(device, CL_DEVICE_HOST_UNIFIED_MEMORY,
       sizeof(cl_bool), &cl_unified, NULL),
-      "retrieve amount of local memory", result);
+      "retrieve if host memory is unified", result);
     if (EXIT_SUCCESS == result) {
       if (cl_size_total < size_total) size_total = cl_size_total;
       if (size_total < size_free) size_free = size_total;

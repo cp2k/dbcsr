@@ -193,7 +193,11 @@ typedef struct c_dbcsr_acc_opencl_config_t {
   cl_bool async_memops;
   /** Runtime SVM support (needs ACC_OPENCL_SVM at compile-time). */
   cl_bool svm_interop;
-  /** Runtime verbosity (output on stderr). */
+  /** Whether host memory is unified or not. */
+  cl_bool unified;
+  /** Intel device ID (zero if non-Intel). */
+  cl_int intel_id;
+  /** Verbosity level (output on stderr). */
   cl_int verbosity;
   /** Dump level (debug). */
   cl_int dump;
