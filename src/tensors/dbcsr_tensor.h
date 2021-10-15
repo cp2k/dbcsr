@@ -68,16 +68,16 @@ void c_dbcsr_t_destroy(dbcsr_t_tensor *c_tensor);
 #:for ndim in ndims
 
 void c_dbcsr_t_get_${ndim}$d_block_${dsuffix}$(
-                                               const dbcsr_t_tensor c_tensor, 
+                                               const dbcsr_t_tensor c_tensor,
                                                const int tensor_dim, const int *c_ind,
-                                               const int *c_sizes, ${ctype}$ *c_block, 
+                                               const int *c_sizes, ${ctype}$ *c_block,
                                                bool *c_found);
 
-void c_dbcsr_t_put_${ndim}$d_block_${dsuffix}$(const dbcsr_t_tensor c_tensor, const int tensor_dim, 
+void c_dbcsr_t_put_${ndim}$d_block_${dsuffix}$(const dbcsr_t_tensor c_tensor, const int tensor_dim,
                                                const int *c_ind, const int *c_sizes, const ${ctype}$ *c_block,
                                                const bool *c_summation, const ${ctype}$ *c_scale);
 
-void c_dbcsr_t_get_${ndim}$d_block_p_${dsuffix}$(const dbcsr_t_tensor c_tensor, 
+void c_dbcsr_t_get_${ndim}$d_block_p_${dsuffix}$(const dbcsr_t_tensor c_tensor,
                                                  const int *c_ind,${ctype}$ **c_block,
                                                  bool *c_found);
 
@@ -211,9 +211,9 @@ int c_dbcsr_t_get_nze(const dbcsr_t_tensor c_tensor);
 long long int c_dbcsr_t_get_nze_total(const dbcsr_t_tensor c_tensor);
 
 int c_dbcsr_t_ndims_matrix_column(const dbcsr_t_tensor c_tensor);
-     
+
 int c_dbcsr_t_get_nze(const dbcsr_t_tensor c_tensor);
-     
+
 long long int c_dbcsr_t_get_nze_total(const dbcsr_t_tensor c_tensor);
 
 long long int c_dbcsr_t_max_nblks_local(const dbcsr_t_tensor c_tensor);
