@@ -191,6 +191,11 @@ test-trans: bench
 	$(eval DEVICE = $(shell ACC_OPENCL_VERBOSE=1 CHECK=0 $(MAKDIR)/../acc_bench_smm 1 1 1 2>&1 >/dev/null))
 	@echo "--- DBCSR OpenCL Transposes ($(words $(SHAPES)))"
 	@echo "$(DEVICE)"
+	@echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
+ifneq (,$(LD_PRELOAD))
+	@echo "LD_PRELOAD=${LD_PRELOAD}"
+endif
+	@echo "CC: $$($(CC) --version | head -n1)"
 	@echo "runtime libraries:"
 	@ldd $(MAKDIR)/../acc_bench_trans
 	@echo "hostname: $$(hostname)"
@@ -205,15 +210,21 @@ $(MAKDIR)/test-smm.log: bench
 	$(eval DEVICE = "$(shell LIBXSMM_VERBOSE=0 ACC_OPENCL_VERBOSE=1 CHECK=0 $(MAKDIR)/../acc_bench_smm 1 1 1 2>&1 >/dev/null)")
 	$(eval WITH_GPU = $(firstword $(foreach GPU,$(WITH_GPUS),$(findstring $(GPU),$(DEVICE)))))
 	$(eval PARAMS = $(firstword $(wildcard $(PARAMS_DIR)/tune_multiply_*$(WITH_GPU).csv)))
-	$(eval GPUENV = $(if $(PARAMS),OPENCL_LIBSMM_SMM_PARAMS=$(PARAMS)))
+	$(eval GPUENV = $(if $(PARAMS),$(if $(OPENCL_LIBSMM_SMM_PARAMS),$(NULL),OPENCL_LIBSMM_SMM_PARAMS=$(PARAMS))))
 	@echo "--- DBCSR OpenCL SMMs ($(words $(SHAPES)))"
 	@echo "$(DEVICE)"
+	@if [ "$(GPUENV)" ]; then echo "$(GPUENV)"; fi
+	@echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
+ifneq (,$(LD_PRELOAD))
+	@echo "LD_PRELOAD=${LD_PRELOAD}"
+endif
+	@echo "CC: $$($(CC) --version | head -n1)"
 	@echo "runtime libraries:"
 	@ldd $(MAKDIR)/../acc_bench_smm
 	@echo "hostname: $$(hostname)"
 	@echo
 	@echo "$(SHAPES)" | xargs -n1 | \
-		($(GPUENV) CHECK=1 stdbuf --output=L $(MAKDIR)/../acc_bench_smm /dev/stdin \
+		($(GPUENV) CHECK=$(if $(CHECK),$(CHECK),1) stdbuf --output=L $(MAKDIR)/../acc_bench_smm /dev/stdin \
 			2>$(MAKDIR)/test-smm.err && rm $(MAKDIR)/test-smm.err) | tee $@
 	@if [ -s $(MAKDIR)/test-smm.err ]; then cat $(MAKDIR)/test-smm.err && exit 1; fi
 
