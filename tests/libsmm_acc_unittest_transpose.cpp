@@ -15,7 +15,6 @@
 #include <utility>
 #include "libsmm_acc_benchmark.h"
 #include "libsmm_acc.h"
-#include "parameters.h"
 
 
 /****************************************************************************\
@@ -31,6 +30,7 @@ int main(int argc, char** argv){
 
     // Get all blocksizes available in libsmm
     std::vector<Triplet> libsmm_acc_triplets;
+    extern const std::unordered_map<Triplet, KernelParameters> ht;
     get_libsmm_acc_triplets(libsmm_acc_triplets, ht);
     int n_triplets = libsmm_acc_triplets.size();
 

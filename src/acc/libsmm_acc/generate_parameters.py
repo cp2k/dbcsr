@@ -94,11 +94,11 @@ def write_parameters_file(all_pars, gpu_warp_size):
 """
 
     # Warp size
-    out += "const int warp_size = {};\n\n".format(gpu_warp_size)
+    out += "extern const int warp_size = {};\n\n".format(gpu_warp_size)
 
     # Map of kernel parameters
     out += """\
-static const std::unordered_map<Triplet, KernelParameters> ht  = {
+extern const std::unordered_map<Triplet, KernelParameters> ht = {
 """
     # Initializer list body
     print("Get parameters and write to file")

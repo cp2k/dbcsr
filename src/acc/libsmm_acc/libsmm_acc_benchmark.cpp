@@ -12,7 +12,6 @@
 #include <stdlib.h>
 #include <algorithm>
 #include "libsmm_acc_benchmark.h"
-#include "parameters.h"
 #include "parameters_utils.h"
 #include "../acc_bench.h"
 
@@ -230,6 +229,7 @@ int libsmm_acc_benchmark(libsmm_acc_benchmark_t* h,
      printf("libsmm_acc_benchmark: got handle with too few resources\n");
      exit(1);
  }
+ extern const std::unordered_map<Triplet, KernelParameters> ht;
  std::vector<Triplet> blocksizes;
  get_libsmm_acc_triplets(blocksizes, ht);
  auto it = std::find(std::begin(blocksizes), std::end(blocksizes), Triplet({ mat_m, mat_n, mat_k }));

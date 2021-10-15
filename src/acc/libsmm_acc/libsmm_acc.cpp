@@ -8,7 +8,6 @@
  *------------------------------------------------------------------------------------------------*/
 
 #include "parameters.h"
-#include "parameters_utils.h"
 #include "libsmm_acc.h"
 #include "libsmm_acc_benchmark.h"
 #include "../cuda_hip/acc_blas.h"
