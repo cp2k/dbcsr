@@ -8,7 +8,6 @@
  *------------------------------------------------------------------------------------------------*/
 
 #include "libsmm_acc_init.h"
-#include "parameters.h"
 
 #if defined(_OPENMP)
 #include <omp.h>
@@ -99,6 +98,7 @@ extern "C" int libsmm_acc_finalize() {
 //===========================================================================
 int libsmm_acc_check_gpu_warp_size_consistency() {
     int acc_warp_size = acc_get_gpu_warp_size();
+    extern const int warp_size;
     if (warp_size != acc_warp_size){
         printf("Inconsistency in warp sizes: Cuda/Hip indicates warp size = %d, while the gpu_properties files indicates warp_size = %d.\nPlease check whether src/acc/libsmm_acc/kernels/gpu_properties.json contains the correct data about the GPU you are using.", warp_size, acc_warp_size);
     }
