@@ -143,9 +143,9 @@ void c_dbcsr_scale_${nametype}$(dbcsr_matrix c_matrix_a,
                                  const ${extype}$ c_alpha_scalar,
                                  const int *c_last_column);
 
-void c_dbcsr_scale_by_vector_${nametype}$(const dbcsr_matrix c_matrix_a, 
+void c_dbcsr_scale_by_vector_${nametype}$(const dbcsr_matrix c_matrix_a,
                                           const ${extype}$ *c_alpha,
-                                          const int c_alpha_size, 
+                                          const int c_alpha_size,
                                           const char *c_side);
 
 void c_dbcsr_multiply_${nametype}$(
@@ -173,15 +173,15 @@ void c_dbcsr_dot_${nametype}$(const dbcsr_matrix c_matrix_a,
                                const dbcsr_matrix c_matrix_b,
                               ${extype}$ *c_result);
 
-void c_dbcsr_get_block_p_${nametype}$(const dbcsr_matrix c_matrix, 
+void c_dbcsr_get_block_p_${nametype}$(const dbcsr_matrix c_matrix,
                                       const int c_row, const int c_col,
-                                      ${extype}$ **c_block, bool *c_tr, 
-                                      bool *c_found, int *c_row_size, 
+                                      ${extype}$ **c_block, bool *c_tr,
+                                      bool *c_found, int *c_row_size,
                                       int *c_col_size);
 
-void c_dbcsr_get_block_notrans_p_${nametype}$(const dbcsr_matrix c_matrix, 
+void c_dbcsr_get_block_notrans_p_${nametype}$(const dbcsr_matrix c_matrix,
                                               const int c_row, const int c_col,
-                                              ${extype}$ **c_block, bool *c_found, 
+                                              ${extype}$ **c_block, bool *c_found,
                                               int *c_row_size, int *c_col_size);
 
 #:endfor
@@ -229,11 +229,11 @@ void c_dbcsr_reserve_all_blocks(dbcsr_matrix c_matrix);
 
 #:for n_inst, nametype, base, prec, ctype, extype in c_exparams
 
-void c_dbcsr_reserve_block2d_${nametype}$(dbcsr_matrix c_matrix, 
+void c_dbcsr_reserve_block2d_${nametype}$(dbcsr_matrix c_matrix,
                                           const int c_row, const int c_col,
-                                          const ${extype}$ *c_block, 
+                                          const ${extype}$ *c_block,
                                           const int c_row_size,
-                                          const int c_col_size, 
+                                          const int c_col_size,
                                           const bool *c_transposed,
                                           bool *c_existed);
 
@@ -259,10 +259,10 @@ void c_dbcsr_iterator_next_block_index(const dbcsr_iterator c_iterator,
 
 #:for n_inst, nametype, base, prec, ctype, extype in c_exparams
 
-void c_dbcsr_iterator_next_2d_block_${nametype}$(const dbcsr_iterator c_iterator, 
+void c_dbcsr_iterator_next_2d_block_${nametype}$(const dbcsr_iterator c_iterator,
                                                  int *c_row, int *c_column,
-                                                 ${extype}$ **c_block, bool *c_transposed, 
-                                                 int *c_block_number, int *c_row_size, 
+                                                 ${extype}$ **c_block, bool *c_transposed,
+                                                 int *c_block_number, int *c_row_size,
                                                  int *c_col_size, int *c_row_offset,
                                                  int *c_col_offset);
 
@@ -391,7 +391,7 @@ inline void c_dbcsr_distribution_get(
     int *c_nprows, int *c_npcols, int *c_myprow, int *c_mypcol,
     int **c_pgrid, bool *c_subgroups_defined, int *c_prow_group,
     int *c_pcol_group) {
-    
+
     MPI_Fint fgroup;
     c_dbcsr_distribution_get_aux(
         c_dist, c_row_dist, c_col_dist, c_nrows, c_ncols,
@@ -482,7 +482,7 @@ inline void c_dbcsr_scale(dbcsr_matrix c_matrix_a,
                                c_last_column);
 }
 
-inline void c_dbcsr_scale_by_vector(const dbcsr_matrix c_matrix_a, 
+inline void c_dbcsr_scale_by_vector(const dbcsr_matrix c_matrix_a,
                                     const ${extype}$ *c_alpha,
                                     const int c_alpha_size, const char *c_side) {
     c_dbcsr_scale_by_vector_${nametype}$(c_matrix_a, c_alpha,

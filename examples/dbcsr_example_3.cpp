@@ -24,7 +24,7 @@
 // of blocks to processors
 std::vector<int> random_dist(int dist_size, int nbins)
 {
-  
+
     std::vector<int> dist(dist_size);
 
     for(int i=0; i < dist_size; i++)
@@ -57,16 +57,16 @@ int main(int argc, char* argv[])
     int coord[2];
     MPI_Cart_coords(group, mpi_rank, 2, coord);
 
-	for (int i = 0; i != mpi_size; ++i) {
-		if (mpi_rank == i) {
-			std::cout
-				<< "I'm processor " << mpi_rank
-				<< " over " << mpi_size << " proc"
-				<< ", (" << coord[0] << ", " << coord[1] << ") in the 2D grid"
-				<< std::endl;
-		}
-		MPI_Barrier(MPI_COMM_WORLD);
-	}
+    for (int i = 0; i != mpi_size; ++i) {
+        if (mpi_rank == i) {
+            std::cout
+                << "I'm processor " << mpi_rank
+                << " over " << mpi_size << " proc"
+                << ", (" << coord[0] << ", " << coord[1] << ") in the 2D grid"
+                << std::endl;
+        }
+        MPI_Barrier(MPI_COMM_WORLD);
+    }
 
     // initialize the DBCSR library
     c_dbcsr_init_lib(MPI_COMM_WORLD, nullptr);
@@ -92,15 +92,15 @@ int main(int argc, char* argv[])
     dbcsr_distribution dist2 = nullptr;
     dbcsr_distribution dist3 = nullptr;
 
-	//create distributions
+    //create distributions
     c_dbcsr_distribution_new(&dist1, group,
         row_dist_1.data(), row_dist_1.size(),
         col_dist_1.data(), col_dist_1.size());
-        
+
     c_dbcsr_distribution_new(&dist2, group,
         row_dist_2.data(), row_dist_2.size(),
         col_dist_2.data(), col_dist_2.size());
-        
+
     c_dbcsr_distribution_new(&dist3, group,
         row_dist_1.data(), row_dist_1.size(),
         col_dist_2.data(), col_dist_2.size());
@@ -110,69 +110,69 @@ int main(int argc, char* argv[])
     {
         std::vector<double> block;
         std::vector<int> loc_irblks, loc_icblks;
-        
+
         for (int i = 0; i != (int)irblks.size(); ++i) {
-			int blk_proc = -1;
-			int ix = irblks[i];
-			int jx = icblks[i];
+            int blk_proc = -1;
+            int ix = irblks[i];
+            int jx = icblks[i];
             c_dbcsr_get_stored_coordinates(matrix, ix, jx, &blk_proc);
             if (mpi_rank == blk_proc) {
-				loc_irblks.push_back(ix);
-				loc_icblks.push_back(jx);
-			}
-		}
-		
-		c_dbcsr_reserve_blocks(matrix, loc_irblks.data(), loc_icblks.data(), loc_irblks.size());
+                loc_irblks.push_back(ix);
+                loc_icblks.push_back(jx);
+            }
+        }
 
-		void* iter = nullptr;
-		c_dbcsr_iterator_start(&iter, matrix, nullptr, nullptr, nullptr, nullptr, nullptr);
+        c_dbcsr_reserve_blocks(matrix, loc_irblks.data(), loc_icblks.data(), loc_irblks.size());
+
+        void* iter = nullptr;
+        c_dbcsr_iterator_start(&iter, matrix, nullptr, nullptr, nullptr, nullptr, nullptr);
 
         while (c_dbcsr_iterator_blocks_left(iter)) {
-                    
+
                     int i = -1;
                     int j = -1;
                     int nblk = -1;
                     int rsize = -1;
                     int csize = -1;
                     bool tr = false;
-                    
+
                     double* blk = nullptr;
-                    c_dbcsr_iterator_next_2d_block_d(iter, &i, &j, &blk, &tr, &nblk, &rsize, &csize, nullptr, nullptr);  
-                   
+                    c_dbcsr_iterator_next_2d_block_d(iter, &i, &j, &blk, &tr, &nblk, &rsize, &csize, nullptr, nullptr);
+
                     std::generate(blk, blk + rsize*csize, [&](){ return static_cast<double>(std::rand())/RAND_MAX; });
-                    
+
         }
-        
+
         c_dbcsr_iterator_stop(&iter);
-        
+
     };
-    
+
     dbcsr_matrix matrix_a = nullptr;
     dbcsr_matrix matrix_b = nullptr;
     dbcsr_matrix matrix_c = nullptr;
-        
-    c_dbcsr_create_new(&matrix_a, "matrix a", dist1, dbcsr_type_no_symmetry, 
-                               row_blk_sizes_1.data(), row_blk_sizes_1.size(), 
-                               col_blk_sizes_1.data(), col_blk_sizes_1.size(), 
-                               nullptr, nullptr, nullptr, nullptr, nullptr, nullptr); 
-                               
-    c_dbcsr_create_new(&matrix_b, "matrix b", dist2, dbcsr_type_no_symmetry, 
-                               row_blk_sizes_2.data(), row_blk_sizes_2.size(), 
-                               col_blk_sizes_2.data(), col_blk_sizes_2.size(), 
-                               nullptr, nullptr, nullptr, nullptr, nullptr, nullptr); 
-                               
-    c_dbcsr_create_new(&matrix_c, "matrix c", dist3, dbcsr_type_no_symmetry, 
-                               row_blk_sizes_1.data(), row_blk_sizes_1.size(), 
-                               col_blk_sizes_2.data(), col_blk_sizes_2.size(), 
-                               nullptr, nullptr, nullptr, nullptr, nullptr, nullptr); 
-    
+
+    c_dbcsr_create_new(&matrix_a, "matrix a", dist1, dbcsr_type_no_symmetry,
+                               row_blk_sizes_1.data(), row_blk_sizes_1.size(),
+                               col_blk_sizes_1.data(), col_blk_sizes_1.size(),
+                               nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
+
+    c_dbcsr_create_new(&matrix_b, "matrix b", dist2, dbcsr_type_no_symmetry,
+                               row_blk_sizes_2.data(), row_blk_sizes_2.size(),
+                               col_blk_sizes_2.data(), col_blk_sizes_2.size(),
+                               nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
+
+    c_dbcsr_create_new(&matrix_c, "matrix c", dist3, dbcsr_type_no_symmetry,
+                               row_blk_sizes_1.data(), row_blk_sizes_1.size(),
+                               col_blk_sizes_2.data(), col_blk_sizes_2.size(),
+                               nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
+
     // indices of non-zero blocks
     std::vector<int> irblks_1 = {0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3};
     std::vector<int> icblks_1 = {0, 1, 2, 4, 0, 2, 3, 1, 3, 4, 0, 1, 2};
-    
+
     std::vector<int> irblks_2 = {0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 4};
     std::vector<int> icblks_2 = {0, 2, 3, 0, 1, 2, 3, 0, 2, 3, 1, 2, 3, 0, 1, 2, 3};
-    
+
     std::vector<int> irblks_3 = {0, 0, 0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3};
     std::vector<int> icblks_3 = {0, 1, 2, 3, 0, 2, 3, 1, 2, 3, 0, 1, 2, 3};
 
@@ -182,11 +182,11 @@ int main(int argc, char* argv[])
     c_dbcsr_finalize(matrix_b);
     fill_matrix(matrix_c, irblks_3, icblks_3);
     c_dbcsr_finalize(matrix_c);
-    
+
     // Compute C = 3.0 * A * B + 2.0 * C
     c_dbcsr_multiply_d('N', 'N', 3.0d, matrix_a, matrix_b, 2.0d, matrix_c, nullptr, nullptr,
                        nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
-                       
+
     c_dbcsr_print(matrix_c);
 
     // release the matrices
