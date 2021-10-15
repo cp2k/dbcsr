@@ -248,7 +248,7 @@ ifneq (0,$(LIBXSMM))
 else
 	$(CC) $(CFLAGS) -c $< -o $@
 endif
-$(MAKDIR)/../acc_bench_smm: $(MAKDIR)/acc_bench_smm.o $(MAKDIR)/../dbcsr_acc_smm.a $(MAKDIR)/../dbcsr_acc.a
+$(MAKDIR)/../acc_bench_smm: $(MAKDIR)/acc_bench_smm.o $(MAKDIR)/../dbcsr_acc.a $(MAKDIR)/../dbcsr_acc_smm.a
 	$(CXX) $^ $(LDFLAGS) -o $@
 
 $(MAKDIR)/acc_bench_trans.o: $(MAKDIR)/../acc_bench_trans.c $(MAKDIR)/Makefile
@@ -257,12 +257,12 @@ ifneq (0,$(LIBXSMM))
 else
 	$(CC) $(CFLAGS) -c $< -o $@
 endif
-$(MAKDIR)/../acc_bench_trans: $(MAKDIR)/acc_bench_trans.o $(MAKDIR)/../dbcsr_acc_smm.a $(MAKDIR)/../dbcsr_acc.a
+$(MAKDIR)/../acc_bench_trans: $(MAKDIR)/acc_bench_trans.o $(MAKDIR)/../dbcsr_acc.a $(MAKDIR)/../dbcsr_acc_smm.a
 	$(CXX) $^ $(LDFLAGS) -o $@
 
 $(MAKDIR)/dbcsr_acc_test.o: $(MAKDIR)/../../../tests/dbcsr_acc_test.c $(MAKDIR)/Makefile
 	$(CC) $(CFLAGS) -I$(MAKDIR)/../.. -c $< -o $@
-$(MAKDIR)/../dbcsr_acc_test: $(MAKDIR)/dbcsr_acc_test.o $(MAKDIR)/../dbcsr_acc.a
+$(MAKDIR)/../dbcsr_acc_test: $(MAKDIR)/dbcsr_acc_test.o $(MAKDIR)/../dbcsr_acc.a $(MAKDIR)/../dbcsr_acc_smm.a
 	$(CXX) $^ $(LDFLAGS) -o $@
 
 .PHONY: clean
