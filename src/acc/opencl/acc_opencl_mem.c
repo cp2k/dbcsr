@@ -157,10 +157,11 @@ int c_dbcsr_acc_host_mem_deallocate(void* host_mem, void* stream)
 int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes)
 {
   cl_int result;
-  const int try_flag = ((0 != c_dbcsr_acc_opencl_config.unified ||
-        (0x4905 != c_dbcsr_acc_opencl_config.intel_id
-      && 0x020a != c_dbcsr_acc_opencl_config.intel_id
-      && 0x0bd5 != c_dbcsr_acc_opencl_config.intel_id))
+  const int try_flag = ((0 != c_dbcsr_acc_opencl_config.unified
+      ||  (0 == c_dbcsr_acc_opencl_config.intel_id)
+      ||  (0x4905 != c_dbcsr_acc_opencl_config.intel_id
+        && 0x020a != c_dbcsr_acc_opencl_config.intel_id
+        && 0x0bd5 != c_dbcsr_acc_opencl_config.intel_id))
     ? 0 : (1u << 22));
   cl_mem buffer = (
 #if defined(ACC_OPENCL_SVM)

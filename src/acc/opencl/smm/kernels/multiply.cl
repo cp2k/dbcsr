@@ -296,7 +296,7 @@ kernel void FN(global T *restrict cdata,
             T s = ZERO, *restrict r = &s;
 # endif
             UNROLL_FORCE(SK)
-            for (int k = 0; k < SK; ++k) *r = FMA(
+            for (int k = 0; k < SK; ++k) *r = MAD(
 # if defined(SLM_A)
               amk[m][k],
 # elif defined(GPRF_A)
@@ -340,7 +340,7 @@ kernel void FN(global T *restrict cdata,
       for (int k = 0; k < SK; ++k) amk[k] = a[SM*k+m];
 # endif
       UNROLL_FORCE(SK)
-      for (int k = 0; k < SK; ++k) *r = FMA(
+      for (int k = 0; k < SK; ++k) *r = MAD(
 # if defined(SLM_A)
         amk[m][k],
 # elif defined(GPRF_A)

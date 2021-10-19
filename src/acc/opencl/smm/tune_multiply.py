@@ -479,22 +479,6 @@ if __name__ == "__main__":
         dest="tlevel",
         help="Tunables: (0) all, (1) most, (2) some, (3) least",
     )
-    # parse primary arguments and defaults
-    args = argparser.parse_args()
-    m = max(args.m, 1)
-    default_mb = 128
-    # fix tunables according to level of tuning
-    if 1 <= args.tlevel or 0 > args.tlevel:
-        os.environ["OPENCL_LIBSMM_SMM_BM"] = "0"
-        os.environ["OPENCL_LIBSMM_SMM_BN"] = "0"
-        default_mb = 64
-    if 2 <= args.tlevel:
-        os.environ["OPENCL_LIBSMM_SMM_AP"] = "0" if 24 >= m else "1"
-        os.environ["OPENCL_LIBSMM_SMM_NZ"] = "0"
-    if 3 <= args.tlevel:
-        os.environ["OPENCL_LIBSMM_SMM_AC"] = "0"
-        os.environ["OPENCL_LIBSMM_SMM_WG"] = "1"
-    # additional/depending arguments
     argparser.add_argument(
         "-bm",
         "--initial-bm",
@@ -541,7 +525,7 @@ if __name__ == "__main__":
         "-ap",
         "--initial-ap",
         type=int,
-        default=int(os.getenv("OPENCL_LIBSMM_SMM_AP", "1")),
+        default=int(os.getenv("OPENCL_LIBSMM_SMM_AP", "0")),
         dest="ap",
         help="Params: global (0), shared (1)",
     )
@@ -582,7 +566,7 @@ if __name__ == "__main__":
         "-mb",
         "--max-bs",
         type=int,
-        default=default_mb,
+        default=0,
         nargs="?",
         dest="mb",
         help="Maximum (mini-)batch size (BS)",
@@ -594,6 +578,20 @@ if __name__ == "__main__":
         default=0,
         nargs="?",
         dest="s",
-        help='Size of batch ("stacksize")',
+        help="Size of batch (a.k.a. stacksize)",
     )
-    SmmTuner.main(argparser.parse_args())
+    args = argparser.parse_args()
+    # fix tunables according to level of tuning
+    if 1 <= args.tlevel or 0 > args.tlevel:
+        os.environ["OPENCL_LIBSMM_SMM_BM"] = "{}".format(args.bm)
+        os.environ["OPENCL_LIBSMM_SMM_BN"] = "{}".format(args.bn)
+    if 2 <= args.tlevel:
+        os.environ["OPENCL_LIBSMM_SMM_AP"] = "{}".format(args.ap)
+        os.environ["OPENCL_LIBSMM_SMM_NZ"] = "{}".format(args.nz)
+    if 3 <= args.tlevel:
+        os.environ["OPENCL_LIBSMM_SMM_AC"] = "{}".format(args.ac)
+        os.environ["OPENCL_LIBSMM_SMM_WG"] = "{}".format(args.wg)
+    if 0 == args.mb:
+        args.mb = 64
+    # additional/depending arguments
+    SmmTuner.main(args)
