@@ -154,7 +154,25 @@ inline void jit_kernel(ACC_DRV(function)& kern_func, libsmm_acc_algo algo, int t
     const char *compileOptions[] = {"-D__HIP"};
     size_t nOptions = 1;
 #endif
-    ACC_RTC_CALL(CompileProgram, (kernel_program, nOptions, compileOptions));
+    ACC_RTC(Result) compileResult = ACC_RTC(CompileProgram)(kernel_program, nOptions, compileOptions);
+    if (compileResult != ACC_RTC_SUCCESS) {
+       // if compilation fails:
+       // print source, compilation options and compilation log
+       size_t logSize;
+       ACC_RTC_CALL(GetProgramLogSize, (kernel_program, &logSize));
+       char *log = new char[logSize];
+       ACC_RTC_CALL(GetProgramLog, (kernel_program, log));
+       std::cout << "---------------------------------------------------------------------------------" << std::endl
+                 << "Compile source : " << std::endl << kernel_code.c_str() << std::endl
+                 << "---------------------------------------------------------------------------------" << std::endl
+                 << "Compile lowered name : " << kernel_name.c_str() << std::endl
+                 << "---------------------------------------------------------------------------------" << std::endl
+                 << "Compile options : " << *compileOptions << std::endl
+                 << "---------------------------------------------------------------------------------" << std::endl
+                 << "Compile log : " << std::endl << log << '\n';
+       delete[] log;
+       exit(1);
+    }
 
     // Obtain PTX from the program.
     size_t codeSize;
@@ -366,7 +384,25 @@ void jit_transpose_handle(ACC_DRV(function)& kern_func, int m, int n){
     const char *compileOptions[] = {"-D__HIP"};
     size_t nOptions = 1;
 #endif
-    ACC_RTC_CALL(CompileProgram, (kernel_program, nOptions, compileOptions));
+    ACC_RTC(Result) compileResult = ACC_RTC(CompileProgram)(kernel_program, nOptions, compileOptions);
+    if (compileResult != ACC_RTC_SUCCESS) {
+       // if compilation fails:
+       // print source, compilation options and compilation log
+       size_t logSize;
+       ACC_RTC_CALL(GetProgramLogSize, (kernel_program, &logSize));
+       char *log = new char[logSize];
+       ACC_RTC_CALL(GetProgramLog, (kernel_program, log));
+       std::cout << "---------------------------------------------------------------------------------" << std::endl
+                 << "Compile source : " << std::endl << transpose_code.c_str() << std::endl
+                 << "---------------------------------------------------------------------------------" << std::endl
+                 << "Compile lowered name : " << kernel_name.c_str() << std::endl
+                 << "---------------------------------------------------------------------------------" << std::endl
+                 << "Compile options : " << *compileOptions << std::endl
+                 << "---------------------------------------------------------------------------------" << std::endl
+                 << "Compile log : " << std::endl << log << '\n';
+       delete[] log;
+       exit(1);
+    }
 
     // Obtain PTX from the program.
     size_t codeSize;
