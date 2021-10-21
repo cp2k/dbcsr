@@ -109,4 +109,8 @@ extern hipblasStatus_t ACC_BLAS_STATUS_SUCCESS;
 extern hipblasOperation_t ACC_BLAS_OP_N;
 extern hipblasOperation_t ACC_BLAS_OP_T;
 
+/* HIPRTC error status */
+extern hiprtcResult ACC_RTC_SUCCESS;
+
+
 #endif /*ACC_HIP_H*/
