@@ -224,11 +224,15 @@ CONTAINS
 
 !$OMP MASTER
       CALL acc_stream_priority_range(least_priority, greatest_priority)
+#if defined(__HIP_PLATFORM_AMD__)
+      CALL stream_array_force_size(priority_streams, "Calc (priority)", &
+                                   n=dbcsr_cfg%accdrv_priority_streams)
+#else
       CALL stream_array_force_size(priority_streams, "Calc (priority)", &
                                    n=dbcsr_cfg%accdrv_priority_streams, priority=greatest_priority)
       CALL stream_array_force_size(posterior_streams, "Calc (posterior)", &
                                    n=dbcsr_cfg%accdrv_posterior_streams, events=barrier_events)
-
+#endif
       !create upload stream
       IF (.NOT. acc_stream_associated(upload_stream)) &
          CALL acc_stream_create(upload_stream, "Stackbuf h2d")
@@ -246,7 +250,9 @@ CONTAINS
          CALL acc_stream_destroy(upload_stream)
 
       CALL stream_array_force_size(priority_streams, "Calc (priority)", n=0)
+#if !defined(__HIP_PLATFORM_AMD__)
       CALL stream_array_force_size(posterior_streams, "Calc (posterior)", n=0, events=barrier_events)
+#endif
 !$OMP END MASTER
 
    END SUBROUTINE deallocate_streams
@@ -303,10 +309,16 @@ CONTAINS
       ! distribute total number of buffers approx. evenly among threads
       ! my_* variables hold number of buffers for current thread.
       my_priority_buffers = CEILING(REAL(dbcsr_cfg%accdrv_priority_buffers)/REAL(nthreads), int_4)
+#if !defined(__HIP_PLATFORM_AMD__)
       my_posterior_buffers = CEILING(REAL(dbcsr_cfg%accdrv_posterior_buffers)/REAL(nthreads), int_4)
+#endif
 
       this%nbuffers_phaseout = my_priority_buffers
+#if defined(__HIP_PLATFORM_AMD__)
+      my_total_buffers = my_priority_buffers
+#else
       my_total_buffers = my_posterior_buffers + my_priority_buffers
+#endif
 
       IF (ASSOCIATED(thread_privates%stack_buffers)) THEN
          IF (SIZE(thread_privates%stack_buffers) /= my_total_buffers) &
@@ -320,6 +332,7 @@ CONTAINS
          DO i = 1, my_total_buffers
             CALL acc_devmem_allocate_bytes(thread_privates%stack_buffers(i)%devmem, &
                                            int_4_size*dbcsr_ps_acc_width*dbcsr_cfg%mm_stack_size)
+#if !defined(__HIP_PLATFORM_AMD__)
             IF (i <= my_priority_buffers) THEN
                curr_priority_stream = MOD(curr_priority_stream, SIZE(priority_streams)) + 1
                thread_privates%stack_buffers(i)%stream = priority_streams(curr_priority_stream)
@@ -327,6 +340,9 @@ CONTAINS
                curr_posterior_stream = MOD(curr_posterior_stream, SIZE(posterior_streams)) + 1
                thread_privates%stack_buffers(i)%stream = posterior_streams(curr_posterior_stream)
             ENDIF
+#else
+            thread_privates%stack_buffers(i)%stream = priority_streams(ithread+1)
+#endif
             CALL acc_hostmem_allocate(thread_privates%stack_buffers(i)%hostmem, &
                                       dbcsr_ps_acc_width, dbcsr_cfg%mm_stack_size, thread_privates%stack_buffers(i)%stream)
             CALL acc_event_create(thread_privates%stack_buffers(i)%ready)
@@ -458,11 +474,14 @@ CONTAINS
       !! After being called by ALL threads, it installs a special barrier that
       !! forces the priority-streams to wait for the normal-streams.
 
-      INTEGER                                            :: i, j, nthreads
+      INTEGER                                            :: i, j, nthreads, ithread
 
       nthreads = 1
 !$    nthreads = OMP_GET_NUM_THREADS()
-
+!$    ithread = OMP_GET_THREAD_NUM()
+#if defined(__HIP_PLATFORM_AMD__)
+      call acc_stream_synchronize (priority_streams(ithread+1))
+#else
 !$OMP     CRITICAL
       barrier_counter = MOD(barrier_counter + 1, nthreads)
       IF (barrier_counter == 0) THEN
@@ -474,6 +493,7 @@ CONTAINS
          ENDDO
       ENDIF
 !$OMP     END CRITICAL
+#endif
    END SUBROUTINE dbcsr_mm_accdrv_barrier
 
    SUBROUTINE dbcsr_mm_accdrv_process(this, left, right, params, stack_size, &
@@ -503,6 +523,9 @@ CONTAINS
 !$    ithread = OMP_GET_THREAD_NUM()
       stack_buffers => all_thread_privates(ithread)%stack_buffers
 
+#if defined(__HIP_PLATFORM_AMD__)
+      DO WHILE (.NOT. ASSOCIATED(stackbuf))
+#endif
       DO i = 1, SIZE(stack_buffers)
          IF (this%phase_out .AND. i > this%nbuffers_phaseout) EXIT
          IF (acc_event_query(stack_buffers(i)%calculated)) THEN
@@ -510,6 +533,9 @@ CONTAINS
             EXIT
          ENDIF
       ENDDO
+#if defined(__HIP_PLATFORM_AMD__)
+      ENDDO
+#endif
 
       IF (.NOT. ASSOCIATED(stackbuf)) THEN
          success = .FALSE.
