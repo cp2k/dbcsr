@@ -15,7 +15,7 @@ MODULE dbcsr_acc_device
 
    IMPLICIT NONE
 
-   PUBLIC :: dbcsr_acc_get_ndevices, dbcsr_acc_set_active_device, dbcsr_acc_clear_errors 
+   PUBLIC :: dbcsr_acc_get_ndevices, dbcsr_acc_set_active_device, dbcsr_acc_clear_errors
    PUBLIC :: acc_device_synchronize
 
    PRIVATE

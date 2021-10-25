@@ -1622,7 +1622,7 @@ CONTAINS
 #if defined (__HIP_PLATFORM_AMD__)
          ! Wait for left and right buffers transfer to device before proceeding
          IF (has_acc) THEN
-             CALL acc_device_synchronize()
+            CALL acc_device_synchronize()
          END IF
 #endif
          !

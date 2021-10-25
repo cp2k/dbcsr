@@ -341,7 +341,7 @@ CONTAINS
                thread_privates%stack_buffers(i)%stream = posterior_streams(curr_posterior_stream)
             ENDIF
 #else
-            thread_privates%stack_buffers(i)%stream = priority_streams(ithread+1)
+            thread_privates%stack_buffers(i)%stream = priority_streams(ithread + 1)
 #endif
             CALL acc_hostmem_allocate(thread_privates%stack_buffers(i)%hostmem, &
                                       dbcsr_ps_acc_width, dbcsr_cfg%mm_stack_size, thread_privates%stack_buffers(i)%stream)
@@ -480,7 +480,7 @@ CONTAINS
 !$    nthreads = OMP_GET_NUM_THREADS()
 !$    ithread = OMP_GET_THREAD_NUM()
 #if defined(__HIP_PLATFORM_AMD__)
-      call acc_stream_synchronize (priority_streams(ithread+1))
+      CALL acc_stream_synchronize (priority_streams(ithread + 1))
 #else
 !$OMP     CRITICAL
       barrier_counter = MOD(barrier_counter + 1, nthreads)
@@ -526,13 +526,13 @@ CONTAINS
 #if defined(__HIP_PLATFORM_AMD__)
       DO WHILE (.NOT. ASSOCIATED(stackbuf))
 #endif
-      DO i = 1, SIZE(stack_buffers)
-         IF (this%phase_out .AND. i > this%nbuffers_phaseout) EXIT
-         IF (acc_event_query(stack_buffers(i)%calculated)) THEN
-            stackbuf => stack_buffers(i)
-            EXIT
-         ENDIF
-      ENDDO
+         DO i = 1, SIZE(stack_buffers)
+            IF (this%phase_out .AND. i > this%nbuffers_phaseout) EXIT
+            IF (acc_event_query(stack_buffers(i)%calculated)) THEN
+               stackbuf => stack_buffers(i)
+               EXIT
+            ENDIF
+         ENDDO
 #if defined(__HIP_PLATFORM_AMD__)
       ENDDO
 #endif
@@ -583,7 +583,7 @@ CONTAINS
          DBCSR_ABORT("dbcsr_mm_accdrv_process: c_area%acc_devmem not allocated")
 
       ! start uploading stacks only after a, b, and c are ready
-#if !defined (__HIP_PLATFORM_AMD__) 
+#if !defined (__HIP_PLATFORM_AMD__)
       CALL acc_stream_wait_event(upload_stream, a_area%acc_ready)
       CALL acc_stream_wait_event(upload_stream, b_area%acc_ready)
       CALL acc_stream_wait_event(upload_stream, c_area%acc_ready)
