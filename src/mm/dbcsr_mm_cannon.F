@@ -17,6 +17,7 @@ MODULE dbcsr_mm_cannon
    !! - 2013-01    reorganized code (Ole Schuett)
 
    USE dbcsr_acc_event, ONLY: acc_event_synchronize
+   USE dbcsr_acc_device, ONLY: acc_device_synchronize
    USE dbcsr_array_types, ONLY: array_data, &
                                 array_exists, &
                                 array_i1d_obj, &
@@ -1600,12 +1601,12 @@ CONTAINS
                            k_sizes)
          !
          IF (has_acc) THEN
-            CALL dbcsr_data_host2dev(left_buffer_calc%mats(1, v_ki_left)%data_area)
             CALL dbcsr_data_host2dev(right_buffer_calc%mats(v_ki_right, 1)%data_area)
             CALL acc_transpose_blocks(right_buffer_calc%mats(v_ki_right, 1), trs_stackbuf_calc, &
                                       k_sizes, n_sizes, &
                                       row_blk_sizes2enum, enum2row_blk_sizes, &
                                       col_blk_sizes2enum, enum2col_blk_sizes)
+            CALL dbcsr_data_host2dev(left_buffer_calc%mats(1, v_ki_left)%data_area)
          END IF
 
          ! Sets the local right-matrix columns
@@ -1617,6 +1618,13 @@ CONTAINS
             CALL calculate_norms(left_buffer_calc%mats(1, v_ki_left), &
                                  left_norms, m_sizes, k_sizes)
          ENDIF
+
+#if defined (__HIP_PLATFORM_AMD__)
+         ! Wait for left and right buffers transfer to device before proceeding
+         IF (has_acc) THEN
+             CALL acc_device_synchronize()
+         END IF
+#endif
          !
          flop_single = 0
          threads_finished = 0

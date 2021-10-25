@@ -15,7 +15,8 @@ MODULE dbcsr_acc_device
 
    IMPLICIT NONE
 
-   PUBLIC :: dbcsr_acc_get_ndevices, dbcsr_acc_set_active_device, dbcsr_acc_clear_errors
+   PUBLIC :: dbcsr_acc_get_ndevices, dbcsr_acc_set_active_device, dbcsr_acc_clear_errors 
+   PUBLIC :: acc_device_synchronize
 
    PRIVATE
 
@@ -42,6 +43,10 @@ MODULE dbcsr_acc_device
       SUBROUTINE acc_clear_errors_cu() &
          BIND(C, name="c_dbcsr_acc_clear_errors")
       END SUBROUTINE acc_clear_errors_cu
+
+      SUBROUTINE acc_device_synchronize_cu() &
+         BIND(C, name="c_dbcsr_acc_device_synchronize")
+      END SUBROUTINE acc_device_synchronize_cu
    END INTERFACE
 
 #endif
@@ -94,5 +99,13 @@ CONTAINS
       DBCSR_ABORT("__DBCSR_ACC not compiled in")
 #endif
    END SUBROUTINE dbcsr_acc_clear_errors
+
+   SUBROUTINE acc_device_synchronize()
+#if defined (__DBCSR_ACC)
+      CALL acc_device_synchronize_cu()
+#else
+      DBCSR_ABORT("__DBCSR_ACC not compiled in")
+#endif
+   END SUBROUTINE acc_device_synchronize
 
 END MODULE dbcsr_acc_device

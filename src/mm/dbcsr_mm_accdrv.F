@@ -583,15 +583,22 @@ CONTAINS
          DBCSR_ABORT("dbcsr_mm_accdrv_process: c_area%acc_devmem not allocated")
 
       ! start uploading stacks only after a, b, and c are ready
+#if !defined (__HIP_PLATFORM_AMD__) 
       CALL acc_stream_wait_event(upload_stream, a_area%acc_ready)
       CALL acc_stream_wait_event(upload_stream, b_area%acc_ready)
       CALL acc_stream_wait_event(upload_stream, c_area%acc_ready)
+#endif
 
       stackbuf_hostmem_cropped => stackbuf%hostmem(:, 1:stack_size)
+#if defined (__HIP_PLATFORM_AMD__)
+      CALL acc_devmem_host2dev(stackbuf%devmem, hostmem=stackbuf_hostmem_cropped, stream=stackbuf%stream)
+      CALL acc_event_record(stackbuf%ready, stream=stackbuf%stream)
+#else
       CALL acc_devmem_host2dev(stackbuf%devmem, hostmem=stackbuf_hostmem_cropped, stream=upload_stream)
       CALL acc_event_record(stackbuf%ready, stream=upload_stream)
-
       CALL acc_stream_wait_event(stackbuf%stream, stackbuf%ready)
+#endif
+
       ! We have to sync for the C area for the cuBLAS dgemm, used for large kernels
       CALL acc_stream_wait_event(c_area%memory_type%acc_stream, stackbuf%ready)
 
@@ -609,9 +616,11 @@ CONTAINS
 
       IF (success) THEN
          CALL acc_event_record(stackbuf%calculated, stream=stackbuf%stream)
+#if !defined(__HIP_PLATFORM_AMD__)
          CALL acc_stream_wait_event(a_area%memory_type%acc_stream, stackbuf%calculated)
          CALL acc_stream_wait_event(b_area%memory_type%acc_stream, stackbuf%calculated)
          CALL acc_stream_wait_event(c_area%memory_type%acc_stream, stackbuf%calculated)
+#endif
       ENDIF
 
       CALL timestop(error_handle)
