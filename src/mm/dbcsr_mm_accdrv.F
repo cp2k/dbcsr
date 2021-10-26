@@ -474,12 +474,15 @@ CONTAINS
       !! After being called by ALL threads, it installs a special barrier that
       !! forces the priority-streams to wait for the normal-streams.
 
-      INTEGER                                            :: i, j, nthreads, ithread
+      INTEGER                                            :: i, j, nthreads
+#if defined(__HIP_PLATFORM_AMD__)
+      INTEGER                                            :: ithread
+#endif
 
       nthreads = 1
 !$    nthreads = OMP_GET_NUM_THREADS()
-!$    ithread = OMP_GET_THREAD_NUM()
 #if defined(__HIP_PLATFORM_AMD__)
+!$    ithread = OMP_GET_THREAD_NUM()
       CALL acc_stream_synchronize(priority_streams(ithread + 1))
 #else
 !$OMP     CRITICAL
