@@ -29,9 +29,9 @@ extern "C" int c_dbcsr_acc_get_ndevices(int *n_devices){
 }
 
 /****************************************************************************/
-extern "C" void c_dbcsr_acc_device_synchronize(){
+extern "C" int c_dbcsr_acc_device_synchronize(){
   ACC_API_CALL(DeviceSynchronize, ());
-  return;
+  return 0;
 }
 
 /****************************************************************************/
