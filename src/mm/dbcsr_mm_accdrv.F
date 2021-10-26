@@ -495,6 +495,7 @@ CONTAINS
 #else
       INTEGER                                            :: ithread
 
+      ithread = 0
 !$    ithread = OMP_GET_THREAD_NUM()
       CALL acc_stream_synchronize(priority_streams(ithread + 1))
 #endif
