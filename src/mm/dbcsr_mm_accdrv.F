@@ -295,11 +295,14 @@ CONTAINS
       !! Helper routine used by dbcsr_mm_accdrv_init()
       TYPE(dbcsr_mm_accdrv_type), INTENT(INOUT)          :: this
 
-      INTEGER                                            :: i, ithread, my_posterior_buffers, &
+      INTEGER                                            :: i, ithread, &
                                                             my_priority_buffers, my_total_buffers, &
                                                             nthreads
-      INTEGER, SAVE                                      :: curr_posterior_stream = 0, &
-                                                            curr_priority_stream = 0
+#if !defined(__HIP_PLATFORM_AMD__)
+      INTEGER                                            :: my_posterior_buffers
+      INTEGER, SAVE                                      :: curr_posterior_stream = 0
+#endif
+      INTEGER, SAVE                                      :: curr_priority_stream = 0
       TYPE(thread_private_type), POINTER                 :: thread_privates
 
       nthreads = 1; ithread = 0
@@ -471,20 +474,13 @@ CONTAINS
    END SUBROUTINE dbcsr_mm_accdrv_phaseout
 
    SUBROUTINE dbcsr_mm_accdrv_barrier()
+#if !defined(__HIP_PLATFORM_AMD__)
       !! After being called by ALL threads, it installs a special barrier that
       !! forces the priority-streams to wait for the normal-streams.
 
       INTEGER                                            :: i, j, nthreads
-#if defined(__HIP_PLATFORM_AMD__)
-      INTEGER                                            :: ithread
-#endif
-
       nthreads = 1
 !$    nthreads = OMP_GET_NUM_THREADS()
-#if defined(__HIP_PLATFORM_AMD__)
-!$    ithread = OMP_GET_THREAD_NUM()
-      CALL acc_stream_synchronize(priority_streams(ithread + 1))
-#else
 !$OMP     CRITICAL
       barrier_counter = MOD(barrier_counter + 1, nthreads)
       IF (barrier_counter == 0) THEN
@@ -496,6 +492,11 @@ CONTAINS
          ENDDO
       ENDIF
 !$OMP     END CRITICAL
+#else
+      INTEGER                                            :: ithread
+
+!$    ithread = OMP_GET_THREAD_NUM()
+      CALL acc_stream_synchronize(priority_streams(ithread + 1))
 #endif
    END SUBROUTINE dbcsr_mm_accdrv_barrier
 
