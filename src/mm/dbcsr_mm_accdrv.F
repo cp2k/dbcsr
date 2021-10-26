@@ -300,9 +300,9 @@ CONTAINS
                                                             nthreads
 #if !defined(__HIP_PLATFORM_AMD__)
       INTEGER                                            :: my_posterior_buffers
-      INTEGER, SAVE                                      :: curr_posterior_stream = 0
+      INTEGER, SAVE                                      :: curr_posterior_stream = 0, &
+                                                            curr_priority_stream = 0
 #endif
-      INTEGER, SAVE                                      :: curr_priority_stream = 0
       TYPE(thread_private_type), POINTER                 :: thread_privates
 
       nthreads = 1; ithread = 0
