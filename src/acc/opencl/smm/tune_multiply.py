@@ -248,12 +248,13 @@ class SmmTuner(MeasurementInterface):
         if performance and performance.group(1) and performance.group(3):
             mseconds = float(performance.group(1))
             gflops = float(performance.group(3))
-            if 0 == self.gflops:  # seed configuration
-                self.gfbase = gflops
             if self.gflops < gflops:
                 # keep best configuration in case of an early exit
                 self.config = desired_result.configuration
                 self.gflops = gflops
+                if 0 == self.gfbase:  # seed configuration
+                    self.gfbase = gflops
+                self.save_final_config(desired_result.configuration, final=False)
             kernelreq = round(
                 (100.0 * config["BM"] * config["BN"]) / (self.args.m * self.args.n)
             )
@@ -363,21 +364,9 @@ class SmmTuner(MeasurementInterface):
                 print("Renamed {} to {}.".format(self.args.csvfile, backup))
                 os.rename(self.args.csvfile, backup)
 
-    def save_final_config(self, configuration):
+    def save_final_config(self, configuration, final=True):
         """Called at termination"""
         if 0 < self.gflops and configuration:
-            filename = os.path.normpath(
-                os.path.join(
-                    self.args.jsondir,
-                    "tune_multiply-{}-{}x{}x{}-{}gflops.json".format(
-                        self.typename,
-                        self.args.m,
-                        self.args.n,
-                        self.args.k,
-                        round(self.gflops),
-                    ),
-                )
-            )
             # extend result for easier reuse later
             config = configuration.data
             config["DEVICE"] = self.device
@@ -386,34 +375,54 @@ class SmmTuner(MeasurementInterface):
             config["M"] = self.args.m
             config["N"] = self.args.n
             config["K"] = self.args.k
-            filenames = glob.glob(
-                os.path.normpath(os.path.join(self.args.jsondir, "*.json"))
+            filenames = (
+                glob.glob(os.path.normpath(os.path.join(self.args.jsondir, "*.json")))
+                if final
+                else None
             )
-            if not filenames and glob.glob(self.args.csvfile):
-                print(
-                    "WARNING: no JSON file found but (unrelated?) {}".format(
-                        self.args.csvfile
-                    )
-                )
+            basename = "tune_multiply-{}-{}x{}x{}".format(
+                self.typename, self.args.m, self.args.n, self.args.k
+            )
             # self.manipulator().save_to_file(config, filename)
-            with open(filename, "w") as file:
+            with open(
+                os.path.join(self.args.jsondir, ".{}.json".format(basename)), "w"
+            ) as file:
                 json.dump(config, file, sort_keys=True)
                 file.write("\n")  # append newline at EOF
-            if filename not in filenames:
-                filenames.append(filename)
-                self.merge_jsons(filenames)
-            speedup = round((self.gflops / self.gfbase) if 0 < self.gfbase else 0, 1)
-            print(
-                "Result{} was written to {}".format(
-                    " ({}x over seed)".format(speedup) if 1 < speedup else "",
+            if final:
+                if not filenames and glob.glob(self.args.csvfile):
+                    print(
+                        "WARNING: no JSON file found but (unrelated?) {}".format(
+                            self.args.csvfile
+                        )
+                    )
+                filename = os.path.normpath(
+                    os.path.join(
+                        self.args.jsondir,
+                        "{}-{}gflops.json".format(basename, round(self.gflops)),
+                    )
+                )
+                os.rename(
+                    os.path.join(self.args.jsondir, ".{}.json".format(basename)),
                     filename,
                 )
-            )
-            # no validation in SIGINT (user may fired signal due to apps misbehavior)
-            if 0 == self.args.check and self.handle_sigint != getsignal(SIGINT):
-                run_result = self.launch(self.environment(config) + ["CHECK=1"])
-                if 0 != run_result["returncode"]:
-                    print("WARNING: tuned result seems to be incorrect!")
+                if filename not in filenames:
+                    filenames.append(filename)
+                    self.merge_jsons(filenames)
+                speedup = round(
+                    (self.gflops / self.gfbase) if 0 < self.gfbase else 0, 1
+                )
+                print(
+                    "Result{} was written to {}".format(
+                        " ({}x over seed)".format(speedup) if 1 < speedup else "",
+                        filename,
+                    )
+                )
+                # no validation in SIGINT (user may fired signal due to apps misbehavior)
+                if 0 == self.args.check and self.handle_sigint != getsignal(SIGINT):
+                    run_result = self.launch(self.environment(config) + ["CHECK=1"])
+                    if 0 != run_result["returncode"]:
+                        print("WARNING: tuned result seems to be incorrect!")
 
     def handle_sigint(self, signum, frame):
         """Handle SIGINT or CTRL-C"""
@@ -638,6 +647,9 @@ if __name__ == "__main__":
         help="Size of batch (a.k.a. stacksize)",
     )
     args = argparser.parse_args()
+    # avoid tuning WG-parameter unless OPENCL_LIBSMM_SMM_WG=0 (explicit)
+    if "0" != os.getenv("OPENCL_LIBSMM_SMM_WG"):
+        os.environ["OPENCL_LIBSMM_SMM_WG"] = "{}".format(args.wg)
     # fix tunables according to level of tuning
     if 1 <= args.tlevel or 0 > args.tlevel:
         os.environ["OPENCL_LIBSMM_SMM_BM"] = "{}".format(args.bm)
