@@ -52,6 +52,9 @@
 #if !defined(ACC_OPENCL_DEVICES_MAXCOUNT)
 # define ACC_OPENCL_DEVICES_MAXCOUNT 256
 #endif
+#if !defined(ACC_OPENCL_STREAMS_MAXCOUNT)
+# define ACC_OPENCL_STREAMS_MAXCOUNT 2048
+#endif
 #if !defined(ACC_OPENCL_OVERMALLOC)
 # if defined(__DBCSR_ACC)
 #   define ACC_OPENCL_OVERMALLOC 0
@@ -207,10 +210,15 @@ extern c_dbcsr_acc_opencl_config_t c_dbcsr_acc_opencl_config;
 
 /* non-zero if library is initialized, zero devices is signaled by nagative value */
 extern int c_dbcsr_acc_opencl_ndevices;
-/* allow a context per each OpenMP thread */
-extern cl_context c_dbcsr_acc_opencl_context;
+/* backend implements 1:1 relationship between context and device */
+extern cl_context c_dbcsr_acc_opencl_context; /* active context */
 #if defined(_OPENMP) && defined(ACC_OPENCL_THREADLOCAL_CONTEXT)
+/* allow a context per each OpenMP thread */
 # pragma omp threadprivate(c_dbcsr_acc_opencl_context)
+#endif
+#if defined(ACC_OPENCL_STREAMS_MAXCOUNT)
+extern int c_dbcsr_acc_opencl_nstreams;
+extern cl_command_queue c_dbcsr_acc_opencl_streams[ACC_OPENCL_STREAMS_MAXCOUNT];
 #endif
 
 typedef struct c_dbcsr_acc_opencl_info_hostptr_t {
@@ -228,7 +236,11 @@ int c_dbcsr_acc_opencl_info_devmem(cl_device_id device,
   int* mem_unified);
 /** Return the pointer to the 1st match of "b" in "a", or NULL (no match). */
 const char* c_dbcsr_acc_opencl_stristr(const char a[], const char b[]);
-/** Get active device (can be thread/queue-specific). */
+/**
+ * Get the active device:
+ * - Derived from context (thread-specific if ACC_OPENCL_THREADLOCAL_CONTEXT), or
+ * - Queue-specific if stream != NULL)
+ */
 int c_dbcsr_acc_opencl_device(void* stream, cl_device_id* device);
 /** Confirm the vendor of the given device. */
 int c_dbcsr_acc_opencl_device_vendor(cl_device_id device, const char vendor[]);

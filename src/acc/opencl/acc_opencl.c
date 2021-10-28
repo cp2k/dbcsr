@@ -677,6 +677,42 @@ int c_dbcsr_acc_set_active_device(int device_id)
 }
 
 
+int c_dbcsr_acc_device_synchronize(void)
+{
+  int result = EXIT_SUCCESS;
+#if defined(ACC_OPENCL_STREAMS_MAXCOUNT)
+  cl_device_id active_id = NULL;
+  result = c_dbcsr_acc_opencl_device(NULL/*stream*/, &active_id);
+  if (EXIT_SUCCESS == result && NULL != active_id) {
+    int i = 0, nstreams;
+# if defined(_OPENMP)
+#   if (201107/*v3.1*/ <= _OPENMP)
+#   pragma omp atomic read
+#   else
+#   pragma omp critical(c_dbcsr_acc_opencl_streams)
+#   endif
+# endif
+    nstreams = c_dbcsr_acc_opencl_nstreams;
+    for (; i < nstreams && EXIT_SUCCESS == result; ++i) {
+      const cl_command_queue stream = c_dbcsr_acc_opencl_streams[i];
+      if (NULL != stream) {
+        cl_device_id device;
+        result = c_dbcsr_acc_opencl_device(stream, &device);
+        if (EXIT_SUCCESS == result) {
+          if (device == active_id) { /* synchronize */
+            result = c_dbcsr_acc_stream_sync(stream);
+          }
+        }
+      }
+    }
+  }
+#else
+  result = EXIT_FAILURE;
+#endif
+  ACC_OPENCL_RETURN(result);
+}
+
+
 int c_dbcsr_acc_opencl_wgsize(cl_device_id device, cl_kernel kernel,
   int* max_value, int* preferred_multiple)
 {

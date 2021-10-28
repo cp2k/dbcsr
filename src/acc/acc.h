@@ -32,6 +32,7 @@ void c_dbcsr_acc_clear_errors(void);
 /** devices */
 int c_dbcsr_acc_get_ndevices(int* ndevices);
 int c_dbcsr_acc_set_active_device(int device_id);
+int c_dbcsr_acc_device_synchronize(void);
 
 /** streams */
 int c_dbcsr_acc_stream_priority_range(int* least, int* greatest);

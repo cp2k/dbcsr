@@ -75,7 +75,7 @@
 #define WRK (NBM * NBN)
 
 #define UM (SM / BK)
-#define VM (SM % BK)
+#define VM (SM % UM)
 
 
 #if !defined(cl_intel_global_float_atomics) || (1 != TN)
@@ -372,7 +372,7 @@ kernel void FN(global T *restrict cdata,
         for (; u < UM; ++u)
 # endif
         {
-          const int um = m + u;
+          const int um = u + m;
 # if (1 < BS)
           const int vm = um;
 # else
@@ -399,7 +399,7 @@ kernel void FN(global T *restrict cdata,
 #   if defined(ATOMIC_INC_NZ)
           if (ZERO != r[u])
 #   endif
-          ATOMIC_ADD_GLOBAL(&CDX(m + u, idx), r[u]);
+          ATOMIC_ADD_GLOBAL(&CDX(u + m, idx), r[u]);
         }
 # endif
       }
@@ -438,7 +438,7 @@ kernel void FN(global T *restrict cdata,
 #     if defined(ATOMIC_INC_NZ)
         if (ZERO != r[u])
 #     endif
-        ATOMIC_ADD_GLOBAL(&CDX(m + u, idx), r[u]);
+        ATOMIC_ADD_GLOBAL(&CDX(u + m, idx), r[u]);
       }
 #   endif
 # endif
