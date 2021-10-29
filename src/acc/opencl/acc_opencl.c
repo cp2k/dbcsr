@@ -221,7 +221,6 @@ int c_dbcsr_acc_init(void)
                 else break;
               }
               else {
-                assert(1 == n);
                 c_dbcsr_acc_opencl_devices[c_dbcsr_acc_opencl_ndevices] = devices[j];
                 ++c_dbcsr_acc_opencl_ndevices;
               }
