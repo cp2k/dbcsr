@@ -69,6 +69,9 @@
 #else
 # define IDXBASE 1
 #endif
+#if !defined(REPEAT)
+# define REPEAT 1
+#endif
 
 #define NBM ((SM + BM - 1) / BM)
 #define NBN ((SN + BN - 1) / BN)
@@ -213,7 +216,7 @@ kernel void FN(global T *restrict cdata,
   /* intra-kernel mini-batch of SMMs */
   const int batchsize = min(BS, stack_size - BS * gid);
   global T *restrict c;
-  int c0, i;
+  int c0;
 # if defined(SLM_C)
   local T cnm[SN][SM+SLM_C-1];
   for (int n = idx; n < SN; n += SWG) {
@@ -222,7 +225,7 @@ kernel void FN(global T *restrict cdata,
   }
 # endif
 # if defined(SLM_P)
-  for (i = idx; i < (3 * batchsize); i += SWG) params[i] = pbase[i] - 1;
+  for (int i = idx; i < (3 * batchsize); i += SWG) params[i] = pbase[i] - 1;
 # endif
 # if (defined(SLM_C) || defined(SLM_P)) && !defined(NOBARRIER)
   barrier(CLK_LOCAL_MEM_FENCE);
@@ -233,7 +236,13 @@ kernel void FN(global T *restrict cdata,
   c0 = params[2] - IDXBASE;
   c = cdata + c0;
   UNROLL_FORCE(1)
-  for (i = 0; i < batchsize; ++i) {
+# if (1 < REPEAT)
+  for (int item = 0; item < (REPEAT * batchsize); ++item) {
+    const int i = item % batchsize;
+# else
+  for (int item = 0; item < (REPEAT * batchsize); ++item) {
+    const int i = item;
+# endif
     const int a0 = params[3*i] - IDXBASE, b0 = params[3*i+1] - IDXBASE;
     const int c1 = ((i + 1) < batchsize ? (params[3*i+5] - IDXBASE) : -1);
 #else

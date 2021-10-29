@@ -511,7 +511,7 @@ int libsmm_acc_finalize(void)
               const opencl_libsmm_transkey_t *const desc = (const opencl_libsmm_transkey_t*)regkey;
               opencl_libsmm_trans_t *const entry = (opencl_libsmm_trans_t*)regentry;
               if (0 < entry->nexec) {
-                const int size = (int)LIBXSMM_MIN(sizeof(entry->size) / sizeof(*entry->size), entry->nexec);
+                const int size = (int)MIN(sizeof(entry->size) / sizeof(*entry->size), entry->nexec);
                 int batchsize; OPENCL_LIBSMM_ISORT(entry->size, size); batchsize = entry->size[size>>1];
                 if (0 == (1 & size)) batchsize = (batchsize + entry->size[(size>>1)-1]) >> 1;
                 fprintf(stderr, "INFO ACC/OpenCL: %ix%i %sTRANS-kernel ss=%i geo=%.1f GB/s\n", desc->m, desc->n,
@@ -527,7 +527,7 @@ int libsmm_acc_finalize(void)
               opencl_libsmm_smm_t *const entry = (opencl_libsmm_smm_t*)regentry;
               if (0 < entry->nexec) {
                 const double geo = exp(entry->gflops_sumlog / entry->nexec);
-                const int size = (int)LIBXSMM_MIN(sizeof(entry->size) / sizeof(*entry->size), entry->nexec);
+                const int size = (int)MIN(sizeof(entry->size) / sizeof(*entry->size), entry->nexec);
                 int batchsize; OPENCL_LIBSMM_ISORT(entry->size, size); batchsize = entry->size[size>>1];
                 if (0 == (1 & size)) batchsize = (batchsize + entry->size[(size>>1)-1]) >> 1;
                 fprintf(stderr, "INFO ACC/OpenCL: %ix%ix%i", desc->m, desc->n, desc->k);
@@ -655,7 +655,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
               } break;
               default: assert('\0' == *tname);
             }
-            wgsize = LIBXSMM_MIN((m == bm || 0 == (m % bm)) ? bm : m, wgsize_max);
+            wgsize = MIN((m == bm || 0 == (m % bm)) ? bm : m, wgsize_max);
             nchar = ACC_OPENCL_SNPRINTF(build_options, sizeof(build_options),
               "%s" /* can finally be an empty string hence "<=" (nchar) */,
               (NULL == env_options || '\0' == *env_options) ? "" : env_options);
@@ -1060,9 +1060,9 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 ? (NULL == config ? 0 : config->bn) : atoi(env_bn));
               const int blockk = ((NULL == env_bk || '\0' == *env_bk || '0' == *env_bk)
                 ? (NULL == config ? 0 : config->bk) : atoi(env_bk));
-              bm = LIBXSMM_MIN(0 < blockm ? blockm : /*default*/m_max, m_max);
-              bn = LIBXSMM_MIN(0 < blockn ? blockn : /*default*/    1, n_max);
-              bk = LIBXSMM_MIN(0 < blockk ? blockk : /*default*/m_max, m_max);
+              bm = MIN(0 < blockm ? blockm : /*default*/m_max, m_max);
+              bn = MIN(0 < blockn ? blockn : /*default*/    1, n_max);
+              bk = MIN(0 < blockk ? blockk : /*default*/m_max, m_max);
               bs = (0 < batchsize ? batchsize : /*default*/8);
               nbm = (m_max + bm - 1) / bm;
               nbn = (n_max + bn - 1) / bn;
@@ -1070,7 +1070,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
 # if  LIBXSMM_VERSION3(1, 16, 1) <= LIBXSMM_VERSION3(LIBXSMM_VERSION_MAJOR, \
       LIBXSMM_VERSION_MINOR, LIBXSMM_VERSION_UPDATE) && 1598 <= LIBXSMM_VERSION_PATCH
               if (1 <= wg) {
-                const unsigned int limit = LIBXSMM_MAX(wgsize_prf, OPENCL_LIBSMM_VLEN);
+                const unsigned int limit = MAX(wgsize_prf, OPENCL_LIBSMM_VLEN);
                 wgsize_prf = (int)libxsmm_remainder(wgsize, OPENCL_LIBSMM_VMIN,
                   &limit, NULL/*remainder*/);
               }
@@ -1099,6 +1099,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
 # endif
                 const char *const env_options = getenv("OPENCL_LIBSMM_SMM_BUILDOPTS");
                 const char *const env_atomics = getenv("OPENCL_LIBSMM_SMM_ATOMICS");
+                const char *const env_nrepeat = getenv("SMM_NREPEAT");
                 const char *atomic_exp = NULL, *atomic_expr2 = "";
                 if (NULL == env_atomics || ('0' != *env_atomics && '-' != *env_atomics)) {
                   if (NULL == env_atomics || '\0' == *env_atomics) { /* no request made */
@@ -1162,10 +1163,11 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 assert(NULL != atomic_exp);
                 /* compose build parameters and flags */
                 nchar = ACC_OPENCL_SNPRINTF(build_params, sizeof(build_params),
-                  "-DMAD=fma -DINTEL=%i -DGLOBAL=%s -DSWG=%i -DFN=%s "
+                  "-DMAD=fma -DINTEL=%i -DGLOBAL=%s -DSWG=%i -DFN=%s -DREPEAT=%i "
                   "-DSM=%i -DSN=%i -DSK=%i -DBS=%i -DBM=%i -DBN=%i -DBK=%i -DT=%s -DTN=%i "
                   "%s %s %s %s %s %s %s %s %s -D\"ATOMIC_ADD_GLOBAL(A,B)=%s\" %s",
                   c_dbcsr_acc_opencl_config.intel_id, cmem, wgsize, fname,
+                  NULL == env_nrepeat ? 1 : atoi(env_nrepeat),
                   m_max, n_max, k_max, bs, bm, bn, bk, tname, datatype,
                   0 == lu ? "-D\"UNROLL_SM=UNROLL_FORCE(SM)\"" : (1 == lu ? "-D\"UNROLL_SM=UNROLL_FORCE(1)\""
                                                                : (0  < lu  ? "-D\"UNROLL(N)=UNROLL_FORCE(N)\""
