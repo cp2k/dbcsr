@@ -581,9 +581,8 @@ int c_dbcsr_acc_opencl_device_ext(cl_device_id device, const char *const extname
   if (EXIT_SUCCESS == result) {
     do {
       if (NULL != extnames[--num_exts]) {
-        char *const exts = strncpy(buffer, extnames[num_exts], ACC_OPENCL_BUFFERSIZE - 1);
-        const char* ext = strtok(exts, ACC_OPENCL_DELIMS);
-        for (; NULL != ext; ext = strtok(NULL, ACC_OPENCL_DELIMS)) {
+        char* ext = strtok(strncpy(buffer, extnames[num_exts], ACC_OPENCL_BUFFERSIZE - 1), ACC_OPENCL_DELIMS);
+        for (; NULL != ext; ext = strtok('\0' != *ext ? (ext + strlen(ext) + 1) : ext, ACC_OPENCL_DELIMS)) {
           if (NULL == strstr(extensions, ext)) {
             return EXIT_FAILURE;
           }
@@ -648,7 +647,7 @@ int c_dbcsr_acc_opencl_set_active_device(int device_id, cl_device_id* device)
             if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_vendor(active_id, "nvidia")) {
               fprintf(stderr,
                 "WARNING ACC/OpenCL: if MPI-ranks target the same device in exclusive mode,\n"
-                "                    SMI must enable sharing the device.\n");
+                "                    SMI must be used to enable sharing the device.\n");
             }
           }
           ACC_OPENCL_ERROR("create context", result);
@@ -688,7 +687,7 @@ int c_dbcsr_acc_device_synchronize(void)
 #   if (201107/*v3.1*/ <= _OPENMP)
 #   pragma omp atomic read
 #   else
-#   pragma omp critical(c_dbcsr_acc_opencl_streams)
+#   pragma omp critical(c_dbcsr_acc_opencl_nstreams)
 #   endif
 # endif
     nstreams = c_dbcsr_acc_opencl_nstreams;
@@ -699,7 +698,9 @@ int c_dbcsr_acc_device_synchronize(void)
         result = c_dbcsr_acc_opencl_device(stream, &device);
         if (EXIT_SUCCESS == result) {
           if (device == active_id) { /* synchronize */
+            assert(stream == c_dbcsr_acc_opencl_streams[i]);
             result = c_dbcsr_acc_stream_sync(stream);
+            assert(stream == c_dbcsr_acc_opencl_streams[i]);
           }
         }
       }
@@ -790,9 +791,10 @@ int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[],
       int n = num_exts, nflat = 0;
       size_t size_ext = 0;
       for (; 0 < n; --n) if (NULL != extnames[n-1]) {
-        char *const exts = strncpy(buffer, extnames[n-1], ACC_OPENCL_BUFFERSIZE - 1);
-        const char* ext = strtok(exts, ACC_OPENCL_DELIMS);
-        for (; NULL != ext; ext = strtok(NULL, ACC_OPENCL_DELIMS), ++nflat) size_ext += strlen(ext);
+        char* ext = strtok(strncpy(buffer, extnames[n-1], ACC_OPENCL_BUFFERSIZE - 1), ACC_OPENCL_DELIMS);
+        for (; NULL != ext; ext = strtok('\0' != *ext ? (ext + strlen(ext) + 1) : ext, ACC_OPENCL_DELIMS), ++nflat) {
+          size_ext += strlen(ext);
+        }
       }
       if (0 < size_ext && 0 < nflat) {
         const char *const enable_ext = "#pragma OPENCL EXTENSION %s : enable\n";
@@ -800,18 +802,25 @@ int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[],
         char *const ext_source_buffer = (char*)malloc(size_src_ext + 1/*terminator*/);
         if (NULL != ext_source_buffer) {
           for (n = 0; 0 < num_exts; --num_exts) if (NULL != extnames[num_exts-1]) {
-            char *const exts = strncpy(buffer, extnames[num_exts-1], ACC_OPENCL_BUFFERSIZE - 1);
-            const char* ext = strtok(exts, ACC_OPENCL_DELIMS);
-            for (; NULL != ext; ext = strtok(NULL, ACC_OPENCL_DELIMS)) {
-              n += ACC_OPENCL_SNPRINTF(ext_source_buffer + n, size_src_ext + 1/*terminator*/ - n,
-                enable_ext, ext);
+            char* ext = strtok(strncpy(buffer, extnames[num_exts-1], ACC_OPENCL_BUFFERSIZE - 1), ACC_OPENCL_DELIMS);
+            for (; NULL != ext; ext = strtok('\0' != *ext ? (ext + strlen(ext) + 1) : ext, ACC_OPENCL_DELIMS)) {
+#if !defined(NDEBUG)
+              if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_id, (const char**)&ext, 1))
+#endif
+              { /* NDEBUG: assume given extension is supported (confirmed upfront) */
+                n += ACC_OPENCL_SNPRINTF(ext_source_buffer + n, size_src_ext + 1/*terminator*/ - n,
+                  enable_ext, ext);
+              }
+#if !defined(NDEBUG)
+              else fprintf(stderr, "WARNING ACC/OpenCL: extension \"%s\" is not supported.\n", ext);
+#endif
             }
           }
-          assert((size_src + n) == size_src_ext);
           memcpy(ext_source_buffer + n, source, size_src);
-          ext_source_buffer[size_src+n] = '\0';
+          size_src += n; /* according to given/permitted extensions */
+          assert(size_src <= size_src_ext);
+          ext_source_buffer[size_src] = '\0';
           ext_source = ext_source_buffer;
-          size_src = size_src_ext;
         }
       }
       buffer[0] = '\0'; /* reset to empty */
