@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-11-g90c70aa1f3</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-12-gc15d8434fc</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -174,7 +174,7 @@
   <div id="vars-0" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_tas_global.html#variable-modulen~15">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#variable-modulen~50">moduleN</a>
       
     </div>
   </div>
@@ -344,9 +344,9 @@ function objects, leaving up to the caller how to efficiently store global data.
     
     <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
     
-    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-    
     <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
+    
+    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
   </ul>
       </li>
@@ -374,7 +374,7 @@ function objects, leaving up to the caller how to efficiently store global data.
   <div id="vars-1" class="panel-collapse collapse">
     <div class="list-group">
       
-      <a class="list-group-item" href="../module/dbcsr_tas_global.html#variable-modulen~15">moduleN</a>
+      <a class="list-group-item" href="../module/dbcsr_tas_global.html#variable-modulen~50">moduleN</a>
       
     </div>
   </div>
@@ -544,7 +544,7 @@ function objects, leaving up to the caller how to efficiently store global data.
   
 <tr>
   
-  <td><span class="anchor" id="variable-modulen~15"></span>character(len=*),</td>
+  <td><span class="anchor" id="variable-modulen~50"></span>character(len=*),</td>
   
   <td>private,</td>
   <td>parameter</td><td>::</td>
@@ -1464,10 +1464,10 @@ private function rowcol_data(t, rowcol)
       <table class="table table-striped varlist">
       <tbody>
       
-       <tr><td>procedure(rowcol_dist), public :: <strong><a href='../type/dbcsr_tas_distribution.html#boundprocedure-dist~2'>dist</a></strong>  </td>
+       <tr><td>procedure(rowcol_dist), public :: <strong><a href='../type/dbcsr_tas_distribution.html#boundprocedure-dist~6'>dist</a></strong>  </td>
        <td></td></tr>
       
-       <tr><td>procedure(dist_rowcols), public :: <strong><a href='../type/dbcsr_tas_distribution.html#boundprocedure-rowcols'>rowcols</a></strong>  </td>
+       <tr><td>procedure(dist_rowcols), public :: <strong><a href='../type/dbcsr_tas_distribution.html#boundprocedure-rowcols~2'>rowcols</a></strong>  </td>
        <td></td></tr>
       
        </tbody>
@@ -1537,10 +1537,10 @@ private function rowcol_data(t, rowcol)
       <table class="table table-striped varlist">
       <tbody>
       
-       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_dist_cyclic.html#boundprocedure-dist~3'>dist</a></strong>  => cyclic_dist </td>
+       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_dist_cyclic.html#boundprocedure-dist~7'>dist</a></strong>  => cyclic_dist </td>
        <td></td></tr>
       
-       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_dist_cyclic.html#boundprocedure-rowcols~2'>rowcols</a></strong>  => cyclic_rowcols </td>
+       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_dist_cyclic.html#boundprocedure-rowcols~3'>rowcols</a></strong>  => cyclic_rowcols </td>
        <td></td></tr>
       
        </tbody>
@@ -1610,10 +1610,10 @@ private function rowcol_data(t, rowcol)
       <table class="table table-striped varlist">
       <tbody>
       
-       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_dist_arb.html#boundprocedure-dist~4'>dist</a></strong>  => arb_dist </td>
+       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_dist_arb.html#boundprocedure-dist~8'>dist</a></strong>  => arb_dist </td>
        <td></td></tr>
       
-       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_dist_arb.html#boundprocedure-rowcols~3'>rowcols</a></strong>  => arb_rowcols </td>
+       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_dist_arb.html#boundprocedure-rowcols~4'>rowcols</a></strong>  => arb_rowcols </td>
        <td></td></tr>
       
        </tbody>
@@ -1725,10 +1725,10 @@ private function rowcol_data(t, rowcol)
       <table class="table table-striped varlist">
       <tbody>
       
-       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_dist_repl.html#boundprocedure-dist~5'>dist</a></strong>  => repl_dist </td>
+       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_dist_repl.html#boundprocedure-dist~9'>dist</a></strong>  => repl_dist </td>
        <td></td></tr>
       
-       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_dist_repl.html#boundprocedure-rowcols~4'>rowcols</a></strong>  => repl_rowcols </td>
+       <tr><td>procedure, public :: <strong><a href='../type/dbcsr_tas_dist_repl.html#boundprocedure-rowcols~5'>rowcols</a></strong>  => repl_rowcols </td>
        <td></td></tr>
       
        </tbody>

@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-11-g90c70aa1f3</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-12-gc15d8434fc</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -131,21 +131,21 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">33 statements</a>
+    title=" 0.1% of total for procedures.">32 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor_reshape.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tas_reshape_ops.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_tensor_reshape.f.html'>dbcsr_tensor_reshape.F</a></li>
+     <li><a href='../sourcefile/dbcsr_tas_reshape_ops.f.html'>dbcsr_tas_reshape_ops.F</a></li>
     
-     <li><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></li>
+     <li><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></li>
     
   
      <li class="active">block_buffer_get_next_block_c_dp</li>
@@ -259,11 +259,11 @@ private subroutine block_buffer_get_next_block_c_dp(buffer, ndata, index, block,
   
 <tr>
   
-  <td><span class="anchor" id="variable-index~27"></span>integer,</td>
+  <td><span class="anchor" id="variable-index~27"></span>integer(kind=int_8),</td>
   <td>intent(out),</td>
   <td></td>
   
-  <td>DIMENSION(ndims_buffer(buffer))</td><td>::</td>
+  <td>DIMENSION(2)</td><td>::</td>
   <td><strong>index</strong></td><td></td>
   
 </tr>
@@ -274,11 +274,11 @@ private subroutine block_buffer_get_next_block_c_dp(buffer, ndata, index, block,
   
 <tr>
   
-  <td><span class="anchor" id="variable-block~172"></span>complex(kind=real_8),</td>
+  <td><span class="anchor" id="variable-block~173"></span>complex(kind=real_8),</td>
   <td>intent(out),</td>
   <td>optional</td>
   
-  <td>DIMENSION(:), ALLOCATABLE</td><td>::</td>
+  <td>DIMENSION(:, :)</td><td>::</td>
   <td><strong>block</strong></td><td></td>
   
 </tr>
