@@ -148,13 +148,13 @@ int opencl_libsmm_read_params(char* parambuf,
   opencl_libsmm_smmkey_t* key, opencl_libsmm_smm_t* value,
   opencl_libsmm_perfest_t* perfest, char* const* device)
 {
-  const char* s = strtok(parambuf, OPENCL_LIBSMM_PARAMS_DELIMS);
+  char* s = strtok(parambuf, OPENCL_LIBSMM_PARAMS_DELIMS);
   const int max_consumed = 17 + (NULL == device ? 0 : 1);
   int result = EXIT_SUCCESS, consumed = 0, i;
   int t = (NULL == device ? 1 : 0);
   double gflops;
   assert(NULL != key && NULL != value);
-  for (; NULL != s; s = strtok(NULL, OPENCL_LIBSMM_PARAMS_DELIMS), ++t) {
+  for (; NULL != s; s = strtok('\0' != *s ? (s + strlen(s) + 1) : s, OPENCL_LIBSMM_PARAMS_DELIMS), ++t) {
     switch (t) {
       case 0: if (1 == sscanf(s, "%[^" OPENCL_LIBSMM_PARAMS_DELIMS "]", *device)) {
         ++consumed;
@@ -961,7 +961,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
             &cl_level_major, NULL/*level_minor*/, NULL/*cl_std*/))
         {
           const char *tname = NULL, *atomic_type = "";
-          const char *atomic_ops = "";
+          int std_c11 = 0;
           switch (datatype) {
             case dbcsr_type_real_8: {
               extensions[0] = "cl_khr_fp64 cl_khr_int64_base_atomics cl_khr_int64_extended_atomics";
@@ -971,6 +971,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_device, extensions, 1))
               {
                 atomic_type = "-DTA=long -DTM=atomic_long";
+                std_c11 = 1;
               }
               else {
                 extensions[0] = "cl_khr_fp64 cl_khr_int64_base_atomics";
@@ -983,6 +984,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                     && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_device, extensions, 1))
                   {
                     atomic_type = "-DATOMIC32_ADD64 -DTA=int -DTM=atomic_int";
+                    std_c11 = 1;
                   }
                   else {
                     extensions[0] = "cl_khr_fp64 cl_khr_global_int32_base_atomics";
@@ -1001,6 +1003,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               {
                 extensions[1] = "cl_khr_int64_base_atomics cl_khr_int64_extended_atomics";
                 atomic_type = "-DTA=int -DTM=atomic_int";
+                std_c11 = 1;
                 tname = "float";
                 fname[0] = 's';
               }
@@ -1098,18 +1101,46 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 const char *const cl_debug = "";
 # endif
                 const char *const env_options = getenv("OPENCL_LIBSMM_SMM_BUILDOPTS");
+                const char *const env_barrier = getenv("OPENCL_LIBSMM_SMM_BARRIER");
                 const char *const env_atomics = getenv("OPENCL_LIBSMM_SMM_ATOMICS");
                 const char *const env_nrepeat = getenv("SMM_NREPEAT");
+                const char *barrier_expr = NULL, *atomic_ops = "";
                 const char *atomic_exp = NULL, *atomic_expr2 = "";
-                if (NULL == env_atomics || ('0' != *env_atomics && '-' != *env_atomics)) {
+                if (NULL == env_barrier || '0' != *env_barrier) {
+                  cl_device_type type;
+                  barrier_expr = ((0 != std_c11 && (0 == c_dbcsr_acc_opencl_config.intel_id
+                      || (EXIT_SUCCESS == clGetDeviceInfo(active_device, CL_DEVICE_TYPE,
+                          sizeof(cl_device_type), &type, NULL) && CL_DEVICE_TYPE_CPU != type)))
+                    ? "-D\"BARRIER(A)=work_group_barrier(A, memory_scope_work_group)\""
+                    : "-D\"BARRIER(A)=barrier(A)\"");
+                }
+                else barrier_expr = ""; /* no barrier */
+                assert(NULL != barrier_expr);
+                if (NULL == env_atomics || '0' != *env_atomics) {
                   if (NULL == env_atomics || '\0' == *env_atomics) { /* no request made */
-                    if (0 != c_dbcsr_acc_opencl_config.intel_id && 0x4905 != c_dbcsr_acc_opencl_config.intel_id
+                    cl_bitfield fp_atomics;
+                    assert(dbcsr_type_real_8 == datatype || dbcsr_type_real_4 == datatype);
+                    if (CL_SUCCESS == clGetDeviceInfo(active_device,
+                      (cl_device_info)(dbcsr_type_real_8 == datatype ? 0x4232 : 0x4231),
+                      sizeof(cl_bitfield), &fp_atomics, NULL) && 0 != (/*add*/(1 << 1) & fp_atomics))
+                    {
+                      extensions[1] = "cl_ext_float_atomics";
+                      atomic_exp = (dbcsr_type_real_8 == datatype
+                        ? "atomic_fetch_add_explicit((global volatile atomic_double*)A, B, "
+                          "memory_order_relaxed, memory_scope_work_group)"
+                        : "atomic_fetch_add_explicit((global volatile atomic_float*)A, B, "
+                          "memory_order_relaxed, memory_scope_work_group)");
+                    }
+                    else if (0 != c_dbcsr_acc_opencl_config.intel_id && 0x4905 != c_dbcsr_acc_opencl_config.intel_id
                       && 0 == c_dbcsr_acc_opencl_config.unified)
                     {
                       if (dbcsr_type_real_4 == datatype) {
                         extensions[1] = "cl_intel_global_float_atomics";
                         atomic_ops = "-Dcl_intel_global_float_atomics";
-                        atomic_exp = "atomic_add(A, B)";
+                        atomic_exp = (0 != std_c11
+                          ? "atomic_fetch_add_explicit((global volatile atomic_float*)A, B, "
+                            "memory_order_relaxed, memory_scope_work_group)"
+                          : "atomic_add(A, B)");
                       }
                       else {
                         atomic_exp = "atomic_add_global_cmpxchg(A, B)";
@@ -1157,7 +1188,6 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 }
                 else { /* unsynchronized */
                   assert(NULL != env_atomics);
-                  if ('-' == *env_atomics) atomic_ops = "-DNOBARRIER";
                   atomic_exp = "*(A) += (B)"; /* non-atomic update */
                 }
                 assert(NULL != atomic_exp);
@@ -1165,7 +1195,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 nchar = ACC_OPENCL_SNPRINTF(build_params, sizeof(build_params),
                   "-DMAD=fma -DINTEL=%i -DGLOBAL=%s -DSWG=%i -DFN=%s -DREPEAT=%i "
                   "-DSM=%i -DSN=%i -DSK=%i -DBS=%i -DBM=%i -DBN=%i -DBK=%i -DT=%s -DTN=%i "
-                  "%s %s %s %s %s %s %s %s %s -D\"ATOMIC_ADD_GLOBAL(A,B)=%s\" %s",
+                  "%s %s %s %s %s %s %s %s %s -D\"ATOMIC_ADD_GLOBAL(A,B)=%s\" %s %s",
                   c_dbcsr_acc_opencl_config.intel_id, cmem, wgsize, fname,
                   NULL == env_nrepeat ? 1 : atoi(env_nrepeat),
                   m_max, n_max, k_max, bs, bm, bn, bk, tname, datatype,
@@ -1176,7 +1206,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                   0 == aa ? "" : (1 == aa ? "-DSLM_A=1" : (2 == aa ? "-DSLM_A=2" : "-DREG_A")),
                   0 == ab ? "" : (1 == ab ? "-DSLM_B=1" : (2 == ab ? "-DSLM_B=2" : "-DREG_B")),
                   0 == ac ? "" : (1 == ac ? "-DSLM_C=1" : (2 == ac ? "-DSLM_C=2" : "-DREG_C")),
-                  atomic_type, atomic_ops, atomic_exp, atomic_expr2);
+                  atomic_type, atomic_ops, atomic_exp, atomic_expr2, barrier_expr);
                 if (0 < nchar && (int)sizeof(build_params) > nchar) {
                   nchar = ACC_OPENCL_SNPRINTF(build_options, sizeof(build_options),
                     "%s %s -cl-fast-relaxed-math -cl-denorms-are-zero",

@@ -56,7 +56,7 @@ int c_dbcsr_acc_opencl_stream_create(cl_command_queue* stream_p, const char* nam
 #   if (201107/*v3.1*/ <= _OPENMP)
 #       pragma omp atomic capture
 #   else
-#       pragma omp critical(c_dbcsr_acc_opencl_streams)
+#       pragma omp critical(c_dbcsr_acc_opencl_nstreams)
 #   endif
 # endif
         i = c_dbcsr_acc_opencl_nstreams++;
@@ -128,7 +128,8 @@ int c_dbcsr_acc_stream_destroy(void* stream)
 {
   int result = EXIT_SUCCESS;
   if (NULL != stream) {
-    ACC_OPENCL_CHECK(clReleaseCommandQueue(*ACC_OPENCL_STREAM(stream)),
+    const cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
+    ACC_OPENCL_CHECK(clReleaseCommandQueue(queue),
       "release command queue", result);
 #if defined(ACC_OPENCL_STREAM_NOALLOC)
     assert(sizeof(void*) >= sizeof(cl_command_queue));
@@ -136,7 +137,28 @@ int c_dbcsr_acc_stream_destroy(void* stream)
     free(stream);
 #endif
 #if defined(ACC_OPENCL_STREAMS_MAXCOUNT)
-    /* TODO: collect garbage */
+    { /* collect garbage */
+      int i = 0, nstreams;
+# if defined(_OPENMP)
+#   if (201107/*v3.1*/ <= _OPENMP)
+#     pragma omp atomic capture
+#   else
+#     pragma omp critical(c_dbcsr_acc_opencl_nstreams)
+#   endif
+# endif
+      nstreams = c_dbcsr_acc_opencl_nstreams--;
+      assert(0 <= nstreams);
+      for (; i < nstreams; ++i) if (queue == c_dbcsr_acc_opencl_streams[i]) {
+        c_dbcsr_acc_opencl_streams[i] = NULL; break;
+      }
+# if defined(_OPENMP)
+#     pragma omp master
+# endif
+      if (NULL == c_dbcsr_acc_opencl_streams[i] && (i + 1) < nstreams) {
+        memmove(c_dbcsr_acc_opencl_streams + i, c_dbcsr_acc_opencl_streams + (i + 1),
+          sizeof(cl_command_queue) * (nstreams - (i + 1)));
+      }
+    }
 #endif
   }
   ACC_OPENCL_RETURN(result);

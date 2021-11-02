@@ -175,7 +175,7 @@ endif
 bench: $(MAKDIR)/../acc_bench_smm $(MAKDIR)/../acc_bench_trans
 
 .PHONY: all
-all: $(MAKDIR)/../dbcsr_acc.a $(MAKDIR)/../dbcsr_acc_smm.a bench
+all: bench $(MAKDIR)/../dbcsr_acc_test
 
 .PHONY: test
 test: test-interface test-trans test-smm
