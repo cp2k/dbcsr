@@ -55,12 +55,12 @@
 # define ZERO 0
 #endif
 
-#if !defined(TRACK_B) && (1 < BS) && 0
+#if !defined(TRACK_B) && (1 < BS)
 # if defined(REG_B) && !defined(SLM_B)
 #   define TRACK_B
 # endif
 #endif
-#if !defined(TRACK_C) && (1 < BS) && 1
+#if !defined(TRACK_C) && (1 < BS)
 # define TRACK_C
 #endif
 

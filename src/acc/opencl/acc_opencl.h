@@ -56,7 +56,7 @@
 # define ACC_OPENCL_STREAMS_MAXCOUNT 2048
 #endif
 #if !defined(ACC_OPENCL_OVERMALLOC)
-# if defined(__DBCSR_ACC)
+# if defined(__DBCSR_ACC) || 1
 #   define ACC_OPENCL_OVERMALLOC 0
 # else
 #   define ACC_OPENCL_OVERMALLOC 8192
@@ -85,7 +85,7 @@
 # define ACC_OPENCL_EVENT(A) ((cl_event*)(A))
 #endif
 
-#if !defined(ACC_OPENCL_THREADLOCAL_CONTEXT) && 0
+#if !defined(ACC_OPENCL_THREADLOCAL_CONTEXT) && 1
 # define ACC_OPENCL_THREADLOCAL_CONTEXT
 #endif
 #if !defined(ACC_OPENCL_STREAM_PRIORITIES) && 1

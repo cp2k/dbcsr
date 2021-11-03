@@ -149,7 +149,7 @@ int opencl_libsmm_read_params(char* parambuf,
   opencl_libsmm_perfest_t* perfest, char* const* device)
 {
   char* s = strtok(parambuf, OPENCL_LIBSMM_PARAMS_DELIMS);
-  const int max_consumed = 17 + (NULL == device ? 0 : 1);
+  const int max_consumed = 19 + (NULL == device ? 0 : 1);
   int result = EXIT_SUCCESS, consumed = 0, i;
   int t = (NULL == device ? 1 : 0);
   double gflops;
@@ -199,15 +199,21 @@ int opencl_libsmm_read_params(char* parambuf,
         value->al = i; ++consumed;
       } break;
       case 14: if (1 == sscanf(s, "%i", &i)) {
-        value->ap = i; ++consumed;
+        value->tb = i; ++consumed;
       } break;
       case 15: if (1 == sscanf(s, "%i", &i)) {
-        value->aa = i; ++consumed;
+        value->tc = i; ++consumed;
       } break;
       case 16: if (1 == sscanf(s, "%i", &i)) {
-        value->ab = i; ++consumed;
+        value->ap = i; ++consumed;
       } break;
       case 17: if (1 == sscanf(s, "%i", &i)) {
+        value->aa = i; ++consumed;
+      } break;
+      case 18: if (1 == sscanf(s, "%i", &i)) {
+        value->ab = i; ++consumed;
+      } break;
+      case 19: if (1 == sscanf(s, "%i", &i)) {
         value->ac = i; ++consumed;
       } break;
     }
@@ -1023,6 +1029,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
             static int cl_try_ok = EXIT_SUCCESS;
             const char *const env_wg = getenv("OPENCL_LIBSMM_SMM_WG"), *const env_lu = getenv("OPENCL_LIBSMM_SMM_LU");
             const char *const env_nz = getenv("OPENCL_LIBSMM_SMM_NZ"), *const env_al = getenv("OPENCL_LIBSMM_SMM_AL");
+            const char *const env_tb = getenv("OPENCL_LIBSMM_SMM_TB"), *const env_tc = getenv("OPENCL_LIBSMM_SMM_TC");
             const char *const env_ap = getenv("OPENCL_LIBSMM_SMM_AP"), *const env_aa = getenv("OPENCL_LIBSMM_SMM_AA");
             const char *const env_ab = getenv("OPENCL_LIBSMM_SMM_AB"), *const env_ac = getenv("OPENCL_LIBSMM_SMM_AC");
             const int cl_nonv = (EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(active_device, "nvidia"));
@@ -1036,6 +1043,10 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               ? (NULL == config ? /*default*/0 : config->nz) : LIBXSMM_CLMP(atoi(env_nz), 0, 1));
             const int al = ((NULL == env_al || '\0' == *env_al)
               ? (NULL == config ? /*default*/0 : config->al) : LIBXSMM_CLMP(atoi(env_al), 0, 1));
+            const int tb = ((NULL == env_tb || '\0' == *env_tb)
+              ? (NULL == config ? /*default*/0 : config->tb) : LIBXSMM_CLMP(atoi(env_tb), 0, 1));
+            const int tc = ((NULL == env_tc || '\0' == *env_tc)
+              ? (NULL == config ? /*default*/1 : config->tc) : LIBXSMM_CLMP(atoi(env_tc), 0, 1));
             const int ap = ((NULL == env_ap || '\0' == *env_ap)
               ? (NULL == config ? /*default*/1 : config->ap) : LIBXSMM_CLMP(atoi(env_ap), 0, 1));
             const int aa = ((NULL == env_aa || '\0' == *env_aa)
@@ -1195,14 +1206,15 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 nchar = ACC_OPENCL_SNPRINTF(build_params, sizeof(build_params),
                   "-DMAD=fma -DINTEL=%i -DGLOBAL=%s -DSWG=%i -DFN=%s -DREPEAT=%i "
                   "-DSM=%i -DSN=%i -DSK=%i -DBS=%i -DBM=%i -DBN=%i -DBK=%i -DT=%s -DTN=%i "
-                  "%s %s %s %s %s %s %s %s %s -D\"ATOMIC_ADD_GLOBAL(A,B)=%s\" %s %s",
+                  "%s %s %s %s %s %s %s %s %s %s %s -D\"ATOMIC_ADD_GLOBAL(A,B)=%s\" %s %s",
                   c_dbcsr_acc_opencl_config.intel_id, cmem, wgsize, fname,
                   NULL == env_nrepeat ? 1 : atoi(env_nrepeat),
                   m_max, n_max, k_max, bs, bm, bn, bk, tname, datatype,
                   0 == lu ? "-D\"UNROLL_SM=UNROLL_FORCE(SM)\"" : (1 == lu ? "-D\"UNROLL_SM=UNROLL_FORCE(1)\""
                                                                : (0  < lu  ? "-D\"UNROLL(N)=UNROLL_FORCE(N)\""
                                                                : "")),
-                  0 == nz ? "" : "-DATOMIC_INC_NZ", 0 == al ? "" : "-DAL", 0 == ap ? "" : "-DSLM_P",
+                  0 == nz ? "" : "-DATOMIC_INC_NZ", 0 == al ? "" : "-DAL",
+                  0 == tb ? "" : "-DTRACK_B", 0 != tc ? "-DTRACK_C" : "", 0 == ap ? "" : "-DSLM_P",
                   0 == aa ? "" : (1 == aa ? "-DSLM_A=1" : (2 == aa ? "-DSLM_A=2" : "-DREG_A")),
                   0 == ab ? "" : (1 == ab ? "-DSLM_B=1" : (2 == ab ? "-DSLM_B=2" : "-DREG_B")),
                   0 == ac ? "" : (1 == ac ? "-DSLM_C=1" : (2 == ac ? "-DSLM_C=2" : "-DREG_C")),
@@ -1265,16 +1277,17 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                       config->wgsize = (size_t)wgsize;  config->bs = bs;
                       config->bm = bm; config->bn = bn; config->bk = bk;
                       config->wg = wg; config->lu = lu; config->nz = nz;
-                      config->al = al; config->ap = ap; config->aa = aa;
+                      config->al = al; config->tb = tb; config->tc = tc;
+                      config->ap = ap; config->aa = aa;
                       config->ab = ab; config->ac = ac;
                       config->kernel = new_config.kernel;
 # if !defined(OPENCL_LIBSMM_DEBUG_SMM)
                       if (2 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
                         duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
                         fprintf(stderr, "INFO ACC/OpenCL: %ix%ix%i %sSMM-kernel "
-                          "bs=%i bm=%i bn=%i bk=%i wg=%i lu=%i nz=%i al=%i ap=%i aa=%i ab=%i ac=%i gen=%.1f ms\n",
+                          "bs=%i bm=%i bn=%i bk=%i wg=%i lu=%i nz=%i al=%i tb=%i tc=%i ap=%i aa=%i ab=%i ac=%i gen=%.1f ms\n",
                           m_max, n_max, k_max, dbcsr_type_real_8 == datatype ? "D" : (dbcsr_type_real_4 == datatype ? "S" : ""),
-                          bs, bm, bn, bk, wg, lu, nz, al, ap, aa, ab, ac, 1000.0 * duration);
+                          bs, bm, bn, bk, wg, lu, nz, al, tb, tc, ap, aa, ab, ac, 1000.0 * duration);
                       }
 # endif
                     }
@@ -1313,6 +1326,8 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
           && -1 <= config->lu && 2 >= config->lu
           &&  0 <= config->nz && 1 >= config->nz
           &&  0 <= config->al && 1 >= config->al
+          &&  0 <= config->tb && 1 >= config->tb
+          &&  0 <= config->tc && 1 >= config->tc
           &&  0 <= config->ap && 1 >= config->ap
           &&  0 <= config->aa && 3 >= config->aa
           &&  0 <= config->ab && 3 >= config->ab
