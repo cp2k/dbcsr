@@ -53,7 +53,7 @@
 # define ACC_OPENCL_DEVICES_MAXCOUNT 256
 #endif
 #if !defined(ACC_OPENCL_STREAMS_MAXCOUNT)
-# define ACC_OPENCL_STREAMS_MAXCOUNT 2048
+# define ACC_OPENCL_STREAMS_MAXCOUNT 128
 #endif
 #if !defined(ACC_OPENCL_OVERMALLOC)
 # if defined(__DBCSR_ACC) || 1
@@ -85,6 +85,7 @@
 # define ACC_OPENCL_EVENT(A) ((cl_event*)(A))
 #endif
 
+/* allow one context per OpenMP thread */
 #if !defined(ACC_OPENCL_THREADLOCAL_CONTEXT) && 1
 # define ACC_OPENCL_THREADLOCAL_CONTEXT
 #endif
@@ -196,30 +197,29 @@ typedef struct c_dbcsr_acc_opencl_config_t {
   cl_bool async_memops;
   /** Runtime SVM support (needs ACC_OPENCL_SVM at compile-time). */
   cl_bool svm_interop;
-  /** Whether host memory is unified or not. */
-  cl_bool unified;
-  /** Intel device ID (zero if non-Intel). */
-  cl_int intel_id;
   /** Verbosity level (output on stderr). */
   cl_int verbosity;
+  /* Non-zero if library is initialized; negative in case of no device. */
+  cl_int ndevices;
+  /* Maximum number of threads (omp_get_max_threads). */
+  cl_int nthreads;
+  /** Intel device ID (zero if non-Intel). */
+  cl_int intel_id;
+  /** Whether host memory is unified or not. */
+  cl_bool unified;
   /** Dump level (debug). */
   cl_int dump;
+#if defined(ACC_OPENCL_STREAMS_MAXCOUNT)
+  cl_command_queue* streams;
+  cl_int nstreams;
+#endif
 } c_dbcsr_acc_opencl_config_t;
 
+/** Global configuration setup in c_dbcsr_acc_init. */
 extern c_dbcsr_acc_opencl_config_t c_dbcsr_acc_opencl_config;
 
-/* non-zero if library is initialized, zero devices is signaled by nagative value */
-extern int c_dbcsr_acc_opencl_ndevices;
-/* backend implements 1:1 relationship between context and device */
-extern cl_context c_dbcsr_acc_opencl_context; /* active context */
-#if defined(_OPENMP) && defined(ACC_OPENCL_THREADLOCAL_CONTEXT)
-/* allow a context per each OpenMP thread */
-# pragma omp threadprivate(c_dbcsr_acc_opencl_context)
-#endif
-#if defined(ACC_OPENCL_STREAMS_MAXCOUNT)
-extern int c_dbcsr_acc_opencl_nstreams;
-extern cl_command_queue c_dbcsr_acc_opencl_streams[ACC_OPENCL_STREAMS_MAXCOUNT];
-#endif
+/** Contexts implement 1:1 relation with a device. */
+cl_context c_dbcsr_acc_opencl_context(int* tid);
 
 typedef struct c_dbcsr_acc_opencl_info_hostptr_t {
   cl_mem buffer;
