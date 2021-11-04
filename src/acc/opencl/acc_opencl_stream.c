@@ -32,22 +32,17 @@
 extern "C" {
 #endif
 
-#if defined(ACC_OPENCL_STREAMS_MAXCOUNT)
-int c_dbcsr_acc_opencl_nstreams;
-cl_command_queue c_dbcsr_acc_opencl_streams[ACC_OPENCL_STREAMS_MAXCOUNT];
-#endif
-
-
 int c_dbcsr_acc_opencl_stream_create(cl_command_queue* stream_p, const char* name,
   const ACC_OPENCL_COMMAND_QUEUE_PROPERTIES* properties)
 {
+  const cl_context context = c_dbcsr_acc_opencl_context(NULL);
   cl_int result = EXIT_SUCCESS;
   assert(NULL != stream_p);
-  if (NULL != c_dbcsr_acc_opencl_context) {
+  if (NULL != context) {
     cl_device_id device_id = NULL;
     result = c_dbcsr_acc_opencl_device(NULL/*stream*/, &device_id);
     if (EXIT_SUCCESS == result) {
-      *stream_p = ACC_OPENCL_CREATE_COMMAND_QUEUE(c_dbcsr_acc_opencl_context,
+      *stream_p = ACC_OPENCL_CREATE_COMMAND_QUEUE(context,
         device_id, properties, &result);
 #if defined(ACC_OPENCL_STREAMS_MAXCOUNT)
       if (EXIT_SUCCESS == result) {
@@ -59,9 +54,10 @@ int c_dbcsr_acc_opencl_stream_create(cl_command_queue* stream_p, const char* nam
 #       pragma omp critical(c_dbcsr_acc_opencl_nstreams)
 #   endif
 # endif
-        i = c_dbcsr_acc_opencl_nstreams++;
-        assert(i < ACC_OPENCL_STREAMS_MAXCOUNT && NULL != *stream_p);
-        c_dbcsr_acc_opencl_streams[i] = *stream_p;
+        i = c_dbcsr_acc_opencl_config.nstreams++;
+        assert(i < (ACC_OPENCL_STREAMS_MAXCOUNT * c_dbcsr_acc_opencl_config.nthreads)
+          && NULL != *stream_p);
+        c_dbcsr_acc_opencl_config.streams[i] = *stream_p;
       }
 #endif
     }
@@ -76,7 +72,8 @@ int c_dbcsr_acc_opencl_stream_create(cl_command_queue* stream_p, const char* nam
 int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority)
 {
   cl_int result = EXIT_SUCCESS;
-  if (NULL != c_dbcsr_acc_opencl_context) {
+  const cl_context context = c_dbcsr_acc_opencl_context(NULL);
+  if (NULL != context) {
     ACC_OPENCL_COMMAND_QUEUE_PROPERTIES properties[8] = {
       CL_QUEUE_PROPERTIES, 0/*placeholder*/,
       0 /* terminator */
@@ -146,16 +143,16 @@ int c_dbcsr_acc_stream_destroy(void* stream)
 #     pragma omp critical(c_dbcsr_acc_opencl_nstreams)
 #   endif
 # endif
-      nstreams = c_dbcsr_acc_opencl_nstreams--;
+      nstreams = c_dbcsr_acc_opencl_config.nstreams--;
       assert(0 <= nstreams);
-      for (; i < nstreams; ++i) if (queue == c_dbcsr_acc_opencl_streams[i]) {
-        c_dbcsr_acc_opencl_streams[i] = NULL; break;
+      for (; i < nstreams; ++i) if (queue == c_dbcsr_acc_opencl_config.streams[i]) {
+        c_dbcsr_acc_opencl_config.streams[i] = NULL; break;
       }
 # if defined(_OPENMP)
 #     pragma omp master
 # endif
-      if (NULL == c_dbcsr_acc_opencl_streams[i] && (i + 1) < nstreams) {
-        memmove(c_dbcsr_acc_opencl_streams + i, c_dbcsr_acc_opencl_streams + (i + 1),
+      if (NULL == c_dbcsr_acc_opencl_config.streams[i] && (i + 1) < nstreams) {
+        memmove(c_dbcsr_acc_opencl_config.streams + i, c_dbcsr_acc_opencl_config.streams + (i + 1),
           sizeof(cl_command_queue) * (nstreams - (i + 1)));
       }
     }
@@ -168,12 +165,13 @@ int c_dbcsr_acc_stream_destroy(void* stream)
 int c_dbcsr_acc_stream_priority_range(int* least, int* greatest)
 {
   int result = ((NULL != least || NULL != greatest) ? EXIT_SUCCESS : EXIT_FAILURE);
-  if (NULL != c_dbcsr_acc_opencl_context) {
+  const cl_context context = c_dbcsr_acc_opencl_context(NULL);
+  if (NULL != context) {
 #if defined(ACC_OPENCL_STREAM_PRIORITIES) && defined(CL_QUEUE_PRIORITY_KHR)
     char buffer[ACC_OPENCL_BUFFERSIZE];
     cl_platform_id platform = NULL;
     cl_device_id active_id = NULL;
-    assert(0 < c_dbcsr_acc_opencl_ndevices);
+    assert(0 < c_dbcsr_acc_opencl_config.ndevices);
     if (EXIT_SUCCESS == result) {
       result = c_dbcsr_acc_opencl_device(NULL/*stream*/, &active_id);
     }

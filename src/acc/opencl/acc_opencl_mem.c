@@ -77,12 +77,13 @@ int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t nbytes, void* stream)
   const int alignment = c_dbcsr_acc_opencl_memalignment(nbytes);
   const size_t size_meminfo = sizeof(c_dbcsr_acc_opencl_info_hostptr_t);
   const size_t size = nbytes + alignment + size_meminfo - 1;
+  const cl_context context = c_dbcsr_acc_opencl_context(NULL);
   const cl_mem buffer = (
 #if defined(ACC_OPENCL_SVM)
-    c_dbcsr_acc_opencl_config.svm_interop ? clCreateBuffer(c_dbcsr_acc_opencl_context, CL_MEM_USE_HOST_PTR, size,
-      clSVMAlloc(c_dbcsr_acc_opencl_context, CL_MEM_READ_WRITE, size, sizeof(void*)/*minimal alignment*/), &result) :
+    c_dbcsr_acc_opencl_config.svm_interop ? clCreateBuffer(context, CL_MEM_USE_HOST_PTR, size,
+      clSVMAlloc(context, CL_MEM_READ_WRITE, size, sizeof(void*)/*minimal alignment*/), &result) :
 #endif
-    clCreateBuffer(c_dbcsr_acc_opencl_context, CL_MEM_ALLOC_HOST_PTR, size, NULL/*host_ptr*/, &result));
+    clCreateBuffer(context, CL_MEM_ALLOC_HOST_PTR, size, NULL/*host_ptr*/, &result));
   assert(CL_SUCCESS == result || NULL == buffer);
   assert(NULL != host_mem && NULL != stream);
   if (NULL != buffer) {
@@ -146,7 +147,10 @@ int c_dbcsr_acc_host_mem_deallocate(void* host_mem, void* stream)
       ACC_OPENCL_CHECK(clReleaseMemObject(info.buffer),
         "release host memory buffer", result);
 #if defined(ACC_OPENCL_SVM)
-      if (c_dbcsr_acc_opencl_config.svm_interop) clSVMFree(c_dbcsr_acc_opencl_context, info.mapped);
+      if (c_dbcsr_acc_opencl_config.svm_interop) {
+        const cl_context context = c_dbcsr_acc_opencl_context(NULL);
+        clSVMFree(context, info.mapped);
+      }
 #endif
     }
   }
@@ -163,24 +167,25 @@ int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes)
         && 0x020a != c_dbcsr_acc_opencl_config.intel_id
         && 0x0bd5 != c_dbcsr_acc_opencl_config.intel_id))
     ? 0 : (1u << 22));
+  const cl_context context = c_dbcsr_acc_opencl_context(NULL);
   cl_mem buffer = (
 #if defined(ACC_OPENCL_SVM)
-    c_dbcsr_acc_opencl_config.svm_interop ? clCreateBuffer(c_dbcsr_acc_opencl_context, CL_MEM_USE_HOST_PTR,
-      nbytes + ACC_OPENCL_OVERMALLOC, clSVMAlloc(c_dbcsr_acc_opencl_context, (cl_mem_flags)(CL_MEM_READ_WRITE | try_flag),
+    c_dbcsr_acc_opencl_config.svm_interop ? clCreateBuffer(context, CL_MEM_USE_HOST_PTR,
+      nbytes + ACC_OPENCL_OVERMALLOC, clSVMAlloc(context, (cl_mem_flags)(CL_MEM_READ_WRITE | try_flag),
       nbytes + ACC_OPENCL_OVERMALLOC, 0/*default alignment*/), &result) :
 #endif
-    clCreateBuffer(c_dbcsr_acc_opencl_context, (cl_mem_flags)(CL_MEM_READ_WRITE | try_flag),
+    clCreateBuffer(context, (cl_mem_flags)(CL_MEM_READ_WRITE | try_flag),
       nbytes + ACC_OPENCL_OVERMALLOC, NULL/*host_ptr*/, &result));
   assert(NULL != dev_mem && 0 <= ACC_OPENCL_OVERMALLOC);
   if (0 != try_flag && NULL == buffer) { /* retry without try_flag */
     assert(CL_SUCCESS != result);
     buffer = (
 #if defined(ACC_OPENCL_SVM)
-      c_dbcsr_acc_opencl_config.svm_interop ? clCreateBuffer(c_dbcsr_acc_opencl_context, CL_MEM_USE_HOST_PTR,
-        nbytes + ACC_OPENCL_OVERMALLOC, clSVMAlloc(c_dbcsr_acc_opencl_context, CL_MEM_READ_WRITE,
+      c_dbcsr_acc_opencl_config.svm_interop ? clCreateBuffer(context, CL_MEM_USE_HOST_PTR,
+        nbytes + ACC_OPENCL_OVERMALLOC, clSVMAlloc(context, CL_MEM_READ_WRITE,
         nbytes + ACC_OPENCL_OVERMALLOC, 0/*default alignment*/), &result) :
 #endif
-      clCreateBuffer(c_dbcsr_acc_opencl_context, CL_MEM_READ_WRITE,
+      clCreateBuffer(context, CL_MEM_READ_WRITE,
         nbytes + ACC_OPENCL_OVERMALLOC, NULL/*host_ptr*/, &result));
   }
   if (NULL != buffer) {
@@ -200,7 +205,7 @@ int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes)
 #endif
       clReleaseMemObject(buffer);
 #if defined(ACC_OPENCL_SVM)
-      /*if (NULL != ptr)*/ clSVMFree(c_dbcsr_acc_opencl_context, ptr);
+      /*if (NULL != ptr)*/ clSVMFree(context, ptr);
 #endif
       result = EXIT_FAILURE;
     }
@@ -232,7 +237,11 @@ int c_dbcsr_acc_dev_mem_deallocate(void* dev_mem)
     free(dev_mem);
 #endif
 #if defined(ACC_OPENCL_SVM)
-    /*if (NULL != ptr)*/ clSVMFree(c_dbcsr_acc_opencl_context, ptr);
+    /*if (NULL != ptr)*/
+    {
+      const cl_context context = c_dbcsr_acc_opencl_context(NULL);
+      clSVMFree(context, ptr);
+    }
 #endif
   }
   ACC_OPENCL_RETURN(result);
@@ -390,7 +399,8 @@ int c_dbcsr_acc_dev_mem_info(size_t* mem_free, size_t* mem_total)
 {
   int result = EXIT_SUCCESS;
   cl_device_id active_id = NULL;
-  if (NULL != c_dbcsr_acc_opencl_context) {
+  const cl_context context = c_dbcsr_acc_opencl_context(NULL);
+  if (NULL != context) {
     result = c_dbcsr_acc_opencl_device(NULL/*stream*/, &active_id);
   }
   if (EXIT_SUCCESS == result) {

@@ -19,7 +19,8 @@ extern "C" {
 int c_dbcsr_acc_event_create(void** event_p)
 {
   cl_int result = EXIT_SUCCESS;
-  const cl_event event = clCreateUserEvent(c_dbcsr_acc_opencl_context, &result);
+  const cl_context context = c_dbcsr_acc_opencl_context(NULL);
+  const cl_event event = clCreateUserEvent(context, &result);
   assert(NULL != event_p);
   if (NULL != event) {
     cl_int status = CL_COMPLETE;
