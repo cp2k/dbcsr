@@ -201,7 +201,7 @@ CONTAINS
       IF (PRESENT(mm_densification)) dbcsr_cfg%mm_densification = mm_densification
       IF (PRESENT(accdrv_priority_streams)) dbcsr_cfg%accdrv_priority_streams = accdrv_priority_streams
       IF (PRESENT(accdrv_priority_buffers)) dbcsr_cfg%accdrv_priority_buffers = accdrv_priority_buffers
-#if defined(__DBCSR_ACC) && defined(__HIP_PLATFORM_AMD__)
+#if defined(__DBCSR_ACC) && (defined(__HIP_PLATFORM_AMD__) || defined(__CUDA) || defined(__HIP_PLATFORM_NVCC__))
       nthreads = 1
 !$    nthreads = OMP_GET_MAX_THREADS()
       dbcsr_cfg%accdrv_priority_streams = nthreads

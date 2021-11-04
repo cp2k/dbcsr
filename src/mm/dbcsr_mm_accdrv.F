@@ -224,7 +224,7 @@ CONTAINS
 
 !$OMP MASTER
       CALL acc_stream_priority_range(least_priority, greatest_priority)
-#if defined(__HIP_PLATFORM_AMD__)
+#if defined(__HIP_PLATFORM_AMD__) || defined(__CUDA) || defined(__HIP_PLATFORM_NVCC__)
       CALL stream_array_force_size(priority_streams, "Calc (priority)", &
                                    n=dbcsr_cfg%accdrv_priority_streams)
 #else
@@ -250,7 +250,7 @@ CONTAINS
          CALL acc_stream_destroy(upload_stream)
 
       CALL stream_array_force_size(priority_streams, "Calc (priority)", n=0)
-#if !defined(__HIP_PLATFORM_AMD__)
+#if !defined(__HIP_PLATFORM_AMD__) && !defined(__CUDA) && !defined(__HIP_PLATFORM_NVCC__)
       CALL stream_array_force_size(posterior_streams, "Calc (posterior)", n=0, events=barrier_events)
 #endif
 !$OMP END MASTER
@@ -298,7 +298,7 @@ CONTAINS
       INTEGER                                            :: i, ithread, &
                                                             my_priority_buffers, my_total_buffers, &
                                                             nthreads
-#if !defined(__HIP_PLATFORM_AMD__)
+#if !defined(__HIP_PLATFORM_AMD__) && !defined(__CUDA) && !defined(__HIP_PLATFORM_NVCC__)
       INTEGER                                            :: my_posterior_buffers
       INTEGER, SAVE                                      :: curr_posterior_stream = 0, &
                                                             curr_priority_stream = 0
@@ -312,12 +312,12 @@ CONTAINS
       ! distribute total number of buffers approx. evenly among threads
       ! my_* variables hold number of buffers for current thread.
       my_priority_buffers = CEILING(REAL(dbcsr_cfg%accdrv_priority_buffers)/REAL(nthreads), int_4)
-#if !defined(__HIP_PLATFORM_AMD__)
+#if !defined(__HIP_PLATFORM_AMD__) && !defined(__CUDA) && !defined(__HIP_PLATFORM_NVCC__)
       my_posterior_buffers = CEILING(REAL(dbcsr_cfg%accdrv_posterior_buffers)/REAL(nthreads), int_4)
 #endif
 
       this%nbuffers_phaseout = my_priority_buffers
-#if defined(__HIP_PLATFORM_AMD__)
+#if defined(__HIP_PLATFORM_AMD__) || defined(__CUDA) || defined(__HIP_PLATFORM_NVCC__)
       my_total_buffers = my_priority_buffers
 #else
       my_total_buffers = my_posterior_buffers + my_priority_buffers
@@ -335,7 +335,7 @@ CONTAINS
          DO i = 1, my_total_buffers
             CALL acc_devmem_allocate_bytes(thread_privates%stack_buffers(i)%devmem, &
                                            int_4_size*dbcsr_ps_acc_width*dbcsr_cfg%mm_stack_size)
-#if !defined(__HIP_PLATFORM_AMD__)
+#if !defined(__HIP_PLATFORM_AMD__) && !defined(__CUDA) && !defined(__HIP_PLATFORM_NVCC__)
             IF (i <= my_priority_buffers) THEN
                curr_priority_stream = MOD(curr_priority_stream, SIZE(priority_streams)) + 1
                thread_privates%stack_buffers(i)%stream = priority_streams(curr_priority_stream)
@@ -474,7 +474,7 @@ CONTAINS
    END SUBROUTINE dbcsr_mm_accdrv_phaseout
 
    SUBROUTINE dbcsr_mm_accdrv_barrier()
-#if !defined(__HIP_PLATFORM_AMD__)
+#if !defined(__HIP_PLATFORM_AMD__) && !defined(__CUDA) && !defined(__HIP_PLATFORM_NVCC__)
       !! After being called by ALL threads, it installs a special barrier that
       !! forces the priority-streams to wait for the normal-streams.
 
@@ -528,7 +528,7 @@ CONTAINS
 !$    ithread = OMP_GET_THREAD_NUM()
       stack_buffers => all_thread_privates(ithread)%stack_buffers
 
-#if defined(__HIP_PLATFORM_AMD__)
+#if defined(__HIP_PLATFORM_AMD__) || defined(__CUDA) || defined(__HIP_PLATFORM_NVCC__)
       DO WHILE (.NOT. ASSOCIATED(stackbuf))
 #endif
          DO i = 1, SIZE(stack_buffers)
@@ -538,7 +538,7 @@ CONTAINS
                EXIT
             ENDIF
          ENDDO
-#if defined(__HIP_PLATFORM_AMD__)
+#if defined(__HIP_PLATFORM_AMD__) || defined(__CUDA) || defined(__HIP_PLATFORM_NVCC__)
       ENDDO
 #endif
 
@@ -588,14 +588,14 @@ CONTAINS
          DBCSR_ABORT("dbcsr_mm_accdrv_process: c_area%acc_devmem not allocated")
 
       ! start uploading stacks only after a, b, and c are ready
-#if !defined (__HIP_PLATFORM_AMD__)
+#if !defined (__HIP_PLATFORM_AMD__) && !defined(__CUDA) && !defined(__HIP_PLATFORM_NVCC__)
       CALL acc_stream_wait_event(upload_stream, a_area%acc_ready)
       CALL acc_stream_wait_event(upload_stream, b_area%acc_ready)
       CALL acc_stream_wait_event(upload_stream, c_area%acc_ready)
 #endif
 
       stackbuf_hostmem_cropped => stackbuf%hostmem(:, 1:stack_size)
-#if defined (__HIP_PLATFORM_AMD__)
+#if defined (__HIP_PLATFORM_AMD__) || defined(__CUDA) || defined(__HIP_PLATFORM_NVCC__)
       CALL acc_devmem_host2dev(stackbuf%devmem, hostmem=stackbuf_hostmem_cropped, stream=stackbuf%stream)
       CALL acc_event_record(stackbuf%ready, stream=stackbuf%stream)
 #else
@@ -621,7 +621,7 @@ CONTAINS
 
       IF (success) THEN
          CALL acc_event_record(stackbuf%calculated, stream=stackbuf%stream)
-#if !defined(__HIP_PLATFORM_AMD__)
+#if !defined(__HIP_PLATFORM_AMD__) && !defined(__CUDA) && !defined(__HIP_PLATFORM_NVCC__)
          CALL acc_stream_wait_event(a_area%memory_type%acc_stream, stackbuf%calculated)
          CALL acc_stream_wait_event(b_area%memory_type%acc_stream, stackbuf%calculated)
          CALL acc_stream_wait_event(c_area%memory_type%acc_stream, stackbuf%calculated)

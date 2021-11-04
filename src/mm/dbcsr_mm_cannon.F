@@ -1619,7 +1619,7 @@ CONTAINS
                                  left_norms, m_sizes, k_sizes)
          ENDIF
 
-#if defined (__HIP_PLATFORM_AMD__)
+#if defined(__HIP_PLATFORM_AMD__) || defined(__CUDA) || defined(__HIP_PLATFORM_NVCC__)
          ! Wait for left and right buffers transfer to device before proceeding
          IF (has_acc) THEN
             CALL acc_device_synchronize()
