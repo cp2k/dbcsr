@@ -118,8 +118,6 @@ MODULE dbcsr_mm_accdrv
 
    TYPE(thread_private_type), SAVE, DIMENSION(:), ALLOCATABLE, TARGET :: all_thread_privates
    TYPE(acc_stream_type), SAVE, DIMENSION(:), POINTER     :: priority_streams => Null()
-   TYPE(acc_event_type), SAVE, DIMENSION(:), POINTER     :: barrier_events => Null()
-   INTEGER, SAVE                                          :: barrier_counter = 0
 
 CONTAINS
 
@@ -216,7 +214,6 @@ CONTAINS
 
    SUBROUTINE setup_streams()
       !! Helper routine used by dbcsr_mm_accdrv_init()
-
 
 !$OMP MASTER
       CALL stream_array_force_size(priority_streams, "Calc (priority)", &
