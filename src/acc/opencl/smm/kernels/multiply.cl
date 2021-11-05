@@ -55,15 +55,6 @@
 # define ZERO 0
 #endif
 
-#if !defined(TRACK_B) && (1 < BS)
-# if defined(REG_B) && !defined(SLM_B)
-#   define TRACK_B
-# endif
-#endif
-#if !defined(TRACK_C) && (1 < BS)
-# define TRACK_C
-#endif
-
 #if defined(SLM_P) && (1 < BS)
 # define IDXBASE 0
 #else
@@ -208,7 +199,7 @@ kernel void FN(global T *restrict cdata,
   T cnm[SM] = { ZERO };
 # endif
 #endif
-#if defined(TRACK_B)
+#if defined(TRACK_B) && (1 < BS) && defined(REG_B) && !defined(SLM_B)
   int b1 = -1;
 #endif
 
@@ -530,9 +521,8 @@ kernel void FN(global T *restrict cdata,
 # endif
 # if (BM < SM || 1 != BN)
     { /* atomically commit C-tile to global memory */
-      int bn = 0;
       UNROLL(BN)
-      for (; bn < BN; ++bn) {
+      for (int bn = 0; bn < BN; ++bn) {
         const int n = bn + n0;
 #   if (SN % BN)
         if (n < SN)
@@ -543,9 +533,8 @@ kernel void FN(global T *restrict cdata,
 #   else
           T *restrict r = &cnm[bn][0];
 #   endif
-          int bm = 0;
           UNROLL_FORCE(BM)
-          for (; bm < BM; ++bm) {
+          for (int bm = 0; bm < BM; ++bm) {
             const int m = bm + m0;
 #   if (SM % BM)
             if (m < SM)
