@@ -6,6 +6,7 @@ OBJACC := $(SRCACC:.c=.o)
 INCSMM := $(wildcard $(MAKDIR)/smm/*.h*) \
                      $(MAKDIR)/smm/opencl_kernels.h \
                      $(MAKDIR)/../acc_libsmm.h \
+                     $(MAKDIR)/../acc_bench.h \
                      $(NULL)
 SRCSMM := $(wildcard $(MAKDIR)/smm/*.c)
 OBJSMM := $(SRCSMM:.c=.o)

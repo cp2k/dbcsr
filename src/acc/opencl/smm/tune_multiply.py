@@ -38,8 +38,10 @@ class SmmTuner(MeasurementInterface):
         self.args.bm = [max(self.args.bm, 1), self.args.m][0 == self.args.bm]
         self.args.bn = [max(self.args.bn, 1), 1][0 == self.args.bn]
         self.args.bk = [max(self.args.bk, 1), self.args.k][0 == self.args.bk]
-        self.bs = self.bm = self.bn = self.bk = self.wg = self.lu = self.nz = None
-        self.al = self.tb = self.tc = self.ap = self.aa = self.ab = self.ac = None
+        self.args.ws = min(self.args.ws, self.args.m * self.args.n)
+        self.bs = self.bm = self.bn = self.bk = self.ws = self.wg = self.lu = None
+        self.nz = self.al = self.tb = self.tc = None
+        self.ap = self.aa = self.ab = self.ac = None
         self.gfbase = self.gflops = 0
         self.config = None
         self.exepath = os.path.join(os.path.dirname(sys.argv[0]), "..", "..")
@@ -68,14 +70,13 @@ class SmmTuner(MeasurementInterface):
         else:
             self.typename = self.typeid = self.device = None
         if run_result and 0 == run_result["returncode"]:
-            seedpat = "INFO ACC/OpenCL:\\s+{}\\s+{}SMM-kernel{}{}{}{}{}".format(
+            seedpat = "INFO ACC/OpenCL:\\s+{}\\s+{}SMM-kernel{}{}{}{}\\s+gen=".format(
                 "{}x{}x{}".format(self.args.m, self.args.n, self.args.k),
                 {"float": "S", "double": "D"}.get(self.typename, ""),
-                "\\s+bs=([0-9]+)\\s+bm=([0-9]+)\\s+bn=([0-9]+)\\s+bk=([0-9]+)",
-                "\\s+wg=([0-9]+)\\s+lu=(-*[0-9]+)\\s+nz=([0-9]+)",  # lu can be neg.
-                "\\s+al=([0-9]+)\\s+tb=([0-9]+)\\s+tc=([0-9]+)",
-                "\\s+ap=([0-9]+)\\s+aa=([0-9]+)\\s+ab=([0-9]+)",
-                "\\s+ac=([0-9]+)\\s+gen=",
+                "\\s+bs=([0-9]+)\\s+bm=([0-9]+)\\s+bn=([0-9]+)\\s+bk=([0-9]+)\\s+ws=([0-9]+)",
+                "\\s+wg=([0-9]+)\\s+lu=(-*[0-9]+)\\s+nz=([0-9]+)\\s+al=([0-9]+)",  # lu can be neg.
+                "\\s+tb=([0-9]+)\\s+tc=([0-9]+)\\s+ap=([0-9]+)",
+                "\\s+aa=([0-9]+)\\s+ab=([0-9]+)\\s+ac=([0-9]+)",
             )
             seed = re.search(seedpat, str(run_result["stderr"]))
             # setup fixed and tunable parameters
@@ -100,55 +101,60 @@ class SmmTuner(MeasurementInterface):
             else:
                 self.bk = int(seed.group(4)) if seed and seed.group(4) else None
                 paramt.append(IntegerParameter("BK", 1, self.args.m))
+            if os.getenv("OPENCL_LIBSMM_SMM_WS"):
+                params.append(IntegerParameter("WS", self.args.ws, self.args.ws))
+            else:
+                self.ws = int(seed.group(5)) if seed and seed.group(5) else None
+                paramt.append(IntegerParameter("WS", 1, self.args.m * self.args.n))
             if os.getenv("OPENCL_LIBSMM_SMM_WG"):
                 params.append(IntegerParameter("WG", self.args.wg, self.args.wg))
             else:
-                self.wg = int(seed.group(5)) if seed and seed.group(5) else None
+                self.wg = int(seed.group(6)) if seed and seed.group(6) else None
                 paramt.append(IntegerParameter("WG", 0, 2))
             if os.getenv("OPENCL_LIBSMM_SMM_LU"):
                 params.append(IntegerParameter("LU", self.args.lu, self.args.lu))
             else:
-                self.lu = int(seed.group(6)) if seed and seed.group(6) else None
+                self.lu = int(seed.group(7)) if seed and seed.group(7) else None
                 paramt.append(IntegerParameter("LU", -1, 2))
             if os.getenv("OPENCL_LIBSMM_SMM_NZ"):
                 params.append(IntegerParameter("NZ", self.args.nz, self.args.nz))
             else:
-                self.nz = int(seed.group(7)) if seed and seed.group(7) else None
+                self.nz = int(seed.group(8)) if seed and seed.group(8) else None
                 paramt.append(IntegerParameter("NZ", 0, 1))
             if os.getenv("OPENCL_LIBSMM_SMM_AL"):
                 params.append(IntegerParameter("AL", self.args.al, self.args.al))
             else:
-                self.al = int(seed.group(8)) if seed and seed.group(8) else None
+                self.al = int(seed.group(9)) if seed and seed.group(9) else None
                 paramt.append(IntegerParameter("AL", 0, 1))
             if os.getenv("OPENCL_LIBSMM_SMM_TB"):
                 params.append(IntegerParameter("TB", self.args.tb, self.args.tb))
             else:
-                self.tb = int(seed.group(9)) if seed and seed.group(9) else None
+                self.tb = int(seed.group(10)) if seed and seed.group(10) else None
                 paramt.append(IntegerParameter("TB", 0, 1))
             if os.getenv("OPENCL_LIBSMM_SMM_TC"):
                 params.append(IntegerParameter("TC", self.args.tc, self.args.tc))
             else:
-                self.tc = int(seed.group(10)) if seed and seed.group(10) else None
+                self.tc = int(seed.group(11)) if seed and seed.group(11) else None
                 paramt.append(IntegerParameter("TC", 0, 1))
             if os.getenv("OPENCL_LIBSMM_SMM_AP"):
                 params.append(IntegerParameter("AP", self.args.ap, self.args.ap))
             else:
-                self.ap = int(seed.group(11)) if seed and seed.group(11) else None
+                self.ap = int(seed.group(12)) if seed and seed.group(12) else None
                 paramt.append(IntegerParameter("AP", 0, 1))
             if os.getenv("OPENCL_LIBSMM_SMM_AA"):
                 params.append(IntegerParameter("AA", self.args.aa, self.args.aa))
             else:
-                self.aa = int(seed.group(12)) if seed and seed.group(12) else None
+                self.aa = int(seed.group(13)) if seed and seed.group(13) else None
                 paramt.append(IntegerParameter("AA", 0, 3))
             if os.getenv("OPENCL_LIBSMM_SMM_AB"):
                 params.append(IntegerParameter("AB", self.args.ab, self.args.ab))
             else:
-                self.ab = int(seed.group(13)) if seed and seed.group(13) else None
+                self.ab = int(seed.group(14)) if seed and seed.group(14) else None
                 paramt.append(IntegerParameter("AB", 0, 3))
             if os.getenv("OPENCL_LIBSMM_SMM_AC"):
                 params.append(IntegerParameter("AC", self.args.ac, self.args.ac))
             else:
-                self.ac = int(seed.group(14)) if seed and seed.group(14) else None
+                self.ac = int(seed.group(15)) if seed and seed.group(15) else None
                 paramt.append(IntegerParameter("AC", 0, 2))
             if not paramt:
                 sys.tracebacklimit = 0
@@ -209,6 +215,7 @@ class SmmTuner(MeasurementInterface):
                 "BM": self.bm if self.bm is not None else self.args.bm,
                 "BN": self.bn if self.bn is not None else self.args.bn,
                 "BK": self.bk if self.bk is not None else self.args.bk,
+                "WS": self.ws if self.ws is not None else self.args.ws,
                 "WG": self.wg if self.wg is not None else self.args.wg,
                 "NZ": self.nz if self.nz is not None else self.args.nz,
                 "LU": self.lu if self.lu is not None else self.args.lu,
@@ -234,6 +241,7 @@ class SmmTuner(MeasurementInterface):
             "OPENCL_LIBSMM_SMM_BM={}".format(config["BM"]),
             "OPENCL_LIBSMM_SMM_BN={}".format(config["BN"]),
             "OPENCL_LIBSMM_SMM_BK={}".format(config["BK"]),
+            "OPENCL_LIBSMM_SMM_WS={}".format(config["WS"]),
             "OPENCL_LIBSMM_SMM_WG={}".format(config["WG"]),
             "OPENCL_LIBSMM_SMM_LU={}".format(config["LU"]),
             "OPENCL_LIBSMM_SMM_NZ={}".format(config["NZ"]),
@@ -316,6 +324,7 @@ class SmmTuner(MeasurementInterface):
                     key = (device, data["TYPEID"], data["M"], data["N"], data["K"])
                     value = (data["GFLOPS"], data["BS"], data["BM"], data["BN"]) + (
                         data["BK"] if "BK" in data else 0,
+                        data["WS"] if "WS" in data else 0,
                         data["WG"] if "WG" in data else 0,
                         data["LU"] if "LU" in data else 0,
                         data["NZ"] if "NZ" in data else 0,
@@ -350,9 +359,9 @@ class SmmTuner(MeasurementInterface):
                             self.args.csvsep,  # separator for value-part
                             self.args.csvsep.join(["GFLOPS", "BS", "BM", "BN", "BK"]),
                             self.args.csvsep,
-                            self.args.csvsep.join(["WG", "LU", "NZ", "AL", "TB", "TC"]),
+                            self.args.csvsep.join(["WS", "WG", "LU", "NZ", "AL"]),
                             self.args.csvsep,
-                            self.args.csvsep.join(["AP", "AA", "AB", "AC"]),
+                            self.args.csvsep.join(["TB", "TC", "AP", "AA", "AB", "AC"]),
                         )
                     )
                     for key, value in merged.items():  # CSV data lines
@@ -517,7 +526,7 @@ if __name__ == "__main__":
         default="",
         nargs="?",
         dest="update",
-        help="Update JSONs (device), and terminate",
+        help="Update JSONs (device name), and terminate",
     )
     argparser.add_argument(
         "-c",
@@ -526,7 +535,7 @@ if __name__ == "__main__":
         default=0,
         nargs="?",
         dest="check",
-        help="Validate kernel (epsilon)",
+        help="Validate kernel (epsilon, 0:off)",
     )
     argparser.add_argument(
         "-v",
@@ -552,7 +561,7 @@ if __name__ == "__main__":
         default=int(os.getenv("OPENCL_LIBSMM_SMM_BM", "0")),
         nargs="?",
         dest="bm",
-        help="Block/tile size (BM)",
+        help="Block/tile size (0:auto)",
     )
     argparser.add_argument(
         "-bn",
@@ -561,7 +570,7 @@ if __name__ == "__main__":
         default=int(os.getenv("OPENCL_LIBSMM_SMM_BN", "0")),
         nargs="?",
         dest="bn",
-        help="Block/tile size (BN)",
+        help="Block/tile size (0:auto)",
     )
     argparser.add_argument(
         "-bk",
@@ -570,7 +579,16 @@ if __name__ == "__main__":
         default=int(os.getenv("OPENCL_LIBSMM_SMM_BK", "0")),
         nargs="?",
         dest="bk",
-        help="Block size (BK)",
+        help="Block size (0:auto)",
+    )
+    argparser.add_argument(
+        "-ws",
+        "--initial-ws",
+        type=int,
+        default=int(os.getenv("OPENCL_LIBSMM_SMM_WS", "0")),
+        nargs="?",
+        dest="ws",
+        help="Minimum WG-size (0:auto)",
     )
     argparser.add_argument(
         "-wg",
@@ -594,7 +612,7 @@ if __name__ == "__main__":
         type=int,
         default=int(os.getenv("OPENCL_LIBSMM_SMM_NZ", "0")),
         dest="nz",
-        help="Check atomic increment to be non-zero (1)",
+        help="Check (1) atomic increment to be non-zero (0:off)",
     )
     argparser.add_argument(
         "-al",
@@ -656,10 +674,10 @@ if __name__ == "__main__":
         "-bs",
         "--initial-bs",
         type=int,
-        default=int(os.getenv("OPENCL_LIBSMM_SMM_BS", "8")),
+        default=int(os.getenv("OPENCL_LIBSMM_SMM_BS", "0")),
         nargs="?",
         dest="bs",
-        help="Minibatch size (BS)",
+        help="Minibatch size (0:auto)",
     )
     argparser.add_argument(
         "-mb",
@@ -668,7 +686,7 @@ if __name__ == "__main__":
         default=0,
         nargs="?",
         dest="mb",
-        help="Maximum (mini-)batch size (BS)",
+        help="Maximum (mini-)batch size (0:auto)",
     )
     argparser.add_argument(
         "-s",
@@ -680,24 +698,26 @@ if __name__ == "__main__":
         help="Size of batch (a.k.a. stacksize)",
     )
     args = argparser.parse_args()
-    # avoid tuning WG-parameter unless OPENCL_LIBSMM_SMM_WG=0 (explicit)
+    # OPENCL_LIBSMM_SMM_xx=0 must be given to permit tuning)
+    if "0" != os.getenv("OPENCL_LIBSMM_SMM_WS"):
+        os.environ["OPENCL_LIBSMM_SMM_WS"] = "{}".format(args.ws)
     if "0" != os.getenv("OPENCL_LIBSMM_SMM_WG"):
         os.environ["OPENCL_LIBSMM_SMM_WG"] = "{}".format(args.wg)
     # fix tunables according to level of tuning
     if 1 <= args.tlevel or 0 > args.tlevel:
         os.environ["OPENCL_LIBSMM_SMM_BM"] = "{}".format(args.bm)
         os.environ["OPENCL_LIBSMM_SMM_BN"] = "{}".format(args.bn)
+        os.environ["OPENCL_LIBSMM_SMM_BK"] = "{}".format(args.bk)
         os.environ["OPENCL_LIBSMM_SMM_WG"] = "{}".format(args.wg)
+        os.environ["OPENCL_LIBSMM_SMM_NZ"] = "{}".format(args.nz)
+        os.environ["OPENCL_LIBSMM_SMM_TB"] = "{}".format(args.tb)
         os.environ["OPENCL_LIBSMM_SMM_TC"] = "{}".format(args.tc)
     if 2 <= args.tlevel:
-        os.environ["OPENCL_LIBSMM_SMM_BK"] = "{}".format(args.bk)
-        os.environ["OPENCL_LIBSMM_SMM_NZ"] = "{}".format(args.nz)
-        os.environ["OPENCL_LIBSMM_SMM_AL"] = "{}".format(args.al)
+        os.environ["OPENCL_LIBSMM_SMM_AP"] = "{}".format(args.ap)
         os.environ["OPENCL_LIBSMM_SMM_AC"] = "{}".format(args.ac)
     if 3 <= args.tlevel:
         os.environ["OPENCL_LIBSMM_SMM_LU"] = "{}".format(args.lu)
-        os.environ["OPENCL_LIBSMM_SMM_TB"] = "{}".format(args.tb)
-        os.environ["OPENCL_LIBSMM_SMM_AP"] = "{}".format(args.ap)
+        os.environ["OPENCL_LIBSMM_SMM_AL"] = "{}".format(args.al)
     if 0 == args.mb:
         args.mb = 64
     # additional/depending arguments

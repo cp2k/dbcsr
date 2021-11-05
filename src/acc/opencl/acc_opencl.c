@@ -352,7 +352,7 @@ int c_dbcsr_acc_init(void)
               int level_major = 0;
               c_dbcsr_acc_opencl_config.svm_interop = (NULL == env_svm || 0 != atoi(env_svm)) &&
                 (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_level(active_device,
-                  &level_major, NULL/*level_minor*/, NULL/*cl_std*/) && 2 <= level_major);
+                  &level_major, NULL/*level_minor*/, NULL/*cl_std*/, NULL/*type*/) && 2 <= level_major);
             }
 #else
             c_dbcsr_acc_opencl_config.svm_interop = CL_FALSE;
@@ -566,55 +566,63 @@ int c_dbcsr_acc_opencl_device_id(cl_device_id device, const char format[], int* 
 
 
 int c_dbcsr_acc_opencl_device_level(cl_device_id device,
-  int* level_major, int* level_minor, char cl_std[16])
+  int* level_major, int* level_minor, char cl_std[16],
+  cl_device_type* type)
 {
-  char buffer[ACC_OPENCL_BUFFERSIZE];
-  unsigned int cl_std_level[2];
-  cl_int result = clGetDeviceInfo(device, CL_DEVICE_VERSION, ACC_OPENCL_BUFFERSIZE, buffer, NULL);
-  assert(NULL != device && (NULL != level_major || NULL != level_minor || NULL != cl_std));
-  if (CL_SUCCESS == result) {
-    if (2 == sscanf(buffer, "OpenCL %u.%u", cl_std_level, cl_std_level + 1)) {
-      if (NULL != level_major) *level_major = (int)cl_std_level[0];
-      if (NULL != level_minor) *level_minor = (int)cl_std_level[1];
-      if (NULL != cl_std) {
-        if (2 <= cl_std_level[0]) {
-          const int nchar = ACC_OPENCL_SNPRINTF(cl_std, 16, "-cl-std=CL%u.0", cl_std_level[0]);
-          if (0 >= nchar || 16 <= nchar) result = EXIT_FAILURE;
-        }
-        else if (1 <= cl_std_level[0]) {
-          if (1 <= cl_std_level[1]) {
-            const int nchar = ACC_OPENCL_SNPRINTF(cl_std, 16, "-cl-std=CL%u.%u", cl_std_level[0], cl_std_level[1]);
+  cl_int result = EXIT_SUCCESS;
+  assert(NULL != device && (NULL != level_major || NULL != level_minor || NULL != cl_std || NULL != type));
+  if (NULL != level_major || NULL != level_minor || NULL != cl_std) {
+    char buffer[ACC_OPENCL_BUFFERSIZE];
+    result = clGetDeviceInfo(device, CL_DEVICE_VERSION, ACC_OPENCL_BUFFERSIZE, buffer, NULL);
+    if (CL_SUCCESS == result) {
+      unsigned int cl_std_level[2];
+      if (2 == sscanf(buffer, "OpenCL %u.%u", cl_std_level, cl_std_level + 1)) {
+        if (NULL != level_major) *level_major = (int)cl_std_level[0];
+        if (NULL != level_minor) *level_minor = (int)cl_std_level[1];
+        if (NULL != cl_std) {
+          if (2 <= cl_std_level[0]) {
+            const int nchar = ACC_OPENCL_SNPRINTF(cl_std, 16, "-cl-std=CL%u.0", cl_std_level[0]);
             if (0 >= nchar || 16 <= nchar) result = EXIT_FAILURE;
           }
-          else {
-            result = clGetDeviceInfo(device, CL_DEVICE_OPENCL_C_VERSION, ACC_OPENCL_BUFFERSIZE, buffer, NULL);
-            if (CL_SUCCESS == result) {
-              if (2 == sscanf(buffer, "OpenCL C %u.%u", cl_std_level, cl_std_level + 1)) {
-                const int nchar = ACC_OPENCL_SNPRINTF(cl_std, 16, "-cl-std=CL%u.%u", cl_std_level[0], cl_std_level[1]);
-                if (0 >= nchar || 16 <= nchar) result = EXIT_FAILURE;
-              }
-              else {
-                result = EXIT_FAILURE;
-                *cl_std = '\0';
-              }
+          else if (1 <= cl_std_level[0]) {
+            if (1 <= cl_std_level[1]) {
+              const int nchar = ACC_OPENCL_SNPRINTF(cl_std, 16, "-cl-std=CL%u.%u", cl_std_level[0], cl_std_level[1]);
+              if (0 >= nchar || 16 <= nchar) result = EXIT_FAILURE;
             }
-            else *cl_std = '\0';
+            else {
+              result = clGetDeviceInfo(device, CL_DEVICE_OPENCL_C_VERSION, ACC_OPENCL_BUFFERSIZE, buffer, NULL);
+              if (CL_SUCCESS == result) {
+                if (2 == sscanf(buffer, "OpenCL C %u.%u", cl_std_level, cl_std_level + 1)) {
+                  const int nchar = ACC_OPENCL_SNPRINTF(cl_std, 16, "-cl-std=CL%u.%u", cl_std_level[0], cl_std_level[1]);
+                  if (0 >= nchar || 16 <= nchar) result = EXIT_FAILURE;
+                }
+                else {
+                  result = EXIT_FAILURE;
+                  *cl_std = '\0';
+                }
+              }
+              else *cl_std = '\0';
+            }
           }
+          else *cl_std = '\0';
         }
-        else *cl_std = '\0';
+      }
+      else {
+        if (NULL != level_major) *level_major = 0;
+        if (NULL != level_minor) *level_minor = 0;
+        if (NULL != cl_std) *cl_std = '\0';
+        result = EXIT_FAILURE;
       }
     }
     else {
       if (NULL != level_major) *level_major = 0;
       if (NULL != level_minor) *level_minor = 0;
       if (NULL != cl_std) *cl_std = '\0';
-      result = EXIT_FAILURE;
     }
   }
-  else {
-    if (NULL != level_major) *level_major = 0;
-    if (NULL != level_minor) *level_minor = 0;
-    if (NULL != cl_std) *cl_std = '\0';
+  if (NULL != type && EXIT_SUCCESS == result) {
+    result = clGetDeviceInfo(device, CL_DEVICE_TYPE,
+      sizeof(cl_device_type), type, NULL);
   }
   return result;
 }
@@ -834,7 +842,7 @@ int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[],
   assert(NULL != source && NULL != kernel);
   assert(NULL != kernel_name && '\0' != *kernel_name);
   if (EXIT_SUCCESS == result) {
-    result = c_dbcsr_acc_opencl_device_level(active_id, &level_major, &level_minor, cl_std);
+    result = c_dbcsr_acc_opencl_device_level(active_id, &level_major, &level_minor, cl_std, NULL/*type*/);
   }
   if (EXIT_SUCCESS == result) {
     const char* ext_source = source;

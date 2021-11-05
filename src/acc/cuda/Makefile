@@ -10,10 +10,11 @@ OBJACC := $(SRCACC:.cpp=.o)
 
 GPUSMM := $(wildcard $(MAKDIR)/../libsmm_acc/kernels/*.h*)
 INCSMM := $(wildcard $(MAKDIR)/../libsmm_acc/*.h*) \
-  $(MAKDIR)/../libsmm_acc/smm_acc_kernels.h \
-  $(MAKDIR)/../libsmm_acc/parameters.h \
-  $(MAKDIR)/../acc_libsmm.h \
-  $(NULL)
+                     $(MAKDIR)/../libsmm_acc/smm_acc_kernels.h \
+                     $(MAKDIR)/../libsmm_acc/parameters.h \
+                     $(MAKDIR)/../acc_libsmm.h \
+                     $(MAKDIR)/../acc_bench.h \
+                     $(NULL)
 SRCSMM := $(wildcard $(MAKDIR)/../libsmm_acc/*.cpp)
 OBJSMM := $(SRCSMM:.cpp=.o)
 
