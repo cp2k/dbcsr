@@ -55,7 +55,7 @@ template <int m, int n, int k, int threads, int grouping, int minblocks>
 __global__ void
 __launch_bounds__(threads, minblocks)
 smm_acc_dnt_tiny(const int* __restrict__ param_stack, int stack_size,
-     const double* __restrict__ a_data, const double* __restrict__ b_data, double* c_data){
+     const double* __restrict__ a_data, const double* __restrict__ b_data, double* c_data) {
 
   /* Total number of elements in block matrices */
   const int mn = m * n; /* c_block */
@@ -111,7 +111,7 @@ smm_acc_dnt_tiny(const int* __restrict__ param_stack, int stack_size,
    * Each triplet indicates the beginning of a submatrix to multiply */
   psp = bidx * npar * grouping;
 #pragma unroll
-  for (int i = tidx; i < nrun; i += threads){
+  for (int i = tidx; i < nrun; i += threads) {
     // param_stack is 1-based, convert to 0-based here
     param_stack_s[i * npar    ] = __ldg(&param_stack[psp + i * npar    ]) - 1; /* value = index in a_data */
     param_stack_s[i * npar + 1] = __ldg(&param_stack[psp + i * npar + 1]) - 1; /* value = index in b_data */
@@ -139,17 +139,17 @@ smm_acc_dnt_tiny(const int* __restrict__ param_stack, int stack_size,
      * once an element s loaded into shared memory, it is available for all threads of the thread block to use */
     if (m == n) {
 #pragma unroll
-      for (int i = tidx; i < mk; i += threads){
+      for (int i = tidx; i < mk; i += threads) {
         buff_a[i] = __ldg(&a_data[srcA + i]);
         buff_b[i] = __ldg(&b_data[srcB + i]);
       }
     } else {
 #pragma unroll
-      for (int i = tidx; i < mk; i += threads){
+      for (int i = tidx; i < mk; i += threads) {
         buff_a[i] = __ldg(&a_data[srcA + i]);
       }
 #pragma unroll
-      for (int i = tidx; i < kn; i += threads){
+      for (int i = tidx; i < kn; i += threads) {
         buff_b[i] = __ldg(&b_data[srcB + i]);
       }
     }

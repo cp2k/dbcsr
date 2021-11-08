@@ -75,7 +75,6 @@ CFLAGS := -fPIC \
   -Wno-variadic-macros \
   -Wno-long-long \
   -DARCH_NUMBER=$(ARCH_NUMBER) \
-  -DNO_DBCSR_TIMESET \
   -D__CUDA \
   $(NULL)
 

@@ -15,13 +15,13 @@
 #include "libsmm_acc_benchmark.h"
 #include "libsmm_acc.h"
 
-std::vector<Triplet> combinations(std::vector<int> to_combine){
+std::vector<Triplet> combinations(std::vector<int> to_combine) {
 
     std::vector<Triplet> v;
     size_t len = to_combine.size();
-    for(size_t i=0; i<len; i++){
-        for(size_t j=0; j<len; j++){
-            for(size_t k=0; k<len; k++){
+    for (size_t i=0; i<len; i++) {
+        for (size_t j=0; j<len; j++) {
+            for (size_t k=0; k<len; k++) {
                 v.push_back({to_combine[i], to_combine[j], to_combine[k]});
             }
         }
@@ -36,9 +36,9 @@ std::vector<Triplet> combinations(std::vector<int> to_combine){
            0 otherwise
   \****************************************************************************/
 
-int main(int argc, char* argv[]){
+int main(int argc, char* argv[]) {
 
-    if(argc < 2){
+    if (argc < 2) {
         printf("Usage: %s <autotuned|predicted>\n", argv[0]);
         return -1;
     }
@@ -46,13 +46,13 @@ int main(int argc, char* argv[]){
     printf("Time kernels: %s\n", argv[1]);
 
     std::vector<Triplet> libsmm_acc_triplets;
-    if(argv[1] == std::string("autotuned")){
+    if (argv[1] == std::string("autotuned")) {
 
         libsmm_acc_triplets = {
             [[AUTOTUNED_KERNELS_HERE]]
         };
 
-    } else if(argv[1] == std::string("predicted")){
+    } else if (argv[1] == std::string("predicted")) {
 
         libsmm_acc_triplets = {
             [[PREDICTED_KERNELS_HERE]]
@@ -76,7 +76,7 @@ int main(int argc, char* argv[]){
     int errors = 0;
     libsmm_acc_benchmark_t* handle;
 
-    for(int i=0; i<n_triplets; i++){
+    for (int i=0; i<n_triplets; i++) {
         printf("\n\n");
         int m = libsmm_acc_triplets[i][0];
         int n = libsmm_acc_triplets[i][1];

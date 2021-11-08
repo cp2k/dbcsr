@@ -55,23 +55,23 @@
     hipblasStatus_t result = ACC_BLAS(func) args;                 \
     if (result != HIPBLAS_STATUS_SUCCESS) {                       \
       const char* error_name = "HIPBLAS_ERRROR";                  \
-      if (result == HIPBLAS_STATUS_NOT_INITIALIZED){              \
+      if (result == HIPBLAS_STATUS_NOT_INITIALIZED) {              \
         error_name = "HIPBLAS_STATUS_NOT_INITIALIZED ";           \
-      } else if (result == HIPBLAS_STATUS_ALLOC_FAILED){          \
+      } else if (result == HIPBLAS_STATUS_ALLOC_FAILED) {          \
         error_name = "HIPBLAS_STATUS_ALLOC_FAILED ";              \
-      } else if (result == HIPBLAS_STATUS_INVALID_VALUE){         \
+      } else if (result == HIPBLAS_STATUS_INVALID_VALUE) {         \
         error_name = "HIPBLAS_STATUS_INVALID_VALUE ";             \
-      } else if (result == HIPBLAS_STATUS_MAPPING_ERROR){         \
+      } else if (result == HIPBLAS_STATUS_MAPPING_ERROR) {         \
         error_name = "HIPBLAS_STATUS_MAPPING_ERROR ";             \
-      } else if (result == HIPBLAS_STATUS_EXECUTION_FAILED){      \
+      } else if (result == HIPBLAS_STATUS_EXECUTION_FAILED) {      \
         error_name = "HIPBLAS_STATUS_EXECUTION_FAILED ";          \
-      } else if (result == HIPBLAS_STATUS_INTERNAL_ERROR){        \
+      } else if (result == HIPBLAS_STATUS_INTERNAL_ERROR) {        \
         error_name = "HIPBLAS_STATUS_INTERNAL_ERROR ";            \
-      } else if (result == HIPBLAS_STATUS_NOT_SUPPORTED){         \
+      } else if (result == HIPBLAS_STATUS_NOT_SUPPORTED) {         \
         error_name = "HIPBLAS_STATUS_NOT_SUPPORTED ";             \
-      } else if (result == HIPBLAS_STATUS_ARCH_MISMATCH){         \
+      } else if (result == HIPBLAS_STATUS_ARCH_MISMATCH) {         \
         error_name = "HIPBLAS_STATUS_ARCH_MISMATCH ";             \
-      } else if (result == HIPBLAS_STATUS_HANDLE_IS_NULLPTR){     \
+      } else if (result == HIPBLAS_STATUS_HANDLE_IS_NULLPTR) {     \
         error_name = "HIPBLAS_STATUS_HANDLE_IS_NULLPTR ";         \
       }                                                           \
       printf("\nHIPBLAS ERROR: %s failed with error %s\n",        \

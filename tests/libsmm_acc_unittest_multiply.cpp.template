@@ -19,7 +19,7 @@
  \brief Checks correctness of randomly selected libsmm_acc multiplication kernels
 \****************************************************************************/
 
-int main(int argc, char** argv){
+int main(int argc, char** argv) {
 
     KernelLauncher launcher_mm = libsmm_acc_process_d;
 
@@ -34,7 +34,7 @@ int main(int argc, char** argv){
     printf("# libsmm_acc has %d blocksizes for multiplication\n", n_triplets);
 
     int max_m=0, max_n=0, max_k=0;
-    for(int i=0; i<n_triplets; i++){
+    for (int i=0; i<n_triplets; i++) {
         max_m = std::max(max_n, libsmm_acc_triplets[i][0]);
         max_n = std::max(max_m, libsmm_acc_triplets[i][1]);
         max_k = std::max(max_k, libsmm_acc_triplets[i][2]);
@@ -44,7 +44,7 @@ int main(int argc, char** argv){
     libsmm_acc_benchmark_init(&handle, test, max_m, max_n, max_k);
 
     int errors = 0;
-    for(int i=0; i<n_triplets; i++){
+    for (int i=0; i<n_triplets; i++) {
         int m = libsmm_acc_triplets[i][0];
         int n = libsmm_acc_triplets[i][1];
         int k = libsmm_acc_triplets[i][2];

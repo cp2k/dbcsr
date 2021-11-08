@@ -26,7 +26,7 @@ static const int verbose_print = 0;
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 
 /****************************************************************************/
-extern "C" int c_dbcsr_acc_dev_mem_allocate(void **dev_mem, size_t n){
+extern "C" int c_dbcsr_acc_dev_mem_allocate(void **dev_mem, size_t n) {
   ACC_API_CALL(Malloc, ((void **) dev_mem, (size_t) n));
   if (dev_mem == NULL)
     return -2;
@@ -38,7 +38,7 @@ extern "C" int c_dbcsr_acc_dev_mem_allocate(void **dev_mem, size_t n){
 
 
 /****************************************************************************/
-extern "C" int c_dbcsr_acc_dev_mem_deallocate(void *dev_mem){
+extern "C" int c_dbcsr_acc_dev_mem_deallocate(void *dev_mem) {
   if (verbose_print)
     printf ("Device deallocation address %p\n", dev_mem);
   ACC_API_CALL(Free, ((void *) dev_mem));
@@ -48,7 +48,7 @@ extern "C" int c_dbcsr_acc_dev_mem_deallocate(void *dev_mem){
 
 
 /****************************************************************************/
-extern "C" int c_dbcsr_acc_host_mem_allocate(void **host_mem, size_t n, void *stream){
+extern "C" int c_dbcsr_acc_host_mem_allocate(void **host_mem, size_t n, void *stream) {
   unsigned int flag = ACC(HostAllocDefault);
 
   ACC_API_CALL(HostAlloc, ((void **) host_mem, (size_t) n, flag));
@@ -62,7 +62,7 @@ extern "C" int c_dbcsr_acc_host_mem_allocate(void **host_mem, size_t n, void *st
 
 
 /****************************************************************************/
-extern "C" int c_dbcsr_acc_host_mem_deallocate(void *host_mem, void *stream){
+extern "C" int c_dbcsr_acc_host_mem_deallocate(void *host_mem, void *stream) {
   if (verbose_print)
     printf ("Host pinned deallocation address %p\n", host_mem);
   ACC_API_CALL(FreeHost, ((void *) host_mem));
@@ -71,7 +71,7 @@ extern "C" int c_dbcsr_acc_host_mem_deallocate(void *host_mem, void *stream){
 }
 
 /****************************************************************************/
-extern "C" int c_dbcsr_acc_dev_mem_set_ptr(void **dev_mem, void *other, size_t lb){
+extern "C" int c_dbcsr_acc_dev_mem_set_ptr(void **dev_mem, void *other, size_t lb) {
 
   (*dev_mem) = ((char *) other) + lb;
 
@@ -79,8 +79,8 @@ extern "C" int c_dbcsr_acc_dev_mem_set_ptr(void **dev_mem, void *other, size_t l
 }
 
 /****************************************************************************/
-extern "C" int c_dbcsr_acc_memcpy_h2d(const void *host_mem, void *dev_mem, size_t count, void* stream){
-  ACC(Stream_t)* acc_stream = (ACC(Stream_t)*) stream;
+extern "C" int c_dbcsr_acc_memcpy_h2d(const void *host_mem, void *dev_mem, size_t count, void* stream) {
+  ACC(Stream_t)* acc_stream =(ACC(Stream_t)*) stream;
   if (verbose_print)
       printf ("Copying %zd bytes from host address %p to device address %p \n", count, host_mem, dev_mem);
 
@@ -91,8 +91,8 @@ extern "C" int c_dbcsr_acc_memcpy_h2d(const void *host_mem, void *dev_mem, size_
 
 
 /****************************************************************************/
-extern "C" int c_dbcsr_acc_memcpy_d2h(const void *dev_mem, void *host_mem, size_t count, void* stream){
-  ACC(Stream_t)* acc_stream = (ACC(Stream_t)*) stream;
+extern "C" int c_dbcsr_acc_memcpy_d2h(const void *dev_mem, void *host_mem, size_t count, void* stream) {
+  ACC(Stream_t)* acc_stream =(ACC(Stream_t)*) stream;
   if (verbose_print)
       printf ("Copying %zd bytes from device address %p to host address %p\n", count, dev_mem, host_mem);
 
@@ -106,13 +106,13 @@ extern "C" int c_dbcsr_acc_memcpy_d2h(const void *dev_mem, void *host_mem, size_
 
 
 /****************************************************************************/
-extern "C" int c_dbcsr_acc_memcpy_d2d(const void *devmem_src, void *devmem_dst, size_t count, void* stream){
-  ACC(Stream_t)* acc_stream = (ACC(Stream_t)*) stream;
+extern "C" int c_dbcsr_acc_memcpy_d2d(const void *devmem_src, void *devmem_dst, size_t count, void* stream) {
+  ACC(Stream_t)* acc_stream =(ACC(Stream_t)*) stream;
   if (verbose_print)
       printf ("Copying %zd bytes from device address %p to device address %p \n", count, devmem_src, devmem_dst);
 
 
-  if(stream == NULL){
+  if (stream == NULL) {
       ACC_API_CALL(Memcpy, (devmem_dst, devmem_src, count, ACC(MemcpyDeviceToDevice)));
   } else {
       ACC_API_CALL(MemcpyAsync, (devmem_dst, devmem_src, count, ACC(MemcpyDeviceToDevice), *acc_stream));
@@ -123,10 +123,10 @@ extern "C" int c_dbcsr_acc_memcpy_d2d(const void *devmem_src, void *devmem_dst, 
 
 
 /****************************************************************************/
-extern "C" int c_dbcsr_acc_memset_zero(void *dev_mem, size_t offset, size_t length, void* stream){
+extern "C" int c_dbcsr_acc_memset_zero(void *dev_mem, size_t offset, size_t length, void* stream) {
   ACC(Error_t) cErr;
-  ACC(Stream_t)* acc_stream = (ACC(Stream_t)*) stream;
-  if(stream == NULL){
+  ACC(Stream_t)* acc_stream =(ACC(Stream_t)*) stream;
+  if (stream == NULL) {
       cErr = ACC(Memset)((void *) (((char *) dev_mem) + offset), (int) 0, length);
   } else {
       cErr = ACC(MemsetAsync)((void *) (((char *) dev_mem) + offset), (int) 0, length, *acc_stream);
@@ -145,7 +145,7 @@ extern "C" int c_dbcsr_acc_memset_zero(void *dev_mem, size_t offset, size_t leng
 
 
 /****************************************************************************/
-extern "C" int c_dbcsr_acc_dev_mem_info(size_t* free, size_t* avail){
+extern "C" int c_dbcsr_acc_dev_mem_info(size_t* free, size_t* avail) {
   ACC_API_CALL(MemGetInfo, (free, avail));
   return 0;
 }

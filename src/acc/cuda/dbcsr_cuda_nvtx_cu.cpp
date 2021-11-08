@@ -61,7 +61,7 @@ extern "C" int cuda_nvtx_range_pop_cu() {
 }
 
 //==============================================================================
-extern "C" void cuda_nvtx_name_osthread_cu(char* name){
+extern "C" void cuda_nvtx_name_osthread_cu(char* name) {
     nvtxNameOsThread(pthread_self(), name);
 }
 

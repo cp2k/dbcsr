@@ -214,7 +214,7 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, compiler, m, n,
             )
 
         output += "\n"
-        output += "int main(int argc, char** argv){\n"
+        output += "int main(int argc, char** argv) {\n"
         if compiler == "nvcc":
             output += (
                 indent

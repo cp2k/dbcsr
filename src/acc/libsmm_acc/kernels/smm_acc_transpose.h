@@ -39,21 +39,21 @@
  */
 
 template <int m, int n>
-__global__ void transpose_d(int *trs_stack, double* mat){
+__global__ void transpose_d(int *trs_stack, double* mat) {
  __shared__ double buf[m*n];
 
  /* Get the offset in the transpose-stack that this block ID should handle */
  int offset = trs_stack[blockIdx.x];
 
  /* Loop over m*n matrix elements */
- for(int i=threadIdx.x; i < m*n; i+=blockDim.x){
+ for (int i=threadIdx.x; i < m*n; i+=blockDim.x) {
      /* Load matrix elements into a temporary buffer */
      buf[i] = mat[offset + i];
  }
  syncthreads();
 
  /* Loop over elements of the matrix to be overwritten */
- for(int i=threadIdx.x; i < m*n; i+=blockDim.x){
+ for (int i=threadIdx.x; i < m*n; i+=blockDim.x) {
      /* Compute old row and column index of matrix element */
      int r_out = i % n;
      int c_out = i / n;

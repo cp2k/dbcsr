@@ -16,6 +16,6 @@
 # include "../hip/acc_hip.h"
 #endif
 
-int acc_error_check (ACC(Error_t) acc_error);
+int acc_error_check(ACC(Error_t) acc_error);
 
 #endif /* LIBSMM_ACC_H */

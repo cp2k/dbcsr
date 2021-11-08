@@ -10,8 +10,9 @@
 #include "parameters.h"
 #include "libsmm_acc.h"
 #include "libsmm_acc_benchmark.h"
-#include "../cuda_hip/acc_blas.h"
 #include "smm_acc_kernels.h"
+#include "../cuda_hip/acc_blas.h"
+#include "../acc_libsmm.h"
 
 #include <sstream>
 #include <fstream>
@@ -39,7 +40,7 @@
 
 
 //===========================================================================
-inline int launch_kernel_from_handle(ACC_DRV(function) const& kern_func, int nblks, int threads, ACC_DRV(stream) stream, void** args){
+inline int launch_kernel_from_handle(ACC_DRV(function) const& kern_func, int nblks, int threads, ACC_DRV(stream) stream, void** args) {
 
     ACC_DRV_CALL(
         LaunchJITKernel, (kern_func,      // kernel function,
@@ -51,9 +52,8 @@ inline int launch_kernel_from_handle(ACC_DRV(function) const& kern_func, int nbl
 
 }
 
-
 //===========================================================================
-inline void validate_kernel(ACC_DRV(function)& kern_func, ACC_DRV(stream) stream, int threads, int grouping, int m, int n, int k){
+inline void validate_kernel(ACC_DRV(function)& kern_func, ACC_DRV(stream) stream, int threads, int grouping, int m, int n, int k) {
 
     libsmm_acc_benchmark_t* h;
     libsmm_acc_benchmark_init(&h, test, m, n, k);
@@ -80,17 +80,16 @@ inline void validate_kernel(ACC_DRV(function)& kern_func, ACC_DRV(stream) stream
     // Validate the kernel based on results
     double sumGPU = checkSum(h->mat_c, h->n_c, m, n);
     libsmm_acc_benchmark_finalize(h);
-    if(sumGPU != sumCPU){
+    if (sumGPU != sumCPU) {
         printf("Kernel validation failed for multiplication kernel %ix%ix%i\nchecksum CPU: %g, checksum GPU: %g\nchecksum_diff: %g\n", m, n, k, sumCPU, sumGPU, sumGPU-sumCPU);
         exit(1);
     }
 }
 
-
 //===========================================================================
-inline void jit_kernel(ACC_DRV(function)& kern_func, libsmm_acc_algo algo, int tile_m, int tile_n, int w, int v, int threads, int grouping, int minblocks, int m, int n, int k){
-#if !defined(NO_DBCSR_TIMESET)
-    std::string routineN = "jit_kernel_multiply";
+inline void jit_kernel(ACC_DRV(function)& kern_func, libsmm_acc_algo algo, int tile_m, int tile_n, int w, int v, int threads, int grouping, int minblocks, int m, int n, int k) {
+#if defined(__DBCSR_ACC)
+    std::string routineN = LIBSMM_ACC_PROCESS_ROUTINE_NAME_STR;
     int handle;
     timeset(routineN, handle);
 #endif
@@ -197,18 +196,18 @@ inline void jit_kernel(ACC_DRV(function)& kern_func, libsmm_acc_algo algo, int t
 
     // Destroy program
     ACC_RTC_CALL(DestroyProgram, (&kernel_program));
-#if !defined(NO_DBCSR_TIMESET)
+#if defined(__DBCSR_ACC)
     timestop(handle);
 #endif
 }
 
 
-kernel_map_iterator add_kernel_handle_to_jitted_kernels(ACC_DRV(function) kern_func, ACC_DRV(stream) stream, Triplet h_mnk, int& threads, int& grouping){
+kernel_map_iterator add_kernel_handle_to_jitted_kernels(ACC_DRV(function) kern_func, ACC_DRV(stream) stream, Triplet h_mnk, int& threads, int& grouping) {
 
     kernel_map_iterator kernel_it = kernel_handles.end();
 
     // Check whether autotuned parameters are given for this kernel, and if so, retrieve them
-    if (ht.find(h_mnk) != ht.end()){
+    if (ht.find(h_mnk) != ht.end()) {
 
         // Retrieve launching parameters
         const KernelParameters params = ht.at(h_mnk);
@@ -235,9 +234,8 @@ kernel_map_iterator add_kernel_handle_to_jitted_kernels(ACC_DRV(function) kern_f
 
 }
 
-
 //===========================================================================
-int libsmm_acc_process_blas(const int *param_stack, int stack_size, ACC_DRV(stream) stream, int m, int n, int k, int max_kernel_dim, const double *a_data, const double *b_data, double *c_data, std::vector<ACC_BLAS(Handle_t)*> handles = acc_blashandles){
+int libsmm_acc_process_blas(const int *param_stack, int stack_size, ACC_DRV(stream) stream, int m, int n, int k, int max_kernel_dim, const double *a_data, const double *b_data, double *c_data, std::vector<ACC_BLAS(Handle_t)*> handles = acc_blashandles) {
 
 #if defined _OPENMP
     int ithread = omp_get_thread_num();
@@ -248,11 +246,11 @@ int libsmm_acc_process_blas(const int *param_stack, int stack_size, ACC_DRV(stre
     int istat = 0;
 
     char transb = 'N';
-    if(n <= max_kernel_dim && k <= max_kernel_dim){
+    if (n <= max_kernel_dim && k <= max_kernel_dim) {
         transb = 'T';
     }
 
-    for(int stack_entry = 0; stack_entry < stack_size; stack_entry++){
+    for (int stack_entry = 0; stack_entry < stack_size; stack_entry++) {
         istat = acc_blas_dgemm(acc_blashandles[ithread],
                                'N', transb,
                                m, n, k,
@@ -268,7 +266,7 @@ int libsmm_acc_process_blas(const int *param_stack, int stack_size, ACC_DRV(stre
 }
 
 //===========================================================================
-int libsmm_acc_process_d(const int* param_stack, int stack_size, ACC_DRV(stream) stream, int m, int n, int k, const double *a_data, const double *b_data, double *c_data){
+int libsmm_acc_process_d(const int* param_stack, int stack_size, ACC_DRV(stream) stream, int m, int n, int k, const double *a_data, const double *b_data, double *c_data) {
 
     ACC_DRV(function) kern_func = NULL;
     int threads, grouping;
@@ -282,7 +280,7 @@ int libsmm_acc_process_d(const int* param_stack, int stack_size, ACC_DRV(stream)
 
     // Look up the kernel in the table of already JITed kernels
     kernel_it = kernel_handles.find(h_mnk);
-    if (kernel_it == kernel_handles.end()){  // the kernel has not been JIT-ed yet
+    if (kernel_it == kernel_handles.end()) {  // the kernel has not been JIT-ed yet
 
         kernel_it = add_kernel_handle_to_jitted_kernels(kern_func, stream, h_mnk, threads, grouping);
 
@@ -291,7 +289,7 @@ int libsmm_acc_process_d(const int* param_stack, int stack_size, ACC_DRV(stream)
 
 }
 
-    if (kernel_it == kernel_handles.end()){  // the kernel could not be JIT-ed, so we should fall back to CPU
+    if (kernel_it == kernel_handles.end()) {  // the kernel could not be JIT-ed, so we should fall back to CPU
 
         return -2; // fall back to CPU
 
@@ -311,13 +309,12 @@ int libsmm_acc_process_d(const int* param_stack, int stack_size, ACC_DRV(stream)
 
 }
 
-
 //===========================================================================
-int libsmm_acc_process (const int* param_stack_host, const int *param_stack_dev, int stack_size, int nparams, libsmm_acc_data_t datatype, const void *a_data, const void *b_data, void *c_data, int m, int n, int k, int max_kernel_dim, int def_mnk, void *stack_stream, void *c_stream){
-    if(def_mnk!=1)
+int libsmm_acc_process (const int* param_stack_host, const int *param_stack_dev, int stack_size, int nparams, libsmm_acc_data_t datatype, const void *a_data, const void *b_data, void *c_data, int m, int n, int k, int max_kernel_dim, int def_mnk, void *stack_stream, void *c_stream) {
+    if (def_mnk!=1)
         return -1; // inhomogeneous stacks not supported
-    if(datatype==dbcsr_type_real_8) {
-      if(m>max_kernel_dim || n>max_kernel_dim || k>max_kernel_dim)
+    if (datatype==dbcsr_type_real_8) {
+      if (m>max_kernel_dim || n>max_kernel_dim || k>max_kernel_dim)
         // maximum size over any dimension
         return (libsmm_acc_process_blas ((const int *) param_stack_host, stack_size, *((ACC_DRV(stream) *) c_stream), m, n, k, max_kernel_dim, (const double *) a_data, (const double *) b_data, (double *) c_data));
       else
@@ -326,9 +323,8 @@ int libsmm_acc_process (const int* param_stack_host, const int *param_stack_dev,
     return -1; // datatype not supported
 }
 
-
 //===========================================================================
-inline void validate_transpose_kernel(ACC_DRV(function)& kern_func, int threads, ACC_DRV(stream) stream, int m, int n){
+inline void validate_transpose_kernel(ACC_DRV(function)& kern_func, int threads, ACC_DRV(stream) stream, int m, int n) {
 
     libsmm_acc_benchmark_t* h;
     libsmm_acc_benchmark_init(&h, test, m, 0, n);
@@ -353,17 +349,16 @@ inline void validate_transpose_kernel(ACC_DRV(function)& kern_func, int threads,
     // Validate the kernel based on results
     double sumGPU = checkSumTransp(h->mat_trs_a, h->n_stack_trs_a, m, n);
     libsmm_acc_benchmark_finalize(h);
-    if(sumGPU != sumCPU){
+    if (sumGPU != sumCPU) {
         printf("Kernel validation failed for transpose kernel %ix%i\nchecksum CPU: %g, checksum GPU: %g\nchecksum_diff: %g\n", m, n, sumCPU, sumGPU, sumGPU-sumCPU);
         exit(1);
     }
 }
 
-
 //===========================================================================
-void jit_transpose_handle(ACC_DRV(function)& kern_func, int m, int n){
-#if !defined(NO_DBCSR_TIMESET)
-    std::string routineN = "jit_kernel_transpose";
+void jit_transpose_handle(ACC_DRV(function)& kern_func, int m, int n) {
+#if defined(__DBCSR_ACC)
+    std::string routineN = LIBSMM_ACC_TRANSPOSE_ROUTINE_NAME_STR;
     int handle;
     timeset(routineN, handle);
 #endif
@@ -427,11 +422,10 @@ void jit_transpose_handle(ACC_DRV(function)& kern_func, int m, int n){
 
     // Destroy program
     ACC_RTC_CALL(DestroyProgram, (&kernel_program));
-#if !defined(NO_DBCSR_TIMESET)
+#if defined(__DBCSR_ACC)
     timestop(handle);
 #endif
 }
-
 
 //===========================================================================
 int libsmm_acc_transpose_d(const int *trs_stack, int offset, int stack_size,
@@ -439,7 +433,7 @@ int libsmm_acc_transpose_d(const int *trs_stack, int offset, int stack_size,
 
     ACC_DRV(function) kern_func;
     int threads = 128;
-    if (m * n + warp_size <= 128){
+    if (m * n + warp_size <= 128) {
         threads = m*n  - (m*n % warp_size) + warp_size;
     }
 
@@ -453,7 +447,7 @@ int libsmm_acc_transpose_d(const int *trs_stack, int offset, int stack_size,
 {
 
     kernel_it = transpose_handles.find(h_mnk);
-    if(kernel_it == transpose_handles.end()){  // the kernel has not been JIT-ed yet
+    if (kernel_it == transpose_handles.end()) {  // the kernel has not been JIT-ed yet
 
         // JIT and store a kernel for this transposition
         jit_transpose_handle(kern_func, m, n);
@@ -474,12 +468,11 @@ int libsmm_acc_transpose_d(const int *trs_stack, int offset, int stack_size,
 
 }
 
-
 //===========================================================================
 extern "C" int libsmm_acc_transpose (const int *trs_stack, int offset, int stack_size, void *buffer, libsmm_acc_data_t datatype, int m, int n, int max_kernel_dim, void* stream) {
-    if(datatype != dbcsr_type_real_8)
+    if (datatype != dbcsr_type_real_8)
         return 0; // transpose not needed
-    if(m>max_kernel_dim || n>max_kernel_dim)
+    if (m>max_kernel_dim || n>max_kernel_dim)
       return 0; // maximum size over any dimension
     return libsmm_acc_transpose_d(trs_stack, offset, stack_size, (double *) buffer, m, n, *((ACC_DRV(stream) *) stream));
 }

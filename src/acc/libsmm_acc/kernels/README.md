@@ -1,6 +1,4 @@
-# libsmm_acc/kernels
-
-`libsmm_acc`'s GPU kernels.
+# LIBSMM_ACC Kernels
 
 ## Directory Organization
 
