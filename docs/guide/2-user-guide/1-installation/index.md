@@ -33,7 +33,7 @@ To build DBCSR's GPU backend:
     * Optionally, `clinfo` (can be useful to show available devices)
 
 DBCSR is tested against GNU and Intel compilers on Linux systems, and GNU compiler on MacOS systems.
-See a list of supported compilers [here](./3-supported-compilers.html).
+See a list of supported compilers [here](3-supported-compilers.html).
 
 ## Get DBCSR
 
@@ -87,7 +87,7 @@ export PKG_CONFIG_PATH="${PKG_CONFIG_PATH}:${HOME}/libxsmm/lib"
 
 ### CMake Build Recipes
 
-For build recipes on different platforms, make sure to also read the [CMake Build Recipes](./1-cmake-build-recipes.html).
+For build recipes on different platforms, make sure to also read the [CMake Build Recipes](1-cmake-build-recipes.html).
 
 ### Building with spack
 
