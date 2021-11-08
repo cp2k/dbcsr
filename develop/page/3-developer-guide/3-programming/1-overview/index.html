@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.2.0-rc0-15-g62e7df40a7</small></a>
+          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.2.0-rc0-16-g3dd8e4ec46</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -140,7 +140,7 @@
   <div class="row">
     <div class="col-md-9 col-md-push-3" id='text'>
       <h1>Code Architecture</h1>
-<p><img alt="DBCSR code architecture" src="./dbcsr_mm_overview.png"></p>
+<p><img alt="DBCSR code architecture" src="dbcsr_mm_overview.png"></p>
 <div class="codehilite"><pre><span></span><code>dbcsr/
 -- src/
 ---- acc/: contains all code related to accelerators
@@ -160,8 +160,8 @@
 
 <h1>Distribution Scheme</h1>
 <p>Assumed square matrix with 20x20 matrix with 5x5 blocks and a 2x2 processor grid</p>
-<p><img alt="DBCSR distribution over processors" src="./dbcsr_dist.png"></p>
-<p><img alt="DBCSR block scheme" src="./dbcsr_blocks.png"></p>
+<p><img alt="DBCSR distribution over processors" src="dbcsr_dist.png"></p>
+<p><img alt="DBCSR block scheme" src="dbcsr_blocks.png"></p>
 <h1>List of standard compiler flags</h1>
 <ul>
 <li>OpenMP flag to enable multi-threaded parallelization, e.g. <code>-fopenmp</code> for GNU and Intel compilers.</li>
@@ -321,6 +321,11 @@
             
             <li role="presentation">
             <a href='../../../../page/2-user-guide/3-examples/index.html'>Examples</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../../page/2-user-guide/4-gpu/index.html'>GPUs</a>
             
             </li>
             

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="">
+    
+    <meta name="author" content="DBCSR Authors" >
+    <link rel="icon" href="../../../favicon.png">
+
+    <title>GPUs &ndash; DBCSR</title>
+
+    <link href="../../../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../css/pygments.css" rel="stylesheet">
+    <link href="../../../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../../../css/local.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../../../js/jquery-2.1.3.min.js"></script>
+    <script src="../../../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../../index.html">DBCSR <small>2.2.0-rc0-16-g3dd8e4ec46</small></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../../../page/index.html'>Guide</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../../../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../../../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../../../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../../../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../../../lists/types.html">Derived Types</a></li>
+        
+        
+            <li><a href="../../../lists/programs.html">Programs</a></li>
+               
+        
+        
+            </ul>
+        
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../../../lists/types.html">Derived Types</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../../lists/programs.html">Programs</a></li>
+
+
+
+          </ul>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  <div class="row">
+    <h1>GPUs</h1>
+    <div class="row">
+    <div class="col-lg-12">
+    <div class="well well-sm" style="min-height: 40px;">
+      <ul class="list-inline" style="margin-bottom:0px; display:inline">
+         
+         
+<!--
+        
+-->
+      </ul>
+        <ol class="breadcrumb in-well">
+      
+         <li><a href='../../../page/index.html'>Guide</a></li>
+      
+         <li><a href='../../../page/2-user-guide/index.html'>User Guide</a></li>
+      
+         <li class="active">GPUs</li>
+      </ol>
+    </div>
+    </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-9 col-md-push-3" id='text'>
+      <h1>CUDA/HIP backend and LIBSMM_ACC</h1>
+<p>Users interested to tune kernels for the CUDA/HIP backend, can take a look at the <a href="../../3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/3-tune.html">Developer Guide</a>. Following the guide, <a href="https://github.com/cp2k/dbcsr/tree/develop/src/acc/libsmm_acc/parameters">tuned parameters</a> can be collected for the desired GPU and potentially submitted for the benefit of others.</p>
+<h1>OpenCL Backend and OpenCL based LIBSMM</h1>
+<p>This section shows how to auto-tune a kernel for the OpenCL based LIBSMM library. The process builds a stand-alone driver program which is then driven by an <a href="https://opentuner.org/">OpenTuner</a> based script guiding the auto-tuning of the desired kernel. The <a href="../../3-developer-guide/3-programming/2-accelerator-backend/4-opencl-libsmm.html">Developer Guide</a> provides more information, e.g., about constraining execution time or parallelizing the tuning-process as well as how to select and tune an entire set of kernels.</p>
+<p>For simplicity, the GNU Compiler is used to build the afore mentioned driver program, both DBCSR and LIBXSMM are Git-cloned into the same common directory, e.g., the user's <code>HOME</code> directory, and the driver is built for tuning double-precision kernels (DP).</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">cd</span> <span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>
+git clone https://github.com/hfp/libxsmm.git
+<span class="nb">cd</span> libxsmm
+make <span class="nv">GNU</span><span class="o">=</span><span class="m">1</span> -j
+
+<span class="nb">cd</span> <span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>
+git clone https://github.com/cp2k/dbcsr.git
+<span class="nb">cd</span> dbcsr/src/acc/opencl
+make
+</code></pre></div>
+
+<p>Tuning the 23x23x23-kernel for example is the default case. However, to better illustrate the options, M, N, and K are given explicitly. The <code>tune_multiply.py</code> script can be used interactively for example, and terminated with CTRL-C which writes a JSON-file with tuned parameters (note a file <code>.tune_multiply-double-32x32x32.json</code> is quietly written every time a better set of parameter is found), and then aggregates all JSON-file in the directory into a CSV-file (<code>tune_multiply.csv</code>).</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">cd</span> <span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/dbcsr/src/acc/opencl/smm
+./tune_multiply.py <span class="m">23</span> <span class="m">23</span> <span class="m">23</span>
+</code></pre></div>
+
+<p>The above process would also terminate at some point (based on OpenTuner's default) but can be constrained also by the number of steps (experiments), time to be spent, or a combination of both. Details can be found in the <a href="../../3-developer-guide/3-programming/2-accelerator-backend/4-opencl-libsmm.html">Developer Guide</a>.</p>
+<p>Finally, suppose the 23x23x23-kernel was tuned for some time (e.g., 5-10 minutes), the found parameters can be incorporated into the backend. The aggregated parameters (<code>tune_multiply.csv</code>) are automatically embedded when rebuilding the library and driver.</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">cd</span> <span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/dbcsr/src/acc/opencl
+make
+</code></pre></div>
+
+<p>Important kernels can be tuned further (beside of spending more time for tuning the kernel) by widening the set of tuned parameters (<code>--tuning-level</code> or <code>-a</code> with "0" denoting an unrestricted set of tunables).</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">cd</span> <span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/dbcsr/src/acc/opencl/smm
+./tune_multiply.py <span class="m">23</span> <span class="m">23</span> <span class="m">23</span> -a <span class="m">0</span>
+</code></pre></div>
+
+<p>Please note, to tune <em>further</em>, the previously found parameters should be embedded (rebuilding the driver) or specified at runtime (<code>OPENCL_LIBSMM_SMM_PARAMS=/path/to/tune_multiply.csv</code>).</p>
+    </div>
+    
+    <div class="col-md-3 col-md-pull-9">
+      <hr class="visible-xs visible-sm">
+        <div class="well toc">
+          <ul class="nav nav-stacked nav-pills">
+            <li role="presentation" class="title"><a href='../../../page/index.html'>Guide</a></li>
+          </ul>
+          <hr>
+          <ul class="nav nav-stacked nav-pills">
+            
+            <li role="presentation">
+            <a href='../../../page/1-DBCSR/index.html'>DBCSR</a>
+            
+            <ul class="nav nav-stacked nav-pills">
+              
+            <li role="presentation">
+            <a href='../../../page/1-DBCSR/publications.html'>Publications</a>
+            
+            </li>
+            
+            </ul>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../page/2-user-guide/index.html'>User Guide</a>
+            
+            <ul class="nav nav-stacked nav-pills">
+              
+            <li role="presentation">
+            <a href='../../../page/2-user-guide/1-installation/index.html'>Install</a>
+            
+            <ul class="nav nav-stacked nav-pills">
+              
+            <li role="presentation">
+            <a href='../../../page/2-user-guide/1-installation/1-cmake-build-recipes.html'>CMake Build Recipes</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../page/2-user-guide/1-installation/2-supported-compilers.html'>Supported Compilers</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../page/2-user-guide/1-installation/3-using-dbcsr-in-a-cmake-project.html'>Using DBCSR in a CMake project</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../page/2-user-guide/1-installation/4-docker.html'>Docker Images</a>
+            
+            </li>
+            
+            </ul>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../page/2-user-guide/2-tests/index.html'>Tests</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../page/2-user-guide/3-examples/index.html'>Examples</a>
+            
+            </li>
+            
+            <li role="presentation" class="disabled">
+            <a href='../../../page/2-user-guide/4-gpu/index.html'>GPUs</a>
+            
+            </li>
+            
+            </ul>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../page/3-developer-guide/index.html'>Developer Guide</a>
+            
+            <ul class="nav nav-stacked nav-pills">
+              
+            <li role="presentation">
+            <a href='../../../page/3-developer-guide/1-tooling/index.html'>Tooling</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../page/3-developer-guide/2-documentation/index.html'>Documentation</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../page/3-developer-guide/3-programming/index.html'>Programming</a>
+            
+            <ul class="nav nav-stacked nav-pills">
+              
+            <li role="presentation">
+            <a href='../../../page/3-developer-guide/3-programming/1-overview/index.html'>Overview</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/index.html'>Accelerator Backend</a>
+            
+            <ul class="nav nav-stacked nav-pills">
+              
+            <li role="presentation">
+            <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/1-code-structure.html'>Code Structure</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/index.html'>LIBSMM (CUDA/HIP)</a>
+            
+            <ul class="nav nav-stacked nav-pills">
+              
+            <li role="presentation">
+            <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/1-kernels.html'>Kernels</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/2-parameters.html'>Kernel Parameters</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/3-tune.html'>Autotuning Framework</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/4-predict.html'>Predictive Modeling Framework</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/5-notebooks.html'>Notebooks</a>
+            
+            </li>
+            
+            </ul>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/3-opencl-backend.html'>OpenCL Backend</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../page/3-developer-guide/3-programming/2-accelerator-backend/4-opencl-libsmm.html'>OpenCL LIBSMM</a>
+            
+            </li>
+            
+            </ul>
+            
+            </li>
+            
+            </ul>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../page/3-developer-guide/4-performance/index.html'>Performance</a>
+            
+            <ul class="nav nav-stacked nav-pills">
+              
+            <li role="presentation">
+            <a href='../../../page/3-developer-guide/4-performance/1-insights.html'>Insights</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../page/3-developer-guide/4-performance/2-just-in-time-compilation.html'>Just-In-Time Compilation</a>
+            
+            </li>
+            
+            </ul>
+            
+            </li>
+            
+            </ul>
+            
+            </li>
+            
+          </ul>
+        </div>
+    </div>
+    
+  </div>
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+                                          </p>
+        </div>
+        <div class="col-xs-6 col-md-6">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            
+            
+          </p>
+        </div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../../../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    
+  </body>
+</html>
