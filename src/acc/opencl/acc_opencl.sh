@@ -80,7 +80,7 @@ if [ "${BASENAME}" ] && [ "${SED}" ] && [ "${RM}" ]; then
               -e 's/\\/\\\\/g' -e 's/"/\\"/g' -e 's/^/  "/' -e 's/$/\\n" \\/' \
               >>"${OFILE}"
             echo "  \"\"" >>"${OFILE}"
-            echo "const char ${VNAME}[] = ${SNAME};" >>"${OFILE}"
+            echo "static const char ${VNAME}[] = ${SNAME};" >>"${OFILE}"
             NFILES_OCL=$((NFILES_OCL+1))
           else
             >&2 echo "ERROR: ${IFILE} does not exist!"
@@ -121,7 +121,7 @@ if [ "${BASENAME}" ] && [ "${SED}" ] && [ "${RM}" ]; then
               ${SED} "1d;s/^/  \"/;s/[\r]*$/\\\n\" \\\/" "${IFILE}" >>"${OFILE}"
             fi
             echo "  \"\"" >>"${OFILE}"
-            echo "const char ${VNAME}[] = ${SNAME};" >>"${OFILE}"
+            echo "static const char ${VNAME}[] = ${SNAME};" >>"${OFILE}"
             NFILES_CSV=$((NFILES_CSV+1))
           fi
         else
