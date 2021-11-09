@@ -27,7 +27,7 @@ std::vector<int> random_dist(int dist_size, int nbins)
 
     std::vector<int> dist(dist_size);
 
-    for(int i=0; i < dist_size; i++)
+    for (int i=0; i < dist_size; i++)
         dist[i] = i % nbins;
 
     return dist;
@@ -139,7 +139,7 @@ int main(int argc, char* argv[])
                     double* blk = nullptr;
                     c_dbcsr_iterator_next_2d_block_d(iter, &i, &j, &blk, &tr, &nblk, &rsize, &csize, &roff, &coff);
 
-                    std::generate(blk, blk + rsize*csize, [&](){ return static_cast<double>(std::rand())/RAND_MAX; });
+                    std::generate(blk, blk + rsize*csize, [&]() { return static_cast<double>(std::rand())/RAND_MAX; });
 
         }
 

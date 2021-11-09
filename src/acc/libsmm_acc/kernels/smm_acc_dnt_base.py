@@ -138,7 +138,7 @@ class Kernel:
         else:  # i.e. compiler == "hipcc"
             output += "hipStream_t stream, "
         output += "int m_max, int n_max, int k_max, "
-        output += "const double *a_data, const double *b_data, double *c_data){\n"
+        output += "const double *a_data, const double *b_data, double *c_data) {\n"
         output += indent + "int shared_size = 0;\n"
         output += indent + "//%s\n" % str(self.__dict__)
         output += (

@@ -36,7 +36,7 @@ namespace std
 
 inline void get_libsmm_acc_triplets(std::vector<Triplet>& v, std::unordered_map<Triplet, KernelParameters> const& ht)
 {
-    for(auto it = ht.begin(); it != ht.end(); ++it)
+    for (auto it = ht.begin(); it != ht.end(); ++it)
         v.push_back(it->first);
 }
 

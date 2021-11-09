@@ -19,14 +19,14 @@
 #include <math.h>
 
 /****************************************************************************/
-int acc_error_check (ACC(Error_t) error){
-  if (error != ACC(Success)){
-      printf (BACKEND" error: %s\n", ACC(GetErrorString)(error));
-      return -1;
+int acc_error_check(ACC(Error_t) error) {
+    if (error != ACC(Success)) {
+        printf (BACKEND" error: %s\n", ACC(GetErrorString)(error));
+        return -1;
     }
-  return 0;
+    return 0;
 }
 
-extern "C" void c_dbcsr_acc_clear_errors () {
-  ACC(GetLastError)();
+extern "C" void c_dbcsr_acc_clear_errors() {
+    ACC(GetLastError)();
 }

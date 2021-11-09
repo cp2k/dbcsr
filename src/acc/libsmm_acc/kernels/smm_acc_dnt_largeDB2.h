@@ -20,13 +20,13 @@ namespace ns_smm_acc_dnt_largeDB2 {
 
 /****************************************************************************/
 __device__ static inline void load_gmem_into_regs(const double* __restrict__ from, double* dest,
-                                           const int length, const int threads){
+                                           const int length, const int threads) {
 
   const int NR = (length + threads - 1) / threads;
   int i = threadIdx.x;
 
   /* length >= threads, which is usually given for large blocks with medium tile-sizes */
-  for (int ri = 0; ri < NR - 1; ri++){  /* loop with fixed bounds */
+  for (int ri = 0; ri < NR - 1; ri++) {  /* loop with fixed bounds */
     dest[ri] = __ldg(&from[i]);
     i += threads;
   }
@@ -37,7 +37,7 @@ __device__ static inline void load_gmem_into_regs(const double* __restrict__ fro
 
 /****************************************************************************/
 __device__ static inline void load_regs_into_smem(double* from, double* dest,
-                                           const int length, const int threads){
+                                           const int length, const int threads) {
 
   const int NR = (length + threads - 1) / threads;
   int i = threadIdx.x;
@@ -55,7 +55,7 @@ __device__ static inline void load_regs_into_smem(double* from, double* dest,
 /****************************************************************************/
 __device__ static inline void multiply(const double* buff_a, const double* buff_b, double* buff_c,
                                 const int w, const int m, const int n,
-                                const int M, const int N){
+                                const int M, const int N) {
 
   /* There might be more threads than needed for the calculation.
    * Only the first cmax*rmax threads participate in the calculation.
@@ -77,7 +77,7 @@ __device__ static inline void multiply(const double* buff_a, const double* buff_
 __device__ static inline void store_results_into_smem(double* from, double* dest,
                                                const int t, const int v,
                                                const int m, const int n,
-                                               const int M, const int N){
+                                               const int M, const int N) {
 
   const int rmax = (m + M - 1) / M;     /* max tile-row */
   const int c = threadIdx.x / rmax;     /* this thread's tile-column */
@@ -89,7 +89,7 @@ __device__ static inline void store_results_into_smem(double* from, double* dest
     for (int i = 0; i < N; i++)
       if (ctmp + i >= 0 && ctmp + i < v)
         for (int j = 0; j < M; j++)
-          if (M * r + j < m){
+          if (M * r + j < m) {
             dest[(ctmp + i) * m + M * r + j] = from[M * i + j];
             from[M * i + j] = 0.0; /* reset result tile */
           }
@@ -100,7 +100,7 @@ __device__ static inline void writeback_results(double* from, double* dest,
                                                 double* buff,
                                            const int m, const int n,
                                            const int M, const int N,
-                                           const int v, const int threads){
+                                           const int v, const int threads) {
 
   /* results are written in output-slabs of width v */
   for (int t = 0; t < (n / v) * v; t += v) {
@@ -178,7 +178,7 @@ template <int m, int n, int k, int M, int N, int w, int v, int threads, int grou
 __global__ void
 __launch_bounds__(threads, minblocks)
 smm_acc_dnt_largeDB2(const int *__restrict__ param_stack, const int stack_size,
-    const double* __restrict__ a_data, const double* __restrict__ b_data, double* c_data){
+    const double* __restrict__ a_data, const double* __restrict__ b_data, double* c_data) {
 
   using namespace ns_smm_acc_dnt_largeDB2;
 
@@ -239,7 +239,7 @@ smm_acc_dnt_largeDB2(const int *__restrict__ param_stack, const int stack_size,
    * Each triplet indicates the beginning of a submatrix to multiply */
   psp = bidx * npar * grouping;
 #pragma unroll 3
-  for (int i = tidx; i < nrun; i += threads){
+  for (int i = tidx; i < nrun; i += threads) {
     // param_stack is 1-based, convert to 0-based here
     param_stack_s[i * npar    ] = __ldg(&param_stack[psp + i * npar    ]) - 1;
     param_stack_s[i * npar + 1] = __ldg(&param_stack[psp + i * npar + 1]) - 1;
@@ -262,7 +262,7 @@ smm_acc_dnt_largeDB2(const int *__restrict__ param_stack, const int stack_size,
   syncthreads();
 
   /* In each run, we process one stack entry from param_stack_s */
-  for (int run = 0; run < nrun; run++){
+  for (int run = 0; run < nrun; run++) {
 
     /* load first data for run from regs to smem */
     load_regs_into_smem(mya, buff_l, mw, threads);
@@ -270,7 +270,7 @@ smm_acc_dnt_largeDB2(const int *__restrict__ param_stack, const int stack_size,
     syncthreads();
 
     /* Actual double buffering loop: */
-    for (int t = 0; t < (k / w - 1) * w ; t += w){
+    for (int t = 0; t < (k / w - 1) * w ; t += w) {
       /* load next input slab from global memory into registers */
       srcA += mw;
       srcB += wn;
@@ -287,7 +287,7 @@ smm_acc_dnt_largeDB2(const int *__restrict__ param_stack, const int stack_size,
       syncthreads();
     }
 
-    if (wa != 0){ /* is there a tail-slab? */
+    if (wa != 0) { /* is there a tail-slab? */
       /* If the input slab witdh w is not a divisor of k,
        * a smaller tail-slab of width wa has to be process
        * load tail-slab into registers
@@ -307,7 +307,7 @@ smm_acc_dnt_largeDB2(const int *__restrict__ param_stack, const int stack_size,
 
     psp += npar;
 
-    if (run < nrun - 1){ /* If this is not the last run */
+    if (run < nrun - 1) { /* If this is not the last run */
       /* get the offsets for the a-block and the b-block from the stack */
       srcA = param_stack_s[psp    ];
       srcB = param_stack_s[psp + 1];
@@ -317,7 +317,7 @@ smm_acc_dnt_largeDB2(const int *__restrict__ param_stack, const int stack_size,
       load_gmem_into_regs(&b_data[srcB], myb, wn, threads);
     }
 
-    if (wa != 0){ /* is there a tail-slab? */
+    if (wa != 0) { /* is there a tail-slab? */
       /* multiply the tail-slab */
       multiply(buff_l, buff_r, myc, wa, m, n, M, N);
     } else {
@@ -329,7 +329,7 @@ smm_acc_dnt_largeDB2(const int *__restrict__ param_stack, const int stack_size,
     /* multiplication for this run done
      * do we have to flush the result tile?
      */
-    if (run == nrun - 1 || param_stack_s[psp - 1] != param_stack_s[psp + 2]){
+    if (run == nrun - 1 || param_stack_s[psp - 1] != param_stack_s[psp + 2]) {
       srcC = param_stack_s[psp - 1];
       writeback_results(myc, &c_data[srcC], buff, m, n, M, N, v, threads);
     }

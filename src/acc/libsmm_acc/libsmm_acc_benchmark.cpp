@@ -19,7 +19,7 @@
 //===========================================================================
 // Allocate memory and accelerator events
 void libsmm_acc_benchmark_init(libsmm_acc_benchmark_t** handle, benchmark_mode mode,
-                               int max_m, int max_n, int max_k){
+                               int max_m, int max_n, int max_k) {
 
     libsmm_acc_benchmark_t* h = (libsmm_acc_benchmark_t*) malloc(sizeof(libsmm_acc_benchmark_t));
     *handle = h;
@@ -70,10 +70,9 @@ void libsmm_acc_benchmark_init(libsmm_acc_benchmark_t** handle, benchmark_mode m
 
 }
 
-
 //===========================================================================
 // Free memory and accelerator events
-void libsmm_acc_benchmark_finalize(libsmm_acc_benchmark_t* handle){
+void libsmm_acc_benchmark_finalize(libsmm_acc_benchmark_t* handle) {
     ACC_DRV_CALL(EventDestroy, (handle->t_start));
     ACC_DRV_CALL(EventDestroy, (handle->t_stop));
     ACC_API_CALL(Free, (handle->d_stack_trs_b));
@@ -93,54 +92,50 @@ void libsmm_acc_benchmark_finalize(libsmm_acc_benchmark_t* handle){
     free(handle);
 }
 
-
 //===========================================================================
 // initialize matrix
-void matInit(double* mat, int mat_n, int x, int y, int seed){
+void matInit(double* mat, int mat_n, int x, int y, int seed) {
 
  double *m = mat;
 
- for(int n=0; n<mat_n; n++)
-   for(int j=0; j<y; j++)
-     for(int i=0; i<x; i++, m++)
+ for (int n=0; n<mat_n; n++)
+   for (int j=0; j<y; j++)
+     for (int i=0; i<x; i++, m++)
        *m = (double) j*x + i + n + seed;
 
 }
-
 
 //===========================================================================
 // initialize the task list ("stack" in DBCSR lingo)
 // for each of the result matrices we have a random number
 void stackInit(int *stack, int n_stack, int n_c, int n_a, int n_b,
-               int mat_m, int mat_n, int mat_k){
+               int mat_m, int mat_n, int mat_k) {
 
   init_stack(stack, n_stack, mat_m * mat_n, mat_m * mat_k, mat_k * mat_n, n_c, n_a, n_b);
 }
 
-
 //===========================================================================
 // initialize the task list ("stack" in DBCSR lingo)
-void stackInitTransp(int *stack, int n_stack, int mat_m, int mat_n){
+void stackInitTransp(int *stack, int n_stack, int mat_m, int mat_n) {
 
   int* s = stack;
-  for(int p=0; p<n_stack; p++)
+  for (int p=0; p<n_stack; p++)
      *s++ =  p * mat_m * mat_n;
 }
 
-
 //===========================================================================
 void stackCalc(int* stack, int n_stack, double* mat_c, double *mat_a, double* mat_b,
-               int mat_m, int mat_n, int mat_k){
+               int mat_m, int mat_n, int mat_k) {
 
-  for(int s=0; s<n_stack; s++){
+  for (int s=0; s<n_stack; s++) {
      int a_base = stack[3 * s    ] - 1;
      int b_base = stack[3 * s + 1] - 1;
      int c_base = stack[3 * s + 2] - 1;
 
-     for(int n=0; n<mat_n; n++){
-       for(int m=0; m<mat_m; m++){
+     for (int n=0; n<mat_n; n++) {
+       for (int m=0; m<mat_m; m++) {
          double res = 0.;
-         for(int k=0; k<mat_k; k++){
+         for (int k=0; k<mat_k; k++) {
           int a_ind = k * mat_m + m;
           int b_ind = k * mat_n + n;
           res += mat_a[a_base + a_ind] * mat_b[b_base + b_ind];
@@ -153,14 +148,13 @@ void stackCalc(int* stack, int n_stack, double* mat_c, double *mat_a, double* ma
 
 }
 
-
 //===========================================================================
 void stackTransp(int* stack, int n_stack, double *mat, double* mat_trs,
-                 int mat_m, int mat_n){
-    for(int s=0; s < n_stack; s++){
+                 int mat_m, int mat_n) {
+    for (int s=0; s < n_stack; s++) {
         int offset = stack[s];
-        for(int m=0; m < mat_m; m++){
-            for(int n=0; n < mat_n; n++){
+        for (int m=0; m < mat_m; m++) {
+            for (int n=0; n < mat_n; n++) {
                 int i = n * mat_m + m;
                 int r_out = i % mat_n;
                 int c_out = i / mat_n;
@@ -171,19 +165,17 @@ void stackTransp(int* stack, int n_stack, double *mat, double* mat_trs,
     }
 }
 
-
 //===========================================================================
-double checkSum(double* mat_c, int n_c, int mat_m, int mat_n){
+double checkSum(double* mat_c, int n_c, int mat_m, int mat_n) {
    double res = 0;
-   for(int i=0; i<n_c * mat_m * mat_n; i++){
+   for (int i=0; i<n_c * mat_m * mat_n; i++) {
      res += mat_c[i];
    }
    return res;
 }
 
-
 //===========================================================================
-double checkSumTransp(double* mat, int n_stack, int mat_m, int mat_n){
+double checkSumTransp(double* mat, int n_stack, int mat_m, int mat_n) {
     // for transposition, a regular checkSum does not inform about the
     // transpose's correctness. Instead, we perform a checkSum on a
     // sample of elements.
@@ -192,40 +184,38 @@ double checkSumTransp(double* mat, int n_stack, int mat_m, int mat_n){
     int n_samples = size / 3;
     int step = size;
 
-    if(n_samples > 0){
+    if (n_samples > 0) {
         step = size / n_samples;
     }
 
-    for(int s=0; s < n_stack; s++){
+    for (int s=0; s < n_stack; s++) {
         int offset = s * size;
-        for(int idx=s%step; idx < size; idx+=step)
+        for (int idx=s%step; idx < size; idx+=step)
             res += mat[offset + idx];
     }
     return res;
 }
 
-
 //===========================================================================
 //Removes special symbols so that the output is useful for awk and gnuplot.
-static void clean_string(char* str_in, char* str_out){
-    for(int i=0; i<1000 ; i++){
-        if(str_in[i] == '=' || str_in[i] == ',' || str_in[i] == '(' || str_in[i] == ')'){
+static void clean_string(char* str_in, char* str_out) {
+    for (int i=0; i<1000 ; i++) {
+        if (str_in[i] == '=' || str_in[i] == ',' || str_in[i] == '(' || str_in[i] == ')') {
             str_out[i] = ' ';
          }else{
              str_out[i] = str_in[i];
          }
-         if(str_in[i] == 0)
+         if (str_in[i] == 0)
              break;
     }
 }
 
-
 //===========================================================================
 int libsmm_acc_benchmark(libsmm_acc_benchmark_t* h,
                          int mat_m, int mat_n, int mat_k,
-                         int nkernels, KernelLauncher* launchers, char ** kernel_descr){
+                         int nkernels, KernelLauncher* launchers, char ** kernel_descr) {
 
- if(mat_m > h->max_m || mat_n > h->max_n || mat_k > h->max_k){
+ if (mat_m > h->max_m || mat_n > h->max_n || mat_k > h->max_k) {
      printf("libsmm_acc_benchmark: got handle with too few resources\n");
      exit(1);
  }
@@ -233,14 +223,14 @@ int libsmm_acc_benchmark(libsmm_acc_benchmark_t* h,
  std::vector<Triplet> blocksizes;
  get_libsmm_acc_triplets(blocksizes, ht);
  auto it = std::find(std::begin(blocksizes), std::end(blocksizes), Triplet({ mat_m, mat_n, mat_k }));
- if(it == std::end(blocksizes) && h->mode != tune){
+ if (it == std::end(blocksizes) && h->mode != tune) {
      printf("Triplet %i x %i x %i is not defined in libsmm_acc\n", mat_m, mat_n, mat_k);
      exit(1);
  }
 
 
  int n_iter{0}, n_warm{0};
- switch(h->mode){
+ switch(h->mode) {
    case tune:
    case timing: // for larger matrices few iteration give enough statistics
      n_iter = std::max(3, 12500/(mat_m * mat_n * mat_k));
@@ -266,14 +256,14 @@ int libsmm_acc_benchmark(libsmm_acc_benchmark_t* h,
  matInit(h->mat_a, h->n_a, mat_m, mat_k, 42);
  matInit(h->mat_b, h->n_b, mat_k, mat_n, 24);
 
- if(h->mode == tune)
+ if (h->mode == tune)
      printf("Initializing ...\n");
  stackInit(h->stack, h->n_stack, h->n_c, h->n_a, h->n_b, mat_m, mat_n, mat_k);
 
  // Actually, we would have to calculate the stack n_iter times.
  // We cheat by simply scaling the results of a single stack calculation.
  stackCalc(h->stack, h->n_stack, h->mat_c, h->mat_a, h->mat_b, mat_m, mat_n, mat_k);
- for(int i=0 ; i < h->n_c*mat_m*mat_n ; i++)
+ for (int i=0 ; i < h->n_c*mat_m*mat_n ; i++)
      h->mat_c[i] *= n_iter;
 
  sumCPU =  checkSum(h->mat_c, h->n_c, mat_m, mat_n);
@@ -283,16 +273,16 @@ int libsmm_acc_benchmark(libsmm_acc_benchmark_t* h,
  ACC_API_CALL(Memcpy, (h->d_stack, h->stack, h->n_stack * 3 * sizeof(int), ACC(MemcpyHostToDevice)));
  // d_mat_c gets zeroed after warmup run
 
- for(int ikern=0; ikern < nkernels; ikern++){
+ for (int ikern=0; ikern < nkernels; ikern++) {
 
     // Warmup run (more often if n_iter is small)
-    for(int i=0; i<n_warm; i++)
+    for (int i=0; i<n_warm; i++)
         launchers[ikern](h->d_stack, h->n_stack, stream, mat_m, mat_n, mat_k, h->d_mat_a, h->d_mat_b, h->d_mat_c);
     ACC_API_CALL(Memset, (h->d_mat_c, 0, h->n_c * mat_m * mat_n * sizeof(double)));
 
     ACC_DRV_CALL(EventRecord, (h->t_start, stream));
 
-    for(int i=0; i<n_iter; i++)
+    for (int i=0; i<n_iter; i++)
         launchers[ikern](h->d_stack, h->n_stack, stream, mat_m, mat_n, mat_k, h->d_mat_a, h->d_mat_b, h->d_mat_c);
 
     ACC_DRV_CALL(EventRecord, (h->t_stop, stream));
@@ -303,20 +293,20 @@ int libsmm_acc_benchmark(libsmm_acc_benchmark_t* h,
 
     clean_string(kernel_descr[ikern], descr);
 
-    if(h->mode == tune)
+    if (h->mode == tune)
         sprintf(msg_prefix, "params %d / %d\n",ikern+1, nkernels);
 
     sumGPU =  checkSum(h->mat_c, h->n_c, mat_m, mat_n);
-    if(sumGPU != sumCPU){
+    if (sumGPU != sumCPU) {
         printf("%sERROR %s checksum_diff: %g\n",msg_prefix, descr, sumGPU-sumCPU);
         error_counter++;
         continue;
     }
 
-    if(h->mode == tune || h->mode == timing){
+    if (h->mode == tune || h->mode == timing) {
        double gflops = ((double) n_iter * h->n_stack * mat_m * mat_n * mat_k * 2 / (1e9))/(t_duration * 1e-3);
        printf("%sOK %s GFlop/s %g\n", msg_prefix, descr, gflops);
-       if(best_gflops < gflops){
+       if (best_gflops < gflops) {
            best_gflops = gflops;
            best_kernel = ikern;
        }
@@ -328,9 +318,9 @@ int libsmm_acc_benchmark(libsmm_acc_benchmark_t* h,
 #endif
  }
 
- if(h->mode == tune){
+ if (h->mode == tune) {
     printf("\n\n");
-    if(best_kernel > -1){
+    if (best_kernel > -1) {
         printf("WINNER: %d %s , # %g GFlop/s \n", best_kernel+1, kernel_descr[best_kernel], best_gflops);
     }else{
        printf("WINNER: None\n");
@@ -341,14 +331,13 @@ int libsmm_acc_benchmark(libsmm_acc_benchmark_t* h,
  return(error_counter);
 }
 
-
 //===========================================================================
 int libsmm_acc_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
                                     double* mat, double* mat_trs, double* d_mat,
                                     int n, int mat_m, int mat_n,
                                     ACC_DRV(event) start, ACC_DRV(event) stop, char** kernel_descr,
-                                    TransposeLauncher* launcher){
- if(mat_m > MAX_BLOCK_DIM || mat_n > MAX_BLOCK_DIM){
+                                    TransposeLauncher* launcher) {
+ if (mat_m > MAX_BLOCK_DIM || mat_n > MAX_BLOCK_DIM) {
      printf("Cannot transpose matrices with dimensions above %i, got (%i x %i)\n",
             MAX_BLOCK_DIM, mat_m, mat_n);
      exit(1);
@@ -379,13 +368,13 @@ int libsmm_acc_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
  ACC_API_CALL(Memcpy, (d_stack, stack, n_stack * sizeof(int), ACC(MemcpyHostToDevice)));
 
  // Warmup run
- for(int i=0; i<n_warm; i++)
+ for (int i=0; i<n_warm; i++)
    launcher[0](d_stack, offset, n_stack, d_mat, mat_m, mat_n, stream);
 
  // Real runs
  ACC_DRV_CALL(EventRecord, (start, stream));
 
- for(int i=0; i<n_iter; i++)
+ for (int i=0; i<n_iter; i++)
    launcher[0](d_stack, offset, n_stack, d_mat, mat_m, mat_n, stream);
 
  ACC_DRV_CALL(EventRecord, (stop, stream));
@@ -397,7 +386,7 @@ int libsmm_acc_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
  clean_string(kernel_descr[0], descr);
 
  sumGPU = checkSumTransp(mat_trs, n_stack, mat_m, mat_n);
- if(sumGPU != sumCPU){
+ if (sumGPU != sumCPU) {
      printf("%sERROR %s checksum_diff: %g\n", msg_prefix, descr, sumGPU-sumCPU);
      error_counter++;
  }
@@ -410,17 +399,16 @@ int libsmm_acc_benchmark_transpose_(int n_stack, int* stack, int* d_stack,
 
 }
 
-
 //===========================================================================
 int libsmm_acc_benchmark_transpose(libsmm_acc_benchmark_t* handle,
                                    int mat_m, int mat_n,
-                                   TransposeLauncher* launcher, char** kernel_descr){
+                                   TransposeLauncher* launcher, char** kernel_descr) {
 
- if(mat_m > handle->max_m || mat_n > handle->max_n){
+ if (mat_m > handle->max_m || mat_n > handle->max_n) {
      printf("libsmm_acc_benchmark_transpose: got handle with too few resources\n");
      exit(1);
  }
- if(handle->mode == tune){
+ if (handle->mode == tune) {
      printf("Tune mode not supported for benchmarking of transpose");
      exit(1);
  }
