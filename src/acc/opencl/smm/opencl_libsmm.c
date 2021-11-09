@@ -615,12 +615,12 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
     ) &&
     0 < stack_size && 1 < mn && m <= max_kernel_dim && n <= max_kernel_dim)
   {
-# if !defined(OPENCL_LIBSMM_DEBUG_TRANS)
-    const libxsmm_timer_tickint start = libxsmm_timer_tick();
-    double duration;
-# endif
     opencl_libsmm_trans_t* config;
     opencl_libsmm_transkey_t key;
+# if !defined(OPENCL_LIBSMM_DEBUG_TRANS)
+    double duration;
+    const libxsmm_timer_tickint start = libxsmm_timer_tick();
+# endif
     LIBXSMM_MEMZERO127(&key); /* potentially heterogeneous key-data */
     key.type = datatype; key.m = m; key.n = n; /* initialize key */
     config = (opencl_libsmm_trans_t*)OPENCL_LIBSMM_DISPATCH(&key, sizeof(key));
@@ -630,6 +630,11 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
       int nchar = ACC_OPENCL_SNPRINTF(fname, sizeof(fname),
         /* kernel name are meant to be unambiguous (BLAS-typeprefix and kernelsize) */
         "x" OPENCL_LIBSMM_KERNELNAME_TRANS "%ix%i", m, n);
+# if defined(__DBCSR_ACC)
+      int routine_handle;
+      c_dbcsr_timeset(LIBSMM_ACC_TRANSPOSE_ROUTINE_NAME_STRPTR,
+        LIBSMM_ACC_TRANSPOSE_ROUTINE_NAME_LENPTR, &routine_handle);
+# endif
       if (0 < nchar && (int)sizeof(fname) > nchar) {
         cl_device_id active_device;
         result = c_dbcsr_acc_opencl_device(stream, &active_device);
@@ -719,6 +724,9 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
       else {
         result = EXIT_FAILURE;
       }
+# if defined(__DBCSR_ACC)
+      c_dbcsr_timestop(&routine_handle);
+# endif
     }
     assert((NULL != config && NULL != config->kernel && 0 < config->wgsize) || EXIT_SUCCESS != result);
     if (EXIT_SUCCESS == result) {
@@ -945,12 +953,12 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
   assert(0 < nparams && 0 < max_kernel_dim && NULL != stream);
   assert(0 <= stack_size && 0 <= m_max && 0 <= n_max && 0 <= k_max);
   if (0 != libsmm_acc_process_suitable(def_mnk, datatype, stack_size, m_max, n_max, k_max, max_kernel_dim)) {
-# if !defined(OPENCL_LIBSMM_DEBUG_SMM)
-    const libxsmm_timer_tickint start = libxsmm_timer_tick();
-    double duration;
-# endif
     cl_device_id active_device;
     opencl_libsmm_smmkey_t key;
+# if !defined(OPENCL_LIBSMM_DEBUG_SMM)
+    double duration;
+    const libxsmm_timer_tickint start = libxsmm_timer_tick();
+# endif
     LIBXSMM_MEMZERO127(&key); /* potentially heterogeneous key-data */
     result = opencl_libsmm_device(stream, &active_device, &key.device);
     if (EXIT_SUCCESS == result) {
@@ -966,6 +974,11 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
           "x" OPENCL_LIBSMM_KERNELNAME_SMM "%ix%ix%i", m_max, n_max, k_max);
         const char* extensions[] = { NULL, NULL };
         cl_device_type device_type;
+# if defined(__DBCSR_ACC)
+        int routine_handle;
+        c_dbcsr_timeset(LIBSMM_ACC_PROCESS_ROUTINE_NAME_STRPTR,
+          LIBSMM_ACC_PROCESS_ROUTINE_NAME_LENPTR, &routine_handle);
+# endif
         if (0 < nchar && (int)sizeof(fname) > nchar
           && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_level(active_device,
             &cl_level_major, NULL/*level_minor*/, NULL/*cl_std*/, &device_type))
@@ -1332,6 +1345,9 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
         if (EXIT_SUCCESS != result && NULL != config) {
           libxsmm_xrelease(&key, sizeof(key));
         }
+# if defined(__DBCSR_ACC)
+        c_dbcsr_timestop(&routine_handle);
+# endif
       }
       assert(EXIT_SUCCESS != result || (NULL != config && NULL != config->kernel));
       assert(EXIT_SUCCESS != result || ( 1 <= config->bm && config->bm <= m_max));

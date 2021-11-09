@@ -29,20 +29,20 @@ cd ${HOME}/dbcsr/src/acc/opencl/smm
 ./tune_multiply.py 23 23 23
 ```
 
-The above process would also terminate at some point (based on OpenTuner's default) but can be constrained also by the number of steps (experiments), time to be spent, or a combination of both. Details can be found in the [Developer Guide](../../3-developer-guide/3-programming/2-accelerator-backend/4-opencl-libsmm.html).
+Beside of interactive termination, above process would also terminate based on OpenTuner's default or can be constrained by the number of steps (experiments), time to be spent, or a combination of both. Details can be found in the [Developer Guide](../../3-developer-guide/3-programming/2-accelerator-backend/4-opencl-libsmm.html).
 
-Finally, suppose the 23x23x23-kernel was tuned for some time (e.g., 5-10 minutes), the found parameters can be incorporated into the backend. The aggregated parameters (`tune_multiply.csv`) are automatically embedded when rebuilding the library and driver.
+Suppose the 23x23x23-kernel was tuned for some time (e.g., 5-10 minutes), tuned parameters can be incorporated into the backend. The aggregated parameters (`tune_multiply.csv`) are automatically embedded when rebuilding the library and driver.
 
 ```bash
 cd ${HOME}/dbcsr/src/acc/opencl
 make
 ```
 
-Important kernels can be tuned further (beside of spending more time for tuning the kernel) by widening the set of tuned parameters (`--tuning-level` or `-a` with "0" denoting an unrestricted set of tunables).
+Important kernels can be further tuned (in addition to spending more time for the process) by widening the set of tuned parameters (`--tuning-level` or `-a` with "0" denoting an unrestricted set of tunables).
 
 ```bash
 cd ${HOME}/dbcsr/src/acc/opencl/smm
 ./tune_multiply.py 23 23 23 -a 0
 ```
 
-Please note, to tune *further*, the previously found parameters should be embedded (rebuilding the driver) or specified at runtime (`OPENCL_LIBSMM_SMM_PARAMS=/path/to/tune_multiply.csv`).
+To "continue" tuning beyond the default level, the previously found parameters must be embedded (rebuilding the driver) or can be specified at runtime (`OPENCL_LIBSMM_SMM_PARAMS=/path/to/tune_multiply.csv`).
