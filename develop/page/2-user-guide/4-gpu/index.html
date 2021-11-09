@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../index.html">DBCSR <small>2.2.0-rc0-17-g8fda0088e9</small></a>
+          <a class="navbar-brand" href="../../../index.html">DBCSR <small>2.2.0-rc0-18-gd60fa3f322</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -158,18 +158,18 @@ make
 ./tune_multiply.py <span class="m">23</span> <span class="m">23</span> <span class="m">23</span>
 </code></pre></div>
 
-<p>The above process would also terminate at some point (based on OpenTuner's default) but can be constrained also by the number of steps (experiments), time to be spent, or a combination of both. Details can be found in the <a href="../../3-developer-guide/3-programming/2-accelerator-backend/4-opencl-libsmm.html">Developer Guide</a>.</p>
-<p>Finally, suppose the 23x23x23-kernel was tuned for some time (e.g., 5-10 minutes), the found parameters can be incorporated into the backend. The aggregated parameters (<code>tune_multiply.csv</code>) are automatically embedded when rebuilding the library and driver.</p>
+<p>Beside of interactive termination, above process would also terminate based on OpenTuner's default or can be constrained by the number of steps (experiments), time to be spent, or a combination of both. Details can be found in the <a href="../../3-developer-guide/3-programming/2-accelerator-backend/4-opencl-libsmm.html">Developer Guide</a>.</p>
+<p>Suppose the 23x23x23-kernel was tuned for some time (e.g., 5-10 minutes), tuned parameters can be incorporated into the backend. The aggregated parameters (<code>tune_multiply.csv</code>) are automatically embedded when rebuilding the library and driver.</p>
 <div class="codehilite"><pre><span></span><code><span class="nb">cd</span> <span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/dbcsr/src/acc/opencl
 make
 </code></pre></div>
 
-<p>Important kernels can be tuned further (beside of spending more time for tuning the kernel) by widening the set of tuned parameters (<code>--tuning-level</code> or <code>-a</code> with "0" denoting an unrestricted set of tunables).</p>
+<p>Important kernels can be further tuned (in addition to spending more time for the process) by widening the set of tuned parameters (<code>--tuning-level</code> or <code>-a</code> with "0" denoting an unrestricted set of tunables).</p>
 <div class="codehilite"><pre><span></span><code><span class="nb">cd</span> <span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/dbcsr/src/acc/opencl/smm
 ./tune_multiply.py <span class="m">23</span> <span class="m">23</span> <span class="m">23</span> -a <span class="m">0</span>
 </code></pre></div>
 
-<p>Please note, to tune <em>further</em>, the previously found parameters should be embedded (rebuilding the driver) or specified at runtime (<code>OPENCL_LIBSMM_SMM_PARAMS=/path/to/tune_multiply.csv</code>).</p>
+<p>To "continue" tuning beyond the default level, the previously found parameters must be embedded (rebuilding the driver) or can be specified at runtime (<code>OPENCL_LIBSMM_SMM_PARAMS=/path/to/tune_multiply.csv</code>).</p>
     </div>
     
     <div class="col-md-3 col-md-pull-9">
@@ -346,7 +346,7 @@ make
             </li>
             
             <li role="presentation">
-            <a href='../../../page/3-developer-guide/4-performance/2-just-in-time-compilation.html'>Just-In-Time Compilation</a>
+            <a href='../../../page/3-developer-guide/4-performance/2-just-in-time-compilation.html'>JIT</a>
             
             </li>
             
