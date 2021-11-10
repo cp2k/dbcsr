@@ -22,7 +22,7 @@ cd dbcsr/src/acc/opencl
 make
 ```
 
-Tuning the 23x23x23-kernel for example is the default case. However, to better illustrate the options, M, N, and K are given explicitly. The `tune_multiply.py` script can be used interactively for example, and terminated with CTRL-C which writes a JSON-file with tuned parameters (note a file `.tune_multiply-double-32x32x32.json` is quietly written every time a better set of parameter is found), and then aggregates all JSON-file in the directory into a CSV-file (`tune_multiply.csv`).
+Tuning the 23x23x23-kernel for example is the default case. However, to better illustrate the options, M, N, and K are given explicitly. The `tune_multiply.py` script can be used interactively for example, and terminated with CTRL-C which writes a JSON-file with tuned parameters (note a file `.tune_multiply-double-32x32x32.json` is quietly written every time a better set of parameters is found), and then aggregates all JSON-files in the directory into a CSV-file (`tune_multiply.csv`).
 
 ```bash
 cd ${HOME}/dbcsr/src/acc/opencl/smm
@@ -45,4 +45,4 @@ cd ${HOME}/dbcsr/src/acc/opencl/smm
 ./tune_multiply.py 23 23 23 -a 0
 ```
 
-To "continue" tuning beyond the default level, the previously found parameters must be embedded (rebuilding the driver) or can be specified at runtime (`OPENCL_LIBSMM_SMM_PARAMS=/path/to/tune_multiply.csv`).
+To "continue" tuning beyond the default level, the previously found parameters must be embedded (by rebuilding the library and driver program) or can be alternatively specified at runtime (`OPENCL_LIBSMM_SMM_PARAMS=/path/to/tune_multiply.csv`).
