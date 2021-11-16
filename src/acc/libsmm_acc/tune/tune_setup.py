@@ -30,7 +30,7 @@ from kernels.smm_acc_predict import (  # noqa: E402
 def main(
     param_fn,
     compiler,
-    cpus_per_node,
+    cpus_per_task,
     max_num_nodes,
     blocksizes,
     blocks_from_param_file,
@@ -86,7 +86,7 @@ def main(
             continue
         os.mkdir(outdir)
         gen_benchmark(outdir, gpu_properties, autotuning_properties, compiler, m, n, k)
-        gen_jobfile(outdir, compiler, m, n, k, cpus_per_node, max_num_nodes)
+        gen_jobfile(outdir, compiler, m, n, k, cpus_per_task, max_num_nodes)
         gen_makefile(outdir, compiler, arch_code)
 
 
@@ -256,7 +256,7 @@ def gen_benchmark(outdir, gpu_properties, autotuning_properties, compiler, m, n,
 
 
 # ===============================================================================
-def gen_jobfile(outdir, compiler, m, n, k, cpus_per_node=12, max_num_nodes=0):
+def gen_jobfile(outdir, compiler, m, n, k, cpus_per_task=12, max_num_nodes=0):
 
     file_extension = get_file_extension_from_compiler(compiler)
 
@@ -278,7 +278,7 @@ def gen_jobfile(outdir, compiler, m, n, k, cpus_per_node=12, max_num_nodes=0):
     output += "#SBATCH --nodes=%d\n" % num_nodes
     output += "#SBATCH --ntasks-per-core=1\n"
     output += "#SBATCH --ntasks-per-node=1\n"
-    output += "#SBATCH --cpus-per-task=" + "%d\n" % cpus_per_node
+    output += "#SBATCH --cpus-per-task=" + "%d\n" % cpus_per_task
     output += "#SBATCH --time=%s\n" % time
     output += "#SBATCH --partition=normal\n"
     output += "#SBATCH --constraint=gpu\n"
@@ -302,7 +302,7 @@ def gen_jobfile(outdir, compiler, m, n, k, cpus_per_node=12, max_num_nodes=0):
     for exe in all_exe:
         output += (
             "srun --nodes=1 --bcast=/tmp/${USER} --ntasks=1 --ntasks-per-node=1 --cpus-per-task=%d make -j %d %s &\n"
-            % (cpus_per_node, 2 * cpus_per_node, exe)
+            % (cpus_per_task, 2 * cpus_per_task, exe)
         )
         num_nodes_busy += 1
         if num_nodes_busy == num_nodes:
@@ -482,11 +482,11 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "-c",
-        "--cpus_per_node",
+        "--cpus_per_task",
         metavar="INT",
         default=12,
         type=int,
-        help="Number of CPUs per node",
+        help="Number of CPUs required per task",
     )
     parser.add_argument(
         "-n",
@@ -531,7 +531,7 @@ if __name__ == "__main__":
     main(
         args.params,
         args.compiler,
-        args.cpus_per_node,
+        args.cpus_per_task,
         args.nodes,
         args.blocksizes,
         blocksizes_from_param_file,
