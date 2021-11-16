@@ -175,11 +175,9 @@ class SmmTuner(MeasurementInterface):
             exit(0)
         elif self.typename and self.typeid and self.device:
             # construct label used for the database session
-            if not self.args.label:
-                self.args.label = "multiply-{}-{}{}".format(
-                    "{}x{}x{}".format(self.args.m, self.args.n, self.args.k),
-                    self.typename,
-                    " " + self.device if "" != self.device else "",
+            if not self.args.label:  # consider to include self.device
+                self.args.label = "tune_multiply-{}-{}x{}x{}".format(
+                    self.typename, self.args.m, self.args.n, self.args.k
                 )
         else:
             sys.tracebacklimit = 0
@@ -406,12 +404,9 @@ class SmmTuner(MeasurementInterface):
                 if final
                 else None
             )
-            basename = "tune_multiply-{}-{}x{}x{}".format(
-                self.typename, self.args.m, self.args.n, self.args.k
-            )
             # self.manipulator().save_to_file(config, filename)
             with open(
-                os.path.join(self.args.jsondir, ".{}.json".format(basename)), "w"
+                os.path.join(self.args.jsondir, ".{}.json".format(self.args.label)), "w"
             ) as file:
                 json.dump(config, file, sort_keys=True)
                 file.write("\n")  # append newline at EOF
@@ -425,11 +420,11 @@ class SmmTuner(MeasurementInterface):
                 filename = os.path.normpath(
                     os.path.join(
                         self.args.jsondir,
-                        "{}-{}gflops.json".format(basename, round(self.gflops)),
+                        "{}-{}gflops.json".format(self.args.label, round(self.gflops)),
                     )
                 )
                 os.rename(
-                    os.path.join(self.args.jsondir, ".{}.json".format(basename)),
+                    os.path.join(self.args.jsondir, ".{}.json".format(self.args.label)),
                     filename,
                 )
                 if filename not in filenames:
