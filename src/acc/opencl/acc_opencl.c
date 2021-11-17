@@ -18,7 +18,9 @@
 #endif
 #if defined(_WIN32)
 # include <windows.h>
+# include <process.h>
 #else
+# include <unistd.h>
 # include <glob.h>
 #endif
 #if defined(__DBCSR_ACC)
@@ -410,25 +412,36 @@ int c_dbcsr_acc_finalize(void)
   if (NULL != c_dbcsr_acc_opencl_contexts) {
     int i;
     assert(0 < c_dbcsr_acc_opencl_config.ndevices);
-    for (i = 0; i < c_dbcsr_acc_opencl_config.nthreads
-      && EXIT_SUCCESS == result; ++i)
-    {
-      const cl_context context = c_dbcsr_acc_opencl_contexts[i];
-      if (NULL != context) {
-        c_dbcsr_acc_opencl_contexts[i] = NULL;
-        result = clReleaseContext(context);
-      }
-    }
 #if defined(__DBCSR_ACC)
     /* DBCSR may call c_dbcsr_acc_init as well as libsmm_acc_init() since both interface are used.
      * libsmm_acc_init may privately call c_dbcsr_acc_init (as it depends on the ACC interface).
      * The implementation of c_dbcsr_acc_init should be safe against "over initialization".
      * However, DBCSR only calls c_dbcsr_acc_init and expects an implicit libsmm_acc_init().
      */
-    if (EXIT_SUCCESS == result) {
-      result = libsmm_acc_finalize();
-    }
+    if (EXIT_SUCCESS == result) result = libsmm_acc_finalize();
 #endif
+    if (0 != c_dbcsr_acc_opencl_config.verbosity) {
+      int device_id;
+      fprintf(stderr, "INFO ACC/OpenCL: pid=%u devices={",
+#if defined(_WIN32)
+        (unsigned int)_getpid());
+#else
+        (unsigned int)getpid());
+#endif
+      for (i = 0; i < c_dbcsr_acc_opencl_config.nthreads; ++i) {
+        if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_id(i, &device_id) && 0 <= device_id) {
+          fprintf(stderr, 0 < i ? " %i" : "%i", device_id);
+        }
+      }
+      fprintf(stderr, "}\n");
+    }
+    for (i = 0; i < c_dbcsr_acc_opencl_config.nthreads && EXIT_SUCCESS == result; ++i) {
+      const cl_context context = c_dbcsr_acc_opencl_contexts[i];
+      if (NULL != context) {
+        c_dbcsr_acc_opencl_contexts[i] = NULL;
+        result = clReleaseContext(context);
+      }
+    }
     for (i = 0; i < ACC_OPENCL_DEVICES_MAXCOUNT; ++i) {
       const cl_device_id device_id = c_dbcsr_acc_opencl_devices[i];
       if (NULL != device_id) {
@@ -509,6 +522,34 @@ int c_dbcsr_acc_opencl_device(void* stream, cl_device_id* device)
     else {
       *device = NULL;
     }
+  }
+  ACC_OPENCL_RETURN(result);
+}
+
+
+int c_dbcsr_acc_opencl_device_id(int thread_id, int* device_id)
+{
+  int result = EXIT_SUCCESS;
+  cl_context context;
+  assert(0 <= thread_id && thread_id < c_dbcsr_acc_opencl_config.nthreads);
+  assert(NULL != device_id);
+  context = c_dbcsr_acc_opencl_contexts[thread_id];
+  if (NULL != context) {
+    cl_device_id device;
+    ACC_OPENCL_CHECK(clGetContextInfo(context,
+      CL_CONTEXT_DEVICES, sizeof(cl_device_id), &device, NULL),
+      "retrieve id of active device", result);
+    if (EXIT_SUCCESS == result) {
+      int i = 0; assert(NULL != device);
+      for (; i < ACC_OPENCL_DEVICES_MAXCOUNT; ++i) {
+        if (device == c_dbcsr_acc_opencl_devices[i]) break;
+      }
+      *device_id = (i < ACC_OPENCL_DEVICES_MAXCOUNT ? i : /*soft-error*/-1);
+    }
+    else *device_id = -1;
+  }
+  else { /* soft-error */
+    *device_id = -1;
   }
   ACC_OPENCL_RETURN(result);
 }
