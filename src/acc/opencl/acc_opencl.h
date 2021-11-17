@@ -242,6 +242,8 @@ const char* c_dbcsr_acc_opencl_stristr(const char a[], const char b[]);
  * - Queue-specific if stream != NULL)
  */
 int c_dbcsr_acc_opencl_device(void* stream, cl_device_id* device);
+/** Ordinal number denoting the thread-local device associated with thread-id. */
+int c_dbcsr_acc_opencl_device_id(int thread_id, int* device_id);
 /** Confirm the vendor of the given device. */
 int c_dbcsr_acc_opencl_device_vendor(cl_device_id device, const char vendor[]);
 /** Confirm that match is matching the name of the given device. */

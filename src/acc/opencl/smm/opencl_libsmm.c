@@ -311,10 +311,10 @@ int libsmm_acc_init(void)
 #endif
     libxsmm_init();
     if (EXIT_SUCCESS == result) {
-      const char *const env_params = getenv("OPENCL_LIBSMM_SMM_PARAMS");
 #if defined(OPENCL_LIBSMM_SUITABLE)
       const char *const env_suitable = getenv("OPENCL_LIBSMM_SUITABLE");
 #endif
+      char *const env_params = getenv("OPENCL_LIBSMM_SMM_PARAMS");
       opencl_libsmm_perfest_t perfest;
       memset(&perfest, 0, sizeof(perfest));
       if (NULL == env_params || '0' != *env_params) {
@@ -360,7 +360,12 @@ int libsmm_acc_init(void)
             else result = EXIT_FAILURE; /* invalid header */
             fclose(file);
           }
-          else if (0 != c_dbcsr_acc_opencl_config.verbosity) {
+          else if ( /* try reading OPENCL_LIBSMM_SMM_PARAMS-value as kernel parameters */
+            EXIT_SUCCESS == opencl_libsmm_read_params(env_params, &key, &config, &perfest, NULL/*device*/))
+          {
+            if (NULL == OPENCL_LIBSMM_REGISTER(&key, sizeof(key), sizeof(config), &config)) result = EXIT_FAILURE;
+          }
+          else if (0 != c_dbcsr_acc_opencl_config.verbosity) { /* soft-error */
             fprintf(stderr, "WARNING LIBSMM: failed to open parameter file!\n");
           }
         }
