@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-21-g218ad82c62</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-22-gee0c09b792</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -131,21 +131,21 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">18 statements</a>
+    title=" 0.0% of total for procedures.">19 statements</a>
      </li> 
      
      
      
-    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tas_reshape_ops.F"> Source File</a></li>
+    <li><i class="fa fa-code"></i><a href="../src/dbcsr_tensor_reshape.F"> Source File</a></li>
      
      
   </ul>
   <ol class="breadcrumb in-well text-right">
   
     
-     <li><a href='../sourcefile/dbcsr_tas_reshape_ops.f.html'>dbcsr_tas_reshape_ops.F</a></li>
+     <li><a href='../sourcefile/dbcsr_tensor_reshape.f.html'>dbcsr_tensor_reshape.F</a></li>
     
-     <li><a href='../module/dbcsr_tas_reshape_ops.html'>dbcsr_tas_reshape_ops</a></li>
+     <li><a href='../module/dbcsr_tensor_reshape.html'>dbcsr_tensor_reshape</a></li>
     
   
      <li class="active">block_buffer_create</li>
@@ -189,7 +189,13 @@
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/block_buffer_create~2.html#src">block_buffer_create</a>
+  </div>
+</div>
+
 
 
 </div>
@@ -198,7 +204,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-private subroutine block_buffer_create(buffer, nblock, ndata, data_type)
+private subroutine block_buffer_create(buffer, nblock, ndata, data_type, ndim)
     
     
    
@@ -229,7 +235,7 @@ private subroutine block_buffer_create(buffer, nblock, ndata, data_type)
   
 <tr>
   
-  <td><span class="anchor" id="variable-buffer~25"></span>type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),</td>
+  <td><span class="anchor" id="variable-buffer~24"></span>type(<a href='../type/block_buffer_type~2.html'>block_buffer_type</a>),</td>
   <td>intent(out)</td>
   <td></td>
   
@@ -250,7 +256,8 @@ private subroutine block_buffer_create(buffer, nblock, ndata, data_type)
   
   <td></td><td>::</td>
   <td><strong>nblock</strong></td><td><p>number of blocks
-total number of block entries</p></td>
+total number of block entries
+number of dimensions</p></td>
   
 </tr>
 
@@ -260,13 +267,14 @@ total number of block entries</p></td>
   
 <tr>
   
-  <td><span class="anchor" id="variable-ndata~12"></span>integer,</td>
+  <td><span class="anchor" id="variable-ndata~8"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
   <td><strong>ndata</strong></td><td><p>number of blocks
-total number of block entries</p></td>
+total number of block entries
+number of dimensions</p></td>
   
 </tr>
 
@@ -276,13 +284,31 @@ total number of block entries</p></td>
   
 <tr>
   
-  <td><span class="anchor" id="variable-data_type~38"></span>integer,</td>
+  <td><span class="anchor" id="variable-data_type~43"></span>integer,</td>
   <td>intent(in)</td>
   <td></td>
   
   <td></td><td>::</td>
   <td><strong>data_type</strong></td><td><p>number of blocks
-total number of block entries</p></td>
+total number of block entries
+number of dimensions</p></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-ndim~2"></span>integer,</td>
+  <td>intent(in)</td>
+  <td></td>
+  
+  <td></td><td>::</td>
+  <td><strong>ndim</strong></td><td><p>number of blocks
+total number of block entries
+number of dimensions</p></td>
   
 </tr>
 
@@ -321,7 +347,13 @@ total number of block entries</p></td>
 
 
 
-<em>None</em>
+<div class="panel panel-primary">
+  <div class="panel-heading text-left"><h3 class="panel-title">Source Code</h3></div>
+  <div class="list-group">
+    <a class="list-group-item" href="../proc/block_buffer_create~2.html#src">block_buffer_create</a>
+  </div>
+</div>
+
 
 
     </section>
@@ -344,6 +376,44 @@ total number of block entries</p></td>
 
     
     
+    
+    <section>
+    <h2><span class="anchor" id="src"></span>Source Code</h2>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">block_buffer_create</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">nblock</span><span class="p">,</span> <span class="n">ndata</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">ndim</span><span class="p">)</span>
+      <span class="c">!! Create block buffer for MPI communication.</span>
+
+      <span class="k">TYPE</span><span class="p">(</span><span class="n">block_buffer_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">OUT</span><span class="p">)</span> <span class="kd">::</span> <span class="n">buffer</span>
+         <span class="c">!! block buffer</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">)</span>                  <span class="kd">::</span> <span class="n">nblock</span><span class="p">,</span> <span class="n">ndata</span><span class="p">,</span> <span class="n">data_type</span><span class="p">,</span> <span class="n">ndim</span>
+         <span class="c">!! number of blocks</span>
+         <span class="c">!! total number of block entries</span>
+         <span class="c">!! number of dimensions</span>
+
+      <span class="n">buffer</span><span class="p">%</span><span class="n">nblock</span> <span class="o">=</span> <span class="n">nblock</span>
+      <span class="n">buffer</span><span class="p">%</span><span class="n">data_type</span> <span class="o">=</span> <span class="n">data_type</span>
+      <span class="n">buffer</span><span class="p">%</span><span class="n">endpos</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="n">buffer</span><span class="p">%</span><span class="n">ndim</span> <span class="o">=</span> <span class="n">ndim</span>
+      <span class="k">SELECT CASE</span> <span class="p">(</span><span class="n">data_type</span><span class="p">)</span>
+<span class="cp"># 199 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F&quot;</span>
+      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_8</span><span class="p">)</span>
+         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">msg_r_dp</span> <span class="p">(</span><span class="n">ndata</span><span class="p">))</span>
+<span class="cp"># 199 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F&quot;</span>
+      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_real_4</span><span class="p">)</span>
+         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">msg_r_sp</span> <span class="p">(</span><span class="n">ndata</span><span class="p">))</span>
+<span class="cp"># 199 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F&quot;</span>
+      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_8</span><span class="p">)</span>
+         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">msg_c_dp</span> <span class="p">(</span><span class="n">ndata</span><span class="p">))</span>
+<span class="cp"># 199 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F&quot;</span>
+      <span class="k">CASE</span> <span class="p">(</span><span class="n">dbcsr_type_complex_4</span><span class="p">)</span>
+         <span class="k">ALLOCATE</span> <span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">msg_c_sp</span> <span class="p">(</span><span class="n">ndata</span><span class="p">))</span>
+<span class="cp"># 202 &quot;/__w/dbcsr/dbcsr/src/tensors/dbcsr_tensor_reshape.F&quot;</span>
+      <span class="k">END SELECT</span>
+<span class="k">      ALLOCATE</span> <span class="p">(</span><span class="n">buffer</span><span class="p">%</span><span class="n">indx</span><span class="p">(</span><span class="n">nblock</span><span class="p">,</span> <span class="n">ndim</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+   <span class="k">END SUBROUTINE </span><span class="n">block_buffer_create</span>
+</pre></div>
+
+    </section>
+    <br>
     
     
     </div>
