@@ -247,7 +247,7 @@ int c_dbcsr_acc_opencl_device_vendor(cl_device_id device, const char vendor[]);
 /** Confirm that match is matching the name of the given device. */
 int c_dbcsr_acc_opencl_device_name(cl_device_id device, const char match[]);
 /** Capture an id out of the device-name according to the given format (scanf). */
-int c_dbcsr_acc_opencl_device_id(cl_device_id device, const char format[], int* id);
+int c_dbcsr_acc_opencl_device_uid(cl_device_id device, const char format[], int* uid);
 /** Return the OpenCL support level for the given device. */
 int c_dbcsr_acc_opencl_device_level(cl_device_id device,
   int* level_major, int* level_minor, char cl_std[16], cl_device_type* type);
