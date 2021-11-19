@@ -86,7 +86,7 @@ pip install -r requirements.txt
 The OpenTuner script supports several command line arguments (`tune_multiply.py --help`). For example, `--stop-after=300` can be of interest to finish in five minutes (without limit, OpenTuner decides when the auto-tuning process is finished). A single kernel can be selected by M, N, and K parameters (GEMM), e.g., `M=15`, `N=5`, and `K=7`:
 
 ```bash
-./tune_multiply.py 13 5 7
+./tune_multiply.py 13x5x7
 ```
 
 **NOTE**: If multiple different kernels are tuned using `tune_multiply.py`, it is advisable to delete the `opentuner.db` directory prior to tuning a different kernel since otherwise auto-tuning is potentially (mis-)guided by information which was collected for a different kernel (`tune_multiply.sh` does this automatically).

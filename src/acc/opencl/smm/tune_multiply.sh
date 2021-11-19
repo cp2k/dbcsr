@@ -157,12 +157,11 @@ if [ "${SORT}" ] && [ "${SED}" ] && [ "${LS}" ] && [ "${RM}" ] && [ "${WC}" ]; t
   N=0
   for MNK in ${MNKS}; do
     if [ "0" != "$((PARTOFFS<=N))" ]; then
-      TRIPLET=$(echo "${MNK}" | ${SED} "s/x/ /g")
       echo
       echo "Started auto-tuning ${MNK}-kernel..."
       # avoid mixing database of previous results into new session
       ${RM} -rf "${HERE}/opentuner.db"
-      eval "${HERE}/tune_multiply.py ${TRIPLET} -p ${JSONDIR} -a ${TLEVEL} ${MAXTIME}"
+      eval "${HERE}/tune_multiply.py ${MNK} -p ${JSONDIR} -a ${TLEVEL} ${MAXTIME}"
       RESULT=$?
       # environment var. CONTINUE allows to proceed with next kernel
       # even if tune_multiply.py returned non-zero exit code
@@ -177,6 +176,9 @@ if [ "${SORT}" ] && [ "${SED}" ] && [ "${LS}" ] && [ "${RM}" ] && [ "${WC}" ]; t
     fi
     N=$((N+1))
   done
+  if [ "${RESULT}" ]; then
+    ${RM} -rf "${HERE}/opentuner.db"
+  fi
 else
   >&2 echo "ERROR: missing prerequisites!"
   exit 1

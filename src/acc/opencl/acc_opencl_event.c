@@ -115,14 +115,18 @@ int c_dbcsr_acc_event_record(void* event, void* stream)
 
 int c_dbcsr_acc_event_query(void* event, c_dbcsr_acc_bool_t* has_occurred)
 {
-  int result = EXIT_SUCCESS;
-  cl_int status = CL_COMPLETE;
-  if (NULL != event) {
-    ACC_OPENCL_CHECK(clGetEventInfo(*ACC_OPENCL_EVENT(event), CL_EVENT_COMMAND_EXECUTION_STATUS,
-      sizeof(cl_int), &status, NULL), "retrieve event status", result);
-  }
+  cl_int status = CL_COMPLETE, result = clGetEventInfo(
+    NULL != event ? *ACC_OPENCL_EVENT(event) : NULL,
+    CL_EVENT_COMMAND_EXECUTION_STATUS,
+    sizeof(cl_int), &status, NULL);
   assert(NULL != has_occurred);
-  *has_occurred = (CL_COMPLETE == status || 0 > status);
+  if (0 <= status) {
+    *has_occurred = ((CL_COMPLETE == status || CL_SUCCESS != result) ? 1 : 0);
+  }
+  else { /* error state */
+    if (CL_SUCCESS == result) result = EXIT_FAILURE;
+    *has_occurred = 1;
+  }
   ACC_OPENCL_RETURN(result);
 }
 

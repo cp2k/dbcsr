@@ -24,21 +24,25 @@ import sys
 import re
 import os
 
+mnk_default = "23x23x23"
+
 
 class SmmTuner(MeasurementInterface):
     def manipulator(self):
         """Setup common state and define search space"""
         manipulator = ConfigurationManipulator()
+        # parse and sanitize kernel shape argument
+        if not self.args.mnk:
+            self.args.mnk = mnk_default
+        mnk = tuple(max(int(i), 1) for i in self.args.mnk.split("x"))
+        self.mnk = (mnk + (mnk[0], mnk[0]))[:3]
         # sanitize input arguments
-        self.args.m = max(self.args.m, 1)
-        self.args.n = [max(self.args.n, 1), self.args.m][0 == self.args.n]
-        self.args.k = [max(self.args.k, 1), self.args.m][0 == self.args.k]
         self.args.mb = max(self.args.mb, 1)
         self.args.bs = max(min(self.args.bs, self.args.mb), 1)
-        self.args.bm = [max(self.args.bm, 1), self.args.m][0 == self.args.bm]
+        self.args.bm = [max(self.args.bm, 1), self.mnk[0]][0 == self.args.bm]
         self.args.bn = [max(self.args.bn, 1), 1][0 == self.args.bn]
-        self.args.bk = [max(self.args.bk, 1), self.args.k][0 == self.args.bk]
-        self.args.ws = min(self.args.ws, self.args.m * self.args.n)
+        self.args.bk = [max(self.args.bk, 1), self.mnk[2]][0 == self.args.bk]
+        self.args.ws = min(self.args.ws, self.mnk[0] * self.mnk[1])
         self.bs = self.bm = self.bn = self.bk = self.ws = self.wg = self.lu = None
         self.nz = self.al = self.tb = self.tc = None
         self.ap = self.aa = self.ab = self.ac = None
@@ -71,7 +75,7 @@ class SmmTuner(MeasurementInterface):
             self.typename = self.typeid = self.device = None
         if run_result and 0 == run_result["returncode"]:
             seedpat = "INFO ACC/OpenCL:\\s+{}\\s+{}SMM-kernel{}{}{}{}\\s+gen=".format(
-                "{}x{}x{}".format(self.args.m, self.args.n, self.args.k),
+                "{}x{}x{}".format(self.mnk[0], self.mnk[1], self.mnk[2]),
                 {"float": "S", "double": "D"}.get(self.typename, ""),
                 "\\s+bs=([0-9]+)\\s+bm=([0-9]+)\\s+bn=([0-9]+)\\s+bk=([0-9]+)\\s+ws=([0-9]+)",
                 "\\s+wg=([0-9]+)\\s+lu=(-*[0-9]+)\\s+nz=([0-9]+)\\s+al=([0-9]+)",  # lu can be neg.
@@ -90,22 +94,22 @@ class SmmTuner(MeasurementInterface):
                 params.append(IntegerParameter("BM", self.args.bm, self.args.bm))
             else:
                 self.bm = int(seed.group(2)) if seed and seed.group(2) else None
-                paramt.append(IntegerParameter("BM", 1, self.args.m))
+                paramt.append(IntegerParameter("BM", 1, self.mnk[0]))
             if os.getenv("OPENCL_LIBSMM_SMM_BN"):
                 params.append(IntegerParameter("BN", self.args.bn, self.args.bn))
             else:
                 self.bn = int(seed.group(3)) if seed and seed.group(3) else None
-                paramt.append(IntegerParameter("BN", 1, self.args.n))
+                paramt.append(IntegerParameter("BN", 1, self.mnk[1]))
             if os.getenv("OPENCL_LIBSMM_SMM_BK"):
                 params.append(IntegerParameter("BK", self.args.bk, self.args.bk))
             else:
                 self.bk = int(seed.group(4)) if seed and seed.group(4) else None
-                paramt.append(IntegerParameter("BK", 1, self.args.m))
+                paramt.append(IntegerParameter("BK", 1, self.mnk[0]))
             if os.getenv("OPENCL_LIBSMM_SMM_WS"):
                 params.append(IntegerParameter("WS", self.args.ws, self.args.ws))
             else:
                 self.ws = int(seed.group(5)) if seed and seed.group(5) else None
-                paramt.append(IntegerParameter("WS", 1, self.args.m * self.args.n))
+                paramt.append(IntegerParameter("WS", 1, self.mnk[0] * self.mnk[1]))
             if os.getenv("OPENCL_LIBSMM_SMM_WG"):
                 params.append(IntegerParameter("WG", self.args.wg, self.args.wg))
             else:
@@ -177,7 +181,7 @@ class SmmTuner(MeasurementInterface):
             # construct label used for the database session
             if not self.args.label:  # consider to include self.device
                 self.args.label = "tune_multiply-{}-{}x{}x{}".format(
-                    self.typename, self.args.m, self.args.n, self.args.k
+                    self.typename, self.mnk[0], self.mnk[1], self.mnk[2]
                 )
         else:
             sys.tracebacklimit = 0
@@ -202,7 +206,7 @@ class SmmTuner(MeasurementInterface):
                     self.args.r if nrep is None else nrep,
                     self.args.s if size is None else size,
                 ),
-                "{} {} {}".format(self.args.m, self.args.n, self.args.k),
+                "{} {} {}".format(self.mnk[0], self.mnk[1], self.mnk[2]),
             )
         )
 
@@ -255,9 +259,9 @@ class SmmTuner(MeasurementInterface):
     def run(self, desired_result, input, limit):
         """Run a configuration and return performance"""
         config = desired_result.configuration.data
+        cfgenv = self.environment(config)
         run_result = self.launch(
-            self.environment(config) + ["CHECK={}".format(self.args.check)],
-            verbose=self.args.verbose,
+            cfgenv + ["CHECK={}".format(self.args.check)], verbose=self.args.verbose
         )
         if 0 == run_result["returncode"]:
             performance = re.search(
@@ -265,6 +269,8 @@ class SmmTuner(MeasurementInterface):
                 str(run_result["stdout"]),
             )
         else:
+            failed = " ".join(map(str, cfgenv)).replace("OPENCL_LIBSMM_SMM_", "")
+            print("FAILED: {}".format(failed))
             performance = None
         if performance and performance.group(1) and performance.group(3):
             mseconds = float(performance.group(1))
@@ -277,7 +283,7 @@ class SmmTuner(MeasurementInterface):
                     self.gfbase = gflops
                 self.save_final_config(desired_result.configuration, final=False)
             kernelreq = round(
-                (100.0 * config["BM"] * config["BN"]) / (self.args.m * self.args.n)
+                (100.0 * config["BM"] * config["BN"]) / (self.mnk[0] * self.mnk[1])
             )
             # gflops are reported as "accuracy" (console output)
             return Result(time=mseconds, accuracy=gflops, size=kernelreq)
@@ -396,9 +402,9 @@ class SmmTuner(MeasurementInterface):
             config["DEVICE"] = self.device
             config["GFLOPS"] = self.gflops
             config["TYPEID"] = self.typeid
-            config["M"] = self.args.m
-            config["N"] = self.args.n
-            config["K"] = self.args.k
+            config["M"] = self.mnk[0]
+            config["N"] = self.mnk[1]
+            config["K"] = self.mnk[2]
             filenames = (
                 glob.glob(os.path.normpath(os.path.join(self.args.jsondir, "*.json")))
                 if final
@@ -449,7 +455,7 @@ class SmmTuner(MeasurementInterface):
         """Handle SIGINT or CTRL-C"""
         print(
             "\nWARNING: tuning {}x{}x{}-kernel was interrupted".format(
-                self.args.m, self.args.n, self.args.k
+                self.mnk[0], self.mnk[1], self.mnk[2]
             )
         )
         self.save_final_config(self.config)
@@ -462,13 +468,11 @@ if __name__ == "__main__":
     argparser.set_defaults(no_dups=True)
     # add primary arguments (parsed first)
     argparser.add_argument(
-        "m", type=int, default=23, nargs="?", help="Shape of SMM-kernel (M)"
-    )
-    argparser.add_argument(
-        "n", type=int, default=0, nargs="?", help="Shape of SMM-kernel (N)"
-    )
-    argparser.add_argument(
-        "k", type=int, default=0, nargs="?", help="Shape of SMM-kernel (K)"
+        "mnk",
+        type=str,
+        default=mnk_default,
+        nargs="?",
+        help="Shape of SMM-kernel (MxNxK)",
     )
     argparser.add_argument(
         "-r",
