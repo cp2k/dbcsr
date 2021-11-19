@@ -392,6 +392,7 @@ CONTAINS
 
       this%product_wm_orig_datasize = newsize
    END SUBROUTINE dbcsr_mm_sched_set_orig_datasize
+
    SUBROUTINE stats_add(stats, m, n, k, stacksize_cpu, stacksize_smm, stacksize_acc, &
                         nstacks_cpu, nstacks_smm, nstacks_acc)
       !! Helper-routine used by dbcsr_mm_sched_process to supply statistics.
