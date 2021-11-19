@@ -13,7 +13,7 @@
 #define __HIP
 #endif
 #endif
-#if defined(__HIP) && !defined(__HIP_PLATFORM_NVCC__)
+#if defined(__HIP) && !defined(__HIP_PLATFORM_NVCC__) && !defined(__HIPCC_RTC__)
 # include <hip/hip_runtime.h>
 #endif
 

@@ -36,15 +36,14 @@ MODULE dbcsr_mm_accdrv
    USE dbcsr_acc_stream, ONLY: acc_stream_associated, &
                                acc_stream_create, &
                                acc_stream_destroy, &
-                               acc_stream_priority_range, &
                                acc_stream_synchronize, &
                                acc_stream_type
    USE dbcsr_block_operations, ONLY: block_add
    USE dbcsr_config, ONLY: dbcsr_cfg, &
                            default_resize_factor
    !accdrv_binning_binsize, accdrv_binning_nbins, accdrv_min_flop_sort, &
-   !accdrv_posterior_buffers, accdrv_posterior_streams, accdrv_priority_buffers, &
-   !accdrv_priority_streams, default_resize_factor, mm_stack_size
+   !accdrv_priority_buffers, !accdrv_priority_streams, &
+   !default_resize_factor, mm_stack_size
    USE dbcsr_data_methods, ONLY: dbcsr_data_dev2host, &
                                  dbcsr_data_ensure_size, &
                                  dbcsr_data_get_size, &
@@ -118,11 +117,7 @@ MODULE dbcsr_mm_accdrv
    END TYPE thread_private_type
 
    TYPE(thread_private_type), SAVE, DIMENSION(:), ALLOCATABLE, TARGET :: all_thread_privates
-   TYPE(acc_stream_type), SAVE                            :: upload_stream
-   TYPE(acc_stream_type), SAVE, DIMENSION(:), POINTER     :: posterior_streams => Null()
    TYPE(acc_stream_type), SAVE, DIMENSION(:), POINTER     :: priority_streams => Null()
-   TYPE(acc_event_type), SAVE, DIMENSION(:), POINTER     :: barrier_events => Null()
-   INTEGER, SAVE                                          :: barrier_counter = 0
 
 CONTAINS
 
@@ -220,18 +215,9 @@ CONTAINS
    SUBROUTINE setup_streams()
       !! Helper routine used by dbcsr_mm_accdrv_init()
 
-      INTEGER                                            :: greatest_priority, least_priority
-
 !$OMP MASTER
-      CALL acc_stream_priority_range(least_priority, greatest_priority)
       CALL stream_array_force_size(priority_streams, "Calc (priority)", &
-                                   n=dbcsr_cfg%accdrv_priority_streams, priority=greatest_priority)
-      CALL stream_array_force_size(posterior_streams, "Calc (posterior)", &
-                                   n=dbcsr_cfg%accdrv_posterior_streams, events=barrier_events)
-
-      !create upload stream
-      IF (.NOT. acc_stream_associated(upload_stream)) &
-         CALL acc_stream_create(upload_stream, "Stackbuf h2d")
+                                   n=dbcsr_cfg%accdrv_priority_streams)
 !$OMP END MASTER
 ! Other threads have to wait until streams are created
 !$OMP BARRIER
@@ -242,11 +228,7 @@ CONTAINS
       !! Helper routine used by setup_streams() and dbcsr_mm_accdrv_lib_finalize()
 
 !$OMP MASTER
-      IF (acc_stream_associated(upload_stream)) &
-         CALL acc_stream_destroy(upload_stream)
-
       CALL stream_array_force_size(priority_streams, "Calc (priority)", n=0)
-      CALL stream_array_force_size(posterior_streams, "Calc (posterior)", n=0, events=barrier_events)
 !$OMP END MASTER
 
    END SUBROUTINE deallocate_streams
@@ -289,11 +271,9 @@ CONTAINS
       !! Helper routine used by dbcsr_mm_accdrv_init()
       TYPE(dbcsr_mm_accdrv_type), INTENT(INOUT)          :: this
 
-      INTEGER                                            :: i, ithread, my_posterior_buffers, &
+      INTEGER                                            :: i, ithread, &
                                                             my_priority_buffers, my_total_buffers, &
                                                             nthreads
-      INTEGER, SAVE                                      :: curr_posterior_stream = 0, &
-                                                            curr_priority_stream = 0
       TYPE(thread_private_type), POINTER                 :: thread_privates
 
       nthreads = 1; ithread = 0
@@ -303,10 +283,9 @@ CONTAINS
       ! distribute total number of buffers approx. evenly among threads
       ! my_* variables hold number of buffers for current thread.
       my_priority_buffers = CEILING(REAL(dbcsr_cfg%accdrv_priority_buffers)/REAL(nthreads), int_4)
-      my_posterior_buffers = CEILING(REAL(dbcsr_cfg%accdrv_posterior_buffers)/REAL(nthreads), int_4)
 
       this%nbuffers_phaseout = my_priority_buffers
-      my_total_buffers = my_posterior_buffers + my_priority_buffers
+      my_total_buffers = my_priority_buffers
 
       IF (ASSOCIATED(thread_privates%stack_buffers)) THEN
          IF (SIZE(thread_privates%stack_buffers) /= my_total_buffers) &
@@ -315,18 +294,12 @@ CONTAINS
 
       IF (.NOT. ASSOCIATED(thread_privates%stack_buffers)) THEN
          ALLOCATE (thread_privates%stack_buffers(my_total_buffers))
-         !Done with OMP CRITICAL because curr_*_stream are shared.
+         !OMP CRITICAL may not be needed anymore
 !$OMP        CRITICAL(crit_setup_stackbuffers)
          DO i = 1, my_total_buffers
             CALL acc_devmem_allocate_bytes(thread_privates%stack_buffers(i)%devmem, &
                                            int_4_size*dbcsr_ps_acc_width*dbcsr_cfg%mm_stack_size)
-            IF (i <= my_priority_buffers) THEN
-               curr_priority_stream = MOD(curr_priority_stream, SIZE(priority_streams)) + 1
-               thread_privates%stack_buffers(i)%stream = priority_streams(curr_priority_stream)
-            ELSE
-               curr_posterior_stream = MOD(curr_posterior_stream, SIZE(posterior_streams)) + 1
-               thread_privates%stack_buffers(i)%stream = posterior_streams(curr_posterior_stream)
-            ENDIF
+            thread_privates%stack_buffers(i)%stream = priority_streams(ithread + 1)
             CALL acc_hostmem_allocate(thread_privates%stack_buffers(i)%hostmem, &
                                       dbcsr_ps_acc_width, dbcsr_cfg%mm_stack_size, thread_privates%stack_buffers(i)%stream)
             CALL acc_event_create(thread_privates%stack_buffers(i)%ready)
@@ -455,25 +428,11 @@ CONTAINS
    END SUBROUTINE dbcsr_mm_accdrv_phaseout
 
    SUBROUTINE dbcsr_mm_accdrv_barrier()
-      !! After being called by ALL threads, it installs a special barrier that
-      !! forces the priority-streams to wait for the normal-streams.
+      INTEGER                                            :: ithread
 
-      INTEGER                                            :: i, j, nthreads
-
-      nthreads = 1
-!$    nthreads = OMP_GET_NUM_THREADS()
-
-!$OMP     CRITICAL
-      barrier_counter = MOD(barrier_counter + 1, nthreads)
-      IF (barrier_counter == 0) THEN
-         DO i = 1, SIZE(posterior_streams)
-            CALL acc_event_record(barrier_events(i), stream=posterior_streams(i))
-            DO j = 1, SIZE(priority_streams)
-               CALL acc_stream_wait_event(priority_streams(j), barrier_events(i))
-            ENDDO
-         ENDDO
-      ENDIF
-!$OMP     END CRITICAL
+      ithread = 0
+!$    ithread = OMP_GET_THREAD_NUM()
+      CALL acc_stream_synchronize(priority_streams(ithread + 1))
    END SUBROUTINE dbcsr_mm_accdrv_barrier
 
    SUBROUTINE dbcsr_mm_accdrv_process(this, left, right, params, stack_size, &
@@ -503,12 +462,14 @@ CONTAINS
 !$    ithread = OMP_GET_THREAD_NUM()
       stack_buffers => all_thread_privates(ithread)%stack_buffers
 
-      DO i = 1, SIZE(stack_buffers)
-         IF (this%phase_out .AND. i > this%nbuffers_phaseout) EXIT
-         IF (acc_event_query(stack_buffers(i)%calculated)) THEN
-            stackbuf => stack_buffers(i)
-            EXIT
-         ENDIF
+      DO WHILE (.NOT. ASSOCIATED(stackbuf))
+         DO i = 1, SIZE(stack_buffers)
+            IF (this%phase_out .AND. i > this%nbuffers_phaseout) EXIT
+            IF (acc_event_query(stack_buffers(i)%calculated)) THEN
+               stackbuf => stack_buffers(i)
+               EXIT
+            ENDIF
+         ENDDO
       ENDDO
 
       IF (.NOT. ASSOCIATED(stackbuf)) THEN
@@ -556,16 +517,11 @@ CONTAINS
       IF (.NOT. acc_devmem_allocated(c_area%acc_devmem)) &
          DBCSR_ABORT("dbcsr_mm_accdrv_process: c_area%acc_devmem not allocated")
 
-      ! start uploading stacks only after a, b, and c are ready
-      CALL acc_stream_wait_event(upload_stream, a_area%acc_ready)
-      CALL acc_stream_wait_event(upload_stream, b_area%acc_ready)
-      CALL acc_stream_wait_event(upload_stream, c_area%acc_ready)
-
+      ! start uploading stacks; a, b, and c are ready by now
       stackbuf_hostmem_cropped => stackbuf%hostmem(:, 1:stack_size)
-      CALL acc_devmem_host2dev(stackbuf%devmem, hostmem=stackbuf_hostmem_cropped, stream=upload_stream)
-      CALL acc_event_record(stackbuf%ready, stream=upload_stream)
+      CALL acc_devmem_host2dev(stackbuf%devmem, hostmem=stackbuf_hostmem_cropped, stream=stackbuf%stream)
+      CALL acc_event_record(stackbuf%ready, stream=stackbuf%stream)
 
-      CALL acc_stream_wait_event(stackbuf%stream, stackbuf%ready)
       ! We have to sync for the C area for the cuBLAS dgemm, used for large kernels
       CALL acc_stream_wait_event(c_area%memory_type%acc_stream, stackbuf%ready)
 
@@ -583,9 +539,6 @@ CONTAINS
 
       IF (success) THEN
          CALL acc_event_record(stackbuf%calculated, stream=stackbuf%stream)
-         CALL acc_stream_wait_event(a_area%memory_type%acc_stream, stackbuf%calculated)
-         CALL acc_stream_wait_event(b_area%memory_type%acc_stream, stackbuf%calculated)
-         CALL acc_stream_wait_event(c_area%memory_type%acc_stream, stackbuf%calculated)
       ENDIF
 
       CALL timestop(error_handle)

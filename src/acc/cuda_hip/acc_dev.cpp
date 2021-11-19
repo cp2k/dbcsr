@@ -28,6 +28,11 @@ extern "C" int c_dbcsr_acc_get_ndevices(int *n_devices) {
   return 0;
 }
 
+/****************************************************************************/
+extern "C" int c_dbcsr_acc_device_synchronize(){
+  ACC_API_CALL(DeviceSynchronize, ());
+  return 0;
+}
 
 /****************************************************************************/
 extern "C" int c_dbcsr_acc_set_active_device(int device_id) {
