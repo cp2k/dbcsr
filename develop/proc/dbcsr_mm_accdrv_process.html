@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-23-g0271399eda</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-24-gce0d03b27a</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -131,7 +131,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">67 statements</a>
+    title=" 0.1% of total for procedures.">62 statements</a>
      </li> 
      
      
@@ -428,12 +428,14 @@ public subroutine dbcsr_mm_accdrv_process(this, left, right, params, stack_size,
 <span class="c">!$    ithread = OMP_GET_THREAD_NUM()</span>
       <span class="n">stack_buffers</span> <span class="o">=&gt;</span> <span class="n">all_thread_privates</span><span class="p">(</span><span class="n">ithread</span><span class="p">)%</span><span class="n">stack_buffers</span>
 
-      <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">stack_buffers</span><span class="p">)</span>
-         <span class="k">IF</span> <span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">phase_out</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">this</span><span class="p">%</span><span class="n">nbuffers_phaseout</span><span class="p">)</span> <span class="k">EXIT</span>
-<span class="k">         IF</span> <span class="p">(</span><span class="n">acc_event_query</span><span class="p">(</span><span class="n">stack_buffers</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">calculated</span><span class="p">))</span> <span class="k">THEN</span>
-<span class="k">            </span><span class="n">stackbuf</span> <span class="o">=&gt;</span> <span class="n">stack_buffers</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-            <span class="k">EXIT</span>
-<span class="k">         ENDIF</span>
+      <span class="k">DO WHILE</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">stackbuf</span><span class="p">))</span>
+         <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">stack_buffers</span><span class="p">)</span>
+            <span class="k">IF</span> <span class="p">(</span><span class="n">this</span><span class="p">%</span><span class="n">phase_out</span> <span class="p">.</span><span class="nb">AND</span><span class="p">.</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">this</span><span class="p">%</span><span class="n">nbuffers_phaseout</span><span class="p">)</span> <span class="k">EXIT</span>
+<span class="k">            IF</span> <span class="p">(</span><span class="n">acc_event_query</span><span class="p">(</span><span class="n">stack_buffers</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">calculated</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">               </span><span class="n">stackbuf</span> <span class="o">=&gt;</span> <span class="n">stack_buffers</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+               <span class="k">EXIT</span>
+<span class="k">            ENDIF</span>
+<span class="k">         ENDDO</span>
 <span class="k">      ENDDO</span>
 
 <span class="k">      IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">stackbuf</span><span class="p">))</span> <span class="k">THEN</span>
@@ -481,16 +483,11 @@ public subroutine dbcsr_mm_accdrv_process(this, left, right, params, stack_size,
       <span class="k">IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="n">acc_devmem_allocated</span><span class="p">(</span><span class="n">c_area</span><span class="p">%</span><span class="n">acc_devmem</span><span class="p">))</span> <span class="p">&amp;</span>
          <span class="n">DBCSR_ABORT</span><span class="p">(</span><span class="s2">&quot;dbcsr_mm_accdrv_process: c_area%acc_devmem not allocated&quot;</span><span class="p">)</span>
 
-      <span class="c">! start uploading stacks only after a, b, and c are ready</span>
-      <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">upload_stream</span><span class="p">,</span> <span class="n">a_area</span><span class="p">%</span><span class="n">acc_ready</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">upload_stream</span><span class="p">,</span> <span class="n">b_area</span><span class="p">%</span><span class="n">acc_ready</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">upload_stream</span><span class="p">,</span> <span class="n">c_area</span><span class="p">%</span><span class="n">acc_ready</span><span class="p">)</span>
-
+      <span class="c">! start uploading stacks; a, b, and c are ready by now</span>
       <span class="n">stackbuf_hostmem_cropped</span> <span class="o">=&gt;</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">hostmem</span><span class="p">(:,</span> <span class="mi">1</span><span class="p">:</span><span class="n">stack_size</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">acc_devmem_host2dev</span><span class="p">(</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">devmem</span><span class="p">,</span> <span class="n">hostmem</span><span class="o">=</span><span class="n">stackbuf_hostmem_cropped</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="n">upload_stream</span><span class="p">)</span>
-      <span class="k">CALL </span><span class="n">acc_event_record</span><span class="p">(</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">ready</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="n">upload_stream</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">acc_devmem_host2dev</span><span class="p">(</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">devmem</span><span class="p">,</span> <span class="n">hostmem</span><span class="o">=</span><span class="n">stackbuf_hostmem_cropped</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">stream</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">acc_event_record</span><span class="p">(</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">ready</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">stream</span><span class="p">)</span>
 
-      <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">stream</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">ready</span><span class="p">)</span>
       <span class="c">! We have to sync for the C area for the cuBLAS dgemm, used for large kernels</span>
       <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">c_area</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">ready</span><span class="p">)</span>
 
@@ -508,9 +505,6 @@ public subroutine dbcsr_mm_accdrv_process(this, left, right, params, stack_size,
 
       <span class="k">IF</span> <span class="p">(</span><span class="n">success</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">         CALL </span><span class="n">acc_event_record</span><span class="p">(</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">calculated</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="n">stackbuf</span><span class="p">%</span><span class="n">stream</span><span class="p">)</span>
-         <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">a_area</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">calculated</span><span class="p">)</span>
-         <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">b_area</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">calculated</span><span class="p">)</span>
-         <span class="k">CALL </span><span class="n">acc_stream_wait_event</span><span class="p">(</span><span class="n">c_area</span><span class="p">%</span><span class="n">memory_type</span><span class="p">%</span><span class="n">acc_stream</span><span class="p">,</span> <span class="n">stackbuf</span><span class="p">%</span><span class="n">calculated</span><span class="p">)</span>
       <span class="k">ENDIF</span>
 
 <span class="k">      CALL </span><span class="n">timestop</span><span class="p">(</span><span class="n">error_handle</span><span class="p">)</span>

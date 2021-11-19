@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-23-g0271399eda</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-24-gce0d03b27a</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -131,7 +131,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">32 statements</a>
+    title=" 0.0% of total for procedures.">24 statements</a>
      </li> 
      
      
@@ -315,11 +315,9 @@ private subroutine setup_stackbuffers(this)
       <span class="c">!! Helper routine used by dbcsr_mm_accdrv_init()</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mm_accdrv_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>          <span class="kd">::</span> <span class="n">this</span>
 
-      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">ithread</span><span class="p">,</span> <span class="n">my_posterior_buffers</span><span class="p">,</span> <span class="p">&amp;</span>
+      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">ithread</span><span class="p">,</span> <span class="p">&amp;</span>
                                                             <span class="n">my_priority_buffers</span><span class="p">,</span> <span class="n">my_total_buffers</span><span class="p">,</span> <span class="p">&amp;</span>
                                                             <span class="n">nthreads</span>
-      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">SAVE</span>                                      <span class="kd">::</span> <span class="n">curr_posterior_stream</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="p">&amp;</span>
-                                                            <span class="n">curr_priority_stream</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">thread_private_type</span><span class="p">),</span> <span class="k">POINTER</span>                 <span class="kd">::</span> <span class="n">thread_privates</span>
 
       <span class="n">nthreads</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">ithread</span> <span class="o">=</span> <span class="mi">0</span>
@@ -329,10 +327,9 @@ private subroutine setup_stackbuffers(this)
       <span class="c">! distribute total number of buffers approx. evenly among threads</span>
       <span class="c">! my_* variables hold number of buffers for current thread.</span>
       <span class="n">my_priority_buffers</span> <span class="o">=</span> <span class="nb">CEILING</span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_priority_buffers</span><span class="p">)</span><span class="o">/</span><span class="kt">REAL</span><span class="p">(</span><span class="n">nthreads</span><span class="p">),</span> <span class="n">int_4</span><span class="p">)</span>
-      <span class="n">my_posterior_buffers</span> <span class="o">=</span> <span class="nb">CEILING</span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_posterior_buffers</span><span class="p">)</span><span class="o">/</span><span class="kt">REAL</span><span class="p">(</span><span class="n">nthreads</span><span class="p">),</span> <span class="n">int_4</span><span class="p">)</span>
 
       <span class="n">this</span><span class="p">%</span><span class="n">nbuffers_phaseout</span> <span class="o">=</span> <span class="n">my_priority_buffers</span>
-      <span class="n">my_total_buffers</span> <span class="o">=</span> <span class="n">my_posterior_buffers</span> <span class="o">+</span> <span class="n">my_priority_buffers</span>
+      <span class="n">my_total_buffers</span> <span class="o">=</span> <span class="n">my_priority_buffers</span>
 
       <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">thread_privates</span><span class="p">%</span><span class="n">stack_buffers</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">thread_privates</span><span class="p">%</span><span class="n">stack_buffers</span><span class="p">)</span> <span class="o">/=</span> <span class="n">my_total_buffers</span><span class="p">)</span> <span class="p">&amp;</span>
@@ -341,19 +338,13 @@ private subroutine setup_stackbuffers(this)
 
 <span class="k">      IF</span> <span class="p">(.</span><span class="nb">NOT</span><span class="p">.</span> <span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">thread_privates</span><span class="p">%</span><span class="n">stack_buffers</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         ALLOCATE</span> <span class="p">(</span><span class="n">thread_privates</span><span class="p">%</span><span class="n">stack_buffers</span><span class="p">(</span><span class="n">my_total_buffers</span><span class="p">))</span>
-         <span class="c">!Done with OMP CRITICAL because curr_*_stream are shared.</span>
+         <span class="c">!OMP CRITICAL may not be needed anymore</span>
 <span class="c">!$OMP        CRITICAL(crit_setup_stackbuffers)</span>
          <span class="k">DO </span><span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">my_total_buffers</span>
             <span class="k">CALL </span><span class="n">acc_devmem_allocate_bytes</span><span class="p">(</span><span class="n">thread_privates</span><span class="p">%</span><span class="n">stack_buffers</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">devmem</span><span class="p">,</span> <span class="p">&amp;</span>
                                            <span class="n">int_4_size</span><span class="o">*</span><span class="n">dbcsr_ps_acc_width</span><span class="o">*</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_stack_size</span><span class="p">)</span>
-            <span class="k">IF</span> <span class="p">(</span><span class="n">i</span> <span class="o">&lt;=</span> <span class="n">my_priority_buffers</span><span class="p">)</span> <span class="k">THEN</span>
-<span class="k">               </span><span class="n">curr_priority_stream</span> <span class="o">=</span> <span class="nb">MOD</span><span class="p">(</span><span class="n">curr_priority_stream</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">priority_streams</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
-               <span class="n">thread_privates</span><span class="p">%</span><span class="n">stack_buffers</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">stream</span> <span class="o">=</span> <span class="n">priority_streams</span><span class="p">(</span><span class="n">curr_priority_stream</span><span class="p">)</span>
-            <span class="k">ELSE</span>
-<span class="k">               </span><span class="n">curr_posterior_stream</span> <span class="o">=</span> <span class="nb">MOD</span><span class="p">(</span><span class="n">curr_posterior_stream</span><span class="p">,</span> <span class="n">SIZE</span><span class="p">(</span><span class="n">posterior_streams</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span>
-               <span class="n">thread_privates</span><span class="p">%</span><span class="n">stack_buffers</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">stream</span> <span class="o">=</span> <span class="n">posterior_streams</span><span class="p">(</span><span class="n">curr_posterior_stream</span><span class="p">)</span>
-            <span class="k">ENDIF</span>
-<span class="k">            CALL </span><span class="n">acc_hostmem_allocate</span><span class="p">(</span><span class="n">thread_privates</span><span class="p">%</span><span class="n">stack_buffers</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">hostmem</span><span class="p">,</span> <span class="p">&amp;</span>
+            <span class="n">thread_privates</span><span class="p">%</span><span class="n">stack_buffers</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">stream</span> <span class="o">=</span> <span class="n">priority_streams</span><span class="p">(</span><span class="n">ithread</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">CALL </span><span class="n">acc_hostmem_allocate</span><span class="p">(</span><span class="n">thread_privates</span><span class="p">%</span><span class="n">stack_buffers</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">hostmem</span><span class="p">,</span> <span class="p">&amp;</span>
                                       <span class="n">dbcsr_ps_acc_width</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_stack_size</span><span class="p">,</span> <span class="n">thread_privates</span><span class="p">%</span><span class="n">stack_buffers</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">stream</span><span class="p">)</span>
             <span class="k">CALL </span><span class="n">acc_event_create</span><span class="p">(</span><span class="n">thread_privates</span><span class="p">%</span><span class="n">stack_buffers</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">ready</span><span class="p">)</span>
             <span class="k">CALL </span><span class="n">acc_event_create</span><span class="p">(</span><span class="n">thread_privates</span><span class="p">%</span><span class="n">stack_buffers</span><span class="p">(</span><span class="n">i</span><span class="p">)%</span><span class="n">calculated</span><span class="p">)</span>

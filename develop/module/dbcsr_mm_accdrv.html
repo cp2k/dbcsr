@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-23-g0271399eda</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-24-gce0d03b27a</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -131,7 +131,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.5% of total for modules and submodules.">321 statements</a>
+    title=" 0.5% of total for modules and submodules.">290 statements</a>
      </li> 
      
      
@@ -180,15 +180,7 @@
       
       <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#variable-all_thread_privates">all_thread_privates</a>
       
-      <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#variable-upload_stream">upload_stream</a>
-      
-      <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#variable-posterior_streams">posterior_streams</a>
-      
       <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#variable-priority_streams">priority_streams</a>
-      
-      <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#variable-barrier_events">barrier_events</a>
-      
-      <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#variable-barrier_counter">barrier_counter</a>
       
     </div>
   </div>
@@ -298,29 +290,29 @@ dbcsr_mm_methods.
     
     <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
-    <li><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></li>
+    <li><a href='../module/dbcsr_mm_types.html'>dbcsr_mm_types</a></li>
     
-    <li><a href='../module/dbcsr_acc_operations.html'>dbcsr_acc_operations</a></li>
+    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
     
-    <li><a href='../module/dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
+    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
     
     <li><a href='../module/dbcsr_mem_methods.html'>dbcsr_mem_methods</a></li>
+    
+    <li><a href='../module/dbcsr_acc_hostmem.html'>dbcsr_acc_hostmem</a></li>
     
     <li><a href='../module/dbcsr_acc_event.html'>dbcsr_acc_event</a></li>
     
     <li><a href='../module/dbcsr_toollib.html'>dbcsr_toollib</a></li>
     
-    <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
-    
-    <li><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></li>
-    
     <li><a href='../module/dbcsr_acc_stream.html'>dbcsr_acc_stream</a></li>
-    
-    <li><a href='../module/dbcsr_mm_types.html'>dbcsr_mm_types</a></li>
     
     <li><a href='../module/dbcsr_config.html'>dbcsr_config</a></li>
     
-    <li><a href='../module/dbcsr_types.html'>dbcsr_types</a></li>
+    <li><a href='../module/dbcsr_acc_devmem.html'>dbcsr_acc_devmem</a></li>
+    
+    <li><a href='../module/dbcsr_block_operations.html'>dbcsr_block_operations</a></li>
+    
+    <li><a href='../module/dbcsr_acc_operations.html'>dbcsr_acc_operations</a></li>
     
     <li><a href='../module/dbcsr_data_methods.html'>dbcsr_data_methods</a></li>
     
@@ -356,15 +348,7 @@ dbcsr_mm_methods.
       
       <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#variable-all_thread_privates">all_thread_privates</a>
       
-      <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#variable-upload_stream">upload_stream</a>
-      
-      <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#variable-posterior_streams">posterior_streams</a>
-      
       <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#variable-priority_streams">priority_streams</a>
-      
-      <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#variable-barrier_events">barrier_events</a>
-      
-      <a class="list-group-item" href="../module/dbcsr_mm_accdrv.html#variable-barrier_counter">barrier_counter</a>
       
     </div>
   </div>
@@ -512,67 +496,11 @@ dbcsr_mm_methods.
   
 <tr>
   
-  <td><span class="anchor" id="variable-upload_stream"></span>type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),</td>
-  
-  <td>private,</td>
-  <td>SAVE</td><td>::</td>
-  <td><strong>upload_stream</strong></td><td></td><td></td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-posterior_streams"></span>type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),</td>
-  
-  <td>private,</td>
-  <td>SAVE, DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>posterior_streams</strong></td><td>=> </td><td>Null()</td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
   <td><span class="anchor" id="variable-priority_streams"></span>type(<a href='../type/acc_stream_type.html'>acc_stream_type</a>),</td>
   
   <td>private,</td>
   <td>SAVE, DIMENSION(:), POINTER</td><td>::</td>
   <td><strong>priority_streams</strong></td><td>=> </td><td>Null()</td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-barrier_events"></span>type(<a href='../type/acc_event_type.html'>acc_event_type</a>),</td>
-  
-  <td>private,</td>
-  <td>SAVE, DIMENSION(:), POINTER</td><td>::</td>
-  <td><strong>barrier_events</strong></td><td>=> </td><td>Null()</td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-barrier_counter"></span>integer,</td>
-  
-  <td>private,</td>
-  <td>SAVE</td><td>::</td>
-  <td><strong>barrier_counter</strong></td><td> =</td><td>0</td><td></td>
   
 </tr>
 
@@ -1658,15 +1586,6 @@ public subroutine <a href='../proc/dbcsr_mm_accdrv_barrier.html'>dbcsr_mm_accdrv
   <div class="panel-body">
        
     
-
-
-
-
-
-
-
-<p>After being called by ALL threads, it installs a special barrier that
-forces the priority-streams to wait for the normal-streams.</p>
     
     <h4>Arguments</h4>
     
