@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-24-gce0d03b27a</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-25-g1baca35ee2</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -131,7 +131,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title="<p> 2.7% of total for derived types.</p>Including implementation: 28 statements,  2.2% of total for derived types.">28 statements</a>
+    title="<p> 2.5% of total for derived types.</p>Including implementation: 26 statements,  2.0% of total for derived types.">26 statements</a>
      </li> 
      
      
@@ -198,17 +198,13 @@
       
       <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-comm_thread_load">comm_thread_load</a>
       
-      <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-mm_densification">mm_densification</a>
-      
       <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-multrec_limit">multrec_limit</a>
       
-      <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-accdrv_priority_streams">accdrv_priority_streams</a>
+      <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-mm_densification">mm_densification</a>
       
-      <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-accdrv_priority_buffers">accdrv_priority_buffers</a>
+      <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-accdrv_streams">accdrv_streams</a>
       
-      <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-accdrv_posterior_streams">accdrv_posterior_streams</a>
-      
-      <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-accdrv_posterior_buffers">accdrv_posterior_buffers</a>
+      <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-accdrv_buffers">accdrv_buffers</a>
       
       <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-accdrv_avoid_after_busy">accdrv_avoid_after_busy</a>
       
@@ -306,17 +302,13 @@
       
       <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-comm_thread_load">comm_thread_load</a>
       
-      <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-mm_densification">mm_densification</a>
-      
       <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-multrec_limit">multrec_limit</a>
       
-      <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-accdrv_priority_streams">accdrv_priority_streams</a>
+      <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-mm_densification">mm_densification</a>
       
-      <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-accdrv_priority_buffers">accdrv_priority_buffers</a>
+      <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-accdrv_streams">accdrv_streams</a>
       
-      <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-accdrv_posterior_streams">accdrv_posterior_streams</a>
-      
-      <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-accdrv_posterior_buffers">accdrv_posterior_buffers</a>
+      <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-accdrv_buffers">accdrv_buffers</a>
       
       <a class="list-group-item" href="../type/dbcsr_config_type.html#variable-accdrv_avoid_after_busy">accdrv_avoid_after_busy</a>
       
@@ -544,20 +536,6 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-mm_densification"></span>logical,</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
-  <td><strong>mm_densification</strong></td><td> =</td><td>.TRUE.</td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
   <td><span class="anchor" id="variable-multrec_limit"></span>integer,</td>
   
   <td>private</td>
@@ -572,11 +550,11 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-accdrv_priority_streams"></span>integer,</td>
+  <td><span class="anchor" id="variable-mm_densification"></span>logical,</td>
   
   <td>private</td>
   <td></td><td>::</td>
-  <td><strong>accdrv_priority_streams</strong></td><td> =</td><td>4</td><td></td>
+  <td><strong>mm_densification</strong></td><td> =</td><td>.TRUE.</td><td></td>
   
 </tr>
 
@@ -586,11 +564,11 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-accdrv_priority_buffers"></span>integer,</td>
+  <td><span class="anchor" id="variable-accdrv_streams"></span>integer,</td>
   
   <td>private</td>
   <td></td><td>::</td>
-  <td><strong>accdrv_priority_buffers</strong></td><td> =</td><td>40</td><td></td>
+  <td><strong>accdrv_streams</strong></td><td> =</td><td>0</td><td></td>
   
 </tr>
 
@@ -600,25 +578,11 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-accdrv_posterior_streams"></span>integer,</td>
+  <td><span class="anchor" id="variable-accdrv_buffers"></span>integer,</td>
   
   <td>private</td>
   <td></td><td>::</td>
-  <td><strong>accdrv_posterior_streams</strong></td><td> =</td><td>4</td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-accdrv_posterior_buffers"></span>integer,</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
-  <td><strong>accdrv_posterior_buffers</strong></td><td> =</td><td>80</td><td></td>
+  <td><strong>accdrv_buffers</strong></td><td> =</td><td>0</td><td></td>
   
 </tr>
 
@@ -776,16 +740,14 @@
       <span class="kt">INTEGER</span>  <span class="kd">::</span> <span class="n">num_layers_3D</span> <span class="o">=</span> <span class="mi">1</span>
       <span class="kt">LOGICAL</span>  <span class="kd">::</span> <span class="n">use_comm_thread</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
       <span class="kt">INTEGER</span>  <span class="kd">::</span> <span class="n">comm_thread_load</span> <span class="o">=</span> <span class="mi">100</span>
+      <span class="kt">INTEGER</span>  <span class="kd">::</span> <span class="n">multrec_limit</span> <span class="o">=</span> <span class="mi">512</span>
 <span class="cp">#if defined (__DBCSR_ACC)</span>
       <span class="kt">LOGICAL</span>  <span class="kd">::</span> <span class="n">mm_densification</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
 <span class="cp">#else</span>
       <span class="kt">LOGICAL</span>  <span class="kd">::</span> <span class="n">mm_densification</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
 <span class="cp">#endif</span>
-      <span class="kt">INTEGER</span>  <span class="kd">::</span> <span class="n">multrec_limit</span> <span class="o">=</span> <span class="mi">512</span>
-      <span class="kt">INTEGER</span>  <span class="kd">::</span> <span class="n">accdrv_priority_streams</span> <span class="o">=</span> <span class="mi">4</span>
-      <span class="kt">INTEGER</span>  <span class="kd">::</span> <span class="n">accdrv_priority_buffers</span> <span class="o">=</span> <span class="mi">40</span>
-      <span class="kt">INTEGER</span>  <span class="kd">::</span> <span class="n">accdrv_posterior_streams</span> <span class="o">=</span> <span class="mi">4</span>
-      <span class="kt">INTEGER</span>  <span class="kd">::</span> <span class="n">accdrv_posterior_buffers</span> <span class="o">=</span> <span class="mi">80</span>
+      <span class="kt">INTEGER</span>  <span class="kd">::</span> <span class="n">accdrv_streams</span> <span class="o">=</span> <span class="mi">0</span> <span class="c">! default unknown at compile-time</span>
+      <span class="kt">INTEGER</span>  <span class="kd">::</span> <span class="n">accdrv_buffers</span> <span class="o">=</span> <span class="mi">0</span> <span class="c">! default unknown at compile-time</span>
       <span class="kt">LOGICAL</span>  <span class="kd">::</span> <span class="n">accdrv_avoid_after_busy</span> <span class="o">=</span> <span class="p">.</span><span class="n">FALSE</span><span class="p">.</span>
       <span class="kt">INTEGER</span>  <span class="kd">::</span> <span class="n">accdrv_min_flop_process</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="kt">LOGICAL</span>  <span class="kd">::</span> <span class="n">accdrv_stack_sort</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>

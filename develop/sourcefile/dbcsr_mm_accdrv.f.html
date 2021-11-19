@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-24-gce0d03b27a</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-25-g1baca35ee2</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -311,7 +311,7 @@
 <a id="ln-43" name="ln-43"></a>   <span class="k">USE </span><span class="n">dbcsr_config</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_cfg</span><span class="p">,</span> <span class="p">&amp;</span>
 <a id="ln-44" name="ln-44"></a>                           <span class="n">default_resize_factor</span>
 <a id="ln-45" name="ln-45"></a>   <span class="c">!accdrv_binning_binsize, accdrv_binning_nbins, accdrv_min_flop_sort, &amp;</span>
-<a id="ln-46" name="ln-46"></a>   <span class="c">!accdrv_priority_buffers, !accdrv_priority_streams, &amp;</span>
+<a id="ln-46" name="ln-46"></a>   <span class="c">!accdrv_buffers, !accdrv_streams, &amp;</span>
 <a id="ln-47" name="ln-47"></a>   <span class="c">!default_resize_factor, mm_stack_size</span>
 <a id="ln-48" name="ln-48"></a>   <span class="k">USE </span><span class="n">dbcsr_data_methods</span><span class="p">,</span> <span class="k">ONLY</span><span class="p">:</span> <span class="n">dbcsr_data_dev2host</span><span class="p">,</span> <span class="p">&amp;</span>
 <a id="ln-49" name="ln-49"></a>                                 <span class="n">dbcsr_data_ensure_size</span><span class="p">,</span> <span class="p">&amp;</span>
@@ -486,7 +486,7 @@
 <a id="ln-218" name="ln-218"></a>
 <a id="ln-219" name="ln-219"></a><span class="c">!$OMP MASTER</span>
 <a id="ln-220" name="ln-220"></a>      <span class="k">CALL </span><span class="n">stream_array_force_size</span><span class="p">(</span><span class="n">priority_streams</span><span class="p">,</span> <span class="s2">&quot;Calc (priority)&quot;</span><span class="p">,</span> <span class="p">&amp;</span>
-<a id="ln-221" name="ln-221"></a>                                   <span class="n">n</span><span class="o">=</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_priority_streams</span><span class="p">)</span>
+<a id="ln-221" name="ln-221"></a>                                   <span class="n">n</span><span class="o">=</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_streams</span><span class="p">)</span>
 <a id="ln-222" name="ln-222"></a><span class="c">!$OMP END MASTER</span>
 <a id="ln-223" name="ln-223"></a><span class="c">! Other threads have to wait until streams are created</span>
 <a id="ln-224" name="ln-224"></a><span class="c">!$OMP BARRIER</span>
@@ -541,7 +541,7 @@
 <a id="ln-273" name="ln-273"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mm_accdrv_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>          <span class="kd">::</span> <span class="n">this</span>
 <a id="ln-274" name="ln-274"></a>
 <a id="ln-275" name="ln-275"></a>      <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">ithread</span><span class="p">,</span> <span class="p">&amp;</span>
-<a id="ln-276" name="ln-276"></a>                                                            <span class="n">my_priority_buffers</span><span class="p">,</span> <span class="n">my_total_buffers</span><span class="p">,</span> <span class="p">&amp;</span>
+<a id="ln-276" name="ln-276"></a>                                                            <span class="n">my_buffers</span><span class="p">,</span> <span class="n">my_total_buffers</span><span class="p">,</span> <span class="p">&amp;</span>
 <a id="ln-277" name="ln-277"></a>                                                            <span class="n">nthreads</span>
 <a id="ln-278" name="ln-278"></a>      <span class="k">TYPE</span><span class="p">(</span><span class="n">thread_private_type</span><span class="p">),</span> <span class="k">POINTER</span>                 <span class="kd">::</span> <span class="n">thread_privates</span>
 <a id="ln-279" name="ln-279"></a>
@@ -551,10 +551,10 @@
 <a id="ln-283" name="ln-283"></a>
 <a id="ln-284" name="ln-284"></a>      <span class="c">! distribute total number of buffers approx. evenly among threads</span>
 <a id="ln-285" name="ln-285"></a>      <span class="c">! my_* variables hold number of buffers for current thread.</span>
-<a id="ln-286" name="ln-286"></a>      <span class="n">my_priority_buffers</span> <span class="o">=</span> <span class="nb">CEILING</span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_priority_buffers</span><span class="p">)</span><span class="o">/</span><span class="kt">REAL</span><span class="p">(</span><span class="n">nthreads</span><span class="p">),</span> <span class="n">int_4</span><span class="p">)</span>
+<a id="ln-286" name="ln-286"></a>      <span class="n">my_buffers</span> <span class="o">=</span> <span class="nb">CEILING</span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_buffers</span><span class="p">)</span><span class="o">/</span><span class="kt">REAL</span><span class="p">(</span><span class="n">nthreads</span><span class="p">),</span> <span class="n">int_4</span><span class="p">)</span>
 <a id="ln-287" name="ln-287"></a>
-<a id="ln-288" name="ln-288"></a>      <span class="n">this</span><span class="p">%</span><span class="n">nbuffers_phaseout</span> <span class="o">=</span> <span class="n">my_priority_buffers</span>
-<a id="ln-289" name="ln-289"></a>      <span class="n">my_total_buffers</span> <span class="o">=</span> <span class="n">my_priority_buffers</span>
+<a id="ln-288" name="ln-288"></a>      <span class="n">this</span><span class="p">%</span><span class="n">nbuffers_phaseout</span> <span class="o">=</span> <span class="n">my_buffers</span>
+<a id="ln-289" name="ln-289"></a>      <span class="n">my_total_buffers</span> <span class="o">=</span> <span class="n">my_buffers</span>
 <a id="ln-290" name="ln-290"></a>
 <a id="ln-291" name="ln-291"></a>      <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">thread_privates</span><span class="p">%</span><span class="n">stack_buffers</span><span class="p">))</span> <span class="k">THEN</span>
 <a id="ln-292" name="ln-292"></a><span class="k">         IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">thread_privates</span><span class="p">%</span><span class="n">stack_buffers</span><span class="p">)</span> <span class="o">/=</span> <span class="n">my_total_buffers</span><span class="p">)</span> <span class="p">&amp;</span>

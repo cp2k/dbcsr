@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-24-gce0d03b27a</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-25-g1baca35ee2</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -316,7 +316,7 @@ private subroutine setup_stackbuffers(this)
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_mm_accdrv_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>          <span class="kd">::</span> <span class="n">this</span>
 
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">i</span><span class="p">,</span> <span class="n">ithread</span><span class="p">,</span> <span class="p">&amp;</span>
-                                                            <span class="n">my_priority_buffers</span><span class="p">,</span> <span class="n">my_total_buffers</span><span class="p">,</span> <span class="p">&amp;</span>
+                                                            <span class="n">my_buffers</span><span class="p">,</span> <span class="n">my_total_buffers</span><span class="p">,</span> <span class="p">&amp;</span>
                                                             <span class="n">nthreads</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">thread_private_type</span><span class="p">),</span> <span class="k">POINTER</span>                 <span class="kd">::</span> <span class="n">thread_privates</span>
 
@@ -326,10 +326,10 @@ private subroutine setup_stackbuffers(this)
 
       <span class="c">! distribute total number of buffers approx. evenly among threads</span>
       <span class="c">! my_* variables hold number of buffers for current thread.</span>
-      <span class="n">my_priority_buffers</span> <span class="o">=</span> <span class="nb">CEILING</span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_priority_buffers</span><span class="p">)</span><span class="o">/</span><span class="kt">REAL</span><span class="p">(</span><span class="n">nthreads</span><span class="p">),</span> <span class="n">int_4</span><span class="p">)</span>
+      <span class="n">my_buffers</span> <span class="o">=</span> <span class="nb">CEILING</span><span class="p">(</span><span class="kt">REAL</span><span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_buffers</span><span class="p">)</span><span class="o">/</span><span class="kt">REAL</span><span class="p">(</span><span class="n">nthreads</span><span class="p">),</span> <span class="n">int_4</span><span class="p">)</span>
 
-      <span class="n">this</span><span class="p">%</span><span class="n">nbuffers_phaseout</span> <span class="o">=</span> <span class="n">my_priority_buffers</span>
-      <span class="n">my_total_buffers</span> <span class="o">=</span> <span class="n">my_priority_buffers</span>
+      <span class="n">this</span><span class="p">%</span><span class="n">nbuffers_phaseout</span> <span class="o">=</span> <span class="n">my_buffers</span>
+      <span class="n">my_total_buffers</span> <span class="o">=</span> <span class="n">my_buffers</span>
 
       <span class="k">IF</span> <span class="p">(</span><span class="nb">ASSOCIATED</span><span class="p">(</span><span class="n">thread_privates</span><span class="p">%</span><span class="n">stack_buffers</span><span class="p">))</span> <span class="k">THEN</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="n">SIZE</span><span class="p">(</span><span class="n">thread_privates</span><span class="p">%</span><span class="n">stack_buffers</span><span class="p">)</span> <span class="o">/=</span> <span class="n">my_total_buffers</span><span class="p">)</span> <span class="p">&amp;</span>

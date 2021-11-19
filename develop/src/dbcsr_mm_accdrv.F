@@ -43,7 +43,7 @@ MODULE dbcsr_mm_accdrv
    USE dbcsr_config, ONLY: dbcsr_cfg, &
                            default_resize_factor
    !accdrv_binning_binsize, accdrv_binning_nbins, accdrv_min_flop_sort, &
-   !accdrv_priority_buffers, !accdrv_priority_streams, &
+   !accdrv_buffers, !accdrv_streams, &
    !default_resize_factor, mm_stack_size
    USE dbcsr_data_methods, ONLY: dbcsr_data_dev2host, &
                                  dbcsr_data_ensure_size, &
@@ -218,7 +218,7 @@ CONTAINS
 
 !$OMP MASTER
       CALL stream_array_force_size(priority_streams, "Calc (priority)", &
-                                   n=dbcsr_cfg%accdrv_priority_streams)
+                                   n=dbcsr_cfg%accdrv_streams)
 !$OMP END MASTER
 ! Other threads have to wait until streams are created
 !$OMP BARRIER
@@ -273,7 +273,7 @@ CONTAINS
       TYPE(dbcsr_mm_accdrv_type), INTENT(INOUT)          :: this
 
       INTEGER                                            :: i, ithread, &
-                                                            my_priority_buffers, my_total_buffers, &
+                                                            my_buffers, my_total_buffers, &
                                                             nthreads
       TYPE(thread_private_type), POINTER                 :: thread_privates
 
@@ -283,10 +283,10 @@ CONTAINS
 
       ! distribute total number of buffers approx. evenly among threads
       ! my_* variables hold number of buffers for current thread.
-      my_priority_buffers = CEILING(REAL(dbcsr_cfg%accdrv_priority_buffers)/REAL(nthreads), int_4)
+      my_buffers = CEILING(REAL(dbcsr_cfg%accdrv_buffers)/REAL(nthreads), int_4)
 
-      this%nbuffers_phaseout = my_priority_buffers
-      my_total_buffers = my_priority_buffers
+      this%nbuffers_phaseout = my_buffers
+      my_total_buffers = my_buffers
 
       IF (ASSOCIATED(thread_privates%stack_buffers)) THEN
          IF (SIZE(thread_privates%stack_buffers) /= my_total_buffers) &

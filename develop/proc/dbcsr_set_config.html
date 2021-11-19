@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-24-gce0d03b27a</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-25-g1baca35ee2</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -131,7 +131,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">81 statements</a>
+    title=" 0.2% of total for procedures.">97 statements</a>
      </li> 
      
      
@@ -413,7 +413,7 @@ public subroutine dbcsr_set_config(mm_driver, use_mpi_allocator, mm_stack_size, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-accdrv_priority_streams~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-accdrv_priority_streams"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -428,7 +428,7 @@ public subroutine dbcsr_set_config(mm_driver, use_mpi_allocator, mm_stack_size, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-accdrv_priority_buffers~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-accdrv_priority_buffers"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -443,7 +443,7 @@ public subroutine dbcsr_set_config(mm_driver, use_mpi_allocator, mm_stack_size, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-accdrv_posterior_streams~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-accdrv_posterior_streams"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -458,7 +458,7 @@ public subroutine dbcsr_set_config(mm_driver, use_mpi_allocator, mm_stack_size, 
   
 <tr>
   
-  <td><span class="anchor" id="variable-accdrv_posterior_buffers~2"></span>integer,</td>
+  <td><span class="anchor" id="variable-accdrv_posterior_buffers"></span>integer,</td>
   <td>intent(in),</td>
   <td>optional</td>
   
@@ -726,6 +726,9 @@ public subroutine dbcsr_set_config(mm_driver, use_mpi_allocator, mm_stack_size, 
 
       <span class="kt">INTEGER</span>                                            <span class="kd">::</span> <span class="n">nthreads</span>
 
+      <span class="n">nthreads</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="c">!$    nthreads = OMP_GET_MAX_THREADS()</span>
+
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_mpi_allocator</span><span class="p">))</span> <span class="n">dbcsr_data_allocation</span><span class="p">%</span><span class="n">use_mpi_allocator</span> <span class="o">=</span> <span class="n">use_mpi_allocator</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">avg_elements_images</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">avg_elements_images</span> <span class="o">=</span> <span class="n">avg_elements_images</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">num_mult_images</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">num_mult_images</span> <span class="o">=</span> <span class="n">num_mult_images</span>
@@ -734,16 +737,21 @@ public subroutine dbcsr_set_config(mm_driver, use_mpi_allocator, mm_stack_size, 
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_comm_thread</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_comm_thread</span> <span class="o">=</span> <span class="n">use_comm_thread</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">multrec_limit</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">multrec_limit</span> <span class="o">=</span> <span class="n">multrec_limit</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mm_densification</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">mm_densification</span> <span class="o">=</span> <span class="n">mm_densification</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_priority_streams</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_priority_streams</span> <span class="o">=</span> <span class="n">accdrv_priority_streams</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_priority_buffers</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_priority_buffers</span> <span class="o">=</span> <span class="n">accdrv_priority_buffers</span>
-<span class="cp">#if defined(__DBCSR_ACC) &amp;&amp; (defined(__HIP_PLATFORM_AMD__) || defined(__CUDA) || defined(__HIP_PLATFORM_NVCC__))</span>
-      <span class="n">nthreads</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="c">!$    nthreads = OMP_GET_MAX_THREADS()</span>
-      <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_priority_streams</span> <span class="o">=</span> <span class="n">nthreads</span>
-      <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_priority_buffers</span> <span class="o">=</span> <span class="n">nthreads</span><span class="o">*</span><span class="mi">4</span>
+<span class="cp">#if defined(__DBCSR_ACC)</span>
+      <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_streams</span> <span class="o">=</span> <span class="n">nthreads</span>
+      <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_buffers</span> <span class="o">=</span> <span class="n">nthreads</span><span class="o">*</span><span class="mi">4</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_priority_streams</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;</span> <span class="n">accdrv_priority_streams</span><span class="p">)</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_streams</span> <span class="o">=</span> <span class="n">accdrv_priority_streams</span>
+      <span class="k">ENDIF</span>
+<span class="k">      IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_priority_buffers</span><span class="p">))</span> <span class="k">THEN</span>
+<span class="k">         IF</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;</span> <span class="n">accdrv_priority_buffers</span><span class="p">)</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_buffers</span> <span class="o">=</span> <span class="n">accdrv_priority_buffers</span>
+      <span class="k">ENDIF</span>
+<span class="cp">#else</span>
+      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">accdrv_priority_streams</span><span class="p">)</span>
+      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">accdrv_priority_buffers</span><span class="p">)</span>
 <span class="cp">#endif</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_posterior_streams</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_posterior_streams</span> <span class="o">=</span> <span class="n">accdrv_posterior_streams</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_posterior_buffers</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_posterior_buffers</span> <span class="o">=</span> <span class="n">accdrv_posterior_buffers</span>
+      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">accdrv_posterior_streams</span><span class="p">)</span>
+      <span class="n">MARK_USED</span><span class="p">(</span><span class="n">accdrv_posterior_buffers</span><span class="p">)</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_avoid_after_busy</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_avoid_after_busy</span> <span class="o">=</span> <span class="n">accdrv_avoid_after_busy</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_min_flop_process</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_min_flop_process</span> <span class="o">=</span> <span class="n">accdrv_min_flop_process</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_stack_sort</span><span class="p">))</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_stack_sort</span> <span class="o">=</span> <span class="n">accdrv_stack_sort</span>
@@ -760,9 +768,7 @@ public subroutine dbcsr_set_config(mm_driver, use_mpi_allocator, mm_stack_size, 
 <span class="k">            IF</span> <span class="p">(</span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mpi_rma</span><span class="p">)</span> <span class="k">THEN</span>
 <span class="k">               </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span> <span class="o">=</span> <span class="mi">100</span>
             <span class="k">ELSE</span>
-<span class="k">               </span><span class="n">nthreads</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="c">!$             nthreads = OMP_GET_MAX_THREADS()</span>
-               <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span> <span class="o">-</span> <span class="p">(</span><span class="mi">30</span><span class="o">*</span><span class="n">nthreads</span><span class="p">)</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span>
+<span class="k">               </span><span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span> <span class="o">=</span> <span class="nb">MAX</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span> <span class="o">-</span> <span class="p">(</span><span class="mi">30</span><span class="o">*</span><span class="n">nthreads</span><span class="p">)</span><span class="o">/</span><span class="mi">8</span><span class="p">)</span>
             <span class="k">ENDIF</span>
 <span class="k">         ENDIF</span>
 <span class="k">      ENDIF</span>

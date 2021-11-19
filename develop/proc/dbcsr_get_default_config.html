@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-24-gce0d03b27a</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-25-g1baca35ee2</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -398,7 +398,7 @@ public subroutine dbcsr_get_default_config(use_mpi_allocator, mm_stack_size, avg
   
 <tr>
   
-  <td><span class="anchor" id="variable-accdrv_priority_streams~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-accdrv_priority_streams~2"></span>integer,</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -413,7 +413,7 @@ public subroutine dbcsr_get_default_config(use_mpi_allocator, mm_stack_size, avg
   
 <tr>
   
-  <td><span class="anchor" id="variable-accdrv_priority_buffers~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-accdrv_priority_buffers~2"></span>integer,</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -428,7 +428,7 @@ public subroutine dbcsr_get_default_config(use_mpi_allocator, mm_stack_size, avg
   
 <tr>
   
-  <td><span class="anchor" id="variable-accdrv_posterior_streams~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-accdrv_posterior_streams~2"></span>integer,</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -443,7 +443,7 @@ public subroutine dbcsr_get_default_config(use_mpi_allocator, mm_stack_size, avg
   
 <tr>
   
-  <td><span class="anchor" id="variable-accdrv_posterior_buffers~3"></span>integer,</td>
+  <td><span class="anchor" id="variable-accdrv_posterior_buffers~2"></span>integer,</td>
   <td>intent(out),</td>
   <td>optional</td>
   
@@ -713,10 +713,10 @@ public subroutine dbcsr_get_default_config(use_mpi_allocator, mm_stack_size, avg
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">comm_thread_load</span><span class="p">))</span> <span class="n">comm_thread_load</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">comm_thread_load</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mm_densification</span><span class="p">))</span> <span class="n">mm_densification</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">mm_densification</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">multrec_limit</span><span class="p">))</span> <span class="n">multrec_limit</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">multrec_limit</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_priority_streams</span><span class="p">))</span> <span class="n">accdrv_priority_streams</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_priority_streams</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_priority_buffers</span><span class="p">))</span> <span class="n">accdrv_priority_buffers</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_priority_buffers</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_posterior_streams</span><span class="p">))</span> <span class="n">accdrv_posterior_streams</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_posterior_streams</span>
-      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_posterior_buffers</span><span class="p">))</span> <span class="n">accdrv_posterior_buffers</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_posterior_buffers</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_priority_streams</span><span class="p">))</span> <span class="n">accdrv_priority_streams</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_streams</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_priority_buffers</span><span class="p">))</span> <span class="n">accdrv_priority_buffers</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_buffers</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_posterior_streams</span><span class="p">))</span> <span class="n">accdrv_posterior_streams</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_posterior_buffers</span><span class="p">))</span> <span class="n">accdrv_posterior_buffers</span> <span class="o">=</span> <span class="mi">0</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_avoid_after_busy</span><span class="p">))</span> <span class="n">accdrv_avoid_after_busy</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_avoid_after_busy</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_min_flop_process</span><span class="p">))</span> <span class="n">accdrv_min_flop_process</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_min_flop_process</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">accdrv_stack_sort</span><span class="p">))</span> <span class="n">accdrv_stack_sort</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">accdrv_stack_sort</span>

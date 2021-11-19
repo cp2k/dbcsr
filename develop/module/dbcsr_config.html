@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-24-gce0d03b27a</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-25-g1baca35ee2</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -131,7 +131,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.5% of total for modules and submodules.">285 statements</a>
+    title=" 0.5% of total for modules and submodules.">297 statements</a>
      </li> 
      
      
@@ -306,8 +306,6 @@
       <li class="list-group-item">
   <ul class="list-inline">
     
-    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
-    
     <li><a href='../module/dbcsr_acc_device.html'>dbcsr_acc_device</a></li>
     
     <li><a href='../module/dbcsr_ptr_util.html'>dbcsr_ptr_util</a></li>
@@ -315,6 +313,8 @@
     <li><a href='../module/dbcsr_mpiwrap.html'>dbcsr_mpiwrap</a></li>
     
     <li><a href='../module/dbcsr_kinds.html'>dbcsr_kinds</a></li>
+    
+    <li><a href='../module/dbcsr_base_hooks.html'>dbcsr_base_hooks</a></li>
     
   </ul>
       </li>
@@ -992,20 +992,6 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-mm_densification"></span>logical,</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
-  <td><strong>mm_densification</strong></td><td> =</td><td>.TRUE.</td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
   <td><span class="anchor" id="variable-multrec_limit"></span>integer,</td>
   
   <td>private</td>
@@ -1020,11 +1006,11 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-accdrv_priority_streams"></span>integer,</td>
+  <td><span class="anchor" id="variable-mm_densification"></span>logical,</td>
   
   <td>private</td>
   <td></td><td>::</td>
-  <td><strong>accdrv_priority_streams</strong></td><td> =</td><td>4</td><td></td>
+  <td><strong>mm_densification</strong></td><td> =</td><td>.TRUE.</td><td></td>
   
 </tr>
 
@@ -1034,11 +1020,11 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-accdrv_priority_buffers"></span>integer,</td>
+  <td><span class="anchor" id="variable-accdrv_streams"></span>integer,</td>
   
   <td>private</td>
   <td></td><td>::</td>
-  <td><strong>accdrv_priority_buffers</strong></td><td> =</td><td>40</td><td></td>
+  <td><strong>accdrv_streams</strong></td><td> =</td><td>0</td><td></td>
   
 </tr>
 
@@ -1048,25 +1034,11 @@
   
 <tr>
   
-  <td><span class="anchor" id="variable-accdrv_posterior_streams"></span>integer,</td>
+  <td><span class="anchor" id="variable-accdrv_buffers"></span>integer,</td>
   
   <td>private</td>
   <td></td><td>::</td>
-  <td><strong>accdrv_posterior_streams</strong></td><td> =</td><td>4</td><td></td>
-  
-</tr>
-
-  
-  
-  
-  
-<tr>
-  
-  <td><span class="anchor" id="variable-accdrv_posterior_buffers"></span>integer,</td>
-  
-  <td>private</td>
-  <td></td><td>::</td>
-  <td><strong>accdrv_posterior_buffers</strong></td><td> =</td><td>80</td><td></td>
+  <td><strong>accdrv_buffers</strong></td><td> =</td><td>0</td><td></td>
   
 </tr>
 

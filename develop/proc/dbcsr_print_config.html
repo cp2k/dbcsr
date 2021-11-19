@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-24-gce0d03b27a</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-25-g1baca35ee2</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -131,7 +131,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">80 statements</a>
+    title=" 0.1% of total for procedures.">78 statements</a>
      </li> 
      
      
@@ -419,13 +419,9 @@ public subroutine dbcsr_print_config(unit_nr)
 <span class="k">         WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
             <span class="s2">&quot;DBCSR| ACC: Number of devices/node&quot;</span><span class="p">,</span> <span class="n">dbcsr_acc_get_ndevices</span><span class="p">()</span>
          <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-            <span class="s2">&quot;DBCSR| ACC: Number of priority stack-buffers&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_priority_buffers</span>
+            <span class="s2">&quot;DBCSR| ACC: Number of stack-buffers&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_buffers</span>
          <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-            <span class="s2">&quot;DBCSR| ACC: Number of posterior stack-buffers&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_posterior_buffers</span>
-         <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-            <span class="s2">&quot;DBCSR| ACC: Number of priority streams&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_priority_streams</span>
-         <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T70,I11)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
-            <span class="s2">&quot;DBCSR| ACC: Number of posterior streams&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_posterior_streams</span>
+            <span class="s2">&quot;DBCSR| ACC: Number of streams&quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_streams</span>
          <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
             <span class="s2">&quot;DBCSR| ACC: Avoid driver after busy &quot;</span><span class="p">,</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">accdrv_avoid_after_busy</span>
          <span class="k">WRITE</span> <span class="p">(</span><span class="n">UNIT</span><span class="o">=</span><span class="n">unit_nr</span><span class="p">,</span> <span class="n">FMT</span><span class="o">=</span><span class="s1">&#39;(1X,A,T80,L1)&#39;</span><span class="p">)</span> <span class="p">&amp;</span>
