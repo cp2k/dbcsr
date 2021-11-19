@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.2.0-rc0-25-g1baca35ee2</small></a>
+          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.2.0-rc0-26-g818a4de564</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -210,7 +210,7 @@ pip install -r requirements.txt
 </code></pre></div>
 
 <p>The OpenTuner script supports several command line arguments (<code>tune_multiply.py --help</code>). For example, <code>--stop-after=300</code> can be of interest to finish in five minutes (without limit, OpenTuner decides when the auto-tuning process is finished). A single kernel can be selected by M, N, and K parameters (GEMM), e.g., <code>M=15</code>, <code>N=5</code>, and <code>K=7</code>:</p>
-<div class="codehilite"><pre><span></span><code>./tune_multiply.py <span class="m">13</span> <span class="m">5</span> <span class="m">7</span>
+<div class="codehilite"><pre><span></span><code>./tune_multiply.py 13x5x7
 </code></pre></div>
 
 <p><strong>NOTE</strong>: If multiple different kernels are tuned using <code>tune_multiply.py</code>, it is advisable to delete the <code>opentuner.db</code> directory prior to tuning a different kernel since otherwise auto-tuning is potentially (mis-)guided by information which was collected for a different kernel (<code>tune_multiply.sh</code> does this automatically).</p>

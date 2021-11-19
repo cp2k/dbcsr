@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../index.html">DBCSR <small>2.2.0-rc0-25-g1baca35ee2</small></a>
+          <a class="navbar-brand" href="../../../index.html">DBCSR <small>2.2.0-rc0-26-g818a4de564</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -155,7 +155,7 @@ make
 
 <p>Tuning the 23x23x23-kernel for example is the default case. However, to better illustrate the options, M, N, and K are given explicitly. The <code>tune_multiply.py</code> script can be used interactively for example, and terminated with CTRL-C which writes a JSON-file with tuned parameters (note a file <code>.tune_multiply-double-32x32x32.json</code> is quietly written every time a better set of parameters is found), and then aggregates all JSON-files in the directory into a CSV-file (<code>tune_multiply.csv</code>).</p>
 <div class="codehilite"><pre><span></span><code><span class="nb">cd</span> <span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/dbcsr/src/acc/opencl/smm
-./tune_multiply.py <span class="m">23</span> <span class="m">23</span> <span class="m">23</span>
+./tune_multiply.py 23x23x23
 </code></pre></div>
 
 <p>Beside of interactive termination, above process would also terminate based on OpenTuner's default or can be constrained by the number of steps (experiments), time to be spent, or a combination of both. Details can be found in the <a href="../../3-developer-guide/3-programming/2-accelerator-backend/4-opencl-libsmm.html">Developer Guide</a>.</p>
@@ -166,7 +166,7 @@ make
 
 <p>Important kernels can be further tuned (in addition to spending more time for the process) by widening the set of tuned parameters (<code>--tuning-level</code> or <code>-a</code> with "0" denoting an unrestricted set of tunables).</p>
 <div class="codehilite"><pre><span></span><code><span class="nb">cd</span> <span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/dbcsr/src/acc/opencl/smm
-./tune_multiply.py <span class="m">23</span> <span class="m">23</span> <span class="m">23</span> -a <span class="m">0</span>
+./tune_multiply.py 23x23x23 -a <span class="m">0</span>
 </code></pre></div>
 
 <p>To "continue" tuning beyond the default level, the previously found parameters must be embedded (by rebuilding the library and driver program) or can be alternatively specified at runtime (<code>OPENCL_LIBSMM_SMM_PARAMS=/path/to/tune_multiply.csv</code>).</p>
