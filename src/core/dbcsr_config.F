@@ -204,10 +204,10 @@ CONTAINS
       dbcsr_cfg%accdrv_streams = nthreads
       dbcsr_cfg%accdrv_buffers = nthreads*4
       IF (PRESENT(accdrv_priority_streams)) THEN
-        IF (0 < accdrv_priority_streams) dbcsr_cfg%accdrv_streams = accdrv_priority_streams
+         IF (0 < accdrv_priority_streams) dbcsr_cfg%accdrv_streams = accdrv_priority_streams
       ENDIF
       IF (PRESENT(accdrv_priority_buffers)) THEN
-        IF (0 < accdrv_priority_buffers) dbcsr_cfg%accdrv_buffers = accdrv_priority_buffers
+         IF (0 < accdrv_priority_buffers) dbcsr_cfg%accdrv_buffers = accdrv_priority_buffers
       ENDIF
 #else
       MARK_USED(accdrv_priority_streams)
