@@ -13,7 +13,8 @@ MODULE dbcsr_lib
    USE dbcsr_acc_device, ONLY: dbcsr_acc_get_ndevices, dbcsr_acc_set_active_device
    USE dbcsr_config, ONLY: get_accdrv_active_device_id, &
                            set_accdrv_active_device_id, &
-                           reset_accdrv_active_device_id
+                           reset_accdrv_active_device_id, &
+                           dbcsr_set_config
    USE dbcsr_kinds, ONLY: int_1_size, &
                           int_2_size, &
                           int_4_size, &
@@ -176,6 +177,9 @@ CONTAINS
 #if defined(__DBCSR_ACC)
       INTEGER :: dbcsr_thread_safe, libsmm_acc_thread_safe
 #endif
+
+      ! construct defaults which were unknown at compile-time (dbcsr_config_type)
+      CALL dbcsr_set_config()
 
       CALL mp_environ(numnodes, mynode, mp_comm)
 
