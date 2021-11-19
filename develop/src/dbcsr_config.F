@@ -318,6 +318,10 @@ CONTAINS
       TYPE(dbcsr_config_type)                            :: default_cfg
       TYPE(dbcsr_data_allocation_type)                   :: default_data_allocation
 
+      ! construct defaults which were unknown at compile-time (dbcsr_config_type)
+      ! assume dbcsr_cfg was initialized at runtime; copy dbcsr_cfg to default_cfg
+      default_cfg = dbcsr_cfg
+
       IF (PRESENT(use_mpi_allocator)) use_mpi_allocator = default_data_allocation%use_mpi_allocator
       IF (PRESENT(mm_stack_size)) mm_stack_size = default_cfg%mm_stack_size
       IF (PRESENT(avg_elements_images)) avg_elements_images = default_cfg%avg_elements_images

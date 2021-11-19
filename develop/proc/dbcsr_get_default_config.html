@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-26-g818a4de564</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-27-ge615dc41aa</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -131,7 +131,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.1% of total for procedures.">46 statements</a>
+    title=" 0.1% of total for procedures.">47 statements</a>
      </li> 
      
      
@@ -702,6 +702,10 @@ public subroutine dbcsr_get_default_config(use_mpi_allocator, mm_stack_size, avg
 
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_config_type</span><span class="p">)</span>                            <span class="kd">::</span> <span class="n">default_cfg</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_data_allocation_type</span><span class="p">)</span>                   <span class="kd">::</span> <span class="n">default_data_allocation</span>
+
+      <span class="c">! construct defaults which were unknown at compile-time (dbcsr_config_type)</span>
+      <span class="c">! assume dbcsr_cfg was initialized at runtime; copy dbcsr_cfg to default_cfg</span>
+      <span class="n">default_cfg</span> <span class="o">=</span> <span class="n">dbcsr_cfg</span>
 
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">use_mpi_allocator</span><span class="p">))</span> <span class="n">use_mpi_allocator</span> <span class="o">=</span> <span class="n">default_data_allocation</span><span class="p">%</span><span class="n">use_mpi_allocator</span>
       <span class="k">IF</span> <span class="p">(</span><span class="nb">PRESENT</span><span class="p">(</span><span class="n">mm_stack_size</span><span class="p">))</span> <span class="n">mm_stack_size</span> <span class="o">=</span> <span class="n">default_cfg</span><span class="p">%</span><span class="n">mm_stack_size</span>
