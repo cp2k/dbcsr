@@ -188,10 +188,20 @@ CONTAINS
       LOGICAL, INTENT(IN), OPTIONAL                      :: use_mempools_cpu
       REAL(KIND=real_8), INTENT(IN), OPTIONAL            :: tas_split_factor
 
-      INTEGER                                            :: nthreads
+      INTEGER, SAVE                                      :: nthreads = 0
 
-      nthreads = 1
-!$    nthreads = OMP_GET_MAX_THREADS()
+      ! ensure nthreads is initialized once (outside of a parallel region)
+      IF (0 == nthreads) THEN
+         nthreads = 1
+!$       nthreads = OMP_GET_MAX_THREADS()
+#if defined(__DBCSR_ACC)
+         dbcsr_cfg%accdrv_streams = nthreads
+         dbcsr_cfg%accdrv_buffers = nthreads*4
+#endif
+      END IF
+
+      MARK_USED(accdrv_posterior_streams) ! deprecated
+      MARK_USED(accdrv_posterior_buffers) ! deprecated
 
       IF (PRESENT(use_mpi_allocator)) dbcsr_data_allocation%use_mpi_allocator = use_mpi_allocator
       IF (PRESENT(avg_elements_images)) dbcsr_cfg%avg_elements_images = avg_elements_images
@@ -201,21 +211,8 @@ CONTAINS
       IF (PRESENT(use_comm_thread)) dbcsr_cfg%use_comm_thread = use_comm_thread
       IF (PRESENT(multrec_limit)) dbcsr_cfg%multrec_limit = multrec_limit
       IF (PRESENT(mm_densification)) dbcsr_cfg%mm_densification = mm_densification
-#if defined(__DBCSR_ACC)
-      dbcsr_cfg%accdrv_streams = nthreads
-      dbcsr_cfg%accdrv_buffers = nthreads*4
-      IF (PRESENT(accdrv_priority_streams)) THEN
-         IF (0 < accdrv_priority_streams) dbcsr_cfg%accdrv_streams = accdrv_priority_streams
-      ENDIF
-      IF (PRESENT(accdrv_priority_buffers)) THEN
-         IF (0 < accdrv_priority_buffers) dbcsr_cfg%accdrv_buffers = accdrv_priority_buffers
-      ENDIF
-#else
-      MARK_USED(accdrv_priority_streams)
-      MARK_USED(accdrv_priority_buffers)
-#endif
-      MARK_USED(accdrv_posterior_streams)
-      MARK_USED(accdrv_posterior_buffers)
+      IF (PRESENT(accdrv_priority_streams)) dbcsr_cfg%accdrv_streams = accdrv_priority_streams
+      IF (PRESENT(accdrv_priority_buffers)) dbcsr_cfg%accdrv_buffers = accdrv_priority_buffers
       IF (PRESENT(accdrv_avoid_after_busy)) dbcsr_cfg%accdrv_avoid_after_busy = accdrv_avoid_after_busy
       IF (PRESENT(accdrv_min_flop_process)) dbcsr_cfg%accdrv_min_flop_process = accdrv_min_flop_process
       IF (PRESENT(accdrv_stack_sort)) dbcsr_cfg%accdrv_stack_sort = accdrv_stack_sort
