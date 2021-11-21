@@ -60,9 +60,8 @@ cl_context c_dbcsr_acc_opencl_context(int* tid)
 {
   cl_context result;
 #if defined(_OPENMP) && defined(ACC_OPENCL_THREADLOCAL_CONTEXT)
-  const int i = omp_get_thread_num();
-  assert(0 <= i && i < c_dbcsr_acc_opencl_config.nthreads);
-  assert(NULL != c_dbcsr_acc_opencl_contexts);
+  const int i = omp_get_thread_num() % c_dbcsr_acc_opencl_config.nthreads;
+  assert(0 <= i && NULL != c_dbcsr_acc_opencl_contexts);
   result = c_dbcsr_acc_opencl_contexts[i];
   if (0 < i && NULL == result) {
     result = c_dbcsr_acc_opencl_contexts[/*master*/0];
@@ -318,12 +317,13 @@ int c_dbcsr_acc_init(void)
         if (EXIT_SUCCESS == result) {
           const char *const env_verbose = getenv("ACC_OPENCL_VERBOSE");
           cl_device_id active_device;
-          c_dbcsr_acc_opencl_config.verbosity = (NULL == env_verbose ? 0 : atoi(env_verbose));
 #if defined(_OPENMP)
-          c_dbcsr_acc_opencl_config.nthreads = omp_get_max_threads();
+          const int max_threads = omp_get_max_threads(), num_threads = omp_get_num_threads();
+          c_dbcsr_acc_opencl_config.nthreads = (num_threads < max_threads ? max_threads : num_threads);
 #else
           c_dbcsr_acc_opencl_config.nthreads = 1;
 #endif
+          c_dbcsr_acc_opencl_config.verbosity = (NULL == env_verbose ? 0 : atoi(env_verbose));
           assert(NULL == c_dbcsr_acc_opencl_contexts);
           c_dbcsr_acc_opencl_contexts = (cl_context*)calloc( /* thread-specific */
             c_dbcsr_acc_opencl_config.nthreads, sizeof(cl_context));
@@ -422,12 +422,13 @@ int c_dbcsr_acc_finalize(void)
 #endif
     if (0 != c_dbcsr_acc_opencl_config.verbosity) {
       int device_id;
-      fprintf(stderr, "INFO ACC/OpenCL: pid=%u devices={",
+      fprintf(stderr, "INFO ACC/OpenCL: pid=%u nthreads=%i devices={",
 #if defined(_WIN32)
-        (unsigned int)_getpid());
+        (unsigned int)_getpid(),
 #else
-        (unsigned int)getpid());
+        (unsigned int)getpid(),
 #endif
+        c_dbcsr_acc_opencl_config.nthreads);
       for (i = 0; i < c_dbcsr_acc_opencl_config.nthreads; ++i) {
         if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_id(i, &device_id) && 0 <= device_id) {
           fprintf(stderr, 0 < i ? " %i" : "%i", device_id);
@@ -504,8 +505,8 @@ int c_dbcsr_acc_opencl_device(void* stream, cl_device_id* device)
   else {
     cl_context context;
 #if defined(_OPENMP)
-    const int tid = omp_get_thread_num();
-    assert(NULL != c_dbcsr_acc_opencl_contexts);
+    const int tid = omp_get_thread_num() % c_dbcsr_acc_opencl_config.nthreads;
+    assert(0 <= tid && NULL != c_dbcsr_acc_opencl_contexts);
     context = c_dbcsr_acc_opencl_contexts[tid];
     if (NULL == context)
 #else
