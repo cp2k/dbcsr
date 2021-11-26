@@ -63,10 +63,8 @@ int main(int argc, char* argv[])
 #endif
   const int cli_nthreads = (2 < argc ? atoi(argv[2]) : max_nthreads);
   const int nthreads = ((0 < cli_nthreads && cli_nthreads <= max_nthreads) ? cli_nthreads : max_nthreads);
-  int priority[ACC_STREAM_MAXCOUNT], priomin, priomax, priospan;
-  int randnums[ACC_EVENT_MAXCOUNT], ndevices, i, nt;
-  void *stream[ACC_STREAM_MAXCOUNT], *s = NULL;
-  void *event[ACC_EVENT_MAXCOUNT];
+  int randnums[ACC_EVENT_MAXCOUNT], ndevices, priomin, priomax, i, nt;
+  void *event[ACC_EVENT_MAXCOUNT], *s = NULL;
   const size_t mem_alloc = (16/*MB*/ << 20);
   size_t mem_free, mem_total, mem_chunk;
   void *host_mem = NULL, *dev_mem = NULL;
@@ -89,14 +87,8 @@ int main(int argc, char* argv[])
     (int)(mem_free >> 20), (int)(mem_total >> 20));
 
   ACC_CHECK(c_dbcsr_acc_stream_priority_range(&priomin, &priomax));
-  priospan = 1 + priomin - priomax;
-  PRINTF("stream priority: lowest=%i highest=%i%s\n", priomin, priomax,
-    0 < priospan ? "" : " <-- WARNING: inconsistent values");
+  PRINTF("stream priority: lowest=%i highest=%i\n", priomin, priomax);
 
-  for (i = 0; i < ACC_STREAM_MAXCOUNT; ++i) {
-    priority[i] = priomax + (0 < priospan ? (randnums[i] % priospan) : 0);
-    stream[i] = NULL;
-  }
   for (i = 0; i < ACC_EVENT_MAXCOUNT; ++i) {
     event[i] = NULL;
   }
@@ -109,36 +101,8 @@ int main(int argc, char* argv[])
   ACC_CHECK(c_dbcsr_acc_stream_destroy(s));
   /* destroying NULL-stream shall be valid (just like delete/free) */
   ACC_CHECK(c_dbcsr_acc_stream_destroy(NULL));
-
-#if defined(_OPENMP)
-# pragma omp parallel for num_threads(nthreads) private(i)
-#endif
-  for (i = 0; i < ACC_STREAM_MAXCOUNT; ++i) {
-    const int r = randnums[i] % ACC_STREAM_MAXCOUNT;
-    char name[ACC_STRING_MAXLEN]; /* thread-local */
-    const int n = sprintf(name, "%i", i);
-    ACC_CHECK((0 <= n && n < ACC_STRING_MAXLEN) ? EXIT_SUCCESS : EXIT_FAILURE);
-    ACC_CHECK(c_dbcsr_acc_stream_create(stream + i, name, priority[i]));
-    if (ACC_STREAM_MAXNTH_DESTROY * r < ACC_STREAM_MAXCOUNT) {
-      void *const si = stream[i]; stream[i] = NULL;
-      ACC_CHECK(c_dbcsr_acc_stream_destroy(si));
-    }
-  }
-
-#if defined(_OPENMP)
-# pragma omp parallel for num_threads(nthreads) private(i)
-#endif
-  for (i = 0; i < ACC_STREAM_MAXCOUNT; ++i) {
-    if (NULL == stream[i]) {
-      char name[ACC_STRING_MAXLEN]; /* thread-local */
-      const int n = sprintf(name, "%i", i);
-      ACC_CHECK((0 <= n && n < ACC_STRING_MAXLEN) ? EXIT_SUCCESS : EXIT_FAILURE);
-      ACC_CHECK(c_dbcsr_acc_stream_create(stream + i, name, priority[i]));
-    }
-    ACC_CHECK(c_dbcsr_acc_stream_destroy(stream[i]));
-  }
-
   ACC_CHECK(c_dbcsr_acc_event_destroy(NULL));
+
   if (0 < ndevices) {
 #if defined(_OPENMP)
 #   pragma omp parallel for num_threads(nthreads) private(i)

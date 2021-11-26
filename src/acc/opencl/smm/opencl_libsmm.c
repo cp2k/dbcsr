@@ -249,9 +249,11 @@ int opencl_libsmm_read_params(char* parambuf,
 
 int opencl_libsmm_device(void* stream, cl_device_id* device, const char** config)
 {
-  int result = c_dbcsr_acc_opencl_device(stream, device), empty = 0, i = 0;
-  assert(NULL != config);
-  if (EXIT_SUCCESS == result) {
+  int result, empty = 0, i = 0;
+  assert(NULL != stream && NULL != device && NULL != config);
+  result = clGetCommandQueueInfo(*ACC_OPENCL_STREAM(stream),
+    CL_QUEUE_DEVICE, sizeof(cl_device_id), device, NULL);
+  if (CL_SUCCESS == result) {
     char buffer[ACC_OPENCL_BUFFERSIZE];
     result = clGetDeviceInfo(*device, CL_DEVICE_NAME,
       ACC_OPENCL_BUFFERSIZE, buffer, NULL);
@@ -642,8 +644,10 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
 # endif
       if (0 < nchar && (int)sizeof(fname) > nchar) {
         cl_device_id active_device;
-        result = c_dbcsr_acc_opencl_device(stream, &active_device);
-        if (EXIT_SUCCESS == result) {
+        assert(NULL != stream);
+        result = clGetCommandQueueInfo(*ACC_OPENCL_STREAM(stream),
+          CL_QUEUE_DEVICE, sizeof(cl_device_id), &active_device, NULL);
+        if (CL_SUCCESS == result) {
           const char *const param_format = "-DGLOBAL=%s -DINPLACE=%i -DFN=%s -DSM=%i -DSN=%i -DSWG=%i -DT=%s";
           const char *const cmem = (EXIT_SUCCESS != opencl_libsmm_use_cmem(active_device) ? "global" : "constant");
           const char *const env_options = getenv("OPENCL_LIBSMM_TRANS_BUILDOPTS"), *tname = "";
