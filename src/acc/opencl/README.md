@@ -30,10 +30,3 @@ Runtime settings are made by the means of environment variables. The OpenCL back
     * `ACC_OPENCL_DUMP=2`: dump compiled OpenCL kernels (depends on OpenCL implementation), e.g., PTX code on Nvidia.
 
 The OpenCL backend enumerates and orders devices by device-kind, i.e., GPU, CPU, and "other" (primary criterion) and by memory capacity (secondary criterion). Device IDs are zero-based as defined by the ACC interface (and less than what is permitted/returned by `acc_get_ndevices`).
-
-Other runtime settings include:
-
-* `ACC_OPENCL_ASYNC_MEMOPS`: Boolean value (zero or non-zero integer) for asynchronous data movements.
-* `ACC_OPENCL_SVM`: Boolean value (zero or non-zero integer) for Shared Virtual Memory (SVM).
-
-**Note**: some of the above runtime settings depend on compile-time settings to take effect.

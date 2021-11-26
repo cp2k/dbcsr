@@ -20,8 +20,9 @@ int c_dbcsr_acc_event_create(void** event_p)
 {
   cl_int result = EXIT_SUCCESS;
   const cl_context context = c_dbcsr_acc_opencl_context(NULL);
-  const cl_event event = clCreateUserEvent(context, &result);
-  assert(NULL != event_p);
+  cl_event event;
+  assert(NULL != event_p && NULL != context);
+  event  = clCreateUserEvent(context, &result);
   if (NULL != event) {
     cl_int status = CL_COMPLETE;
     assert(CL_SUCCESS == result);
@@ -107,8 +108,13 @@ int c_dbcsr_acc_opencl_enqueue_marker(void* event, void* stream)
 int c_dbcsr_acc_event_record(void* event, void* stream)
 {
   int result = EXIT_SUCCESS;
+  assert(NULL != event && NULL != stream);
   assert(NULL != c_dbcsr_acc_opencl_config.record_event);
   result = c_dbcsr_acc_opencl_config.record_event(event, stream);
+  if (0 != (1 & c_dbcsr_acc_opencl_config.flush)) {
+    ACC_OPENCL_CHECK(clFlush(*ACC_OPENCL_STREAM(stream)),
+      "flush stream", result);
+  }
   ACC_OPENCL_RETURN(result);
 }
 
@@ -132,7 +138,7 @@ int c_dbcsr_acc_event_query(void* event, c_dbcsr_acc_bool_t* has_occurred)
 
 
 int c_dbcsr_acc_event_synchronize(void* event)
-{ /* Waits on the host-side. */
+{ /* waits on the host-side */
   int result = EXIT_SUCCESS;
   assert(NULL != event);
   ACC_OPENCL_CHECK(clWaitForEvents(1, ACC_OPENCL_EVENT(event)),

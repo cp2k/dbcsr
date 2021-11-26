@@ -85,10 +85,6 @@
 # define ACC_OPENCL_EVENT(A) ((cl_event*)(A))
 #endif
 
-/* allow one context per OpenMP thread */
-#if !defined(ACC_OPENCL_THREADLOCAL_CONTEXT) && 1
-# define ACC_OPENCL_THREADLOCAL_CONTEXT
-#endif
 #if !defined(ACC_OPENCL_STREAM_PRIORITIES) && 1
 # define ACC_OPENCL_STREAM_PRIORITIES
 #endif
@@ -193,33 +189,33 @@ extern "C" {
 /** Settings depending on OpenCL vendor or standard level (discovered/setup in c_dbcsr_acc_init). */
 typedef struct c_dbcsr_acc_opencl_config_t {
   int (*record_event)(void* /*event*/, void* /*stream*/);
-  /** Asynchronous memory operations (may crash for some OpenCL implementations). */
-  cl_bool async_memops;
+  /** All created streams partitioned by thread-ID (thread-local slots). */
+  cl_command_queue* streams;
   /** Runtime SVM support (needs ACC_OPENCL_SVM at compile-time). */
   cl_bool svm_interop;
   /** Verbosity level (output on stderr). */
   cl_int verbosity;
-  /* Non-zero if library is initialized; negative in case of no device. */
+  /** Non-zero if library is initialized; negative in case of no device. */
   cl_int ndevices;
-  /* Maximum number of threads (omp_get_max_threads). */
+  /** Maximum number of threads (omp_get_max_threads). */
   cl_int nthreads;
   /** Intel device ID (zero if non-Intel). */
   cl_int intel_id;
   /** Whether host memory is unified or not. */
   cl_bool unified;
-  /** Dump level (debug). */
+  /** Asynchronous memory operations (may crash for some OpenCL implementations). */
+  cl_bool async;
+  /** Flush level. */
+  cl_int flush;
+  /** Dump level. */
   cl_int dump;
-#if defined(ACC_OPENCL_STREAMS_MAXCOUNT)
-  cl_command_queue* streams;
-  cl_int nstreams;
-#endif
 } c_dbcsr_acc_opencl_config_t;
 
 /** Global configuration setup in c_dbcsr_acc_init. */
 extern c_dbcsr_acc_opencl_config_t c_dbcsr_acc_opencl_config;
 
 /** Contexts implement 1:1 relation with a device. */
-cl_context c_dbcsr_acc_opencl_context(int* tid);
+cl_context c_dbcsr_acc_opencl_context(int* thread_id);
 
 typedef struct c_dbcsr_acc_opencl_info_hostptr_t {
   cl_mem buffer;
@@ -236,19 +232,15 @@ int c_dbcsr_acc_opencl_info_devmem(cl_device_id device,
   int* mem_unified);
 /** Return the pointer to the 1st match of "b" in "a", or NULL (no match). */
 const char* c_dbcsr_acc_opencl_stristr(const char a[], const char b[]);
-/**
- * Get the active device:
- * - Derived from context (thread-specific if ACC_OPENCL_THREADLOCAL_CONTEXT), or
- * - Queue-specific if stream != NULL)
- */
-int c_dbcsr_acc_opencl_device(void* stream, cl_device_id* device);
-/** Ordinal number denoting the thread-local device associated with thread-id. */
-int c_dbcsr_acc_opencl_device_id(int thread_id, int* device_id);
+/** Get device associated with thread-ID. */
+int c_dbcsr_acc_opencl_device(int thread_id, cl_device_id* device);
+/** Get device-ID for given device. */
+int c_dbcsr_acc_opencl_device_id(cl_device_id device, int* device_id);
 /** Confirm the vendor of the given device. */
 int c_dbcsr_acc_opencl_device_vendor(cl_device_id device, const char vendor[]);
 /** Confirm that match is matching the name of the given device. */
 int c_dbcsr_acc_opencl_device_name(cl_device_id device, const char match[]);
-/** Capture an id out of the device-name according to the given format (scanf). */
+/** Capture an ID out of the device-name according to the given format (scanf). */
 int c_dbcsr_acc_opencl_device_uid(cl_device_id device, const char format[], int* uid);
 /** Return the OpenCL support level for the given device. */
 int c_dbcsr_acc_opencl_device_level(cl_device_id device,
@@ -256,8 +248,8 @@ int c_dbcsr_acc_opencl_device_level(cl_device_id device,
 /** Check if given device supports the extensions. */
 int c_dbcsr_acc_opencl_device_ext(cl_device_id device,
   const char *const extnames[], int num_exts);
-/** Internal flavor of c_dbcsr_acc_set_active_device; yields cl_device_id. */
-int c_dbcsr_acc_opencl_set_active_device(int device_id, cl_device_id* device);
+/** Create context for given thread-ID and device. */
+int c_dbcsr_acc_opencl_create_context(int thread_id, cl_device_id device_id);
 /** Get preferred multiple and max. size of workgroup (kernel- or device-specific). */
 int c_dbcsr_acc_opencl_wgsize(cl_device_id device, cl_kernel kernel,
   int* max_value, int* preferred_multiple);
@@ -278,6 +270,8 @@ int c_dbcsr_acc_opencl_stream_create(cl_command_queue* stream_p, const char name
 int c_dbcsr_acc_opencl_enqueue_barrier(void* event, void* stream);
 /** Enqueue marker (see c_dbcsr_acc_opencl_config.record_event). */
 int c_dbcsr_acc_opencl_enqueue_marker(void* event, void* stream);
+/** Per-thread variant of c_dbcsr_acc_device_synchronize. */
+int c_dbcsr_acc_opencl_device_synchronize(int thread_id);
 
 #if defined(__cplusplus)
 }
