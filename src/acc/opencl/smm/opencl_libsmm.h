@@ -12,14 +12,6 @@
 #include "../../acc_libsmm.h"
 #include "../acc_opencl.h"
 
-#if defined(__LIBXSMM)
-# include <libxsmm.h>
-#else
-/* OpenCL backend depends on LIBXSMM */
-# include <libxsmm_source.h>
-# define __LIBXSMM
-#endif
-
 #if !defined(OPENCL_LIBSMM_TRANS_INPLACE) && 0
 # define OPENCL_LIBSMM_TRANS_INPLACE
 #endif

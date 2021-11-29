@@ -10,6 +10,9 @@
 #include "acc_opencl.h"
 #include <stdlib.h>
 #include <assert.h>
+#if defined(_OPENMP)
+# include <omp.h>
+#endif
 
 
 #if defined(__cplusplus)
@@ -19,7 +22,7 @@ extern "C" {
 int c_dbcsr_acc_event_create(void** event_p)
 {
   cl_int result = EXIT_SUCCESS;
-  const cl_context context = c_dbcsr_acc_opencl_context(NULL);
+  const cl_context context = c_dbcsr_acc_opencl_context();
   cl_event event;
   assert(NULL != event_p && NULL != context);
   event  = clCreateUserEvent(context, &result);
@@ -111,10 +114,6 @@ int c_dbcsr_acc_event_record(void* event, void* stream)
   assert(NULL != event && NULL != stream);
   assert(NULL != c_dbcsr_acc_opencl_config.record_event);
   result = c_dbcsr_acc_opencl_config.record_event(event, stream);
-  if (0 != (1 & c_dbcsr_acc_opencl_config.flush)) {
-    ACC_OPENCL_CHECK(clFlush(*ACC_OPENCL_STREAM(stream)),
-      "flush stream", result);
-  }
   ACC_OPENCL_RETURN(result);
 }
 
@@ -128,6 +127,14 @@ int c_dbcsr_acc_event_query(void* event, c_dbcsr_acc_bool_t* has_occurred)
   assert(NULL != has_occurred);
   if (0 <= status) {
     *has_occurred = ((CL_COMPLETE == status || CL_SUCCESS != result) ? 1 : 0);
+    if (!*has_occurred) {
+#if defined(_OPENMP)
+      const int tid = omp_get_thread_num() % c_dbcsr_acc_opencl_config.nthreads;
+#else
+      const int tid = 0; /* master */
+#endif
+      result = c_dbcsr_acc_opencl_device_synchronize(tid);
+    }
   }
   else { /* error state */
     if (CL_SUCCESS == result) result = EXIT_FAILURE;

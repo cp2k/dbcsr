@@ -62,6 +62,7 @@ c_dbcsr_acc_opencl_info_hostptr_t* c_dbcsr_acc_opencl_info_hostptr(void* memory)
 }
 
 
+#if defined(ACC_OPENCL_SVM)
 void* c_dbcsr_acc_opencl_get_hostptr(cl_mem memory)
 {
   void* result = NULL;
@@ -71,6 +72,7 @@ void* c_dbcsr_acc_opencl_get_hostptr(cl_mem memory)
   }
   return result;
 }
+#endif
 
 
 int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t nbytes, void* stream)
@@ -90,8 +92,12 @@ int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t nbytes, void* stream)
 #if defined(ACC_OPENCL_SVM)
       c_dbcsr_acc_opencl_config.svm_interop ? clCreateBuffer(context, CL_MEM_USE_HOST_PTR, size,
         clSVMAlloc(context, CL_MEM_READ_WRITE, size, sizeof(void*)/*minimal alignment*/), &result) :
-#endif
+#elif defined(ACC_OPENCL_MALLOC_LIBXSMM)
+      clCreateBuffer(context, CL_MEM_USE_HOST_PTR, size,
+        libxsmm_aligned_malloc(size, sizeof(void*)/*minimal alignment*/), &result));
+#else
       clCreateBuffer(context, CL_MEM_ALLOC_HOST_PTR, size, NULL/*host_ptr*/, &result));
+#endif
   }
   assert(CL_SUCCESS == result || NULL == buffer);
   if (NULL != buffer) {
@@ -99,7 +105,7 @@ int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t nbytes, void* stream)
       !c_dbcsr_acc_opencl_config.async, CL_MAP_READ | CL_MAP_WRITE,
       0/*offset*/, size, 0, NULL, NULL, &result);
     if (0 != address) {
-      const uintptr_t aligned = ACC_OPENCL_UP2(address + size_meminfo, alignment);
+      const uintptr_t aligned = LIBXSMM_UP2(address + size_meminfo, alignment);
       c_dbcsr_acc_opencl_info_hostptr_t* meminfo;
       assert(address + size_meminfo <= aligned);
       assert(CL_SUCCESS == result);
@@ -160,6 +166,8 @@ int c_dbcsr_acc_host_mem_deallocate(void* host_mem, void* stream)
           sizeof(cl_context), &context, NULL);
         if (CL_SUCCESS == result) clSVMFree(context, info.mapped);
       }
+#elif defined(ACC_OPENCL_MALLOC_LIBXSMM)
+      libxsmm_free(info.mapped);
 #endif
     }
   }
@@ -176,7 +184,7 @@ int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes)
         && 0x020a != c_dbcsr_acc_opencl_config.intel_id
         && 0x0bd5 != c_dbcsr_acc_opencl_config.intel_id))
     ? 0 : (1u << 22));
-  const cl_context context = c_dbcsr_acc_opencl_context(NULL);
+  const cl_context context = c_dbcsr_acc_opencl_context();
   cl_mem buffer;
   assert(NULL != dev_mem && 0 <= ACC_OPENCL_OVERMALLOC);
   assert(NULL != context);
@@ -250,7 +258,7 @@ int c_dbcsr_acc_dev_mem_deallocate(void* dev_mem)
 #if defined(ACC_OPENCL_SVM)
     /*if (NULL != ptr)*/
     {
-      const cl_context context = c_dbcsr_acc_opencl_context(NULL);
+      const cl_context context = c_dbcsr_acc_opencl_context();
       assert(NULL != context);
       clSVMFree(context, ptr);
     }
