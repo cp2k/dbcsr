@@ -341,7 +341,7 @@ int c_dbcsr_acc_init(void)
             else result = EXIT_FAILURE;
           }
           if (EXIT_SUCCESS == result) {
-            const int cl_nonv = (EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(active_id, "nvidia"));
+            const int cl_nonv = (EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(active_id, "nvidia") ? 1 : 0);
             const char *const env_barrier = getenv("ACC_OPENCL_BARRIER"), *const env_dump = getenv("ACC_OPENCL_DUMP");
             const char *const env_async = getenv("ACC_OPENCL_ASYNC"), *const env_flush = getenv("ACC_OPENCL_FLUSH");
             c_dbcsr_acc_opencl_config.async = (NULL == env_async ? /*default*/cl_nonv : (0 != atoi(env_async)));
