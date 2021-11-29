@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-30-g8e9b0d76eb</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-31-g8b6cb8fddf</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -131,7 +131,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.6% of total for procedures.">361 statements</a>
+    title=" 0.6% of total for procedures.">360 statements</a>
      </li> 
      
      
@@ -708,9 +708,6 @@ last full column of limiting inner product</p></td>
 
       <span class="c">! Check if RMA is used with buggy OpenMPI (version&lt;1.10.4 or 2.0.1)</span>
       <span class="k">CALL </span><span class="n">check_openmpi_rma</span><span class="p">()</span>
-
-      <span class="n">ithread</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="c">!$    ithread = OMP_GET_THREAD_NUM()</span>
 
       <span class="n">use_mempools</span> <span class="o">=</span> <span class="n">dbcsr_cfg</span><span class="p">%</span><span class="n">use_mempools_cpu</span> <span class="p">.</span><span class="nb">OR</span><span class="p">.</span> <span class="n">has_acc</span>
 

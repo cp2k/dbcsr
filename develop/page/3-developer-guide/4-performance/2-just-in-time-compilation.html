@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../../../index.html">DBCSR <small>2.2.0-rc0-30-g8e9b0d76eb</small></a>
+          <a class="navbar-brand" href="../../../index.html">DBCSR <small>2.2.0-rc0-31-g8b6cb8fddf</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -141,7 +141,7 @@
     <div class="col-md-9 col-md-push-3" id='text'>
       <h1>Just-In-Time (JIT) Compilation</h1>
 <p>DBCSR's GPU backends rely on templated kernels for batched matrix multiplication and matrix transpose (CUDA/HIP as well as OpenCL backend). If DBCSR were to compile kernels for all possible triplets or MxNxKs (in the case of transposes, for all possible MxNs) ahead-of-time (AOT), it would not only bloat the size of the library but also take a long time to compile the code. Reducing the number of triplets to a "practical set" would either sacrifice performance or limit potential acceleration to certain workloads.</p>
-<p>Instead, kernels are generated Just-In-Time (JIT) or "on the fly", i.e., at runtime, as they are requested by the application and workload. For LIBXSMM_ACC, the JIT infrastructure is based on <a href="https://docs.nvidia.com/cuda/nvrtc/">CUDA NVRTC</a>, a runtime compilation library for CUDA C++. The OpenCL based LIBSMM relies on the OpenCL runtime library to perform JIT compilation.</p>
+<p>Instead, kernels are generated Just-In-Time (JIT) or "on the fly", i.e., at runtime, as they are requested by the application and workload. For LIBSMM_ACC, the JIT infrastructure is based on <a href="https://docs.nvidia.com/cuda/nvrtc/">CUDA NVRTC</a>, a runtime compilation library for CUDA C++. The OpenCL based LIBSMM relies on the OpenCL runtime library to perform JIT compilation.</p>
 <p>No matter which runtime is used and whether JIT compilation is in the order of ~500ms per kernel or not, the compilation time becomes significant during the process of auto-tuning a set of kernels. Therefore extra documentation is provided in either case (CUDA/HIP or OpenCL) on how to collect tuned parameters or to eventually submit a set of tuned parameters for the benefit of others.</p>
 <p>To check how much time a program spends for JIT compilation, GPU-backends contribute <code>jit_kernel_multiply</code> and <code>jit_kernel_transpose</code> entries to the <a href="1-insights.html">timings report</a>. This report appears when the application terminates (final output). The OpenCL backend supports additional <a href="../../3-developer-guide/3-programming/2-accelerator-backend/3-opencl-backend.html">Runtime Settings</a>, e.g., to report compilation time on a per-kernel basis (<code>ACC_OPENCL_VERBOSE=2</code>).</p>
     </div>

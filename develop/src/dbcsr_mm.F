@@ -432,9 +432,6 @@ CONTAINS
       ! Check if RMA is used with buggy OpenMPI (version<1.10.4 or 2.0.1)
       CALL check_openmpi_rma()
 
-      ithread = 0
-!$    ithread = OMP_GET_THREAD_NUM()
-
       use_mempools = dbcsr_cfg%use_mempools_cpu .OR. has_acc
 
       ! setup driver-dependent memory-types and their memory-pools ---------------
