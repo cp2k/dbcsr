@@ -220,8 +220,8 @@ int c_dbcsr_acc_opencl_info_devmem(cl_device_id device,
   int* mem_unified);
 /** Get device associated with thread-ID. */
 int c_dbcsr_acc_opencl_device(int thread_id, cl_device_id* device);
-/** Get device-ID for given device. */
-int c_dbcsr_acc_opencl_device_id(cl_device_id device, int* device_id);
+/** Get device-ID for given device, and optionally global device-ID. */
+int c_dbcsr_acc_opencl_device_id(cl_device_id device, int* device_id, int* global_id);
 /** Confirm the vendor of the given device. */
 int c_dbcsr_acc_opencl_device_vendor(cl_device_id device, const char vendor[]);
 /** Confirm that match is matching the name of the given device. */
