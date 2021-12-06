@@ -26,9 +26,9 @@ int c_dbcsr_acc_event_create(void** event_p)
   cl_event event;
   assert(NULL != event_p && NULL != context);
   event  = clCreateUserEvent(context, &result);
-  if (NULL != event) {
+  if (CL_SUCCESS == result) {
     cl_int status = CL_COMPLETE;
-    assert(CL_SUCCESS == result);
+    assert(NULL != event);
     /* an empty event (unrecorded) has no work to wait for; hence it is
      * considered occurred and c_dbcsr_acc_event_synchronize must not block
      */
@@ -129,7 +129,7 @@ int c_dbcsr_acc_event_query(void* event, c_dbcsr_acc_bool_t* has_occurred)
     *has_occurred = ((CL_COMPLETE == status || CL_SUCCESS != result) ? 1 : 0);
     if (!*has_occurred) {
 #if defined(_OPENMP)
-      const int tid = omp_get_thread_num() % c_dbcsr_acc_opencl_config.nthreads;
+      const int tid = omp_get_thread_num();
 #else
       const int tid = 0; /* master */
 #endif
