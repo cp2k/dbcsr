@@ -97,6 +97,7 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority)
 #if defined(_OPENMP)
   if (1 < omp_get_num_threads()) {
     int c, tid;
+    assert(0 < c_dbcsr_acc_opencl_config.nthreads);
 # if (201107/*v3.1*/ <= _OPENMP)
 #   pragma omp atomic capture
 # else
@@ -194,7 +195,7 @@ int c_dbcsr_acc_stream_priority_range(int* least, int* greatest)
   assert(0 < c_dbcsr_acc_opencl_config.ndevices);
   if (EXIT_SUCCESS == result) {
 #if defined(_OPENMP)
-    const int tid = omp_get_thread_num() % c_dbcsr_acc_opencl_config.nthreads;
+    const int tid = omp_get_thread_num();
 #else
     const int tid = 0; /*master*/
 #endif

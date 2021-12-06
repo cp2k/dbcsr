@@ -100,15 +100,15 @@ int c_dbcsr_acc_host_mem_allocate(void** host_mem, size_t nbytes, void* stream)
 #endif
   }
   assert(CL_SUCCESS == result || NULL == buffer);
-  if (NULL != buffer) {
+  if (CL_SUCCESS == result) {
     const uintptr_t address = (uintptr_t)clEnqueueMapBuffer(queue, buffer,
       !c_dbcsr_acc_opencl_config.async, CL_MAP_READ | CL_MAP_WRITE,
       0/*offset*/, size, 0, NULL, NULL, &result);
-    if (0 != address) {
+    assert(CL_SUCCESS == result || 0 == address);
+    if (CL_SUCCESS == result) {
       const uintptr_t aligned = LIBXSMM_UP2(address + size_meminfo, alignment);
       c_dbcsr_acc_opencl_info_hostptr_t* meminfo;
       assert(address + size_meminfo <= aligned);
-      assert(CL_SUCCESS == result);
 #if defined(ACC_OPENCL_MEM_MAPMULTI)
       assert(0 < aligned - address - size_meminfo);
       meminfo = (c_dbcsr_acc_opencl_info_hostptr_t*)clEnqueueMapBuffer(queue, buffer,
@@ -196,8 +196,7 @@ int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes)
 #endif
     clCreateBuffer(context, (cl_mem_flags)(CL_MEM_READ_WRITE | try_flag),
       nbytes + ACC_OPENCL_OVERMALLOC, NULL/*host_ptr*/, &result));
-  if (0 != try_flag && NULL == buffer) { /* retry without try_flag */
-    assert(CL_SUCCESS != result);
+  if (0 != try_flag && CL_SUCCESS != result) { /* retry without try_flag */
     buffer = (
 #if defined(ACC_OPENCL_SVM)
       c_dbcsr_acc_opencl_config.svm_interop ? clCreateBuffer(context, CL_MEM_USE_HOST_PTR,
@@ -207,7 +206,8 @@ int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes)
       clCreateBuffer(context, CL_MEM_READ_WRITE,
         nbytes + ACC_OPENCL_OVERMALLOC, NULL/*host_ptr*/, &result));
   }
-  if (NULL != buffer) {
+  if (EXIT_SUCCESS == result) {
+    assert(NULL != buffer);
 #if defined(ACC_OPENCL_MEM_NOALLOC)
     assert(sizeof(void*) >= sizeof(cl_mem));
     *dev_mem = (void*)buffer;
@@ -215,7 +215,6 @@ int c_dbcsr_acc_dev_mem_allocate(void** dev_mem, size_t nbytes)
     *dev_mem = malloc(sizeof(cl_mem));
     if (NULL != *dev_mem) {
       *(cl_mem*)*dev_mem = buffer;
-      assert(EXIT_SUCCESS == result);
     }
     else {
 #if defined(ACC_OPENCL_SVM)
@@ -418,12 +417,14 @@ int c_dbcsr_acc_opencl_info_devmem(cl_device_id device,
 int c_dbcsr_acc_dev_mem_info(size_t* mem_free, size_t* mem_total)
 {
 #if defined(_OPENMP)
-  const int tid = omp_get_thread_num() % c_dbcsr_acc_opencl_config.nthreads;
+  const int tid = omp_get_thread_num();
 #else
   const int tid = 0; /*master*/
 #endif
   cl_device_id active_id = NULL;
-  int result = c_dbcsr_acc_opencl_device(tid, &active_id);
+  int result = 0 < c_dbcsr_acc_opencl_config.ndevices
+    ? c_dbcsr_acc_opencl_device(tid, &active_id)
+    : EXIT_FAILURE;
   if (EXIT_SUCCESS == result) {
     result = c_dbcsr_acc_opencl_info_devmem(
       active_id, mem_free, mem_total,

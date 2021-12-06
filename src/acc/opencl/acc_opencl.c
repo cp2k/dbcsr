@@ -21,6 +21,7 @@
 # include <windows.h>
 # include <process.h>
 #else
+LIBXSMM_EXTERN int mkstemp(char*) LIBXSMM_NOTHROW;
 # include <unistd.h>
 # include <glob.h>
 #endif
@@ -61,11 +62,12 @@ cl_context c_dbcsr_acc_opencl_context(void)
 {
   cl_context result;
 #if defined(_OPENMP)
-  int tid = omp_get_thread_num() % c_dbcsr_acc_opencl_config.nthreads;
+  int tid = omp_get_thread_num();
 #else
   int tid = 0; /* master */
 #endif
-  assert(0 <= tid && NULL != c_dbcsr_acc_opencl_config.contexts);
+  assert(0 <= tid && tid < c_dbcsr_acc_opencl_config.nthreads);
+  assert(NULL != c_dbcsr_acc_opencl_config.contexts);
   result = c_dbcsr_acc_opencl_config.contexts[tid];
   if (NULL == result) { /* fallback */
     int i = 0; /* prefer master's context */
@@ -181,6 +183,7 @@ int c_dbcsr_acc_init(void)
       cl_platform_id platforms[ACC_OPENCL_DEVICES_MAXCOUNT];
       cl_device_id devices[ACC_OPENCL_DEVICES_MAXCOUNT];
       char buffer[ACC_OPENCL_BUFFERSIZE];
+      const char *const env_verbose = getenv("ACC_OPENCL_VERBOSE");
       const char *const env_device_vendor = getenv("ACC_OPENCL_VENDOR");
       /* TODO: introduce more advanced syntax (partitioning a device) */
       const char *const env_device_split = getenv("ACC_OPENCL_DEVSPLIT");
@@ -189,6 +192,13 @@ int c_dbcsr_acc_init(void)
       int device_id = (NULL == env_device_id ? 0 : atoi(env_device_id));
       cl_uint nplatforms = 0, i;
       cl_device_type type = CL_DEVICE_TYPE_ALL;
+#if defined(_OPENMP)
+      const int max_threads = omp_get_max_threads(), num_threads = omp_get_num_threads();
+      c_dbcsr_acc_opencl_config.nthreads = (num_threads < max_threads ? max_threads : num_threads);
+#else
+      c_dbcsr_acc_opencl_config.nthreads = 1;
+#endif
+      c_dbcsr_acc_opencl_config.verbosity = (NULL == env_verbose ? 0 : atoi(env_verbose));
       if (EXIT_SUCCESS == result) {
         ACC_OPENCL_EXPECT(CL_SUCCESS, clGetPlatformIDs(0, NULL, &nplatforms)); /* soft error */
         if (0 < nplatforms) {
@@ -324,15 +334,7 @@ int c_dbcsr_acc_init(void)
           } while (0 < i--);
         }
         if (EXIT_SUCCESS == result) {
-          const char *const env_verbose = getenv("ACC_OPENCL_VERBOSE");
           const cl_device_id active_id = c_dbcsr_acc_opencl_config.devices[device_id];
-#if defined(_OPENMP)
-          const int max_threads = omp_get_max_threads(), num_threads = omp_get_num_threads();
-          c_dbcsr_acc_opencl_config.nthreads = (num_threads < max_threads ? max_threads : num_threads);
-#else
-          c_dbcsr_acc_opencl_config.nthreads = 1;
-#endif
-          c_dbcsr_acc_opencl_config.verbosity = (NULL == env_verbose ? 0 : atoi(env_verbose));
           assert(NULL == c_dbcsr_acc_opencl_config.contexts && 0 < c_dbcsr_acc_opencl_config.ndevices);
           assert(c_dbcsr_acc_opencl_config.ndevices < ACC_OPENCL_DEVICES_MAXCOUNT);
           c_dbcsr_acc_opencl_config.contexts = (cl_context*)calloc( /* thread-specific */
@@ -804,7 +806,7 @@ int c_dbcsr_acc_set_active_device(int device_id)
 {
   int result, tid = 0; /*master*/
 #if defined(_OPENMP)
-  tid = omp_get_thread_num() % c_dbcsr_acc_opencl_config.nthreads;
+  tid = omp_get_thread_num();
   assert(0 <= tid && tid < c_dbcsr_acc_opencl_config.nthreads);
 #endif
   result = c_dbcsr_acc_opencl_set_active_device(tid, device_id);
@@ -817,6 +819,7 @@ int c_dbcsr_acc_opencl_device_synchronize(int thread_id)
   const cl_command_queue *const streams = c_dbcsr_acc_opencl_config.streams
     + ACC_OPENCL_STREAMS_MAXCOUNT * thread_id;
   int result = EXIT_SUCCESS, i = 0;
+  assert(0 <= thread_id && thread_id < c_dbcsr_acc_opencl_config.nthreads);
   for (; i < ACC_OPENCL_STREAMS_MAXCOUNT; ++i) {
     const cl_command_queue stream = streams[i];
     if (NULL != stream) {
@@ -911,7 +914,7 @@ int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[],
   cl_kernel* kernel)
 {
 #if defined(_OPENMP)
-  const int tid = omp_get_thread_num() % c_dbcsr_acc_opencl_config.nthreads;
+  const int tid = omp_get_thread_num();
 #else
   const int tid = 0; /*master*/
 #endif
@@ -970,16 +973,16 @@ int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[],
     /* consider preprocessing kernel for analysis (cpp); failure does not matter (result) */
     if (0 != c_dbcsr_acc_opencl_config.dump) {
       char name_src[ACC_OPENCL_KERNELNAME_MAXSIZE*2];
-      int nchar = LIBXSMM_SNPRINTF(name_src, sizeof(name_src), "/tmp/.%s.cl", kernel_name);
+      int nchar = LIBXSMM_SNPRINTF(name_src, sizeof(name_src), "/tmp/.%s.XXXXXX", kernel_name);
       if (0 < nchar && (int)sizeof(name_src) > nchar) {
         FILE *const file_cpp = fopen(ACC_OPENCL_CPPBIN, "rb");
         FILE *const file_sed = fopen(ACC_OPENCL_SEDBIN, "rb");
         if (NULL != file_sed) fclose(file_sed); /* existence-check */
         if (NULL != file_cpp) {
-          FILE *const file_src = fopen(name_src, "w");
+          const int file_src = mkstemp(name_src);
           fclose(file_cpp); /* existence-check */
-          if (NULL != file_src) {
-            if (size_src == fwrite(ext_source, 1, size_src, file_src) && EXIT_SUCCESS == fclose(file_src)) {
+          if (0 <= file_src) {
+            if (size_src == (size_t)write(file_src, ext_source, size_src)) {
               nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer), ACC_OPENCL_CPPBIN
                 " -P -C -nostdinc -D__OPENCL_VERSION__=%u %s %s %s %s > %s.cl", 100 * level_major + 10 * level_minor,
                 EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(active_id, "nvidia") ? "" : "-D__NV_CL_C_VERSION",
@@ -1004,25 +1007,26 @@ int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[],
                         }
                         else free(src);
                       }
-                      fclose(file);
+                      ACC_OPENCL_EXPECT(EXIT_SUCCESS, fclose(file));
                     }
                   }
                 }
               }
               buffer[0] = '\0'; /* reset to empty */
             }
-            remove(name_src);
+            ACC_OPENCL_EXPECT(EXIT_SUCCESS, unlink(name_src));
+            ACC_OPENCL_EXPECT(EXIT_SUCCESS, close(file_src));
           }
         }
       }
     }
     program = clCreateProgramWithSource(context, 1/*nlines*/, &ext_source, NULL, &result);
-    if (NULL != program) {
+    if (CL_SUCCESS == result) {
       int nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer), "%s %s %s %s",
         cl_std, NULL != build_options ? build_options : "",
         NULL != try_build_options ? try_build_options : "",
         NULL != build_params ? build_params : "");
-      assert(CL_SUCCESS == result);
+      assert(NULL != program);
       result = ((0 < nchar && (int)sizeof(buffer) > nchar)
         ? clBuildProgram(program, 1/*num_devices*/, &active_id,
             buffer, NULL/*callback*/, NULL/*user_data*/)
@@ -1034,7 +1038,8 @@ int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[],
         ACC_OPENCL_EXPECT(CL_SUCCESS, clReleaseProgram(program));
         /* recreate program after building it failed (unclean state) */
         program = clCreateProgramWithSource(context, 1/*nlines*/, &ext_source, NULL, &result);
-        if (NULL != program && 0 < nchar && (int)sizeof(buffer) > nchar) {
+        if (CL_SUCCESS == result && 0 < nchar && (int)sizeof(buffer) > nchar) {
+          assert(NULL != program);
           result = clBuildProgram(program, 1/*num_devices*/, &active_id,
             buffer, NULL/*callback*/, NULL/*user_data*/);
         }
