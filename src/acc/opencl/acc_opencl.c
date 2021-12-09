@@ -987,7 +987,7 @@ int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[],
                 " -P -C -nostdinc -D__OPENCL_VERSION__=%u %s %s %s %s > %s.cl", 100 * level_major + 10 * level_minor,
                 EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(active_id, "nvidia") ? "" : "-D__NV_CL_C_VERSION",
                 NULL != build_params ? build_params : "", name_src,
-                NULL != file_sed ? "| " ACC_OPENCL_SEDBIN " '/^[[:space:]]*$/d'" : "",
+                NULL != file_sed ? "| " ACC_OPENCL_SEDBIN " '/^[[:space:]]*\\(\\/\\/.*\\)*$/d'" : "",
                 kernel_name);
               if (0 < nchar && (int)sizeof(buffer) > nchar) {
                 if (EXIT_SUCCESS == system(buffer)) {

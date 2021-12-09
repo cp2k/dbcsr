@@ -50,7 +50,7 @@ endif
 endif
 
 CFLAGS := -fPIC \
-  -Wall -Wextra -pedantic \
+  -Wall -Wextra \
   -Wno-overlength-strings \
   -Wno-variadic-macros \
   -Wno-unused-function \
@@ -82,10 +82,10 @@ endif
 
 ifneq (0,$(DEV))
   ifeq (1,$(DEV))
-    CFLAGS := -std=c89 $(CFLAGS)
+    CFLAGS += -std=c89
     CFLAGS += -Wno-unused-parameter
   else
-    CFLAGS := -Wno-deprecated -Werror $(CFLAGS)
+    CFLAGS += -Wno-deprecated -Werror
     ifneq (,$(findstring clang,$(CC) $(CXX)))
       override CC := clang++ --analyze
     else
@@ -93,8 +93,9 @@ ifneq (0,$(DEV))
     endif
     OMP := 0
   endif
+  CFLAGS += -pedantic
 else
-  CFLAGS := -std=c99 $(CFLAGS)
+  CFLAGS += -std=c99
 endif
 
 ifneq (0,$(DBG))
@@ -135,12 +136,12 @@ else
   endif
 endif
 ifneq (,$(LIBXSMMROOT))
-  CFLAGS_XSMM += -pthread -D__LIBXSMM -I$(LIBXSMMROOT)/include
-  LDFLAGS := -pthread $(LDFLAGS)
-  LDFLAGS += -L$(LIBXSMMROOT)/lib
   ifneq (Darwin,$(UNAME))
-    LDFLAGS += -Wl,-rpath=$(LIBXSMMROOT)/lib $(LDFLAGS)
+    LDFLAGS += -Wl,-rpath=$(LIBXSMMROOT)/lib
   endif
+  CFLAGS_XSMM += -pthread -D__LIBXSMM -I$(LIBXSMMROOT)/include
+  LDFLAGS += -L$(LIBXSMMROOT)/lib
+  LDFLAGS += -pthread
 endif
 
 ifeq (Darwin,$(UNAME))
