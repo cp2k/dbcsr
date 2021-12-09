@@ -632,7 +632,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
     key.type = datatype; key.m = m; key.n = n; /* initialize key */
     config = (opencl_libsmm_trans_t*)OPENCL_LIBSMM_DISPATCH(&key, sizeof(key));
     if (NULL == config) {
-      char build_options[ACC_OPENCL_BUFFERSIZE], build_params[ACC_OPENCL_BUFFERSIZE];
+      char buffer[ACC_OPENCL_BUFFERSIZE], build_params[ACC_OPENCL_BUFFERSIZE];
       char fname[ACC_OPENCL_KERNELNAME_MAXSIZE];
       int nchar = LIBXSMM_SNPRINTF(fname, sizeof(fname),
         /* kernel name are meant to be unambiguous (BLAS-typeprefix and kernelsize) */
@@ -679,10 +679,10 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
               default: assert('\0' == *tname);
             }
             wgsize = MIN((m == bm || 0 == (m % bm)) ? bm : m, wgsize_max);
-            nchar = LIBXSMM_SNPRINTF(build_options, sizeof(build_options),
+            nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer),
               "%s" /* can finally be an empty string hence "<=" (nchar) */,
               (NULL == env_options || '\0' == *env_options) ? "" : env_options);
-            if (0 <=/*<*/ nchar && (int)sizeof(build_options) > nchar) {
+            if (0 <=/*<*/ nchar && (int)sizeof(buffer) > nchar) {
               nchar = LIBXSMM_SNPRINTF(build_params, sizeof(build_params),
                 param_format, cmem, inplace, fname, m, n, wgsize, tname);
             }
@@ -691,7 +691,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
             opencl_libsmm_trans_t new_config;
             memset(&new_config, 0, sizeof(new_config));
             result = c_dbcsr_acc_opencl_kernel(OPENCL_LIBSMM_SOURCE_TRANSPOSE, fname,
-              build_params, build_options, NULL/*try*/, NULL/*try_ok*/,
+              build_params, buffer, NULL/*try*/, NULL/*try_ok*/,
               NULL/*extnames*/, 0/*num_exts*/, &new_config.kernel);
             if (EXIT_SUCCESS == result) {
               result = c_dbcsr_acc_opencl_wgsize(active_device,
@@ -704,7 +704,7 @@ int libsmm_acc_transpose(const int* dev_trs_stack, int offset, int stack_size,
                     param_format, cmem, inplace, fname, m, n, wgsize, tname);
                   if (0 < nchar && (int)sizeof(build_params) > nchar) {
                     result = c_dbcsr_acc_opencl_kernel(OPENCL_LIBSMM_SOURCE_TRANSPOSE, fname,
-                      build_params, build_options, NULL/*try*/, NULL/*try_ok*/,
+                      build_params, buffer, NULL/*try*/, NULL/*try_ok*/,
                       NULL/*extnames*/, 0/*num_exts*/, &new_config.kernel);
                   }
                   else result = EXIT_FAILURE;
@@ -977,7 +977,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
       key.type = datatype; key.m = m_max; key.n = n_max; key.k = k_max; /* initialize key */
       config = (opencl_libsmm_smm_t*)OPENCL_LIBSMM_DISPATCH(&key, sizeof(key));
       if (NULL == config || NULL == config->kernel) {
-        char build_options[ACC_OPENCL_BUFFERSIZE], build_params[ACC_OPENCL_BUFFERSIZE];
+        char buffer[ACC_OPENCL_BUFFERSIZE], build_params[ACC_OPENCL_BUFFERSIZE];
         char fname[ACC_OPENCL_KERNELNAME_MAXSIZE];
         int cl_level_major, nchar = LIBXSMM_SNPRINTF(fname, sizeof(fname),
           /* kernel name are meant to be unambiguous (BLAS-typeprefix and kernelsize) */
@@ -1243,26 +1243,23 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 assert(NULL != atomic_exp);
                 /* compose build parameters and flags */
                 nchar = LIBXSMM_SNPRINTF(build_params, sizeof(build_params),
-                  "-DMAD=fma -DINTEL=%i -DGLOBAL=%s -DSWG=%i -DFN=%s -DREPEAT=%i "
+                  "-DMAD=fma -DINTEL=%i -DGLOBAL=%s -DSWG=%i -DFN=%s -DREPEAT=%i -DLU=%i "
                   "-DSM=%i -DSN=%i -DSK=%i -DBS=%i -DBM=%i -DBN=%i -DBK=%i -DT=%s -DTN=%i "
-                  "%s %s %s %s %s %s %s %s %s %s %s -D\"ATOMIC_ADD_GLOBAL(A,B)=%s\" %s %s",
+                  "%s %s %s %s %s %s %s %s %s %s -D\"ATOMIC_ADD_GLOBAL(A,B)=%s\" %s %s",
                   c_dbcsr_acc_opencl_config.intel_id, cmem, wgsize, fname,
-                  NULL == env_nrepeat ? 1 : atoi(env_nrepeat),
+                  NULL == env_nrepeat ? 1 : atoi(env_nrepeat), lu,
                   m_max, n_max, k_max, bs, bm, bn, bk, tname, datatype,
-                  0 == lu ? "-D\"UNROLL_SM=UNROLL_FORCE(SM)\"" : (1 == lu ? "-D\"UNROLL_SM=UNROLL_FORCE(1)\""
-                                                               : (0  < lu  ? "-D\"UNROLL(N)=UNROLL_FORCE(N)\""
-                                                               : "")),
                   0 == nz ? "" : "-DATOMIC_INC_NZ", 0 == al ? "" : "-DAL",
                   0 == tb ? "" : "-DTRACK_B", 0 != tc ? "-DTRACK_C" : "", 0 == ap ? "" : "-DSLM_P",
                   0 == aa ? "" : (1 == aa ? "-DSLM_A=1" : (2 == aa ? "-DSLM_A=2" : "-DREG_A")),
                   0 == ab ? "" : (1 == ab ? "-DSLM_B=1" : (2 == ab ? "-DSLM_B=2" : "-DREG_B")),
-                  0 == ac ? "" : (1 == ac ? "-DSLM_C=1" : (2 == ac ? "-DSLM_C=2" : "-DREG_C")),
+                  0 == ac ? "" : (1 == ac ? "-DSLM_C=1" : "-DSLM_C=2"),
                   atomic_type, atomic_ops, atomic_exp, atomic_expr2, barrier_expr);
                 if (0 < nchar && (int)sizeof(build_params) > nchar) {
-                  nchar = LIBXSMM_SNPRINTF(build_options, sizeof(build_options),
+                  nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer),
                     "%s %s -cl-fast-relaxed-math -cl-denorms-are-zero",
                     (NULL == env_options || '\0' == *env_options) ? "" : env_options, cl_debug);
-                  if (0 >= nchar || (int)sizeof(build_options) <= nchar) result = EXIT_FAILURE;
+                  if (0 >= nchar || (int)sizeof(buffer) <= nchar) result = EXIT_FAILURE;
                 }
                 else result = EXIT_FAILURE;
               }
@@ -1286,7 +1283,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                     if ((size_t)size == fread(src, 1/*sizeof(char)*/, size/*count*/, src_kernel)) {
                       src[size] = '\0';
                       result = c_dbcsr_acc_opencl_kernel(src,
-                        fname, build_params, build_options, cl_try, &cl_try_ok,
+                        fname, build_params, buffer, cl_try, &cl_try_ok,
                         extensions, sizeof(extensions) / sizeof(*extensions),
                         &new_config.kernel);
                     }
@@ -1297,17 +1294,19 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               }
               if (NULL == new_config.kernel) {
                 result = c_dbcsr_acc_opencl_kernel(OPENCL_LIBSMM_SOURCE_MULTIPLY,
-                  fname, build_params, build_options, cl_try, &cl_try_ok,
+                  fname, build_params, buffer, cl_try, &cl_try_ok,
                   extensions, sizeof(extensions) / sizeof(*extensions),
                   &new_config.kernel);
               }
               if (EXIT_SUCCESS == result) {
+                int wgsize_max_kernel = wgsize_max;
                 result = c_dbcsr_acc_opencl_wgsize(active_device,
-                  new_config.kernel, &wgsize_max, NULL/*prefmult*/);
+                  new_config.kernel, &wgsize_max_kernel, NULL/*prefmult*/);
                 if (EXIT_SUCCESS == result) {
-                  assert(0 < wgsize && 0 < wgsize_max);
+                  assert(0 < wgsize && 0 < wgsize_max && 0 < wgsize_max_kernel);
+                  assert(wgsize_max_kernel <= wgsize_max);
                   /* check planned WG-size against kernel-specific WG-size */
-                  if (wgsize <= wgsize_max) {
+                  if (wgsize <= wgsize_max_kernel) {
                     if (NULL == config) {
                       config = (opencl_libsmm_smm_t*)OPENCL_LIBSMM_REGISTER(
                         &key, sizeof(key), sizeof(new_config), &new_config);
@@ -1336,6 +1335,10 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                     }
                   }
                   else {
+                    if (0 != c_dbcsr_acc_opencl_config.verbosity) {
+                      fprintf(stderr, "ERROR LIBSMM: tile-size causes too large WG-size (min(%i,%i) < %i)!\n",
+                        wgsize_max_kernel, wgsize_max, wgsize);
+                    }
                     result = EXIT_FAILURE;
                     ACC_OPENCL_ERROR("tile-size causes too large WG-size", result);
                   }
