@@ -919,6 +919,7 @@ int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[],
   const int tid = 0; /*master*/
 #endif
   char buffer[ACC_OPENCL_BUFFERSIZE] = "", cl_std[16];
+  char buffer_name[ACC_OPENCL_KERNELNAME_MAXSIZE*2];
   cl_device_id active_id = NULL;
   cl_int result = c_dbcsr_acc_opencl_device(tid, &active_id);
   int level_major, level_minor, ok = EXIT_SUCCESS;
@@ -947,14 +948,33 @@ int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[],
         char *const ext_source_buffer = (char*)malloc(size_src_ext + 1/*terminator*/);
         if (NULL != ext_source_buffer) {
           for (n = 0; 0 < num_exts; --num_exts) if (NULL != extnames[num_exts-1]) {
-            char* ext = strtok(strncpy(buffer, extnames[num_exts-1], ACC_OPENCL_BUFFERSIZE - 1), ACC_OPENCL_DELIMS);
+            char* ext = strtok(strncpy(buffer_name, extnames[num_exts-1],
+              ACC_OPENCL_KERNELNAME_MAXSIZE * 2 - 1), ACC_OPENCL_DELIMS);
             for (; NULL != ext; ext = strtok('\0' != *ext ? (ext + strlen(ext) + 1) : ext, ACC_OPENCL_DELIMS)) {
+              const char* line = source;
+              for (;;) {
+                if (2 != sscanf(line, "#pragma OPENCL EXTENSION %[^: ]%*[: ]%[^\n]",
+                  buffer, buffer + ACC_OPENCL_BUFFERSIZE / 2))
+                {
+                  line = NULL; break;
+                }
+                else if (0 == strncmp(buffer, ext, ACC_OPENCL_BUFFERSIZE / 2)
+                      && 0 == strncmp(buffer + ACC_OPENCL_BUFFERSIZE / 2, "enable", ACC_OPENCL_BUFFERSIZE / 2))
+                {
+                  break;
+                }
+                line = strchr(line, '\n');
+                if (NULL != line) ++line;
+                else break;
+              }
 #if !defined(NDEBUG)
               if (EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_id, (const char**)&ext, 1))
 #endif
               { /* NDEBUG: assume given extension is supported (confirmed upfront) */
-                n += LIBXSMM_SNPRINTF(ext_source_buffer + n, size_src_ext + 1/*terminator*/ - n,
-                  enable_ext, ext);
+                if (NULL == line) { /* extension is not already part of source */
+                  n += LIBXSMM_SNPRINTF(ext_source_buffer + n, size_src_ext + 1/*terminator*/ - n,
+                    enable_ext, ext);
+                }
               }
 #if !defined(NDEBUG)
               else fprintf(stderr, "WARNING ACC/OpenCL: extension \"%s\" is not supported.\n", ext);
@@ -972,21 +992,20 @@ int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[],
     }
     /* consider preprocessing kernel for analysis (cpp); failure does not matter (result) */
     if (0 != c_dbcsr_acc_opencl_config.dump) {
-      char name_src[ACC_OPENCL_KERNELNAME_MAXSIZE*2];
-      int nchar = LIBXSMM_SNPRINTF(name_src, sizeof(name_src), "/tmp/.%s.XXXXXX", kernel_name);
-      if (0 < nchar && (int)sizeof(name_src) > nchar) {
+      int nchar = LIBXSMM_SNPRINTF(buffer_name, sizeof(buffer_name), "/tmp/.%s.XXXXXX", kernel_name);
+      if (0 < nchar && (int)sizeof(buffer_name) > nchar) {
         FILE *const file_cpp = fopen(ACC_OPENCL_CPPBIN, "rb");
         FILE *const file_sed = fopen(ACC_OPENCL_SEDBIN, "rb");
         if (NULL != file_sed) fclose(file_sed); /* existence-check */
         if (NULL != file_cpp) {
-          const int file_src = mkstemp(name_src);
+          const int file_src = mkstemp(buffer_name);
           fclose(file_cpp); /* existence-check */
           if (0 <= file_src) {
             if (size_src == (size_t)write(file_src, ext_source, size_src)) {
               nchar = LIBXSMM_SNPRINTF(buffer, sizeof(buffer), ACC_OPENCL_CPPBIN
                 " -P -C -nostdinc -D__OPENCL_VERSION__=%u %s %s %s %s > %s.cl", 100 * level_major + 10 * level_minor,
                 EXIT_SUCCESS != c_dbcsr_acc_opencl_device_vendor(active_id, "nvidia") ? "" : "-D__NV_CL_C_VERSION",
-                NULL != build_params ? build_params : "", name_src,
+                NULL != build_params ? build_params : "", buffer_name,
                 NULL != file_sed ? "| " ACC_OPENCL_SEDBIN " '/^[[:space:]]*\\(\\/\\/.*\\)*$/d'" : "",
                 kernel_name);
               if (0 < nchar && (int)sizeof(buffer) > nchar) {
@@ -1014,7 +1033,7 @@ int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[],
               }
               buffer[0] = '\0'; /* reset to empty */
             }
-            ACC_OPENCL_EXPECT(EXIT_SUCCESS, unlink(name_src));
+            ACC_OPENCL_EXPECT(EXIT_SUCCESS, unlink(buffer_name));
             ACC_OPENCL_EXPECT(EXIT_SUCCESS, close(file_src));
           }
         }
