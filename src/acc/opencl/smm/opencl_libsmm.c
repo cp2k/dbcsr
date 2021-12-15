@@ -1063,7 +1063,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
             const char *const cl_try = ((EXIT_SUCCESS == cl_try_ok && 0 != c_dbcsr_acc_opencl_config.intel_id)
               ? "-cl-intel-disable-a64WA" : "");
             const int wg = LIBXSMM_CLMP((NULL == env_wg || '\0' == *env_wg)
-              ? (NULL == config ? /*default*/0 : config->wg) : atoi(env_wg), 0, 2);
+              ? (NULL == config ? /*default*/0 : config->wg) : atoi(env_wg), -1, 2);
             const int lu = LIBXSMM_CLMP((NULL == env_lu || '\0' == *env_lu)
               ? (NULL == config ? /*default*/0 : config->lu) : atoi(env_lu), -1, 2);
             const int nz = LIBXSMM_CLMP((NULL == env_nz || '\0' == *env_nz)
@@ -1082,7 +1082,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               ? (NULL == config ? /*default*/3 : config->ab) : atoi(env_ab), 0, 3);
             const int ac = LIBXSMM_CLMP((NULL == env_ac || '\0' == *env_ac)
               ? (NULL == config ? /*default*/0 : config->ac) : atoi(env_ac), 0, 2);
-            int wgsize_max, wgsize_prf, wgsize, bs, bm, bn, bk, ws, nbm, nbn;
+            int wgsize_max, wgsize_prf, wgsize, bs, bm, bn, bk, ws, nbm, nbn, sgs = 0;
             result = c_dbcsr_acc_opencl_wgsize(active_device,
               NULL/*device-specific*/, &wgsize_max, &wgsize_prf);
             assert(EXIT_SUCCESS != result || 0 < wgsize_prf);
@@ -1113,10 +1113,36 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               wgsize = MAX(nbm * nbn, ws);
 # if  LIBXSMM_VERSION3(1, 16, 1) <= LIBXSMM_VERSION3(LIBXSMM_VERSION_MAJOR, \
       LIBXSMM_VERSION_MINOR, LIBXSMM_VERSION_UPDATE) && 1598 <= LIBXSMM_VERSION_PATCH
-              if (1 <= wg) {
+              if (0 != wg) {
                 const unsigned int limit = MAX(wgsize_prf, OPENCL_LIBSMM_VLEN);
-                wgsize_prf = (int)libxsmm_remainder(wgsize, OPENCL_LIBSMM_VMIN,
-                  &limit, NULL/*remainder*/);
+                unsigned int r = libxsmm_remainder(wgsize, OPENCL_LIBSMM_VMIN, &limit, NULL/*remainder*/);
+                if (0 > wg) {
+                  const char *const extension = "cl_intel_required_subgroup_size";
+                  if (0 == c_dbcsr_acc_opencl_device_ext(active_device, &extension, 1)) {
+                    unsigned int s = limit, i = 0;
+                    size_t sizes[16], nbytes;
+                    ACC_OPENCL_EXPECT(EXIT_SUCCESS, clGetDeviceInfo(active_device,
+                      0x4108/*CL_DEVICE_SUB_GROUP_SIZES_INTEL*/, sizeof(sizes), sizes, &nbytes));
+                    if (1 == bk) {
+                      for (; (i * sizeof(size_t)) < nbytes; ++i) {
+                        sgs = (int)sizes[i]; if (wgsize <= sgs) break;
+                      }
+                      if (wgsize > sgs) sgs = 0;
+                    }
+                    else {
+                      for (; (i * sizeof(size_t)) < nbytes; ++i) {
+                        r = libxsmm_remainder(wgsize, (unsigned int)sizes[i],
+                          &limit, NULL/*remainder*/);
+                        if (r <= s) {
+                          s = r; sgs = (int)sizes[i];
+                        }
+                      }
+                    }
+                    wgsize_prf = wgsize;
+                  }
+                  else wgsize_prf = (int)r;
+                }
+                else wgsize_prf = (int)r;
               }
               else
 # endif
@@ -1243,10 +1269,10 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 assert(NULL != atomic_exp);
                 /* compose build parameters and flags */
                 nchar = LIBXSMM_SNPRINTF(build_params, sizeof(build_params),
-                  "-DMAD=fma -DINTEL=%i -DGLOBAL=%s -DSWG=%i -DFN=%s -DREPEAT=%i -DLU=%i "
+                  "-DMAD=fma -DINTEL=%i -DGLOBAL=%s -DSWG=%i -DSGS=%i -DFN=%s -DREPEAT=%i -DLU=%i "
                   "-DSM=%i -DSN=%i -DSK=%i -DBS=%i -DBM=%i -DBN=%i -DBK=%i -DT=%s -DTN=%i "
                   "%s %s %s %s %s %s %s %s %s %s -D\"ATOMIC_ADD_GLOBAL(A,B)=%s\" %s %s",
-                  c_dbcsr_acc_opencl_config.intel_id, cmem, wgsize, fname,
+                  c_dbcsr_acc_opencl_config.intel_id, cmem, wgsize, sgs, fname,
                   NULL == env_nrepeat ? 1 : atoi(env_nrepeat), lu,
                   m_max, n_max, k_max, bs, bm, bn, bk, tname, datatype,
                   0 == nz ? "" : "-DATOMIC_INC_NZ", 0 == al ? "" : "-DAL",
@@ -1368,7 +1394,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
       assert(EXIT_SUCCESS != result || ( 1 <= config->bk && config->bk <= m_max));
       assert(EXIT_SUCCESS != result || ( 1 <= config->ws && config->ws <= (m_max * n_max)));
       assert(EXIT_SUCCESS != result || ( 1 <= config->bs && 1 <= config->wgsize));
-      assert(EXIT_SUCCESS != result || ( 0 <= config->wg && 2 >= config->wg));
+      assert(EXIT_SUCCESS != result || (-1 <= config->wg && 2 >= config->wg));
       assert(EXIT_SUCCESS != result || (-1 <= config->lu && 2 >= config->lu));
       assert(EXIT_SUCCESS != result || ( 0 <= config->nz && 1 >= config->nz));
       assert(EXIT_SUCCESS != result || ( 0 <= config->al && 1 >= config->al));
