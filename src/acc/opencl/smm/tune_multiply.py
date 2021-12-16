@@ -32,7 +32,7 @@ def env_isfixed(envname):
     if strvalue:
         try:
             ivalue = int(strvalue)
-            return True
+            return ivalue == ivalue
         except ValueError:
             pass
     return False
