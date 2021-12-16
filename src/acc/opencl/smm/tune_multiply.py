@@ -27,6 +27,26 @@ import os
 mnk_default = "23x23x23"
 
 
+def env_isfixed(envname):
+    strvalue = os.getenv(envname)
+    if strvalue:
+        try:
+            ivalue = int(strvalue)
+            return ivalue == ivalue
+        except ValueError:
+            pass
+    return False
+
+
+def env_value(envname, default):
+    strvalue = os.getenv(envname, default)
+    try:
+        return int(strvalue)
+    except ValueError:
+        pass
+    return int(default)
+
+
 class SmmTuner(MeasurementInterface):
     def manipulator(self):
         """Setup common state and define search space"""
@@ -78,84 +98,84 @@ class SmmTuner(MeasurementInterface):
                 "{}x{}x{}".format(self.mnk[0], self.mnk[1], self.mnk[2]),
                 {"float": "S", "double": "D"}.get(self.typename, ""),
                 "\\s+bs=([0-9]+)\\s+bm=([0-9]+)\\s+bn=([0-9]+)\\s+bk=([0-9]+)\\s+ws=([0-9]+)",
-                "\\s+wg=([0-9]+)\\s+lu=(-*[0-9]+)\\s+nz=([0-9]+)\\s+al=([0-9]+)",  # lu can be neg.
+                "\\s+wg=(-*[0-9]+)\\s+lu=(-*[0-9]+)\\s+nz=([0-9]+)\\s+al=([0-9]+)",  # wg/lu can be neg.
                 "\\s+tb=([0-9]+)\\s+tc=([0-9]+)\\s+ap=([0-9]+)",
                 "\\s+aa=([0-9]+)\\s+ab=([0-9]+)\\s+ac=([0-9]+)",
             )
             seed = re.search(seedpat, str(run_result["stderr"]))
             # setup fixed and tunable parameters
             params, paramt = [], []
-            if os.getenv("OPENCL_LIBSMM_SMM_BS"):
+            if env_isfixed("OPENCL_LIBSMM_SMM_BS"):
                 params.append(IntegerParameter("BS", self.args.bs, self.args.bs))
             else:
                 self.bs = int(seed.group(1)) if seed and seed.group(1) else None
                 paramt.append(IntegerParameter("BS", 1, self.args.mb))
-            if os.getenv("OPENCL_LIBSMM_SMM_BM"):
+            if env_isfixed("OPENCL_LIBSMM_SMM_BM"):
                 params.append(IntegerParameter("BM", self.args.bm, self.args.bm))
             else:
                 self.bm = int(seed.group(2)) if seed and seed.group(2) else None
                 paramt.append(IntegerParameter("BM", 1, self.mnk[0]))
-            if os.getenv("OPENCL_LIBSMM_SMM_BN"):
+            if env_isfixed("OPENCL_LIBSMM_SMM_BN"):
                 params.append(IntegerParameter("BN", self.args.bn, self.args.bn))
             else:
                 self.bn = int(seed.group(3)) if seed and seed.group(3) else None
                 paramt.append(IntegerParameter("BN", 1, self.mnk[1]))
-            if os.getenv("OPENCL_LIBSMM_SMM_BK"):
+            if env_isfixed("OPENCL_LIBSMM_SMM_BK"):
                 params.append(IntegerParameter("BK", self.args.bk, self.args.bk))
             else:
                 self.bk = int(seed.group(4)) if seed and seed.group(4) else None
                 paramt.append(IntegerParameter("BK", 1, self.mnk[0]))
-            if os.getenv("OPENCL_LIBSMM_SMM_WS"):
+            if env_isfixed("OPENCL_LIBSMM_SMM_WS"):
                 params.append(IntegerParameter("WS", self.args.ws, self.args.ws))
             else:
                 self.ws = int(seed.group(5)) if seed and seed.group(5) else None
                 paramt.append(IntegerParameter("WS", 1, self.mnk[0] * self.mnk[1]))
-            if os.getenv("OPENCL_LIBSMM_SMM_WG"):
+            if env_isfixed("OPENCL_LIBSMM_SMM_WG"):
                 params.append(IntegerParameter("WG", self.args.wg, self.args.wg))
             else:
                 self.wg = int(seed.group(6)) if seed and seed.group(6) else None
-                paramt.append(IntegerParameter("WG", 0, 2))
-            if os.getenv("OPENCL_LIBSMM_SMM_LU"):
+                paramt.append(IntegerParameter("WG", -1, 1))  # avoid WG=2
+            if env_isfixed("OPENCL_LIBSMM_SMM_LU"):
                 params.append(IntegerParameter("LU", self.args.lu, self.args.lu))
             else:
                 self.lu = int(seed.group(7)) if seed and seed.group(7) else None
                 paramt.append(IntegerParameter("LU", -1, 2))
-            if os.getenv("OPENCL_LIBSMM_SMM_NZ"):
+            if env_isfixed("OPENCL_LIBSMM_SMM_NZ"):
                 params.append(IntegerParameter("NZ", self.args.nz, self.args.nz))
             else:
                 self.nz = int(seed.group(8)) if seed and seed.group(8) else None
                 paramt.append(IntegerParameter("NZ", 0, 1))
-            if os.getenv("OPENCL_LIBSMM_SMM_AL"):
+            if env_isfixed("OPENCL_LIBSMM_SMM_AL"):
                 params.append(IntegerParameter("AL", self.args.al, self.args.al))
             else:
                 self.al = int(seed.group(9)) if seed and seed.group(9) else None
                 paramt.append(IntegerParameter("AL", 0, 1))
-            if os.getenv("OPENCL_LIBSMM_SMM_TB"):
+            if env_isfixed("OPENCL_LIBSMM_SMM_TB"):
                 params.append(IntegerParameter("TB", self.args.tb, self.args.tb))
             else:
                 self.tb = int(seed.group(10)) if seed and seed.group(10) else None
                 paramt.append(IntegerParameter("TB", 0, 1))
-            if os.getenv("OPENCL_LIBSMM_SMM_TC"):
+            if env_isfixed("OPENCL_LIBSMM_SMM_TC"):
                 params.append(IntegerParameter("TC", self.args.tc, self.args.tc))
             else:
                 self.tc = int(seed.group(11)) if seed and seed.group(11) else None
                 paramt.append(IntegerParameter("TC", 0, 1))
-            if os.getenv("OPENCL_LIBSMM_SMM_AP"):
+            if env_isfixed("OPENCL_LIBSMM_SMM_AP"):
                 params.append(IntegerParameter("AP", self.args.ap, self.args.ap))
             else:
                 self.ap = int(seed.group(12)) if seed and seed.group(12) else None
                 paramt.append(IntegerParameter("AP", 0, 1))
-            if os.getenv("OPENCL_LIBSMM_SMM_AA"):
+            if env_isfixed("OPENCL_LIBSMM_SMM_AA"):
                 params.append(IntegerParameter("AA", self.args.aa, self.args.aa))
             else:
                 self.aa = int(seed.group(13)) if seed and seed.group(13) else None
                 paramt.append(IntegerParameter("AA", 0, 3))
-            if os.getenv("OPENCL_LIBSMM_SMM_AB"):
+            if env_isfixed("OPENCL_LIBSMM_SMM_AB"):
                 params.append(IntegerParameter("AB", self.args.ab, self.args.ab))
             else:
                 self.ab = int(seed.group(14)) if seed and seed.group(14) else None
                 paramt.append(IntegerParameter("AB", 0, 3))
-            if os.getenv("OPENCL_LIBSMM_SMM_AC"):
+            if env_isfixed("OPENCL_LIBSMM_SMM_AC"):
                 params.append(IntegerParameter("AC", self.args.ac, self.args.ac))
             else:
                 self.ac = int(seed.group(15)) if seed and seed.group(15) else None
@@ -557,7 +577,7 @@ if __name__ == "__main__":
         "-bm",
         "--initial-bm",
         type=int,
-        default=int(os.getenv("OPENCL_LIBSMM_SMM_BM", "0")),
+        default=env_value("OPENCL_LIBSMM_SMM_BM", "0"),
         nargs="?",
         dest="bm",
         help="Block/tile size (0:auto)",
@@ -566,7 +586,7 @@ if __name__ == "__main__":
         "-bn",
         "--initial-bn",
         type=int,
-        default=int(os.getenv("OPENCL_LIBSMM_SMM_BN", "0")),
+        default=env_value("OPENCL_LIBSMM_SMM_BN", "0"),
         nargs="?",
         dest="bn",
         help="Block/tile size (0:auto)",
@@ -575,7 +595,7 @@ if __name__ == "__main__":
         "-bk",
         "--initial-bk",
         type=int,
-        default=int(os.getenv("OPENCL_LIBSMM_SMM_BK", "0")),
+        default=env_value("OPENCL_LIBSMM_SMM_BK", "0"),
         nargs="?",
         dest="bk",
         help="Block size (0:auto)",
@@ -584,7 +604,7 @@ if __name__ == "__main__":
         "-ws",
         "--initial-ws",
         type=int,
-        default=int(os.getenv("OPENCL_LIBSMM_SMM_WS", "0")),
+        default=env_value("OPENCL_LIBSMM_SMM_WS", "0"),
         nargs="?",
         dest="ws",
         help="Minimum WG-size (0:auto)",
@@ -593,15 +613,15 @@ if __name__ == "__main__":
         "-wg",
         "--initial-wg",
         type=int,
-        default=int(os.getenv("OPENCL_LIBSMM_SMM_WG", "0")),
+        default=env_value("OPENCL_LIBSMM_SMM_WG", "0"),
         dest="wg",
-        help="Size of WG: tight (0), round-up (1), PoT (2)",
+        help="Size of WG: subgroups (-1), tight (0), round-up (1), PoT (2)",
     )
     argparser.add_argument(
         "-lu",
         "--initial-lu",
         type=int,
-        default=int(os.getenv("OPENCL_LIBSMM_SMM_LU", "0")),
+        default=env_value("OPENCL_LIBSMM_SMM_LU", "0"),
         dest="lu",
         help="Loop unroll (-1) no hints, (0) default, (1) limited, (2) full",
     )
@@ -609,7 +629,7 @@ if __name__ == "__main__":
         "-nz",
         "--initial-nz",
         type=int,
-        default=int(os.getenv("OPENCL_LIBSMM_SMM_NZ", "0")),
+        default=env_value("OPENCL_LIBSMM_SMM_NZ", "0"),
         dest="nz",
         help="Check (1) atomic increment to be non-zero (0:off)",
     )
@@ -617,7 +637,7 @@ if __name__ == "__main__":
         "-al",
         "--initial-al",
         type=int,
-        default=int(os.getenv("OPENCL_LIBSMM_SMM_AL", "0")),
+        default=env_value("OPENCL_LIBSMM_SMM_AL", "0"),
         dest="al",
         help="Access: transposed (0), linear (1)",
     )
@@ -625,7 +645,7 @@ if __name__ == "__main__":
         "-tb",
         "--initial-tb",
         type=int,
-        default=int(os.getenv("OPENCL_LIBSMM_SMM_TB", "0")),
+        default=env_value("OPENCL_LIBSMM_SMM_TB", "0"),
         dest="tb",
         help="Matrix B: untracked (0), tracked (1)",
     )
@@ -633,7 +653,7 @@ if __name__ == "__main__":
         "-tc",
         "--initial-tc",
         type=int,
-        default=int(os.getenv("OPENCL_LIBSMM_SMM_TC", "1")),
+        default=env_value("OPENCL_LIBSMM_SMM_TC", "1"),
         dest="tc",
         help="Matrix C: untracked (0), tracked (1)",
     )
@@ -641,7 +661,7 @@ if __name__ == "__main__":
         "-ap",
         "--initial-ap",
         type=int,
-        default=int(os.getenv("OPENCL_LIBSMM_SMM_AP", "0")),
+        default=env_value("OPENCL_LIBSMM_SMM_AP", "1"),
         dest="ap",
         help="Params: global (0), shared (1)",
     )
@@ -649,7 +669,7 @@ if __name__ == "__main__":
         "-aa",
         "--initial-aa",
         type=int,
-        default=int(os.getenv("OPENCL_LIBSMM_SMM_AA", "1")),
+        default=env_value("OPENCL_LIBSMM_SMM_AA", "1"),
         dest="aa",
         help="Matrix A: global (0), shared (1), shared-bc (2), register (3)",
     )
@@ -657,7 +677,7 @@ if __name__ == "__main__":
         "-ab",
         "--initial-ab",
         type=int,
-        default=int(os.getenv("OPENCL_LIBSMM_SMM_AB", "3")),
+        default=env_value("OPENCL_LIBSMM_SMM_AB", "3"),
         dest="ab",
         help="Matrix B: global (0), shared (1), shared-bc (2), register (3)",
     )
@@ -665,7 +685,7 @@ if __name__ == "__main__":
         "-ac",
         "--initial-ac",
         type=int,
-        default=int(os.getenv("OPENCL_LIBSMM_SMM_AC", "0")),
+        default=env_value("OPENCL_LIBSMM_SMM_AC", "0"),
         dest="ac",
         help="Matrix C: register (0), shared (1), shared-bc (2)",
     )
@@ -673,7 +693,7 @@ if __name__ == "__main__":
         "-bs",
         "--initial-bs",
         type=int,
-        default=int(os.getenv("OPENCL_LIBSMM_SMM_BS", "0")),
+        default=env_value("OPENCL_LIBSMM_SMM_BS", "0"),
         nargs="?",
         dest="bs",
         help="Minibatch size (0:auto)",
@@ -697,26 +717,24 @@ if __name__ == "__main__":
         help="Size of batch (a.k.a. stacksize)",
     )
     args = argparser.parse_args()
-    # OPENCL_LIBSMM_SMM_xx=0 must be given to permit tuning)
-    if "0" != os.getenv("OPENCL_LIBSMM_SMM_WS"):
+    # OPENCL_LIBSMM_SMM_xx=tune|enabled|on must be given to permit tuning)
+    if not os.getenv("OPENCL_LIBSMM_SMM_WS") in {"tune", "enabled", "on"}:
         os.environ["OPENCL_LIBSMM_SMM_WS"] = "{}".format(args.ws)
-    if "0" != os.getenv("OPENCL_LIBSMM_SMM_WG"):
-        os.environ["OPENCL_LIBSMM_SMM_WG"] = "{}".format(args.wg)
     # fix tunables according to level of tuning
     if 1 <= args.tlevel or 0 > args.tlevel:
         os.environ["OPENCL_LIBSMM_SMM_BM"] = "{}".format(args.bm)
         os.environ["OPENCL_LIBSMM_SMM_BN"] = "{}".format(args.bn)
-        os.environ["OPENCL_LIBSMM_SMM_BK"] = "{}".format(args.bk)
-        os.environ["OPENCL_LIBSMM_SMM_WG"] = "{}".format(args.wg)
+        os.environ["OPENCL_LIBSMM_SMM_AP"] = "{}".format(args.ap)
         os.environ["OPENCL_LIBSMM_SMM_NZ"] = "{}".format(args.nz)
         os.environ["OPENCL_LIBSMM_SMM_TB"] = "{}".format(args.tb)
         os.environ["OPENCL_LIBSMM_SMM_TC"] = "{}".format(args.tc)
+        os.environ["OPENCL_LIBSMM_SMM_AL"] = "{}".format(args.al)
     if 2 <= args.tlevel:
-        os.environ["OPENCL_LIBSMM_SMM_AP"] = "{}".format(args.ap)
+        os.environ["OPENCL_LIBSMM_SMM_BK"] = "{}".format(args.bk)
+        os.environ["OPENCL_LIBSMM_SMM_WG"] = "{}".format(args.wg)
         os.environ["OPENCL_LIBSMM_SMM_AC"] = "{}".format(args.ac)
     if 3 <= args.tlevel:
         os.environ["OPENCL_LIBSMM_SMM_LU"] = "{}".format(args.lu)
-        os.environ["OPENCL_LIBSMM_SMM_AL"] = "{}".format(args.al)
     if 0 == args.mb:
         args.mb = 64
     # additional/depending arguments
