@@ -85,13 +85,31 @@
 # define REPEAT 1
 #endif
 
-#define NBM ((SM + BM - 1) / BM)
-#define NBN ((SN + BN - 1) / BN)
-#define WRK (NBM * NBN)
+#define NBM ((SM+BM-1)/BM)
+#define NBN ((SN+BN-1)/BN)
+#define WRK (NBM*NBN)
 
-#define UM (SM / BK)
-#define VM (SM % UM)
+#define UM (SM/BK)
+#define VM (SM%UM)
 
+
+#if defined(ATOMIC_PROTOTYPES) || defined(__opencl_c_ext_fp64_global_atomic_add)
+# if defined(__opencl_c_ext_fp64_global_atomic_add)
+#   undef ATOMIC_ADD_GLOBAL
+#   if defined(TF)
+#     define ATOMIC_ADD_GLOBAL(A, B) atomic_fetch_add_explicit((global volatile TF*)A, B, \
+        memory_order_relaxed, memory_scope_work_group)
+#   else
+#     define ATOMIC_ADD_GLOBAL(A, B) atomic_add(A, B)
+#   endif
+# else
+#   if defined(TF)
+__attribute__((overloadable)) T atomic_fetch_add_explicit(global volatile TF*, T, memory_order, memory_scope);
+#   else
+__attribute__((overloadable)) T atomic_add(global volatile T*, T);
+#   endif
+# endif
+#endif
 
 #if !defined(cl_intel_global_float_atomics) || (1 != TN)
 #if defined(ATOMIC32_ADD64)
@@ -110,9 +128,9 @@ inline void atomic_add_global_cmpxchg(global volatile T* dst, T inc)
   union { T f; TA a; } exp_val, try_val, cur_val = { .f = *dst };
   do {
     exp_val.a = cur_val.a; try_val.f = exp_val.f + inc;
-# if defined(TM)
+# if defined(TA2)
     if (0 == atomic_compare_exchange_weak_explicit(
-        (global volatile TM*)dst, &cur_val.a, try_val.a,
+        (global volatile TA2*)dst, &cur_val.a, try_val.a,
         memory_order_relaxed, memory_order_relaxed,
       memory_scope_work_group)) continue;
 # else
@@ -132,7 +150,7 @@ inline void atomic_add_global_cmpxchg2(global volatile float* dst, float2 inc)
   union { float2 f; long a; } exp_val, try_val, cur_val = { .f = (float2)(dst[0], dst[1]) };
   do {
     exp_val.a = cur_val.a; try_val.f = exp_val.f + inc;
-# if defined(TM)
+# if defined(TA2)
     if (0 == atomic_compare_exchange_weak_explicit(
         (global volatile atomic_long*)dst, &cur_val.a, try_val.a,
         memory_order_relaxed, memory_order_relaxed,
@@ -156,15 +174,15 @@ inline void atomic_add_global_xchg(global volatile T* dst, T inc)
 # else
   union { T f; TA a; } exp_val = { .f = inc }, try_val, cur_val = { /*.f = ZERO*/.a = 0 };
   do {
-#   if defined(TM)
-    try_val.a = atomic_exchange_explicit((global volatile TM*)dst, cur_val.a,
+#   if defined(TA2)
+    try_val.a = atomic_exchange_explicit((global volatile TA2*)dst, cur_val.a,
       memory_order_relaxed, memory_scope_work_group);
 #   else
     try_val.a = XCHG((global volatile TA*)dst, cur_val.a);
 #   endif
     try_val.f += exp_val.f;
-#   if defined(TM)
-    exp_val.a = atomic_exchange_explicit((global volatile TM*)dst, try_val.a,
+#   if defined(TA2)
+    exp_val.a = atomic_exchange_explicit((global volatile TA2*)dst, try_val.a,
       memory_order_relaxed, memory_scope_work_group);
 #   else
     exp_val.a = XCHG((global volatile TA*)dst, try_val.a);
@@ -384,7 +402,7 @@ kernel void FN(global T *restrict cdata,
 #     else
           for (int bn = 0; bn < BN; ++bn) {
 #     endif
-            ATOMIC_ADD_GLOBAL(&CDX(m, bn + n0), CNM(idx, bn));
+            ATOMIC_ADD_GLOBAL(&CDX(m, bn+n0), CNM(idx, bn));
             CNM(idx, bn) = ZERO; /* reset */
           }
 #   endif
@@ -431,7 +449,7 @@ kernel void FN(global T *restrict cdata,
 #     else
           for (int bm = 0; bm < BM; ++bm) {
 #     endif
-            ATOMIC_ADD_GLOBAL(&CDX(bm + m0, n), CNM(idx, bm));
+            ATOMIC_ADD_GLOBAL(&CDX(bm+m0, n), CNM(idx, bm));
             CNM(idx, bm) = ZERO; /* reset */
           }
 #   endif
@@ -494,8 +512,7 @@ kernel void FN(global T *restrict cdata,
         UNROLL(UM)
         for (; u < UM; ++u)
 #   endif
-        {
-          const int um = u + m;
+        { const int um = u + m;
 #   if (1 < BS)
           const int vm = um;
 #   else
@@ -519,8 +536,7 @@ kernel void FN(global T *restrict cdata,
 #     if defined(ATOMIC_INC_NZ)
         if (ZERO != CNM(idx, u))
 #     endif
-        {
-          ATOMIC_ADD_GLOBAL(&CDX(u + m, idx), CNM(idx, u));
+        { ATOMIC_ADD_GLOBAL(&CDX(u+m, idx), CNM(idx, u));
           CNM(idx, u) = ZERO; /* reset */
         }
 #   endif
@@ -532,8 +548,7 @@ kernel void FN(global T *restrict cdata,
       UNROLL(VM)
       for (; u < VM; ++u)
 #     endif
-      {
-        const int um = u + m;
+      { const int um = u + m;
 #     if (1 < BS)
         const int vm = um;
 #     else
@@ -557,8 +572,7 @@ kernel void FN(global T *restrict cdata,
 #     if defined(ATOMIC_INC_NZ)
       if (ZERO != CNM(idx, u))
 #     endif
-      {
-        ATOMIC_ADD_GLOBAL(&CDX(u + m, idx), CNM(idx, u));
+      { ATOMIC_ADD_GLOBAL(&CDX(u+m, idx), CNM(idx, u));
         CNM(idx, u) = ZERO; /* reset */
       }
 #     endif
@@ -579,8 +593,7 @@ kernel void FN(global T *restrict cdata,
 #   if (SN % BN)
         if (n < SN)
 #   endif
-        {
-          UNROLL_FORCE(BM)
+        { UNROLL_FORCE(BM)
           for (int bm = 0; bm < BM; ++bm) {
             const int m = bm + m0;
 #   if (SM % BM)

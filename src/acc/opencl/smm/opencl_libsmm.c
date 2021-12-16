@@ -13,6 +13,7 @@
 #include "../../acc_bench.h"
 #include <libxsmm_sync.h>
 #include <assert.h>
+#include <ctype.h>
 #if defined(_OPENMP)
 # include <omp.h>
 #endif
@@ -1003,7 +1004,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
               if (2 <= cl_level_major
                 && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_device, extensions, 1))
               {
-                atomic_type = "-DTA=long -DTM=atomic_long";
+                atomic_type = "-DTA=long -DTA2=atomic_long -DTF=atomic_double";
                 std_c11 = 1;
               }
               else {
@@ -1016,7 +1017,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                   if (2 <= cl_level_major
                     && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_device, extensions, 1))
                   {
-                    atomic_type = "-DATOMIC32_ADD64 -DTA=int -DTM=atomic_int";
+                    atomic_type = "-DATOMIC32_ADD64 -DTA=int -DTA2=atomic_int -DTF=atomic_double";
                     std_c11 = 1;
                   }
                   else {
@@ -1035,7 +1036,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 && EXIT_SUCCESS == c_dbcsr_acc_opencl_device_ext(active_device, extensions, 1))
               {
                 extensions[1] = "cl_khr_int64_base_atomics cl_khr_int64_extended_atomics";
-                atomic_type = "-DTA=int -DTM=atomic_int";
+                atomic_type = "-DTA=int -DTA2=atomic_int -DTF=atomic_float";
                 std_c11 = 1;
                 tname = "float";
                 fname[0] = 's';
@@ -1193,7 +1194,9 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                 else barrier_expr = ""; /* no barrier */
                 assert(NULL != barrier_expr);
                 if (NULL == env_atomics || '0' != *env_atomics) {
-                  if (NULL == env_atomics || '\0' == *env_atomics) { /* no request made */
+                  if (NULL == env_atomics || '\0' == *env_atomics || 0 != isdigit(*env_atomics)) {
+                    /* atomics_native: employ native atomics without confirmation */
+                    const int atomics_native = (NULL != env_atomics && '\0' != *env_atomics);
                     cl_bitfield fp_atomics;
                     assert(dbcsr_type_real_8 == datatype || dbcsr_type_real_4 == datatype);
                     if (CL_SUCCESS == clGetDeviceInfo(active_device,
@@ -1207,14 +1210,19 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                         : "atomic_fetch_add_explicit((global volatile atomic_float*)A, B, "
                           "memory_order_relaxed, memory_scope_work_group)");
                     }
-                    else if (0 != c_dbcsr_acc_opencl_config.intel_id && 0x4905 != c_dbcsr_acc_opencl_config.intel_id
-                      && 0 == c_dbcsr_acc_opencl_config.unified)
+                    else if ((0 != c_dbcsr_acc_opencl_config.intel_id
+                          && 0x4905 != c_dbcsr_acc_opencl_config.intel_id
+                          && 0 == c_dbcsr_acc_opencl_config.unified)
+                      || 0 != atomics_native)
                     {
-                      if (dbcsr_type_real_4 == datatype) {
-                        extensions[1] = "cl_intel_global_float_atomics";
-                        atomic_ops = "-Dcl_intel_global_float_atomics";
+                      if (dbcsr_type_real_4 == datatype || 0 != atomics_native) {
+                        if (0 == atomics_native) {
+                          extensions[1] = "cl_intel_global_float_atomics";
+                          atomic_ops = "-Dcl_intel_global_float_atomics";
+                        }
+                        else atomic_ops = "-DATOMIC_PROTOTYPES";
                         atomic_exp = (0 != std_c11
-                          ? "atomic_fetch_add_explicit((global volatile atomic_float*)A, B, "
+                          ? "atomic_fetch_add_explicit((global volatile TF*)A, B, "
                             "memory_order_relaxed, memory_scope_work_group)"
                           : "atomic_add(A, B)");
                       }
@@ -1231,6 +1239,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                         assert(dbcsr_type_real_4 == datatype);
                         atomic_expr2 = "-D\"ATOMIC_ADD2_GLOBAL(A,B)=atomic_add_global_cmpxchg2(A, B)\"";
                       }
+                      else extensions[1] = NULL;
                       atomic_exp = "atomic_add_global_cmpxchg(A, B)";
                       atomic_ops = (dbcsr_type_real_4 == datatype
                         ? "-DCMPXCHG=atomic_cmpxchg"
@@ -1250,6 +1259,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                       assert(dbcsr_type_real_4 == datatype);
                       atomic_expr2 = "-D\"ATOMIC_ADD2_GLOBAL(A,B)=atomic_add_global_cmpxchg2(A, B)\"";
                     }
+                    else extensions[1] = NULL;
                     atomic_exp = "atomic_add_global_cmpxchg(A, B)";
                     atomic_ops = (dbcsr_type_real_4 == datatype
                       ? "-DCMPXCHG=atomic_cmpxchg"
