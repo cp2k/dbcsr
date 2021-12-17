@@ -1064,7 +1064,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
             const char *const cl_try = ((EXIT_SUCCESS == cl_try_ok && 0 != c_dbcsr_acc_opencl_config.intel_id)
               ? "-cl-intel-disable-a64WA" : "");
             const int wg = LIBXSMM_CLMP((NULL == env_wg || '\0' == *env_wg)
-              ? (NULL == config ? /*default*/0 : config->wg) : atoi(env_wg), -1, 2);
+              ? (NULL == config ? /*default*/0 : config->wg) : atoi(env_wg), -2, 2);
             const int lu = LIBXSMM_CLMP((NULL == env_lu || '\0' == *env_lu)
               ? (NULL == config ? /*default*/0 : config->lu) : atoi(env_lu), -1, 2);
             const int nz = LIBXSMM_CLMP((NULL == env_nz || '\0' == *env_nz)
@@ -1121,16 +1121,16 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
                   const char *const extension = "cl_intel_required_subgroup_size";
                   if (0 == c_dbcsr_acc_opencl_device_ext(active_device, &extension, 1)) {
                     unsigned int s = limit, i = 0;
-                    size_t sizes[16], nbytes;
+                    size_t sizes[16], nbytes = 0;
                     ACC_OPENCL_EXPECT(EXIT_SUCCESS, clGetDeviceInfo(active_device,
                       0x4108/*CL_DEVICE_SUB_GROUP_SIZES_INTEL*/, sizeof(sizes), sizes, &nbytes));
-                    if (1 == bk) {
+                    if (-1 == wg) { /* cover entire WG-size in sub-group size */
                       for (; (i * sizeof(size_t)) < nbytes; ++i) {
                         sgs = (int)sizes[i]; if (wgsize <= sgs) break;
                       }
                       if (wgsize > sgs) sgs = 0;
                     }
-                    else {
+                    else { /* explicit sub-group size with minimized WG-remainder */
                       for (; (i * sizeof(size_t)) < nbytes; ++i) {
                         r = libxsmm_remainder(wgsize, (unsigned int)sizes[i],
                           &limit, NULL/*remainder*/);
@@ -1404,7 +1404,7 @@ int libsmm_acc_process(const int* host_param_stack, const int* dev_param_stack, 
       assert(EXIT_SUCCESS != result || ( 1 <= config->bk && config->bk <= m_max));
       assert(EXIT_SUCCESS != result || ( 1 <= config->ws && config->ws <= (m_max * n_max)));
       assert(EXIT_SUCCESS != result || ( 1 <= config->bs && 1 <= config->wgsize));
-      assert(EXIT_SUCCESS != result || (-1 <= config->wg && 2 >= config->wg));
+      assert(EXIT_SUCCESS != result || (-2 <= config->wg && 2 >= config->wg));
       assert(EXIT_SUCCESS != result || (-1 <= config->lu && 2 >= config->lu));
       assert(EXIT_SUCCESS != result || ( 0 <= config->nz && 1 >= config->nz));
       assert(EXIT_SUCCESS != result || ( 0 <= config->al && 1 >= config->al));

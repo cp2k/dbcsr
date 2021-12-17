@@ -86,7 +86,7 @@ if [ "${XARGS}" ] &&  [ "${SORT}" ] && [ "${HEAD}" ] && [ "${SED}" ] && [ "${CUT
       break;;
     esac
   done
-  if [ "${TRIPLETS}" ]; then
+  if [[ "${TRIPLETS}" && (! "${HELP}" || "0" = "${HELP}") ]]; then
     for SPECS in $(echo "${TRIPLETS}" | ${SED} -e "s/[[:space:]][[:space:]]*/x/g" -e "s/,/ /g"); do
       SPEC=$(echo "${SPECS}" | ${SED} -e "s/^x//g" -e "s/x$//g" -e "s/x/,/g")
       if [ "${LIMIT}" ] && [ "0" != "$((0<LIMIT))" ]; then
@@ -97,16 +97,19 @@ if [ "${XARGS}" ] &&  [ "${SORT}" ] && [ "${HEAD}" ] && [ "${SED}" ] && [ "${CUT
       MNKS="${MNKS} $(eval printf "%s" "{${SPEC}}x{${SPEC}}x{${SPEC}}\" \"" | ${SED} -e "s/{//g" -e "s/}//g")"
     done
     if [ "${MNKS}" ]; then
-      if [ "${BOUNDL}" ] && [ "0" != "$((0<=BOUNDL))" ] && \
-         [ "${BOUNDU}" ] && [ "0" != "$((BOUNDL<BOUNDU))" ];
-      then
-        for MNK in $(echo "${MNKS}" | ${SED} "s/x/*/g"); do
-          S=$((MNK))
-          if [ "0" != "$((BOUNDL**3<S&&S<=BOUNDU**3))" ]; then
-            TMP="${TMP} ${MNK}"
-          fi
-        done
-        MNKS=$(echo "${TMP}" | ${SED} "s/*/x/g")
+      if [ "${BOUNDL}" ] || [ "${BOUNDU}" ]; then
+        if [ ! "${BOUNDL}" ]; then BOUNDL=0; elif [ ! "${BOUNDU}" ]; then BOUNDU=0; fi
+        if [ "0" != "$((0<=BOUNDL))" ]; then
+          for MNK in $(echo "${MNKS}" | ${SED} "s/x/*/g"); do
+            S=$((MNK))
+            if [ "0" != "$((BOUNDL<BOUNDU))" ]; then
+              if [ "0" != "$((BOUNDL**3<S&&S<=BOUNDU**3))" ]; then TMP="${TMP} ${MNK}"; fi
+            else
+              if [ "0" != "$((BOUNDL**3<S))" ]; then TMP="${TMP} ${MNK}"; fi
+            fi
+          done
+          MNKS=$(echo "${TMP}" | ${SED} "s/*/x/g")
+        fi
       fi
       if [ "${CUTSEL}" ]; then
         MNK=$(echo "${MNKS}" | ${XARGS} -n1 | ${CUT} -dx ${CUTSEL} | ${SORT} -u -n -tx -k1 -k2 -k3 | \
