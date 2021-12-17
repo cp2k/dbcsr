@@ -74,9 +74,7 @@ cl_context c_dbcsr_acc_opencl_context(void)
     for (; i < c_dbcsr_acc_opencl_config.nthreads; ++i) {
       if (tid != i) { /* adopt another context */
         result = c_dbcsr_acc_opencl_config.contexts[i];
-        if (NULL != result && CL_SUCCESS == clRetainContext(result)) {
-          tid = i; break;
-        }
+        if (NULL != result && CL_SUCCESS == clRetainContext(result)) break;
         else result = NULL;
       }
     }
@@ -200,8 +198,7 @@ int c_dbcsr_acc_init(void)
 #endif
       c_dbcsr_acc_opencl_config.verbosity = (NULL == env_verbose ? 0 : atoi(env_verbose));
       if (EXIT_SUCCESS == result) {
-        ACC_OPENCL_EXPECT(CL_SUCCESS, clGetPlatformIDs(0, NULL, &nplatforms)); /* soft error */
-        if (0 < nplatforms) {
+        if (CL_SUCCESS == clGetPlatformIDs(0, NULL, &nplatforms) && 0 < nplatforms) {
           ACC_OPENCL_CHECK(clGetPlatformIDs(
             nplatforms <= ACC_OPENCL_DEVICES_MAXCOUNT ? nplatforms : ACC_OPENCL_DEVICES_MAXCOUNT,
             platforms, 0), "retrieve platform ids", result);
@@ -787,13 +784,15 @@ int c_dbcsr_acc_opencl_set_active_device(int thread_id, int device_id)
         }
       }
       else {
+        int result_create;
         if (context != current) {
           if (NULL != current) {
             c_dbcsr_acc_opencl_config.contexts[thread_id] = NULL;
             result = clReleaseContext(current);
           }
         }
-        result = c_dbcsr_acc_opencl_create_context(thread_id, active_id);
+        result_create = c_dbcsr_acc_opencl_create_context(thread_id, active_id);
+        if (CL_SUCCESS == result) result = result_create;
       }
     }
   }

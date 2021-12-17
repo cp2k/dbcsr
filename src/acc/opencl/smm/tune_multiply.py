@@ -134,7 +134,7 @@ class SmmTuner(MeasurementInterface):
                 params.append(IntegerParameter("WG", self.args.wg, self.args.wg))
             else:
                 self.wg = int(seed.group(6)) if seed and seed.group(6) else None
-                paramt.append(IntegerParameter("WG", -1, 1))  # avoid WG=2
+                paramt.append(IntegerParameter("WG", -2, 1))  # avoid WG=2
             if env_isfixed("OPENCL_LIBSMM_SMM_LU"):
                 params.append(IntegerParameter("LU", self.args.lu, self.args.lu))
             else:
@@ -355,9 +355,9 @@ class SmmTuner(MeasurementInterface):
                         data["AL"] if "AL" in data else 0,
                         data["TB"] if "TB" in data else 0,
                         data["TC"] if "TC" in data else 1,
-                        data["AP"] if "AP" in data else 0,
-                        data["AA"] if "AA" in data else 0,
-                        data["AB"] if "AB" in data else 0,
+                        data["AP"] if "AP" in data else 1,
+                        data["AA"] if "AA" in data else 1,
+                        data["AB"] if "AB" in data else 3,
                         data["AC"] if "AC" in data else 0,
                         filename,
                     )

@@ -107,15 +107,19 @@ if [ "${SORT}" ] && [ "${SED}" ] && [ "${LS}" ] && [ "${RM}" ] && [ "${WC}" ]; t
   if [ "${SPECID}" ] && [ "$1" ]; then
     >&2 echo "ERROR: --specid and <triplet-spec> are mutual exclusive!"
     exit 1
-  elif [ "${UPDATE}" ] && [ "0" != "${UPDATE}" ]; then
-    if [ ! "${TLEVEL}" ] || [ "0" != "$((0>TLEVEL))" ]; then TLEVEL=0; fi
-    if [ ! "${MAXTIME}" ]; then MAXTIME=320; fi
-    MNKS=$(echo "${JSONS}" | ${SED} -n "s/.*tune_multiply-..*-\(..*x..*x..*\)-[0-9][0-9]*gflops.json/\1/p" \
-       | ${SORT} -u -n -tx -k1 -k2 -k3)
-  elif [ "${SPECID}" ]; then
-    MNKS=$(eval "${HERE}/../../acc_triplets.sh -r ${BOUNDL} ${BOUNDU} -m ${MAXEXT} -n ${MAXNUM} -s ${SPECID} 2>/dev/null")
+  elif [ ! "${HELP}" ] || [ "0" = "${HELP}" ]; then
+    if [ "${UPDATE}" ] && [ "0" != "${UPDATE}" ]; then
+      if [ ! "${TLEVEL}" ] || [ "0" != "$((0>TLEVEL))" ]; then TLEVEL=0; fi
+      if [ ! "${MAXTIME}" ]; then MAXTIME=320; fi
+      MNKS=$(echo "${JSONS}" | ${SED} -n "s/.*tune_multiply-..*-\(..*x..*x..*\)-[0-9][0-9]*gflops.json/\1/p" \
+         | ${SORT} -u -n -tx -k1 -k2 -k3)
+    elif [ "${SPECID}" ]; then
+      MNKS=$(eval "${HERE}/../../acc_triplets.sh -r ${BOUNDL} ${BOUNDU} -m ${MAXEXT} -n ${MAXNUM} -s ${SPECID} 2>/dev/null")
+    else
+      MNKS=$(eval "${HERE}/../../acc_triplets.sh -r ${BOUNDL} ${BOUNDU} -m ${MAXEXT} -n ${MAXNUM} $* 2>/dev/null")
+    fi
   else
-    MNKS=$(eval "${HERE}/../../acc_triplets.sh -r ${BOUNDL} ${BOUNDU} -m ${MAXEXT} -n ${MAXNUM} $* 2>/dev/null")
+    exit 0
   fi
   NTRIPLETS=$(echo "${MNKS}" | wc -w)
   if [ "0" != "$((0==NTRIPLETS))" ]; then
