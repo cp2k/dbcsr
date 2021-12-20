@@ -184,7 +184,7 @@ int main(int argc, char* argv[])
     c_dbcsr_finalize(matrix_c);
 
     // Compute C = 3.0 * A * B + 2.0 * C
-    c_dbcsr_multiply_d('N', 'N', 3.0d, matrix_a, matrix_b, 2.0d, matrix_c, nullptr, nullptr,
+    c_dbcsr_multiply_d('N', 'N', 3.0, matrix_a, matrix_b, 2.0, matrix_c, nullptr, nullptr,
                        nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
 
     c_dbcsr_print(matrix_c);

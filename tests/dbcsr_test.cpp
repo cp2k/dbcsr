@@ -191,7 +191,7 @@ int main(int argc, char* argv[])
 
     if (mpi_rank == 0) std::cout << "Multiplying..." << std::endl;
 
-    c_dbcsr_multiply_d('N', 'N', 1.0d, matrix_a, matrix_b, 2.0d, matrix_c, nullptr, nullptr,
+    c_dbcsr_multiply_d('N', 'N', 1.0, matrix_a, matrix_b, 2.0, matrix_c, nullptr, nullptr,
                        nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
 
     if (mpi_rank == 0) std::cout << "Testing get_info for matrix_c" << std::endl;
@@ -348,7 +348,7 @@ int main(int argc, char* argv[])
     c_dbcsr_print(matrix_d);
 
     double* data = nullptr;
-    double type = 1.0d;
+    double type = 1.0;
     long long int data_size = 0;
     c_dbcsr_get_data_d(matrix_d, &data, &data_size, &type, nullptr, nullptr);
 
