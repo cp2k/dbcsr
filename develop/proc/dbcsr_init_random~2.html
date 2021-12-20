@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-38-g489e6931a0</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-39-g8e14aea7d2</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -131,7 +131,7 @@
      <li><i class="fa fa-list-ol"></i>
        <a data-toggle="tooltip"
     data-placement="bottom" data-html="true"
-    title=" 0.0% of total for procedures.">5 statements</a>
+    title=" 0.0% of total for procedures.">6 statements</a>
      </li> 
      
      
@@ -204,7 +204,7 @@
     
     <div class="col-md-9" id='text'>
     <h2>
-public subroutine dbcsr_init_random(matrix, keep_sparsity)
+public subroutine dbcsr_init_random(matrix, keep_sparsity, mini_seed)
     
     
    
@@ -254,6 +254,21 @@ public subroutine dbcsr_init_random(matrix, keep_sparsity)
   
   <td></td><td>::</td>
   <td><strong>keep_sparsity</strong></td><td></td>
+  
+</tr>
+
+  
+  
+  
+  
+<tr>
+  
+  <td><span class="anchor" id="variable-mini_seed"></span>integer,</td>
+  <td>intent(in),</td>
+  <td>optional</td>
+  
+  <td></td><td>::</td>
+  <td><strong>mini_seed</strong></td><td></td>
   
 </tr>
 
@@ -324,11 +339,12 @@ public subroutine dbcsr_init_random(matrix, keep_sparsity)
     
     <section>
     <h2><span class="anchor" id="src"></span>Source Code</h2>
-    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_init_random</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">keep_sparsity</span><span class="p">)</span>
+    <div class="highlight"><pre><span></span>   <span class="k">SUBROUTINE </span><span class="n">dbcsr_init_random</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">keep_sparsity</span><span class="p">,</span> <span class="n">mini_seed</span><span class="p">)</span>
       <span class="k">TYPE</span><span class="p">(</span><span class="n">dbcsr_type</span><span class="p">),</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">INOUT</span><span class="p">)</span>                    <span class="kd">::</span> <span class="n">matrix</span>
       <span class="kt">LOGICAL</span><span class="p">,</span> <span class="k">OPTIONAL</span>                                  <span class="kd">::</span> <span class="n">keep_sparsity</span>
+      <span class="kt">INTEGER</span><span class="p">,</span> <span class="k">INTENT</span><span class="p">(</span><span class="n">IN</span><span class="p">),</span> <span class="k">OPTIONAL</span>                      <span class="kd">::</span> <span class="n">mini_seed</span>
 
-      <span class="k">CALL </span><span class="n">dbcsr_init_random_prv</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">keep_sparsity</span><span class="o">=</span><span class="n">keep_sparsity</span><span class="p">)</span>
+      <span class="k">CALL </span><span class="n">dbcsr_init_random_prv</span><span class="p">(</span><span class="n">matrix</span><span class="p">%</span><span class="n">prv</span><span class="p">,</span> <span class="n">keep_sparsity</span><span class="o">=</span><span class="n">keep_sparsity</span><span class="p">,</span> <span class="n">mini_seed</span><span class="o">=</span><span class="n">mini_seed</span><span class="p">)</span>
    <span class="k">END SUBROUTINE </span><span class="n">dbcsr_init_random</span>
 </pre></div>
 

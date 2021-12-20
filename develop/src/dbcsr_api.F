@@ -513,11 +513,12 @@ CONTAINS
       matrix%prv%wms(index_matrix)%datasize = newvalue
    END SUBROUTINE dbcsr_set_work_size
 
-   SUBROUTINE dbcsr_init_random(matrix, keep_sparsity)
+   SUBROUTINE dbcsr_init_random(matrix, keep_sparsity, mini_seed)
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
       LOGICAL, OPTIONAL                                  :: keep_sparsity
+      INTEGER, INTENT(IN), OPTIONAL                      :: mini_seed
 
-      CALL dbcsr_init_random_prv(matrix%prv, keep_sparsity=keep_sparsity)
+      CALL dbcsr_init_random_prv(matrix%prv, keep_sparsity=keep_sparsity, mini_seed=mini_seed)
    END SUBROUTINE dbcsr_init_random
 
    PURE FUNCTION dbcsr_get_data_type(matrix) RESULT(data_type)
@@ -1189,8 +1190,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
 
 # 169 "/__w/dbcsr/dbcsr/src/data/dbcsr.fypp"
-# 1186 "/__w/dbcsr/dbcsr/src/dbcsr_api.F" 2
-# 1187 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
+# 1187 "/__w/dbcsr/dbcsr/src/dbcsr_api.F" 2
+# 1188 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
    SUBROUTINE dbcsr_reserve_block2d_d (matrix, row, col, block, transposed, existed)
       TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
       INTEGER, INTENT(IN)                      :: row, col
@@ -1448,7 +1449,7 @@ CONTAINS
 
       DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
    END FUNCTION dbcsr_get_data_d
-# 1187 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
+# 1188 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
    SUBROUTINE dbcsr_reserve_block2d_s (matrix, row, col, block, transposed, existed)
       TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
       INTEGER, INTENT(IN)                      :: row, col
@@ -1706,7 +1707,7 @@ CONTAINS
 
       DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
    END FUNCTION dbcsr_get_data_s
-# 1187 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
+# 1188 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
    SUBROUTINE dbcsr_reserve_block2d_z (matrix, row, col, block, transposed, existed)
       TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
       INTEGER, INTENT(IN)                      :: row, col
@@ -1964,7 +1965,7 @@ CONTAINS
 
       DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
    END FUNCTION dbcsr_get_data_z
-# 1187 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
+# 1188 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
    SUBROUTINE dbcsr_reserve_block2d_c (matrix, row, col, block, transposed, existed)
       TYPE(dbcsr_type), INTENT(INOUT)          :: matrix
       INTEGER, INTENT(IN)                      :: row, col
@@ -2222,6 +2223,6 @@ CONTAINS
 
       DATA => dbcsr_get_data_p_prv(matrix%prv%data_area, select_data_type, lb, ub)
    END FUNCTION dbcsr_get_data_c
-# 1445 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
+# 1446 "/__w/dbcsr/dbcsr/src/dbcsr_api.F"
 
 END MODULE dbcsr_api
