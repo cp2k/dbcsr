@@ -1076,16 +1076,17 @@ CONTAINS
       CALL timestop(handle)
    END SUBROUTINE dbcsr_hadamard_product
 
-   SUBROUTINE dbcsr_init_random(matrix, keep_sparsity)
+   SUBROUTINE dbcsr_init_random(matrix, keep_sparsity, mini_seed)
       !! ... TODO : unify with other version which is generic in the data_type
       TYPE(dbcsr_type), INTENT(INOUT)                    :: matrix
       LOGICAL, OPTIONAL                                  :: keep_sparsity
+      INTEGER, INTENT(IN), OPTIONAL                      :: mini_seed
 
       CHARACTER(len=*), PARAMETER :: routineN = 'dbcsr_init_random'
 
       INTEGER                                            :: col, col_size, handle, hold, iseed(4), &
                                                             mynode, ncol, nrow, row, row_size, &
-                                                            stored_col, stored_row
+                                                            stored_col, stored_row, my_mini_seed
       INTEGER, DIMENSION(:), POINTER                     :: col_blk_size, row_blk_size
       LOGICAL                                            :: found, my_keep_sparsity, tr
       REAL(real_8), ALLOCATABLE, DIMENSION(:)            :: rnd
@@ -1095,6 +1096,9 @@ CONTAINS
 
       my_keep_sparsity = .FALSE.
       IF (PRESENT(keep_sparsity)) my_keep_sparsity = keep_sparsity
+
+      my_mini_seed = 1
+      IF (PRESENT(mini_seed)) my_mini_seed = mini_seed
 
       CALL timeset(routineN, handle)
 
@@ -1119,7 +1123,7 @@ CONTAINS
             IF (found .OR. (.NOT. my_keep_sparsity)) THEN
                ! set the seed for dlarnv, is here to guarantee same value of the random numbers
                ! for all layouts (and block distributions)
-               CALL set_larnv_seed(row, nrow, col, ncol, 1, iseed)
+               CALL set_larnv_seed(row, nrow, col, ncol, my_mini_seed, iseed)
                CALL dlarnv(1, iseed, row_size*col_size, rnd(1))
             ENDIF
             IF (found) THEN
