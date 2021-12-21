@@ -42,7 +42,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-41-g6fe894c1b8</small></a>
+          <a class="navbar-brand" href="../index.html">DBCSR <small>2.2.0-rc0-42-g8d8acb3f5c</small></a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
@@ -485,9 +485,13 @@ private subroutine mp_rget_lv(base, source, win, win_data, myproc, disp, request
 <span class="k">            IF</span> <span class="p">(</span><span class="n">myproc</span> <span class="p">.</span><span class="n">EQ</span><span class="p">.</span> <span class="n">source</span><span class="p">)</span> <span class="n">do_local_copy</span> <span class="o">=</span> <span class="p">.</span><span class="n">TRUE</span><span class="p">.</span>
          <span class="k">ENDIF</span>
 <span class="k">         IF</span> <span class="p">(</span><span class="n">do_local_copy</span><span class="p">)</span> <span class="k">THEN</span>
+<span class="cp">#if !defined(__DBCSR_DISABLE_WORKSHARE)</span>
 <span class="c">!$OMP           PARALLEL WORKSHARE DEFAULT(none) SHARED(base,win_data,disp_aint,len)</span>
+<span class="cp">#endif</span>
             <span class="n">base</span><span class="p">(:)</span> <span class="o">=</span> <span class="n">win_data</span><span class="p">(</span><span class="n">disp_aint</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span><span class="n">disp_aint</span> <span class="o">+</span> <span class="nb">len</span><span class="p">)</span>
+<span class="cp">#if !defined(__DBCSR_DISABLE_WORKSHARE)</span>
 <span class="c">!$OMP           END PARALLEL WORKSHARE</span>
+<span class="cp">#endif</span>
             <span class="n">request</span> <span class="o">=</span> <span class="n">mp_request_null</span>
             <span class="n">ierr</span> <span class="o">=</span> <span class="mi">0</span>
          <span class="k">ELSE</span>

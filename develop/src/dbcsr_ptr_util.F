@@ -309,9 +309,13 @@ CONTAINS
         !! destination memory
       REAL(kind=real_8), DIMENSION(1:n), INTENT(IN) :: src
         !! source memory
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst,src)
+#endif
       dst(:) = src(:)
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP     END PARALLEL WORKSHARE
+#endif
    END SUBROUTINE mem_copy_d
 
    SUBROUTINE mem_zero_d (dst, n)
@@ -321,9 +325,13 @@ CONTAINS
         !! length of elements to zero
       REAL(kind=real_8), DIMENSION(1:n), INTENT(OUT) :: dst
         !! destination memory
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst)
+#endif
       dst(:) = 0.0_real_8
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP     END PARALLEL WORKSHARE
+#endif
    END SUBROUTINE mem_zero_d
 
    SUBROUTINE mem_alloc_d (mem, n, mem_type)
@@ -612,9 +620,13 @@ CONTAINS
         !! destination memory
       REAL(kind=real_4), DIMENSION(1:n), INTENT(IN) :: src
         !! source memory
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst,src)
+#endif
       dst(:) = src(:)
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP     END PARALLEL WORKSHARE
+#endif
    END SUBROUTINE mem_copy_s
 
    SUBROUTINE mem_zero_s (dst, n)
@@ -624,9 +636,13 @@ CONTAINS
         !! length of elements to zero
       REAL(kind=real_4), DIMENSION(1:n), INTENT(OUT) :: dst
         !! destination memory
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst)
+#endif
       dst(:) = 0.0_real_4
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP     END PARALLEL WORKSHARE
+#endif
    END SUBROUTINE mem_zero_s
 
    SUBROUTINE mem_alloc_s (mem, n, mem_type)
@@ -915,9 +931,13 @@ CONTAINS
         !! destination memory
       COMPLEX(kind=real_8), DIMENSION(1:n), INTENT(IN) :: src
         !! source memory
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst,src)
+#endif
       dst(:) = src(:)
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP     END PARALLEL WORKSHARE
+#endif
    END SUBROUTINE mem_copy_z
 
    SUBROUTINE mem_zero_z (dst, n)
@@ -927,9 +947,13 @@ CONTAINS
         !! length of elements to zero
       COMPLEX(kind=real_8), DIMENSION(1:n), INTENT(OUT) :: dst
         !! destination memory
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst)
+#endif
       dst(:) = CMPLX(0.0, 0.0, real_8)
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP     END PARALLEL WORKSHARE
+#endif
    END SUBROUTINE mem_zero_z
 
    SUBROUTINE mem_alloc_z (mem, n, mem_type)
@@ -1218,9 +1242,13 @@ CONTAINS
         !! destination memory
       COMPLEX(kind=real_4), DIMENSION(1:n), INTENT(IN) :: src
         !! source memory
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst,src)
+#endif
       dst(:) = src(:)
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP     END PARALLEL WORKSHARE
+#endif
    END SUBROUTINE mem_copy_c
 
    SUBROUTINE mem_zero_c (dst, n)
@@ -1230,9 +1258,13 @@ CONTAINS
         !! length of elements to zero
       COMPLEX(kind=real_4), DIMENSION(1:n), INTENT(OUT) :: dst
         !! destination memory
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst)
+#endif
       dst(:) = CMPLX(0.0, 0.0, real_4)
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP     END PARALLEL WORKSHARE
+#endif
    END SUBROUTINE mem_zero_c
 
    SUBROUTINE mem_alloc_c (mem, n, mem_type)
@@ -1521,9 +1553,13 @@ CONTAINS
         !! destination memory
       INTEGER(kind=int_4), DIMENSION(1:n), INTENT(IN) :: src
         !! source memory
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst,src)
+#endif
       dst(:) = src(:)
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP     END PARALLEL WORKSHARE
+#endif
    END SUBROUTINE mem_copy_i
 
    SUBROUTINE mem_zero_i (dst, n)
@@ -1533,9 +1569,13 @@ CONTAINS
         !! length of elements to zero
       INTEGER(kind=int_4), DIMENSION(1:n), INTENT(OUT) :: dst
         !! destination memory
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst)
+#endif
       dst(:) = 0
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP     END PARALLEL WORKSHARE
+#endif
    END SUBROUTINE mem_zero_i
 
    SUBROUTINE mem_alloc_i (mem, n, mem_type)
@@ -1824,9 +1864,13 @@ CONTAINS
         !! destination memory
       INTEGER(kind=int_8), DIMENSION(1:n), INTENT(IN) :: src
         !! source memory
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst,src)
+#endif
       dst(:) = src(:)
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP     END PARALLEL WORKSHARE
+#endif
    END SUBROUTINE mem_copy_l
 
    SUBROUTINE mem_zero_l (dst, n)
@@ -1836,9 +1880,13 @@ CONTAINS
         !! length of elements to zero
       INTEGER(kind=int_8), DIMENSION(1:n), INTENT(OUT) :: dst
         !! destination memory
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP     PARALLEL WORKSHARE DEFAULT(none) SHARED(dst)
+#endif
       dst(:) = 0
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP     END PARALLEL WORKSHARE
+#endif
    END SUBROUTINE mem_zero_l
 
    SUBROUTINE mem_alloc_l (mem, n, mem_type)
@@ -1965,6 +2013,6 @@ CONTAINS
 
       r2p(1:d1, 1:d2) => r1p(1:d1*d2)
    END SUBROUTINE pointer_l_rank_remap2
-# 447 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
+# 455 "/__w/dbcsr/dbcsr/src/data/dbcsr_ptr_util.F"
 
 END MODULE dbcsr_ptr_util

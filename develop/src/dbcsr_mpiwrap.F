@@ -5270,9 +5270,13 @@ CONTAINS
             IF (myproc .EQ. source) do_local_copy = .TRUE.
          ENDIF
          IF (do_local_copy) THEN
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP           PARALLEL WORKSHARE DEFAULT(none) SHARED(base,win_data,disp_aint,len)
+#endif
             base(:) = win_data(disp_aint + 1:disp_aint + len)
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP           END PARALLEL WORKSHARE
+#endif
             request = mp_request_null
             ierr = 0
          ELSE
@@ -8121,9 +8125,13 @@ CONTAINS
             IF (myproc .EQ. source) do_local_copy = .TRUE.
          ENDIF
          IF (do_local_copy) THEN
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP           PARALLEL WORKSHARE DEFAULT(none) SHARED(base,win_data,disp_aint,len)
+#endif
             base(:) = win_data(disp_aint + 1:disp_aint + len)
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP           END PARALLEL WORKSHARE
+#endif
             request = mp_request_null
             ierr = 0
          ELSE
@@ -10972,9 +10980,13 @@ CONTAINS
             IF (myproc .EQ. source) do_local_copy = .TRUE.
          ENDIF
          IF (do_local_copy) THEN
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP           PARALLEL WORKSHARE DEFAULT(none) SHARED(base,win_data,disp_aint,len)
+#endif
             base(:) = win_data(disp_aint + 1:disp_aint + len)
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP           END PARALLEL WORKSHARE
+#endif
             request = mp_request_null
             ierr = 0
          ELSE
@@ -13823,9 +13835,13 @@ CONTAINS
             IF (myproc .EQ. source) do_local_copy = .TRUE.
          ENDIF
          IF (do_local_copy) THEN
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP           PARALLEL WORKSHARE DEFAULT(none) SHARED(base,win_data,disp_aint,len)
+#endif
             base(:) = win_data(disp_aint + 1:disp_aint + len)
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP           END PARALLEL WORKSHARE
+#endif
             request = mp_request_null
             ierr = 0
          ELSE
@@ -16674,9 +16690,13 @@ CONTAINS
             IF (myproc .EQ. source) do_local_copy = .TRUE.
          ENDIF
          IF (do_local_copy) THEN
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP           PARALLEL WORKSHARE DEFAULT(none) SHARED(base,win_data,disp_aint,len)
+#endif
             base(:) = win_data(disp_aint + 1:disp_aint + len)
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP           END PARALLEL WORKSHARE
+#endif
             request = mp_request_null
             ierr = 0
          ELSE
@@ -19525,9 +19545,13 @@ CONTAINS
             IF (myproc .EQ. source) do_local_copy = .TRUE.
          ENDIF
          IF (do_local_copy) THEN
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP           PARALLEL WORKSHARE DEFAULT(none) SHARED(base,win_data,disp_aint,len)
+#endif
             base(:) = win_data(disp_aint + 1:disp_aint + len)
+#if !defined(__DBCSR_DISABLE_WORKSHARE)
 !$OMP           END PARALLEL WORKSHARE
+#endif
             request = mp_request_null
             ierr = 0
          ELSE
@@ -19913,6 +19937,6 @@ CONTAINS
    END SUBROUTINE mp_free_mem_c
 #endif
 
-# 5503 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
+# 5507 "/__w/dbcsr/dbcsr/src/mpi/dbcsr_mpiwrap.F"
 
 END MODULE dbcsr_mpiwrap

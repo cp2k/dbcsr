@@ -387,8 +387,17 @@ CONTAINS
       INTEGER                                            :: handle
 
       CALL timeset(routineN, handle)
-
       SELECT CASE (dbcsr_get_data_type(matrix_a))
+#if defined(__DBCSR_DISABLE_WORKSHARE)
+      CASE (dbcsr_type_complex_4)
+         matrix_a%data_area%d%c_sp = (0.0, 0.0)
+      CASE (dbcsr_type_complex_8)
+         matrix_a%data_area%d%c_dp = (0.0_dp, 0.0_dp)
+      CASE (dbcsr_type_real_4)
+         matrix_a%data_area%d%r_sp = 0.0
+      CASE (dbcsr_type_real_8)
+         matrix_a%data_area%d%r_dp = 0.0_dp
+#else
       CASE (dbcsr_type_complex_4)
 !$OMP       PARALLEL WORKSHARE DEFAULT(NONE), SHARED(matrix_a)
          matrix_a%data_area%d%c_sp = (0.0, 0.0)
@@ -405,10 +414,9 @@ CONTAINS
 !$OMP       PARALLEL WORKSHARE DEFAULT(NONE), SHARED(matrix_a)
          matrix_a%data_area%d%r_dp = 0.0_dp
 !$OMP       END PARALLEL WORKSHARE
+#endif
       END SELECT
-
       CALL timestop(handle)
-
    END SUBROUTINE dbcsr_zero
 
    SUBROUTINE dbcsr_scale_anytype(matrix_a, alpha_scalar, limits)
@@ -2703,8 +2711,8 @@ CONTAINS
 # 11 "/__w/dbcsr/dbcsr/src/ops/../data/dbcsr.fypp"
 
 # 169 "/__w/dbcsr/dbcsr/src/ops/../data/dbcsr.fypp"
-# 2628 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F" 2
-# 2629 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 2636 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F" 2
+# 2637 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
    SUBROUTINE dbcsr_trace_d (matrix_a, trace)
       !! traces a DBCSR matrix
 
@@ -3197,7 +3205,7 @@ CONTAINS
       ENDIF
 
    END SUBROUTINE dbcsr_add_anytype_d
-# 2629 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 2637 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
    SUBROUTINE dbcsr_trace_s (matrix_a, trace)
       !! traces a DBCSR matrix
 
@@ -3690,7 +3698,7 @@ CONTAINS
       ENDIF
 
    END SUBROUTINE dbcsr_add_anytype_s
-# 2629 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 2637 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
    SUBROUTINE dbcsr_trace_z (matrix_a, trace)
       !! traces a DBCSR matrix
 
@@ -4183,7 +4191,7 @@ CONTAINS
       ENDIF
 
    END SUBROUTINE dbcsr_add_anytype_z
-# 2629 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 2637 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
    SUBROUTINE dbcsr_trace_c (matrix_a, trace)
       !! traces a DBCSR matrix
 
@@ -4676,6 +4684,6 @@ CONTAINS
       ENDIF
 
    END SUBROUTINE dbcsr_add_anytype_c
-# 3122 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
+# 3130 "/__w/dbcsr/dbcsr/src/ops/dbcsr_operations.F"
 
 END MODULE dbcsr_operations
