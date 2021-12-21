@@ -338,10 +338,13 @@ int c_dbcsr_acc_init(void)
             c_dbcsr_acc_opencl_config.nthreads, sizeof(cl_context));
           if (NULL != c_dbcsr_acc_opencl_config.contexts) {
             result = c_dbcsr_acc_opencl_create_context(0/*master*/, active_id);
-            assert(NULL != c_dbcsr_acc_opencl_config.contexts[/*master*/0] || EXIT_SUCCESS != result);
+            assert(EXIT_SUCCESS == result || NULL == c_dbcsr_acc_opencl_config.contexts[/*master*/0]);
           }
           else result = EXIT_FAILURE;
           if (EXIT_SUCCESS == result) {
+            ACC_OPENCL_DEBUG_FPRINTF(stderr,
+              "INFO ACC/OpenCL: created initial context %p (tid=0, device=%i).\n",
+              (const void*)c_dbcsr_acc_opencl_config.contexts[0/*master*/], device_id);
             c_dbcsr_acc_opencl_config.streams = (cl_command_queue*)calloc( /* allocate streams */
               ACC_OPENCL_STREAMS_MAXCOUNT * c_dbcsr_acc_opencl_config.nthreads, sizeof(cl_command_queue));
             if (NULL != c_dbcsr_acc_opencl_config.streams) { /* allocate counters */
@@ -458,6 +461,9 @@ int c_dbcsr_acc_finalize(void)
     for (i = 0; i < c_dbcsr_acc_opencl_config.nthreads && EXIT_SUCCESS == result; ++i) {
       const cl_context context = c_dbcsr_acc_opencl_config.contexts[i];
       if (NULL != context) {
+        ACC_OPENCL_DEBUG_FPRINTF(stderr,
+          "INFO ACC/OpenCL: released context %p (tid=%i).\n",
+          (const void*)context, i);
         c_dbcsr_acc_opencl_config.contexts[i] = NULL;
         result = clReleaseContext(context);
       }
@@ -724,14 +730,25 @@ int c_dbcsr_acc_opencl_create_context(int thread_id, cl_device_id active_id)
       CL_CONTEXT_PLATFORM, 0/*placeholder*/,
       0 /* end of properties */
     };
+    cl_context context = NULL;
     properties[1] = (long)platform;
-    c_dbcsr_acc_opencl_config.contexts[thread_id] = clCreateContext(properties,
-      1/*num_devices*/, &active_id, notify, NULL/* user_data*/, &result);
+    context = clCreateContext(properties, 1/*num_devices*/, &active_id,
+      notify, NULL/* user_data*/, &result);
     if (CL_SUCCESS != result && CL_INVALID_DEVICE != result) { /* retry */
-      c_dbcsr_acc_opencl_config.contexts[thread_id] = clCreateContext(NULL/*properties*/,
-        1/*num_devices*/, &active_id, notify, NULL/* user_data*/, &result);
+      context = clCreateContext(NULL/*properties*/, 1/*num_devices*/, &active_id,
+        notify, NULL/* user_data*/, &result);
     }
     if (CL_SUCCESS == result) {
+      assert(NULL != context);
+      c_dbcsr_acc_opencl_config.contexts[thread_id] = context;
+      if (0 != thread_id) {
+        /* apply context to master-thread if master's context is NULL */
+        LIBXSMM_ATOMIC_CMPSWP(c_dbcsr_acc_opencl_config.contexts,
+          NULL, context, LIBXSMM_ATOMIC_RELAXED);
+        assert(NULL != c_dbcsr_acc_opencl_config.contexts[0/*master*/]);
+        ACC_OPENCL_DEBUG_IF(NULL == c_dbcsr_acc_opencl_config.contexts[0/*master*/]) ACC_OPENCL_DEBUG_FPRINTF(
+          stderr, "ERROR ACC/OpenCL: applying context to master-thread failed!\n");
+      }
       if (0 != c_dbcsr_acc_opencl_config.verbosity) {
         char buffer[ACC_OPENCL_BUFFERSIZE]; int d = 0;
         if (CL_SUCCESS == clGetDeviceInfo(active_id, CL_DEVICE_NAME,
@@ -769,30 +786,44 @@ int c_dbcsr_acc_opencl_set_active_device(int thread_id, int device_id)
 #   pragma omp critical(c_dbcsr_acc_set_active_device)
 #endif
     {
-      const cl_context context = c_dbcsr_acc_opencl_device_context(active_id, &thread_id);
-      const cl_context current = c_dbcsr_acc_opencl_config.contexts[thread_id];
+      int inherit_id = 0;
+      const cl_context context = c_dbcsr_acc_opencl_device_context(active_id, &inherit_id);
+      const cl_context inherit = c_dbcsr_acc_opencl_config.contexts[inherit_id];
       if (NULL != context) {
-        if (context != current) {
-          if (NULL != current) {
-            c_dbcsr_acc_opencl_config.contexts[thread_id] = NULL;
-            result = clReleaseContext(current);
+        if (context != inherit) {
+          if (NULL != inherit) {
+            c_dbcsr_acc_opencl_config.contexts[inherit_id] = NULL;
+            result = clReleaseContext(inherit);
           }
-          else {
-            c_dbcsr_acc_opencl_config.contexts[thread_id] = context;
+          else if (thread_id != inherit_id) {
+            c_dbcsr_acc_opencl_config.contexts[inherit_id] = context;
             result = clRetainContext(context);
           }
         }
       }
       else {
-        int result_create;
-        if (context != current) {
-          if (NULL != current) {
-            c_dbcsr_acc_opencl_config.contexts[thread_id] = NULL;
-            result = clReleaseContext(current);
+        result = c_dbcsr_acc_opencl_create_context(thread_id, active_id);
+        if (EXIT_SUCCESS == result) {
+          if (NULL/*context*/ != inherit) {
+            c_dbcsr_acc_opencl_config.contexts[inherit_id] =
+              c_dbcsr_acc_opencl_config.contexts[thread_id];
+            result = clReleaseContext(inherit);
+            ACC_OPENCL_DEBUG_IF(EXIT_SUCCESS == result) {
+              ACC_OPENCL_DEBUG_FPRINTF(stderr,
+                "INFO ACC/OpenCL: released context %p (tid=%i).\n",
+                (const void*)inherit, thread_id);
+            }
+            ACC_OPENCL_DEBUG_ELSE {
+              ACC_OPENCL_DEBUG_FPRINTF(stderr,
+                "ERROR ACC/OpenCL: releasing context %p (tid=%i) failed!\n",
+                (const void*)inherit, thread_id);
+            }
           }
+          ACC_OPENCL_DEBUG_FPRINTF(stderr,
+            "INFO ACC/OpenCL: created device context %p (tid=%i, device=%i).\n",
+            (const void*)c_dbcsr_acc_opencl_config.contexts[thread_id],
+            thread_id, device_id);
         }
-        result_create = c_dbcsr_acc_opencl_create_context(thread_id, active_id);
-        if (CL_SUCCESS == result) result = result_create;
       }
     }
   }
