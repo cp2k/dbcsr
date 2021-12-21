@@ -94,13 +94,15 @@ class SmmTuner(MeasurementInterface):
         else:
             self.typename = self.typeid = self.device = None
         if run_result and 0 == run_result["returncode"]:
-            seedpat = "INFO ACC/OpenCL:\\s+{}\\s+{}SMM-kernel{}{}{}{}\\s+gen=".format(
+            seedpat = "INFO ACC/OpenCL:\\s+{}\\s+{}SMM-kernel\\s+{}={}\\s+gen=".format(
                 "{}x{}x{}".format(self.mnk[0], self.mnk[1], self.mnk[2]),
                 {"float": "S", "double": "D"}.get(self.typename, ""),
-                "\\s+bs=([0-9]+)\\s+bm=([0-9]+)\\s+bn=([0-9]+)\\s+bk=([0-9]+)\\s+ws=([0-9]+)",
-                "\\s+wg=(-*[0-9]+)\\s+lu=(-*[0-9]+)\\s+nz=([0-9]+)\\s+al=([0-9]+)",  # wg/lu can be neg.
-                "\\s+tb=([0-9]+)\\s+tc=([0-9]+)\\s+ap=([0-9]+)",
-                "\\s+aa=([0-9]+)\\s+ab=([0-9]+)\\s+ac=([0-9]+)",
+                "{bs,bm,bn,bk,ws,wg,lu,nz,al,tb,tc,ap,aa,ab,ac}",
+                "{{{},{},{}}}".format(  # "wg", and "lu" can be neg. hence "-*[0-9]+"
+                    "(-*[0-9]+),(-*[0-9]+),(-*[0-9]+),(-*[0-9]+),(-*[0-9]+)",
+                    "(-*[0-9]+),(-*[0-9]+),(-*[0-9]+),(-*[0-9]+),(-*[0-9]+)",
+                    "(-*[0-9]+),(-*[0-9]+),(-*[0-9]+),(-*[0-9]+),(-*[0-9]+)",
+                ),
             )
             seed = re.search(seedpat, str(run_result["stderr"]))
             # setup fixed and tunable parameters

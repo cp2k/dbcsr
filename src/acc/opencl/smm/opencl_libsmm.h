@@ -16,7 +16,7 @@
 # define OPENCL_LIBSMM_TRANS_INPLACE
 #endif
 #if !defined(OPENCL_LIBSMM_PARAMS_DELIMS)
-# define OPENCL_LIBSMM_PARAMS_DELIMS ";,\t|/"
+# define OPENCL_LIBSMM_PARAMS_DELIMS ",;\t|/"
 #endif
 #if !defined(OPENCL_LIBSMM_SUITABLE) && 0
 # define OPENCL_LIBSMM_SUITABLE
@@ -86,6 +86,16 @@ typedef struct opencl_libsmm_perfest_t {
 
 /** If buffers are hinted for non-concurrent writes aka "OpenCL constant". */
 int opencl_libsmm_use_cmem(cl_device_id device);
+
+/**
+ * Write tunable parameters into (file-)stream. The environment variable
+ * OPENCL_LIBSMM_SMM_PARAMS="<output>" reproduces a configuration.
+ * If conig is NULL, parameter names are written. The arguments
+ * delim, begin, and close are optional as well (can be NULL).
+ * Returns the number of characters written (negative if error).
+ */
+int opencl_libsmm_write_params(FILE* stream, const opencl_libsmm_smm_t* config,
+  const char* delim, const char* begin, const char* close);
 
 /** Tokenize parambuf and initialize key/value pair. */
 int opencl_libsmm_read_params(char* parambuf,

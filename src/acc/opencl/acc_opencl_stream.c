@@ -8,6 +8,7 @@
  *------------------------------------------------------------------------------------------------*/
 #if defined(__OPENCL)
 #include "acc_opencl.h"
+#include <libxsmm_sync.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
@@ -57,15 +58,31 @@ int c_dbcsr_acc_opencl_stream_create(int thread_id, cl_command_queue* stream_p,
         streams[i] = ACC_OPENCL_CREATE_COMMAND_QUEUE(context, device, properties, &result);
         ++c_dbcsr_acc_opencl_config.stream_stats[thread_id];
         assert(CL_SUCCESS == result || NULL == streams[i]);
+        ACC_OPENCL_DEBUG_IF(CL_SUCCESS != result) ACC_OPENCL_DEBUG_FPRINTF(stderr,
+          "ERROR ACC/OpenCL: create stream \"%s\" (tid=%i) failed!\n",
+          NULL != name ? name : "unknown", thread_id);
+      }
+      else {
+        ACC_OPENCL_DEBUG_FPRINTF(stderr, "ERROR ACC/OpenCL: create stream "
+          "\"%s\" (tid=%i) failed due to missing context information!\n",
+          NULL != name ? name : "unknown", thread_id);
       }
       *stream_p = streams[i];
     }
     else {
+      ACC_OPENCL_DEBUG_FPRINTF(stderr, "ERROR ACC/OpenCL: stream "
+        "\"%s\" (tid=%i) failed to register!\n",
+        NULL != name ? name : "unknown", thread_id);
       result = EXIT_FAILURE;
       *stream_p = NULL;
     }
   }
-  else *stream_p = NULL;
+  else {
+    ACC_OPENCL_DEBUG_FPRINTF(stderr, "ERROR ACC/OpenCL: create stream "
+      "\"%s\" (tid=%i) failed due to missing context!\n",
+      NULL != name ? name : "unknown", thread_id);
+    *stream_p = NULL;
+  }
   ACC_OPENCL_RETURN_CAUSE(result, name);
 }
 
@@ -106,9 +123,11 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority)
     c = c_dbcsr_acc_opencl_stream_counter++;
     tid = (c < c_dbcsr_acc_opencl_config.nthreads
       ? c : (c % c_dbcsr_acc_opencl_config.nthreads));
-    result = (NULL != c_dbcsr_acc_opencl_config.contexts[tid]
-      ? c_dbcsr_acc_opencl_stream_create(tid, &queue, name, properties)
-      : EXIT_FAILURE);
+    /* inherit master's context if current context is NULL */
+    LIBXSMM_ATOMIC_CMPSWP(c_dbcsr_acc_opencl_config.contexts + tid,
+      NULL, c_dbcsr_acc_opencl_config.contexts[0/*master*/],
+      LIBXSMM_ATOMIC_RELAXED);
+    result = c_dbcsr_acc_opencl_stream_create(tid, &queue, name, properties);
   }
   else
 #endif

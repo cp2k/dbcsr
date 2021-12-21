@@ -111,9 +111,13 @@
 #endif
 
 #if defined(_DEBUG)
-# define ACC_OPENCL_DEBUG_PRINTF(A, ...) printf(A, __VA_ARGS__)
+# define ACC_OPENCL_DEBUG_FPRINTF(STREAM, ...) fprintf(STREAM, __VA_ARGS__)
+# define ACC_OPENCL_DEBUG_IF(CONDITION) if (CONDITION)
+# define ACC_OPENCL_DEBUG_ELSE else
 #else
-# define ACC_OPENCL_DEBUG_PRINTF(A, ...)
+# define ACC_OPENCL_DEBUG_FPRINTF(STREAM, ...)
+# define ACC_OPENCL_DEBUG_IF(CONDITION)
+# define ACC_OPENCL_DEBUG_ELSE
 #endif
 
 #if defined(NDEBUG)
