@@ -314,8 +314,17 @@ CONTAINS
       INTEGER                                            :: handle
 
       CALL timeset(routineN, handle)
-
       SELECT CASE (dbcsr_get_data_type(matrix_a))
+#if defined(__DBCSR_DISABLE_WORKSHARE)
+      CASE (dbcsr_type_complex_4)
+         matrix_a%data_area%d%c_sp = (0.0, 0.0)
+      CASE (dbcsr_type_complex_8)
+         matrix_a%data_area%d%c_dp = (0.0_dp, 0.0_dp)
+      CASE (dbcsr_type_real_4)
+         matrix_a%data_area%d%r_sp = 0.0
+      CASE (dbcsr_type_real_8)
+         matrix_a%data_area%d%r_dp = 0.0_dp
+#else
       CASE (dbcsr_type_complex_4)
 !$OMP       PARALLEL WORKSHARE DEFAULT(NONE), SHARED(matrix_a)
          matrix_a%data_area%d%c_sp = (0.0, 0.0)
@@ -332,10 +341,9 @@ CONTAINS
 !$OMP       PARALLEL WORKSHARE DEFAULT(NONE), SHARED(matrix_a)
          matrix_a%data_area%d%r_dp = 0.0_dp
 !$OMP       END PARALLEL WORKSHARE
+#endif
       END SELECT
-
       CALL timestop(handle)
-
    END SUBROUTINE dbcsr_zero
 
    SUBROUTINE dbcsr_scale_anytype(matrix_a, alpha_scalar, limits)
