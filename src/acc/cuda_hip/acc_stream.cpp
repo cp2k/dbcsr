@@ -27,7 +27,7 @@ static const int verbose_print = 0;
 
 
 /****************************************************************************/
-extern "C" int c_dbcsr_acc_stream_priority_range(int* least, int* greatest){
+extern "C" int c_dbcsr_acc_stream_priority_range(int* least, int* greatest) {
   *least = -1;
   *greatest = -1;
   ACC_API_CALL(DeviceGetStreamPriorityRange, (least, greatest));
@@ -37,13 +37,13 @@ extern "C" int c_dbcsr_acc_stream_priority_range(int* least, int* greatest){
 
 
 /****************************************************************************/
-extern "C" int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority){
+extern "C" int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority) {
   ACC(Error_t) cErr;
   *stream_p = malloc(sizeof(ACC(Stream_t)));
 
-  ACC(Stream_t)* acc_stream = (ACC(Stream_t)*) *stream_p;
+  ACC(Stream_t)* acc_stream =(ACC(Stream_t)*) *stream_p;
 
-  if(priority > 0){
+  if (priority > 0) {
       unsigned int flags = ACC(StreamNonBlocking);
       cErr = ACC(StreamCreateWithPriority)(acc_stream, flags, priority);
   } else {
@@ -63,10 +63,10 @@ extern "C" int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int 
 
 
 /****************************************************************************/
-extern "C" int c_dbcsr_acc_stream_destroy(void* stream){
-    ACC(Stream_t)* acc_stream = (ACC(Stream_t)*) stream;
+extern "C" int c_dbcsr_acc_stream_destroy(void* stream) {
+    ACC(Stream_t)* acc_stream =(ACC(Stream_t)*) stream;
 
-    if(verbose_print) printf("StreamDestroy called\n");
+    if (verbose_print) printf("StreamDestroy called\n");
     if (stream == NULL) return 0; /* not an error */
     ACC(Error_t) cErr = ACC(StreamDestroy)(*acc_stream);
     free(acc_stream);
@@ -78,7 +78,7 @@ extern "C" int c_dbcsr_acc_stream_destroy(void* stream){
 /****************************************************************************/
 extern "C" int c_dbcsr_acc_stream_sync(void* stream)
 {
-  ACC(Stream_t)* acc_stream = (ACC(Stream_t)*) stream;
+  ACC(Stream_t)* acc_stream =(ACC(Stream_t)*) stream;
   ACC_API_CALL(StreamSynchronize, (*acc_stream));
   return 0;
 }

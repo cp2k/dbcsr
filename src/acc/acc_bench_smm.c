@@ -32,10 +32,10 @@
 # define ALIGNMENT 64
 #endif
 #if !defined(TRANSPOSE)
-# define TRANSPOSE 1
+# define TRANSPOSE
 #endif
 #if !defined(VALIDATE)
-# define VALIDATE 1
+# define VALIDATE
 #endif
 #if !defined(WARMUP)
 # define WARMUP 2
@@ -48,15 +48,17 @@
 #define ROUNDUP2(N, NPOT) ((((unsigned long long)N) + ((NPOT) - 1)) & ~((NPOT) - 1))
 #define CHECK(EXPR, RPTR) if ((NULL != ((const void*)(RPTR)) && EXIT_SUCCESS != *((const int*)(RPTR))) || \
   EXIT_SUCCESS != (NULL != ((const void*)(RPTR)) ? (*((int*)(RPTR)) = (EXPR)) : (EXPR))) \
-  assert(NULL == (RPTR) || -1 == *((int*)(RPTR)))
+  assert(NULL == ((const void*)(RPTR)) || -1 == *((int*)(RPTR)))
 
 
-static void parse_params(int argc, char* argv[], FILE** file,
-  int* inr, int* iss, int* ism, int* isn, int* isk, int* inc, int* ina, int* inb)
+static void parse_params(int argc, char* argv[],
+  FILE** file, const char** snr, const char** sss,
+  const char** ssm, const char** ssn, const char** ssk,
+  const char** snc, const char** sna, const char** snb)
 {
   char buffer[1024], *args[8];
   int i;
-  assert(file && inr && iss && ism && isn && isk && inc && ina && inb);
+  assert(file && snr && sss && ssm && ssn && ssk && snc && sna && snb);
   --argc;
   if (NULL == *file) *file = (1 <= argc ? fopen(argv[1], "r") : NULL);
   if (NULL == *file) for (i = 0; i < argc; ++i) args[i] = argv[i+1];
@@ -85,37 +87,66 @@ static void parse_params(int argc, char* argv[], FILE** file,
     const char* x1 = strchr(args[i], 'x');
     const char* x2 = (NULL == x1 ? NULL : strchr(x1 + 1, 'x'));
     if (NULL == x1 || NULL == x2) { /* accept "M N K"*/
-      *inr = atoi(args[i++]);
-      *iss = (i < argc ? atoi(args[i++]) : 0);
+      *snr = args[i++];
+      *sss = (i < argc ? args[i++] : NULL);
       if (i < argc) {
         x1 = strchr(args[i], 'x');
         x2 = (NULL == x1 ? NULL : strchr(x1 + 1, 'x'));
-        *ism = atoi(args[i++]);
+        *ssm = args[i++];
         if (NULL == x1 || NULL == x2) { /* accept "M N K"*/
-          *isn = (i < argc ? atoi(args[i++]) : 0);
-          *isk = (i < argc ? atoi(args[i++]) : 0);
+          *ssn = (i < argc ? args[i++] : NULL);
+          *ssk = (i < argc ? args[i++] : NULL);
         }
         else { /* accept "MxNxK" */
-          *isn = atoi(x1 + 1);
-          *isk = atoi(x2 + 1);
+          *ssn = x1 + 1;
+          *ssk = x2 + 1;
         }
       }
     }
     else { /* accept "MxNxK" */
-      *ism = atoi(args[i++]);
-      *isn = atoi(x1 + 1);
-      *isk = atoi(x2 + 1);
+      *ssm = args[i++];
+      *ssn = x1 + 1;
+      *ssk = x2 + 1;
     }
   }
-  *inc = (i < argc ? atoi(args[i++]) : 0);
-  *ina = (i < argc ? atoi(args[i++]) : 0);
-  *inb = (i < argc ? atoi(args[i++]) : 0);
+  *snc = (i < argc ? args[i++] : NULL);
+  *sna = (i < argc ? args[i++] : NULL);
+  *snb = (i < argc ? args[i++] : NULL);
+}
+
+
+static size_t parse_nbytes(const char* nbytes, size_t* nelems)
+{
+  size_t result = 0;
+  if (NULL != nelems) *nelems = 0;
+  if (NULL != nbytes && '\0' != *nbytes) {
+    size_t u = strlen(nbytes) - 1;
+    const char units[] = "kmgKMG", *const unit = strchr(units, nbytes[u]);
+    char* end = NULL;
+    /* take parsed value with increased type-width */
+    const long long int ibytes = strtol(nbytes, &end, 10);
+    if (NULL != end) { /* no obvious error */
+      /* value is given without unit */
+      if (NULL == unit && '\0' == *end) {
+        result = (size_t)ibytes;
+        if (NULL != nelems) *nelems = result;
+      }
+      /* must match allowed set of units */
+      else if (NULL != unit && *unit == *end) {
+        result = (size_t)ibytes;
+        if (NULL != nelems) *nelems = result;
+        u = (unit - units) % 3 + 1;
+        result <<= u * 10;
+      }
+    }
+  }
+  return result;
 }
 
 
 int main(int argc, char* argv[])
 {
-#if defined(USE_LIBXSMM) && defined(VALIDATE) && (0 != VALIDATE)
+#if defined(USE_LIBXSMM) && defined(VALIDATE)
   double maxerror = 0;
 #endif
 #if defined(WARMUP) && (0 < WARMUP) && !defined(_DEBUG)
@@ -123,10 +154,12 @@ int main(int argc, char* argv[])
 #else
   const int warmup = 0;
 #endif
-  int result = c_dbcsr_acc_init();
+  int result = c_dbcsr_acc_init(), nok = 0;
+  const char *snr = NULL, *sss = NULL;
+  const char *ssm = NULL, *ssn = NULL, *ssk = NULL;
+  const char *snc = NULL, *sna = NULL, *snb = NULL;
   FILE* file = NULL;
-  int nok = 0, inr = 0, iss = 0, ism = 0, isn = 0, isk = 0, inc = 0, ina = 0, inb = 0;
-  parse_params(argc, argv, &file, &inr, &iss, &ism, &isn, &isk, &inc, &ina, &inb);
+  parse_params(argc, argv, &file, &snr, &sss, &ssm, &ssn, &ssk, &snc, &sna, &snb);
   CHECK(libsmm_acc_init(), &result); /* note: libsmm_acc_init() may imply acc_init() */
   if (EXIT_SUCCESS == result) {
     const char *const env_device = getenv("DEVICE");
@@ -148,15 +181,13 @@ int main(int argc, char* argv[])
     fprintf(stderr, "ACC initialization failed!\n");
   }
   while (EXIT_SUCCESS == result) {
-    const int nrepeat = (0 < inr ? inr : 3);
-    const int stack_size = (0 < iss ? iss : 30000);
-    const int m = (0 < ism ? ism : 23);
-    const int n = (0 < isn ? isn : m);
-    const int k = (0 < isk ? isk : m);
-    const int nc = (0 < inc ? MIN(inc, stack_size) : MAX(stack_size / 16, 1));
-    const int na = (0 < ina ? ina : (10 * nc));
-    const int nb = (0 < inb ? inb : (10 * nc));
-    const int nr = nrepeat * nc;
+    const int inr = (NULL != snr ? atoi(snr) : 0), nrepeat = (0 < inr ? inr : 3);
+    const int ism = (NULL != ssm ? atoi(ssm) : 0), m = (0 < ism ? ism : 23);
+    const int isn = (NULL != ssn ? atoi(ssn) : 0), n = (0 < isn ? isn : m);
+    const int isk = (NULL != ssk ? atoi(ssk) : 0), k = (0 < isk ? isk : m);
+    const int inc = (NULL != snc ? atoi(snc) : 0);
+    const int ina = (NULL != sna ? atoi(sna) : 0);
+    const int inb = (NULL != snb ? atoi(snb) : 0);
 #if defined(ALIGNMENT) && (0 < ALIGNMENT)
     const int ma = (int)ROUNDUP2(sizeof(ELEM_TYPE) * m, ALIGNMENT);
     const int ka = (int)ROUNDUP2(sizeof(ELEM_TYPE) * k, ALIGNMENT);
@@ -170,19 +201,46 @@ int main(int argc, char* argv[])
     ELEM_TYPE *amat_hst = NULL, *bmat_hst = NULL, *cmat_hst = NULL;
     ELEM_TYPE *amat_dev = NULL, *bmat_dev = NULL, *cmat_dev = NULL;
     void *stream = NULL;
+#if defined(__OPENCL)
+    const char *const env_smm_repeat = getenv("SMM_NREPEAT");
+    const int smm_nrepeat = (NULL == env_smm_repeat ? 1 : MAX(atoi(env_smm_repeat), 1));
+#else
+    const int smm_nrepeat = 1;
+#endif
 #if defined(USE_LIBXSMM)
-# if defined(VALIDATE) && (0 != VALIDATE)
+# if defined(VALIDATE)
     const char *const env_check = getenv("CHECK");
     const double check = (NULL == env_check ? -1 : fabs(atof(env_check) * ACC_BENCH_SMM_EPSILON(ELEM_TYPE)));
-    ELEM_TYPE *const gold_hst = (ELEM_TYPE*)(0 != check ? libxsmm_malloc(sizeof(ELEM_TYPE) * mn * nc) : NULL);
+    ELEM_TYPE* gold_hst = NULL;
 # endif
     libxsmm_timer_tickint start;
-# if defined(TRANSPOSE) && (0 != TRANSPOSE) && defined(VALIDATE) && (0 != VALIDATE)
+# if defined(TRANSPOSE) && defined(VALIDATE)
     double transpose;
 # endif
     double duration;
 #endif
-    int r, i;
+    int stack_size = 0, na, nb, nc, nr, r, i;
+    if (NULL != sss) {
+      size_t nelems, s;
+      const size_t nbytes = parse_nbytes(sss, &nelems);
+      if (nbytes != nelems) {
+        while (1) {
+          nc = (0 < inc ? MIN(inc, stack_size) : MAX(stack_size / 16, 1));
+          na = (0 < ina ? ina : (10 * nc)); nb = (0 < inb ? inb : (10 * nc));
+          s = sizeof(ELEM_TYPE) * (mk * na + kn * nb) + sizeof(int) * 3 * stack_size;
+          if (s < nbytes) ++stack_size; else break;
+        }
+      }
+      else stack_size = (int)nelems;
+    }
+    if (0 >= stack_size) stack_size = 30000; /* default */
+    nc = (0 < inc ? MIN(inc, stack_size) : MAX(stack_size / 16, 1));
+    na = (0 < ina ? ina : (10 * nc));
+    nb = (0 < inb ? inb : (10 * nc));
+    nr = nrepeat * nc;
+#if defined(USE_LIBXSMM) && defined(VALIDATE)
+    if (0 != check) gold_hst = (ELEM_TYPE*)libxsmm_malloc(sizeof(ELEM_TYPE) * mn * nc);
+#endif
     assert(m <= (mn / n) && 0 == (mn % n));
     assert(m <= (mk / k) && 0 == (mk % k));
     assert(k <= (kn / n) && 0 == (kn % n));
@@ -236,13 +294,13 @@ int main(int argc, char* argv[])
 #if defined(USE_LIBXSMM)
     CHECK(c_dbcsr_acc_stream_sync(stream), &result);
     if (NULL != amat_hst && NULL != bmat_hst && NULL != stack_hst) {
+      const size_t size = sizeof(ELEM_TYPE) * (mk * na + kn * nb) + sizeof(int) * 3 * stack_size;
       duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
-      printf("copy-in: %.1f ms %.1f GB/s\n", 1000.0 * duration,
-        (sizeof(ELEM_TYPE) * (mk + kn) + sizeof(int) * 3)
-          * stack_size / (duration * (1ULL << 30)));
+      printf("copy-in (%i MB): %.1f ms %.1f GB/s\n", (int)((size + (1 << 19)) >> 20),
+        1000.0 * duration, size / (duration * (1ULL << 30)));
     }
 #endif
-#if defined(TRANSPOSE) && (0 != TRANSPOSE) && defined(VALIDATE) && (0 != VALIDATE)
+#if defined(TRANSPOSE) && defined(VALIDATE)
     /* warmup execution and prebuild transpose-kernel */
     for (r = 0; r < warmup / 2; ++r) {
       CHECK(libsmm_acc_transpose(trans_dev, 0/*offset*/, nb, bmat_dev,
@@ -281,19 +339,19 @@ int main(int argc, char* argv[])
     CHECK(c_dbcsr_acc_stream_sync(stream), &result);
     duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
     if (EXIT_SUCCESS == result) {
-# if defined(TRANSPOSE) && (0 != TRANSPOSE)
-      printf("transpose: %.1f ms %.1f GFLOPS/s\n", 1000.0 * (duration + transpose) / nrepeat,
-        1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat) / (duration + transpose));
+# if defined(TRANSPOSE)
+      printf("transpose: %.1f ms %.1f GFLOPS/s\n", 1000.0 * (duration + transpose) / (nrepeat * smm_nrepeat),
+        1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat * smm_nrepeat) / (duration + transpose));
 # endif
-      printf("device: %.1f ms %.1f GFLOPS/s\n", 1000.0 * duration / nrepeat,
-        1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat) / duration);
+      printf("device: %.1f ms %.1f GFLOPS/s\n", 1000.0 * duration / (nrepeat * smm_nrepeat),
+        1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat * smm_nrepeat) / duration);
     }
-# if defined(VALIDATE) && (0 != VALIDATE)
+# if defined(VALIDATE)
     /* determine host's performance independent of current result code/status */
     if (NULL != gold_hst && NULL != amat_hst && NULL != bmat_hst && NULL != stack_hst) {
       const ELEM_TYPE alpha = 1, beta = 1;
       const char transa = 'N';
-#   if defined(TRANSPOSE) && (0 != TRANSPOSE)
+#   if defined(TRANSPOSE)
       const char transb = 'N';
 #   else
       const char transb = 'T';
@@ -309,7 +367,7 @@ int main(int argc, char* argv[])
       memset(gold_hst, 0, sizeof(ELEM_TYPE) * mn * nc);
       start = libxsmm_timer_tick();
       /* CPU-kernel operates on data that is not initialized in NUMA-aware fashion */
-      for (r = 0; r < nrepeat; ++r) {
+      for (r = 0; r < (nrepeat * smm_nrepeat); ++r) {
         ACC_BENCH_USEOMP(libxsmm_gemm_batch)(
           LIBXSMM_GEMM_PRECISION(ELEM_TYPE), LIBXSMM_GEMM_PRECISION(ELEM_TYPE),
           &transa, &transb, m, n, k, &alpha, amat_hst, &m/*lda*/, bmat_hst, &k/*ldb*/,
@@ -317,8 +375,8 @@ int main(int argc, char* argv[])
           stack_hst + 0, stack_hst + 1, stack_hst + 2, stack_size);
       }
       duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
-      printf("host: %.1f ms %.1f GFLOPS/s\n", 1000.0 * duration / nrepeat,
-        1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat) / duration);
+      printf("host: %.1f ms %.1f GFLOPS/s\n", 1000.0 * duration / (nrepeat * smm_nrepeat),
+        1E-9 * ((size_t)2 * m * n * k * stack_size * nrepeat * smm_nrepeat) / duration);
       /* validate correctness in case of successful result code/status */
       if (EXIT_SUCCESS == result) {
         /* transfer result from device to host for validation */
@@ -326,21 +384,9 @@ int main(int argc, char* argv[])
         CHECK(c_dbcsr_acc_stream_sync(stream), &result);
         if (EXIT_SUCCESS == result) {
           libxsmm_matdiff_info diff;
-#   if (1 < VALIDATE)
-          libxsmm_matdiff_info di;
-          libxsmm_matdiff_clear(&diff);
-          for (i = 0; i < nc; ++i) {
-            const ELEM_TYPE *const gold = gold_hst + mn * i;
-            const ELEM_TYPE *const test = cmat_hst + mn * i;
-            result = libxsmm_matdiff(&di, LIBXSMM_DATATYPE(ELEM_TYPE), m, n, gold, test, &m, &m);
-            if (EXIT_SUCCESS == result) libxsmm_matdiff_reduce(&diff, &di);
-            else break;
-          }
-#   else
-          /* validate result buffers at once (including excess area/padded space) */
+          /* validate result buffers at once (including excess/padded space) */
           result = libxsmm_matdiff(&diff, LIBXSMM_DATATYPE(ELEM_TYPE),
             mn, nc, gold_hst, cmat_hst, &mn, &mn);
-#   endif
           if (EXIT_SUCCESS == result) {
             const double relerror = 1.0 - diff.rsq;
             printf("rel.error: %g", relerror);
@@ -370,7 +416,7 @@ int main(int argc, char* argv[])
     CHECK(c_dbcsr_acc_dev_mem_deallocate(cmat_dev), NULL);
     CHECK(c_dbcsr_acc_stream_destroy(stream), NULL);
     if (EXIT_SUCCESS == result) {
-      ++nok; parse_params(argc, argv, &file, &inr, &iss, &ism, &isn, &isk, &inc, &ina, &inb);
+      ++nok; parse_params(argc, argv, &file, &snr, &sss, &ssm, &ssn, &ssk, &snc, &sna, &snb);
       if (NULL != file) printf("\n"); else break;
     }
   }
@@ -379,7 +425,7 @@ int main(int argc, char* argv[])
 #endif
   CHECK(c_dbcsr_acc_finalize(), NULL);
   if (EXIT_SUCCESS == result) {
-#if defined(USE_LIBXSMM) && defined(VALIDATE) && (0 != VALIDATE)
+#if defined(USE_LIBXSMM) && defined(VALIDATE)
     if (1 < nok) printf("\nmax.error: %g\n", maxerror);
 #endif
   }

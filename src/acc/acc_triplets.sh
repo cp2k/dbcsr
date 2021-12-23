@@ -23,6 +23,7 @@ if [ "${XARGS}" ] &&  [ "${SORT}" ] && [ "${HEAD}" ] && [ "${SED}" ] && [ "${CUT
   while test $# -gt 0; do
     case "$1" in
     -h|--help)
+      HELP=1
       shift $#;;
     -l|--lines)
       LINES=1
@@ -96,7 +97,9 @@ if [ "${XARGS}" ] &&  [ "${SORT}" ] && [ "${HEAD}" ] && [ "${SED}" ] && [ "${CUT
       MNKS="${MNKS} $(eval printf "%s" "{${SPEC}}x{${SPEC}}x{${SPEC}}\" \"" | ${SED} -e "s/{//g" -e "s/}//g")"
     done
     if [ "${MNKS}" ]; then
-      if [ "${BOUNDL}" ] && [ "${BOUNDU}" ]; then
+      if [ "${BOUNDL}" ] && [ "0" != "$((0<=BOUNDL))" ] && \
+         [ "${BOUNDU}" ] && [ "0" != "$((BOUNDL<BOUNDU))" ];
+      then
         for MNK in $(echo "${MNKS}" | ${SED} "s/x/*/g"); do
           S=$((MNK))
           if [ "0" != "$((BOUNDL**3<S&&S<=BOUNDU**3))" ]; then
@@ -107,10 +110,10 @@ if [ "${XARGS}" ] &&  [ "${SORT}" ] && [ "${HEAD}" ] && [ "${SED}" ] && [ "${CUT
       fi
       if [ "${CUTSEL}" ]; then
         MNK=$(echo "${MNKS}" | ${XARGS} -n1 | ${CUT} -dx ${CUTSEL} | ${SORT} -u -n -tx -k1 -k2 -k3 | \
-          if [ "0" != "$((0<SIZE))" ]; then ${HEAD} -n"${SIZE}"; else cat; fi)
+          if [ "${SIZE}" ] && [ "0" != "$((0<SIZE))" ]; then ${HEAD} -n"${SIZE}"; else cat; fi)
       else
         MNK=$(echo "${MNKS}" | ${XARGS} -n1 | ${SORT} -u -n -tx -k1 -k2 -k3 | \
-          if [ "0" != "$((0<SIZE))" ]; then ${HEAD} -n"${SIZE}"; else cat; fi)
+          if [ "${SIZE}" ] && [ "0" != "$((0<SIZE))" ]; then ${HEAD} -n"${SIZE}"; else cat; fi)
       fi
       if [ "0" = "${LINES}" ]; then
         echo "${MNK}" | ${XARGS}
@@ -119,22 +122,30 @@ if [ "${XARGS}" ] &&  [ "${SORT}" ] && [ "${HEAD}" ] && [ "${SED}" ] && [ "${CUT
       fi
     fi
   else
-    echo "Usage: $0 [options] [<triplet-spec>]"
-    echo "       Options must precede triplet specification"
-    echo "       -l|--lines: lines instead of list of words"
-    echo "       -r|--bound L U: limit L**3 < MNK <= U**3"
-    echo "       -m|--limit N: limit shape extents to N"
-    echo "       -n|--size  N: limit number of elements"
-    echo "       -a|--amat: select MxK instead of MxNxK"
-    echo "       -b|--bmat: select KxN instead of MxNxK"
-    echo "       -c|--cmat: select MxN instead of MxNxK"
-    echo "       -s|--specid N: predefined triplets"
-    echo "        0-10: older to newer (larger), e.g.,"
-    echo "       -s  0:  201 kernels"
-    echo "       -s 10: 1266 kernels"
-    echo "       <triplet-spec>, e.g., 134 kernels"
-    echo "         23, 5 32 13 24 26, 4 9"
-    echo
+    if [ ! "${HELP}" ] || [ "0" = "${HELP}" ]; then
+      ECHO=">&2 echo"
+    else
+      ECHO="echo"
+    fi
+    eval "${ECHO} \"Usage: $0 [options] [<triplet-spec>]\""
+    eval "${ECHO} \"       Options must precede triplet specification\""
+    eval "${ECHO} \"       -l|--lines: lines instead of list of words\""
+    eval "${ECHO} \"       -r|--bound L U: limit L**3 < MNK <= U**3\""
+    eval "${ECHO} \"       -m|--limit N: limit shape extents to N\""
+    eval "${ECHO} \"       -n|--size  N: limit number of elements\""
+    eval "${ECHO} \"       -a|--amat: select MxK instead of MxNxK\""
+    eval "${ECHO} \"       -b|--bmat: select KxN instead of MxNxK\""
+    eval "${ECHO} \"       -c|--cmat: select MxN instead of MxNxK\""
+    eval "${ECHO} \"       -s|--specid N: predefined triplets\""
+    eval "${ECHO} \"        0-10: older to newer (larger), e.g.,\""
+    eval "${ECHO} \"       -s  0:  201 kernels\""
+    eval "${ECHO} \"       -s 10: 1266 kernels\""
+    eval "${ECHO} \"       <triplet-spec>, e.g., 134 kernels\""
+    eval "${ECHO} \"         23, 5 32 13 24 26, 4 9\""
+    eval "${ECHO}"
+    if [ "${HELP}" ] || [ "0" = "${HELP}" ]; then exit 0; fi
+    >&2 echo "ERROR: invalid or no <triplet-spec> given!"
+    exit 1
   fi
 else
   >&2 echo "ERROR: missing prerequisites!"

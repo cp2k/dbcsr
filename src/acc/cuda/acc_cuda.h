@@ -66,19 +66,19 @@
     cublasStatus_t result = ACC_BLAS(func) args;                  \
     if (result != CUBLAS_STATUS_SUCCESS) {                        \
       const char* error_name = "CUBLAS_ERRROR";                   \
-      if (result == CUBLAS_STATUS_NOT_INITIALIZED){               \
+      if (result == CUBLAS_STATUS_NOT_INITIALIZED) {               \
         error_name = "CUBLAS_STATUS_NOT_INITIALIZED";             \
-      } else if (result == CUBLAS_STATUS_ALLOC_FAILED){           \
+      } else if (result == CUBLAS_STATUS_ALLOC_FAILED) {           \
         error_name = "CUBLAS_STATUS_ALLOC_FAILED";                \
-      } else if (result == CUBLAS_STATUS_INVALID_VALUE){          \
+      } else if (result == CUBLAS_STATUS_INVALID_VALUE) {          \
         error_name = "CUBLAS_STATUS_INVALID_VALUE";               \
-      } else if (result == CUBLAS_STATUS_ARCH_MISMATCH){          \
+      } else if (result == CUBLAS_STATUS_ARCH_MISMATCH) {          \
         error_name = "CUBLAS_STATUS_ARCH_MISMATCH";               \
-      } else if (result == CUBLAS_STATUS_MAPPING_ERROR){          \
+      } else if (result == CUBLAS_STATUS_MAPPING_ERROR) {          \
         error_name = "CUBLAS_STATUS_MAPPING_ERROR";               \
-      } else if (result == CUBLAS_STATUS_EXECUTION_FAILED){       \
+      } else if (result == CUBLAS_STATUS_EXECUTION_FAILED) {       \
         error_name = "CUBLAS_STATUS_EXECUTION_FAILED";            \
-      } else if (result == CUBLAS_STATUS_INTERNAL_ERROR){         \
+      } else if (result == CUBLAS_STATUS_INTERNAL_ERROR) {         \
         error_name = "CUBLAS_STATUS_INTERNAL_ERROR";              \
       }                                                           \
       printf("\nCUBLAS ERROR: %s failed with error %s\n",         \
@@ -103,5 +103,8 @@ extern CUsharedconfig CUSharedMemBankSizeEightByte;
 extern cublasStatus_t ACC_BLAS_STATUS_SUCCESS;
 extern cublasOperation_t ACC_BLAS_OP_N;
 extern cublasOperation_t ACC_BLAS_OP_T;
+
+/* NVRTC error status */
+extern nvrtcResult ACC_RTC_SUCCESS;
 
 #endif /*ACC_CUDA_H*/

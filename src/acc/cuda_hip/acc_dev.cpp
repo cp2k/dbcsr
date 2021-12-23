@@ -23,14 +23,14 @@
 static const int verbose_print = 1;
 
 /****************************************************************************/
-extern "C" int c_dbcsr_acc_get_ndevices(int *n_devices){
+extern "C" int c_dbcsr_acc_get_ndevices(int *n_devices) {
   ACC_API_CALL(GetDeviceCount, (n_devices));
   return 0;
 }
 
 
 /****************************************************************************/
-extern "C" int c_dbcsr_acc_set_active_device(int device_id){
+extern "C" int c_dbcsr_acc_set_active_device(int device_id) {
   int myDevice, runtimeVersion;
 
   ACC_API_CALL(RuntimeGetVersion, (&runtimeVersion));
@@ -44,7 +44,7 @@ extern "C" int c_dbcsr_acc_set_active_device(int device_id){
   ACC_API_CALL(Free, (0));
 
 #if defined(__HIP_PLATFORM_NVCC__)
-  if (verbose_print){
+  if (verbose_print) {
     ACC_API_CALL(DeviceSetLimit, (ACC(LimitPrintfFifoSize), (size_t) 1000000000));
   }
 #endif

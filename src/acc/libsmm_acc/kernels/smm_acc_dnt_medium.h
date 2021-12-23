@@ -55,7 +55,7 @@ template < int m,  int n,  int k, int M, int N, int threads, int grouping, int m
 __global__ void
 __launch_bounds__(threads, minblocks)
 smm_acc_dnt_medium(const int* __restrict__ param_stack, int stack_size,
-     const double* __restrict__ a_data, const double* __restrict__ b_data, double* c_data){
+     const double* __restrict__ a_data, const double* __restrict__ b_data, double* c_data) {
 
   /* Total number of elements in block matrices */
   const int mn = m * n; /* c_block */
@@ -155,7 +155,7 @@ smm_acc_dnt_medium(const int* __restrict__ param_stack, int stack_size,
    * Each triplet indicates the beginning of a submatrix to multiply */
   psp = bidx * npar * grouping;
 #pragma unroll 3
-  for (int i = tidx; i < nrun; i += threads){
+  for (int i = tidx; i < nrun; i += threads) {
     // param_stack is 1-based, convert to 0-based here
     param_stack_s[i * npar    ] = __ldg(&param_stack[psp + i * npar    ]) - 1; /* value = index in a_data */
     param_stack_s[i * npar + 1] = __ldg(&param_stack[psp + i * npar + 1]) - 1; /* value = index in b_data */
@@ -166,14 +166,14 @@ smm_acc_dnt_medium(const int* __restrict__ param_stack, int stack_size,
   if (need_sync) syncthreads ();
 
   /* In each run, we process one stack entry from param_stack_s */
-  for (int run = 0; run < nrun; run++){
+  for (int run = 0; run < nrun; run++) {
 
     /* Index in shared memory buffers to read from */
     psp = run * npar;
 
     int srcA, srcB;
 
-    if (!is_loaded){ /* If a_block, b_block are not loaded into registers yet */
+    if (!is_loaded) { /* If a_block, b_block are not loaded into registers yet */
 
       /* Index in a_data, b_data and c_data arrays
        * indicating where to fetch resp. write back matrix elements for this run
@@ -182,58 +182,58 @@ smm_acc_dnt_medium(const int* __restrict__ param_stack, int stack_size,
       srcB = param_stack_s[psp + 1];
 
     /* Copy a_block, b_block from global memory to registers */
-    if (m == n){
+    if (m == n) {
 #pragma unroll 3
-      for (int i = tidx; i < n_mkloads * (load_unroll_factor_1 * threads); i += load_unroll_factor_1 * threads){
+      for (int i = tidx; i < n_mkloads * (load_unroll_factor_1 * threads); i += load_unroll_factor_1 * threads) {
 #pragma unroll
-        for (int l = 0; l < load_unroll_factor_1; l++){
+        for (int l = 0; l < load_unroll_factor_1; l++) {
           lba_r[l] = __ldg(&a_data[srcA + i + l * threads]);
           lbb_r[l] = __ldg(&b_data[srcB + i + l * threads]);
         }
       }
 
 #pragma unroll 3
-      for (int i = n_mkloads * (load_unroll_factor_1 * threads) + tidx; i < m_loads_to_finish; i += mkloads_remained * threads){
+      for (int i = n_mkloads * (load_unroll_factor_1 * threads) + tidx; i < m_loads_to_finish; i += mkloads_remained * threads) {
 #pragma unroll
-        for (int l = 0; l < mkloads_remained; l++){
+        for (int l = 0; l < mkloads_remained; l++) {
           lba_r[l] = __ldg(&a_data[srcA + i + l * threads]);
           lbb_r[l] = __ldg(&b_data[srcB + i + l * threads]);
         }
       }
 
-      if (left_to_finish_1 < mk){
+      if (left_to_finish_1 < mk) {
         lba_r[load_unroll_factor_1 + mkloads_remained] = __ldg(&a_data[srcA + left_to_finish_1]);
         lbb_r[load_unroll_factor_2 + knloads_remained] = __ldg(&b_data[srcB + left_to_finish_2]);
       }
     } else {
 #pragma unroll 3
-      for (int i = tidx; i < n_mkloads * (load_unroll_factor_1 * threads); i += load_unroll_factor_1 * threads){
+      for (int i = tidx; i < n_mkloads * (load_unroll_factor_1 * threads); i += load_unroll_factor_1 * threads) {
 #pragma unroll
-        for (int l = 0; l < load_unroll_factor_1; l++){
+        for (int l = 0; l < load_unroll_factor_1; l++) {
           lba_r[l] = __ldg(&a_data[srcA + i + l * threads]);
         }
       }
 
 #pragma unroll 3
-      for (int i = tidx; i < n_knloads * (load_unroll_factor_2 * threads); i += load_unroll_factor_2 * threads){
+      for (int i = tidx; i < n_knloads * (load_unroll_factor_2 * threads); i += load_unroll_factor_2 * threads) {
 #pragma unroll
-        for (int l = 0; l < load_unroll_factor_2; l++){
+        for (int l = 0; l < load_unroll_factor_2; l++) {
           lbb_r[l] = __ldg(&b_data[srcB + i + l * threads]);
         }
       }
 
 #pragma unroll 3
-      for (int i = n_mkloads * (load_unroll_factor_1 * threads) + tidx; i < m_loads_to_finish; i += mkloads_remained * threads){
+      for (int i = n_mkloads * (load_unroll_factor_1 * threads) + tidx; i < m_loads_to_finish; i += mkloads_remained * threads) {
 #pragma unroll
-        for (int l = 0; l < mkloads_remained; l++){
+        for (int l = 0; l < mkloads_remained; l++) {
           lba_r[l] = __ldg(&a_data[srcA + i + l * threads]);
         }
       }
 
 #pragma unroll 3
-      for (int i = n_knloads * (load_unroll_factor_2 * threads) + tidx; i < n_loads_to_finish; i += knloads_remained * threads){
+      for (int i = n_knloads * (load_unroll_factor_2 * threads) + tidx; i < n_loads_to_finish; i += knloads_remained * threads) {
 #pragma unroll
-        for (int l = 0; l < knloads_remained; l++){
+        for (int l = 0; l < knloads_remained; l++) {
           lbb_r[l] = __ldg(&b_data[srcB + i + l * threads]);
         }
       }
@@ -249,58 +249,58 @@ smm_acc_dnt_medium(const int* __restrict__ param_stack, int stack_size,
     }
 
     /* Copy a_block, b_block from registers to shared memory */
-    if (m == n){
+    if (m == n) {
 #pragma unroll 3
-      for (int i = n_mkloads * (load_unroll_factor_1 * threads) + tidx; i < m_loads_to_finish; i += mkloads_remained * threads){
+      for (int i = n_mkloads * (load_unroll_factor_1 * threads) + tidx; i < m_loads_to_finish; i += mkloads_remained * threads) {
 #pragma unroll
-        for (int l = 0; l < mkloads_remained; l++){
+        for (int l = 0; l < mkloads_remained; l++) {
           buff[i + l * threads] = lba_r[l];
           buff[i + mk + l * threads] = lbb_r[l];
         }
       }
 
 #pragma unroll 3
-      for (int i = tidx; i < n_mkloads * (load_unroll_factor_1 * threads); i += load_unroll_factor_1 * threads){
+      for (int i = tidx; i < n_mkloads * (load_unroll_factor_1 * threads); i += load_unroll_factor_1 * threads) {
 #pragma unroll
-        for (int l = 0; l < load_unroll_factor_1; l++){
+        for (int l = 0; l < load_unroll_factor_1; l++) {
           buff[i + l * threads] = lba_r[l];
           buff[i + mk + l * threads] = lbb_r[l];
         }
       }
 
-      if (left_to_finish_1 < mk){
+      if (left_to_finish_1 < mk) {
         buff[left_to_finish_1] = lba_r[load_unroll_factor_1 + mkloads_remained];
         buff[mk + left_to_finish_2] = lbb_r[load_unroll_factor_2 + knloads_remained];
       }
     } else {
 #pragma unroll 3
-      for (int i = n_mkloads * (load_unroll_factor_1 * threads) + tidx; i < m_loads_to_finish; i += mkloads_remained * threads){
+      for (int i = n_mkloads * (load_unroll_factor_1 * threads) + tidx; i < m_loads_to_finish; i += mkloads_remained * threads) {
 #pragma unroll
-        for (int l = 0; l < mkloads_remained; l++){
+        for (int l = 0; l < mkloads_remained; l++) {
           buff[i + l * threads] = lba_r[l];
         }
       }
 
 #pragma unroll 3
-      for (int i = n_knloads * (load_unroll_factor_2 * threads) + tidx; i < n_loads_to_finish; i += knloads_remained * threads){
+      for (int i = n_knloads * (load_unroll_factor_2 * threads) + tidx; i < n_loads_to_finish; i += knloads_remained * threads) {
 #pragma unroll
-        for (int l = 0; l < knloads_remained; l++){
+        for (int l = 0; l < knloads_remained; l++) {
           buff[i + mk + l * threads] = lbb_r[l];
         }
       }
 
 #pragma unroll 3
-      for (int i = tidx; i < n_mkloads * (load_unroll_factor_1 * threads); i += load_unroll_factor_1 * threads){
+      for (int i = tidx; i < n_mkloads * (load_unroll_factor_1 * threads); i += load_unroll_factor_1 * threads) {
 #pragma unroll
-        for (int l = 0; l < load_unroll_factor_1; l++){
+        for (int l = 0; l < load_unroll_factor_1; l++) {
           buff[i + l * threads] = lba_r[l];
         }
       }
 
 #pragma unroll 3
-      for (int i = tidx; i < n_knloads * (load_unroll_factor_2 * threads); i += load_unroll_factor_2 * threads){
+      for (int i = tidx; i < n_knloads * (load_unroll_factor_2 * threads); i += load_unroll_factor_2 * threads) {
 #pragma unroll
-        for (int l = 0; l < load_unroll_factor_2; l++){
+        for (int l = 0; l < load_unroll_factor_2; l++) {
           buff[i + mk + l * threads] = lbb_r[l];
         }
       }
@@ -316,7 +316,7 @@ smm_acc_dnt_medium(const int* __restrict__ param_stack, int stack_size,
     int next_run = run + 1;
     if (next_run >= nrun) is_loaded = true;
 
-    if (!is_loaded || (run == 0 && nrun > 1)){
+    if (!is_loaded || (run == 0 && nrun > 1)) {
       /* Next parameter stack position */
       int next_psp = next_run * npar;
 
@@ -327,58 +327,58 @@ smm_acc_dnt_medium(const int* __restrict__ param_stack, int stack_size,
       srcB = param_stack_s[next_psp + 1];
 
       /* Buffering: copy the input data for the next run from global memory to registers */
-      if (m == n){
+      if (m == n) {
 #pragma unroll 3
-        for (int i = tidx; i < n_mkloads * (load_unroll_factor_1 * threads); i += load_unroll_factor_1 * threads){
+        for (int i = tidx; i < n_mkloads * (load_unroll_factor_1 * threads); i += load_unroll_factor_1 * threads) {
 #pragma unroll
-          for (int l = 0; l < load_unroll_factor_1; l++){
+          for (int l = 0; l < load_unroll_factor_1; l++) {
             lba_r[l] = __ldg(&a_data[srcA + i + l * threads]);
             lbb_r[l] = __ldg(&b_data[srcB + i + l * threads]);
           }
         }
 
 #pragma unroll 3
-        for (int i = n_mkloads * (load_unroll_factor_1 * threads) + tidx; i < m_loads_to_finish; i += mkloads_remained * threads){
+        for (int i = n_mkloads * (load_unroll_factor_1 * threads) + tidx; i < m_loads_to_finish; i += mkloads_remained * threads) {
 #pragma unroll
-          for (int l = 0; l < mkloads_remained; l++){
+          for (int l = 0; l < mkloads_remained; l++) {
             lba_r[l] = __ldg(&a_data[srcA + i + l * threads]);
             lbb_r[l] = __ldg(&b_data[srcB + i +l * threads]);
           }
         }
 
-        if (left_to_finish_1 < mk){
+        if (left_to_finish_1 < mk) {
           lba_r[load_unroll_factor_1 + mkloads_remained] = __ldg(&a_data[srcA + left_to_finish_1]);
           lbb_r[load_unroll_factor_2 + knloads_remained] = __ldg(&b_data[srcB + left_to_finish_2]);
         }
       } else {
 #pragma unroll 3
-        for (int i = tidx; i < n_mkloads * (load_unroll_factor_1 * threads); i += load_unroll_factor_1 * threads){
+        for (int i = tidx; i < n_mkloads * (load_unroll_factor_1 * threads); i += load_unroll_factor_1 * threads) {
 #pragma unroll
-          for (int l = 0; l < load_unroll_factor_1; l++){
+          for (int l = 0; l < load_unroll_factor_1; l++) {
             lba_r[l] = __ldg(&a_data[srcA + i + l * threads]);
           }
         }
 
 #pragma unroll 3
-        for (int i = tidx; i < n_knloads * (load_unroll_factor_2 * threads); i += load_unroll_factor_2 * threads){
+        for (int i = tidx; i < n_knloads * (load_unroll_factor_2 * threads); i += load_unroll_factor_2 * threads) {
 #pragma unroll
-          for (int l = 0; l < load_unroll_factor_2; l++){
+          for (int l = 0; l < load_unroll_factor_2; l++) {
             lbb_r[l] = __ldg(&b_data[srcB + i + l * threads]);
           }
         }
 
 #pragma unroll 3
-        for (int i = n_mkloads * (load_unroll_factor_1 * threads) + tidx; i < m_loads_to_finish; i += mkloads_remained * threads){
+        for (int i = n_mkloads * (load_unroll_factor_1 * threads) + tidx; i < m_loads_to_finish; i += mkloads_remained * threads) {
 #pragma unroll
-          for (int l = 0; l < mkloads_remained; l++){
+          for (int l = 0; l < mkloads_remained; l++) {
             lba_r[l] = __ldg(&a_data[srcA + i + l * threads]);
           }
         }
 
 #pragma unroll 3
-        for (int i = n_knloads * (load_unroll_factor_2 * threads) + tidx; i < n_loads_to_finish; i += knloads_remained * threads){
+        for (int i = n_knloads * (load_unroll_factor_2 * threads) + tidx; i < n_loads_to_finish; i += knloads_remained * threads) {
 #pragma unroll
-          for (int l = 0; l < knloads_remained; l++){
+          for (int l = 0; l < knloads_remained; l++) {
             lbb_r[l] = __ldg(&b_data[srcB + i + l * threads]);
           }
         }
@@ -391,11 +391,11 @@ smm_acc_dnt_medium(const int* __restrict__ param_stack, int stack_size,
     }
 
     /* Do actual multiplication. */
-    if (c < cmax  && r < rmax){
-      for (int l = 0; l < k; l++){
+    if (c < cmax  && r < rmax) {
+      for (int l = 0; l < k; l++) {
         /* Loop over all elements c_ij of tile T */
-        for (int i = 0; i < M; i++){
-          for (int j = 0; j < N; j++){
+        for (int i = 0; i < M; i++) {
+          for (int j = 0; j < N; j++) {
             /* Compute c_ij = sum_k (a_ik * b_kj) in shared memory */
             myc[N * i + j] += buff_l[l * m + M * r + i] * buff_r[l * n + N * c + j];
           }
@@ -404,18 +404,18 @@ smm_acc_dnt_medium(const int* __restrict__ param_stack, int stack_size,
     }
 
 
-    if (run == nrun - 1 || param_stack_s[psp + 2] != param_stack_s[psp + 2 + npar]){
+    if (run == nrun - 1 || param_stack_s[psp + 2] != param_stack_s[psp + 2 + npar]) {
 
       /* Index in c_data indicating where to write back matrix elements for this run */
       int srcC = param_stack_s[psp + 2];
 
-      if (M > 1 || N > 1){
+      if (M > 1 || N > 1) {
         if (need_sync) syncthreads();
         /* Decompress results to buffer and set tile elements back to 0 */
-        if (c < cmax  && r < rmax){
-          for (int i = 0; i < M; i++){
-            for (int j = 0; j < N; j++){
-              if (M * r + i < m && N * c + j < n){
+        if (c < cmax  && r < rmax) {
+          for (int i = 0; i < M; i++) {
+            for (int j = 0; j < N; j++) {
+              if (M * r + i < m && N * c + j < n) {
                 buff[(N * c + j) * m + M * r + i] = myc[N * i + j];
                 myc[N * i + j] = 0.0;
               }
@@ -426,13 +426,13 @@ smm_acc_dnt_medium(const int* __restrict__ param_stack, int stack_size,
 
         /* Add results from shared memory buffer to global C block. */
 #pragma unroll
-        for (int i = tidx; i < mn; i += threads){
+        for (int i = tidx; i < mn; i += threads) {
           atomicAdd (&c_data[srcC + i], buff[i]);
         }
       } else {
         /* Add results from registers to global C block. */
 #pragma unroll
-        for (int i = tidx; i < mn; i += threads){
+        for (int i = tidx; i < mn; i += threads) {
           atomicAdd (&c_data[srcC + i], myc[0]);
         }
         myc[0] = 0.0;

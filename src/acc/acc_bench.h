@@ -43,15 +43,15 @@ static INLINE void init_stack(int* stack, int stack_size,
   int mn, int mk, int kn, int nc, int na, int nb)
 {
   /* navg matrix products are accumulated into a C-matrix */
-  int navg = stack_size / nc;
-  int nimb = MAX(1, navg - 4); /* imbalance */
+  const int navg = stack_size / nc;
+  const int nimb = MAX(1, navg - 4); /* imbalance */
   int i = 0, c = 0, ntop = 0;
   assert(0 < nc && nc <= stack_size);
   while (i < stack_size) {
     const int next = c + 1;
     ntop += navg + (rand() % (2 * nimb) - nimb);
     if (stack_size < ntop) ntop = stack_size;
-    for (;i < ntop; ++i) { /* setup one-based indexes */
+    for (; i < ntop; ++i) { /* setup one-based indexes */
       const int a = rand() % na, b = rand() % nb;
       *stack++ = a * mk + 1; /* A-index */
       *stack++ = b * kn + 1; /* B-index */

@@ -1,5 +1,5 @@
-# This makefile builds the transpose and SMM benchmark drivers without building DBCSR.
-# It is for tests and comparison to other implementation (ie. OpenCL).
+# This Makefile builds the transpose and SMM benchmark drivers without building DBCSR.
+# It is for testing and comparison with other implementations.
 
 MAKDIR := $(subst //,,$(dir $(firstword $(MAKEFILE_LIST)))/)
 INCACC := $(wildcard $(MAKDIR)/*.h*) $(MAKDIR)/../acc.h
@@ -10,10 +10,11 @@ OBJACC := $(SRCACC:.cpp=.o)
 
 GPUSMM := $(wildcard $(MAKDIR)/../libsmm_acc/kernels/*.h*)
 INCSMM := $(wildcard $(MAKDIR)/../libsmm_acc/*.h*) \
-  $(MAKDIR)/../libsmm_acc/smm_acc_kernels.h \
-  $(MAKDIR)/../libsmm_acc/parameters.h \
-  $(MAKDIR)/../acc_libsmm.h \
-  $(NULL)
+                     $(MAKDIR)/../libsmm_acc/smm_acc_kernels.h \
+                     $(MAKDIR)/../libsmm_acc/parameters.h \
+                     $(MAKDIR)/../acc_libsmm.h \
+                     $(MAKDIR)/../acc_bench.h \
+                     $(NULL)
 SRCSMM := $(wildcard $(MAKDIR)/../libsmm_acc/*.cpp)
 OBJSMM := $(SRCSMM:.cpp=.o)
 
@@ -24,7 +25,7 @@ ifeq (,$(LIBXSMMROOT))
   LIBXSMMROOT := $(wildcard $(HOME)/libxsmm)
 endif
 UNAME := $(shell uname)
-WITH_GPU ?= P100
+WITH_GPU := $(if $(WITH_GPU),$(WITH_GPU),$(if $(GPUVER),$(GPUVER),P100))
 INTEL ?= 0
 DEV ?= 0
 
@@ -74,7 +75,6 @@ CFLAGS := -fPIC \
   -Wno-variadic-macros \
   -Wno-long-long \
   -DARCH_NUMBER=$(ARCH_NUMBER) \
-  -DNO_DBCSR_TIMESET \
   -D__CUDA \
   $(NULL)
 
@@ -109,7 +109,7 @@ endif
 
 ifneq (0,$(DBG))
   ifeq (,$(DBG))
-    CFLAGS += -O2
+    CFLAGS += -O2 -DNDEBUG
   else
     ifneq (1,$(DBG))
       CFLAGS += -D_DEBUG
@@ -117,7 +117,7 @@ ifneq (0,$(DBG))
     CFLAGS += -O0
   endif
 else
-  CFLAGS += -O2 -DNDEBUG
+  CFLAGS += -O2 -DNDEBUG -DNDBGDEV
   SYM := 0
 endif
 ifneq (0,$(SYM))
@@ -170,7 +170,7 @@ CXXFLAGS += -std=c++11 $(CFLAGS)
 bench: $(MAKDIR)/../acc_bench_smm $(MAKDIR)/../acc_bench_trans
 
 .PHONY: all
-all: $(MAKDIR)/../dbcsr_acc.a $(MAKDIR)/../dbcsr_acc_smm.a bench
+all: bench $(MAKDIR)/../dbcsr_acc_test
 
 .PHONY: test
 test: test-interface test-trans test-smm
@@ -184,6 +184,12 @@ test-interface: $(MAKDIR)/../dbcsr_acc_test
 test-trans: bench
 	$(eval SHAPES = $(shell $(MAKDIR)/../acc_triplets.sh -s $(SPECID) -m $(MAXEXT) -n $(NTRANS) -a))
 	@echo "--- DBCSR CUDA Transposes ($(words $(SHAPES)))"
+	@echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
+ifneq (,$(LD_PRELOAD))
+	@echo "LD_PRELOAD=${LD_PRELOAD}"
+endif
+	@echo "CXX: $$($(CXX) --version | head -n1)"
+	@echo "CC: $$($(CC) --version | head -n1)"
 	@echo "runtime libraries:"
 	@ldd $(MAKDIR)/../acc_bench_trans
 	@echo "hostname: $$(hostname)"
@@ -196,12 +202,18 @@ test-trans: bench
 $(MAKDIR)/test-smm.log: bench
 	$(eval SHAPES = $(shell $(MAKDIR)/../acc_triplets.sh -s $(SPECID) -m $(MAXEXT) -n $(NSMMS)))
 	@echo "--- DBCSR CUDA SMMs ($(words $(SHAPES)))"
+	@echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
+ifneq (,$(LD_PRELOAD))
+	@echo "LD_PRELOAD=${LD_PRELOAD}"
+endif
+	@echo "CXX: $$($(CXX) --version | head -n1)"
+	@echo "CC: $$($(CC) --version | head -n1)"
 	@echo "runtime libraries:"
 	@ldd $(MAKDIR)/../acc_bench_smm
 	@echo "hostname: $$(hostname)"
 	@echo
 	@echo "$(SHAPES)" | xargs -n1 | \
-		(CHECK=1 stdbuf --output=L $(MAKDIR)/../acc_bench_smm /dev/stdin \
+		(CHECK=$(if $(CHECK),$(CHECK),1) stdbuf --output=L $(MAKDIR)/../acc_bench_smm /dev/stdin \
 			2>$(MAKDIR)/test-smm.err && rm $(MAKDIR)/test-smm.err) | tee $@
 	@if [ -s $(MAKDIR)/test-smm.err ]; then cat $(MAKDIR)/test-smm.err && exit 1; fi
 
@@ -236,7 +248,7 @@ ifneq (0,$(LIBXSMM))
 else
 	$(CC) $(CFLAGS) -c $< -o $@
 endif
-$(MAKDIR)/../acc_bench_smm: $(MAKDIR)/acc_bench_smm.o $(MAKDIR)/../dbcsr_acc_smm.a $(MAKDIR)/../dbcsr_acc.a
+$(MAKDIR)/../acc_bench_smm: $(MAKDIR)/acc_bench_smm.o $(MAKDIR)/../dbcsr_acc.a $(MAKDIR)/../dbcsr_acc_smm.a
 	$(CXX) $^ $(LDFLAGS) -o $@
 
 $(MAKDIR)/acc_bench_trans.o: $(MAKDIR)/../acc_bench_trans.c $(MAKDIR)/Makefile
@@ -245,12 +257,12 @@ ifneq (0,$(LIBXSMM))
 else
 	$(CC) $(CFLAGS) -c $< -o $@
 endif
-$(MAKDIR)/../acc_bench_trans: $(MAKDIR)/acc_bench_trans.o $(MAKDIR)/../dbcsr_acc_smm.a $(MAKDIR)/../dbcsr_acc.a
+$(MAKDIR)/../acc_bench_trans: $(MAKDIR)/acc_bench_trans.o $(MAKDIR)/../dbcsr_acc.a $(MAKDIR)/../dbcsr_acc_smm.a
 	$(CXX) $^ $(LDFLAGS) -o $@
 
 $(MAKDIR)/dbcsr_acc_test.o: $(MAKDIR)/../../../tests/dbcsr_acc_test.c $(MAKDIR)/Makefile
 	$(CC) $(CFLAGS) -I$(MAKDIR)/../.. -c $< -o $@
-$(MAKDIR)/../dbcsr_acc_test: $(MAKDIR)/dbcsr_acc_test.o $(MAKDIR)/../dbcsr_acc.a
+$(MAKDIR)/../dbcsr_acc_test: $(MAKDIR)/dbcsr_acc_test.o $(MAKDIR)/../dbcsr_acc.a $(MAKDIR)/../dbcsr_acc_smm.a
 	$(CXX) $^ $(LDFLAGS) -o $@
 
 .PHONY: clean
@@ -260,6 +272,7 @@ clean:
 	@rm -f $(MAKDIR)/acc_bench_trans.o
 	@rm -f $(MAKDIR)/acc_bench_smm.o
 	@rm -f $(MAKDIR)/../libsmm_acc/parameters.h
+	@rm -f $(MAKDIR)/../libsmm_acc/smm_acc_kernels.h
 	@rm -f $(MAKDIR)/test-smm.err
 
 .PHONY: realclean

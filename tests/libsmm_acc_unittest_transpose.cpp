@@ -15,14 +15,13 @@
 #include <utility>
 #include "libsmm_acc_benchmark.h"
 #include "libsmm_acc.h"
-#include "parameters.h"
 
 
 /****************************************************************************\
  \brief Checks correctness of all libsmm transpose kernels
 \****************************************************************************/
 
-int main(int argc, char** argv){
+int main(int argc, char** argv) {
 
     TransposeLauncher launcher_tr = libsmm_acc_transpose_d;
 
@@ -31,11 +30,12 @@ int main(int argc, char** argv){
 
     // Get all blocksizes available in libsmm
     std::vector<Triplet> libsmm_acc_triplets;
+    extern const std::unordered_map<Triplet, KernelParameters> ht;
     get_libsmm_acc_triplets(libsmm_acc_triplets, ht);
     int n_triplets = libsmm_acc_triplets.size();
 
     int max_m=0, max_n=0, max_k=0;
-    for(int i=0; i<n_triplets; i++){
+    for (int i=0; i<n_triplets; i++) {
         max_m = std::max(max_n, libsmm_acc_triplets[i][0]);
         max_n = std::max(max_m, libsmm_acc_triplets[i][1]);
         max_k = std::max(max_k, libsmm_acc_triplets[i][2]);
@@ -46,7 +46,7 @@ int main(int argc, char** argv){
 
     // Get (m,n) pairs to test transposition
     std::vector<std::pair<int,int> > libsmm_acc_transpose_pairs;
-    for(int i=0; i<n_triplets; i++){
+    for (int i=0; i<n_triplets; i++) {
         int m = libsmm_acc_triplets[i][0];
         int n = libsmm_acc_triplets[i][1];
         int k = libsmm_acc_triplets[i][2];
@@ -64,8 +64,8 @@ int main(int argc, char** argv){
 
     // Sort (m,n) pairs in growing order
     std::sort(libsmm_acc_transpose_pairs.begin(), libsmm_acc_transpose_pairs.end(),
-              [](std::pair<int, int> mn1, std::pair<int, int> mn2){
-                  if(mn1.first != mn2.first){
+              [](std::pair<int, int> mn1, std::pair<int, int> mn2) {
+                  if (mn1.first != mn2.first) {
                       return mn1.first < mn2.first;
                   } else {
                       return mn1.second < mn2.second;
@@ -73,7 +73,7 @@ int main(int argc, char** argv){
               });
 
     int errors = 0;
-    for(int i=0; i<n_pairs; i++){
+    for (int i=0; i<n_pairs; i++) {
         int m = libsmm_acc_transpose_pairs[i].first;
         int n = libsmm_acc_transpose_pairs[i].second;
         sprintf(buffer, "%d x %d", m, n);

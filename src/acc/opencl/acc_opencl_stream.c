@@ -35,13 +35,31 @@ extern "C" {
 int c_dbcsr_acc_opencl_stream_create(cl_command_queue* stream_p, const char* name,
   const ACC_OPENCL_COMMAND_QUEUE_PROPERTIES* properties)
 {
+  const cl_context context = c_dbcsr_acc_opencl_context(NULL);
   cl_int result = EXIT_SUCCESS;
   assert(NULL != stream_p);
-  if (NULL != c_dbcsr_acc_opencl_context) {
+  if (NULL != context) {
     cl_device_id device_id = NULL;
     result = c_dbcsr_acc_opencl_device(NULL/*stream*/, &device_id);
     if (EXIT_SUCCESS == result) {
-      *stream_p = ACC_OPENCL_CREATE_COMMAND_QUEUE(c_dbcsr_acc_opencl_context, device_id, properties, &result);
+      *stream_p = ACC_OPENCL_CREATE_COMMAND_QUEUE(context,
+        device_id, properties, &result);
+#if defined(ACC_OPENCL_STREAMS_MAXCOUNT)
+      if (EXIT_SUCCESS == result) {
+        int i;
+# if defined(_OPENMP)
+#   if (201107/*v3.1*/ <= _OPENMP)
+#       pragma omp atomic capture
+#   else
+#       pragma omp critical(c_dbcsr_acc_opencl_nstreams)
+#   endif
+# endif
+        i = c_dbcsr_acc_opencl_config.nstreams++;
+        assert(i < (ACC_OPENCL_STREAMS_MAXCOUNT * c_dbcsr_acc_opencl_config.nthreads)
+          && NULL != *stream_p);
+        c_dbcsr_acc_opencl_config.streams[i] = *stream_p;
+      }
+#endif
     }
     else {
       ACC_OPENCL_ERROR("create command queue", result);
@@ -54,7 +72,8 @@ int c_dbcsr_acc_opencl_stream_create(cl_command_queue* stream_p, const char* nam
 int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority)
 {
   cl_int result = EXIT_SUCCESS;
-  if (NULL != c_dbcsr_acc_opencl_context) {
+  const cl_context context = c_dbcsr_acc_opencl_context(NULL);
+  if (NULL != context) {
     ACC_OPENCL_COMMAND_QUEUE_PROPERTIES properties[8] = {
       CL_QUEUE_PROPERTIES, 0/*placeholder*/,
       0 /* terminator */
@@ -71,7 +90,9 @@ int c_dbcsr_acc_stream_create(void** stream_p, const char* name, int priority)
       properties[4] = 0; /* terminator */
     }
 #endif
-    if (3 <= c_dbcsr_acc_opencl_config.verbosity || 0 > c_dbcsr_acc_opencl_config.verbosity) {
+    if (3 <= c_dbcsr_acc_opencl_config.verbosity
+      || 0 > c_dbcsr_acc_opencl_config.verbosity)
+    {
       properties[1] = CL_QUEUE_PROFILING_ENABLE;
     }
     result = c_dbcsr_acc_opencl_stream_create(&queue, name, properties);
@@ -104,12 +125,37 @@ int c_dbcsr_acc_stream_destroy(void* stream)
 {
   int result = EXIT_SUCCESS;
   if (NULL != stream) {
-    ACC_OPENCL_CHECK(clReleaseCommandQueue(*ACC_OPENCL_STREAM(stream)),
+    const cl_command_queue queue = *ACC_OPENCL_STREAM(stream);
+    ACC_OPENCL_CHECK(clReleaseCommandQueue(queue),
       "release command queue", result);
 #if defined(ACC_OPENCL_STREAM_NOALLOC)
     assert(sizeof(void*) >= sizeof(cl_command_queue));
 #else
     free(stream);
+#endif
+#if defined(ACC_OPENCL_STREAMS_MAXCOUNT)
+    { /* collect garbage */
+      int i = 0, nstreams;
+# if defined(_OPENMP)
+#   if (201107/*v3.1*/ <= _OPENMP)
+#     pragma omp atomic capture
+#   else
+#     pragma omp critical(c_dbcsr_acc_opencl_nstreams)
+#   endif
+# endif
+      nstreams = c_dbcsr_acc_opencl_config.nstreams--;
+      assert(0 <= nstreams);
+      for (; i < nstreams; ++i) if (queue == c_dbcsr_acc_opencl_config.streams[i]) {
+        c_dbcsr_acc_opencl_config.streams[i] = NULL; break;
+      }
+# if defined(_OPENMP)
+#     pragma omp master
+# endif
+      if (NULL == c_dbcsr_acc_opencl_config.streams[i] && (i + 1) < nstreams) {
+        memmove(c_dbcsr_acc_opencl_config.streams + i, c_dbcsr_acc_opencl_config.streams + (i + 1),
+          sizeof(cl_command_queue) * (nstreams - (i + 1)));
+      }
+    }
 #endif
   }
   ACC_OPENCL_RETURN(result);
@@ -119,13 +165,16 @@ int c_dbcsr_acc_stream_destroy(void* stream)
 int c_dbcsr_acc_stream_priority_range(int* least, int* greatest)
 {
   int result = ((NULL != least || NULL != greatest) ? EXIT_SUCCESS : EXIT_FAILURE);
-  if (NULL != c_dbcsr_acc_opencl_context) {
+  const cl_context context = c_dbcsr_acc_opencl_context(NULL);
+  if (NULL != context) {
 #if defined(ACC_OPENCL_STREAM_PRIORITIES) && defined(CL_QUEUE_PRIORITY_KHR)
     char buffer[ACC_OPENCL_BUFFERSIZE];
     cl_platform_id platform = NULL;
     cl_device_id active_id = NULL;
-    assert(0 < c_dbcsr_acc_opencl_ndevices);
-    if (EXIT_SUCCESS == result) result = c_dbcsr_acc_opencl_device(NULL/*stream*/, &active_id);
+    assert(0 < c_dbcsr_acc_opencl_config.ndevices);
+    if (EXIT_SUCCESS == result) {
+      result = c_dbcsr_acc_opencl_device(NULL/*stream*/, &active_id);
+    }
     ACC_OPENCL_CHECK(clGetDeviceInfo(active_id, CL_DEVICE_PLATFORM,
       sizeof(cl_platform_id), &platform, NULL),
       "retrieve platform associated with active device", result);
@@ -170,8 +219,8 @@ int c_dbcsr_acc_stream_wait_event(void* stream, void* event)
 { /* Wait for an event (device-side). */
   int result = EXIT_SUCCESS;
   assert(NULL != stream && NULL != event);
-  ACC_OPENCL_CHECK(ACC_OPENCL_WAIT_EVENT(*ACC_OPENCL_STREAM(stream), ACC_OPENCL_EVENT(event)),
-    "wait for an event", result);
+  ACC_OPENCL_CHECK(ACC_OPENCL_WAIT_EVENT(*ACC_OPENCL_STREAM(stream),
+    ACC_OPENCL_EVENT(event)), "wait for an event", result);
   ACC_OPENCL_RETURN(result);
 }
 

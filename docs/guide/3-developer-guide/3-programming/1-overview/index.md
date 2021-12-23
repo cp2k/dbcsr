@@ -2,7 +2,7 @@ title: Overview
 
 # Code Architecture
 
-![DBCSR code architecture](./dbcsr_mm_overview.png)
+![DBCSR code architecture](dbcsr_mm_overview.png)
 
 ```
 dbcsr/
@@ -26,9 +26,9 @@ dbcsr/
 
 Assumed square matrix with 20x20 matrix with 5x5 blocks and a 2x2 processor grid
 
-![DBCSR distribution over processors](./dbcsr_dist.png)
+![DBCSR distribution over processors](dbcsr_dist.png)
 
-![DBCSR block scheme](./dbcsr_blocks.png)
+![DBCSR block scheme](dbcsr_blocks.png)
 
 # List of standard compiler flags
 

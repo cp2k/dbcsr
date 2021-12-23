@@ -57,7 +57,7 @@ template <int m, int n, int k, int M, int N, int threads, int grouping, int minb
 __global__ void
 __launch_bounds__(threads, minblocks)
 smm_acc_dnt_small(const int* __restrict__ param_stack, int stack_size,
-     const double* __restrict__ a_data, const double* __restrict__ b_data, double* c_data){
+     const double* __restrict__ a_data, const double* __restrict__ b_data, double* c_data) {
 
   /* Total number of elements in block matrices */
   const int mn = m * n; /* c_block */
@@ -127,7 +127,7 @@ smm_acc_dnt_small(const int* __restrict__ param_stack, int stack_size,
    * Each triplet indicates the beginning of a submatrix to multiply */
   psp = bidx * npar * grouping;
 #pragma unroll
-  for (int i = tidx; i < nrun; i += threads){
+  for (int i = tidx; i < nrun; i += threads) {
     // param_stack is 1-based, convert to 0-based here
     param_stack_s[i * npar    ] = __ldg(&param_stack[psp + i * npar    ]) - 1; /* value = index in a_data */
     param_stack_s[i * npar + 1] = __ldg(&param_stack[psp + i * npar + 1]) - 1; /* value = index in b_data */
@@ -138,7 +138,7 @@ smm_acc_dnt_small(const int* __restrict__ param_stack, int stack_size,
   if (need_sync) syncthreads ();
 
   /* In each run, we process one stack entry from param_stack_s */
-  for (int run = 0; run < nrun; run++){
+  for (int run = 0; run < nrun; run++) {
 
     /* Index in shared memory buffers to read from */
     psp = run * npar;
@@ -151,19 +151,19 @@ smm_acc_dnt_small(const int* __restrict__ param_stack, int stack_size,
     int srcC = param_stack_s[psp + 2];
 
     /* Load block matrices a_block and b_block for current block and stack into smem */
-    if (m == n){
+    if (m == n) {
 #pragma unroll
-      for (int i = tidx; i < mk; i += threads){
+      for (int i = tidx; i < mk; i += threads) {
          buff_l[i] = __ldg(&a_data[srcA + i]);
          buff_r[i] = __ldg(&b_data[srcB + i]);
       }
     } else {
 #pragma unroll
-      for (int i = tidx; i < mk; i += threads){
+      for (int i = tidx; i < mk; i += threads) {
          buff_l[i] = __ldg(&a_data[srcA + i]);
       }
 #pragma unroll
-      for (int i = tidx; i < kn; i += threads){
+      for (int i = tidx; i < kn; i += threads) {
          buff_r[i] = __ldg(&b_data[srcB + i]);
       }
     }
@@ -172,13 +172,13 @@ smm_acc_dnt_small(const int* __restrict__ param_stack, int stack_size,
     if (need_sync) syncthreads ();
 
     /* Do actual multiplication. */
-    if (c < cmax && r < rmax){
-      for (int l = 0; l < k; l++){
+    if (c < cmax && r < rmax) {
+      for (int l = 0; l < k; l++) {
         /* Loop over all elements c_ij of tile T */
 #pragma unroll
-        for (int i = 0; i < N; i++){
+        for (int i = 0; i < N; i++) {
 #pragma unroll
-          for (int j = 0; j < M; j++){
+          for (int j = 0; j < M; j++) {
                /* Compute c_ij = sum_k (a_ik * b_kj) in shared memory */
                myc[M * i + j] += buff_l[l * m + M * r + j] * buff_r[l * n + N * c + i];
           }
@@ -187,17 +187,17 @@ smm_acc_dnt_small(const int* __restrict__ param_stack, int stack_size,
     }
 
     /* last loop or C_idx for next stack entry is different */
-    if ((run == (nrun - 1)) || (srcC != param_stack_s[psp + 2 + npar])){
-      if ((M > 1) || (N > 1)){
+    if ((run == (nrun - 1)) || (srcC != param_stack_s[psp + 2 + npar])) {
+      if ((M > 1) || (N > 1)) {
         if (need_sync) syncthreads ();
 
         /* Decompress results to buffer and set tile elements back to 0 */
-        if (c < cmax && r < rmax){
+        if (c < cmax && r < rmax) {
 #pragma unroll
-          for (int i = 0; i < N; i++){
+          for (int i = 0; i < N; i++) {
 #pragma unroll
-            for (int j = 0; j < M; j++){
-              if (M * r + j < m && N * c + i < n){
+            for (int j = 0; j < M; j++) {
+              if (M * r + j < m && N * c + i < n) {
                  buff[(N * c + i) * m + M * r + j] = myc[M * i + j];
                  myc[M * i + j] = 0.0;
               }

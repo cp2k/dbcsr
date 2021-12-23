@@ -6,6 +6,7 @@ OBJACC := $(SRCACC:.c=.o)
 INCSMM := $(wildcard $(MAKDIR)/smm/*.h*) \
                      $(MAKDIR)/smm/opencl_kernels.h \
                      $(MAKDIR)/../acc_libsmm.h \
+                     $(MAKDIR)/../acc_bench.h \
                      $(NULL)
 SRCSMM := $(wildcard $(MAKDIR)/smm/*.c)
 OBJSMM := $(SRCSMM:.c=.o)
@@ -36,6 +37,7 @@ else
   which = $(shell which $(firstword $1) 2>/dev/null)
 endif
 
+WITH_GPU := $(if $(WITH_GPU),$(WITH_GPU),$(GPUVER))
 PARAMS_WITHGPU := $(MAKDIR)/smm/params/tune_multiply_$(WITH_GPU).csv
 PARAMS_DEFAULT := $(MAKDIR)/smm/tune_multiply.csv
 PARAMS := $(if $(wildcard $(PARAMS_WITHGPU)),$(PARAMS_WITHGPU),$(wildcard $(PARAMS_DEFAULT)))
@@ -82,12 +84,14 @@ ifneq (0,$(DEV))
   ifeq (1,$(DEV))
     CFLAGS := -std=c89 $(CFLAGS)
     CFLAGS += -Wno-unused-parameter
-  else ifeq (clang,$(CC))
-    #LDFLAGS := --analyze $(LDFLAGS)
-    CFLAGS := --analyze -Wno-deprecated $(CFLAGS)
-    override CC := clang++
   else
-    CC := $(CXX)
+    CFLAGS := -Wno-deprecated -Werror $(CFLAGS)
+    ifneq (,$(findstring clang,$(CC) $(CXX)))
+      override CC := clang++ --analyze
+    else
+      CC := $(CXX)
+    endif
+    OMP := 0
   endif
 else
   CFLAGS := -std=c99 $(CFLAGS)
@@ -96,7 +100,7 @@ endif
 ifneq (0,$(DBG))
   CPP_OPENCL_FLAGS += -C
   ifeq (,$(DBG))
-    CFLAGS += -O2
+    CFLAGS += -O2 -DNDEBUG
   else
     ifneq (1,$(DBG))
       CFLAGS += -D_DEBUG
@@ -104,7 +108,7 @@ ifneq (0,$(DBG))
     CFLAGS += -O0
   endif
 else
-  CFLAGS += -O2 -DNDEBUG
+  CFLAGS += -O2 -DNDEBUG -DNDBGDEV
   SYM := 0
 endif
 ifneq (0,$(SYM))
@@ -172,7 +176,7 @@ endif
 bench: $(MAKDIR)/../acc_bench_smm $(MAKDIR)/../acc_bench_trans
 
 .PHONY: all
-all: $(MAKDIR)/../dbcsr_acc.a $(MAKDIR)/../dbcsr_acc_smm.a bench
+all: bench $(MAKDIR)/../dbcsr_acc_test
 
 .PHONY: test
 test: test-interface test-trans test-smm
@@ -188,6 +192,11 @@ test-trans: bench
 	$(eval DEVICE = $(shell ACC_OPENCL_VERBOSE=1 CHECK=0 $(MAKDIR)/../acc_bench_smm 1 1 1 2>&1 >/dev/null))
 	@echo "--- DBCSR OpenCL Transposes ($(words $(SHAPES)))"
 	@echo "$(DEVICE)"
+	@echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
+ifneq (,$(LD_PRELOAD))
+	@echo "LD_PRELOAD=${LD_PRELOAD}"
+endif
+	@echo "CC: $$($(CC) --version | head -n1)"
 	@echo "runtime libraries:"
 	@ldd $(MAKDIR)/../acc_bench_trans
 	@echo "hostname: $$(hostname)"
@@ -202,15 +211,21 @@ $(MAKDIR)/test-smm.log: bench
 	$(eval DEVICE = "$(shell LIBXSMM_VERBOSE=0 ACC_OPENCL_VERBOSE=1 CHECK=0 $(MAKDIR)/../acc_bench_smm 1 1 1 2>&1 >/dev/null)")
 	$(eval WITH_GPU = $(firstword $(foreach GPU,$(WITH_GPUS),$(findstring $(GPU),$(DEVICE)))))
 	$(eval PARAMS = $(firstword $(wildcard $(PARAMS_DIR)/tune_multiply_*$(WITH_GPU).csv)))
-	$(eval GPUENV = $(if $(PARAMS),OPENCL_LIBSMM_SMM_PARAMS=$(PARAMS)))
+	$(eval GPUENV = $(if $(PARAMS),$(if $(OPENCL_LIBSMM_SMM_PARAMS),$(NULL),OPENCL_LIBSMM_SMM_PARAMS=$(PARAMS))))
 	@echo "--- DBCSR OpenCL SMMs ($(words $(SHAPES)))"
 	@echo "$(DEVICE)"
+	@if [ "$(GPUENV)" ]; then echo "$(GPUENV)"; fi
+	@echo "LD_LIBRARY_PATH=${LD_LIBRARY_PATH}"
+ifneq (,$(LD_PRELOAD))
+	@echo "LD_PRELOAD=${LD_PRELOAD}"
+endif
+	@echo "CC: $$($(CC) --version | head -n1)"
 	@echo "runtime libraries:"
 	@ldd $(MAKDIR)/../acc_bench_smm
 	@echo "hostname: $$(hostname)"
 	@echo
 	@echo "$(SHAPES)" | xargs -n1 | \
-		($(GPUENV) CHECK=1 stdbuf --output=L $(MAKDIR)/../acc_bench_smm /dev/stdin \
+		($(GPUENV) CHECK=$(if $(CHECK),$(CHECK),1) stdbuf --output=L $(MAKDIR)/../acc_bench_smm /dev/stdin \
 			2>$(MAKDIR)/test-smm.err && rm $(MAKDIR)/test-smm.err) | tee $@
 	@if [ -s $(MAKDIR)/test-smm.err ]; then cat $(MAKDIR)/test-smm.err && exit 1; fi
 
@@ -242,8 +257,13 @@ ifneq (0,$(LIBXSMM))
 else
 	$(CC) $(CFLAGS) -c $< -o $@
 endif
+
 $(MAKDIR)/../acc_bench_smm: $(MAKDIR)/acc_bench_smm.o $(MAKDIR)/../dbcsr_acc_smm.a $(MAKDIR)/../dbcsr_acc.a
+ifneq (,$(filter 0 1,$(DEV)))
 	$(CC) $^ $(LDFLAGS) -o $@
+else
+.PHONY: $(MAKDIR)/../acc_bench_smm
+endif
 
 $(MAKDIR)/acc_bench_trans.o: $(MAKDIR)/../acc_bench_trans.c $(MAKDIR)/Makefile
 ifneq (0,$(LIBXSMM))
@@ -251,13 +271,23 @@ ifneq (0,$(LIBXSMM))
 else
 	$(CC) $(CFLAGS) -c $< -o $@
 endif
+
 $(MAKDIR)/../acc_bench_trans: $(MAKDIR)/acc_bench_trans.o $(MAKDIR)/../dbcsr_acc_smm.a $(MAKDIR)/../dbcsr_acc.a
+ifneq (,$(filter 0 1,$(DEV)))
 	$(CC) $^ $(LDFLAGS) -o $@
+else
+.PHONY: $(MAKDIR)/../acc_bench_trans
+endif
 
 $(MAKDIR)/dbcsr_acc_test.o: $(MAKDIR)/../../../tests/dbcsr_acc_test.c $(MAKDIR)/Makefile
 	$(CC) $(CFLAGS) -I$(MAKDIR)/../.. -c $< -o $@
+
 $(MAKDIR)/../dbcsr_acc_test: $(MAKDIR)/dbcsr_acc_test.o $(MAKDIR)/../dbcsr_acc.a
+ifneq (,$(filter 0 1,$(DEV)))
 	$(CC) $^ $(LDFLAGS) -o $@
+else
+.PHONY: $(MAKDIR)/../dbcsr_acc_test
+endif
 
 .PHONY: clean
 clean:

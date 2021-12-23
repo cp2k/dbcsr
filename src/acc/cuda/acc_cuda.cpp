@@ -9,15 +9,15 @@
 
 #include "acc_cuda.h"
 
-nvrtcResult nvrtcGetLowLevelCode(nvrtcProgram prog, char* code){
+nvrtcResult nvrtcGetLowLevelCode(nvrtcProgram prog, char* code) {
   return nvrtcGetPTX(prog, code);
 }
 
-nvrtcResult nvrtcGetLowLevelCodeSize(nvrtcProgram prog, size_t* codeSizeRet){
+nvrtcResult nvrtcGetLowLevelCodeSize(nvrtcProgram prog, size_t* codeSizeRet) {
   return nvrtcGetPTXSize(prog, codeSizeRet);
 }
 
-CUresult cuLaunchJITKernel(CUfunction f, unsigned int gridDimX, unsigned int gridDimY, unsigned int gridDimZ, unsigned int blockDimX, unsigned int blockDimY, unsigned int blockDimZ, unsigned int sharedMemBytes, CUstream stream, void **kernelParams, void **extra){
+CUresult cuLaunchJITKernel(CUfunction f, unsigned int gridDimX, unsigned int gridDimY, unsigned int gridDimZ, unsigned int blockDimX, unsigned int blockDimY, unsigned int blockDimZ, unsigned int sharedMemBytes, CUstream stream, void **kernelParams, void **extra) {
   return cuLaunchKernel(f, gridDimX, gridDimY, gridDimZ, blockDimX, blockDimY, blockDimZ, sharedMemBytes, stream, kernelParams, extra);
 }
 
@@ -29,3 +29,4 @@ CUsharedconfig CUSharedMemBankSizeEightByte = CU_SHARED_MEM_CONFIG_EIGHT_BYTE_BA
 cublasStatus_t ACC_BLAS_STATUS_SUCCESS = CUBLAS_STATUS_SUCCESS;
 cublasOperation_t ACC_BLAS_OP_N = CUBLAS_OP_N;
 cublasOperation_t ACC_BLAS_OP_T = CUBLAS_OP_T;
+nvrtcResult ACC_RTC_SUCCESS = NVRTC_SUCCESS;

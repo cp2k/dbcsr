@@ -19,8 +19,8 @@
 namespace ns_smm_acc_dnt_largeDB1 {
 /****************************************************************************/
 __device__ static inline void load_gmem_into_smem(const double* __restrict__ from, double* dest,
-                                           const int length, const int threads){
-  if (length < threads){ /* are there enough threads to load in one step? */
+                                           const int length, const int threads) {
+  if (length < threads) { /* are there enough threads to load in one step? */
     if (threadIdx.x < length)
       dest[threadIdx.x] = __ldg(&from[threadIdx.x]);
   } else {
@@ -32,15 +32,15 @@ __device__ static inline void load_gmem_into_smem(const double* __restrict__ fro
 
 /****************************************************************************/
 __device__ static inline void load_gmem_into_regs(const double* __restrict__ from, double* dest,
-                                           const int length, const int threads){
+                                           const int length, const int threads) {
   const int NR = (length + threads - 1) / threads;
 
-  if (length < threads){ /* are there enough threads to load in one step? */
+  if (length < threads) { /* are there enough threads to load in one step? */
     if (threadIdx.x < length)
       dest[0] = __ldg(&from[threadIdx.x]);
   } else {
     int i = threadIdx.x;
-    for (int ri = 0; ri < NR; ri++){  /* loop with fixed bounds */
+    for (int ri = 0; ri < NR; ri++) {  /* loop with fixed bounds */
       if (i < length)
         dest[ri] = __ldg(&from[i]);
       i += threads;
@@ -51,15 +51,15 @@ __device__ static inline void load_gmem_into_regs(const double* __restrict__ fro
 
 /****************************************************************************/
 __device__ static inline void load_regs_into_smem(double* from, double* dest,
-                                           const int length, const int threads){
+                                           const int length, const int threads) {
    const int NR = (length + threads - 1) / threads;
 
-  if (length < threads){ /* are there enough threads to load in one step? */
+  if (length < threads) { /* are there enough threads to load in one step? */
     if (threadIdx.x < length)
       dest[threadIdx.x] = from[0];
   } else {
     int i = threadIdx.x;
-    for (int ri = 0; ri < NR; ri++){  /* loop with fixed bounds */
+    for (int ri = 0; ri < NR; ri++) {  /* loop with fixed bounds */
       if (i < length)
         dest[i] = from[ri];
       i += threads;
@@ -71,7 +71,7 @@ __device__ static inline void load_regs_into_smem(double* from, double* dest,
 /****************************************************************************/
 __device__ static inline void multiply(double* buff_a, double* buff_b, double* buff_c,
                                 const int w, const int m, const int n,
-                                const int M, const int N){
+                                const int M, const int N) {
   /* There might be more threads than needed for the calculation.
    * Only the first cmax*rmax threads participate in the calculation.
    */
@@ -92,7 +92,7 @@ __device__ static inline void multiply(double* buff_a, double* buff_b, double* b
 __device__ static inline void store_results_into_smem(double* from, double* dest,
                                                const int t, const int v,
                                                const int m, const int n,
-                                               const int M, const int N){
+                                               const int M, const int N) {
   const int rmax = (m + M - 1) / M; /* max tile-row */
   const int c = threadIdx.x / rmax; /* this thread's tile-column */
   const int r = threadIdx.x - c * rmax; /* this thread's tile-row */
@@ -102,7 +102,7 @@ __device__ static inline void store_results_into_smem(double* from, double* dest
     for (int i = 0; i < N; i++)
       if (ctmp + i >= 0 && ctmp + i < v)
         for (int j = 0; j < M; j++)
-          if (M * r + j < m){
+          if (M * r + j < m) {
             dest[(ctmp + i) * m + M * r + j] = from[M * i + j];
             from[M * i + j] = 0.0; /* reset result tile */
           }
@@ -156,7 +156,7 @@ template < int m, int n, int k, int M, int N, int w, int v, int threads, int gro
 __global__
 __launch_bounds__(threads, minblocks)
 void smm_acc_dnt_largeDB1(const int* param_stack, const int stack_size,
-  const double* a_data, const double* b_data, double* c_data){
+  const double* a_data, const double* b_data, double* c_data) {
 
   using namespace ns_smm_acc_dnt_largeDB1;
 
@@ -208,7 +208,7 @@ void smm_acc_dnt_largeDB1(const int* param_stack, const int stack_size,
    * Each triplet indicates the beginning of a submatrix to multiply */
   int psp = blockIdx.x * npar * grouping;
 #pragma unroll 3
-  for (int i = threadIdx.x; i < nrun; i += threads){
+  for (int i = threadIdx.x; i < nrun; i += threads) {
     // param_stack is 1-based, convert to 0-based here
     param_stack_s[i * npar    ] = __ldg(&param_stack[psp + i * npar    ]) - 1; /* value = index in a_data */
     param_stack_s[i * npar + 1] = __ldg(&param_stack[psp + i * npar + 1]) - 1; /* value = index in b_data */
@@ -216,7 +216,7 @@ void smm_acc_dnt_largeDB1(const int* param_stack, const int stack_size,
   }
 
   /* In each run, we process one stack entry from param_stack_s */
-  for (int run = 0; run < nrun; run++){
+  for (int run = 0; run < nrun; run++) {
     psp = run * npar;
 
     syncthreads();
@@ -234,7 +234,7 @@ void smm_acc_dnt_largeDB1(const int* param_stack, const int stack_size,
     load_gmem_into_smem(&b_data[srcB], buff_r, n * w, threads);
 
     /* Actual double buffering loop: */
-    for (int t = 0; t < (k / w - 1) * w ; t += w){
+    for (int t = 0; t < (k / w - 1) * w ; t += w) {
       syncthreads();
       /* load next input slab from global memory into registers
        * increment block submatrices offset to next input slab
@@ -260,7 +260,7 @@ void smm_acc_dnt_largeDB1(const int* param_stack, const int stack_size,
      * a smaller tail-slab of width wa has to be process
      */
     const int wa = k - (k / w) * w;
-    if (wa != 0){ /* is there a tail-slab? */
+    if (wa != 0) { /* is there a tail-slab? */
       /* load tail-slab into registers */
       srcA += m * w;
       srcB += n * w;
@@ -272,7 +272,7 @@ void smm_acc_dnt_largeDB1(const int* param_stack, const int stack_size,
     multiply(buff_l, buff_r, myc, w, m, n, M, N);
     syncthreads();
 
-    if (wa != 0){ /* is there a tail-slab? */
+    if (wa != 0) { /* is there a tail-slab? */
       /* copy tail-slab from register into shared mem */
       load_regs_into_smem(mya, buff_l, m * wa, threads);
       load_regs_into_smem(myb, buff_r, n * wa, threads);
@@ -287,7 +287,7 @@ void smm_acc_dnt_largeDB1(const int* param_stack, const int stack_size,
      * do we have to flush the result tile?
      */
     if (run == nrun - 1
-      || param_stack_s[psp + 2] != param_stack_s[psp + 2 + npar]){
+      || param_stack_s[psp + 2] != param_stack_s[psp + 2 + npar]) {
       int srcC = param_stack_s[psp + 2];
 
       syncthreads();
@@ -308,7 +308,7 @@ void smm_acc_dnt_largeDB1(const int* param_stack, const int stack_size,
        * a smaller tail-slab of width va has to be process
        */
       const int va = n - (n / v) * v;
-      if (va != 0){  /* is there a tail-slab? */
+      if (va != 0) {  /* is there a tail-slab? */
         int t = (n / v) * v;
         store_results_into_smem(myc, buff, t, va, m, n, M, N);
         syncthreads();

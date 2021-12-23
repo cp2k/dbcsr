@@ -52,8 +52,11 @@
 #if !defined(ACC_OPENCL_DEVICES_MAXCOUNT)
 # define ACC_OPENCL_DEVICES_MAXCOUNT 256
 #endif
+#if !defined(ACC_OPENCL_STREAMS_MAXCOUNT)
+# define ACC_OPENCL_STREAMS_MAXCOUNT 128
+#endif
 #if !defined(ACC_OPENCL_OVERMALLOC)
-# if defined(__DBCSR_ACC)
+# if defined(__DBCSR_ACC) || 1
 #   define ACC_OPENCL_OVERMALLOC 0
 # else
 #   define ACC_OPENCL_OVERMALLOC 8192
@@ -82,7 +85,8 @@
 # define ACC_OPENCL_EVENT(A) ((cl_event*)(A))
 #endif
 
-#if !defined(ACC_OPENCL_THREADLOCAL_CONTEXT) && 0
+/* allow one context per OpenMP thread */
+#if !defined(ACC_OPENCL_THREADLOCAL_CONTEXT) && 1
 # define ACC_OPENCL_THREADLOCAL_CONTEXT
 #endif
 #if !defined(ACC_OPENCL_STREAM_PRIORITIES) && 1
@@ -193,21 +197,29 @@ typedef struct c_dbcsr_acc_opencl_config_t {
   cl_bool async_memops;
   /** Runtime SVM support (needs ACC_OPENCL_SVM at compile-time). */
   cl_bool svm_interop;
-  /** Runtime verbosity (output on stderr). */
+  /** Verbosity level (output on stderr). */
   cl_int verbosity;
+  /* Non-zero if library is initialized; negative in case of no device. */
+  cl_int ndevices;
+  /* Maximum number of threads (omp_get_max_threads). */
+  cl_int nthreads;
+  /** Intel device ID (zero if non-Intel). */
+  cl_int intel_id;
+  /** Whether host memory is unified or not. */
+  cl_bool unified;
   /** Dump level (debug). */
   cl_int dump;
+#if defined(ACC_OPENCL_STREAMS_MAXCOUNT)
+  cl_command_queue* streams;
+  cl_int nstreams;
+#endif
 } c_dbcsr_acc_opencl_config_t;
 
+/** Global configuration setup in c_dbcsr_acc_init. */
 extern c_dbcsr_acc_opencl_config_t c_dbcsr_acc_opencl_config;
 
-/* non-zero if library is initialized, zero devices is signaled by nagative value */
-extern int c_dbcsr_acc_opencl_ndevices;
-/* allow a context per each OpenMP thread */
-extern cl_context c_dbcsr_acc_opencl_context;
-#if defined(_OPENMP) && defined(ACC_OPENCL_THREADLOCAL_CONTEXT)
-# pragma omp threadprivate(c_dbcsr_acc_opencl_context)
-#endif
+/** Contexts implement 1:1 relation with a device. */
+cl_context c_dbcsr_acc_opencl_context(int* tid);
 
 typedef struct c_dbcsr_acc_opencl_info_hostptr_t {
   cl_mem buffer;
@@ -224,17 +236,23 @@ int c_dbcsr_acc_opencl_info_devmem(cl_device_id device,
   int* mem_unified);
 /** Return the pointer to the 1st match of "b" in "a", or NULL (no match). */
 const char* c_dbcsr_acc_opencl_stristr(const char a[], const char b[]);
-/** Get active device (can be thread/queue-specific). */
+/**
+ * Get the active device:
+ * - Derived from context (thread-specific if ACC_OPENCL_THREADLOCAL_CONTEXT), or
+ * - Queue-specific if stream != NULL)
+ */
 int c_dbcsr_acc_opencl_device(void* stream, cl_device_id* device);
+/** Ordinal number denoting the thread-local device associated with thread-id. */
+int c_dbcsr_acc_opencl_device_id(int thread_id, int* device_id);
 /** Confirm the vendor of the given device. */
 int c_dbcsr_acc_opencl_device_vendor(cl_device_id device, const char vendor[]);
 /** Confirm that match is matching the name of the given device. */
 int c_dbcsr_acc_opencl_device_name(cl_device_id device, const char match[]);
 /** Capture an id out of the device-name according to the given format (scanf). */
-int c_dbcsr_acc_opencl_device_id(cl_device_id device, const char format[], int* id);
+int c_dbcsr_acc_opencl_device_uid(cl_device_id device, const char format[], int* uid);
 /** Return the OpenCL support level for the given device. */
 int c_dbcsr_acc_opencl_device_level(cl_device_id device,
-  int* level_major, int* level_minor, char cl_std[16]);
+  int* level_major, int* level_minor, char cl_std[16], cl_device_type* type);
 /** Check if given device supports the extensions. */
 int c_dbcsr_acc_opencl_device_ext(cl_device_id device,
   const char *const extnames[], int num_exts);
@@ -251,6 +269,7 @@ int c_dbcsr_acc_opencl_wgsize(cl_device_id device, cl_kernel kernel,
 int c_dbcsr_acc_opencl_kernel(const char source[], const char kernel_name[],
   const char build_params[], const char build_options[],
   const char try_build_options[], int* try_ok,
+  const char *const extnames[], int num_exts,
   cl_kernel* kernel);
 /** Create command queue (stream). */
 int c_dbcsr_acc_opencl_stream_create(cl_command_queue* stream_p, const char name[],
