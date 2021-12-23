@@ -21,9 +21,6 @@
 #if !defined(OPENCL_LIBSMM_SUITABLE) && 0
 # define OPENCL_LIBSMM_SUITABLE
 #endif
-#if !defined(OPENCL_LIBSMM_DEVMATCH) && 0
-# define OPENCL_LIBSMM_DEVMATCH
-#endif
 #if !defined(OPENCL_LIBSMM_DEBUG) && 0
 # define OPENCL_LIBSMM_DEBUG 1
 #endif
@@ -62,7 +59,7 @@ typedef struct opencl_libsmm_smmkey_t {
   libsmm_acc_data_t type; /* must be the 1st data member */
   int m, n, k;
   /* device that matches configuration (parameters) */
-  const char* device; /* must be the last data member */
+  int devuid; /* must be the last data member */
 } opencl_libsmm_smmkey_t;
 
 /** Type for SMM-kernel configuration. */
@@ -88,23 +85,35 @@ typedef struct opencl_libsmm_perfest_t {
 int opencl_libsmm_use_cmem(cl_device_id device);
 
 /**
- * Write tunable parameters into (file-)stream. The environment variable
- * OPENCL_LIBSMM_SMM_PARAMS="<output>" reproduces a configuration.
- * If conig is NULL, parameter names are written. The arguments
+ * TRANS-kernel: write key and tunables into a (file-)stream.
+ * If config=NULL, key/parameter names are written. The arguments
  * delim, begin, and close are optional as well (can be NULL).
+ * With only the key being written the config still controls
+ * if values or names are written.
  * Returns the number of characters written (negative if error).
  */
-int opencl_libsmm_write_params(FILE* stream, const opencl_libsmm_smm_t* config,
+int opencl_libsmm_write_trans_params(FILE* stream, int only_key,
+  const opencl_libsmm_transkey_t* key, const opencl_libsmm_trans_t* config,
+  const char* delim, const char* begin, const char* close);
+
+/**
+ * SMM-kernel: write key and tunables into a (file-)stream.
+ * The environment variable OPENCL_LIBSMM_SMM_PARAMS="<output>"
+ * reproduces a configuration. If config=NULL, key/parameter
+ * names are written. The arguments delim, begin, and close
+ * are optional as well (can be NULL).
+ * With only the key being written the config still controls
+ * if values or names are written.
+ * Returns the number of characters written (negative if error).
+ */
+int opencl_libsmm_write_smm_params(FILE* stream, int only_key,
+  const opencl_libsmm_smmkey_t* key, const opencl_libsmm_smm_t* config,
   const char* delim, const char* begin, const char* close);
 
 /** Tokenize parambuf and initialize key/value pair. */
-int opencl_libsmm_read_params(char* parambuf,
+int opencl_libsmm_read_smm_params(char* parambuf,
   opencl_libsmm_smmkey_t* key, opencl_libsmm_smm_t* value,
-  opencl_libsmm_perfest_t* perfest,
-  char* const* device);
-
-/** Get active device and configuration name. */
-int opencl_libsmm_device(void* stream, cl_device_id* device, const char** config);
+  opencl_libsmm_perfest_t* perfest, char* device);
 
 #if defined(OPENCL_LIBSMM_DEBUG) && defined(_DEBUG)
 void opencl_libsmm_print_matrix(FILE* ostream, const char* label,
