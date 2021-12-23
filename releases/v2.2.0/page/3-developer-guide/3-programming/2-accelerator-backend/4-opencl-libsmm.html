@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   
+   <meta name="description" content="">
+    
+    <meta name="author" content="DBCSR Authors" >
+    <link rel="icon" href="../../../../favicon.png">
+
+    <title>OpenCL LIBSMM &ndash; DBCSR</title>
+
+    <link href="../../../../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../../css/pygments.css" rel="stylesheet">
+    <link href="../../../../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../../../../css/local.css" rel="stylesheet">
+    
+    
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    
+    <script src="../../../../js/jquery-2.1.3.min.js"></script>
+    <script src="../../../../js/svg-pan-zoom.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="../../../../index.html">DBCSR <small>2.2.0-rc0-25-gf4df17b0f1</small></a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+        
+            <li><a href='../../../../page/index.html'>Guide</a></li>
+      
+            <li class="dropdown hidden-xs visible-sm visible-md hidden-lg">
+              <a href="#" class="dropdown-toggle"
+              data-toggle="dropdown" role="button"
+              aria-haspopup="true"
+     aria-expanded="false">Contents <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          
+              
+            <li><a href="../../../../lists/files.html">Source Files</a></li>
+        
+        
+        
+            <li><a href="../../../../lists/modules.html">Modules</a></li>
+        
+            
+                                
+            <li><a href="../../../../lists/procedures.html">Procedures</a></li>
+        
+        
+            <li><a href="../../../../lists/absint.html">Abstract Interfaces</a></li>
+               
+            <li><a href="../../../../lists/types.html">Derived Types</a></li>
+        
+        
+            <li><a href="../../../../lists/programs.html">Programs</a></li>
+               
+        
+        
+            </ul>
+        
+            </li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../../../lists/files.html">Source Files</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../../../lists/modules.html">Modules</a></li>
+
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../../../lists/procedures.html">Procedures</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../../../lists/absint.html">Abstract Interfaces</a></li>
+                             
+<li class="visible-xs hidden-sm visible-lg"><a href="../../../../lists/types.html">Derived Types</a></li>
+
+
+<li class="visible-xs hidden-sm visible-lg"><a href="../../../../lists/programs.html">Programs</a></li>
+
+
+
+          </ul>
+        
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+    
+  <div class="row">
+    <h1>OpenCL LIBSMM</h1>
+    <div class="row">
+    <div class="col-lg-12">
+    <div class="well well-sm" style="min-height: 40px;">
+      <ul class="list-inline" style="margin-bottom:0px; display:inline">
+         
+         
+<!--
+        
+-->
+      </ul>
+        <ol class="breadcrumb in-well">
+      
+         <li><a href='../../../../page/index.html'>Guide</a></li>
+      
+         <li><a href='../../../../page/3-developer-guide/index.html'>Developer Guide</a></li>
+      
+         <li><a href='../../../../page/3-developer-guide/3-programming/index.html'>Programming</a></li>
+      
+         <li><a href='../../../../page/3-developer-guide/3-programming/2-accelerator-backend/index.html'>Accelerator Backend</a></li>
+      
+         <li class="active">OpenCL LIBSMM</li>
+      </ol>
+    </div>
+    </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-9 col-md-push-3" id='text'>
+      <h1>LIBSMM (OpenCL)</h1>
+<h2>Overview</h2>
+<p>The LIBSMM library implements the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_libsmm.h">ACC LIBSMM interface</a>, and depends on the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/README.md">OpenCL backend</a>. At least the compile-time settings below are typically for development, e.g., when attempting to contribute new functionality or features, or meant for debug purpose (and not necessarily settings to be made when using DBCSR or CP2K).</p>
+<h2>Customization</h2>
+<h3>Compile-time Settings</h3>
+<p>Compile-time settings are (implicitly) documented and can be adjusted by editing <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/opencl_libsmm.h">opencl_libsmm.h</a> (adjusting the build-line as per <code>-D</code> is possible as well but less convenient). For example, <code>OPENCL_LIBSMM_F32</code> is enabled by default but can be disabled, or <code>OPENCL_LIBSMM_DEBUG</code> (which is disabled by default) can be enabled for debug purpose.</p>
+<p>The <code>OPENCL_LIBSMM_DEBUG</code> compile-time setting enables side-by-side validation of matrix transpose and multiply operations on GPU against a built-in CPU implementation. For example, running DBCSR's unit tests with this setting produces useful console output that allows to pin-point the exact call arguments causing a validation error.</p>
+<h3>Runtime Settings</h3>
+<p>Runtime settings are made by the means of environment variables. The OpenCL backend provides <code>acc_getenv.sh</code> to list all occurrences of <code>getenv</code> categorized into "OpenCL Backend environment variables" and "OpenCL LIBSMM environment variables". Common backend related settings are:</p>
+<ul>
+<li><code>ACC_OPENCL_DEVSPLIT</code>: integer enabling devices to be split into subdevices (non-zero/default: subdevices, zero: aggregated).</li>
+<li><code>ACC_OPENCL_DEVTYPE</code>: character string selecting "cpu", "gpu", "all" (unfiltered), or any other string (neither CPU or GPU).</li>
+<li><code>ACC_OPENCL_DEVICE</code>: non-negative integer number to select a device from the (internally enumerated) list of devices.</li>
+<li><code>ACC_OPENCL_VENDOR</code>: character string matching the vendor of the OpenCL device in an case-insensitive fashion, e.g., "intel".</li>
+<li><code>ACC_OPENCL_VERBOSE</code>: verbosity level (integer) with console output on <code>stderr</code>.<ul>
+<li><code>ACC_OPENCL_VERBOSE=1</code>: outputs the number of devices found and the name of the selected device.</li>
+<li><code>ACC_OPENCL_VERBOSE=2</code>: outputs the duration needed to generate a requested kernel.</li>
+<li><code>ACC_OPENCL_VERBOSE=3</code>: outputs device-side measured performance of kernels (geometric mean).</li>
+<li><code>ACC_OPENCL_VERBOSE=4</code>: outputs device-side performance of kernels (every launch profiled).</li>
+</ul>
+</li>
+<li><code>ACC_OPENCL_DUMP</code>: dump preprocessed kernel source code (1), or dump compiled OpenCL kernels (2).<ul>
+<li><code>ACC_OPENCL_DUMP=1</code>: dump preprocessed kernel source code and also use it for JIT compilation. Instantiates the original source code using preprocessor definitions (<code>-D</code>) and collapses the code accordingly.</li>
+<li><code>ACC_OPENCL_DUMP=2</code>: dump compiled OpenCL kernels (depends on OpenCL implementation), e.g., PTX code on Nvidia.</li>
+</ul>
+</li>
+</ul>
+<p>There are two categories for the two domains in OpenCL based LIBSMM, i.e., matrix transpose (<code>OPENCL_LIBSMM_TRANS_*</code>) and matrix multiplication (<code>OPENCL_LIBSMM_SMM_*</code>). For transposing matrices, the settings are:</p>
+<ul>
+<li><code>OPENCL_LIBSMM_TRANS_BUILDOPTS</code>: character string with build options (compile and link) supplied to the OpenCL runtime compiler.</li>
+<li><code>OPENCL_LIBSMM_TRANS_INPLACE</code>: Boolean value (zero or non-zero integer) for in-place matrix transpose (no local memory needed).</li>
+<li><code>OPENCL_LIBSMM_TRANS_BLOCK_M</code>: non-negative integer number (less/equal than the M-extent) denoting the blocksize in M-direction.</li>
+</ul>
+<p>The most common settings for multiplying matrices are:</p>
+<ul>
+<li><code>OPENCL_LIBSMM_SMM_BUILDOPTS</code>: character string with build options (compile and link) supplied to the OpenCL runtime compiler.</li>
+<li><code>OPENCL_LIBSMM_SMM_ATOMICS</code>: selects the kind of atomic operation used for global memory updates (<code>xchg</code>, <code>cmpxchg</code>, <code>cmpxchg2</code>), or disables atomic updates (<code>0</code>). The latter is to quantify the impact of atomic operations rather than for achieving correct results.</li>
+<li><code>OPENCL_LIBSMM_SMM_PARAMS</code>: Disable embedded/auto-tuned parameters (<code>0</code>), or load CSV-file (e.g., <code>path/to/tune_multiply.csv</code>).</li>
+<li><code>OPENCL_LIBSMM_SMM_BS</code>: non-negative integer number denoting the intra-kernel (mini-)batchsize mainly used to amortize atomic updates of data in global/main memory. The remainder with respect to the "stacksize" is handled by the kernel.</li>
+<li><code>OPENCL_LIBSMM_SMM_BM</code>: non-negative integer number (less/equal than the M-extent) denoting the blocksize in M-direction.</li>
+<li><code>OPENCL_LIBSMM_SMM_BN</code>: non-negative integer number (less/equal than the N-extent) denoting the blocksize in N-direction.</li>
+<li><code>OPENCL_LIBSMM_SMM_AP</code>: specifies access to array of parameters (batch or "stack").</li>
+<li><code>OPENCL_LIBSMM_SMM_AA</code>: specifies access to array of A-matrices.</li>
+<li><code>OPENCL_LIBSMM_SMM_AB</code>: specifies access to array of B-matrices.</li>
+<li><code>OPENCL_LIBSMM_SMM_AC</code>: specifies access to array of C-matrices.</li>
+</ul>
+<p>Detailed explanation can be received with <code>smm/tune_multiply.py --help</code>, i.e., short description, default settings, and accepted values.</p>
+<p><strong>NOTE</strong>: LIBSMM's tunable runtime settings may be non-smooth in the sense of enabling a distinct code-path depending on a specific value, e.g., <code>OPENCL_LIBSMM_SMM_BS=1</code> vs. <code>OPENCL_LIBSMM_SMM_BS=2</code>.</p>
+<h2>Auto Tuning</h2>
+<p>Auto tuning code for performance is a practical way to find the "best" setting for parameterized code (e.g., GPU kernels). Introducing effective parameters is a prerequisite, and exploring the (potentially) high-dimensional parameter space in an efficient way is an art. It is desirable to have reasonable defaults even without auto-tuning the parameters. It would be even better to avoid auto-tuning if best performance was possible right away, i.e., if auto-tuning is not able to find better settings.</p>
+<p>For the OpenCL based LIBSMM a variety of parameters are explored using <a href="http://opentuner.org/">OpenTuner</a>. The script <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.py">tune_multiply.py</a> (or tune_multiply.sh) leverages the <code>acc_bench_smm</code> benchmark by parsing console output (timing, data type, etc.). This way, the tuning is implemented without being intermingled with the subject being tuned.</p>
+<p><strong>NOTE</strong>: If <code>tune_multiply.py</code> (or <code>tune_multiply.sh</code>) is called with an environment variable already set, the respective parameter (e.g., <code>OPENCL_LIBSMM_SMM_BM</code> or <code>OPENCL_LIBSMM_SMM_BN</code>) is considered fixed (and not tuned automatically). This way, the parameter space is reduced in size and effort can be directed more intensely towards the remaining parameters.</p>
+<p>To toggle the benchmarks between tuning single precision (SP) and double precision (DP), <code>make ELEM_TYPE=float</code> can be used when building the benchmark drivers (backend). However, the <code>ELEM_TYPE</code> can be also directly edited in <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/acc_bench_smm.c#L26">acc_bench_smm.c</a>. Auto-tuned parameters for SP and DP can be embedded into the same final application and are considered correctly at runtime.</p>
+<p>To build the benchmarks in double precision (<code>ELEM_TYPE=double</code> is default):</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">cd</span> src/acc/opencl
+make <span class="nv">DBG</span><span class="o">=</span><span class="m">0</span>
+</code></pre></div>
+
+<p>To build the benchmarks in single precision (SP):</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">cd</span> src/acc/opencl
+make <span class="nv">DBG</span><span class="o">=</span><span class="m">0</span> <span class="nv">ELEM_TYPE</span><span class="o">=</span>float
+</code></pre></div>
+
+<p>To auto-tune, please install the Python <code>wheel</code> and <code>opentuner</code> packages:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">cd</span> src/acc/opencl/smm
+pip install -r requirements.txt
+</code></pre></div>
+
+<p>The OpenTuner script supports several command line arguments (<code>tune_multiply.py --help</code>). For example, <code>--stop-after=300</code> can be of interest to finish in five minutes (without limit, OpenTuner decides when the auto-tuning process is finished). A single kernel can be selected by M, N, and K parameters (GEMM), e.g., <code>M=15</code>, <code>N=5</code>, and <code>K=7</code>:</p>
+<div class="codehilite"><pre><span></span><code>./tune_multiply.py <span class="m">13</span> <span class="m">5</span> <span class="m">7</span>
+</code></pre></div>
+
+<p><strong>NOTE</strong>: If multiple different kernels are tuned using <code>tune_multiply.py</code>, it is advisable to delete the <code>opentuner.db</code> directory prior to tuning a different kernel since otherwise auto-tuning is potentially (mis-)guided by information which was collected for a different kernel (<code>tune_multiply.sh</code> does this automatically).</p>
+<p>The OpenTuner script implements multiple objectives ("cost"), primarily "accuracy" (maximized) and a secondary objective "size" (minimized). The former represents the achieved performance (GFLOPS/s) while the latter represents an artificial kernel requirement (just to prefer one parameter set over another in case of similar performance). The console output looks like:</p>
+<div class="codehilite"><pre><span></span><code>[    15s]    INFO opentuner.search.plugin.DisplayPlugin: tests=8, best {&#39;BS&#39;: 32, &#39;BM&#39;: 6, &#39;BN&#39;: 1}, cost accuracy=28.80000000, size=1.0, found by UniformGreedyMutation
+[    27s]    INFO opentuner.search.plugin.DisplayPlugin: tests=19, best {&#39;BS&#39;: 48, &#39;BM&#39;: 8, &#39;BN&#39;: 1}, cost accuracy=32.20000000, size=1.0, found by UniformGreedyMutation
+[    40s]    INFO opentuner.search.plugin.DisplayPlugin: tests=31, best {&#39;BS&#39;: 48, &#39;BM&#39;: 8, &#39;BN&#39;: 1}, cost accuracy=32.20000000, size=1.0, found by UniformGreedyMutation
+[    54s]    INFO opentuner.search.plugin.DisplayPlugin: tests=43, best {&#39;BS&#39;: 48, &#39;BM&#39;: 8, &#39;BN&#39;: 1}, cost accuracy=32.20000000, size=1.0, found by UniformGreedyMutation
+[    67s]    INFO opentuner.search.plugin.DisplayPlugin: tests=53, best {&#39;BS&#39;: 48, &#39;BM&#39;: 8, &#39;BN&#39;: 1}, cost accuracy=32.20000000, size=1.0, found by UniformGreedyMutation
+</code></pre></div>
+
+<p>The script finally writes a JSON-file with a filename like <code>tune_multiply-float-12x12x12-60gflops.json</code> which is encoding the benchmark (multiply), the precision (float), the kernel (12x12x12), and the achieved performance (60gflops). The script handles SIGINT (like Ctrl-C), and output is still written despite of abnormally terminating (can be abused to tune interactively). Tuning starts from an internal default that is supposed to match LIBSMM's internal default parameters. However, tuning can be (re-)started with specific parameters (e.g., <code>-bs 64</code>, <code>-bm 13</code>, <code>-bn 1</code> for <code>OPENCL_LIBSMM_SMM_BS</code>, <code>OPENCL_LIBSMM_SMM_BM</code>, and <code>OPENCL_LIBSMM_SMM_BN</code> respectively), or partially fixed for a subset of parameters.</p>
+<p><strong>NOTE</strong>: The <code>acc_bench_smm</code> executable is potentially started many times when auto-tuning parameters, therefore it is advisable to keep the state of the GPU driver stack persistent (if the setup would otherwise unload the driver configuration), e.g., <code>nvidia-smi -pm ENABLED</code>. This can happen in cases where the GPU is only for compute and not used for graphics (no X-Window system, e.g., in case of a "headless" system). Time needed for tuning parameters is not only impacted by accessing and readying the device, but also by the time needed to compile a kernel at runtime aka Just-In-Time (JIT).</p>
+<h2>Optimized Kernels</h2>
+<p>JSON-files in the above mentioned smm-directory are automatically summarized into a CSV-file (can be disabled). Further and beyond actual auto-tuning kernels, <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.py">tune_multiply.py</a> can be used to perform some basic operations on collected data: explicitly merging all JSON-files into a CSV-file (<code>tune_multiply.py -m</code>), and updating the device name in all JSON-files according to current driver version (<code>tune_multiply.py -u</code>).</p>
+<p>Collected or auto-tuned parameters achieved with single precision (SP), double precision (DP), or from different devices can be safely combined. Practically, <code>acc_opencl.sh</code> transforms the CSV-file into source code compiled into the final binary, which is independent of <code>OPENCL_LIBSMM_SMM_PARAMS</code> accepting a CSV-file (path). However, <code>acc_opencl.sh</code> currently limits the origin of parameters to a single device. Care must still be taken to not summarize unrelated results, e.g., after (major) source code changes. The CSV-file is automatically incorporated into LIBSMM by the next clean (re-)build. The format of the CSV-file is assumed to contain column names in the first row (header).</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">cd</span> src/acc/opencl
+make realclean
+make <span class="nv">DBG</span><span class="o">=</span><span class="m">0</span>
+</code></pre></div>
+
+<p>This way auto-tuned kernels just work and can be of course exercised using the afore mentioned benchmark:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">cd</span> src/acc
+./acc_bench_smm <span class="m">5</span> <span class="m">30000</span> <span class="m">13</span> <span class="m">5</span> <span class="m">7</span>
+</code></pre></div>
+
+<p>Tuned parameters can be also disabled at runtime like:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">cd</span> src/acc
+<span class="nv">OPENCL_LIBSMM_SMM_PARAMS</span><span class="o">=</span><span class="m">0</span> ./acc_bench_smm <span class="m">5</span> <span class="m">30000</span> <span class="m">13</span> <span class="m">5</span> <span class="m">7</span>
+</code></pre></div>
+
+<p>Further, a CSV-file can be supplied to override embedded parameters or defaults:</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">cd</span> src/acc
+<span class="nv">OPENCL_LIBSMM_SMM_PARAMS</span><span class="o">=</span>opencl/smm/tune_multiply.csv ./acc_bench_smm <span class="m">5</span> <span class="m">30000</span> <span class="m">13</span> <span class="m">5</span> <span class="m">7</span>
+</code></pre></div>
+
+<p>To tune multiple kernels in a convenient fashion, a triplet specification can be supplied to the <a href="https://github.com/cp2k/dbcsr/blob/develop/src/acc/opencl/smm/tune_multiply.sh">tune_multiply.sh</a> wrapper script. This script estimates the total runtime for auto-tuning kernels, cleans up intermediate results (<code>opentuner.db</code>), allows to specify triplets, and splits work to auto-tune in parallel.</p>
+<p>Triplets are used to conveniently describe multiple kernels. A triplet specification consists of comma-separated groups of M,N,K-extents, i.e., matrix shapes according to GEMM. For example:</p>
+<div class="codehilite"><pre><span></span><code>4 10 15, 6 7 8, 23
+</code></pre></div>
+
+<p>This triplet specification expands to 55 kernels using the Cartesian product within each group and concatenating the result of such expanded groups followed by removing duplicate triplets. Further, the wrapper script allows to limit the time spent for tuning a single kernel and to partition the number of kernels to be tuned, e.g., among a cluster of eight systems (below the first partition out of eight would be processed with five minutes per kernel and about 35 minutes in total per partition).</p>
+<div class="codehilite"><pre><span></span><code><span class="nb">cd</span> src/acc/opencl/smm
+./tune_multiply.sh -t <span class="m">300</span>  -j <span class="m">8</span> -i <span class="m">1</span>  <span class="m">4</span> <span class="m">10</span> <span class="m">15</span>, <span class="m">6</span> <span class="m">7</span> <span class="m">8</span>, <span class="m">23</span>
+</code></pre></div>
+
+<p>The script <code>tune_multiply.sh</code> is tuning 1266 kernels by default (<code>./tune_multiply.sh -t 300 -j 8 -i 1</code> takes approximately 13 hours per part). If the process is interrupted earlier (per SIGINT or Ctrl-C), the execution terminates for all requested kernels (triplet specification) unless <code>--continue</code> is given (or <code>-c</code>, or an environment variable <code>CONTINUE=1</code>).</p>
+    </div>
+    
+    <div class="col-md-3 col-md-pull-9">
+      <hr class="visible-xs visible-sm">
+        <div class="well toc">
+          <ul class="nav nav-stacked nav-pills">
+            <li role="presentation" class="title"><a href='../../../../page/index.html'>Guide</a></li>
+          </ul>
+          <hr>
+          <ul class="nav nav-stacked nav-pills">
+            
+            <li role="presentation">
+            <a href='../../../../page/1-DBCSR/index.html'>DBCSR</a>
+            
+            <ul class="nav nav-stacked nav-pills">
+              
+            <li role="presentation">
+            <a href='../../../../page/1-DBCSR/publications.html'>Publications</a>
+            
+            </li>
+            
+            </ul>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../../page/2-user-guide/index.html'>User Guide</a>
+            
+            <ul class="nav nav-stacked nav-pills">
+              
+            <li role="presentation">
+            <a href='../../../../page/2-user-guide/1-installation/index.html'>Install</a>
+            
+            <ul class="nav nav-stacked nav-pills">
+              
+            <li role="presentation">
+            <a href='../../../../page/2-user-guide/1-installation/1-cmake-build-recipes.html'>CMake Build Recipes</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../../page/2-user-guide/1-installation/2-supported-compilers.html'>Supported Compilers</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../../page/2-user-guide/1-installation/3-using-dbcsr-in-a-cmake-project.html'>Using DBCSR in a CMake project</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../../page/2-user-guide/1-installation/4-docker.html'>Docker Images</a>
+            
+            </li>
+            
+            </ul>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../../page/2-user-guide/2-tests/index.html'>Tests</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../../page/2-user-guide/3-examples/index.html'>Examples</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../../page/2-user-guide/4-gpu/index.html'>GPUs</a>
+            
+            </li>
+            
+            </ul>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../../page/3-developer-guide/index.html'>Developer Guide</a>
+            
+            <ul class="nav nav-stacked nav-pills">
+              
+            <li role="presentation">
+            <a href='../../../../page/3-developer-guide/1-tooling/index.html'>Tooling</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../../page/3-developer-guide/2-documentation/index.html'>Documentation</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../../page/3-developer-guide/3-programming/index.html'>Programming</a>
+            
+            <ul class="nav nav-stacked nav-pills">
+              
+            <li role="presentation">
+            <a href='../../../../page/3-developer-guide/3-programming/1-overview/index.html'>Overview</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../../page/3-developer-guide/3-programming/2-accelerator-backend/index.html'>Accelerator Backend</a>
+            
+            <ul class="nav nav-stacked nav-pills">
+              
+            <li role="presentation">
+            <a href='../../../../page/3-developer-guide/3-programming/2-accelerator-backend/1-code-structure.html'>Code Structure</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/index.html'>LIBSMM (CUDA/HIP)</a>
+            
+            <ul class="nav nav-stacked nav-pills">
+              
+            <li role="presentation">
+            <a href='../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/1-kernels.html'>Kernels</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/2-parameters.html'>Kernel Parameters</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/3-tune.html'>Autotuning Framework</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/4-predict.html'>Predictive Modeling Framework</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../../page/3-developer-guide/3-programming/2-accelerator-backend/2-libsmm_acc/5-notebooks.html'>Notebooks</a>
+            
+            </li>
+            
+            </ul>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../../page/3-developer-guide/3-programming/2-accelerator-backend/3-opencl-backend.html'>OpenCL Backend</a>
+            
+            </li>
+            
+            <li role="presentation" class="disabled">
+            <a href='../../../../page/3-developer-guide/3-programming/2-accelerator-backend/4-opencl-libsmm.html'>OpenCL LIBSMM</a>
+            
+            </li>
+            
+            </ul>
+            
+            </li>
+            
+            </ul>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../../page/3-developer-guide/4-performance/index.html'>Performance</a>
+            
+            <ul class="nav nav-stacked nav-pills">
+              
+            <li role="presentation">
+            <a href='../../../../page/3-developer-guide/4-performance/1-insights.html'>Insights</a>
+            
+            </li>
+            
+            <li role="presentation">
+            <a href='../../../../page/3-developer-guide/4-performance/2-just-in-time-compilation.html'>JIT</a>
+            
+            </li>
+            
+            </ul>
+            
+            </li>
+            
+            </ul>
+            
+            </li>
+            
+          </ul>
+        </div>
+    </div>
+    
+  </div>
+
+    <hr>    
+    </div> <!-- /container -->
+    <footer>
+      <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-md-6"><p>DBCSR was developed by DBCSR Authors<br>&copy; 2021 
+                                          </p>
+        </div>
+        <div class="col-xs-6 col-md-6">
+          <p class="text-right">
+            Documentation generated by 
+            <a href="https://github.com/Fortran-FOSS-Programmers/ford">FORD</a>
+            
+            
+          </p>
+        </div>
+      </div>
+      <br>
+      </div> <!-- /container -->    
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+<!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+-->
+    <script src="../../../../js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="../../../../js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- MathJax JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } },
+        jax: ['input/TeX','input/MathML','output/HTML-CSS'],
+        extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']
+      });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    
+    
+  </body>
+</html>
