@@ -249,7 +249,7 @@ int c_dbcsr_acc_stream_sync(void* stream)
 {
   int result = EXIT_SUCCESS;
   assert(NULL != stream);
-  if (0 == (2 & c_dbcsr_acc_opencl_config.flush)) {
+  if (0 == (2 & c_dbcsr_acc_opencl_config.devinfo.flush)) {
     ACC_OPENCL_CHECK(clFinish(*ACC_OPENCL_STREAM(stream)),
       "synchronize stream", result);
   }

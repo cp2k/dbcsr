@@ -94,14 +94,17 @@ class SmmTuner(MeasurementInterface):
         else:
             self.typename = self.typeid = self.device = None
         if run_result and 0 == run_result["returncode"]:
-            seedpat = "INFO ACC/OpenCL:\\s+{}\\s+{}SMM-kernel\\s+{}={}\\s+gen=".format(
-                "{}x{}x{}".format(self.mnk[0], self.mnk[1], self.mnk[2]),
-                {"float": "S", "double": "D"}.get(self.typename, ""),
-                "{bs,bm,bn,bk,ws,wg,lu,nz,al,tb,tc,ap,aa,ab,ac}",
-                "{{{},{},{}}}".format(  # "wg", and "lu" can be neg. hence "-*[0-9]+"
-                    "(-*[0-9]+),(-*[0-9]+),(-*[0-9]+),(-*[0-9]+),(-*[0-9]+)",
-                    "(-*[0-9]+),(-*[0-9]+),(-*[0-9]+),(-*[0-9]+),(-*[0-9]+)",
-                    "(-*[0-9]+),(-*[0-9]+),(-*[0-9]+),(-*[0-9]+),(-*[0-9]+)",
+            seedpat = "INFO ACC/OpenCL:\\s+SMM-kernel\\s+{}={}\\s+gen=".format(
+                "{t,m,n,k,bs,bm,bn,bk,ws,wg,lu,nz,al,tb,tc,ap,aa,ab,ac}",
+                "{{{},{}}}".format(  # key and value
+                    "{},{},{},{}".format(  # key
+                        self.typeid, self.mnk[0], self.mnk[1], self.mnk[2]
+                    ),
+                    "{},{},{}".format(  # value: some can be neg. hence "-*[0-9]+"
+                        "(-*[0-9]+),(-*[0-9]+),(-*[0-9]+),(-*[0-9]+),(-*[0-9]+)",
+                        "(-*[0-9]+),(-*[0-9]+),(-*[0-9]+),(-*[0-9]+),(-*[0-9]+)",
+                        "(-*[0-9]+),(-*[0-9]+),(-*[0-9]+),(-*[0-9]+),(-*[0-9]+)",
+                    ),
                 ),
             )
             seed = re.search(seedpat, str(run_result["stderr"]))
