@@ -400,7 +400,7 @@ CONTAINS
 #define DBCSR_LIBXSMM_GEMM_BATCH libxsmm_gemm_batch
 #endif
       ! Caution: This dependency is ignored by makedep.py, because libxsmm.F is kinda empty.
-      USE libxsmm, ONLY: LIBXSMM_GEMM_PRECISION => LIBXSMM_GEMM_PRECISION_F64, &
+      USE libxsmm, ONLY: LIBXSMM_GEMM_PRECISION => LIBXSMM_DATATYPE_F64, &
                          libxsmm_gemm => libxsmm_dgemm, &
                          libxsmm_gemm_batch => DBCSR_LIBXSMM_GEMM_BATCH, &
                          libxsmm_ptr0
@@ -732,7 +732,7 @@ CONTAINS
 #define DBCSR_LIBXSMM_GEMM_BATCH libxsmm_gemm_batch
 #endif
       ! Caution: This dependency is ignored by makedep.py, because libxsmm.F is kinda empty.
-      USE libxsmm, ONLY: LIBXSMM_GEMM_PRECISION => LIBXSMM_GEMM_PRECISION_F32, &
+      USE libxsmm, ONLY: LIBXSMM_GEMM_PRECISION => LIBXSMM_DATATYPE_F32, &
                          libxsmm_gemm => libxsmm_sgemm, &
                          libxsmm_gemm_batch => DBCSR_LIBXSMM_GEMM_BATCH, &
                          libxsmm_ptr0
@@ -1064,7 +1064,7 @@ CONTAINS
 #define DBCSR_LIBXSMM_GEMM_BATCH libxsmm_gemm_batch
 #endif
       ! Caution: This dependency is ignored by makedep.py, because libxsmm.F is kinda empty.
-      USE libxsmm, ONLY: LIBXSMM_GEMM_PRECISION => LIBXSMM_GEMM_PRECISION_F64, &
+      USE libxsmm, ONLY: LIBXSMM_GEMM_PRECISION => LIBXSMM_DATATYPE_F64, &
                          libxsmm_gemm => libxsmm_zgemm, &
                          libxsmm_gemm_batch => DBCSR_LIBXSMM_GEMM_BATCH, &
                          libxsmm_ptr0
@@ -1396,7 +1396,7 @@ CONTAINS
 #define DBCSR_LIBXSMM_GEMM_BATCH libxsmm_gemm_batch
 #endif
       ! Caution: This dependency is ignored by makedep.py, because libxsmm.F is kinda empty.
-      USE libxsmm, ONLY: LIBXSMM_GEMM_PRECISION => LIBXSMM_GEMM_PRECISION_F32, &
+      USE libxsmm, ONLY: LIBXSMM_GEMM_PRECISION => LIBXSMM_DATATYPE_F32, &
                          libxsmm_gemm => libxsmm_cgemm, &
                          libxsmm_gemm_batch => DBCSR_LIBXSMM_GEMM_BATCH, &
                          libxsmm_ptr0
