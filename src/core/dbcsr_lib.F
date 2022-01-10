@@ -10,11 +10,13 @@
 MODULE dbcsr_lib
 
    !! Routines that affect the DBCSR library as a whole
+   USE dbcsr_acc_init, ONLY: acc_finalize, acc_init
    USE dbcsr_acc_device, ONLY: dbcsr_acc_get_ndevices, dbcsr_acc_set_active_device
    USE dbcsr_config, ONLY: get_accdrv_active_device_id, &
                            set_accdrv_active_device_id, &
                            reset_accdrv_active_device_id, &
-                           dbcsr_set_config
+                           dbcsr_set_config, &
+                           has_acc
    USE dbcsr_kinds, ONLY: int_1_size, &
                           int_2_size, &
                           int_4_size, &
@@ -88,16 +90,15 @@ MODULE dbcsr_lib
          BIND(C, name="libsmm_acc_is_thread_safe")
          IMPORT
          INTEGER(KIND=C_INT)        :: thread_safe
-
       END FUNCTION libsmm_acc_is_thread_safe
    END INTERFACE
+
    INTERFACE
       FUNCTION libsmm_acc_gpu_warp_size() &
          RESULT(warp_size) &
          BIND(C, name="libsmm_acc_gpu_warp_size")
          IMPORT
          INTEGER(KIND=C_INT)        :: warp_size
-
       END FUNCTION libsmm_acc_gpu_warp_size
    END INTERFACE
 #endif
@@ -201,15 +202,19 @@ CONTAINS
       CALL libxsmm_init()
 #endif
 
-      ! Set Acc device
-      IF (dbcsr_acc_get_ndevices() > 0) THEN
-         IF (PRESENT(accdrv_active_device_id)) THEN
-            CALL set_accdrv_active_device_id(accdrv_active_device_id)
-         ELSE
-            ! Use round-robin assignment per rank
-            CALL set_accdrv_active_device_id(MOD(mynode, dbcsr_acc_get_ndevices()))
+      ! Initialize Acc and set active device
+      IF (has_acc) THEN
+         CALL acc_init()
+         IF (dbcsr_acc_get_ndevices() > 0) THEN
+            IF (PRESENT(accdrv_active_device_id)) THEN
+               CALL set_accdrv_active_device_id(accdrv_active_device_id)
+            ELSE
+               ! Use round-robin assignment per rank
+               CALL set_accdrv_active_device_id(MOD(mynode, dbcsr_acc_get_ndevices()))
+            ENDIF
          ENDIF
       ENDIF
+
 #if defined(__DBCSR_ACC)
       CALL dbcsr_acc_set_active_device(get_accdrv_active_device_id())
 
@@ -227,7 +232,6 @@ CONTAINS
                              "DBCSR compiled w/o threading support while libsmm_acc is compiled w/ threading support.")
          ENDIF
       ENDIF
-
 #endif
    END SUBROUTINE dbcsr_init_lib_pre
 
@@ -301,12 +305,12 @@ CONTAINS
 #endif
       ! Reset Acc ID
       CALL reset_accdrv_active_device_id()
+      IF (has_acc) CALL acc_finalize()
 
       ! Check the number of communicators
       IF (check_comm_count .AND. mp_get_comm_count() .NE. 0) THEN
          DBCSR_ABORT("Number of DBCSR sub-communicators is not zero!")
       ENDIF
-
    END SUBROUTINE dbcsr_finalize_lib
 
    SUBROUTINE dbcsr_print_statistics(print_timers, callgraph_filename)
