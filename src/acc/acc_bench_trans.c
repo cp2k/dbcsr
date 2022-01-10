@@ -165,7 +165,7 @@ int main(int argc, char* argv[])
   CHECK(c_dbcsr_acc_stream_sync(stream), &result);
   if (NULL != mat_hst && NULL != stack_hst) {
     duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
-    printf("copy-in: %.1f ms %.1f GB/s\n", 1000.0 * duration,
+    printf("copy-in: %.2g ms %.1f GB/s\n", 1000.0 * duration,
       (sizeof(ELEM_TYPE) * mn + sizeof(int))
         * offset_stack_size / (duration * (1ULL << 30)));
   }
@@ -191,7 +191,7 @@ int main(int argc, char* argv[])
   duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
   if (EXIT_SUCCESS == result) {
     assert(0 < nodd && (nodd & 1/*odd*/));
-    printf("device: %.1f ms %.1f GB/s\n", 1000.0 * duration / nodd,
+    printf("device: %.2g ms %.1f GB/s\n", 1000.0 * duration / nodd,
       (sizeof(ELEM_TYPE) * mn + sizeof(int))
         * offset_stack_size / (duration * (1ULL << 30) / nodd));
     mm = m; nn = n;
@@ -202,7 +202,7 @@ int main(int argc, char* argv[])
       swap(&mm, &nn);
     }
     duration = libxsmm_timer_duration(start, libxsmm_timer_tick());
-    printf("host: %.1f ms %.1f GB/s\n", 1000.0 * duration / nodd,
+    printf("host: %.2g ms %.1f GB/s\n", 1000.0 * duration / nodd,
       (sizeof(ELEM_TYPE) * mn + sizeof(int))
         * offset_stack_size / (duration * (1ULL << 30) / nodd));
     /* transfer result from device to host for validation */
